@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#Nemate dopuštenje za pristup postavkama prava
 common#:#msg_no_perm_read#:#Nemate dozvolu za pristup ovom objektu.
 common#:#msg_no_perm_read_item#:#Nemate dozvolu za pristup objektu '%s'.
 common#:#msg_no_perm_read_lm#:#Nemate dopuštenje za čitanje ovog modula za učenje.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nemate dopuštenje za pisanje
 common#:#msg_no_search_result#:#Nije pronađen nijedan unos
 common#:#msg_no_search_string#:#Unesite upit
@@ -8542,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Stvoren je sljedeći zapis podata
 dcl#:#dcl_change_notification_dcl_update_record#:#Ažuriran je sljedeći zapis podataka
 dcl#:#dcl_change_notification_link#:#Poveznica na zbirku podataka
 dcl#:#dcl_change_notification_subject#:#Izmijenjeno je prikupljanje podataka "%s"
-dcl#:#dcl_change_why_you_receive_this_email#:#Ovu poruku primate jer ste aktivirali obavijest o ovom prikupljanju podataka.
 dcl#:#dcl_changed_by#:#Promijenio
 dcl#:#dcl_checked#:#Provjereno.
 dcl#:#dcl_comments#:#Komentari
@@ -8622,7 +8622,6 @@ dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#Možete agregirati nekoliko unosa u zapisu s pomoću formule.
 dcl#:#dcl_formula_detail_desc#:#Unosi se generiraju automatski, unos ne možete urediti.
 dcl#:#dcl_height#:#Visina
-dcl#:#dcl_hello#:#Poštovani
 dcl#:#dcl_id#:#ID br.
 dcl#:#dcl_id_description#:#Interni ID.
 dcl#:#dcl_ilias_reference#:#Poveznica na modul ILIAS
@@ -8680,7 +8679,6 @@ dcl#:#dcl_new#:#Stvori novu zbirku podataka
 dcl#:#dcl_new_field#:#Novo polje
 dcl#:#dcl_new_table#:#Nova tablica
 dcl#:#dcl_next_record#:#Sljedeći unos
-dcl#:#dcl_no_content_warning#:#Pozor, zbirka podataka je online, ali još nema sadržaja!
 dcl#:#dcl_no_entry#:#No entry###04 06 2021 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Nema podataka ili polja dostupnih za izvoz.
@@ -8701,6 +8699,8 @@ dcl#:#dcl_noturl_exception#:#Morate unijeti poveznicu (koja počinje s http:// i
 dcl#:#dcl_number#:#Cijeli broj
 dcl#:#dcl_number_desc#:#Polje za cijele brojeve (najviše 9 znamenki). Bez decimala ili razlomaka.
 dcl#:#dcl_online_info#:#Korisnici mogu koristiti zbirku podataka samo ako je zbirka podataka online.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Redoslijed
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Samo vlastiti unosi
@@ -8755,8 +8755,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Dopuštene ekstenije možete postaviti odvo
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tablica
-dcl#:#dcl_table_create#:#Kreiraj tablicu
-dcl#:#dcl_table_edit#:#Ažuriraj tablicu
 dcl#:#dcl_table_id#:#ID tablice
 dcl#:#dcl_table_info#:#Korisnici s dopuštenjem 'uređivanje postavki' (vidi karticu 'Dopuštenje') uvijek imaju dopuštenje za dodavanje/uređivanje/brisanje unosa. Korisnici s dopuštenjem za 'uređivanje unosa' (vidi karticu 'Dopuštenja') imaju dozvole samo u skladu s postavkama navedenim u donjem obrascu.
 dcl#:#dcl_table_info_title#:#Informacije

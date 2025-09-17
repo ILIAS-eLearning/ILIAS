@@ -642,9 +642,8 @@ il.UI.Input = il.UI.Input || {};
                     total_files += dropzone.files.length;
                     if (queue.length !== 0) {
                         dropzone.processQueue();
-                    } else {
-                        current_dropzone++;
                     }
+                    current_dropzone++;
                 }
                 // handle case if no files selected.
                 if (total_files === 0) {

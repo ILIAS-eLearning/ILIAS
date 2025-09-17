@@ -24,7 +24,7 @@
  */
 class ilRatingGUI
 {
-    protected ilLanguage$lng;
+    protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected string $id = "rtg_";
@@ -574,7 +574,10 @@ class ilRatingGUI
                 $f->legacy($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
             );
             $button = $f->button()->shy('###button###', '#')
-                              ->withOnClick($popover->getShowSignal());
+                              ->withOnClick($popover->getShowSignal())
+                                ->withOnLoadCode(function (string $id): string {
+                                    return "document.getElementById('$id').classList.add('ilRating');";
+                                });
 
             /*
             $ttpl->setCurrentBlock("user_rating");

@@ -4745,6 +4745,7 @@ common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei
 common#:#msg_no_perm_read#:#Non hai i diritti per accedere a questo oggetto.
 common#:#msg_no_perm_read_item#:#Non sei autorizzato ad accedere all'elemento '%s'.
 common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedere a questo modulo.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Non hai i diritti di scrittura
 common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
@@ -8541,7 +8542,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#è stata creata la seguente regis
 dcl#:#dcl_change_notification_dcl_update_record#:#la seguente registrazione è stato aggiornata
 dcl#:#dcl_change_notification_link#:#Andare alla raccolta dati
 dcl#:#dcl_change_notification_subject#:#La raccolta dati "%s" è stata modificata
-dcl#:#dcl_change_why_you_receive_this_email#:#Ricevi questo messaggio perché hai attivato la notifica relativa a questa raccolta dati.
 dcl#:#dcl_changed_by#:#Modificato da
 dcl#:#dcl_checked#:#Controllato.
 dcl#:#dcl_comments#:#Commenti
@@ -8621,7 +8621,6 @@ dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#Simile al foglio di calcolo, le voci possono essere collegate o calcolate utilizzando una formula.
 dcl#:#dcl_formula_detail_desc#:#Le voci vengono generate automaticamente, tu non puoi modificare la voce.
 dcl#:#dcl_height#:#Altezza
-dcl#:#dcl_hello#:#Gent.
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#ID interno.
 dcl#:#dcl_ilias_reference#:#Collegamento a un modulo ILIAS
@@ -8679,7 +8678,6 @@ dcl#:#dcl_new#:#Crea nuova raccolta dati
 dcl#:#dcl_new_field#:#Nuovo campo
 dcl#:#dcl_new_table#:#Nuova tabella
 dcl#:#dcl_next_record#:#Nuova registrazione
-dcl#:#dcl_no_content_warning#:#Attenzione, la raccolta dati è online ma non ha ancora un contenuto!
 dcl#:#dcl_no_entry#:#Nessun inserimento
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Dati e campi non disponibili per l’esportazione.
@@ -8700,6 +8698,8 @@ dcl#:#dcl_noturl_exception#:#Devi inserire un collegamento (a partire da http://
 dcl#:#dcl_number#:#Numero intero
 dcl#:#dcl_number_desc#:#Campo per valori interni (massimo 9 cifre). Nessun decimale o frazioni.
 dcl#:#dcl_online_info#:#Solo se la raccolta dati è online, allora gli utenti possono utilizzarla.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Ordine
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Solo le voci proprie
@@ -8754,8 +8754,6 @@ dcl#:#dcl_supported_filetypes_desc#:#È possibile impostare le estensioni consen
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabella
-dcl#:#dcl_table_create#:#Crea tabella
-dcl#:#dcl_table_edit#:#Aggiorna tabella
 dcl#:#dcl_table_id#:#ID tabella
 dcl#:#dcl_table_info#:#Gli utenti con l'autorizzazione "modifica impostazioni" (vedere la scheda "Autorizzazione") hanno sempre l'autorizzazione per aggiungere/modificare/eliminare voci. Gli utenti con autorizzazione "modifica voce" (vedere la scheda "Autorizzazioni") hanno autorizzazioni solo in base alle impostazioni specificate nel modulo seguente.
 dcl#:#dcl_table_info_title#:#Info

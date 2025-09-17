@@ -925,7 +925,7 @@ assessment#:#option_label_plus#:#+
 assessment#:#option_label_plus_minus#:#+ / -
 assessment#:#option_label_right#:#prawidłowe
 assessment#:#option_label_right_wrong#:#prawidłowe / nieprawidłowe
-assessment#:#option_label_wrong#:#FALSCH
+assessment#:#option_label_wrong#:#nieprawidłowe
 assessment#:#oq_btn_define_pictures#:#Do wglądu: wysyłanie obrazów
 assessment#:#oq_btn_define_terms#:#Do wglądu: tworzenie pojęć
 assessment#:#oq_btn_nest_pictures#:#Do wglądu: podział obrazów
@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
 common#:#msg_no_perm_read#:#Nie masz uprawnień do dostępu do tej pozycji.
 common#:#msg_no_perm_read_item#:#Nie masz uprawnień do dostępu do pozycji '%s'.
 common#:#msg_no_perm_read_lm#:#Nie masz uprawnień do czytania tego modułu nauczania.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
@@ -8542,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Utworzono następujący wpis
 dcl#:#dcl_change_notification_dcl_update_record#:#Aktualizowano następujący wpis
 dcl#:#dcl_change_notification_link#:#Idź do zbioru danych
 dcl#:#dcl_change_notification_subject#:#Edytowano zbiór rekordów danych "%s".
-dcl#:#dcl_change_why_you_receive_this_email#:#Otrzymałeś tę wiadomość, ponieważ aktywowałeś funkcję powiadomień dla powyżej wymienionego zbioru rekordów danych.
 dcl#:#dcl_changed_by#:#Ostatnio zmieniono przez
 dcl#:#dcl_checked#:#Wybrane
 dcl#:#dcl_comments#:#Komentarze
@@ -8622,7 +8622,6 @@ dcl#:#dcl_formula#:#Formuła
 dcl#:#dcl_formula_desc#:#Podobnie jak w przypadku arkuszy kalkulacyjnych można łączyć lub liczyć wpisy za pomocą formuł.
 dcl#:#dcl_formula_detail_desc#:#Wpisy w tym polu generowane są automatycznie. Nie możesz dokonać tutaj wpisu.
 dcl#:#dcl_height#:#Wysokość
-dcl#:#dcl_hello#:#Witaj
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Wewnętrzny nr ID
 dcl#:#dcl_ilias_reference#:#Obiekt w dostępnych zasobach
@@ -8680,7 +8679,6 @@ dcl#:#dcl_new#:#Utwórz nowy zbiór danych
 dcl#:#dcl_new_field#:#Nowe pole
 dcl#:#dcl_new_table#:#Nowa tabela
 dcl#:#dcl_next_record#:#Kolejny wpis
-dcl#:#dcl_no_content_warning#:#Uwaga, zbiór danych jest już w trybie online, nie posiada jednak jeszcze treści!
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Brak danych lub pól dostępnych dla eksportu.
@@ -8701,6 +8699,8 @@ dcl#:#dcl_noturl_exception#:#Podaj link (na początku wpisz http:// lub www.) lu
 dcl#:#dcl_number#:#Liczby całkowite
 dcl#:#dcl_number_desc#:#Pole do wprowadzania liczb całkowitych (maks. 9 cyfr). Ułamki i liczby dziesiętne nie są dozwolone.
 dcl#:#dcl_online_info#:#Użytkownicy mogą obejrzeć zbiór danych i korzystać z niego tylko wtedy, gdy zbiór jest w trybie online.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Sortowanie
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Tylko własne wpisy
@@ -8755,8 +8755,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Tutaj możesz wpisać końcówki plików pr
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabela
-dcl#:#dcl_table_create#:#Utwórz tabelę
-dcl#:#dcl_table_edit#:#Zapisz
 dcl#:#dcl_table_id#:#Numer ID tabelki
 dcl#:#dcl_table_info#:#Poniżej ustalasz, co użytkownicy, którzy dla zbioru danych posiadają prawo "Wprowadzania", mogą robić w tabeli.
 dcl#:#dcl_table_info_title#:#Informacja

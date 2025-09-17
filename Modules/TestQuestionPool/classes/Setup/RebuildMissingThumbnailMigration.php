@@ -59,7 +59,7 @@ class RebuildMissingThumbnailMigration implements Migration
     public function step(Environment $environment): void
     {
         $result = $this->db->query(
-            '((SELECT sa.imagefile, q.obj_fi, q.question_type_fi, q.question_id' . PHP_EOL
+            '(SELECT sa.imagefile, q.obj_fi, q.question_type_fi, q.question_id' . PHP_EOL
             . 'FROM qpl_questions q JOIN qpl_qst_sc s on q.question_id = s.question_fi JOIN qpl_a_sc sa on q.question_id = sa.question_fi' . PHP_EOL
             . 'WHERE q.question_type_fi = 1 AND s.thumb_size IS NULL AND NOT q.obj_fi = 0 and not sa.imagefile = "" AND NOT ISNULL(sa.imagefile) ORDER BY q.question_id)' . PHP_EOL
             . 'UNION' . PHP_EOL
@@ -69,7 +69,7 @@ class RebuildMissingThumbnailMigration implements Migration
             . 'UNION' . PHP_EOL
             . '(SELECT ka.imagefile, q.obj_fi, q.question_type_fi, q.question_id' . PHP_EOL
             . 'FROM qpl_questions q JOIN qpl_qst_kprim k on q.question_id = k.question_fi JOIN qpl_a_kprim ka on q.question_id = ka.question_fi' . PHP_EOL
-            . 'WHERE q.question_type_fi = 17 AND k.thumb_size IS NULL AND NOT q.obj_fi = 0 AND NOT ka.imagefile = "" AND NOT ISNULL(ka.imagefile) ORDER BY q.question_id))'
+            . 'WHERE q.question_type_fi = 17 AND k.thumb_size IS NULL AND NOT q.obj_fi = 0 AND NOT ka.imagefile = "" AND NOT ISNULL(ka.imagefile) ORDER BY q.question_id)'
         );
 
         $previous_question_id = null;
@@ -81,7 +81,10 @@ class RebuildMissingThumbnailMigration implements Migration
             $previous_question_id = $row->question_id;
             $previous_question_type_id = $row->question_type_fi;
         }
-        $this->updateThumbSize($previous_question_id, $previous_question_type_id, $image_width);
+
+        if (isset($previous_question_type_id)) {
+            $this->updateThumbSize($previous_question_id, $previous_question_type_id, $image_width);
+        }
     }
 
     public function getRemainingAmountOfSteps(): int

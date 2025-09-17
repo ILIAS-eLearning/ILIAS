@@ -4745,6 +4745,7 @@ common#:#msg_no_perm_perm#:#您无权限编辑权限设置
 common#:#msg_no_perm_read#:#您没有权限访问这个项目。
 common#:#msg_no_perm_read_item#:#您没有权限访问条目 '%s'。
 common#:#msg_no_perm_read_lm#:#您没有权限读取这个学习模块。
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#您无写权限
 common#:#msg_no_search_result#:#未找到条目
 common#:#msg_no_search_string#:#请输入您的问题
@@ -8541,7 +8542,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#以下记录被创建
 dcl#:#dcl_change_notification_dcl_update_record#:#以下记录被更新
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#数据收集 "%s" 已更改
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###10 07 2013 new variable
 dcl#:#dcl_changed_by#:#更改者
 dcl#:#dcl_checked#:#已勾选的
 dcl#:#dcl_comments#:#Comments###26 09 2014 new variable
@@ -8621,7 +8621,6 @@ dcl#:#dcl_formula#:#Formula###26 09 2014 new variable
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.###30 08 2015 new variable
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.###30 08 2015 new variable
 dcl#:#dcl_height#:#高度
-dcl#:#dcl_hello#:#Dear###10 07 2013 new variable
 dcl#:#dcl_id#:#ID###20 07 2014 new variable
 dcl#:#dcl_id_description#:#The internal ID.###20 07 2014 new variable
 dcl#:#dcl_ilias_reference#:#Link to an ILIAS module###25 10 2016 new variable
@@ -8679,7 +8678,6 @@ dcl#:#dcl_new#:#创建新的数据采集
 dcl#:#dcl_new_field#:#新字段
 dcl#:#dcl_new_table#:#新表
 dcl#:#dcl_next_record#:#Next record###26 09 2014 new variable
-dcl#:#dcl_no_content_warning#:#注意，数据收集是在线的，但还没有内容！
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.###25 10 2016 new variable
@@ -8700,6 +8698,8 @@ dcl#:#dcl_noturl_exception#:#您必须输入一个链接(以http://开始)
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#排序
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Only own entries###30 08 2015 new variable
@@ -8754,8 +8754,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#表
-dcl#:#dcl_table_create#:#创建表
-dcl#:#dcl_table_edit#:#更新表
 dcl#:#dcl_table_id#:#表ID
 dcl#:#dcl_table_info#:#具有权限"编辑设置"的用户(请看选项卡"权限")总是被授予添加/编辑/删除条目的权限。具有"编辑设置"权限的用户(请看选项卡"权限")仅有根据上面的表单中指定的设置权限。
 dcl#:#dcl_table_info_title#:#信息

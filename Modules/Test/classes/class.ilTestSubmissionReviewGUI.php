@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Presentation\WorkingTime;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 
 /**
@@ -60,7 +61,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         switch ($this->ctrl->getCmd()) {
             case 'show':
             default:
-
                 $this->show();
         }
     }
@@ -164,23 +164,50 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         return $results_output;
     }
 
-    protected function show()
+    protected function show(): void
     {
         $this->global_screen->tool()->context()->current()->getAdditionalData()->replace(
             ilTestPlayerLayoutProvider::TEST_PLAYER_VIEW_TITLE,
             $this->object->getTitle() . ' - ' . $this->lng->txt('tst_results_overview')
         );
 
-        $html = $this->buildToolbar('review_nav_top')->getHTML();
+        $html = '';
+        if ($this->object->getEnableProcessingTime()) {
+            $active_id = $this->testSession->getActiveId();
+            $starting_time = $this->object->getStartingTimeOfUser($active_id);
+            $working_time = new WorkingTime(
+                $this->lng,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $starting_time,
+                $this->object->getProcessingTimeInSeconds($active_id)
+            );
+
+            $html .= $working_time->getMessageBox(true);
+
+            $class = $this->getObject()->isFixedTest()
+                ? ilTestPlayerFixedQuestionSetGUI::class
+                : ilTestPlayerRandomQuestionSetGUI::class;
+
+            $working_time_js_template = $working_time->prepareWorkingTimeJsTemplate(
+                $this->getObject(),
+                getdate($starting_time),
+                $this->ctrl->getLinkTargetByClass($class, 'checkWorkingTime', '', true),
+                $this->ctrl->getFormActionByClass($class, ilTestPlayerCommands::REDIRECT_AFTER_QUESTION_LIST)
+            );
+
+            $this->tpl->addOnLoadCode($working_time_js_template->get());
+        }
+
+        $html .= $this->buildToolbar('review_nav_top')->getHTML();
         $html .= $this->buildUserReviewOutput() . '<br />';
         $html .= $this->buildToolbar('review_nav_bottom')->getHTML();
 
         if ($this->object->isShowExamIdInTestPassEnabled() && !$this->object->getKioskMode()) {
-            $examIdTpl = new ilTemplate("tpl.exam_id_block.html", true, true, 'Modules/Test');
+            $examIdTpl = new ilTemplate('tpl.exam_id_block.html', true, true, 'Modules/Test');
             $examIdTpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
                 $this->testSession->getActiveId(),
                 $this->testSession->getPass(),
-                $this->object->getId()
             ));
             $examIdTpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
             $html .= $examIdTpl->get();
@@ -188,9 +215,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 
         $html .= $this->ui_renderer->render($this->finish_test_modal);
 
-        $this->tpl->setVariable(
-            $this->getContentBlockName(),
-            $html
-        );
+        $this->tpl->setVariable($this->getContentBlockName(), $html);
     }
 }

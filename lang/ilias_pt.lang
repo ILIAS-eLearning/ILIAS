@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#Palavra-passe
 common#:#msg_no_perm_read#:#Não tem permissão para aceder a este item.
 common#:#msg_no_perm_read_item#:#A nova palavra-passe é inválida! Apenas são permitidos os seguintes caracteres (mínimo de 6 caracteres): A-Z a-z 0-9 _.-+?
 common#:#msg_no_perm_read_lm#:#Não tem permissão para ler este módulo de aprendizagem.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#As suas entradas para a nova palavra-passe não correspondem! Volte a inserir a sua nova palavra-passe.
 common#:#msg_no_search_result#:#A palavra-passe introduzida está errada!
 common#:#msg_no_search_string#:#Palavra-passe
@@ -8542,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Número limitado de membros
 dcl#:#dcl_change_notification_dcl_update_record#:#Ainda não está completo
 dcl#:#dcl_change_notification_link#:#Registo do participante
 dcl#:#dcl_change_notification_subject#:#A coleções de dados "%s" foi alterada
-dcl#:#dcl_change_why_you_receive_this_email#:#Data de avaliação
 dcl#:#dcl_changed_by#:#Alterado por
 dcl#:#dcl_checked#:#Selecionado.
 dcl#:#dcl_comments#:#Comentários
@@ -8622,7 +8622,6 @@ dcl#:#dcl_formula#:#Fórmula
 dcl#:#dcl_formula_desc#:#Arrastar para mover
 dcl#:#dcl_formula_detail_desc#:#As entradas são criadas automaticamente, não podendo editar a entrada.
 dcl#:#dcl_height#:#Altura
-dcl#:#dcl_hello#:#Estimado
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#O ID interno.
 dcl#:#dcl_ilias_reference#:#Link para um módulo ILIAS
@@ -8680,7 +8679,6 @@ dcl#:#dcl_new#:#Criar nova coleção de dados
 dcl#:#dcl_new_field#:#Novo campo
 dcl#:#dcl_new_table#:#Nova tabela
 dcl#:#dcl_next_record#:#Outubro
-dcl#:#dcl_no_content_warning#:#Atenção, a coleção de dados está online mas ainda não tem conteúdo!
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Nenhuns dados ou campos disponíveis para exportação.
@@ -8701,6 +8699,8 @@ dcl#:#dcl_noturl_exception#:#Novembro
 dcl#:#dcl_number#:#Inteiro
 dcl#:#dcl_number_desc#:#Campo para valores inteiros (máx. 9 dígitos). Nada de decimais ou frações.
 dcl#:#dcl_online_info#:#Apenas se a coleção de dados estiver online é que os utilizadores podem usá-la.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Ordem
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Apenas entradas próprias
@@ -8755,8 +8755,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Pode definir as extensões permitidas separ
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabela
-dcl#:#dcl_table_create#:#Criar tabela
-dcl#:#dcl_table_edit#:#Atualizar tabela
 dcl#:#dcl_table_id#:#ID da tabela
 dcl#:#dcl_table_info#:#Mês anterior (manter para menu)
 dcl#:#dcl_table_info_title#:#Informação

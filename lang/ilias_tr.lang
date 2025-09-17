@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#İzin ayarlarını düzenlemek için izniniz yoktur
 common#:#msg_no_perm_read#:#Bu öğeye erişmek için izniniz yoktur.
 common#:#msg_no_perm_read_item#:#Her öğe '% s' erişim izniniz yok.
 common#:#msg_no_perm_read_lm#:#Bu öğrenme modülü okumak için izniniz yoktur.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Yazma yetkiniz yok
 common#:#msg_no_search_result#:#Hiçbir veri girişi bulunamadı
 common#:#msg_no_search_string#:#sorgunuzu girin
@@ -8542,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Aşağıdaki kayıt oluşturuldu
 dcl#:#dcl_change_notification_dcl_update_record#:#Aşağıdaki kayıt güncellendi
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#Veri Toplama "% s" değiştirildi
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###26 04 2013 new variable
 dcl#:#dcl_changed_by#:#tarafından değiştirildi
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments###26 09 2014 new variable
@@ -8622,7 +8622,6 @@ dcl#:#dcl_formula#:#Formula###26 09 2014 new variable
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.###30 08 2015 new variable
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.###30 08 2015 new variable
 dcl#:#dcl_height#:#Yükseklik
-dcl#:#dcl_hello#:#Dear###26 04 2013 new variable
 dcl#:#dcl_id#:#ID###20 07 2014 new variable
 dcl#:#dcl_id_description#:#The internal ID.###20 07 2014 new variable
 dcl#:#dcl_ilias_reference#:#Link to an ILIAS module###25 10 2016 new variable
@@ -8680,7 +8679,6 @@ dcl#:#dcl_new#:#Yeni Veri Toplama oluşturma
 dcl#:#dcl_new_field#:#Yeni Alan
 dcl#:#dcl_new_table#:#Yeni Tablo
 dcl#:#dcl_next_record#:#Next record###26 09 2014 new variable
-dcl#:#dcl_no_content_warning#:#Dikkat, Veri Toplama çevrimiçi ancak henüz içeriği yok!
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.###25 10 2016 new variable
@@ -8701,6 +8699,8 @@ dcl#:#dcl_noturl_exception#:#Bir bağlantı girmek zorundasınız (http:// ile b
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Sıra
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Only own entries###30 08 2015 new variable
@@ -8755,8 +8755,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tablo
-dcl#:#dcl_table_create#:#Tablo Oluştur
-dcl#:#dcl_table_edit#:#Güncelleme Tablosu
 dcl#:#dcl_table_id#:#Tablo Kimliği
 dcl#:#dcl_table_info#:#İzni "Ayarları Düzenle" (sekme "İzni" bölümüne bakınız) ile Kullanıcılar, her zaman eklemek / düzenlemek / girişleri silmek için izniniz yok. Izni "düzenle entry" (sekme "İzinler" bölümüne bakın) olan kullanıcılar, aşağıdaki formu yalnızca belirtilen ayarlara göre izinlere sahip.
 dcl#:#dcl_table_info_title#:#Bilgiler

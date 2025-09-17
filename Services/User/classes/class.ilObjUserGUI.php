@@ -194,12 +194,14 @@ class ilObjUserGUI extends ilObjectGUI
             );
         }
 
-        $this->tabs_gui->addTarget(
-            'role_assignment',
-            $this->ctrl->getLinkTarget($this, 'roleassignment'),
-            ['roleassignment'],
-            get_class($this)
-        );
+        if ($this->checkAccessToRolesTab()) {
+            $this->tabs_gui->addTarget(
+                'role_assignment',
+                $this->ctrl->getLinkTarget($this, 'roleassignment'),
+                ['roleassignment'],
+                get_class($this)
+            );
+        }
 
         // learning progress
         if ($this->rbac_system->checkAccess('read', $this->ref_id) and
@@ -841,7 +843,8 @@ class ilObjUserGUI extends ilObjectGUI
         $data['ext_account'] = $this->object->getExternalAccount();
         $data['create_date'] = ilDatePresentation::formatDate(new ilDateTime(
             $this->object->getCreateDate(),
-            IL_CAL_DATETIME
+            IL_CAL_DATETIME,
+            'UTC'
         ));
         $data['owner'] = ilObjUser::_lookupLogin($this->object->getOwner());
         $data['approve_date'] = ($this->object->getApproveDate() != '')
@@ -1620,21 +1623,15 @@ class ilObjUserGUI extends ilObjectGUI
     {
         $this->tabs->activateTab('role_assignment');
 
-        if ($this->object->getId() === (int) ANONYMOUS_USER_ID
-            || !$this->rbac_system->checkAccess('edit_roleassignment', $this->usrf_ref_id)
-                && !$this->access->isCurrentUserBasedOnPositionsAllowedTo('read_users', [$this->object->getId()])
-        ) {
-            $this->ilias->raiseError(
-                $this->lng->txt('msg_no_perm_assign_role_to_user'),
-                $this->ilias->error_obj->MESSAGE
-            );
+        if (!$this->checkAccessToRolesTab()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_view_roles_of_user'), true);
+            $this->ctrl->redirectByClass(self::class, 'edit');
         }
 
-        $filtered_roles = ilSession::get('filtered_roles');
         $req_filtered_roles = $this->user_request->getFilteredRoles();
         ilSession::set(
             'filtered_roles',
-            ($req_filtered_roles > 0) ? $req_filtered_roles : $filtered_roles
+            ($req_filtered_roles > 0) ? $req_filtered_roles : ilSession::get('filtered_roles')
         );
 
         $filtered_roles = ilSession::get('filtered_roles');
@@ -1993,5 +1990,22 @@ class ilObjUserGUI extends ilObjectGUI
             && !$this->rbac_system->checkAccess('cat_administrate_users', $this->object->getTimeLimitOwner())) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_modify_user'), $this->ilias->error_obj->MESSAGE);
         }
+    }
+
+    private function checkAccessToRolesTab(): bool
+    {
+        return $this->object->getId() !== (int) ANONYMOUS_USER_ID
+            && (
+                $this->rbac_system->checkAccess('edit_roleassignment', $this->usrf_ref_id)
+                || $this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                    && in_array(
+                        $this->object->getId(),
+                        $this->access->filterUserIdsByPositionOfCurrentUser(
+                            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                            USER_FOLDER_ID,
+                            [$this->object->getId()]
+                        )
+                    )
+            );
     }
 }

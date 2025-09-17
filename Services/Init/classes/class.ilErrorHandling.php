@@ -100,7 +100,7 @@ class ilErrorHandling
         }
         $ilRuntime = $this->getIlRuntime();
         $this->whoops = $this->getWhoops();
-        $this->whoops->pushHandler(new ilDelegatingHandler($this));
+        $this->whoops->pushHandler(new ilDelegatingHandler($this, self::SENSTIVE_PARAMETER_NAMES));
         if ($ilRuntime->shouldLogErrors()) {
             $this->whoops->pushHandler($this->loggingHandler());
         }

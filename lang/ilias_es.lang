@@ -4748,6 +4748,7 @@ common#:#msg_no_perm_perm#:#No tiene permiso para editar la configuración de pe
 common#:#msg_no_perm_read#:#No tiene permiso para acceder a este item.
 common#:#msg_no_perm_read_item#:#No tiene permisos para acceder al item '%s'.
 common#:#msg_no_perm_read_lm#:#No tiene permisos para leer este módulo de aprendizaje
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#No tiene permiso para escribir
 common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
@@ -8544,7 +8545,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#el siguiente registro ha sido cre
 dcl#:#dcl_change_notification_dcl_update_record#:#el siguiente registro ha sido actualizado
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#La colección de datos "%s" ha sido modificada
-dcl#:#dcl_change_why_you_receive_this_email#:#Has recibido este mensaje porque has activado la notificación para esta colección de datos
 dcl#:#dcl_changed_by#:#Modificado por
 dcl#:#dcl_checked#:#Comprobado.
 dcl#:#dcl_comments#:#Comentarios
@@ -8624,7 +8624,6 @@ dcl#:#dcl_formula#:#Fórmula
 dcl#:#dcl_formula_desc#:#Los campos pueden conectarse o calcularse con una fórmula al igual que en una hoja de cálculo
 dcl#:#dcl_formula_detail_desc#:#Las entradas son generadas automáticamente y no puedes editarlas.
 dcl#:#dcl_height#:#Alto
-dcl#:#dcl_hello#:#Estimado/a
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#El ID interno.
 dcl#:#dcl_ilias_reference#:#Enlace a un módulo ILIAS
@@ -8682,7 +8681,6 @@ dcl#:#dcl_new#:#Crear nueva colección de datos
 dcl#:#dcl_new_field#:#Nuevo Campo
 dcl#:#dcl_new_table#:#Nueva Tabla
 dcl#:#dcl_next_record#:#Siguiente registro
-dcl#:#dcl_no_content_warning#:#Atención, la colección de datos está activa pero no tiene contenido todavía!
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#No hay datos ni campos disponibles para su exportación.
@@ -8703,6 +8701,8 @@ dcl#:#dcl_noturl_exception#:#Usted tiene que introducir una dirección web (come
 dcl#:#dcl_number#:#Entero
 dcl#:#dcl_number_desc#:#Campo para valores enteros (máximo de 9 dígitos) Sin decimales ni fracciones.
 dcl#:#dcl_online_info#:#Los usuarios pueden usar la colección de datos sólo si está activa.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Orden
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Solo entradas propias
@@ -8757,8 +8757,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Puede indicar las extensiones permitidas se
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabla
-dcl#:#dcl_table_create#:#Crear Tabla
-dcl#:#dcl_table_edit#:#Actualizar Tabla
 dcl#:#dcl_table_id#:#ID de Tabla
 dcl#:#dcl_table_info#:#Los usuarios con los permisos "Cambiar Configuración" (ver pestaña "Permisos") tienen permiso para añadir/editar/eliminar entradas. Los usuarios con permiso "Añadir/editar Entrada" (ver pestaña "Permisos") sólo tienen permisos dependiendo de los ajustes especificados en el siguiente formulario.
 dcl#:#dcl_table_info_title#:#Información

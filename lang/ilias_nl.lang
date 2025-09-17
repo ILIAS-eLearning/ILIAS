@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#U hebt geen toestemming voor het wijzigen van de ins
 common#:#msg_no_perm_read#:#U hebt geen toestemming om het item te bekijken
 common#:#msg_no_perm_read_item#:#U hebt geen toestemming om het item '%s' te bekijken.
 common#:#msg_no_perm_read_lm#:#U hebt geen rechten om deze lesmodule te lezen.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#U hebt geen toestemming voor schrijven
 common#:#msg_no_search_result#:#Geen gegevens gevonden
 common#:#msg_no_search_string#:#Voer je vraag in
@@ -8542,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#het volgende record is aangemaakt
 dcl#:#dcl_change_notification_dcl_update_record#:#het volgende record is gewijzigd
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#Gegevensverzameling  "%s" is gewijzigd
-dcl#:#dcl_change_why_you_receive_this_email#:#Je ontvangt deze email omdat je de berichtgeving voor deze gegevensverzameling hebt uitgeschakeld.
 dcl#:#dcl_changed_by#:#Aangepast door
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Commentaar
@@ -8622,7 +8622,6 @@ dcl#:#dcl_formula#:#Formule
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.###30 08 2015 new variable
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.###30 08 2015 new variable
 dcl#:#dcl_height#:#Hoogte
-dcl#:#dcl_hello#:#Beste
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#De interne ID.
 dcl#:#dcl_ilias_reference#:#Link to an ILIAS module###25 10 2016 new variable
@@ -8680,7 +8679,6 @@ dcl#:#dcl_new#:#Aanmaken nieuwe gegevensverzameling
 dcl#:#dcl_new_field#:#Nieuw veld
 dcl#:#dcl_new_table#:#Nieuwe tabel
 dcl#:#dcl_next_record#:#Volgend record
-dcl#:#dcl_no_content_warning#:#Let op, de gegevensverzameling is online maar bevat nog geen data.
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.###25 10 2016 new variable
@@ -8701,6 +8699,8 @@ dcl#:#dcl_noturl_exception#:#Je moet een koppeling (beginnend met http://) of ee
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Volgorde
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Only own entries###30 08 2015 new variable
@@ -8755,8 +8755,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabel
-dcl#:#dcl_table_create#:#Tabel aanmaken
-dcl#:#dcl_table_edit#:#Tabel wijzigen
 dcl#:#dcl_table_id#:#Tabel ID
 dcl#:#dcl_table_info#:#Gebruikers met het recht "Instellingen wijzigen" (zie tabblad rechten) hebben altijd het recht om onderdelen toe te voegen, te wijzigen en te verwijderen. Gebruikers met het recht "wijzigen onderdeel" (zie tabblad rechten) hebben alleen de rechten zoals gespecificeerd volgens de instellingen in het formulier hieronder.
 dcl#:#dcl_table_info_title#:#Info

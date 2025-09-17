@@ -533,13 +533,13 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $tpl->setVariable("TXT_MEDIA", $lng->txt("cont_media"));
 
         $par_sel = new ParagraphStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
-        $tpl->setVariable("PAR_SELECTOR", $ui->renderer()->renderAsync($par_sel->getStyleSelector("", "format", "format.paragraph", "format")));
+        $tpl->setVariable("PAR_SELECTOR", $ui->renderer()->renderAsync($par_sel->getStyleSelector(" ", "format", "format.paragraph", "format")));
 
         $sec_sel = new SectionStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
-        $tpl->setVariable("SEC_SELECTOR", $ui->renderer()->renderAsync($sec_sel->getStyleSelector("", "format", "format.section", "format")));
+        $tpl->setVariable("SEC_SELECTOR", $ui->renderer()->renderAsync($sec_sel->getStyleSelector(" ", "format", "format.section", "format")));
 
         $med_sel = new MediaObjectStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
-        $tpl->setVariable("MEDIA_SELECTOR", $ui->renderer()->renderAsync($med_sel->getStyleSelector("", "format", "format.media", "format")));
+        $tpl->setVariable("MEDIA_SELECTOR", $ui->renderer()->renderAsync($med_sel->getStyleSelector(" ", "format", "format.media", "format")));
 
         $tpl->setVariable(
             "SAVE_BUTTON",

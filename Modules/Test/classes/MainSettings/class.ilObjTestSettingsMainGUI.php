@@ -225,6 +225,12 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $current_question_config = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
         $new_question_set_type = $data[self::GENERAL_SETTINGS_SECTION_LABEL]['question_set_type'];
 
+        if ($new_question_set_type === null) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_settings_form_reload_needed'));
+            $this->showForm();
+            return;
+        }
+
         if ($new_question_set_type !== $current_question_set_type
             && $current_question_config->doesQuestionSetRelatedDataExist()) {
             $modal = $this->populateConfirmationModal($current_question_set_type, $new_question_set_type);
@@ -466,18 +472,18 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
     {
         $field_factory = $this->ui->factory()->input()->field();
 
-        $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
-        $value = $this->getValueForActivationLimitedOptionalGroup();
+        $date_format = (new DataFactory())->dateFormat()->withTime24(
+            $this->activeUser->getDateFormat()
+        );
 
-        $data_factory = new DataFactory();
-        $user_format = $this->activeUser->getDateFormat();
-        $format = $data_factory->dateFormat()->withTime24($user_format);
-
-        $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
+        $inputs['time_limit_start'] = $field_factory->dateTime($this->lng->txt('rep_activation_limited_start'))
             ->withTimezone($this->activeUser->getTimeZone())
-            ->withFormat($format)
-            ->withUseTime(true)
-            ->withRequired(true);
+            ->withFormat($date_format)
+            ->withUseTime(true);
+        $inputs['time_limit_end'] = $field_factory->dateTime($this->lng->txt('rep_activation_limited_end'))
+            ->withTimezone($this->activeUser->getTimeZone())
+            ->withFormat($date_format)
+            ->withUseTime(true);
         $inputs['activation_visibility'] = $field_factory->checkbox(
             $this->lng->txt('rep_activation_limited_visibility'),
             $this->lng->txt('tst_activation_limited_visibility_info')
@@ -486,15 +492,41 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         return $field_factory->optionalGroup(
             $inputs,
             $this->lng->txt('rep_time_based_availability')
-        )->withAdditionalTransformation($trafo)
-            ->withValue($value);
+        )->withAdditionalTransformation(
+            $this->getConstraintForActivationLimitedOptionalGroup()
+        )->withAdditionalTransformation(
+            $this->getTransformationForActivationLimitedOptionalGroup()
+        )->withValue(
+            $this->getValueForActivationLimitedOptionalGroup()
+        );
+    }
+
+    private function getConstraintForActivationLimitedOptionalGroup(): Constraint
+    {
+        return $this->refinery->custom()->constraint(
+            function (?array $vs): bool {
+                if ($vs === null
+                    || $vs['time_limit_start'] === null
+                    || $vs['time_limit_end'] === null) {
+                    return true;
+                }
+
+                if ($vs['time_limit_start'] > $vs['time_limit_end']) {
+                    return false;
+                }
+
+                return true;
+            },
+            $this->lng->txt('duration_end_must_not_be_earlier_than_start')
+        );
     }
 
     private function getTransformationForActivationLimitedOptionalGroup(): TransformationInterface
     {
         return $this->refinery->custom()->transformation(
             static function (?array $vs): array {
-                if ($vs === null) {
+                if ($vs === null
+                    || $vs['time_limit_start'] === null && $vs['time_limit_end'] === null) {
                     return [
                         'is_activation_limited' => false,
                         'activation_starting_time' => null,
@@ -503,13 +535,10 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
                     ];
                 }
 
-                $start = $vs['time_span']['start']->getTimestamp();
-                $end = $vs['time_span']['end']->getTimestamp();
-
                 return [
                     'is_activation_limited' => true,
-                    'activation_starting_time' => $start,
-                    'activation_ending_time' => $end,
+                    'activation_starting_time' => $vs['time_limit_start']?->getTimestamp(),
+                    'activation_ending_time' => $vs['time_limit_end']?->getTimestamp(),
                     'activation_visibility' => $vs['activation_visibility']
                 ];
             }
@@ -521,16 +550,12 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         $value = null;
         if ($this->test_object->isActivationLimited()) {
             $value = [
-                'time_span' => [
-                    DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
-                    DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone())),
-                ],
+                'time_limit_start' => $this->buildDateOrNullFromILIASValue(
+                    $this->test_object->getActivationStartingTime()
+                ),
+                'time_limit_end' => $this->buildDateOrNullFromILIASValue(
+                    $this->test_object->getActivationEndingTime()
+                ),
                 'activation_visibility' => $this->test_object->getActivationVisibility()
             ];
         }
@@ -539,19 +564,7 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
 
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $time_based_availability = $section['timebased_availability'];
-
-        $participant_data_exists = $this->test_object->participantDataExist();
-        $this->test_object->storeActivationSettings(
-            $participant_data_exists
-                ? $this->test_object->isActivationLimited()
-                : $time_based_availability['is_activation_limited'],
-            $participant_data_exists
-                ? $this->test_object->getActivationStartingTime()
-                : $time_based_availability['activation_starting_time'],
-            $time_based_availability['activation_ending_time'],
-            $time_based_availability['activation_visibility']
-        );
+        $this->test_object->storeActivationSettings(...$section['timebased_availability']);
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
@@ -777,5 +790,17 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         }
 
         return $additional_settings->withSkillsServiceEnabled($section['skills_service_activation']);
+    }
+
+    private function buildDateOrNullFromILIASValue(?int $value): ?\DateTimeImmutable
+    {
+        if ($value === null || $value === 0) {
+            return null;
+        }
+
+        return DateTimeImmutable::createFromFormat(
+            'U',
+            (string) $value
+        )->setTimezone(new DateTimeZone($this->activeUser->getTimeZone()));
     }
 }

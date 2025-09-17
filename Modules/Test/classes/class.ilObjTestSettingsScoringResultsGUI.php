@@ -110,7 +110,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
                         $this->saveForm();
                         break;
                     case self::CMD_CONFIRMED_RECALC:
-                        $this->saveForm();
                         $settings = $this->buildForm()
                             ->withRequest($this->getRelayedRequest())
                             ->getData();

@@ -233,4 +233,20 @@ class ObjectManager
         return true;
     }
 
+    public function countOverallOwned(): int
+    {
+        return $this->object_repo->countOverallOwned();
+    }
+
+    public function countObjSelected(int $style_id): int
+    {
+        return $this->object_repo->countObjSelected($style_id);
+    }
+
+    public function move(int $from_style_id, int $to_style_id): void
+    {
+        $this->object_repo->move($from_style_id, $to_style_id);
+    }
+
+
 }

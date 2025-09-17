@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Verpflichtende Fragen" kann nicht zusammen mit "Antworten festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Nicht beantwortete Fragen werden ans Testende geschoben" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Fragen mischen" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
+assessment#:#tst_settings_form_reload_needed#:#Das Formular musste neu geladen werden, da sich die verfügbaren Einstellungen durch das Löschen aller Ergebnisse geändert haben.
 assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
@@ -2533,6 +2534,7 @@ book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Buchungen
 book#:#book_no_of_objects#:#Anzahl Angebote
+book#:#book_no_pools_selected#:#Diesem Kurs ist kein Buchungspool zugewiesen. Buchungspools können über den Reiter „Ressourcen“ des Kurses zugewiesen werden.
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
@@ -4731,8 +4733,8 @@ common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Anmeldekonto lö
 common#:#msg_no_file#:#Sie haben keine Datei ausgewählt oder die ausgewählte Datei war zu groß.
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
-common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
-common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Benutzerzuweisung zu ändern
+common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Kontos zu ändern
+common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Kontenzuweisung zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung um neue Rollenvorlagen anzulegen!
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
@@ -4746,6 +4748,7 @@ common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf
 common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
+common#:#msg_no_perm_view_roles_of_user#:#Sie haben keine Berechtigung, auf die Rollenzuweisung des Kontos zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
@@ -6448,7 +6451,7 @@ content#:#cont_ed_split_page_next#:#Auf nächste Seite schieben
 content#:#cont_ed_textitem#:#Testelement
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
-content#:#cont_edit_comp#:#Bearbeitungsmodus
+content#:#cont_edit_comp#:#Bearbeiten
 content#:#cont_edit_definition#:#Definition bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_language_version#:#Version bearbeiten
@@ -6457,7 +6460,7 @@ content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
 content#:#cont_edit_mob#:#Medienobjekt bearbeiten
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mode#:#Bearbeitungsmodus
-content#:#cont_edit_multi#:#Mehrfachauswahl
+content#:#cont_edit_multi#:#Auswählen
 content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
 content#:#cont_edit_par#:#Text bearbeiten
 content#:#cont_edit_personal_data#:#Persönliche Daten editieren
@@ -7369,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_par_format_selection#:#Absatzformatauswahl
 copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
+copg#:#copg_plugin#:#Plugin
 copg#:#copg_plugin_not_avail#:#Plugin %s nicht verfügbar.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
@@ -12828,8 +12832,8 @@ obj#:#obj_deactivate_multilang_conf#:# Wollen Sie die Unterstützung für mehrsp
 obj#:#obj_fallback_lang#:#Standardsprache
 obj#:#obj_features#:#Zusätzliche Funktionen
 obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
-obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
-obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
+obj#:#obj_insert_into_clipboard#:#In Zwischenablage übernehmen
+obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage übernommen.
 obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
@@ -13696,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
 pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Nur Fragen ohne Kommentare
 qpl#:#qpl_filter_commented_only#:#Nur Fragen mit Kommentaren
 qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
@@ -15838,6 +15843,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Für jeden Media Query wird ein eigener CSS-Abschnitt nach dem Standard-Abschnitt (ohne Media Query) eingefügt.
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
+style#:#sty_move_obj_styles#:#Stylesheets der Objekte ändern
 style#:#sty_move_style#:#Stylesheet ändern
 style#:#sty_move_user_styles#:#Stylesheet der Benutzer ändern
 style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf keine Leerzeichen sondern nur die folgenden Zeichen enthalten:
@@ -15845,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchsta
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Anzahl der Lernmodule
+style#:#sty_nr_objects#:#Number of Objects
 style#:#sty_odd_col_class#:#Ungerade Spalten
 style#:#sty_odd_row_class#:#Ungerade Zeilen
 style#:#sty_ol#:#Geordnete Liste

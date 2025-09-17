@@ -797,9 +797,11 @@ class ilExSubmission
             }
 
             // #14900
-            $member_status = $ass->getMemberStatus($a_user_id);
-            $member_status->setStatus("notgraded");
-            $member_status->update();
+            if (\ilObject::_lookupType($ass->getExerciseId()) === "exc") {  // see #45183
+                $member_status = $ass->getMemberStatus($a_user_id);
+                $member_status->setStatus("notgraded");
+                $member_status->update();
+            }
 
             $db->manipulateF(
                 "DELETE FROM exc_usr_tutor " .

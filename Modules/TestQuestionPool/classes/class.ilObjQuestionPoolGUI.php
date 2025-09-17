@@ -500,7 +500,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         $this->ctrl->redirect($this, 'questions');
                     }
                     if ($ids[0] === 'ALL_OBJECTS') {
-                        $ids = $this->object->getAllQuestionIds();
+                        $ids = $this->object->getAllQuestions();
                     }
                     if (!is_array($ids)) {
                         $ids = explode(',', $ids);

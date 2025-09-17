@@ -138,7 +138,7 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings($new_obj->getId());
         $this->cloneActivation($new_obj, $copy_id);
-        $this->cloneIntroAndExtroContentPages($new_obj, [LSOPageType::INTRO->value, LSOPageType::EXTRO->value]);
+        $this->cloneIntroAndExtroContentPages($new_obj, [LSOPageType::INTRO, LSOPageType::EXTRO]);
 
         $roles = $new_obj->getLSRoles();
         $roles->addLSMember(
@@ -148,21 +148,23 @@ class ilObjLearningSequence extends ilContainer
         return $new_obj;
     }
 
+    /**
+     * @param list<LSOPageType> $cp_types
+     */
     protected function cloneIntroAndExtroContentPages(ilObjLearningSequence $new_obj, array $cp_types): void
     {
         foreach ($cp_types as $type) {
-            $old_intro_page_id = $this->getContentPageId();
-            if ($type === 'lsoi') {
-                $new_obj->createContentPage(LSOPageType::INTRO);
-                $new_copg_id = $new_obj->getContentPageId();
-                $original_page = new \ilLSOIntroPage($old_intro_page_id);
-                $original_page->copy($new_copg_id, $type, $new_copg_id);
-            }
-            if ($type === 'lsoe') {
-                $new_obj->createContentPage(LSOPageType::EXTRO);
-                $new_copg_id = $new_obj->getContentPageId();
-                $original_page = new ilLSOExtroPage($old_intro_page_id);
-                $original_page->copy($new_copg_id, $type, $new_copg_id);
+            $new_obj->createContentPage($type);
+            if ($this->hasContentPage($type)) {
+                $target_page_id = $new_obj->getContentPageId();
+                $source_page_id = $this->getContentPageId();
+
+                if ($type === LSOPageType::INTRO) {
+                    $source_page = new ilLSOIntroPage($source_page_id);
+                } else {
+                    $source_page = new ilLSOExtroPage($source_page_id);
+                }
+                $source_page->copy($target_page_id, $type->value, $target_page_id);
             }
         }
     }

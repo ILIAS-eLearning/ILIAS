@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#Nincs jogosultsága szerkeszteni a jogosultság-beá
 common#:#msg_no_perm_read#:#Nincs jogosultsága ezekhez az elemekhez.
 common#:#msg_no_perm_read_item#:#Nincs jogosultsága elérni: '%s'.
 common#:#msg_no_perm_read_lm#:#Nincs olvasási jogosultsága ehhez a tananyaghoz.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nincs írási jogosultsága
 common#:#msg_no_search_result#:#Egy bejegyzés sem található
 common#:#msg_no_search_string#:#Adjon meg egy keresési kifejezést
@@ -8542,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#ezúton tájékoztatjuk, hogy az 
 dcl#:#dcl_change_notification_dcl_update_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzés megváltozott
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#'%s' adatgyűjtés megváltozott
-dcl#:#dcl_change_why_you_receive_this_email#:#Ezt az üzenetet azért küldtük, mert bekapcsolta az értesítést erre az adatgyűjtésre.
 dcl#:#dcl_changed_by#:#Módosította
 dcl#:#dcl_checked#:#Kipipált
 dcl#:#dcl_comments#:#Megjegyzések
@@ -8622,7 +8622,6 @@ dcl#:#dcl_formula#:#Képlet
 dcl#:#dcl_formula_desc#:#Képlet segítségével bejegyzések értékeit aggregálhatja.
 dcl#:#dcl_formula_detail_desc#:#Automatikusan generált, nem módosítható bejegyzések.
 dcl#:#dcl_height#:#Magasság
-dcl#:#dcl_hello#:#Tisztelt
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#A belső azonosító (internal-ID).
 dcl#:#dcl_ilias_reference#:#Link egy ILIAS-tananyaghoz
@@ -8680,7 +8679,6 @@ dcl#:#dcl_new#:#Új adatgyűjtés létrehozása
 dcl#:#dcl_new_field#:#Új mező
 dcl#:#dcl_new_table#:#Új tábla
 dcl#:#dcl_next_record#:#Következő bejegyzés
-dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
 dcl#:#dcl_no_entry#:#Egy bejegyzés sem található
 dcl#:#dcl_no_export_async_config#:#Nincs elérhető SOAP konfiguráció aszinkron exportálásokhoz.
 dcl#:#dcl_no_export_data_available#:#Nincs exportálható mező, illetve bejegyzés.
@@ -8701,6 +8699,8 @@ dcl#:#dcl_noturl_exception#:#Linket kell megadnia (http://-rel vagy www.-tal kez
 dcl#:#dcl_number#:#Egész szám
 dcl#:#dcl_number_desc#:#Egész szám típusú beviteli mező (max. 9 számjegy). Közönséges és tizedes törtek nem engedélyezettek.
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Sorrend
 dcl#:#dcl_origin_not_found#:#Az eredeti mező nem található!
 dcl#:#dcl_own_entries#:#Csak a saját bejegyzéseim
@@ -8755,8 +8755,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Az engedélyezni kívánt fájlkiterjeszté
 dcl#:#dcl_switch_table#:#Tábla módosítása
 dcl#:#dcl_switch_view#:#Nézet váltása
 dcl#:#dcl_table#:#Tábla
-dcl#:#dcl_table_create#:#Tábla létrehozása
-dcl#:#dcl_table_edit#:#Tábla módosítása
 dcl#:#dcl_table_id#:#Tábla-ID
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' lapot) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok módosítása' jogosultságú felhasználók (lásd a 'Jogosultságok' lapot) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
 dcl#:#dcl_table_info_title#:#Információ

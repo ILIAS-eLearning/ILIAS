@@ -4746,6 +4746,7 @@ common#:#msg_no_perm_perm#:#Du har inte tillräcklig behörighet för att komma 
 common#:#msg_no_perm_read#:#Du har inte tillräcklig behörighet för att komma åt detta objekt.
 common#:#msg_no_perm_read_item#:#Du har inte behörighet att komma åt objektet '%s'.
 common#:#msg_no_perm_read_lm#:#Du har inte tillräcklig behörighet för att visa denna utbildningsmodul.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Du har inte skrivtillstånd!
 common#:#msg_no_search_result#:#Inga poster hittades
 common#:#msg_no_search_string#:#Var god ange en sökterm
@@ -8542,7 +8543,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Följande post har skapats
 dcl#:#dcl_change_notification_dcl_update_record#:#Följande post har uppdaterats
 dcl#:#dcl_change_notification_link#:#Gå till datainsamling
 dcl#:#dcl_change_notification_subject#:#Datainsamlingen "%s" har redigerats.
-dcl#:#dcl_change_why_you_receive_this_email#:#Du får detta meddelande eftersom du har aktiverat anmälningsfunktionen för ovanstående datainsamling.
 dcl#:#dcl_changed_by#:#Sista ändring av
 dcl#:#dcl_checked#:#Vald
 dcl#:#dcl_comments#:#Kommentarer
@@ -8622,7 +8622,6 @@ dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_formula_desc#:#I likhet med kalkylblad kan poster länkas eller beräknas med en formel.
 dcl#:#dcl_formula_detail_desc#:#Poster i detta fält genereras automatiskt. Du kan inte göra en post här.
 dcl#:#dcl_height#:#Höjd
-dcl#:#dcl_hello#:#Hello
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Det interna ID:t.
 dcl#:#dcl_ilias_reference#:#Objekt i tidningen
@@ -8680,7 +8679,6 @@ dcl#:#dcl_new#:#Skapa ny datainsamling
 dcl#:#dcl_new_field#:#Nytt fält
 dcl#:#dcl_new_table#:#Ny tabell
 dcl#:#dcl_next_record#:#Nästa post
-dcl#:#dcl_no_content_warning#:#Attention, datainsamlingen är redan online, men har inget innehåll ännu!
 dcl#:#dcl_no_entry#:#Ingen post
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Inga data eller fält tillgängliga för export.
@@ -8701,6 +8699,8 @@ dcl#:#dcl_noturl_exception#:#Ange en länk (som börjar med http
 dcl#:#dcl_number#:#Integers
 dcl#:#dcl_number_desc#:#Inmatningsfält för hela tal (högst 9 siffror). Bråk och decimaltal är inte tillåtna.
 dcl#:#dcl_online_info#:#Endast när datainsamlingen är online kan användarna se och använda datainsamlingen.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Sortering
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Endast egna poster
@@ -8755,8 +8755,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Du kan ange kommaseparerade filnamnstilläg
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabell
-dcl#:#dcl_table_create#:#Skapa tabell
-dcl#:#dcl_table_edit#:#Spara
 dcl#:#dcl_table_id#:#Tabeller ID
 dcl#:#dcl_table_info#:#I det följande definierar du vad användare som har "Enter"-rättigheten för datainsamlingen får göra i den här tabellen.
 dcl#:#dcl_table_info_title#:#Info

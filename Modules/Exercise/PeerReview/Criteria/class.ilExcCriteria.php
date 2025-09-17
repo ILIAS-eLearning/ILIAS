@@ -27,6 +27,7 @@
  */
 abstract class ilExcCriteria
 {
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;
@@ -49,6 +50,7 @@ abstract class ilExcCriteria
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->gui = $DIC->exercise()->internal()->gui();
     }
 
     public static function getInstanceById(int $a_id): ?ilExcCriteria

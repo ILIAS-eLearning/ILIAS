@@ -4744,6 +4744,7 @@ common#:#msg_no_perm_perm#:#Nimate ustreznih pravic za dostop do nastavitev prav
 common#:#msg_no_perm_read#:#Nimate ustreznih pravic za dostop do tega objekta.
 common#:#msg_no_perm_read_item#:#Nimate pravic za dostop do objekta '%s'.
 common#:#msg_no_perm_read_lm#:#Nimate ustreznih pravic za prikaz tega učnega modula.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nimate pravic za pisanje!
 common#:#msg_no_search_result#:#Noben vnos ni bil najden
 common#:#msg_no_search_string#:#Vnesite iskalni pojem
@@ -8540,7 +8541,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Naslednji vnos je bil ustvarjen
 dcl#:#dcl_change_notification_dcl_update_record#:#Naslednji vnos je bil posodobljen
 dcl#:#dcl_change_notification_link#:#Pojdi na zbirko podatkov
 dcl#:#dcl_change_notification_subject#:#Zbirka podatkov "%s" je bila urejena.
-dcl#:#dcl_change_why_you_receive_this_email#:#To sporočilo ste prejeli, ker ste aktivirali obveščanje za zgoraj navedeno zbirko podatkov.
 dcl#:#dcl_changed_by#:#Zadnjič spremenil
 dcl#:#dcl_checked#:#Izbrano
 dcl#:#dcl_comments#:#Komentarji
@@ -8620,7 +8620,6 @@ dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#Podobno kot pri računskih tabelah lahko s pomočjo formule združite ali izračunate več vnosov.
 dcl#:#dcl_formula_detail_desc#:#Vnosi v tem polju se generirajo samodejno. Tukaj ne morete izvesti vnosa.
 dcl#:#dcl_height#:#Višina
-dcl#:#dcl_hello#:#Pozdravljeni
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Notranja ID.
 dcl#:#dcl_ilias_reference#:#Objekt v magazinu
@@ -8678,7 +8677,6 @@ dcl#:#dcl_new#:#Ustvari novo zbirko podatkov
 dcl#:#dcl_new_field#:#Novo polje
 dcl#:#dcl_new_table#:#Nova tabela
 dcl#:#dcl_next_record#:#Naslednji vnos
-dcl#:#dcl_no_content_warning#:#Pozor, zbirka podatkov je že na spletu, nima pa še vsebine!
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Ni razpoložljivih podatkov ali polj za izvoz.
@@ -8699,6 +8697,8 @@ dcl#:#dcl_noturl_exception#:#Vnesite povezavo (začenši s http:// ali www.) ali
 dcl#:#dcl_number#:#Cela števila
 dcl#:#dcl_number_desc#:#Vnosno polje za cela števila (maksimalno 9 števk). Ulomki in decimalna števila niso dovoljeni.
 dcl#:#dcl_online_info#:#Samo če je zbirka podatkov na spletu, jo uporabniki lahko vidijo in uporabljajo.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Razvrstitev
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Samo lastni vnosi
@@ -8753,8 +8753,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Tukaj lahko vnesete končnice datotek, loč
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabela
-dcl#:#dcl_table_create#:#Ustvari tabelo
-dcl#:#dcl_table_edit#:#Shrani
 dcl#:#dcl_table_id#:#ID tabele
 dcl#:#dcl_table_info#:#V nadaljevanju določite, kaj lahko v tej tabeli delajo uporabniki, ki imajo v zbirki podatkov pravico "Vnašanje".
 dcl#:#dcl_table_info_title#:#Informacije

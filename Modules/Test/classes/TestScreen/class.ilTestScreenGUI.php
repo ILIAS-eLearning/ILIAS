@@ -238,17 +238,17 @@ class ilTestScreenGUI
             ;
         }
 
+        if (!$this->hasAvailablePasses()) {
+            return $launcher_factory
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
+        }
+
         if ($this->blockUserAfterHavingPassed()) {
             return $launcher_factory
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
                 ->withButtonLabel($this->lng->txt('tst_already_passed_cannot_retake'), false)
             ;
-        }
-
-        if (!$this->hasAvailablePasses()) {
-            return $launcher_factory
-                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
         }
 
         $next_pass_allowed_timestamp = 0;

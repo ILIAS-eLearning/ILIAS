@@ -120,7 +120,8 @@ class ilLMContentRendererGUI
         }
 
         // preconditions
-        if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->current_page)) {
+        if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->current_page) && !
+            $this->access->checkAccess("write", "", $this->lm->getRefId())) {
             $status = self::STATUS_FAILED_PRECONDITIONS;
         }
 

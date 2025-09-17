@@ -268,7 +268,7 @@ var filter = function($) {
     $el.parents(".il-popover-container").hide();
 
     var input_element = searchInputElement($el);
-    if (input_element.length === 1) {
+    if (input_element.length === 1 && input_element[0].type !== "checkbox") {
       //Clear Input Field (Text, Numeric, Select) when it is removed
       input_element.val("");
     } else {
