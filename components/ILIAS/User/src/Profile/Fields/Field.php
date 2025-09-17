@@ -458,66 +458,64 @@ class Field implements Property
     ): Section {
         return $ff->section(
             [
-                'field' => $ff->group([
-                    'access' => $ff->section(
-                        [
-                            'visible_in_registration' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::VisibleInRegistration->value)
-                            )->withDisabled($this->definition->visibleInRegistrationForcedTo() !== null)
-                                ->withValue($this->isVisibleInRegistration()),
-                            'visible_in_personal_data' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::VisibleToUser->value)
-                            )->withDisabled($this->definition->visibleToUserForcedTo() !== null)
-                                ->withValue($this->isVisibleToUser()),
-                            'visible_in_local_user_administration' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::VisibleInLocalUserAdministration->value)
-                            )->withDisabled($this->definition->visibleInLocalUserAdministrationForcedTo() !== null)
-                                ->withValue($this->isVisibleInLocalUserAdministration()),
-                            'visible_in_courses' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::VisibleInCourses->value)
-                            )->withDisabled($this->definition->visibleInCoursesForcedTo() !== null)
-                                ->withValue($this->isVisibleInCourses()),
-                            'visible_in_groups' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::VisibleInGroups->value)
-                            )->withDisabled($this->definition->visibleInGroupsForcedTo() !== null)
-                                ->withValue($this->isVisibleInGroups()),
-                            'visible_in_study_programmes' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::VisibleInStudyProgrammes->value)
-                            )->withDisabled($this->definition->visibleInStudyProgrammesForcedTo() !== null)
-                                ->withValue($this->isVisibleInStudyProgrammes()),
-                            'changeable_by_user' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::ChangeableByUser->value)
-                            )->withDisabled($this->definition->changeableByUserForcedTo() !== null)
-                                ->withValue($this->isChangeableByUser()),
-                            'changeable_in_local_user_administration' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::ChangeableInLocalUserAdministration->value)
-                            )->withDisabled($this->definition->changeableInLocalUserAdministrationForcedTo() !== null)
-                                ->withValue($this->isChangeableInLocalUserAdministration())
-                        ],
-                        $lng->txt('access')
-                    ),
-                    'settings' => $ff->section(
-                        [
-                            'required' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::Required->value)
-                            )->withDisabled($this->definition->requiredForcedTo() !== null)
-                                ->withValue($this->isRequired()),
-                            'export' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::Export->value)
-                            )->withDisabled($this->definition->exportForcedTo() !== null)
-                                ->withValue($this->export()),
-                            'searchable' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::Searchable->value)
-                            )->withDisabled($this->definition->searchableForcedTo() !== null)
-                                ->withValue($this->isSearchable()),
-                            'available_in_certificates' => $ff->checkbox(
-                                $lng->txt(PropertyAttributes::AvailableInCertificates->value)
-                            )->withDisabled($this->definition->availableInCertificatesForcedTo() !== null)
-                                ->withValue($this->isAvailableInCertificates())
-                        ],
-                        $lng->txt('settings')
-                    )
-                ])
+                'access' => $ff->section(
+                    [
+                        'visible_in_registration' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::VisibleInRegistration->value)
+                        )->withDisabled($this->definition->visibleInRegistrationForcedTo() !== null)
+                            ->withValue($this->isVisibleInRegistration()),
+                        'visible_in_personal_data' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::VisibleToUser->value)
+                        )->withDisabled($this->definition->visibleToUserForcedTo() !== null)
+                            ->withValue($this->isVisibleToUser()),
+                        'visible_in_local_user_administration' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::VisibleInLocalUserAdministration->value)
+                        )->withDisabled($this->definition->visibleInLocalUserAdministrationForcedTo() !== null)
+                            ->withValue($this->isVisibleInLocalUserAdministration()),
+                        'visible_in_courses' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::VisibleInCourses->value)
+                        )->withDisabled($this->definition->visibleInCoursesForcedTo() !== null)
+                            ->withValue($this->isVisibleInCourses()),
+                        'visible_in_groups' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::VisibleInGroups->value)
+                        )->withDisabled($this->definition->visibleInGroupsForcedTo() !== null)
+                            ->withValue($this->isVisibleInGroups()),
+                        'visible_in_study_programmes' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::VisibleInStudyProgrammes->value)
+                        )->withDisabled($this->definition->visibleInStudyProgrammesForcedTo() !== null)
+                            ->withValue($this->isVisibleInStudyProgrammes()),
+                        'changeable_by_user' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::ChangeableByUser->value)
+                        )->withDisabled($this->definition->changeableByUserForcedTo() !== null)
+                            ->withValue($this->isChangeableByUser()),
+                        'changeable_in_local_user_administration' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::ChangeableInLocalUserAdministration->value)
+                        )->withDisabled($this->definition->changeableInLocalUserAdministrationForcedTo() !== null)
+                            ->withValue($this->isChangeableInLocalUserAdministration())
+                    ],
+                    $lng->txt('access')
+                ),
+                'settings' => $ff->section(
+                    [
+                        'required' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::Required->value)
+                        )->withDisabled($this->definition->requiredForcedTo() !== null)
+                            ->withValue($this->isRequired()),
+                        'export' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::Export->value)
+                        )->withDisabled($this->definition->exportForcedTo() !== null)
+                            ->withValue($this->export()),
+                        'searchable' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::Searchable->value)
+                        )->withDisabled($this->definition->searchableForcedTo() !== null)
+                            ->withValue($this->isSearchable()),
+                        'available_in_certificates' => $ff->checkbox(
+                            $lng->txt(PropertyAttributes::AvailableInCertificates->value)
+                        )->withDisabled($this->definition->availableInCertificatesForcedTo() !== null)
+                            ->withValue($this->isAvailableInCertificates())
+                    ],
+                    $lng->txt('settings')
+                )
             ],
             $lng->txt('configuration')
         )->withAdditionalTransformation(
@@ -546,60 +544,58 @@ class Field implements Property
         Refinery $refinery
     ): Group {
         return $ff->group([
-            'field' => $ff->group([
-                'access' => $ff->group(
-                    [
-                        'visible_in_registration' => $ff->hidden()
-                            ->withDisabled($this->definition->requiredForcedTo() === true)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isVisibleInRegistration() ? '1' : '0'),
-                        'visible_in_personal_data' => $ff->hidden()
-                            ->withDisabled($this->definition->visibleToUserForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isVisibleToUser() ? '1' : '0'),
-                        'visible_in_local_user_administration' => $ff->hidden()
-                            ->withDisabled($this->definition->visibleInLocalUserAdministrationForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isVisibleInLocalUserAdministration() ? '1' : '0'),
-                        'visible_in_courses' => $ff->hidden()
-                            ->withDisabled($this->definition->visibleInCoursesForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isVisibleInCourses() ? '1' : '0'),
-                        'visible_in_groups' => $ff->hidden()
-                            ->withDisabled($this->definition->visibleInGroupsForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isVisibleInGroups() ? '1' : '0'),
-                        'visible_in_study_programmes' => $ff->hidden()
-                            ->withDisabled($this->definition->visibleInStudyProgrammesForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isVisibleInStudyProgrammes() ? '1' : '0'),
-                        'changeable_by_user' => $ff->hidden()
-                            ->withDisabled($this->definition->changeableByUserForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isChangeableByUser() ? '1' : '0'),
-                        'changeable_in_local_user_administration' => $ff->hidden()
-                            ->withDisabled($this->definition->changeableInLocalUserAdministrationForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isChangeableInLocalUserAdministration() ? '1' : '0')
-                    ]
-                ),
-                'settings' => $ff->group(
-                    [
-                        'required' => $ff->hidden()
-                            ->withDisabled($this->definition->requiredForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isRequired() ? '1' : '0'),
-                        'export' => $ff->hidden()
-                            ->withDisabled($this->definition->exportForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->export() ? '1' : '0'),
-                        'searchable' => $ff->hidden()
-                            ->withDisabled($this->definition->searchableForcedTo() !== null)
-                            ->withAdditionalTransformation($refinery->kindlyTo()->bool())
-                            ->withValue($this->isSearchable() ? '1' : '0'),
-                    ]
-                )
-            ])
+            'access' => $ff->group(
+                [
+                    'visible_in_registration' => $ff->hidden()
+                        ->withDisabled($this->definition->requiredForcedTo() === true)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isVisibleInRegistration() ? '1' : '0'),
+                    'visible_in_personal_data' => $ff->hidden()
+                        ->withDisabled($this->definition->visibleToUserForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isVisibleToUser() ? '1' : '0'),
+                    'visible_in_local_user_administration' => $ff->hidden()
+                        ->withDisabled($this->definition->visibleInLocalUserAdministrationForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isVisibleInLocalUserAdministration() ? '1' : '0'),
+                    'visible_in_courses' => $ff->hidden()
+                        ->withDisabled($this->definition->visibleInCoursesForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isVisibleInCourses() ? '1' : '0'),
+                    'visible_in_groups' => $ff->hidden()
+                        ->withDisabled($this->definition->visibleInGroupsForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isVisibleInGroups() ? '1' : '0'),
+                    'visible_in_study_programmes' => $ff->hidden()
+                        ->withDisabled($this->definition->visibleInStudyProgrammesForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isVisibleInStudyProgrammes() ? '1' : '0'),
+                    'changeable_by_user' => $ff->hidden()
+                        ->withDisabled($this->definition->changeableByUserForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isChangeableByUser() ? '1' : '0'),
+                    'changeable_in_local_user_administration' => $ff->hidden()
+                        ->withDisabled($this->definition->changeableInLocalUserAdministrationForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isChangeableInLocalUserAdministration() ? '1' : '0')
+                ]
+            ),
+            'settings' => $ff->group(
+                [
+                    'required' => $ff->hidden()
+                        ->withDisabled($this->definition->requiredForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isRequired() ? '1' : '0'),
+                    'export' => $ff->hidden()
+                        ->withDisabled($this->definition->exportForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->export() ? '1' : '0'),
+                    'searchable' => $ff->hidden()
+                        ->withDisabled($this->definition->searchableForcedTo() !== null)
+                        ->withAdditionalTransformation($refinery->kindlyTo()->bool())
+                        ->withValue($this->isSearchable() ? '1' : '0'),
+                ]
+            )
         ]);
     }
 
@@ -643,7 +639,7 @@ class Field implements Property
         Refinery $refinery
     ): Constraint {
         return $refinery->custom()->constraint(
-            static fn(array $vs): bool => !$vs['field']['settings']['required'] || $vs['field']['access']['visible_in_registration'],
+            static fn(array $vs): bool => !$vs['settings']['required'] || $vs['access']['visible_in_registration'],
             $lng->txt('invalid_visible_required_options_selected')
         );
     }
@@ -658,8 +654,8 @@ class Field implements Property
         );
         return $refinery->custom()->transformation(
             function (array $vs) use ($cts, $custom_field_types): self {
-                $access = $vs['configuration']['field']['access'];
-                $settings = $vs['configuration']['field']['settings'];
+                $access = $vs['configuration']['access'];
+                $settings = $vs['configuration']['settings'];
                 $clone = clone $this;
                 $clone->visible_in_registration = $this->definition->requiredForcedTo() === true
                     ? true
