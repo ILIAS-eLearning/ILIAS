@@ -27,23 +27,19 @@ use DateTimeImmutable;
  */
 final class NewsCriteria implements \JsonSerializable
 {
-    private ?DateTimeImmutable $start_date = null;
-    private ?DateTimeImmutable $end_date = null;
-    private bool $only_public = false;
-    private array $context_obj_ids = [];
-    private array $context_obj_types = [];
-    private ?int $min_priority = null;
-    private ?int $max_priority = null;
-    private ?int $limit = null;
-    private ?int $offset = null;
-    private bool $prevent_aggregation = false;
-    private bool $no_auto_generated = false;
-    private array $excluded_news_ids = [];
-    private ?int $user_id = null;
-    private bool $include_read_status = false;
-    private ?string $search_term = null;
-    private array $content_types = [];
-    private ?int $root_ref_id = null;
+    public function __construct(
+        private ?DateTimeImmutable $start_date = null,
+        private ?DateTimeImmutable $end_date = null,
+        private ?int $period = null,
+        private bool $only_public = false,
+        private ?int $min_priority = null,
+        private ?int $max_priority = null,
+        private ?int $limit = null,
+        private bool $prevent_aggregation = false,
+        private bool $no_auto_generated = false,
+        private array $excluded_news_ids = []
+    ) {
+    }
 
     /*
         Getters and Setters
@@ -59,19 +55,14 @@ final class NewsCriteria implements \JsonSerializable
         return $this->end_date;
     }
 
+    public function getPeriod(): ?int
+    {
+        return $this->period;
+    }
+
     public function isOnlyPublic(): bool
     {
         return $this->only_public;
-    }
-
-    public function getContextObjIds(): array
-    {
-        return $this->context_obj_ids;
-    }
-
-    public function getContextObjTypes(): array
-    {
-        return $this->context_obj_types;
     }
 
     public function getMinPriority(): ?int
@@ -89,11 +80,6 @@ final class NewsCriteria implements \JsonSerializable
         return $this->limit;
     }
 
-    public function getOffset(): ?int
-    {
-        return $this->offset;
-    }
-
     public function isPreventAggregation(): bool
     {
         return $this->prevent_aggregation;
@@ -107,31 +93,6 @@ final class NewsCriteria implements \JsonSerializable
     public function getExcludedNewsIds(): array
     {
         return $this->excluded_news_ids;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function isIncludeReadStatus(): bool
-    {
-        return $this->include_read_status;
-    }
-
-    public function getSearchTerm(): ?string
-    {
-        return $this->search_term;
-    }
-
-    public function getContentTypes(): array
-    {
-        return $this->content_types;
-    }
-
-    public function getRootRefId(): ?int
-    {
-        return $this->root_ref_id;
     }
 
     public function withStartDate(?DateTimeImmutable $start_date): self
@@ -148,24 +109,17 @@ final class NewsCriteria implements \JsonSerializable
         return $new;
     }
 
+    public function withPeriod(?int $period): self
+    {
+        $new = clone $this;
+        $new->period = $period;
+        return $new;
+    }
+
     public function withOnlyPublic(bool $only_public): self
     {
         $new = clone $this;
         $new->only_public = $only_public;
-        return $new;
-    }
-
-    public function withContextObjIds(array $context_obj_ids): self
-    {
-        $new = clone $this;
-        $new->context_obj_ids = array_map('intval', $context_obj_ids);
-        return $new;
-    }
-
-    public function withContextObjTypes(array $context_obj_types): self
-    {
-        $new = clone $this;
-        $new->context_obj_types = array_map('strval', $context_obj_types);
         return $new;
     }
 
@@ -190,13 +144,6 @@ final class NewsCriteria implements \JsonSerializable
         return $new;
     }
 
-    public function withOffset(?int $offset): self
-    {
-        $new = clone $this;
-        $new->offset = $offset;
-        return $new;
-    }
-
     public function withPreventAggregation(bool $prevent_aggregation): self
     {
         $new = clone $this;
@@ -218,85 +165,28 @@ final class NewsCriteria implements \JsonSerializable
         return $new;
     }
 
-    public function withUserId(?int $user_id): self
-    {
-        $new = clone $this;
-        $new->user_id = $user_id;
-        return $new;
-    }
-
-    public function withIncludeReadStatus(bool $include_read_status): self
-    {
-        $new = clone $this;
-        $new->include_read_status = $include_read_status;
-        return $new;
-    }
-
-    public function withSearchTerm(?string $search_term): self
-    {
-        $new = clone $this;
-        $new->search_term = $search_term;
-        return $new;
-    }
-
-    public function withContentTypes(array $content_types): self
-    {
-        $new = clone $this;
-        $new->content_types = array_map('strval', $content_types);
-        return $new;
-    }
-
-    public function withRootRefId(?int $root_ref_id): self
-    {
-        $new = clone $this;
-        $new->root_ref_id = $root_ref_id;
-        return $new;
-    }
-
     /*
         Public Methods
      */
 
     public function jsonSerialize(): array
     {
-        return array_merge(
-            $this->getPublicCriteria(),
-            $this->getUserSpecificCriteria()
-        );
+        return $this->toArray();
     }
 
-    /**
-     * Get public criteria (for cache key generation)
-     */
-    public function getPublicCriteria(): array
+    public function toArray(): array
     {
         return [
             'start_date' => $this->start_date?->format('Y-m-d H:i:s'),
             'end_date' => $this->end_date?->format('Y-m-d H:i:s'),
+            'period' => $this->period,
             'only_public' => $this->only_public,
-            'context_obj_ids' => $this->context_obj_ids,
-            'context_obj_types' => $this->context_obj_types,
             'min_priority' => $this->min_priority,
             'max_priority' => $this->max_priority,
             'limit' => $this->limit,
-            'offset' => $this->offset,
             'prevent_aggregation' => $this->prevent_aggregation,
             'no_auto_generated' => $this->no_auto_generated,
-            'excluded_news_ids' => $this->excluded_news_ids,
-            'search_term' => $this->search_term,
-            'content_types' => $this->content_types,
-            'root_ref_id' => $this->root_ref_id
-        ];
-    }
-
-    /**
-     * Get user-specific criteria (excludes public criteria)
-     */
-    public function getUserSpecificCriteria(): array
-    {
-        return [
-            'user_id' => $this->user_id,
-            'include_read_status' => $this->include_read_status
+            'excluded_news_ids' => $this->excluded_news_ids
         ];
     }
 
@@ -309,27 +199,11 @@ final class NewsCriteria implements \JsonSerializable
     }
 
     /**
-     * Check if criteria has context filters
-     */
-    public function hasContextFilters(): bool
-    {
-        return !empty($this->context_obj_ids) || !empty($this->context_obj_types);
-    }
-
-    /**
      * Check if criteria has priority filters
      */
     public function hasPriorityFilters(): bool
     {
         return $this->min_priority !== null || $this->max_priority !== null;
-    }
-
-    /**
-     * Check if criteria has pagination
-     */
-    public function hasPagination(): bool
-    {
-        return $this->limit !== null || $this->offset !== null;
     }
 
     /**
@@ -347,10 +221,6 @@ final class NewsCriteria implements \JsonSerializable
 
         if ($this->limit !== null && $this->limit < 0) {
             throw new \InvalidArgumentException('Limit cannot be negative');
-        }
-
-        if ($this->offset !== null && $this->offset < 0) {
-            throw new \InvalidArgumentException('Offset cannot be negative');
         }
     }
 }

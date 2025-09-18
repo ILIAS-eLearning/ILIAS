@@ -29,7 +29,7 @@ use ILIAS\News\Data\NewsCriteria;
  *
  * - Level 1: Context Cache - Context-specific data
  * - Level 2: User Cache - User-specific data
- * - Level 3: Hot Cache - Resolved and filtered user-specific data
+ * - Level 3: Hot Cache - Aggregated and filtered user-specific data
  */
 class NewsCache
 {
@@ -46,37 +46,44 @@ class NewsCache
     }
 
     /**
-     * Level-1 Cache stores a collection of the news items for the provided context (ref_id). It returns a list of the
-     * NewsItem-IDs or null on cache miss.
+     * Level-1 Cache stores a collection of the aggregated contexts for the provided base context.
+     * It returns a list of the NewsContexts (complete) or null on cache miss.
      *
-     * @return int[]|null
+     * @param NewsContext[] $contexts
+     * @return NewsContext[]|null
      */
-    public function getNewsForContext(NewsContext $context, NewsCriteria $criteria): ?array
+    public function getAggregatedContexts(array $contexts, NewsCriteria $criteria): ?array
     {
         //TODO: implement
         return null;
     }
 
-    public function storeNewsForContext(NewsContext $context, NewsCriteria $criteria, NewsCollection $news): void
-    {
-        //TODO: implement
-    }
-
-    public function invalidateNewsForContext(NewsContext $context, NewsCriteria $criteria): void
+    /**
+     * @param NewsContext[] $contexts
+     */
+    public function storeAggregatedContexts(array $contexts, NewsCriteria $criteria, NewsCollection $news): void
     {
         //TODO: implement
     }
 
     /**
-     * Level-2 Cache stores a collection of the news contexts for a specific user. It returns a list of the
+     * @param NewsContext[] $contexts
+     */
+    public function invalidateAggregatedContexts(array $contexts, NewsCriteria $criteria): void
+    {
+        //TODO: implement
+    }
+
+    /**
+     * Level-2 Cache stores a collection of the base news contexts for a specific user. It returns a list of the
      * NewsContexts (ref_id only) or null on cache miss.
      *
-     * @return NewsContext|null
+     * @return NewsContext[]|null
      */
     public function getUserContextAccess(int $user_id, NewsCriteria $criteria): ?array
     {
         //TODO: implement
-        return [];
+        return null;
     }
 
     public function storeUserContextAccess(int $user_id, NewsCriteria $criteria, array $contexts): void
@@ -92,8 +99,6 @@ class NewsCache
     /**
      * Level-3 Cache stores a collection of the news items for a specific user. It returns a NewsCollection or null on
      * cache miss.
-     *
-     * @return NewsContext|null
      */
     public function getNewsForUser(int $user_id, NewsCriteria $criteria): ?NewsCollection
     {

@@ -65,21 +65,18 @@ class UserContextResolver
     {
         $contexts = [];
 
-        // 1. Get user's personal desktop items and memberships
+        // Get user's personal desktop items
         if ($this->shouldIncludePersonalDesktop($user)) {
             $contexts = array_merge(
                 $contexts,
-                $this->getPersonalDesktopContexts($user),
-                $this->getMembershipContexts($user)
+                $this->getPersonalDesktopContexts($user)
             );
         }
 
-        // 2. Get contexts from root reference (if specified)
-        if ($criteria->getRootRefId()) {
-            $contexts = array_merge($contexts, $this->getChildContexts($criteria->getRootRefId()));
-        }
+        // Get user's memberships
+        $contexts = array_merge($contexts, $this->getMembershipContexts($user));
 
-        // 3. Remove duplicates and filter by access
+        // Remove duplicates and filter by access
         return $this->filterContexts($user, $contexts, $criteria);
     }
 
@@ -96,7 +93,7 @@ class UserContextResolver
         $contexts = [];
 
         foreach ($this->favourites_repository->getFavouritesOfUser($user->getId()) as $item) {
-            $contexts[] = new NewsContext($item['ref_id'], $item['obj_id']);
+            $contexts[] = new NewsContext($item['ref_id'], $item['obj_id'], $item['type']);
         }
         return $contexts;
     }
@@ -115,19 +112,6 @@ class UserContextResolver
                 array_map(fn($ref_id) => new NewsContext($ref_id, $obj_id), \ilObject::_getAllReferences($obj_id)),
             );
         }
-        return $contexts;
-    }
-
-    private function getChildContexts(int $ref_id): array
-    {
-        $contexts = [];
-
-        if ($node = $this->tree->getNodeData($ref_id)) {
-            foreach ($this->tree->getSubTree($node) as $node) {
-                $contexts[] = new NewsContext($node['child'], $node['obj_id'], $node['type'], $ref_id);
-            }
-        }
-
         return $contexts;
     }
 

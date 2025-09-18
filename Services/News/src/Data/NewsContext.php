@@ -29,10 +29,10 @@ final class NewsContext
 {
     public function __construct(
         private readonly int $ref_id,
-        private readonly ?int $obj_id = null,
-        private readonly ?string $obj_type = null,
-        private readonly ?int $parent_ref_id = null,
-        private readonly int $level = 0,
+        private ?int $obj_id = null,
+        private ?string $obj_type = null,
+        private ?int $parent_ref_id = null,
+        private int $level = 0,
     ) {
     }
 
@@ -58,6 +58,30 @@ final class NewsContext
     public function getParentRefId(): ?int
     {
         return $this->parent_ref_id;
+    }
+
+    public function setObjId(int $obj_id): self
+    {
+        $this->obj_id = $obj_id;
+        return $this;
+    }
+
+    public function setObjType(string $obj_type): self
+    {
+        $this->obj_type = $obj_type;
+        return $this;
+    }
+
+    public function setParentRefId(?int $parent_ref_id): self
+    {
+        $this->parent_ref_id = $parent_ref_id;
+        return $this;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+        return $this;
     }
 
     /**
