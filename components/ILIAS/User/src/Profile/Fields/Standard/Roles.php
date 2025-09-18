@@ -62,7 +62,7 @@ class Roles implements FieldDefinition
 
     public function visibleInStudyProgrammesForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function exportForcedTo(): ?bool
