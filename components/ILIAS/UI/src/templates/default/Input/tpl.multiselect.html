@@ -1,7 +1,7 @@
-<ul class="c-field-multiselect">
-	<!-- BEGIN option -->
-	<li><label><input type="checkbox" name="{NAME}[]" value="{VALUE}" {CHECKED} {DISABLED}/><span class="c-field-multiselect__label-text">{LABEL}</span></label></li>
-	<!-- END option -->
+<ul class="c-field-multiselect" id="{ID}" name="{NAME}" aria-labelledby="{LABEL_ID}" <!-- BEGIN describedby --> aria-describedby="{DESCRIBED_BY}"<!-- END describedby --><!-- BEGIN disabled --> disabled="disabled"<!-- END disabled --> role="group">
+	<!-- BEGIN option_block -->
+	<li><input type="checkbox" id="{OPTION_ID}" name="{OPTION_NAME}[]" value="{OPTION_VALUE}" <!-- BEGIN option_disabled --> disabled="disabled"<!-- END option_disabled --><!-- BEGIN option_checked --> checked="checked"<!-- END option_checked -->/><label for={OPTION_ID}>{OPTION_LABEL}</label></li>
+	<!-- END option_block -->
 	<!-- BEGIN no_options -->
 	<li>-</li>
 	<!-- END no_options -->

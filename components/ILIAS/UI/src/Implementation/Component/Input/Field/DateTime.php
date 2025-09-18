@@ -211,26 +211,6 @@ class DateTime extends FormInput implements C\Input\Field\DateTime
 
     }
 
-    /**
-     * Get config to be passed to the bootstrap picker.
-     * @return array <string => mixed>
-     */
-    public function getAdditionalPickerconfig(): array
-    {
-        return $this->additional_picker_config;
-    }
-
-    /**
-     * The bootstrap picker can be configured, e.g. with a minimum date.
-     * @param array <string => mixed> $config
-     */
-    public function withAdditionalPickerconfig(array $config): self
-    {
-        $clone = clone $this;
-        $clone->additional_picker_config = array_merge($clone->additional_picker_config, $config);
-        return $clone;
-    }
-
     public function getUpdateOnLoadCode(): Closure
     {
         return fn($id) => "$('#$id').on('input', function(event) {

@@ -1,12 +1,12 @@
-<div class="c-field-radio">
+<div class="c-field-radio" id="{ID}" name="{NAME}" aria-labelledby="{LABEL_ID}" <!-- BEGIN describedby --> aria-describedby="{DESCRIBED_BY}"<!-- END describedby --><!-- BEGIN disabled --> disabled="disabled"<!-- END disabled --> role="radiogroup">
 <!-- BEGIN optionblock -->
 	<div class="c-field-radio__item">
-		<input type="radio" id="{OPTIONID}"<!-- BEGIN name --> name="{NAME}"<!-- END name --> value="{VALUE}" {CHECKED} {DISABLED}/>
-		<label for="{OPTIONID}">{LABEL}</label>
+		 <input type="radio" id="{OPTION_ID}"<!-- BEGIN option_name --> name="{OPTION_NAME}"<!-- END option_name --><!-- BEGIN option_byline1 --> aria-describedby="{OPTION_BYLINE_ID}"<!-- END option_byline1 --> value="{OPTION_VALUE}"<!-- BEGIN option_disabled --> disabled="disabled"<!-- END option_disabled --><!-- BEGIN option_checked --> checked="checked"<!-- END option_checked -->/>
+		<label for="{OPTION_ID}">{OPTION_LABEL}</label>
 
-		<!-- BEGIN byline -->
-		<div class="c-input__help-byline">{BYLINE}</div>
-		<!-- END byline -->
+		<!-- BEGIN option_byline2 -->
+		<div class="c-input__help-byline" id={OPTION_BYLINE_ID} >{OPTION_BYLINE}</div>
+		<!-- END option_byline2 -->
 	</div>
 
 <!-- END optionblock -->

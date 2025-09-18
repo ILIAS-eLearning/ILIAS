@@ -47,7 +47,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
     public const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
     public const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
     public const EVENT_ITEM_REMOVED = 'itemRemoved';
-    public const INFINITE = 0;
+    public const INFINITE = -1;
 
     protected int $max_tags = self::INFINITE;
     protected int $tag_max_length = self::INFINITE;
@@ -78,39 +78,6 @@ class Tag extends FormInput implements C\Input\Field\Tag
             $array = array_map("urldecode", $v);
             return array_map('strip_tags', $array);
         }));
-    }
-
-    public function getConfiguration(): stdClass
-    {
-        $options = array_map(
-            fn($tag) => [
-                'value' => urlencode(trim($tag)),
-                'display' => $tag,
-                'searchBy' => $tag
-            ],
-            $this->getTags()
-        );
-
-        $configuration = new stdClass();
-        $configuration->id = null;
-        $configuration->options = $options;
-        $configuration->selectedOptions = $this->getValue();
-        $configuration->maxItems = 20;
-        $configuration->dropdownMaxItems = 200;
-        $configuration->dropdownCloseOnSelect = false;
-        $configuration->readonly = $this->isDisabled();
-        $configuration->userInput = $this->areUserCreatedTagsAllowed();
-        $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
-        $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
-        $configuration->maxChars = 2000;
-        $configuration->suggestionLimit = 50;
-        $configuration->debug = false;
-        $configuration->allowDuplicates = false;
-        $configuration->highlight = true;
-        $configuration->tagClass = "input-tag";
-        $configuration->tagTextProp = "displayValue";
-
-        return $configuration;
     }
 
     /**
