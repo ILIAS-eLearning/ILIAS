@@ -57,7 +57,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
-        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
+        $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()->getInputs()));
 
         return $tpl->get();
     }

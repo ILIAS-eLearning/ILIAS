@@ -1,0 +1,17 @@
+<div class="c-field-switchablegroup" id="{ID}" aria-labelledby="{LABEL_ID}"<!-- BEGIN describedby --> aria-describedby="{DESCRIBED_BY}"<!-- END describedby --> role="group"> 
+<!-- BEGIN optionblock -->
+	<div class="c-field-switchablegroup-subfields">
+		 <input type="radio" class="c-field-switchablegroup-control" id="{OPTION_ID}"<!-- BEGIN option_name --> name="{OPTION_NAME}"<!-- END option_name --> value="{OPTION_VALUE}"<!-- BEGIN option_disabled --> disabled="disabled"<!-- END option_disabled --><!-- BEGIN option_checked --> checked="checked"<!-- END option_checked -->/>
+		<label for="{OPTION_ID}">{OPTION_LABEL}</label>
+
+        <!-- BEGIN hidden_value -->
+        <input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VAL}" />
+        <!-- END hidden_value -->
+
+        {INPUTS}
+
+        </div>
+	</div>
+
+<!-- END optionblock -->
+</div>

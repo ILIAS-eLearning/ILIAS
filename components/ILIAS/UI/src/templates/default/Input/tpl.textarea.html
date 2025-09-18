@@ -1,11 +1,4 @@
-<textarea
-    id="{ID}"
-    class="c-field-textarea"
-    <!-- BEGIN name --> name="{NAME}"<!-- END name -->
-    <!-- BEGIN disabled -->{DISABLED}<!-- END disabled -->
-    <!-- BEGIN with_min_limit -->minlength="{MIN_LIMIT}"<!-- END with_min_limit -->
-    <!-- BEGIN with_max_limit -->maxlength="{MAX_LIMIT}"<!-- END with_max_limit -->
-><!-- BEGIN value -->{VALUE}<!-- END value --></textarea>
+<textarea class="c-field-textarea" id="{ID}" name="{NAME}" aria-labelledby="{LABEL_ID}"<!-- BEGIN describedby --> aria-describedby="{DESCRIBED_BY}"<!-- END describedby --><!-- BEGIN disabled --> disabled="disabled"<!-- END disabled --><!-- BEGIN with_min_limit --> minlength="{MIN_LIMIT}"<!-- END with_min_limit --><!-- BEGIN with_max_limit --> maxlength="{MAX_LIMIT}"<!-- END with_max_limit -->><!-- BEGIN value --> value="{VALUE}"<!-- END value --></textarea>
 <!-- BEGIN remainder -->
 <div class="ui-input-textarea-remainder" aria-live="polite">
     {REMAINDER_TEXT} <span data-action="remainder">{REMAINDER}</span>

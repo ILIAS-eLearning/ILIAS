@@ -28,10 +28,7 @@ function base()
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
 
-    $txt = "This allows for a preceding text and longer questions to ask.";
-
     $rating = $ui->input()->field()->rating("Rate with the Stars:", "change the rating")
-        ->withAdditionalText($txt)
         ->withValue(FiveStarRatingScale::AVERAGE);
     $rating_required = $ui->input()->field()->rating("Rate with the Stars:", 'this is required')
         ->withRequired(true);
