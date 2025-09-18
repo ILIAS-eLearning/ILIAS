@@ -381,14 +381,13 @@
 }
 
 .dropdown-menu {
-  width: 320px;
   position: absolute;
   top: 100%;
   z-index: 1000;
   display: none;
   float: left;
   overflow: auto;
-  min-width: 160px;
+  min-width: 200px;
   max-height: 50vh;
   padding: 6px 0;
   margin: 3px 0 0;
