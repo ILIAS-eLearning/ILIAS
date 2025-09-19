@@ -805,7 +805,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             'enableHideUserToggleNoti' => $this->enableHideUserToggleNoti(),
             'disableHideUserToggleNoti' => $this->disableHideUserToggleNoti(),
             'notificationSettings' => $this->notificationSettings(),
-            default => $this->ctrl->redirect($this, 'showMembers'),
+            default => $this->showMembersCommand()
         };
     }
 }
