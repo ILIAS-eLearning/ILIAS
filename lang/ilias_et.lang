@@ -5835,7 +5835,7 @@ common#:#udf_type_date#:#Kuupäev
 common#:#udf_type_datetime#:#Kuupäev ja kellaaeg
 common#:#udf_type_select#:#Valikukast (ripploend)
 common#:#udf_type_text#:#Tekstiväli (üherealine)
-common#:#udf_type_wysiwyg#:#Tekstiala (WYSIWYG)
+common#:#udf_type_textarea#:#Tekstiala (WYSIWYG)
 common#:#udf_update_select_field#:#Muuda valikukasti
 common#:#udf_update_text_field#:#Muuda tekstivälja
 common#:#udf_update_wysiwyg_field#:#Tekstiala (WYSIWYG) väli
@@ -11601,7 +11601,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###25 10 2016
 mail#:#mail_settings_external_frm_head#:#External Emails###31 08 2017 new variable
 mail#:#mail_settings_external_tab#:#External###31 08 2017 new variable
 mail#:#mail_settings_general_tab#:#General###31 08 2017 new variable
-mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
 mail#:#mail_settings_system_frm_head#:#System Emails###31 08 2017 new variable
 mail#:#mail_settings_user_frm_head#:#User Emails###31 08 2017 new variable
 mail#:#mail_smtp_encryption#:#Encryption###31 08 2017 new variable
@@ -12999,6 +12998,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Edit Questions
+obj#:#multiple_selection#:#Multiple Selection
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
 obj#:#obj_activate_multilang#:#Activate Multilinguality

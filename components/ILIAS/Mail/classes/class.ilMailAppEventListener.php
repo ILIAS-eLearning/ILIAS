@@ -19,14 +19,14 @@
 declare(strict_types=1);
 
 use ILIAS\DI\Container;
-use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
+use ILIAS\User\PropertyAttributes;
 
 class ilMailAppEventListener implements ilAppEventListener
 {
     private readonly Container $dic;
     protected string $component = '';
     protected string $event = '';
-    /** @var ChangedUserFieldAttribute[] */
+    /** @var array<string, \ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttributee> */
     protected array $parameters = [];
 
     public function __construct()
@@ -70,9 +70,9 @@ class ilMailAppEventListener implements ilAppEventListener
 
     public function handle(): void
     {
-        if (isset($this->parameters['visible_second_email'])
+        if (isset($this->parameters[PropertyAttributes::VisibleToUser->value])
             && $this->isRelevantEvent()
-            && !(bool) $this->parameters['visible_second_email']->getNewValue()) {
+            && !$this->parameters[PropertyAttributes::VisibleToUser->value]->getNewValue()) {
             switch ((int) ($this->dic->settings()->get('mail_address_option') ?? ilMailOptions::FIRST_EMAIL)) {
                 case ilMailOptions::SECOND_EMAIL:
                 case ilMailOptions::BOTH_EMAIL:

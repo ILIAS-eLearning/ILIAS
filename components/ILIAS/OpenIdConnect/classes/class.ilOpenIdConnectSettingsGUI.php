@@ -25,6 +25,7 @@ use ILIAS\HTTP\Services;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\User\Profile\Profile;
 
 class ilOpenIdConnectSettingsGUI
 {
@@ -57,8 +58,12 @@ class ilOpenIdConnectSettingsGUI
     private readonly ilGlobalTemplateInterface $mainTemplate;
     private readonly ilTabsGUI $tabs;
     private readonly FileUpload $upload;
+    private readonly Profile $profile;
     private ilToolbarGUI $toolbar;
-    private ?ilUserDefinedFields $udf = null;
+    /**
+     * @var array<string, ILIAS\User\Profile\Field>|null
+     */
+    private ?array $user_defined_fields = null;
     private ilGlobalTemplateInterface $tpl;
     private int $mapping_template = self::VIEW_TAB_EFFECTIVE_MAPPING;
     private ServerRequestInterface $request;
@@ -99,6 +104,7 @@ class ilOpenIdConnectSettingsGUI
         $this->refinery = $DIC->refinery();
         $this->factory = $DIC->ui()->factory();
         $this->request = $DIC->http()->request();
+        $this->profile = $DIC['user']->getProfile();
         $this->attribute_mapping_template = new ilOpenIdAttributeMappingTemplate();
 
         if ($http_wrapper->query()->has(self::POST_VALUE) && $http_wrapper->query()->retrieve(
@@ -682,9 +688,9 @@ class ilOpenIdConnectSettingsGUI
                 $this->updateProfileMappingFieldValue($field);
             }
 
-            foreach ($this->udf->getDefinitions() as $definition) {
-                $field = self::UDF_STRING . $definition['field_id'];
-                $this->updateProfileMappingFieldValue($field);
+            foreach ($this->user_defined_fields as $field) {
+                $field = self::UDF_STRING . $field->getIdentifier();
+                $this->updateProfileMappingFieldValue($field->getIdentifier());
             }
         }
 
@@ -916,8 +922,8 @@ class ilOpenIdConnectSettingsGUI
             $ui_container = $this->buildUserMappingInputForUserData($lang, $mapping, $ui_container);
         }
 
-        foreach ($this->udf->getDefinitions() as $definition) {
-            $ui_container = $this->buildUserMappingInputFormUDF($definition, $ui_container);
+        foreach ($this->user_defined_fields as $field) {
+            $ui_container = $this->buildUserMappingInputFormUDF($field, $ui_container);
         }
 
         $this->ctrl->setParameter(
@@ -946,22 +952,22 @@ class ilOpenIdConnectSettingsGUI
      */
     private function buildUserMappingInputFormUDF($definition, array $ui_container): array
     {
-        $value = $this->settings->getProfileMappingFieldValue(self::UDF_STRING . $definition['field_id']);
-        $update = $this->settings->getProfileMappingFieldUpdate(self::UDF_STRING . $definition['field_id']);
+        $value = $this->settings->getProfileMappingFieldValue(self::UDF_STRING . $definition->getIdentifier());
+        $update = $this->settings->getProfileMappingFieldUpdate(self::UDF_STRING . $definition->getIdentifier());
 
         $text_input = $this->ui
             ->input()
             ->field()
-            ->text($definition['field_name'], '')
+            ->text($definition->getLabel(), '')
             ->withAdditionalTransformation($this->trimIfStringTrafo())
             ->withValue($value)
-            ->withDedicatedName(self::UDF_STRING . $definition['field_id'] . self::VALUE_STRING);
+            ->withDedicatedName(self::UDF_STRING . $definition->getIdentifier() . self::VALUE_STRING);
         $checkbox_input = $this->ui
             ->input()
             ->field()->checkbox('', $this->lng->txt('auth_oidc_update_field_info'))
             ->withValue($update)
             ->withDedicatedName(
-                self::UDF_STRING . $definition['field_id'] . self::UPDATE_STRING
+                self::UDF_STRING . $definition->getIdentifier() . self::UPDATE_STRING
             );
         $group = $this->ui->input()->field()->group(
             [$text_input, $checkbox_input]
@@ -1006,8 +1012,8 @@ class ilOpenIdConnectSettingsGUI
 
     private function initUserDefinedFields(): void
     {
-        if ($this->udf === null) {
-            $this->udf = ilUserDefinedFields::_getInstance();
+        if ($this->user_defined_fields === null) {
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
         }
     }
 

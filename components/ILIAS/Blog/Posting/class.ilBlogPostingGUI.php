@@ -30,7 +30,7 @@ use ILIAS\Blog\ReadingTime\ReadingTimeManager;
  * Class ilBlogPosting GUI class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI
- * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilCommentGUI
+ * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ILIAS\User\Profile\PublicProfileGUI, ilPageObjectGUI, ilCommentGUI
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {

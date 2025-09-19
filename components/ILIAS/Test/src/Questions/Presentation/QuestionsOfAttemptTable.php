@@ -62,7 +62,7 @@ class QuestionsOfAttemptTable implements DataRetrieval
                 'description' => $question['description'],
                 'points' => $question['points'],
                 'postponed' => (bool) $question['postponed'],
-                'answered' => (bool) $question['isAnswered'],
+                'answered' => (bool) $question['worked_through'],
                 'marked' => (bool) $question['marked'],
             ];
             yield $row_builder->buildDataRow((string) $question['order'], $record);

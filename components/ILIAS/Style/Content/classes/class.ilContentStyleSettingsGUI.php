@@ -31,6 +31,7 @@ use ILIAS\Repository\Form\FormAdapterGUI;
 class ilContentStyleSettingsGUI
 {
     protected InternalGUIService $gui;
+    protected \ILIAS\Style\Content\InternalDomainService $domain;
     protected ilContentStyleSettings $cs_settings;
     protected ilObjStyleSettingsGUI $parent_gui;
     protected int $obj_id;
@@ -68,6 +69,7 @@ class ilContentStyleSettingsGUI
 
         $this->cs_settings = new ilContentStyleSettings();
         $this->gui = $DIC->contentStyle()->internal()->gui();
+        $this->domain = $DIC->contentStyle()->internal()->domain();
     }
 
     public function executeCommand(): void
@@ -152,7 +154,7 @@ class ilContentStyleSettingsGUI
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
             $style["active"] = ilObjStyleSheet::_lookupActive((int) $style["id"]);
-            $style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs((int) $style["id"]);
+            $style["lm_nr"] = $this->domain->object(0)->countObjSelected((int) $style["id"]);
             $data[$style["title"] . ":" . $style["id"]]
                 = $style;
             if ($style["lm_nr"] > 0) {
@@ -167,9 +169,7 @@ class ilContentStyleSettingsGUI
         if ($fixed_style <= 0) {
             $data[-1] =
                 array("title" => $this->lng->txt("sty_individual_styles"),
-                      "id" => 0,
-                      "lm_nr" => ilObjContentObject::_getNrLMsIndividualStyles()
-                );
+                    "id" => 0, "lm_nr" => $this->domain->object(0)->countOverallOwned());
             $from_styles[-1] = $this->lng->txt("sty_individual_styles");
         }
 
@@ -177,9 +177,7 @@ class ilContentStyleSettingsGUI
         if ($default_style <= 0 && $fixed_style <= 0) {
             $data[0] =
                 array("title" => $this->lng->txt("sty_default_style"),
-                      "id" => 0,
-                      "lm_nr" => ilObjContentObject::_getNrLMsNoStyle()
-                );
+                    "id" => 0, "lm_nr" => $this->domain->object(0)->countObjSelected(0));
             $from_styles[0] = $this->lng->txt("sty_default_style");
             $to_styles[0] = $this->lng->txt("sty_default_style");
         }
@@ -202,7 +200,7 @@ class ilContentStyleSettingsGUI
 
             // from styles selector
             $si = new ilSelectInputGUI(
-                $this->lng->txt("sty_move_lm_styles") . ": " . $this->lng->txt("sty_from"),
+                $this->lng->txt("sty_move_obj_styles") . ": " . $this->lng->txt("sty_from"),
                 "from_style"
             );
             $si->setOptions($from_styles);

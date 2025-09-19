@@ -228,6 +228,12 @@ class SettingsMainGUI extends TestSettingsGUI
         $current_question_config = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
         $new_question_set_type = $data[self::GENERAL_SETTINGS_SECTION_LABEL]['question_set_type'];
 
+        if ($new_question_set_type === null) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_settings_form_reload_needed'));
+            $this->showForm();
+            return;
+        }
+
         $question_set_modal_required = $new_question_set_type !== $current_question_set_type
                 && $current_question_config->doesQuestionSetRelatedDataExist();
         $anonymity_modal_required = $this->anonymityChanged(
@@ -535,15 +541,14 @@ class SettingsMainGUI extends TestSettingsGUI
     private function getTimebasedAvailabilityInputs(): OptionalGroup
     {
         $field_factory = $this->ui_factory->input()->field();
-
-        $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
-        $value = $this->getValueForActivationLimitedOptionalGroup();
-
-        $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
+        $inputs['time_limit_start'] = $field_factory->dateTime($this->lng->txt('rep_activation_limited_start'))
             ->withTimezone($this->active_user->getTimeZone())
             ->withFormat($this->active_user->getDateTimeFormat())
-            ->withUseTime(true)
-            ->withRequired(true);
+            ->withUseTime(true);
+        $inputs['time_limit_end'] = $field_factory->dateTime($this->lng->txt('rep_activation_limited_end'))
+            ->withTimezone($this->active_user->getTimeZone())
+            ->withFormat($this->active_user->getDateTimeFormat())
+            ->withUseTime(true);
         $inputs['activation_visibility'] = $field_factory->checkbox(
             $this->lng->txt('rep_activation_limited_visibility'),
             $this->lng->txt('tst_activation_limited_visibility_info')
@@ -552,15 +557,19 @@ class SettingsMainGUI extends TestSettingsGUI
         return $field_factory->optionalGroup(
             $inputs,
             $this->lng->txt('rep_time_based_availability')
-        )->withAdditionalTransformation($trafo)
-            ->withValue($value);
+        )->withAdditionalTransformation(
+            $this->getTransformationForActivationLimitedOptionalGroup()
+        )->withValue(
+            $this->getValueForActivationLimitedOptionalGroup()
+        );
     }
 
     private function getTransformationForActivationLimitedOptionalGroup(): TransformationInterface
     {
         return $this->refinery->custom()->transformation(
             static function (?array $vs): array {
-                if ($vs === null) {
+                if ($vs === null
+                    || $vs['time_limit_start'] === null && $vs['time_limit_end'] === null) {
                     return [
                         'is_activation_limited' => false,
                         'activation_starting_time' => null,
@@ -569,13 +578,10 @@ class SettingsMainGUI extends TestSettingsGUI
                     ];
                 }
 
-                $start = $vs['time_span']['start']->getTimestamp();
-                $end = $vs['time_span']['end']->getTimestamp();
-
                 return [
                     'is_activation_limited' => true,
-                    'activation_starting_time' => $start,
-                    'activation_ending_time' => $end,
+                    'activation_starting_time' => $vs['time_limit_start']?->getTimestamp(),
+                    'activation_ending_time' => $vs['time_limit_end']?->getTimestamp(),
                     'activation_visibility' => $vs['activation_visibility']
                 ];
             }
@@ -587,16 +593,12 @@ class SettingsMainGUI extends TestSettingsGUI
         $value = null;
         if ($this->test_object->isActivationLimited()) {
             $value = [
-                'time_span' => [
-                    \DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
-                    \DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
-                ],
+                'time_limit_start' => $this->buildDateOrNullFromILIASValue(
+                    $this->test_object->getActivationStartingTime()
+                ),
+                'time_limit_end' => $this->buildDateOrNullFromILIASValue(
+                    $this->test_object->getActivationEndingTime()
+                ),
                 'activation_visibility' => $this->test_object->getActivationVisibility()
             ];
         }
@@ -605,19 +607,7 @@ class SettingsMainGUI extends TestSettingsGUI
 
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $time_based_availability = $section['timebased_availability'];
-
-        $participant_data_exists = $this->test_object->participantDataExist();
-        $this->test_object->storeActivationSettings(
-            $participant_data_exists
-                ? $this->test_object->isActivationLimited()
-                : $time_based_availability['is_activation_limited'],
-            $participant_data_exists
-                ? $this->test_object->getActivationStartingTime()
-                : $time_based_availability['activation_starting_time'],
-            $time_based_availability['activation_ending_time'],
-            $time_based_availability['activation_visibility']
-        );
+        $this->test_object->storeActivationSettings(...$section['timebased_availability']);
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
@@ -843,5 +833,17 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         return $additional_settings->withSkillsServiceEnabled($section['skills_service_activation']);
+    }
+
+    private function buildDateOrNullFromILIASValue(?int $value): ?\DateTimeImmutable
+    {
+        if ($value === null || $value === 0) {
+            return null;
+        }
+
+        return \DateTimeImmutable::createFromFormat(
+            'U',
+            (string) $value
+        )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone()));
     }
 }

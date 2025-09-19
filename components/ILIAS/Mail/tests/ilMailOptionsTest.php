@@ -54,7 +54,6 @@ class ilMailOptionsTest extends ilMailBaseTestCase
         $this->database->expects($this->once())->method('queryF')->willReturn($query_mock);
         $this->database->expects($this->once())->method('fetchObject')->willReturn($this->object);
         $this->database->method('replace')->willReturn(0);
-        $this->setGlobalVariable('ilDB', $this->database);
     }
 
     public function testConstructor(): void
@@ -72,11 +71,18 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
+        $user_settings = $this->getMockBuilder(ILIAS\User\Settings\Settings::class)->disableOriginalConstructor()
+            ->getMock();
+
         $mail_options = new ilMailOptions(
             1,
             null,
             $this->createMock(ClockInterface::class),
-            $settings
+            $settings,
+            $this->database,
+            $user_settings,
+            $this->database,
+            $user_settings
         );
 
         $this->assertSame('', $mail_options->getSignature());
@@ -96,18 +102,20 @@ class ilMailOptionsTest extends ilMailBaseTestCase
                 return '1';
             }
 
-            if ($key === 'usr_settings_disable_mail_incoming_mail') {
-                return '0';
-            }
-
             return $default;
         });
+
+        $user_settings = $this->getMockBuilder(ILIAS\User\Settings\Settings::class)->disableOriginalConstructor()
+            ->getMock();
+        $user_settings->method('settingAvailableToUser')->willReturn(true);
 
         $mail_options = new ilMailOptions(
             1,
             null,
             $this->createMock(ClockInterface::class),
-            $settings
+            $settings,
+            $this->database,
+            $user_settings
         );
 
         $this->assertSame($this->object->signature, $mail_options->getSignature());
@@ -150,11 +158,16 @@ class ilMailOptionsTest extends ilMailBaseTestCase
             return $default;
         });
 
+        $user_settings = $this->getMockBuilder(ILIAS\User\Settings\Settings::class)->disableOriginalConstructor()
+            ->getMock();
+
         $mail_options = new ilMailOptions(
             $usr_id,
             null,
             $cloc_service,
-            $settings
+            $settings,
+            $this->database,
+            $user_settings
         );
 
         $this->assertEquals($result, $mail_options->isAbsent());

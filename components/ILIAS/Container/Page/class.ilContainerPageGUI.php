@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilContainerPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilContainerPageGUI: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilContainerPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContainerPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  */
 class ilContainerPageGUI extends ilPageObjectGUI

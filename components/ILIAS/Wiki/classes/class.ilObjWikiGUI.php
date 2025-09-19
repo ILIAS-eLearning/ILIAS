@@ -22,13 +22,14 @@ use ILIAS\Wiki\WikiGUIRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Wiki\Settings\SettingsGUI;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
  * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ILIAS\User\Profile\PublicProfileGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
@@ -214,8 +215,8 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI(
+            case strtolower(PublicProfileGUI::class):
+                $profile_gui = new PublicProfileGUI(
                     $this->edit_request->getUserId()
                 );
                 $ret = $this->ctrl->forwardCommand($profile_gui);

@@ -833,7 +833,7 @@ class ilContainer extends ilObject
         // add default translation
         $this->addTranslation(
             $this->getTitle(),
-            $this->getDescription(),
+            $this->getLongDescription(),
             $lng->getDefaultLanguage(),
             '1'
         );

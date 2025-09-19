@@ -24,6 +24,7 @@ use ilLanguage;
 use ilTemplate;
 use PHPUnit\Framework\TestCase;
 use ilUserDefinedFieldsPlaceholderDescription;
+use ILIAS\User\Profile\Profile;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -54,7 +55,12 @@ class ilExercisePlaceholderDescriptionTest extends TestCase
         $templateMock->method('get')
             ->willReturn('');
 
-        $placeholderDescriptionObject = new ExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
+        $profileMock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+
+        $placeholderDescriptionObject = new ExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock, $profileMock);
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
@@ -82,7 +88,11 @@ class ilExercisePlaceholderDescriptionTest extends TestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
+        $profileMock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $placeholderDescriptionObject = new ExercisePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock, $profileMock);
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 

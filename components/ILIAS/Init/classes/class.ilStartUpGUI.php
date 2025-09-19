@@ -27,6 +27,7 @@ use ILIAS\DataProtection\Consumer as DataProtection;
 use ILIAS\components\Authentication\Logout\ConfigurableLogoutTarget;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
@@ -56,6 +57,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private ilAppEventHandler $eventHandler;
     private ilSetting $setting;
     private ilAccessHandler $access;
+    private ilDBInterface $db;
 
     private RefineryFactory $refinery;
     private HTTPServices $http;
@@ -83,6 +85,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->eventHandler = $DIC->event();
         $this->setting = $DIC->settings();
         $this->access = $DIC->access();
+        $this->db = $DIC->database();
         $this->help = $DIC->help();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -1521,7 +1524,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
             $accountMail = (new ilAccountRegistrationMail(
                 $oRegSettings,
-                $this->lng,
                 ilLoggerFactory::getLogger('user')
             ))->withEmailConfirmationRegistrationMode();
 

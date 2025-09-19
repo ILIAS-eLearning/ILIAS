@@ -58,7 +58,8 @@ class ItemSetManager
         ?\ilContainerUserFilter $user_filter = null,
         int $single_ref_id = 0,
         bool $admin_mode = false,
-        bool $force_session_order_by_date = true
+        bool $force_session_order_by_date = true,
+        protected bool $include_objective_items = false
     ) {
         $this->parent_ref_id = $parent_ref_id;
         $this->parent_obj_id = \ilObject::_lookupObjId($this->parent_ref_id);
@@ -99,6 +100,9 @@ class ItemSetManager
         } else {
             $this->raw[] = $tree->getNodeData($this->single_ref_id);
         }
+        if ($this->include_objective_items) {
+            $this->addObjectiveItems();
+        }
         $this->applyUserFilter();
         $this->getCompleteDescriptions();
         $this->applyClassificationFilter();
@@ -108,6 +112,29 @@ class ItemSetManager
         $this->sortSessions();
         $this->preloadAdvancedMDValues();
         $this->initialised = true;
+    }
+
+    protected function addObjectiveItems(): void
+    {
+        if (count($objective_ids = \ilCourseObjective::_getObjectiveIds(\ilObject::_lookupObjId($this->parent_ref_id), true)) > 0) {
+            foreach ($objective_ids as $objective_id) {
+                foreach (\ilObjectActivation::getItemsByObjective($objective_id) as $item) {
+                    $this->addToItems($item);
+                }
+            }
+        }
+    }
+
+    protected function addToItems(array $item): void
+    {
+        if (($ref_id = $item["ref_id"] ?? 0) > 0) {
+            foreach ($this->raw as $raw_item) {
+                if ($raw_item["ref_id"] == $ref_id) {
+                    return;
+                }
+            }
+            $this->raw[] = $item;
+        }
     }
 
     /**
@@ -180,6 +207,9 @@ class ItemSetManager
             }
 
             // BEGIN WebDAV: Don't display hidden Files, Folders and Categories
+            /* this is an old webdav hack, which leads to issues in item groups
+               these objects would be "invisible" but accessible (via url) which makes the behaviour very strange.
+               They are hidden here, but shown in explorer trees and other places...
             if (in_array($object['type'], array('file','fold','cat'))) {
                 if (\ilObjFileAccess::_isFileHidden($object['title'])) {
                     $this->setHiddenFilesFound(true);
@@ -187,7 +217,7 @@ class ItemSetManager
                         continue;
                     }
                 }
-            }
+            }*/
             // END WebDAV: Don't display hidden Files, Folders and Categories
 
             // group object type groups together (e.g. learning resources)
@@ -283,39 +313,37 @@ class ItemSetManager
         // using long descriptions?
         $short_desc = $ilSetting->get("rep_shorten_description");
         $short_desc_max_length = (int) $ilSetting->get("rep_shorten_description_length");
-        if (!$short_desc || $short_desc_max_length != \ilObject::DESC_LENGTH) {
-            // using (part of) shortened description
-            if ($short_desc && $short_desc_max_length && $short_desc_max_length < \ilObject::DESC_LENGTH) {
-                foreach ($this->raw as $key => $object) {
-                    $this->raw[$key]["description"] = \ilStr::shortenTextExtended(
-                        $object["description"],
-                        $short_desc_max_length,
-                        true
-                    );
-                }
+        // using (part of) shortened description
+        if ($short_desc && $short_desc_max_length && $short_desc_max_length < \ilObject::DESC_LENGTH) {
+            foreach ($this->raw as $key => $object) {
+                $this->raw[$key]["description"] = \ilStr::shortenTextExtended(
+                    $object["description"],
+                    $short_desc_max_length,
+                    true
+                );
             }
-            // using (part of) long description
-            else {
-                $obj_ids = array();
+        }
+        // using (part of) long description
+        else {
+            $obj_ids = array();
+            foreach ($this->raw as $key => $object) {
+                $obj_ids[] = $object["obj_id"];
+            }
+            if (count($obj_ids) > 0) {
+                $long_desc = \ilObject::getLongDescriptions($obj_ids);
                 foreach ($this->raw as $key => $object) {
-                    $obj_ids[] = $object["obj_id"];
-                }
-                if (count($obj_ids) > 0) {
-                    $long_desc = \ilObject::getLongDescriptions($obj_ids);
-                    foreach ($this->raw as $key => $object) {
-                        // #12166 - keep translation, ignore long description
-                        if ($ilObjDataCache->isTranslatedDescription((int) $object["obj_id"])) {
-                            $long_desc[$object["obj_id"]] = $object["description"];
-                        }
-                        if ($short_desc && $short_desc_max_length) {
-                            $long_desc[$object["obj_id"]] = \ilStr::shortenTextExtended(
-                                (string) ($long_desc[$object["obj_id"]] ?? ""),
-                                $short_desc_max_length,
-                                true
-                            );
-                        }
-                        $this->raw[$key]["description"] = $long_desc[$object["obj_id"]] ?? '';
+                    // #12166 - keep translation, ignore long description
+                    if ($ilObjDataCache->isTranslatedDescription((int) $object["obj_id"])) {
+                        $long_desc[$object["obj_id"]] = $object["description"];
                     }
+                    if ($short_desc && $short_desc_max_length) {
+                        $long_desc[$object["obj_id"]] = \ilStr::shortenTextExtended(
+                            (string) ($long_desc[$object["obj_id"]] ?? ""),
+                            $short_desc_max_length,
+                            true
+                        );
+                    }
+                    $this->raw[$key]["description"] = $long_desc[$object["obj_id"]] ?? '';
                 }
             }
         }

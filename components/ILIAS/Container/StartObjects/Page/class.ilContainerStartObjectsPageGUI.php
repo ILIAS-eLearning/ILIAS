@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  */
 class ilContainerStartObjectsPageGUI extends ilPageObjectGUI

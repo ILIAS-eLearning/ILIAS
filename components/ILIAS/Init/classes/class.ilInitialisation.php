@@ -34,6 +34,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
+use ILIAS\User\PublicInterface as UserPublicInterface;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -1366,6 +1367,12 @@ class ilInitialisation
             "./components/ILIAS/User/classes/class.ilObjUser.php",
             true
         );
+
+        self::initGlobal(
+            'user',
+            new UserPublicInterface($ilUser)
+        );
+
         $ilias->account = $ilUser;
 
         self::initAccessHandling();

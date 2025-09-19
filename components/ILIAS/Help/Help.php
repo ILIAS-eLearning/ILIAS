@@ -42,5 +42,8 @@ class Help implements Component\Component
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilHelp.js");
+
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Help\UserSettings\Settings();
     }
 }

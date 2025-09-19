@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Table\Table;
+use ILIAS\User\Profile\Profile;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -43,7 +44,10 @@ class ilLDAPSettingsGUI
     private ilToolbarGUI $toolbar;
     private ilGlobalTemplateInterface $main_tpl;
     private ilComponentRepository $component_repository;
-    private ilUserDefinedFields $udf;
+    /**
+     * @var array<string, ILIAS\User\Profile\Field>|null
+     */
+    private ?array $user_defined_fields = null;
     private ?ilLDAPRoleAssignmentRule $role_mapping_rule = null;
     private ?ilLDAPRoleAssignmentRule $rule = null;
     private ?ilLDAPRoleGroupMappingSettings $role_mapping = null;
@@ -69,6 +73,7 @@ class ilLDAPSettingsGUI
     private readonly \ILIAS\HTTP\GlobalHttpState $http;
     private readonly \ILIAS\Refinery\Factory $refinery;
     private readonly ilObjectDataCache $object_data_cache;
+    private readonly Profile $profile;
 
     /**
      * @throws ilCtrlException
@@ -94,6 +99,7 @@ class ilLDAPSettingsGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->refinery = $DIC->refinery();
         $this->object_data_cache = $DIC['ilObjDataCache'];
+        $this->profile = $DIC['user']->getProfile();
 
         $this->tpl = $DIC->ui()->mainTemplate();
 
@@ -296,8 +302,8 @@ class ilLDAPSettingsGUI
         foreach (array_keys($this->getMappingFields()) as $key) {
             $keys[] = $key;
         }
-        foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
-            $keys[] = 'udf_' . $definition['field_id'];
+        foreach ($this->user_defined_fields as $field) {
+            $keys[] = 'udf_' . $field->getIdentifier();
         }
         return $keys;
     }
@@ -737,8 +743,8 @@ class ilLDAPSettingsGUI
             );
         }
         $this->initUserDefinedFields();
-        foreach ($this->udf->getDefinitions() as $definition) {
-            $key = 'udf_' . $definition['field_id'];
+        foreach ($this->user_defined_fields as $field) {
+            $key = 'udf_' . $field->getIdentifier();
             $this->mapping->setRule(
                 $key,
                 $this->attribute_mappings[$key][0],
@@ -1221,7 +1227,9 @@ class ilLDAPSettingsGUI
 
     private function initUserDefinedFields(): void
     {
-        $this->udf = ilUserDefinedFields::_getInstance();
+        if ($this->user_defined_fields === null) {
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
+        }
     }
 
     private function prepareMappingSelect(): string
@@ -1424,17 +1432,17 @@ class ilLDAPSettingsGUI
         }
 
         $this->initUserDefinedFields();
-        foreach ($this->udf->getDefinitions() as $definition) {
-            $text_form = new ilTextInputGUI($definition['field_name']);
-            $text_form->setPostVar('udf_' . $definition['field_id'] . '_value');
-            $text_form->setValue($this->mapping->getValue('udf_' . $definition['field_id']));
+        foreach ($this->user_defined_fields as $field) {
+            $text_form = new ilTextInputGUI($field->getLabel());
+            $text_form->setPostVar('udf_' . $field->getIdentifier() . '_value');
+            $text_form->setValue($this->mapping->getValue('udf_' . $field->getIdentifier()));
             $text_form->setSize(32);
             $text_form->setMaxLength(255);
             $propertie_form->addItem($text_form);
 
             $checkbox_form = new ilCheckboxInputGUI("");
-            $checkbox_form->setPostVar('udf_' . $definition['field_id'] . '_update');
-            $checkbox_form->setChecked($this->mapping->enabledUpdate('udf_' . $definition['field_id']));
+            $checkbox_form->setPostVar('udf_' . $field->getIdentifier() . '_update');
+            $checkbox_form->setChecked($this->mapping->enabledUpdate('udf_' . $field->getIdentifier()));
             $checkbox_form->setOptionTitle($this->lng->txt('ldap_update_field_info'));
             $propertie_form->addItem($checkbox_form);
         }

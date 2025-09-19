@@ -166,9 +166,8 @@ class VideoViewGUI
         if ($video_cnt <= 1) {
             return false;
         }
-        $autoplay = ($this->user->existsPref("mcst_autoplay"))
-            ? (bool) $this->user->getPref("mcst_autoplay")
-            : ($this->media_cast->getAutoplayMode() == \ilObjMediaCast::AUTOPLAY_ACT);
+        $autoplay = (bool) ($this->user->getPref("mcst_autoplay") ??
+            ($this->media_cast->getAutoplayMode() == \ilObjMediaCast::AUTOPLAY_ACT));
         if ($this->media_cast->getAutoplayMode() == \ilObjMediaCast::AUTOPLAY_NO) {
             $autoplay = false;
         }

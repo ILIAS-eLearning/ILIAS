@@ -22,13 +22,14 @@ use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @version      $Id$
  * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
  * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI, ilCalendarSubscriptionGUI
- * @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilCalendarBlockGUI, ilPDCalendarBlockGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI, ilCalendarBlockGUI, ilPDCalendarBlockGUI, ILIAS\User\Profile\PublicProfileGUI
  * @ingroup      ServicesCalendar
  */
 class ilCalendarPresentationGUI
@@ -346,7 +347,7 @@ class ilCalendarPresentationGUI
                 $this->showSideBlocks();
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $user_id = $this->user->getId();
                 if ($this->http->wrapper()->query()->has('user_id')) {
                     $user_id = $this->http->wrapper()->query()->retrieve(
@@ -354,7 +355,7 @@ class ilCalendarPresentationGUI
                         $this->refinery->kindlyTo()->int()
                     );
                 }
-                $user_profile = new ilPublicUserProfileGUI($user_id);
+                $user_profile = new PublicProfileGUI($user_id);
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $this->tpl->setContent($html);
                 break;

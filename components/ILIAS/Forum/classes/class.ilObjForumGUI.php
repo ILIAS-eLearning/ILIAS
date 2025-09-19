@@ -27,10 +27,11 @@ use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
 use ILIAS\Forum\Notification\NotificationType;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
+ * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ILIAS\User\Profile\PublicProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
  * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI, ilForumPageGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
@@ -473,9 +474,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->showThreadsObject();
                 break;
 
-            case strtolower(ilPublicUserProfileGUI::class):
+            case strtolower(PublicProfileGUI::class):
                 $user = $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'user');
-                $profile_gui = new ilPublicUserProfileGUI($user);
+                $profile_gui = new PublicProfileGUI($user);
                 $add = $this->getUserProfileAdditional($this->object->getRefId(), $user);
                 $profile_gui->setAdditional($add);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
@@ -3595,7 +3596,7 @@ EOD
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
 
-        $profile_gui = new ilPublicUserProfileGUI($user_id);
+        $profile_gui = new PublicProfileGUI($user_id);
         $add = $this->getUserProfileAdditional($this->object->getRefId(), $user_id);
         $profile_gui->setAdditional($add);
         $profile_gui->setBackUrl(ilUtil::stripSlashes($backurl));

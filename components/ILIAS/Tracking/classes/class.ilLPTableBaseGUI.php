@@ -18,6 +18,9 @@
 
 declare(strict_types=0);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpService;
 
@@ -42,6 +45,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
     protected \ilGlobalTemplateInterface $main_tpl;
+    protected Profile $profile;
 
     public function __construct(
         ?object $a_parent_obj,
@@ -58,6 +62,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->setting = $DIC->settings();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
         if (!$this->anonymized && isset($this->obj_id) && $this->obj_id > 0) {
@@ -1024,11 +1029,14 @@ class ilLPTableBaseGUI extends ilTable2GUI
     ): array {
         $cols = $privacy_fields = array();
 
-        $up = new ilUserProfile();
-        $up->skipGroup("preferences");
-        $up->skipGroup("settings");
-        $up->skipGroup("interests");
-        $ufs = $up->getStandardFields();
+        $this->profile->skipGroup(AvailableSections::Interests);
+        if ($a_in_course === 1) {
+            $ufs = $this->profile->getVisibleFields(Context::Course);
+        } elseif ($a_in_group === 1) {
+            $ufs = $this->profile->getVisibleFields(Context::Group);
+        } else {
+            $ufs = $this->profile->getFields();
+        }
 
         // default fields
         $cols["login"] = array(
@@ -1129,46 +1137,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $a_in_group === 0 ? $a_in_course : $a_in_group
             )) {
                 // other user profile fields
-                foreach ($ufs as $f => $fd) {
-                    if (!isset($cols[$f]) && $f != "username" && !($fd["lists_hide"] ?? false)) {
-                        if ($a_in_course &&
-                            !(($fd["course_export_fix_value"] ?? false) || $this->setting->get(
-                                "usr_settings_course_export_" . $f
-                            ))) {
-                            continue;
-                        }
-                        if ($a_in_group &&
-                            !(($fd["group_export_fix_value"] ?? false) || $this->setting->get(
-                                "usr_settings_group_export_" . $f
-                            ))) {
-                            continue;
-                        }
-
+                foreach ($ufs as $fd) {
+                    $f = $fd->getIdentifier();
+                    if (!isset($cols[$f]) && $f !== "username" && !$fd->hiddenInLists()) {
                         $cols[$f] = array(
-                            "txt" => $this->lng->txt($f),
+                            "txt" => $fd->getLabel($this->lng),
                             "default" => false
                         );
-                        $privacy_fields[] = $f;
-                    }
-                }
-
-                // additional defined user data fields
-                $user_defined_fields = ilUserDefinedFields::_getInstance();
-                if ($a_in_course) {
-                    $user_defined_fields = $user_defined_fields->getCourseExportableFields(
-                    );
-                } else {
-                    $user_defined_fields = $user_defined_fields->getGroupExportableFields(
-                    );
-                }
-                foreach ($user_defined_fields as $definition) {
-                    if ($definition["field_type"] != UDF_TYPE_WYSIWYG) {
-                        $f = "udf_" . $definition["field_id"];
-                        $cols[$f] = array(
-                            "txt" => $definition["field_name"],
-                            "default" => false
-                        );
-
                         $privacy_fields[] = $f;
                     }
                 }

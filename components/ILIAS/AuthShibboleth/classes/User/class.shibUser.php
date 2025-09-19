@@ -131,8 +131,7 @@ class shibUser extends ilObjUser
         $this->setTitle($this->getFullname());
         $this->setDescription($this->getEmail());
         $this->setLanguage($this->shibServerData->getLanguage());
-        $this->setTimeLimitOwner(7);
-        $this->setTimeLimitUnlimited(1);
+        $this->setTimeLimitUnlimited(true);
         $this->setTimeLimitFrom(time());
         $this->setTimeLimitUntil(time());
         $this->setActive(true);

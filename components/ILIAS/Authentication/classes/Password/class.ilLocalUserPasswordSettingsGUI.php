@@ -63,6 +63,7 @@ class ilLocalUserPasswordSettingsGUI
 
     public function executeCommand(): void
     {
+        $this->tpl->setTitle($this->lng->txt('chg_password'));
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
             default:
@@ -249,7 +250,7 @@ class ilLocalUserPasswordSettingsGUI
             }
 
             if (!$error) {
-                $this->user->resetPassword($entered_new_password, $entered_new_password);
+                $this->user->resetPassword($entered_new_password);
                 if ($entered_current_password !== $entered_new_password) {
                     $this->user->setLastPasswordChangeToNow();
                     $this->user->setPasswordPolicyResetStatus(false);

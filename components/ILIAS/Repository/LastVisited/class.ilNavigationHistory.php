@@ -64,7 +64,7 @@ class ilNavigationHistory
         $ilDB = $this->db;
 
         // never store?
-        if ((int) ($ilUser->prefs["store_last_visited"] ?? 0) == 2) {
+        if ((int) ($ilUser->getPref("store_last_visited") ?? 0) == 2) {
             return;
         }
 
@@ -96,7 +96,7 @@ class ilNavigationHistory
         $this->repo->setHistory($this->items);
 
         // only store in session?
-        if ((int) ($ilUser->prefs["store_last_visited"] ?? 0) == 1) {
+        if ((int) ($ilUser->getPref("store_last_visited") ?? 0) == 1) {
             return;
         }
 

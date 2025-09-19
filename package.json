@@ -14,7 +14,8 @@
     "linkify-element": "^4.3.2",
     "linkifyjs": "^4.3.2",
     "mathjax": "^3.2.2",
-    "tinymce": "^7.5.1"
+    "tinymce": "^7.5.1",
+    "webui-popover": "^1.2.18"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",

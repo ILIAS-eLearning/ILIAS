@@ -21,13 +21,15 @@ declare(strict_types=1);
 use ILIAS\Forum\Notification\NotificationType;
 
 /**
- * Class ilForumModeratorsGUI
- * @author       Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
- * @ingroup      components\ILIASForum
  */
 class ilForumModeratorsGUI implements ilCtrlSecurityInterface
 {
+    private const string CMD_SHOW_MODERATORS = 'showModerators';
+    private const string CMD_ADD_MODERATOR = 'addModerator';
+    private const string CMD_HANDLE_TABLE_ACTIONS = 'handleModeratorActions';
+    private const string DEFAULT_CMD = self::CMD_SHOW_MODERATORS;
+
     private readonly ilCtrlInterface $ctrl;
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
@@ -35,13 +37,13 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
     private readonly ilErrorHandling $error;
     private readonly ilObjUser $user;
     private readonly ilToolbarGUI $toolbar;
-    private readonly ilForumModerators $oForumModerators;
+    private readonly ilForumModerators $frm_moderators;
     private readonly ilAccessHandler $access;
     private readonly \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     private readonly \ILIAS\Refinery\Factory $refinery;
     private readonly \ILIAS\HTTP\Services $http;
     private readonly \ILIAS\UI\Factory $ui_factory;
-    protected \ILIAS\UI\Renderer $ui_renderer;
+    private readonly \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct(private readonly ilObjForum $forum)
     {
@@ -57,7 +59,6 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
         $this->user = $DIC->user();
         $this->toolbar = $DIC->toolbar();
 
-        $this->tabs->activateTab('frm_moderators');
         $this->lng->loadLanguageModule('search');
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->http = $DIC->http();
@@ -65,31 +66,35 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ui_factory = $DIC->ui()->factory();
 
-        if (!$this->access->checkAccess('write', '', $this->forum->getRefId())) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
-
-        $this->oForumModerators = new ilForumModerators($this->forum->getRefId());
+        $this->frm_moderators = new ilForumModerators($this->forum->getRefId());
     }
 
     public function executeCommand(): void
     {
+        if (!$this->access->checkAccess('write', '', $this->forum->getRefId())) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
+        $this->tabs->activateTab('frm_moderators');
+
         $next_class = $this->ctrl->getNextClass($this) ?? '';
-        $cmd = $this->ctrl->getCmd() ?? '';
+        $cmd = $this->ctrl->getCmd();
 
         switch (strtolower($next_class)) {
             case strtolower(ilRepositorySearchGUI::class):
                 $rep_search = new ilRepositorySearchGUI();
-                $rep_search->setCallback($this, 'addModerator');
-                $this->ctrl->setReturn($this, 'showModerators');
+                $rep_search->setCallback($this, self::CMD_ADD_MODERATOR . 'Command');
+                $this->ctrl->setReturn($this, self::CMD_SHOW_MODERATORS);
                 $this->ctrl->forwardCommand($rep_search);
                 break;
 
             default:
-                if (!$cmd) {
-                    $cmd = 'showModerators';
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd . 'Command')) {
+                    $cmd = self::DEFAULT_CMD;
                 }
-                $this->$cmd();
+                $verified_command = $cmd . 'Command';
+
+                $this->$verified_command();
                 break;
         }
     }
@@ -97,10 +102,13 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
     /**
      * @param list<int> $users
      */
-    public function addModerator(array $users = []): void
+    public function addModeratorCommand(array $users = []): void
     {
         if ($users === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_moderators_select_one'));
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('frm_moderators_select_one')
+            );
             return;
         }
 
@@ -110,7 +118,7 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
         $tmp_frm_noti = new ilForumNotification($this->forum->getRefId());
 
         foreach ($users as $usr_id) {
-            $this->oForumModerators->addModeratorRole($usr_id);
+            $this->frm_moderators->addModeratorRole($usr_id);
             if ($is_membersip_enabled_parent && $notificaton_type !== NotificationType::DEFAULT) {
                 $tmp_frm_noti->setUserId($usr_id);
                 $tmp_frm_noti->setUserIdNoti($this->user->getId());
@@ -120,13 +128,17 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('frm_moderator_role_added_successfully'), true);
-        $this->ctrl->redirect($this, 'showModerators');
+        $this->tpl->setOnScreenMessage(
+            $this->tpl::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('frm_moderator_role_added_successfully'),
+            true
+        );
+        $this->ctrl->redirect($this, self::CMD_SHOW_MODERATORS);
     }
 
-    public function detachModeratorRole(): void
+    private function detachModeratorRole(): void
     {
-        $usr_ids = $this->http_wrapper->post()->retrieve(
+        $usr_ids = $this->http_wrapper->query()->retrieve(
             'frm_moderators_table_usr_ids',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
@@ -135,14 +147,21 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
         );
 
         if ($usr_ids === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_moderators_select_at_least_one'));
-            $this->ctrl->redirect($this, 'showModerators');
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('frm_moderators_select_at_least_one')
+            );
+            $this->ctrl->redirect($this, self::CMD_SHOW_MODERATORS);
         }
 
-        $entries = $this->oForumModerators->getCurrentModerators();
+        $entries = $this->frm_moderators->getCurrentModerators();
         if (count($usr_ids) === count($entries)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_at_least_one_moderator'), true);
-            $this->ctrl->redirect($this, 'showModerators');
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('frm_at_least_one_moderator'),
+                true
+            );
+            $this->ctrl->redirect($this, self::CMD_SHOW_MODERATORS);
         }
 
         $frm_properties = ilForumProperties::getInstance(ilObject::_lookupObjId($this->forum->getRefId()));
@@ -153,11 +172,11 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
         $tmp_frm_noti = new ilForumNotification($this->forum->getRefId());
 
         $participants_result = $need_participants
-            ? new \ILIAS\Data\Result\Ok(ilParticipants::getInstance($this->forum->getRefId()))
+            ? new \ILIAS\Data\Result\Ok($this->forum->parentParticipants())
             : new \ILIAS\Data\Result\Error("Participants not required for ref_id {$this->forum->getRefId()}");
 
         foreach ($usr_ids as $usr_id) {
-            $this->oForumModerators->detachModeratorRole($usr_id);
+            $this->frm_moderators->detachModeratorRole($usr_id);
             $participants_result->map(function (ilParticipants $participants) use ($tmp_frm_noti, $usr_id, $obj_id) {
                 if (!$participants->isAssigned($usr_id)) {
                     $tmp_frm_noti->setUserId($usr_id);
@@ -167,11 +186,15 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
             });
         }
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('frm_moderators_detached_role_successfully'), true);
-        $this->ctrl->redirect($this, 'showModerators');
+        $this->tpl->setOnScreenMessage(
+            $this->tpl::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('frm_moderators_detached_role_successfully'),
+            true
+        );
+        $this->ctrl->redirect($this, self::CMD_SHOW_MODERATORS);
     }
 
-    public function showModerators(): void
+    private function showModeratorsCommand(): void
     {
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
@@ -180,22 +203,25 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
                 'auto_complete_name' => $this->lng->txt('user'),
                 'submit_name' => $this->lng->txt('add'),
                 'add_search' => true,
-                'add_from_container' => $this->oForumModerators->getRefId()
+                'add_from_container' => $this->frm_moderators->getRefId()
             ]
         );
 
         $tbl = new \ILIAS\Forum\Moderation\ForumModeratorsTable(
-            $this->oForumModerators,
-            $this->ctrl,
+            $this->frm_moderators,
             $this->lng,
             $this->http,
-            $this->ui_factory
+            $this->ui_factory,
+            ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget(
+                $this,
+                self::CMD_HANDLE_TABLE_ACTIONS
+            )
         );
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));
     }
 
-    private function handleModeratorActions(): void
+    private function handleModeratorActionsCommand(): void
     {
         $action = $this->http_wrapper->query()->retrieve(
             'frm_moderators_table_action',
@@ -206,14 +232,14 @@ class ilForumModeratorsGUI implements ilCtrlSecurityInterface
         );
         match ($action) {
             'detachModeratorRole' => $this->detachModeratorRole(),
-            default => $this->ctrl->redirect($this, 'showModerators'),
+            default => $this->ctrl->redirect($this, self::CMD_SHOW_MODERATORS),
         };
     }
 
     public function getUnsafeGetCommands(): array
     {
         return [
-            'handleModeratorActions',
+            self::CMD_HANDLE_TABLE_ACTIONS,
         ];
     }
 

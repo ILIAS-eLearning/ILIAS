@@ -18,7 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
 use ILIAS\User\UserGUIRequest;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context as ProfileContext;
 
 /**
  * TableGUI class for user administration
@@ -56,8 +59,7 @@ class ilUserTableGUI extends ilTable2GUI
         }
 
         $this->setMode($a_mode);
-        $this->setId("user" . $this->getUserFolderId());
-        $this->readUserDefinedFieldsDefinitions();
+        $this->setId("user{$this->getUserFolderId()}");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         //		$this->setTitle($this->lng->txt("users"));
@@ -66,12 +68,7 @@ class ilUserTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("login"), "login");
 
         foreach ($this->getSelectedColumns() as $c) {
-            if ($this->isUdfColumn($c)) {
-                $f = $this->getUserDefinedField($c);
-                $this->addColumn($f["txt"], $f["sortable"] ? $c : "");
-            } else {	// usual column
-                $this->addColumn($this->lng->txt($c), $c);
-            }
+            $this->addColumn($this->lng->txt($c), $c);
         }
 
         if ($this->getMode() == self::MODE_LOCAL_USER) {
@@ -132,54 +129,13 @@ class ilUserTableGUI extends ilTable2GUI
         return $this->user_folder_id;
     }
 
-    /**
-     * Read user defined fields definitions
-     */
-    public function readUserDefinedFieldsDefinitions(): void
-    {
-        $user_defined_fields = ilUserDefinedFields::_getInstance();
-        foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
-            if ($this->mode === self::MODE_LOCAL_USER
-                && $definition['visib_lua'] === '0') {
-                continue;
-            }
-
-            $this->udf_fields["udf_" . $field] = [
-                "txt" => $definition["field_name"],
-                "default" => false,
-                "options" => $definition["field_values"],
-                "type" => $definition["field_type"],
-                "sortable" => in_array($definition["field_type"], [UDF_TYPE_TEXT, UDF_TYPE_SELECT])
-            ];
-        }
-    }
-
-    /**
-     * Get user defined field
-     */
-    public function getUserDefinedField(string $a_key): array // Missing array type.
-    {
-        return $this->udf_fields[$a_key] ?? [];
-    }
-
-    public function isUdfColumn(string $a_key): bool
-    {
-        if (strpos($a_key, "udf_") === 0) {
-            return true;
-        }
-        return false;
-    }
-
     public function getSelectableColumns(): array // Missing array type.
     {
         global $DIC;
 
         $lng = $DIC['lng'];
 
-        $up = new ilUserProfile();
-        $up->skipGroup("preferences");
-        $up->skipGroup("interests");
-        $up->skipGroup("settings");
+        $up = LocalDIC::dic()[Profile::class];
 
         // default fields
         $cols = [];
@@ -208,48 +164,48 @@ class ilUserTableGUI extends ilTable2GUI
             "txt" => $lng->txt("agree_date")];
         $cols['dpro_agreed_on'] = [
             'txt' => $lng->txt('dpro_agreed_on')];
+
+        $context = ProfileContext::LocalUserAdministration;
         if ($this->getMode() === self::MODE_USER_FOLDER) {
-            $ufs = $up->getStandardFields();
-        } else {
-            $ufs = $up->getLocalUserAdministrationFields();
+            $context = ProfileContext::UserAdministration;
         }
+
+        $ufs = $up->getVisibleFields($context);
 
         // email should be the 1st "optional" field (can be hidden)
-        if (isset($ufs["email"])) {
-            $cols["email"] = [
-                "txt" => $lng->txt("email"),
-                "default" => true];
+        if (isset($ufs['email'])) {
+            $cols['email'] = [
+                'txt' => $lng->txt('email'),
+                'default' => true];
         }
-        if (isset($ufs["second_email"])) {
-            $cols["second_email"] = [
-                "txt" => $lng->txt("second_email"),
-                "default" => true];
+        if (isset($ufs['second_email'])) {
+            $cols['second_email'] = [
+                'txt' => $lng->txt('second_email'),
+                'default' => true];
         }
-        // other user profile fields
+
         foreach ($ufs as $f => $fd) {
-            if (!isset($cols[$f]) && (!isset($fd["lists_hide"]) || !$fd["lists_hide"])) {
-                // #18795
-                $caption = $fd["lang_var"] ?? $f;
-                $cols[$f] = [
-                    "txt" => $lng->txt($caption),
-                    "default" => false];
+            if (isset($cols[$f])) {
+                continue;
             }
+            $cols[$f] = [
+                'txt' => $fd->getLabel($this->lng),
+                'default' => false];
         }
 
-
-        /**
-         * LTI, showing depending by mode user?
-         */
-        $cols["auth_mode"] = [
-            "txt" => $lng->txt("auth_mode"),
-            "default" => false];
+        $cols['auth_mode'] = [
+            'txt' => $lng->txt('auth_mode'),
+            'default' => false];
 
         foreach ($this->udf_fields as $k => $field) {
+            if ($field->hiddenInLists()) {
+                continue;
+            }
             $cols[$k] = $field;
         }
 
         // fields that are always shown
-        unset($cols["username"]);
+        unset($cols['username']);
 
         return $cols;
     }
@@ -564,7 +520,7 @@ class ilUserTableGUI extends ilTable2GUI
      */
     public function addFilterItemByUdfType(
         string $id,
-        int $type,
+        string $type,
         bool $a_optional = false,
         ?string $caption = null,
         array $a_options = []

@@ -148,6 +148,16 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $adminSettings = new ilChatroomAdmin($this->gui->getObject()->getId());
         $adminSettings->saveClientSettings((object) $settings);
 
+        $osc_accept_msg = $form->getInput('chat_osc_accept_msg');
+        $broadcast_typing = $form->getInput('chat_broadcast_typing');
+        if (in_array($osc_accept_msg, ['n', 'y'], true)) {
+            $this->commonSettings->set('chat_osc_accept_msg', $osc_accept_msg);
+        }
+
+        if (in_array($broadcast_typing, ['n', 'y'], true)) {
+            $this->commonSettings->set('chat_broadcast_typing', $broadcast_typing);
+        }
+
         $fileHandler = new ilChatroomConfigFileHandler();
         $fileHandler->createClientConfigFile($settings);
 
@@ -170,6 +180,8 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
                 static fn($value) => is_int($value) ? (string) $value : $value,
                 $adminSettings->loadClientSettings()
             );
+            $clientSettings['chat_osc_accept_msg'] = $this->commonSettings->get('chat_osc_accept_msg', 'n');
+            $clientSettings['chat_broadcast_typing'] = $this->commonSettings->get('chat_broadcast_typing', 'n');
             $factory = new ilChatroomFormFactory();
             $form = $factory->getClientSettingsForm();
             $form->setValuesByArray($clientSettings);

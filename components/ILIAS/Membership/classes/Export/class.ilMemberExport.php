@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +17,10 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
+use ILIAS\User\Context;
 
 /**
  * Class for generation of member export files
@@ -41,6 +46,7 @@ class ilMemberExport
     protected ilLanguage $lng;
     protected ilTree $tree;
     protected ilAccessHandler $access;
+    protected Profile $profile;
     protected array $agreement = [];
 
     protected ilUserFormSettings $settings;
@@ -62,6 +68,7 @@ class ilMemberExport
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->export_type = $a_type;
         $this->ref_id = $a_ref_id;
@@ -202,10 +209,9 @@ class ilMemberExport
             }
         }
 
-        $udf = ilUserDefinedFields::_getInstance();
-        foreach ($udf->getCourseExportableFields() as $field_id => $udf_data) {
-            if ($this->settings->enabled('udf_' . $field_id)) {
-                $fields[] = 'udf_' . $field_id;
+        foreach ($this->profile->getVisibleFields(Context::Course) as $field) {
+            if ($this->settings->enabled('udf_' . $field->getIdentifier())) {
+                $fields[] = 'udf_' . $field->getIdentifier();
             }
         }
 
@@ -246,10 +252,9 @@ class ilMemberExport
                 default:
                     if (strpos($field, 'udf_') === 0) {
                         $field_id = explode('_', $field);
-                        $udf = ilUserDefinedFields::_getInstance();
-                        $def = $udf->getDefinition((int) $field_id[1]);
+                        $def = $this->profile->getFieldByIdentifier($field_id[1]);
                         #$this->csv->addColumn($def['field_name']);
-                        $this->addCol($def['field_name'], $row, $col++);
+                        $this->addCol($def->getLabel($this->lng), $row, $col++);
                     } elseif (strpos($field, 'cdf_') === 0) {
                         $field_id = explode('_', $field);
                         #$this->csv->addColumn(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]));
@@ -270,7 +275,7 @@ class ilMemberExport
             $col = 0;
             $usr_id = (int) $usr_id;
 
-            $udf_data = new ilUserDefinedData($usr_id);
+            $udf_data = $this->profile->getDataFor($usr_id);
             foreach ($all_fields as $field) {
                 // Handle course defined fields
                 if ($this->addUserDefinedField($udf_data, $field, $row, $col)) {
@@ -484,7 +489,7 @@ class ilMemberExport
     /**
      * Add user defined fields
      */
-    private function addUserDefinedField(ilUserDefinedData $udf_data, string $a_field, int $row, int $col): bool
+    private function addUserDefinedField(ProfileData $udf_data, string $a_field, int $row, int $col): bool
     {
         if (strpos($a_field, 'udf_') !== 0) {
             return false;
@@ -492,13 +497,12 @@ class ilMemberExport
 
         if (
             !$this->privacy->courseConfirmationRequired() ||
-            (isset($this->agreement[$udf_data->getUserId()]['accepted']) &&
-                $this->agreement[$udf_data->getUserId()]['accepted'])
+            (isset($this->agreement[$udf_data->getId()]['accepted']) &&
+                $this->agreement[$udf_data->getId()]['accepted'])
         ) {
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1];
-            $value = $udf_data->get('f_' . $field_id);
-            #$this->csv->addColumn($value);
+            $value = $udf_data->getAdditionalFieldByIdentifier($field_id);
             $this->addCol($value, $row, $col);
             return true;
         }

@@ -242,4 +242,14 @@ class ObjectManager
         return true;
     }
 
+    public function countOverallOwned(): int
+    {
+        return $this->object_repo->countOverallOwned();
+    }
+
+    public function countObjSelected(int $style_id): int
+    {
+        return $this->object_repo->countObjSelected($style_id);
+    }
+
 }

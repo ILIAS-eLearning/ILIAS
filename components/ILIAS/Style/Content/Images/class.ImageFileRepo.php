@@ -64,7 +64,8 @@ class ImageFileRepo
      */
     public function getImages(
         int $style_id,
-        string $rid
+        string $rid,
+        bool $include_size_info = false
     ): Generator {
         if ($rid !== "") {
             $unzip = $this->irss->getContainerZip($rid);
@@ -83,13 +84,20 @@ class ImageFileRepo
                     continue;
                 }
                 $att = $zip_archive->statName($path);
-                $full_path = $this->irss->getContainerUri($rid, $path);
-                try {
-                    $image_size = getimagesize($full_path);
-                } catch (\Exception $e) {
+                if ($include_size_info) {
+                    $full_path = $this->irss->getContainerUri($rid, $path);
+                    try {
+                        $stream = $this->irss->getStreamOfContainerEntry($rid, $path);
+                        $content = $stream->getContents();
+                        $image_size = getimagesizefromstring($content);
+                    } catch (\Exception $e) {
+                    }
+                    $width = $image_size[0] ?? 0;
+                    $height = $image_size[1] ?? 0;
+                } else {
+                    $width = 0;
+                    $height = 0;
                 }
-                $width = $image_size[0] ?? 0;
-                $height = $image_size[1] ?? 0;
                 yield $this->factory->image(
                     $this->irss->getContainerUri($rid, $path),
                     new DataSize($att["size"], DataSize::KB),

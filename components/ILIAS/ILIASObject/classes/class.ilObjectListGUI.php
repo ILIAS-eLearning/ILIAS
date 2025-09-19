@@ -199,7 +199,7 @@ class ilObjectListGUI
         global $DIC;
 
         $this->access = $DIC['ilAccess'];
-        $this->user = $DIC['ilUser'];
+        $this->user = $DIC['user']->getLoggedInUser();
         $this->object_dic = LocalDIC::dic();
         $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC['tree'];

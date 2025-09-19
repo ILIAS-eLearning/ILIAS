@@ -18,6 +18,7 @@
 
 use ILIAS\Portfolio\StandardGUIRequest;
 use ILIAS\Portfolio\PortfolioPrintViewProviderGUI;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Portfolio view gui base class
@@ -587,7 +588,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         // public profile
         if ($this->requested_back_url != "") {
             $back = $this->requested_back_url;
-        } elseif (strtolower($this->port_request->getBaseClass()) !== "ilpublicuserprofilegui" &&
+        } elseif (strtolower($this->port_request->getBaseClass()) !== strtolower(PublicProfileGUI::class) &&
             $this->user_id && $this->user_id !== ANONYMOUS_USER_ID) {
             if (!$this->checkPermissionBool("write")) {
                 // shared
@@ -764,7 +765,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             } else {
                 $button = $this->ui->factory()->button()->standard(
                     $this->lng->txt("prtf_edit_portfolio"),
-                    $this->ctrl->getLinkTargetByClass(["ilobjportfoliogui"], "view")
+                    $this->ctrl->getLinkTargetByClass([
+                        ilDashboardGUI::class,
+                        ilPortfolioRepositoryGUI::class,
+                        ilObjPortfolioGUI::class
+                    ], "view")
                 );
             }
             $this->toolbar->addComponent($button);

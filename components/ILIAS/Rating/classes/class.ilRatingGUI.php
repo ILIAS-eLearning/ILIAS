@@ -652,7 +652,7 @@ class ilRatingGUI
 
         $panel = $ui->factory()->panel()->secondary()->legacy(
             $a_title,
-            $ui->factory()->legacy(
+            $ui->factory()->legacy()->content(
                 $this->renderDetails("rtsb_", $may_rate, $categories, null, true, true)
             )
         );

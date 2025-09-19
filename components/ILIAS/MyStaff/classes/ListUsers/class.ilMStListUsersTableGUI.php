@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\MyStaff\ListUsers;
 
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\User\Profile\Profile;
 
 /**
  * Class ilMStListUsersTableGUI
@@ -35,6 +37,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
     private \ILIAS\UI\Factory $uiFactory;
     private \ILIAS\UI\Renderer $uiRenderer;
     private \ilLanguage $language;
+    private Profile $profile;
 
     /**
      * @param \ilMStListUsersGUI $parent_obj
@@ -55,6 +58,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->language = $DIC->language();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->setRowTemplate('tpl.list_users_row.html', "components/ILIAS/MyStaff");
         $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));
@@ -168,9 +172,8 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
             }
         }
 
-        $user_defined_fields = \ilUserDefinedFields::_getInstance();
-        foreach ($user_defined_fields->getDefinitions() as $field => $definition) {
-            unset($cols["udf_" . $field]);
+        foreach ($this->profile->getAllUserDefinedFields() as $field) {
+            unset($cols["udf_" . $field->getIdentifier()]);
         }
 
         return $cols;
@@ -239,7 +242,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
                     break;
                 case 'gender':
                     $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->language->txt('gender_' . $set->getGender()));
+                    $this->tpl->setVariable('VALUE', $this->language->txt('gender_' . $set->getGender()));
                     $this->tpl->parseCurrentBlock();
                     break;
                 case 'interests_general':

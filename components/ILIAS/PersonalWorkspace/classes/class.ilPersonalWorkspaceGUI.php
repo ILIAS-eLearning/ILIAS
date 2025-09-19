@@ -123,7 +123,11 @@ class ilPersonalWorkspaceGUI
         $next_class = $ilCtrl->getNextClass();
         if (!$next_class) {
             $node = $this->tree->getNodeData($this->node_id);
-            $next_class = "ilObj" . $objDefinition->getClassName($node["type"]) . "GUI";
+            if (isset($node["type"])) {
+                $next_class = "ilObj" . $objDefinition->getClassName($node["type"]) . "GUI";
+            } else {
+                $next_class = "ilObjWorkspaceRootFolderGUI";
+            }
             $ilCtrl->redirectByClass($next_class, $ilCtrl->getCmd());
         }
 

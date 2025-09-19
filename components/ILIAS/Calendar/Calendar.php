@@ -45,6 +45,8 @@ class Calendar implements Component\Component
             new Component\Resource\ComponentJS($this, "toggle_notification.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "calendar_appointment.js");
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Calendar\UserSettings\Settings();
         /* $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("moment/min/moment-with-locales.min.js"); */
         /* This library was missing after discussing dependencies for ILIAS 10

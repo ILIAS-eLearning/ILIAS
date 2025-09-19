@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * User Interface for Learning Module Page Objects Editing
@@ -298,23 +299,23 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                                 true
                             );
                             //var_dump($back); exit;
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+                            $this->ctrl->setParameterByClass(PublicProfileGUI::class, "user_id", $target_id);
                             $this->ctrl->setParameterByClass(
-                                "ilpublicuserprofilegui",
+                                PublicProfileGUI::class,
                                 "back_url",
                                 rawurlencode($back)
                             );
                             $href = "";
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
-                                    "ilpublicuserprofilegui",
+                                    PublicProfileGUI::class,
                                     "getHTML",
                                     "",
                                     false,
                                     true
                                 );
                             }
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", null);
+                            $this->ctrl->setParameterByClass(PublicProfileGUI::class, "user_id", null);
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                         }
                         break;

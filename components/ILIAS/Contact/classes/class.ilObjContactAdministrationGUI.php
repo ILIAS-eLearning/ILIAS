@@ -90,19 +90,34 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         )
             ->withDisabled(!$this->checkPermissionBool('write'));
 
+        $contact_request_default = $this->ui_factory->input()->field()->select(
+            $this->lng->txt('buddy_allow_to_contact_me'),
+            [
+                'y' => $this->lng->txt('buddy_allow_to_contact_me_yes'),
+                'n' => $this->lng->txt('buddy_allow_to_contact_me_no')
+            ],
+            $this->lng->txt('buddy_allow_to_contact_me_default_info')
+        )
+            ->withRequired(true)
+            ->withDisabled(!$this->checkPermissionBool('write'));
+
         $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
         $checkbox = $this->ui_factory->input()->field()->optionalGroup(
-            ['use_osd' => $notification],
+            [
+                'use_osd' => $notification,
+                'allow_contact_request_default' => $contact_request_default
+            ],
             $this->lng->txt('buddy_enable'),
             $this->lng->txt('buddy_enable_info')
         )
             ->withValue(
                 [
                     'use_osd' => isset($cfg['buddysystem_request']) &&
-                        in_array('osd', $cfg['buddysystem_request'], true)
+                        in_array('osd', $cfg['buddysystem_request'], true),
+                    'allow_contact_request_default' => $this->settings->get('bs_allow_to_contact_me', 'n')
                 ]
             )
-            ->withDisabled(!$this->checkPermissionBool('write'));
+                ->withDisabled(!$this->checkPermissionBool('write'));
 
         if (ilBuddySystem::getInstance()->getSetting('enabled', '0') === '0') {
             $checkbox = $checkbox->withValue(null);
@@ -176,6 +191,14 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
 
         ilNotificationDatabaseHandler::setUserConfig(-1, $new_cfg);
+
+        if (isset($data['enable']['allow_contact_request_default'])
+            && in_array($data['enable']['allow_contact_request_default'], ['y', 'n'])) {
+            $this->settings->set(
+                'bs_allow_to_contact_me',
+                $data['enable']['allow_contact_request_default']
+            );
+        }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this);

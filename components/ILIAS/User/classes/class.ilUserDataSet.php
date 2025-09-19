@@ -16,21 +16,35 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Field as ProfileField;
+use ILIAS\User\Profile\Fields\Standard\Alias;
+use ILIAS\User\Profile\Fields\Standard\Roles;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserDataSet extends ilDataSet
 {
-    private ilUserProfile $user_profile;
     protected ilUserExportConfig $export_config;
+    private Profile $user_profile;
+    private ilObjUser $current_user;
     protected array $temp_picture_dirs = []; // Missing array type.
     public array $multi = []; // Missing array type.
     protected array $users; // Missing array type.
 
     public function __construct()
     {
+        global $DIC;
+        $this->current_user = $DIC['ilUser'];
+
         parent::__construct();
-        $this->user_profile = new ilUserProfile();
+
+        $this->user_profile = LocalDIC::dic()[Profile::class];
     }
 
     public function initByExporter(ilXmlExporter $xml_exporter): void
@@ -75,7 +89,6 @@ class ilUserDataSet extends ilDataSet
                         "Zipcode" => "text",
                         "City" => "text",
                         "Country" => "text",
-                        "SelCountry" => "text",
                         "PhoneOffice" => "text",
                         "PhoneHome" => "text",
                         "PhoneMobile" => "text",
@@ -139,8 +152,6 @@ class ilUserDataSet extends ilDataSet
 
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array // Missing array type.
     {
-        global $DIC;
-
         if ($a_entity == "usr_profile") {
             $tmp_dir = ilFileUtils::ilTempnam();
             ilFileUtils::makeDir($tmp_dir);
@@ -177,10 +188,6 @@ class ilUserDataSet extends ilDataSet
 
     public function readData(string $a_entity, string $a_version, array $a_ids): void // Missing array type.
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!is_array($a_ids)) {
             $a_ids = [$a_ids];
         }
@@ -206,31 +213,31 @@ class ilUserDataSet extends ilDataSet
                 case "4.5.0":
                 case "5.1.0":
                     $this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, " .
-                        " title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, " .
+                        " title, birthday, gender, institution, department, street, city, zipcode, country, " .
                         " phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, " .
                         " delicious, latitude, longitude, loc_zoom" .
                         " FROM usr_data u " .
                         "WHERE " .
-                        $ilDB->in("u.usr_id", $a_ids, false, "integer"));
+                        $this->db->in("u.usr_id", $a_ids, false, "integer"));
                     break;
 
                 case "5.2.0":
                     $this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, " .
-                        " title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, " .
+                        " title, birthday, gender, institution, department, street, city, zipcode, country, " .
                         " phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, " .
                         " latitude, longitude, loc_zoom" .
                         " FROM usr_data u " .
                         "WHERE " .
-                        $ilDB->in("u.usr_id", $a_ids, false, "integer"));
+                        $this->db->in("u.usr_id", $a_ids, false, "integer"));
                     break;
                 case "5.3.0":
                     $this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, " .
-                        " title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, " .
+                        " title, birthday, gender, institution, department, street, city, zipcode, country, " .
                         " phone_office, phone_home, phone_mobile, fax, email, second_email, hobby, referral_comment, matriculation, " .
                         " latitude, longitude, loc_zoom" .
                         " FROM usr_data u " .
                         "WHERE " .
-                        $ilDB->in("u.usr_id", $a_ids, false, "integer"));
+                        $this->db->in("u.usr_id", $a_ids, false, "integer"));
                     break;
             }
         }
@@ -263,10 +270,10 @@ class ilUserDataSet extends ilDataSet
                     }
 
                     $this->data = [];
-                    $set = $ilDB->query("SELECT * FROM usr_pref " .
-                        " WHERE " . $ilDB->in("keyword", $prefs, false, "text") .
-                        " AND " . $ilDB->in("usr_id", $a_ids, false, "integer"));
-                    while ($rec = $ilDB->fetchAssoc($set)) {
+                    $set = $this->db->query("SELECT * FROM usr_pref " .
+                        " WHERE " . $this->db->in("keyword", $prefs, false, "text") .
+                        " AND " . $this->db->in("usr_id", $a_ids, false, "integer"));
+                    while ($rec = $this->db->fetchAssoc($set)) {
                         $this->data[] = ["UserId" => $rec["usr_id"], "Keyword" => $rec["keyword"], "Value" => $rec["value"]];
                     }
                     break;
@@ -280,9 +287,9 @@ class ilUserDataSet extends ilDataSet
                 case "5.2.0":
                 case "5.3.0":
                     $this->data = [];
-                    $set = $ilDB->query("SELECT * FROM usr_data_multi" .
-                        " WHERE " . $ilDB->in("usr_id", $a_ids, false, "integer"));
-                    while ($rec = $ilDB->fetchAssoc($set)) {
+                    $set = $this->db->query("SELECT * FROM usr_profile_data" .
+                        " WHERE " . $this->db->in("usr_id", $a_ids, false, "integer"));
+                    while ($rec = $this->db->fetchAssoc($set)) {
                         $this->data[] = ["UserId" => $rec["usr_id"], "FieldId" => $rec["field_id"], "Value" => $rec["value"]];
                     }
                     break;
@@ -297,16 +304,11 @@ class ilUserDataSet extends ilDataSet
         ilImportMapping $a_mapping,
         string $a_schema_version
     ): void {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        $ilUser = $DIC['ilUser'];
-
         switch ($a_entity) {
             case "usr":
                 // only users themselves import their profiles!
                 // thus we can map the import id of the dataset to the current user
-                $a_mapping->addMapping("components/ILIAS/User", "usr", $a_rec["Id"], $ilUser->getId());
+                $a_mapping->addMapping('components/ILIAS/User', 'usr', $a_rec['Id'], $this->current_user->getId());
                 break;
 
             case "usr_profile":
@@ -315,23 +317,18 @@ class ilUserDataSet extends ilDataSet
                     if (!isset($this->users[$usr_id])) {
                         $this->users[$usr_id] = new ilObjUser($usr_id);
                     }
-                    $user = $this->users[$usr_id];
-                    $prof = new ilUserProfile();
-                    $prof->skipField("username");
-                    $prof->skipField("password");
-                    $prof->skipField("roles");
-                    $prof->skipGroup("settings");
-                    $fields = $prof->getStandardFields();
-                    foreach ($fields as $k => $f) {
-                        $up_k = $this->convertToLeadingUpper($k);
-                        // only change fields, when it is possible in profile
-                        if ($this->user_profile->userSettingVisible($k) &&
-                            !$ilSetting->get("usr_settings_disable_" . $k) &&
-                            ($f["method"] ?? "") != "" && isset($a_rec[$up_k])) {
-                            $set_method = "set" . substr($f["method"], 3);
-                            $user->{$set_method}(ilUtil::secureString($a_rec[$up_k]));
-                        }
-                    }
+                    $user = array_reduce(
+                        $fields = $this->user_profile->getFields([], [Alias::class, Roles::class]),
+                        function (\ilObjUser $c, ProfileField $v) use ($a_rec): \ilObjUser {
+                            $up_k = $this->convertToLeadingUpper($k);
+                            if (!$this->user_profile->userFieldVisibleToUser($k)
+                                || !isset($a_rec[$up_k])) {
+                                return $c;
+                            }
+                            return $v->addValueToUserObject($c, Context::UserAdministration, ilUtil::secureString($a_rec[$up_k]));
+                        },
+                        $this->users[$usr_id]
+                    );
 
                     $user->setLatitude($a_rec["Latitude"] ?? null);
                     $user->setLongitude($a_rec["Longitude"] ?? null);
@@ -348,7 +345,7 @@ class ilUserDataSet extends ilDataSet
                             $upload_file = $pic_dir . "/upload_" . $a_rec["Id"] . "pic";
                         }
                         if (is_file($upload_file)) {
-                            ilObjUser::_uploadPersonalPicture($upload_file, $user->getId());
+                            $user->uploadPersonalPicture($upload_file);
                         }
                     }
                 }

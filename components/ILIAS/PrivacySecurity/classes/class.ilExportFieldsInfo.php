@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Fields\Field as ProfileField;
+
 /**
  * @defgroup
  * @author  Stefan Meyer <meyer@leifos.de>
@@ -29,6 +33,7 @@ class ilExportFieldsInfo
 
     private ilSetting $settings;
     private ilLanguage $lng;
+    private Profile $profile;
     private string $obj_type = '';
     private array $possible_fields = array();
 
@@ -42,6 +47,7 @@ class ilExportFieldsInfo
 
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
+        $this->profile = $DIC['user']->getProfile();
         $this->obj_type = $a_type;
 
         $this->read();
@@ -102,6 +108,7 @@ class ilExportFieldsInfo
         global $DIC;
 
         $user = $DIC->user();
+        $profile = $DIC['user']->getProfile();
 
         $fields = [];
         foreach ($this->getExportableFields() as $field) {
@@ -132,22 +139,10 @@ class ilExportFieldsInfo
             $fields['consultation_hour']['default'] = 0;
         }
 
-        $udf = [];
-        switch ($this->getType()) {
-            case 'crs':
-                $udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
-                break;
-            case 'grp':
-                $udf = ilUserDefinedFields::_getInstance()->getGroupExportableFields();
-                break;
-            case 'prg':
-                $udf = ilUserDefinedFields::_getInstance()->getProgrammeExportableFields();
-                break;
-        }
-
+        $udf = $profile->getVisibleUserDefinedFields(Context::buildFromObjectType($this->getType()));
         if ($udf !== []) {
             foreach ($udf as $field_id => $field) {
-                $fields['udf_' . $field_id]['txt'] = $field['field_name'];
+                $fields['udf_' . $field_id]['txt'] = $field->getLabel($this->lng);
                 $fields['udf_' . $field_id]['default'] = 0;
             }
         }
@@ -185,45 +180,29 @@ class ilExportFieldsInfo
      */
     private function read(): void
     {
-        $profile = new ilUserProfile();
-        $profile->skipGroup('settings');
-
-        $field_prefix = null;
-        $field_part_limit = 5;
-        $export_hide = null;
-        $export_fix_val = null;
         $type = $this->getType();
-
-        $type_vals = [
-            'crs' => ['course_export_hide', 'course_export_fix_value', 'usr_settings_course_export_'],
-            'grp' => ['group_export_hide', 'group_export_fix_value', 'usr_settings_group_export_'],
-            'prg' => ['prg_export_hide', 'prg_export_fix_value', 'usr_settings_prg_export_']
-        ];
-        if (array_key_exists($type, $type_vals)) {
-            list($export_hide, $export_fix_val, $field_prefix) = $type_vals[$type];
-        }
-
-        foreach ($profile->getStandardFields() as $key => $data) {
-            if (!array_key_exists($export_hide, $data) || !$data[$export_hide]) {
-                if (isset($data[$export_fix_val]) and $data[$export_fix_val]) {
-                    $this->possible_fields[$key] = $data[$export_fix_val];
-                } else {
-                    $this->possible_fields[$key] = 0;
+        $this->possible_fields = array_reduce(
+            $this->profile->getFields(),
+            function (array $c, ProfileField $v) use ($type): array {
+                if ($v->isCustom()) {
+                    return $c;
                 }
-            }
-        }
-
-        $settings_all = $this->settings->getAll();
-        foreach ($settings_all as $key => $value) {
-            if ($field_prefix && stristr($key, $field_prefix) and $value) {
-                // added limit for mantis 11096
-                $field_parts = explode('_', $key, $field_part_limit);
-                $field = $field_parts[count($field_parts) - 1];
-                if (array_key_exists($field, $this->possible_fields)) {
-                    $this->possible_fields[$field] = 1;
+                if ($type === 'crs') {
+                    $c[$v->getIdentifier()] = $v->isVisibleInCourses();
                 }
-            }
-        }
+
+                if ($type === 'grp') {
+                    $c[$v->getIdentifier()] = $v->isVisibleInGroups();
+                }
+
+                if ($type === 'prg') {
+                    $c[$v->getIdentifier()] = $v->isVisibleInStudyProgrammes();
+                }
+
+                return $c;
+            },
+            $this->possible_fields
+        );
     }
 
     /**
@@ -231,9 +210,9 @@ class ilExportFieldsInfo
      */
     public function sortExportFields(): void
     {
-        $start_order = array("lastname" => array(), "firstname" => array(), "username" => array());
+        $start_order = ['lastname' => [], 'firstname' => [], 'username' => []];
 
-        foreach ($start_order as $key => $value) {
+        foreach (array_keys($start_order) as $key) {
             if (isset($this->possible_fields[$key])) {
                 $start_order[$key] = $this->possible_fields[$key];
                 unset($this->possible_fields[$key]);

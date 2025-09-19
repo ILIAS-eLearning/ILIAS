@@ -22,7 +22,7 @@ use ILIAS\MediaPool;
  * Class ilMediaPoolPage GUI class
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI, ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilMediaPoolPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilObjectMetaDataGUI
  */
 class ilMediaPoolPageGUI extends ilPageObjectGUI
 {

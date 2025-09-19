@@ -929,6 +929,9 @@ class ilContainerRenderer
                 }
 
                 $item_data = $this->item_presentation->getRawDataByRefId($ref_id);
+                if ($item_data === null) {
+                    continue;
+                }
                 $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
                 if ($this->container_gui->isActiveAdministrationPanel()) {
                     $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_ADMIN;

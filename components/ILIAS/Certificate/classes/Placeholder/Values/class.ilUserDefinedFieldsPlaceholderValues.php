@@ -18,34 +18,21 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\Language;
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Profile;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private readonly ilCertificateObjectHelper $objectHelper;
-    private readonly ilUserDefinedFields $userDefinedFieldsObject;
-    private readonly ilCertificateUtilHelper $ilUtilHelper;
-
     public function __construct(
-        ?ilCertificateObjectHelper $objectHelper = null,
-        ?ilUserDefinedFields $userDefinedFieldsObject = null,
-        ?ilCertificateUtilHelper $ilUtilHelper = null
+        private readonly Language $lng,
+        private readonly ilCertificateObjectHelper $objectHelper,
+        private readonly Profile $user_profile,
+        private readonly ilCertificateUtilHelper $ilUtilHelper
     ) {
-        if (null === $objectHelper) {
-            $objectHelper = new ilCertificateObjectHelper();
-        }
-        $this->objectHelper = $objectHelper;
-
-        if (null === $userDefinedFieldsObject) {
-            $userDefinedFieldsObject = ilUserDefinedFields::_getInstance();
-        }
-        $this->userDefinedFieldsObject = $userDefinedFieldsObject;
-
-        if (null === $ilUtilHelper) {
-            $ilUtilHelper = new ilCertificateUtilHelper();
-        }
-        $this->ilUtilHelper = $ilUtilHelper;
     }
 
     /**
@@ -65,22 +52,14 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
             throw new ilException('The entered id: ' . $userId . ' is not an user object');
         }
 
-        $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
+        $userDefinedFields = $this->user_profile->getVisibleUserDefinedFields(Context::Certificate);
 
         $placeholder = [];
         foreach ($userDefinedFields as $field) {
-            if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
-
-                $userDefinedData = $user->getUserDefinedData();
-
-                $userDefinedFieldValue = '';
-                if (isset($userDefinedData['f_' . $field['field_id']])) {
-                    $userDefinedFieldValue = $this->ilUtilHelper->prepareFormOutput($userDefinedData['f_' . $field['field_id']]);
-                }
-
-                $placeholder[$placeholderText] = $userDefinedFieldValue;
-            }
+            $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field->getLabel($this->lng)));
+            $placeholder[$placeholderText] = $this->ilUtilHelper->prepareFormOutput(
+                $field->retrieveValueFromUser($user)
+            );
         }
 
         return $placeholder;
@@ -93,7 +72,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
-        $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
+        $userDefinedFields = $this->user_profile->getDefinitions();
 
         $placeholder = [];
         foreach ($userDefinedFields as $field) {

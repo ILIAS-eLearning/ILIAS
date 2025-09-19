@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ILIAS\User\Profile\PublicProfileGUI, ilPageObjectGUI
  */
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {

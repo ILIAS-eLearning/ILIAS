@@ -27,6 +27,7 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\MessageBox;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilObjStudyProgrammeAutoCategoriesGUI
@@ -420,9 +421,9 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         ]);
 
         $back_url = $this->ctrl->getLinkTarget($this, self::CMD_VIEW);
-        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'back_url', urlencode($back_url));
-        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'user_id', $usr_id);
-        $url = $this->ctrl->getLinkTargetByClass('ilPublicUserProfileGUI', 'view');
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'back_url', urlencode($back_url));
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $usr_id);
+        $url = $this->ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'view');
 
         $usr = ilObjectFactory::getInstanceByObjId($usr_id);
         if (!$usr->hasPublicProfile()) {

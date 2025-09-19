@@ -22,7 +22,6 @@ use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\LogTable;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component\Input\Container\Form\Form;
@@ -37,8 +36,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
     private RequestDataCollector $testrequest;
     private TestLogViewer $log_viewer;
-
-    private GeneralQuestionPropertiesRepository $questionrepository;
 
     private DataFactory $data_factory;
 
@@ -55,7 +52,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $local_dic = TestDIC::dic();
         $this->testrequest = $local_dic['request_data_collector'];
         $this->log_viewer = $local_dic['logging.viewer'];
-        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->type = 'assf';
 

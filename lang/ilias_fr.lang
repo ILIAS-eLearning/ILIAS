@@ -5820,7 +5820,7 @@ common#:#udf_type_date#:#Zone date
 common#:#udf_type_datetime#:#Date et Heure
 common#:#udf_type_select#:#Boîte de sélection (Les valeurs sont fixées)
 common#:#udf_type_text#:#Zone Texte (Valeurs facultatives)
-common#:#udf_type_wysiwyg#:#Zone de texte (WYSIWYG)
+common#:#udf_type_textarea#:#Zone de texte (WYSIWYG)
 common#:#udf_update_select_field#:#Éditer Boîte de Sélection
 common#:#udf_update_text_field#:#Éditer le Champ Texte
 common#:#udf_update_wysiwyg_field#:#Modifier la zone de texte (WYSIWYG)
@@ -11586,7 +11586,6 @@ mail#:#mail_serial_letter_placeholders#:#Caractères de remplacement des lettres
 mail#:#mail_settings_external_frm_head#:#E-mail externe
 mail#:#mail_settings_external_tab#:#Externe
 mail#:#mail_settings_general_tab#:#Général
-mail#:#mail_settings_incoming_type_see_also#:#Vous avez la possibilité de modifier le type d'arrivée des e-mails pour les utilisateurs <a href="%s">ici</a>
 mail#:#mail_settings_system_frm_head#:#E-mails du système
 mail#:#mail_settings_user_frm_head#:#E-mails de l’utilisateur
 mail#:#mail_smtp_encryption#:#Cryptage
@@ -12984,6 +12983,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###31 10 2023 new variabl
 obj#:#custom_icon#:#Custom Icon###31 10 2023 new variable
 obj#:#edit_availability_period#:#Edit Availability Period###31 10 2023 new variable
 obj#:#edit_questions#:#Editer Questions
+obj#:#multiple_selection#:#Sélection Multiple
 obj#:#no_objects_selected#:#At least one object needs to be selected.###31 10 2023 new variable
 obj#:#obj_activate_content_lang#:#Activer la Traduction pour l'Edition des Pages
 obj#:#obj_activate_multilang#:#Activer Multi-Linguisme

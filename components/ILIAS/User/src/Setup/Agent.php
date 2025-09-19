@@ -20,16 +20,70 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Setup;
 
+use ILIAS\User\Settings\CollectSettingsObjective;
+use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
+use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
 use ILIAS\Setup;
-use ILIAS\Setup\Agent\NullAgent;
-use ILIAS\Refinery;
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Refinery\Transformation;
 
-class Agent extends Setup\Agent\NullAgent
+class Agent implements SetupAgent
 {
+    use HasNoNamedObjective;
+
+    public function __construct(
+        private readonly array $user_settings_contributions,
+        private readonly array $user_custom_profile_fields,
+        private readonly array $user_field_attributes_change_listeners
+    ) {
+    }
+
+    public function hasConfig(): bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation(): Transformation
+    {
+        throw new LogicException(self::class . ' has no Config.');
+    }
+
+    public function getInstallObjective(?Setup\Config $config = null): Setup\Objective
+    {
+        return new ObjectiveCollection(
+            'Updates for User',
+            false,
+            new CollectSettingsObjective($this->user_settings_contributions),
+            new CollectTypesObjective($this->user_custom_profile_fields),
+            new CollectListenersObjective($this->user_field_attributes_change_listeners)
+        );
+    }
+
+    public function getBuildObjective(): Objective
+    {
+        return new ObjectiveCollection(
+            'Updates for User',
+            false,
+            new CollectSettingsObjective($this->user_settings_contributions),
+            new CollectTypesObjective($this->user_custom_profile_fields),
+            new CollectListenersObjective($this->user_field_attributes_change_listeners)
+        );
+    }
+
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(
-            new DBUpdateSteps10()
+        return new ObjectiveCollection(
+            'Updates for User',
+            false,
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new DBUpdateSteps11()
+            ),
+            new CollectSettingsObjective($this->user_settings_contributions),
+            new CollectTypesObjective($this->user_custom_profile_fields),
+            new CollectListenersObjective($this->user_field_attributes_change_listeners)
         );
     }
 
@@ -37,7 +91,15 @@ class Agent extends Setup\Agent\NullAgent
     {
         return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
             $storage,
-            new DBUpdateSteps10()
+            new DBUpdateSteps11()
         );
+    }
+
+    public function getMigrations(): array
+    {
+        return [
+            new MigrateNewAccountAttachments(),
+            new UserProfileMigrations()
+        ];
     }
 }

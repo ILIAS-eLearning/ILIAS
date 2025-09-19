@@ -29,11 +29,12 @@ use ILIAS\Mail\Folder\MailFolderSearch;
 use ILIAS\Mail\Folder\MailFolderTableUI;
 use ILIAS\Mail\Folder\MailFolderData;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @ilCtrl_Calls ilMailFolderGUI:
  */
-class ilMailFolderGUI
+class ilMailFolderGUI implements ilCtrlSecurityInterface
 {
     // used as single element namespace for UrlBuilder
     // added with '_' before parameter names in queries from the table
@@ -95,6 +96,18 @@ class ilMailFolderGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ui_service = $DIC->uiService();
         $this->data_factory = new ILIAS\Data\Factory();
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_TABLE_ACTION
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     /**
@@ -361,7 +374,7 @@ class ilMailFolderGUI
         $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('standard/icon_usr.svg'));
         $this->tpl->setVariable('TBL_TITLE_IMG_ALT', $this->lng->txt('public_profile'));
 
-        $profile_gui = new ilPublicUserProfileGUI($usr_id);
+        $profile_gui = new PublicProfileGUI($usr_id);
 
         $mail_id = $this->http->wrapper()->query()->retrieve(
             self::PARAM_MAIL_ID,

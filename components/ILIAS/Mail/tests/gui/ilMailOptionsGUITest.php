@@ -23,6 +23,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use ILIAS\User\Settings\Settings as UserSettings;
+use ILIAS\User\Settings\PersonalSettingsGUI;
 
 class ilMailOptionsGUITest extends ilMailBaseTestCase
 {
@@ -75,7 +77,8 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
             null,
             $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
             $settings,
-            $this->createMock(ilDBInterface::class)
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(UserSettings::class)
         );
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $options);
@@ -113,7 +116,8 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
             null,
             $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
             $settings,
-            $this->createMock(ilDBInterface::class)
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(UserSettings::class)
         );
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $options);
@@ -131,7 +135,7 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
 
         $ctrl->method('getCmd')->willReturn('showOptions');
 
-        $ctrl->expects($this->once())->method('redirectByClass')->with(ilPersonalSettingsGUI::class)->willThrowException(
+        $ctrl->expects($this->once())->method('redirectByClass')->with(PersonalSettingsGUI::class)->willThrowException(
             new ilCtrlException('Script terminated')
         );
 
@@ -158,7 +162,8 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
             null,
             $this->createMock(\ILIAS\Data\Clock\ClockInterface::class),
             $settings,
-            $this->createMock(ilDBInterface::class)
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(UserSettings::class)
         );
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $options);

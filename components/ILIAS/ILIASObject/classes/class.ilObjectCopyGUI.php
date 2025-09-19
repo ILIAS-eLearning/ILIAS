@@ -100,7 +100,7 @@ class ilObjectCopyGUI
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->access = $DIC->access();
         $this->error = $DIC["ilErr"];
-        $this->user = $DIC['ilUser'];
+        $this->user = $DIC['user']->getLoggedInUser();
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->rbacreview = $DIC['rbacreview'];
         $this->log = ilLoggerFactory::getLogger('obj');

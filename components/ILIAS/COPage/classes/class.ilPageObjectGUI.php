@@ -18,6 +18,7 @@
 
 use ILIAS\COPage\Editor\EditSessionRepository;
 use ILIAS\COPage\Page\EditGUIRequest;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilPageObjectGUI
@@ -27,7 +28,7 @@ use ILIAS\COPage\Page\EditGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
- * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilCommentGUI, ilNewsItemGUI
+ * @ilCtrl_Calls ilPageObjectGUI: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI, ilCommentGUI, ilNewsItemGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
  */
 class ilPageObjectGUI
@@ -862,8 +863,8 @@ class ilPageObjectGUI
                 $this->tabs_gui->setTabActive("edit");
                 return $html;
 
-            case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI($this->requested_user_id);
+            case strtolower(PublicProfileGUI::class):
+                $profile_gui = new PublicProfileGUI($this->requested_user_id);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
 
@@ -2118,7 +2119,6 @@ class ilPageObjectGUI
     {
         $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
-
         //$int_links = $page_object->getInternalLinks();
         $med_links = ilMediaItem::_getMapAreasIntLinks($this->request->getMobId());
 
@@ -2167,7 +2167,7 @@ class ilPageObjectGUI
         ilObjMediaObjectGUI::includePresentationJS($tpl);
         //$tpl->fillJavaScriptFiles();
         //$tpl->fillCssFiles();
-
+        $this->gui->toolbar()->setItems([]);    // clear toolbar, see #45620
         $tpl->printToStdout();
         exit;
     }

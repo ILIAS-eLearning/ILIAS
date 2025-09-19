@@ -26,8 +26,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Forum\Notification\NotificationType;
 
 /**
- * Class ilForumSettingsGUI
- * @author  Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumSettingsGUI: ilObjectContentStyleSettingsGUI
  */
 class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterface
@@ -84,18 +82,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
 
     public function executeCommand(): void
     {
-        $cmd = $this->ctrl->getCmd();
-        if ($this->http->wrapper()->query()->has('forum_notification_table_action')) {
-            $cmd = $this->http->wrapper()->query()->retrieve(
-                'forum_notification_table_action',
-                $this->dic->refinery()->kindlyTo()->string()
-            );
-        }
-
+        $cmd = $this->ctrl->getCmd() ?? '';
         switch (true) {
-            case method_exists($this, $cmd):
+            case method_exists($this, $cmd . 'Command'):
                 $this->settingsTabs();
-                $this->{$cmd}();
+                $this->{$cmd . 'Command'}();
                 break;
 
             default:
@@ -211,20 +202,12 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         if ($this->settings->get('forum_notification') > 0 &&
             $this->forum->isParentMembershipEnabledContainer() &&
             $this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-            $cmd = $this->dic->http()->wrapper()->query()->retrieve(
-                'cmd',
-                $this->dic->refinery()->byTrying([
-                    $this->dic->refinery()->kindlyTo()->string(),
-                    $this->dic->refinery()->always('showMembers')
-                ])
-            );
+
             $this->tabs->addSubTabTarget(
                 self::UI_SUB_TAB_ID_NOTIFICATIONS,
                 $this->ctrl->getLinkTarget($this, 'showMembers'),
                 '',
-                [strtolower(self::class)],
-                '',
-                in_array($cmd, ['showMembers', 'forums_notification_settings'], true)
+                [strtolower(self::class)]
             );
         }
 
@@ -334,11 +317,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->saveTileImage();
 
         $object = $this->parent_obj->getObject();
-        $object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
+        $object->setOfflineStatus(!$a_form->getInput('activation_online'));
         $object->update();
     }
 
-    public function showMembers(): void
+    private function showMembersCommand(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -397,7 +380,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         }
     }
 
-    public function getForumNotificationTable(): ForumNotificationTable
+    private function getForumNotificationTable(): ForumNotificationTable
     {
         $this->initForcedForumNotification();
         return new ForumNotificationTable(
@@ -413,7 +396,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         );
     }
 
-    public function notificationSettings(): never
+    private function notificationSettings(): never
     {
         $send_bad_request = function () {
             $this->http->saveResponse(
@@ -470,7 +453,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         $this->http->close();
     }
 
-    public function saveEventsForUser(): void
+    public function saveEventsForUserCommand(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -512,12 +495,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-
-        $this->showMembers();
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirect($this, 'showMembers');
     }
 
-    public function enableAdminForceNoti(): void
+    public function enableAdminForceNotiCommand(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -535,7 +517,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         }
 
         if (count($user_ids) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'), true);
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->forum->getRefId());
 
@@ -550,13 +532,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
                 }
             }
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
         }
 
-        $this->showMembers();
+        $this->ctrl->redirect($this, 'showMembers');
     }
 
-    public function disableAdminForceNoti(): void
+    public function disableAdminForceNotiCommand(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -574,7 +556,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         }
 
         if (count($user_ids) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->forum->getRefId());
 
@@ -587,13 +569,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
                 }
             }
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
         }
 
-        $this->showMembers();
+        $this->ctrl->redirect($this, 'showMembers');
     }
 
-    public function enableHideUserToggleNoti(): void
+    private function enableHideUserToggleNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -615,7 +597,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         }
 
         if (count($user_ids) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->forum->getRefId());
 
@@ -632,13 +614,13 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
                 }
             }
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
         }
 
-        $this->showMembers();
+        $this->ctrl->redirect($this, 'showMembers');
     }
 
-    public function disableHideUserToggleNoti(): void
+    private function disableHideUserToggleNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -660,7 +642,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         }
 
         if (count($user_ids) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->forum->getRefId());
 
@@ -676,10 +658,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
                 }
             }
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
         }
 
-        $this->showMembers();
+        $this->ctrl->redirect($this, 'showMembers');
     }
 
     private function initNotificationSettingsForm(): bool
@@ -738,7 +720,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         return true;
     }
 
-    public function updateNotificationSettings(): void
+    private function updateNotificationSettingsCommand(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -790,16 +772,18 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
 
             $this->parent_obj->objProperties->update();
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
         }
         $this->notificationSettingsForm->setValuesByPost();
 
-        $this->showMembers();
+        $this->ctrl->redirect($this, 'showMembers');
     }
 
     public function getUnsafeGetCommands(): array
     {
-        return ['handleNotificationActions'];
+        return [
+            'handleNotificationActions',
+        ];
     }
 
     public function getSafePostCommands(): array
@@ -807,7 +791,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants, ilCtrlSecurityInterf
         return [];
     }
 
-    private function handleNotificationActions(): void
+    private function handleNotificationActionsCommand(): void
     {
         $action = $this->http->wrapper()->query()->retrieve(
             'frm_notifications_table_action',
