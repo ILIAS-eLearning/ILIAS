@@ -1975,9 +1975,7 @@ class ilPageObjectGUI
             "active_tex",
             true
         )) {
-            if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-                $menu["cont_more_functions"][] = ["text" => 'Tex', "action" => "selection.tex", "data" => []];
-            }
+            $menu["cont_more_functions"][] = ["text" => 'Tex', "action" => "selection.tex", "data" => []];
         }
         if (ilPageEditorSettings::lookupSettingByParentType(
             $a_par_type,
