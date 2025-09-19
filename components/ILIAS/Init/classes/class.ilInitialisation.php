@@ -140,10 +140,8 @@ class ilInitialisation
         define("PATH_TO_UNZIP", $ilIliasIniFile->readVariable("tools", "unzip"));
         define("PATH_TO_GHOSTSCRIPT", $ilIliasIniFile->readVariable("tools", "ghostscript"));
         define("PATH_TO_JAVA", $ilIliasIniFile->readVariable("tools", "java"));
-        define("URL_TO_LATEX", $ilIliasIniFile->readVariable("tools", "latex"));
         define("PATH_TO_FOP", $ilIliasIniFile->readVariable("tools", "fop"));
         define("PATH_TO_SCSS", $ilIliasIniFile->readVariable("tools", "scss"));
-        define("PATH_TO_PHANTOMJS", $ilIliasIniFile->readVariable("tools", "phantomjs"));
 
         if ($ilIliasIniFile->groupExists('error')) {
             if ($ilIliasIniFile->variableExists('error', 'editor_url')) {
