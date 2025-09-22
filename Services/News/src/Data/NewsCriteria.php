@@ -29,7 +29,6 @@ final class NewsCriteria implements \JsonSerializable
 {
     public function __construct(
         private ?DateTimeImmutable $start_date = null,
-        private ?DateTimeImmutable $end_date = null,
         private ?int $period = null,
         private bool $only_public = false,
         private ?int $min_priority = null,
@@ -48,11 +47,6 @@ final class NewsCriteria implements \JsonSerializable
     public function getStartDate(): ?DateTimeImmutable
     {
         return $this->start_date;
-    }
-
-    public function getEndDate(): ?DateTimeImmutable
-    {
-        return $this->end_date;
     }
 
     public function getPeriod(): ?int
@@ -99,13 +93,6 @@ final class NewsCriteria implements \JsonSerializable
     {
         $new = clone $this;
         $new->start_date = $start_date;
-        return $new;
-    }
-
-    public function withEndDate(?DateTimeImmutable $end_date): self
-    {
-        $new = clone $this;
-        $new->end_date = $end_date;
         return $new;
     }
 
@@ -178,7 +165,6 @@ final class NewsCriteria implements \JsonSerializable
     {
         return [
             'start_date' => $this->start_date?->format('Y-m-d H:i:s'),
-            'end_date' => $this->end_date?->format('Y-m-d H:i:s'),
             'period' => $this->period,
             'only_public' => $this->only_public,
             'min_priority' => $this->min_priority,
@@ -188,14 +174,6 @@ final class NewsCriteria implements \JsonSerializable
             'no_auto_generated' => $this->no_auto_generated,
             'excluded_news_ids' => $this->excluded_news_ids
         ];
-    }
-
-    /**
-     * Check if criteria has a date range
-     */
-    public function hasDateRange(): bool
-    {
-        return $this->start_date !== null || $this->end_date !== null;
     }
 
     /**
@@ -211,10 +189,6 @@ final class NewsCriteria implements \JsonSerializable
      */
     public function validate(): void
     {
-        if ($this->start_date && $this->end_date && $this->start_date > $this->end_date) {
-            throw new \InvalidArgumentException('Start date cannot be after end date');
-        }
-
         if ($this->min_priority !== null && $this->max_priority !== null && $this->min_priority > $this->max_priority) {
             throw new \InvalidArgumentException('Min priority cannot be greater than max priority');
         }

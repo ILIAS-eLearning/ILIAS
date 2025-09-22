@@ -282,10 +282,9 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
 
         usort(
             $items,
-            fn($a, $b) => $factor * $a->getCreationDate()->getTimestamp() <=> $b->getCreationDate()->getTimestamp()
+            fn($a, $b) => ($a->getCreationDate()->getTimestamp() <=> $b->getCreationDate()->getTimestamp()) * $factor
         );
 
-        $sorted->addNewsItems($items);
-        return $sorted;
+        return $sorted->addNewsItems($items);
     }
 }
