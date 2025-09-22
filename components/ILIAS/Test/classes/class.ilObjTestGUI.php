@@ -2185,10 +2185,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->redirectAfterMissingRead();
         }
 
-        if ($this->getTestObject()->getMainSettings()->getAdditionalSettings()->getHideInfoTab()) {
-            $this->ctrl->redirectByClass([self::class, TestScreenGUI::class], TestScreenGUI::DEFAULT_CMD);
-        }
-
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_INFOSCREEN);
 
         if ($this->access->checkAccess('read', '', $this->ref_id)) {
@@ -2239,55 +2235,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         if ($this->type !== 'tst') {
             $info->hideFurtherSections(false);
-        }
-
-        $info->addSection($this->lng->txt('tst_sequence_properties'));
-        $info->addProperty(
-            $this->lng->txt('tst_sequence'),
-            $this->lng->txt(
-                $this->getTestObject()->getMainSettings()->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd()
-                    ? 'tst_sequence_postpone' : 'tst_sequence_fixed'
-            )
-        );
-
-        $info->addSection($this->lng->txt('tst_heading_scoring'));
-        $info->addProperty(
-            $this->lng->txt('tst_text_count_system'),
-            $this->lng->txt(
-                ($this->getTestObject()->getCountSystem() == SettingsScoring::COUNT_PARTIAL_SOLUTIONS) ? 'tst_count_partial_solutions' : 'tst_count_correct_solutions'
-            )
-        );
-        if ($this->getTestObject()->isRandomTest()) {
-            $info->addProperty($this->lng->txt('tst_pass_scoring'), $this->lng->txt(($this->getTestObject()->getPassScoring() == ilObjTest::SCORE_BEST_PASS) ? 'tst_pass_best_pass' : 'tst_pass_last_pass'));
-        }
-
-        $info->addSection($this->lng->txt('tst_score_reporting'));
-        $info->addProperty(
-            $this->lng->txt('tst_score_reporting'),
-            $this->getTestObject()->getScoreSettings()->getResultSummarySettings()
-                ->getScoreReporting()->getTranslatedValue($this->lng)
-        );
-        $reporting_date = $this->getTestObject()
-            ->getScoreSettings()
-            ->getResultSummarySettings()
-            ->getReportingDate();
-        if ($reporting_date !== null) {
-            $info->addProperty(
-                $this->lng->txt('tst_score_reporting_date'),
-                $reporting_date
-                    ->setTimezone(new DateTimeZone($this->user->getTimeZone()))
-                    ->format($this->user->getDateTimeFormat()->toString())
-            );
-        }
-
-        $info->addSection($this->lng->txt('tst_session_settings'));
-        $info->addProperty($this->lng->txt('tst_nr_of_tries'), $this->getTestObject()->getNrOfTries() === 0 ? $this->lng->txt('unlimited') : (string) $this->getTestObject()->getNrOfTries());
-        if ($this->getTestObject()->getNrOfTries() != 1) {
-            $info->addProperty(
-                $this->lng->txt('tst_nr_of_tries_of_user'),
-                ($this->test_session_factory->getSession()->getPass() === 0) ?
-                    $this->lng->txt('tst_no_tries') : (string) $this->test_session_factory->getSession()->getPass()
-            );
         }
 
         if ($this->getTestObject()->getEnableProcessingTime()) {
