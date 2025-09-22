@@ -192,11 +192,17 @@ class ilMediaPoolItem
 
         $ilDB = $DIC->database();
 
+        $set = $ilDB->query("
+            SELECT title FROM object_data
+            WHERE obj_id = " . $ilDB->quote($a_obj, "integer")
+        );
+        $rec = $ilDB->fetchAssoc($set);
+        $title = $rec["title"] ?? "";
+
         if (ilObject::_lookupType($a_obj) === "mob") {
-            $title = ilObject::_lookupTitle($a_obj);
+
             $ilDB->manipulate(
-                "UPDATE mep_item SET " .
-                " title = " . $ilDB->quote($title, "text") .
+                "UPDATE mep_item SET title = " . $ilDB->quote($title, "text") .
                 " WHERE foreign_id = " . $ilDB->quote($a_obj, "integer") .
                 " AND type = " . $ilDB->quote("mob", "text")
             );
