@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,6 +36,8 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
 
     /** @var array<string, int[]> */
     private array $type_map = [];
+
+    /** @var array<int, int[]> */
     private array $user_read_status = [];
 
     public function __construct(array $news_items = [])
@@ -102,25 +106,11 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     }
 
     /**
-     * Sort news items by creation date and returns it as a new collection
+     * @param int[] $read_news_ids
      */
-    public function sortByDate(bool $ascending = false): self
-    {
-        $sorted = new self();
-        $items = $this->news_items;
-
-        usort($items, function (NewsItem $a, NewsItem $b) use ($ascending) {
-            $comparison = $a->getCreationDate() <=> $b->getCreationDate();
-            return $ascending ? $comparison : -$comparison;
-        });
-
-        $sorted->addNewsItems($items);
-        return $sorted;
-    }
-
     public function setUserReadStatus(int $user_id, array $read_news_ids): self
     {
-        $this->user_read_status[$user_id] = array_flip($read_news_ids);
+        $this->user_read_status[$user_id] = $read_news_ids;
         return $this;
     }
 
@@ -129,45 +119,53 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
         return isset($this->user_read_status[$user_id][$news_id]);
     }
 
-    public function getUnreadCountForUser(int $user_id): int
-    {
-        if (!isset($this->user_read_status[$user_id])) {
-            return count($this->news_items);
-        }
-
-        $read_ids = array_keys($this->user_read_status[$user_id]);
-        return count($this->news_items) - count(array_intersect_key($this->news_items, array_flip($read_ids)));
-    }
+    /*
+        Legacy Adapter
+     */
 
     /**
-     * Get aggregated news (forums, files, etc.) as a flat array which can be used for rendering
+     * Get news items in a format compatible with the legacy rendering implementation.
+     * This should never be introduced in new code and will be removed in the future.
+     *
+     * @deprecated
      */
     public function getAggregatedNews(): array
     {
-        $aggregated = [];
+        global $DIC;
+        $cache = $DIC->news()->internal()->repo()->cache();
 
+        $items = [];
         foreach ($this->news_items as $item) {
-            $context_key = $item->getContextObjId() . '_' . $item->getContextObjType();
-
-            if (!isset($aggregated[$context_key])) {
-                $aggregated[$context_key] = [
-                    'context_obj_id' => $item->getContextObjId(),
-                    'context_obj_type' => $item->getContextObjType(),
-                    'items' => [],
-                    'count' => 0,
-                    'latest_date' => $item->getCreationDate()
-                ];
-            }
-
-            $aggregated[$context_key]['items'][] = $item;
-            $aggregated[$context_key]['count']++;
-
-            if ($item->getCreationDate() > $aggregated[$context_key]['latest_date']) {
-                $aggregated[$context_key]['latest_date'] = $item->getCreationDate();
-            }
+            $items[$item->getId()] = [
+                'id' => $item->getId(),
+                'priority' => $item->getPriority(),
+                'title' => $item->getTitle(),
+                'content' => $item->getContent(),
+                'context_obj_id' => $item->getContextObjId(),
+                'context_obj_type' => $item->getContextObjType(),
+                'context_sub_obj_id' => $item->getContextSubObjId(),
+                'context_sub_obj_type' => $item->getContextSubObjType(),
+                'content_type' => $item->getContentType(),
+                'creation_date' => $item->getCreationDate()->format('Y-m-d H:i:s'),
+                'user_id' => $item->getUserId(),
+                'visibility' => $item->getVisibility(),
+                'content_long' => $item->getContentLong(),
+                'content_is_lang_var' => $item->isContentIsLangVar(),
+                'mob_id' => $item->getMobId(),
+                'playtime' => $item->getPlaytime(),
+                'start_date' => null, //it seems like this is not used anymore
+                'end_date' => null, //it seems like this is not used anymore
+                'content_text_is_lang_var' => $item->isContentTextIsLangVar(),
+                'mob_cnt_download' => $item->getMobCntDownload(),
+                'mob_cnt_play' => $item->getMobCntPlay(),
+                'content_html' => $item->isContentHtml(),
+                'update_user_id' => $item->getUpdateUserId(),
+                'user_read' => $this->isReadByUser($item->getUserId(), $item->getId()) ? 1 : 0,
+                'ref_id' => $cache->lookupContextId($item->getContextObjId())
+            ];
         }
 
-        return $aggregated;
+        return $items;
     }
 
     /*
@@ -204,12 +202,7 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
         return end($this->news_items) ?: null;
     }
 
-    public function contains(NewsItem $item): bool
-    {
-        return isset($this->news_items[$item->getId()]);
-    }
-
-    public function containsId(int $news_id): bool
+    public function contains(int $news_id): bool
     {
         return isset($this->news_items[$news_id]);
     }
@@ -217,6 +210,17 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     public function getById(int $news_id): ?NewsItem
     {
         return $this->news_items[$news_id] ?? null;
+    }
+
+    public function pick(int $offset): ?NewsItem
+    {
+        $index = max(0, $offset);
+        return array_values($this->news_items)[$index] ?? null;
+    }
+
+    public function pluck(string $key): array
+    {
+        return array_column($this->news_items, $key);
     }
 
     /**
@@ -268,16 +272,20 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     }
 
     /**
-     * Paginate the news items and returns it as a new collection
+     * Sort news items by creation date and returns it as a new collection
      */
-    public function paginate(int $page, int $page_size): self
+    public function sortByDate(bool $ascending = false): self
     {
-        $offset = ($page - 1) * $page_size;
-        $items = array_slice($this->news_items, $offset, $page_size, true);
+        $sorted = new self();
+        $items = $this->news_items;
+        $factor = $ascending ? 1 : -1;
 
-        $paginated = new self();
-        $paginated->addNewsItems($items);
+        usort(
+            $items,
+            fn($a, $b) => $factor * $a->getCreationDate()->getTimestamp() <=> $b->getCreationDate()->getTimestamp()
+        );
 
-        return $paginated;
+        $sorted->addNewsItems($items);
+        return $sorted;
     }
 }

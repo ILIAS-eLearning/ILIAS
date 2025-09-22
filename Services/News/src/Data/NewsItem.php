@@ -294,4 +294,32 @@ class NewsItem
         $this->content_html = $content_html;
         return $this;
     }
+
+    public function toLegacy(): \ilNewsItem
+    {
+        $item = new \ilNewsItem(0); //prevent database loading
+        $item->setId($this->id);
+        $item->setTitle($this->title);
+        $item->setContent($this->content);
+        $item->setContextObjId($this->context_obj_id);
+        $item->setContextObjType($this->context_obj_type);
+        $item->setContextSubObjId($this->context_sub_obj_id);
+        $item->setContextSubObjType($this->context_sub_obj_type);
+        $item->setContentType($this->content_type);
+        $item->setCreationDate($this->creation_date->format('Y-m-d H:i:s'));
+        $item->setUpdateDate($this->update_date->format('Y-m-d H:i:s'));
+        $item->setUserId($this->user_id);
+        $item->setUpdateUserId($this->update_user_id);
+        $item->setVisibility($this->visibility);
+        $item->setContentLong($this->content_long);
+        $item->setPriority($this->priority);
+        $item->setContentIsLangVar($this->content_is_lang_var);
+        $item->setContentTextIsLangVar($this->content_text_is_lang_var);
+        $item->setMobId($this->mob_id);
+        $item->setPlaytime($this->playtime);
+        $item->setMobPlayCounter($this->mob_cnt_play);
+        $item->setMobDownloadCounter($this->mob_cnt_download);
+        $item->setContentHtml($this->content_html);
+        return $item;
+    }
 }
