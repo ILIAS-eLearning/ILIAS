@@ -45,16 +45,27 @@ function buildSettings(inputId, config) {
         .replace(/>/g, '&gt;');
     },
     templates: {
+      wrapper(input, _s) {
+        return `<div class="${_s.classNames.namespace} ${_s.mode ? `${_s.classNames[_s.mode + "Mode"]}` : ""} ${input.className}"
+            ${_s.readonly ? 'readonly' : ''}
+            ${_s.disabled ? 'disabled' : ''}
+            ${_s.required ? 'required' : ''}
+            ${_s.mode === 'select' ? "spellcheck='false'" : ''}
+            tabIndex="-1">
+            ${this.settings.templates.input.call(this)}
+          \u200B
+        </div>`
+      },
       tag(tagData) {
-        return `<tag contenteditable='false'
+        return `<div contenteditable='false'
           spellcheck="false" class='tagify__tag'
           value="${tagData.value}"
           tabindex="0">
-          <x title='remove tag' class='tagify__tag__removeBtn'></x>
+          <span title='remove tag' class='tagify__tag__removeBtn'></span>
           <div>
               <span class='tagify__tag-text'>${tagData.display}</span>
           </div>
-        </tag>`;
+        </div>`;
       },
       dropdownItem(tagData) {
         return `<div class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}" value="${tagData.value}">
