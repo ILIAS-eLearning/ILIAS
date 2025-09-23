@@ -36,7 +36,7 @@ function buildSettings(inputId, config) {
     transformTag(tagData) {
       if (!tagData.display) {
         tagData.display = tagData.value;
-        tagData.value = encodeURI(tagData.value);
+        tagData.value = encodeURIComponent(tagData.value);
       }
       tagData.display = tagData.display
         .replace(/</g, '&lt;')

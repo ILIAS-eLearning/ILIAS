@@ -231,4 +231,38 @@ class TagInputTest extends ILIAS_UI_TestBase
             )
         );
     }
+
+    public static function getUITagSpecialCharValues(): array
+    {
+        return [
+            ['1', '2', '3'],
+            ['++1#*', '[-2]', '{?3}'],
+            ['some\'thing "else"', '&/\\'],
+            ['fünf, sechs', 'sieben, acht'],
+        ];
+    }
+
+    /** @dataProvider getUITagSpecialCharValues */
+    public function testUITagInputSpecialChars(string ...$tags): void
+    {
+        $f = $this->getFieldFactory();
+        $name = "name_0";
+        $tag = $f->tag('', $tags)->withNameFrom($this->name_source);
+
+        $encoded_tags = array_map('rawurlencode', $tags);
+
+        $this->assertEquals(
+            $encoded_tags,
+            array_map(
+                fn($o) => $o['value'],
+                $tag->getConfiguration(fn(string $txt) => $txt)->options
+            )
+        );
+
+        $raw_value = implode(',', $encoded_tags);
+        $tag_with_input = $tag->withInput(new DefInputData([$name => $raw_value]));
+        $content = $tag_with_input->getContent();
+        $this->assertTrue($content->isOk());
+        $this->assertEquals($tags, $content->value());
+    }
 }
