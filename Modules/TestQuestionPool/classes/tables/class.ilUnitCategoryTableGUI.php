@@ -107,6 +107,8 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this->getParentObject(), 'category_id', '');
         $row['actions'] = $action->getHtml();
 
+        $row['category'] = htmlspecialchars($row['category'], ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+
         parent::fillRow($row);
     }
 }
