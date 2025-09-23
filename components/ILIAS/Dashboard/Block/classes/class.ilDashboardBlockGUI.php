@@ -18,16 +18,18 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Table\Ordering;
+use ILIAS\UI\Component\ViewControl\Sortation;
 use ILIAS\HTTP\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\Modal\RoundTrip;
-use ILIAS\UI\Implementation\Component\ReplaceSignal;
-use JetBrains\PhpStorm\NoReturn;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\components\Dashboard\Block\BlockDTO;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Data\URI;
 
 abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
@@ -46,6 +48,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     protected ilPDSelectedItemsBlockViewSettings $viewSettings;
     /** @var array<BlockDTO[]> */
     protected array $data;
+    private ?RoundTrip $manual_sort_modal = null;
+    private readonly SignalGenerator $signal_generator;
 
     public function __construct()
     {
@@ -61,6 +65,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->rbacsystem = $DIC->rbac()->system();
         $this->favourites_manager = new ilFavouritesManager();
         $this->parent = $this->ctrl->getCurrentClassPath()[0] ?? '';
+        $this->signal_generator = new SignalGenerator();
         $this->init();
     }
 
@@ -211,7 +216,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->addCommandActions();
         $this->setData($this->getItemGroups());
 
-        return parent::getHTML();
+        $modal = $this->manual_sort_modal ? $this->ui->renderer()->render($this->manual_sort_modal) : '';
+        return parent::getHTML() . $modal;
     }
 
     /**
@@ -361,9 +367,22 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $sortings = $this->viewSettings->getSelectableSortingModes();
         if (count($sortings) > 1) {
             foreach ($sortings as $sorting) {
+                if ($sorting === ilPDSelectedItemsBlockConstants::SORT_MANUALLY) {
+                    global $DIC;
+                    $signal = $this->signal_generator->create();
+                    // $signal = $DIC['ui.signal_generator']->create();
+                    $this->manual_sort_modal = $this->ui->factory()->modal()->roundtrip(
+                        $this->lng->txt('dash_manual_sorting_title'),
+                        [$this->manually()]
+                    )->withAdditionalOnLoadCode(fn($id) => "document.getElementById('$id').addEventListener('close', () => {window.location = window.location;});");
+
+                    $this->manual_sort_modal = $this->manual_sort_modal->withAdditionalOnLoadCode(fn($id) => (
+                        "il.Dashboard.moveModalButtons($id)"
+                    ));
+                }
                 $this->addSortOption(
                     $sorting,
-                    $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
+                    '<span data-action="' . $sorting . '">' . $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting) . '</span>',
                     $sorting === $this->viewSettings->getEffectiveSortingMode()
                 );
             }
@@ -480,6 +499,70 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return '';
     }
 
+    public function manually(): Ordering
+    {
+        $request = $this->http->request();
+        $columns = [
+            'title' => $this->factory->table()->column()->text('Title')
+        ];
+
+        $records = null;
+        $proc = function ($b) use (&$records) {
+            return yield from array_map(fn($x) => $b->buildOrderingRow((string) $x['id'], $x), $records);
+        };
+
+        $uri = new URI((string) $request->getUri());
+        parse_str($uri->getQuery(), $query);
+        $uri = $uri->withQuery(http_build_query(array_merge(
+            $query,
+            ['view' => $this->viewSettings->getCurrentView()]
+        )));
+        $table = $this->factory->table()
+            ->ordering(new \ILIAS\Dashboard\TableData($proc), $uri, '', $columns)
+            ->withRequest($request);
+
+        $int = $this->refinery->byTrying([$this->refinery->kindlyTo()->int(), $this->refinery->always(null)]);
+
+        if ($request->getMethod() === 'POST' && $this->viewSettings->getCurrentView() === $this->http->wrapper()->query()->retrieve('view', $int)) {
+            $data = $table->getData();
+            if ($data) {
+                $this->viewSettings->storeActorSortingMode('manually');
+                $this->viewSettings->storeActorSortingData(array_flip($data));
+                $this->ctrl->redirectByClass(ilDashboardGUI::class);
+            }
+        }
+
+        $icon_for = fn(int $obj_id) => $this->renderer->render(
+            $this->ui->factory()->symbol()->icon()->custom(ilObject::_getIcon($obj_id), '')
+        );
+
+        $records = array_map(fn($x) => [
+            'id' => $x->getRefId(),
+            'title' => $icon_for($x->getObjId()) . $x->getTitle(),
+        ], array_values($this->sortManually($this->getItemGroups())));
+
+        return $table;
+    }
+
+    public function getViewControlsForPanel(): array
+    {
+        global $DIC;
+        if (!$this->manual_sort_modal) {
+            return parent::getViewControlsForPanel();
+        }
+        $show = $this->manual_sort_modal->getShowSignal();
+        $modal_signals = json_encode(['manually' => (string) $show]);
+        $url = json_encode($this->ctrl->getLinkTarget($this, 'changePDItemSorting'));
+        $signal = $this->signal_generator->create();
+        $code = fn($id) => "il.Dashboard.showModalOnSort($id, $url, '$signal', $modal_signals)";
+        $compontents = array_map(
+            fn($x) => $x instanceof Sortation ? $x->withOnSort($signal)->withAdditionalOnLoadCode($code) : $x,
+            parent::getViewControlsForPanel()
+        );
+
+        return $compontents;
+    }
+
     public function viewDashboardObject(): void
     {
         $this->initAndShow();
@@ -517,6 +600,8 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 return $this->groupItemsByStartDate();
             case ilPDSelectedItemsBlockConstants::SORT_BY_TYPE:
                 return $this->groupItemsByType();
+            case ilPDSelectedItemsBlockConstants::SORT_MANUALLY:
+                return ['' => $this->sortManually($this->getData())];
             case ilPDSelectedItemsBlockConstants::SORT_BY_LOCATION:
             default:
                 return $this->groupItemsByLocation();
@@ -603,6 +688,19 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
             $data,
             static fn(BlockDTO $left, BlockDTO $right): int => strcmp($left->getTitle(), $right->getTitle())
         );
+        return $data;
+    }
+
+    private function sortManually(array $data): array
+    {
+        $data = array_merge(...array_values($data));
+        $new_at_botton = 'bot' === ($this->viewSettings->getEffectiveSortingOptions()['new_items'] ?? 'bot');
+        $default = $new_at_botton ? INF : -INF;
+        $manual_sorting = $this->viewSettings->getEffectiveSortingData();
+        usort($data, fn(BlockDTO $l, BlockDTO $r) => (
+            ($manual_sorting[$l->getRefId()] ?? $default) <=> ($manual_sorting[$r->getRefId()] ?? $default)
+        ));
+
         return $data;
     }
 }

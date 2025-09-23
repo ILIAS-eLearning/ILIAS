@@ -8069,6 +8069,10 @@ dash#:#dash_learning_sequences#:#Meine Lernsequenzen
 dash#:#dash_list#:#Liste
 dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
+dash#:#dash_manual_new_item_pos#:#Position von neuen Objekten
+dash#:#dash_manual_new_item_pos_bot#:#Unten
+dash#:#dash_manual_new_item_pos_top#:#Oben
+dash#:#dash_manual_sorting_title#:#Manuelles Sortieren von Favoriten
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_page_edit_info#:#Der Inhalt dieser Seite wird allen Nutzern auf ihrem Dashboard angezeigt. Die Inhaltsblöcke des Dashboards werden darunter angezeigt.
@@ -8078,8 +8082,12 @@ dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_sort_by_alphabet#:#Alphabet
 dash#:#dash_sort_by_location#:#Ort
+dash#:#dash_sort_by_manually#:#Manuell
 dash#:#dash_sort_by_start_date#:#Veranstaltungszeitraum
 dash#:#dash_sort_by_type#:#Typ
+dash#:#dash_sort_option_bot#:#Unten
+dash#:#dash_sort_option_top#:#Oben
+dash#:#dash_sort_options#:#Postition von neuen Objekten
 dash#:#dash_sortation#:#Sortierung
 dash#:#dash_study_programmes#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln

@@ -30,6 +30,7 @@ interface ilPDSelectedItemsBlockConstants
     public const SORT_BY_LOCATION = 'location';
     public const SORT_BY_START_DATE = 'start_date';
     public const SORT_BY_ALPHABET = 'alphabet';
+    public const SORT_MANUALLY = 'manually';
 
     public const PRESENTATION_LIST = 'list';
     public const PRESENTATION_TILE = 'tile';

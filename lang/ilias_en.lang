@@ -8070,6 +8070,10 @@ dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
+dash#:#dash_manual_new_item_pos#:#Position of New Objects
+dash#:#dash_manual_new_item_pos_bot#:#Bottom
+dash#:#dash_manual_new_item_pos_top#:#Top
+dash#:#dash_manual_sorting_title#:#Manual Sorting of Favorites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.
@@ -8079,8 +8083,12 @@ dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sort_by_alphabet#:#Alphabet
 dash#:#dash_sort_by_location#:#Location
+dash#:#dash_sort_by_manually#:#Manually
 dash#:#dash_sort_by_start_date#:#Period of Event
 dash#:#dash_sort_by_type#:#Type
+dash#:#dash_sort_option_bot#:#Bottom
+dash#:#dash_sort_option_top#:#Top
+dash#:#dash_sort_options#:#Postition of new Objects
 dash#:#dash_sortation#:#Sortation
 dash#:#dash_study_programmes#:#My Study Programmes
 dash#:#dash_tile#:#Tile
