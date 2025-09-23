@@ -289,7 +289,7 @@ class ilObjTestXMLParser extends ilSaxParser
             );
             $sourcePoolDefinition->setMappedTaxonomyFilter($mappedTaxFilter);
         } elseif (isset($attr['taxFilter']) && strlen($attr['taxFilter']) > 0) {
-            $mappedTaxFilter = unserialize($attr['taxFilter']);
+            $mappedTaxFilter = unserialize($attr['taxFilter'], ['allowed_classes' => false]);
             $sourcePoolDefinition->setMappedTaxonomyFilter($mappedTaxFilter);
         }
     }
