@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\LTI\ToolProvider\Tool;
+
 /**
  * OAuth based lti authentication
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -232,6 +234,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $lti_provider = new ilLTITool($this->dataConnector);
         // $lti_provider = new Tool\Tool($this->dataConnector);
         $ok = true;
+        Tool::$authenticateUsingGet = true;
         $lti_provider->handleRequest();
 
         if (!$ok) {

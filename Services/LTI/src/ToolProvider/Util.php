@@ -465,7 +465,7 @@ final class Util
      */
     public static function sendForm(string $url, array $params, string $target = ''): string
     {
-        self::logForm($url, $params, 'POST');
+        self::logForm($url, $params, 'GET');
         $page = <<< EOD
 <html>
 <head>

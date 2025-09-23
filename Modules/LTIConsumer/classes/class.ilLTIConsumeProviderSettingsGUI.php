@@ -21,11 +21,15 @@ declare(strict_types=1);
 /**
  * Class ilLTIConsumeProviderSettingsGUI
  *
+ * @author      Sergio Santiago <ssantiago@surlabs.com>
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
  * @package     Modules/LTIConsumer
  */
+
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 class ilLTIConsumeProviderSettingsGUI
 {
     public const CMD_SHOW_SETTINGS = 'showSettings';
@@ -41,13 +45,18 @@ class ilLTIConsumeProviderSettingsGUI
      */
     protected ilLTIConsumerAccess $access;
 
+    protected LOMServices $lom_services;
+    protected Metadata $metadata;
+
     /**
      * ilLTIConsumerAccess constructor.
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {
+        global $DIC;
         $this->object = $object;
         $this->access = $access;
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     /**
@@ -86,10 +95,26 @@ class ilLTIConsumeProviderSettingsGUI
         if ($form->checkInput()) {
             $form->initProvider($provider);
             $this->object->getProvider()->save();
+            $this->initMetadata($this->object);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
         }
 
         $this->showSettingsCmd($form);
+    }
+
+    public function initMetadata(\ilObject $object): void
+    {
+        $keywords = [];
+        foreach ($object->getProvider()->getKeywordsArray() as $keyword) {
+            if ($keyword !== '') {
+                $keywords[] = $keyword;
+            }
+        }
+        $this->lom_services->manipulate($object->getId(), $object->getId(), $object->getType())
+                           ->prepareCreateOrUpdate(
+                               $this->lom_services->paths()->keywords(),
+                               ...$keywords
+                           )->execute();
     }
 
     /**

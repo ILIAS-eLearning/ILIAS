@@ -465,6 +465,8 @@ class Tool
      */
     public function handleRequest(bool $strictMode = false)
     {
+        global $DIC;
+        $logger = $DIC ->logger()->root();
         $parameters = Util::getRequestParameters();
         if ($this->debugMode) {
             Util::$logLevel = Util::LOGLEVEL_DEBUG;
@@ -507,7 +509,6 @@ class Tool
             }
             Util::logError($errorMessage);
         }
-
         $this->result();
     }
 
@@ -1148,8 +1149,11 @@ EOD;
      */
     private function result(): void
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         if (!$this->ok) {
             $this->message = self::CONNECTION_ERROR_MESSAGE . ' ' . $this->reason;
+            $logger->error($this->message);
             $this->onError();
         }
         if (!$this->ok) {
@@ -2088,13 +2092,14 @@ EOD;
                 if (!Tool::$authenticateUsingGet) {
                     $this->output = Util::sendForm($this->platform->authenticationUrl, $params);
                 } else {
+                    //dump($this->platform->authenticationUrl, $redirectUri);exit();
                     Util::redirect($this->platform->authenticationUrl, $params);
                 }
             } else {
                 $this->reason = 'Unable to generate a state value.';
             }
         }
-
+        //dump($ok);exit();
         return $ok;
     }
 
