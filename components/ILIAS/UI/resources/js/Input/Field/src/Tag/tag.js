@@ -15,9 +15,21 @@
 
 /**
  *
- * @type {Object}
+ * @type {Array}
  */
-const instances = {};
+const instances = [];
+
+/**
+ *
+ * @type {AbortController}
+ */
+let abortController;
+
+/**
+ *
+ * @type {number}
+ */
+let timeout;
 
 /*
  * @param {HTMLInput} input
@@ -50,7 +62,7 @@ function buildSettings(inputId, config) {
     },
     templates: {
       wrapper(input, _s) {
-        return `<div class="${_s.classNames.namespace} ${_s.mode ? `${_s.classNames[_s.mode + "Mode"]}` : ""} ${input.className}"
+        return `<div class="${_s.classNames.namespace} ${_s.mode ? `${_s.classNames[`${_s.mode}Mode`]}` : ''} ${input.className}"
             ${_s.readonly ? 'readonly' : ''}
             ${_s.disabled ? 'disabled' : ''}
             ${_s.required ? 'required' : ''}
@@ -58,7 +70,7 @@ function buildSettings(inputId, config) {
             tabIndex="-1">
             ${this.settings.templates.input.call(this)}
           \u200B
-        </div>`
+        </div>`;
       },
       tag(tagData) {
         return `<div contenteditable='false'
@@ -82,8 +94,6 @@ function buildSettings(inputId, config) {
 
 /**
  * @param {Tagify} instance
- * @param {AbortController} controller
- * @param {number} timeout
  * @param {number} suggestionsStartAfter
  * @param {URL} autocompleteEndpoint
  * @param {InputEvent} event
@@ -92,15 +102,15 @@ function buildSettings(inputId, config) {
  */
 function retrieveAutocomplete(
   instance,
-  controller,
-  timeout,
   suggestionsStartAfter,
   autocompleteEndpoint,
   event,
   tagAutocompleteTriggerTimeout,
 ) {
-  controller.abort();
-  controller = new AbortController();
+  if (typeof abortController !== 'undefined') {
+    abortController.abort();
+  }
+  abortController = new AbortController();
 
   instance.whitelist = null;
 
@@ -118,7 +128,7 @@ function retrieveAutocomplete(
       const searchTerm = event.detail.value;
       autocompleteEndpoint.searchParams.append('term', searchTerm);
       instance.loading(true);
-      fetch(autocompleteEndpoint.toString(), { signal: controller.signal })
+      fetch(autocompleteEndpoint.toString(), { signal: abortController.signal })
         .then((answer) => answer.json())
         .catch(() => {})
         .then((options) => {
@@ -132,11 +142,11 @@ function retrieveAutocomplete(
 
 /**
  *
- * @param {string} instance_id
+ * @param {string} instanceId
  * @returns {Tagify}
  */
-export function getTagifyInstance(instance_id) {
-  return instances.instance_id;
+export function getTagifyInstance(instanceId) {
+  return instances[instanceId];
 }
 
 /**
@@ -146,18 +156,15 @@ export function getTagifyInstance(instance_id) {
  * @param {array} value
  */
 export function init(Tagify, input, config, value) {
-  const instance_id = input.id;
-  instances.instance_id = new Tagify(
+  instances[input.id] = new Tagify(
     input,
     buildSettings(input.id, config),
   );
-  instances.instance_id.addTags(value);
+  instances[input.id].addTags(value);
   if (config.autocompleteEndpoint !== null) {
-    instances.instance_id.on('input', (event) => {
+    instances[input.id].on('input', (event) => {
       retrieveAutocomplete(
-        instances.instance_id,
-        new AbortController(),
-        undefined,
+        instances[input.id],
         config.suggestionStarts,
         new URL(config.autocompleteEndpoint),
         event,
