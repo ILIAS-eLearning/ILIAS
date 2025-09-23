@@ -32,7 +32,7 @@ import MarkdownFactory from './Markdown/markdown.factory.js';
 import TreeSelectFactory from './TreeSelect/TreeSelectFactory.js';
 import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
 import Tagify from 'Tagify';
-import tag from './Tag/tag.js';
+import * as tag from './Tag/tag.js';
 
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
@@ -47,6 +47,7 @@ il.UI.Input = il.UI.Input || {};
     {txt: (s) => il.Language.txt(s)},
     document,
   );
-  Input.tag = Input.tag || {};
-  Input.tag.init = (input, config, value) => tag(Tagify, input, config, value);
+  Input.tagInput = Input.tag || {};
+  Input.tagInput.init = (input, config, value) => tag.init(Tagify, input, config, value);
+  Input.tagInput.getTagifyInstance = (input_id) => tag.getTagifyInstance(input_id);
 }(il.UI.Input));

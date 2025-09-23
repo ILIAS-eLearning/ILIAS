@@ -412,7 +412,7 @@ class Renderer extends AbstractComponentRenderer
             function ($id) use ($configuration, $value) {
                 $encoded = json_encode($configuration);
                 $value = json_encode($value);
-                return "il.UI.Input.tag.init(document.querySelector('#{$id} .c-field-tag'), {$encoded}, {$value});";
+                return "il.UI.Input.tagInput.init(document.querySelector('#{$id} .c-field-tag'), {$encoded}, {$value});";
             }
         );
 
