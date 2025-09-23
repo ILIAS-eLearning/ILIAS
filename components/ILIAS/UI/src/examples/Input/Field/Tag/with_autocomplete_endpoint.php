@@ -49,8 +49,11 @@ function with_autocomplete_endpoint()
 
     $df = new \ILIAS\Data\Factory();
 
+    [$url_builder, $term_token] = (new URLBuilder($df->uri($http->request()->getUri()->__toString())))
+        ->acquireParameter(['examples'], 'term');
+
     $search_term = $http->wrapper()->query()->retrieve(
-        'term',
+        $term_token->getName(),
         $refinery->byTrying([
             $refinery->kindlyTo()->string(),
             $refinery->always('')
@@ -87,7 +90,8 @@ function with_autocomplete_endpoint()
         "Tag Input with Autocomplete",
         []
     )->withAsyncAutocomplete(
-        $df->uri($http->request()->getUri()->__toString())
+        $url_builder,
+        $term_token
     )->withUserCreatedTagsAllowed(false);
 
     return  $renderer->render(

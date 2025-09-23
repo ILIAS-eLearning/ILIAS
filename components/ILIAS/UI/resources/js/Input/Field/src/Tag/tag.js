@@ -95,7 +95,8 @@ function buildSettings(inputId, config) {
 /**
  * @param {Tagify} instance
  * @param {number} suggestionsStartAfter
- * @param {URL} autocompleteEndpoint
+ * @param {URLBuilder} autocompleteEndpoint
+ * @param {URLBuilderToken} autocompleteToken
  * @param {InputEvent} event
  * @param {number} tagAutocompleteTriggerTimeout
  * @returns {void}
@@ -104,6 +105,7 @@ function retrieveAutocomplete(
   instance,
   suggestionsStartAfter,
   autocompleteEndpoint,
+  autocompleteToken,
   event,
   tagAutocompleteTriggerTimeout,
 ) {
@@ -126,9 +128,9 @@ function retrieveAutocomplete(
   timeout = instance.DOM.scope.ownerDocument.defaultView.setTimeout(
     () => {
       const searchTerm = event.detail.value;
-      autocompleteEndpoint.searchParams.append('term', searchTerm);
+      autocompleteEndpoint.writeParameter(autocompleteToken, searchTerm);
       instance.loading(true);
-      fetch(autocompleteEndpoint.toString(), { signal: abortController.signal })
+      fetch(autocompleteEndpoint.getUrl().toString(), { signal: abortController.signal })
         .then((answer) => answer.json())
         .catch(() => {})
         .then((options) => {
@@ -154,19 +156,22 @@ export function getTagifyInstance(instanceId) {
  * @param {HTMLInput} input
  * @param {Object} config
  * @param {array} value
+ * @param {URLBuilder} autocompleteEndpoint
+ * @param {URLBuilderToken} autocompleteToken
  */
-export function init(Tagify, input, config, value) {
+export function init(Tagify, input, config, value, autocompleteEndpoint, autocompleteToken) {
   instances[input.id] = new Tagify(
     input,
     buildSettings(input.id, config),
   );
   instances[input.id].addTags(value);
-  if (config.autocompleteEndpoint !== null) {
+  if (typeof autocompleteEndpoint !== 'undefined') {
     instances[input.id].on('input', (event) => {
       retrieveAutocomplete(
         instances[input.id],
         config.suggestionStarts,
-        new URL(config.autocompleteEndpoint),
+        autocompleteEndpoint,
+        autocompleteToken,
         event,
         config.autocompleteTriggerTimeout,
       );

@@ -408,11 +408,23 @@ class Renderer extends AbstractComponentRenderer
             );
         }
 
+        $autocomplete_endpoint = 'undefined';
+        $autocomplete_token = 'undefined';
+        if ($component->getAsyncAutocompleteEndpoint() !== null) {
+            $autocomplete_endpoint = $component->getAsyncAutocompleteEndpoint()
+                ->renderObject([$component->getAsyncAutocompleteToken()]);
+            $autocomplete_token = $component->getAsyncAutocompleteToken()->render();
+        }
+
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($configuration, $value) {
+            function ($id) use ($configuration, $value, $autocomplete_endpoint, $autocomplete_token) {
                 $encoded = json_encode($configuration);
                 $value = json_encode($value);
-                return "il.UI.Input.tagInput.init(document.querySelector('#{$id} .c-field-tag'), {$encoded}, {$value});";
+                return 'il.UI.Input.tagInput.init(document.querySelector('
+                . "'#{$id} .c-field-tag'), {$encoded}, {$value},"
+                . " {$autocomplete_endpoint}, "
+                . " {$autocomplete_token}"
+                . ");";
             }
         );
 

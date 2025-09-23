@@ -33,6 +33,8 @@ use Closure;
 use LogicException;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * Class TagInput
@@ -55,7 +57,8 @@ class Tag extends FormInput implements C\Input\Field\Tag
     protected bool $extendable = true;
     protected int $suggestion_starts_with = 1;
     protected array $tags = [];
-    protected ?Uri $async_autocomplete = null;
+    protected ?URLBuilder $async_autocomplete_endpoint = null;
+    protected ?URLBuilderToken $async_autocomplete_token = null;
 
     public function __construct(
         DataFactory $data_factory,
@@ -104,7 +107,6 @@ class Tag extends FormInput implements C\Input\Field\Tag
         $configuration->userInput = $this->areUserCreatedTagsAllowed();
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
-        $configuration->autocompleteEndpoint = $this->getAsyncAutocomplete()?->__toString();
         $configuration->autocompleteTriggerTimeout = 200;
         $configuration->maxChars = 2000;
         $configuration->suggestionLimit = 50;
@@ -272,19 +274,30 @@ class Tag extends FormInput implements C\Input\Field\Tag
     /**
      * @inheritDoc
      */
-    public function withAsyncAutocomplete(URI $autocomplete_endpoint): Tag
-    {
+    public function withAsyncAutocomplete(
+        URLBuilder $autocomplete_endpoint,
+        URLBuilderToken $term_token
+    ): Tag {
         $clone = clone $this;
-        $clone->async_autocomplete = $autocomplete_endpoint;
+        $clone->async_autocomplete_endpoint = $autocomplete_endpoint;
+        $clone->async_autocomplete_token = $term_token;
         return $clone;
     }
 
     /**
      * @inheritDoc
      */
-    public function getAsyncAutocomplete(): ?URI
+    public function getAsyncAutocompleteEndpoint(): ?URLBuilder
     {
-        return $this->async_autocomplete;
+        return $this->async_autocomplete_endpoint;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocompleteToken(): ?URLBuilderToken
+    {
+        return $this->async_autocomplete_token;
     }
 
     /**

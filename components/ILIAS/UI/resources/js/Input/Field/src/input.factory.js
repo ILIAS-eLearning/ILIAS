@@ -48,6 +48,7 @@ il.UI.Input = il.UI.Input || {};
     document,
   );
   Input.tagInput = Input.tag || {};
-  Input.tagInput.init = (input, config, value) => tag.init(Tagify, input, config, value);
+  Input.tagInput.init = (input, config, value, autocompleteEndpoint, autocompleteToken) => tag.init(
+    Tagify, input, config, value, autocompleteEndpoint, autocompleteToken);
   Input.tagInput.getTagifyInstance = (input_id) => tag.getTagifyInstance(input_id);
 }(il.UI.Input));
