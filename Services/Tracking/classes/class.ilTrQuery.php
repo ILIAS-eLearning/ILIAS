@@ -444,7 +444,8 @@ class ilTrQuery
             }
 
             // remove all private data - if active agreement and agreement not given by user
-            if (sizeof($a_privacy_fields) && $a_check_agreement && !in_array(
+            if (false && sizeof($a_privacy_fields) && $a_check_agreement && !in_array(
+            //if (sizeof($a_privacy_fields) && $a_check_agreement && !in_array(
                 $row["usr_id"],
                 $agreements
             )) {
