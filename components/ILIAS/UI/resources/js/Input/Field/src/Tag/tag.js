@@ -13,8 +13,6 @@
  * https://github.com/ILIAS-eLearning
  */
 
-const tagAutocompleteTriggerTimeout = 200;
-
 /**
  * @param {HTMLInput} input
  * @param {Object} config
@@ -78,36 +76,43 @@ function buildSettings(inputId, config) {
 
 /**
  * @param {Tagify} instance
- * @param {Object} context
+ * @param {AbortController} controller
+ * @param {number} timeout
+ * @param {number} suggestionsStartAfter
  * @param {URL} autocompleteEndpoint
  * @param {InputEvent} event
+ * @param {number} tagAutocompleteTriggerTimeout
+ * @returns {void}
  */
 function retrieveAutocomplete(
   instance,
-  context,
+  controller,
+  timeout,
+  suggestionsStartAfter,
   autocompleteEndpoint,
   event,
+  tagAutocompleteTriggerTimeout,
 ) {
-  context.controller.abort();
-  context.controller = new AbortController();
+  controller.abort();
+  controller = new AbortController();
 
   instance.whitelist = null;
 
-  if (typeof context.timeout === 'number') {
-    instance.DOM.scope.ownerDocument.defaultView.clearTimeout(context.timeout);
-    context.timeout = undefined;
+  if (typeof timeout === 'number') {
+    instance.DOM.scope.ownerDocument.defaultView.clearTimeout(timeout);
+    timeout = undefined;
   }
 
-  if (event.detail.value.length < context.suggestionsStartAfter) {
+  if (event.detail.value.length < suggestionsStartAfter) {
     return;
   }
 
-  context.timeout = instance.DOM.scope.ownerDocument.defaultView.setTimeout(
+  timeout = instance.DOM.scope.ownerDocument.defaultView.setTimeout(
     () => {
       const searchTerm = event.detail.value;
       autocompleteEndpoint.searchParams.append('term', searchTerm);
       instance.loading(true);
-      fetch(autocompleteEndpoint.toString(), { signal: context.timeout.signal })
+      fetch(autocompleteEndpoint.toString(), { signal: controller.signal })
         .then((answer) => answer.json())
         .catch(() => {})
         .then((options) => {
@@ -132,17 +137,15 @@ export default function init(Tagify, input, config, value) {
   );
   instance.addTags(value);
   if (config.autocompleteEndpoint !== null) {
-    const context = {
-      controller: new AbortController(),
-      timeout : undefined,
-      suggestionsStartAfter: config.suggestionStarts,
-    };
     instance.on('input', (event) => {
       retrieveAutocomplete(
         instance,
-        context,
+        new AbortController(),
+        undefined,
+        config.suggestionStarts,
         new URL(config.autocompleteEndpoint),
         event,
+        config.autocompleteTriggerTimeout,
       );
     });
   }

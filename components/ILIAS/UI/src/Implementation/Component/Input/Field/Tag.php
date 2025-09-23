@@ -105,6 +105,11 @@ class Tag extends FormInput implements C\Input\Field\Tag
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
         $configuration->autocompleteEndpoint = $this->getAsyncAutocomplete()?->__toString();
+<<<<<<< HEAD
+=======
+        $configuration->autocompleteTriggerTimeout = 200;
+        $configuration->orderable = $this->isOrderable();
+>>>>>>> 4f6837565c8 (UI: Do Not Bundel Parameters)
         $configuration->maxChars = 2000;
         $configuration->suggestionLimit = 50;
         $configuration->debug = false;
