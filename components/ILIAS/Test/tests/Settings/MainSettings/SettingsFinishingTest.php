@@ -126,39 +126,4 @@ class SettingsFinishingTest extends ilTestBaseTestCase
             ['string']
         ];
     }
-
-    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithMailNotificationContentTypeDataProvider')]
-    public function testGetAndWithMailNotificationContentType(int $io): void
-    {
-        $settings_finishing = (new SettingsFinishing(0))->withMailNotificationContentType($io);
-
-        $this->assertInstanceOf(SettingsFinishing::class, $settings_finishing);
-        $this->assertEquals($io, $settings_finishing->getMailNotificationContentType());
-    }
-
-    public static function getAndWithMailNotificationContentTypeDataProvider(): array
-    {
-        return [
-            [-1],
-            [0],
-            [1]
-        ];
-    }
-
-    #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithAlwaysSendMailNotificationDataProvider')]
-    public function testGetAndWithAlwaysSendMailNotification(bool $io): void
-    {
-        $settings_finishing = (new SettingsFinishing(0))->withAlwaysSendMailNotification($io);
-
-        $this->assertInstanceOf(SettingsFinishing::class, $settings_finishing);
-        $this->assertEquals($io, $settings_finishing->getAlwaysSendMailNotification());
-    }
-
-    public static function getAndWithAlwaysSendMailNotificationDataProvider(): array
-    {
-        return [
-            [true],
-            [false]
-        ];
-    }
 }

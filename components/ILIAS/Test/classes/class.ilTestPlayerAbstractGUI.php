@@ -1032,31 +1032,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->test_result_repository
         ))->performFinishTasks($this->process_locker, $status_of_attempt);
         $this->test_result_repository->updateTestResultCache($this->test_session->getActiveId());
-
-        $this->sendNewPassFinishedNotificationEmailIfActivated(
-            $this->test_session->getActiveId(),
-            $this->test_session->getPass()
-        );
-    }
-
-    protected function sendNewPassFinishedNotificationEmailIfActivated(int $active_id, int $pass)
-    {
-        $notification_type = $this->object->getMainSettings()->getFinishingSettings()->getMailNotificationContentType();
-
-        if ($notification_type === 0
-            || !$this->object->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification()
-                && $pass !== $this->object->getNrOfTries() - 1) {
-            return;
-        }
-
-        switch ($this->object->getMainSettings()->getFinishingSettings()->getMailNotificationContentType()) {
-            case 1:
-                $this->object->sendSimpleNotification($active_id);
-                break;
-            case 2:
-                $this->object->sendAdvancedNotification($active_id);
-                break;
-        }
     }
 
     protected function afterTestPassFinishedCmd()

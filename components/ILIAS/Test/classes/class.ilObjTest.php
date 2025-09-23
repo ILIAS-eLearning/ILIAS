@@ -2989,12 +2989,6 @@ class ilObjTest extends ilObject
                 case "count_system":
                     $scoring_settings = $scoring_settings->withCountSystem((int) $metadata["entry"]);
                     break;
-                case "mailnotification":
-                    $finishing_settings = $finishing_settings->withMailNotificationContentType((int) $metadata["entry"]);
-                    break;
-                case "mailnottype":
-                    $finishing_settings = $finishing_settings->withAlwaysSendMailNotification((bool) $metadata["entry"]);
-                    break;
                 case "exportsettings":
                     $result_details_settings = $result_details_settings->withExportSettings((int) $metadata["entry"]);
                     break;
@@ -3206,8 +3200,6 @@ class ilObjTest extends ilObject
             null,
             $settings->getRedirectionMode(),
             $settings->getRedirectionUrl(),
-            $settings->getMailNotificationContentType(),
-            $settings->getAlwaysSendMailNotification()
         );
     }
 
@@ -3520,16 +3512,6 @@ class ilObjTest extends ilObject
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_concluding_remarks");
         $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "mailnotification");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getMailNotificationContentType());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "mailnottype");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -5610,8 +5592,6 @@ class ilObjTest extends ilObject
             'ShowFinalStatement' => (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled(),
             'redirection_mode' => $main_settings->getFinishingSettings()->getRedirectionMode()->value,
             'redirection_url' => $main_settings->getFinishingSettings()->getRedirectionUrl(),
-            'mailnotification' => $main_settings->getFinishingSettings()->getMailNotificationContentType(),
-            'mailnottype' => (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification(),
 
             'skill_service' => (int) $main_settings->getAdditionalSettings()->getSkillsServiceEnabled(),
 
@@ -5809,10 +5789,6 @@ class ilObjTest extends ilObject
                         RedirectionModes::tryFrom($testsettings['redirection_mode'] ?? 0) ?? $finishing_settings->getRedirectionMode()
                     )->withRedirectionUrl(
                         $testsettings['redirection_url'] ?? $finishing_settings->getRedirectionUrl()
-                    )->withMailNotificationContentType(
-                        $testsettings['mailnotification'] ?? $finishing_settings->getMailNotificationContentType()
-                    )->withAlwaysSendMailNotification(
-                        $testsettings['mailnottype'] ?? $finishing_settings->getAlwaysSendMailNotification()
                     )
             )->withAdditionalSettings(
                 $additional_settings
@@ -6420,50 +6396,6 @@ class ilObjTest extends ilObject
     {
         return $this->export_factory->getExporter($this, 'xml')
             ->write();
-    }
-
-    public function getMailNotification(): int
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getMailNotificationContentType();
-    }
-
-    public function sendSimpleNotification($active_id)
-    {
-        $mail = new ilTestMailNotification();
-        $owner_id = $this->getOwner();
-        $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
-        $mail->sendSimpleNotification($owner_id, $this->getTitle(), $usr_data);
-    }
-
-    public function sendAdvancedNotification(int $active_id): void
-    {
-        $mail = new ilTestMailNotification();
-        $owner_id = $this->getOwner();
-        $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
-
-        $path = $this->export_factory->getExporter(
-            $this,
-            ExportImportTypes::SCORED_ATTEMPT
-        )->withFilterByActiveId($active_id)
-            ->write();
-
-        $delivered_file_name = 'result_' . $active_id . '.xlsx';
-        $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($path, $delivered_file_name);
-        $file_names[] = $delivered_file_name;
-
-        $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
-
-        if (count($file_names)) {
-            $fd->unlinkFiles($file_names);
-            unset($fd);
-            @unlink($path);
-        }
-    }
-
-    public function getMailNotificationType(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification();
     }
 
     public function getExportSettings(): int

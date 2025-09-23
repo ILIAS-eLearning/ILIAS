@@ -37,8 +37,6 @@ class SettingsFinishing extends TestSettings
         protected ?int $concluding_remarks_page_id = null,
         protected RedirectionModes $redirection_mode = RedirectionModes::NONE,
         protected ?string $redirection_url = null,
-        protected int $mail_notification_content_type = 0,
-        protected bool $always_send_mail_notification = false
     ) {
         parent::__construct($test_id);
     }
@@ -60,8 +58,6 @@ class SettingsFinishing extends TestSettings
         )->withValue((bool) $this->getConcludingRemarksEnabled());
 
         $inputs['redirect_after_finish'] = $this->getRedirectionInputs($lng, $f, $refinery);
-
-        $inputs['finish_notification'] = $this->getMailNotificationInputs($lng, $f, $refinery);
 
         return $f->section($inputs, $lng->txt('tst_final_information'));
     }
@@ -159,61 +155,6 @@ class SettingsFinishing extends TestSettings
         );
     }
 
-    private function getMailNotificationInputs(
-        \ilLanguage $lng,
-        FieldFactory $f,
-        Refinery $refinery
-    ): OptionalGroup {
-        $notification_trafo = $refinery->custom()->transformation(
-            static function (?array $v): array {
-                if ($v === null) {
-                    return [
-                        'notification_content_type' => 0,
-                        'always_notify' => false
-                    ];
-                }
-
-                return $v;
-            }
-        );
-
-        $sub_inputs_finish_notification = [
-            'notification_content_type' => $f->radio(
-                $lng->txt('tst_finish_notification_content_type')
-            )->withOption(
-                '1',
-                $lng->txt('tst_finish_notification_simple')
-            )->withOption(
-                '2',
-                $lng->txt('tst_finish_notification_advanced')
-            )->withRequired(true)
-            ->withValue('1')
-            ->withAdditionalTransformation($refinery->kindlyTo()->int()),
-            'always_notify' => $f->checkbox(
-                $lng->txt('mailnottype'),
-                $lng->txt('mailnottype_desc')
-            )
-        ];
-
-        $mail_notification_inputs = $f->optionalGroup(
-            $sub_inputs_finish_notification,
-            $lng->txt('tst_finish_notification'),
-            $lng->txt('tst_finish_notification_desc')
-        )->withValue(null)
-            ->withAdditionalTransformation($notification_trafo);
-
-        if ($this->getMailNotificationContentType() === 0) {
-            return $mail_notification_inputs;
-        }
-
-        return $mail_notification_inputs->withValue(
-            [
-                'notification_content_type' => (string) $this->getMailNotificationContentType(),
-                'always_notify' => (bool) $this->getAlwaysSendMailNotification()
-            ]
-        );
-    }
-
     public function toStorage(): array
     {
         return [
@@ -223,8 +164,6 @@ class SettingsFinishing extends TestSettings
             'concluding_remarks_page_id' => ['integer', $this->getConcludingRemarksPageId()],
             'redirection_mode' => ['integer', $this->getRedirectionMode()->value],
             'redirection_url' => ['text', $this->getRedirectionUrl()],
-            'mailnotification' => ['integer', $this->getMailNotificationContentType()],
-            'mailnottype' => ['integer', (int) $this->getAlwaysSendMailNotification()]
         ];
     }
 
@@ -251,25 +190,6 @@ class SettingsFinishing extends TestSettings
             case RedirectionModes::IF_KIOSK_ACTIVATED:
                 $log_array[AdditionalInformationGenerator::KEY_TEST_REDIRECT_MODE] = $additional_info
                     ->getTagForLangVar('redirect_in_kiosk_mode');
-                break;
-        }
-
-        switch ($this->getMailNotificationContentType()) {
-            case 0:
-                $log_array[AdditionalInformationGenerator::KEY_TEST_MAIL_NOTIFICATION_CONTENT_TYPE] = $additional_info
-                    ->getNoneTag();
-                break;
-            case 1:
-                $log_array[AdditionalInformationGenerator::KEY_TEST_MAIL_NOTIFICATION_CONTENT_TYPE] = $additional_info
-                    ->getTagForLangVar('tst_finish_notification_simple');
-                $log_array[AdditionalInformationGenerator::KEY_TEST_ALWAYS_SEND_NOTIFICATION] = $additional_info
-                    ->getEnabledDisabledTagForBool($this->getAlwaysSendMailNotification());
-                break;
-            case 2:
-                $log_array[AdditionalInformationGenerator::KEY_TEST_MAIL_NOTIFICATION_CONTENT_TYPE] = $additional_info
-                    ->getTagForLangVar('tst_finish_notification_advanced');
-                $log_array[AdditionalInformationGenerator::KEY_TEST_ALWAYS_SEND_NOTIFICATION] = $additional_info
-                    ->getEnabledDisabledTagForBool($this->getAlwaysSendMailNotification());
                 break;
         }
 
@@ -338,30 +258,6 @@ class SettingsFinishing extends TestSettings
     {
         $clone = clone $this;
         $clone->redirection_url = $redirection_url;
-        return $clone;
-    }
-
-    public function getMailNotificationContentType(): int
-    {
-        return $this->mail_notification_content_type;
-    }
-
-    public function withMailNotificationContentType(int $mail_notification_content_type): self
-    {
-        $clone = clone $this;
-        $clone->mail_notification_content_type = $mail_notification_content_type;
-        return $clone;
-    }
-
-    public function getAlwaysSendMailNotification(): bool
-    {
-        return $this->always_send_mail_notification;
-    }
-
-    public function withAlwaysSendMailNotification(bool $always_send_mail_notification): self
-    {
-        $clone = clone $this;
-        $clone->always_send_mail_notification = $always_send_mail_notification;
         return $clone;
     }
 }

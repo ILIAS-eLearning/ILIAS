@@ -646,9 +646,7 @@ class SettingsMainGUI extends TestSettingsGUI
             ->withShowAnswerOverview($section['show_answer_overview'])
             ->withConcludingRemarksEnabled($section['show_concluding_remarks'])
             ->withRedirectionMode($redirect_after_finish['redirect_mode'])
-            ->withRedirectionUrl($redirect_after_finish['redirect_url'])
-            ->withMailNotificationContentType($finish_notification['notification_content_type'])
-            ->withAlwaysSendMailNotification($finish_notification['always_notify']);
+            ->withRedirectionUrl($redirect_after_finish['redirect_url']);
     }
 
     protected function getAdditionalFunctionalitySettingsSections(array $environment): array
