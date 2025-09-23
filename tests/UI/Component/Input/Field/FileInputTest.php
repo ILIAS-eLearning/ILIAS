@@ -168,7 +168,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                            <button class="btn btn-link" data-action="#" id="id_2">select_file_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                            <button class="btn btn-link" data-action="#" id="id_2">select_file_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                     <div class="help-block">byline</div>
@@ -224,7 +224,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                            <button class="btn btn-link" data-action="#" id="id_2">select_file_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
@@ -281,7 +281,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 				</div>
 			</div>
 			<div class="ui-input-file-input-dropzone">
-				<button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
+				<button class="btn btn-link" data-action="#" id="id_3">select_file_from_computer</button>
 				<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 			</div>
 		</div>
@@ -354,7 +354,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 				</div>
 			</div>
 			<div class="ui-input-file-input-dropzone">
-				<button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button>
+				<button class="btn btn-link" data-action="#" id="id_5">select_file_from_computer</button>
 				<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 			</div>
 		</div>
@@ -436,7 +436,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 				</div>
 			</div>
 			<div class="ui-input-file-input-dropzone">
-				<button class="btn btn-link" data-action="#" id="id_5">select_files_from_computer</button>
+				<button class="btn btn-link" data-action="#" id="id_5">select_file_from_computer</button>
 				<span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
 			</div>
 		</div>
@@ -463,7 +463,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                            <button class="btn btn-link" data-action="#" id="id_2">select_file_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>
@@ -488,7 +488,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
-                            <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                            <button class="btn btn-link" data-action="#" id="id_2">select_file_from_computer</button>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                     </div>
                 </div>

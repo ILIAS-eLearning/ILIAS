@@ -797,7 +797,9 @@ class Renderer extends AbstractComponentRenderer
         // display the action button (to choose files).
         $template->setVariable('ACTION_BUTTON', $default_renderer->render(
             $this->getUIFactory()->button()->shy(
-                $this->txt('select_files_from_computer'),
+                $input->getMaxFiles() <= 1
+                    ? $this->txt('select_file_from_computer')
+                    : $this->txt('select_files_from_computer'),
                 '#'
             )
         ));

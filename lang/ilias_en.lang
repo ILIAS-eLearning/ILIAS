@@ -5530,6 +5530,7 @@ common#:#select#:#Select
 common#:#select_all#:#Select All
 common#:#select_at_least_one_object#:#Please choose at least one object.
 common#:#select_file#:#Select File
+common#:#select_file_from_computer#:#Select File
 common#:#select_files_from_computer#:#Select Files
 common#:#select_max_one_item#:#Please select one item only
 common#:#select_object_to_link#:#Please select the object which you want to link

@@ -5530,6 +5530,7 @@ common#:#select#:#Auswählen
 common#:#select_all#:#Alle auswählen
 common#:#select_at_least_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 common#:#select_file#:#Datei wählen
+common#:#select_file_from_computer#:#Datei wählen
 common#:#select_files_from_computer#:#Dateien wählen
 common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus.
