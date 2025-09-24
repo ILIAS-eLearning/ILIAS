@@ -295,7 +295,7 @@ class ilDclRecordEditGUI
         $inline_css = '';
         foreach ($allFields as $field) {
             $field_setting = $field->getViewSetting($this->tableview_id);
-            if ($field_setting->isVisibleInForm(!$this->record_id)) {
+            if ($field_setting && $field_setting->isVisibleInForm(!$this->record_id)) {
                 $item = ilDclCache::getFieldRepresentation($field)->getInputField($this->form, $this->record_id);
                 if ($item === null) {
                     continue; // Fields calculating values at runtime, e.g. ilDclFormulaFieldModel do not have input
@@ -336,7 +336,7 @@ class ilDclRecordEditGUI
         // Add possibility to change the owner in edit mode
         if ($this->record_id) {
             $field_setting = $this->tableview->getFieldSetting('owner');
-            if ($field_setting->isVisibleEdit()) {
+            if ($field_setting && $field_setting->isVisibleEdit()) {
                 $ownerField = $this->table->getField('owner');
                 $inputfield = ilDclCache::getFieldRepresentation($ownerField)->getInputField($this->form);
 
@@ -380,8 +380,9 @@ class ilDclRecordEditGUI
             //Get Table Field Definitions
             $allFields = $this->table->getFields();
             foreach ($allFields as $field) {
+                $view_setting = $field->getViewSetting($this->tableview_id);
                 if ($field->getDatatypeId() !== ilDclDatatype::INPUTFORMAT_NONE &&
-                    $field->getViewSetting($this->tableview_id)->isVisibleEdit()) {
+                    $view_setting && $view_setting->isVisibleEdit()) {
                     $record_obj->fillRecordFieldFormInput($field->getId(), $this->form);
                 }
             }
@@ -604,7 +605,7 @@ class ilDclRecordEditGUI
         foreach ($all_fields as $field) {
             $field_setting = $field->getViewSetting($this->tableview_id);
 
-            if ($field_setting->isVisibleInForm($create_mode) &&
+            if ($field_setting && $field_setting->isVisibleInForm($create_mode) &&
                     (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()))) {
                 // set all visible fields
                 $record_obj->setRecordFieldValueFromForm((int) $field->getId(), $this->form);
@@ -621,7 +622,8 @@ class ilDclRecordEditGUI
         }
 
         // Do we need to set a new owner for this record?
-        if (!$create_mode && $this->tableview->getFieldSetting('owner')->isVisibleEdit()) {
+        $owner_field_setting = $this->tableview->getFieldSetting('owner');
+        if (!$create_mode && $owner_field_setting && $owner_field_setting->isVisibleEdit()) {
             if ($this->http->wrapper()->post()->has('field_owner')) {
                 $field_owner = $this->http->wrapper()->post()->retrieve(
                     'field_owner',
@@ -743,6 +745,7 @@ class ilDclRecordEditGUI
                     foreach ($allFields as $field) {
                         $field_setting = $field->getViewSetting($this->tableview_id);
                         if (
+                            $field_setting &&
                             $field_setting->isLockedEdit() &&
                             $field_setting->isVisibleEdit()
                         ) {

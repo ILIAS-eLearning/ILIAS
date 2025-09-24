@@ -582,7 +582,8 @@ class ilDclTable
                 'tableview_id',
                 $this->refinery->kindlyTo()->int()
             );
-            if (!$field->getViewSetting($tableview_id)->isLocked($creation_mode)) {
+            $view_setting = $field->getViewSetting($tableview_id);
+            if ($view_setting && !$view_setting->isLocked($creation_mode)) {
                 $editableFields[] = $field;
             }
         }

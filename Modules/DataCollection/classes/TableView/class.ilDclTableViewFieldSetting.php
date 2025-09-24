@@ -383,9 +383,9 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     }
 
     /**
-     * @return ActiveRecord|self
+     * @return ActiveRecord|self|null
      */
-    public static function getTableViewFieldSetting(string $id, int $tableview_id): ActiveRecord
+    public static function getTableViewFieldSetting(string $id, int $tableview_id): ?ActiveRecord
     {
         return parent::where(['field' => $id,
                               'tableview_id' => $tableview_id

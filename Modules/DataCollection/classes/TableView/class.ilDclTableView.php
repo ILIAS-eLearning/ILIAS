@@ -272,9 +272,9 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * @param $field_id
-     * @return ilDclTableViewFieldSetting|ActiveRecord
+     * @return ilDclTableViewFieldSetting|ActiveRecord|null
      */
-    public function getFieldSetting($field_id): ActiveRecord
+    public function getFieldSetting($field_id): ?ActiveRecord
     {
         return ilDclTableViewFieldSetting::where([
             'tableview_id' => $this->getId(),
