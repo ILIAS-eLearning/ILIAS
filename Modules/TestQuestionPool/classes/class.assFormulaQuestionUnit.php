@@ -64,6 +64,11 @@ class assFormulaQuestionUnit
         return $this->unit;
     }
 
+    public function getSanitizedUnit(): string
+    {
+        return htmlspecialchars($this->getUnit(), ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+    }
+
     public function setSequence(int $sequence): void
     {
         $this->sequence = $sequence;
@@ -108,6 +113,11 @@ class assFormulaQuestionUnit
         return $this->baseunit_title;
     }
 
+    public function getSanitizedBaseunitTitle(): ?string
+    {
+        return $this->sanitizeString($this->getBaseunitTitle() ?? '');
+    }
+
     public function setCategory(int $category): void
     {
         $this->category = $category;
@@ -122,14 +132,11 @@ class assFormulaQuestionUnit
     {
         global $DIC;
 
-        $lng = $DIC->language();
-
         $unit = $this->getUnit();
-        if (strcmp('-qpl_qst_formulaquestion_' . $unit . '-', $lng->txt('qpl_qst_formulaquestion_' . $unit)) !== 0) {
-            $unit = $lng->txt('qpl_qst_formulaquestion_' . $unit);
-        }
-
-        return $unit;
+        $txt = $DIC->language()->txt("qpl_qst_formulaquestion_{$unit}");
+        return strcmp("-qpl_qst_formulaquestion_{$unit}-", $txt) !== 0
+            ? $this->sanitizeString($txt)
+            : $this->getSanitizedUnit();
     }
 
     public static function lookupUnitFactor(int $a_unit_id): float
@@ -146,5 +153,10 @@ class assFormulaQuestionUnit
         $row = $ilDB->fetchAssoc($res);
 
         return (float) $row['factor'];
+    }
+
+    private function sanitizeString(string $string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
     }
 }

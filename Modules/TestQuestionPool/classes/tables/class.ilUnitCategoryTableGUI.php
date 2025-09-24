@@ -111,8 +111,6 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
         $row['actions'] = $this->ui_renderer->render($dropdown);
 
-        $row['category'] = htmlspecialchars($row['category'], ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
-
         parent::fillRow($row);
     }
 }

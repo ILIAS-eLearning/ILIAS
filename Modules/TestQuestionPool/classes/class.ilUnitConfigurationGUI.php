@@ -478,8 +478,8 @@ abstract class ilUnitConfigurationGUI
             /** @var assFormulaQuestionUnit $unit */
             $data[] = [
                 'unit_id' => $unit->getId(),
-                'unit' => $unit->getUnit(),
-                'baseunit' => $unit->getBaseunitTitle(),
+                'unit' => $unit->getSanitizedUnit(),
+                'baseunit' => $unit->getSanitizedBaseunitTitle(),
                 'baseunit_id' => $unit->getBaseUnit(),
                 'factor' => $unit->getFactor(),
                 'sequence' => $unit->getSequence(),
