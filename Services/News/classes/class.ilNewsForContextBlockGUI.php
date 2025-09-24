@@ -416,7 +416,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         if ($grouping = $this->collection->getGroupingFor($current_item)) {
             $current_item = $grouping['parent'];
-            $news_list = array_merge($current_item, $grouping['aggregation']);
+            $news_list = array_merge([$current_item], $grouping['aggregation']);
         } else {
             $news_list = [$current_item];
         }

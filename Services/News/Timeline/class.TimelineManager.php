@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\News\Timeline;
 
+use ILIAS\News\Data\NewsCollection;
+use ILIAS\News\Data\NewsContext;
+use ILIAS\News\Data\NewsCriteria;
 use ILIAS\News\InternalRepoService;
 use ILIAS\News\InternalDataService;
 use ILIAS\News\InternalDomainService;
@@ -50,39 +53,24 @@ class TimelineManager
         bool $include_auto_entries,
         int $items_per_load,
         array $excluded
-    ): array {
-        $user = $this->domain->user();
-        $news_item = new \ilNewsItem();
-        $news_item->setContextObjId($context_obj_id);
-        $news_item->setContextObjType($context_type);
+    ): NewsCollection {
+        $criteria = new NewsCriteria(
+            period: $period,
+            limit: $items_per_load,
+            no_auto_generated: !$include_auto_entries,
+            excluded_news_ids: $excluded,
+        );
 
         if ($ref_id > 0) {
-            $news_data = $news_item->getNewsForRefId(
-                $ref_id,
-                false,
-                false,
-                $period,
-                true,
-                false,
-                !$include_auto_entries,
-                false,
-                null,
-                $items_per_load,
-                $excluded
+            return $this->domain->collection()->getNewsForContext(
+                new NewsContext($ref_id),
+                $criteria
             );
         } else {
-            $cnt = [];
-            $news_data = \ilNewsItem::_getNewsItemsOfUser(
-                $user->getId(),
-                false,
-                true,
-                $period,
-                $cnt,
-                !$include_auto_entries,
-                $excluded,
-                $items_per_load
+            return $this->domain->collection()->getNewsForUser(
+                $this->domain->user(),
+                $criteria
             );
         }
-        return $news_data;
     }
 }

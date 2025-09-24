@@ -51,7 +51,10 @@ class NewsCollectionService
             return $this->applyFinalProcessing($cached_news, $criteria);
         }
 
-        // 2. Validate criteria
+        // 2. Add missing criteria and validate it
+        if ($criteria->isIncludeReadStatus() && $criteria->getReadUserId() === null) {
+            $criteria = $criteria->withReadUserId($user->getId());
+        }
         $criteria->validate();
 
         // 3. Get user accessible contexts [DPL 1]

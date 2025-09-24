@@ -289,6 +289,12 @@ class NewsCache
     }
 
 
+    public function flush(): void
+    {
+        //TODO
+    }
+
+
     protected function loadIndex(): void
     {
         if (apcu_enabled() && apcu_exists('news:cache:idx')) {

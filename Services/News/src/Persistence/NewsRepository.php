@@ -117,9 +117,22 @@ class NewsRepository
         $values = [];
         $types = [];
 
-        $query = "SELECT il_news_item.*, object_reference.ref_id FROM il_news_item 
-                RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id WHERE "
-            . $this->db->in('context_obj_id', $obj_ids, false, ilDBConstants::T_INTEGER);
+        if ($criteria->isIncludeReadStatus()) {
+            if ($criteria->getReadUserId() === null) {
+                throw new \InvalidArgumentException("Read user id is required for read status");
+            }
+
+            $query = "SELECT il_news_item.*, object_reference.ref_id, il_news_read.user_id user_read FROM il_news_item 
+                RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id 
+                LEFT JOIN il_news_read ON il_news_item.id = il_news_read.news_id AND il_news_read.user_id = %s WHERE ";
+            $values[] = $criteria->getReadUserId();
+            $types[] = ilDBConstants::T_INTEGER;
+        } else {
+            $query = "SELECT il_news_item.*, object_reference.ref_id FROM il_news_item
+                RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id WHERE ";
+        }
+
+        $query .= $this->db->in('context_obj_id', $obj_ids, false, ilDBConstants::T_INTEGER);
 
         if ($criteria->getPeriod() > 0) {
             $query .= " AND creation_date >= %s";

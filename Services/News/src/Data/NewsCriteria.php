@@ -36,8 +36,12 @@ final class NewsCriteria implements \JsonSerializable
         private ?int $limit = null,
         private bool $prevent_nesting = false,
         private bool $no_auto_generated = false,
-        private array $excluded_news_ids = []
+        private array $excluded_news_ids = [],
+        private ?bool $include_read_status = null,
+        private ?int $read_user_id = null,
     ) {
+        // By default, include read status if only public is not set
+        $this->include_read_status = $this->include_read_status ?? !$this->only_public;
     }
 
     /*
@@ -87,6 +91,16 @@ final class NewsCriteria implements \JsonSerializable
     public function getExcludedNewsIds(): array
     {
         return $this->excluded_news_ids;
+    }
+
+    public function isIncludeReadStatus(): bool
+    {
+        return $this->include_read_status ?? false;
+    }
+
+    public function getReadUserId(): ?int
+    {
+        return $this->read_user_id;
     }
 
     public function withStartDate(?DateTimeImmutable $start_date): self
@@ -149,6 +163,20 @@ final class NewsCriteria implements \JsonSerializable
     {
         $new = clone $this;
         $new->excluded_news_ids = array_map('intval', $excluded_news_ids);
+        return $new;
+    }
+
+    public function withIncludeReadStatus(bool $include_read_status): self
+    {
+        $new = clone $this;
+        $new->include_read_status = $include_read_status;
+        return $new;
+    }
+
+    public function withReadUserId(?int $read_user_id): self
+    {
+        $new = clone $this;
+        $new->read_user_id = $read_user_id;
         return $new;
     }
 

@@ -188,7 +188,7 @@ class ilNewsTimelineGUI
             $this->include_auto_entries,
             self::$items_per_load,
             $excluded
-        );
+        )->getAggregatedNews();
     }
 
     public function getHTML(ilPropertyFormGUI $form = null): string
