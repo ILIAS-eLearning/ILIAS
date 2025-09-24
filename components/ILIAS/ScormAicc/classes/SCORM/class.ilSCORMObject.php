@@ -98,7 +98,7 @@ class ilSCORMObject
             array($this->getId())
         );
         $obj_rec = $ilDB->fetchAssoc($obj_set);
-        $this->setTitle($obj_rec["title"]);
+        $this->setTitle($obj_rec["title"] ?? '');
         $this->setType($obj_rec["c_type"]);
         $this->setSLMId((int) $obj_rec["slm_id"]);
     }
