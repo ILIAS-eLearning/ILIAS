@@ -3759,39 +3759,46 @@ class ilObjUser extends ilObject
     ): int {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $db = $DIC['ilDB'];
 
-        $res = $ilDB->queryf(
-            '
-			SELECT usr_id, create_date FROM usr_data
-			WHERE reg_hash = %s',
-            ['text'],
+        $utc_clock = (new DataFactory())->clock()->utc();
+        $lifetime = (new ilRegistrationSettings())->getRegistrationHashLifetime();
+
+        $res = $db->queryf(
+            'SELECT usr_id, create_date FROM usr_data WHERE reg_hash = %s',
+            [ilDBConstants::T_TEXT],
             [$a_hash]
         );
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $oRegSettigs = new ilRegistrationSettings();
 
-            if ($oRegSettigs->getRegistrationHashLifetime() != 0 &&
-                time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
+        $row = $db->fetchAssoc($res);
+        if (!$row) {
+            throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
+        }
+
+        if ($lifetime > 0) {
+            $cutoff = $utc_clock->now()->sub(new DateInterval('PT' . $lifetime . 'S'));
+
+            $created = DateTimeImmutable::createFromFormat(
+                self::DATABASE_DATE_FORMAT,
+                (string) $row['create_date'],
+                new DateTimeZone('UTC')
+            );
+
+            if ($created === false || $created < $cutoff) {
                 throw new ilRegConfirmationLinkExpiredException(
                     'reg_confirmation_hash_life_time_expired',
                     (int) $row['usr_id']
                 );
             }
-
-            $ilDB->manipulateF(
-                '
-				UPDATE usr_data
-				SET reg_hash = %s
-				WHERE usr_id = %s',
-                ['text', 'integer'],
-                ['', (int) $row['usr_id']]
-            );
-
-            return (int) $row['usr_id'];
         }
 
-        throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
+        $db->manipulateF(
+            'UPDATE usr_data SET reg_hash IS NULL WHERE usr_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [(int) $row['usr_id']]
+        );
+
+        return (int) $row['usr_id'];
     }
 
     public function setBirthday(?string $a_birthday): void
