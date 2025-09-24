@@ -2587,10 +2587,13 @@ code {
   text-overflow: ellipsis;
   text-align: left;
   margin: 0;
-  font-weight: 600;
-  font-size: 0.75rem;
+  font-weight: 400;
+  font-size: 0.875rem;
   padding: 6px;
   padding-left: 20px;
+}
+.breadcrumb-wrapper .breadcrumb .breadcrumb-crumb:first-child {
+  font-weight: 700;
 }
 .breadcrumb-wrapper .breadcrumb div.breadcrumb-crumb a {
   color: #4c6586;
