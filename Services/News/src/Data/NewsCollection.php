@@ -391,9 +391,9 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     /**
      * Limit the number of news items and returns it as a new collection
      */
-    public function limit(int $limit): self
+    public function limit(?int $limit): self
     {
-        if ($limit >= count($this->news_items)) {
+        if ($limit === null || $limit >= count($this->news_items)) {
             return $this;
         }
 
@@ -402,6 +402,25 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
         $limited->addNewsItems($items);
 
         return $limited;
+    }
+
+    /**
+     * Returns a new collection with only the news items that are not in the provided list
+     *
+     * @param int[] $news_ids
+     */
+    public function exclude(array $news_ids): self
+    {
+        if (empty($news_ids)) {
+            return $this;
+        }
+
+        $filtered = new self();
+        $filtered->addNewsItems(array_filter(
+            $this->news_items,
+            fn($item) => !in_array($item->getId(), $news_ids)
+        ));
+        return $filtered;
     }
 
     /**

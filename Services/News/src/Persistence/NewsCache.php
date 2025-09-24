@@ -36,13 +36,108 @@ class NewsCache
     protected readonly bool $enabled;
     protected readonly \ilCache $il_cache;
 
+    /** @var array<int, string[]> Inverted index for lookup of aggregated contexts */
+    protected array $inverted_index = [];
+
     public function __construct(
     ) {
         $settings = new \ilSetting('news');
         $this->enabled = $settings->get('acc_cache_mins') !== 0;
 
-        $this->il_cache = new \ilCache('ServicesNews', 'NewsMuliLevel');
+        $this->il_cache = new \ilCache('ServicesNews', 'NewsMultiLevel', true);
         $this->il_cache->setExpiresAfter($settings->get('acc_cache_mins') * 60);
+
+        $this->loadIndex();
+    }
+
+    /**
+     * Level-1 Cache stores a collection of the aggregated contexts for the provided base context.
+     * This method uses a greedy algorithm to collect subset matches in the cache and return both
+     * cache hits (as complete NewsContexts objects) and missing contexts.
+     *
+     * @param NewsContext[] $contexts
+     * @return array{hit: NewsContext[], missing: NewsContext[]}
+     */
+    public function getAggregatedContexts(array $contexts): array
+    {
+        if (!$this->enabled || empty($contexts)) {
+            return [
+                'hit' => [],
+                'missing' => $contexts,
+            ];
+        }
+
+        // Check for exact matches
+        if ($hits = $this->getAggregatedContextsStrict($contexts)) {
+            return [
+                'hit' => $hits,
+                'missing' => [],
+            ];
+        }
+
+        $hits = [];
+        $uncovered = [];
+        foreach ($contexts as $context) {
+            $uncovered[$context->getRefId()] = $context;
+        }
+
+        // Use greedy algorithm to solve set-cover-problem and find stored subsets
+        while (!empty($uncovered)) {
+            $best_candidate_key = '';
+            $best_candidate_items = [];
+
+            // Use inverted index to find potential candidates
+            foreach ($this->findPotentialCandidates(array_keys($uncovered)) as $candidate_key) {
+                // Check if the candidate is a subset of the remaining uncovered ids
+                $candidate_items = explode(',', $candidate_key);
+                $is_subset = true;
+                foreach ($candidate_items as $k) {
+                    if (!isset($uncovered[$k])) {
+                        $is_subset = false;
+                        break;
+                    }
+                }
+
+                // The best candidate is the one that covers the most items
+                if ($is_subset && count($candidate_items) > count($best_candidate_items)) {
+                    $best_candidate_key = $candidate_key;
+                    $best_candidate_items = $candidate_items;
+                }
+            }
+
+            // If a candidate was found, fetch the stored elements
+            if ($best_candidate_key !== '' && $entry = $this->il_cache->getEntry("agg:{$best_candidate_key}")) {
+                array_push($hits, ...unserialize($entry));
+
+                // Remove the covered items from the map
+                foreach ($best_candidate_items as $k) {
+                    unset($uncovered[$k]);
+                }
+            } else {
+                // Break if no more hits can be found
+                break;
+            }
+        }
+
+        return [
+            'hit' => $hits,
+            'missing' => array_values($uncovered),
+        ];
+    }
+
+    /**
+     * @param int[] $elements
+     * @return string[]
+     */
+    protected function findPotentialCandidates(array $elements): array
+    {
+        $keys = [];
+        foreach ($elements as $element) {
+            if (isset($this->inverted_index[$element])) {
+                array_push($keys, ...$this->inverted_index[$element]);
+            }
+        }
+        return array_unique($keys);
     }
 
     /**
@@ -52,27 +147,77 @@ class NewsCache
      * @param NewsContext[] $contexts
      * @return NewsContext[]|null
      */
-    public function getAggregatedContexts(array $contexts, NewsCriteria $criteria): ?array
+    public function getAggregatedContextsStrict(array $contexts): ?array
     {
-        //TODO: implement
+        if (!$this->enabled) {
+            return null;
+        }
+
+        if (empty($contexts)) {
+            return [];
+        }
+
+        $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
+        sort($context_ids, SORT_NUMERIC);
+
+        if ($entry = $this->il_cache->getEntry('agg:' . join(',', $context_ids))) {
+            return unserialize($entry);
+        }
         return null;
     }
 
     /**
      * @param NewsContext[] $contexts
+     * @param NewsContext[] $aggregated
      */
-    public function storeAggregatedContexts(array $contexts, NewsCriteria $criteria, NewsCollection $news): void
+    public function storeAggregatedContexts(array $contexts, array $aggregated): void
     {
-        //TODO: implement
+        if (!$this->enabled || empty($contexts)) {
+            return;
+        }
+
+        $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
+        sort($context_ids, SORT_NUMERIC);
+
+        $key = join(',', $context_ids);
+        $this->il_cache->storeEntry("agg:{$key}", serialize($aggregated));
+
+        foreach ($context_ids as $context_id) {
+            if (!isset($this->inverted_index[$context_id])) {
+                $this->inverted_index[$context_id] = [];
+            }
+            $this->inverted_index[$context_id][] = $key;
+        }
+
+        $this->saveIndex();
     }
 
     /**
      * @param NewsContext[] $contexts
      */
-    public function invalidateAggregatedContexts(array $contexts, NewsCriteria $criteria): void
+    public function invalidateAggregatedContexts(array $contexts): void
     {
-        //TODO: implement
+        if (!$this->enabled || empty($contexts)) {
+            return;
+        }
+
+        $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
+        sort($context_ids, SORT_NUMERIC);
+        $key = join(',', $context_ids);
+
+        // Delete cache entry
+        $this->il_cache->deleteEntry("agg:{$key}");
+
+        // Delete reference from inverted index
+        foreach ($context_ids as $context_id) {
+            if (isset($this->inverted_index[$context_id])) {
+                $this->inverted_index[$context_id] = array_diff($this->inverted_index[$context_id], [$key]);
+            }
+        }
+
+        $this->saveIndex();
     }
+
 
     /**
      * Level-2 Cache stores a collection of the base news contexts for a specific user. It returns a list of the
@@ -82,19 +227,46 @@ class NewsCache
      */
     public function getUserContextAccess(int $user_id, NewsCriteria $criteria): ?array
     {
-        //TODO: implement
-        return null;
+        if (!$this->enabled) {
+            return null;
+        }
+
+        $entry = $this->il_cache->getEntry("user:{$user_id}");
+        if (!$entry) {
+            return null;
+        }
+
+        // Check if the stored payload matches the criteria
+        $payload = unserialize($entry);
+        if ($payload['only_public'] !== $criteria->isOnlyPublic()) {
+            $this->invalidateUserContextAccess($user_id);
+            return null;
+        }
+
+        return array_map(fn($ref_id) => new NewsContext($ref_id), $payload['contexts']);
     }
 
+    /**
+     * @param NewsContext[] $contexts
+     */
     public function storeUserContextAccess(int $user_id, NewsCriteria $criteria, array $contexts): void
     {
-        //TODO: implement
+        if (!$this->enabled) {
+            return;
+        }
+
+        $contexts = array_map(fn($context) => $context->getRefId(), $contexts);
+        $payload = ['contexts' => $contexts, 'only_public' => $criteria->isOnlyPublic()];
+        $this->il_cache->storeEntry("user:{$user_id}", serialize($payload));
     }
 
-    public function invalidateUserContextAccess(int $user_id, NewsCriteria $criteria): void
+    public function invalidateUserContextAccess(int $user_id): void
     {
-        //TODO: implement
+        if ($this->enabled) {
+            $this->il_cache->deleteEntry("user:{$user_id}");
+        }
     }
+
 
     /**
      * Level-3 Cache stores a collection of the news items for a specific user. It returns a NewsCollection or null on
@@ -114,5 +286,25 @@ class NewsCache
     public function invalidateNewsForUser(int $user_id, array $contexts, NewsCriteria $criteria): void
     {
         //TODO: implement
+    }
+
+
+    protected function loadIndex(): void
+    {
+        if (apcu_enabled() && apcu_exists('news:cache:idx')) {
+            $this->inverted_index = apcu_fetch('news:cache:idx');
+        } elseif ($entry = $this->il_cache->getEntry('idx')) {
+            $this->inverted_index = unserialize($entry);
+        } else {
+            $this->inverted_index = [];
+        }
+    }
+
+    protected function saveIndex(): void
+    {
+        $this->il_cache->storeEntry('idx', serialize($this->inverted_index));
+        if (apcu_enabled()) {
+            apcu_store('news:cache:idx', $this->inverted_index);
+        }
     }
 }

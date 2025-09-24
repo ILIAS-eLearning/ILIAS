@@ -81,21 +81,25 @@ class NewsCollectionService
     private function getNewsForContexts(array $contexts, NewsCriteria $criteria): NewsCollection
     {
         // 1. Try context cache first (L1)
-        $aggregated = $this->cache->getAggregatedContexts($contexts, $criteria);
-        if ($aggregated === null) {
+        $cached = $this->cache->getAggregatedContexts($contexts);
+        $hits = $cached['hit'];
+
+        if (!empty($cached['missing'])) {
             // 2. Batch load missing context object information [DPL 2]
-            $contexts = $this->fetchContextData($contexts);
+            $remaining = $this->fetchContextData($cached['missing']);
 
             // 3. Perform aggregation [DPL 3]
-            if (!$criteria->isPreventAggregation()) {
-                $aggregated = (new NewsAggregator())->aggregate($contexts);
+            if (!$criteria->isPreventNesting()) {
+                $aggregated = (new NewsAggregator())->aggregate($remaining);
+                $this->cache->storeAggregatedContexts($remaining, $aggregated);
+                $hits = array_merge($hits, $aggregated);
             } else {
-                $aggregated = $contexts;
+                $hits = array_merge($hits, $remaining);
             }
         }
 
         // 4. Perform access checks [DPL 3]
-        $aggregated = $this->filterByAccess($aggregated, $criteria);
+        $aggregated = $this->filterByAccess($hits, $criteria);
 
         // 5. Batch load news from the database [DPL 4]
         return $this->repository->findByContextsBatch($aggregated, $criteria);
@@ -107,7 +111,7 @@ class NewsCollectionService
      */
     private function fetchContextData(array $contexts): array
     {
-        // Batch load object_data and object_references using preloading
+        // Batch loads object_data and object_references using preloading
         $obj_ids = array_filter(array_map(fn($context) => $context->getObjId(), $contexts));
         $this->object_data->preloadObjectCache($obj_ids);
 
@@ -147,16 +151,11 @@ class NewsCollectionService
         return $filtered;
     }
 
+    /**
+     * Apply the last steps of the news collection processing pipeline: Exclude, Sort, Limit
+     */
     private function applyFinalProcessing(NewsCollection $collection, NewsCriteria $criteria): NewsCollection
     {
-        // Sort by date (default)
-        $collection = $collection->sortByDate();
-
-        // Apply limit
-        if ($criteria->getLimit()) {
-            $collection = $collection->limit($criteria->getLimit());
-        }
-
-        return $collection;
+        return $collection->exclude($criteria->getExcludedNewsIds())->sortByDate()->limit($criteria->getLimit());
     }
 }
