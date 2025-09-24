@@ -62,14 +62,13 @@ $cursor-disabled: not-allowed !default;
 
 // The dropdown menu (ul)
 .dropdown-menu {
-  width: 320px;
   position: absolute;
   top: 100%;
   z-index: $zindex-dropdown;
   display: none; // none by default, but block on "open" of the menu
   float: left;
   overflow: auto;
-  min-width: 160px;
+  min-width: 200px;
   max-height: 50vh;
   padding: l.$il-padding-large-vertical 0;
   margin: l.$il-margin-small-vertical 0 0; // override default ul

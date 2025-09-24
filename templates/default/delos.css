@@ -381,14 +381,13 @@
 }
 
 .dropdown-menu {
-  width: 320px;
   position: absolute;
   top: 100%;
   z-index: 1000;
   display: none;
   float: left;
   overflow: auto;
-  min-width: 160px;
+  min-width: 200px;
   max-height: 50vh;
   padding: 6px 0;
   margin: 3px 0 0;
@@ -6455,10 +6454,13 @@ footer {
   border-bottom: #dddddd none;
   border-left: #dddddd none;
   border-right: #dddddd none;
-  color: contrast(greyscale(#e2e8ef), #3a4c65, white, 43%);
+  color: #161616;
+}
+.il-system-info.il-system-info-neutral a {
+  color: #4c6586;
 }
 .il-system-info.il-system-info-neutral a.glyph {
-  color: contrast(greyscale(#e2e8ef), #3a4c65, white, 43%);
+  color: #161616;
 }
 .il-system-info.il-system-info-important {
   -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
@@ -6469,10 +6471,13 @@ footer {
   border-bottom: #dddddd none;
   border-left: #dddddd none;
   border-right: #dddddd none;
-  color: contrast(greyscale(#ffaaaa), #770000, white, 43%);
+  color: #161616;
+}
+.il-system-info.il-system-info-important a {
+  color: #4c6586;
 }
 .il-system-info.il-system-info-important a.glyph {
-  color: contrast(greyscale(#ffaaaa), #770000, white, 43%);
+  color: #161616;
 }
 .il-system-info.il-system-info-breaking {
   -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
@@ -6483,10 +6488,13 @@ footer {
   border-bottom: #dddddd none;
   border-left: #dddddd none;
   border-right: #dddddd none;
-  color: contrast(greyscale(#aa0000), black, #ffdddd, 43%);
+  color: white;
+}
+.il-system-info.il-system-info-breaking a {
+  color: #9f9f9f;
 }
 .il-system-info.il-system-info-breaking a.glyph {
-  color: contrast(greyscale(#aa0000), black, #ffdddd, 43%);
+  color: white;
 }
 .il-system-info.full {
   height: auto;
@@ -9658,12 +9666,6 @@ div.ilHeadAction .prop {
 
 div.ilHeadAction a:hover {
   text-decoration: none;
-}
-
-div.ilHeadAction ul.dropdown-menu button {
-  text-decoration: none;
-  border: none;
-  padding-left: 10px;
 }
 
 div.ilHeaderDesc {

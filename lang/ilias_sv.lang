@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Tips på lösningar
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###30 04 2024 new variable
 assessment#:#tst_settings_header_execution#:#Utförande
 assessment#:#tst_settings_header_intro#:#Information om hur du kommer igång
@@ -2533,6 +2534,7 @@ book#:#book_new#:#Skapa ny bokningspool
 book#:#book_no_bookings_for_you#:#Inga reservationer har gjorts för dig.
 book#:#book_no_objects#:#Ingen tilldelning
 book#:#book_no_of_objects#:#Antal objekt
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#Du har inte sparat några inställningar.
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#Not
@@ -7370,6 +7372,7 @@ copg#:#copg_page_element_not_found#:# Okänt sidelement.
 copg#:#copg_page_type_stys#:#Sidans layout
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
 copg#:#copg_questions_not_supported_here#:#Inga frågor stöds i detta sammanhang.
 copg#:#copg_reload_page#:#Reload sida
@@ -13697,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Aktivera personliga resurser
 pwsp#:#pwsp_enable_wsp_blogs#:#Aktivera bloggar
 pwsp#:#pwsp_enable_wsp_files#:# Aktivera filer
 pwsp#:#pwsp_enable_wsp_links#:# Aktivera länkar
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#Allmän feedback
@@ -15839,6 +15843,7 @@ style#:#sty_media_queries#:#Medieförfrågningar
 style#:#sty_media_query_info#:#För varje mediafråga infogas ett separat CSS-avsnitt efter standardavsnittet (utan mediafråga).
 style#:#sty_min_height#:#Minsta höjd
 style#:#sty_move_lm_styles#:#Ändra formatmallarna för utbildningsmodulerna
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Ändra formatmall
 style#:#sty_move_user_styles#:#Ändra stilmall för användarna
 style#:#sty_msg_characteristic_must_only_include#:#Titeln på stilen måste börja med en bokstav och får inte innehålla några mellanslag utan endast följande tecken
@@ -15846,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#Färgnamnet får endast innehålla fö
 style#:#sty_msg_input_must_be_numeric#:#Numerisk inmatning krävs.
 style#:#sty_name#:#Namn
 style#:#sty_nr_learning_modules#:#Antal utbildningsmoduler
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Even kolumner
 style#:#sty_odd_row_class#:#Odd linjer
 style#:#sty_ol#:#Ordered List###30 04 2024 new variable

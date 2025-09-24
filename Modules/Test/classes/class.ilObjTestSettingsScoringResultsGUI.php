@@ -169,7 +169,15 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         return unserialize(
             base64_decode(
                 $this->request->getParsedBody()[self::F_CONFIRM_SETTINGS]
-            )
+            ),
+            [
+                'allowed_classes' => [
+                    GuzzleHttp\Psr7\ServerRequest::class,
+                    GuzzleHttp\Psr7\Uri::class,
+                    GuzzleHttp\Psr7\UploadedFile::class,
+                    GuzzleHttp\Psr7\Stream::class,
+                ]
+            ]
         );
     }
 

@@ -22,6 +22,9 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\FileUpload\Processor\SVGBlacklistPreProcessor;
+use ILIAS\FileUpload\DTO\Metadata;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -32,6 +35,8 @@ class ilCertificateTemplateImportAction
     private readonly ilCertificateObjectHelper $objectHelper;
     private readonly ilCertificateUtilHelper $utilHelper;
     private readonly ilCertificateBackgroundImageFileService $fileService;
+    private readonly \ILIAS\Data\Factory $df;
+    private readonly SVGBlacklistPreProcessor $svg_blacklist_processor;
 
     public function __construct(
         private readonly int $objectId,
@@ -43,35 +48,39 @@ class ilCertificateTemplateImportAction
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilDBInterface $database = null,
-        ?ilCertificateBackgroundImageFileService $fileService = null
+        ?ilCertificateBackgroundImageFileService $fileService = null,
+        ?\ILIAS\Data\Factory $df = null,
+        ?SVGBlacklistPreProcessor $svg_blacklist_processor = null
     ) {
-        if (null === $database) {
+        if ($database === null) {
             global $DIC;
             $database = $DIC->database();
         }
 
-        if (null === $templateRepository) {
+        if ($templateRepository === null) {
             $templateRepository = new ilCertificateTemplateDatabaseRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
 
-        if (null === $objectHelper) {
+        if ($objectHelper === null) {
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
 
-        if (null === $utilHelper) {
+        if ($utilHelper === null) {
             $utilHelper = new ilCertificateUtilHelper();
         }
         $this->utilHelper = $utilHelper;
 
-        if (null === $fileService) {
+        if ($fileService === null) {
             $fileService = new ilCertificateBackgroundImageFileService(
                 $certificatePath,
                 $filesystem
             );
         }
         $this->fileService = $fileService;
+        $this->df = $df ?? new \ILIAS\Data\Factory();
+        $this->svg_blacklist_processor = $svg_blacklist_processor ?? new SVGBlacklistPreProcessor();
     }
 
     /**
@@ -82,18 +91,18 @@ class ilCertificateTemplateImportAction
      * @throws ilException
      */
     public function import(
-        string $zipFile,
+        string $path_to_zip_file,
         string $filename,
-        string $rootDir = CLIENT_WEB_DIR,
-        string $iliasVerision = ILIAS_VERSION_NUMERIC,
-        string $installationID = IL_INST_ID
+        string $root_directory = CLIENT_WEB_DIR,
+        string $ilias_version = ILIAS_VERSION_NUMERIC,
+        string $installation_id = IL_INST_ID
     ): bool {
-        $importPath = $this->createArchiveDirectory($installationID);
+        $import_path = $this->createArchiveDirectory($installation_id);
 
-        $clean_up_import_dir = function () use (&$importPath) {
+        $clean_up_import_dir = function () use (&$import_path) {
             try {
-                if ($this->filesystem->hasDir($importPath)) {
-                    $this->filesystem->deleteDir($importPath);
+                if ($this->filesystem->hasDir($import_path)) {
+                    $this->filesystem->deleteDir($import_path);
                 }
             } catch (Throwable $e) {
                 $this->logger->error(sprintf("Can't clean up import directory: %s", $e->getMessage()));
@@ -101,140 +110,209 @@ class ilCertificateTemplateImportAction
             }
         };
 
-        $result = $this->utilHelper->moveUploadedFile($zipFile, $filename, $rootDir . $importPath . $filename);
-        if (!$result) {
-            $clean_up_import_dir();
-            return false;
-        }
+        $result = $this->df->ok(true);
 
-        $destination_dir = $rootDir . $importPath;
-        $unzip = $this->utilHelper->unzip(
-            $rootDir . $importPath . $filename,
-            $destination_dir,
-            true
-        );
-
-        $unzipped = $unzip->extract();
-
-        // Cleanup memory, otherwise there will be issues with NFS-based file systems after `listContents` has been called
-        unset($unzip);
-
-        if (!$unzipped) {
-            $clean_up_import_dir();
-            return false;
-        }
-
-        if ($this->filesystem->has($importPath . $filename)) {
-            $this->filesystem->delete($importPath . $filename);
-        }
-
-        $xmlFiles = 0;
-        $contents = $this->filesystem->listContents($importPath);
-        foreach ($contents as $file) {
-            if ($file->isFile() && str_contains($file->getPath(), '.xml')) {
-                $xmlFiles++;
-            }
-        }
-
-        if (0 === $xmlFiles) {
-            return false;
-        }
-
-        $certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
-
-        $currentVersion = $certificate->getVersion();
-        $newVersion = $currentVersion + 1;
-        $backgroundImagePath = $certificate->getBackgroundImagePath();
-        $cardThumbnailImagePath = $certificate->getThumbnailImagePath();
-        $xsl = $certificate->getCertificateContent();
-
-        foreach ($contents as $file) {
-            if (!$file->isFile()) {
-                continue;
-            }
-
-            if (str_contains($file->getPath(), '.xml')) {
-                $xsl = $this->filesystem->read($file->getPath());
-                // as long as we cannot make RPC calls in a given directory, we have
-                // to add the complete path to every url
-                $xsl = preg_replace_callback(
-                    "/url\([']{0,1}(.*?)[']{0,1}\)/",
-                    function (array $matches) use ($rootDir): string {
-                        $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
-                        $fileName = basename($matches[1]);
-
-                        if ('[BACKGROUND_IMAGE]' === $fileName) {
-                            $basePath = '';
-                        } elseif ($basePath !== '') {
-                            $basePath .= '/';
+        try {
+            return $result
+                ->then(
+                    function () use ($path_to_zip_file, $filename, $root_directory, $import_path): \ILIAS\Data\Result {
+                        $result = $this->utilHelper->moveUploadedFile(
+                            $path_to_zip_file,
+                            $filename,
+                            $root_directory . $import_path . $filename
+                        );
+                        if ($result) {
+                            return $this->df->ok($result);
                         }
 
-                        return 'url(' . $basePath . $fileName . ')';
-                    },
-                    $xsl
-                );
-            } elseif (str_contains($file->getPath(), '.jpg')) {
-                $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
-                $newPath = $this->certificatePath . $newBackgroundImageName;
-                $this->filesystem->copy($file->getPath(), $newPath);
+                        return $this->df->error(
+                            sprintf(
+                                'Could not move uploaded file %s to %s',
+                                $path_to_zip_file,
+                                $root_directory . $import_path . $filename
+                            )
+                        );
+                    }
+                )
+                ->then(function () use ($root_directory, $import_path, $filename): \ILIAS\Data\Result {
+                    $destination_dir = $root_directory . $import_path;
+                    $unzip = $this->utilHelper->unzip(
+                        $root_directory . $import_path . $filename,
+                        $destination_dir,
+                        true
+                    );
 
-                $backgroundImagePath = $this->certificatePath . $newBackgroundImageName;
-                // upload of the background image, create a thumbnail
+                    $unzipped = $unzip->extract();
 
-                $backgroundImageThumbPath = $this->getBackgroundImageThumbnailPath();
+                    // Cleanup memory, otherwise there will be issues with NFS-based file systems after `listContents` has been called
+                    unset($unzip);
 
-                $thumbnailImagePath = $rootDir . $backgroundImageThumbPath;
+                    if ($unzipped) {
+                        return $this->df->ok($unzipped);
+                    }
 
-                $originalImagePath = $rootDir . $newPath;
-                $this->utilHelper->convertImage(
-                    $originalImagePath,
-                    $thumbnailImagePath,
-                    '100'
-                );
-            } elseif (str_contains($file->getPath(), '.svg')) {
-                $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
-                $newPath = $this->certificatePath . $newCardThumbnailName;
+                    return $this->df->error(
+                        sprintf(
+                            'Could not unzip file %s to %s',
+                            $root_directory . $import_path . $filename,
+                            $destination_dir
+                        )
+                    );
+                })
+                ->then(function () use ($import_path, $filename): \ILIAS\Data\Result {
+                    if ($this->filesystem->has($import_path . $filename)) {
+                        $this->filesystem->delete($import_path . $filename);
+                    }
 
-                $this->filesystem->copy($file->getPath(), $newPath);
+                    $num_xml_files = 0;
+                    $contents = $this->filesystem->listContents($import_path);
+                    foreach ($contents as $file) {
+                        if (!$file->isFile()) {
+                            continue;
+                        }
 
-                $cardThumbnailImagePath = $this->certificatePath . $newCardThumbnailName;
-            }
+                        if (str_contains($file->getPath(), '.xml')) {
+                            $num_xml_files++;
+                        }
+
+                        if (str_contains($file->getPath(), '.svg')) {
+                            $stream = $this->filesystem->readStream($file->getPath());
+                            $file_metadata = $stream->getMetadata();
+                            $absolute_file_path = $file_metadata['uri'];
+
+                            $metadata = new Metadata(
+                                pathinfo($absolute_file_path)['basename'],
+                                filesize($absolute_file_path),
+                                mime_content_type($absolute_file_path)
+                            );
+
+                            $processing_result = $this->svg_blacklist_processor->process($stream, $metadata);
+                            if ($processing_result->getCode() !== ProcessingStatus::OK) {
+                                return $this->df->error(
+                                    sprintf('SVG file check failed. Reason: %s', $processing_result->getMessage())
+                                );
+                            }
+                        }
+                    }
+
+                    if ($num_xml_files === 0) {
+                        return $this->df->error(
+                            sprintf('No XML files found in import directory: %s', $import_path)
+                        );
+                    }
+
+                    return $this->df->ok($contents);
+                })
+                /**
+                 * @var list<ILIAS\Filesystem\DTO\Metadata> $contents
+                 */
+                ->then(function (array $contents) use ($root_directory, $ilias_version) {
+                    $certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
+
+                    $current_version = $certificate->getVersion();
+                    $upcoming_version = $current_version + 1;
+                    $background_image_path = $certificate->getBackgroundImagePath();
+                    $cart_thumbnail_image_path = $certificate->getThumbnailImagePath();
+                    $xsl = $certificate->getCertificateContent();
+
+                    foreach ($contents as $file) {
+                        if (!$file->isFile()) {
+                            continue;
+                        }
+
+                        if (str_contains($file->getPath(), '.xml')) {
+                            $xsl = $this->filesystem->read($file->getPath());
+                            // as long as we cannot make RPC calls in a given directory, we have
+                            // to add the complete path to every url
+                            $xsl = preg_replace_callback(
+                                "/url\([']{0,1}(.*?)[']{0,1}\)/",
+                                function (array $matches) use ($root_directory): string {
+                                    $basePath = rtrim(
+                                        dirname($this->fileService->getBackgroundImageDirectory($root_directory)),
+                                        '/'
+                                    );
+                                    $fileName = basename($matches[1]);
+
+                                    if ($fileName === '[BACKGROUND_IMAGE]') {
+                                        $basePath = '';
+                                    } elseif ($basePath !== '') {
+                                        $basePath .= '/';
+                                    }
+
+                                    return 'url(' . $basePath . $fileName . ')';
+                                },
+                                $xsl
+                            );
+                        } elseif (str_contains($file->getPath(), '.jpg')) {
+                            $new_background_image_name = 'background_' . $upcoming_version . '.jpg';
+                            $new_path = $this->certificatePath . $new_background_image_name;
+                            $this->filesystem->copy($file->getPath(), $new_path);
+
+                            $background_image_path = $this->certificatePath . $new_background_image_name;
+                            // upload of the background image, create a thumbnail
+
+                            $background_image_thumbnail_path = $this->getBackgroundImageThumbnailPath();
+
+                            $thumbnail_image_path = $root_directory . $background_image_thumbnail_path;
+
+                            $original_image_path = $root_directory . $new_path;
+                            $this->utilHelper->convertImage(
+                                $original_image_path,
+                                $thumbnail_image_path,
+                                '100'
+                            );
+                        } elseif (str_contains($file->getPath(), '.svg')) {
+                            $new_card_thumbnail_name = 'thumbnail_' . $upcoming_version . '.svg';
+                            $new_path = $this->certificatePath . $new_card_thumbnail_name;
+
+                            $this->filesystem->copy($file->getPath(), $new_path);
+
+                            $cart_thumbnail_image_path = $this->certificatePath . $new_card_thumbnail_name;
+                        }
+                    }
+
+                    $serialized_template_values = json_encode(
+                        $this->placeholderDescriptionObject->getPlaceholderDescriptions(),
+                        JSON_THROW_ON_ERROR
+                    );
+
+                    $upcoming_version_hash = hash(
+                        'sha256',
+                        implode('', [
+                            $xsl,
+                            $background_image_path,
+                            $serialized_template_values,
+                            $cart_thumbnail_image_path
+                        ])
+                    );
+
+                    $template = new ilCertificateTemplate(
+                        $this->objectId,
+                        $this->objectHelper->lookupType($this->objectId),
+                        $xsl,
+                        $upcoming_version_hash,
+                        $serialized_template_values,
+                        $upcoming_version,
+                        $ilias_version,
+                        time(),
+                        false,
+                        $background_image_path,
+                        $cart_thumbnail_image_path
+                    );
+
+                    $this->templateRepository->save($template);
+
+                    return null;
+                })
+                ->isOK();
+        } catch (Throwable $e) {
+            $this->logger->error(sprintf('Error during certificate import: %s', $e->getMessage()));
+            $this->logger->error($e->getTraceAsString());
+
+            return false;
+        } finally {
+            $clean_up_import_dir();
         }
-
-        $jsonEncodedTemplateValues = json_encode(
-            $this->placeholderDescriptionObject->getPlaceholderDescriptions(),
-            JSON_THROW_ON_ERROR
-        );
-
-        $newHashValue = hash(
-            'sha256',
-            implode('', [
-                $xsl,
-                $backgroundImagePath,
-                $jsonEncodedTemplateValues,
-                $cardThumbnailImagePath
-            ])
-        );
-
-        $template = new ilCertificateTemplate(
-            $this->objectId,
-            $this->objectHelper->lookupType($this->objectId),
-            $xsl,
-            $newHashValue,
-            $jsonEncodedTemplateValues,
-            $newVersion,
-            $iliasVerision,
-            time(),
-            false,
-            $backgroundImagePath,
-            $cardThumbnailImagePath
-        );
-
-        $this->templateRepository->save($template);
-
-        $clean_up_import_dir();
-
-        return true;
     }
 
     /**

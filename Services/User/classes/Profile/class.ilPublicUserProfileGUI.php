@@ -517,7 +517,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable('TXT_LOCATION', $this->lng->txt('location'));
 
             $map_gui = ilMapUtil::getMapGUI();
-            $map_gui->setMapId('user_map')
+            $map_gui->setMapId('user_map_' . md5($user->login))
                     ->setWidth('350px')
                     ->setHeight('230px')
                     ->setLatitude($user->getLatitude())

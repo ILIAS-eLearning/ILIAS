@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Segítség
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#A 'Kötelező kérdések' nem használható együtt a 'Válaszok zárolása' lehetőséggel.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#A 'Meg nem válaszolt kérdések sorba állítása' nem használható együtt a 'Válaszok véglegesítése a következő kérdés megjelenésekor' lehetőséggel.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#A 'Kérdések keverése' nem használható együtt a 'Válaszok véglegesítése a következő kérdés megjelenésekor' lehetőséggel.
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#További jellemzők
 assessment#:#tst_settings_header_execution#:#Teszt kezelése: hozzáférés
 assessment#:#tst_settings_header_intro#:#A teszt megkezdése előtti információ
@@ -2533,6 +2534,7 @@ book#:#book_new#:#Új foglalásgyűjtemény
 book#:#book_no_bookings_for_you#:#Nem foglaltunk le semmi az Ön számára.
 book#:#book_no_objects#:#Nincs hozzárendelés
 book#:#book_no_of_objects#:#Objektumok száma
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#Egy előzetes választását sem tároltunk el.
 book#:#book_no_recurrence#:#Foglalás csak erre a dátumra
 book#:#book_not#:#Nem
@@ -7370,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
 copg#:#copg_par_format_selection#:#Bekezdésformátumok
 copg#:#copg_pc_mob_does_not_exist#:#Ez a médiaelem nem létezik.
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#'%s' bővítmény nem érhető el
 copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
 copg#:#copg_reload_page#:#Oldal újratöltése
@@ -13697,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogok bekapcsolása
 pwsp#:#pwsp_enable_wsp_files#:#Fájlok bekapcsolása
 pwsp#:#pwsp_enable_wsp_links#:#Linkek bekapcsolása
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Megjegyzések nélküli kérdések
 qpl#:#qpl_filter_commented_only#:#Megjegyzéssel ellátott kérdések
 qpl#:#qpl_page_type_qfbg#:#Általános visszajelzés
@@ -15839,6 +15843,7 @@ style#:#sty_media_queries#:#Médialekérdezés
 style#:#sty_media_query_info#:#Az alapértelmezett (nem speciális médialekérdezés) blokk után mindegyik médialekérdezéshez különálló CSS blokkot hozunk létre.
 style#:#sty_min_height#:#Minimális magasság
 style#:#sty_move_lm_styles#:#Tananyag stílusának cseréje
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Stílus cseréje
 style#:#sty_move_user_styles#:#Felhasználók stílusának cseréje
 style#:#sty_msg_characteristic_must_only_include#:#A stílusosztályok címe betűvel kell, hogy kezdőjön, nem tartalmazhat szóközt és továbbá csak az alábbi karaktereket tartalmazhatja:
@@ -15846,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#A színnév csak az alábbi karakterek
 style#:#sty_msg_input_must_be_numeric#:#A bemenetnek számnak kell lennie.
 style#:#sty_name#:#Név
 style#:#sty_nr_learning_modules#:#Tananyagok száma
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Páratlan oszlopok
 style#:#sty_odd_row_class#:#Páratlan sorok
 style#:#sty_ol#:#Számozott felsorolás

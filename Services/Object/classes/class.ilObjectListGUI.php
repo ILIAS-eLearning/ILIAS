@@ -2452,9 +2452,9 @@ class ilObjectListGUI
             $this->ctrl->setParameterByClass('ilRatingGUI', 'rnsb', true);
             if ($this->rating_ctrl_path) {
                 $rating_gui->setCtrlPath($this->rating_ctrl_path);
-                $ajax_url = $this->ctrl->getLinkTargetByClass($this->rating_ctrl_path, 'saveRating', '', true);
+                $ajax_url = $this->ctrl->getFormActionByClass($this->rating_ctrl_path, 'saveRating', '', true);
             } else {
-                $ajax_url = $this->ctrl->getLinkTargetByClass('ilRatingGUI', 'saveRating', '', true);
+                $ajax_url = $this->ctrl->getFormActionByClass('ilRatingGUI', 'saveRating', '', true);
             }
             $main_tpl->addOnLoadCode('il.Object.setRatingUrl("' . $ajax_url . '");');
             $this->addHeaderIconHTML(

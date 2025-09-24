@@ -117,6 +117,9 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 
                 $tax_id = $tax_entry['tax_id'] . '-0-' . $nodes;
                 $tax_title = '<b>' . $tax_entry['title'] . '</b>';
+                if ($children === []) {
+                    continue;
+                }
                 $tax_filter_options[$tax_id] = $tax_title;
 
                 foreach ($children as $subtax) {
