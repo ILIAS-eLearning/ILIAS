@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\HTTP;
 
@@ -93,5 +94,5 @@ interface GlobalHttpState
     public function sendResponse(): void;
 
 
-    public function close(): void;
+    public function close(): never;
 }
