@@ -34,6 +34,9 @@ class ilObjUser extends ilObject
     public const NO_AVATAR_RID = '-';
     public const PASSWD_PLAIN = "plain";
     public const PASSWD_CRYPTED = "crypted";
+
+    public const DATABASE_DATE_FORMAT = 'Y-m-d H:i:s';
+
     protected string $ext_account = "";
     protected string $time_limit_message = "";
     protected bool $time_limit_unlimited = false;
@@ -373,6 +376,9 @@ class ilObjUser extends ilObject
             $this->setInactivationDate(null);
         }
 
+        $now_string = (new DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+            ->format(self::DATABASE_DATE_FORMAT);
+
         $insert_array = [
             "usr_id" => ["integer", $this->id],
             "login" => ["text", $this->login],
@@ -401,8 +407,8 @@ class ilObjUser extends ilObject
             "last_login" => ["timestamp", null],
             "first_login" => ["timestamp", null],
             "last_profile_prompt" => ["timestamp", null],
-            "last_update" => ["timestamp", ilUtil::now()],
-            "create_date" => ["timestamp", ilUtil::now()],
+            "last_update" => ["timestamp", $now_string],
+            "create_date" => ["timestamp", $now_string],
             "referral_comment" => ["text", $this->referral_comment],
             "matriculation" => ["text", $this->matriculation],
             "client_ip" => ["text", $this->client_ip],
@@ -498,7 +504,11 @@ class ilObjUser extends ilObject
             'login_attempts' => ['integer', $this->login_attempts],
             "last_password_change" => ["integer", $this->last_password_change_ts],
             "passwd_policy_reset" => ["integer", $this->passwd_policy_reset],
-            "last_update" => ["timestamp", ilUtil::now()],
+            "last_update" => [
+                "timestamp",
+                (new DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+                    ->format(self::DATABASE_DATE_FORMAT)
+            ],
             'inactivation_date' => ['timestamp', $this->inactivation_date],
             'reg_hash' => ['text', null],
             'rid' => [

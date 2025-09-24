@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#ヒント
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#強制問題は"回答をロック"と一緒に使えません。
 assessment#:#tst_settings_conflict_postpone_and_lock#:#未回答問題は”次の問題へ後回し回答ロック"と一緒にキューに入れる事はできません。
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#シャッフル問題は”次の問題へ後回し回答ロック"と一緒に使用することはできません。
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#追加機能
 assessment#:#tst_settings_header_execution#:#テスト管理: アクセス
 assessment#:#tst_settings_header_intro#:#テスト開始前情報
@@ -2533,6 +2534,7 @@ book#:#book_new#:#新規予約集
 book#:#book_no_bookings_for_you#:#予約は何も実行されていません。
 book#:#book_no_objects#:#割当てなし
 book#:#book_no_of_objects#:#オブジェクト数
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#preferenceが何も保存されていません。
 book#:#book_no_recurrence#:#この日にちのみ予約
 book#:#book_not#:#不明
@@ -4746,6 +4748,7 @@ common#:#msg_no_perm_perm#:#アクセス権限設定の編集アクセス権限�
 common#:#msg_no_perm_read#:#このアイテムアクセスへのアクセス権限がありません。
 common#:#msg_no_perm_read_item#:#アイテム '%s'へのアクセス権限がありません。
 common#:#msg_no_perm_read_lm#:#このラーニングモジュールを読み込むアクセス権限がありません。
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#書込みアクセス権限がありません
 common#:#msg_no_search_result#:#エントリーが見つかりません
 common#:#msg_no_search_string#:#クエリを入力してください
@@ -6662,6 +6665,7 @@ content#:#cont_left_float#:#左、フローティング
 content#:#cont_license#:#ライセンス
 content#:#cont_license_info#:#ライセンス機能を有効
 content#:#cont_light#:#明るく
+content#:#cont_link#:#Link###26 08 2025 new variable
 content#:#cont_link_area#:#リンクエリヤ
 content#:#cont_link_ext#:#リンク(外部)
 content#:#cont_link_glo_in_lm#:#全ての用語集表現をラーニングモジュール中に今リンクしなければなりませんか。
@@ -6729,6 +6733,7 @@ content#:#cont_mastery_score_12_info#:#SCOが自立的にステータスを決�
 content#:#cont_mastery_score_2004#:#scaled_passing_scoreを上書き
 content#:#cont_mastery_score_2004_info#:#学習モジュールの中央学習オブジェクトは点数がscaled_passing_scoreのある一定レベルに達すると合格として考慮されます。この値 - パーセント値として宣言すべき - は要求レベルを下げる例のようにここで上書きできます。フィールドが空の場合はSCORMマニフェストの情報が有効になります。次の値はマニフェストファイルへ提供されます。
 content#:#cont_max_time_allowed#:#adlcp：maxtimeallowed
+content#:#cont_media#:#Images/Media###26 08 2025 new variable
 content#:#cont_media_placeh#:#クリックして挿入メディアを編集
 content#:#cont_media_placehl#:#メディアプレースフォルダ
 content#:#cont_media_source#:#メディアソース
@@ -7367,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#ページ要素が見つかりません。
 copg#:#copg_page_type_stys#:#ページをレイアウト
 copg#:#copg_par_format_selection#:#図書式選択
 copg#:#copg_pc_mob_does_not_exist#:#このメディア オブジェクトは存在しません。
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s は利用できません
 copg#:#copg_questions_not_supported_here#:#問題はこのコンテキスト内でサポートされません。
 copg#:#copg_reload_page#:#ページの再読み込み
@@ -8752,8 +8758,6 @@ dcl#:#dcl_supported_filetypes_desc#:#許可されたコンマ区切りの拡張�
 dcl#:#dcl_switch_table#:#表を切替
 dcl#:#dcl_switch_view#:#ビューを変更
 dcl#:#dcl_table#:#テーブル
-dcl#:#dcl_table_create#:#テーブル作成
-dcl#:#dcl_table_edit#:#テーブル更新
 dcl#:#dcl_table_id#:#テーブルID
 dcl#:#dcl_table_info#:#編集設定(アクセス権タブを参照)アクセス権を持つユーザには、常時、追加・編集・削除エントリのアクセス権があります。"編集エントリ"(アクセス権タブを参照)アクセス権を持つユーザには以下のフォームで定義された設定に沿ったアクセス権のみを有します。
 dcl#:#dcl_table_info_title#:#Info
@@ -13696,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#パーソナルリソースを有効化
 pwsp#:#pwsp_enable_wsp_blogs#:#ブログを有効化
 pwsp#:#pwsp_enable_wsp_files#:#ファイルを有効化
 pwsp#:#pwsp_enable_wsp_links#:#リンクを有効化
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#コメントなしの問題
 qpl#:#qpl_filter_commented_only#:#コメント有の問題
 qpl#:#qpl_page_type_qfbg#:#全般フィードバック
@@ -15838,6 +15843,7 @@ style#:#sty_media_queries#:#メディアクエリー
 style#:#sty_media_query_info#:#既定の(特別なメディアクエリーなし)ブロックの後に個々のCSSブロックは各メディアクエリー用に追加されます。
 style#:#sty_min_height#:#最少高
 style#:#sty_move_lm_styles#:#ラーニングモジュールのスタイルを変更
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#スタイルを変更
 style#:#sty_move_user_styles#:#ユーザスタイルを変更
 style#:#sty_msg_characteristic_must_only_include#:#スタイル クラスのタイトルのみに次の文字を含めることができます
@@ -15845,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#色の名前は次の文字を含め�
 style#:#sty_msg_input_must_be_numeric#:#入力は数値にする必要があります。
 style#:#sty_name#:#名前
 style#:#sty_nr_learning_modules#:#ラーニングモジュール数
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#奇数列
 style#:#sty_odd_row_class#:#奇数行
 style#:#sty_ol#:#順番リスト
@@ -16027,6 +16034,7 @@ style#:#sty_white_space#:#空白
 style#:#sty_width#:#幅
 style#:#sty_width_height#:#幅 x 高さ
 style#:#sty_word_spacing#:#文字の間隔
+style#:#style#:#Style###26 08 2025 new variable
 style#:#style_assignments_deleted#:#次のサブスタイルのスタイル割当ては削除されました:
 style#:#style_copied#:#スタイルは正しくコピーされました。
 style#:#style_current_style#:#現在のスタイル

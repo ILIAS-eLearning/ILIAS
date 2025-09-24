@@ -29,23 +29,23 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
      */
     public function getInputField(ilPropertyFormGUI $form, ?int $record_id = null): ilFormPropertyGUI
     {
-        if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
-            $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
-        } else {
+        if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
             $input->setWidth(100);
             $input->setWidthUnit('%');
+        } else {
+            $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         }
 
         $this->setupInputField($input, $this->getField());
 
-        $fieldref = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
-
-        $reffield = ilDclCache::getFieldCache($fieldref);
         $options = [];
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
-            $options[""] = $this->lng->txt('dcl_please_select');
+            $options[''] = $this->lng->txt('dcl_please_select');
         }
+
+        $fieldref = (int) $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
+        $reffield = ilDclCache::getFieldCache($fieldref);
         $reftable = ilDclCache::getTableCache($reffield->getTableId());
         foreach ($reftable->getRecords() as $record) {
             $record_field = $record->getRecordField($fieldref);

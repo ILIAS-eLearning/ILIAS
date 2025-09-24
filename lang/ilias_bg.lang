@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Специфични подсказ
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###30 04 2024 new variable
 assessment#:#tst_settings_header_execution#:#Администриране на теста: Достъп до
 assessment#:#tst_settings_header_intro#:#Информация преди началото на теста
@@ -2533,6 +2534,7 @@ book#:#book_new#:#Нова резервация
 book#:#book_no_bookings_for_you#:#Няма извършени резервации за вас.
 book#:#book_no_objects#:#No Assignment
 book#:#book_no_of_objects#:#No. of Objects
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#Няма запазени предпочитания за вас.
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#No
@@ -4746,6 +4748,7 @@ common#:#msg_no_perm_perm#:#Нямате разрешени права да ре
 common#:#msg_no_perm_read#:#Нямате разрешение за достъп до този елемент.
 common#:#msg_no_perm_read_item#:#Нямате разрешение за достъп до елемент '%s'.
 common#:#msg_no_perm_read_lm#:#Нямате разрешени права да четете от този модул за обучение.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Нямате разрешени права да записвате
 common#:#msg_no_search_result#:#Няма намерени записи
 common#:#msg_no_search_string#:#Моля, въведете вашата заявка
@@ -7369,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#Елементът на страницат�
 copg#:#copg_page_type_stys#:#Страница за оформление
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
 copg#:#copg_questions_not_supported_here#:#Въпросите не се поддържат в този контекст.
 copg#:#copg_reload_page#:#Презареждане на страницата###22 06 2022 new variable
@@ -8542,7 +8546,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#създаден е следни�
 dcl#:#dcl_change_notification_dcl_update_record#:#актуализиран е следният запис
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#Колекцията от данни "%s" е променена
-dcl#:#dcl_change_why_you_receive_this_email#:#Получавате това съобщение, защото сте активирали известието за този сбор от данни.
 dcl#:#dcl_changed_by#:#Променено от
 dcl#:#dcl_checked#:#Проверено.
 dcl#:#dcl_comments#:#Коментари
@@ -8622,7 +8625,6 @@ dcl#:#dcl_formula#:#Формула
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_formula_detail_desc#:#Записите се генерират автоматично, не можете да ги редактирате.
 dcl#:#dcl_height#:#Height
-dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Вътрешният идентификатор.
 dcl#:#dcl_ilias_reference#:#Отправка към модул на ILIAS
@@ -8680,7 +8682,6 @@ dcl#:#dcl_new#:#Създаване на нова колекция от данн�
 dcl#:#dcl_new_field#:#Ново поле
 dcl#:#dcl_new_table#:#Нова таблица
 dcl#:#dcl_next_record#:#Следващ запис
-dcl#:#dcl_no_content_warning#:#Внимание, събирането на данни е онлайн, но все още няма съдържание!
 dcl#:#dcl_no_entry#:#Няма вписване
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Няма налични данни или полета за експортиране.
@@ -8701,6 +8702,8 @@ dcl#:#dcl_noturl_exception#:# Трябва да въведете връзка (�
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Поле за целочислени стойности (максимум 9 цифри). Не се използват десетични дроби и дробни числа.
 dcl#:#dcl_online_info#:# Само ако събирането на данни е онлайн, потребителите могат да използват събирането на данни.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Само собствени записи
@@ -8755,8 +8758,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Можете да зададете разр
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Таблица
-dcl#:#dcl_table_create#:#Създаване на таблица
-dcl#:#dcl_table_edit#:#Актуализиране на таблица
 dcl#:#dcl_table_id#:#Идентификатор на таблица
 dcl#:#dcl_table_info#:#Потребителите с разрешение "редактиране на настройки" (вж. раздела "Разрешение") винаги имат разрешение да добавят/редактират/изтриват записи. Потребителите с разрешение "редактиране на запис" (вж. раздела "Разрешения") имат само разрешения в съответствие с настройките, посочени във формуляра по-долу.
 dcl#:#dcl_table_info_title#:#Info
@@ -13699,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Активиране на личните
 pwsp#:#pwsp_enable_wsp_blogs#:#Активиране на блогове
 pwsp#:#pwsp_enable_wsp_files#:#Активиране на файловете
 pwsp#:#pwsp_enable_wsp_links#:#Активиране на връзките
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#Обща обратна връзка
@@ -15841,6 +15843,7 @@ style#:#sty_media_queries#:#Запитвания за медии
 style#:#sty_media_query_info#:#За всяка медийна заявка се добавя отделен CSS блок след блока по подразбиране (без специална медийна заявка).
 style#:#sty_min_height#:#Минимална височина
 style#:#sty_move_lm_styles#:#Промяна на стила на модулите за обучение
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Промяна на стила
 style#:#sty_move_user_styles#:#Промяна на стила на потребителите
 style#:#sty_msg_characteristic_must_only_include#:#Заглавието на класовете стилове може да включва само следните символи:
@@ -15848,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#Името на цвета може д
 style#:#sty_msg_input_must_be_numeric#:#Входните данни трябва да са цифрови.
 style#:#sty_name#:#Име
 style#:#sty_nr_learning_modules#:#Брой учебни модули
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Недостатъчни редове
 style#:#sty_ol#:#Ordered List###30 04 2024 new variable

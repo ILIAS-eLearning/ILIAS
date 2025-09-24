@@ -666,7 +666,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case 'ilobjectcopygui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                if ((!$this->access->checkAccess("copy", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
                 $this->prepareOutput();
@@ -678,8 +678,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
             case 'ilpageeditorgui':
             case 'iltestexpresspageobjectgui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
+                if ((!$this->access->checkAccess("write", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $this->getTabsManager()->getQuestionsSubTabs();
                 $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_PAGE_VIEW);
@@ -816,24 +816,24 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case 'ilassspecfeedbackpagegui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
+                if ((!$this->access->checkAccess("write", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $pg_gui = new ilAssSpecFeedbackPageGUI((int) $this->testrequest->raw("feedback_id"));
                 $this->ctrl->forwardCommand($pg_gui);
                 break;
 
             case 'ilassgenfeedbackpagegui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
+                if ((!$this->access->checkAccess("write", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $pg_gui = new ilAssGenFeedbackPageGUI($this->testrequest->int("feedback_id"));
                 $this->ctrl->forwardCommand($pg_gui);
                 break;
 
             case 'illocalunitconfigurationgui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
+                if ((!$this->access->checkAccess("write", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $this->prepareSubGuiOutput();
 
@@ -939,7 +939,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     }
                     $this->ctrl->forwardCommand(new ilTestPageGUI('tst', $page_id));
                 }
-                $this->showEditTestPageGUI($cmd);
+                $this->showEditTestPageGUI();
                 break;
 
             case '':
@@ -1106,7 +1106,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         );
     }
 
-    private function showEditTestPageGUI(string $cmd): void
+    private function showEditTestPageGUI(): void
     {
         $this->prepareOutput();
         $this->tabs_manager->getSettingsSubTabs();
@@ -1131,7 +1131,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->content_style->gui()->addCss($this->tpl, $this->testrequest->getRefId());
         $this->tpl->setContent($this->ctrl->forwardCommand($gui));
 
-        $this->tabs_manager->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+        if ($this->ctrl->getCmdClass() === strtolower(ilTestPageGUI::class)) {
+            $this->tabs_manager->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+        }
     }
 
     public function getTestAccess(): ilTestAccess

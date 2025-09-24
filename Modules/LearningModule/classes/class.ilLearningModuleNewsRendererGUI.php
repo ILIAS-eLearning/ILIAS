@@ -28,8 +28,8 @@ class ilLearningModuleNewsRendererGUI extends ilNewsDefaultRendererGUI
         $n = $this->getNewsItem();
         if ($n->getContextSubObjType() == "pg"
             && $n->getContextSubObjId() > 0) {
-            //$add = "&target=pg_".$n->getContextSubObjId()."_".$this->getNewsRefId();
-            return ilLink::_getLink($n->getContextSubObjId() . "_" . $this->getNewsRefId(), "pg");
+            return "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
+                "pg_" . $n->getContextSubObjId() . "_" . $this->getNewsRefId();
         }
         return ilLink::_getLink($this->getNewsRefId());
     }

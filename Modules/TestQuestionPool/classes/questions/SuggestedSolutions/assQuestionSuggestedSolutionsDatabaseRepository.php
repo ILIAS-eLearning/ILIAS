@@ -68,7 +68,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         while ($row = $this->db->fetchAssoc($result)) {
             $last_update = \DateTimeImmutable::createFromFormat('U', (string) $row['tstamp']);
 
-            if ($row['type'] === null || $row['type'] === '') {
+            if ($row['type'] === null || $row['type'] === '' || $row['type'] === 'text') {
                 continue;
             }
 

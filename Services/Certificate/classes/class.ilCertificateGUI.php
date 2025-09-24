@@ -37,6 +37,8 @@ use ILIAS\FileUpload\Location;
  */
 class ilCertificateGUI
 {
+    private const EDITOR_COMMAND = 'certificateEditor';
+
     private readonly ilCertificateBackgroundImageDelete $backgroundImageDelete;
     private readonly Filesystem $fileSystem;
     private readonly WrapperFactory $httpWrapper;
@@ -166,7 +168,7 @@ class ilCertificateGUI
      */
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd(self::EDITOR_COMMAND);
         $next_class = $this->ctrl->getNextClass($this);
 
         $ret = null;
@@ -235,9 +237,9 @@ class ilCertificateGUI
     {
         // display confirmation message
         $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this, "certificateEditor"));
+        $cgui->setFormAction($this->ctrl->getFormAction($this, self::EDITOR_COMMAND));
         $cgui->setHeaderText($this->lng->txt("certificate_confirm_deletion_text"));
-        $cgui->setCancel($this->lng->txt("no"), "certificateEditor");
+        $cgui->setCancel($this->lng->txt("no"), self::EDITOR_COMMAND);
         $cgui->setConfirm($this->lng->txt("yes"), "certificateDeleteConfirm");
 
         $this->tpl->setContent($cgui->getHTML());
@@ -252,7 +254,7 @@ class ilCertificateGUI
         $templateId = $template->getId();
 
         $this->deleteAction->delete($templateId, $this->objectId);
-        $this->ctrl->redirect($this, "certificateEditor");
+        $this->ctrl->redirect($this, self::EDITOR_COMMAND);
     }
 
     /**
@@ -495,17 +497,17 @@ class ilCertificateGUI
 
                     $this->templateRepository->save($certificateTemplate);
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
-                    $this->ctrl->redirect($this, "certificateEditor");
+                    $this->ctrl->redirect($this, self::EDITOR_COMMAND);
                 }
 
                 if ($previousCertificateTemplate->getId() !== null && $previousCertificateTemplate->isCurrentlyActive() !== $active) {
                     $this->templateRepository->updateActivity($previousCertificateTemplate, $active);
                     $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_change_active_status'), true);
-                    $this->ctrl->redirect($this, "certificateEditor");
+                    $this->ctrl->redirect($this, self::EDITOR_COMMAND);
                 }
 
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_same_not_saved'), true);
-                $this->ctrl->redirect($this, "certificateEditor");
+                $this->ctrl->redirect($this, self::EDITOR_COMMAND);
             } catch (Exception $e) {
                 $this->tpl->setOnScreenMessage(
                     'failure',

@@ -22,9 +22,9 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilRatingGUI: ilRatingCategoryGUI
  */
-class ilRatingGUI
+class ilRatingGUI implements ilCtrlSecurityInterface
 {
-    protected ilLanguage$lng;
+    protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected string $id = "rtg_";
@@ -58,10 +58,15 @@ class ilRatingGUI
         $params = $DIC->http()->request()->getQueryParams();
         $body = $DIC->http()->request()->getParsedBody();
 
-        if (isset($body["rating"]) && is_array($body["rating"])) {
-            $this->requested_ratings = ($body["rating"] ?? null);
+        if (isset($body['rating'])) {
+            if (is_array($body['rating'])) {
+                $this->requested_ratings = ($body['rating'] ?? null);
+            } else {
+                $this->requested_rating = (int) ($body['rating'] ?? 0);
+            }
+        } else {
+            $this->requested_rating = (int) ($params['rating'] ?? 0);
         }
-        $this->requested_rating = (int) ($params["rating"] ?? 0);
 
         $lng->loadLanguageModule("rating");
     }
@@ -86,6 +91,16 @@ class ilRatingGUI
                 $this->$cmd();
                 break;
         }
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['saveRating'];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     /**
@@ -574,7 +589,10 @@ class ilRatingGUI
                 $f->legacy($this->renderDetails("rtov_", $may_rate, $categories, $a_onclick))
             );
             $button = $f->button()->shy('###button###', '#')
-                              ->withOnClick($popover->getShowSignal());
+                              ->withOnClick($popover->getShowSignal())
+                                ->withOnLoadCode(function (string $id): string {
+                                    return "document.getElementById('$id').classList.add('ilRating');";
+                                });
 
             /*
             $ttpl->setCurrentBlock("user_rating");

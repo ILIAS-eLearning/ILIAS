@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Vraag-specifieke Hints
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###30 04 2024 new variable
 assessment#:#tst_settings_header_execution#:#Beheer de toets: Toegang
 assessment#:#tst_settings_header_intro#:#Informatie voor aanvang van de toets
@@ -2533,6 +2534,7 @@ book#:#book_new#:#Nieuwe boekingscategorie
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###07 02 2020 new variable
 book#:#book_no_objects#:#No Assignment###07 02 2020 new variable
 book#:#book_no_of_objects#:#Aantal objecten
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###07 02 2020 new variable
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#Niet
@@ -4746,6 +4748,7 @@ common#:#msg_no_perm_perm#:#U hebt geen toestemming voor het wijzigen van de ins
 common#:#msg_no_perm_read#:#U hebt geen toestemming om het item te bekijken
 common#:#msg_no_perm_read_item#:#U hebt geen toestemming om het item '%s' te bekijken.
 common#:#msg_no_perm_read_lm#:#U hebt geen rechten om deze lesmodule te lezen.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#U hebt geen toestemming voor schrijven
 common#:#msg_no_search_result#:#Geen gegevens gevonden
 common#:#msg_no_search_string#:#Voer je vraag in
@@ -7369,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new va
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
@@ -8542,7 +8546,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#het volgende record is aangemaakt
 dcl#:#dcl_change_notification_dcl_update_record#:#het volgende record is gewijzigd
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#Gegevensverzameling  "%s" is gewijzigd
-dcl#:#dcl_change_why_you_receive_this_email#:#Je ontvangt deze email omdat je de berichtgeving voor deze gegevensverzameling hebt uitgeschakeld.
 dcl#:#dcl_changed_by#:#Aangepast door
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Commentaar
@@ -8622,7 +8625,6 @@ dcl#:#dcl_formula#:#Formule
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.###30 08 2015 new variable
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.###30 08 2015 new variable
 dcl#:#dcl_height#:#Hoogte
-dcl#:#dcl_hello#:#Beste
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#De interne ID.
 dcl#:#dcl_ilias_reference#:#Link to an ILIAS module###25 10 2016 new variable
@@ -8680,7 +8682,6 @@ dcl#:#dcl_new#:#Aanmaken nieuwe gegevensverzameling
 dcl#:#dcl_new_field#:#Nieuw veld
 dcl#:#dcl_new_table#:#Nieuwe tabel
 dcl#:#dcl_next_record#:#Volgend record
-dcl#:#dcl_no_content_warning#:#Let op, de gegevensverzameling is online maar bevat nog geen data.
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.###25 10 2016 new variable
@@ -8701,6 +8702,8 @@ dcl#:#dcl_noturl_exception#:#Je moet een koppeling (beginnend met http://) of ee
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.###06 02 2015 new variable
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Volgorde
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Only own entries###30 08 2015 new variable
@@ -8755,8 +8758,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabel
-dcl#:#dcl_table_create#:#Tabel aanmaken
-dcl#:#dcl_table_edit#:#Tabel wijzigen
 dcl#:#dcl_table_id#:#Tabel ID
 dcl#:#dcl_table_info#:#Gebruikers met het recht "Instellingen wijzigen" (zie tabblad rechten) hebben altijd het recht om onderdelen toe te voegen, te wijzigen en te verwijderen. Gebruikers met het recht "wijzigen onderdeel" (zie tabblad rechten) hebben alleen de rechten zoals gespecificeerd volgens de instellingen in het formulier hieronder.
 dcl#:#dcl_table_info_title#:#Info
@@ -13699,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###30 04 2021 new variable
@@ -15841,6 +15843,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Voor iedere Media Query zal een apart CSS blok worden aangemaakt, volgend op de standaard definities.
 style#:#sty_min_height#:#Minimale hoogte
 style#:#sty_move_lm_styles#:#Verander de stijl van de leermodule
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Verander de stijl
 style#:#sty_move_user_styles#:#Change Style of Users
 style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:
@@ -15848,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Aantal leermodules
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Ordered List###30 04 2024 new variable

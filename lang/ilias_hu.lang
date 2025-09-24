@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Segítség
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#A 'Kötelező kérdések' nem használható együtt a 'Válaszok zárolása' lehetőséggel.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#A 'Meg nem válaszolt kérdések sorba állítása' nem használható együtt a 'Válaszok véglegesítése a következő kérdés megjelenésekor' lehetőséggel.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#A 'Kérdések keverése' nem használható együtt a 'Válaszok véglegesítése a következő kérdés megjelenésekor' lehetőséggel.
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#További jellemzők
 assessment#:#tst_settings_header_execution#:#Teszt kezelése: hozzáférés
 assessment#:#tst_settings_header_intro#:#A teszt megkezdése előtti információ
@@ -2533,6 +2534,7 @@ book#:#book_new#:#Új foglalásgyűjtemény
 book#:#book_no_bookings_for_you#:#Nem foglaltunk le semmi az Ön számára.
 book#:#book_no_objects#:#Nincs hozzárendelés
 book#:#book_no_of_objects#:#Objektumok száma
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#Egy előzetes választását sem tároltunk el.
 book#:#book_no_recurrence#:#Foglalás csak erre a dátumra
 book#:#book_not#:#Nem
@@ -4746,6 +4748,7 @@ common#:#msg_no_perm_perm#:#Nincs jogosultsága szerkeszteni a jogosultság-beá
 common#:#msg_no_perm_read#:#Nincs jogosultsága ezekhez az elemekhez.
 common#:#msg_no_perm_read_item#:#Nincs jogosultsága elérni: '%s'.
 common#:#msg_no_perm_read_lm#:#Nincs olvasási jogosultsága ehhez a tananyaghoz.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nincs írási jogosultsága
 common#:#msg_no_search_result#:#Egy bejegyzés sem található
 common#:#msg_no_search_string#:#Adjon meg egy keresési kifejezést
@@ -7369,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
 copg#:#copg_page_type_stys#:#Lapelrendezés
 copg#:#copg_par_format_selection#:#Bekezdésformátumok
 copg#:#copg_pc_mob_does_not_exist#:#Ez a médiaelem nem létezik.
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#'%s' bővítmény nem érhető el
 copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
 copg#:#copg_reload_page#:#Oldal újratöltése
@@ -8542,7 +8546,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#ezúton tájékoztatjuk, hogy az 
 dcl#:#dcl_change_notification_dcl_update_record#:#ezúton tájékoztatjuk, hogy az alábbi bejegyzés megváltozott
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#'%s' adatgyűjtés megváltozott
-dcl#:#dcl_change_why_you_receive_this_email#:#Ezt az üzenetet azért küldtük, mert bekapcsolta az értesítést erre az adatgyűjtésre.
 dcl#:#dcl_changed_by#:#Módosította
 dcl#:#dcl_checked#:#Kipipált
 dcl#:#dcl_comments#:#Megjegyzések
@@ -8622,7 +8625,6 @@ dcl#:#dcl_formula#:#Képlet
 dcl#:#dcl_formula_desc#:#Képlet segítségével bejegyzések értékeit aggregálhatja.
 dcl#:#dcl_formula_detail_desc#:#Automatikusan generált, nem módosítható bejegyzések.
 dcl#:#dcl_height#:#Magasság
-dcl#:#dcl_hello#:#Tisztelt
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#A belső azonosító (internal-ID).
 dcl#:#dcl_ilias_reference#:#Link egy ILIAS-tananyaghoz
@@ -8680,7 +8682,6 @@ dcl#:#dcl_new#:#Új adatgyűjtés létrehozása
 dcl#:#dcl_new_field#:#Új mező
 dcl#:#dcl_new_table#:#Új tábla
 dcl#:#dcl_next_record#:#Következő bejegyzés
-dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
 dcl#:#dcl_no_entry#:#Egy bejegyzés sem található
 dcl#:#dcl_no_export_async_config#:#Nincs elérhető SOAP konfiguráció aszinkron exportálásokhoz.
 dcl#:#dcl_no_export_data_available#:#Nincs exportálható mező, illetve bejegyzés.
@@ -8701,6 +8702,8 @@ dcl#:#dcl_noturl_exception#:#Linket kell megadnia (http://-rel vagy www.-tal kez
 dcl#:#dcl_number#:#Egész szám
 dcl#:#dcl_number_desc#:#Egész szám típusú beviteli mező (max. 9 számjegy). Közönséges és tizedes törtek nem engedélyezettek.
 dcl#:#dcl_online_info#:#Az adatgyűjtést csak online állapotában használhatják a felhasználók.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Sorrend
 dcl#:#dcl_origin_not_found#:#Az eredeti mező nem található!
 dcl#:#dcl_own_entries#:#Csak a saját bejegyzéseim
@@ -8755,8 +8758,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Az engedélyezni kívánt fájlkiterjeszté
 dcl#:#dcl_switch_table#:#Tábla módosítása
 dcl#:#dcl_switch_view#:#Nézet váltása
 dcl#:#dcl_table#:#Tábla
-dcl#:#dcl_table_create#:#Tábla létrehozása
-dcl#:#dcl_table_edit#:#Tábla módosítása
 dcl#:#dcl_table_id#:#Tábla-ID
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' lapot) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok módosítása' jogosultságú felhasználók (lásd a 'Jogosultságok' lapot) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
 dcl#:#dcl_table_info_title#:#Információ
@@ -13699,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogok bekapcsolása
 pwsp#:#pwsp_enable_wsp_files#:#Fájlok bekapcsolása
 pwsp#:#pwsp_enable_wsp_links#:#Linkek bekapcsolása
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Megjegyzések nélküli kérdések
 qpl#:#qpl_filter_commented_only#:#Megjegyzéssel ellátott kérdések
 qpl#:#qpl_page_type_qfbg#:#Általános visszajelzés
@@ -15841,6 +15843,7 @@ style#:#sty_media_queries#:#Médialekérdezés
 style#:#sty_media_query_info#:#Az alapértelmezett (nem speciális médialekérdezés) blokk után mindegyik médialekérdezéshez különálló CSS blokkot hozunk létre.
 style#:#sty_min_height#:#Minimális magasság
 style#:#sty_move_lm_styles#:#Tananyag stílusának cseréje
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Stílus cseréje
 style#:#sty_move_user_styles#:#Felhasználók stílusának cseréje
 style#:#sty_msg_characteristic_must_only_include#:#A stílusosztályok címe betűvel kell, hogy kezdőjön, nem tartalmazhat szóközt és továbbá csak az alábbi karaktereket tartalmazhatja:
@@ -15848,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#A színnév csak az alábbi karakterek
 style#:#sty_msg_input_must_be_numeric#:#A bemenetnek számnak kell lennie.
 style#:#sty_name#:#Név
 style#:#sty_nr_learning_modules#:#Tananyagok száma
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Páratlan oszlopok
 style#:#sty_odd_row_class#:#Páratlan sorok
 style#:#sty_ol#:#Számozott felsorolás

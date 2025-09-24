@@ -195,7 +195,23 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $rgui->setObject($record_id, 'dcl_record', $field_id, 'dcl_field');
                 $rgui->executeCommand();
-                $this->ctrl->redirectToURL($this->http->request()->getServerParams()['HTTP_REFERER'] ?? '');
+
+                $detail = $this->http->wrapper()->query()->retrieve('detail_view', $this->refinery->kindlyTo()->bool());
+                $this->ctrl->setParameterByClass(
+                    $detail ? ilDclDetailedViewGUI::class : ilDclRecordListGUI::class,
+                    'tableview_id',
+                    $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int())
+                );
+                if ($detail) {
+                    $this->ctrl->setParameterByClass(
+                        ilDclDetailedViewGUI::class,
+                        'record_id',
+                        $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int())
+                    );
+                    $this->ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclDetailedViewGUI::class], 'renderRecord');
+                } else {
+                    $this->listRecords();
+                }
                 break;
             case strtolower(ilDclDetailedViewGUI::class):
                 $this->prepareOutput();

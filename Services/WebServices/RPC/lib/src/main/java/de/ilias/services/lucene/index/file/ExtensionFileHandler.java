@@ -104,7 +104,7 @@ public class ExtensionFileHandler {
 		try {
 			is = new FileInputStream(file);
 			parser.parse(is, handler, md);
-			logger.info("Parsed content: {}", handler.toString());
+			logger.debug("Parsed content: {}", handler.toString());
 			return handler.toString();
 		} catch (FileNotFoundException e) {
 			logger.warn(e);

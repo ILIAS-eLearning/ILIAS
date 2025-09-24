@@ -100,7 +100,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                 $this->lng->txt("language_detection"),
                 $modal_on->getShowSignal(),
                 $modal_off->getShowSignal(),
-                (bool)($this->settings->get("lang_detection"))
+                (bool) ($this->settings->get("lang_detection"))
             )
                                      ->withAriaLabel($this->lng->txt("lng_switch_language_detection"));
             $this->toolbar->addComponent($modal_on);

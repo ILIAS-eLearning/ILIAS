@@ -176,6 +176,8 @@ class ItemPresentationManager
             return;
         }
 
+        // get view
+        $view = $this->domain->content()->view($this->container);
         // get item set
         $ref_id = $this->container->getRefId();
         if ($this->filteredSubtree()) {
@@ -184,12 +186,11 @@ class ItemPresentationManager
             $this->item_set = $this->domain->content()->itemSetFlat(
                 $ref_id,
                 $this->container_user_filter,
-                $this->forceSessionOrderingByDate()
+                $this->forceSessionOrderingByDate(),
+                $view instanceof ObjectiveViewManager
             );
         }
 
-        // get view
-        $view = $this->domain->content()->view($this->container);
         // get item block sequence generator
         $this->sequence_generator = $this->domain->content()->itemBlockSequenceGenerator(
             $this->container,

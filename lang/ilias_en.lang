@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.
 assessment#:#tst_settings_header_additional#:#Additional Features
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
@@ -2533,6 +2534,7 @@ book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No bookings have been made for you.
 book#:#book_no_objects#:#No Bookings
 book#:#book_no_of_objects#:#No. of Units
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
@@ -4746,6 +4748,7 @@ common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_item#:#You have no permission to access item '%s’.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
@@ -6448,7 +6451,7 @@ content#:#cont_ed_split_page_next#:#Split to Next Page
 content#:#cont_ed_textitem#:# Text Item
 content#:#cont_ed_width#:#Width
 content#:#cont_edit_base_image#:#Edit Background Image
-content#:#cont_edit_comp#:#Editing
+content#:#cont_edit_comp#:#Edit
 content#:#cont_edit_definition#:#Edit Definition
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_language_version#:#Edit Version
@@ -6457,7 +6460,7 @@ content#:#cont_edit_marker_position#:#Edit Marker Position
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mode#:#Edit Mode
-content#:#cont_edit_multi#:#Selection
+content#:#cont_edit_multi#:#Select
 content#:#cont_edit_overlay_position#:#Edit Overlay Position
 content#:#cont_edit_par#:#Edit Text
 content#:#cont_edit_personal_data#:#Edit Personal Data
@@ -7369,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_par_format_selection#:#Paragraph Format Selection
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
+copg#:#copg_plugin#:#Plugin
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
@@ -12828,8 +12832,8 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
-obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
-obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
+obj#:#obj_insert_into_clipboard#:#Add to Clipboard
+obj#:#obj_inserted_clipboard#:#Selected object(s) successfully added to the clipboard.
 obj#:#obj_master_lang#:#Master Language
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
@@ -13696,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments
 qpl#:#qpl_filter_commented_only#:#Questions with comments
 qpl#:#qpl_page_type_qfbg#:#General Feedback
@@ -15838,6 +15843,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
+style#:#sty_move_obj_styles#:#Change Style of Objects
 style#:#sty_move_style#:#Change Style
 style#:#sty_move_user_styles#:#Change Style of Users
 style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter, does not use spaces and only include the following characters:
@@ -15845,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_nr_objects#:#Number of Objects
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Ordered List

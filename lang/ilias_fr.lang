@@ -1839,6 +1839,7 @@ assessment#:#tst_setting_offer_hints_label#:#Questions avec Indices
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###30 04 2024 new variable
 assessment#:#tst_settings_header_execution#:#Paramètres d'Accès
 assessment#:#tst_settings_header_intro#:#Informations avant le début du Test
@@ -2533,6 +2534,7 @@ book#:#book_new#:#Nouveau Système de Réservation
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.
 book#:#book_no_objects#:#No Assignment
 book#:#book_no_of_objects#:#Nb d'objets
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#Non
@@ -4746,6 +4748,7 @@ common#:#msg_no_perm_perm#:#Vous n'avez pas le droit de modifier les permissions
 common#:#msg_no_perm_read#:#Vous n'avez pas la permission d'accéder à cet objet.
 common#:#msg_no_perm_read_item#:#Vous n'avez pas la permission d'accéder à l'objet '%s'.
 common#:#msg_no_perm_read_lm#:#Vous n'avez pas la permission de lire ce module.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Vous n'avez pas de permission en écrire
 common#:#msg_no_search_result#:#Aucune entrée trouvée
 common#:#msg_no_search_string#:#Veuillez saisir votre requête
@@ -7369,6 +7372,7 @@ copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
 copg#:#copg_questions_not_supported_here#:#Les questions ne sont pas supportées dans ce contexte.
 copg#:#copg_reload_page#:#Reload Page
@@ -8542,7 +8546,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#l'enregistrement suivant a été 
 dcl#:#dcl_change_notification_dcl_update_record#:#l'enregistrement suivant a été enregistré
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#La Collection de Données "%s" a été modifiée
-dcl#:#dcl_change_why_you_receive_this_email#:#Vous recevez ce message car vous avez activé la notification pour cette collection de données.
 dcl#:#dcl_changed_by#:#Modifié par
 dcl#:#dcl_checked#:#Coché.
 dcl#:#dcl_comments#:#Commentaires
@@ -8622,7 +8625,6 @@ dcl#:#dcl_formula#:#Formule
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_formula_detail_desc#:#Les entrées sont générées automatiquement, vous n'êtes pas en mesure d'éditer l'entrée.
 dcl#:#dcl_height#:#Hauteur
-dcl#:#dcl_hello#:#Cher
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#L’ID interne.
 dcl#:#dcl_ilias_reference#:#Lien vers un module ILIAS
@@ -8680,7 +8682,6 @@ dcl#:#dcl_new#:#Créer Nouvelle Collection de Données
 dcl#:#dcl_new_field#:#Nouveau Champ
 dcl#:#dcl_new_table#:#Nouveau Tableau
 dcl#:#dcl_next_record#:#Next record
-dcl#:#dcl_no_content_warning#:#Attention, la Collection de Données est en-ligne mais n'a actuellement aucun contenu !
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Pas de données ou de champs disponibles pour l’exportation.
@@ -8701,6 +8702,8 @@ dcl#:#dcl_noturl_exception#:#Vous devez entrer un lien (commençant par http://)
 dcl#:#dcl_number#:#Nombre entier
 dcl#:#dcl_number_desc#:#Champ pour les valeurs de nombre entier (max. 9 chiffres). Pas de décimales ou de fractions.
 dcl#:#dcl_online_info#:#Les utilisateurs sont capables d’utiliser la collecte de données uniquement si celle-ci est en ligne.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Ordre
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Uniquement les entrées propres
@@ -8755,8 +8758,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Vous pouvez définir les extensions autoris
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tableau
-dcl#:#dcl_table_create#:#Créer Tableau
-dcl#:#dcl_table_edit#:#Enregistrer Tableau
 dcl#:#dcl_table_id#:#ID Tableau
 dcl#:#dcl_table_info#:#Les utilisateurs ayant la permission "Réglage des paramètres" (cf onglet "Permissions") ont toujours les permissions d'ajout/édition/suppression des entrées. Les utilisateurs ayant la permission "Editer entrée" (cf onglet "Permissions") ont des permissions dépendant du formulaire suivant.
 dcl#:#dcl_table_info_title#:#Info
@@ -13699,6 +13700,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback
@@ -15841,6 +15843,7 @@ style#:#sty_media_queries#:#Demandes de renseignement des médias
 style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_min_height#:#Hauteur minimal
 style#:#sty_move_lm_styles#:#Modifier Style des Modules Pédagogiques
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Changer Style
 style#:#sty_move_user_styles#:#Modifier Style des Utilisateurs
 style#:#sty_msg_characteristic_must_only_include#:#Le titre des classes de style peuvent uniquement contenir les caractères suivants :
@@ -15848,6 +15851,7 @@ style#:#sty_msg_color_must_only_include#:#Le nom de la couleur peut uniquement c
 style#:#sty_msg_input_must_be_numeric#:#La saisie doit être numérique.
 style#:#sty_name#:#Nom
 style#:#sty_nr_learning_modules#:#Nombre de Modules Pédagogiques
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Colonnes impaires
 style#:#sty_odd_row_class#:#Lignes impaires
 style#:#sty_ol#:#Ordered List###30 04 2024 new variable

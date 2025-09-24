@@ -564,6 +564,8 @@ class ilExPeerReviewGUI
             $sub_data = $this->getSubmissionContent($submission);
             if ($sub_data === '' || $sub_data === '0') {
                 $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
+            } else {
+                $sub_data = $this->gui->html()->escapeCurly($sub_data);
             }
             $props[] = [
                 "prop" => $lng->txt("exc_submission"),
@@ -624,6 +626,8 @@ class ilExPeerReviewGUI
                     if (isset($file_info["files"]["download_url"])) {
                         $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
                     }
+                } else {
+                    $sub_data = $this->gui->html()->escapeCurly($sub_data);
                 }
                 $props[] = [
                     "prop" => $lng->txt("exc_submission"),
@@ -1037,6 +1041,8 @@ class ilExPeerReviewGUI
         $sub_data = $this->getSubmissionContent($submission);
         if (($sub_data === '' || $sub_data === '0') && isset($file_info["files"]["download_url"])) {
             $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
+        } else {
+            $sub_data = $this->gui->html()->escapeCurly($sub_data);
         }
 
         $sub = new ilNonEditableValueGUI($lng->txt("exc_submission"), "", true);
