@@ -9,7 +9,7 @@ use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 /**
  * ---
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   No pagination component is rendered.
  * ---
  */
 function with_one_page()
@@ -19,7 +19,7 @@ function with_one_page()
     $r = $DIC->ui()->renderer();
 
     $pagination = $f->input()->viewControl()->pagination()
-        ->withTotalCount(10)
+        ->withTotalCount(3)
         ->withValue([Pagination::FNAME_OFFSET => 0, Pagination::FNAME_LIMIT => 10])
     ;
 
@@ -28,8 +28,6 @@ function with_one_page()
         ->withRequest($DIC->http()->request());
 
     return $r->render([
-        $f->legacy('<pre>' . print_r($vc_container->getData(), true) . '</pre>'),
-        $f->divider()->horizontal(),
         $vc_container
     ]);
 }

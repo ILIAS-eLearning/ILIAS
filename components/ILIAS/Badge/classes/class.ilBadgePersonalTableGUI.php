@@ -353,11 +353,11 @@ class ilBadgePersonalTableGUI implements DataRetrieval
         ];
     }
 
-    public function renderTable(): void
+    public function renderTable(string $url): void
     {
         $df = new \ILIAS\Data\Factory();
 
-        $table_uri = $df->uri($this->request->getUri()->__toString());
+        $table_uri = $df->uri($url);
         $url_builder = new URLBuilder($table_uri);
         $query_params_namespace = ['badge'];
 

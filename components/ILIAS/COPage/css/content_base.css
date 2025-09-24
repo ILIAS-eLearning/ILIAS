@@ -14,6 +14,10 @@
 	text-align: left;
 }
 
+.ilTinyMenuSection .dropdown-menu {
+	width: auto;
+}
+
 #iltinymenu div.ilTinyMenuSection p, #iltinymenu .il-copg-button-group p {
 	background-color: transparent;
 }
@@ -213,4 +217,27 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 }
 .copg-src-form.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea {
 	height: 50vh;
+}
+
+.ilc_media_caption_MediaCaption img {
+	width: 25px;
+	height: 25px;
+}
+
+.il-copg-mob-fullscreen-modal .il-modal-roundtrip {
+	width: 90%;
+	height: 90vh;
+	.modal-dialog {
+		width: 100%;
+		.modal-content {
+			height: 100%;
+		}
+	}
+	.modal-body {
+		height: calc(100% - 100px);
+	}
+}
+
+.il-copg-mob-fullscreen {
+	height: calc(90vh - 160px);
 }

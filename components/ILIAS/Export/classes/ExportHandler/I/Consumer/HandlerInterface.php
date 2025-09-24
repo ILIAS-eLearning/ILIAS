@@ -22,14 +22,18 @@ namespace ILIAS\Export\ExportHandler\I\Consumer;
 
 use ILIAS\Data\ObjectId;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\FactoryInterface as ExportConfigFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ilExportHandlerConsumerExportWriterInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\HandlerInterface as ilExportHandlerPublicAccessInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Stakeholder\HandlerInterface as ExportRepositoryStakeholderInterface;
 use ilObject;
 
 interface HandlerInterface
 {
     public function publicAccess(): ilExportHandlerPublicAccessInterface;
+
+    public function exportConfig(): ExportConfigFactoryInterface;
 
     public function createStandardExport(
         int $user_id,
@@ -46,4 +50,6 @@ interface HandlerInterface
     public function exportWriter(
         ilExportHandlerRepositoryElementInterface $element
     ): ilExportHandlerConsumerExportWriterInterface;
+
+    public function exportStakeholderHandler(): ExportRepositoryStakeholderInterface;
 }

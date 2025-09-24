@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 class ilMathJaxConfig
 {
-    private const MATHJAX2_DEFAULT_URL = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe';
+    private const MATHJAX2_DEFAULT_URL = 'assets/js/cdn-mathjax2-tex-mml-chtml-safe.js';
     private const MATHJAX3_RELATIVE_URL = 'assets/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js';
 
     private const LIMITER_MATHJAX = 0;
@@ -76,7 +76,7 @@ class ilMathJaxConfig
      */
     public function getMathJax2DefaultUrl(): string
     {
-        return self::MATHJAX2_DEFAULT_URL;
+        return ILIAS_HTTP_PATH . '/' . self::MATHJAX2_DEFAULT_URL;
     }
 
     /**

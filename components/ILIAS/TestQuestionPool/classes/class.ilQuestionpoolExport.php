@@ -56,7 +56,7 @@ class ilQuestionpoolExport
         $this->lng = $DIC['lng'];
 
         if (!is_array($this->questions)) {
-            $this->questions = $this->qpl_obj->getAllQuestionIds();
+            $this->questions = $this->qpl_obj->getIdsOfAvailableAndCompleteQuestions();
         }
 
         $this->inst_id = IL_INST_ID;

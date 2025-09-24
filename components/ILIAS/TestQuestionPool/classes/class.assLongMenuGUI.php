@@ -285,8 +285,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tag_input->setTypeAheadMinLength(1);
         $tpl->setVariable('TAGGING_PROTOTYPE', $tag_input->render(''));
 
-        $modal_id = self::DEFAULT_MODAL_ID;
-        $tpl->setVariable('MY_MODAL', $this->getModalHtml($modal_id));
+        [$modal, $modal_id] = $this->getModalHtml();
+        $tpl->setVariable('MY_MODAL', $modal);
         $tpl->parseCurrentBlock();
         $this->tpl->addOnLoadCode(
             'longMenuQuestion.Init(' .
@@ -305,14 +305,20 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $form;
     }
 
-    private function getModalHtml(string &$modal_id): string
+    /**
+     *
+     * @return array<string, string>
+     */
+    private function getModalHtml(): array
     {
         $modal = $this->ui_factory->modal()->interruptive('', '', '');
         $doc = new DOMDocument();
         @$doc->loadHTML($this->ui_renderer->render($modal));
         $dialogs = $doc->getElementsByTagName('dialog');
-        $modal_id = $dialogs->item(0)->attributes->getNamedItem('id')->nodeValue ?? self::DEFAULT_MODAL_ID;
-        return $doc->saveHTML();
+        return [
+            $doc->saveHTML(),
+            $dialogs->item(0)->attributes->getNamedItem('id')->nodeValue ?? self::DEFAULT_MODAL_ID
+        ];
     }
 
     /**

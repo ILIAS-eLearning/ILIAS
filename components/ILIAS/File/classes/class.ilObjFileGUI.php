@@ -304,7 +304,7 @@ class ilObjFileGUI extends ilObject2GUI
 
                 if ($this->id_type === Context::CONTEXT_WORKSPACE) {
                     $goto_link = ilWorkspaceAccessHandler::getGotoLink(
-                        $this->object->getRefId(),
+                        $this->node_id,
                         $this->object->getId()
                     );
                 } else {

@@ -26,7 +26,7 @@ use ILIAS\components\Authentication\Pages\AuthPageLanguagesOverviewTable;
  * @ilCtrl_isCalledBy ilAuthPageEditorGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthPageEditorGUI: ilLoginPageGUI, ilLogoutPageGUI
  */
-class ilAuthPageEditorGUI
+class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
 {
     final public const DEFAULT_COMMAND = 'showPageEditorLanguages';
     final public const LANGUAGE_TABLE_ACTIONS_COMMAND = 'handlePageActions';
@@ -96,6 +96,18 @@ class ilAuthPageEditorGUI
         $this->ctrl->setParameter($this, self::CONTEXT_HTTP_PARAM, $this->request_ipe_context);
     }
 
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+           self::LANGUAGE_TABLE_ACTIONS_COMMAND,
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
     public function executeCommand(): void
     {
         switch (strtolower($this->ctrl->getNextClass($this) ?? '')) {
@@ -113,10 +125,13 @@ class ilAuthPageEditorGUI
                 break;
 
             default:
-                if (!$cmd = $this->ctrl->getCmd()) {
-                    $cmd = 'showPageEditorLanguages';
+                $cmd = $this->ctrl->getCmd();
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd . 'Command')) {
+                    $cmd = self::DEFAULT_COMMAND;
                 }
-                $this->$cmd();
+                $verified_command = $cmd . 'Command';
+
+                $this->$verified_command();
                 break;
         }
     }
@@ -129,7 +144,11 @@ class ilAuthPageEditorGUI
     private function forwardToPageObject(): void
     {
         if (!$this->requested_language_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('language_does_not_exist'), true);
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('language_does_not_exist'),
+                true
+            );
             $this->ctrl->returnToParent($this);
         }
 
@@ -168,7 +187,7 @@ class ilAuthPageEditorGUI
         }
     }
 
-    private function handlePageActions(): void
+    private function handlePageActionsCommand(): void
     {
         $action = $this->http->wrapper()->query()->retrieve(
             'authpage_languages_action',
@@ -188,11 +207,8 @@ class ilAuthPageEditorGUI
 
         switch ($action) {
             case AuthPageLanguagesOverviewTable::DEACTIVATE:
-                $this->deactivate();
-                break;
-
             case AuthPageLanguagesOverviewTable::ACTIVATE:
-                $this->activate();
+                $this->$action();
                 break;
 
             case AuthPageLanguagesOverviewTable::EDIT:
@@ -244,7 +260,7 @@ class ilAuthPageEditorGUI
 
         $settings->update();
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::DEFAULT_COMMAND);
     }
 
@@ -261,11 +277,11 @@ class ilAuthPageEditorGUI
 
         $settings->update();
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::DEFAULT_COMMAND);
     }
 
-    private function showPageEditorLanguages(): void
+    private function showPageEditorLanguagesCommand(): void
     {
         $this->tabs->activateSubTab($this->getRequestedAuthPageEditorContext()->tabIdentifier());
         $tbl = new AuthPageLanguagesOverviewTable(

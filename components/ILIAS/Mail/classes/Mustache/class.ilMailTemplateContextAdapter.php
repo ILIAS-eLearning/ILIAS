@@ -33,6 +33,7 @@ class ilMailTemplateContextAdapter
         /** @var ilMailTemplateContext[] $contexts */
         protected array $contexts,
         protected array $context_parameter,
+        protected readonly Mustache_Engine $mustache_engine,
         protected ?ilObjUser $recipient = null
     ) {
     }
@@ -65,6 +66,9 @@ class ilMailTemplateContextAdapter
     {
         foreach ($this->contexts as $context) {
             $ret = $context->resolvePlaceholder($name, $this->context_parameter, $this->recipient);
+            if (in_array($name, $context->getNestedPlaceholders(), true)) {
+                $ret = $this->mustache_engine->render($ret, $this);
+            }
             if ($ret !== '') {
                 return $ret;
             }

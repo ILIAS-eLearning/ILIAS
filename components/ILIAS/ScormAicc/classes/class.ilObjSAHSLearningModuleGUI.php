@@ -399,7 +399,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $newObj->createReference();
         $newObj->putInTree($refId);
         $newObj->setPermissions($refId);
-        $newObj->setOfflineStatus(false);
+        $newObj->setOfflineStatus(true);
 
         // create data directory, copy file to directory
         $newObj->createDataDirectory();
@@ -507,18 +507,32 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         // create data directory, copy file to directory
         $new_obj->createDataDirectory();
 
+        // Handle content.zip
         $scorm_file = "content.zip";
-        $scorm_file_path = $import_dirname . "/" . $scorm_file;
-        $file_path = $new_obj->getDataDirectory() . "/" . $scorm_file;
-        ilFileUtils::rename($scorm_file_path, $file_path);
+        $file_path = $import_dirname . "/" . $scorm_file;
+        // Unzip content.zip before copying
+        $content_unzip_dir = $import_dirname . '/content';
         $this->archives->unzip(
             $file_path,
-            $new_obj->getDataDirectory(),
+            $content_unzip_dir,
             false,
             false,
             false
         );
-        unlink($file_path);
+        // Handle ILIAS 9 Exports containing 'lm_x' directories
+        $source_dir_for_copy = $content_unzip_dir;
+        $content_unzip_dir_iterator = new DirectoryIterator( $content_unzip_dir );
+        foreach ( $content_unzip_dir_iterator as $fileinfo ) {
+            if ( $fileinfo->isDir() && !$fileinfo->isDot() ) {
+                if ( preg_match( '/^lm_\d+$/', $fileinfo->getFilename() ) ) {
+                    $source_dir_for_copy = $source_dir_for_copy . '/' . $fileinfo->getFilename();
+                    break;
+                }
+            }
+        }
+        // Move content
+        ilFileUtils::rename($source_dir_for_copy, $new_obj->getDataDirectory());
+        // Cleanup
         ilFileUtils::delDir($lm_temp_dir, false);
         ilFileUtils::renameExecutables($new_obj->getDataDirectory());
 

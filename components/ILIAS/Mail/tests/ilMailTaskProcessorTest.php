@@ -108,7 +108,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService()
+            $this->createMock(\ILIAS\Mail\Object\MailPayloadEncoder::class)
         );
 
         $mailValueObject = new ilMailValueObject(
@@ -177,7 +177,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService()
+            $this->createMock(\ILIAS\Mail\Object\MailPayloadEncoder::class)
         );
 
         $mailValueObjects = [];
@@ -254,7 +254,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService()
+            $this->createMock(\ILIAS\Mail\Object\MailPayloadEncoder::class)
         );
 
         $mailValueObjects = [];
@@ -344,7 +344,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTestCase
             $this->languageMock,
             $this->loggerMock,
             $this->dicMock,
-            new ilMailValueObjectJsonService()
+            $this->createMock(\ILIAS\Mail\Object\MailPayloadEncoder::class)
         );
 
         $mailValueObjects = [];

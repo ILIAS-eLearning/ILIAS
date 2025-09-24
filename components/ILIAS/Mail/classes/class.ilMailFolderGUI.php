@@ -33,7 +33,7 @@ use ILIAS\Filesystem\Stream\Streams;
 /**
  * @ilCtrl_Calls ilMailFolderGUI:
  */
-class ilMailFolderGUI
+class ilMailFolderGUI implements ilCtrlSecurityInterface
 {
     // used as single element namespace for UrlBuilder
     // added with '_' before parameter names in queries from the table
@@ -95,6 +95,18 @@ class ilMailFolderGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ui_service = $DIC->uiService();
         $this->data_factory = new ILIAS\Data\Factory();
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_TABLE_ACTION
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     /**

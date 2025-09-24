@@ -773,6 +773,7 @@ assessment#:#gap#:#Gap
 assessment#:#gap_combination#:#Cloze kombination
 assessment#:#gaps#:#Gaps###21 05 2025 new variable
 assessment#:#glossary_term#:#Glossarisk term
+assessment#:#goto_first_question#:#Show first question###26 08 2025 new variable
 assessment#:#grading_mark_msg#:#Du har uppnått märket &quot;[märke]&quot;.
 assessment#:#grading_status_failed_msg#:#Synd, tyvärr <b>klarade</b> du inte testet.
 assessment#:#grading_status_passed_msg#:#Grattis! Du har <b>klarat</b> provet.
@@ -1911,6 +1912,7 @@ assessment#:#tst_setting_offer_hints_info#:#Deltagare kan begära ledtrådar fö
 assessment#:#tst_setting_offer_hints_label#:#Tips på lösningar
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###21 11 2023 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###21 11 2023 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###21 11 2023 new variable
 assessment#:#tst_settings_header_execution#:#Utförande
 assessment#:#tst_settings_header_intro#:#Information om hur du kommer igång
@@ -2002,6 +2004,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Display av frågornas rubriker
 assessment#:#tst_title_output_full#:#Frågetitlar och uppnåbara punkter
 assessment#:#tst_title_output_hide_points#:#Endast titel på fråga
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).###26 08 2025 new variable
 assessment#:#tst_title_output_no_title#:#Varken frågetitel eller uppnåeliga punkter
 assessment#:#tst_title_output_only_points#:#Only Available Points###21 11 2023 new variable
 assessment#:#tst_trigger_result_refreshing#:#Resultatet beräknas på nytt. Detta kan ta en stund.
@@ -2591,6 +2594,7 @@ book#:#book_bulk_creation#:#Bulk Creation###21 11 2023 new variable
 book#:#book_bulk_data#:#Object Data###21 11 2023 new variable
 book#:#book_cal_entry#:#Bokning från
 book#:#book_confirm_booking#:#Gör en bokning
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###26 08 2025 new variable
 book#:#book_confirm_booking_no_schedule#:#Är du säker på att du vill boka följande objekt?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Bekräftelse av bokning
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the number of items that you would like to book.###26 08 2024 new variable
@@ -2629,6 +2633,7 @@ book#:#book_new#:#Skapa ny bokningspool
 book#:#book_no_bookings_for_you#:#Inga reservationer har gjorts för dig.
 book#:#book_no_objects#:#Ingen tilldelning
 book#:#book_no_of_objects#:#Antal objekt
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#Du har inte sparat några inställningar.
 book#:#book_no_recurrence#:#Book only this date###21 11 2023 new variable
 book#:#book_not#:#Not
@@ -4809,6 +4814,7 @@ common#:#msg_no_perm_perm#:#Du har inte tillräcklig behörighet för att komma 
 common#:#msg_no_perm_read#:#Du har inte tillräcklig behörighet för att komma åt detta objekt.
 common#:#msg_no_perm_read_item#:#Du har inte behörighet att komma åt objektet '%s'.
 common#:#msg_no_perm_read_lm#:#Du har inte tillräcklig behörighet för att visa denna utbildningsmodul.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Du har inte skrivtillstånd!
 common#:#msg_no_search_result#:#Inga poster hittades
 common#:#msg_no_search_string#:#Var god ange en sökterm
@@ -7406,6 +7412,7 @@ copg#:#copg_page_type_stys#:#Sidans layout
 copg#:#copg_pages#:#Pages###21 05 2025 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###21 11 2023 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###21 05 2025 new variable
 copg#:#copg_questions_not_supported_here#:#Inga frågor stöds i detta sammanhang.
 copg#:#copg_reload_page#:#Reload sida
@@ -8593,7 +8600,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Följande post har skapats
 dcl#:#dcl_change_notification_dcl_update_record#:#Följande post har uppdaterats
 dcl#:#dcl_change_notification_link#:#Gå till datainsamling
 dcl#:#dcl_change_notification_subject#:#Datainsamlingen "%s" har redigerats.
-dcl#:#dcl_change_why_you_receive_this_email#:#Du får detta meddelande eftersom du har aktiverat anmälningsfunktionen för ovanstående datainsamling.
 dcl#:#dcl_changed_by#:#Sista ändring av
 dcl#:#dcl_checked#:#Vald
 dcl#:#dcl_comments#:#Kommentarer
@@ -8675,7 +8681,6 @@ dcl#:#dcl_formula_desc#:#I likhet med kalkylblad kan poster länkas eller beräk
 dcl#:#dcl_formula_detail_desc#:#Poster i detta fält genereras automatiskt. Du kan inte göra en post här.
 dcl#:#dcl_height#:#Höjd
 dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
-dcl#:#dcl_hello#:#Hello
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Det interna ID:t.
 dcl#:#dcl_ilias_reference#:#Objekt i tidningen
@@ -8732,7 +8737,6 @@ dcl#:#dcl_new#:#Skapa ny datainsamling
 dcl#:#dcl_new_field#:#Nytt fält
 dcl#:#dcl_new_table#:#Ny tabell
 dcl#:#dcl_next_record#:#Nästa post
-dcl#:#dcl_no_content_warning#:#Attention, datainsamlingen är redan online, men har inget innehåll ännu!
 dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
 dcl#:#dcl_no_entry#:#Ingen post
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
@@ -8754,6 +8758,8 @@ dcl#:#dcl_noturl_exception#:#Ange en länk (som börjar med http
 dcl#:#dcl_number#:#Integers
 dcl#:#dcl_number_desc#:#Inmatningsfält för hela tal (högst 9 siffror). Bråk och decimaltal är inte tillåtna.
 dcl#:#dcl_online_info#:#Endast när datainsamlingen är online kan användarna se och använda datainsamlingen.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Sortering
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###21 05 2025 new variable
 dcl#:#dcl_own_entries#:#Endast egna poster
@@ -8809,8 +8815,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Du kan ange kommaseparerade filnamnstilläg
 dcl#:#dcl_switch_table#:#Switch Table###21 11 2023 new variable
 dcl#:#dcl_switch_view#:#Change View###21 11 2023 new variable
 dcl#:#dcl_table#:#Tabell
-dcl#:#dcl_table_create#:#Skapa tabell
-dcl#:#dcl_table_edit#:#Spara
 dcl#:#dcl_table_id#:#Tabeller ID
 dcl#:#dcl_table_list_fields#:#Fält i den valda tabellen
 dcl#:#dcl_table_list_tables#:#Tillgängliga tabeller
@@ -8839,7 +8843,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Är du säker på att du vill ta bort föl
 dcl#:#dcl_tableviews_of_X#:#Views of table %s###26 08 2024 new variable
 dcl#:#dcl_tableviews_table#:#Vyer av den valda tabellen
 dcl#:#dcl_text#:# Textinmatning
-dcl#:#dcl_text_area#:#Inmatningsfält för text med flera linjer
 dcl#:#dcl_text_desc#:#Inmatningsfält för text, länkar eller e-postadresser
 dcl#:#dcl_text_email_detail_desc#:#Var god ange en giltig e-postadress eller URL.
 dcl#:#dcl_text_email_title#:#Titel
@@ -11761,7 +11764,7 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with cur
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL för MathJax-skriptet
 mathjax#:#mathjax_script_url_desc_line1#:#För MathJax 2 t.ex. %s
-mathjax#:#mathjax_script_url_desc_line2#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. För MathJax 2 kan den läggas till i CDN-url:en som en parameter (se ovan). För MathJax 3 måste du inkludera ett skript som konfigurerar det innan MathJax laddas. Använd %s
+mathjax#:#mathjax_script_url_desc_line2#:#Använd det säkra läget för att undvika XSS-attacker från MathJax-kod med Javascript. <br />För MathJax 3 t.ex. %s
 mathjax#:#mathjax_server_address#:#Serverns adress
 mathjax#:#mathjax_server_address_info#:#T.ex. http
 mathjax#:#mathjax_server_cache_cleared#:# MathJax-cachen har rensats.
@@ -13923,6 +13926,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Aktivera personliga resurser
 pwsp#:#pwsp_enable_wsp_blogs#:#Aktivera bloggar
 pwsp#:#pwsp_enable_wsp_files#:# Aktivera filer
 pwsp#:#pwsp_enable_wsp_links#:# Aktivera länkar
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#Allmän feedback
@@ -14642,6 +14646,7 @@ rbac#:#rbac_log_source_object#:#Källa objekt
 rbac#:#rbac_msg_user_already_assigned#:#De valda användarna har redan tilldelats den här rollen.
 rbac#:#rbac_not_change_existing_objects#:#Justera INTE befintliga objekt
 rbac#:#rbac_permissions#:#Rättigheter
+rbac#:#rbac_precondition_condition#:#Access requires having this status###26 08 2025 new variable
 rbac#:#rbac_precondition_hide#:# Dölj objekt
 rbac#:#rbac_precondition_hide_info#:#Detta objekt visas inte för användare förrän de definierade förutsättningarna är uppfyllda.
 rbac#:#rbac_precondition_minimum_optional#:#Minst två förhandsvillkor måste vara frivilliga.
@@ -16084,6 +16089,7 @@ style#:#sty_media_queries#:#Medieförfrågningar
 style#:#sty_media_query_info#:#För varje mediafråga infogas ett separat CSS-avsnitt efter standardavsnittet (utan mediafråga).
 style#:#sty_min_height#:#Minsta höjd
 style#:#sty_move_lm_styles#:#Ändra formatmallarna för utbildningsmodulerna
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Ändra formatmall
 style#:#sty_move_user_styles#:#Ändra stilmall för användarna
 style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.###21 05 2025 new variable
@@ -16092,6 +16098,7 @@ style#:#sty_msg_color_must_only_include#:#Färgnamnet får endast innehålla fö
 style#:#sty_msg_input_must_be_numeric#:#Numerisk inmatning krävs.
 style#:#sty_name#:#Namn
 style#:#sty_nr_learning_modules#:#Antal utbildningsmoduler
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Even kolumner
 style#:#sty_odd_row_class#:#Odd linjer
 style#:#sty_ol#:#Ordered List###21 11 2023 new variable
@@ -17335,6 +17342,7 @@ ui#:#2stars#:#two of five stars###26 08 2024 new variable
 ui#:#3stars#:#three of five stars###26 08 2024 new variable
 ui#:#4stars#:#four of five stars###26 08 2024 new variable
 ui#:#5stars#:#five of five stars###26 08 2024 new variable
+ui#:#datatable_close_warning#:#OK###26 08 2025 new variable
 ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#operation###21 11 2023 new variable
 ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
@@ -17392,6 +17400,7 @@ ui#:#ui_table_no_records#:#No records###21 11 2023 new variable
 ui#:#ui_table_order#:#Order###21 05 2025 new variable
 ui#:#ui_transcription#:#Transkript
 ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
+ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#Alla roller med definierad startsida
 user#:#back_to_starting_points_list#:#Tillbaka till startsidorna
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable

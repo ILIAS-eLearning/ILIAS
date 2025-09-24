@@ -131,7 +131,7 @@ class ilDclDetailedViewGUI
             return;
         }
 
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd('renderRecord');
         $cmdClass = $this->ctrl->getCmdClass();
         switch (strtolower($cmdClass)) {
             case 'ilcommentgui':

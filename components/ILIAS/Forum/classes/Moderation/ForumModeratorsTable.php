@@ -26,26 +26,24 @@ use Psr\Http\Message\ServerRequestInterface;
 use ilArrayUtil;
 use ilObjUser;
 use ilObjectFactory;
-use ilForumModeratorsGUI;
 use ilLanguage;
 use ilForumModerators;
-use ilCtrlInterface;
 
 class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 {
     protected ServerRequestInterface $request;
     protected Data\Factory $data_factory;
     /**
-     * @var list<array<string, mixed>>|null
+     * @var list<array{usr_id: int, login: string, firstname: string, lastname: string}>|null
      */
     private ?array $records = null;
 
     public function __construct(
         private readonly ilForumModerators $forum_moderators,
-        private readonly ilCtrlInterface $ctrl,
         private readonly ilLanguage $lng,
         \ILIAS\HTTP\Services $http,
-        private readonly \ILIAS\UI\Factory $ui_factory
+        private readonly \ILIAS\UI\Factory $ui_factory,
+        private readonly string $action_url
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
@@ -97,12 +95,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     {
         $query_params_namespace = ['frm', 'moderators', 'table'];
 
-        $uri_detach = $this->data_factory->uri(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-                ilForumModeratorsGUI::class,
-                'handleModeratorActions'
-            )
-        );
+        $uri_detach = $this->data_factory->uri($this->action_url);
 
         $url_builder_detach = new UI\URLBuilder($uri_detach);
         [
@@ -169,11 +162,11 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     ): ?int {
         $this->initRecords();
 
-        return count($this->records);
+        return \count($this->records);
     }
 
     /**
-     * @return list<array<string, mixed>>
+     * @return list<array{usr_id: int, login: string, firstname: string, lastname: string}>
      */
     private function sortedRecords(Data\Order $order): array
     {
@@ -184,7 +177,7 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
     }
 
     /**
-     * @return list<array<string, mixed>>
+     * @return list<array{usr_id: int, login: string, firstname: string, lastname: string}>
      */
     private function getRecords(Data\Range $range, Data\Order $order): array
     {
@@ -192,15 +185,8 @@ class ForumModeratorsTable implements UI\Component\Table\DataRetrieval
 
         $records = $this->sortedRecords($order);
 
-        return $this->limitRecords($records, $range);
-    }
+        $records = \array_slice($records, $range->getStart(), $range->getLength());
 
-    /**
-     * @param list<array<string, mixed>> $records
-     * @return list<array<string, mixed>>
-     */
-    private function limitRecords(array $records, Data\Range $range): array
-    {
-        return array_slice($records, $range->getStart(), $range->getLength());
+        return $records;
     }
 }

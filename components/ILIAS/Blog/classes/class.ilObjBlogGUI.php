@@ -595,7 +595,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         } else {
                             $cmd = "render";
                         }
-                        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                         // $ilCtrl->setCmd($cmd);
                     }
                     $this->addHeaderActionForCommand($cmd);

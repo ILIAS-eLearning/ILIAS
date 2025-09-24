@@ -37,7 +37,8 @@ class ilObjLanguageDBAccess
         $this->local_changes = $local_changes;
         $this->scope = $scope;
         if ($scope === "local") {
-            $this->change_date = date("Y-m-d H:i:s", time());
+            $this->change_date = (new DateTimeImmutable('now', new DateTimeZone('UTC')))
+                ->format('Y-m-d H:i:s');
         }
         $this->separator = $separator;
         $this->comment_separator = $comment_separator;
@@ -88,7 +89,8 @@ class ilObjLanguageDBAccess
                 $DIC->ui()->mainTemplate()->setOnScreenMessage(
                     'failure',
                     "Duplicate Language Entry in $lang_file:\n$val",
-                    true);
+                    true
+                );
                 $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
             }
             $double_checker[$separated[0]][$separated[1]][$this->key] = true;
@@ -117,7 +119,7 @@ class ilObjLanguageDBAccess
     {
         // avoid flushing the whole cache (see mantis #28818)
         ilCachedLanguage::getInstance($this->key)->deleteInCache();
-    
+
         $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
         $modules_to_delete = [];
         foreach ($lang_array as $module => $lang_arr) {
@@ -142,7 +144,8 @@ class ilObjLanguageDBAccess
         }
 
         $inModulesToDelete = $this->ilDB->in('module', $modules_to_delete, false, 'text');
-        $this->ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
+        $this->ilDB->manipulate(sprintf(
+            "DELETE FROM lng_modules WHERE lang_key = %s AND $inModulesToDelete",
             $this->ilDB->quote($this->key, "text")
         ));
 
@@ -170,7 +173,8 @@ class ilObjLanguageDBAccess
                     'failure',
                     "Data for module '" . $module["module"] . "' of  language '" . $this->key . "' is not correctly saved. " .
                     "Please check the collation of your database tables lng_data and lng_modules. It must be utf8_unicode_ci.",
-                    true);
+                    true
+                );
                 $DIC->ctrl()->redirectByClass(ilobjlanguagefoldergui::class, 'view');
             }
         }

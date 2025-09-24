@@ -775,6 +775,7 @@ assessment#:#gap#:#Hueco
 assessment#:#gap_combination#:#Combinación de huecos
 assessment#:#gaps#:#Gaps###21 05 2025 new variable
 assessment#:#glossary_term#:#Término de glosario
+assessment#:#goto_first_question#:#Show first question###26 08 2025 new variable
 assessment#:#grading_mark_msg#:#Tu puntuación total es: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Lo sentimos pero <b>no has superado</b> el test.
 assessment#:#grading_status_passed_msg#:#Enhorabuena, has <b>superado</b> el test.
@@ -1913,6 +1914,7 @@ assessment#:#tst_setting_offer_hints_info#:#Si se activa, se ofrecen las sugeren
 assessment#:#tst_setting_offer_hints_label#:#Sugerencias específicas para preguntas
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
 assessment#:#tst_settings_header_execution#:#Administración del Test: Acceso
 assessment#:#tst_settings_header_intro#:#Información Antes de Comenzar el Test
@@ -2004,6 +2006,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Mostrar título del test
 assessment#:#tst_title_output_full#:#Mostrar el título del test y la puntuación disponible
 assessment#:#tst_title_output_hide_points#:#Mostrar sólo el título del test
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).###26 08 2025 new variable
 assessment#:#tst_title_output_no_title#:#No mostrar ni el título del test ni la puntuación disponible
 assessment#:#tst_title_output_only_points#:#Only Available Points###26 08 2024 new variable
 assessment#:#tst_trigger_result_refreshing#:#Los resultados tienen que ser recalculados. Esta acción puede tardar un poco.
@@ -2593,6 +2596,7 @@ book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
 book#:#book_cal_entry#:#Reserva de:
 book#:#book_confirm_booking#:#Confirmar reserva
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###26 08 2025 new variable
 book#:#book_confirm_booking_no_schedule#:#¿Está seguro de que quiere reservar el siguiente recurso?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Confirmación de la reserva
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Por favor, indique el número de elementos para reservar.
@@ -2631,6 +2635,7 @@ book#:#book_new#:#Nuevo banco de reservas
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###07 02 2020 new variable
 book#:#book_no_objects#:#No Assignment###07 02 2020 new variable
 book#:#book_no_of_objects#:#Número de recursos
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###07 02 2020 new variable
 book#:#book_no_recurrence#:#Book only this date###26 08 2024 new variable
 book#:#book_not#:#No
@@ -4811,6 +4816,7 @@ common#:#msg_no_perm_perm#:#No tiene permiso para editar la configuración de pe
 common#:#msg_no_perm_read#:#No tiene permiso para acceder a este item.
 common#:#msg_no_perm_read_item#:#No tiene permisos para acceder al item '%s'.
 common#:#msg_no_perm_read_lm#:#No tiene permisos para leer este módulo de aprendizaje
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#No tiene permiso para escribir
 common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
@@ -7408,6 +7414,7 @@ copg#:#copg_page_type_stys#:#Layout Page###29 07 2022 new variable
 copg#:#copg_pages#:#Pages###21 05 2025 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###26 08 2024 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###21 05 2025 new variable
 copg#:#copg_questions_not_supported_here#:#En este contexto no se admiten preguntas.
 copg#:#copg_reload_page#:#Reload Page###29 07 2022 new variable
@@ -8595,7 +8602,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#el siguiente registro ha sido cre
 dcl#:#dcl_change_notification_dcl_update_record#:#el siguiente registro ha sido actualizado
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_subject#:#La colección de datos "%s" ha sido modificada
-dcl#:#dcl_change_why_you_receive_this_email#:#Has recibido este mensaje porque has activado la notificación para esta colección de datos
 dcl#:#dcl_changed_by#:#Modificado por
 dcl#:#dcl_checked#:#Comprobado.
 dcl#:#dcl_comments#:#Comentarios
@@ -8677,7 +8683,6 @@ dcl#:#dcl_formula_desc#:#Los campos pueden conectarse o calcularse con una fórm
 dcl#:#dcl_formula_detail_desc#:#Las entradas son generadas automáticamente y no puedes editarlas.
 dcl#:#dcl_height#:#Alto
 dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
-dcl#:#dcl_hello#:#Estimado/a
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#El ID interno.
 dcl#:#dcl_ilias_reference#:#Enlace a un módulo ILIAS
@@ -8734,7 +8739,6 @@ dcl#:#dcl_new#:#Crear nueva colección de datos
 dcl#:#dcl_new_field#:#Nuevo Campo
 dcl#:#dcl_new_table#:#Nueva Tabla
 dcl#:#dcl_next_record#:#Siguiente registro
-dcl#:#dcl_no_content_warning#:#Atención, la colección de datos está activa pero no tiene contenido todavía!
 dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
@@ -8756,6 +8760,8 @@ dcl#:#dcl_noturl_exception#:#Usted tiene que introducir una dirección web (come
 dcl#:#dcl_number#:#Entero
 dcl#:#dcl_number_desc#:#Campo para valores enteros (máximo de 9 dígitos) Sin decimales ni fracciones.
 dcl#:#dcl_online_info#:#Los usuarios pueden usar la colección de datos sólo si está activa.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Orden
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###21 05 2025 new variable
 dcl#:#dcl_own_entries#:#Solo entradas propias
@@ -8811,8 +8817,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Puede indicar las extensiones permitidas se
 dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Tabla
-dcl#:#dcl_table_create#:#Crear Tabla
-dcl#:#dcl_table_edit#:#Actualizar Tabla
 dcl#:#dcl_table_id#:#ID de Tabla
 dcl#:#dcl_table_list_fields#:#Lista los campos de la tabla actual
 dcl#:#dcl_table_list_tables#:#Tablas disponibles
@@ -8841,7 +8845,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#¿Seguro que desea eliminar las vistas sig
 dcl#:#dcl_tableviews_of_X#:#Views of table %s###26 08 2024 new variable
 dcl#:#dcl_tableviews_table#:#Vistas de tabla seleccionada
 dcl#:#dcl_text#:#Texto
-dcl#:#dcl_text_area#:#Área de texto
 dcl#:#dcl_text_desc#:#Campo para texto, enlaces o direcciones de correo
 dcl#:#dcl_text_email_detail_desc#:#Por favor, introduzca una URL o dirección de correo válida.
 dcl#:#dcl_text_email_title#:#Título
@@ -11762,8 +11765,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 03 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with current browsers not needed.
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
 mathjax#:#mathjax_server_address#:#Dirección del servidor
 mathjax#:#mathjax_server_address_info#:#P. ej. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Se borró la caché de MathJax.
@@ -13925,6 +13928,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
@@ -14644,6 +14648,7 @@ rbac#:#rbac_log_source_object#:#Objeto origen
 rbac#:#rbac_msg_user_already_assigned#:#Los usuarios seleccionados ya están asignados a este rol.
 rbac#:#rbac_not_change_existing_objects#:#NO cambiar objetos existentes
 rbac#:#rbac_permissions#:#Permisos
+rbac#:#rbac_precondition_condition#:#Access requires having this status###26 08 2025 new variable
 rbac#:#rbac_precondition_hide#:#Ocultar objeto
 rbac#:#rbac_precondition_hide_info#:#Esta opción permite ocultar el objeto a los usuarios que actualmente no hayan cumplido las precondiciones. Por lo tanto, no será visible el contenido que no es accesible.
 rbac#:#rbac_precondition_minimum_optional#:#Al menos 2 precondiciones deben quedar como opcionales
@@ -16086,6 +16091,7 @@ style#:#sty_media_queries#:#Consultas de soporte
 style#:#sty_media_query_info#:#Después del bloque CSS por defecto (sin consulta de soporte especial) se añade un bloque CSS para cada consulta de soporte.
 style#:#sty_min_height#:#Altura mínima
 style#:#sty_move_lm_styles#:#Modificar Estilo de los Módulos de Aprendizaje
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Modificar Estilo
 style#:#sty_move_user_styles#:#Cambiar estilo de usuarios
 style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.###21 05 2025 new variable
@@ -16094,6 +16100,7 @@ style#:#sty_msg_color_must_only_include#:#El nombre de color sólo puede incluir
 style#:#sty_msg_input_must_be_numeric#:#La entrada debe ser numérica
 style#:#sty_name#:#Nombre
 style#:#sty_nr_learning_modules#:#Número de Módulos de Aprendizaje
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Columnas impares
 style#:#sty_odd_row_class#:#Filas impares
 style#:#sty_ol#:#Ordered List###26 08 2024 new variable
@@ -17337,6 +17344,7 @@ ui#:#2stars#:#two of five stars###26 08 2024 new variable
 ui#:#3stars#:#three of five stars###26 08 2024 new variable
 ui#:#4stars#:#four of five stars###26 08 2024 new variable
 ui#:#5stars#:#five of five stars###26 08 2024 new variable
+ui#:#datatable_close_warning#:#OK###26 08 2025 new variable
 ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
@@ -17394,6 +17402,7 @@ ui#:#ui_table_no_records#:#No records###26 08 2024 new variable
 ui#:#ui_table_order#:#Order###21 05 2025 new variable
 ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
 ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
+ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#Todos los roles tienen puntos de inicio
 user#:#back_to_starting_points_list#:#Volver a puntos de inicio
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable

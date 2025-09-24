@@ -77,7 +77,7 @@ class ilLuceneAdvancedSearchSettings
     private function read(): void
     {
         foreach (ilLuceneAdvancedSearchFields::getFields() as $name => $translation) {
-            $this->fields[$name] = (bool) $this->storage->get($name, 'true');
+            $this->fields[$name] = (bool) $this->storage->get($name, '0');
         }
     }
 }

@@ -1,8 +1,22 @@
 <?php
 
-declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+declare(strict_types=1);
 
 /**
  * Wrapper class for soap_client
@@ -82,7 +96,11 @@ class ilSoapClient
         $internal_path = $this->settings->get('soap_internal_wsdl_path');
         if (trim($this->getServer()) === '') {
             if ($internal_path) {
-                $this->uri = $internal_path;
+                $uri = (new \ILIAS\Data\URI($internal_path));
+                parse_str($uri->getQuery() ?? '', $query);
+                $this->uri = (string) (isset($query['wsdl']) ?
+                                       $uri :
+                                       $uri->withQuery(http_build_query(array_merge($query, ['wsdl' => '']))));
             } elseif (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
                 $this->uri = $this->settings->get('soap_wsdl_path', '');
             } else {

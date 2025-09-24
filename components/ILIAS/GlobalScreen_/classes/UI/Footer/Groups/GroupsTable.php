@@ -51,7 +51,8 @@ class GroupsTable implements OrderingBinding
     public function __construct(
         private readonly GroupsRepository $repository,
         private readonly TranslationsRepository $translations_repository,
-        private readonly Translator $translator
+        private readonly Translator $translator,
+        private bool $write_access = false
     ) {
         global $DIC;
         $this->ui_factory = $DIC->ui()->factory();
@@ -89,10 +90,14 @@ class GroupsTable implements OrderingBinding
                 ]
             );
 
-            if ($group->isCore()) {
+            if (!$this->write_access || $group->isCore()) {
                 $row = $row->withDisabledAction('delete')
                            ->withDisabledAction('translate')
                            ->withDisabledAction('move');
+            }
+            if (!$this->write_access) {
+                $row = $row->withDisabledAction('edit')
+                           ->withDisabledAction('toggle_activation');
             }
 
             yield $row;

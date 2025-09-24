@@ -185,13 +185,14 @@ class ilConditionHandlerGUI
                 $lng->loadLanguageModule('trac');
 
                 $obj_settings = new ilLPObjSettings($a_obj_id);
-                return ilLPObjSettings::_mode2Text($obj_settings->getMode());
+                return $lng->txt('condition_' . $a_operator) . ': ' .
+                    ilLPObjSettings::_mode2Text($obj_settings->getMode());
 
             case ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE:
                 $postfix = '';
                 $value_arr = unserialize($value);
                 if ($value_arr !== false) {
-                    $postfix = ', ';
+                    $postfix = ': ';
                     if (ilObject::_lookupType($a_obj_id) === 'crs') {
                         $postfix .= ilCourseObjective::lookupObjectiveTitle((int) $value_arr['objective']) . ' ';
                     }
@@ -1096,6 +1097,16 @@ class ilConditionHandlerGUI
                         $this->lng->txt('condition_' . $operator)
                     );
                     break;
+
+                case ilConditionHandler::OPERATOR_LP:
+                    $this->lng->loadLanguageModule('trac');
+
+                    $obj_settings = new ilLPObjSettings($trigger_obj_id);
+                    $label = $this->lng->txt('condition_' . $operator) . ': ' .
+                        ilLPObjSettings::_mode2Text($obj_settings->getMode());
+                    $group_items[$operator] = $this->ui_factory->input()->field()->group([], $label);
+                    break;
+
                 default:
                     $group_items[$operator] = $this->ui_factory->input()->field()->group(
                         [],

@@ -111,6 +111,7 @@ abstract class assQuestionGUI
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected GUIService $notes_gui;
     protected ilCtrl $ctrl;
+    private ilObjUser $current_user;
     private ?ilAssQuestionPreviewSession $preview_session = null;
     protected assQuestion $object;
     protected ilGlobalPageTemplate $tpl;
@@ -164,6 +165,7 @@ abstract class assQuestionGUI
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
+        $this->current_user = $DIC['ilUser'];
         $this->ui = $DIC->ui();
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->access = $DIC->access();
@@ -2060,5 +2062,17 @@ abstract class assQuestionGUI
             $show_autosave_title,
             $show_inline_feedback
         );
+    }
+
+    protected function resetSavedPreviewSession(): void
+    {
+        $this->preview_session = new ilAssQuestionPreviewSession(
+            $this->current_user->getId(),
+            $this->object->getId()
+        );
+        $this->preview_session->setRandomizerSeed(null);
+        $this->preview_session->setParticipantsSolution(null);
+        $this->preview_session->resetRequestedHints();
+        $this->preview_session->setInstantResponseActive(false);
     }
 }

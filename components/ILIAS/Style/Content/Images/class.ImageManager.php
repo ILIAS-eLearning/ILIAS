@@ -63,10 +63,10 @@ class ImageManager
      * @return Generator
      * @throws Filesystem\Exception\DirectoryNotFoundException
      */
-    public function getImages(): Generator
+    public function getImages(bool $include_size_info = false): Generator
     {
         $rid = $this->style_repo->readRid($this->style_id);
-        return $this->repo->getImages($this->style_id, $rid);
+        return $this->repo->getImages($this->style_id, $rid, $include_size_info);
     }
 
     public function filenameExists(string $filename): bool

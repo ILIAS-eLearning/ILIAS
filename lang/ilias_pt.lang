@@ -773,6 +773,7 @@ assessment#:#gap#:#Intervalo
 assessment#:#gap_combination#:#Combinação de intervalo
 assessment#:#gaps#:#Gaps###21 05 2025 new variable
 assessment#:#glossary_term#:#Termo do glossário
+assessment#:#goto_first_question#:#Show first question###26 08 2025 new variable
 assessment#:#grading_mark_msg#:#A sua marca é: &quot;[mark]&quot;
 assessment#:#grading_status_failed_msg#:#Lamentamos, mas <b>falhou</b> no teste.
 assessment#:#grading_status_passed_msg#:#Parabéns, <b>passou</b> no teste.
@@ -1911,6 +1912,7 @@ assessment#:#tst_setting_offer_hints_info#:#Configurar limites de competência
 assessment#:#tst_setting_offer_hints_label#:#Banco de perguntas
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
 assessment#:#tst_settings_header_execution#:#Administrar o teste: Acesso
 assessment#:#tst_settings_header_intro#:#Informação antes de iniciar o teste
@@ -2002,6 +2004,7 @@ assessment#:#tst_time_limit_message#:#You will have <b>%s minutes</b> to answer 
 assessment#:#tst_title_output#:#Migração de conta:
 assessment#:#tst_title_output_full#:#Ative esta opção para permitir aos utilizadores migrar as suas contas ILIAS existentes para a autenticação Radius.
 assessment#:#tst_title_output_hide_points#:#Verifique e edite a configuração SimpleSAMLphp em '<strong>%s</strong>' e '<strong>%s</strong>' (diretório externo de dados). Não se esqueça de adicionar os caminhos à sua chave privada e certificado no ficheiro authsources.php. Leia o manual para mais explicações %s.<br />Federação metadados URL: %s
+assessment#:#tst_title_output_info#:#Set which combination of question titles and/or points available should be visible to participants while they are taking the test and within the test attempt overview (see below).###26 08 2025 new variable
 assessment#:#tst_title_output_no_title#:#Sincronização de utilizador
 assessment#:#tst_title_output_only_points#:#Only Available Points###26 08 2024 new variable
 assessment#:#tst_trigger_result_refreshing#:#Os resultados têm de ser recalculados. Pode demorar algum tempo.
@@ -2591,6 +2594,7 @@ book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
 book#:#book_cal_entry#:#Reserva de:
 book#:#book_confirm_booking#:#Confirma reserva
+book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###26 08 2025 new variable
 book#:#book_confirm_booking_no_schedule#:#Tem a certeza que quer reservar o seguinte objeto?
 book#:#book_confirm_booking_schedule_number_of_objects#:#Confirmação de reserva
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Indique os números dos objetos a reservar.
@@ -2629,6 +2633,7 @@ book#:#book_new#:#Novo banco de reservas
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###07 02 2020 new variable
 book#:#book_no_objects#:#No Assignment###07 02 2020 new variable
 book#:#book_no_of_objects#:#N.º de objetos
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###07 02 2020 new variable
 book#:#book_no_recurrence#:#Book only this date###26 08 2024 new variable
 book#:#book_not#:#Mostrar detalhes
@@ -4809,6 +4814,7 @@ common#:#msg_no_perm_perm#:#Palavra-passe
 common#:#msg_no_perm_read#:#Não tem permissão para aceder a este item.
 common#:#msg_no_perm_read_item#:#A nova palavra-passe é inválida! Apenas são permitidos os seguintes caracteres (mínimo de 6 caracteres): A-Z a-z 0-9 _.-+?
 common#:#msg_no_perm_read_lm#:#Não tem permissão para ler este módulo de aprendizagem.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#As suas entradas para a nova palavra-passe não correspondem! Volte a inserir a sua nova palavra-passe.
 common#:#msg_no_search_result#:#A palavra-passe introduzida está errada!
 common#:#msg_no_search_string#:#Palavra-passe
@@ -7406,6 +7412,7 @@ copg#:#copg_page_type_stys#:#Layout Page###29 07 2022 new variable
 copg#:#copg_pages#:#Pages###21 05 2025 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###26 08 2024 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###21 05 2025 new variable
 copg#:#copg_questions_not_supported_here#:#As perguntas não são suportadas neste contexto.
 copg#:#copg_reload_page#:#Reload Page###29 07 2022 new variable
@@ -8593,7 +8600,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Número limitado de membros
 dcl#:#dcl_change_notification_dcl_update_record#:#Ainda não está completo
 dcl#:#dcl_change_notification_link#:#Registo do participante
 dcl#:#dcl_change_notification_subject#:#A coleções de dados "%s" foi alterada
-dcl#:#dcl_change_why_you_receive_this_email#:#Data de avaliação
 dcl#:#dcl_changed_by#:#Alterado por
 dcl#:#dcl_checked#:#Selecionado.
 dcl#:#dcl_comments#:#Comentários
@@ -8675,7 +8681,6 @@ dcl#:#dcl_formula_desc#:#Arrastar para mover
 dcl#:#dcl_formula_detail_desc#:#As entradas são criadas automaticamente, não podendo editar a entrada.
 dcl#:#dcl_height#:#Altura
 dcl#:#dcl_height_desc#:#The file will be resized to the given height###21 05 2025 new variable
-dcl#:#dcl_hello#:#Estimado
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#O ID interno.
 dcl#:#dcl_ilias_reference#:#Link para um módulo ILIAS
@@ -8732,7 +8737,6 @@ dcl#:#dcl_new#:#Criar nova coleção de dados
 dcl#:#dcl_new_field#:#Novo campo
 dcl#:#dcl_new_table#:#Nova tabela
 dcl#:#dcl_next_record#:#Outubro
-dcl#:#dcl_no_content_warning#:#Atenção, a coleção de dados está online mas ainda não tem conteúdo!
 dcl#:#dcl_no_entries#:#No entries###21 05 2025 new variable
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###21 05 2025 new variable
@@ -8754,6 +8758,8 @@ dcl#:#dcl_noturl_exception#:#Novembro
 dcl#:#dcl_number#:#Inteiro
 dcl#:#dcl_number_desc#:#Campo para valores inteiros (máx. 9 dígitos). Nada de decimais ou frações.
 dcl#:#dcl_online_info#:#Apenas se a coleção de dados estiver online é que os utilizadores podem usá-la.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Ordem
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###21 05 2025 new variable
 dcl#:#dcl_own_entries#:#Apenas entradas próprias
@@ -8809,8 +8815,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Pode definir as extensões permitidas separ
 dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Tabela
-dcl#:#dcl_table_create#:#Criar tabela
-dcl#:#dcl_table_edit#:#Atualizar tabela
 dcl#:#dcl_table_id#:#ID da tabela
 dcl#:#dcl_table_list_fields#:#Ano anterior (manter para menu)
 dcl#:#dcl_table_list_tables#:#Tabelas disponíveis
@@ -8839,7 +8843,6 @@ dcl#:#dcl_tableviews_confirm_delete#:#Tem a certeza que quer apagar as seguintes
 dcl#:#dcl_tableviews_of_X#:#Views of table %s###26 08 2024 new variable
 dcl#:#dcl_tableviews_table#:#Vistas da tabela selecionada
 dcl#:#dcl_text#:#Selecionar data
-dcl#:#dcl_text_area#:#Área do texto
 dcl#:#dcl_text_desc#:#Fev
 dcl#:#dcl_text_email_detail_desc#:#Introduza um endereço de e-mail ou URL válido.
 dcl#:#dcl_text_email_title#:#Título
@@ -11761,7 +11764,8 @@ mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 and MathJax 3 with cur
 mathjax#:#mathjax_polyfill_url_desc_line2#:#Please remove any reference to polyfill.io! See https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 03 2023 new variable
 mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 03 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 03 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. <br />For MathJax 2 e.g. %s
+mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. %s
 mathjax#:#mathjax_server_address#:#Endereço do servidor
 mathjax#:#mathjax_server_address_info#:#P. ex. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#O cache MathJax foi limpo.
@@ -13923,6 +13927,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
@@ -14642,6 +14647,7 @@ rbac#:#rbac_log_source_object#:#Objeto de origem
 rbac#:#rbac_msg_user_already_assigned#:#Os utilizadores escolhidos já estão atribuídos a esta função.
 rbac#:#rbac_not_change_existing_objects#:#NÃO altere objetos existentes
 rbac#:#rbac_permissions#:#Permissões
+rbac#:#rbac_precondition_condition#:#Access requires having this status###26 08 2025 new variable
 rbac#:#rbac_precondition_hide#:#Ocultar objeto
 rbac#:#rbac_precondition_hide_info#:# Esta opção permite ocultar o objeto para utilizadores que atualmente não cumpriram as pré-condições. Por isso, todo o conteúdo não acessível está visível.
 rbac#:#rbac_precondition_minimum_optional#:#Pelo menos 2 pré-condições têm de permanecer opcionais.
@@ -16084,6 +16090,7 @@ style#:#sty_media_queries#:#Questões de media
 style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_min_height#:#Altura mínima
 style#:#sty_move_lm_styles#:#Mudar estilo dos módulos de aprendizagem
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Mudar estilo
 style#:#sty_move_user_styles#:#Mudar estilo dos utilizadores
 style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.###21 05 2025 new variable
@@ -16092,6 +16099,7 @@ style#:#sty_msg_color_must_only_include#:#O nome da cor pode apenas incluir os s
 style#:#sty_msg_input_must_be_numeric#:#A entrada tem de ser numérica.
 style#:#sty_name#:#Nome
 style#:#sty_nr_learning_modules#:#Número de módulos de aprendizagem
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Colunas ímpares
 style#:#sty_odd_row_class#:#Linhas ímpares
 style#:#sty_ol#:#Ordered List###26 08 2024 new variable
@@ -17335,6 +17343,7 @@ ui#:#2stars#:#two of five stars###26 08 2024 new variable
 ui#:#3stars#:#three of five stars###26 08 2024 new variable
 ui#:#4stars#:#four of five stars###26 08 2024 new variable
 ui#:#5stars#:#five of five stars###26 08 2024 new variable
+ui#:#datatable_close_warning#:#OK###26 08 2025 new variable
 ui#:#datatable_multiaction_label#:#Bulk Actions###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_actionlabel#:#Action for All Entries###26 08 2024 new variable
 ui#:#datatable_multiactionmodal_apply#:#Apply###26 08 2024 new variable
@@ -17392,6 +17401,7 @@ ui#:#ui_table_no_records#:#No records###26 08 2024 new variable
 ui#:#ui_table_order#:#Order###21 05 2025 new variable
 ui#:#ui_transcription#:#Transcript###29 07 2022 new variable
 ui#:#vc_sort#:#Sort by:###21 05 2025 new variable
+ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.###26 08 2025 new variable
 user#:#all_roles_has_starting_point#:#Todas as funções têm pontos de início
 user#:#back_to_starting_points_list#:#Voltar aos pontos de início
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.###28 10 2024 new variable

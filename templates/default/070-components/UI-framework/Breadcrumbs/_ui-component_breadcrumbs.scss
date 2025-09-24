@@ -3,7 +3,7 @@
 @use "../../../050-layout/standardpage/"as *;
 @use "../../../030-tools/tool_focus-outline" as *;
 
-.breadcrumb_wrapper {
+.breadcrumb-wrapper {
 	width: 100%;
 	display: inline-grid;
 	background: $il-standard-page-breadcrumbs-bg-color;
@@ -12,7 +12,6 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		direction: rtl;
 		text-align: left;
 		margin: 0;
 		font-weight: $il-standard-page-breadcrumbs-font-weight;
@@ -20,7 +19,7 @@
 		padding: ($il-padding-small-vertical * 2);
 		padding-left: $il-standard-page-content-padding;
 
-		span.crumb a {
+		div.breadcrumb-crumb a {
 			color: $il-standard-page-breadcrumbs-color;
 			&:hover {
 				color: $il-standard-page-breadcrumbs-active-color;
@@ -29,10 +28,15 @@
 			@include il-focus-outline-only();
 		}
 
-		&>span+span:before {
+		.breadcrumb-separator {
+            visibility: hidden;
+        }
+
+		.breadcrumb-separator:after {
+            visibility: visible;
 			content: $il-standard-page-breadcrumbs-seperator;
 			color: $il-standard-page-breadcrumbs-divider-color;
-			padding: 8px 10px;
+			padding: 2px 8px;
 			font-weight: $il-font-weight-base;
 			font-family: "il-icons";
 		}

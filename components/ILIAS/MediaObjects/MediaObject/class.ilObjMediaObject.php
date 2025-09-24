@@ -533,7 +533,7 @@ class ilObjMediaObject extends ilObject
                             }
                         }
                     } else {
-                        $location = $item->getLocation();
+                        $location = trim($item->getLocation());
                         // irss
                         if ($item->getLocationType() === "LocalFile" &&
                         !is_file($this->getDataDirectory() . "/" . $item->getLocation())) {
@@ -624,7 +624,6 @@ class ilObjMediaObject extends ilObject
 
                 // full xml for export
             case IL_MODE_FULL:
-
                 //				$meta = $this->getMetaData();
                 $xml = "<MediaObject>";
 
@@ -1879,6 +1878,7 @@ class ilObjMediaObject extends ilObject
                 $thumbnail_url = $meta["thumbnail_url"] ?? "";
                 $url = parse_url($thumbnail_url);
                 if ($thumbnail_url !== "") {
+                    $mob_logger = ilLoggerFactory::getLogger('mob');
                     $file = basename($url["path"]);
                     $this->manager->addPreviewFromUrl(
                         $this->getId(),

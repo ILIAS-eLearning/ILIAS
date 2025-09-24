@@ -29,7 +29,6 @@ class TestTopListRepository
 
     public function getGeneralToplist(\ilObjTest $object, TopListOrder $order_by): \Generator
     {
-        $order_stmt = $order_by === TopListOrder::BY_TIME ? 'tst_pass_result.workingtime' : 'percentage';
         $this->db->setLimit($object->getHighscoreTopNum(), 0);
         $result = $this->db->query(
             '
@@ -41,10 +40,15 @@ class TestTopListRepository
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
 			WHERE object_reference.ref_id = ' . $this->db->quote($object->getRefId(), 'integer') .
-            ' ORDER BY ' . $order_stmt . ' DESC'
+            ($order_by === TopListOrder::BY_TIME
+                ? ' ORDER BY tst_pass_result.workingtime DESC, tstamp ASC'
+                : ' ORDER BY percentage DESC, tstamp ASC')
         );
 
+        $i = 1;
         while ($row = $this->db->fetchAssoc($result)) {
+            $row['rank'] = $i;
+            $i += 1;
             yield $row;
         }
     }
@@ -52,206 +56,141 @@ class TestTopListRepository
     public function getUserToplistByPercentage(\ilObjTest $object, int $a_user_id): \Generator
     {
         $a_test_ref_id = $object->getRefId();
-        $result = $this->db->query(
+        $better_participants = $this->db->fetchObject(
+            $this->db->query(
+                '
+                SELECT COUNT(tst_pass_result.workingtime) cnt
+                FROM object_reference
+                INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+                INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+                INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+                INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
+                    AND tst_pass_result.pass = tst_result_cache.pass
+                INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
+                WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+                AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
+                AND round(reached_points/max_points*100) >=
+                (
+                    SELECT round(reached_points/max_points*100)
+                    FROM object_reference
+                    INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+                    INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+                    INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+                    INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
+                        AND tst_pass_result.pass = tst_result_cache.pass
+                    WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+                    AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
+                )
             '
-			SELECT COUNT(tst_pass_result.workingtime) cnt
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-				AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
-			AND round(reached_points/max_points*100) >=
-			(
-				SELECT round(reached_points/max_points*100)
-				FROM object_reference
-				INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-				INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-			)
-		'
-        );
-        $row = $this->db->fetchAssoc($result);
-        $better_participants = $row['cnt'];
-        $own_placement = $better_participants + 1;
+            )
+        )->cnt;
 
-        $result = $this->db->query(
-            '
-			SELECT COUNT(tst_pass_result.workingtime) cnt
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-				AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer')
-        );
-        $row = $this->db->fetchAssoc($result);
-        $number_total = $row['cnt'];
+        $total_participants = $this->db->fetchObject(
+            $this->db->query("
+                SELECT COUNT(tst_pass_result.workingtime) cnt
+                FROM object_reference
+                INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+                INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+                INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+                INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
+                    AND tst_pass_result.pass = tst_result_cache.pass
+                INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
+                WHERE object_reference.ref_id = {$this->db->quote($a_test_ref_id, 'integer')}
+            ")
+        )->cnt;
 
-        $result = $this->db->query(
-            '
-		SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage ,
-			tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
-		FROM object_reference
-		INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-		INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-		INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-		INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-			AND tst_pass_result.pass = tst_result_cache.pass
-		INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-
-		WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-		AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-
-		UNION(
-			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
-				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-				AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
-			AND round(reached_points/max_points*100) >=
-			(
-				SELECT round(reached_points/max_points*100)
-				FROM object_reference
-				INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-				INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-			)
-			ORDER BY round(reached_points/max_points*100) ASC
-			LIMIT 0, ' . $this->db->quote($object->getHighscoreTopNum(), 'integer') . '
-		)
-		UNION(
-			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
-				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-				AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
-			AND round(reached_points/max_points*100) <=
-			(
-				SELECT round(reached_points/max_points*100)
-				FROM object_reference
-				INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-				INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-			)
-			ORDER BY round(reached_points/max_points*100) ASC
-			LIMIT 0, ' . $this->db->quote($object->getHighscoreTopNum(), 'integer') . '
-		)
-		ORDER BY round(reached_points/max_points*100) DESC, tstamp ASC
-		LIMIT 0, ' . $this->db->quote($object->getHighscoreTopNum(), 'integer') . '
-		'
+        [$offset, $amount] = $this->calculateLimits(
+            $object->getHighscoreTopNum(),
+            $better_participants,
+            $total_participants
         );
 
-        $i = $own_placement - ($better_participants >= $object->getHighscoreTopNum()
-                ? $object->getHighscoreTopNum() : $better_participants);
+        $result = $this->db->query("
+            SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage ,
+                tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
+            FROM object_reference
+            INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+            INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+            INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+            INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
+                AND tst_pass_result.pass = tst_result_cache.pass
+            INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
+            WHERE object_reference.ref_id = {$this->db->quote($a_test_ref_id, 'integer')}
+            ORDER BY round(reached_points/max_points*100) DESC, tstamp ASC
+            LIMIT {$amount} OFFSET {$offset}
+        ");
 
-        if ($i > 1) {
+        if ($offset > 0) {
             yield $this->buildEmptyItem();
         }
 
+        $i = $offset + 1;
         while ($row = $this->db->fetchAssoc($result)) {
-            $i++;
+            $row['rank'] = $i;
+            $i += 1;
             yield $row;
         }
 
-        if ($number_total > $i) {
+        if ($total_participants > $offset + $amount) {
             yield $this->buildEmptyItem();
         }
     }
 
     public function getUserToplistByWorkingtime(\ilObjTest $object, int $a_user_id): \Generator
     {
+
         $a_test_ref_id = $object->getRefId();
-        $result = $this->db->query(
+        $better_participants = $this->db->fetchObject(
+            $this->db->query(
+                '
+                SELECT COUNT(tst_pass_result.workingtime) cnt
+                FROM object_reference
+                INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+                INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+                INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+                INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
+                    AND tst_pass_result.pass = tst_result_cache.pass
+                INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
+                WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+                AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
+                AND workingtime <
+                (
+                    SELECT workingtime
+                    FROM object_reference
+                    INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+                    INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+                    INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+                    INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
+                        AND tst_pass_result.pass = tst_result_cache.pass
+                    WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+                    AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
+                )
             '
-			SELECT COUNT(tst_pass_result.workingtime) cnt
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-				AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
-			AND workingtime <
-			(
-				SELECT workingtime
-				FROM object_reference
-				INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-				INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-			)
-		'
+            )
+        )->cnt;
+
+        $total_participants = $this->db->fetchObject(
+            $this->db->query(
+                '
+                SELECT COUNT(tst_pass_result.workingtime) cnt
+                FROM object_reference
+                INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
+                INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
+                INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
+                INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
+                    AND tst_pass_result.pass = tst_result_cache.pass
+                INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
+                WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer')
+            )
+        )->cnt;
+
+        [$offset, $amount] = $this->calculateLimits(
+            $object->getHighscoreTopNum(),
+            $better_participants,
+            $total_participants
         );
-        $row = $this->db->fetchAssoc($result);
-        $better_participants = $row['cnt'];
-        $own_placement = $better_participants + 1;
 
-        $result = $this->db->query(
-            '
-			SELECT COUNT(tst_pass_result.workingtime) cnt
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-				AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer')
-        );
-        $row = $this->db->fetchAssoc($result);
-        $number_total = $row['cnt'];
-
-        $result = $this->db->query(
-            '
-		SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage ,
-			tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
-		FROM object_reference
-		INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-		INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-		INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-		INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-			AND tst_pass_result.pass = tst_result_cache.pass
-		INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-
-		WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-		AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-
-		UNION(
+        $result = $this->db->query("
 			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
 				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
 			FROM object_reference
@@ -261,69 +200,48 @@ class TestTopListRepository
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
-			AND workingtime >=
-			(
-				SELECT tst_pass_result.workingtime
-				FROM object_reference
-				INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-				INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-			)
-			ORDER BY workingtime DESC
-			LIMIT 0, ' . $this->db->quote($object->getHighscoreTopNum(), 'integer') . '
-		)
-		UNION(
-			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
-				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
-			FROM object_reference
-			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-				AND tst_pass_result.pass = tst_result_cache.pass
-			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
-			AND workingtime <
-			(
-				SELECT tst_pass_result.workingtime
-				FROM object_reference
-				INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
-				INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
-				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
-				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
-					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
-			)
-			ORDER BY workingtime DESC
-			LIMIT 0, ' . $this->db->quote($object->getHighscoreTopNum(), 'integer') . '
-		)
-		ORDER BY workingtime ASC
-		LIMIT 0, ' . $this->db->quote($object->getHighscoreTopNum(), 'integer') . '
-		'
-        );
+            WHERE object_reference.ref_id =  {$this->db->quote($a_test_ref_id, 'integer')}
+			ORDER BY workingtime ASC
+            LIMIT {$amount} OFFSET {$offset}
+		");
 
-        $i = $own_placement - (($better_participants >= 3) ? 3 : $better_participants);
-
-        if ($i > 1) {
+        if ($offset > 0) {
             yield $this->buildEmptyItem();
         }
 
+        $i = $offset + 1;
         while ($row = $this->db->fetchAssoc($result)) {
-            $i++;
+            $row['rank'] = $i;
+            $i += 1;
             yield $row;
         }
 
-        if ($number_total > $i) {
+        if ($total_participants > $offset + $amount) {
             yield $this->buildEmptyItem();
         }
+    }
+
+    private function calculateLimits(
+        int $pax_to_show,
+        int $better_pax,
+        int $total_pax
+    ): array {
+        if ($total_pax < $pax_to_show) {
+            return [0, $total_pax];
+        }
+
+        $pax_to_show_on_each_side = floor($pax_to_show / 2);
+        $offset = $better_pax - $pax_to_show_on_each_side;
+        if ($offset < 0) {
+            $offset = 0;
+        }
+        $end = $offset + $pax_to_show;
+
+        if ($end < $total_pax) {
+            return [$offset, $pax_to_show];
+        }
+
+        return [$total_pax - $pax_to_show, $pax_to_show];
     }
 
     private function buildEmptyItem(): array
@@ -334,7 +252,7 @@ class TestTopListRepository
             'participant' => '',
             'achieved' => '',
             'score' => '',
-            'percentage' => '',
+            'percentage' => null,
             'hints' => '',
             'time' => ''
         ];

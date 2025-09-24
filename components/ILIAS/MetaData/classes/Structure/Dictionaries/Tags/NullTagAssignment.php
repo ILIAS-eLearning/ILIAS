@@ -21,12 +21,18 @@ declare(strict_types=1);
 namespace ILIAS\MetaData\Structure\Dictionaries\Tags;
 
 use ILIAS\MetaData\Paths\PathInterface;
+use ILIAS\MetaData\Paths\NullPath;
 
 class NullTagAssignment implements TagAssignmentInterface
 {
     public function matchesPath(PathInterface $path): bool
     {
         return false;
+    }
+
+    public function path(): PathInterface
+    {
+        return new NullPath();
     }
 
     public function tag(): TagInterface

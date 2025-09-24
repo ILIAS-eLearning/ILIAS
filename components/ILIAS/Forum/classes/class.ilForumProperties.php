@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Forum\Notification\NotificationType;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup components\ILIASForum
@@ -41,11 +43,7 @@ class ilForumProperties
     private bool $anonymized = false;
     private bool $statistics_enabled = false;
     private bool $post_activation_enabled = false;
-    /**
-     * Global notification-type setting (CRS/GRP)
-     * possible values: 'all_users', 'per_user', null (default)
-     */
-    private string $notification_type = 'default';
+    private NotificationType $notification_type = NotificationType::DEFAULT;
     /** Activation of (CRS/GRP) forum notification by mod/admin */
     private bool $admin_force_noti = false;
     /** Activation of allowing members to deactivate (CRS/GRP)forum notification */
@@ -108,7 +106,9 @@ class ilForumProperties
                 $this->add_re_subject = (bool) $row->add_re_subject;
                 $this->interested_events = (int) $row->interested_events;
 
-                $this->notification_type = $row->notification_type ?? 'default';
+                $this->notification_type =
+                    NotificationType::tryFrom($row->notification_type ?? NotificationType::DEFAULT->value) ??
+                    NotificationType::DEFAULT;
                 $this->mark_mod_posts = (bool) $row->mark_mod_posts;
                 $this->is_thread_rating_enabled = (bool) $row->thread_rating;
                 $this->file_upload_allowed = (bool) $row->file_upload_allowed;
@@ -134,7 +134,7 @@ class ilForumProperties
                     'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
-                    'notification_type' => ['text', $this->notification_type],
+                    'notification_type' => ['text', $this->notification_type->value],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
@@ -165,7 +165,7 @@ class ilForumProperties
                     'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
-                    'notification_type' => ['text', $this->notification_type],
+                    'notification_type' => ['text', $this->notification_type->value],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
@@ -195,7 +195,7 @@ class ilForumProperties
                     'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
-                    'notification_type' => ['text', $this->notification_type],
+                    'notification_type' => ['text', $this->notification_type->value],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
@@ -368,16 +368,12 @@ class ilForumProperties
         return $this->add_re_subject;
     }
 
-    public function setNotificationType(?string $a_notification_type): void
+    public function setNotificationType(NotificationType $a_notification_type): void
     {
-        if ($a_notification_type === null) {
-            $this->notification_type = 'default';
-        } else {
-            $this->notification_type = $a_notification_type;
-        }
+        $this->notification_type = $a_notification_type;
     }
 
-    public function getNotificationType(): string
+    public function getNotificationType(): NotificationType
     {
         return $this->notification_type;
     }

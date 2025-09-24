@@ -88,7 +88,8 @@ final class ilFooterEntriesGUI
             $this->group,
             $this->repository,
             new TranslationsRepositoryDB($this->dic->database()),
-            $this->translator
+            $this->translator,
+            $this->ui_handling->hasPermission('write')
         );
 
         $this->ui_handling->out(
@@ -381,6 +382,10 @@ final class ilFooterEntriesGUI
                 return;
             default:
                 switch ($cmd) {
+                    case self::CMD_DEFAULT:
+                        $this->ui_handling->requireReadable();
+                        $this->index();
+                        break;
                     case self::CMD_ADD:
                     case self::CMD_CREATE:
                     case self::CMD_EDIT:

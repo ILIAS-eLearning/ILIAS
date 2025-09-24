@@ -1082,7 +1082,7 @@ class ilConditionHandler
     protected function checkCircle(int $a_ref_id, int $a_obj_id): bool
     {
         foreach (self::_getPersistedConditionsOfTarget($a_ref_id, $a_obj_id) as $condition) {
-            if ($condition['trigger_obj_id'] == $this->target_obj_id && $condition['operator'] === $this->getOperator()) {
+            if ($condition['trigger_obj_id'] == $this->target_obj_id) {
                 $this->circle = true;
                 break;
             }

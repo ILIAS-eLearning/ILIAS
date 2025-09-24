@@ -1,8 +1,8 @@
 name: legacy-ui-checks
 on:
   schedule:
-    # Run every 12 hours
-    - cron: '0 3,15 * * *'
+    # Run every 24 hours
+    - cron: '0 3 * * *'
   workflow_dispatch:
     inputs:
       branch:
@@ -13,6 +13,7 @@ on:
         options:
           - trunk
           - release_9
+          - release_10
 permissions:
   contents: read
   pull-requests: read
@@ -33,7 +34,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.3
           extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl, xml, mysql
           tools: composer:v2
           coverage: none
@@ -48,7 +49,7 @@ jobs:
         run: scripts/PHPStan/run_legacy_ui_report.sh
 
       - name: 'Store Report'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Reports
           path: Reports

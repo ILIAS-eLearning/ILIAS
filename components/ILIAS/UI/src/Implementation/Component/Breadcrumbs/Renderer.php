@@ -38,15 +38,15 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.breadcrumbs.html", true, true);
 
         $tpl->setVariable("ARIA_LABEL", $this->txt('breadcrumbs_aria_label'));
-        foreach ($component->getItems() as $key => $crumb) {
+        $add_separator = false;
+        foreach (array_reverse($component->getItems()) as $key => $crumb) {
+            if ($add_separator) {
+                $tpl->touchBlock("separator");
+            }
             $tpl->setCurrentBlock("crumbs");
             $tpl->setVariable("CRUMB", $default_renderer->render($crumb));
-            if (!preg_match('/[a-zA-Z0-9\ ]$/', $crumb->getLabel())
-                && ($key === array_key_last($component->getItems()))) {
-                $tpl->setCurrentBlock("lrmmark");
-                $tpl->setVariable("LRMMARK", htmlspecialchars_decode("&lrm;", ENT_HTML5));
-            }
             $tpl->parseCurrentBlock();
+            $add_separator = true;
         }
         return $tpl->get();
     }

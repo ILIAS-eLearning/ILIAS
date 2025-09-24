@@ -27,6 +27,7 @@ use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\StaticURL\Response\MaybeCanHandlerAfterLogin;
+use ILIAS\StaticURL\Response\CannotReach;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -44,7 +45,7 @@ class HandlerService
         private Context $context,
         Handler ...$handlers,
     ) {
-        $this->response_factory = new Factory();
+        $this->response_factory = new Factory($context);
         foreach ($handlers as $handler) {
             $this->handlers[$handler->getNamespace()] = $handler;
         }
@@ -56,7 +57,6 @@ class HandlerService
     public function performRedirect(URI $base_uri): void
     {
         $http = $this->context->http();
-        $ctrl = $this->context->refinery();
 
         $request = $this->request_builder->buildRequest(
             $http,
@@ -78,27 +78,39 @@ class HandlerService
             ); // TODO: we shoud redirect somewhere
         }
 
-        // Check access to target
-        if (
-            $response instanceof MaybeCanHandlerAfterLogin
-            || (!$this->context->isUserLoggedIn() && !$this->context->isPublicSectionActive())
-        ) {
-            $uri_builder = new StandardURIBuilder(ILIAS_HTTP_PATH, false);
-            $target = $uri_builder->buildTarget(
-                $request->getNamespace(),
-                $request->getReferenceId(),
-                $request->getAdditionalParameters()
-            );
-            $full_uri = $base_uri . "/login.php?target=";
-            $full_uri .= str_replace('/', '_', rtrim($target, '/')); // TODO: ILIAS currently need this like this
-            $full_uri .= '&cmd=force_login&lang=' . $this->context->getUserLanguage();
-            $full_uri = $this->appendUnknownParameters($this->context, $full_uri); // Read the comment below
-        } else {
-            // Perform Redirect
-            $uri_path = $response->getURIPath() ?? '';
-            $base_path = $base_uri->getPath() ?? '';
-            $uri_path = str_replace($base_path, '', $uri_path);
-            $full_uri = $base_uri . '/' . trim((string) $uri_path, '/');
+        $uri_builder = new StandardURIBuilder(ILIAS_HTTP_PATH, false);
+
+        switch (true) {
+            case $response instanceof MaybeCanHandlerAfterLogin:
+                $target = $uri_builder->buildTarget(
+                    $request->getNamespace(),
+                    $request->getReferenceId(),
+                    $request->getAdditionalParameters()
+                );
+                $full_uri = $base_uri . "/login.php?target=";
+                $full_uri .= str_replace('/', '_', rtrim($target, '/')); // TODO: ILIAS currently need this like this
+                if (!$this->context->isUserLoggedIn()) {
+                    $full_uri .= '&cmd=force_login&lang=' . $this->context->getUserLanguage();
+                }
+                $full_uri = $this->appendUnknownParameters($this->context, $full_uri); // Read the comment below
+                break;
+            case $response instanceof CannotReach:
+                $this->context->mainTemplate()->setOnScreenMessage(
+                    'failure',
+                    $this->context->lng()->txt('permission_denied'),
+                    true
+                );
+                $full_uri = $base_uri . '/index.php';
+                break;
+            default:
+                // Perform Redirect
+                $uri_path = $response->getURIPath() ?? '';
+                $base_path = $base_uri->getPath() ?? '';
+                if ($base_path !== '' && $base_path !== '/') {
+                    $uri_path = str_replace(rtrim($base_path, '/') . '/', '', $uri_path);
+                }
+                $full_uri = $base_uri . '/' . trim((string) $uri_path, '/');
+                break;
         }
 
         $http->saveResponse(
@@ -119,16 +131,16 @@ class HandlerService
                 $full_uri,
                 'soap_pw=' . $context->http()->wrapper()->query()->retrieve(
                     'soap_pw',
-                    $context->refineryttp()->kindlyTo()->string()
+                    $context->refinery()->kindlyTo()->string()
                 )
             );
         }
         if ($context->http()->wrapper()->query()->has('ext_uid')) {
-            return ilUtil::appendUrlParameterString(
+            return \ilUtil::appendUrlParameterString(
                 $full_uri,
                 'ext_uid=' . $context->http()->wrapper()->query()->retrieve(
                     'ext_uid',
-                    $context->refineryttp()->kindlyTo()->string()
+                    $context->refinery()->kindlyTo()->string()
                 )
             );
         }

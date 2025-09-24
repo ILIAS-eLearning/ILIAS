@@ -542,11 +542,11 @@ class LogTable implements Table\DataRetrieval
     private function unmaskCmdNodesFromBuilder(string $url): string
     {
         $matches = [];
-        preg_match('/cmdNode=([A-Za-z0-9]+%3)+[A-Za-z0-9]+&/i', $url, $matches);
+        preg_match('/cmdNode=([A-Za-z0-9]+%3A)+[A-Za-z0-9]+&/i', $url, $matches);
         if (empty($matches[0])) {
             return $url;
         }
-        $replacement = str_replace('%3', ':', $matches[0]);
+        $replacement = str_replace('%3A', ':', $matches[0]);
         return str_replace($matches[0], $replacement, $url);
     }
 }

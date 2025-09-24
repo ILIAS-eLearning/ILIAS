@@ -84,13 +84,14 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         $c = $f->Breadcrumbs($crumbs);
 
         $html = $this->normalizeHTML($r->render($c));
-        $expected = '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">'
-            . '	<div class="breadcrumb">'
-            . '		<span class="crumb">'
-            . '			<a href="#">label</a>'
-            . '		</span>'
-            . '		<span class="crumb">'
+        $expected = '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb-wrapper">'
+            . '	<div class="breadcrumb" dir="rtl">'
+            . '		<span class="breadcrumb-crumb" dir="ltr">'
             . '			<a href="#">label2</a>'
+            . '		</span>'
+            . '     <span class="breadcrumb-separator" dir="rtl">&#9247;</span>'
+            . '		<span class="breadcrumb-crumb" dir="ltr">'
+            . '			<a href="#">label</a>'
             . '		</span>'
             . '	</div>'
             . '</nav>';
@@ -113,14 +114,14 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         $c = $f->Breadcrumbs($crumbs);
 
         $html = $this->brutallyTrimHTML($r->render($c));
-        $expected = '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">'
-            . '	<div class="breadcrumb">'
-            . '		    <span class="crumb">'
-            . '			    <a href="#">label without special characters</a>'
-            . '		    </span>'
-            . '		    <span class="crumb">'
+        $expected = '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb-wrapper">'
+            . '	<div class="breadcrumb" dir="rtl">'
+            . '		    <span class="breadcrumb-crumb" dir="ltr">'
             . '			    <a href="#">label with special characters + –...+}*@ç%#&/($</a>'
-            . '&lrm;'
+            . '		    </span>'
+            . '         <span class="breadcrumb-separator" dir="rtl">&#9247;</span>'
+            . '		    <span class="breadcrumb-crumb" dir="ltr">'
+            . '			    <a href="#">label without special characters</a>'
             . '		    </span>'
             . '	</div>'
             . '</nav>';

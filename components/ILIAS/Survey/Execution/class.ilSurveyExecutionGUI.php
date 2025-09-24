@@ -153,7 +153,6 @@ class ilSurveyExecutionGUI
     ): void {
         $rbacsystem = $this->rbacsystem;
         $ilUser = $this->user;
-
         if ($this->preview) {
             if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
                 // only with write access it is possible to preview the survey
@@ -174,7 +173,8 @@ class ilSurveyExecutionGUI
         // see ilObjSurveyGUI::infoScreen()
         $anonymous_id = null;
         $anonymous_code = "";
-        if ($this->access_manager->isCodeInputAllowed()) {
+        if ($this->access_manager->useCodeFromSession()) {
+            // get code from session
             $anonymous_code = $this->run_manager->getCode();
             $anonymous_id = $this->object->getAnonymousIdByCode($anonymous_code);
             if (!$anonymous_id) {
@@ -233,8 +233,16 @@ class ilSurveyExecutionGUI
                 // nothing todo
             }
         }
-
         // validate finished id
+        //var_dump($this->run_manager->getCurrentRunId());
+        //var_dump($this->object->getActiveID($user_id, $anonymous_code, $appr_id));
+        //exit;
+        // if anonymous read, without names, no codes, this succeedes, if second start (no resume button)
+        // - getCurrentRunId will use CODE (from session) to get run
+        // - getActiveID will use $anonymous_code set to get the same run id
+        // - $this->access_manager->isCodeInputAllowed() returns TRUE ($survey->getAnonymize() is 2)
+        // if anonymous read, with names, no codes, this fails here, if second start (resume button)
+        // - $this->access_manager->isCodeInputAllowed() returns FALSE
         if ($this->object->getActiveID($user_id, $anonymous_code, $appr_id) !==
             $this->run_manager->getCurrentRunId()) {
             throw new ilSurveyException("Run ID mismatch");
@@ -431,7 +439,8 @@ class ilSurveyExecutionGUI
             }
 
             // top / bottom nav
-            if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($ilUser->getId() === ANONYMOUS_USER_ID))) {
+            // removed check for getAnonymize() due to #0045475
+            if (!($this->object->isAccessibleWithoutCode() && ($ilUser->getId() === ANONYMOUS_USER_ID))) {
                 $stpl->setCurrentBlock("suspend_survey");
 
                 if (!$this->preview) {

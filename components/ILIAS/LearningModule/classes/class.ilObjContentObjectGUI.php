@@ -298,7 +298,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     if ($this->requested_obj_id == 0) {
                         $this->ctrl->redirect($this, "chapters");
                     } else {
-                        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                         // $this->ctrl->setCmd("subchap");
                         $this->executeCommand();
                     }

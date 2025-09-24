@@ -979,13 +979,23 @@ s     */
         foreach ($lang_vars as $lang_var) {
             $xml .= $this->getLangVarXML($lang_var);
         }
+        foreach ($this->pc_service->plugged()->getPluginLangVars() as $k => $v) {
+            $xml .= $this->getLangVarXMLForValue($k, $v);
+        }
         $xml .= "</LVs>";
         return $xml;
     }
 
     protected function getLangVarXML(string $var): string
     {
-        $val = $this->lng->txt("cont_" . $var);
+        return $this->getLangVarXMLForValue(
+            $var,
+            $this->lng->txt("cont_" . $var)
+        );
+    }
+
+    protected function getLangVarXMLForValue(string $var, string $val): string
+    {
         $val = str_replace('"', "&quot;", $val);
         return "<LV name=\"$var\" value=\"" . $val . "\"/>";
     }
@@ -1080,8 +1090,7 @@ s     */
      */
     public function getMultimediaXML(
         bool $offline = false
-    ): string
-    {
+    ): string {
         $mob_manager = $this->pc_service->mediaObject();
         return $mob_manager->getMultimediaXML($this->getDomDoc(), $offline);
     }
