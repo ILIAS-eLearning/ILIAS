@@ -49,7 +49,8 @@ class NewsItem
         protected string $playtime,
         protected int $mob_cnt_play,
         protected int $mob_cnt_download,
-        protected bool $content_html
+        protected bool $content_html,
+        protected int $context_ref_id = 0
     ) {
     }
 
@@ -58,21 +59,9 @@ class NewsItem
         return $this->id;
     }
 
-    public function setId(int $id): NewsItem
-    {
-        $this->id = $id;
-        return $this;
-    }
-
     public function isContentTextIsLangVar(): bool
     {
         return $this->content_text_is_lang_var;
-    }
-
-    public function setContentTextIsLangVar(bool $content_text_is_lang_var): NewsItem
-    {
-        $this->content_text_is_lang_var = $content_text_is_lang_var;
-        return $this;
     }
 
     public function getTitle(): string
@@ -80,21 +69,9 @@ class NewsItem
         return $this->title;
     }
 
-    public function setTitle(string $title): NewsItem
-    {
-        $this->title = $title;
-        return $this;
-    }
-
     public function getContent(): string
     {
         return $this->content;
-    }
-
-    public function setContent(string $content): NewsItem
-    {
-        $this->content = $content;
-        return $this;
     }
 
     public function getContextObjId(): int
@@ -102,10 +79,9 @@ class NewsItem
         return $this->context_obj_id;
     }
 
-    public function setContextObjId(int $context_obj_id): NewsItem
+    public function getContextRefId(): int
     {
-        $this->context_obj_id = $context_obj_id;
-        return $this;
+        return $this->context_ref_id;
     }
 
     public function getContextObjType(): string
@@ -113,21 +89,9 @@ class NewsItem
         return $this->context_obj_type;
     }
 
-    public function setContextObjType(string $context_obj_type): NewsItem
-    {
-        $this->context_obj_type = $context_obj_type;
-        return $this;
-    }
-
     public function getContextSubObjId(): int
     {
         return $this->context_sub_obj_id;
-    }
-
-    public function setContextSubObjId(int $context_sub_obj_id): NewsItem
-    {
-        $this->context_sub_obj_id = $context_sub_obj_id;
-        return $this;
     }
 
     public function getContextSubObjType(): ?string
@@ -135,21 +99,9 @@ class NewsItem
         return $this->context_sub_obj_type;
     }
 
-    public function setContextSubObjType(?string $context_sub_obj_type): NewsItem
-    {
-        $this->context_sub_obj_type = $context_sub_obj_type;
-        return $this;
-    }
-
     public function getContentType(): string
     {
         return $this->content_type;
-    }
-
-    public function setContentType(string $content_type): NewsItem
-    {
-        $this->content_type = $content_type;
-        return $this;
     }
 
     public function getCreationDate(): DateTimeImmutable
@@ -157,21 +109,9 @@ class NewsItem
         return $this->creation_date;
     }
 
-    public function setCreationDate(DateTimeImmutable $creation_date): NewsItem
-    {
-        $this->creation_date = $creation_date;
-        return $this;
-    }
-
     public function getUpdateDate(): DateTimeImmutable
     {
         return $this->update_date;
-    }
-
-    public function setUpdateDate(DateTimeImmutable $update_date): NewsItem
-    {
-        $this->update_date = $update_date;
-        return $this;
     }
 
     public function getUserId(): int
@@ -179,21 +119,9 @@ class NewsItem
         return $this->user_id;
     }
 
-    public function setUserId(int $user_id): NewsItem
-    {
-        $this->user_id = $user_id;
-        return $this;
-    }
-
     public function getUpdateUserId(): int
     {
         return $this->update_user_id;
-    }
-
-    public function setUpdateUserId(int $update_user_id): NewsItem
-    {
-        $this->update_user_id = $update_user_id;
-        return $this;
     }
 
     public function getVisibility(): string
@@ -201,21 +129,9 @@ class NewsItem
         return $this->visibility;
     }
 
-    public function setVisibility(string $visibility): NewsItem
-    {
-        $this->visibility = $visibility;
-        return $this;
-    }
-
     public function getContentLong(): string
     {
         return $this->content_long;
-    }
-
-    public function setContentLong(string $content_long): NewsItem
-    {
-        $this->content_long = $content_long;
-        return $this;
     }
 
     public function getPriority(): int
@@ -223,21 +139,9 @@ class NewsItem
         return $this->priority;
     }
 
-    public function setPriority(int $priority): NewsItem
-    {
-        $this->priority = $priority;
-        return $this;
-    }
-
     public function isContentIsLangVar(): bool
     {
         return $this->content_is_lang_var;
-    }
-
-    public function setContentIsLangVar(bool $content_is_lang_var): NewsItem
-    {
-        $this->content_is_lang_var = $content_is_lang_var;
-        return $this;
     }
 
     public function getMobId(): int
@@ -245,21 +149,9 @@ class NewsItem
         return $this->mob_id;
     }
 
-    public function setMobId(int $mob_id): NewsItem
-    {
-        $this->mob_id = $mob_id;
-        return $this;
-    }
-
     public function getPlaytime(): string
     {
         return $this->playtime;
-    }
-
-    public function setPlaytime(string $playtime): NewsItem
-    {
-        $this->playtime = $playtime;
-        return $this;
     }
 
     public function getMobCntPlay(): int
@@ -267,21 +159,9 @@ class NewsItem
         return $this->mob_cnt_play;
     }
 
-    public function setMobCntPlay(int $mob_cnt_play): NewsItem
-    {
-        $this->mob_cnt_play = $mob_cnt_play;
-        return $this;
-    }
-
     public function getMobCntDownload(): int
     {
         return $this->mob_cnt_download;
-    }
-
-    public function setMobCntDownload(int $mob_cnt_download): NewsItem
-    {
-        $this->mob_cnt_download = $mob_cnt_download;
-        return $this;
     }
 
     public function isContentHtml(): bool
@@ -289,10 +169,55 @@ class NewsItem
         return $this->content_html;
     }
 
-    public function setContentHtml(bool $content_html): NewsItem
+
+    public function withContextRefId(int $context_ref_id): NewsItem
     {
-        $this->content_html = $content_html;
-        return $this;
+        $clone = clone $this;
+        $clone->context_ref_id = $context_ref_id;
+        return $clone;
+    }
+
+    public function withContent(string $content): NewsItem
+    {
+        $clone = clone $this;
+        $clone->content = $content;
+        return $clone;
+    }
+
+    public function withContentLong(string $content_long): NewsItem
+    {
+        $clone = clone $this;
+        $clone->content_long = $content_long;
+        return $clone;
+    }
+
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'content' => $this->content,
+            'context_obj_id' => $this->context_obj_id,
+            'context_obj_type' => $this->context_obj_type,
+            'context_sub_obj_id' => $this->context_sub_obj_id,
+            'context_sub_obj_type' => $this->context_sub_obj_type,
+            'content_type' => $this->content_type,
+            'creation_date' => $this->creation_date->format('Y-m-d H:i:s'),
+            'update_date' => $this->update_date->format('Y-m-d H:i:s'),
+            'user_id' => $this->user_id,
+            'update_user_id' => $this->update_user_id,
+            'visibility' => $this->visibility,
+            'content_long' => $this->content_long,
+            'priority' => $this->priority,
+            'content_is_lang_var' => $this->content_is_lang_var,
+            'content_text_is_lang_var' => $this->content_text_is_lang_var,
+            'mob_id' => $this->mob_id,
+            'playtime' => $this->playtime,
+            'mob_cnt_play' => $this->mob_cnt_play,
+            'mob_cnt_download' => $this->mob_cnt_download,
+            'content_html' => $this->content_html
+        ];
     }
 
     public function toLegacy(): \ilNewsItem

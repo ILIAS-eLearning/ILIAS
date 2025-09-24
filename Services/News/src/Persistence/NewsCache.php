@@ -115,14 +115,4 @@ class NewsCache
     {
         //TODO: implement
     }
-
-    /**
-     * @depracated This should only be used for legacy compatibility and will be removed in the future.
-     */
-    public function lookupContextId(int $obj_id): ?int
-    {
-        //TODO: implement
-        $references = \ilObject::_getAllReferences($obj_id);
-        return count($references) > 0 ? array_pop($references) : null;
-    }
 }

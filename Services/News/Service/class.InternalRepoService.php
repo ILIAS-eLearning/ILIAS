@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\News;
 
 use ILIAS\News\Dashboard\DashboardSessionRepository;
+use ILIAS\News\Persistence\NewsCache;
+use ILIAS\News\Persistence\NewsRepository;
 
 /**
  * Notes internal repo service
@@ -30,11 +32,23 @@ class InternalRepoService
 {
     protected InternalDataService $data;
     protected \ilDBInterface $db;
+    protected NewsCache $cache;
 
     public function __construct(InternalDataService $data, \ilDBInterface $db)
     {
         $this->data = $data;
         $this->db = $db;
+        $this->cache = new NewsCache();
+    }
+
+    public function cache(): NewsCache
+    {
+        return $this->cache;
+    }
+
+    public function news(): NewsRepository
+    {
+        return new NewsRepository($this->db, $this->data->factory());
     }
 
     public function dashboard(): DashboardSessionRepository

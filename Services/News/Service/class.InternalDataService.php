@@ -20,14 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\News;
 
+use ILIAS\News\Data\Factory;
+
 /**
  * Repository internal data service
  * @author Alexander Killing <killing@leifos.de>
  */
 class InternalDataService
 {
-    public function __construct()
+    public function factory(): Factory
     {
-        //$this->..._factory = new ...\DataFactory();
+        return new Factory();
     }
 }

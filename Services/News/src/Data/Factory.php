@@ -58,7 +58,8 @@ class Factory
             playtime: (string) $row['playtime'],
             mob_cnt_play: (int) $row['mob_cnt_play'],
             mob_cnt_download: (int) $row['mob_cnt_download'],
-            content_html: (bool) $row['content_html']
+            content_html: (bool) $row['content_html'],
+            context_ref_id: (int) ($row['ref_id'] ?? 0)
         );
     }
 }

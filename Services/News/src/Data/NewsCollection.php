@@ -39,6 +39,8 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
 
     /** @var array<int, int[]> */
     private array $user_read_status = [];
+    /** @var array<int, null|array{first: int, aggregation: int[]}> */
+    private array $grouped_items_map = [];
 
     public function __construct(array $news_items = [])
     {
@@ -120,6 +122,82 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     }
 
     /*
+        Grouping
+     */
+
+    public function groupFiles(): self
+    {
+        foreach ($this->news_items as $item) {
+            if ($item->getContextObjType() === 'file') {
+                if (isset($this->grouped_items_map[$item->getContextObjId()])) {
+                    $this->grouped_items_map[$item->getContextObjId()]['aggregation'][] = $item->getId();
+                } else {
+                    $this->grouped_items_map[$item->getContextObjId()] = [
+                        'first' => $item->getId(),
+                        'aggregation' => []
+                    ];
+                }
+            }
+        }
+        return $this;
+    }
+
+    public function groupForums(bool $group_posting_sequence): self
+    {
+        $last_forum = 0;
+
+        foreach ($this->news_items as $item) {
+            // If we are grouping by sequence, we need to reset the entry in the aggregation map when switching
+            if ($group_posting_sequence && $last_forum !== $item->getContextObjType() && $last_forum !== 0) {
+                $this->grouped_items_map[$last_forum] = null;
+            }
+
+            if ($item->getContextObjType() === 'frm') {
+                if (isset($this->grouped_items_map[$item->getContextObjId()])) {
+                    $this->grouped_items_map[$item->getContextObjId()]['aggregation'][] = $item->getId();
+                } else {
+                    $this->grouped_items_map[$item->getContextObjId()] = [
+                        'first' => $item->getId(),
+                        'aggregation' => []
+                    ];
+                    $last_forum = $item->getContextObjId();
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns the grouping for a given news item. It will return an array with the grouped items
+     * if the provided item is the first in the group.
+     *
+     * @return array{parent: NewsItem, aggregation: NewsItem[], agg_ref_id: int, no_context_title: bool}|null
+     */
+    public function getGroupingFor(NewsItem $item): ?array
+    {
+        if (!isset($this->grouped_items_map[$item->getContextObjId()])) {
+            return null;
+        }
+
+        $aggregation = $this->grouped_items_map[$item->getContextObjId()];
+        if ($aggregation['first'] !== $item->getId()) {
+            return null;
+        }
+
+        if ($item->getContextObjType() === 'frm') {
+            $item = $item->withContent('')->withContentLong('');
+        }
+
+        return [
+            'parent' => $item,
+            'aggregation' => array_map(fn($id) => $this->news_items[$id], $aggregation['aggregation']),
+            'agg_ref_id' => $item->getContextRefId(),
+            'no_context_title' => $item->getContextObjType() === 'frm'
+        ];
+    }
+
+    /*
         Legacy Adapter
      */
 
@@ -128,15 +206,21 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
      * This should never be introduced in new code and will be removed in the future.
      *
      * @deprecated
+     *
+     * @return array<int, array<string, mixed>>
      */
-    public function getAggregatedNews(): array
-    {
-        global $DIC;
-        $cache = $DIC->news()->internal()->repo()->cache();
-
+    public function getAggregatedNews(
+        bool $aggregate_files = false,
+        bool $aggregate_forums = false,
+        bool $group_posting_sequence = false
+    ): array {
         $items = [];
+        $file_aggregation_map = [];
+        $forum_aggregation_map = [];
+        $last_forum = 0;
+
         foreach ($this->news_items as $item) {
-            $items[$item->getId()] = [
+            $entry = [
                 'id' => $item->getId(),
                 'priority' => $item->getPriority(),
                 'title' => $item->getTitle(),
@@ -161,10 +245,51 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
                 'content_html' => $item->isContentHtml(),
                 'update_user_id' => $item->getUpdateUserId(),
                 'user_read' => $this->isReadByUser($item->getUserId(), $item->getId()) ? 1 : 0,
-                'ref_id' => $cache->lookupContextId($item->getContextObjId())
+                'ref_id' => $item->getContextRefId()
             ];
-        }
 
+            if ($aggregate_files && $item->getContextObjType() === 'file') {
+                if (isset($file_aggregation_map[$item->getContextObjId()])) {
+                    // If this file already has an aggregation entry, add it there and prevent adding it to the main list
+                    $idx = $file_aggregation_map[$item->getContextObjId()];
+                    $items[$idx]['aggregation'][$item->getId()] = $entry;
+                    continue;
+                } else {
+                    // If this is the first news for this file, set the aggregation array
+                    $entry['aggregation'] = [];
+                    $entry['agg_ref_id'] = $item->getContextRefId();
+                    $file_aggregation_map[$item->getContextObjId()] = $item->getId();
+                }
+            }
+
+            if ($aggregate_forums) {
+                // If we are grouping by sequence, we need to reset the entry in the aggregation map when switching
+                if ($group_posting_sequence && $last_forum !== $item->getContextObjType() && $last_forum !== 0) {
+                    $forum_aggregation_map[$last_forum] = null;
+                }
+
+                if ($item->getContextObjType() === 'frm') {
+                    $entry['no_context_title'] = true;
+
+                    if (isset($forum_aggregation_map[$item->getContextObjId()])) {
+                        // If this form already has an aggregation entry, add it there and prevent adding it to the main list
+                        $idx = $forum_aggregation_map[$item->getContextObjId()];
+                        $items[$idx]['aggregation'][$item->getId()] = $entry;
+                        continue;
+                    } else {
+                        // If this is the first news for this forum, set the aggregation array
+                        $entry['agg_ref_id'] = $item->getContextRefId();
+                        $entry['content'] = '';
+                        $entry['content_long'] = '';
+
+                        $forum_aggregation_map[$item->getContextObjId()] = $item->getId();
+                        $last_forum = $item->getContextObjType();
+                    }
+                }
+            }
+
+            $items[$item->getId()] = $entry;
+        }
         return $items;
     }
 
@@ -212,24 +337,32 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
         return $this->news_items[$news_id] ?? null;
     }
 
+    public function getPageFor(int $news_id): int
+    {
+        $pages = array_keys($this->news_items);
+        return (int) array_search($news_id, $pages);
+    }
+
     public function pick(int $offset): ?NewsItem
     {
         $index = max(0, $offset);
         return array_values($this->news_items)[$index] ?? null;
     }
 
-    public function pluck(string $key): array
+    public function pluck(string $key, bool $wrap = false): array
     {
-        return array_column($this->news_items, $key);
+        $arr = array_column($this->toArray(), $key);
+        return $wrap ? array_map(fn($item) => [$item], $arr) : $arr;
     }
 
     /**
-     * @return NewsItem[]
+     * @return array<int, array>
      */
     public function toArray(): array
     {
-        return $this->news_items;
+        return array_map(fn($item) => $item->toArray(), $this->news_items);
     }
+
 
     /**
      * Merge with another collection and returns it as a new collection
