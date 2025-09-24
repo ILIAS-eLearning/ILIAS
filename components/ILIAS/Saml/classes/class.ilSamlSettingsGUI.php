@@ -23,16 +23,12 @@ use ILIAS\DI\RBACServices;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Data\Factory;
 
-/**
- * Class ilSamlSettingsGUI
- * @author Michael Jansen <mjansen@databay.de>
- */
-final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
+final class ilSamlSettingsGUI implements ilCtrlSecurityInterface, ilSamlCommands
 {
     private const VIEW_MODE_GLOBAL = 1;
     private const VIEW_MODE_SINGLE = 2;
 
-    public const DEFAULT_CMD = 'listIdps';
+    public const DEFAULT_CMD = self::CMD_LIST_IDPS;
 
     private const PERMISSION_WRITE = 'write';
 
@@ -46,39 +42,11 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
     private const LNG_AUTH_SAML_USER_MAPPING = 'auth_saml_user_mapping';
     private const LNG_LOGIN_FORM = 'login_form';
     private const LNG_CANCEL = 'cancel';
-
-    private const CMD_SAVE_NEW_IDP = 'saveNewIdp';
-    private const CMD_SAVE_SETTINGS = 'saveSettings';
-    private const CMD_SHOW_IDP_SETTINGS = 'showIdpSettings';
-    private const CMT_SAVE_IDP_SETTINGS = 'saveIdpSettings';
-    private const CMD_SAVE = 'save';
-    private const CMD_SAVE_USER_ATTRIBUTE_MAPPING = 'saveUserAttributeMapping';
+    public const LNG_SAVE = 'save';
 
     private const PROP_UPDATE_SUFFIX = '_update';
 
     private const METADATA_STORAGE_KEY = 'metadata';
-
-    /**
-     * @var string[]
-     */
-    private const GLOBAL_COMMANDS = [
-        self::DEFAULT_CMD,
-        'showAddIdpForm',
-        'showSettings',
-        'saveSettings',
-        'showNewIdpForm',
-        'saveNewIdp',
-    ];
-
-    /**
-     * @var string[]
-     */
-    private const GLOBAL_ENTITY_COMMANDS = [
-        'deactivateIdp',
-        'activateIdp',
-        'confirmDeleteIdp',
-        'deleteIdp',
-    ];
 
     /**
      * @var string[]
@@ -150,7 +118,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
     public function getUnsafeGetCommands(): array
     {
         return [
-            'handleTableActions'
+            self::CMD_TABLE_ACTIONS,
         ];
     }
 
@@ -189,15 +157,13 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
             );
         }
 
-        if ($this->httpState->wrapper()->query()->has('saml_idps_table_action')) {
-            if ($this->httpState->wrapper()->query()->has('saml_idps_idp_id')) {
-                $idpIds = $this->httpState->wrapper()->query()->retrieve(
-                    'saml_idps_idp_id',
-                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-                );
-                if (count($idpIds) === 1) {
-                    $idpId = current($idpIds);
-                }
+        if ($this->getTableAction() && $this->httpState->wrapper()->query()->has('saml_idps_idp_id')) {
+            $idpIds = $this->httpState->wrapper()->query()->retrieve(
+                'saml_idps_idp_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+            if (count($idpIds) === 1) {
+                $idpId = current($idpIds);
             }
         }
 
@@ -244,40 +210,61 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         }
 
         $this->help->setScreenIdComponent('auth');
+
         $cmd = $this->ctrl->getCmd();
-        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
+        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd . 'Command')) {
             $cmd = self::DEFAULT_CMD;
         }
+        $verified_command = $cmd . 'Command';
+
         $ipdId = $this->getIdpIdOrZero();
         if ($ipdId > 0) {
             $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, $ipdId);
         }
+
         if (!in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_COMMANDS), true)) {
-            if (0 === $ipdId) {
+            if ($ipdId === 0) {
                 $this->ctrl->redirect($this, self::DEFAULT_CMD);
             }
 
             $this->initIdp();
             $this->initUserAttributeMapping();
         }
-        if (
-            in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_COMMANDS), true) ||
-            in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_ENTITY_COMMANDS), true)
-        ) {
+
+        if ($this->shouldRenderGlobalCommandSubTabs($cmd)) {
             $this->setSubTabs(self::VIEW_MODE_GLOBAL);
         } else {
             $this->setSubTabs(self::VIEW_MODE_SINGLE);
         }
-        $this->$cmd();
+
+        $this->$verified_command();
     }
 
-    private function listIdps(): void
+    private function shouldRenderGlobalCommandSubTabs(string $cmd): bool
+    {
+        $is_global_command = in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_COMMANDS), true);
+        $is_global_entity_command = in_array(
+            strtolower($cmd),
+            array_map('strtolower', self::GLOBAL_ENTITY_COMMANDS),
+            true
+        );
+
+        $is_global_table_action = in_array(
+            strtolower($this->getTableAction() ?? ''),
+            array_map('strtolower', self::GLOBAL_ENTITY_TABLE_ACTIONS),
+            true
+        );
+
+        return $is_global_command || $is_global_entity_command || $is_global_table_action;
+    }
+
+    private function listIdpsCommand(): void
     {
         if ($this->samlAuth && $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
             $this->toolbar->addStickyItem(
                 $this->ui_factory->button()->standard(
                     $this->lng->txt('auth_saml_add_idp_btn'),
-                    $this->ctrl->getLinkTarget($this, 'showNewIdpForm')
+                    $this->ctrl->getLinkTarget($this, self::CMD_SHOW_NEW_IDP_FORM)
                 )
             );
         }
@@ -309,26 +296,30 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
             $this->ctrl,
             $this->httpState->request(),
             new Factory(),
-            'handleTableActions',
+            self::CMD_TABLE_ACTIONS,
             $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)
         );
         $this->tpl->setContent($this->ui_renderer->render([$info, $table->get()]));
     }
 
-    private function handleTableActions(): void
+    private function getTableAction(): ?string
     {
-        $action = $this->httpState->wrapper()->query()->retrieve(
+        return $this->httpState->wrapper()->query()->retrieve(
             'saml_idps_table_action',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->string(),
-                $this->refinery->always('')
+                $this->refinery->always(null)
             ])
         );
-        match ($action) {
-            'showIdpSettings' => $this->showIdpSettings(),
-            'activateIdp' => $this->activateIdp(),
-            'deactivateIdp' => $this->deactivateIdp(),
-            'confirmDeleteIdp' => $this->confirmDeleteIdp(),
+    }
+
+    private function handleTableActionsCommand(): void
+    {
+        match ($this->getTableAction()) {
+            self::TABLE_ACTION_SHOW_IDP_SETTINGS => $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS),
+            self::TABLE_ACTION_ACTIVATE_IDP => $this->activateIdp(),
+            self::TABLE_ACTION_DEACTIVATE_IDP => $this->deactivateIdp(),
+            self::TABLE_ACTION_CONFIRM_DELETE_IDP => $this->confirmDeleteIdp(),
             default => $this->ctrl->redirect($this, self::DEFAULT_CMD),
         };
     }
@@ -364,15 +355,17 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
                     $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
                     array_merge(
                         self::GLOBAL_ENTITY_COMMANDS,
-                        [self::DEFAULT_CMD, 'showNewIdpForm', self::CMD_SAVE_NEW_IDP]
+                        [self::DEFAULT_CMD, self::CMD_SHOW_NEW_IDP_FORM, self::CMD_SAVE_NEW_IDP]
                     ),
-                    self::class
+                    self::class,
+                    '',
+                    ($this->getTableAction() === self::TABLE_ACTION_CONFIRM_DELETE_IDP)
                 );
 
                 $this->tabs->addSubTabTarget(
                     'settings',
-                    $this->ctrl->getLinkTarget($this, 'showSettings'),
-                    ['showSettings', self::CMD_SAVE_SETTINGS],
+                    $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SETTINGS),
+                    [self::CMD_SHOW_SETTINGS, self::CMD_SAVE_SETTINGS],
                     self::class
                 );
                 break;
@@ -387,14 +380,14 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
                 $this->tabs->addSubTabTarget(
                     'auth_saml_idp_settings',
                     $this->ctrl->getLinkTarget($this, self::CMD_SHOW_IDP_SETTINGS),
-                    [self::CMD_SHOW_IDP_SETTINGS, self::CMT_SAVE_IDP_SETTINGS],
+                    [self::CMD_SHOW_IDP_SETTINGS, self::CMD_SAVE_IDP_SETTINGS],
                     self::class
                 );
 
                 $this->tabs->addSubTabTarget(
                     self::LNG_AUTH_SAML_USER_MAPPING,
-                    $this->ctrl->getLinkTarget($this, 'showUserAttributeMappingForm'),
-                    ['showUserAttributeMappingForm', self::CMD_SAVE_USER_ATTRIBUTE_MAPPING],
+                    $this->ctrl->getLinkTarget($this, self::CMD_SHOW_USER_ATTRIBUTE_MAPPING_FORM),
+                    [self::CMD_SHOW_USER_ATTRIBUTE_MAPPING_FORM, self::CMD_SAVE_USER_ATTRIBUTE_MAPPING],
                     self::class
                 );
                 break;
@@ -430,7 +423,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
                 $item->setDisabled(true);
             }
         } else {
-            $form->addCommandButton(self::CMD_SAVE_USER_ATTRIBUTE_MAPPING, $this->lng->txt(self::CMD_SAVE));
+            $form->addCommandButton(self::CMD_SAVE_USER_ATTRIBUTE_MAPPING, $this->lng->txt(self::LNG_SAVE));
         }
 
         return $form;
@@ -450,7 +443,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         $form->addItem($update_automatically);
     }
 
-    private function saveUserAttributeMapping(): void
+    private function saveUserAttributeMappingCommand(): void
     {
         $this->ensureWriteAccess();
 
@@ -486,10 +479,10 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
 
         $form->setValuesByPost();
 
-        $this->showUserAttributeMappingForm($form);
+        $this->showUserAttributeMappingFormCommand($form);
     }
 
-    private function showUserAttributeMappingForm(ilPropertyFormGUI $form = null): void
+    private function showUserAttributeMappingFormCommand(ilPropertyFormGUI $form = null): void
     {
         $this->tabs->setSubTabActive(self::LNG_AUTH_SAML_USER_MAPPING);
 
@@ -522,7 +515,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
                 $item->setDisabled(true);
             }
         } else {
-            $form->addCommandButton(self::CMD_SAVE_SETTINGS, $this->lng->txt(self::CMD_SAVE));
+            $form->addCommandButton(self::CMD_SAVE_SETTINGS, $this->lng->txt(self::LNG_SAVE));
         }
 
         return $form;
@@ -552,7 +545,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         return $select;
     }
 
-    private function saveSettings(): void
+    private function saveSettingsCommand(): void
     {
         $this->ensureWriteAccess();
 
@@ -564,10 +557,10 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
 
         $form->setValuesByPost();
 
-        $this->showSettings($form);
+        $this->showSettingsCommand($form);
     }
 
-    private function showSettings(ilPropertyFormGUI $form = null): void
+    private function showSettingsCommand(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getSettingsForm();
@@ -582,7 +575,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
     private function getIdpSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, self::CMT_SAVE_IDP_SETTINGS));
+        $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE_IDP_SETTINGS));
         $form->setTitle(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getEntityId()));
 
         $idp = new ilTextInputGUI($this->lng->txt('auth_saml_idp'), 'entity_id');
@@ -626,14 +619,14 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
                 $item->setDisabled(true);
             }
         } else {
-            $form->addCommandButton(self::CMT_SAVE_IDP_SETTINGS, $this->lng->txt(self::CMD_SAVE));
+            $form->addCommandButton(self::CMD_SAVE_IDP_SETTINGS, $this->lng->txt(self::LNG_SAVE));
         }
         $form->addCommandButton(self::DEFAULT_CMD, $this->lng->txt(self::LNG_CANCEL));
 
         return $form;
     }
 
-    private function showIdpSettings(ilPropertyFormGUI $form = null): void
+    private function showIdpSettingsCommand(ilPropertyFormGUI $form = null): void
     {
         $this->tabs->setSubTabActive('auth_saml_idp_settings');
 
@@ -651,7 +644,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         $this->tpl->setContent($form->getHTML());
     }
 
-    private function saveIdpSettings(): void
+    private function saveIdpSettingsCommand(): void
     {
         $this->ensureWriteAccess();
 
@@ -664,7 +657,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
             $this->storeMetadata($this->idp, $form->getInput(self::METADATA_STORAGE_KEY));
         }
 
-        $this->showIdpSettings($form);
+        $this->showIdpSettingsCommand($form);
     }
 
     private function getIdpForm(): ilPropertyFormGUI
@@ -675,13 +668,13 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
 
         $this->addMetadataElement($form);
 
-        $form->addCommandButton(self::CMD_SAVE_NEW_IDP, $this->lng->txt(self::CMD_SAVE));
-        $form->addCommandButton('listIdps', $this->lng->txt(self::LNG_CANCEL));
+        $form->addCommandButton(self::CMD_SAVE_NEW_IDP, $this->lng->txt(self::LNG_SAVE));
+        $form->addCommandButton(self::DEFAULT_CMD, $this->lng->txt(self::LNG_CANCEL));
 
         return $form;
     }
 
-    private function saveNewIdp(): void
+    private function saveNewIdpCommand(): void
     {
         $this->ensureWriteAccess();
 
@@ -699,13 +692,13 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
                 true
             );
             $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, $idp->getIdpId());
-            $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS);
+            $this->ctrl->redirect($this, self::TABLE_ACTION_SHOW_IDP_SETTINGS);
         }
 
-        $this->showNewIdpForm($form);
+        $this->showNewIdpFormCommand($form);
     }
 
-    private function showNewIdpForm(ilPropertyFormGUI $form = null): void
+    private function showNewIdpFormCommand(ilPropertyFormGUI $form = null): void
     {
         $this->ensureWriteAccess();
 
@@ -760,8 +753,8 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         $this->ensureWriteAccess();
 
         $confirmation = new ilConfirmationGUI();
-        $confirmation->setFormAction($this->ctrl->getFormAction($this, 'deleteIdp'));
-        $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteIdp');
+        $confirmation->setFormAction($this->ctrl->getFormAction($this, self::CMD_DELETE_IDP));
+        $confirmation->setConfirm($this->lng->txt('confirm'), self::CMD_DELETE_IDP);
         $confirmation->setCancel($this->lng->txt(self::LNG_CANCEL), self::DEFAULT_CMD);
         $confirmation->setHeaderText($this->lng->txt('auth_saml_sure_delete_idp'));
         $confirmation->addItem(self::REQUEST_PARAM_SAML_IDP_IDS, (string) $this->idp->getIdpId(), $this->idp->getEntityId());
@@ -769,7 +762,7 @@ final class ilSamlSettingsGUI implements ilCtrlSecurityInterface
         $this->tpl->setContent($confirmation->getHTML());
     }
 
-    private function deleteIdp(): void
+    private function deleteIdpCommand(): void
     {
         $this->ensureWriteAccess();
 

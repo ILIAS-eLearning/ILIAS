@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
+final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval, ilSamlCommands
 {
     /** @var list<ilSamlIdp> */
     private array $idps;
@@ -117,22 +117,22 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         return [
             'edit' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('edit'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'showIdpSettings'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_SHOW_IDP_SETTINGS),
                 $this->row_id_token
             ),
             'activate' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('activate'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'activateIdp'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_ACTIVATE_IDP),
                 $this->row_id_token
             ),
             'deactivate' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('deactivate'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'deactivateIdp'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_DEACTIVATE_IDP),
                 $this->row_id_token
             ),
             'delete' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('delete'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'confirmDeleteIdp'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_CONFIRM_DELETE_IDP),
                 $this->row_id_token
             )
         ];

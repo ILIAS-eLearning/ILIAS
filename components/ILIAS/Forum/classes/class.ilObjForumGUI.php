@@ -286,7 +286,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             'askForPostActivation',
             'askForPostDeactivation',
             'toggleThreadNotification',
-            'toggleThreadNotificationTab',
             'toggleStickiness',
             'cancelPost',
             'savePost',
@@ -546,18 +545,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 if (in_array($cmd, ['close', 'reopen', 'make_topics_non_sticky', 'makesticky', 'editThread', 'move'])) {
                     $cmd = 'performThreadsAction';
                 }
-                if (in_array($cmd, $this->getTableCommands(), true)) {
-                    $notificationCommands = [
-                        'enableAdminForceNoti',
-                        'disableAdminForceNoti',
-                        'enableHideUserToggleNoti',
-                        'disableHideUserToggleNoti'
-                    ];
 
-                    if (!in_array($cmd, $notificationCommands, true)) {
-                        $cmd = 'performThreadsAction';
-                    }
-                } elseif (($cmd === null || $cmd === '') && $this->getTableCommands() === []) {
+                if ($cmd === null || $cmd === '') {
                     $cmd = 'showThreads';
                 }
 
@@ -575,28 +564,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             )) {
             $this->addHeaderAction();
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getTableCommands(): array
-    {
-        $tableCommands = [];
-        if ($this->http->wrapper()->post()->has('selected_cmd')) {
-            $tableCommands[] = $this->http->wrapper()->post()->retrieve(
-                'selected_cmd',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        if ($this->http->wrapper()->post()->has('selected_cmd2')) {
-            $tableCommands[] = $this->http->wrapper()->post()->retrieve(
-                'selected_cmd2',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-
-        return $tableCommands;
     }
 
     public function infoScreenObject(): void

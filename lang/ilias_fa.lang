@@ -1912,6 +1912,7 @@ assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specif
 assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints###28 08 2012 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###26 08 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###26 08 2024 new variable
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access###07 11 2014 new variable
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test###07 11 2014 new variable
@@ -2632,6 +2633,7 @@ book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###07 02 2020 new variable
 book#:#book_no_objects#:#No Assignment###07 02 2020 new variable
 book#:#book_no_of_objects#:#No. of Objects
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###07 02 2020 new variable
 book#:#book_no_recurrence#:#Book only this date###26 08 2024 new variable
 book#:#book_not#:#Not
@@ -7410,6 +7412,7 @@ copg#:#copg_page_type_stys#:#Layout Page###29 07 2022 new variable
 copg#:#copg_pages#:#Pages###21 05 2025 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###26 08 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###26 08 2024 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###21 05 2025 new variable
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.###07 02 2017 new variable
 copg#:#copg_reload_page#:#Reload Page###29 07 2022 new variable
@@ -13923,6 +13926,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###26 08 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###26 08 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###29 07 2022 new variable
@@ -16086,6 +16090,7 @@ style#:#sty_media_queries#:#Media Queries###26 09 2014 new variable
 style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.###26 09 2014 new variable
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#تغییر سبک ماژول یادگیری
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#تغییر سبک
 style#:#sty_move_user_styles#:#Change Style of Users###28 08 2012 new variable
 style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.###21 05 2025 new variable
@@ -16094,6 +16099,7 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#تعداد ماژول های یادگیری
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Ordered List###26 08 2024 new variable

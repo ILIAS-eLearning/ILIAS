@@ -18,25 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\MetaData\Structure\Dictionaries\Tags;
+namespace ILIAS\Mail\Attachments;
 
-use ILIAS\MetaData\Paths\PathInterface;
-use ILIAS\MetaData\Paths\NullPath;
-
-class NullTagAssignment implements TagAssignmentInterface
+interface MailAttachmentCommands
 {
-    public function matchesPath(PathInterface $path): bool
-    {
-        return false;
-    }
-
-    public function path(): PathInterface
-    {
-        return new NullPath();
-    }
-
-    public function tag(): TagInterface
-    {
-        return new NullTag();
-    }
+    public const CMD_SHOW_ATTACHMENTS = 'showAttachments';
+    public const CMD_CANCEL_SAVE_ATTACHMENTS = 'cancelSaveAttachments';
+    public const CMD_DELETE_ATTACHMENTS = 'deleteAttachments';
+    public const CMD_HANDLE_TABLE_ACTIONS = 'handleTableActions';
+    public const DEFAULT_CMD = self::CMD_SHOW_ATTACHMENTS;
+    public const TABLE_CONFIRM_DELETE_ATTACHMENTS = 'confirmDeleteAttachments';
+    public const TABLE_ACTION_SAVE_ATTACHMENTS = 'saveAttachments';
 }

@@ -240,7 +240,11 @@ class ParticipantTable implements DataRetrieval
             'id_of_attempt' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $a->getAttemptOverviewInformation()?->getExamId() <=> $b->getAttemptOverviewInformation()?->getExamId()
+            ) => $a->getAttemptOverviewInformation()?->getExamId() <=> $b->getAttemptOverviewInformation()?->getExamId(),
+            'total_time_on_task' => static fn(
+                Participant $a,
+                Participant $b
+            ) => $a->getAttemptOverviewInformation()?->getTotalTimeOnTask() <=> $b->getAttemptOverviewInformation()?->getTotalTimeOnTask()
         ];
     }
 
@@ -471,7 +475,7 @@ class ParticipantTable implements DataRetrieval
     private function getViewControlledRecords(?array $filter_data, Range $range, Order $order): iterable
     {
         return $this->limitRecords(
-            $this->sortRecords(
+            $this->orderRecords(
                 $this->filterRecords(
                     $this->results_data_factory->addAttemptOverviewInformationToParticipants(
                         $this->results_presentation_settings,
@@ -516,7 +520,7 @@ class ParticipantTable implements DataRetrieval
         return $allow;
     }
 
-    private function sortRecords(iterable $records, Order $order): array
+    private function orderRecords(iterable $records, Order $order): array
     {
         $post_load_order_fields = $this->getPostLoadOrderFields();
         $records = iterator_to_array($records);

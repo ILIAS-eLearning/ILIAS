@@ -144,16 +144,16 @@ class DatabaseReader implements DatabaseReaderInterface
 
                 /**
                  * Container elements without their own tables are only created
-                 * of they have sub-elements.
+                 * if they have sub-elements.
                  */
-                $sub_elements = iterator_to_array($this->readSubElements(
+                $sub_elements = $this->readSubElements(
                     $depth + 1,
                     $sub,
                     $ressource_id,
                     $parent_id,
                     $row
-                ));
-                if (!isset($tag) && count($sub_elements) <= 0) {
+                );
+                if (!isset($tag) && $sub_elements->current() === null) {
                     continue;
                 }
 
@@ -176,24 +176,29 @@ class DatabaseReader implements DatabaseReaderInterface
         string $table,
         StructureElementInterface|StructureNavigatorInterface $struct
     ): \Generator {
-        if ($depth > 20) {
-            throw new \ilMDStructureException('LOM Structure is nested to deep.');
-        }
+        $unchecked_structs = [$struct];
+        while ($unchecked_structs !== []) {
+            if ($depth > 20) {
+                throw new \ilMDStructureException('LOM Structure is nested to deep.');
+            }
 
-        $tag = $this->tag($struct);
-        if (!is_null($tag) && $table !== $tag?->table()) {
-            return;
-        }
-        if (!is_null($tag)) {
-            yield $tag;
-        }
+            $next_unchecked_structs = [];
+            foreach ($unchecked_structs as $unchecked_struct) {
+                $tag = $this->tag($unchecked_struct);
+                if (!is_null($tag) && $table !== $tag?->table()) {
+                    continue;
+                }
+                if (!is_null($tag)) {
+                    yield $tag;
+                }
+                $next_unchecked_structs = array_merge(
+                    $next_unchecked_structs,
+                    iterator_to_array($this->subElements($unchecked_struct))
+                );
+            }
 
-        foreach ($this->subElements($struct) as $sub) {
-            yield from $this->collectTagsFromSameTable(
-                $depth + 1,
-                $table,
-                $sub
-            );
+            $unchecked_structs = $next_unchecked_structs;
+            $depth++;
         }
     }
 

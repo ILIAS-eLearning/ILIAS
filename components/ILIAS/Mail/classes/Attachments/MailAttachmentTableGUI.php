@@ -21,11 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Attachments;
 
 use ilStr;
-use ilDatePresentation;
 use ilUtil;
-use ilDateTime;
 
-class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
+class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval, MailAttachmentCommands
 {
     private readonly \ILIAS\UI\URLBuilder $url_builder;
     private readonly \ILIAS\UI\URLBuilderToken $action_parameter_token;
@@ -49,7 +47,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         private readonly AttachmentManagement $mode
     ) {
         $form_action = $this->df->uri(
-            \ilUtil::_getHttpPath() . '/' .
+            ilUtil::_getHttpPath() . '/' .
             $this->ctrl->getLinkTarget($this->parent_gui, $this->parent_cmd)
         );
 
@@ -121,13 +119,19 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         if ($this->mode === AttachmentManagement::CONSUME) {
             $actions['saveAttachments'] = $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('adopt'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'saveAttachments'),
+                $this->url_builder->withParameter(
+                    $this->action_parameter_token,
+                    self::TABLE_ACTION_SAVE_ATTACHMENTS
+                ),
                 $this->row_id_token
             );
         } else {
             $actions['deleteAttachments'] = $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('delete'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'deleteAttachments'),
+                $this->url_builder->withParameter(
+                    $this->action_parameter_token,
+                    self::TABLE_CONFIRM_DELETE_ATTACHMENTS
+                ),
                 $this->row_id_token
             );
         }

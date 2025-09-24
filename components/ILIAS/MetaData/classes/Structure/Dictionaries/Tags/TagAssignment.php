@@ -35,9 +35,18 @@ class TagAssignment implements TagAssignmentInterface
         $this->tag = $tag;
     }
 
+    /**
+     * This has turned out to be pretty slow, only
+     * use in isolated cases.
+     */
     public function matchesPath(PathInterface $path): bool
     {
         return $path->toString() === $this->path->toString();
+    }
+
+    public function path(): PathInterface
+    {
+        return $this->path;
     }
 
     public function tag(): TagInterface

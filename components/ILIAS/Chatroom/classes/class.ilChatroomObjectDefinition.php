@@ -83,8 +83,9 @@ class ilChatroomObjectDefinition
     public function hasGUI(string $gui): bool
     {
         $path = $this->getGUIPath($gui);
+        $class = $this->getGUIClassName($gui);
 
-        return class_exists($this->getGUIClassName($gui)) && file_exists($path);
+        return class_exists($class) && file_exists($path);
     }
 
     /**

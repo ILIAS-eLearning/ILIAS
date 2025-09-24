@@ -432,7 +432,6 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         $reached_points_input->allowDecimals(true);
         $reached_points_input->setSize(5);
         $reached_points_input->setMaxValue($available_points, true);
-        $reached_points_input->setMinValue(0);
         $reached_points_input->setDisabled($finalized);
         $reached_points_input->setValue((string) $reached_points);
         $reached_points_input->setClientSideValidation(true);

@@ -351,8 +351,9 @@ il.Object = {
     const urlRedraw = this.url_redraw_ah;
     // eslint-disable-next-line no-undef
     $.ajax({
-      url: `${this.url_rating}&rating=${mark}`,
-      type: 'GET',
+      url: `${this.url_rating}`,
+      data: { rating: mark },
+      type: 'POST',
       success() {
         if (typeof WebuiPopovers !== 'undefined') {
           WebuiPopovers.hideAll();
@@ -375,8 +376,9 @@ il.Object = {
     const urlRedraw = this.url_redraw_li;
     // eslint-disable-next-line no-undef
     $.ajax({
-      url: `${this.url_rating}&rating=${mark}&child_ref_id=${refId}&cadh= ${hash}`,
-      type: 'GET',
+      url: `${this.url_rating}&child_ref_id=${refId}&cadh= ${hash}`,
+      data: { rating: mark },
+      type: 'POST',
       success() {
         if (typeof WebuiPopovers !== 'undefined') {
           WebuiPopovers.hideAll();

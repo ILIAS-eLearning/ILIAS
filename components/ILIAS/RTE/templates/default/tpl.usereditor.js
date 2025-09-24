@@ -25,7 +25,7 @@ tinymce.init({
     plugin_insertdate_dateFormat: "%d.%m.%Y",
     plugin_insertdate_timeFormat: "%H:%M:%S",
     save_enablewhendirty: false,
-    save_onsavecallback: "saveTextarea",
+    save_onsavecallback: () => {saveTextarea();},
     resize: 'true',
     font_formats: "Arial=sans-serif;Courier=monospace;Times Roman=serif",
     fontsize_formats: "8pt,10pt,12pt,14pt,18pt,24pt,36pt",

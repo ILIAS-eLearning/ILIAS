@@ -20,10 +20,10 @@ declare(strict_types=1);
 use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory;
-use ILIAS\components\WOPI\Launcher\LauncherRequest;
 use ILIAS\components\WOPI\Embed\EmbeddedApplication;
 use ILIAS\components\WOPI\Embed\Renderer;
 use ILIAS\components\WOPI\Embed\EmbeddedApplicationGSProvider;
+use ILIAS\FileDelivery\Token\DataSigner;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -34,6 +34,7 @@ class ilWOPIEmbeddedApplicationGUI
     public const CMD_VIEW = 'view';
     public const CMD_RETURN = 'return';
     public const P_RETURN_TO = 'return_to';
+    public const DATA_SIGNER_SALT = 'wopi_return';
     /**
      * @readonly
      */
@@ -70,6 +71,7 @@ class ilWOPIEmbeddedApplicationGUI
      * @readonly
      */
     private ilLanguage $lng;
+    private DataSigner $data_signer;
 
     public function __construct(
         private EmbeddedApplication $application,
@@ -87,6 +89,7 @@ class ilWOPIEmbeddedApplicationGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('wopi');
+        $this->data_signer = $DIC['file_delivery.data_signer'];
     }
 
     public function executeCommand(): void
@@ -98,7 +101,7 @@ class ilWOPIEmbeddedApplicationGUI
             EmbeddedApplicationGSProvider::EMBEDDED_APPLICATION,
             $this->application
         );
-        $a_value = bin2hex((string) $this->application->getBackTarget());
+        $a_value = $this->sign((string) $this->application->getBackTarget());
         $this->ctrl->setParameter($this, self::P_RETURN_TO, $a_value);
 
         match ($this->ctrl->getCmd()) {
@@ -126,7 +129,7 @@ class ilWOPIEmbeddedApplicationGUI
     private function return(): void
     {
         $return_to = $this->http->has(self::P_RETURN_TO)
-            ? hex2bin((string) $this->http->retrieve(self::P_RETURN_TO, $this->refinery->kindlyTo()->string()))
+            ? $this->verify((string) $this->http->retrieve(self::P_RETURN_TO, $this->refinery->kindlyTo()->string()))
             : null;
 
         if ($return_to === null) {
@@ -140,5 +143,15 @@ class ilWOPIEmbeddedApplicationGUI
         );
 
         $this->ctrl->redirectToURL($return_to);
+    }
+
+    private function sign(string $back_target): string
+    {
+        return $this->data_signer->sign(['t' => $back_target], self::DATA_SIGNER_SALT);
+    }
+
+    private function verify(string $back_target_token): ?string
+    {
+        return $this->data_signer->verify($back_target_token, self::DATA_SIGNER_SALT)['t'] ?? null;
     }
 }

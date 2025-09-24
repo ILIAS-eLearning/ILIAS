@@ -302,7 +302,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
                     $this->setPoolRefId($value ? (int) $value : null);
                     break;
                 case 'pool_title':
-                    $this->setPoolTitle($value);
+                    $this->setPoolTitle($value ?? '');
                     break;
                 case 'pool_path':
                     $this->setPoolPath($value);

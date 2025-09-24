@@ -246,12 +246,13 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 [$user_id, $a_obj_id]
             );
 
+            $points = [];
             while ($row = $ilDB->fetchAssoc($result)) {
                 array_push($points, $row);
             }
             $reached = 0;
             $max = 0;
-            if ($points[0]["pass_scoring"] == 0) {
+            if (isset($points[0]['pass_scoring']) && $points[0]["pass_scoring"] == 0) {
                 $reached = $points[count($points) - 1]["points"];
                 $max = $points[count($points) - 1]["maxpoints"];
                 if (!$max) {

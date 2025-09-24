@@ -205,17 +205,9 @@ class AttemptResultsTable
             $stats_fields[$lng->txt('tst_question_hints_requested_hint_count_header')] = (string) $question->getNumberOfRequestedHints();
             $stats = $ui_factory->listing()->characteristicValue()->text($stats_fields);
 
-
-            $feedback = $ui_factory->listing()->descriptive([
-                $lng->txt('tst_feedback') => $question->getFeedback()
-            ]);
-
-            $contents = [];
-
-            $contents[] = $stats;
-            if ($env->getShowFeedback()) {
-                $contents[] = $feedback;
-            }
+            $contents = [
+                $stats
+            ];
 
             if ($recap = $question->getContentForRecapitulation()) {
                 $contents[] = $ui_factory->listing()->descriptive([
