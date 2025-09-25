@@ -12934,6 +12934,8 @@ noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
 notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
+notifications_adm#:#enable_push#:#Push-Benachrichtigungen aktivieren
+notifications_adm#:#enable_push_desc#:#Wenn aktiviert, werden Benutzer durch Push-Benachrichtigungen informiert. Nutzer können diese Benachrichtigungen in den Benutzereinstellungen anpassen.
 notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
 notifications_adm#:#osd_error_refresh_interval_too_small#:#Das Abfrageintervall muss mindestens 3000 Millisekunden betragen.
 notifications_adm#:#osd_interval#:#Abfrageintervall
@@ -12941,6 +12943,13 @@ notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Mil
 notifications_adm#:#osd_play_sound#:#Ton abspielen
 notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
 notifications_adm#:#osd_settings#:#Pop-up-Benachrichtigungen
+notifications_adm#:#push_client_already_used#:#Push-Benachrichtigungen für diesen Browser werden bereits von einem anderen Nutzer genutzt.
+notifications_adm#:#push_client_edge_case#:#Möglicherweise hat der Edge Browser ihre Benachrichtigungen automatisch deaktiviert. Gehen Sie in die Browsereinstellungen um diese zu reaktivieren.
+notifications_adm#:#push_client_inactive#:#Push-Benachrichtigungen für diese Webseite sind deaktiviert. Öffnen sie die Browsereinstellungen um sie zu aktivieren.
+notifications_adm#:#push_client_ios_case#:#Wenn sie IOS (IPhone, IPad, IPod) nutzen werden keine Benachrichtigungen durch Webseiten unterstützt. Erstellen sie einen Web App Zugriff um Benachrichtigungen nutzen zu können.
+notifications_adm#:#push_settings#:#Push-Benachrichtigungen
+notifications_adm#:#push_subscription_successfull#:#Aktivierung der Push-Benachrichtigungen erfolgreich
+notifications_adm#:#push_subscription_successfull_desc#:#Dies ist eine Test Benachrichtigungen um die erfolgreiche Aktivierung der Push Benachrichtigungen zu bestätigen.
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.

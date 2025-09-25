@@ -54,6 +54,9 @@ class Init implements Component\Component
             new Component\Resource\Endpoint($this, "error.php");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "service-worker.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "sso/index.php", "sso");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
