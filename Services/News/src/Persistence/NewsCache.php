@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\News\Persistence;
 
+use ILIAS\News\Data\LazyNewsCollection;
 use ILIAS\News\Data\NewsCollection;
 use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
@@ -28,8 +29,8 @@ use ILIAS\News\Data\NewsCriteria;
  * Multi-Level News Cache Implementation:
  *
  * - Level 1: Context Cache - Context-specific data
- * - Level 2: User Cache - User-specific data
- * - Level 3: Hot Cache - Aggregated and filtered user-specific data
+ * - Level 2: User Context Cache - User-specific data
+ * - Level 3: User News Cache - List of news items for a user
  */
 class NewsCache
 {
@@ -239,7 +240,7 @@ class NewsCache
             return null;
         }
 
-        $entry = $this->il_cache->getEntry("user:{$user_id}");
+        $entry = $this->il_cache->getEntry("access:{$user_id}");
         if (!$entry) {
             return null;
         }
@@ -265,33 +266,50 @@ class NewsCache
 
         $contexts = array_map(fn($context) => $context->getRefId(), $contexts);
         $payload = ['contexts' => $contexts, 'only_public' => $criteria->isOnlyPublic()];
-        $this->il_cache->storeEntry("user:{$user_id}", serialize($payload));
+        $this->il_cache->storeEntry("access:{$user_id}", serialize($payload));
     }
 
     public function invalidateUserContextAccess(int $user_id): void
     {
         if ($this->enabled) {
-            $this->il_cache->deleteEntry("user:{$user_id}");
+            $this->il_cache->deleteEntry("access:{$user_id}");
         }
     }
 
 
     /**
-     * Level-3 Cache stores a collection of the news items for a specific user. It returns a NewsCollection or null on
-     * cache miss.
+     * Level-3 Cache stores a collection of the news items for a specific user. It returns a
+     * LazyNewsCollection or null on cache miss.
      */
-    public function getNewsForUser(int $user_id, NewsCriteria $criteria): ?NewsCollection
+    public function getNewsForUser(int $user_id, NewsCriteria $criteria): ?LazyNewsCollection
     {
-        //TODO: implement
-        return null;
+        //TODO: criteria
+
+        if (!$this->enabled) {
+            return null;
+        }
+
+        $entry = $this->il_cache->getEntry("user:{$user_id}");
+        if (!$entry) {
+            return null;
+        }
+
+        $items = unserialize($entry);
+        return new LazyNewsCollection($items);
     }
 
-    public function storeNewsForUser(int $user_id, array $contexts, NewsCriteria $criteria, NewsCollection $news): void
+    public function storeNewsForUser(int $user_id, NewsCriteria $criteria, NewsCollection $news): void
     {
-        //TODO: implement
+        //TODO: criteria
+
+        if (!$this->enabled) {
+            return;
+        }
+
+        $this->il_cache->storeEntry("user:{$user_id}", serialize($news->pluck('id')));
     }
 
-    public function invalidateNewsForUser(int $user_id, array $contexts, NewsCriteria $criteria): void
+    public function invalidateNewsForUser(int $user_id, NewsCriteria $criteria): void
     {
         //TODO: implement
     }
@@ -299,7 +317,9 @@ class NewsCache
 
     public function flush(): void
     {
-        //TODO
+        $this->il_cache->deleteAllEntries();
+        $this->inverted_index = [];
+        $this->saveIndex();
     }
 
 

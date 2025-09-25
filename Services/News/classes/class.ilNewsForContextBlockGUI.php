@@ -104,7 +104,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $collection = $this->domain->collection()->getNewsForContext(
             new NewsContext($this->std_request->getRefId()),
-            new NewsCriteria(read_user_id: $this->user->getId())
+            new NewsCriteria(read_user_id: $this->user->getId()),
+            true
         );
 
         $forum_grouping = $this->ctrl->getContextObjType() !== 'frm';
@@ -115,6 +116,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     {
         $this->collection = $collection;
         $this->data = $collection->pluck('id', true);
+    }
+
+    /**
+     * Method will be called before rendering the block. It lazily loads the required news items.
+     */
+    protected function preloadData(array $data): void
+    {
+        parent::preloadData($data);
+        $this->collection->load(array_column($data, 0));
     }
 
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item

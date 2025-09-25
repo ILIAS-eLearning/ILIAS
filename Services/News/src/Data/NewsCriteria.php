@@ -200,7 +200,9 @@ final class NewsCriteria implements \JsonSerializable
             'limit' => $this->limit,
             'stop_nesting' => $this->prevent_nesting,
             'no_auto_generated' => $this->no_auto_generated,
-            'excluded_news_ids' => $this->excluded_news_ids
+            'excluded_news_ids' => $this->excluded_news_ids,
+            'include_read_status' => $this->include_read_status,
+            'read_user_id' => $this->read_user_id,
         ];
     }
 

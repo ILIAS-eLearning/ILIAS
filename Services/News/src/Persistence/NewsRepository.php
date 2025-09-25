@@ -22,6 +22,7 @@ namespace ILIAS\News\Persistence;
 
 use ilDBConstants;
 use ILIAS\News\Data\Factory;
+use ILIAS\News\Data\LazyNewsCollection;
 use ILIAS\News\Data\NewsCollection;
 use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
@@ -60,7 +61,33 @@ class NewsRepository
         }
 
         $result = $this->db->query(
-            "SELECT * FROM il_news_item WHERE " . $this->db->in('id', $news_ids, false, \ilDBConstants::T_INTEGER)
+            "SELECT il_news_item.*, object_reference.ref_id FROM il_news_item 
+                    RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id WHERE "
+                    . $this->db->in('id', $news_ids, false, \ilDBConstants::T_INTEGER)
+        );
+
+        return array_map(fn($row) => $this->factory->newsItem($row), $this->db->fetchAll($result));
+    }
+
+    /**
+     * @param int[] $news_ids
+     * @param string[] $group_context_types
+     * @return NewsItem[]
+     */
+    public function loadLazyItems(array $news_ids, array $group_context_types): array
+    {
+        if (empty($news_ids)) {
+            return [];
+        }
+
+        $in_ids = $this->db->in('id', $news_ids, false, \ilDBConstants::T_INTEGER);
+        $in_types = $this->db->in('context_obj_type', $group_context_types, false, \ilDBConstants::T_TEXT);
+
+        $result = $this->db->query(
+            "SELECT DISTINCT il_news_item.*, object_reference.ref_id FROM il_news_item 
+                    RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id 
+                    WHERE {$in_ids} OR context_obj_id IN 
+                        (SELECT il_news_item.context_obj_id FROM il_news_item WHERE {$in_ids} AND {$in_types})"
         );
 
         return array_map(fn($row) => $this->factory->newsItem($row), $this->db->fetchAll($result));
@@ -84,6 +111,26 @@ class NewsRepository
         }
 
         return new NewsCollection($items);
+    }
+
+    /**
+     * @param NewsContext[] $contexts
+     */
+    public function findByContextsBatchLazy(array $contexts, NewsCriteria $criteria): LazyNewsCollection
+    {
+        if (empty($contexts)) {
+            return new LazyNewsCollection();
+        }
+
+        $obj_ods = array_map(fn($context) => $context->getObjId(), $contexts);
+        $result = $this->db->queryF(...$this->buildBatchQuery($obj_ods, $criteria, true));
+
+        $items = [];
+        while ($row = $this->db->fetchAssoc($result)) {
+            $items[] = $row['id'];
+        }
+
+        return new LazyNewsCollection($items, fn(...$args) => $this->loadLazyItems(...$args));
     }
 
     /**
@@ -112,27 +159,33 @@ class NewsRepository
         return $count;
     }
 
-    private function buildBatchQuery(array $obj_ids, NewsCriteria $criteria): array
+    private function buildBatchQuery(array $obj_ids, NewsCriteria $criteria, bool $only_id = false): array
     {
         $values = [];
         $types = [];
+
+        if ($only_id) {
+            $columns = ['il_news_item.id'];
+            $joins = '';
+        } else {
+            $columns = ['il_news_item.*', 'object_reference.ref_id'];
+            $joins = 'RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id ';
+        }
 
         if ($criteria->isIncludeReadStatus()) {
             if ($criteria->getReadUserId() === null) {
                 throw new \InvalidArgumentException("Read user id is required for read status");
             }
 
-            $query = "SELECT il_news_item.*, object_reference.ref_id, il_news_read.user_id user_read FROM il_news_item 
-                RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id 
-                LEFT JOIN il_news_read ON il_news_item.id = il_news_read.news_id AND il_news_read.user_id = %s WHERE ";
+            $columns[] = 'il_news_read.user_id AS user_read';
+            $joins .= 'LEFT JOIN il_news_read ON il_news_item.id = il_news_read.news_id AND il_news_read.user_id = %s ';
+
             $values[] = $criteria->getReadUserId();
             $types[] = ilDBConstants::T_INTEGER;
-        } else {
-            $query = "SELECT il_news_item.*, object_reference.ref_id FROM il_news_item
-                RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id WHERE ";
         }
 
-        $query .= $this->db->in('context_obj_id', $obj_ids, false, ilDBConstants::T_INTEGER);
+        $query = "SELECT " . join(', ', $columns) . " FROM il_news_item {$joins} WHERE "
+            . $this->db->in('context_obj_id', $obj_ids, false, ilDBConstants::T_INTEGER);
 
         if ($criteria->getPeriod() > 0) {
             $query .= " AND creation_date >= %s";

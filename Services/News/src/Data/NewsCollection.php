@@ -26,21 +26,21 @@ use ArrayIterator;
  * Optimized News Collection with memory-efficient data structures to support large news feeds. It's designed for
  * context-based filtering and fast_lookups.
  */
-final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializable
+class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializable
 {
     /** @var array<int, NewsItem> */
-    private array $news_items = [];
+    protected array $news_items = [];
 
     /** @var array<string, int[]> */
-    private array $context_map = [];
+    protected array $context_map = [];
 
     /** @var array<string, int[]> */
-    private array $type_map = [];
+    protected array $type_map = [];
 
     /** @var array<int, int[]> */
-    private array $user_read_status = [];
+    protected array $user_read_status = [];
     /** @var array<int, null|array{first: int, aggregation: int[]}> */
-    private array $grouped_items_map = [];
+    protected array $grouped_items_map = [];
 
     public function __construct(array $news_items = [])
     {
@@ -50,7 +50,7 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     /**
      * Add multiple news items efficiently
      */
-    public function addNewsItems(array $news_items): self
+    public function addNewsItems(array $news_items): static
     {
         foreach ($news_items as $item) {
             $this->addNewsItem($item);
@@ -61,7 +61,7 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     /**
      * Add a single news item with indexing
      */
-    public function addNewsItem(NewsItem $item): self
+    public function addNewsItem(NewsItem $item): static
     {
         $id = $item->getId();
         $this->news_items[$id] = $item;
@@ -110,7 +110,7 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     /**
      * @param int[] $read_news_ids
      */
-    public function setUserReadStatus(int $user_id, array $read_news_ids): self
+    public function setUserReadStatus(int $user_id, array $read_news_ids): static
     {
         $this->user_read_status[$user_id] = $read_news_ids;
         return $this;
@@ -125,9 +125,9 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
         Grouping
      */
 
-    public function groupFiles(): self
+    public function groupFiles(): static
     {
-        foreach ($this->news_items as $item) {
+        foreach (array_filter($this->news_items) as $item) {
             if ($item->getContextObjType() === 'file') {
                 if (isset($this->grouped_items_map[$item->getContextObjId()])) {
                     $this->grouped_items_map[$item->getContextObjId()]['aggregation'][] = $item->getId();
@@ -142,11 +142,11 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
         return $this;
     }
 
-    public function groupForums(bool $group_posting_sequence): self
+    public function groupForums(bool $group_posting_sequence): static
     {
         $last_forum = 0;
 
-        foreach ($this->news_items as $item) {
+        foreach (array_filter($this->news_items) as $item) {
             // If we are grouping by sequence, we need to reset the entry in the aggregation map when switching
             if ($group_posting_sequence && $last_forum !== $item->getContextObjType() && $last_forum !== 0) {
                 $this->grouped_items_map[$last_forum] = null;
@@ -367,9 +367,9 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     /**
      * Merge with another collection and returns it as a new collection
      */
-    public function merge(NewsCollection $other): self
+    public function merge(NewsCollection $other): static
     {
-        $merged = new self();
+        $merged = new static();
         $merged->addNewsItems($this->news_items);
         $merged->addNewsItems($other->getNewsItems());
 
@@ -391,13 +391,13 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
     /**
      * Limit the number of news items and returns it as a new collection
      */
-    public function limit(?int $limit): self
+    public function limit(?int $limit): static
     {
         if ($limit === null || $limit >= count($this->news_items)) {
             return $this;
         }
 
-        $limited = new self();
+        $limited = new static();
         $items = array_slice($this->news_items, 0, $limit, true);
         $limited->addNewsItems($items);
 
@@ -409,13 +409,13 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
      *
      * @param int[] $news_ids
      */
-    public function exclude(array $news_ids): self
+    public function exclude(array $news_ids): static
     {
         if (empty($news_ids)) {
             return $this;
         }
 
-        $filtered = new self();
+        $filtered = new static();
         $filtered->addNewsItems(array_filter(
             $this->news_items,
             fn($item) => !in_array($item->getId(), $news_ids)
@@ -423,20 +423,8 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
         return $filtered;
     }
 
-    /**
-     * Sort news items by creation date and returns it as a new collection
-     */
-    public function sortByDate(bool $ascending = false): self
+    public function load(array $news_ids = []): static
     {
-        $sorted = new self();
-        $items = $this->news_items;
-        $factor = $ascending ? 1 : -1;
-
-        usort(
-            $items,
-            fn($a, $b) => ($a->getCreationDate()->getTimestamp() <=> $b->getCreationDate()->getTimestamp()) * $factor
-        );
-
-        return $sorted->addNewsItems($items);
+        return $this;
     }
 }

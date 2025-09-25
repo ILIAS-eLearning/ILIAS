@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\News\Domain;
 
 use ILIAS\News\Aggregation\NewsAggregator;
+use ILIAS\News\Data\LazyNewsCollection;
 use ILIAS\News\Data\NewsCollection;
 use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
@@ -42,13 +43,25 @@ class NewsCollectionService
     ) {
     }
 
-    public function getNewsForUser(\ilObjUser $user, NewsCriteria $criteria): NewsCollection
+    public function getNewsForUser(\ilObjUser $user, NewsCriteria $criteria, bool $lazy = false): NewsCollection
     {
         // 1. Try user cache first
         $cached_news = $this->cache->getNewsForUser($user->getId(), $criteria);
         if ($cached_news !== null) {
+            // Transform the lazy collection to a normal collection if needed
+            if (!$lazy) {
+                $news_collection = new NewsCollection($this->repository->findByIds($cached_news->pluck('id')));
+            } else {
+                $news_collection = $cached_news->withFetchCallback(
+                    fn(...$args) => $this->repository->loadLazyItems(...$args)
+                );
+            }
+
             // Apply request-specific filtering [DPL 5]
-            return $this->applyFinalProcessing($cached_news, $criteria);
+            return $this->applyFinalProcessing(
+                $news_collection,
+                $criteria
+            );
         }
 
         // 2. Add missing criteria and validate it
@@ -64,24 +77,24 @@ class NewsCollectionService
         }
 
         // 4. Query news for resolved contexts [DPL 2-4]
-        $news_collection = $this->getNewsForContexts($user_contexts, $criteria);
+        $news_collection = $this->getNewsForContexts($user_contexts, $criteria, $lazy);
 
         // 5. Store in cache
-        $this->cache->storeNewsForUser($user->getId(), $user_contexts, $criteria, $news_collection);
+        $this->cache->storeNewsForUser($user->getId(), $criteria, $news_collection);
 
         // 6. Apply request-specific filtering [DPL 5]
         return $this->applyFinalProcessing($news_collection, $criteria);
     }
 
-    public function getNewsForContext(NewsContext $context, NewsCriteria $criteria): NewsCollection
+    public function getNewsForContext(NewsContext $context, NewsCriteria $criteria, bool $lazy = false): NewsCollection
     {
-        return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria), $criteria);
+        return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $lazy), $criteria);
     }
 
     /**
      * @param NewsContext[] $contexts
      */
-    private function getNewsForContexts(array $contexts, NewsCriteria $criteria): NewsCollection
+    private function getNewsForContexts(array $contexts, NewsCriteria $criteria, bool $lazy): NewsCollection
     {
         // 1. Try context cache first (L1)
         $cached = $this->cache->getAggregatedContexts($contexts);
@@ -105,7 +118,9 @@ class NewsCollectionService
         $aggregated = $this->filterByAccess($hits, $criteria);
 
         // 5. Batch load news from the database [DPL 4]
-        return $this->repository->findByContextsBatch($aggregated, $criteria);
+        return $lazy
+            ? $this->repository->findByContextsBatchLazy($aggregated, $criteria)
+            : $this->repository->findByContextsBatch($aggregated, $criteria);
     }
 
     /**
@@ -155,10 +170,10 @@ class NewsCollectionService
     }
 
     /**
-     * Apply the last steps of the news collection processing pipeline: Exclude, Sort, Limit
+     * Apply the last steps of the news collection processing pipeline: Exclude, Limit
      */
     private function applyFinalProcessing(NewsCollection $collection, NewsCriteria $criteria): NewsCollection
     {
-        return $collection->exclude($criteria->getExcludedNewsIds())->sortByDate()->limit($criteria->getLimit());
+        return $collection->exclude($criteria->getExcludedNewsIds())->limit($criteria->getLimit());
     }
 }
