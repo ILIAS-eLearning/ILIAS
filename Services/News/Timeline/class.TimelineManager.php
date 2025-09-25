@@ -59,6 +59,7 @@ class TimelineManager
             limit: $items_per_load,
             no_auto_generated: !$include_auto_entries,
             excluded_news_ids: $excluded,
+            read_user_id: $this->domain->user()->getId()
         );
 
         if ($ref_id > 0) {

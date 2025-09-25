@@ -104,7 +104,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $collection = $this->domain->collection()->getNewsForContext(
             new NewsContext($this->std_request->getRefId()),
-            new NewsCriteria()
+            new NewsCriteria(read_user_id: $this->user->getId())
         );
 
         $forum_grouping = $this->ctrl->getContextObjType() !== 'frm';
@@ -415,8 +415,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         }
 
         if ($grouping = $this->collection->getGroupingFor($current_item)) {
-            $current_item = $grouping['parent'];
-            $news_list = array_merge([$current_item], $grouping['aggregation']);
+            $news_list = $grouping['aggregation'];
         } else {
             $news_list = [$current_item];
         }

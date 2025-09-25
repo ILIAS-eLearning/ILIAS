@@ -191,7 +191,7 @@ final class NewsCollection implements \Countable, \IteratorAggregate, \JsonSeria
 
         return [
             'parent' => $item,
-            'aggregation' => array_map(fn($id) => $this->news_items[$id], $aggregation['aggregation']),
+            'aggregation' => [$item, ...array_map(fn($id) => $this->news_items[$id], $aggregation['aggregation'])],
             'agg_ref_id' => $item->getContextRefId(),
             'no_context_title' => $item->getContextObjType() === 'frm'
         ];

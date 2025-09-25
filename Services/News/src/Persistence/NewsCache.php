@@ -106,7 +106,10 @@ class NewsCache
             }
 
             // If a candidate was found, fetch the stored elements
-            if ($best_candidate_key !== '' && $entry = $this->il_cache->getEntry("agg:{$best_candidate_key}")) {
+            if (
+                $best_candidate_key !== '' &&
+                $entry = $this->il_cache->getEntry($this->generateL1Key($best_candidate_key))
+            ) {
                 array_push($hits, ...unserialize($entry));
 
                 // Remove the covered items from the map
@@ -140,6 +143,11 @@ class NewsCache
         return array_unique($keys);
     }
 
+    protected function generateL1Key(string|array $contexts): string
+    {
+        return 'agg:' . md5(is_array($contexts) ? join(',', $contexts) : $contexts);
+    }
+
     /**
      * Level-1 Cache stores a collection of the aggregated contexts for the provided base context.
      * It returns a list of the NewsContexts (complete) or null on cache miss.
@@ -160,7 +168,7 @@ class NewsCache
         $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
         sort($context_ids, SORT_NUMERIC);
 
-        if ($entry = $this->il_cache->getEntry('agg:' . join(',', $context_ids))) {
+        if ($entry = $this->il_cache->getEntry($this->generateL1Key($context_ids))) {
             return unserialize($entry);
         }
         return null;
@@ -180,7 +188,7 @@ class NewsCache
         sort($context_ids, SORT_NUMERIC);
 
         $key = join(',', $context_ids);
-        $this->il_cache->storeEntry("agg:{$key}", serialize($aggregated));
+        $this->il_cache->storeEntry($this->generateL1Key($key), serialize($aggregated));
 
         foreach ($context_ids as $context_id) {
             if (!isset($this->inverted_index[$context_id])) {
@@ -206,7 +214,7 @@ class NewsCache
         $key = join(',', $context_ids);
 
         // Delete cache entry
-        $this->il_cache->deleteEntry("agg:{$key}");
+        $this->il_cache->deleteEntry($this->generateL1Key($key));
 
         // Delete reference from inverted index
         foreach ($context_ids as $context_id) {
