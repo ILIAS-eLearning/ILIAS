@@ -331,7 +331,7 @@ class ilObjSurveyQuestionPool extends ilObject
         } else {
             $title = $question->getTitle() . $suffix;
         }
-        $question->duplicate(false, $title, $ilUser->fullname, $ilUser->id);
+        $question->duplicate(false, $title, $ilUser->getFullname(), $ilUser->id);
     }
 
     /**

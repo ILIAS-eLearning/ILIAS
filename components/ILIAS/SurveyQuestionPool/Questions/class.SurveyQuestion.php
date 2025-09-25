@@ -68,11 +68,8 @@ class SurveyQuestion
         $this->title = $title;
         $this->description = $description;
         $this->questiontext = $questiontext;
-        $this->author = $author;
+        $this->author = $author ?: $ilUser->getFullname();
         $this->cumulated = array();
-        if (!$this->author) {
-            $this->author = $ilUser->fullname;
-        }
         $this->owner = $owner;
         if ($this->owner === -1) {
             $this->owner = $ilUser->getId();
@@ -219,12 +216,7 @@ class SurveyQuestion
 
     public function setAuthor(string $author = ""): void
     {
-        $ilUser = $this->user;
-
-        if (!$author) {
-            $author = $ilUser->fullname;
-        }
-        $this->author = $author;
+        $this->author = $author ?: $this->user->getFullname();
     }
 
     public function setQuestiontext(string $questiontext = ""): void
