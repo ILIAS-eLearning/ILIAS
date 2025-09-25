@@ -27,6 +27,7 @@ class ilECSAppEventListener implements ilAppEventListener
     private ilLogger $logger;
     private ilSetting $settings;
     private ilRbacAdmin $rbac_admin;
+    private ilECSAuthFactory $auth_factory;
 
     public function __construct(
         \ilLogger $logger,
@@ -36,6 +37,7 @@ class ilECSAppEventListener implements ilAppEventListener
         $this->logger = $logger;
         $this->settings = $settings;
         $this->rbac_admin = $rbac_admin;
+        $this->auth_factory = new ilECSAuthFactory();
     }
 
     /**
@@ -52,6 +54,7 @@ class ilECSAppEventListener implements ilAppEventListener
             $DIC->logger()->wsrv(),
             $DIC->settings(),
             $DIC->rbac()->admin(),
+            new ilECSAuthFactory()
         );
         $eventHandler->handle($a_component, $a_event, $a_parameter);
     }
@@ -253,7 +256,7 @@ class ilECSAppEventListener implements ilAppEventListener
             $remote_user->getMid()
         );
         $server = ilECSSetting::getInstanceByServerId($remote_user->getServerId());
-        if (in_array($part->getIncomingAuthType(), ilECSAuthStrategy::getAuthTypes(), true)) {
+        if (in_array($part->getIncomingAuthType(), $this->auth_factory->getAuthTypes(), true)) {
             $this->logger->info('Assigning ' . $username . ' to global ecs role');
             $this->rbac_admin->assignUser($server->getGlobalRole(), $user_id);
         }

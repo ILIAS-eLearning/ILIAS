@@ -151,7 +151,7 @@ class ilECSCommunityReader
     public function getParticipantNameByMid($a_mid): string
     {
         return isset($this->participants[$a_mid]) ?
-            $this->participants[$a_mid]-> getParticipantName() :
+            $this->participants[$a_mid]->getParticipantName() :
             '';
     }
 

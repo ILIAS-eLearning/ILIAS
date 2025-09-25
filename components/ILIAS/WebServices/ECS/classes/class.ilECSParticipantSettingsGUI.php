@@ -37,6 +37,7 @@ class ilECSParticipantSettingsGUI
     protected UiFactory $ui_factory;
     protected ilToolbarGUI $toolbar;
     protected ilSetting $settings;
+    protected ilECSAuthFactory $auth_factory;
 
     public function __construct(int $a_server_id, int $a_mid)
     {
@@ -56,6 +57,7 @@ class ilECSParticipantSettingsGUI
         $this->lng->loadLanguageModule('ecs');
 
         $this->participant = new ilECSParticipantSetting($this->getServerId(), $this->getMid());
+        $this->auth_factory = new ilECSAuthFactory();
     }
 
     public function getServerId(): int
@@ -228,7 +230,7 @@ class ilECSParticipantSettingsGUI
         $external_auth_type->setValue(
             (string) $this->getParticipant()->getIncomingAuthType()
         );
-        foreach (ilECSAuthStrategy::getAvailableStrategies() as $auth_type => $auth_strategy) {
+        foreach ($this->auth_factory->getAvailableStrategies() as $auth_type => $auth_strategy) {
             $external_auth_type->addOption(
                 new ilRadioOption(
                     $this->lng->txt("ecs_export_auth_type_{$auth_strategy->getName()}"),
@@ -312,8 +314,8 @@ class ilECSParticipantSettingsGUI
     protected function parseAvailableAuthModes(): array
     {
         $options = [];
-        foreach (ilECSAuthStrategy::getAvailableStrategies() as $auth_strategy) {
-            $options[$auth_strategy->getName()] = $this->lng->txt("auth{$auth_strategy->getName()}");
+        foreach ($this->auth_factory->getAvailableStrategies() as $auth_strategy) {
+            $options[$auth_strategy->getName()] = $this->lng->txt("auth_{$auth_strategy->getName()}");
         }
 
         foreach (ilLDAPServer::getServerIds() as $server_id) {

@@ -38,7 +38,7 @@ class ilLoginPageAuthStrategy extends ilECSAuthStrategy
 
     public function handleLogin(string $redirection_target): void
     {
-        $this->logger->info('Redirect to oidc authentication');
+        $this->logger->info('Redirect to login authentication');
         ilSession::set('success', $this->lng->txt('ecs_login_success_ilias'));
         $this->ctrl->redirectToURL('login.php?target=' . $redirection_target);
     }

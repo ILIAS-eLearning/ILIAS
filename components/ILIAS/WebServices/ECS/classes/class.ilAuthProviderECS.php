@@ -42,6 +42,7 @@ class ilAuthProviderECS extends ilAuthProvider
 
     protected ilECSSetting $currentServer;
     protected ilECSServerSettings $servers;
+    protected ilECSAuthFactory $auth_factory;
 
 
     /**
@@ -63,6 +64,7 @@ class ilAuthProviderECS extends ilAuthProvider
         $this->refinery = $DIC->refinery();
         $this->authSession = $DIC['ilAuthSession'];
         $this->ctrl = $DIC->ctrl();
+        $this->auth_factory = new ilECSAuthFactory();
 
         $this->initECSServices();
     }
@@ -155,7 +157,7 @@ class ilAuthProviderECS extends ilAuthProvider
                 'target',
                 $this->refinery->kindlyTo()->string()
             );
-        }else{
+        } else {
             $redirection_target = $this->http->request()->getUri()->getPath();
         }
         $part_settings = new ilECSParticipantSetting(
@@ -170,7 +172,7 @@ class ilAuthProviderECS extends ilAuthProvider
         }
         if ($is_external_account) {
             $this->initRemoteUserWithRemoteId();
-            ilECSAuthStrategy::build($part_settings->getIncomingAuthType())->handleLogin($redirection_target);
+            $this->auth_factory->build($part_settings->getIncomingAuthType())->handleLogin($redirection_target);
             return false;
         }
         if ($part_settings->areIncomingLocalAccountsSupported()) {
