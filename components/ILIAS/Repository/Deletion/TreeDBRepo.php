@@ -42,7 +42,7 @@ class TreeDBRepo
 
         $tree_ids = [];
         while ($row = $db->fetchObject($r)) {
-            $tree_ids = (int) $row->tree;
+            $tree_ids[] = (int) $row->tree;
         }
         return $tree_ids;
     }
