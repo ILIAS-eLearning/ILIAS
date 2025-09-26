@@ -69,7 +69,7 @@ $file_delivery->legacyDelivery()->inline(
 # Signed Delivery
 
 The IRSS uses exclusively streamss for files and flavours, from ILIAS 9 also for structured data (e.g. later for HTML
-learning modules or SCORM learning modules). Up to ILIAS 9 these dtaeias are also delivered via a special mechanism
+learning modules or SCORM learning modules). Up to ILIAS 9 these files are also delivered via a special mechanism
 through the WebAccessChecker. Now streams can be delivered very easily via a token-based way to protect the files. This
 will be the general way to deliver the files in the future and will replace the WebAccessChecker completely in the
 medium term.
@@ -85,8 +85,9 @@ signature, a secret key as well as a salt is used depending on the use case.
 The serialized payload is merged with the signature, compressed, and formatted for embedding in URLs.
 Once a token is then to be verified, the following happens: URl preparation is reversed, and the data is decompressed.
 The result consists of the serialized payload and the signature. A new signature is now made for the payload and
-compared with the one supplied. If these are identical, it is certain that the dtaen are valid and have not been
+compared with the one supplied. If these are identical, it is certain that the data is valid and has not been
 manipulated.
+
 The mechanism uses a key rotation, currently always 5 keys are kept. with a composer install / dump-autoload a new key
 is generated in each case.
 
@@ -105,7 +106,7 @@ use ILIAS\FileDelivery\Token\Compression\DeflateCompression;
 use ILIAS\FileDelivery\Token\Transport\URLSafeTransport;
 
 // This is the payload we want to sign. It should use a "personal" component, e.g. the user ID, and a "global" component, e.g. the path to the file.
- 
+
 $payload = [
     'user_id' => 123,
     'uri' => '/path/to/file',
@@ -135,7 +136,7 @@ $signer = new KeyRotatingSigner(
 $signature = $signer->sign($signable_payload, new Salt('salt'));
 // $signature = '...';
 
-// we can now merge the payload and the signature. 
+// we can now merge the payload and the signature.
 $signed_payload = $signable_payload.'|'.$signature;
 // $signed_payload = '{"user_id":123,"uri":"/path/to/file"}|1631631631|...';
 
