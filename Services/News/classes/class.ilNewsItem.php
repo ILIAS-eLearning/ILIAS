@@ -496,10 +496,11 @@ class ilNewsItem
     /**
      * Get News For Ref Id.
      *
-     * @deprecated (will migrate to ilNewsData)
      * @param string|int $a_time_period
      * @param int $a_limit currently only supported for groups and courses
      * @param int[] $a_excluded currently only supported for groups and courses (news ids)
+     *
+     * @deprecated Use \ILIAS\News\Domain\NewsCollectionService::getNewsForContext instead
      */
     public function getNewsForRefId(
         int $a_ref_id,
@@ -621,10 +622,11 @@ class ilNewsItem
 
     /**
      * Get news aggregation (e.g. for courses, groups)
-     * @deprecated (will migrate to ilNewsData)
      * @param string|int $a_time_period
+     *
+     * @depracated will be removed after migrating `getNewsForRefId`
      */
-    public function getAggregatedNewsData(
+    protected function getAggregatedNewsData(
         int $a_ref_id,
         bool $a_only_public = false,
         $a_time_period = 0,
@@ -729,7 +731,7 @@ class ilNewsItem
     }
 
     /**
-     * @deprecated will move to ilNewsData
+     * @depracated will be removed after migrating `getNewsForRefId`
      */
     protected function aggregateForums(
         array $news,
@@ -777,7 +779,7 @@ class ilNewsItem
     }
 
     /**
-     * @deprecated will move to ilNewsData
+     * @depracated will be removed after migrating `getNewsForRefId`
      */
     protected function aggregateFiles(
         array $news,
@@ -809,7 +811,8 @@ class ilNewsItem
 
     /**
      * Get news aggregation for child objects (e.g. for categories)
-     * @deprecated will move to ilNewsData
+     *
+     * @depracated will be removed after migrating `getNewsForRefId`
      */
     protected function getAggregatedChildNewsData(
         int $a_ref_id,
@@ -931,8 +934,9 @@ class ilNewsItem
 
     /**
      * Query news for a context
-     * @deprecated will move to ilNewsData
      * @param string|int $a_time_period
+     *
+     * @depracated will be removed after migrating `getNewsForRefId`
      */
     public function queryNewsForContext(
         bool $a_for_rss_use = false,
@@ -1102,10 +1106,11 @@ class ilNewsItem
     }
 
     /**
-     * @deprecated will move to ilNewsData
      * @param string|int $a_time_period
+     *
+     * @depracated will be removed after migrating `getNewsForRefId`
      */
-    public function queryNewsForMultipleContexts(
+    private function queryNewsForMultipleContexts(
         array $a_contexts,
         bool $a_for_rss_use = false,
         $a_time_period = 0,

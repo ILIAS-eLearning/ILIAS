@@ -23,6 +23,7 @@ namespace ILIAS\News\Timeline;
 use ILIAS\News\Data\NewsCollection;
 use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
+use ILIAS\News\Data\NewsItem;
 use ILIAS\News\InternalRepoService;
 use ILIAS\News\InternalDataService;
 use ILIAS\News\InternalDomainService;
@@ -73,5 +74,10 @@ class TimelineManager
                 $criteria
             );
         }
+    }
+
+    public function getNewsItem(int $news_id): ?NewsItem
+    {
+        return $this->repo->news()->findById($news_id);
     }
 }

@@ -45,8 +45,8 @@ class Factory
             context_sub_obj_id: (int) $row['context_sub_obj_id'],
             context_sub_obj_type: $row['context_sub_obj_type'] ?? null,
             content_type: (string) $row['content_type'],
-            creation_date: new DateTimeImmutable($row['creation_date'], $this->db_timezone),
-            update_date: new DateTimeImmutable($row['update_date'], $this->db_timezone),
+            creation_date: new DateTimeImmutable($row['creation_date']), // currently date is stored in server tz, not UTC
+            update_date: new DateTimeImmutable($row['update_date']),
             user_id: (int) $row['user_id'],
             update_user_id: (int) $row['update_user_id'],
             visibility: (string) $row['visibility'],
