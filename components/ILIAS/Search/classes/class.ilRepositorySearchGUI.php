@@ -251,13 +251,13 @@ class ilRepositorySearchGUI
         }
 
         if (isset($a_options['user_type']) && count((array) $a_options['user_type'])) {
-            $si = new ilSelectInputGUI("", "user_type");
+            $si = new ilSelectInputGUI($lng->txt("course_role"), "user_type");
             $si->setOptions($a_options['user_type']);
             $si->setValue($a_options['user_type_default']);
             if (!$a_sticky) {
-                $toolbar->addInputItem($si);
+                $toolbar->addInputItem($si, true);      // ← add true
             } else {
-                $toolbar->addStickyItem($si);
+                $toolbar->addStickyItem($si, true);     // ← add true
             }
         }
 
