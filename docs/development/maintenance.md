@@ -1585,12 +1585,13 @@ of ILIAS. The file contains the following fields:
 	* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/go/usr/48931)
     * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
         , [skergomard](https://docu.ilias.de/go/usr/44474)
+        , [dstrassner](https://docu.ilias.de/go/usr/48931)
         , [tjoussen](https://docu.ilias.de/go/usr/103745)
     * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/go/usr/48931)
     * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/go/usr/48931)
 	* Testcases: SIG E-Assessment
 	* Tester: [dehling](https://docu.ilias.de/go/usr/12725)
-        , [NDJ1508](https://docu.ilias.de/go/usr/93043)
+        , Testteam University of Hohenheim
         , [ksgrie](https://docu.ilias.de/go/usr/95947)
         , [simon.lowe](https://docu.ilias.de/go/usr/79091)
         , [rabah](https://docu.ilias.de/go/usr/40218)
