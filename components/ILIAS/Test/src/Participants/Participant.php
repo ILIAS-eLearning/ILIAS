@@ -46,7 +46,8 @@ class Participant
         private readonly ?int $last_finished_attempt = null,
         private readonly bool $unfinished_attempts = false,
         private readonly ?\DateTimeImmutable $first_access = null,
-        private readonly ?\DateTimeImmutable $last_access = null
+        private readonly ?\DateTimeImmutable $last_access = null,
+        private readonly bool $scoring_finalized = false
     ) {
     }
 
@@ -228,5 +229,10 @@ class Participant
         $clone = clone $this;
         $clone->running_attempt_start = $start_date;
         return $clone;
+    }
+
+    public function isScoringFinalized(): bool
+    {
+        return $this->scoring_finalized;
     }
 }

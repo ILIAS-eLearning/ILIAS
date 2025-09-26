@@ -309,12 +309,13 @@ class ParticipantRepository
     private function getBaseQuery(): string
     {
         return "
-            SELECT particpants.*
+            SELECT participants.*, manscoring_done.done as scoring_finalized
             FROM (
                 ({$this->getActiveParticipantsQuery()})
                 UNION
                 ({$this->getInvitedParticipantsQuery()})
-            ) as particpants
+            ) as participants
+            LEFT JOIN manscoring_done ON manscoring_done.active_id = participants.active_id
         ";
     }
 
@@ -339,7 +340,8 @@ class ParticipantRepository
             $row['last_finished_pass'],
             $row['unfinished_attempts'] === 1,
             $row['first_access'] === null ? null : new \DateTimeImmutable($row['first_access']),
-            $row['last_access'] === null ? null : new \DateTimeImmutable($row['last_access'])
+            $row['last_access'] === null ? null : new \DateTimeImmutable($row['last_access']),
+            (bool) $row['scoring_finalized']
         );
     }
 
