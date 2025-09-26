@@ -56,6 +56,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     private const F_USER_FINAL = 'fusrfinal';
     private const F_ONLY = 'only';
     private const F_HIDE = 'hide';
+    private const F_SCOREDBY = 'fscrby';
 
     private ?array $filter_values = null;
     private Prompt $prompt;
@@ -213,6 +214,8 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 static fn(GeneralQuestionProperties $q) => $q->getQuestionId(),
                 $this->scoring->getManuallyScorableQuestionsInTest()
             );
+        $question_ids = array_map('intval', $question_ids);
+
 
         if ($filter_values[self::F_USER_FINAL] ?? '' !== '') {
             $usr_active_ids = array_filter(
@@ -234,7 +237,8 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 $usr_active_ids,
                 $question_ids,
                 $filter_values[self::F_ANSWERED] ?? null,
-                $filter_values[self::F_FINAL] ?? null
+                $filter_values[self::F_FINAL] ?? null,
+                $filter_values[self::F_SCOREDBY] ?? [],
             );
 
             foreach ($position_ids as $uid => $qids) {
@@ -252,7 +256,8 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 $usr_active_ids,
                 $question_ids,
                 $filter_values[self::F_ANSWERED] ?? null,
-                $filter_values[self::F_FINAL] ?? null
+                $filter_values[self::F_FINAL] ?? null,
+                $filter_values[self::F_SCOREDBY] ?? [],
             );
 
             foreach ($position_ids as $qid => $uids) {
@@ -281,6 +286,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         array $question_ids,
         ?string $filter_answered,
         ?string $filter_finalized,
+        array $filter_scoredby,
     ): array {
         $answered = array_reduce(
             $usr_active_ids,
@@ -297,6 +303,15 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         }
         if ($filter_finalized !== null) {
             $finalized = $this->scoring->getFinalizedFeedbackIds($usr_active_ids, $question_ids);
+        }
+
+        $scored_by = [];
+        if ($filter_scoredby !== []) {
+            $scored_by = $this->scoring->getQidsFinalizedBy(
+                $usr_active_ids,
+                $question_ids,
+                $filter_scoredby
+            );
         }
 
         $ret = [];
@@ -316,6 +331,9 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             if ($filter_finalized === self::F_HIDE) {
                 $ret[$uid] = array_intersect($ret[$uid], $finalized[$uid]);
             }
+            if (array_key_exists($uid, $scored_by)) {
+                $ret[$uid] = array_intersect($ret[$uid], $scored_by[$uid]);
+            }
         }
         return array_filter($ret);
     }
@@ -328,6 +346,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         array $question_ids,
         ?string $filter_answered,
         ?string $filter_finalized,
+        array $filter_scoredby,
     ): array {
         $answered = array_reduce(
             $question_ids,
@@ -350,6 +369,17 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             );
         }
 
+        $scored_by = [];
+        if ($filter_scoredby !== []) {
+            $scored_by = $this->pivot(
+                $this->scoring->getQidsFinalizedBy(
+                    $usr_active_ids,
+                    $question_ids,
+                    $filter_scoredby
+                )
+            );
+        }
+
         $ret = [];
         foreach ($question_ids as $qid) {
             $ret[$qid] = $usr_active_ids;
@@ -360,12 +390,14 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             if ($filter_answered === self::F_HIDE) {
                 $ret[$qid] = array_intersect($ret[$qid], $answered[$qid] ?? []);
             }
-
             if ($filter_finalized === self::F_ONLY) {
                 $ret[$qid] = array_diff($ret[$qid], $finalized[$qid] ?? []);
             }
             if ($filter_finalized === self::F_HIDE) {
                 $ret[$qid] = array_intersect($ret[$qid], $finalized[$qid] ?? []);
+            }
+            if (array_key_exists($qid, $scored_by)) {
+                $ret[$qid] = array_intersect($ret[$qid], $scored_by[$qid]);
             }
         }
         return array_filter($ret);
@@ -515,6 +547,12 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             self::F_HIDE => $this->lng->txt('not_evaluated_users')
         ];
 
+        $scored_by_options = [];
+        foreach ($this->scoring->getAllFinalizingUsrIds() as $scorer_id) {
+            $ud = current(\ilObjUser::_getUserData([$scorer_id]));
+            $scored_by_options[$scorer_id] = $ud['firstname'] . " " . $ud['lastname'];
+        }
+
         $filter = [
             self::F_USERS => $this->ui_factory->input()->field()->multiselect(
                 $this->lng->txt('tst_man_scoring_userselection'),
@@ -536,6 +574,11 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 $this->lng->txt('finalized_evaluation'),
                 $final_options
             )->withValue(null),
+            self::F_SCOREDBY => $this->ui_factory->input()->field()->multiselect(
+                $this->lng->txt('scored_by'),
+                $scored_by_options
+            )->withValue(null),
+
         ];
         return $this->filter_service->standard(
             'csfilter_' . (string) $this->object->getRefId(),

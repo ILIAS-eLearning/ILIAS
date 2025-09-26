@@ -190,6 +190,52 @@ class ConsecutiveScoring
         }
         return $finalized;
     }
+    public function getQidsFinalizedBy(
+        array $usr_active_ids,
+        array $question_ids,
+        array $finalizing_usr_ids,
+    ): array {
+        $finalized = [];
+        foreach ($question_ids as $qid) {
+            $feedback = $this->object->getCompleteManualFeedback($qid);
+            foreach ($usr_active_ids as $uid) {
+                if (! array_key_exists($uid, $finalized)) {
+                    $finalized[$uid] = [];
+                }
+                $pass_id = $this->getPassUsedForEvaluation($uid);
+                $scorer = $feedback[$uid][$pass_id][$qid]['finalized_by_usr_id'] ?? 0;
+                if (in_array($scorer, $finalizing_usr_ids)) {
+                    $finalized[$uid][] = $qid;
+                }
+            }
+        }
+        return $finalized;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getAllFinalizingUsrIds(): array
+    {
+        $ret = [];
+        $usr_active_ids = array_keys($this->getTestParticipants());
+        $question_ids = array_map(
+            static fn($q): int => $q->getQuestionId(),
+            $this->getManuallyScorableQuestionsInTest()
+        );
+        foreach ($question_ids as $qid) {
+            $feedback = $this->object->getCompleteManualFeedback($qid);
+
+            foreach ($usr_active_ids as $uid) {
+                $pass_id = $this->getPassUsedForEvaluation($uid);
+                if ($feedback[$uid][$pass_id][$qid]['finalized_by_usr_id'] ?? false) {
+                    $ret[] = $feedback[$uid][$pass_id][$qid]['finalized_by_usr_id'];
+                }
+            }
+        }
+        return array_unique($ret);
+    }
 
     public function store(
         int $qid,
