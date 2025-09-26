@@ -4382,6 +4382,7 @@ common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
 common#:#il_blog_contributor#:#Blog Contributor###28 09 2012 new variable
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Chat moderator###06 09 2006 new variable
+common#:#course_role#:#Роля на курса
 common#:#il_crs_admin#:#Course administrator###06 09 2006 new variable
 common#:#il_crs_member#:#Course member###06 09 2006 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
