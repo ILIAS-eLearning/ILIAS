@@ -14046,6 +14046,7 @@ div.il_ContainerListItem {
   font-weight: 400;
   text-align: left;
   vertical-align: middle;
+  min-height: 46px;
 }
 .ilContainerBlockHeader h3 {
   margin: 0;
