@@ -4384,6 +4384,7 @@ common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#مشرف الدردشة
 common#:#il_crs_admin#:#مدير الدورة
 common#:#il_crs_member#:#عضو دورة
+common#:#course_role#:#دور الدورة
 common#:#il_crs_non_member#:#ليس عضو دورة
 common#:#il_crs_tutor#:#مدرس دورة
 common#:#il_frm_moderator#:#مشرف منتدى
