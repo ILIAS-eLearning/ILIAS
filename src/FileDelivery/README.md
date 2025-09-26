@@ -74,6 +74,36 @@ through the WebAccessChecker. Now streams can be delivered very easily via a tok
 will be the general way to deliver the files in the future and will replace the WebAccessChecker completely in the
 medium term.
 
+## Usage
+
+The in-depth process is quite complex and is explained in detail further below in case you have more specialized needs.
+A simplyfied wrapper is offered to generate appropriate tokens for FileStreams, where you get a ready URL, which can
+then deliver the file, if the token is valid:
+
+```php
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\FileDelivery\Delivery\Disposition;
+
+global $DIC;
+$stream = Streams::ofResource(fopen('/path/to/file', 'r'));
+$uri = $DIC->fileDelivery()->buildTokenURL(
+    $stream,
+    'Download-Filename.png',
+    Disposition::INLINE
+    123 // user_id
+    6 // valid for at least 6 hours
+)
+
+// $uri = 'http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac'
+```
+
+This mechanism is then simply used, for example, to deliver structured resources (container resources). A URL on HTML
+learning module can then look like this:
+
+```
+http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac/index.html
+```
+
 ## How does the Signing work in general?
 
 The project ["It's Dangerous"](https://itsdangerous.palletsprojects.com/en/2.1.x/) was used as inspiration for the
@@ -203,31 +233,4 @@ if($is_valid) {
     // the token is invalid
     $payload = null;
 }
-```
-
-Since this process is quite complex, this is simply offered to generate appropriate tokens for FileStreams. You get a
-ready URL, which can then deliver the file, if the token is valid:
-
-```php
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileDelivery\Delivery\Disposition;
-
-global $DIC;
-$stream = Streams::ofResource(fopen('/path/to/file', 'r'));
-$uri = $DIC->fileDelivery()->buildTokenURL(
-    $stream,
-    'Download-Filename.png',
-    Disposition::INLINE
-    123 // user_id
-    6 // valid for at least 6 hours
-)
-
-// $uri = 'http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac'
-```
-
-This mechanism is then simply used, for example, to deliver structured resources (container resources). A URL on HTML
-learning module can then look like this:
-
-```
-http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac/index.html
 ```
