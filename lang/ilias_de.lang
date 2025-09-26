@@ -9207,6 +9207,7 @@ exc#:#exc_ass_submission_zip#:#Abgaben
 exc#:#exc_ass_team_wiki#:#Team-Wiki
 exc#:#exc_assignment#:#Übungseinheit
 exc#:#exc_assignment_list#:#Liste der Übungseinheiten
+exc#:#exc_assignment_selection#:#Auswahl
 exc#:#exc_assignment_type#:#Abgabetyp
 exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten

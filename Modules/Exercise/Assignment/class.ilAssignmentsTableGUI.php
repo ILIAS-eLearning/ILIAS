@@ -63,7 +63,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         // fix saving of ordering of single pages!
         $this->setLimit(9999);
 
-        $this->addColumn("", "", "1", true);
+        $this->addColumn($this->lng->txt("exc_assignment_selection"), "");
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("exc_assignment_type"), "type");
         $this->addColumn($this->lng->txt("exc_presentation_order"), "order_val");

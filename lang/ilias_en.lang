@@ -9207,6 +9207,7 @@ exc#:#exc_ass_submission_zip#:#Submissions
 exc#:#exc_ass_team_wiki#:#Assignment Team Wiki
 exc#:#exc_assignment#:#Assignment
 exc#:#exc_assignment_list#:#Assignments List
+exc#:#exc_assignment_selection#:#Selection
 exc#:#exc_assignment_type#:#Type of Submission
 exc#:#exc_assignment_view#:#Assignment View
 exc#:#exc_assignments#:#Assignments
