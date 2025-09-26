@@ -3966,6 +3966,7 @@ common#:#deliver#:#Deliver
 common#:#deny_usr_agreement#:#Do Not Accept Terms of Service?
 common#:#deny_usr_agreement_btn#:#Do Not Accept
 common#:#department#:#Department
+
 common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#New Password
@@ -4384,6 +4385,7 @@ common#:#il_astpl_loc_qualified#:#Qualifying Test
 common#:#il_blog_contributor#:#Blog Author
 common#:#il_blog_editor#:#Blog Editor
 common#:#il_chat_moderator#:#Chat Moderator
+common#:#course_role#:#Course Role
 common#:#il_crs_admin#:#Course Administrator
 common#:#il_crs_member#:#Course Member
 common#:#il_crs_non_member#:#Course non-member
