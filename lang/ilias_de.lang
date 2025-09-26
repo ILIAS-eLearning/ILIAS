@@ -430,8 +430,8 @@ adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE-Editor für WYSIWYG-Bearbeitung aktivieren
 assessment#:#activate_logging#:#Protokollieren des Test und Assessments aktivieren
-assessment#:#activate_manual_scoring#:#Manuelle Bewertung aktivieren
-assessment#:#activate_manual_scoring_desc#:#Aktiviert die manuelle Bewertung für alle Fragentypen
+assessment#:#activate_manual_scoring#:#Bewertung aktivieren
+assessment#:#activate_manual_scoring_desc#:#Aktiviert die Bewertung für alle Fragentypen
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
 assessment#:#add_answers#:#Antworten hinzufügen
 assessment#:#add_circle#:#Kreis hinzufügen
@@ -559,7 +559,7 @@ assessment#:#bulkedit_author#:#Autor ändern
 assessment#:#bulkedit_lifecycle#:#Lebenszyklus ändern
 assessment#:#bulkedit_taxonomies#:#Taxonomien ändern
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die manuelle Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
+assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
@@ -904,13 +904,13 @@ assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdu
 assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
 assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
-assessment#:#manscoring#:#Manuelle Bewertung
+assessment#:#manscoring#:#Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
 assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden kann. Wenn Sie planen, Testfragen manuell zu bewerten, sollten Sie ein entsprechend spätes Datum für den Zugang der Teilnehmer zu ihren Testergebnissen festlegen, damit Sie vorher die Bewertung noch durchführen können.
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
-assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
+assessment#:#manscoring_not_allowed#:#Die Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
 assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragetypen, die manuell bewertet werden können.
-assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
+assessment#:#manscoring_results_pass#:#Bewertbare Fragen für Testdurchlauf %s
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#manual_entry#:#Manuell Eintragen
 assessment#:#mark_schema#:#Notenschema
@@ -1414,7 +1414,7 @@ assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Häufigkeit
 assessment#:#tst_corrections_answers_tbl#:#Antwortstatistik
 assessment#:#tst_corrections_answers_tbl_subindex#:#Antwortstatistik für %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Eine Nachkorrektur ist nur möglich, wenn der Test eine fest definierte Fragenauswahl verwendet.
-assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage „%s (ID: %s)” vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
+assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s Bewertungen für die Frage „%s (ID: %s)” vor. Alle Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_corrections_qst_form#:#Korrektur der Punkte
 assessment#:#tst_corrections_tab_question#:#Frage
 assessment#:#tst_corrections_tab_solution#:#Lösung
@@ -1676,8 +1676,8 @@ assessment#:#tst_non_available_pool_newly_derived#:#Der/die neue(n) Fragenpool(s
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>Der aktuelle Test-Modus beinhaltet Fragen in seiner Konfiguration, die keinem Fragenpool zugeordnet sind. Wenn Sie den Modus des Tests ändern, gehen diese Fragen unwiederbringlich verloren.</b>
 assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Sie erhalten diese Nachricht, weil Sie an diesem Test teilgenommen haben.
-assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung für Test „%s“ erfolgt
-assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung für folgenden Test wurde eingereicht:
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Bewertung für Test „%s“ erfolgt
+assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Die Bewertung für folgenden Test wurde eingereicht:
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
@@ -1850,10 +1850,10 @@ assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Regel für Fragenauswahl hinzuf
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_save_and_proceed#:#Speichern und weiter
 assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
-assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
+assessment#:#tst_save_manscoring_failed#:#Die Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
-assessment#:#tst_saved_manscoring_by_question_successfully#:#Die manuelle Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
-assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#Die Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_successfully#:#Die Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
 assessment#:#tst_score_cut_question#:#Das Ergebnis einer Frage kann nie weniger als 0 Punkte sein.
 assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für einzelne Antwortoptionen können mit der falschen Beantwortung einer Frage Minuspunkte erzielt werden. Bei dieser Option werden die erreichten Minuspunkte pro Frage auf 0 Punkte gesetzt.
 assessment#:#tst_score_cut_test#:#Eine Frage kann auch ein negatives Punkteergebnis haben.
