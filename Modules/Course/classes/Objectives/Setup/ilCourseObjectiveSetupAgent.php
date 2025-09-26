@@ -53,4 +53,11 @@ class ilCourseObjectiveSetupAgent extends NullAgent
     {
         return new Setup\Objective\NullObjective();
     }
+
+    public function getMigrations(): array
+    {
+        return [
+            new ilCourseCleanupActivationMigration()
+        ];
+    }
 }
