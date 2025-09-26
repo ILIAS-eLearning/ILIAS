@@ -206,8 +206,8 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         $filter_values = $this->filter_values;
         $positions = [];
 
-        $usr_active_ids = $filter_values[self::F_USERS] ??
-            array_map('intval', array_keys($this->scoring->getTestParticipants()));
+        $usr_active_ids = $filter_values[self::F_USERS] ?? array_keys($this->scoring->getTestParticipants());
+        $usr_active_ids = array_map('intval', $usr_active_ids);
 
         $question_ids = $filter_values[self::F_QUESTIONS] ??
             array_map(
@@ -520,7 +520,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     {
         $user_options = [];
         foreach ($this->scoring->getTestParticipants() as $usr_active_id => $u) {
-            $question_options[$usr_active_id] = $this->scoring->getUserFullName($usr_active_id, 'x');
+            $user_options[$usr_active_id] = $this->scoring->getUserFullName($usr_active_id, 'x');
         }
 
         $question_options = [];
