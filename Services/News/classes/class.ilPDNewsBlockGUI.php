@@ -296,8 +296,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             0
         );
 
-        $cache = new ilNewsCache();
-        $cache->deleteEntry($ilUser->getId() . ":0");
+        $this->domain->collection()->invalidateCache($this->user->getId());
 
         $ilCtrl->returnToParent($this);
         return "";

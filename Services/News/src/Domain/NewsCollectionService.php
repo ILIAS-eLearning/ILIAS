@@ -91,6 +91,11 @@ class NewsCollectionService
         return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $lazy), $criteria);
     }
 
+    public function invalidateCache(int $user_id): void
+    {
+        $this->cache->invalidateNewsForUser($user_id, new NewsCriteria());
+    }
+
     /**
      * @param NewsContext[] $contexts
      */

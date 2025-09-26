@@ -951,7 +951,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     public function saveSettings(): string
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
 
         $this->initSettingsForm();
         $form = $this->settings_form;
@@ -1021,8 +1020,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
             }
 
-            $cache = new ilNewsCache();
-            $cache->deleteEntry($ilUser->getId() . ":" . $this->std_request->getRefId());
+            $this->domain->collection()->invalidateCache($this->user->getId());
 
             $ilCtrl->returnToParent($this);
         } else {
