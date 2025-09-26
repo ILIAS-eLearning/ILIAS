@@ -4382,6 +4382,7 @@ common#:#il_astpl_loc_qualified#:#Kvalifikační test
 common#:#il_blog_contributor#:#Přispěvatel Blogu
 common#:#il_blog_editor#:#Blog-Editor
 common#:#il_chat_moderator#:#Moderátor besedy
+common#:#course_role#:#Role kurzu
 common#:#il_crs_admin#:#Správce kurzu
 common#:#il_crs_member#:#Člen kurzu
 common#:#il_crs_non_member#:#Nečlen kurzu
