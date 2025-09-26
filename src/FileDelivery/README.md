@@ -118,9 +118,6 @@ The result consists of the serialized payload and the signature. A new signature
 compared with the one supplied. If these are identical, it is certain that the data is valid and has not been
 manipulated.
 
-The mechanism uses a key rotation, currently always 5 keys are kept. with a composer install / dump-autoload a new key
-is generated in each case.
-
 ### Example:
 
 ```php
@@ -234,3 +231,23 @@ if($is_valid) {
     $payload = null;
 }
 ```
+
+### Key Rotation and Synchronization
+
+The standard Signed Delivery (`$DIC['file_delivery.data_signer']`) relies on a key rotation mechanism to ensure tokens
+remain secure over time.
+- **Rotation:** At any given point, five keys are kept in rotation.
+- **Generation:** Keys are automatically generated and rotated _whenever_ `composer install`
+  or `composer dump-autoload` is executed.
+- **Location:** The rotation keys are stored and managed as an artifact in:
+  `./src/FileDelivery/artifacts/key_rotation.php`
+
+# Important for System Administrators
+
+The artifact file `./src/FileDelivery/artifacts/key_rotation.php` must be synchronized across all php host deployments.
+If one deployment generates a new set of keys that others do not share, tokens signed by that php process cannot be
+verified by the others. In such a case, requests will be rejected as invalid.
+
+- If you don't have multiple php hosts you are fine.
+- If you have multiple php hosts and deploy ILIAS code into a centralized storage like an NFS you are fine as well.
+- If you have multiple php hosts and deploy ILIAS code locally onto each host you'll need to sync the artifact after each composer run between all hosts!
