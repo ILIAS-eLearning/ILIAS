@@ -1115,8 +1115,11 @@ assessment#:#redirectAfterSave#:#The maximum working time has been reached. In a
 assessment#:#redirect_after_finishing_rule#:#Redirect
 assessment#:#redirect_after_finishing_tst#:#Redirect
 assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.
-assessment#:#redirect_always#:#always to the webpage specified below
-assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
+assessment#:#redirect_always#:#Always to the specified webpage
+assessment#:#redirect_always_to_logout#:#Always to the logout screen
+assessment#:#redirect_in_kiosk_mode#:#When ‘Exam View’ is activated to the specified webpage
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s/%s" is selected.
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Remove as Fixed Participant

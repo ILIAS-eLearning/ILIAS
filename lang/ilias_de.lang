@@ -1115,8 +1115,11 @@ assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit für diesen Test 
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. Wenn Sie die Adresse einer externen Webseite eingeben, verwenden Sie die vollständige URL (einschließlich "https://"). Wenn Sie zu einem Objekt in ILIAS weiterleiten, verwenden Sie den Permalink, der in der Fußzeile des betreffenden Objekts zu finden ist.
-assessment#:#redirect_always#:#immer zur definierten Zielseite
-assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
+assessment#:#redirect_always#:#Immer zur definierten Zielseite
+assessment#:#redirect_always_to_logout#:#Immer zum Abmeldebildschirm
+assessment#:#redirect_in_kiosk_mode#:#Bei aktivierten Prüfungsansicht zur definierten Zielseite
+assessment#:#redirect_url_invalid#:#Bitte geben Sie eine gültige URL zur Zielseite an.
+assessment#:#redirect_url_required_for_rule#:#Die URL der Zielseite muss angegeben werden, wenn "%s/%s" ausgewählt ist.
 assessment#:#redirection_url#:#URL Zielseite
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
