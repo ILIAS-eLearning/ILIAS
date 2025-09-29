@@ -236,14 +236,11 @@ class ilObjLearningSequence extends ilContainer
                 ->withActivationEnd($this->getLSActivation()->getActivationEnd());
         }
 
-        $new_status = ($new_obj->getLSActivation()->getEffectiveOnlineStatus())
+        $new_status = $activation->getIsOnline()
             ? $new_obj->getObjectProperties()->getPropertyIsOnline()->withOnline()
             : $new_obj->getObjectProperties()->getPropertyIsOnline()->withOffline();
         $new_obj->getObjectProperties()->storePropertyIsOnline($new_status);
-
-        $new_obj->getActivationDB()->store(
-            $activation
-        );
+        $new_obj->getActivationDB()->store($activation);
     }
 
     protected function getDIC(): ArrayAccess
@@ -305,6 +302,10 @@ class ilObjLearningSequence extends ilContainer
     {
         $this->getActivationDB()->store($settings);
         $this->ls_activation = $settings;
+        $new_status = $settings->getIsOnline()
+            ? $this->getObjectProperties()->getPropertyIsOnline()->withOnline()
+            : $this->getObjectProperties()->getPropertyIsOnline()->withOffline();
+        $this->getObjectProperties()->storePropertyIsOnline($new_status);
     }
 
     public function getLSSettings(): ilLearningSequenceSettings
