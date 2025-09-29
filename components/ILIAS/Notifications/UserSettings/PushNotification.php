@@ -94,9 +94,9 @@ class PushNotification implements SettingDefinition
         throw new Exception('This Setting does not provide an legacy Input.');
     }
 
-    public function getDefaultValueForDisplay(Language $lng, ilSetting $settings): null
+    public function getDefaultValueForDisplay(Language $lng, ilSetting $settings): string
     {
-        return null;
+        return $lng->txt('none');
     }
 
     public function hasUserPersonalizedSetting(ilSetting $settings, ilObjUser $user): bool
