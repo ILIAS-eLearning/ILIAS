@@ -106,11 +106,19 @@ class NewsRepository
         $result = $this->db->queryF(...$this->buildBatchQuery($obj_ods, $criteria));
 
         $items = [];
+        $user_read = [];
+
         while ($row = $this->db->fetchAssoc($result)) {
             $items[] = $this->factory->newsItem($row);
+            $user_read[$row['id']] = isset($row['user_read']) && $row['user_read'] !== 0;
         }
 
-        return new NewsCollection($items);
+        $collection = new NewsCollection($items);
+        if ($criteria->isIncludeReadStatus()) {
+            $collection->setUserReadStatus($criteria->getReadUserId(), $user_read);
+        }
+
+        return $collection;
     }
 
     /**
@@ -126,11 +134,18 @@ class NewsRepository
         $result = $this->db->queryF(...$this->buildBatchQuery($obj_ods, $criteria, true));
 
         $items = [];
+        $user_read = [];
         while ($row = $this->db->fetchAssoc($result)) {
             $items[] = $row['id'];
+            $user_read[$row['id']] = isset($row['user_read']) && $row['user_read'] !== 0;
         }
 
-        return new LazyNewsCollection($items, fn(...$args) => $this->loadLazyItems(...$args));
+        $collection = new LazyNewsCollection($items, fn(...$args) => $this->loadLazyItems(...$args));
+        if ($criteria->isIncludeReadStatus()) {
+            $collection->setUserReadStatus($criteria->getReadUserId(), $user_read);
+        }
+
+        return $collection;
     }
 
     /**

@@ -108,17 +108,29 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
     }
 
     /**
-     * @param int[] $read_news_ids
+     * @param array<int, bool> $read_news_ids
      */
     public function setUserReadStatus(int $user_id, array $read_news_ids): static
     {
-        $this->user_read_status[$user_id] = $read_news_ids;
+        $this->user_read_status[$user_id] = array_filter($read_news_ids);
         return $this;
     }
 
     public function isReadByUser(int $user_id, int $news_id): bool
     {
         return isset($this->user_read_status[$user_id][$news_id]);
+    }
+
+    /**
+     * @return array<int, bool>
+     */
+    public function getUserReadStatus(int $user_id): array
+    {
+        $result = [];
+        foreach (array_keys($this->news_items) as $news_id) {
+            $result[$news_id] = $this->isReadByUser($user_id, $news_id);
+        }
+        return $result;
     }
 
     /*

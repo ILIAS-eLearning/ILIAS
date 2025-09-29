@@ -296,7 +296,9 @@ class NewsCache
             return null;
         }
 
-        return new LazyNewsCollection(unserialize($entry));
+        $payload = unserialize($entry);
+        return (new LazyNewsCollection(array_keys($payload)))
+            ->setUserReadStatus($user_id, $payload);
     }
 
     public function storeNewsForUser(int $user_id, NewsCriteria $criteria, NewsCollection $news): void
@@ -307,7 +309,7 @@ class NewsCache
 
         $this->il_cache->storeEntry(
             $this->generateL3Key($user_id, $criteria),
-            serialize($news->pluck('id'))
+            serialize($news->getUserReadStatus($user_id))
         );
     }
 

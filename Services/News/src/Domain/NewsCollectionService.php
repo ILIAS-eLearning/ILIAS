@@ -165,6 +165,9 @@ class NewsCollectionService
             return $contexts;
         }
 
+        // Preload activation cache which is used in access handler
+        \ilObjectActivation::preloadData(array_map(fn($context) => $context->getRefId(), $contexts));
+
         $filtered = [];
         foreach ($contexts as $context) {
             if ($this->access->checkAccess('read', '', $context->getRefId())) {
