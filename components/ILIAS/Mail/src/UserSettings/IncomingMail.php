@@ -196,7 +196,9 @@ class IncomingMail implements SettingDefinition
                 }
                 return [
                     'incoming_mail' => $refinery->kindlyTo()->int()->transform($v[0]),
-                    'mail_address_option' => $refinery->kindlyTo()->int()->transform($email_address_option)
+                    'mail_address_option' => $email_address_option === null
+                        ? \ilMailOptions::FIRST_EMAIL
+                        : $refinery->kindlyTo()->int()->transform($email_address_option)
                 ];
             }
         );
