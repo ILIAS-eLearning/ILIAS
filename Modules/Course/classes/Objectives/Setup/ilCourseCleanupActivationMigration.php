@@ -27,7 +27,7 @@ class ilCourseCleanupActivationMigration implements Migration
 
     public function getLabel(): string
     {
-        return "Remove Duplicate Roles In Activation Table";
+        return "Remove Duplicate Rows In Activation Table";
     }
 
     public function getDefaultAmountOfStepsPerRun(): int
