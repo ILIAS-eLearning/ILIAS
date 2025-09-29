@@ -3637,8 +3637,8 @@ button .minimize, button .close {
 }
 
 .il-toggle-button.on {
-  background: #6ea03c;
-  border: 1px solid #6ea03c;
+  background: #4d6f2a;
+  border: 1px solid #4d6f2a;
 }
 .il-toggle-button.on .il-toggle-label-on {
   position: absolute;
