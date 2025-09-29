@@ -34,6 +34,8 @@ use ILIAS\News\Data\NewsCriteria;
  */
 class NewsCache
 {
+    private const INDEX_MAX_SIZE = 10000;
+
     protected readonly bool $enabled;
     /** @var int Number of minutes until an entry expires */
     protected readonly int $cache_ttl;
@@ -111,21 +113,25 @@ class NewsCache
             }
 
             // If a candidate was found, fetch the stored elements
-            if (
-                $best_candidate_key !== '' &&
-                $entry = $this->il_cache->getEntry($this->generateL1Key($best_candidate_key))
-            ) {
-                array_push($hits, ...unserialize($entry));
+            if ($best_candidate_key !== '') {
+                if ($entry = $this->il_cache->getEntry($this->generateL1Key($best_candidate_key))) {
+                    array_push($hits, ...unserialize($entry));
 
-                // Remove the covered items from the map
-                foreach ($best_candidate_items as $k) {
-                    unset($uncovered[$k]);
+                    // Remove the covered items from the map
+                    foreach ($best_candidate_items as $k) {
+                        unset($uncovered[$k]);
+                    }
+                } else {
+                    // Remove items from the index if the cache entry is no longer valid
+                    $this->invalidateInvertedIndex($best_candidate_items);
                 }
             } else {
                 // Break if no more hits can be found
                 break;
             }
         }
+
+        $this->saveIndex();
 
         return [
             'hit' => $hits,
@@ -195,6 +201,11 @@ class NewsCache
         $key = join(',', $context_ids);
         $this->il_cache->storeEntry($this->generateL1Key($key), serialize($aggregated));
 
+        // Check index size to prevent memory overflow
+        if (count($this->inverted_index) >= self::INDEX_MAX_SIZE) {
+            return;
+        }
+
         foreach ($context_ids as $context_id) {
             if (!isset($this->inverted_index[$context_id])) {
                 $this->inverted_index[$context_id] = [];
@@ -222,13 +233,21 @@ class NewsCache
         $this->il_cache->deleteEntry($this->generateL1Key($key));
 
         // Delete reference from inverted index
+        $this->invalidateInvertedIndex($context_ids);
+        $this->saveIndex();
+
+    }
+
+    private function invalidateInvertedIndex(array $context_ids): void
+    {
+        sort($context_ids, SORT_NUMERIC);
+        $key = join(',', $context_ids);
+
         foreach ($context_ids as $context_id) {
             if (isset($this->inverted_index[$context_id])) {
                 $this->inverted_index[$context_id] = array_diff($this->inverted_index[$context_id], [$key]);
             }
         }
-
-        $this->saveIndex();
     }
 
 
@@ -358,7 +377,10 @@ class NewsCache
 
     protected function saveIndex(): void
     {
+        $this->il_cache->setExpiresAfter(86400);
         $this->il_cache->storeEntry('idx', serialize($this->inverted_index));
+        $this->il_cache->setExpiresAfter($this->cache_ttl);
+
         if (apcu_enabled()) {
             apcu_store('news:cache:idx', $this->inverted_index);
         }
