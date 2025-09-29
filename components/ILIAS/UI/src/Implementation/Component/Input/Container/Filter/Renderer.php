@@ -106,10 +106,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         $tpl->setVariable("TITLE_FILTER", $this->txt("filter"));
-        $glyph_collapse = $f->symbol()->glyph()->collapse();
-        $tpl->setVariable("COLLAPSE_GLYPH", $default_renderer->render($glyph_collapse));
-        $glyph_expand = $f->symbol()->glyph()->expand();
-        $tpl->setVariable("EXPAND_GLYPH", $default_renderer->render($glyph_expand));
+        // Expand/collapse glyphs now in html tpl. KS Glyphs created invalid <a> tag in <button>.
+        // TODO: refactor expand/collapse as individual buttons with glyphs, as they render valid html
 
         $is_expanded = $component->isExpanded();
         $tpl->setVariable("ARIA_EXPANDED", $is_expanded ? "true" : "false");
