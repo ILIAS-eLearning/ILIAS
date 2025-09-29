@@ -2057,7 +2057,6 @@ abstract class assQuestionGUI
         );
         $this->preview_session->setRandomizerSeed(null);
         $this->preview_session->setParticipantsSolution(null);
-        $this->preview_session->resetRequestedHints();
         $this->preview_session->setInstantResponseActive(false);
     }
 }
