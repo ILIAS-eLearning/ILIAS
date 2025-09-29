@@ -33,8 +33,6 @@ use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
-use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
-use ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI;
 use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
 use ILIAS\Test\Logging\LogTable;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
@@ -89,7 +87,6 @@ use ILIAS\User\Profile\PublicProfileGUI;
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assNumericGUI, assErrorTextGUI
- * @ilCtrl_Calls ilObjTestGUI: ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI, ILIAS\Test\Scoring\Manual\TestScoringByParticipantGUI
  * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
  * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
@@ -540,32 +537,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $gui_factory = new ilCertificateGUIFactory();
                 $output_gui = $gui_factory->create($this->getTestObject());
 
-                $this->ctrl->forwardCommand($output_gui);
-                break;
-
-            case strtolower(TestScoringByQuestionGUI::class):
-                if (!$this->access->checkAccess("read", "", $this->testrequest->getRefId())
-                    && !$this->access->checkAccess("score_anon", "", $this->testrequest->getRefId())
-                ) {
-                    $this->redirectAfterMissingRead();
-                }
-                $this->prepareOutput();
-                $this->addHeaderAction();
-                $output_gui = new TestScoringByQuestionGUI($this->getTestObject(), $this->ui_service);
-                $output_gui->setTestAccess($this->getTestAccess());
-                $this->ctrl->forwardCommand($output_gui);
-                break;
-
-            case strtolower(TestScoringByParticipantGUI::class):
-                if (!$this->access->checkAccess("read", "", $this->testrequest->getRefId())
-                    && !$this->access->checkAccess("score_anon", "", $this->testrequest->getRefId())
-                ) {
-                    $this->redirectAfterMissingRead();
-                }
-                $this->prepareOutput();
-                $this->addHeaderAction();
-                $output_gui = new TestScoringByParticipantGUI($this->getTestObject());
-                $output_gui->setTestAccess($this->getTestAccess());
                 $this->ctrl->forwardCommand($output_gui);
                 break;
 

@@ -22,7 +22,6 @@ namespace ILIAS\Test\Presentation;
 
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
-use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Presentation\TestScreenGUI;
 use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
@@ -440,27 +439,10 @@ class TabsManager
                 // scoring tab
                 $this->tabs->addTarget(
                     self::TAB_ID_MANUAL_SCORING,
-                    /*
-                    $this->ctrl->getLinkTargetByClass(
-                        [\ilObjTestGUI::class, TestScoringByQuestionGUI::class],
-                        'showManScoringByQuestionParticipantsTable'
-                    ),
-                    */
                     $this->ctrl->getLinkTargetByClass(
                         [\ilObjTestGUI::class, ConsecutiveScoringGUI::class],
                         ConsecutiveScoringGUI::DEFAULT_COMMAND
-                    ),
-                    [
-                        'showManScoringParticipantsTable',
-                        'applyManScoringParticipantsFilter',
-                        'resetManScoringParticipantsFilter',
-                        'showManScoringParticipantScreen',
-                        'showManScoringByQuestionParticipantsTable',
-                        'applyManScoringByQuestionFilter',
-                        'resetManScoringByQuestionFilter',
-                        'saveManScoringByQuestion'
-                    ],
-                    ''
+                    )
                 );
             }
         }

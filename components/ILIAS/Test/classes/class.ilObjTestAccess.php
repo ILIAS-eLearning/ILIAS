@@ -180,7 +180,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
             ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
             ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true],
-            ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI::showManScoringByQuestionParticipantsTable", "lang_var" => "manscoring", "default" => true],
+            ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI::view", "lang_var" => "manscoring", "default" => true],
+
+
         ];
     }
 
