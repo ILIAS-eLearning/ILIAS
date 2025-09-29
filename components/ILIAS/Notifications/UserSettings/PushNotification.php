@@ -50,6 +50,7 @@ class PushNotification implements SettingDefinition
 
     public function getLabel(Language $lng): string
     {
+        $lng->loadLanguageModule('notifications');
         return $lng->txt($this->getIdentifier());
     }
 

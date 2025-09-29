@@ -12934,6 +12934,7 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+notifications#:#push_notification#:#Push-Benachrichtigungen
 notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
 notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
 notifications_adm#:#enable_push#:#Push-Benachrichtigungen aktivieren

@@ -12937,6 +12937,7 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
+notifications#:#push_notification#:#Push Notifications
 notifications_adm#:#enable_osd#:#Enable Toasts
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.
 notifications_adm#:#enable_push#:#Enable Push Notifications
