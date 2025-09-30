@@ -61,7 +61,7 @@ class App extends Application implements EntryPoint
             $msg = "Please run the setup from ILIAS root - "
                 . "there are components using relative pathes.\n";
             print $msg;
-            exit();
+            exit(1);
         }
     }
 }
