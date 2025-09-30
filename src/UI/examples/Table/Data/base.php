@@ -161,10 +161,10 @@ function base()
                     $this->ui_factory->symbol()->icon()->custom('templates/default/images/standard/icon_x.svg', '', 'small'),
                 ];
                 $icon = $icons[2];
-                if($record['achieve'] > 80) {
+                if ($record['achieve'] > 80) {
                     $icon = $icons[0];
                 }
-                if($record['achieve'] < 30) {
+                if ($record['achieve'] < 30) {
                     $icon = $icons[1];
                 }
                 $record['achieve'] = $icon;

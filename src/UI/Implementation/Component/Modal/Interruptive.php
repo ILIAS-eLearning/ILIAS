@@ -40,6 +40,9 @@ class Interruptive extends Modal implements M\Interruptive
         protected FormMethod $form_method,
         SignalGeneratorInterface $signal_generator
     ) {
+        if ($form_method === FormMethod::DIALOG) {
+            throw new \InvalidArgumentException("You may not use 'dialog'-method with Interruptives.");
+        }
         parent::__construct($signal_generator);
     }
 

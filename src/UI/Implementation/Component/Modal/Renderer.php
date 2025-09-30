@@ -160,7 +160,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
         $tpl->setVariable('CLOSE_LABEL', $modal->getCancelButtonLabel() ?? $this->txt('cancel'));
 
-        if($modal->getFormMethod() === FormMethod::GET) {
+        if ($modal->getFormMethod() === FormMethod::GET) {
             $item_names = array_map(
                 fn($item) => $item->getParameterName(),
                 $modal->getAffectedItems()

@@ -24,4 +24,5 @@ enum FormMethod: string
 {
     case GET = 'GET';
     case POST = 'POST';
+    case DIALOG = 'DIALOG';
 }

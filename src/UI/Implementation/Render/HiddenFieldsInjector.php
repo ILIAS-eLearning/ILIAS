@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Render;
 
 trait HiddenFieldsInjector
@@ -30,10 +30,10 @@ trait HiddenFieldsInjector
     protected function getHiddenFieldsHTML(array $parameters): string
     {
         $tpl = $this->getHiddenFieldsTemplate();
-        foreach($parameters as $key => $value) {
-            if(is_array($value)) {
+        foreach ($parameters as $key => $value) {
+            if (is_array($value)) {
                 $key .= "[]";
-                foreach($value as $entry) {
+                foreach ($value as $entry) {
                     $tpl->setCurrentBlock('params');
                     $tpl->setVariable('PARAM_NAME', $key);
                     $tpl->setVariable('PARAM_VALUE', $entry);
