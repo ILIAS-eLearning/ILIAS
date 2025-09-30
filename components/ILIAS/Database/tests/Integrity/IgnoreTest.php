@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Database\Integrity\Ignore;
+use ILIAS\Database\Integrity\Ignore;
 
 class IgnoreTest extends TestCase
 {

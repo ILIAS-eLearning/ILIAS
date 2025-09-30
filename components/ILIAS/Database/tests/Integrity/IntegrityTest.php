@@ -21,11 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Database\Integrity\Integrity;
-use ILIAS\components\Database\Integrity\Definition;
-use ILIAS\components\Database\Integrity\Result;
-use ILIAS\components\Database\Integrity\Association;
-use ILIAS\components\Database\Integrity\Field;
+use ILIAS\Database\Integrity\Integrity;
+use ILIAS\Database\Integrity\Definition;
+use ILIAS\Database\Integrity\Result;
+use ILIAS\Database\Integrity\Association;
+use ILIAS\Database\Integrity\Field;
 use ilDBInterface;
 use ilDBStatement;
 
