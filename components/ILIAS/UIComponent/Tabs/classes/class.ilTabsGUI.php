@@ -462,23 +462,29 @@ class ilTabsGUI
 
                 $tpl->setVariable($pre2 . "TAB_TYPE", $tabtype);
                 $hash = "";
-                if ($target["dir_text"]) {
-                    $text = $target["text"];
-                } else {
-                    $text = $lng->txt($target["text"]);
-                }
-                $link = $f->link()->standard($text, $target["link"]);
-                if ($target["frame"] != "") {
-                    $link->withOpenInNewViewport(true);
-                }
-                $ttext = $ilHelp->getTabTooltipText($target["id"]);
-                if ($ttext !== "") {
-                    $link = $link->withHelpTopics(
-                        ...$f->helpTopics($ttext)
-                    );
+                
+                // Visible text
+                $text = $target["dir_text"] ? $target["text"] : $lng->txt($target["text"]);
+
+                // Build safe URL 
+                $url = htmlspecialchars($target["link"] . $hash, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+                // Start anchor
+                $link_start = '<a href="' . $url . '"';
+                if ($target["frame"] !== "") {
+                    $link_start .= ' target="' . $target["frame"] . '"';
                 }
 
-                $tpl->setVariable($pre2 . "LINK", $r->render($link));
+                // Add ARIA for the active tab (after the bs-patch, $tabtype is "" or "active")
+                if ($tabtype === "active") {
+                    $link_start .= ' aria-current="page"';
+                }
+                $link_start .= '>';
+
+                // Push into template
+                $tpl->setVariable($pre2 . "LINK_START", $link_start);
+                $tpl->setVariable($pre2 . "TAB_TEXT", $text);
+                $tpl->setVariable($pre2 . "LINK_END", "</a>");
                 $tpl->parseCurrentBlock();
             }
 
