@@ -72,12 +72,13 @@ class Renderer extends AbstractComponentRenderer
             if ($index === $component->getActive()) {
                 $tpl->touchBlock('active');
                 $component = $component->withAdditionalOnLoadCode(
-                    fn($id) => "window.setTimeout(
-                        ()=>document.querySelectorAll('#{$id} li.il-workflow-step')
-                            .item({$index}).scrollIntoView()
-                    );"
+                    fn($id) => "
+                        window.requestAnimationFrame(() => {
+                            document.querySelectorAll('#{$id} li.il-workflow-step')
+                                    .item({$index}).scrollIntoView();
+                            }
+                        );"
                 );
-                $tpl->setVariable('ID', $this->bindJavaScript($component));
             } else {
                 switch ($step->getAvailability()) {
                     case Component\Listing\Workflow\Step::AVAILABLE:
@@ -91,8 +92,8 @@ class Renderer extends AbstractComponentRenderer
                         break;
                 }
             }
-            $tpl->setCurrentBlock("step");
 
+            $tpl->setCurrentBlock("step");
             switch ($step->getStatus()) {
                 case Component\Listing\Workflow\Step::NOT_STARTED:
                     $tpl->touchBlock('status_notstarted');
@@ -110,6 +111,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock("step");
             $tpl->parseCurrentBlock();
         }
+        $tpl->setVariable('ID', $this->bindJavaScript($component));
         return $tpl->get();
     }
 

@@ -29,7 +29,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  * Class Workflow
  * @package ILIAS\UI\Implementation\Component\Listing\Workflow
  */
-abstract class Workflow implements C\Listing\Workflow\Workflow, C\JavaScriptBindable
+abstract class Workflow implements C\Listing\Workflow\Workflow
 {
     use ComponentHelper;
     use JavaScriptBindable;
