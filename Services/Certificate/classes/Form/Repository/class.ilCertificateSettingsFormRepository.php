@@ -61,7 +61,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ?ilCertificateTemplateImportAction $importAction = null,
         ?ilLogger $logger = null,
         ?ilCertificateTemplateRepository $templateRepository = null,
-        ?Filesystem $filesystem = null,
+        ?Filesystem $web_fs = null,
+        ?Filesystem $tmp_fs = null,
         ?ilCertificateBackgroundImageFileService $backgroundImageFileService = null
     ) {
         global $DIC;
@@ -93,13 +94,21 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         }
         $this->formFieldParser = $formFieldParser;
 
+        if (null === $web_fs) {
+            $web_fs = $DIC->filesystem()->web();
+        }
+        if (null === $tmp_fs) {
+            $tmp_fs = $DIC->filesystem()->temp();
+        }
+
         if (null === $importAction) {
             $importAction = new ilCertificateTemplateImportAction(
                 $objectId,
                 $certificatePath,
                 $placeholderDescriptionObject,
                 $logger,
-                $DIC->filesystem()->web()
+                $web_fs,
+                $tmp_fs
             );
         }
         $this->importAction = $importAction;
@@ -109,14 +118,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         }
         $this->templateRepository = $templateRepository;
 
-        if (null === $filesystem) {
-            $filesystem = $DIC->filesystem()->web();
-        }
-
         if (null === $backgroundImageFileService) {
             $backgroundImageFileService = new ilCertificateBackgroundImageFileService(
                 $certificatePath,
-                $filesystem
+                $web_fs
             );
         }
         $this->backGroundImageFileService = $backgroundImageFileService;
