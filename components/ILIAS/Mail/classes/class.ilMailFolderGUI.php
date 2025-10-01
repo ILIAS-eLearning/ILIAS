@@ -729,7 +729,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         $items = [];
         foreach ($records as $record) {
             $prefix = '';
-            if (!empty($record->getSendTime())) {
+            if ($record->getSendTime() !== null) {
                 $time = $record->getSendTime()->setTimezone($user_timezone);
                 $prefix = $time->format($this->user->getDateFormat()->toString()) . ' ';
             }

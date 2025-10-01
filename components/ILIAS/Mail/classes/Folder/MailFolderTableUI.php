@@ -152,11 +152,10 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             'date' => $this->ui_factory
                 ->table()
                 ->column()
-                ->date(
+                ->text(
                     $this->lng->txt('date'),
-                    $date_format
                 )
-                ->withIsSortable(true),
+                ->withIsSortable(true)
         ];
 
         if ($this->current_folder->hasOutgoingMails()) {
@@ -355,7 +354,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
     private function getAvatar(MailRecordData $record): string
     {
-        if (!\array_key_exists($record->getSenderId(), $this->avatars)) {
+        if (!\array_key_exists($record->getSenderId(), $this->avatars) && $record->getSenderId() !== 0) {
             if ($record->getSenderId() === ANONYMOUS_USER_ID) {
                 $avatar = $this->ui_factory->symbol()->avatar()->picture(
                     \ilUtil::getImagePath('logo/ilias_logo_centered.png'),
@@ -371,7 +370,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 : '';
         }
 
-        return $this->avatars[$record->getSenderId()];
+        return $this->avatars[$record->getSenderId()] ?? '';
     }
 
     private function getStatus(MailRecordData $record): Icon
@@ -428,9 +427,9 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         );
     }
 
-    private function getDate(MailRecordData $record): ?DateTimeImmutable
+    private function getDate(MailRecordData $record): ?string
     {
-        return empty($record->getSendTime()) ? null : $record->getSendTime()->setTimezone($this->user_time_zone);
+        return $record->getSendTime()?->setTimezone($this->user_time_zone)->format($this->date_format->toString());
     }
 
     private function getAttachments(MailRecordData $record): string

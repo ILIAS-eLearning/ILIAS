@@ -31,10 +31,10 @@ class MailRecordData
         private readonly int $mail_id,
         private readonly int $user_id,
         private readonly int $folder_id,
-        private readonly ?int $sender_id = null,
+        private readonly int $sender_id = 0,
         private readonly ?DateTimeImmutable $send_time = null,
         private readonly ?string $status = null,
-        private readonly ?string $subject = null,
+        private readonly string $subject = 'No Subject',
         private readonly ?string $import_name = null,
         private readonly ?bool $use_placeholders = false,
         private readonly ?string $message = null,
@@ -62,7 +62,7 @@ class MailRecordData
         return $this->folder_id;
     }
 
-    public function getSenderId(): ?int
+    public function getSenderId(): int
     {
         return $this->sender_id;
     }
@@ -77,7 +77,7 @@ class MailRecordData
         return $this->status;
     }
 
-    public function getSubject(): ?string
+    public function getSubject(): string
     {
         return $this->subject;
     }
@@ -142,6 +142,6 @@ class MailRecordData
 
     public function hasPersonalSender(): bool
     {
-        return $this->sender_id !== null && $this->sender_id !== ANONYMOUS_USER_ID;
+        return $this->sender_id !== 0 && $this->sender_id !== ANONYMOUS_USER_ID;
     }
 }

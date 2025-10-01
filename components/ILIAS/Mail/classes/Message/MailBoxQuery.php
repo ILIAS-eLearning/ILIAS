@@ -284,7 +284,7 @@ class MailBoxQuery
                 isset($row['sender_id']) ? (int) $row['sender_id'] : null,
                 isset($row['send_time']) ? new DateTimeImmutable($row['send_time']) : null,
                 isset($row['m_status']) ? (string) $row['m_status'] : null,
-                isset($row['m_subject']) ? (string) $row['m_subject'] : null,
+                isset($row['m_subject']) ? (string) $row['m_subject'] : 'No Subject',
                 isset($row['import_name']) ? (string) $row['import_name'] : null,
                 isset($row['use_placeholders']) ? (bool) $row['use_placeholders'] : false,
                 isset($row['m_message']) ? (string) $row['m_message'] : null,
