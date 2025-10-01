@@ -66,6 +66,7 @@ class ilLearningSequenceMigrationAgent implements Setup\Agent
         return [
             new LSOMigratePageIdsIntro(),
             new LSOMigratePageIdsExtro(),
+            new LSOMigrateActivation(),
         ];
     }
 }
