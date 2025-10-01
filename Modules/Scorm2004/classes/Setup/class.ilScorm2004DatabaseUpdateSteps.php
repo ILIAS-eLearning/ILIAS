@@ -32,4 +32,9 @@ class ilScorm2004DatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("cmi_interaction", "c_timestamp", array("type" => "text", "length" => 40, "notnull" => false, 'default' => null));
     }
 
+    public function step_2(): void
+    {
+        $this->db->modifyTableColumn("cp_dependency", "resourceid", array("type" => "text", "length" => 200, "notnull" => false, 'default' => null));
+    }
+
 }
