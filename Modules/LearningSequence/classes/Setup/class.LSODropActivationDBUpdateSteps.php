@@ -29,7 +29,6 @@ class LSODropActivationDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        throw new \Exception('SHOULD NOT HAPPEN!');
-        //$this->db->dropTable(self::TABLE_NAME);
+        $this->db->dropTable(self::TABLE_NAME);
     }
 }

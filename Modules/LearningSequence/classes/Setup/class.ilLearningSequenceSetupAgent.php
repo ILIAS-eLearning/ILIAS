@@ -66,9 +66,8 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilLearningSequenceRegisterNotificationType()
             ),
-            new LSODropActivationAfterMigrationObjective(
-                new LSODropActivationDBUpdateSteps(),
-                new LSOMigrateActivation()
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new LSODropActivationDBUpdateSteps()
             ),
         );
     }
