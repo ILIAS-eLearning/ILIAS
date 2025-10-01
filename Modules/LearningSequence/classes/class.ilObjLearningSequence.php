@@ -161,13 +161,16 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneLPSettings($new_obj->getId());
         $this->cloneIntroAndExtroContentPages($new_obj, [LSOPageType::INTRO, LSOPageType::EXTRO]);
 
+        $online = $this->getObjectProperties()->getPropertyIsOnline();
+        $cwo = ilCopyWizardOptions::_getInstance($copy_id);
+        if ($cwo->isRootNode($this->getRefId())) {
+            $online = $online->withOffline();
+        }
+        $new_obj->getObjectProperties()->storePropertyIsOnline($online);
 
-        $new_obj->getObjectProperties()->storePropertyIsOnline(
-            $this->getObjectProperties()->getPropertyIsOnline()
-        );
         $new_obj->repo_ref_props->storePropertyAvailabilityPeriod(
             $this->ref_props->getPropertyAvailabilityPeriod()
-                    ->withObjectReferenceId($new_obj->getRefId())
+                ->withObjectReferenceId($new_obj->getRefId())
         );
 
         $roles = $new_obj->getLSRoles();
