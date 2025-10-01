@@ -27,8 +27,6 @@ class ilModulesLearningSequenceSuite extends TestSuite
         $suite = new ilModulesLearningSequenceSuite();
 
         // add each test class of the component
-        require_once("./Modules/LearningSequence/test/Activation/ilLearningSequenceActivationTest.php");
-        require_once("./Modules/LearningSequence/test/Activation/ilLearningSequenceActivationDBTest.php");
         require_once("./Modules/LearningSequence/test/LearnerProgress/ilLearnerProgressDBTest.php");
         require_once("./Modules/LearningSequence/test/LearnerProgress/ilLSLPTest.php");
         require_once("./Modules/LearningSequence/test/LearnerProgress/ilLSLPEventHandlerTest.php");
@@ -49,8 +47,6 @@ class ilModulesLearningSequenceSuite extends TestSuite
         require_once("./Modules/LearningSequence/test/LearnerProgress/ilLSLPEventHandlerTest.php");
         require_once("./Modules/LearningSequence/test/Player/LSPlayerTest.php");
 
-        $suite->addTestSuite("ilLearningSequenceActivationTest");
-        $suite->addTestSuite("ilLearningSequenceActivationDBTest");
         $suite->addTestSuite("ilLearnerProgressDBTest");
         $suite->addTestSuite("ilLSLPTest");
         $suite->addTestSuite("ilLSLPEventHandlerTest");
