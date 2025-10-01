@@ -16899,6 +16899,7 @@ tax#:#tax_tax_settings#:#Taxonomieeinstellungen
 tax#:#tax_taxonomy#:#Taxonomie
 tbl#:#tbl_export_csv#:#.CSV-Export
 tbl#:#tbl_export_excel#:#Excel-Export
+tbl#:#tbl_selection#:#Auswahl
 tbl#:#tbl_template_create#:#Aktuelle Ansicht speichern
 tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen

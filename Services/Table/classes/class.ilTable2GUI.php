@@ -976,6 +976,9 @@ class ilTable2GUI extends ilTableGUI
         string $a_tooltip = "",
         bool $a_tooltip_with_html = false
     ): void {
+        if ($a_is_checkbox_action_column) {
+            $a_text = $this->lng->txt('tbl_selection');
+        }
         $this->column[] = array(
             "text" => $a_text,
             "sort_field" => $a_sort_field,
@@ -1077,15 +1080,17 @@ class ilTable2GUI extends ilTableGUI
             }
 
             if ($column['is_checkbox_action_column'] && !$this->select_all_on_top) {
-                $this->tpl->setCurrentBlock('tbl_header_top_select_column');
-                if ($column["width"] != "") {
-                    $width = (is_numeric($column["width"]))
+                if ($column['text'] == '') {
+                    $this->tpl->setCurrentBlock('tbl_header_top_select_column');
+                    if ($column["width"] != "") {
+                        $width = (is_numeric($column["width"]))
                         ? $column["width"] . "px"
                         : $column["width"];
-                    $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
+                        $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
+                    }
+                    $this->tpl->parseCurrentBlock();
+                    continue;
                 }
-                $this->tpl->parseCurrentBlock();
-                continue;
             }
 
             if (
@@ -1109,10 +1114,18 @@ class ilTable2GUI extends ilTableGUI
                         $column["text"]
                     );
                 } else {
-                    $this->tpl->setVariable(
-                        "TBL_HEADER_CELL_NO_LINK",
-                        ilUtil::img(ilUtil::getImagePath("media/spacer.png"), $lng->txt("action"))
-                    );
+                    if ($column["text"] != "") {
+                        $this->tpl->setVariable(
+                            "TBL_HEADER_CELL_NO_LINK",
+                            $column["text"]
+                        );
+                    } else {
+
+                        $this->tpl->setVariable(
+                            "TBL_HEADER_CELL_NO_LINK",
+                            ilUtil::img(ilUtil::getImagePath("media/spacer.png"), $lng->txt("action"))
+                        );
+                    }
                 }
                 $this->tpl->setVariable("HEAD_CELL_NL_ID", "thc_" . $this->getId() . "_" . $ccnt);
                 if ($column["class"] != "") {
