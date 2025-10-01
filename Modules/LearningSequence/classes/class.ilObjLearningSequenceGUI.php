@@ -511,7 +511,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->refinery,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->request
+            $this->request,
+            $this->user,
+            $this->data_factory
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -923,6 +925,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->object->getTitle()
             ), true);
             $this->ctrl->redirect($this, self::CMD_VIEW);
-       }
+        }
     }
 }
