@@ -120,20 +120,28 @@ class ASS_MarkSchema
         }
 
         // Write new datasets
-        foreach ($this->mark_steps as $key => $value) {
+        foreach ($this->mark_steps as $value) {
             $next_id = $this->db->nextId('tst_mark');
             $this->db->manipulateF(
-                "INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                array('integer','integer','text','text','float','text','integer'),
-                array(
+                'INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+                [
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_TEXT,
+                    ilDBConstants::T_TEXT,
+                    ilDBConstants::T_FLOAT,
+                    ilDBConstants::T_TEXT,
+                    ilDBConstants::T_INTEGER
+                ],
+                [
                     $next_id,
                     $test_id,
-                    substr($value->getShortName(), 0, 15),
-                    substr($value->getOfficialName(), 0, 50),
+                    mb_substr($value->getShortName(), 0, 15),
+                    mb_substr($value->getOfficialName(), 0, 50),
                     $value->getMinimumLevel(),
                     $value->getPassed(),
                     time()
-                )
+                ]
             );
         }
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
