@@ -69,6 +69,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestPageGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilObjectContentStyleSettingsGUI
  *
  * @ingroup ModulesTest
  */
@@ -258,6 +259,28 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->ctrl->forwardCommand($lti_gui);
                 break;
 
+            case 'ilobjectcontentstylesettingsgui':
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $this->tabs_gui->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
+                $this->tabs_gui->activateSubTab(ilTestTabsManager::SETTINGS_SUBTAB_ID_STYLE);
+
+                $domain_service = $this->content_style->internal()->domain();
+                $gui_service = $this->content_style->internal()->gui();
+
+                $ref_id = $this->ref_id;
+                $obj_id = $this->object->getId();
+
+                $style_gui = new ilObjectContentStyleSettingsGUI(
+                    $domain_service,
+                    $gui_service,
+                    null,
+                    $ref_id,
+                    $obj_id
+                );
+
+                $this->ctrl->forwardCommand($style_gui);
+                break;
 
             case 'iltestexportgui':
                 if (!$this->access->checkAccess('write', '', $this->ref_id)) {
