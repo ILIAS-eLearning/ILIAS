@@ -145,7 +145,7 @@ class ilLDAPRoleAssignmentRule
         }
 
         if ($exception !== []) {
-            $this->logger->warning('Trying the RegEx delimiter chain results in the following problems: ' . implode(',', $exception));
+            $this->logger->warning('Trying the RegEx delimiter chain results in the following problems: ' . implode(', ', $exception));
         }
 
         return false;
