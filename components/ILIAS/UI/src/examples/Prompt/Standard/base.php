@@ -61,8 +61,8 @@ function base()
     //build the prompt
     $query_namespace = ['prompt', 'example0'];
     list($url_builder, $token) = $url_builder->acquireParameters($query_namespace, "show");
-    $url_builder = $url_builder->withParameter($token, "true");
-    $prompt = $factory->prompt()->standard($url_builder->buildURI());
+    $prompt = $factory->prompt()->standard($url_builder)
+        ->withParameter($token, "true");
 
     //build the endpoint returning the wrapped message
     $query = $DIC->http()->wrapper()->query();

@@ -25,8 +25,9 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-
 use ILIAS\Data\URI;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  *
@@ -41,7 +42,7 @@ abstract class Prompt implements I\Prompt
 
     public function __construct(
         SignalGenerator $signal_generator,
-        protected URI $async_url
+        protected URLBuilder $url_builder
     ) {
         $this->show_signal = $signal_generator->create();
         $this->close_signal = $signal_generator->create();
@@ -49,12 +50,17 @@ abstract class Prompt implements I\Prompt
 
     public function getAsyncUrl(): URI
     {
-        return $this->async_url;
+        return $this->url_builder->buildURI();
+    }
+
+    public function getURLBuilder(): URLBuilder
+    {
+        return $this->url_builder;
     }
 
     public function getShowSignal(?URI $uri = null): Signal
     {
-        $target = $uri ?? $this->async_url;
+        $target = $uri ?? $this->getAsyncUrl();
         $signal = clone $this->show_signal;
         $signal->addOption('url', $target->__toString());
         return $signal;
@@ -63,5 +69,12 @@ abstract class Prompt implements I\Prompt
     public function getCloseSignal(): Signal
     {
         return $this->close_signal;
+    }
+
+    public function withParameter(URLBuilderToken $token, string|array $value): self
+    {
+        $clone = clone $this;
+        $clone->url_builder = $clone->url_builder->withParameter($token, $value);
+        return $clone;
     }
 }
