@@ -20152,11 +20152,11 @@ a.ilMediaLightboxClose:hover {
   font-size: 0.875rem;
   line-height: 1.428571429;
   padding: 6px 15px 3px;
-  border: 0 none;
+  border-bottom: 2px solid transparent;
   border-radius: 0px 0px 0 0;
 }
 #ilTab > li > a:hover {
-  border-color: white white white;
+  border-bottom-color: #161616;
 }
 #ilTab > li > a:focus {
   border: inherit;
@@ -20199,8 +20199,8 @@ a.ilMediaLightboxClose:hover {
   color: white;
   cursor: default;
   background-color: #161616;
-  border: 0 none;
-  border-bottom-color: transparent;
+  border-bottom: 2px solid;
+  border-bottom-color: #161616;
 }
 
 #ilTab a:focus-visible {

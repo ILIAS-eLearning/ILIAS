@@ -26,11 +26,11 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 			font-size: $il-font-size-base;
 			line-height: $il-line-height-base;
 			padding: $il-padding-large-vertical $il-padding-xlarge-horizontal $il-padding-base-vertical;
-			border: 0 none;
+			border-bottom: 2px solid transparent;
 			border-radius: $il-border-radius-base $il-border-radius-base 0 0;
 
 			&:hover {
-				border-color: $il-main-bg $il-main-bg $il-main-bg;
+				border-bottom-color: $nav-tabs-active-link-hover-bg;
 			}
 			@include focus.clear-focus-for-override($clearAfter: true);
 			@include focus.il-focus();
@@ -45,8 +45,8 @@ $nav-tabs-border: 2px solid $nav-tabs-active-link-hover-bg !default;
 				color: $nav-tabs-active-link-hover-color;
 				cursor: default;
 				background-color: $nav-tabs-active-link-hover-bg;
-				border: 0 none;
-				border-bottom-color: transparent;
+				border-bottom: 2px solid;
+				border-bottom-color: $nav-tabs-active-link-hover-bg;
 			}
 		}
 	}
