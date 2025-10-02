@@ -33,6 +33,8 @@ use ILIAS\UI\Component\Input\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as ViewControlContainer;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\UI\Component\Prompt\Prompt as IPrompt;
+use ILIAS\UI\Implementation\Component\Prompt\Prompt;
 
 class Data extends AbstractTable implements T\Data
 {
@@ -51,6 +53,7 @@ class Data extends AbstractTable implements T\Data
     protected mixed $additional_parameters = null;
     protected mixed $additional_viewcontrol_data = null;
     protected ?ViewControlContainer\ViewControlInput $additional_view_control = null;
+    protected ?Prompt $entry_creation = null;
 
     /**
      * @param array<string, Column> $columns
@@ -108,7 +111,6 @@ class Data extends AbstractTable implements T\Data
         return $this->additional_parameters;
     }
 
-
     protected function withAdditionalViewControlData(mixed $additional_viewcontrol_data): self
     {
         $clone = clone $this;
@@ -119,6 +121,18 @@ class Data extends AbstractTable implements T\Data
     public function getAdditionalViewControlData(): mixed
     {
         return $this->additional_viewcontrol_data;
+    }
+
+    public function withEntryCreation(IPrompt $entry_creation): self
+    {
+        $clone = clone $this;
+        $clone->entry_creation = $entry_creation;
+        return $clone;
+    }
+
+    public function getEntryCreation(): ?Prompt
+    {
+        return $this->entry_creation;
     }
 
     public function getRowBuilder(): DataRowBuilder

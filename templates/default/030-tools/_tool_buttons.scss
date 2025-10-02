@@ -30,6 +30,9 @@ $padding-small-y: 5px !default;
 $inner-spacing: math.div($padding-small-x, 2) !default;
 $set-full-width: false !default;
 $button_active-transform: scale(.95) !default;
+$disabled_bg-color: contrast-col.contrast-color($button-text-color, color.scale($button-color, $saturation: -80%, $lightness: -5%), color.adjust($button-color, $saturation: -80%, $lightness: 10%)) !default;
+$disabled_text-color: color.scale($button-text-color, $alpha: -10%) !default;
+$disabled_border-color: contrast-col.contrast-color($button-text-color, color.scale($button-color, $saturation: -80%, $lightness: -5%), color.adjust($button-color, $saturation: -80%, $lightness: 10%)) !default;
 
 //
 // BUTTON CREATION
@@ -73,9 +76,9 @@ $button_active-transform: scale(.95) !default;
     $hover_text-color: $text-color,
     $hover_border-color: $hover_bg-color,
 
-    $disabled_bg-color: contrast-col.contrast-color($button-text-color, color.scale($bg-color, $saturation: -80%, $lightness: -5%), color.adjust($bg-color, $saturation: -80%, $lightness: 10%)),
-    $disabled_text-color: color.scale($button-text-color, $alpha: -10%),
-    $disabled_border-color: contrast-col.contrast-color($button-text-color, color.scale($bg-color, $saturation: -80%, $lightness: -5%), color.adjust($bg-color, $saturation: -80%, $lightness: 10%)),
+    $disabled_bg-color: $disabled_bg-color,
+    $disabled_text-color: $disabled_text-color,
+    $disabled_border-color: $disabled_border-color,
 
     $disabled_hover_bg-color: $disabled_bg-color,
     $disabled_hover_text-color: $disabled_text-color,

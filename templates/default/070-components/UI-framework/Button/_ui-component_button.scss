@@ -21,7 +21,10 @@
   $padding-small-y: l.$il-padding-small-vertical,
   $inner-spacing: l.$il-padding-small-horizontal,
   $set-full-width: false,
-  $button_active-transform: none
+  $button_active-transform: none,
+  $disabled_bg-color: s.$il-disabled-btn-bg,
+  $disabled_text-color: s.$il-disabled-btn-color,
+  $disabled_border-color: s.$il-disabled-btn-border,
 );
 @use "../../../030-tools/_tool_browser-prefixes" as *;
 
@@ -67,10 +70,6 @@ input.btn {
     $text-color: s.$il-btn-standard-color,
     $border-color: s.$il-btn-standard-border,
 
-    $disabled_bg-color: s.$il-disabled-btn-bg,
-    $disabled_text-color: s.$il-disabled-btn-color,
-    $disabled_border-color: s.$il-disabled-btn-border,
-
     $engaged_bg-color: s.$il-engaged-btn-bg,
     $engaged_text-color: s.$il-engaged-btn-color,
     $engaged_border-color: s.$il-btn-standard-border,
@@ -90,15 +89,13 @@ input.btn {
     $text-color: s.$il-btn-primary-color,
     $border-color: s.$il-btn-primary-border,
 
-    $disabled_bg-color: s.$il-disabled-btn-bg,
-    $disabled_text-color: s.$il-disabled-btn-color,
-    $disabled_border-color: s.$il-disabled-btn-border,
-
     $engaged_bg-color: s.$il-engaged-btn-bg,
     $engaged_text-color: s.$il-engaged-btn-color,
     $engaged_border-color: s.$il-btn-primary-border,
     $engaged_border-width: 1px);
 }
+
+
 
 .btn-ctrl {
   @include make-button($input-field-height: s.$il-btn-ctrl-outer-height,
@@ -107,9 +104,6 @@ input.btn {
                         $button-color: s.$il-btn-ctrl-bg,
                         $border-color: s.$il-btn-ctrl-border,
                         $hover_border-color: s.$il-btn-ctrl-engaged-border,
-                        $disabled_bg-color: s.$il-disabled-btn-bg,
-                        $disabled_text-color: s.$il-disabled-btn-color,
-                        $disabled_border-color: s.$il-disabled-btn-border,
   );
   &.engaged,
   .open & {
@@ -205,10 +199,6 @@ input.btn {
     $hover_bg-color: s.$il-bulky-bg-color-engaged,
     $hover_border-color: s.$il-bulky-bg-color-engaged,
 
-    $disabled_bg-color: s.$il-disabled-btn-bg,
-    $disabled_text-color: s.$il-disabled-btn-color,
-    $disabled_border-color: s.$il-disabled-btn-border,
-
     $active_transform: null,
 
     $engaged_text-color: inherit,
@@ -233,6 +223,40 @@ input.btn {
       flex-grow: 1;
       text-align: left;
     }
+  }
+}
+
+//
+// BIG ACTION BUTTONS
+//
+
+.btn-bulky-action-primary {
+  @include make-button($set-basics: false, $set-design: true, $set-size: false,
+  $button-color: s.$il-btn-primary-bg,
+  $button-text-color: s.$il-btn-primary-color,
+  $border-radius: 999px,
+  );
+}
+
+.btn-bulky-action-secondary {
+  @include make-button($set-basics: false, $set-design: true, $set-size: false,
+  $button-color: s.$il-btn-standard-bg,
+  $button-text-color: s.$il-btn-standard-color,
+  $border-radius: 999px,
+  );
+}
+
+.btn-bulky-action-primary,
+.btn-bulky-action-secondary {
+  padding-left: l.$il-margin-xxxlarge-horizontal;
+  padding-right: l.$il-margin-xxxlarge-horizontal;
+  height: s-form.$il-input-min-height * 1.5;
+  width: auto;
+  &[disabled] {
+    cursor: not-allowed;
+  }
+  &:not([disabled]) .glyph {
+    color: s.$il-text-color-invert;
   }
 }
 

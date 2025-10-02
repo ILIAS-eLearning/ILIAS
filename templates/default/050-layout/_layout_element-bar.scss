@@ -24,7 +24,8 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
     align-items: center;
 }
 
-.l-bar__space-keeper:not(:empty) {
+.l-bar__space-keeper:has(.l-bar__element),
+.l-bar__space-keeper:has(.l-bar__group) {
     margin-bottom: calc(-1 * var(--l-bar__element__margin-bottom)); // counteract element margin-bottom, so outer edge doesn't have a visible margin-bottom
     &.l-bar__space-keeper--space-between {
         justify-content: space-between;

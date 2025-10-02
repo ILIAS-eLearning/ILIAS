@@ -77,5 +77,24 @@ function without_data(): string
         ],
     );
 
+    //this is only to keep asynch requests from rendering the table.
+    $df = new \ILIAS\Data\Factory();
+    $refinery = $DIC['refinery'];
+    $query = $DIC->http()->wrapper()->query();
+    $here_uri = $df->uri($request->getUri()->__toString());
+    $url_builder = new \ILIAS\UI\URLBuilder($here_uri);
+    $examples_overall_namespace = ['datatable', 'examples', 'async'];
+    list($url_builder, $async_token) = $url_builder->acquireParameters(
+        $examples_overall_namespace,
+        "async"
+    );
+    if ($query->retrieve(
+        $async_token->getName(),
+        $refinery->byTrying([$refinery->kindlyTo()->bool(), $refinery->always(false)])
+    )
+    ) {
+        return '';
+    };
+
     return $renderer->render($table->withRequest($request));
 }

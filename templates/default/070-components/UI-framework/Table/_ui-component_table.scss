@@ -6,6 +6,7 @@
 @use "../../../050-layout/layout_grid" as l-grid;
 @use "../../../030-tools/tool_highlighted-box" as box;
 @use "../../../050-layout/layout_breakpoints" as brk;
+@use "../../../070-components/UI-framework/Button/ui-component_button" as btn;
 
 $table-border-color: $il-main-border-color;
 
@@ -135,6 +136,11 @@ $table-ordering__inset-row__shadow: inset 0px 0px 14px 2px #00000063;
 .c-table-ordering {
     .viewcontrols {
         margin-bottom: $il-margin-large-vertical;
+    }
+    .spawncontrols {
+        .btn.btn-default {
+            @extend .btn-bulky-action-secondary;
+        }
     }
 }
 
