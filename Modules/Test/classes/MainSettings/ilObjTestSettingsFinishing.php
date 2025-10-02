@@ -116,7 +116,11 @@ class ilObjTestSettingsFinishing extends TestSettings
             ->withAdditionalTransformation(
                 $refinery->custom()->constraint(
                     static function (array $v): bool {
-                        return $v['redirect_mode'] === ilObjTest::REDIRECT_ALWAYS_TO_LOGOUT || $v['redirect_url'] !== '';
+                        return in_array(
+                            $v['redirect_mode'],
+                            [ilObjTest::REDIRECT_NONE, ilObjTest::REDIRECT_ALWAYS_TO_LOGOUT],
+                            true
+                        ) || $v['redirect_url'] !== '';
                     },
                     sprintf(
                         $lng->txt('redirect_url_required_for_rule'),
