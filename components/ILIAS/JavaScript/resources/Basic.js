@@ -616,7 +616,11 @@ il.UICore = {
         dropdown.style.left = `${window.innerWidth - dropdownRight - 10}px`;
       }
     };
-    toggle.addEventListener('click', toggler);
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      toggler(e);
+    });
     toggle.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
