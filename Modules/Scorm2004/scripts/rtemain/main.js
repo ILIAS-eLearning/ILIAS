@@ -1137,6 +1137,10 @@ function addClass (elm, name)
 	if (elm && !hasClass(elm, name)) 
 	{
 		elm.className = trim(elm.className + " " + name);
+		if (name == ilRTEDisabledClass)
+		{
+			elm.setAttribute('tabindex', '-1');
+		}
 	}
 }
 
@@ -1152,6 +1156,10 @@ function removeClass(elm, name)
 	if (elm) 
 	{
 		elm.className = trim((" " + elm.className + " ").replace(name, " "));
+		if (name == ilRTEDisabledClass)
+		{
+			elm.removeAttribute('tabindex');
+		}
 	}
 }
 
