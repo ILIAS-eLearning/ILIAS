@@ -138,7 +138,7 @@ class ilLDAPRoleAssignmentRule
             try {
                 return preg_match($regex, $a_str2) === 1;
             } catch (Exception $e) {
-                $exception[] = 'RegEx: ' . $regex . ' Message: ' . $e->getMessage();
+                $exception[] = 'RegEx: ' . $regex . ' -> Message: ' . $e->getMessage();
             } finally {
                 restore_error_handler();
             }
