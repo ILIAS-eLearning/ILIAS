@@ -69,7 +69,8 @@
 		"sabre/dav": "4.6.0",
 		"seld/jsonlint": "^1.11",
 		"simplesamlphp/simplesamlphp": "^2.3.7",
-		"symfony/console" : "^6.4"
+		"symfony/console" : "^6.4",
+		"psr/http-message": "^2.0"
 	},
 	"require-dev": {
 		"captainhook/captainhook": "^5.24",
