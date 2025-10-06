@@ -118,7 +118,7 @@ class BroadcastTyping implements SettingDefinition
             return $user;
         }
 
-        $user->setPref($this->getIdentifier(), (string) $input);
+        $user->setPref($this->getIdentifier(), $input ? 'y' : 'n');
 
         return $user;
     }

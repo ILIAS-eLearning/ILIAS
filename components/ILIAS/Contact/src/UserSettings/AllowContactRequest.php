@@ -112,7 +112,7 @@ class AllowContactRequest implements SettingDefinition
             $user->deletePref('bs_allow_to_contact_me');
             return $user;
         }
-        $user->setPref('bs_allow_to_contact_me', $input);
+        $user->setPref('bs_allow_to_contact_me', $input ? 'y' : 'n');
         return $user;
     }
 

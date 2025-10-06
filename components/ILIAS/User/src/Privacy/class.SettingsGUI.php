@@ -71,35 +71,22 @@ class SettingsGUI
     public function saveCmd(): void
     {
         $form = $this->initForm()->withRequest($this->request);
-        $form_data = $form->getData();
-
-        $this->user_settings->
-
-        $old_chat_data = [
-            $this->user->get
+        $form_data = [
+            'privacy' => $form->getData()
         ];
 
-        $this->user = $this->user_settings->saveForm(
+        $updated_user = $this->user_settings->saveForm(
             $form_data,
             [AvailablePages::PrivacySettings],
             Context::User,
             $this->user
         );
 
-        if ($preferences_updated) {
-            $this->event->raise(
-                'components/ILIAS/Chatroom',
-                'chatSettingsChanged',
-                [
-                    'user' => $this->user
-                ]
-            );
-        }
-
-        $this->user = $this->checklist_status->setStepSucessOnUser(
+        $this->checklist_status->setStepSucessOnUser(
             ChecklistStatus::STEP_VISIBILITY_OPTIONS,
-            $this->user
-        );
+            $updated_user
+        )->update();
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirectByClass(self::class, '');
     }
