@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * This describes a Data Table.
@@ -72,4 +73,13 @@ interface Data extends Table
     public function withAdditionalViewControl(
         ViewControlInput $view_control
     ): self;
+
+    /**
+     * This is to show access to highlighted rows via GET-parameters;
+     * actually, highlighting rows will follow a (prompt-)action and
+     * the announcement of the relevant token will be part of adding
+     * this action to the table.
+     * @deprecated 11
+     */
+    public function withHighlightToken(URLBuilderToken $highlight_token): self;
 }

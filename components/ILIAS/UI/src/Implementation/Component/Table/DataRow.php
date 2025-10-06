@@ -47,7 +47,8 @@ class DataRow implements T\DataRow
         protected array $columns,
         protected array $actions,
         protected string $id,
-        protected array $record
+        protected array $record,
+        protected bool $highlighted = false
     ) {
     }
 
@@ -75,6 +76,7 @@ class DataRow implements T\DataRow
     {
         return $this->table_has_singleactions;
     }
+
     public function tableHasMultiActions(): bool
     {
         return $this->table_has_multiactions;
@@ -97,5 +99,22 @@ class DataRow implements T\DataRow
             return '';
         }
         return $this->columns[$col_id]->format($this->record[$col_id]);
+    }
+
+    public function withHighlighted(
+        bool $highlighted,
+        bool $force = false,
+    ): static {
+        $clone = clone $this;
+        $clone->highlighted = $force
+            ? $highlighted
+            : $highlighted || $this->highlighted;
+
+        return $clone;
+    }
+
+    public function isHighlighted(): bool
+    {
+        return $this->highlighted;
     }
 }
