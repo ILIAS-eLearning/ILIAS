@@ -147,7 +147,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         return [
             'doStandardAuthentication',
-            "doLTIAuthentication"
+            'doLTIAuthentication'
         ];
     }
 
