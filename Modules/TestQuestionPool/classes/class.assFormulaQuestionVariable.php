@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -41,49 +42,39 @@ class assFormulaQuestionVariable
         $this->setRangeMax($range_max_txt);
     }
 
-    public function getRandomValue()
+    public function getRandomValue(): float
     {
-        if ($this->getPrecision() === 0
-            && !$this->isIntPrecisionValid(
-                $this->getIntprecision(),
-                $this->getRangeMin(),
-                $this->getRangeMax()
-            )
+        if (
+            $this->getPrecision() === 0
+            && !$this->isIntPrecisionValid($this->getIntprecision(), $this->getRangeMin(), $this->getRangeMax())
         ) {
             global $DIC;
-            $lng = $DIC['lng'];
-            $DIC->ui()->mainTemplate()->setOnScreenMessage(
-                "failure",
-                $lng->txt('err_divider_too_big')
-            );
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('err_divider_too_big'));
+            return 0.0;
         }
 
         $mul = ilMath::_pow(10, $this->getPrecision());
-        $r1 = round((float)ilMath::_mul($this->getRangeMin(), $mul));
+        $r1 = round((float) ilMath::_mul($this->getRangeMin(), $mul));
         $r2 = round((float) ilMath::_mul($this->getRangeMax(), $mul));
-        $calcval = $this->getRangeMin() - 1;
-        //test
+        $calc_val = $this->getRangeMin() - 1;
 
-        $roundedRangeMIN = round($this->getRangeMin(), $this->getPrecision());
-        $roundedRangeMAX = round($this->getRangeMax(), $this->getPrecision());
-        while ($calcval < $roundedRangeMIN || $calcval > $roundedRangeMAX) {
-            //		while($calcval < $this->getRangeMin() || $calcval > $this->getRangeMax())
-            $rnd = mt_rand((int) $r1, (int) $r2);
-            $calcval = ilMath::_div($rnd, $mul, $this->getPrecision());
-            if (($this->getPrecision() == 0) && ($this->getIntprecision() != 0)) {
-                if ($this->getIntprecision() > 0) {
-                    $modulo = $calcval % $this->getIntprecision();
-                    if ($modulo != 0) {
-                        if ($modulo < ilMath::_div($this->getIntprecision(), 2)) {
-                            $calcval = ilMath::_sub($calcval, $modulo, $this->getPrecision());
-                        } else {
-                            $calcval = ilMath::_add($calcval, ilMath::_sub($this->getIntprecision(), $modulo, $this->getPrecision()), $this->getPrecision());
-                        }
-                    }
+        $rounded_range_min = round($this->getRangeMin(), $this->getPrecision());
+        $rounded_range_max = round($this->getRangeMax(), $this->getPrecision());
+        while ($calc_val < $rounded_range_min || $calc_val > $rounded_range_max) {
+            $rnd = random_int((int) $r1, (int) $r2);
+            $calc_val = (float) ilMath::_div($rnd, $mul, $this->getPrecision());
+
+            if ($this->getPrecision() === 0 && $this->getIntprecision() > 0) {
+                $modulo = $calc_val % $this->getIntprecision();
+                if ($modulo !== 0) {
+                    $calc_val = $modulo < ilMath::_div($this->getIntprecision(), 2)
+                        ? (float) ilMath::_sub($calc_val, $modulo, $this->getPrecision())
+                        : (float) ilMath::_add($calc_val, ilMath::_sub($this->getIntprecision(), $modulo, $this->getPrecision()), $this->getPrecision());
                 }
             }
         }
-        return $calcval;
+
+        return (float) $calc_val;
     }
 
     public function setRandomValue(): void
@@ -91,18 +82,9 @@ class assFormulaQuestionVariable
         $this->setValue($this->getRandomValue());
     }
 
-    public function isIntPrecisionValid(?int $int_precision, float $min_range, float $max_range)
+    public function isIntPrecisionValid(?int $int_precision, float $min_range, float $max_range): bool
     {
-        if ($int_precision === null) {
-            return false;
-        }
-        $min_abs = abs($min_range);
-        $max_abs = abs($max_range);
-        $bigger_abs = $max_abs > $min_abs ? $max_abs : $min_abs;
-        if ($int_precision > $bigger_abs) {
-            return false;
-        }
-        return true;
+        return is_int($int_precision) && $int_precision <= max(abs($max_range), abs($min_range));
     }
 
     /************************************
