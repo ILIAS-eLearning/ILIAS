@@ -40,6 +40,7 @@ class PersonalSettingsImportAction
         private readonly Language $lng,
         private readonly DataFactory $data_factory,
         private readonly Filesystem $filesystem,
+        private readonly \ilObjUser $user,
         private readonly PersonalSettingsRepository $repository,
     ) {
     }
@@ -111,8 +112,11 @@ class PersonalSettingsImportAction
             $this->firstChildElement($doc, 'mark-schema')
         );
 
+        $template = PersonalSettingsTemplate::denormalize($this->getAttributes($doc))
+            ->withUserId($this->user->getId());
+
         $this->repository->createTemplate(
-            PersonalSettingsTemplate::denormalize($this->getAttributes($doc)),
+            $template,
             MainSettings::denormalize($main_settings_data),
             ScoreSettings::denormalize($score_settings_data),
             MarkSchema::denormalize($mark_schema_data)

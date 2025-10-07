@@ -77,7 +77,10 @@ class PersonalSettingsTableActions
         URLBuilderToken $action_type_token
     ): ?Modal {
         $selection_ids = $this->test_request->getMultiSelectionIds($row_id_token->getName());
-        $selection = $this->repository->getTemplatesByIds($selection_ids);
+
+        $selection = $selection_ids === 'ALL_OBJECTS'
+            ? $this->repository->getTemplatesForUser()
+            : $this->repository->getTemplatesByIds($selection_ids);
 
         if ($selection === []) {
             return $this->fail('personal_settings_invalid_selection');

@@ -2100,6 +2100,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->lng,
             $this->data_factory,
             $this->temp_file_system,
+            $this->user,
             $this->personal_settings_templates_repository
         );
     }

@@ -54,6 +54,13 @@ class PersonalSettingsTemplate implements Normalizable
         return $this->user_id;
     }
 
+    public function withUserId(int $user_id): self
+    {
+        $clone = clone $this;
+        $clone->user_id = $user_id;
+        return $clone;
+    }
+
     public function getName(): string
     {
         return $this->name;

@@ -77,7 +77,7 @@ class PersonalSettingsTable implements DataRetrieval
             'name' => $column_factory->text($this->lng->txt('title')),
             'author' => $column_factory->text($this->lng->txt('author')),
             'description' => $column_factory->text($this->lng->txt('description'))->withIsSortable(false),
-            'timestamp' => $column_factory->date($this->lng->txt('created'), $date_format),
+            'timestamp' => $column_factory->date($this->lng->txt('create_date'), $date_format),
         ];
     }
 
