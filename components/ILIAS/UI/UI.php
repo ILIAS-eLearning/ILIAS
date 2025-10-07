@@ -36,6 +36,7 @@ class UI implements Component\Component
         $define[] = UI\Renderer::class;
         $define[] = UI\HelpTextRetriever::class;
         $define[] = UI\Storage::class;
+        $define[] = UI\UserTimezone::class;
         $define[] = UI\Component\Progress\AsyncRefreshInterval::class;
         $define[] = UI\Component\Input\Field\PhpUploadLimit::class;
         $define[] = UI\Component\Input\Field\GlobalUploadLimit::class;
@@ -380,6 +381,7 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Table\Column\Factory::class] = static fn() =>
             new UI\Implementation\Component\Table\Column\Factory(
                 $use[\ILIAS\Language\Language::class],
+                $use[UI\UserTimezone::class],
             );
         $internal[UI\Implementation\Component\Table\Action\Factory::class] = static fn() =>
             new UI\Implementation\Component\Table\Action\Factory();

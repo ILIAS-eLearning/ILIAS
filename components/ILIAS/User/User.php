@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\UI\UserTimezone;
+use ILIAS\User\Settings\User\UserTimezoneProvider;
 use ILIAS\User\Setup\Agent;
 use ILIAS\User\Settings\UserSettings;
 use ILIAS\User\Settings\User\Settings as SettingsOfUser;
@@ -56,5 +58,7 @@ class User implements Component\Component
             new CustomTypeTextArea();
         $contribute[CustomProfileFieldType::class] = fn() =>
             new CustomTypeSelect();
+
+        $implement[UserTimezone::class] = fn() => new UserTimezoneProvider();
     }
 }
