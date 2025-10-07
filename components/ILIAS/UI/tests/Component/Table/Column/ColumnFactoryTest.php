@@ -48,7 +48,14 @@ class ColumnFactoryTest extends AbstractFactoryTestCase
             ->getMock();
         $lng->method('txt')->willReturnCallback(fn($v) => $v);
 
-        return new \ILIAS\UI\Implementation\Component\Table\Column\Factory($lng);
+        $user_tz = new class implements \ILIAS\UI\UserTimezone {
+            public function getTimezone(): \DateTimeZone
+            {
+                return new \DateTimeZone(date_default_timezone_get());
+            }
+        };
+
+        return new \ILIAS\UI\Implementation\Component\Table\Column\Factory($lng, $user_tz);
     }
 
     public static function getColumnTypeProvider(): array
