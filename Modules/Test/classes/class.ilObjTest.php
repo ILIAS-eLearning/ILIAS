@@ -45,6 +45,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware
     public const REDIRECT_NONE = 0;
     public const REDIRECT_ALWAYS = 1;
     public const REDIRECT_KIOSK = 2;
+    public const REDIRECT_ALWAYS_TO_LOGOUT = 3;
 
     private ?bool $activation_limited = null;
     private array $mob_ids;

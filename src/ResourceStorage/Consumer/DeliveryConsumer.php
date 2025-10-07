@@ -37,4 +37,9 @@ interface DeliveryConsumer
     public function setRevisionNumber(int $revision_number): DeliveryConsumer;
 
     public function overrideFileName(string $file_name): DeliveryConsumer;
+
+    /**
+     * @description Prevent caching of the delivered resource. This has only effect in HTTP based consumers.
+     */
+    public function disableCaching(): DeliveryConsumer;
 }

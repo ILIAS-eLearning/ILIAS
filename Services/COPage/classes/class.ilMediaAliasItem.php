@@ -587,10 +587,10 @@ class ilMediaAliasItem
         );
         if (is_object($ma_nodes[$a_nr - 1])) {
             $title = $this->getTitleOfArea($a_nr);
-            $this->dom_util->deleteAllChildsByName($ma_nodes[$a_nr - 1]->myDOMNode, array("IntLink", "ExtLink"));
+            $this->dom_util->deleteAllChildsByName($ma_nodes[$a_nr - 1], array("IntLink", "ExtLink"));
             $attributes = array("Href" => $a_href);
             $this->dom_util->setFirstOptionalElement(
-                $ma_nodes[$a_nr - 1]->myDOMNode,
+                $ma_nodes[$a_nr - 1],
                 "ExtLink",
                 array(""),
                 $title,

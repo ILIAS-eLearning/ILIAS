@@ -20,15 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Setup;
 
+use ILIAS\Setup\Artifact;
+use ILIAS\Setup\Artifact\ArrayArtifact;
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
-use ILIAS\Setup;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class KeyRotationObjective extends BuildArtifactObjective
 {
-    public const KEY_ROTATION = './src/FileDelivery/artifacts/key_rotation.php';
+    public const KEY_ROTATION = './data/key_rotation.php';
     public const KEY_LENGTH = 32;
     private const NUMBER_OF_KEYS = 5;
 
@@ -37,7 +38,12 @@ class KeyRotationObjective extends BuildArtifactObjective
         return self::KEY_ROTATION;
     }
 
-    public function build(): Setup\Artifact
+    public function forceBuild(): bool
+    {
+        return file_put_contents($this->getArtifactPath(), $this->build()->serialize()) > 0;
+    }
+
+    public function build(): Artifact
     {
         $current_keys = null;
         if (is_readable(self::KEY_ROTATION)) {
@@ -59,7 +65,7 @@ class KeyRotationObjective extends BuildArtifactObjective
         // keep only the first 5 keys
         $new_keys = array_slice($new_keys, 0, self::NUMBER_OF_KEYS);
 
-        return new Setup\Artifact\ArrayArtifact($new_keys);
+        return new ArrayArtifact($new_keys);
     }
 
     private function generateRandomString(int $length): string

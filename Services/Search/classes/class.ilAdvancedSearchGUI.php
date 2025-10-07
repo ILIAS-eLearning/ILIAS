@@ -775,10 +775,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $field_form->importFromPost($this->options);
             $field_form->validate();
 
-            $parser_value = $field->getSearchQueryParserValue($field_form);
-            if (!strlen($parser_value)) {
+            if (!strlen($field_form->getSerializedValue())) {
                 continue;
             }
+            $parser_value = $field->getSearchQueryParserValue($field_form);
             $adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance(new ilQueryParser($parser_value));
             $adv_md_search->setFilter($this->filter);
             $adv_md_search->setDefinition($field);

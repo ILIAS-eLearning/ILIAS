@@ -284,7 +284,6 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): \Generator {
-        $no_write_access = !($this->rbac->checkAccess('write', $this->request_ref_id));
         foreach ($this->getData($order, $range) as $idx => $record) {
             $row_id = (string) $record['question_id'];
             $record['created'] = (new \DateTimeImmutable())->setTimestamp($record['created']);
@@ -305,13 +304,7 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
                 $record['taxonomies'] = $this->taxonomyRepresentation($record['taxonomies']);
             }
 
-            yield $row_builder->buildDataRow($row_id, $record)
-                ->withDisabledAction('move', $no_write_access)
-                ->withDisabledAction('copy', $no_write_access)
-                ->withDisabledAction('delete', $no_write_access)
-                ->withDisabledAction('feedback', $no_write_access)
-                ->withDisabledAction('hints', $no_write_access)
-            ;
+            yield $row_builder->buildDataRow($row_id, $record);
         }
     }
 
@@ -336,17 +329,18 @@ class QuestionTable extends ilAssQuestionList implements Table\DataRetrieval
 
     protected function getActions(): array
     {
+        $write_access = $this->rbac->checkAccess('write', $this->request_ref_id);
         return array_merge(
             $this->buildAction('copy', 'standard'),
-            $this->buildAction('move', 'standard'),
-            $this->buildAction('delete', 'standard'),
+            $write_access ? $this->buildAction('move', 'standard') : [],
+            $write_access ? $this->buildAction('delete', 'standard') : [],
             $this->buildAction('export', 'multi'),
             $this->buildAction('preview', 'single'),
             $this->buildAction('statistics', 'single'),
-            $this->buildAction('edit_question', 'single'),
-            $this->buildAction('edit_page', 'single'),
-            $this->buildAction('feedback', 'single'),
-            $this->buildAction('hints', 'single'),
+            $write_access ? $this->buildAction('edit_question', 'single') : [],
+            $write_access ? $this->buildAction('edit_page', 'single') : [],
+            $write_access ? $this->buildAction('feedback', 'single') : [],
+            $write_access ? $this->buildAction('hints', 'single') : [],
             $this->showCommentAction() ? $this->buildAction('comments', 'single', true) : []
         );
     }
