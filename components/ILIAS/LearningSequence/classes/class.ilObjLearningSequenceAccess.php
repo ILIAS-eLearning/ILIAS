@@ -62,50 +62,6 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
         return self::$using_code;
     }
 
-    public static function isOffline(int $ref_id): bool
-    {
-        $obj = ilObjectFactory::getInstanceByRefId($ref_id);
-        $act = $obj->getLSActivation();
-        $online = $act->getIsOnline();
-
-        if ($online
-            && ($act->getActivationStart() !== null ||
-                $act->getActivationEnd() !== null)
-        ) {
-            $ts_now = time();
-            $activation_start = $act->getActivationStart();
-            if ($activation_start !== null) {
-                $after_activation_start = $ts_now >= $activation_start->getTimestamp();
-            } else {
-                $after_activation_start = true;
-            }
-            $activation_end = $act->getActivationEnd();
-            if ($activation_end !== null) {
-                $before_activation_end = $ts_now <= $activation_end->getTimestamp();
-            } else {
-                $before_activation_end = true;
-            }
-
-            $online = ($after_activation_start && $before_activation_end);
-        }
-
-        if ($act->getEffectiveOnlineStatus() === false && $online === true) {
-            $obj->setEffectiveOnlineStatus(true);
-            $obj->announceLSOOnline();
-        }
-        if ($act->getEffectiveOnlineStatus() === true && $online === false) {
-            $obj->setEffectiveOnlineStatus(false);
-            $obj->announceLSOOffline();
-        }
-
-        $new_status = ($online)
-            ? $obj->getObjectProperties()->getPropertyIsOnline()->withOnline()
-            : $obj->getObjectProperties()->getPropertyIsOnline()->withOffline();
-        $obj->getObjectProperties()->storePropertyIsOnline($new_status);
-
-        return !$online;
-    }
-
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         list($rbacsystem, $il_access, $lng) = $this->getDICDependencies();
@@ -121,9 +77,9 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
                     );
                 }
 
-                $is_offine = $this->isOffline($ref_id);
-
-                if ($is_offine && !$has_any_administrative_permission) {
+                if ($this->_isOffline($ref_id)
+                    && !$has_any_administrative_permission
+                ) {
                     $il_access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }

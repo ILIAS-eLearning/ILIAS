@@ -537,7 +537,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->refinery,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->request
+            $this->request,
+            $this->user,
+            $this->data_factory
         );
     }
 
