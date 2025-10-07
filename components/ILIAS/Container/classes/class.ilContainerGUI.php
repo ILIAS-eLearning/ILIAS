@@ -2129,7 +2129,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $form = $this->initFormPasswordInstruction();
         if ($form->checkInput()) {
-            $ilUser->resetPassword($this->form->getInput('new_password'), $this->form->getInput('new_password'));
+            $ilUser->resetPassword($this->form->getInput('new_password'));
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('webdav_pwd_instruction_success'), true);
             $this->showPasswordInstructionObject(false);
             return;

@@ -201,10 +201,6 @@ class ilObjMailGUI extends ilObjectGUI
         );
         $incoming_mail_gui->setDisabled(!$this->isEditingAllowed());
         $this->ctrl->setParameterByClass(ilObjUserFolderGUI::class, 'ref_id', USER_FOLDER_ID);
-        $incoming_mail_gui->setInfo(sprintf(
-            $this->lng->txt('mail_settings_incoming_type_see_also'),
-            $this->ctrl->getLinkTargetByClass(ilObjUserFolderGUI::class, 'settings')
-        ));
         $this->ctrl->clearParametersByClass(ilObjUserFolderGUI::class);
         $form->addItem($incoming_mail_gui);
 

@@ -26,10 +26,12 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
+use ILIAS\Forum\Notification\NotificationType;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
+ * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ILIAS\User\Profile\PublicProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
  * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI, ilForumPageGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectContentStyleSettingsGUI
@@ -289,7 +291,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             'askForPostActivation',
             'askForPostDeactivation',
             'toggleThreadNotification',
-            'toggleThreadNotificationTab',
             'toggleStickiness',
             'cancelPost',
             'savePost',
@@ -418,7 +419,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                         $this->ctrl->getLinkTarget(new ilForumPageGUI($this->object->getId()), 'edit')
                     );
                 } else {
-                    $forum_settings_gui = new ilForumSettingsGUI($this);
+                    $forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
                     $forum_settings_gui->settingsTabs();
                 }
 
@@ -431,7 +432,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 break;
 
             case strtolower(ilForumSettingsGUI::class):
-                $forum_settings_gui = new ilForumSettingsGUI($this);
+                $forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
                 $this->ctrl->forwardCommand($forum_settings_gui);
                 break;
 
@@ -460,7 +461,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 break;
 
             case strtolower(ilForumModeratorsGUI::class):
-                $fm_gui = new ilForumModeratorsGUI();
+                $fm_gui = new ilForumModeratorsGUI($this->object);
                 $this->ctrl->forwardCommand($fm_gui);
                 break;
 
@@ -472,9 +473,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->showThreadsObject();
                 break;
 
-            case strtolower(ilPublicUserProfileGUI::class):
+            case strtolower(PublicProfileGUI::class):
                 $user = $this->retrieveIntOrZeroFrom($this->http->wrapper()->query(), 'user');
-                $profile_gui = new ilPublicUserProfileGUI($user);
+                $profile_gui = new PublicProfileGUI($user);
                 $add = $this->getUserProfileAdditional($this->object->getRefId(), $user);
                 $profile_gui->setAdditional($add);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
@@ -535,7 +536,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             case strtolower(ilContainerNewsSettingsGUI::class):
                 $this->checkPermission('write');
 
-                $forum_settings_gui = new ilForumSettingsGUI($this);
+                $forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
                 $forum_settings_gui->settingsTabs();
 
                 $this->lng->loadLanguageModule('cont');
@@ -549,18 +550,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 if (in_array($cmd, ['close', 'reopen', 'make_topics_non_sticky', 'makesticky', 'editThread', 'move'])) {
                     $cmd = 'performThreadsAction';
                 }
-                if (in_array($cmd, $this->getTableCommands(), true)) {
-                    $notificationCommands = [
-                        'enableAdminForceNoti',
-                        'disableAdminForceNoti',
-                        'enableHideUserToggleNoti',
-                        'disableHideUserToggleNoti'
-                    ];
 
-                    if (!in_array($cmd, $notificationCommands, true)) {
-                        $cmd = 'performThreadsAction';
-                    }
-                } elseif (($cmd === null || $cmd === '') && $this->getTableCommands() === []) {
+                if ($cmd === null || $cmd === '') {
                     $cmd = 'showThreads';
                 }
 
@@ -580,28 +571,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
     }
 
-    /**
-     * @return string[]
-     */
-    private function getTableCommands(): array
-    {
-        $tableCommands = [];
-        if ($this->http->wrapper()->post()->has('selected_cmd')) {
-            $tableCommands[] = $this->http->wrapper()->post()->retrieve(
-                'selected_cmd',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        if ($this->http->wrapper()->post()->has('selected_cmd2')) {
-            $tableCommands[] = $this->http->wrapper()->post()->retrieve(
-                'selected_cmd2',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-
-        return $tableCommands;
-    }
-
     public function infoScreenObject(): void
     {
         $this->infoScreen();
@@ -609,7 +578,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
     {
-        $this->forum_settings_gui = new ilForumSettingsGUI($this);
+        $this->forum_settings_gui = new ilForumSettingsGUI($this, $this->object);
         $this->forum_settings_gui->getCustomForm($a_form);
     }
 
@@ -3594,7 +3563,7 @@ EOD
             $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
         );
 
-        $profile_gui = new ilPublicUserProfileGUI($user_id);
+        $profile_gui = new PublicProfileGUI($user_id);
         $add = $this->getUserProfileAdditional($this->object->getRefId(), $user_id);
         $profile_gui->setAdditional($add);
         $profile_gui->setBackUrl(ilUtil::stripSlashes($backurl));
@@ -4396,28 +4365,31 @@ EOD
         $frm->setForumRefId($this->object->getRefId());
         $frm->setMDB2Wherecondition('top_frm_fk = %s ', ['integer'], [$frm->getForumId()]);
 
-        $isForumNotificationEnabled = $frm->isForumNotificationEnabled($this->user->getId());
-        $userMayDisableNotifications = $this->isUserAllowedToDeactivateNotification();
+        $are_notifications_enabled = $frm->isForumNotificationEnabled($this->user->getId());
+        $has_membership_enabled_parent_container = $this->object->isParentMembershipEnabledContainer();
+        $user_may_disable_notifcations = (
+            $this->isUserAllowedToDeactivateNotification() ||
+            !$has_membership_enabled_parent_container
+        );
 
         if ($this->objCurrentTopic->getId() > 0) {
             $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
         }
 
         if (!$this->user->isAnonymous()) {
-            if ($this->isParentObjectCrsOrGrp()) {
-                // special behaviour for CRS/GRP-Forum notification!!
-                if ($isForumNotificationEnabled && $userMayDisableNotifications) {
+            if ($has_membership_enabled_parent_container) {
+                if ($are_notifications_enabled && $user_may_disable_notifcations) {
                     $lg->addCustomCommand(
                         $this->ctrl->getLinkTarget($this, 'disableForumNotification'),
                         'forums_disable_forum_notification'
                     );
-                } elseif (!$isForumNotificationEnabled) {
+                } elseif (!$are_notifications_enabled) {
                     $lg->addCustomCommand(
                         $this->ctrl->getLinkTarget($this, 'enableForumNotification'),
                         'forums_enable_forum_notification'
                     );
                 }
-            } elseif ($isForumNotificationEnabled) {
+            } elseif ($are_notifications_enabled) {
                 $lg->addCustomCommand(
                     $this->ctrl->getLinkTarget($this, 'disableForumNotification'),
                     'forums_disable_forum_notification'
@@ -4430,7 +4402,7 @@ EOD
             }
         }
 
-        if (!$this->user->isAnonymous() && $isForumNotificationEnabled && $userMayDisableNotifications) {
+        if ($are_notifications_enabled && $user_may_disable_notifcations && !$this->user->isAnonymous()) {
             $frm_noti = new ilForumNotification($this->object->getRefId());
             $frm_noti->setUserId($this->user->getId());
             $interested_events = $frm_noti->readInterestedEvents();
@@ -4484,10 +4456,10 @@ EOD
             $lg->addCustomCommandButton($showNotificationSettingsBtn, $notificationsModal);
         }
 
-        $isThreadNotificationEnabled = false;
+        $are_thread_notifications_enabled = false;
         if (!$this->user->isAnonymous() && $this->objCurrentTopic->getId() > 0) {
-            $isThreadNotificationEnabled = $this->objCurrentTopic->isNotificationEnabled($this->user->getId());
-            if ($isThreadNotificationEnabled) {
+            $are_thread_notifications_enabled = $this->objCurrentTopic->isNotificationEnabled($this->user->getId());
+            if ($are_thread_notifications_enabled) {
                 $lg->addCustomCommand(
                     $this->ctrl->getLinkTarget($this, 'toggleThreadNotification'),
                     'forums_disable_notification'
@@ -4502,7 +4474,7 @@ EOD
         $this->ctrl->setParameter($this, 'thr_pk', '');
 
         if (!$this->user->isAnonymous()) {
-            if ($isForumNotificationEnabled || $isThreadNotificationEnabled) {
+            if ($are_notifications_enabled || $are_thread_notifications_enabled) {
                 $lg->addHeaderIcon(
                     'not_icon',
                     ilUtil::getImagePath('object/notification_on.svg'),
@@ -4572,15 +4544,17 @@ EOD
 
     public function isUserAllowedToDeactivateNotification(): bool
     {
-        if ($this->objProperties->getNotificationType() === 'default') {
+        if ($this->objProperties->getNotificationType() === NotificationType::DEFAULT) {
             return true;
         }
 
-        if (!$this->objProperties->isUserToggleNoti() && $this->objProperties->getNotificationType() === 'all_users') {
+        if (!$this->objProperties->isUserToggleNoti() &&
+            $this->objProperties->getNotificationType() === NotificationType::ALL_USERS) {
             return true;
         }
 
-        if ($this->isParentObjectCrsOrGrp() && $this->objProperties->getNotificationType() === 'per_user') {
+        if ($this->objProperties->getNotificationType() === NotificationType::PER_USER &&
+            $this->object->isParentMembershipEnabledContainer()) {
             $frm_noti = new ilForumNotification($this->object->getRefId());
             $frm_noti->setUserId($this->user->getId());
 
@@ -4588,14 +4562,6 @@ EOD
         }
 
         return false;
-    }
-
-    public function isParentObjectCrsOrGrp(): bool
-    {
-        $grpRefId = $this->tree->checkForParentType($this->object->getRefId(), 'grp');
-        $crsRefId = $this->tree->checkForParentType($this->object->getRefId(), 'crs');
-
-        return ($grpRefId > 0 || $crsRefId > 0);
     }
 
     public function mergeThreadsObject(): void

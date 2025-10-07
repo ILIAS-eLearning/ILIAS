@@ -18,6 +18,9 @@
 
 declare(strict_types=0);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup components\ILIASCourse
@@ -34,6 +37,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
     protected ilAccessHandler $access;
     protected ilRbacReview $rbacReview;
     protected ilObjUser $user;
+    protected Profile $profile;
     protected array $cached_user_names = [];
 
     public function __construct(
@@ -67,6 +71,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
         $this->rbacReview = $DIC->rbac()->review();
         $this->user = $DIC->user();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->setId('crs_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
@@ -464,16 +469,19 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // Custom user data fields
         if ($udf_ids !== []) {
-            $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
-            foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance((int) $usr_id)) {
-                    continue;
-                }
+            $a_user_data = array_reduce(
+                $this->profile->getDataForMultiple($usr_ids),
+                function (array $c, ProfileData $v): array {
+                    if (!$this->checkAcceptance($v->getId())) {
+                        return $c;
+                    }
 
-                foreach ($fields as $field_id => $value) {
-                    $a_user_data[$usr_id]['udf_' . $field_id] = $value;
-                }
-            }
+                    foreach ($udf_ids as $field_id) {
+                        $c[$v->getId()]['udf_' . $field_id] = $v->getAdditionalFieldByIdentifier($field_id);
+                    }
+                },
+                $a_user_data
+            );
         }
         // Object specific user data fields
         if ($odf_ids !== []) {

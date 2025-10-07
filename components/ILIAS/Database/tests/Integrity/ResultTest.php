@@ -34,6 +34,6 @@ class ResultTest extends TestCase
     public function testViolations(): void
     {
         $result = new Result(9);
-        $this->assertEquals(9, $result->violations());
+        $this->assertSame(9, $result->violations());
     }
 }

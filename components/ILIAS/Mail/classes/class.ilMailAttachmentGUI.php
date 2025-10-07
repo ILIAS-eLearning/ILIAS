@@ -26,8 +26,11 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\Mail\Attachments\AttachmentManagement;
 use ILIAS\Mail\Attachments\MailAttachmentTableGUI;
+use ILIAS\Mail\Attachments\MailAttachmentCommands;
 
-class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCtrlSecurityInterface
+class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
+    ilCtrlSecurityInterface,
+    MailAttachmentCommands
 {
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilLanguage $lng;
@@ -62,7 +65,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
     public function getUnsafeGetCommands(): array
     {
         return [
-            'handleTableActions',
+            self::CMD_HANDLE_TABLE_ACTIONS,
         ];
     }
 
@@ -85,19 +88,25 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
 
     public function executeCommand(): void
     {
-        if (!($cmd = $this->ctrl->getCmd())) {
-            $cmd = 'showAttachments';
-        }
+        $cmd = $this->ctrl->getCmd();
+        switch ($cmd) {
+            case AbstractCtrlAwareUploadHandler::CMD_UPLOAD:
+            case AbstractCtrlAwareUploadHandler::CMD_INFO:
+            case AbstractCtrlAwareUploadHandler::CMD_REMOVE:
+                parent::executeCommand();
+                break;
 
-        match ($cmd) {
-            AbstractCtrlAwareUploadHandler::CMD_UPLOAD,
-            AbstractCtrlAwareUploadHandler::CMD_INFO,
-            AbstractCtrlAwareUploadHandler::CMD_REMOVE => parent::executeCommand(),
-            default => $this->$cmd()
-        };
+            default:
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd . 'Command')) {
+                    $cmd = self::DEFAULT_CMD;
+                }
+                $verified_command = $cmd . 'Command';
+                $this->$verified_command();
+                break;
+        }
     }
 
-    public function saveAttachments(): void
+    private function saveAttachments(): void
     {
         $files = [];
 
@@ -131,11 +140,11 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
             $this->mfile->getAttachmentsTotalSizeLimit() !== null &&
             $size_of_affected_files > $this->mfile->getAttachmentsTotalSizeLimit()) {
             $this->tpl->setOnScreenMessage(
-                'failure',
+                $this->tpl::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
                 ilUtil::formatSize((int) $this->mfile->getAttachmentsTotalSizeLimit())
             );
-            $this->showAttachments();
+            $this->showAttachmentsCommand();
             return;
         }
 
@@ -144,13 +153,13 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
         $this->ctrl->returnToParent($this);
     }
 
-    public function cancelSaveAttachments(): void
+    private function cancelSaveAttachmentsCommand(): void
     {
         $this->ctrl->setParameter($this, 'type', ilMailFormGUI::MAIL_FORM_TYPE_ATTACH);
         $this->ctrl->returnToParent($this);
     }
 
-    public function deleteAttachments(): void
+    private function confirmDeleteAttachments(): void
     {
         $files = $this->http->wrapper()->query()->retrieve(
             'mail_attachments_filename',
@@ -165,16 +174,16 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
         }
 
         if ($files === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
 
         $this->tpl->setTitle($this->lng->txt('mail'));
 
         $confirmation = new ilConfirmationGUI();
-        $confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmDeleteAttachments'));
-        $confirmation->setConfirm($this->lng->txt('confirm'), 'confirmDeleteAttachments');
-        $confirmation->setCancel($this->lng->txt('cancel'), 'showAttachments');
+        $confirmation->setFormAction($this->ctrl->getFormAction($this, self::CMD_DELETE_ATTACHMENTS));
+        $confirmation->setConfirm($this->lng->txt('confirm'), self::CMD_DELETE_ATTACHMENTS);
+        $confirmation->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_ATTACHMENTS);
         $confirmation->setHeaderText($this->lng->txt('mail_sure_delete_file'));
 
         foreach ($files as $filename) {
@@ -189,7 +198,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
         $this->tpl->printToStdout();
     }
 
-    public function confirmDeleteAttachments(): void
+    private function deleteAttachmentsCommand(): void
     {
         $files = $this->http->wrapper()->post()->retrieve(
             'filename',
@@ -200,8 +209,8 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
         );
 
         if ($files === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_mail'));
-            $this->showAttachments();
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('mail_select_one_mail'));
+            $this->showAttachmentsCommand();
             return;
         }
 
@@ -212,7 +221,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
 
         $error = $this->mfile->unlinkFiles($decoded_files);
         if ($error !== '') {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_error_delete_file') . ' ' . $error, true);
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_error_delete_file') . ' ' . $error, true);
         } else {
             $mail_data = $this->umail->retrieveFromStage();
             if (is_array($mail_data['attachments'])) {
@@ -225,13 +234,13 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
                 $this->umail->saveAttachments($tmp);
             }
 
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_files_deleted'), true);
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_files_deleted'), true);
         }
 
         $this->ctrl->redirect($this);
     }
 
-    public function showAttachments(): void
+    private function showAttachmentsCommand(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -239,7 +248,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
             $this->tabs->clearTargets();
             $this->tabs->setBackTarget(
                 $this->lng->txt('mail_manage_attachments_back_to_compose'),
-                $this->ctrl->getLinkTarget($this, 'cancelSaveAttachments')
+                $this->ctrl->getLinkTarget($this, self::CMD_CANCEL_SAVE_ATTACHMENTS)
             );
         }
 
@@ -293,7 +302,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
             $this->ctrl,
             $this->http->request(),
             new ILIAS\Data\Factory(),
-            'handleTableActions',
+            self::CMD_HANDLE_TABLE_ACTIONS,
             $this->mode
         );
         $components[] = $table->get();
@@ -316,7 +325,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
         $this->tpl->printToStdout();
     }
 
-    private function handleTableActions(): void
+    private function handleTableActionsCommand(): void
     {
         $query = $this->http->wrapper()->query();
         if (!$query->has('mail_attachments_table_action')) {
@@ -325,8 +334,8 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
 
         $action = $query->retrieve('mail_attachments_table_action', $this->refinery->to()->string());
         match ($action) {
-            'saveAttachments' => $this->saveAttachments(),
-            'deleteAttachments' => $this->deleteAttachments(),
+            self::TABLE_ACTION_SAVE_ATTACHMENTS => $this->saveAttachments(),
+            self::TABLE_CONFIRM_DELETE_ATTACHMENTS => $this->confirmDeleteAttachments(),
             default => $this->ctrl->redirect($this),
         };
     }
@@ -341,7 +350,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements ilCt
             $identifier = $this->mfile->storeUploadedFile($result);
             $status = HandlerResult::STATUS_OK;
             $message = $this->lng->txt('saved_successfully');
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
         } else {
             $status = HandlerResult::STATUS_FAILED;
             $identifier = '';

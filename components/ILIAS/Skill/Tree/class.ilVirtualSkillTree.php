@@ -279,7 +279,7 @@ class ilVirtualSkillTree
         $childs = $this->getChildsOfNode($id);
         foreach ($childs as $c) {
             if (!$a_only_basic || in_array($c["type"], array("skll", "sktp")) ||
-                ($c["type"] == "sktr" && ilSkillTreeNode::_lookupType($c["skill_id"]) == "sktp")) {
+                ($c["type"] == "sktr" && ilSkillTreeNode::_lookupType((int) $c["skill_id"]) == "sktp")) {
                 $result[] = $c;
             }
             $result = array_merge($result, $this->__getSubTreeRec($c["id"], $a_only_basic));

@@ -1330,7 +1330,6 @@ assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#Za zagotovitev trajnega dostopa do vaših rezultatov testa in možnosti ponovnega dostopa do prekinjenega testa je bila za vas izdelana osebna koda za dostop. Zabeležite si to kodo, da jo boste lahko uporabili za nadaljnja dejanja.
 assessment#:#tst_activate_skill_service#:#Kompetence
 assessment#:#tst_activate_skill_service_desc#:#Podpira dodelitev vprašanj kompetencam in opredelitev mejnih vrednosti za doseganje določene ravni kompetenc.
-assessment#:#tst_activation_limited_visibility_info#:#Izven določenega obdobja se prikaže ime testa. Testa ni mogoče zagnati.
 assessment#:#tst_activation_online_info#:#Udeleženci lahko opravljajo test le, če je na spletu.
 assessment#:#tst_add_quest_cont_edit_mode#:#Urednik za povratne informacije in namige glede rešitev.
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Uporabite urejevalnik strani ILIAS za urejanje povratnih informacij in nasvetov
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Datum in čas
 common#:#udf_type_select#:#Izbirni seznam (enkratna izbira)
 common#:#udf_type_text#:#Besedilo (prost vnos)
-common#:#udf_type_wysiwyg#:#Besedilno področje (WYSIWYG)
+common#:#udf_type_textarea#:#Besedilno področje (WYSIWYG)
 common#:#udf_update_select_field#:#Uredi izbirni seznam
 common#:#udf_update_text_field#:#Uredi besedilno polje
 common#:#udf_update_wysiwyg_field#:#Uredi polje za besedilno področje (WYSIWYG)
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Nalaganje...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Datoteka ni bila najdena
-common#:#url_to_latex#:#URL za skripto LaTeX CGI
 common#:#use_customized_instructions#:#Uporabi prilagojeno besedilo navodil:
 common#:#use_default_instructions#:#Uporabi privzeto besedilo navodil.
 common#:#user#:#Uporabnik
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Rezervirano mesto za serijsko pismo
 mail#:#mail_settings_external_frm_head#:#Zunanja e-pošta
 mail#:#mail_settings_external_tab#:#Zunanji
 mail#:#mail_settings_general_tab#:#Splošno
-mail#:#mail_settings_incoming_type_see_also#:#Nadaljnjo možnost za spreminjanje vrste dohodne e-pošte za uporabnike najdete <ahref="%s">tukaj</a>.
 mail#:#mail_settings_system_frm_head#:#Sistemska e-pošta
 mail#:#mail_settings_user_frm_head#:#Uporabniška e-pošta
 mail#:#mail_smtp_encryption#:#Šifriranje
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Prilagojena ikona
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Uredi vprašanja
+obj#:#multiple_selection#:#Večkratna izbira
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktiviraj večjezičnost za urejevalnik strani
 obj#:#obj_activate_multilang#:#Aktiviraj večjezičnost

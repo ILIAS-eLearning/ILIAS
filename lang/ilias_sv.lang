@@ -1330,7 +1330,6 @@ assessment#:#true#:#Sant
 assessment#:#tst_access_code_created#:#För att du ska ha permanent tillgång till dina testresultat och kunna återuppta ett avbrutet test har en personlig åtkomstnyckel genererats för dig. Vänligen notera koden nedan för att kunna fortsätta testet senare.
 assessment#:#tst_activate_skill_service#:#Kompetens
 assessment#:#tst_activate_skill_service_desc#:#Tillåter tilldelning av frågor till kompetenser samt definition av tröskelvärden för uppnåendet av vissa kompetensnivåer.
-assessment#:#tst_activation_limited_visibility_info#:#Utanför den angivna tidsperioden visas testtiteln. Testet kan dock inte startas. Ytterligare åtkomst, även till tester som redan pågår, förhindras i slutet av perioden.
 assessment#:#tst_activation_online_info#:#Endast när testet är online kan användare delta i testet.
 assessment#:#tst_add_quest_cont_edit_mode#:#Redaktör
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Oformaterad text för frågor och svar och ILIAS sidredigerare för feedback och lösningsanteckningar
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum och tid
 common#:#udf_type_select#:#Urvalslista (enstaka urval)
 common#:#udf_type_text#:#Text (fri inmatning)
-common#:#udf_type_wysiwyg#:#Textområde (WYSIWYG)
+common#:#udf_type_textarea#:#Textområde (WYSIWYG)
 common#:#udf_update_select_field#:#Redigera urvalslista
 common#:#udf_update_text_field#:#Redigera textfält
 common#:#udf_update_wysiwyg_field#:#Redigera fält för textområde (WYSIWYG)
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Ladda upp...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Filen hittades inte
-common#:#url_to_latex#:#URL till LaTeX CGI-skriptet
 common#:#use_customized_instructions#:#Använd anpassad vägledningstext
 common#:#use_default_instructions#:#Använd standardinstruktionstext.
 common#:#user#:#Användare
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Platshållare för seriebokstav
 mail#:#mail_settings_external_frm_head#:#Externa e-postmeddelanden
 mail#:#mail_settings_external_tab#:#External
 mail#:#mail_settings_general_tab#:#Allmänt
-mail#:#mail_settings_incoming_type_see_also#:#Du har ett annat alternativ för att ändra mottagningstyp för användarna <a href="%s">här</a>.
 mail#:#mail_settings_system_frm_head#:#System e-post
 mail#:#mail_settings_user_frm_head#:#E-post från användare
 mail#:#mail_smtp_encryption#:#Kryptering
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###21 11 2023 new variabl
 obj#:#custom_icon#:#Custom Icon###21 11 2023 new variable
 obj#:#edit_availability_period#:#Edit Availability Period###21 11 2023 new variable
 obj#:#edit_questions#:#Redigera frågor
+obj#:#multiple_selection#:#Multipelt urval
 obj#:#no_objects_selected#:#At least one object needs to be selected.###21 11 2023 new variable
 obj#:#obj_activate_content_lang#:#Aktivera flerspråkighet för sidredigeraren
 obj#:#obj_activate_multilang#:#Möjliggöra flerspråkighet

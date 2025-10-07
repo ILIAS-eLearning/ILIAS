@@ -27,6 +27,7 @@ use ilDefaultPlaceholderDescription;
 use ilCertificatePlaceholderDescription;
 use ilUserDefinedFieldsPlaceholderDescription;
 use ilObjectCustomUserFieldsPlaceholderDescription;
+use ILIAS\User\Profile\Profile;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -43,7 +44,8 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
         ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
-        ?ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject = null
+        ?ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject = null,
+        ?Profile $profile = null
     ) {
         global $DIC;
 
@@ -56,6 +58,7 @@ class CoursePlaceholderDescription implements ilCertificatePlaceholderDescriptio
         if (null === $defaultPlaceholderDescriptionObject) {
             $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription(
                 $language,
+                $profile ?? $DIC['user']->getProfile(),
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
         }

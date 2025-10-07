@@ -69,7 +69,7 @@ class ilDBStepReaderTest extends TestCase
     public function test_getLatestStepNumber(): void
     {
         $obj = new ilDBStepReaderTestObject();
-        $this->assertEquals(4, $obj->getLatestStepNumber(Test_ilDBStepReader::class, "step_"));
+        $this->assertSame(4, $obj->getLatestStepNumber(Test_ilDBStepReader::class, "step_"));
     }
 
     public function test_readSteps(): void

@@ -283,6 +283,15 @@ as "close" sign for modals. This character is not suitable for expressing this i
 we are actually using a "multiplication" sign. We should search for a better alternative and
 streamline these usages in order to avoid any A11y implications.
 
+### Move Components into Navigation (beginner, 2h)
+The top sections "breadcrumbs" and "menu" should both be moved into navigation.
+
+### Trait for usage of ILIAS\UI\Storage in Table and Sequence Navigation
+Storage of paramters in DataTable and SequenceNavigation look very much alike;
+in favor of those and further/future components the implementation should be
+realized as a trait to be used by several components.
+
+
 ## Long Term
 
 ### Mark Some Components as Internal

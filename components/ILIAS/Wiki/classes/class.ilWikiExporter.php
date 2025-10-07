@@ -118,6 +118,19 @@ class ilWikiExporter extends ilXmlExporter
             "entity" => "common",
             "ids" => $a_ids);
 
+        // Learning Object Metadata
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:wiki';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
+
         return $deps;
     }
 

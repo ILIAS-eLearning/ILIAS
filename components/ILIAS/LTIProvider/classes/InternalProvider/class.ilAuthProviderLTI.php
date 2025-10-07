@@ -33,6 +33,19 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     private ?ilLTITool $provider = null;
     private ?array $messageParameters = null;
 
+    protected string $launchReturnUrl = "";
+
+    private ?ilLogger $logger = null;
+
+    /**
+     * Constructor
+     */
+    public function __construct(ilAuthCredentials $credentials)
+    {
+        parent::__construct($credentials);
+        $this->logger = ilLoggerFactory::getLogger('ltis');
+    }
+
     /**
      * Get auth mode by key
      * @param string $a_auth_mode
@@ -210,31 +223,34 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
     /**
      * Do authentication
-     * @param \ilAuthStatus $status
+     * @param ilAuthStatus $status
      * @return bool
+     * @throws ilPasswordException
+     * @throws ilUserException
      */
     public function doAuthentication(\ilAuthStatus $status): bool
     {
         global $DIC;
-        //fix for Ilias Consumer
-        // schneider: required?
-        if ($DIC->http()->wrapper()->post()->has('launch_presentation_document_target') &&
-            $DIC->http()->wrapper()->post()->retrieve(
-                'launch_presentation_document_target',
-                $DIC->refinery()->kindlyTo()->string()
-            )) {
-            // TODO move to session-variable
-            //            $_POST['launch_presentation_document_target'] = 'window';
+        $post = [];
+
+        $lti_provider = new ilLTITool(new ilLTIDataConnector());
+
+        if ($DIC->http()->wrapper()->post()->has('launch_presentation_return_url')) {
+            $this->launchReturnUrl = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_return_url', $DIC->refinery()->kindlyTo()->string());
+            setcookie("launch_presentation_return_url", $this->launchReturnUrl, time() + 86400, "/", "", true, true);
+            $this->logger->info("Setting launch_presentation_return_url in cookie storage " . $this->launchReturnUrl);
+        }
+        $lti_provider->handleRequest();
+        $this->provider = $lti_provider;
+        $this->messageParameters = $this->provider->getMessageParameters();
+
+        if (!$DIC->http()->wrapper()->post()->has('launch_presentation_return_url')) {
+            $this->launchReturnUrl = $_COOKIE['launch_presentation_return_url'] ?? "";
+            $this->logger->info("Catching launch_presentation_return_url from cookies" . $this->launchReturnUrl);
+            $post["launch_presentation_return_url"] = $this->launchReturnUrl;
         }
 
-        $this->dataConnector = new ilLTIDataConnector();
-
-        $lti_provider = new ilLTITool($this->dataConnector);
-        // $lti_provider = new Tool\Tool($this->dataConnector);
-        $ok = true;
-        $lti_provider->handleRequest();
-
-        if (!$ok) {
+        if (!$lti_provider->ok) {
             $this->getLogger()->info('LTI authentication failed with message: ' . $lti_provider->reason);
             $status->setReason($lti_provider->reason);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
@@ -243,31 +259,18 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $this->getLogger()->debug('LTI authentication success');
         }
 
-        /**
-         * @var ilLTIPlatform
-         */
-        //LTI 1.1
-        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
-        // schneider: not required. platform is already initialized by authenticate function in Tool lib
-        /*
-        $consumer = ilLTIPlatform::fromConsumerKey(
-            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
-            $this->dataConnector
-        );
-        */
-        $this->provider = $lti_provider;
-        $this->messageParameters = $this->provider->getMessageParameters();
-
         if (empty($this->messageParameters)) {
             $status->setReason('empty_lti_message_parameters');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
 
-        $this->ref_id = $this->provider->platform->getRefId();
-        // stores ref_ids of all lti consumer within active LTI User Session
+        $platform = ilLTIPlatform::fromConsumerKey($this->provider->platform->getKey(), $this->provider->platform->getDataConnector());
+        ilSession::clear("lti_context_ids");
+        $this->ref_id = $platform->getRefId();
+
         $lti_context_ids = ilSession::get('lti_context_ids');
-        // if session object exists only add ref_id if not already exists
+
         if (isset($lti_context_ids) && is_array($lti_context_ids)) {
             if (!in_array($this->ref_id, $lti_context_ids)) {
                 $this->getLogger()->debug("push new lti ref_id: " . $this->ref_id);
@@ -281,58 +284,61 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $this->getLogger()->debug((string) var_export(ilSession::get('lti_context_ids'), true));
         }
 
-        // store POST into Consumer Session
-        //        $post = (array) $DIC->http()->wrapper()->post();
-        $post = [];
-        if ($DIC->http()->wrapper()->post()->has('launch_presentation_return_url')) {
-            $post['launch_presentation_return_url'] = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_return_url', $DIC->refinery()->kindlyTo()->string());
+        if (!empty($this->messageParameters['launch_presentation_return_url'])) {
+            $post['launch_presentation_return_url'] = $this->messageParameters['launch_presentation_return_url'];
         }
-        if ($DIC->http()->wrapper()->post()->has('launch_presentation_css_url')) {
-            $post['launch_presentation_css_url'] = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string());
+        if (!empty($this->messageParameters['launch_presentation_css_url'])) {
+            $post['launch_presentation_css_url'] = $this->messageParameters['launch_presentation_css_url'];
         }
-        if ($DIC->http()->wrapper()->post()->has('resource_link_title')) {
-            $post['resource_link_title'] = $DIC->http()->wrapper()->post()->retrieve('resource_link_title', $DIC->refinery()->kindlyTo()->string());
+        if (!empty($this->messageParameters['resource_link_title'])) {
+            $post['resource_link_title'] = $this->messageParameters['resource_link_title'];
         }
 
         ilSession::set('lti_' . $this->ref_id . '_post_data', $post);
-        ilSession::set('lti_init_target', ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id);
 
-        // lti service activation
-        if (!$this->provider->platform->enabled) {
+        /** @var ilObjectDefinition $obj_definition */
+        $obj_definition = $DIC["objDefinition"];
+
+        ilSession::set('lti_init_target', $obj_definition->getClassName(ilObject::_lookupType($this->ref_id, true)) . '_' . $this->ref_id);
+
+        if (!$platform->enabled) {
             $this->getLogger()->warning('Consumer is not enabled');
             $status->setReason('lti_consumer_inactive');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
-        // global activation status
-        if (!$this->provider->platform->getActive()) {
+
+        if (!$platform->getActive()) {
             $this->getLogger()->warning('Consumer is not active');
             $status->setReason('lti_consumer_inactive');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
-        $lti_id = $this->provider->platform->getExtConsumerId();
+
+        $lti_id = $platform->getExtConsumerId();
         if (!$lti_id) {
             $status->setReason('lti_auth_failed_invalid_key');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
 
-        $this->getLogger()->debug('Using prefix:' . $this->provider->platform->getPrefix());
+        $this->getLogger()->debug('Using prefix:' . $platform->getPrefix());
+
+        $this->getCredentials()->setUsername($this->messageParameters['user_id']);
 
         $internal_account = $this->findUserId(
             $this->getCredentials()->getUsername(),
             (string) $lti_id,
-            $this->provider->platform->getPrefix()
+            $platform->getPrefix()
         );
 
         if ($internal_account) {
-            $this->updateUser($internal_account, $this->provider->platform);
+            $this->updateUser($internal_account, $platform);
         } else {
-            $internal_account = $this->createUser($this->provider->platform);
+            $internal_account = $this->createUser($platform);
         }
 
-        $this->handleLocalRoleAssignments($internal_account, $this->provider->platform);
+        $this->handleLocalRoleAssignments($internal_account, $platform, $this->ref_id);
 
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($internal_account);
@@ -427,12 +433,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
         $newUser["login"] = $local_user;
-        if(isset($this->messageParameters['lis_person_name_given'])) {
+        if (isset($this->messageParameters['lis_person_name_given'])) {
             $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
         } else {
             $newUser["firstname"] = '-';
         }
-        if(isset($this->messageParameters['lis_person_name_family'])) {
+        if (isset($this->messageParameters['lis_person_name_family'])) {
             $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
         } else {
             $newUser["lastname"] = '-';
@@ -523,16 +529,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         return $userObj->getId();
     }
 
-    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer): bool
+    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer, int $target_ref_id, int $default_rol_id = null): bool
     {
         global $DIC;
-        //        if (empty($this->messageParameters)) {
-        //            $status->setReason('empty_lti_message_parameters');
-        //            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-        //            return false;
-        //        }
-        //$target_ref_id = $_SESSION['lti_current_context_id'];
-        $target_ref_id = $this->ref_id;
         $this->getLogger()->info('$target_ref_id: ' . $target_ref_id);
         if (!$target_ref_id) {
             $this->getLogger()->warning('No target id given');
@@ -541,59 +540,179 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         $obj_settings = new ilLTIProviderObjectSetting($target_ref_id, $consumer->getExtConsumerId());
 
-        // @todo read from lti data
-        //$roles = $DIC->http()->wrapper()->post()->retrieve('roles', $DIC->refinery()->kindlyTo()->string());
-        $roles = $this->messageParameters['roles'];
+        $roles = $this->messageParameters['roles'] ?? '';
 
-        if (!strlen($roles)) {
-            $this->getLogger()->warning('No role information given');
+        if (!is_string($roles) || empty($roles)) {
+            $this->getLogger()->warning('No role information given or invalid role format.');
             return false;
         }
-        $role_arr = explode(',', $roles);
-        foreach ($role_arr as $role_name) {
-            $role_name = trim($role_name);
-            switch ($role_name) {
-                case 'Administrator':
-                    $this->getLogger()->info('Administrator role handling');
-                    if ($obj_settings->getAdminRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getAdminRole(),
-                            $user_id
-                        );
-                    }
-                    break;
 
-                case 'Instructor':
-                    $this->getLogger()->info('Instructor role handling');
-                    $this->getLogger()->info('Tutor role for request: ' . $obj_settings->getTutorRole());
-                    if ($obj_settings->getTutorRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getTutorRole(),
-                            $user_id
-                        );
-                    }
-                    break;
+        $this->getLogger()->info("Deassigning all roles for user: " . $user_id);
+        $DIC->rbac()->admin()->deassignUser($obj_settings->getTutorRole(), $user_id);
+        $DIC->rbac()->admin()->deassignUser($obj_settings->getMemberRole(), $user_id);
+        $DIC->rbac()->admin()->deassignUser($obj_settings->getAdminRole(), $user_id);
 
-                case 'Member':
-                case 'Learner':
-                    $this->getLogger()->info('Member role handling');
-                    if ($obj_settings->getMemberRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getMemberRole(),
-                            $user_id
-                        );
-                    }
-                    break;
-                default: // ToDo: correct parsing of lti1.3 roles
-                    $this->getLogger()->info('default role handling');
-                    if ($obj_settings->getMemberRole()) {
-                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
-                            $obj_settings->getMemberRole(),
-                            $user_id
-                        );
-                    }
+        $role_arr = is_array($roles) ? $roles : explode(',', $roles);
+
+        $this->getLogger()->info('Recieved roles: ' . implode(', ', $role_arr));
+
+        $tree = $DIC->repositoryTree();
+        $parent = $tree->getParentId($target_ref_id);
+        if ($parent != 1) {
+            $this->handleLocalRoleAssignments($user_id, $consumer, $parent, $obj_settings->getMemberRole());
+        }
+        foreach ($role_arr as $role) {
+            $role = trim($role);
+            $local_role_id = $this->mapLTIRoleToLocalRole($role, $obj_settings) == 0 && $default_rol_id != null ? $default_rol_id : $this->mapLTIRoleToLocalRole($role, $obj_settings);
+            if (isset($local_role_id)) {
+                $this->getLogger()->info('Assigning local role ID: ' . $local_role_id . ' for LTI role: ' . $role . ' to user ID: ' . $user_id);
+                $DIC->rbac()->admin()->assignUser($local_role_id, $user_id);
+            } else {
+                $this->getLogger()->info('No local role mapping found for LTI role: ' . $role);
             }
         }
+
         return true;
     }
+
+    /**
+     * Maps an LTI role (URI or simple name) to a local ILIAS role ID.
+     *
+     * @param string $lti_role
+     * @param ilLTIProviderObjectSetting $settings
+     * @return int|null The ILIAS role ID, or null if no mapping is found.
+     */
+    protected function mapLTIRoleToLocalRole(string $lti_role, ilLTIProviderObjectSetting $settings): ?int
+    {
+        // Prioritize more specific roles (sub-roles)
+        $role_map = [
+            // System Roles
+            'http://purl.imsglobal.org/vocab/lti/system/person#TestUser' => null, // Example: No mapping for TestUser
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#None' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#AccountAdmin' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#Creator' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#SysAdmin' => null,  // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#SysSupport' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/system/person#User' => null, // No direct mapping
+
+            // Institution Roles
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Faculty' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Guest' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#None' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Other' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Staff' => null,  // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Student' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Alumni' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Instructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Learner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Member' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Mentor' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Observer' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/institution/person#ProspectiveStudent' => null, // No direct mapping
+
+            // Context Roles (Main)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor' => null, // No direct mapping
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Manager' => $settings->getAdminRole(), // Potentially map to admin
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Member' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Officer' => null, // No direct mapping
+
+            // Context Sub-Roles (TeachingAssistant)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistant' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantGroup' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantOffering' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantSection' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantSectionAssociation' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#TeachingAssistantTemplate' => $settings->getTutorRole(),
+            // Context Sub-Roles (Grader)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#Grader' => $settings->getTutorRole(), // Map Grader to Tutor
+            // Context Sub-Roles (GuestInstructor, Lecturer, PrimaryInstructor, SecondaryInstructor)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#GuestInstructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#Lecturer' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#PrimaryInstructor' => $settings->getTutorRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#SecondaryInstructor' => $settings->getTutorRole(),
+            // Context Sub-Roles (ExternalInstructor)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Instructor#ExternalInstructor' => $settings->getTutorRole(),
+
+            // Context Sub-Roles (ExternalLearner, GuestLearner, Learner, NonCreditLearner)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#ExternalLearner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#GuestLearner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#Learner' => $settings->getMemberRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Learner#NonCreditLearner' => $settings->getMemberRole(),
+
+            // Context Sub-Roles (AreaManager, CourseCoordinator, ExternalObserver, Manager, Observer)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#AreaManager' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#CourseCoordinator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#ExternalObserver' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#Manager' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Manager#Observer' => null,
+
+            // Context Sub-Roles (Advisor, Auditor, ExternalAdvisor, ExternalAuditor, ExternalLearningFacilitator, ExternalMentor, ExternalReviewer, ExternalTutor, LearningFacilitator, Mentor, Reviewer, Tutor)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Advisor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Auditor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalAdvisor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalAuditor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalLearningFacilitator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalMentor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalReviewer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#ExternalTutor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#LearningFacilitator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Mentor' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Reviewer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Mentor#Tutor' => $settings->getTutorRole(), // Map Tutor to Tutor
+
+            // Context Sub-Roles (Chair, Communications, Secretary, Treasurer, Vice-Chair)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Chair' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Communications' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Secretary' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Treasurer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Officer#Vice-Chair' => null,
+
+            // Context Sub-Roles (ContentDeveloper, ContentExpert, ExternalContentExpert, Librarian)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ContentDeveloper' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ContentExpert' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#ExternalContentExpert' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/ContentDeveloper#Librarian' => null,
+
+            // Context Sub-Roles (Member)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Member#Member' => $settings->getMemberRole(),
+
+            // Context Sub-Roles (Administrator, Developer, ExternalDeveloper, ExternalSupport, ExternalSystemAdministrator, Support, SystemAdministrator)
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#Administrator' => $settings->getAdminRole(),
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#Developer' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#ExternalDeveloper' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#ExternalSupport' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#ExternalSystemAdministrator' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#Support' => null,
+            'http://purl.imsglobal.org/vocab/lis/v2/membership/Administrator#SystemAdministrator' => null,
+        ];
+
+        // LTI 1.0/1.1 simple names (supported for backward compatibility)
+        $simple_name_map = [
+            'Instructor' => $settings->getTutorRole(),
+            'Learner' => $settings->getMemberRole(),
+            'ContentDeveloper' => null,
+            'Administrator' => $settings->getAdminRole(),
+            'Mentor' => null,
+            'Manager' => $settings->getAdminRole(),
+            'Member' => $settings->getMemberRole(),
+            'Officer' => null,
+        ];
+
+
+        if (isset($role_map[$lti_role])) {
+            return $role_map[$lti_role];
+        } elseif (isset($simple_name_map[$lti_role])) {
+            // Check for simple names
+            return $simple_name_map[$lti_role];
+        }
+
+        return null;
+    }
+
 }

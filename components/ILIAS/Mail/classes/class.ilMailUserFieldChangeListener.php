@@ -18,30 +18,36 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\Mail;
+namespace ILIAS\Mail;
 
 use ILIAS\User\Profile\ChangeListeners\UserFieldAttributesChangeListener;
-use ILIAS\DI\Container;
+use ILIAS\User\Profile\Fields\Standard\SecondEmail;
+use ILIAS\User\PropertyAttributes;
+use ILIAS\Language\Language;
 
-class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
+class ilMailUserFieldChangeListener implements UserFieldAttributesChangeListener
 {
-    public function __construct(Container $dic)
+    public function isInterestedInField(): string
     {
-        parent::__construct($dic);
-        $this->lng->loadLanguageModule('mail');
+        return SecondEmail::class;
     }
 
-    public function getDescriptionForField(string $fieldName, string $attribute): ?string
+    public function isInterestedInAttribute(): PropertyAttributes
     {
-        if ($fieldName === 'second_email' && $attribute === 'visible_second_email') {
-            return \sprintf(
-                $this->dic->language()->txt('usrFieldChange_second_mail_visible_in_personal_data'),
-                $attribute,
-                $fieldName
-            );
-        }
+        return PropertyAttributes::VisibleToUser;
+    }
 
-        return null;
+    public function getDescriptionForField(
+        Language $lng,
+        string $translated_field_name,
+        string $translated_attribute_name
+    ): string {
+        $lng->loadLanguageModule('mail');
+        return \sprintf(
+            $lng->txt('usrFieldChange_second_mail_visible_in_personal_data'),
+            $translated_attribute_name,
+            $translated_field_name
+        );
     }
 
     public function getComponentName(): string

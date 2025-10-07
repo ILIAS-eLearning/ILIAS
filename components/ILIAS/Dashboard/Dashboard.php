@@ -41,5 +41,7 @@ class Dashboard implements Component\Component
             new Component\Resource\ComponentJS($this, "modal-confirmation.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "SortationUserInputHandler.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "manual-sorting.js");
     }
 }

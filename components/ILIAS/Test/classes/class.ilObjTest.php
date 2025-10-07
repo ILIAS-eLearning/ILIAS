@@ -39,6 +39,7 @@ use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\RedirectionModes;
 use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
 use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
@@ -71,10 +72,6 @@ class ilObjTest extends ilObject
     public const INVITATION_ON = 1;
     public const SCORE_LAST_PASS = 0;
     public const SCORE_BEST_PASS = 1;
-
-    public const REDIRECT_NONE = 0;
-    public const REDIRECT_ALWAYS = 1;
-    public const REDIRECT_KIOSK = 2;
 
     private ?bool $activation_limited = null;
     private array $mob_ids;
@@ -520,13 +517,6 @@ class ilObjTest extends ilObject
             }
         }
 
-        $this->storeActivationSettings(
-            $this->isActivationLimited(),
-            $this->getActivationStartingTime(),
-            $this->getActivationEndingTime(),
-            $this->getActivationVisibility(),
-        );
-
         if ($properties_only) {
             return;
         }
@@ -617,23 +607,6 @@ class ilObjTest extends ilObject
             $data = $this->db->fetchObject($result);
             $this->setTestId($data->test_id);
             $this->loadQuestions();
-        }
-
-        // moved activation to ilObjectActivation
-        if (isset($this->ref_id)) {
-            $activation = ilObjectActivation::getItem($this->ref_id);
-            switch ($activation["timing_type"]) {
-                case ilObjectActivation::TIMINGS_ACTIVATION:
-                    $this->setActivationLimited(true);
-                    $this->setActivationStartingTime($activation["timing_start"]);
-                    $this->setActivationEndingTime($activation["timing_end"]);
-                    $this->setActivationVisibility($activation["visible"]);
-                    break;
-
-                default:
-                    $this->setActivationLimited(false);
-                    break;
-            }
         }
     }
 
@@ -969,26 +942,6 @@ class ilObjTest extends ilObject
     {
         $end_time = $this->getMainSettings()->getAccessSettings()->getEndTime();
         return $end_time !== null ? $end_time->getTimestamp() : 0;
-    }
-
-    public function getRedirectionMode(): int
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionMode();
-    }
-
-    public function isRedirectModeKiosk(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionMode() === self::REDIRECT_KIOSK;
-    }
-
-    public function isRedirectModeNone(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionMode() === self::REDIRECT_NONE;
-    }
-
-    public function getRedirectionUrl(): string
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl() ?? '';
     }
 
     public function isPasswordEnabled(): bool
@@ -3101,7 +3054,9 @@ class ilObjTest extends ilObject
                     $finishing_settings = $finishing_settings->withShowAnswerOverview((bool) $metadata["entry"]);
                     break;
                 case 'redirection_mode':
-                    $finishing_settings = $finishing_settings->withRedirectionMode((int) $metadata['entry']);
+                    $finishing_settings = $finishing_settings->withRedirectionMode(
+                        RedirectionModes::tryFrom($metadata['entry'] ?? 0) ?? RedirectionModes::NONE
+                    );
                     break;
                 case 'redirection_url':
                     $finishing_settings = $finishing_settings->withRedirectionUrl($metadata['entry']);
@@ -3120,18 +3075,6 @@ class ilObjTest extends ilObject
                     break;
                 case 'show_grading_mark':
                     $result_summary_settings = $result_summary_settings->withShowGradingMarkEnabled((bool) $metadata["entry"]);
-                    break;
-                case 'activation_limited':
-                    $this->setActivationLimited((bool) $metadata['entry']);
-                    break;
-                case 'activation_start_time':
-                    $this->setActivationStartingTime($metadata['entry'] !== 'null' ? (int) $metadata['entry'] : null);
-                    break;
-                case 'activation_end_time':
-                    $this->setActivationEndingTime($metadata['entry'] !== 'null' ? (int) $metadata['entry'] : null);
-                    break;
-                case 'activation_visibility':
-                    $this->setActivationVisibility($metadata['entry']);
                     break;
                 case 'autosave':
                     $question_behaviour_settings = $question_behaviour_settings->withAutosaveEnabled((bool) $metadata['entry']);
@@ -3438,7 +3381,7 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement("fieldlabel", null, "redirection_mode");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getRedirectionMode());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getRedirectionMode()->value);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
@@ -3658,26 +3601,6 @@ class ilObjTest extends ilObject
             );
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_limited");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isActivationLimited());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_start_time");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationStartingTime());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_end_time");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationEndingTime());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_visibility");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationVisibility());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "autosave");
@@ -5640,11 +5563,6 @@ class ilObjTest extends ilObject
             'questionSetType' => $main_settings->getGeneralSettings()->getQuestionSetType(),
             'Anonymity' => (int) $main_settings->getGeneralSettings()->getAnonymity(),
 
-            'activation_limited' => $this->isActivationLimited(),
-            'activation_start_time' => $this->getActivationStartingTime(),
-            'activation_end_time' => $this->getActivationEndingTime(),
-            'activation_visibility' => $this->getActivationVisibility(),
-
             'IntroEnabled' => (int) $main_settings->getIntroductionSettings()->getIntroductionEnabled(),
             'ExamConditionsCheckboxEnabled' => (int) $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled(),
 
@@ -5685,7 +5603,7 @@ class ilObjTest extends ilObject
 
             'enable_examview' => $main_settings->getFinishingSettings()->getShowAnswerOverview(),
             'ShowFinalStatement' => (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled(),
-            'redirection_mode' => $main_settings->getFinishingSettings()->getRedirectionMode(),
+            'redirection_mode' => $main_settings->getFinishingSettings()->getRedirectionMode()->value,
             'redirection_url' => $main_settings->getFinishingSettings()->getRedirectionUrl(),
             'mailnotification' => $main_settings->getFinishingSettings()->getMailNotificationContentType(),
             'mailnottype' => (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification(),
@@ -5771,14 +5689,6 @@ class ilObjTest extends ilObject
         } else {
             $info = 'old_mark_default_not_applied';
         }
-
-
-        $this->storeActivationSettings(
-            (bool) ($testsettings['is_activation_limited'] ?? false),
-            $activation_starting_time,
-            $activation_ending_time,
-            (bool) ($testsettings['activation_visibility'] ?? false),
-        );
 
         $main_settings = $this->getMainSettings();
 
@@ -5891,7 +5801,7 @@ class ilObjTest extends ilObject
                     )->withConcludingRemarksEnabled(
                         $testsettings['ShowFinalStatement'] ?? $finishing_settings->getConcludingRemarksEnabled()
                     )->withRedirectionMode(
-                        $testsettings['redirection_mode'] ?? $finishing_settings->getRedirectionMode()
+                        RedirectionModes::tryFrom($testsettings['redirection_mode'] ?? 0) ?? $finishing_settings->getRedirectionMode()
                     )->withRedirectionUrl(
                         $testsettings['redirection_url'] ?? $finishing_settings->getRedirectionUrl()
                     )->withMailNotificationContentType(
@@ -6674,56 +6584,6 @@ class ilObjTest extends ilObject
         return $this->online;
     }
 
-    public function setActivationVisibility($a_value)
-    {
-        $this->activation_visibility = (bool) $a_value;
-    }
-
-    public function getActivationVisibility(): bool
-    {
-        return $this->activation_visibility;
-    }
-
-    public function isActivationLimited(): ?bool
-    {
-        return $this->activation_limited;
-    }
-
-    public function setActivationLimited($a_value)
-    {
-        $this->activation_limited = (bool) $a_value;
-    }
-
-    public function storeActivationSettings(
-        ?bool $is_activation_limited = false,
-        ?int $activation_starting_time = null,
-        ?int $activation_ending_time = null,
-        bool $activation_visibility = false,
-    ): void {
-        if (!$this->ref_id) {
-            return;
-        }
-
-        $item = new ilObjectActivation();
-        $is_activation_limited ??= false;
-
-        if (!$is_activation_limited) {
-            $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
-        } else {
-            $item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
-            $item->setTimingStart($activation_starting_time);
-            $item->setTimingEnd($activation_ending_time);
-            $item->toggleVisible($activation_visibility);
-        }
-
-        $item->update($this->ref_id);
-
-        $this->setActivationLimited($is_activation_limited);
-        $this->setActivationStartingTime($activation_starting_time);
-        $this->setActivationStartingTime($activation_ending_time);
-        $this->setActivationVisibility($activation_visibility);
-    }
-
     public function getIntroductionPageId(): int
     {
         $page_id = $this->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
@@ -6872,26 +6732,6 @@ class ilObjTest extends ilObject
     public function getEnableExamview(): bool
     {
         return $this->getMainSettings()->getFinishingSettings()->getShowAnswerOverview();
-    }
-
-    public function setActivationStartingTime(?int $starting_time = null)
-    {
-        $this->activation_starting_time = $starting_time;
-    }
-
-    public function setActivationEndingTime(?int $ending_time = null)
-    {
-        $this->activation_ending_time = $ending_time;
-    }
-
-    public function getActivationStartingTime(): ?int
-    {
-        return $this->activation_starting_time;
-    }
-
-    public function getActivationEndingTime(): ?int
-    {
-        return $this->activation_ending_time;
     }
 
     /**

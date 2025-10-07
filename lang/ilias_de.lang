@@ -602,7 +602,6 @@ assessment#:#create_new#:#Erstelle neue
 assessment#:#created#:#Erstellt
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Teilnehmer
-assessment#:#date_time#:#Datum und Uhrzeit
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Bild
 assessment#:#definition_text#:#Text
@@ -1174,9 +1173,12 @@ assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke E
 assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit für diesen Test wurde erreicht. In wenigen Sekunden werden Sie weitergeleitet...
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
-assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. Wenn Sie die Adresse einer externen Webseite eingeben, verwenden Sie die vollständige URL (einschließlich „https://”). Wenn Sie zu einem Objekt in ILIAS weiterleiten, verwenden Sie den Permalink, der in der Fußzeile des betreffenden Objekts zu finden ist.
-assessment#:#redirect_always#:#immer zur definierten Zielseite
-assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
+assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. Wenn Sie die Adresse einer externen Webseite eingeben, verwenden Sie die vollständige URL (einschließlich "https://"). Wenn Sie zu einem Objekt in ILIAS weiterleiten, verwenden Sie den Permalink, der in der Fußzeile des betreffenden Objekts zu finden ist.
+assessment#:#redirect_always#:#Immer zur definierten Zielseite
+assessment#:#redirect_always_to_logout#:#Immer zum Abmeldebildschirm
+assessment#:#redirect_in_kiosk_mode#:#Bei aktivierten Prüfungsansicht zur definierten Zielseite
+assessment#:#redirect_url_invalid#:#Bitte geben Sie eine gültige URL zur Zielseite an.
+assessment#:#redirect_url_required_for_rule#:#Die URL der Zielseite muss angegeben werden, wenn "%s" ausgewählt ist.
 assessment#:#redirection_url#:#URL Zielseite
 assessment#:#region#:#Region
 assessment#:#remaining_duration#:#Restdauer
@@ -1341,12 +1343,12 @@ assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen 
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen und Lösungshinweise
-assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen und Lösungshinweise mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
-assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten, Rückmeldungen und Lösungshinweise. Rückmeldungen und Lösungshinweise werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten und Rückmeldungen
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten und Rückmeldungen. Rückmeldungen werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Unformatierter Text
-assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#Bietet keine Formatierung von Text in Fragen, Antworten, Rückmeldungen und Lösungshinweisen.
+assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#Bietet keine Formatierung von Text in Fragen, Antworten und Rückmeldungen.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
@@ -1515,8 +1517,6 @@ assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
 assessment#:#tst_highscore_anon_description#:#Die Platzierungen anderer Teilnehmerinnen und Teilnehmer werden ohne Angabe der Namen angezeigt. Dies geschieht automatisch bei anonymisierten Tests.
 assessment#:#tst_highscore_description#:#Im Reiter „Meine Ergebnisse“ wird ein zusätzlicher Unterreiter „Platzierung“ angezeigt. Es wird eine Tabelle über das Abschneiden der verschiedenen Personen im Test angezeigt. Sie müssen die Option „Eigenes Testergebnis einsehen“ aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_highscore_enabled#:#Platzierungen
-assessment#:#tst_highscore_hints#:#Lösungshinweise
-assessment#:#tst_highscore_hints_description#:#Es wird einen zusätzliche Spalte eingeblendet, in welcher angezeigt wird, wie viele Lösungshinweise angefordert wurden.
 assessment#:#tst_highscore_mode#:#Modus
 assessment#:#tst_highscore_own_table#:#Eigenen Rang anzeigen
 assessment#:#tst_highscore_own_table_description#:#Teilnehmerinnen und Teilnehmern wird eine Tabelle mit ihrem Rang innerhalb aller Platzierungen angezeigt.
@@ -1861,6 +1861,7 @@ assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#„Nicht beantwortete Fragen werden ans Testende geschoben“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#„Fragen mischen“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.
+assessment#:#tst_settings_form_reload_needed#:#Das Formular musste neu geladen werden, da sich die verfügbaren Einstellungen durch das Löschen aller Ergebnisse geändert haben.
 assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
@@ -2188,6 +2189,8 @@ awrn#:#awrn_seconds#:#Sek.
 awrn#:#awrn_use_osd#:#Pop-up Online-Benutzer
 awrn#:#awrn_use_osd_info#:#Zeigt ein Pop-up an, wenn neue Benutzer in der „Wer ist online?“-Anzeige mit dem Online-Status erscheinen.
 awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
+awrn#:#awrn_user_show_default#:#Standardwert für die Anzeige in "Wer ist online?"
+awrn#:#awrn_user_show_default_info#:#Definiert den Standardwert für die Anzeige in "Wer ist online?".
 awrn#:#user_awrn_default#:#Standard
 awrn#:#user_awrn_hide#:#Nicht anzeigen
 awrn#:#user_awrn_show#:#Anzeigen
@@ -2577,6 +2580,7 @@ book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Buchungen
 book#:#book_no_of_objects#:#Anzahl Angebote
+book#:#book_no_pools_selected#:#Diesem Kurs ist kein Buchungspool zugewiesen. Buchungspools können über den Reiter „Ressourcen“ des Kurses zugewiesen werden.
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
@@ -2672,6 +2676,7 @@ book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Teilnehmer
 book#:#reservation_deleted#:#Buchung gelöscht
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
+buddysystem#:#buddy_allow_to_contact_me_default_info#:#Bestimmt ob standardmässig Kontaktanfragen verschickt werden können.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
@@ -2874,6 +2879,7 @@ chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, logge
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber einen <b>eindeutigen</b> Namen.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen im Chat anzeigen
+chatroom#:#chat_broadcast_typing_default_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird standardmässig angezeigt, wenn jemand beginnt, eine Nachricht zu tippen.
 chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu tippen.
 chatroom#:#chat_connection_disconnected#:##username# hat den Chatraum verlassen.
 chatroom#:#chat_connection_established#:##username# hat den Chatraum betreten.
@@ -2911,6 +2917,7 @@ chatroom#:#chat_message_options#:#Optionen
 chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird anderen im Chat nicht angezeigt
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
+chatroom#:#chat_osc_accept_msg_default_info#:#Wenn aktiviert, können Benutzer einander standardmässig Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accept_msg_info_slate#:#Um private Konversationen zu nuten, müssen Sie die Einstellungen "Anchatten erlauben" aktivieren.
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Sichtbarkeit (in "Profil und Datenschutz)
@@ -3014,7 +3021,8 @@ chatroom#:#preferred_chatname#:#Gewünschter Name
 chatroom#:#public_chat_created#:#Es wurde ein neuer öffentlicher Chatraum im Magazin angelegt.
 chatroom#:#scope#:#Raum
 chatroom#:#select_custom_username#:#Angezeigter Name im Chat
-chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der <a href="%1$s" target="_blank">Readme-Datei</a>.
+chatroom#:#server_further_information#:#Weitere Informationen zur Konfiguration des Servers finden Sie in der Readme-Datei.
+chatroom#:#server_readme_file_btn_label#:#Readme-Datei
 chatroom#:#session#:#Sitzung
 chatroom#:#settings_general#:#Allgemein
 chatroom#:#settings_title#:#Einstellungen des Chats
@@ -3667,7 +3675,7 @@ common#:#change_assignment#:#Zuweisung ändern
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_owner#:#Speichern
 common#:#change_sort_direction#:#Sortierrichtung ändern
-common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
+common#:#changeable#:#Kann durch Benutzer selbst geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Anmeldenamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
 common#:#chapter#:#Kapitel
@@ -3743,6 +3751,7 @@ common#:#condition_not_finished#:#Nicht beendet
 common#:#condition_passed#:#Bestanden
 common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
+common#:#configuration#:#Konfiguration
 common#:#confirm#:#Bestätigen
 common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
 common#:#confirmation#:#Aktion bestätigen
@@ -3767,7 +3776,7 @@ common#:#copy#:#Kopieren
 common#:#copyChapter#:#Kopieren
 common#:#copyPage#:#Kopieren
 common#:#copy_all#:#Alle kopieren
-common#:#copy_n_of_suffix#:#- Kopie (%1$s)
+common#:#copy_n_of_suffix#:#(%1$s)
 common#:#copy_of#:#Kopie von
 common#:#copy_of_suffix#:#- Kopie
 common#:#copy_perma_link#:#Link in Zwischenablage kopieren
@@ -3848,6 +3857,7 @@ common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Eintrag
 common#:#date#:#Datum
+common#:#date_time#:#Datum und Zeit
 common#:#dateplaner#:#Kalender
 common#:#day#:#Tag
 common#:#days#:#Tage
@@ -5254,6 +5264,7 @@ common#:#personal_picture#:#Profilbild
 common#:#personal_profile#:#Profil und Datenschutz
 common#:#personal_resources#:#Persönliche Ressourcen
 common#:#personal_settings#:#Einstellungen
+common#:#personalise_date_time#:#Datum- und Zeiteinstellungen personalisieren
 common#:#persons#:#Personen
 common#:#pg_add#:#Seite anlegen
 common#:#pg_new#:#Neue Seite
@@ -5544,10 +5555,10 @@ common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in „%s“ zur Si
 common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in „%s“ für die Sitzung „%s“
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!  Klicken Sie auf OK, um Ihre Sitzung zu verlängern! Wollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.  Betroffene Installation: %3$s.
-common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
+common#:#session_reminder_default_lead_time_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_input#:#Session-Reminder (in Minuten)
 common#:#session_reminder_lead_time#:#Vorlaufzeit
-common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wie viele Minuten vor Ablauf einer Sitzung Sie eine Erinnerung erhalten möchten.<br / >Die Funktion ist deaktiviert, wenn der Wert „%s“ ist. Der empfohlene Wert ist %s.<br / >Ihre aktuelle Dauer einer Sitzung ist %s.
+common#:#session_reminder_lead_time_info#:#Bitte geben Sie an, wie viele Minuten vor Ablauf einer Sitzung eine Erinnerung angezeigt werden soll.<br / >Die Funktion ist deaktiviert, wenn der Wert „%s“ ist. Der empfohlene Wert ist %s.<br / >Die aktuelle Dauer einer Sitzung ist %s.
 common#:#session_reminder_session_duration#:#(Aktuelle Sessiondauer: %s).
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern
@@ -5775,9 +5786,9 @@ common#:#udf_name_already_exists#:#Ein Feld mit diesem Namen existiert bereits. 
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
-common#:#udf_type_select#:#Auswahlliste (Einfachauswahl)
+common#:#udf_type_select#:#Auswahlliste
 common#:#udf_type_text#:#Text (freie Eingabe)
-common#:#udf_type_wysiwyg#:#Textbereich (WYSIWYG)
+common#:#udf_type_textarea#:#Textbereich
 common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_text_field#:#Textfeld bearbeiten
 common#:#udf_update_wysiwyg_field#:#Feld für Textbereich bearbeiten (WYSIWYG)
@@ -5879,7 +5890,7 @@ common#:#usr_new#:#Neuer Benutzer
 common#:#usr_settings_changeable_lua#:#Änderbar in „Lokale Konten“ in Kategorien
 common#:#usr_settings_explanation_profile#:#Pro Datenfeld kann der Zugriff in Profil, Mitglieder-Reitern und lokalen Konten konfiguriert werden:<ul><li>Sichtbar: Angabe wird angezeigt, kann aber nicht geändert werden.</li><li>Änderbar: Angabe wird angezeigt und kann geändert werden.</li><li>Export: Angabe kann in Listen der Teilnehmerinnen und Teilnehmern exportiert werden.</li><li>Durchsuchbar: Nach der Angabe kann gesucht werden, und es gibt eine Autovervollständigung in Formularfeldern.</li><li>Bei der Einstellung „Erforderliche Angabe“ ist die Eingabe verpflichtend.</li></ul>Unabhängig von diesen Einstellungen kann die Systemadministration alle Daten ändern.
 common#:#usr_settings_header_profile#:#Einstellungen für die Anmeldekonten
-common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
+common#:#usr_settings_saved#:#Die Konfiguration wurde erfolgreich gespeichert und ist nun aktiviert.
 common#:#usr_settings_visib_lua#:#Sichtbar in „Lokale Konten“ in Kategorien
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
@@ -6417,7 +6428,7 @@ content#:#cont_ed_split_page_next#:#Auf nächste Seite schieben
 content#:#cont_ed_textitem#:#Testelement
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
-content#:#cont_edit_comp#:#Bearbeitungsmodus
+content#:#cont_edit_comp#:#Bearbeiten
 content#:#cont_edit_definition#:#Erklärung bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_language_version#:#Version bearbeiten
@@ -6426,7 +6437,7 @@ content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
 content#:#cont_edit_mob#:#Medienobjekt bearbeiten
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mode#:#Bearbeitungsmodus
-content#:#cont_edit_multi#:#Mehrfachauswahl
+content#:#cont_edit_multi#:#Auswählen
 content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
 content#:#cont_edit_par#:#Text bearbeiten
 content#:#cont_edit_personal_data#:#Persönliche Daten editieren
@@ -7331,6 +7342,7 @@ copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_pages#:#Seiten
 copg#:#copg_par_format_selection#:#Absatzformatauswahl
 copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
+copg#:#copg_plugin#:#Plugin
 copg#:#copg_plugin_not_avail#:#Plugin %s nicht verfügbar.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
@@ -8061,6 +8073,10 @@ dash#:#dash_learning_sequences#:#Meine Lernsequenzen
 dash#:#dash_list#:#Liste
 dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
+dash#:#dash_manual_new_item_pos#:#Position von neuen Objekten
+dash#:#dash_manual_new_item_pos_bot#:#Unten
+dash#:#dash_manual_new_item_pos_top#:#Oben
+dash#:#dash_manual_sorting_title#:#Manuelles Sortieren von Favoriten
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_page_edit_info#:#Der Inhalt dieser Seite wird allen Nutzern auf ihrem Dashboard angezeigt. Die Inhaltsblöcke des Dashboards werden darunter angezeigt.
@@ -8070,8 +8086,12 @@ dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_sort_by_alphabet#:#Alphabet
 dash#:#dash_sort_by_location#:#Ort
+dash#:#dash_sort_by_manually#:#Manuell
 dash#:#dash_sort_by_start_date#:#Veranstaltungszeitraum
 dash#:#dash_sort_by_type#:#Typ
+dash#:#dash_sort_option_bot#:#Unten
+dash#:#dash_sort_option_top#:#Oben
+dash#:#dash_sort_options#:#Postition von neuen Objekten
 dash#:#dash_sortation#:#Sortierung
 dash#:#dash_study_programmes#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln
@@ -8279,7 +8299,7 @@ dateplaner#:#cal_day_week_view#:#Einstellungen Tages-/Wochenansicht
 dateplaner#:#cal_deadline#:#Endtermin
 dateplaner#:#cal_declined#:#Abgelehnt
 dateplaner#:#cal_def_date_format#:#Default-Datums-Eingabeformat
-dateplaner#:#cal_def_date_format_info#:#Bitte wählen Sie ein Format für die Eingabe eines Datums aus.
+dateplaner#:#cal_def_date_format_info#:#Bitte wählen Sie ein Format für die Darstellung von Daten aus.
 dateplaner#:#cal_def_day_end#:#Default-Tagesende
 dateplaner#:#cal_def_day_start#:#Default-Tagesbeginn
 dateplaner#:#cal_def_show_weeks#:#Anzeige Wochenspalte
@@ -8466,7 +8486,7 @@ dateplaner#:#cal_unshare#:#Freigabe beenden
 dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
 dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
-dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
+dateplaner#:#cal_user_date_format#:#Datumsformat
 dateplaner#:#cal_user_notification#:#Einzelbenachrichtigung
 dateplaner#:#cal_user_notification_info#:#Eine Mail mit den Termindetails wird an die hier eingetragenen ILIAS-Anmeldenamen oder E-Mail-Adressen versandt.
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
@@ -8575,6 +8595,7 @@ dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_delete_fields_no_selection#:#Zum Löschen muss mindestens ein Feld ausgewählt werden.
 dcl#:#dcl_delete_perm#:#Einträge löschen
 dcl#:#dcl_delete_records#:#Datensätze löschen
+dcl#:#dcl_deleted_entries#:#Gelöschte Einträge
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht.
 dcl#:#dcl_deprecated_copy#:#(Veraltet)
 dcl#:#dcl_desc#:#Absteigend ↓
@@ -8668,6 +8689,7 @@ dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindesten
 dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
+dcl#:#dcl_new_entries#:#Neue Einträge
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_new_view#:#Neue Ansicht
@@ -8683,11 +8705,12 @@ dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht
 dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
-dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
+dcl#:#dcl_notification_activate#:#Benachrichtigung aktivieren
 dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
-dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
+dcl#:#dcl_notification_deactivate#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
+dcl#:#dcl_notification_settings#:#Benachrichtigungseinstellungen
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
@@ -8790,6 +8813,7 @@ dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 dcl#:#dcl_unknown_plugin#:#Unbekannter Plugintyp
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_update_record#:#Eintrag aktualisieren
+dcl#:#dcl_updated_entries#:#Bearbeitete Einträge
 dcl#:#dcl_url#:#URL oder E-Mail
 dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
@@ -12913,8 +12937,11 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
+notifications#:#push_notification#:#Push-Benachrichtigungen
 notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
 notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
+notifications_adm#:#enable_push#:#Push-Benachrichtigungen aktivieren
+notifications_adm#:#enable_push_desc#:#Wenn aktiviert, werden Benutzer durch Push-Benachrichtigungen informiert. Nutzer können diese Benachrichtigungen in den Benutzereinstellungen anpassen.
 notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
 notifications_adm#:#osd_error_refresh_interval_too_small#:#Das Abfrageintervall muss mindestens 3000 Millisekunden betragen.
 notifications_adm#:#osd_interval#:#Abfrageintervall
@@ -12922,6 +12949,13 @@ notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Mil
 notifications_adm#:#osd_play_sound#:#Ton abspielen
 notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
 notifications_adm#:#osd_settings#:#Pop-up-Benachrichtigungen
+notifications_adm#:#push_client_already_used#:#Push-Benachrichtigungen für diesen Browser werden bereits von einem anderen Nutzer genutzt.
+notifications_adm#:#push_client_edge_case#:#Möglicherweise hat der Edge Browser ihre Benachrichtigungen automatisch deaktiviert. Gehen Sie in die Browsereinstellungen um diese zu reaktivieren.
+notifications_adm#:#push_client_inactive#:#Push-Benachrichtigungen für diese Webseite sind deaktiviert. Öffnen sie die Browsereinstellungen um sie zu aktivieren.
+notifications_adm#:#push_client_ios_case#:#Wenn sie IOS (IPhone, IPad, IPod) nutzen werden keine Benachrichtigungen durch Webseiten unterstützt. Erstellen sie einen Web App Zugriff um Benachrichtigungen nutzen zu können.
+notifications_adm#:#push_settings#:#Push-Benachrichtigungen
+notifications_adm#:#push_subscription_successfull#:#Aktivierung der Push-Benachrichtigungen erfolgreich
+notifications_adm#:#push_subscription_successfull_desc#:#Dies ist eine Test Benachrichtigungen um die erfolgreiche Aktivierung der Push Benachrichtigungen zu bestätigen.
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.
@@ -12940,6 +12974,7 @@ obj#:#edit_questions#:#Fragen bearbeiten
 obj#:#make_default_language#:#Zur Standardsprache machen
 obj#:#missing_migration#:#Sie können die Informationen auf dieser Seite nicht bearbeiten, da nicht alle Migrationen auf dem System durchgeführt wurden. Bitte kontaktieren Sie Ihre*n Systemadministator*in.
 obj#:#multiple_reference_deletion_info#:#Für die folgenden Objekte existieren weitere Referenzen.
+obj#:#multiple_selection#:#Mehrfachauswahl
 obj#:#no_objects_selected#:#Es muss mindestens ein Objekt ausgewählt werden.
 obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für die Bearbeitung aktivieren
 obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
@@ -13175,7 +13210,7 @@ pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 poll#:#poll_absolute#:#Aktuelle Stimmen
 poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
 poll#:#poll_add#:#Abstimmung anlegen
-poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
+poll#:#poll_anonymous_warning#:#Ihre Stimme wurde einzeln erfasst, aber Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
 poll#:#poll_answer#:#Antwort
 poll#:#poll_answer_selected_alt_text#:#Ausgewählt
 poll#:#poll_answers#:#Mögliche Antworten
@@ -13199,7 +13234,7 @@ poll#:#poll_max_number_of_answers#:#Maximale Antworten
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
-poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen der Teilnehmenden nicht aufgeführt.
+poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen der Teilnehmenden nicht aufgeführt. Systeminterne IDs der Teilnehmenden werden allerding in der Datenbank gespeichert.
 poll#:#poll_mode_personal#:#Mit Namen
 poll#:#poll_mode_personal_info#:#Im Tab "Abstimmungsergebnisse" werden die Namen der Teilnehmenden mit ihren Antworten aufgeführt. Wer Zugriff auf diesen Tab hat, kann prüfen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
@@ -13768,12 +13803,13 @@ ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erstanmeld
 ps#:#ps_password_change_on_first_login_enabled_info#:#Zwingt Benutzer, die sich nicht selbst registriert haben, bei der ersten Anmeldung in ILIAS ihr Passwort zu ändern.
 ps#:#ps_password_chars_and_numbers_enabled#:#Buchstaben und Zahlen erzwingen
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten.
+ps#:#ps_password_force_user_reset#:#Passwortänderung erzwingen
 ps#:#ps_password_max_age#:#Maximales Alter von Passwörtern
 ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist, laufen Passwörter nicht ab.
 ps#:#ps_password_max_length#:#Maximale Länge des Passworts
 ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist, können Passwörter beliebige Längen haben.
 ps#:#ps_password_min_length#:#Minimale Länge des Passworts
-ps#:#ps_password_min_length_info#:#Setzt die minimale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist müssen Passwörter trotzdem mindestens 1 Zeichen enthalten.
+ps#:#ps_password_min_length_info#:#Setzt die minimale Länge von Passwörtern.
 ps#:#ps_password_settings#:#Passworteinstellungen
 ps#:#ps_password_special_chars_enabled#:#Sonderzeichen erzwingen
 ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
@@ -13818,6 +13854,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
 pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Nur Fragen ohne Kommentare
 qpl#:#qpl_filter_commented_only#:#Nur Fragen mit Kommentaren
 qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
@@ -13831,7 +13868,7 @@ rating#:#rating_activate_rating#:#Bewertung aktivieren
 rating#:#rating_activate_rating_info#:#Das Objekt kann mit 1-5 Sternen bewertet werden.
 rating#:#rating_add_category#:#Kategorie hinzufügen
 rating#:#rating_avg_rating#:#Durchschnittliche Bewertung
-rating#:#rating_categories#:#Bewertungs-Kategorien
+rating#:#rating_categories#:#Bewertungskategorien
 rating#:#rating_category_add#:#Hinzufügen
 rating#:#rating_category_create#:#Kategorie erstellen
 rating#:#rating_category_created#:#Kategorie hinzugefügt.
@@ -14885,7 +14922,7 @@ registration#:#registration_settings#:#ILIAS-Auth / Selbstregistrierung
 registration#:#registration_tab_codes#:#Registrierungscodes
 registration#:#registration_tab_settings#:#Einstellungen
 registration#:#registration_used#:#Verbraucht am
-registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung editieren
+registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung
 rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
 rep#:#btn_undelete_origin_location#:#Wiederherstellen (Originalort)
 rep#:#rep_activation_access#:#Zugriff
@@ -15972,6 +16009,7 @@ style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchsta
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Anzahl der Lernmodule
+style#:#sty_nr_objects#:#Number of Objects
 style#:#sty_odd_col_class#:#Ungerade Spalten
 style#:#sty_odd_row_class#:#Ungerade Zeilen
 style#:#sty_ol#:#Geordnete Liste
@@ -17237,6 +17275,10 @@ ui#:#footer_link_groups#:#Footer Link-Gruppen
 ui#:#footer_links#:#Footer Links
 ui#:#footer_permanent_link#:#Footer Permanent Link
 ui#:#footer_texts#:#Footer Texte
+ui#:#image_alt_text#:#Alternativtext
+ui#:#image_purpose_decorative#:#Dekoratives Bild
+ui#:#image_purpose_informative#:#Informatives Bild
+ui#:#image_purpose_user_defined#:#Verwendungszweck
 ui#:#label_fieldselection#:#Spaltenauswahl
 ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_modeviewcontrol#:#Anzeigemodus
@@ -17274,6 +17316,8 @@ ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Bearbeiten
 ui#:#ui_md_input_view#:#Vorschau
+ui#:#ui_nav_sequence_control_label#:#Steuerung der nachfolgenden Sequenz von Inhalten
+ui#:#ui_nav_sequence_description#:#Wird genutzt, um durch Inhalte zu navigieren oder um Aktionen und Filter auszulösen, welche die gesamte Sequenz betreffen.
 ui#:#ui_pagination_unlimited#:#Unbegrenzt
 ui#:#ui_select_dropdown_label#:#Bitte auswählen
 ui#:#ui_table_no_records#:#Keine Einträge
@@ -17282,6 +17326,8 @@ ui#:#ui_transcription#:#Abschrift
 ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
 ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
+user#:#activate_in_profile_fields#:#Das Ändern des Anmeldenamens muss unter Profil > Profile aktiviert werden, bevor diese Einstellung angepasst werden kann.
+user#:#administrative_settings#:#Administrative Einstellungen
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#change_email_email_confirmation_body#:#Die E-Mail-Adresse des Kontos %s wurde geändert. Bitte klicken Sie auf diesen Link %s , um die Änderung zu bestätigen. Der Link ist für %s Minuten gültig.
@@ -17305,11 +17351,14 @@ user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht
 user#:#del_mail_subject#:#Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
+user#:#edit_field#:#Feld bearbeiten
+user#:#edit_setting#:#Einstellung bearbeiten
 user#:#editing_this_role#:#Regel editieren
 user#:#email_could_not_be_changed#:#Ihre E-Mail-Adresse konnte nicht geändert werden.
 user#:#enable_local_user_administration#:#Lokale Konten
 user#:#enable_local_user_administration_info#:#In Kategorien und Organisationseinheiten erscheint ein Reiter „Lokale Konten”. Dort können lokale ILIAS-Konten angelegt, importiert und verwaltet werden. Damit können auch Personen ohne Zugriff auf die Administration neue ILIAS-Konten anlegen.
 user#:#feedhash#:#Newsfeed-Hash
+user#:#field_type_custom#:#Selbstdefiniert
 user#:#has_role#:#Rolle
 user#:#info_accessFree_sure#:#Sind Sie sicher, dass Sie die Befristung des Zugangs der folgenden Konten entfernen möchten?
 user#:#inform_user_mail_info#:#An die oben eingetragene E-Mail-Adresse wird eine Benachrichtigung gesendet. Deren Inhalt kann definiert werden in der Administration: „Konten und Rollen » ILIAS-Konten”, Reiter „Einstellungen : Benachrichtigung über Neuanmeldung”
@@ -17322,6 +17371,11 @@ user#:#ldoc_not_accepted_yet#:#Noch nicht akzeptiert
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 user#:#no_deactivate_yourself#:#Sie können Ihr eigenes Benutzerkonto nicht deaktivieren.
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
+user#:#personalise_additional#:#Zusätzliche Einstellungen personalisieren
+user#:#personalise_communication#:#Kommunikationseinstellungen personalisieren
+user#:#personalise_privacy#:#Privatsphäreneinstellungen personalisieren
+user#:#profile_fields#:#Profilfelder
+user#:#profile_section#:#Bereich
 user#:#restrict_user_access#:#Eingeschränkte Suche in ILIAS-Konten
 user#:#restrict_user_access_info#:#ILIAS-Konten werden bei der Benutzersuche nicht mehr automatisch vervollständigt. Die Suche nach lokalen Konten wird nur vervollständigt, wenn das Recht "Lesezugriff auf Anmeldekonten" vorliegt.
 user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
@@ -17337,6 +17391,7 @@ user#:#starting_page#:#Startseite
 user#:#starting_point#:#Startseite
 user#:#starting_point_settings#:#Einstellungen Startseite
 user#:#starting_points#:#Startseiten
+user#:#udf_select_options#:#Auswahloptionen
 user#:#user_access_limited#:#Zeitlich begrenzt
 user#:#user_access_unlimited#:#Unbegrenzt
 user#:#user_account_code#:#Code
@@ -17358,6 +17413,7 @@ user#:#user_account_deleted_confirmation#:#Ihr ILIAS-Konto wurde gelöscht. Eine
 user#:#user_activate_public_profile#:#Aktivierung
 user#:#user_activate_public_profile_info#:#Vor- und Nachname sind bei aktiviertem Profil immer sichtbar.
 user#:#user_activation#:#Aktivierung
+user#:#user_admin_options#:#Administrative Entscheidungen
 user#:#user_all#:#Alle
 user#:#user_allow_delete_own_account#:#Benutzer können eigenes ILIAS-Konto löschen
 user#:#user_any#:#Alle
@@ -17419,6 +17475,7 @@ user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
 user#:#user_select_course_group#:#Kurs/Gruppe auswählen
 user#:#user_set_publishing_options#:#Veröffentlichung konfigurieren
 user#:#user_set_visibilty_options#:#Sichtbarkeit konfigurieren
+user#:#user_settings#:#Benutzereinstellungen
 user#:#user_store_last_visited#:#Zuletzt besucht
 user#:#user_visibility_settings#:#Sichtbarkeit
 user#:#user_visible_in_profile#:#Sichtbar in den persönlichen Daten

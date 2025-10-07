@@ -54,7 +54,7 @@ class DefinitionTest extends TestCase
 
         $instance = new Definition([$association]);
 
-        $this->assertEquals($tableName, $instance->tableName());
+        $this->assertSame($tableName, $instance->tableName());
     }
 
     public function testAssociations(): void
@@ -70,7 +70,7 @@ class DefinitionTest extends TestCase
         $association = $this->getMockBuilder(Association::class)->disableOriginalConstructor()->getMock();
         $instance = new Definition([$association]);
 
-        $this->assertEquals([], $instance->ignoreValues());
+        $this->assertSame([], $instance->ignoreValues());
     }
 
     public function testIgnoreValuesWithValues(): void
@@ -84,7 +84,7 @@ class DefinitionTest extends TestCase
 
         $instance = new Definition([$association], $ignore);
 
-        $this->assertEquals($ignoredValues, $instance->ignoreValues());
+        $this->assertSame($ignoredValues, $instance->ignoreValues());
     }
 
     public function testReferenceTableName(): void
@@ -98,7 +98,7 @@ class DefinitionTest extends TestCase
 
         $instance = new Definition([$association]);
 
-        $this->assertEquals($tableName, $instance->referenceTableName());
+        $this->assertSame($tableName, $instance->referenceTableName());
     }
 
     public function testInvalidName(): void

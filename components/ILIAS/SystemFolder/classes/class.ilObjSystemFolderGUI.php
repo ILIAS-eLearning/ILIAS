@@ -587,12 +587,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ne->setValue(PATH_TO_MKISOFS ?: $not_set);
         $this->form->addItem($ne);
 
-        // latex
-        $ne = new ilNonEditableValueGUI($lng->txt("url_to_latex"), "");
-        $ne->setValue(URL_TO_LATEX ?: $not_set);
-        $this->form->addItem($ne);
-
-
         $this->form->setTitle($lng->txt("server_data"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }

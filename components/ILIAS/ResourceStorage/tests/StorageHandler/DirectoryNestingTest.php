@@ -34,38 +34,10 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
  */
 class DirectoryNestingTest extends AbstractTestBase
 {
-    /**
-     * @var int
-     */
-    private const NESTING_256 = 256; // 16^2
-    /**
-     * @var int
-     */
-    private const NESTING_4096 = 4096; // 16^3
-    /**
-     * @var int
-     */
-    private const NESTING_65536 = 65536; // 16^4
-    /**
-     * @var int
-     */
-    private const NESTING_4294967296 = 4_294_967_296; // 16^8
-    /**
-     * @var int
-     */
-    private const NESTING_281474976710656 = 281_474_976_710_656; // 16^12
-    /**
-     * @var int
-     */
-    private const MAX_NESTING = self::NESTING_65536;
-    /**
-     * @var int
-     */
-    private const MIN_NESTING = self::NESTING_256;
-    /**
-     * @var int
-     */
-    private const COMBINATIONS = 16; // 0-9a-f
+    private const int NESTING_256 = 256; // 16^2
+    private const int NESTING_4096 = 4096; // 16^8
+    private const int NESTING_281474976710656 = 281_474_976_710_656;
+    private const int COMBINATIONS = 16; // 0-9a-f
     /**
      * @var Filesystem|MockObject
      */

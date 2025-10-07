@@ -1330,7 +1330,6 @@ assessment#:#true#:#Adevarat
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.###10 Jul 2006 new variable
 assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.###28 08 2012 new variable
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.###28 08 2012 new variable
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###24 10 2013 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor###24 10 2013 new variable
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Date Field###25 09 2007 new variable
 common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
 common#:#udf_type_select#:#Select box (fixed values)###27 Jan 2006 new variable
 common#:#udf_type_text#:#Text field (optional values)###27 Jan 2006 new variable
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)###24 07 2009 new variable
+common#:#udf_type_textarea#:#Text Area (WYSIWYG)###24 07 2009 new variable
 common#:#udf_update_select_field#:#Edit select box###10 Jul 2006 new variable
 common#:#udf_update_text_field#:#Edit text field###10 Jul 2006 new variable
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field###24 07 2009 new variable
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Uploading...###24 10 2013 new variable
 common#:#uri#:#URI###10 Jul 2006 new variable
 common#:#url#:#URL
 common#:#url_not_found#:#Fisierul nu a fost gasit
-common#:#url_to_latex#:#URL to LaTeX CGI script###10 Jul 2006 new variable
 common#:#use_customized_instructions#:#Use customized instructions:###11 03 2008 new variable
 common#:#use_default_instructions#:#Use default instructions.###11 03 2008 new variable
 common#:#user#:#Utilizator
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###25 10 2016
 mail#:#mail_settings_external_frm_head#:#External Emails###31 08 2017 new variable
 mail#:#mail_settings_external_tab#:#External###31 08 2017 new variable
 mail#:#mail_settings_general_tab#:#General###31 08 2017 new variable
-mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>###18 08 2009 new variable
 mail#:#mail_settings_system_frm_head#:#System Emails###31 08 2017 new variable
 mail#:#mail_settings_user_frm_head#:#User Emails###31 08 2017 new variable
 mail#:#mail_smtp_encryption#:#Encryption###31 08 2017 new variable
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###27 01 2015 new variable
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
+obj#:#multiple_selection#:#Multiple Selection###24 10 2013 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
 obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable

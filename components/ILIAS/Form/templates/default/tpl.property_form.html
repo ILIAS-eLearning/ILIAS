@@ -56,6 +56,7 @@
 <!-- END prop_text -->
 <!-- BEGIN prop_login -->
 		<input type="text" class="form-control" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED} {AUTOCOMPLETE} {REQUIRED} />
+        {HIDDEN_INPUT}
 <!-- END prop_login -->
 <!-- BEGIN prop_email -->
 		<input type="text" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED} />
@@ -71,16 +72,16 @@
 		<!-- END multi_in -->
 
 		{PROP_GENERIC}
-		
+
 		<!-- BEGIN multi_out -->
 		</div>
-		<!-- END multi_out -->		
-		
+		<!-- END multi_out -->
+
 <!-- END prop_generic -->
 <!-- BEGIN prop_color -->
 		{PROP_COLOR_JS}
 		<div class="yui-skin-sam form-inline">
-		<input type="text" class="form-control" id="{PROP_COLOR_ID}" size="15" maxlength="21" name="{POST_VAR}" value="{PROPERTY_VALUE_COLOR}" {COLOR_DISABLED}/> 
+		<input type="text" class="form-control" id="{PROP_COLOR_ID}" size="15" maxlength="21" name="{POST_VAR}" value="{PROPERTY_VALUE_COLOR}" {COLOR_DISABLED}/>
 		<span style="vertical-align:bottom;" id="{POST_VAR}-bc"></span>
 		</div>
 <!-- END prop_color -->

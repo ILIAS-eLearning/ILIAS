@@ -126,7 +126,7 @@ class ilSearchSettings
 
     public function getEnabledLuceneMimeFilterDefinitions(): array
     {
-        if (!$this->isLuceneItemFilterEnabled()) {
+        if (!$this->isLuceneMimeFilterEnabled()) {
             return array();
         }
 

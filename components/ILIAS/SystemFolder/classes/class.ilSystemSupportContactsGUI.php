@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\User\Profile\PublicProfileGUI;
+
 /**
  * System support contacts
  *
@@ -76,7 +78,7 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
 
         $html = "";
         foreach (ilSystemSupportContacts::getValidSupportContactIds() as $c) {
-            $pgui = new ilPublicUserProfileGUI($c);
+            $pgui = new PublicProfileGUI($c);
             //$pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
             $pgui->setEmbedded(true);
             $html .= $pgui->getHTML();

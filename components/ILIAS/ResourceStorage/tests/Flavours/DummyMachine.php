@@ -22,14 +22,13 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Engine\NoEngine;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\AbstractMachine;
-use ILIAS\ResourceStorage\Flavour\Machine\FlavourMachine;
 use ILIAS\ResourceStorage\Flavour\Machine\NonStoreableResult;
 use ILIAS\ResourceStorage\Information\FileInformation;
 
 /**
  * @internal
  */
-class DummyMachine extends AbstractMachine implements FlavourMachine
+class DummyMachine extends AbstractMachine
 {
     private string $depends_on_engine = NoEngine::class;
     private string $id = self::class;
@@ -47,6 +46,7 @@ class DummyMachine extends AbstractMachine implements FlavourMachine
 
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function getId(): string

@@ -77,7 +77,7 @@ class TypeTest extends TestCase
         $tuple1 = new TupleType([\ilObjUser::class, new ListType(\ilObject::class)]);
         $tuple2 = new TupleType([\ilObjUser::class, new ListType(\ilObjUser::class)]);
 
-        $this->assertEquals($tuple1->__toString(), '(ilObjUser, [ilObject])');
+        $this->assertSame('(ilObjUser, [ilObject])', $tuple1->__toString());
         $this->assertTrue($tuple2->isExtensionOf($tuple1));
         $this->assertFalse($tuple1->isExtensionOf($tuple2));
     }

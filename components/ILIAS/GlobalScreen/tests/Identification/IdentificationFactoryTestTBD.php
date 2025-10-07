@@ -97,7 +97,7 @@ class IdentificationFactoryTest extends TestCase
             $methods[] = $method->getName();
         }
         sort($methods);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 0 => '__construct',
                 1 => 'core',
@@ -173,8 +173,8 @@ class IdentificationFactoryTest extends TestCase
         $identification = $this->identification->fromSerializedIdentification($string_core);
 
         $this->assertInstanceOf(CoreIdentification::class, $identification);
-        $this->assertEquals($identification->getClassName(), $class_name);
-        $this->assertEquals($identification->getInternalIdentifier(), $internal_identifier);
+        $this->assertSame($identification->getClassName(), $class_name);
+        $this->assertSame($identification->getInternalIdentifier(), $internal_identifier);
     }
 
 
@@ -188,7 +188,7 @@ class IdentificationFactoryTest extends TestCase
         $identification = $this->identification->fromSerializedIdentification($string_plugin);
 
         $this->assertInstanceOf(PluginIdentification::class, $identification);
-        $this->assertEquals($identification->getClassName(), $class_name);
-        $this->assertEquals($identification->getInternalIdentifier(), $internal_identifier);
+        $this->assertSame($identification->getClassName(), $class_name);
+        $this->assertSame($identification->getInternalIdentifier(), $internal_identifier);
     }
 }

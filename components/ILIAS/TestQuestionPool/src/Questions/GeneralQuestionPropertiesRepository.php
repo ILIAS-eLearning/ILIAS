@@ -305,24 +305,6 @@ class GeneralQuestionPropertiesRepository
         return $questions_missing_result_record;
     }
 
-    public function missingResultRecordExists(int $active_id, int $pass, array $question_ids): bool
-    {
-        $in_question_ids = $this->db->in('question_fi', $question_ids, false, \ilDBConstants::T_INTEGER);
-
-        $result = $this->db->queryF(
-            'SELECT COUNT(*) cnt'
-            . ' FROM ' . self::TEST_RESULTS_TABLE
-            . ' WHERE active_fi = %s'
-            . ' AND pass = %s'
-            . ' AND ' . $in_question_ids,
-            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
-            [$active_id, $pass]
-        );
-
-        $row = $this->db->fetchAssoc($result);
-        return $row->cnt < count($question_ids);
-    }
-
     public function isInActiveTest(int $obj_id): bool
     {
         $result = $this->db->query(
@@ -334,18 +316,6 @@ class GeneralQuestionPropertiesRepository
             . ' WHERE ' . self::MAIN_QUESTION_TABLE . '.obj_fi = ' . $this->db->quote($obj_id, \ilDBConstants::T_INTEGER)
         );
 
-        $row = $this->db->fetchObject($result);
-        return $row->cnt > 0;
-    }
-
-    public function questionTitleExistsInPool(int $questionpool_id, string $title): bool
-    {
-        $result = $this->db->queryF(
-            'SELECT COUNT(*) cnt FROM ' . self::MAIN_QUESTION_TABLE
-            . ' WHERE obj_fi = %s AND title = %s',
-            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_TEXT],
-            [$questionpool_id, $title]
-        );
         $row = $this->db->fetchObject($result);
         return $row->cnt > 0;
     }

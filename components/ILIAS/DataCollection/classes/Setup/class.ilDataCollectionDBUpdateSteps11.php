@@ -95,4 +95,28 @@ class ilDataCollectionDBUpdateSteps11 implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_4(): void
+    {
+        if (!$this->db->tableExists('il_dcl_notification')) {
+            $this->db->createTable('il_dcl_notification', [
+                'obj_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ],
+                'usr_id' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ],
+                'setting' => [
+                    'type' => 'integer',
+                    'length' => 4,
+                    'notnull' => true
+                ],
+            ]);
+            $this->db->addPrimaryKey('il_dcl_notification', ['obj_id', 'usr_id', 'setting']);
+        }
+    }
 }

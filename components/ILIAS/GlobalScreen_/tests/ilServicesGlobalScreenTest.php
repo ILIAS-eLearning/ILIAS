@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 use PHPUnit\Framework\MockObject\MockObject;
-
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
@@ -26,16 +25,6 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 class ilServicesGlobalScreenTest extends TestCase
 {
     private ?Container $dic_backup = null;
-    /**
-     * @var ilRbacSystem|MockObject
-     * @readonly
-     */
-    private ilRbacSystem $rbacsystem_mock;
-    /**
-     * @var ilObjUser|MockObject
-     * @readonly
-     */
-    private ilObjUser $user_mock;
     private int $SYSTEM_FOLDER_ID;
     private int $ROOT_FOLDER_ID;
 

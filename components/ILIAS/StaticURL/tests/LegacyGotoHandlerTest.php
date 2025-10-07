@@ -73,23 +73,21 @@ class LegacyGotoHandlerTest extends Base
         $this->http_mock->method('wrapper')->willReturn(new WrapperFactory($this->request_mock));
     }
 
-    public static function urlProvider(): array
+    public static function urlProvider(): \Iterator
     {
-        return [
-            ['https://ilias.domain/goto.php?client_id=unittest&target=impr', 'impr'],
-            ['https://ilias.domain/goto.php?target=root_1&client_id=unittest', 'root_1'],
-            ['https://ilias.domain/go/root/1', 'root_1'],
-            ['https://ilias.domain/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'],
-            ['https://ilias.domain/sub/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'],
-            ['https://ilias.domain/goto.php?target=crs_256&client_id=unittest&lang=de', 'crs_256'],
-            ['https://ilias.domain/goto.php?target=lorem_256&client_id=unittest&lang=de', 'lorem_256'],
-            ['https://ilias.domain/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'],
-            ['https://ilias.domain/sub/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'],
-            ['https://ilias.domain/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
-            ['https://ilias.domain/go/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
-            ['https://ilias.domain/sub/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
-            ['https://ilias.domain/sub/go/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'],
-        ];
+        yield ['https://ilias.domain/goto.php?client_id=unittest&target=impr', 'impr'];
+        yield ['https://ilias.domain/goto.php?target=root_1&client_id=unittest', 'root_1'];
+        yield ['https://ilias.domain/go/root/1', 'root_1'];
+        yield ['https://ilias.domain/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'];
+        yield ['https://ilias.domain/sub/goto.php?target=root_1&client_id=unittest&lang=de', 'root_1'];
+        yield ['https://ilias.domain/goto.php?target=crs_256&client_id=unittest&lang=de', 'crs_256'];
+        yield ['https://ilias.domain/goto.php?target=lorem_256&client_id=unittest&lang=de', 'lorem_256'];
+        yield ['https://ilias.domain/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'];
+        yield ['https://ilias.domain/sub/goto.php?target=wiki_wpage_4826_86154&client_id=unittest&lang=de', 'wiki_wpage_4826_86154'];
+        yield ['https://ilias.domain/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'];
+        yield ['https://ilias.domain/go/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'];
+        yield ['https://ilias.domain/sub/goto.php/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'];
+        yield ['https://ilias.domain/sub/go/wiki/wpage_4826_86154', 'wiki_wpage_4826_86154'];
     }
 
     #[DataProvider('urlProvider')]

@@ -18,6 +18,7 @@
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilMStShowUserGUI
@@ -141,7 +142,7 @@ class ilMStShowUserGUI
             $DIC->ctrl()->redirectByClass(self::class, self::CMD_INDEX);
         }
 
-        $pub_profile = new ilPublicUserProfileGUI($this->usr_id);
+        $pub_profile = new PublicProfileGUI($this->usr_id);
         $DIC->ui()->mainTemplate()->setContent($pub_profile->getEmbeddable());
     }
 

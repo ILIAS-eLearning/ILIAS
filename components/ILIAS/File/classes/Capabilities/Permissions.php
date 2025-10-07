@@ -19,6 +19,7 @@
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
+
 namespace ILIAS\File\Capabilities;
 
 enum Permissions: string

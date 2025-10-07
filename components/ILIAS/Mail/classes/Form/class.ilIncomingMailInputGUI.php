@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\UserSettings\IncomingMail;
+
 class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 {
     protected bool $free_option_choice = true;
@@ -86,6 +88,9 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     private function addSubOptions(): void
     {
         global $DIC;
+
+        $incoming_mail_changable_by_user = $DIC['user']->getSettings()
+            ->getSettingByDefinitionClass(IncomingMail::class)->isChangeableByUser();
 
         $incoming_local = new ilRadioOption(
             $DIC->language()->txt('mail_incoming_local'),

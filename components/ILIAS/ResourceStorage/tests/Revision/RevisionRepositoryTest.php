@@ -70,8 +70,8 @@ class RevisionRepositoryTest extends AbstractTestBase
             RevisionStatus::DRAFT
         );
 
-        $this->assertEquals(100, $revision->getVersionNumber());
-        $this->assertEquals(RevisionStatus::DRAFT, $revision->getStatus());
+        $this->assertSame(100, $revision->getVersionNumber());
+        $this->assertSame(RevisionStatus::DRAFT, $revision->getStatus());
     }
 
     public function testStream(): void
@@ -91,7 +91,7 @@ class RevisionRepositoryTest extends AbstractTestBase
             RevisionStatus::PUBLISHED
         );
 
-        $this->assertEquals($i, $revision->getVersionNumber());
+        $this->assertSame($i, $revision->getVersionNumber());
     }
 
     public function testClone(): void
@@ -112,7 +112,7 @@ class RevisionRepositoryTest extends AbstractTestBase
             $revision
         );
 
-        $this->assertEquals($i, $revision->getVersionNumber());
-        $this->assertNotEquals($old_revisions_id, $revision->getVersionNumber());
+        $this->assertSame($i, $revision->getVersionNumber());
+        $this->assertNotSame($old_revisions_id, $revision->getVersionNumber());
     }
 }

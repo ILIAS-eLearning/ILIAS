@@ -24,7 +24,7 @@ const IL_FM_NEGATIVE = 2;
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @deprecated 10
+ * @deprecated with ILIAS 12
  */
 class ilExplorer
 {

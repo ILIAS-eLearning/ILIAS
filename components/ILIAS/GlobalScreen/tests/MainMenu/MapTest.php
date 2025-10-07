@@ -81,7 +81,7 @@ class MapTest extends TestCase
         $map->add($this->factory->topParentItem($p4));
 
         $this->assertTrue($map->has());
-        $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
+        $this->assertCount(4, iterator_to_array($map->getAllFromFilter()));
         $this->assertTrue($map->existsInFilter($p1));
         $this->assertTrue($map->existsInFilter($p2));
         $this->assertTrue($map->existsInFilter($p3));
@@ -104,15 +104,15 @@ class MapTest extends TestCase
         );
 
         $this->assertTrue($map->has());
-        $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
+        $this->assertCount(4, iterator_to_array($map->getAllFromFilter()));
 
         $map->filter(static fn(): bool => true);
 
-        $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
+        $this->assertCount(4, iterator_to_array($map->getAllFromFilter()));
 
         $map->filter(static fn(isItem $i): bool => $i->getProviderIdentification()->getInternalIdentifier() !== 'parent_1');
 
-        $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 3);
+        $this->assertCount(3, iterator_to_array($map->getAllFromFilter()));
         $this->assertFalse($map->existsInFilter($p1));
         $this->assertTrue($map->existsInFilter($p2));
         $this->assertTrue($map->existsInFilter($p3));
@@ -237,12 +237,14 @@ class MapTest extends TestCase
 
         // check position in parent
         $get_tp_1 = $map->getSingleItemFromFilter($this->getId('tp_1'));
+        $this->assertInstanceOf(\ILIAS\GlobalScreen\isGlobalScreenItem::class, $get_tp_1);
         $children_of_tp_1 = $get_tp_1->getChildren();
         $first = reset($children_of_tp_1);
         $this->assertEquals($tp_1_1, $first);
         $this->assertEquals(1, $first->getPosition());
 
         $get_tp_2 = $map->getSingleItemFromFilter($this->getId('tp_2'));
+        $this->assertInstanceOf(\ILIAS\GlobalScreen\isGlobalScreenItem::class, $get_tp_2);
         $children_of_tp_2 = $get_tp_2->getChildren();
         $first = reset($children_of_tp_2);
         $this->assertEquals($tp_2_1, $first);
@@ -270,6 +272,7 @@ class MapTest extends TestCase
         $map->add($tp_1_1);
         $map->sort();
         $item = $map->getSingleItemFromFilter($this->getId('tp_1'));
+        $this->assertInstanceOf(\ILIAS\GlobalScreen\isGlobalScreenItem::class, $item);
         $this->assertCount(2, $item->getChildren());
     }
 

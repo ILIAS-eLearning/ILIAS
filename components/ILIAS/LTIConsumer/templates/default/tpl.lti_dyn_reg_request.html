@@ -1,4 +1,8 @@
-<iframe height="500" width="100%" scrolling="yes" id="lti_dyn_reg_iframe" name="lti_dyn_reg_iframe" src="{LTI_DYN_REG_URL}" width="0" height="0" style="visibility: visible"></iframe>
+<iframe height="500" width="100%" scrolling="yes" id="lti_dyn_reg_iframe" name="lti_dyn_reg_iframe" width="0" height="0" style="visibility: visible"></iframe>
+<form style="display: none" id="post_iframe" action="{LTI_DYN_REG_URL}" target="lti_dyn_reg_iframe" method="post">
+    <input type="text" name="url" value="{LTI_DYN_REG_URL_BY_POST}">
+    <input type="submit" value="post">
+</form>
 <script>
   let toolRegUrl = "{LTI_TOOL_REG_URL}";
   let regEndUrl = "{LTI_REG_END_URL}";
@@ -38,4 +42,7 @@
     location.assign(errorUrl+"&new_type=lti&error="+btoa('timeout'));
   },100000);
   */
+  window.onload = function() {
+      document.getElementById('post_iframe').submit();
+  };
 </script>

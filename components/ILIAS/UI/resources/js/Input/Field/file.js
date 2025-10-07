@@ -34,7 +34,9 @@ il.UI.Input = il.UI.Input || {};
 		 * @type {{}}
 		 */
 		const SELECTOR = {
-			file_input: '[data-il-ui-component="file-field-input"]',
+			file_input: 'fieldset',
+			file_fieldset: '[data-il-ui-component="file-field-input"]',
+			image_fieldset: '[data-il-ui-component="image-field-input"]',
 			file_list: '.ui-input-file-input-list',
 			file_list_entry: '.ui-input-file-input',
 			file_entry_metadata: '.ui-input-file-metadata',
@@ -622,7 +624,7 @@ il.UI.Input = il.UI.Input || {};
 
 		let processCurrentFormDropzones = function (form, event) {
 			// retrieve all file inputs of the current form.
-			let file_inputs = $(form).find(SELECTOR.file_input);
+      		let file_inputs = $(form).find(`${SELECTOR.file_fieldset}, ${SELECTOR.image_fieldset}`);
 			current_dropzone_count = file_inputs.length;
 
             if (typeof file_inputs[Symbol.iterator] === 'function') {

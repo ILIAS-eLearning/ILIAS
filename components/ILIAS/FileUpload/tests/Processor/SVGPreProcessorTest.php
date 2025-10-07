@@ -45,37 +45,36 @@ class SVGPreProcessorTest extends TestCase
         );
     }
 
-    public static function maliciousSVGProvider(): array
+    public static function maliciousSVGProvider(): \Iterator
     {
-        return [
-            [
-                '<svg width="100" height="100">
+        yield [
+            '<svg width="100" height="100">
     <foreignObject width="100%" height="100%">
         <script>alert(document.domain);</script>
     </foreignObject>
 </svg>',
-                'script'
-            ],
-            [
-                '<svg width="100" height="100">
+            'script'
+        ];
+        yield [
+            '<svg width="100" height="100">
     <foreignObject width="100%" height="100%" onclick="alert(document.domain);">
 
     </foreignObject>
 </svg>',
-                'onclick'
-            ],
-            [
-                '<svg version="1.1" baseProfile="full"
+            'onclick'
+        ];
+        yield [
+            '<svg version="1.1" baseProfile="full"
 xmlns="http://www.w3.org/2000/svg">
 <rect width="100" height="100" style="fill:rgb(0,0,255);" />
 <script type="text/javascript">
 alert("XSS in SVG on " + document.domain );
 </script>
 </svg>',
-                'script'
-            ],
-            [
-                '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            'script'
+        ];
+        yield [
+            '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <use xlink:href="data:application/xml;base64 ,
 PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5r
 PSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGRlZnM+CjxjaXJjbGUgaWQ9InRlc3QiIHI9I
@@ -84,8 +83,7 @@ FtZT0iZmlsbCIgYXR0cmlidXRlVHlwZT0iQ1NTIiBvbmJlZ2luPSdhbGVydChkb2N1bWVudC5jb29r
 aWUpJwpvbmVuZD0nYWxlcnQoIm9uZW5kIiknIHRvPSIjMDBGIiBiZWdpbj0iMXMiIGR1cj0iNXMiIC
 8+CjwvY2lyY2xlPgo8L2RlZnM+Cjx1c2UgeGxpbms6aHJlZj0iI3Rlc3QiLz4KPC9zdmc+#test"/>
 </svg>',
-                'base64'
-            ]
+            'base64'
         ];
     }
 
@@ -98,8 +96,8 @@ aWUpJwpvbmVuZD0nYWxlcnQoIm9uZW5kIiknIHRvPSIjMDBGIiBiZWdpbj0iMXMiIGR1cj0iNXMiIC
 
         $result = $preProcessor->process($stream, $metadata);
 
-        $this->assertFalse($result->getCode() === ProcessingStatus::OK);
-        $this->assertTrue($result->getCode() === ProcessingStatus::DENIED);
+        $this->assertNotSame(ProcessingStatus::OK, $result->getCode());
+        $this->assertSame(ProcessingStatus::DENIED, $result->getCode());
         $this->assertSame('The SVG file contains malicious code. (' . $type . ')', $result->getMessage());
     }
 
@@ -116,27 +114,25 @@ xmlns="http://www.w3.org/2000/svg">
 
         $result = $preProcessor->process($stream, $metadata);
 
-        $this->assertTrue($result->getCode() === ProcessingStatus::OK);
-        $this->assertFalse($result->getCode() === ProcessingStatus::REJECTED);
+        $this->assertSame(ProcessingStatus::OK, $result->getCode());
+        $this->assertNotSame(ProcessingStatus::REJECTED, $result->getCode());
         $this->assertSame('SVG OK', $result->getMessage());
     }
 
-    public static function provideSomeComplexSaneSVG(): array
+    public static function provideSomeComplexSaneSVG(): \Iterator
     {
-        return [
-            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/bigplay.svg'],
-            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/nav/jstree.svg'],
-            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/loader.svg'],
-            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/col.svg'],
-            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/logo/HeaderIcon.svg'],
-            [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/answered_not.svg'],
-        ];
+        yield [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/bigplay.svg'];
+        yield [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/nav/jstree.svg'];
+        yield [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/media/loader.svg'];
+        yield [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/col.svg'];
+        yield [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/logo/HeaderIcon.svg'];
+        yield [__DIR__ . '/../../../../../components/ILIAS/UI/resources/images/object/answered_not.svg'];
     }
 
     #[DataProvider('provideSomeComplexSaneSVG')]
     public function testSomeComplexSaneSVG(string $path): void
     {
-        $this->assertTrue(file_exists($path));
+        $this->assertFileExists($path);
         $svg = file_get_contents($path);
 
         $preProcessor = $this->getPreProcessor();
@@ -146,7 +142,7 @@ xmlns="http://www.w3.org/2000/svg">
         $result = $preProcessor->process($stream, $metadata);
 
         $this->assertSame('SVG OK', $result->getMessage());
-        $this->assertTrue($result->getCode() === ProcessingStatus::OK);
-        $this->assertFalse($result->getCode() === ProcessingStatus::REJECTED);
+        $this->assertSame(ProcessingStatus::OK, $result->getCode());
+        $this->assertNotSame(ProcessingStatus::REJECTED, $result->getCode());
     }
 }

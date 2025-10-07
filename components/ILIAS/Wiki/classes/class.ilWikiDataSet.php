@@ -383,6 +383,12 @@ class ilWikiDataSet extends ilDataSet
                 $a_mapping->addMapping("components/ILIAS/ILIASObject", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("components/ILIAS/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("components/ILIAS/AdvancedMetaData", "parent", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping(
+                    "components/ILIAS/MetaData",
+                    "md",
+                    $a_rec["Id"] . ":0:wiki",
+                    $newObj->getId() . ":0:wiki"
+                );
                 break;
 
             case "wpg":

@@ -1330,7 +1330,6 @@ assessment#:#true#:#Pravda
 assessment#:#tst_access_code_created#:#Byl vytvořen unikátní kód k Vašemu stálému přístupu k Vašim výsledkům testu, a který Vám umožňuje v testu pokračovat. Zapište si prosím tento kód pro další použití.
 assessment#:#tst_activate_skill_service#:#Aktivujte službu způsobilosti
 assessment#:#tst_activate_skill_service_desc#:#Zobrazí se nová záložka 'Způsobilosti'. V této záložce jsou otázky přiřazeny způsobilostem, poté jsou připsány prahy pro dosažení určité úrovně způsobilosti.
-assessment#:#tst_activation_limited_visibility_info#:#Je-li vybráno, tento test je viditelný i mimo zadanou dostupnost.
 assessment#:#tst_activation_online_info#:#Je-li offline, pouze správci mohou vidět a upravovat tento test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editační mód pro dodatečný obsah otázky
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Editace dodatečného obsahu s Editorem objektů stránky
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Datové pole
 common#:#udf_type_datetime#:#Datum a čas
 common#:#udf_type_select#:#Seznam výběru (roleta)
 common#:#udf_type_text#:#Textové pole (jeden řádek)
-common#:#udf_type_wysiwyg#:#Textová plocha (WYSIWYG)
+common#:#udf_type_textarea#:#Textová plocha (WYSIWYG)
 common#:#udf_update_select_field#:#Upravit vybrané pole
 common#:#udf_update_text_field#:#Upravit textové pole
 common#:#udf_update_wysiwyg_field#:#Upravit pole textové plochy (WYSIWYG)
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Ukládání...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Soubor nenalezen
-common#:#url_to_latex#:#URL ku CGI skriptu LaTeX
 common#:#use_customized_instructions#:#Použít uživatelské instrukce:
 common#:#use_default_instructions#:#Použít výchozí instrukce.
 common#:#user#:#Uživatel
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Zástupné symboly sériových dopisů
 mail#:#mail_settings_external_frm_head#:#Externí e-maily
 mail#:#mail_settings_external_tab#:#Externí
 mail#:#mail_settings_general_tab#:#Všeobecné
-mail#:#mail_settings_incoming_type_see_also#:#Můžete najít další možnosti modifikovat typ příchozích emailů pro uživatele <a href="%s">zde</a>
 mail#:#mail_settings_system_frm_head#:#Systémové e-maily
 mail#:#mail_settings_user_frm_head#:#E-maily uživatele
 mail#:#mail_smtp_encryption#:#Šifrování
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Vlastní ikona
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Upravit dotazy
+obj#:#multiple_selection#:#Mnohonásobný výběr
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktivovat překlad pro úpravy stránky
 obj#:#obj_activate_multilang#:#Aktivovat vícejazyčnost

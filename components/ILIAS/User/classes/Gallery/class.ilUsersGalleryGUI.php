@@ -26,9 +26,10 @@ use ILIAS\UI\Component\Image\Image as Image;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
- * @ilCtrl_Calls ilUsersGalleryGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilUsersGalleryGUI: ILIAS\User\Profile\PublicProfileGUI
  * @ilCtrl_isCalledBy ilUsersGalleryGUI: ilCourseMembershipGUI, ilGroupMembershipGUI
  */
 class ilUsersGalleryGUI
@@ -79,8 +80,8 @@ class ilUsersGalleryGUI
         $cmd = $this->ctrl->getCmd('view');
 
         switch (strtolower($next_class)) {
-            case strtolower(ilPublicUserProfileGUI::class):
-                $profile_gui = new ilPublicUserProfileGUI(
+            case strtolower(PublicProfileGUI::class):
+                $profile_gui = new PublicProfileGUI(
                     $this->http->wrapper()->query()->retrieve(
                         'user',
                         $this->refinery->kindlyTo()->int()
@@ -230,12 +231,12 @@ JS;
         int $user_id
     ): array {
         $this->ctrl->setParameterByClass(
-            ilPublicUserProfileGUI::class,
+            PublicProfileGUI::class,
             'user',
             $user_id
         );
         $public_profile_url = $this->ctrl->getLinkTargetByClass(
-            ilPublicUserProfileGUI::class,
+            PublicProfileGUI::class,
             'getHTML'
         );
 

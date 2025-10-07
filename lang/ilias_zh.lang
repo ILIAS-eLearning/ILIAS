@@ -1329,7 +1329,6 @@ assessment#:#true#:#是
 assessment#:#tst_access_code_created#:#为您提供永久访问您的测试结果并提供一种恢复这个测试的可能性，一个唯一性的测试访问码将被创建。请抄下这个访问码以备用。
 assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#如果已选择，测试是可见的，即使超出了给定的可用性之外。
 assessment#:#tst_activation_online_info#:#如果离线，仅管理员能看和编辑测试。
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###24 10 2013 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor###24 10 2013 new variable
@@ -5834,7 +5833,7 @@ common#:#udf_type_date#:#日期字段
 common#:#udf_type_datetime#:#日期和时间
 common#:#udf_type_select#:#选择框 (特定值)
 common#:#udf_type_text#:#文本字段(可选值)
-common#:#udf_type_wysiwyg#:#文本区域 (所见即所得)：
+common#:#udf_type_textarea#:#文本区域 (所见即所得)：
 common#:#udf_update_select_field#:#编辑选择框
 common#:#udf_update_text_field#:#编辑文本字段
 common#:#udf_update_wysiwyg_field#:#编辑文本区域(所见即所得)字段
@@ -5873,7 +5872,6 @@ common#:#uploading#:#Uploading...###24 10 2013 new variable
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#文件未找到
-common#:#url_to_latex#:#URL 到 LaTeX CGI 脚本
 common#:#use_customized_instructions#:#使用自定义指令：
 common#:#use_default_instructions#:#使用默认的指令。
 common#:#user#:#用户
@@ -11600,7 +11598,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###25 10 2016
 mail#:#mail_settings_external_frm_head#:#External Emails###31 08 2017 new variable
 mail#:#mail_settings_external_tab#:#External###31 08 2017 new variable
 mail#:#mail_settings_general_tab#:#General###31 08 2017 new variable
-mail#:#mail_settings_incoming_type_see_also#:#在<a href="%s">这里</a>，您能发现更多的修改用户电子邮件的收件类型的可能。
 mail#:#mail_settings_system_frm_head#:#System Emails###31 08 2017 new variable
 mail#:#mail_settings_user_frm_head#:#User Emails###31 08 2017 new variable
 mail#:#mail_smtp_encryption#:#Encryption###31 08 2017 new variable
@@ -12998,6 +12995,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###27 01 2015 new variable
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Edit Questions###10 07 2013 new variable
+obj#:#multiple_selection#:#Multiple Selection###24 10 2013 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
 obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable

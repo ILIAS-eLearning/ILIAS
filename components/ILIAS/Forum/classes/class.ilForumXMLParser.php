@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Forum\Notification\NotificationType;
+
 class ilForumXMLParser extends ilSaxParser
 {
     /**
@@ -331,7 +333,11 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setPostActivation((bool) ($this->forumArray['PostingActivation'] ?? false));
                     $newObjProp->setPresetSubject((bool) ($this->forumArray['PresetSubject'] ?? false));
                     $newObjProp->setAddReSubject((bool) ($this->forumArray['PresetRe'] ?? false));
-                    $newObjProp->setNotificationType((string) ($this->forumArray['NotificationType'] ?: 'all_users'));
+                    $newObjProp->setNotificationType(
+                        NotificationType::tryFrom(
+                            $this->forumArray['NotificationType'] ?? NotificationType::ALL_USERS->value
+                        ) ?? NotificationType::ALL_USERS
+                    );
                     $newObjProp->setInterestedEvents((int) ($this->forumArray['NotificationEvents'] ?? 0));
                     $newObjProp->setAdminForceNoti((bool) ($this->forumArray['ForceNotification'] ?? false));
                     $newObjProp->setUserToggleNoti((bool) ($this->forumArray['ToggleNotification'] ?? false));

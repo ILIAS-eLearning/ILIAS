@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 /**
 *
 * Update/create ILIAS user account by given LDAP attributes according to user attribute mapping settings.
@@ -30,12 +32,16 @@ class ilLDAPAttributeToUser
 
     private array $modes = [];
     private ilLDAPServer $server_settings;
+    private Profile $profile;
     private array $user_data = [];
     private ilLDAPAttributeMapping $mapping;
     private string $new_user_auth_mode = 'ldap';
     private ilLogger $logger;
     private ilXmlWriter $writer;
-    private ilUserDefinedFields $udf;
+    /**
+     * @var array<string, ILIAS\User\Profile\Field>|null
+     */
+    private ?array $user_defined_fields = null;
 
     /**
      * Construct of ilLDAPAttribute2XML
@@ -46,6 +52,7 @@ class ilLDAPAttributeToUser
         global $DIC;
 
         $this->logger = $DIC->logger()->auth();
+        $this->profile = $DIC['user']->profile();
 
         $this->server_settings = $a_server;
 
@@ -341,8 +348,7 @@ class ilLDAPAttributeToUser
                             continue 2;
                         }
                         $this->initUserDefinedFields();
-                        $definition = $this->udf->getDefinition((int) $id_data[1]);
-                        if (empty($definition)) {
+                        if (!isset($this->user_defined_fields[$id_data[1]])) {
                             $this->logger->warning(sprintf(
                                 "Invalid/Orphaned UD field mapping detected: %s",
                                 $field
@@ -353,8 +359,8 @@ class ilLDAPAttributeToUser
                         $this->writer->xmlElement(
                             'UserDefinedField',
                             [
-                                'Id' => $definition['il_id'],
-                                'Name' => $definition['field_name']
+                                'Id' => $this->user_defined_fields[$id_data[1]]->getIdentifier(),
+                                'Name' => $this->user_defined_fields[$id_data[1]]->getLabel()
                             ],
                             $value
                         );
@@ -416,6 +422,8 @@ class ilLDAPAttributeToUser
 
     private function initUserDefinedFields(): void
     {
-        $this->udf = ilUserDefinedFields::_getInstance();
+        if ($this->user_defined_fields === null) {
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
+        }
     }
 }

@@ -376,6 +376,15 @@ class LinkManager
                         $parent = $node->parentNode;
                         $parent->parentNode->removeChild($parent);
                     } else {    // replace link by content of the link for other internal links
+
+                        // replace link by the content of the link
+                        $source_node = $node;
+                        while ($source_node->firstChild) {
+                            $source_node->parentNode->insertBefore($source_node->firstChild, $source_node);
+                        }
+                        $source_node->parentNode->removeChild($source_node);
+
+                        /*
                         $source_node = $node;
                         $new_node = $source_node->cloneNode(true);
                         //$new_node->parentNode->removeChild($new_node);
@@ -383,7 +392,7 @@ class LinkManager
                             //$this->log->debug("... move node $j " . $child->node_name() . " before " . $source_node->node_name());
                             $source_node->parentNode->insertBefore($child, $source_node);
                         }
-                        $source_node->parentNode->removeChild($source_node);
+                        $source_node->parentNode->removeChild($source_node);*/
                     }
                 }
             }

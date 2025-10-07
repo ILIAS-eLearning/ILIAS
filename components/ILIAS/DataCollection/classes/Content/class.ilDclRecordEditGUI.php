@@ -652,7 +652,7 @@ class ilDclRecordEditGUI
             $dispatchEvent = "create";
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $objDataCollection = new ilObjDataCollection($ref_id);
-            $objDataCollection->sendRecordNotification(ilDataCollectionMailNotification::TYPE_RECORD_CREATE, $record_obj);
+            $objDataCollection->sendRecordNotification(ilDclNotificationType::RECORD_CREATE, $record_obj);
         } else {
             $dispatchEventData['prev_record'] = $unchanged_obj;
         }

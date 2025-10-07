@@ -32,38 +32,33 @@ class URIBuilderTest extends Base
     private ?string $ilias_http_path_backup = null;
     private StandardURIBuilder $uri_builder;
 
-    public static function getILIAS_HTTP_Paths(): array
+    public static function getILIAS_HTTP_Paths(): \Iterator
     {
-        return [
-            ['https://ilias.de/ilias', 'https://ilias.de/ilias'],
-            ['https://ilias.de/ilias/', 'https://ilias.de/ilias'],
-            ['http://ilias.de/ilias', 'http://ilias.de/ilias'],
-            ['https://test9.ilias.de/goto.php', 'https://test9.ilias.de'],
-            ['https://test9.ilias.de/goto.php/', 'https://test9.ilias.de'],
-            ['https://test9.ilias.de/goto.php/wiki', 'https://test9.ilias.de'],
-            ['https://test9.ilias.de/goto.php/wiki/22', 'https://test9.ilias.de'],
-            ['http://test9.ilias.de/goto.php', 'http://test9.ilias.de'],
-            ['http://test9.ilias.de/go/hello', 'http://test9.ilias.de'],
-            ['http://test9.ilias.de/go/hello', 'http://test9.ilias.de'],
-            ['http://test9.ilias.de/Customizing/plugins/Services/index.php', 'http://test9.ilias.de'],
-        ];
+        yield ['https://ilias.de/ilias', 'https://ilias.de/ilias'];
+        yield ['https://ilias.de/ilias/', 'https://ilias.de/ilias'];
+        yield ['http://ilias.de/ilias', 'http://ilias.de/ilias'];
+        yield ['https://test9.ilias.de/goto.php', 'https://test9.ilias.de'];
+        yield ['https://test9.ilias.de/goto.php/', 'https://test9.ilias.de'];
+        yield ['https://test9.ilias.de/goto.php/wiki', 'https://test9.ilias.de'];
+        yield ['https://test9.ilias.de/goto.php/wiki/22', 'https://test9.ilias.de'];
+        yield ['http://test9.ilias.de/goto.php', 'http://test9.ilias.de'];
+        yield ['http://test9.ilias.de/go/hello', 'http://test9.ilias.de'];
+        yield ['http://test9.ilias.de/go/hello', 'http://test9.ilias.de'];
+        yield ['http://test9.ilias.de/Customizing/plugins/Services/index.php', 'http://test9.ilias.de'];
     }
 
     #[DataProvider('getILIAS_HTTP_Paths')]
     public function testBaseURI(string $ILIAS_HTTP_PATH, string $expected): void
     {
         $uri_builder = new StandardURIBuilder($ILIAS_HTTP_PATH);
-        $this->assertEquals($expected, (string) $uri_builder->getBaseURI());
+        $this->assertSame($expected, (string) $uri_builder->getBaseURI());
     }
 
-    public static function getBuilderParts(): array
+    public static function getBuilderParts(): \Iterator
     {
-        return [
-            ['wiki', 42, [], 'https://test9.ilias.de/goto.php/wiki/42'],
-            ['file', 42, ['download'], 'https://test9.ilias.de/goto.php/file/42/download'],
-            ['dashboard', null, [], 'https://test9.ilias.de/goto.php/dashboard'],
-
-        ];
+        yield ['wiki', 42, [], 'https://test9.ilias.de/goto.php/wiki/42'];
+        yield ['file', 42, ['download'], 'https://test9.ilias.de/goto.php/file/42/download'];
+        yield ['dashboard', null, [], 'https://test9.ilias.de/goto.php/dashboard'];
     }
 
     #[DataProvider('getBuilderParts')]
@@ -75,6 +70,6 @@ class URIBuilderTest extends Base
             $ref_id === null ? null : new ReferenceId($ref_id),
             $params
         );
-        $this->assertEquals($expected, (string) $uri);
+        $this->assertSame($expected, (string) $uri);
     }
 }

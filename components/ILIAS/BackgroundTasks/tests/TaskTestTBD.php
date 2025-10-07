@@ -78,7 +78,7 @@ class TaskTest extends TestCase
         $taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
         /** @var IntegerValue $finalValue */
         $finalValue = $taskManager->executeTask($t2, new MockObserver());
-        $this->assertEquals($finalValue->getValue(), 6);
+        $this->assertEquals(6, $finalValue->getValue());
     }
 
     public function testValueWrapper(): void
@@ -93,7 +93,7 @@ class TaskTest extends TestCase
         $taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
         /** @var IntegerValue $finalValue */
         $finalValue = $taskManager->executeTask($t, new MockObserver());
-        $this->assertEquals($finalValue->getValue(), 5);
+        $this->assertEquals(5, $finalValue->getValue());
     }
 
     public function testTypeCheck(): void
@@ -125,7 +125,7 @@ class TaskTest extends TestCase
         $t1->setInput([$list]);
 
         $output = $t1->run([$list], new MockObserver());
-        $this->assertEquals($output->getValue(), "1, hello, 3");
+        $this->assertEquals("1, hello, 3", $output->getValue());
     }
 
     public function testUnfoldTask(): void
@@ -162,6 +162,6 @@ class TaskTest extends TestCase
         $taskManager = new SyncTaskManager(Mockery::mock(Persistence::class));
         /** @var IntegerValue $finalValue */
         $finalValue = $taskManager->executeTask($t2, new MockObserver());
-        $this->assertEquals($finalValue->getValue(), 8);
+        $this->assertEquals(8, $finalValue->getValue());
     }
 }

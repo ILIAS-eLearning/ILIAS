@@ -217,14 +217,19 @@ class ilUtil
      * @deprecated Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element.
      * Will be removed in ILIAS 10.
      */
-    public static function makeClickable(string $a_text, bool $detectGotoLinks = false): string
-    {
+    public static function makeClickable(
+        string $a_text,
+        bool $detectGotoLinks = false,
+        ?string $ilias_http_path = null
+    ): string {
         global $DIC;
 
         $ret = $DIC->refinery()->string()->makeClickable()->transform($a_text);
 
         if ($detectGotoLinks) {
-            $goto = '<a[^>]*href="(' . str_replace('@', '\@', ILIAS_HTTP_PATH) . '/goto';
+            $ilias_http_path = $ilias_http_path ?? (defined('ILIAS_HTTP_PATH') ? ILIAS_HTTP_PATH : '');
+
+            $goto = '<a[^>]*href="(' . str_replace('@', '\@', $ilias_http_path) . '/goto';
             $regExp = $goto . '.php\?target=\w+_(\d+)[^"]*)"[^>]*>[^<]*</a>';
             $ret = preg_replace_callback(
                 '@' . $regExp . '@i',

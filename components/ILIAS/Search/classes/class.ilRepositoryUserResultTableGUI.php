@@ -21,6 +21,8 @@ declare(strict_types=1);
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
 
 /**
 * TableGUI class user search results
@@ -46,6 +48,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
     protected int $type;
     protected bool $user_limitations = true;
 
+    protected Profile $profile;
     protected ilObjUser $user;
     protected ilRbacReview $review;
     protected UIServices $ui;
@@ -57,7 +60,8 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $this->user = $DIC->user();
+        $this->profile = $DIC['user']->getProfile();
+        $this->user = $DIC['user']->getLoggedInUser();
         $this->review = $DIC->rbac()->review();
         $this->ui = $DIC->ui();
         $this->http = $DIC->http();
@@ -331,14 +335,16 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
         // Custom user data fields
         if ($udf_ids) {
-            $data = ilUserDefinedData::lookupData($a_user_ids, $udf_ids);
-
             $users = array();
             $counter = 0;
             foreach ($usr_data['set'] as $set) {
                 $users[$counter] = $set;
+                if ((int) ($set['usr_id'] ?? 0) === 0) {
+                    continue;
+                }
+                $data = $this->profile->getDataFor((int) $set['usr_id']);
                 foreach ($udf_ids as $udf_field) {
-                    $users[$counter]['udf_' . $udf_field] = ($data[(int) ($set['usr_id'] ?? 0)][$udf_field] ?? '');
+                    $users[$counter]['udf_' . $udf_field] = $data->getAdditionalFieldByIdentifier($udf_field);
                 }
                 ++$counter;
             }

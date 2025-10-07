@@ -650,7 +650,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
         // user.
         // ------------------
         if ($is_successful) {
-            $is_successful = $userObj->resetPassword($password, $password);
+            $is_successful = $userObj->resetPassword($password);
             if (!$is_successful) {
                 $message = $this->lng->txt('passwd_invalid');
             }

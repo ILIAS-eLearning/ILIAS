@@ -36,19 +36,30 @@ class MapDBRepository
     ): void {
         $this->removeScreenIdsOfChapter($a_chap);
         foreach ($a_ids as $id) {
-            $full_id = $id;
+            $full_id = trim($id);
             $id = trim($id);
             $id = explode("/", $id);
             if ($id[0] != "") {
                 if (($id[1] ?? "") == "") {
                     $id[1] = "-";
                 }
-                $id2 = explode("#", ($id[2] ?? ""));
+                $pos2 = strpos($full_id, "/", strpos($full_id, "/") + 1);
+                if ($pos2 === false) {
+                    $id2 = "";
+                } else {
+                    $id2 = substr($full_id, $pos2 + 1);
+                }
+                $id2 = explode("#", ($id2 ?? ""));
                 if (($id2[0] ?? "") == "") {
                     $id2[0] = "-";
                 }
                 if (($id2[1] ?? "") == "") {
                     $id2[1] = "-";
+                }
+                // strip perm from full id
+                $pos = strpos($full_id, "#");
+                if ($pos !== false) {
+                    $full_id = substr($full_id, 0, $pos);
                 }
                 $this->db->replace(
                     "help_map",

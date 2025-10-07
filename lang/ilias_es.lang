@@ -1332,7 +1332,6 @@ assessment#:#true#:#Verdadero
 assessment#:#tst_access_code_created#:#Para proporcionarle acceso permanente a sus resultados de test y ofrecerle la posibilidad de retomar este test, un código de acceso único fue creado. Por favor, anote este código y úselo en acciones posteriores.
 assessment#:#tst_activate_skill_service#:#Activar servicio de Competencias
 assessment#:#tst_activate_skill_service_desc#:#Se mostrará una nueva pestaña 'Competencias'. En esta pestaña las preguntas se asignan a las competencias, luego se establecen los umbrales para alcanzar un nivel específico de una competencia.
-assessment#:#tst_activation_limited_visibility_info#:#Si se activa, el test es visible incluso fuera de la disponibilidad que tenga asignada
 assessment#:#tst_activation_online_info#:#Si está desactivado, sólo los administradores pueden ver y editar el test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Modo de Edición para introducir el texto de la pregunta
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Modo de edición simple (sin formato de texto) para el contenido de las preguntas
@@ -5837,7 +5836,7 @@ common#:#udf_type_date#:#Campo Fecha
 common#:#udf_type_datetime#:#Fecha y hora
 common#:#udf_type_select#:#Lista desplegable (valores fijos)
 common#:#udf_type_text#:#Campo de texto (valores opcionales)
-common#:#udf_type_wysiwyg#:#Área de Texto (WYSIWYG)
+common#:#udf_type_textarea#:#Área de Texto (WYSIWYG)
 common#:#udf_update_select_field#:#Editar lista desplegable
 common#:#udf_update_text_field#:#Editar campo de texto
 common#:#udf_update_wysiwyg_field#:#Editar campo de área de texto (WYSIWYG)
@@ -5876,7 +5875,6 @@ common#:#uploading#:#Enviando...
 common#:#uri#:#URI
 common#:#url#:#url
 common#:#url_not_found#:#Archivos no encontrado
-common#:#url_to_latex#:#URL del script CGI para LaTeX
 common#:#use_customized_instructions#:#Usar instrucciones propias:
 common#:#use_default_instructions#:#Usar instrucciones por defecto.
 common#:#user#:#Usuario
@@ -11603,7 +11601,6 @@ mail#:#mail_serial_letter_placeholders#:#Marcadores de plantilla de correo
 mail#:#mail_settings_external_frm_head#:#External Emails
 mail#:#mail_settings_external_tab#:#Externo
 mail#:#mail_settings_general_tab#:#General
-mail#:#mail_settings_incoming_type_see_also#:#Puedes encontrar una posibilidad de modificar el modo de entrada del correo electrónico del correo de los usuarios <a href="%s">aquí</a>
 mail#:#mail_settings_system_frm_head#:#System Emails
 mail#:#mail_settings_user_frm_head#:#User Emails
 mail#:#mail_smtp_encryption#:#Cifrado
@@ -13001,6 +12998,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Icono Personalizado
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Editar preguntas
+obj#:#multiple_selection#:#Selección múltiple
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Activar traducción para Edición de Página
 obj#:#obj_activate_multilang#:#Activar soporte para múltiples idiomas

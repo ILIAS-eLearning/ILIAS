@@ -34,12 +34,12 @@ class IgnoreTest extends TestCase
     public function testValues(): void
     {
         $ignore = new Ignore('a', 'b', 'c');
-        $this->assertEquals(['!= a', '!= b', '!= c'], $ignore->values());
+        $this->assertSame(['!= a', '!= b', '!= c'], $ignore->values());
     }
 
     public function testValuesWithNull(): void
     {
         $ignore = new Ignore('a', null, 'c');
-        $this->assertEquals(['!= a', 'IS NOT NULL', '!= c'], $ignore->values());
+        $this->assertSame(['!= a', 'IS NOT NULL', '!= c'], $ignore->values());
     }
 }

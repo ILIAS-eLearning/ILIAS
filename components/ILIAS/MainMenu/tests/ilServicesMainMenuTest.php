@@ -46,11 +46,6 @@ class ilServicesMainMenuTest extends TestCase
 {
     private ?Container $dic_backup;
     /**
-     * @var ProviderFactory|ProviderFactory&object&MockObject|ProviderFactory&MockObject|object&MockObject|MockObject
-     */
-    private ProviderFactory|MockObject $provider_factory_mock;
-    private Services $gs_mock;
-    /**
      * @var ilDBInterface|MockObject
      */
     protected ilDBInterface $db_mock;
@@ -70,8 +65,8 @@ class ilServicesMainMenuTest extends TestCase
         }
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
         $this->dic_mock = $DIC = new Container();
-        $this->provider_factory_mock = $this->createMock(ProviderFactory::class);
-        $this->gs_mock = $DIC['global_screen'] = new Services($this->provider_factory_mock);
+        $provider_factory_mock = $this->createMock(ProviderFactory::class);
+        $gs_mock = $DIC['global_screen'] = new Services($provider_factory_mock);
         $this->db_mock = $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
         $this->dic_mock['ilUser'] = $DIC['ilUser'] = $this->createMock(ilObjUser::class);
         $this->dic_mock['ilSetting'] = $DIC['ilSetting'] = $this->createMock(ilSetting::class);
@@ -154,25 +149,25 @@ class ilServicesMainMenuTest extends TestCase
             $items
         );
 
-        $this->assertEquals(7, count($items)); // this contains Dashboard as well
-        $this->assertEquals(7, count($item_identifications));
+        $this->assertCount(7, $items); // this contains Dashboard as well
+        $this->assertCount(7, $item_identifications);
 
         $repo = $standard_top_items->getRepositoryIdentification();
-        $this->assertTrue(in_array($repo, $item_identifications));
+        $this->assertContains($repo, $item_identifications);
 
         $admin = $standard_top_items->getAdministrationIdentification();
-        $this->assertTrue(in_array($admin, $item_identifications));
+        $this->assertContains($admin, $item_identifications);
 
         $achievments = $standard_top_items->getAchievementsIdentification();
-        $this->assertTrue(in_array($achievments, $item_identifications));
+        $this->assertContains($achievments, $item_identifications);
 
         $communication = $standard_top_items->getCommunicationIdentification();
-        $this->assertTrue(in_array($communication, $item_identifications));
+        $this->assertContains($communication, $item_identifications);
 
         $organisation = $standard_top_items->getOrganisationIdentification();
-        $this->assertTrue(in_array($communication, $item_identifications));
+        $this->assertContains($communication, $item_identifications);
 
         $personal = $standard_top_items->getPersonalWorkspaceIdentification();
-        $this->assertTrue(in_array($personal, $item_identifications));
+        $this->assertContains($personal, $item_identifications);
     }
 }

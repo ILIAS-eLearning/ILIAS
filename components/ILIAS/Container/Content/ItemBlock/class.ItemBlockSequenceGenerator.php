@@ -56,6 +56,8 @@ class ItemBlockSequenceGenerator
     protected array $all_item_group_item_ref_ids = [];
     protected array $all_ref_ids = [];
 
+    protected \ilLOTestAssignments $test_assignments;
+
     public function __construct(
         DataService $data_service,
         InternalDomainService $domain_service,
@@ -80,6 +82,7 @@ class ItemBlockSequenceGenerator
         if (!$this->mode_manager->isActiveItemOrdering()) {
             $this->block_limit = (int) \ilContainer::_lookupContainerSetting($container->getId(), "block_limit");
         }
+        $this->test_assignments = \ilLOTestAssignments::getInstance($this->container->getId());
     }
 
     public function getSequence(): ItemBlockSequence
@@ -264,6 +267,14 @@ class ItemBlockSequenceGenerator
                     foreach (\ilObjectActivation::getItemsByObjective((int) $objective_id) as $data) {
                         $ref_ids[] = (int) $data["ref_id"];
                     }
+
+                    // assigned tests -> accumulated ref ids to hide from other
+                    $test_ref_ids = [];
+                    $test_ref_ids[] = $this->test_assignments->getTestByObjective($objective_id, \ilLOSettings::TYPE_TEST_INITIAL);
+                    $test_ref_ids[] = $this->test_assignments->getTestByObjective($objective_id, \ilLOSettings::TYPE_TEST_QUALIFIED);
+                    $this->accumulateRefIds(array_filter($test_ref_ids, static function ($i) {
+                        return $i > 0;
+                    }));
                 }
                 $this->accumulateRefIds($ref_ids);
                 yield $this->data_service->itemBlock(
@@ -360,8 +371,7 @@ class ItemBlockSequenceGenerator
      */
     protected function getGroupedObjTypes(): \Iterator
     {
-        foreach (\ilObjectDefinition::getGroupedRepositoryObjectTypes($this->container->getType())
-            as $key => $type) {
+        foreach (\ilObjectDefinition::getGroupedRepositoryObjectTypes($this->container->getType()) as $key => $type) {
             yield $key;
         }
     }

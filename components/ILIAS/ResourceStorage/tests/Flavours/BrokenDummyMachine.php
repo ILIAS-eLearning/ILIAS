@@ -25,8 +25,9 @@ require_once __DIR__ . '/DummyMachine.php';
 
 class BrokenDummyMachine extends DummyMachine
 {
+    /** @noinspection MagicMethodsValidityInspection */
     public function __construct()
     {
-        throw new \Exception('This machine is broken');
+        throw new \RuntimeException('This machine is broken');
     }
 }

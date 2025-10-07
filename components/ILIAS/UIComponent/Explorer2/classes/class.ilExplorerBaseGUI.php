@@ -23,7 +23,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @deprecated 10
+ * @deprecated with ILIAS 12
  */
 abstract class ilExplorerBaseGUI
 {

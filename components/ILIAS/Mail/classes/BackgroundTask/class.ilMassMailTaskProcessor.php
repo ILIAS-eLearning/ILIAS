@@ -29,7 +29,7 @@ class ilMassMailTaskProcessor
     private readonly TaskFactory $task_factory;
     private readonly ilLanguage $language;
     private readonly ilLogger $logger;
-    private readonly ilMailValueObjectJsonService $object_json_service;
+    private readonly \ILIAS\Mail\Object\MailPayloadEncoder $payload_encoder;
 
     public function __construct(
         private readonly int $anonymous_user_id = ANONYMOUS_USER_ID,
@@ -38,7 +38,7 @@ class ilMassMailTaskProcessor
         ?ilLanguage $language = null,
         ?ilLogger $logger = null,
         ?Container $dic = null,
-        ?ilMailValueObjectJsonService $object_json_service = null
+        ?\ILIAS\Mail\Object\MailPayloadEncoder $payload_encoder = null
     ) {
         if ($dic === null) {
             global $DIC;
@@ -49,7 +49,15 @@ class ilMassMailTaskProcessor
         $this->task_factory = $task_factory ?? $dic->backgroundTasks()->taskFactory();
         $this->language = $language ?? $dic->language();
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
-        $this->object_json_service = $object_json_service ?? new ilMailValueObjectJsonService();
+        if ($payload_encoder === null) {
+            $payload_encoder = new ILIAS\Mail\Object\Mb3SafeMailEncoder(
+                new ILIAS\Mail\Object\PureJsonMailEncoder(
+                    new ilMailValueObjectJsonService()
+                ),
+                new ILIAS\Mail\Transformation\Utf8Mb4Sanitizer()
+            );
+        }
+        $this->payload_encoder = $payload_encoder;
     }
 
     /**
@@ -129,7 +137,7 @@ class ilMassMailTaskProcessor
         array $context_parameters,
         $remaining_objects
     ): ILIAS\BackgroundTasks\Task {
-        $json_string = $this->object_json_service->convertToJson($remaining_objects);
+        $json_string = $this->payload_encoder->encode($remaining_objects);
 
         $task = $this->task_factory->createTask(ilMassMailDeliveryJob::class, [
             $usr_id,

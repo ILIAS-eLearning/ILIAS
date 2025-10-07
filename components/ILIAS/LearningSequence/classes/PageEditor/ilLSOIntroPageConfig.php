@@ -21,7 +21,7 @@ declare(strict_types=1);
 /**
  *
  * @ilCtrl_Calls ilLSOPageConfig: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilLSOPageConfig: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilLSOPageConfig: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilLSOPageConfig: ilPropertyFormGUI, ilInternalLinkGUI
  */
 class ilLSOIntroPageConfig extends ilPageConfig

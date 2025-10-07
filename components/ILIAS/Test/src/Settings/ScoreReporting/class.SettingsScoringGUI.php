@@ -182,7 +182,15 @@ class SettingsScoringGUI extends TestSettingsGUI
         return unserialize(
             base64_decode(
                 $this->request->getParsedBody()[self::F_CONFIRM_SETTINGS]
-            )
+            ),
+            [
+                'allowed_classes' => [
+                    \GuzzleHttp\Psr7\ServerRequest::class,
+                    \GuzzleHttp\Psr7\Uri::class,
+                    \GuzzleHttp\Psr7\UploadedFile::class,
+                    \GuzzleHttp\Psr7\Stream::class,
+                ]
+            ]
         );
     }
 
@@ -234,13 +242,13 @@ class SettingsScoringGUI extends TestSettingsGUI
     {
         $result_summary_settings = $this->test_object->getScoreSettings()
             ->getResultSummarySettings();
-        if ($result_summary_settings->getScoreReporting()->isReportingEnabled()) {
+        if (!$result_summary_settings->getScoreReporting()->isReportingEnabled()) {
             return false;
         }
 
         if ($result_summary_settings->getScoreReporting() === ScoreReportingTypes::SCORE_REPORTING_DATE) {
-            return $result_summary_settings->getResultSummarySettings()
-                ->getReportingDate() <= new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+            return $result_summary_settings->getReportingDate()
+                <= new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
         }
 
         return true;

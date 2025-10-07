@@ -16,8 +16,9 @@
  *
  *********************************************************************/
 
-use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
+use PublicProfileGUILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilUserUtil
@@ -46,12 +47,16 @@ class ilUserUtil
         bool $a_omit_login = false,
         bool $a_sortable = true,
         bool $a_return_data_array = false,
-        $a_ctrl_path = 'ilpublicuserprofilegui'
+        $a_ctrl_path = null
     ) {
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
+
+        if ($a_ctrl_path === null) {
+            $a_ctrl_path = strtolower(PublicProfileGUI::class);
+        }
 
         if (!is_array($a_ctrl_path)) {
             $a_ctrl_path = [$a_ctrl_path];
@@ -200,24 +205,12 @@ class ilUserUtil
             return '';
         }
 
-        $ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $a_usr_id);
-        return $ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
+        $ctrl->setParameterByClass(PublicProfileGUI::class, 'user', $a_usr_id);
+        return $ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'getHTML');
     }
 
     public static function getStartingPointAsUrl(): string
     {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-        $starting_point_repository = new ilUserStartingPointRepository(
-            $DIC['ilUser'],
-            $DIC['ilDB'],
-            $DIC->logger(),
-            $DIC['tree'],
-            $DIC['rbacreview'],
-            $DIC['rbacsystem'],
-            $DIC['ilSetting']
-        );
-
-        return $starting_point_repository->getValidAndAccessibleStartingPointAsUrl();
+        return LocalDIC::dic()[StartingPointRepository::class]->getValidAndAccessibleStartingPointAsUrl();
     }
 }

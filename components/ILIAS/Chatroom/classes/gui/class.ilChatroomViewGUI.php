@@ -278,8 +278,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $state = $this->http->wrapper()->post()->retrieve('state', $this->refinery->kindlyTo()->int());
         }
 
-        ilObjUser::_writePref(
-            $this->ilUser->getId(),
+        $this->ilUser->writePref(
             'chat_hide_automsg_' . $room->getRoomId(),
             (string) ((int) (!(bool) $state))
         );

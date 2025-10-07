@@ -112,7 +112,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
-        $form->setFormAction($this->ctrl->getFormAction($certificateGUI));
+        $form->setFormAction($this->ctrl->getFormAction($certificateGUI, 'certificateEditor'));
         $form->setTitle($this->language->txt('cert_form_sec_availability'));
         $form->setMultipart(true);
         $form->setTableWidth('100%');

@@ -223,7 +223,7 @@ class BasicPersistenceTest extends TestCase
         $download_integer = new DownloadInteger();
 
         // We worked on the task up to the user interaction. The current task should be the download integer interaction.
-        self::assertEquals($this->bucket->getCurrentTask()->getType(), $download_integer->getType());
+        $this->assertEquals($this->bucket->getCurrentTask()->getType(), $download_integer->getType());
 
         $options = $download_integer->getOptions([]); // Download, Dismiss (the input doesnt matter so we pass an empty array)
 
@@ -232,7 +232,7 @@ class BasicPersistenceTest extends TestCase
         $this->bucket->userInteraction($dismiss); // We "click" Dismiss.
 
         // As we dismissed the last user interaction the state is finished.
-        self::assertEquals($this->bucket->getState(), State::FINISHED);
+        $this->assertEquals(State::FINISHED, $this->bucket->getState());
     }
 
     public function testContinueUserInteraction2(): void
@@ -261,7 +261,7 @@ class BasicPersistenceTest extends TestCase
         $download_integer = new DownloadInteger();
 
         // We worked on the task up to the user interaction. The current task should be the download integer interaction.
-        self::assertEquals($this->bucket->getCurrentTask()->getType(), $download_integer->getType());
+        $this->assertEquals($this->bucket->getCurrentTask()->getType(), $download_integer->getType());
 
         $options = $download_integer->getOptions([]); // Download, Dismiss (the input doesn't matter so we pass an empty array)
 
@@ -272,6 +272,6 @@ class BasicPersistenceTest extends TestCase
         // As we dismissed the last user interaction the state is finished.
         /** @var IntegerValue $result */
         $result = $taskManager->executeTask($this->bucket->getTask(), new NonPersistingObserver($this->bucket));
-        self::assertEquals(5, $result->getValue());
+        $this->assertEquals(5, $result->getValue());
     }
 }

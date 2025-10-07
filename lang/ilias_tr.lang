@@ -1330,7 +1330,6 @@ assessment#:#true#:#Doğru
 assessment#:#tst_access_code_created#:#Test sonuçlarına kalıcı erişim sağlamak ve bu teste devam etme imkanı sunmak için, benzersiz bir sınama erişim kodu oluşturuldu. Bu kodu, daha sonra kullanmak için not ediniz.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#Seçilirse, test her zaman görünür
 assessment#:#tst_activation_online_info#:#Çevrimdışıysa, yalnızca yöneticiler testi görebilir ve düzenleyebilir.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###24 10 2013 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor###24 10 2013 new variable
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Tarih
 common#:#udf_type_datetime#:#Tarih ve Zaman
 common#:#udf_type_select#:#Seçim Listesi (Drop-Down)
 common#:#udf_type_text#:#Metin Alanı (Tek Satır)
-common#:#udf_type_wysiwyg#:#Metin Alanı (WYSIWYG)
+common#:#udf_type_textarea#:#Metin Alanı (WYSIWYG)
 common#:#udf_update_select_field#:#Seçim Kutusu Düzenle
 common#:#udf_update_text_field#:#Metin Alanı Düzenle
 common#:#udf_update_wysiwyg_field#:#Metin Alanı (WYSIWYG) Düzenle
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Uploading...###24 10 2013 new variable
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Dosya Bulunamadı
-common#:#url_to_latex#:#URL LaTeX CGI script
 common#:#use_customized_instructions#:#Özel talimatları kullan:
 common#:#use_default_instructions#:#Varsayılan talimatları kullan
 common#:#user#:#Kullanıcı
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###25 10 2016
 mail#:#mail_settings_external_frm_head#:#External Emails###31 08 2017 new variable
 mail#:#mail_settings_external_tab#:#External###31 08 2017 new variable
 mail#:#mail_settings_general_tab#:#General###31 08 2017 new variable
-mail#:#mail_settings_incoming_type_see_also#:#Kullanıcıların <a için e-postaların gelen türünü değiştirmek için bir diğer olasılık bulabilirsiniz href="%s"> burada </ a>.
 mail#:#mail_settings_system_frm_head#:#System Emails###31 08 2017 new variable
 mail#:#mail_settings_user_frm_head#:#User Emails###31 08 2017 new variable
 mail#:#mail_smtp_encryption#:#Encryption###31 08 2017 new variable
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###27 01 2015 new variable
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
+obj#:#multiple_selection#:#Multiple Selection###24 10 2013 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
 obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable

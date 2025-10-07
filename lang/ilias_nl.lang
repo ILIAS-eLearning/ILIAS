@@ -1330,7 +1330,6 @@ assessment#:#true#:#Waar
 assessment#:#tst_access_code_created#:#Om je permanente toegang te geven tot de toets resultaten en de mogelijkheid te bieden je toets later te hernemem, heeft ILIAS een toegangscode aangemaakt. Schrijf deze code op zodat je deze later kan gebruiken
 assessment#:#tst_activate_skill_service#:#Inschakelen van competenties
 assessment#:#tst_activate_skill_service_desc#:#A new tab ‘Competences’ will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###06 02 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#Als gekozen, is de toets zichtbaar, zelfs buiten de gegeven beschikbaarheid.
 assessment#:#tst_activation_online_info#:#Als offline kunnen alleen beheerders de toets zien en wijzigen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Edit-modus voor extra inhoud
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Edit extra inhoud met behulp van de ILIAS pagina editor
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Date Field
 common#:#udf_type_datetime#:#Date and Time
 common#:#udf_type_select#:#Keuzebox
 common#:#udf_type_text#:#Text veld(optionele waarden)
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
+common#:#udf_type_textarea#:#Text Area (WYSIWYG)
 common#:#udf_update_select_field#:#Wijzig keuzebox
 common#:#udf_update_text_field#:#Wijzig textveld
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Bezig met uploaden...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Bestand niet gevonden
-common#:#url_to_latex#:#URL to LaTeX CGI script
 common#:#use_customized_instructions#:#Use customized instructions:
 common#:#use_default_instructions#:#Use default instructions.
 common#:#user#:#Gebruiker
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###25 10 2016
 mail#:#mail_settings_external_frm_head#:#External Emails###31 08 2017 new variable
 mail#:#mail_settings_external_tab#:#External###31 08 2017 new variable
 mail#:#mail_settings_general_tab#:#General###31 08 2017 new variable
-mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>
 mail#:#mail_settings_system_frm_head#:#System Emails###31 08 2017 new variable
 mail#:#mail_settings_user_frm_head#:#User Emails###31 08 2017 new variable
 mail#:#mail_smtp_encryption#:#Encryption###31 08 2017 new variable
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###06 02 2015 new variable
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Wijzigen vragen
+obj#:#multiple_selection#:#Multiple Selection
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Inschakelen vertalingen voor pagina editor
 obj#:#obj_activate_multilang#:#Inschakelen meertaligheid

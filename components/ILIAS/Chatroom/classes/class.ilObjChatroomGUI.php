@@ -109,14 +109,15 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
     public function getUnsafeGetCommands(): array
     {
-        return [];
+        return [
+            'ban-handleTableActions',
+        ];
     }
 
     public function getSafePostCommands(): array
     {
         return [
             'view-toggleAutoMessageDisplayState',
-            'ban-handleTableActions',
         ];
     }
 
@@ -200,7 +201,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
 
             default:
                 try {
-                    $res = explode('-', (string) $this->ctrl->getCmd(''), 2);
+                    $res = explode('-', (string) $this->ctrl->getCmd('infoScreen'), 2);
                     $result = $this->dispatchCall($res[0], $res[1] ?? '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();

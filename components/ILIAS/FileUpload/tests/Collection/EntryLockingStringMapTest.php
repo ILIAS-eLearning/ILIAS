@@ -88,7 +88,7 @@ class EntryLockingStringMapTest extends TestCase
         $this->subject->put($key, $value);
         $result = $this->subject->get($key);
 
-        $this->assertEquals($value, $result);
+        $this->assertSame($value, $result);
     }
 
     #[Test]

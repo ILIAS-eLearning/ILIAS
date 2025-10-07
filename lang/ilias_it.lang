@@ -1330,7 +1330,6 @@ assessment#:#true#:#Vero
 assessment#:#tst_access_code_created#:#Per renderti accessibile sempre il test ed offrirti la possibilità di rivederlo, è stato creato un codice unico. Per favore scrivitelo per usarlo in futuro.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.
-assessment#:#tst_activation_limited_visibility_info#:#Se scelto, il test è visibile anche all'esterno della disponibilità data.
 assessment#:#tst_activation_online_info#:#Se non in linea, solo gli amministratori possono visualizzare e modificare il test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Campo Data
 common#:#udf_type_datetime#:#Data e Ora
 common#:#udf_type_select#:#Menu a tendina (valori fissati)
 common#:#udf_type_text#:#Campo testo (valori opzionali)
-common#:#udf_type_wysiwyg#:#Area di testo (WYSIWYG)
+common#:#udf_type_textarea#:#Area di testo (WYSIWYG)
 common#:#udf_update_select_field#:#Modifica menu a tendina
 common#:#udf_update_text_field#:#Modifica campo testo
 common#:#udf_update_wysiwyg_field#:#Area per la modifica del testo (WYSIWYG)
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Caricamento...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#File non trovato
-common#:#url_to_latex#:#URL allo script LaTeX CGI
 common#:#use_customized_instructions#:#Utilizza le istruzioni personalizzate:
 common#:#use_default_instructions#:#Utilizza le istruzioni delle impostazioni predefinite.
 common#:#user#:#Utente
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Segnaposti di lettera seriale
 mail#:#mail_settings_external_frm_head#:#External Emails
 mail#:#mail_settings_external_tab#:#Esterno
 mail#:#mail_settings_general_tab#:#Generale
-mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>
 mail#:#mail_settings_system_frm_head#:#System Emails
 mail#:#mail_settings_user_frm_head#:#User Emails
 mail#:#mail_smtp_encryption#:#Crittografia
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Icona personalizzata
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Modifica domande
+obj#:#multiple_selection#:#Selezione multipla
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Attiva traduzione per la modifica delle pagine
 obj#:#obj_activate_multilang#:#Activate Multilinguality

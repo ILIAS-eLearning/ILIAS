@@ -798,7 +798,7 @@ class PropertyAndActionBuilderUI
                 $this->addProperty(
                     self::SEC_TUTOR_EVAL,
                     $lng->txt("exc_comment"),
-                    nl2br($lpcomment)
+                    nl2br($this->gui->html()->escapeCurly($lpcomment))
                 );
             }
             if ($mark !== "") {

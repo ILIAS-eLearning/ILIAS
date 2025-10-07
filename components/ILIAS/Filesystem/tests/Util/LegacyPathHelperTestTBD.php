@@ -42,7 +42,6 @@ use PHPUnit\Framework\TestCase;
 class LegacyPathHelperTest extends TestCase
 {
     public $libsPath;
-    private string $vendorPath;
     private string $storagePath;
     private string $webPath;
     private MockInterface|Filesystems $filesystemsMock;
@@ -95,7 +94,7 @@ class LegacyPathHelperTest extends TestCase
             ->andReturn(Mockery::mock(Filesystem::class));
 
         $filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
-        $this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
+        $this->assertInstanceOf(\ILIAS\Filesystem\Filesystem::class, $filesystem, 'Expecting filesystem instance.');
     }
 
 
@@ -111,7 +110,7 @@ class LegacyPathHelperTest extends TestCase
             ->andReturn(Mockery::mock(Filesystem::class));
 
         $filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
-        $this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
+        $this->assertInstanceOf(\ILIAS\Filesystem\Filesystem::class, $filesystem, 'Expecting filesystem instance.');
     }
 
 
@@ -127,7 +126,7 @@ class LegacyPathHelperTest extends TestCase
             ->andReturn(Mockery::mock(Filesystem::class));
 
         $filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
-        $this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
+        $this->assertInstanceOf(\ILIAS\Filesystem\Filesystem::class, $filesystem, 'Expecting filesystem instance.');
     }
 
     #[Test]
@@ -142,7 +141,7 @@ class LegacyPathHelperTest extends TestCase
             ->andReturn(Mockery::mock(Filesystem::class));
 
         $filesystem = LegacyPathHelper::deriveFilesystemFrom($target);
-        $this->assertTrue($filesystem instanceof Filesystem, 'Expecting filesystem instance.');
+        $this->assertInstanceOf(\ILIAS\Filesystem\Filesystem::class, $filesystem, 'Expecting filesystem instance.');
     }
 
 
@@ -167,7 +166,7 @@ class LegacyPathHelperTest extends TestCase
         $target = $this->webPath . '/' . $expectedPath;
 
         $result = LegacyPathHelper::createRelativePath($target);
-        $this->assertEquals($expectedPath, $result);
+        $this->assertSame($expectedPath, $result);
     }
 
 
@@ -179,7 +178,7 @@ class LegacyPathHelperTest extends TestCase
         $target = $this->storagePath . '/' . $expectedPath;
 
         $result = LegacyPathHelper::createRelativePath($target);
-        $this->assertEquals($expectedPath, $result);
+        $this->assertSame($expectedPath, $result);
     }
 
 

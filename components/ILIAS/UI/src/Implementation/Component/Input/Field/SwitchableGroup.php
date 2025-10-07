@@ -65,15 +65,20 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @see SwitchableGroup::withValue() */
     protected function isClientSideValueOk($value): bool
     {
-        if (!is_string($value) && !is_int($value)) {
+        if (is_string($value) || is_int($value)) {
+            return array_key_exists($value, $this->getInputs());
+        }
+        if (!is_array($value)) {
             return false;
         }
-        return array_key_exists($value, $this->getInputs());
+        [$key, $group_value] = $value;
+        if (!array_key_exists($key, $this->getInputs())) {
+            return false;
+        }
+        return $this->inputs[$key]->isClientSideValueOk($group_value);
     }
 
     public function withRequired($is_required, ?Constraint $requirement_constraint = null): self
@@ -83,22 +88,18 @@ class SwitchableGroup extends Group implements I\SwitchableGroup
     }
 
     /**
-     * @inheritdoc
+     * This currently accepts two kinds of values:
+     * - (a) direct values of this input, where only a key is expected, or
+     * - (b) direct value and nested value(s) of the selected Group.
      */
     public function withValue($value): self
     {
+        $this->checkArg('value', $this->isClientSideValueOk($value), 'Display value does not match input type.');
         if (is_string($value) || is_int($value)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
             return FormInput::withValue($value);
         }
-        if (!is_array($value) || count($value) !== 2) {
-            throw new InvalidArgumentException(
-                "Expected one key and a group value or one key only as value."
-                . " got '" . print_r($value, true) . "' instead."
-            );
-        }
-        list($key, $group_value) = $value;
-
+        [$key, $group_value] = $value;
         /** @var $clone self */
         $clone = FormInput::withValue($key);
         $clone->setInputs($clone->getInputsWithOperationForKey($key, fn($i) => $i->withValue($group_value)));

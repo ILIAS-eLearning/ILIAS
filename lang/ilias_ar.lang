@@ -1330,7 +1330,6 @@ assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
 assessment#:#tst_activate_skill_service#:#Activate Competence Service###26 09 2014 new variable
 assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be displayed. In this tab questions are assigned to competences, then thresholds are ascribed for reaching a specific level of a competence.###27 01 2015 new variable
-assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content###24 10 2013 new variable
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor###24 10 2013 new variable
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#التاريخ
 common#:#udf_type_datetime#:#التاريخ والوقت
 common#:#udf_type_select#:#Selection List (Drop-Down)
 common#:#udf_type_text#:#حق النص- سطر واحد
-common#:#udf_type_wysiwyg#:# (WYSIWYG) مساحة النص
+common#:#udf_type_textarea#:# (WYSIWYG) مساحة النص
 common#:#udf_update_select_field#:#تعديل صندوق البحث
 common#:#udf_update_text_field#:#تعديل حقل نص
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Uploading...###24 10 2013 new variable
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#File Not Found
-common#:#url_to_latex#:#URL to LaTeX CGI script
 common#:#use_customized_instructions#:#استخدم التعليميات المخصصة
 common#:#use_default_instructions#:#استخدم التعليمات الافتراضية
 common#:#user#:#مستخدم
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders###25 10 2016
 mail#:#mail_settings_external_frm_head#:#External Emails###31 08 2017 new variable
 mail#:#mail_settings_external_tab#:#External###31 08 2017 new variable
 mail#:#mail_settings_general_tab#:#General###31 08 2017 new variable
-mail#:#mail_settings_incoming_type_see_also#:#يمكنك ان تجد امكانية اكبر لتعديل نوع الرسائل الالكترونية الواردة للمستخدمين من <a href="%s">هنا</a>
 mail#:#mail_settings_system_frm_head#:#System Emails###31 08 2017 new variable
 mail#:#mail_settings_user_frm_head#:#User Emails###31 08 2017 new variable
 mail#:#mail_smtp_encryption#:#Encryption###31 08 2017 new variable
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon###27 01 2015 new variable
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Edit Questions###24 10 2013 new variable
+obj#:#multiple_selection#:#Multiple Selection###24 10 2013 new variable
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
 obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable

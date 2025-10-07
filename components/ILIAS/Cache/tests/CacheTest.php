@@ -39,18 +39,14 @@ require_once(__DIR__ . '/../../../../vendor/composer/vendor/autoload.php');
 class CacheTest extends TestCase
 {
     public const TEST_CONTAINER = 'test_container';
-    /**
-     * @var \ilLanguage|\ilLanguage&MockObject|MockObject
-     */
-    private \ilLanguage $language_mock;
     private Factory $refinery;
 
     protected function setUp(): void
     {
-        $this->language_mock = $this->createMock(\ilLanguage::class);
+        $language_mock = $this->createMock(\ilLanguage::class);
         $this->refinery = new Factory(
             new \ILIAS\Data\Factory(),
-            $this->language_mock
+            $language_mock
         );
         // prevent chached values between tests
         $static_flush = new PHPStatic($this->getConfig(Config::PHPSTATIC));
@@ -113,9 +109,9 @@ class CacheTest extends TestCase
         $two = $this->getDummyRequest('two');
         $three = $this->getDummyRequest('three');
 
-        $this->assertEquals('one', $one->getContainerKey());
-        $this->assertEquals('two', $two->getContainerKey());
-        $this->assertEquals('three', $three->getContainerKey());
+        $this->assertSame('one', $one->getContainerKey());
+        $this->assertSame('two', $two->getContainerKey());
+        $this->assertSame('three', $three->getContainerKey());
 
         $container_one = $services->get($one);
         $container_two = $services->get($two);
@@ -127,11 +123,11 @@ class CacheTest extends TestCase
 
         $container_one->set('test', 'test_value');
         $this->assertTrue($container_one->has('test'));
-        $this->assertEquals('test_value', $container_one->get('test', $this->refinery->to()->string()));
+        $this->assertSame('test_value', $container_one->get('test', $this->refinery->to()->string()));
 
         $container_two->set('test', 'test_value');
         $this->assertTrue($container_two->has('test'));
-        $this->assertEquals('test_value', $container_two->get('test', $this->refinery->to()->string()));
+        $this->assertSame('test_value', $container_two->get('test', $this->refinery->to()->string()));
 
         $container_three->set('test', 'test_value');
         $this->assertFalse($container_three->has('test'));
@@ -146,7 +142,7 @@ class CacheTest extends TestCase
 
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test', $this->refinery->to()->string()));
+        $this->assertSame('test_value', $container->get('test', $this->refinery->to()->string()));
 
         $container->lock(1 / 1000);
         $this->assertTrue($container->isLocked());
@@ -155,7 +151,7 @@ class CacheTest extends TestCase
         usleep(1000);
         $this->assertFalse($container->isLocked());
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test', $this->refinery->to()->string()));
+        $this->assertSame('test_value', $container->get('test', $this->refinery->to()->string()));
 
         // Second Run
         $container->lock(1 / 1000);
@@ -171,14 +167,12 @@ class CacheTest extends TestCase
         $this->assertFalse($container->isLocked());
     }
 
-    public static function getInvalidLockTimes(): array
+    public static function getInvalidLockTimes(): \Iterator
     {
-        return [
-            [-10],
-            [-1],
-            [301],
-            [300.1],
-        ];
+        yield [-10];
+        yield [-1];
+        yield [301];
+        yield [300.1];
     }
 
     #[DataProvider('getInvalidLockTimes')]
@@ -197,7 +191,7 @@ class CacheTest extends TestCase
 
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test', $this->refinery->to()->string()));
+        $this->assertSame('test_value', $container->get('test', $this->refinery->to()->string()));
 
         $container->delete('test');
         $this->assertFalse($container->has('test'));
@@ -218,13 +212,13 @@ class CacheTest extends TestCase
         $services = new Services($config);
         $container = $services->get($request);
         $this->assertInstanceOf(ActiveContainer::class, $container);
-        $this->assertEquals(Config::PHPSTATIC, $container->getAdaptorName());
-        $this->assertEquals(self::TEST_CONTAINER, $container->getContainerName());
+        $this->assertSame(Config::PHPSTATIC, $container->getAdaptorName());
+        $this->assertSame(self::TEST_CONTAINER, $container->getContainerName());
 
         $this->assertFalse($container->has('test'));
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test', $to_string));
+        $this->assertSame('test_value', $container->get('test', $to_string));
         $container->delete('test');
         $this->assertFalse($container->has('test'));
 
@@ -246,7 +240,7 @@ class CacheTest extends TestCase
 
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test', $this->refinery->to()->string()));
+        $this->assertSame('test_value', $container->get('test', $this->refinery->to()->string()));
 
         $container->flush();
         $this->assertFalse($container->has('test'));
@@ -254,7 +248,7 @@ class CacheTest extends TestCase
 
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test', $this->refinery->to()->string()));
+        $this->assertSame('test_value', $container->get('test', $this->refinery->to()->string()));
 
         $services->flushAdapter();
         $this->assertFalse($container->has('test'));
@@ -266,8 +260,8 @@ class CacheTest extends TestCase
         $config = $this->getConfig(Config::APCU);
         $services = new Services($config);
         $container = $services->get($this->getDummyRequest(self::TEST_CONTAINER));
-        $this->assertEquals(Config::APCU, $container->getAdaptorName());
-        $this->assertEquals(self::TEST_CONTAINER, $container->getContainerName());
+        $this->assertSame(Config::APCU, $container->getAdaptorName());
+        $this->assertSame(self::TEST_CONTAINER, $container->getContainerName());
 
         $apcu = new APCu($config);
         if (!$apcu->isAvailable() || !(bool) ini_get('apc.enable_cli')) {
@@ -279,7 +273,7 @@ class CacheTest extends TestCase
         $this->assertFalse($container->has('test'));
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test', $to_string));
+        $this->assertSame('test_value', $container->get('test', $to_string));
         $container->delete('test');
         $this->assertFalse($container->has('test'));
 
@@ -303,8 +297,8 @@ class CacheTest extends TestCase
         $config = $this->getConfig(Config::MEMCACHED);
         $services = new Services($config);
         $container = $services->get($this->getDummyRequest(self::TEST_CONTAINER));
-        $this->assertEquals(Config::MEMCACHED, $container->getAdaptorName());
-        $this->assertEquals(self::TEST_CONTAINER, $container->getContainerName());
+        $this->assertSame(Config::MEMCACHED, $container->getAdaptorName());
+        $this->assertSame(self::TEST_CONTAINER, $container->getContainerName());
 
         $apcu = new Memcached($config);
         if (!$apcu->isAvailable()) {
@@ -314,7 +308,7 @@ class CacheTest extends TestCase
         $this->assertFalse($container->has('test'));
         $container->set('test', 'test_value');
         $this->assertTrue($container->has('test'));
-        $this->assertEquals('test_value', $container->get('test'));
+        $this->assertSame('test_value', $container->get('test'));
         $container->delete('test');
         $this->assertFalse($container->has('test'));
 
@@ -364,7 +358,7 @@ class CacheTest extends TestCase
         $container->set('string', $string);
         $this->assertTrue($container->has('string'));
         $string_from_cache = $container->get('string', $to_string);
-        $this->assertEquals($string, $string_from_cache);
+        $this->assertSame($string, $string_from_cache);
         $this->assertEquals(null, $container->get('string', $to_int));
         $this->assertEquals(null, $container->get('string', $to_bool));
         $this->assertEquals(null, $container->get('string', $to_array));
@@ -375,7 +369,7 @@ class CacheTest extends TestCase
         $container->set('array', $array);
         $this->assertTrue($container->has('array'));
         $array_from_cache = $container->get('array', $to_array);
-        $this->assertEquals($array, $array_from_cache);
+        $this->assertSame($array, $array_from_cache);
         $this->assertEquals(null, $container->get('array', $to_int));
         $this->assertEquals(null, $container->get('array', $to_bool));
         $this->assertEquals(null, $container->get('array', $to_string));
@@ -420,7 +414,7 @@ class CacheTest extends TestCase
         $container->set('int', $int);
         $this->assertTrue($container->has('int'));
         $int_from_cache = $container->get('int', $to_int);
-        $this->assertEquals($int, $int_from_cache);
+        $this->assertSame($int, $int_from_cache);
         $this->assertEquals(null, $container->get('int', $to_string));
         $this->assertEquals(null, $container->get('int', $to_bool));
         $this->assertEquals(null, $container->get('int', $to_array));

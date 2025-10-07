@@ -116,7 +116,7 @@ class TranslationGUI
             $this->translations,
             $this->object->getObjectProperties(),
             (new DataFactory())->uri(
-                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(
                     self::class,
                     self::CMD_LIST_TRANSLATIONS
                 )
@@ -278,7 +278,7 @@ class TranslationGUI
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
             $this->lng->txt($text_tag),
-            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_DEACTIVATE_CONTENT_MULTILANG)
+            $this->ctrl->getFormActionByClass(self::class, self::CMD_DEACTIVATE_CONTENT_MULTILANG)
         )->withActionButtonLabel($this->lng->txt('confirm'));
     }
 

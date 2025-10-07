@@ -217,8 +217,14 @@ class SettingsMainGUI extends TestSettingsGUI
 
     private function saveForm(): void
     {
-        $form = $this->buildForm()->withRequest($this->request);
-        $data = $form->getData();
+        try {
+            $form = $this->buildForm()->withRequest($this->request);
+            $data = $form->getData();
+        } catch (InvalidArgumentException) {
+            $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+            return;
+        }
+
         if ($data === null) {
             $this->showForm($form);
             return;
@@ -227,6 +233,12 @@ class SettingsMainGUI extends TestSettingsGUI
         $current_question_set_type = $this->main_settings->getGeneralSettings()->getQuestionSetType();
         $current_question_config = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
         $new_question_set_type = $data[self::GENERAL_SETTINGS_SECTION_LABEL]['question_set_type'];
+
+        if ($new_question_set_type === null) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_settings_form_reload_needed'));
+            $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+            return;
+        }
 
         $question_set_modal_required = $new_question_set_type !== $current_question_set_type
                 && $current_question_config->doesQuestionSetRelatedDataExist();
@@ -264,7 +276,7 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $this->showForm();
+        $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
     private function anonymityChanged(bool $anonymity_form_data): bool
@@ -286,30 +298,6 @@ class SettingsMainGUI extends TestSettingsGUI
                 )
         ];
 
-        if (!$this->test_object->isActivationLimited()) {
-            $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $this->logger
-                ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(false);
-            return $log_array;
-        }
-
-        $none_tag = $this->logger->getAdditionalInformationGenerator()->getNoneTag();
-        $from = $this->test_object->getActivationStartingTime() === null
-            ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime())
-                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
-        $until = $this->test_object->getActivationEndingTime() === null
-            ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
-                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
-
-        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = [
-            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_FROM => $from,
-            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_UNTIL => $until
-        ];
-        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBLE_OUTSIDE_PERIOD] = $this->logger
-            ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(
-                $this->test_object->getActivationVisibility()
-            );
         return $log_array;
     }
 
@@ -498,7 +486,6 @@ class SettingsMainGUI extends TestSettingsGUI
         $input_factory = $this->ui_factory->input();
 
         $inputs['is_online'] = $this->getIsOnlineSettingInput();
-        $inputs['timebased_availability'] = $this->getTimebasedAvailabilityInputs();
 
         return $input_factory->field()->section(
             $inputs,
@@ -532,92 +519,8 @@ class SettingsMainGUI extends TestSettingsGUI
         return $is_online;
     }
 
-    private function getTimebasedAvailabilityInputs(): OptionalGroup
-    {
-        $field_factory = $this->ui_factory->input()->field();
-
-        $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
-        $value = $this->getValueForActivationLimitedOptionalGroup();
-
-        $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
-            ->withTimezone($this->active_user->getTimeZone())
-            ->withFormat($this->active_user->getDateTimeFormat())
-            ->withUseTime(true)
-            ->withRequired(true);
-        $inputs['activation_visibility'] = $field_factory->checkbox(
-            $this->lng->txt('rep_activation_limited_visibility'),
-            $this->lng->txt('tst_activation_limited_visibility_info')
-        );
-
-        return $field_factory->optionalGroup(
-            $inputs,
-            $this->lng->txt('rep_time_based_availability')
-        )->withAdditionalTransformation($trafo)
-            ->withValue($value);
-    }
-
-    private function getTransformationForActivationLimitedOptionalGroup(): TransformationInterface
-    {
-        return $this->refinery->custom()->transformation(
-            static function (?array $vs): array {
-                if ($vs === null) {
-                    return [
-                        'is_activation_limited' => false,
-                        'activation_starting_time' => null,
-                        'activation_ending_time' => null,
-                        'activation_visibility' => false
-                    ];
-                }
-
-                $start = $vs['time_span']['start']->getTimestamp();
-                $end = $vs['time_span']['end']->getTimestamp();
-
-                return [
-                    'is_activation_limited' => true,
-                    'activation_starting_time' => $start,
-                    'activation_ending_time' => $end,
-                    'activation_visibility' => $vs['activation_visibility']
-                ];
-            }
-        );
-    }
-
-    private function getValueForActivationLimitedOptionalGroup(): ?array
-    {
-        $value = null;
-        if ($this->test_object->isActivationLimited()) {
-            $value = [
-                'time_span' => [
-                    \DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
-                    \DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
-                ],
-                'activation_visibility' => $this->test_object->getActivationVisibility()
-            ];
-        }
-        return $value;
-    }
-
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $time_based_availability = $section['timebased_availability'];
-
-        $participant_data_exists = $this->test_object->participantDataExist();
-        $this->test_object->storeActivationSettings(
-            $participant_data_exists
-                ? $this->test_object->isActivationLimited()
-                : $time_based_availability['is_activation_limited'],
-            $participant_data_exists
-                ? $this->test_object->getActivationStartingTime()
-                : $time_based_availability['activation_starting_time'],
-            $time_based_availability['activation_ending_time'],
-            $time_based_availability['activation_visibility']
-        );
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
@@ -843,5 +746,17 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         return $additional_settings->withSkillsServiceEnabled($section['skills_service_activation']);
+    }
+
+    private function buildDateOrNullFromILIASValue(?int $value): ?\DateTimeImmutable
+    {
+        if ($value === null || $value === 0) {
+            return null;
+        }
+
+        return \DateTimeImmutable::createFromFormat(
+            'U',
+            (string) $value
+        )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone()));
     }
 }

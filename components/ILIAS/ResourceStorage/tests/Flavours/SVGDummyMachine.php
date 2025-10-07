@@ -31,6 +31,7 @@ class SVGDummyMachine extends DummyMachine
 {
     public function __construct()
     {
+        parent::__construct();
         $this->load(
             'svg_color_changing_machine',
             'svg_color_changing'

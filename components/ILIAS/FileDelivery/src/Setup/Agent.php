@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Setup;
 
+use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Metrics\Storage;
-use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup;
 use ILIAS\Setup\Objective;
 use ILIAS\Refinery\Transformation;
@@ -35,13 +35,7 @@ class Agent implements Setup\Agent
 {
     public function getBuildObjective(): Objective
     {
-        return new ObjectiveCollection(
-            'File StreamDelivery Artifacts',
-            true,
-            new KeyRotationObjective(),
-            new DeliveryMethodObjective(),
-            // new BaseDirObjective() // removed objective since it's not possible to run it in some environments
-        );
+        return new NullObjective();
     }
 
     public function getNamedObjectives(?Config $config = null): array
@@ -59,14 +53,26 @@ class Agent implements Setup\Agent
         throw new LogicException("No Config");
     }
 
-    public function getInstallObjective(?Config $config = null): Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
-        return new DeliveryMethodObjective();
+        return new ObjectiveCollection(
+            'FileDelivery',
+            true,
+            new KeyRotationObjective(),
+            new DeliveryMethodObjective(),
+            new BaseDirObjective()
+        );
     }
 
-    public function getUpdateObjective(?Config $config = null): Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
-        return new DeliveryMethodObjective();
+        return new ObjectiveCollection(
+            'FileDelivery',
+            true,
+            new KeyRotationObjective(),
+            new DeliveryMethodObjective(),
+            new BaseDirObjective()
+        );
     }
 
     public function getStatusObjective(Storage $storage): Objective

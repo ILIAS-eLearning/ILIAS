@@ -54,7 +54,7 @@ class ilServicesActiveRecordConnectorTest extends TestCase
                       ->willReturn(1);
 
         $arConnectorDB = new arConnectorDB($this->db_mock);
-        $this->assertEquals(1, $arConnectorDB->nextID($ilBiblEntry));
+        $this->assertSame(1, $arConnectorDB->nextID($ilBiblEntry));
 
         $this->db_mock->expects($this->once())
                       ->method('tableExists')

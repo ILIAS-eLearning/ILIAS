@@ -29,7 +29,6 @@ use ILIAS\UI\Implementation\Component\Signal;
  */
 abstract class Action
 {
-
     public function __construct(
         private string $label,
         private URI|Signal $action

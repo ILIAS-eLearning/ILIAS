@@ -494,14 +494,14 @@ class ilObjFileGUI extends ilObject2GUI
 
         $errors = false;
         foreach ($files as $file_data) {
-            $rid = $this->storage->manage()->find($file_data[$this->upload_handler->getFileIdentifierParameterName()]);
+            $rid = $this->storage->manage()->find($file_data[0]);
             if (null !== $rid) {
                 try {
                     $processor->process(
                         $rid,
-                        $file_data[self::PARAM_TITLE] ?? null,
-                        $file_data[self::PARAM_DESCRIPTION] ?? null,
-                        $data[self::PARAM_COPYRIGHT_ID] ?? $data[1] ?? null
+                        $file_data[1][self::PARAM_TITLE] ?? null,
+                        $file_data[1][self::PARAM_DESCRIPTION] ?? null,
+                        $data[self::PARAM_COPYRIGHT_ID] ?? null
                     );
                 } catch (Throwable $t) {
                     $errors = true;

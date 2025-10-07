@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
+use ILIAS\Test\Settings\MainSettings\RedirectionModes;
 
 class SettingsFinishingTest extends ilTestBaseTestCase
 {
@@ -90,7 +91,7 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithRedirectionModeDataProvider')]
-    public function testGetAndWithRedirectionMode(int $io): void
+    public function testGetAndWithRedirectionMode(RedirectionModes $io): void
     {
         $settings_finishing = (new SettingsFinishing(0))->withRedirectionMode($io);
 
@@ -101,9 +102,10 @@ class SettingsFinishingTest extends ilTestBaseTestCase
     public static function getAndWithRedirectionModeDataProvider(): array
     {
         return [
-            [-1],
-            [0],
-            [1]
+            [RedirectionModes::ALWAYS],
+            [RedirectionModes::NONE],
+            [RedirectionModes::IF_KIOSK_ACTIVATED],
+            [RedirectionModes::ALWAYS_TO_LOGOUT],
         ];
     }
 

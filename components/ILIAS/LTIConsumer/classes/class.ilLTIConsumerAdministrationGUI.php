@@ -34,8 +34,6 @@ class ilLTIConsumerAdministrationGUI
     public const REDIRECTION_CMD_PARAMETER = 'redirectCmd';
 
     public const CMD_SHOW_GLOBAL_PROVIDER = 'showGlobalProvider';
-    public const CMD_APPLY_GLOBAL_PROVIDER_FILTER = 'applyGlobalProviderFilter';
-    public const CMD_RESET_GLOBAL_PROVIDER_FILTER = 'resetGlobalProviderFilter';
     public const CMD_SHOW_GLOBAL_PROVIDER_FORM = 'showGlobalProviderForm';
     public const CMD_SAVE_GLOBAL_PROVIDER_FORM = 'saveGlobalProviderForm';
     public const CMD_SHOW_GLOBAL_PROVIDER_IMPORT = 'showGlobalProviderImport';
@@ -67,13 +65,15 @@ class ilLTIConsumerAdministrationGUI
     private array $_importedXmlData = [];
     private \ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct()
+    private bool $hasWritePermission;
+
+    public function __construct(bool $hasWritePermission = false)
     {
         global $DIC;
+        $this->hasWritePermission = $hasWritePermission;
         $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->language()->loadLanguageModule("rep");
-
         //$this->performProviderImport($this->xml2());
     }
 
@@ -123,84 +123,53 @@ class ilLTIConsumerAdministrationGUI
         }
     }
 
-    //    todo?
-    protected function applyGlobalProviderFilterCmd(): void
-    {
-        $table = $this->buildProviderTable($this, self::CMD_SHOW_GLOBAL_PROVIDER);
-        $table->writeFilterToSession();
-        $table->resetOffset();
-        $this->showGlobalProviderCmd();
-    }
-
-    protected function resetGlobalProviderFilterCmd(): void
-    {
-        $table = $this->buildProviderTable($this, self::CMD_SHOW_GLOBAL_PROVIDER);
-        $table->resetFilter();
-        $table->resetOffset();
-        $this->showGlobalProviderCmd();
-    }
-
+    /**
+     * @throws ilCtrlException
+     */
     protected function showGlobalProviderCmd(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->tabs()->activateSubTab('global_provider');
 
-        $button = $DIC->ui()->factory()->button()->standard(
-            $DIC->language()->txt('lti_add_global_provider'),
-            $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_GLOBAL_PROVIDER_FORM)
-        );
+        if ($this->hasWritePermission) {
+            $button = $DIC->ui()->factory()->button()->standard(
+                $DIC->language()->txt('lti_add_global_provider'),
+                $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_GLOBAL_PROVIDER_FORM)
+            );
 
-        $DIC->toolbar()->addComponent($button);
+            $DIC->toolbar()->addComponent($button);
 
-        $button = $DIC->ui()->factory()->button()->standard(
-            $DIC->language()->txt('lti_import_global_provider'),
-            $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_GLOBAL_PROVIDER_IMPORT)
-        );
+            $button = $DIC->ui()->factory()->button()->standard(
+                $DIC->language()->txt('lti_import_global_provider'),
+                $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_GLOBAL_PROVIDER_IMPORT)
+            );
 
-        $DIC->toolbar()->addComponent($button);
+            $DIC->toolbar()->addComponent($button);
+        }
+
+
 
         $table = $this->buildProviderTable($this, self::CMD_SHOW_GLOBAL_PROVIDER);
-        $table->setEditProviderCmd(self::CMD_SHOW_GLOBAL_PROVIDER_FORM);
-        $table->setDeleteProviderCmd(self::CMD_DELETE_GLOBAL_PROVIDER);
-        $table->setDeleteProviderMultiCmd(self::CMD_DELETE_GLOBAL_PROVIDER_MULTI);
-        $table->setResetProviderToUserScopeCmd(self::CMD_RESET_PROVIDER_TO_USER_SCOPE);
-        $table->setResetProviderToUserScopeMultiCmd(self::CMD_RESET_PROVIDER_TO_USER_SCOPE_MULTI);
+        $table->enableResetProviderToUserScope();
 
-        $table->init();
+        $filter = $table->getFilter();
+        $filter_params = $DIC->uiService()->filter()->getData($filter);
 
         $providerList = new ilLTIConsumeProviderList();
         $providerList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_GLOBAL);
-
-        if ($table->getFilterItemByPostVar('title')->getValue()) {
-            $providerList->setTitleFilter($table->getFilterItemByPostVar('title')->getValue());
-        }
-
-        if ($table->getFilterItemByPostVar('category')->getValue()) {
-            $providerList->setCategoryFilter($table->getFilterItemByPostVar('category')->getValue());
-        }
-
-        if ($table->getFilterItemByPostVar('keyword')->getValue()) {
-            $providerList->setKeywordFilter($table->getFilterItemByPostVar('keyword')->getValue());
-        }
-
-        if ($table->getFilterItemByPostVar('outcome')->getChecked()) {
-            $providerList->setHasOutcomeFilter(true);
-        }
-
-        if ($table->getFilterItemByPostVar('internal')->getChecked()) {
-            $providerList->setIsExternalFilter(false);
-        }
-
-        if ($table->getFilterItemByPostVar('with_key')->getChecked()) {
-            $providerList->setIsProviderKeyCustomizableFilter(false);
-        }
+        $providerList->setTitleFilter($filter_params['title'] ?? '');
+        $providerList->setKeywordFilter($filter_params['keywords'] ?? '');
+        $providerList->setHasOutcomeFilter(($filter_params['outcome'] ?? '') === '' ? null : $filter_params['outcome'] === 'yes');
+        $providerList->setIsExternalFilter(($filter_params['internal'] ?? '') === '' ? null : $filter_params['internal'] !== 'yes');
+        $providerList->setIsProviderKeyCustomizableFilter(($filter_params['with_key'] ?? '') === '' ? null : $filter_params['with_key'] === 'yes');
+        $providerList->setCategoryFilter($filter_params['category'] ?? '');
 
         $providerList->load();
 
         $table->setData($providerList->getTableData());
 
-        $DIC->ui()->mainTemplate()->setContent($table->getHTML());
+        $DIC->ui()->mainTemplate()->setContent($DIC->ui()->renderer()->render($filter) . $table->getHTML($this->hasWritePermission));
     }
 
     /**
@@ -259,7 +228,7 @@ class ilLTIConsumerAdministrationGUI
         $this->showGlobalProviderFormCmd($form);
     }
 
-    protected function showGlobalProviderImportCmd(?ilPropertyFormGUI $form = null): void
+    protected function showGlobalProviderImportCmd(ilPropertyFormGUI $form = null): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -454,28 +423,35 @@ class ilLTIConsumerAdministrationGUI
         // return false === (bool)$virusScan->scanBuffer($ico) ? false : true;
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     protected function showUserProviderCmd(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->tabs()->activateSubTab('user_provider');
 
+        $table = $this->buildProviderTable($this, self::CMD_SHOW_USER_PROVIDER);
+        $table->enableAcceptProviderAsGlobal();
+
+        $filter = $table->getFilter();
+        $filter_params = $DIC->uiService()->filter()->getData($filter);
+
         $providerList = new ilLTIConsumeProviderList();
         $providerList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_USER);
-        $providerList->load();
+        $providerList->setTitleFilter($filter_params['title'] ?? '');
+        $providerList->setKeywordFilter($filter_params['keywords'] ?? '');
+        $providerList->setHasOutcomeFilter(($filter_params['outcome'] ?? '') === '' ? null : $filter_params['outcome'] === 'yes');
+        $providerList->setIsExternalFilter(($filter_params['internal'] ?? '') === '' ? null : $filter_params['internal'] !== 'yes');
+        $providerList->setIsProviderKeyCustomizableFilter(($filter_params['with_key'] ?? '') === '' ? null : $filter_params['with_key'] === 'yes');
+        $providerList->setCategoryFilter($filter_params['category'] ?? '');
 
-        $table = $this->buildProviderTable($this, self::CMD_SHOW_USER_PROVIDER);
-        $table->setEditProviderCmd(self::CMD_SHOW_USER_PROVIDER_FORM);
-        $table->setAcceptProviderAsGlobalMultiCmd(self::CMD_ACCEPT_PROVIDER_AS_GLOBAL_MULTI);
-        $table->setAcceptProviderAsGlobalCmd(self::CMD_ACCEPT_PROVIDER_AS_GLOBAL);
-        $table->setDeleteProviderCmd(self::CMD_DELETE_USER_PROVIDER);
-        $table->setDeleteProviderMultiCmd(self::CMD_DELETE_USER_PROVIDER_MULTI);
+        $providerList->load();
 
         $table->setData($providerList->getTableData());
 
-        $table->init();
-
-        $DIC->ui()->mainTemplate()->setContent($table->getHTML());
+        $DIC->ui()->mainTemplate()->setContent($DIC->ui()->renderer()->render($filter) . $table->getHTML($this->hasWritePermission));
     }
 
     /**
@@ -815,21 +791,10 @@ class ilLTIConsumerAdministrationGUI
 
     protected function buildProviderTable(ilLTIConsumerAdministrationGUI $parentGui, string $parentCmd): \ilLTIConsumerProviderTableGUI
     {
-        $table = new ilLTIConsumerProviderTableGUI(
+        return new ilLTIConsumerProviderTableGUI(
             $parentGui,
             $parentCmd
         );
-
-        $table->setFilterCommand(self::CMD_APPLY_GLOBAL_PROVIDER_FILTER);
-        $table->setResetCommand(self::CMD_RESET_GLOBAL_PROVIDER_FILTER);
-
-        $table->setAvailabilityColumnEnabled(true);
-        $table->setProviderCreatorColumnEnabled(true);
-
-        $table->setActionsColumnEnabled(true);
-        $table->setDetailedUsagesEnabled(true);
-
-        return $table;
     }
 
     protected function showUsagesCmd(): void
@@ -842,9 +807,8 @@ class ilLTIConsumerAdministrationGUI
         $providerList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_GLOBAL);
         $providerList->load();
 
-        $table = new ilLTIConsumerProviderUsageTableGUI($this, self::CMD_SHOW_USAGES);
+        $table = new ilLTIConsumerProviderUsageTableGUI();
         $table->setData($providerList->getTableDataUsedBy());
-        $table->init();
 
         $DIC->ui()->mainTemplate()->setContent($table->getHTML());
     }
@@ -889,12 +853,26 @@ class ilLTIConsumerAdministrationGUI
         global $DIC;
         $providers = [];
 
-        if (!$DIC->http()->wrapper()->post()->has('provider_ids') ||
-            !$DIC->http()->wrapper()->post()->retrieve('provider_ids', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int()))
-        ) {
+        $refinery = $DIC->refinery()->kindlyTo()->listOf(
+            $DIC->refinery()->kindlyTo()->int()
+        );
+
+        if ($DIC->http()->wrapper()->post()->has('provider_ids')) {
+            $provider_ids = $DIC->http()->wrapper()->post()->retrieve('provider_ids', $refinery);
+        } elseif ($DIC->http()->wrapper()->query()->has('provider_ids')) {
+            $raw = $DIC->http()->wrapper()->query()->retrieve(
+                'provider_ids',
+                $DIC->refinery()->kindlyTo()->string()
+            );
+
+            if (str_contains($raw, ',')) {
+                $provider_ids = array_map('intval', explode(',', $raw));
+            } else {
+                $provider_ids = [(int) $raw];
+            }
+        } else {
             return $providers;
         }
-        $provider_ids = $DIC->http()->wrapper()->post()->retrieve('provider_ids', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int()));
 
         foreach ($provider_ids as $providerId) {
             $providers[(int) $providerId] = new ilLTIConsumeProvider((int) $providerId);
@@ -902,6 +880,7 @@ class ilLTIConsumerAdministrationGUI
 
         return $providers;
     }
+
 
 
     protected function showSettingsCmd(?ilPropertyFormGUI $form = null): void

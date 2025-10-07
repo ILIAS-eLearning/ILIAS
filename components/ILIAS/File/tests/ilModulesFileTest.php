@@ -55,7 +55,7 @@ class ilModulesFileTest extends TestCase
         $DIC['resource_storage'] = $this->storage_mock = $this->createMock(Services::class);
         $this->manager_mock = $this->createMock(Manager::class);
         $DIC['ilUser'] = $this->createMock(ilObjUser::class);
-        $DIC['ilUser']->expects($this->any())->method('getPref')->willReturn('en');
+        $DIC['ilUser']->method('getPref')->willReturn('en');
         $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
         $DIC['upload'] = $this->createMock(FileUpload::class);
         $DIC['ilias'] = $this->createMock(ILIAS::class);
@@ -99,20 +99,20 @@ class ilModulesFileTest extends TestCase
         $title = 'Revision One';
         $file_stream = Streams::ofString('Test Content');
 
-        $this->storage_mock->expects($this->any())
+        $this->storage_mock
                            ->method('manage')
                            ->willReturn($this->manager_mock);
 
-        $this->db_mock->expects($this->any())
+        $this->db_mock
                       ->method('query')
                       ->willReturnCallback(function ($query): MockObject {
                           $mock_object = $this->createMock(ilDBStatement::class);
-                          $mock_object->expects($this->any())->method('fetchAssoc')->willReturn([$query]);
+                          $mock_object->method('fetchAssoc')->willReturn([$query]);
 
                           return $mock_object;
                       });
 
-        $this->db_mock->expects($this->any())
+        $this->db_mock
                       ->method('fetchAssoc')
                       ->willReturnCallback(function (ilDBStatement $statement): ?array {
                           $row = $statement->fetchAssoc();
@@ -141,7 +141,7 @@ class ilModulesFileTest extends TestCase
         $property->setAccessible(true);
         $property->setValue($file, true);
         $file->setMode(ilObjFile::MODE_FILELIST);
-        $this->db_mock->expects($this->any())
+        $this->db_mock
                       ->method('fetchAssoc')
                       ->willReturn(
                           [
@@ -160,7 +160,6 @@ class ilModulesFileTest extends TestCase
             ['the_identification', $rid],
         ];
         $this->manager_mock
-            ->expects($this->any())
             ->method('find')
             ->willReturnCallback(
                 function (string $id) use (&$consecutive): ?ResourceIdentification {
@@ -187,7 +186,7 @@ class ilModulesFileTest extends TestCase
                            ->with($rid)
                            ->willReturn($revision);
 
-        $this->manager_mock->expects($this->any())
+        $this->manager_mock
                            ->method('getResource')
                            ->with($rid)
                            ->willReturn($resource);

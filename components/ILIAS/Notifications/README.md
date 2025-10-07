@@ -6,10 +6,13 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 **Table of Contents**
 * [Setup](#setup)
+  * [External Notification](#external-notification)
+    * [Usage](#usage)
   * [Legacy](#legacy)
 * [Configuration](#ilias-configuration)
   * [General Settings](#general-settings)
-    * [On-Screen Notifications](#on-screen-notifications)
+    * [Toast](#toasts)
+    * [Web Push Notification](#web-push-notification)
 * [Specifications](#specifications)
 * [Correlations](#correlations)
   * [GS Toast](#gs-toast)
@@ -54,7 +57,37 @@ You can remove a OSD notification by using the following functions within the `i
 ### Legacy
 
 The use of the Notification Service for On-Screen Notifications with a real-time relevance  is **deprecated**.
-The use of the [Toast](../../src/GlobalScreen/Scope/Toast/README.md) is mandatory.
+The use of the [Toast](../GlobalScreen/src/Scope/Toast/README.md) is mandatory.
+
+### External Notification
+
+To use external notification services like web push you need to update your ilias config by adding a private key path for this purpose.
+This has to be within the scope of the notification config, e.g.:
+```json
+{
+  //...
+  "notifications": {
+    "private_key_path" : "/path/to/key.pem"
+  }
+}
+```
+
+The added private key has to be a ECDH key in PEM format. One way to create such key is via openssl:
+```
+openssl ecparam -name prime256v1 -genkey
+```
+
+#### Usage
+
+With fulfilled setup requirements, a new push notification provider can be added by implementing the [NotificationPushProvider](classes/Provider/NotificationsPushProvider.php) .
+
+After the creation of such a provider and update of the installation, you can send a push notification by calling the function `push()`
+on the provider:
+```php
+(new MyProvider())->push($user, 'This is a test Notification');
+```
+
+Be aware that a notification is only sent if the user actively selects your provider inside his user settings.
 
 ## Configuration
 
@@ -69,6 +102,17 @@ Otherwise the setting will not be saved and an error will occur.
 The **Play a Sound** will only be effective if it has not been disabled by the user in their personal settings.
 
 If disabled, all sub.settings will be removed and all existing On-Screen Notifications will be cleared.
+
+
+#### Web Push Notification
+
+If the [requirements for external notifications](#external-notification) are fullfilled, you can activate those notifications
+within "Administration" > "Communication" > "Notifications" > "Enable Push Notifications"
+After the activation users can enable push notifications for this client  under "Communication" > "Push Notifications"
+After the activation users can limit push notifications to certain services within their personal user setting
+Be aware that this process is OPT-IN and requires and active user interaction to be enabled!
+
+After the activations users will recieve push notifications trough their browser on their device as long as local requirements are met.
 
 ## Specifications
 

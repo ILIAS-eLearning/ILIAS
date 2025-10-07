@@ -26,6 +26,13 @@ class ilObjDataCollection extends ilObject2
     private bool $approval = false;
     private bool $public_notes = false;
     private bool $notification = false;
+    private ilDclNotification $notification_settings;
+
+    public function __construct(int $a_id = 0, bool $a_reference = true)
+    {
+        parent::__construct($a_id, $a_reference);
+        $this->notification_settings = new ilDclNotification($this->db);
+    }
 
     protected function initType(): void
     {
@@ -79,6 +86,7 @@ class ilObjDataCollection extends ilObject2
             $table->doDelete(false, true);
         }
         $this->deleteMetaData();
+        $this->notification_settings->deleteForObject($this);
         $this->db->manipulateF('DELETE FROM il_dcl_data WHERE id = %s', [ilDBConstants::T_INTEGER], [$this->getId()]);
     }
 
@@ -101,7 +109,7 @@ class ilObjDataCollection extends ilObject2
         );
     }
 
-    public function sendRecordNotification(int $action, ilDclBaseRecordModel $record): void
+    public function sendRecordNotification(ilDclNotificationType $action, ilDclBaseRecordModel $record): void
     {
         if (!$this->getNotification()) {
             return;
@@ -116,7 +124,7 @@ class ilObjDataCollection extends ilObject2
         ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $this->getId(), $users);
 
         $mail = new ilDataCollectionMailNotification();
-        $mail->setType($action);
+        $mail->setType($action->value);
         $mail->setActor($this->user->getId());
         $mail->setObjId($this->getId());
         $mail->setRefId($this->getRefId());
@@ -127,7 +135,8 @@ class ilObjDataCollection extends ilObject2
             if (
                 $user_id !== $this->user->getId() &&
                 $record->getTable()->hasPermissionToViewRecord($this->getRefId(), $record, $user_id) &&
-                [] !== $record->getTable()->getVisibleTableViews($user_id)
+                [] !== $record->getTable()->getVisibleTableViews($user_id) &&
+                $this->notification_settings->has($this, $user_id, $action)
             ) {
                 $mail->addRecipient($user_id);
             }

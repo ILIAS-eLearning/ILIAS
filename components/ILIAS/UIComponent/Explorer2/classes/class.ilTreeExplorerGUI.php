@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Tree\Tree;
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @deprecated 10
+ * @deprecated with ILIAS 12
  */
 abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\Component\Tree\TreeRecursion
 {

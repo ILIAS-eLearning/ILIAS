@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.ilias.ilserver</groupId>
     <artifactId>ilServer</artifactId>
-    <version>10.0.2</version>
-    <build>
+    <version>10.0.4</version>
+   <build>
         <finalName>ilServer</finalName>
         <plugins>
             <plugin>
@@ -22,7 +22,6 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -37,6 +36,12 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>false</minimizeJar>
                             <filters>
+                                <filter>
+                                    <artifact>*:commons-logging</artifact>
+                                    <excludes>
+                                        <exclude>**/*</exclude>
+                                    </excludes>
+                                </filter>
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>
@@ -115,7 +120,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-configuration2</artifactId>
-            <version>2.9.0</version>
+            <version>2.12.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
@@ -179,43 +184,43 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>2.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parser-microsoft-module</artifactId>
-            <version>2.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parser-miscoffice-module</artifactId>
-            <version>2.9.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parser-pdf-module</artifactId>
-            <version>2.9.3</version>
+            <version>2.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parser-html-module</artifactId>
-            <version>2.9.3</version>
+            <version>2.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parser-microsoft-module</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parser-miscoffice-module</artifactId>
+            <version>2.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parser-pdf-module</artifactId>
+            <version>2.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parser-text-module</artifactId>
-            <version>2.9.3</version>
+            <version>2.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parser-xml-module</artifactId>
-            <version>2.9.3</version>
+            <version>2.9.4</version>
         </dependency>
         <!-- fop pdf generation: all in one jar produces class duplication warnings -->
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop-core</artifactId>
-            <version>2.10</version>
+            <version>2.11</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.pdfbox</groupId>
@@ -226,13 +231,7 @@
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop-util</artifactId>
-            <version>2.10</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>2.11</version>
         </dependency>
     </dependencies>
     <packaging>jar</packaging>

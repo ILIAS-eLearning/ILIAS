@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
 
 /**
  * GUI class for course/group subscriptions
@@ -36,6 +38,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
     private UIRenderer $renderer;
     private UIFactory $uiFactory;
+    private Profile $profile;
 
     public function __construct(
         object $a_parent_obj,
@@ -50,6 +53,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
         global $DIC;
         $this->renderer = $DIC->ui()->renderer();
         $this->uiFactory = $DIC->ui()->factory();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->lng->loadLanguageModule('grp');
         $this->lng->loadLanguageModule('crs');
@@ -310,16 +314,19 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
         // Custom user data fields
         if (is_array($udf_ids)) {
-            $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
-            foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance($usr_id)) {
-                    continue;
-                }
+            $a_user_data = array_reduce(
+                $this->profile->getDataForMultiple($usr_ids),
+                function (array $c, ProfileData $v) use ($udf_ids): array {
+                    if (!$this->checkAcceptance($v->getId())) {
+                        return $c;
+                    }
 
-                foreach ($fields as $field_id => $value) {
-                    $a_user_data[$usr_id]['udf_' . $field_id] = $value;
-                }
-            }
+                    foreach ($udf_ids as $field_id) {
+                        $c[$v->getId()]['udf_' . $field_id] = $v->getAdditionalFieldByIdentifier($field_id);
+                    }
+                },
+                $a_user_data
+            );
         }
         // Object specific user data fields
         if (is_array($odf_ids)) {

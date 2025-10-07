@@ -24,14 +24,15 @@ use ILIAS\Data\URI;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Component;
 use ILIAS\Contact\BuddySystem\Tables\RelationsTable;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
 * @author Jens Conze
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ILIAS\User\Profile\PublicProfileGUI
 */
-class ilContactGUI
+class ilContactGUI implements ilCtrlSecurityInterface
 {
     final public const string CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
     final public const string CONTACTS_VIEW_TABLE = 'buddy_view_table';
@@ -90,6 +91,18 @@ class ilContactGUI
         $this->lng->loadLanguageModule('buddysystem');
     }
 
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+          'updateState'
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
     public function executeCommand(): bool
     {
         $this->showSubTabs();
@@ -131,8 +144,8 @@ class ilContactGUI
                 $this->tpl->printToStdout();
                 break;
 
-            case strtolower(ilPublicUserProfileGUI::class):
-                $profile_gui = new ilPublicUserProfileGUI(
+            case strtolower(PublicProfileGUI::class):
+                $profile_gui = new PublicProfileGUI(
                     $this->http->wrapper()->query()->retrieve('user', $this->refinery->kindlyTo()->int())
                 );
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));

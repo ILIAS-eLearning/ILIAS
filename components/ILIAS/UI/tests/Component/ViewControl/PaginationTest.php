@@ -101,12 +101,9 @@ class PaginationTest extends ILIAS_UI_TestBase
             ->withPageSize(1);
 
         //two entries, first one inactive
-        //browse-left disabled
+        //browse-left not rendered
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-default" data-action="?pagination_offset=0" disabled="disabled">
-        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
-    </button>
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
     <button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
     <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
@@ -127,7 +124,7 @@ EOT;
             ->withCurrentPage(1);
 
         //two entries, second one inactive
-        //browse-right disabled
+        //browse-right not rendered
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
     <button class="btn btn-default" data-action="?pagination_offset=0" id="id_3">
@@ -135,9 +132,6 @@ EOT;
     </button>
     <button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_2">2</button>
-    <button class="btn btn-default" data-action="?pagination_offset=2" disabled="disabled">
-        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
-    </button>
 </div>
 EOT;
 
@@ -156,13 +150,10 @@ EOT;
             ->withMaxPaginationButtons(1);
 
         //one entry,
-        //browse-left disabled
+        //browse-left not rendered
         //boundary-button right
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-default" data-action="?pagination_offset=0" disabled="disabled">
-        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
-    </button>
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
     <span class="last"><button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button></span>
     <button class="btn btn-default" data-action="?pagination_offset=1" id="id_3">
@@ -216,7 +207,7 @@ EOT;
             ->withCurrentPage(2);
 
         //one entry,
-        //browse-right disabled
+        //browse-right not rendered
         //boundary-button left only
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
@@ -225,9 +216,6 @@ EOT;
     </button>
     <span class="first"><button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button></span>
     <button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=2" id="id_1">3</button>
-    <button class="btn btn-default" data-action="?pagination_offset=3" disabled="disabled">
-        <span class="glyph" aria-label="next" role="img"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></span>
-    </button>
 </div>
 EOT;
         $html = $this->getDefaultRenderer()->render($p);
@@ -246,9 +234,6 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination l-bar__element">
-    <button class="btn btn-default" data-action="?pagination_offset=0" disabled="disabled">
-        <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
-    </button>
     <div class="dropdown" id="id_4">
         <button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="id_4_menu">pagination_label_x_of_y<span class="caret"></span></button>
         <ul id="id_4_menu" class="dropdown-menu">

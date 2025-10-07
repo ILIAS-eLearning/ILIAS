@@ -80,7 +80,7 @@ class ilTemplate extends HTML_Template_ITX
 
         $fname = $this->getTemplatePath($file, $in_module);
         if (!file_exists($fname)) {
-            throw new ilTemplateException("Template '$fname' was not found.");
+            throw new ilTemplateException("Template '$fname' was not found.\nfile: " . $file . "\nmodule: " . $in_module);
         }
 
         $this->tplName = basename($fname);
@@ -347,13 +347,21 @@ class ilTemplate extends HTML_Template_ITX
             $a_in_module = rtrim($a_in_module, '/');
         }
 
+        $tpl_sub_path = '/templates/default/';
         if (str_starts_with($a_tplname, 'components/ILIAS/UI/')) {
             $a_in_module = 'components/ILIAS/UI/src';
             $a_tplname = str_replace('components/ILIAS/UI/src/templates/default/', '', $a_tplname);
         }
 
+        if (str_starts_with($a_tplname, $ilias_root)) {
+            $a_tplname = str_replace($ilias_root, '', $a_tplname);
+        }
+        if (strpos($a_tplname, 'public/Customizing/global/plugins')) {
+            $tpl_sub_path = '';
+        }
+
         $base_path = $ilias_root;
-        $default = $base_path . $a_in_module . '/templates/default/' . $a_tplname;
+        $default = $base_path . $a_in_module . $tpl_sub_path . $a_tplname;
 
         $skin = $this->getCurrentSkin();
         if ($skin === 'default') {

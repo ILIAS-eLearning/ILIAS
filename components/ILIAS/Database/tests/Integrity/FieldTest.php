@@ -34,48 +34,48 @@ class FieldTest extends TestCase
     public function testTableName(): void
     {
         $field = new Field('table', 'field');
-        $this->assertEquals('table', $field->tableName());
+        $this->assertSame('table', $field->tableName());
     }
 
     public function testTableNameWithAlias(): void
     {
         $field = new Field('table', 'field', 'alias');
-        $this->assertEquals('table as alias', $field->tableName());
+        $this->assertSame('table as alias', $field->tableName());
     }
 
     public function testFieldName(): void
     {
         $field = new Field('table', 'field');
-        $this->assertEquals('table.field', $field->fieldName());
+        $this->assertSame('table.field', $field->fieldName());
     }
 
     public function testFieldNameWithAlias(): void
     {
         $field = new Field('table', 'field', 'alias');
-        $this->assertEquals('alias.field', $field->fieldName());
+        $this->assertSame('alias.field', $field->fieldName());
     }
 
     public function testRawFieldName(): void
     {
         $field = new Field('table', 'field');
-        $this->assertEquals('field', $field->rawFieldName());
+        $this->assertSame('field', $field->rawFieldName());
     }
 
     public function testRawFieldNameWithAlias(): void
     {
         $field = new Field('table', 'field', 'alias');
-        $this->assertEquals('field', $field->rawFieldName());
+        $this->assertSame('field', $field->rawFieldName());
     }
 
     public function testRawTableName(): void
     {
         $field = new Field('table', 'field');
-        $this->assertEquals('table', $field->rawTableName());
+        $this->assertSame('table', $field->rawTableName());
     }
 
     public function testRawTableNameWithAlias(): void
     {
         $field = new Field('table', 'field', 'alias');
-        $this->assertEquals('table', $field->rawTableName());
+        $this->assertSame('table', $field->rawTableName());
     }
 }

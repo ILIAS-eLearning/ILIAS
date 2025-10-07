@@ -58,12 +58,12 @@ class ResourceBuilderTest extends AbstractBaseResourceBuilderTestCase
         );
 
         $this->assertEquals($identification->serialize(), $resource->getIdentification()->serialize());
-        $this->assertEquals($expected_version_number, $resource->getCurrentRevision()->getVersionNumber());
-        $this->assertEquals($expected_version_number, $resource->getMaxRevision());
-        $this->assertEquals($expected_file_name, $resource->getCurrentRevision()->getTitle());
-        $this->assertEquals($expected_owner_id, $resource->getCurrentRevision()->getOwnerId());
-        $this->assertEquals($expected_file_name, $resource->getCurrentRevision()->getInformation()->getTitle());
-        $this->assertEquals($expected_mime_type, $resource->getCurrentRevision()->getInformation()->getMimeType());
-        $this->assertEquals($expected_size, $resource->getCurrentRevision()->getInformation()->getSize());
+        $this->assertSame($expected_version_number, $resource->getCurrentRevision()->getVersionNumber());
+        $this->assertSame($expected_version_number, $resource->getMaxRevision());
+        $this->assertSame($expected_file_name, $resource->getCurrentRevision()->getTitle());
+        $this->assertSame($expected_owner_id, $resource->getCurrentRevision()->getOwnerId());
+        $this->assertSame($expected_file_name, $resource->getCurrentRevision()->getInformation()->getTitle());
+        $this->assertSame($expected_mime_type, $resource->getCurrentRevision()->getInformation()->getMimeType());
+        $this->assertSame($expected_size, $resource->getCurrentRevision()->getInformation()->getSize());
     }
 }

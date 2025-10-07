@@ -72,8 +72,10 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         };
     }
 
-    public function delete(): void
+    private function delete(): void
     {
+        $this->redirectIfNoPermission(['read', 'moderate']);
+
         $userTrafo = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string());
 
         $users = $this->getRequestValue('chat_ban_table_user_ids', $userTrafo, []);
@@ -111,7 +113,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
      */
     public function show(): void
     {
-        $this->redirectIfNoPermission('read');
+        $this->redirectIfNoPermission(['read', 'moderate']);
 
         $this->gui->switchToVisibleMode();
 

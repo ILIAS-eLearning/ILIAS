@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
     public function testGetPlaceholderValues(): void
@@ -126,6 +128,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $language->method('txt')
             ->willReturn('Something');
 
+        $profile = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -154,6 +160,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $dateHelper,
             3,
             $language,
+            $profile,
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,
@@ -210,6 +217,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $language->method('txt')
             ->willReturn('Something');
 
+        $profile = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -238,6 +249,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             $dateHelper,
             3,
             $language,
+            $profile,
             $utilHelper,
             $userDefinePlaceholderMock,
             $uuid_factory_mock,

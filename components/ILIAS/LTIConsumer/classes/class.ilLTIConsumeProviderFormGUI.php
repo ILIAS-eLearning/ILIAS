@@ -144,13 +144,14 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
         //key_type
         $keyType = new ilRadioGroupInputGUI($lng->txt('lti_con_key_type'), 'key_type');
-        $keyType->setRequired(true);
+        $keyType->setRequired(false);
         //RSA
         $keyRsa = new ilRadioOption($lng->txt('lti_con_key_type_rsa'), 'RSA_KEY');
         $keyType->addOption($keyRsa);
         $publicKey = new ilTextAreaInputGUI($lng->txt('lti_con_key_type_rsa_public_key'), 'public_key');
         $publicKey->setRows(6);
-        $publicKey->setRequired(true);
+        $publicKey->setValue($this->provider->getPublicKey());
+        $publicKey->setRequired(false);
         $publicKey->setInfo($lng->txt('lti_con_key_type_rsa_public_key_info'));
         $keyRsa->addSubItem($publicKey);
         //JWK
@@ -158,7 +159,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $keyType->addOption($keyJwk);
         $keyset = new ilTextInputGUI($lng->txt('lti_con_key_type_jwk_url'), 'public_keyset');
         $keyset->setValue($this->provider->getPublicKeyset());
-        $keyset->setRequired(true);
+        $keyset->setRequired(false);
         $keyJwk->addSubItem($keyset);
 
         $keyType->setValue($this->provider->getKeyType());
@@ -979,6 +980,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $template = new ilTemplate('tpl.lti_dyn_reg_request.html', true, true, "components/ILIAS/LTIConsumer");
         $template->setVariable('LTI_TOOL_REG_URL', $toolRegUrl);
         $template->setVariable('LTI_DYN_REG_URL', $regUrl);
+        $template->setVariable('LTI_DYN_REG_URL_BY_POST', $toolRegUrl);
         $template->setVariable('LTI_REG_END_URL', ilObjLTIConsumer::getRegistrationEndUrl());
         $template->setVariable('LTI_SHOW_TOOL_CONFIG_URL', $showToolConfigUrl);
         $template->setVariable('LTI_REG_ERROR_URL', $regErrorUrl);

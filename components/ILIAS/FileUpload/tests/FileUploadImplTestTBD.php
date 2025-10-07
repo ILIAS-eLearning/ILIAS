@@ -62,10 +62,6 @@ class FileUploadImplTest extends TestCase
      */
     private $prePorcessorManagerMock;
     /**
-     * @var MockInterface | Filesystems $filesystemsMock
-     */
-    private $filesystemsMock;
-    /**
      * @var MockInterface | GlobalHttpState $globalHttpStateMock
      */
     private $globalHttpStateMock;
@@ -233,9 +229,9 @@ class FileUploadImplTest extends TestCase
         parent::setUp();
 
         $this->prePorcessorManagerMock = \Mockery::mock(PreProcessorManager::class);
-        $this->filesystemsMock = \Mockery::mock(Filesystems::class);
+        $filesystemsMock = \Mockery::mock(Filesystems::class);
         $this->globalHttpStateMock = \Mockery::mock(GlobalHttpState::class);
 
-        $this->subject = new FileUploadImpl($this->prePorcessorManagerMock, $this->filesystemsMock, $this->globalHttpStateMock);
+        $this->subject = new FileUploadImpl($this->prePorcessorManagerMock, $filesystemsMock, $this->globalHttpStateMock);
     }
 }

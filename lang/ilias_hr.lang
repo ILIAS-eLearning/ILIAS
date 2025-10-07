@@ -1330,7 +1330,6 @@ assessment#:#true#:#True###04 06 2021 new variable
 assessment#:#tst_access_code_created#:#Kako bi Vam se osigurao stalni pristup vašim rezultatima testa i ponudila vam se mogućnost da nastavite ovaj test, za Vas je izrađen jedinstveni kod za pristup testu. Molimo zabilježite si ovaj kod kako biste ga mogli koristiti za daljnje akcije.
 assessment#:#tst_activate_skill_service#:#Kompetencije
 assessment#:#tst_activate_skill_service_desc#:#Podržava raspoređivanje pitanja prema kompetencijama te definiranje pragova za postizanje određene razine kompetencije.
-assessment#:#tst_activation_limited_visibility_info#:#Prije i nakon navedenog razdoblja prikazuje se samo naziv testa. A sudionici ne mogu ispunjavati test.
 assessment#:#tst_activation_online_info#:#Sudionici mogu ispunjavati test samo ako je on stavljen na mrežu (online).
 assessment#:#tst_add_quest_cont_edit_mode#:#Urednik za povratne informacije i savjete
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Za uređivanje povratnih informacija i savjeta koristite urednika stranica aplikacije ILIAS
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum i vrijeme
 common#:#udf_type_select#:#Popis za odabir (jedan izbor)
 common#:#udf_type_text#:#Polje za tekst (jedan redak)
-common#:#udf_type_wysiwyg#:#Područje teksta (WYSIWYG)
+common#:#udf_type_textarea#:#Područje teksta (WYSIWYG)
 common#:#udf_update_select_field#:#Uredi popis za odabir
 common#:#udf_update_text_field#:#Uredi polje za tekst
 common#:#udf_update_wysiwyg_field#:#Uredi polje za tekstualno područje (WYSIWYG)
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Učitavanje...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Datoteka nije pronađena
-common#:#url_to_latex#:#URL za LaTeX CGI skripte
 common#:#use_customized_instructions#:#Koristite prilagođene upute:
 common#:#use_default_instructions#:#Koristite zadane upute.
 common#:#user#:#Korisnik
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Rezervirana mjesta za serijska slova
 mail#:#mail_settings_external_frm_head#:#Vanjska e-pošta
 mail#:#mail_settings_external_tab#:#Vanjski
 mail#:#mail_settings_general_tab#:#Općenito
-mail#:#mail_settings_incoming_type_see_also#:#Dodatnu mogućnost za izmjenu dolazne vrste e-pošte za korisnike možete pronaći <a href="%s"> ovdje </a>.
 mail#:#mail_settings_system_frm_head#:#E-pošta sustava
 mail#:#mail_settings_user_frm_head#:#E-pošta korisnika
 mail#:#mail_smtp_encryption#:#Enkripcija
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Prilagođena ikona
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Uredi pitanja
+obj#:#multiple_selection#:#Višestruki odabir
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktiviraj prijevod za uređivanje stranica
 obj#:#obj_activate_multilang#:#Aktiviraj višejezičnost

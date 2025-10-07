@@ -51,7 +51,7 @@ class MetaDataTest extends TestCase
 
         $first_item = $collection[0];
         $this->assertInstanceOf(Tag::class, $first_item);
-        $this->assertEquals($html, $first_item->toHtml());
+        $this->assertSame($html, $first_item->toHtml());
     }
 
     public function testAddMetaDatumWithDuplicate(): void
@@ -66,14 +66,14 @@ class MetaDataTest extends TestCase
         $first_item = $this->meta_content->getMetaData()[$meta_datum_key];
 
         $this->assertInstanceOf(UserDefined::class, $first_item);
-        $this->assertEquals($meta_datum_1_value, $first_item->getValue());
+        $this->assertSame($meta_datum_1_value, $first_item->getValue());
 
         $this->meta_content->addMetaDatum($meta_datum_2);
         $first_item = $this->meta_content->getMetaData()[$meta_datum_key];
 
         $this->assertInstanceOf(UserDefined::class, $first_item);
-        $this->assertNotEquals($meta_datum_1_value, $first_item->getValue());
-        $this->assertEquals($meta_datum_2_value, $first_item->getValue());
+        $this->assertNotSame($meta_datum_1_value, $first_item->getValue());
+        $this->assertSame($meta_datum_2_value, $first_item->getValue());
     }
 
     public function getMockedTag(string $html): Tag

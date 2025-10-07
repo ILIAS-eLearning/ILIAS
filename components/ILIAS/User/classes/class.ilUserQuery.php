@@ -16,6 +16,13 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Profile\Fields\Field as ProfileField;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
+use ILIAS\Language\Language;
+
 /**
  * User query class. Put any complex that queries for a set of users into
  * this class and keep ilObjUser "small".
@@ -24,6 +31,8 @@
 class ilUserQuery
 {
     public const DEFAULT_ORDER_FIELD = 'login';
+
+    private Language $lng;
 
     private string $order_field = self::DEFAULT_ORDER_FIELD;
     private string $order_dir = 'asc';
@@ -59,22 +68,38 @@ class ilUserQuery
         "active"
     ];
 
+    private ProfileFieldsConfigurationRepository $profile_fields_repository;
+
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->lng = $DIC['lng'];
+        $this->profile_fields_repository = LocalDIC::dic()[ProfileFieldsConfigurationRepository::class];
     }
 
     /**
      * Set udf filter
      * @param array $a_val udf filter array
      */
-    public function setUdfFilter(array $a_val): void // Missing array type.
+    public function setUdfFilter(array $filter_array): void // Missing array type.
     {
-        $valid_udfs = [];
+        $field_names = array_reduce(
+            $this->profile_fields_repository->get(),
+            function (array $c, ProfileField $v): array {
+                if (!$v->isCustom()) {
+                    return $c;
+                }
+                $c[] = $v->getLabel($this->lng);
+                return $c;
+            },
+            []
+        );
 
-        $definitions = \ilUserDefinedFields::_getInstance()->getDefinitions();
-        foreach ($a_val as $udf_name => $udf_value) {
-            [$udf_string, $udf_id] = explode('_', $udf_name);
-            if (array_key_exists((int) $udf_id, $definitions)) {
+        $valid_udfs = [];
+        foreach ($filter_array as $udf_name => $udf_value) {
+            [, $udf_id] = explode('_', $udf_name);
+            if (in_array($udf_id, $field_names)) {
                 $valid_udfs[$udf_name] = $udf_value;
             }
         }
@@ -267,16 +292,9 @@ class ilUserQuery
 
         // if udf fields are involved we need the definitions
         $udf_def = [];
-        if (count($udf_fields) > 0) {
-            $udf_def = ilUserDefinedFields::_getInstance()->getDefinitions();
-        }
-
         // join udf table
         foreach ($udf_fields as $id) {
-            $udf_table = ($udf_def[$id]["field_type"] != UDF_TYPE_WYSIWYG)
-                ? "udf_text"
-                : "udf_clob";
-            $join .= " LEFT JOIN " . $udf_table . " ud_" . $id . " ON (ud_" . $id . ".field_id=" . $ilDB->quote($id) . " AND ud_" . $id . ".usr_id = usr_data.usr_id) ";
+            $join .= " LEFT JOIN udf_clob ud_" . $id . " ON (ud_" . $id . ".field_id=" . $ilDB->quote($id) . " AND ud_" . $id . ".usr_id = usr_data.usr_id) ";
         }
 
         // count query
@@ -374,16 +392,15 @@ class ilUserQuery
 
         // udf filter
         foreach ($this->getUdfFilter() as $k => $f) {
-            if ($f != "") {
-                $udf_id = explode("_", $k)[1];
-                if ($udf_def[$udf_id]["field_type"] == UDF_TYPE_TEXT) {
-                    $add = $where . " " . $ilDB->like("ud_" . $udf_id . ".value", "text", "%" . $f . "%");
-                } else {
-                    $add = $where . " ud_" . $udf_id . ".value = " . $ilDB->quote($f, "text");
+            if ($f !== '') {
+                $udf_id = explode('_', $k)[1];
+                $add = "{$where} ud_{$udf_id}.value = {$ilDB->quote($f, 'text')}";
+                if ($udf_def[$udf_id]['field_type'] === UDF_TYPE_TEXT) {
+                    $add = "{$where} {$ilDB->like("ud_{$udf_id}.value", 'text', "%{$f}%")}";
                 }
                 $query .= $add;
                 $count_query .= $add;
-                $where = " AND";
+                $where = ' AND';
             }
         }
 
@@ -533,7 +550,7 @@ class ilUserQuery
         // add multi-field-values to user-data
         if (count($multi_fields) && count($usr_ids)) {
             $usr_multi = [];
-            $set = $ilDB->query("SELECT * FROM usr_data_multi" .
+            $set = $ilDB->query("SELECT * FROM usr_profile_data" .
                 " WHERE " . $ilDB->in("usr_id", $usr_ids, "", "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
                 $usr_multi[(int) $row["usr_id"]][$row["field_id"]][] = $row["value"];

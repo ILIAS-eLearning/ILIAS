@@ -65,6 +65,7 @@ use ILIAS\Skill\Service\SkillService;
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Taxonomy\DomainService as TaxonomyService;
 use ILIAS\Style\Content\Service as ContentStyle;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilObjTestGUI
@@ -112,10 +113,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     public const SHOW_QUESTIONS_CMD = 'showQuestions';
     private const SHOW_LOGS_CMD = 'history';
-
-    private const INFO_SCREEN_CHILD_CLASSES = [
-        'ilpublicuserprofilegui', 'ilobjportfoliogui'
-    ];
 
     private const QUESTION_CREATION_POOL_SELECTION_NO_POOL = 1;
     private const QUESTION_CREATION_POOL_SELECTION_NEW_POOL = 2;
@@ -754,7 +751,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case 'ilobjectcopygui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                if ((!$this->access->checkAccess("copy", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
                 $this->prepareOutput();
@@ -796,24 +793,24 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 break;
 
             case 'ilassspecfeedbackpagegui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
+                if ((!$this->access->checkAccess("write", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $pg_gui = new ilAssSpecFeedbackPageGUI((int) $this->testrequest->raw("feedback_id"));
                 $this->ctrl->forwardCommand($pg_gui);
                 break;
 
             case 'ilassgenfeedbackpagegui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
+                if ((!$this->access->checkAccess("write", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $pg_gui = new ilAssGenFeedbackPageGUI($this->testrequest->int("feedback_id"));
                 $this->ctrl->forwardCommand($pg_gui);
                 break;
 
             case 'illocalunitconfigurationgui':
-                if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $this->redirectAfterMissingRead();
+                if ((!$this->access->checkAccess("write", "", $this->testrequest->getRefId()))) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $this->prepareSubGuiOutput();
 
@@ -907,7 +904,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     }
                     $this->ctrl->forwardCommand(new ilTestPageGUI('tst', $page_id));
                 }
-                $this->showEditTestPageGUI($cmd);
+                $this->showEditTestPageGUI();
                 break;
 
             case '':
@@ -1253,7 +1250,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass('ilObjTestGUI', self::SHOW_QUESTIONS_CMD);
     }
 
-    private function showEditTestPageGUI(string $cmd): void
+    private function showEditTestPageGUI(): void
     {
         $this->prepareOutput();
         $this->tabs_manager->getSettingsSubTabs();
@@ -1278,7 +1275,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->content_style->gui()->addCss($this->tpl, $this->ref_id);
         $this->tpl->setContent($this->ctrl->forwardCommand($gui));
 
-        $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
+        if ($this->ctrl->getCmdClass() === strtolower(ilTestPageGUI::class)) {
+            $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
+        }
     }
 
     public function getTestAccess(): ilTestAccess
@@ -2159,7 +2158,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     private function isCommandClassAnyInfoScreenChild(): bool
     {
-        if (in_array($this->ctrl->getCmdClass(), self::INFO_SCREEN_CHILD_CLASSES)) {
+        if (in_array(
+            $this->ctrl->getCmdClass(),
+            [
+                strtolower(PublicProfileGUI::class),
+                'ilobjportfoliogui'
+            ]
+        )) {
             return true;
         }
 

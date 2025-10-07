@@ -37,20 +37,14 @@ readonly class ServerTable implements \ILIAS\UI\Component\Table\DataRetrieval
         private \ilLanguage $lng,
         private \ilCtrlInterface $ctrl,
         private \Psr\Http\Message\ServerRequestInterface $http_request,
-        private \ILIAS\Data\Factory $df,
-        private string $parent_cmd,
+        private \ILIAS\Data\URI $action_url,
         private bool $has_write_access
     ) {
-        $form_action = $this->df->uri(
-            \ilUtil::_getHttpPath() . '/' .
-            $this->ctrl->getLinkTarget($this->parent_gui, $this->parent_cmd)
-        );
-
         [
             $this->url_builder,
             $this->action_parameter_token,
             $this->row_id_token
-        ] = (new \ILIAS\UI\URLBuilder($form_action))->acquireParameters(
+        ] = (new \ILIAS\UI\URLBuilder($action_url))->acquireParameters(
             ['ldap', 'servers'],
             'table_action',
             'server_id'
@@ -115,7 +109,7 @@ readonly class ServerTable implements \ILIAS\UI\Component\Table\DataRetrieval
                 ->buildDataRow(
                     (string) $server['server_id'],
                     [
-                        'title' => $title,
+                        'name' => $title,
                         'active' => (bool) $server['active'],
                         'user' => $server['user']
                     ]
@@ -163,7 +157,7 @@ readonly class ServerTable implements \ILIAS\UI\Component\Table\DataRetrieval
                     "{$this->lng->txt('status')}, {$this->lng->txt('active')} {$this->lng->txt('order_option_first')}",
                     "{$this->lng->txt('status')}, {$this->lng->txt('inactive')} {$this->lng->txt('order_option_first')}"
                 ),
-            'title' => $this->ui_factory
+            'name' => $this->ui_factory
                 ->table()
                 ->column()
                 ->text($this->lng->txt('title'))

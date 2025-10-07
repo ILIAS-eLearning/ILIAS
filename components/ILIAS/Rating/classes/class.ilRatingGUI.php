@@ -22,7 +22,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilRatingGUI: ilRatingCategoryGUI
  */
-class ilRatingGUI
+class ilRatingGUI implements ilCtrlSecurityInterface
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -58,10 +58,15 @@ class ilRatingGUI
         $params = $DIC->http()->request()->getQueryParams();
         $body = $DIC->http()->request()->getParsedBody();
 
-        if (isset($body["rating"]) && is_array($body["rating"])) {
-            $this->requested_ratings = ($body["rating"] ?? null);
+        if (isset($body['rating'])) {
+            if (is_array($body['rating'])) {
+                $this->requested_ratings = ($body['rating'] ?? null);
+            } else {
+                $this->requested_rating = (int) ($body['rating'] ?? 0);
+            }
+        } else {
+            $this->requested_rating = (int) ($params['rating'] ?? 0);
         }
-        $this->requested_rating = (int) ($params["rating"] ?? 0);
 
         $lng->loadLanguageModule("rating");
     }
@@ -86,6 +91,16 @@ class ilRatingGUI
                 $this->$cmd();
                 break;
         }
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return ['saveRating'];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     /**
@@ -355,17 +370,20 @@ class ilRatingGUI
                             "SRC_ICON",
                             ilUtil::getImagePath("standard/icon_rate_on.svg")
                         );
+                        $star_tpl->setVariable('RATING_FRACTION', 10);
                     } elseif ($overall_rating["avg"] + 1 <= $i) {
                         $star_tpl->setVariable(
                             "SRC_ICON",
                             ilUtil::getImagePath("standard/icon_rate_off.svg")
                         );
+                        $star_tpl->setVariable('RATING_FRACTION', 0);
                     } else {
                         $nr = round(($overall_rating["avg"] + 1 - $i) * 10);
                         $star_tpl->setVariable(
                             "SRC_ICON",
                             ilUtil::getImagePath("standard/icon_rate_$nr.svg")
                         );
+                        $star_tpl->setVariable("RATING_FRACTION", $nr);
                     }
                     $star_tpl->setVariable(
                         "ALT_ICON",
@@ -577,7 +595,10 @@ class ilRatingGUI
         );
 
 
-        $button = $f->button()->shy('###button###', '#');
+        $button = $f->button()->shy('###button###', '#')
+            ->withOnLoadCode(function (string $id): string {
+                return "document.getElementById('$id').classList.add('ilRating');";
+            });
         if ($has_overlay) {
             $ttpl->setVariable(
                 "RATING_DETAILS",
@@ -646,7 +667,7 @@ class ilRatingGUI
 
         $panel = $ui->factory()->panel()->secondary()->legacy(
             $a_title,
-            $ui->factory()->legacy(
+            $ui->factory()->legacy()->content(
                 $this->renderDetails("rtsb_", $may_rate, $categories, null, true, true)
             )
         );

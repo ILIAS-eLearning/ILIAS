@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,8 +35,6 @@ require_once(__DIR__ . "/../../../UI/tests/Base.php");
 abstract class BaseToastSetUp extends TestCase
 {
     private array $toasts = [];
-
-    private UIServices $ui_mock;
     protected ToastProvider $provider;
     protected ToastFactory $factory;
 
@@ -46,10 +45,10 @@ abstract class BaseToastSetUp extends TestCase
     {
         parent::setUp();
 
-        $this->ui_mock = $this->createMock(UIServices::class);
+        $ui_mock = $this->createMock(UIServices::class);
         $this->provider = $this->createMock(ToastProvider::class);
-        $this->provider->expects($this->any())->method('getProviderNameForPresentation')->willReturn('Provider');
-        $this->factory = (new ToastServices($this->ui_mock))->factory();
+        $this->provider->method('getProviderNameForPresentation')->willReturn('Provider');
+        $this->factory = (new ToastServices($ui_mock))->factory();
     }
 
     public function getDIC(): Container

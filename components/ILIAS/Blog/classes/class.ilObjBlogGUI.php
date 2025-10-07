@@ -142,7 +142,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->items = $this->buildPostingList($this->object->getId());
             if ($this->items) {
                 // current month (if none given or empty)
-                if (!$this->month || !$this->items[$this->month]) {
+                if (!$this->month || !isset($this->items[$this->month]) || $this->items[$this->month] === []) {
                     $m = array_keys($this->items);
                     $this->month = array_shift($m);
                     $this->month_default = true;
@@ -600,7 +600,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         } else {
                             $cmd = "render";
                         }
-                        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
                         // $ilCtrl->setCmd($cmd);
                     }
                     $this->addHeaderActionForCommand($cmd);

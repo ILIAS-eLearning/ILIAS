@@ -35,9 +35,9 @@ abstract class Dictionary
     protected NavigatorFactoryInterface $navigator_factory;
 
     /**
-     * @var TagAssignmentInterface[]
+     * @var array<string, TagInterface[]> keys are paths
      */
-    private array $tag_assignments;
+    private array $tag_assignments = [];
 
     public function __construct(
         PathFactoryInterface $path_factory,
@@ -46,7 +46,9 @@ abstract class Dictionary
     ) {
         $this->path_factory = $path_factory;
         $this->navigator_factory = $navigator_factory;
-        $this->tag_assignments = $tag_assignments;
+        foreach ($tag_assignments as $tag_assignment) {
+            $this->tag_assignments[$tag_assignment->path()->toString()][] = $tag_assignment->tag();
+        }
     }
 
     /**
@@ -58,8 +60,7 @@ abstract class Dictionary
         BaseElementInterface $element
     ): \Generator {
         $path = $this->path_factory->toElement($element);
-        foreach ($this->getAssignmentsForElement($path) as $assignment) {
-            $tag = $assignment->tag();
+        foreach ($this->getAllTagsForElement($path) as $tag) {
             if (!$this->doesIndexMatch($path, $element, $tag)) {
                 continue;
             }
@@ -68,16 +69,12 @@ abstract class Dictionary
     }
 
     /**
-     * @return TagAssignmentInterface[]
+     * @return TagInterface[]
      */
-    protected function getAssignmentsForElement(
+    protected function getAllTagsForElement(
         PathInterface $path
     ): \Generator {
-        foreach ($this->tag_assignments as $assignment) {
-            if ($assignment->matchesPath($path)) {
-                yield $assignment;
-            }
-        }
+        yield from $this->tag_assignments[$path->toString()] ?? [];
     }
 
     protected function doesIndexMatch(

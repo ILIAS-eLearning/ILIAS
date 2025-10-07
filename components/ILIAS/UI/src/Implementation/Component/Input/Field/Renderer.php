@@ -141,6 +141,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\DateTime):
                 return $this->renderDateTimeField($component, $default_renderer);
 
+            case ($component instanceof F\Image):
+                return $this->renderImageField($component, $default_renderer);
+
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
 
@@ -776,14 +779,18 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
     }
 
+    protected function renderImageField(F\Image $input, RendererInterface $default_renderer): string
+    {
+        return $this->renderFileField($input, $default_renderer);
+    }
+
     protected function renderFileField(F\File $input, RendererInterface $default_renderer): string
     {
         $template = $this->getTemplate('tpl.file.html', true, true);
         foreach ($input->getGeneratedDynamicInputs() as $metadata_input) {
             $file_info = null;
             if (null !== ($data = $metadata_input->getValue())) {
-                $file_id = (!$input->hasMetadataInputs()) ?
-                    $data : $data[$input->getUploadHandler()->getFileIdentifierParameterName()] ?? null;
+                $file_id = (!$input->hasMetadataInputs()) ? $data : $data[0] ?? null;
 
                 if (null !== $file_id) {
                     $file_info = $input->getUploadHandler()->getInfoResult($file_id);

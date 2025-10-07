@@ -58,8 +58,8 @@ class MediaTest extends TestCase
         $iterator_to_array = iterator_to_array($collection->getItems());
         $first_item = array_shift($iterator_to_array);
         $this->assertInstanceOf(Css::class, $first_item);
-        $this->assertEquals($path . '?version=' . $this->version, $first_item->getContent());
-        $this->assertEquals(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
+        $this->assertSame($path . '?version=' . $this->version, $first_item->getContent());
+        $this->assertSame(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
     }
 
     public function testAddCssFileWithQuery(): void
@@ -71,8 +71,8 @@ class MediaTest extends TestCase
         $iterator_to_array = iterator_to_array($collection->getItems());
         $first_item = array_shift($iterator_to_array);
         $this->assertInstanceOf(Css::class, $first_item);
-        $this->assertEquals($path . '&version=' . $this->version, $first_item->getContent());
-        $this->assertEquals(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
+        $this->assertSame($path . '&version=' . $this->version, $first_item->getContent());
+        $this->assertSame(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
     }
 
     public function testAddInlineCss(): void
@@ -83,8 +83,8 @@ class MediaTest extends TestCase
 
         $first_item = iterator_to_array($collection->getItems())[0];
         $this->assertInstanceOf(InlineCss::class, $first_item);
-        $this->assertEquals($css, $first_item->getContent());
-        $this->assertEquals(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
+        $this->assertSame($css, $first_item->getContent());
+        $this->assertSame(MetaContent::MEDIA_SCREEN, $first_item->getMedia());
     }
 
     public function testAddJsFile(): void
@@ -96,8 +96,8 @@ class MediaTest extends TestCase
         $iterator_to_array = iterator_to_array($collection->getItems());
         $first_item = $iterator_to_array[$path];
         $this->assertInstanceOf(Js::class, $first_item);
-        $this->assertEquals($path . '?version=' . $this->version, $first_item->getContent());
-        $this->assertEquals(2, $first_item->getBatch());
+        $this->assertSame($path . '?version=' . $this->version, $first_item->getContent());
+        $this->assertSame(2, $first_item->getBatch());
     }
 
     public function testAddJsFileWithQuery(): void
@@ -109,7 +109,7 @@ class MediaTest extends TestCase
 
         $first_item = iterator_to_array($collection->getItems())[$path];
         $this->assertInstanceOf(Js::class, $first_item);
-        $this->assertEquals($path_with_query . '&version=' . $this->version, $first_item->getContent());
-        $this->assertEquals(2, $first_item->getBatch());
+        $this->assertSame($path_with_query . '&version=' . $this->version, $first_item->getContent());
+        $this->assertSame(2, $first_item->getBatch());
     }
 }

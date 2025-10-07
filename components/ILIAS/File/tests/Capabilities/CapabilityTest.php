@@ -38,10 +38,7 @@ class CapabilityTest extends TestCase
     public \PHPUnit\Framework\MockObject\MockObject|TypeResolver $type_resolver;
     private ilObjFileInfoRepository|MockObject $file_info_repository;
     private ilAccessHandler|MockObject $access;
-    private ilCtrlInterface|MockObject $ctrl;
     private ActionRepository|MockObject $action_repository;
-    private Services|MockObject $http;
-    private URIBuilder|MockObject $static_url;
     private CapabilityBuilder $capability_builder;
 
     private static array $readme_infos = [];
@@ -56,10 +53,10 @@ class CapabilityTest extends TestCase
 
         $this->file_info_repository = $this->createMock(\ilObjFileInfoRepository::class);
         $this->access = $this->createMock(\ilAccessHandler::class);
-        $this->ctrl = $this->createMock(\ilCtrlInterface::class);
+        $ctrl = $this->createMock(\ilCtrlInterface::class);
         $this->action_repository = $this->createMock(ActionRepository::class);
-        $this->http = $this->createMock(Services::class);
-        $this->static_url = $this->createMock(URIBuilder::class);
+        $http = $this->createMock(Services::class);
+        $static_url = $this->createMock(URIBuilder::class);
         $this->type_resolver = $this->createMock(TypeResolver::class);
         $this->workspace_access_handler = $this->createMock(ilWorkspaceAccessHandler::class);
 
@@ -70,10 +67,10 @@ class CapabilityTest extends TestCase
         $this->capability_builder = new CapabilityBuilder(
             $this->file_info_repository,
             $this->access,
-            $this->ctrl,
+            $ctrl,
             $this->action_repository,
-            $this->http,
-            $this->static_url,
+            $http,
+            $static_url,
             $this->type_resolver,
             $this->workspace_access_handler
         );
@@ -91,130 +88,128 @@ class CapabilityTest extends TestCase
         self::updateREADME();
     }
 
-    public static function environmentProvider(): array
+    public static function environmentProvider(): \Iterator
     {
-        return [
-            'testerei' => [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => true,
-                'user_permissions' => [
-                    Permissions::READ,
-                    Permissions::WRITE,
-                    Permissions::VISIBLE,
-                    Permissions::EDIT_CONTENT,
-                    Permissions::VIEW_CONTENT
-                ],
-                'expected_best' => Capabilities::FORCED_INFO_PAGE
-            ],
+        yield 'testerei' => [
+            true,
+            true,
+            true,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::READ,
-                    Permissions::WRITE,
-                    Permissions::VISIBLE,
-                    Permissions::EDIT_CONTENT,
-                    Permissions::VIEW_CONTENT
-                ],
-                'expected_best' => Capabilities::VIEW_EXTERNAL
+                Permissions::READ,
+                Permissions::WRITE,
+                Permissions::VISIBLE,
+                Permissions::EDIT_CONTENT,
+                Permissions::VIEW_CONTENT
             ],
+            Capabilities::FORCED_INFO_PAGE
+        ];
+        yield [
+            true,
+            true,
+            false,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::EDIT_CONTENT,
-                    Permissions::VIEW_CONTENT
-                ],
-                'expected_best' => Capabilities::VIEW_EXTERNAL
+                Permissions::READ,
+                Permissions::WRITE,
+                Permissions::VISIBLE,
+                Permissions::EDIT_CONTENT,
+                Permissions::VIEW_CONTENT
             ],
+            Capabilities::VIEW_EXTERNAL
+        ];
+        yield [
+            true,
+            true,
+            false,
             [
-                'wopi_view' => false,
-                'wopi_edit' => false,
-                'infopage_first' => true,
-                'user_permissions' => [
-                    Permissions::READ,
-                    Permissions::VISIBLE
-                ],
-                'expected_best' => Capabilities::FORCED_INFO_PAGE
+                Permissions::EDIT_CONTENT,
+                Permissions::VIEW_CONTENT
             ],
+            Capabilities::VIEW_EXTERNAL
+        ];
+        yield [
+            false,
+            false,
+            true,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::EDIT_CONTENT,
-                ],
-                'expected_best' => Capabilities::EDIT_EXTERNAL
+                Permissions::READ,
+                Permissions::VISIBLE
             ],
+            Capabilities::FORCED_INFO_PAGE
+        ];
+        yield [
+            true,
+            true,
+            false,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::READ,
-                ],
-                'expected_best' => Capabilities::DOWNLOAD
+                Permissions::EDIT_CONTENT,
             ],
+            Capabilities::EDIT_EXTERNAL
+        ];
+        yield [
+            true,
+            true,
+            false,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::WRITE,
-                    Permissions::READ,
-                ],
-                'expected_best' => Capabilities::DOWNLOAD
+                Permissions::READ,
             ],
+            Capabilities::DOWNLOAD
+        ];
+        yield [
+            true,
+            true,
+            false,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::WRITE,
-                ],
-                'expected_best' => Capabilities::MANAGE_VERSIONS
+                Permissions::WRITE,
+                Permissions::READ,
             ],
+            Capabilities::DOWNLOAD
+        ];
+        yield [
+            true,
+            true,
+            false,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::VISIBLE,
-                ],
-                'expected_best' => Capabilities::INFO_PAGE
+                Permissions::WRITE,
             ],
+            Capabilities::MANAGE_VERSIONS
+        ];
+        yield [
+            true,
+            true,
+            false,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => true,
-                'user_permissions' => [
-                    Permissions::WRITE,
-                    Permissions::READ,
-                ],
-                'expected_best' => Capabilities::FORCED_INFO_PAGE
+                Permissions::VISIBLE,
             ],
+            Capabilities::INFO_PAGE
+        ];
+        yield [
+            true,
+            true,
+            true,
             [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => false,
-                'user_permissions' => [
-                    Permissions::NONE,
-                ],
-                'expected_best' => Capabilities::NONE
+                Permissions::WRITE,
+                Permissions::READ,
             ],
-            'docu_case' => [
-                'wopi_view' => true,
-                'wopi_edit' => true,
-                'infopage_first' => true,
-                'user_permissions' => [
-                    Permissions::READ,
-                    Permissions::VISIBLE,
-                ],
-                'expected_best' => Capabilities::FORCED_INFO_PAGE
+            Capabilities::FORCED_INFO_PAGE
+        ];
+        yield [
+            true,
+            true,
+            false,
+            [
+                Permissions::NONE,
             ],
+            Capabilities::NONE
+        ];
+        yield 'docu_case' => [
+            true,
+            true,
+            true,
+            [
+                Permissions::READ,
+                Permissions::VISIBLE,
+            ],
+            Capabilities::FORCED_INFO_PAGE
         ];
     }
 

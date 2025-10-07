@@ -1053,9 +1053,11 @@ class ilPCTableGUI extends ilPageContentGUI
         if ($this->getStyleId() > 0 && $pc_tab->getTemplate() != "") {
             $id = ilObjStyleSheet::_lookupTemplateIdByName($this->getStyleId(), $pc_tab->getTemplate());
             $style = new ilObjStyleSheet($this->getStyleId());
-            $template_classes = $style->getTemplateClasses($id);
-            if ($template_classes["table"] !== "") {
-                $class = $template_classes["table"];
+            if ($id) {
+                $template_classes = $style->getTemplateClasses($id);
+                if ($template_classes["table"] !== "") {
+                    $class = $template_classes["table"];
+                }
             }
         }
         $dtpl->setVariable("TABLE_CLASS", "ilc_table" . $class);

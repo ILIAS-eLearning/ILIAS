@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Authentication\UserSettings\Password;
+
 class ilAuthUtils
 {
     public const int LOCAL_PWV_FULL = 1;
@@ -523,12 +525,12 @@ class ilAuthUtils
 
     public static function isPasswordModificationHidden(): bool
     {
-        /** @var $ilSetting ilSetting */
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
+        /** @var \ILIAS\User\Settings\Setting $password_setting */
+        $password_setting = $DIC['user']->getSettings()->getSettingByDefinitionClass(Password::class);
 
-        return $ilSetting->get('usr_settings_hide_password') || $ilSetting->get('usr_settings_disable_password');
+        return !$password_setting->isChangeableByUser();
     }
 
     /**

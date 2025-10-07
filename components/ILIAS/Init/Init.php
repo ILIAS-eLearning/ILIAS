@@ -54,6 +54,9 @@ class Init implements Component\Component
             new Component\Resource\Endpoint($this, "error.php");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\Endpoint($this, "service-worker.js");
+
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "sso/index.php", "sso");
 
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
@@ -122,6 +125,7 @@ class Init implements Component\Component
                 $pull[\ILIAS\UI\Implementation\Component\Progress\State\Bar\Factory::class],
                 $pull[\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class],
                 $use[\ILIAS\Setup\AgentFinder::class],
+                $pull[\ILIAS\UI\Implementation\Component\Navigation\Factory::class],
             );
     }
 }

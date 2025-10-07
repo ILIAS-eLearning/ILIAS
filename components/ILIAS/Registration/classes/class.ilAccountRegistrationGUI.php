@@ -18,6 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\UserSettings\Language as LanguageSetting;
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+use ILIAS\User\Settings\Settings as UserSettings;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Standard\Alias;
+use ILIAS\User\Context;
+
 /**
  * Class ilAccountRegistrationGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -30,13 +37,15 @@ class ilAccountRegistrationGUI
     protected bool $code_was_used;
     protected ilRecommendedContentManager $recommended_content_manager;
 
-    protected ilUserProfile $user_profile;
+    protected Profile $user_profile;
+    protected UserSettings $user_settings;
 
     protected ?ilPropertyFormGUI $form = null;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
+    protected ilDBInterface $db;
     protected ilErrorHandling $error;
     protected ?ilObjUser $userObj = null;
     protected ilObjUser $globalUser;
@@ -59,6 +68,7 @@ class ilAccountRegistrationGUI
         $this->ctrl->saveParameter($this, 'lang');
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('registration');
+        $this->db = $DIC->database();
         $this->error = $DIC['ilErr'];
         $this->settings = $DIC->settings();
         $this->globalUser = $DIC->user();
@@ -73,7 +83,8 @@ class ilAccountRegistrationGUI
 
         $this->recommended_content_manager = new ilRecommendedContentManager();
 
-        $this->user_profile = new ilUserProfile();
+        $this->user_profile = $DIC['user']->getProfile();
+        $this->user_settings = $DIC['user']->getSettings();
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -138,46 +149,30 @@ class ilAccountRegistrationGUI
             $this->form->addItem($code);
         }
 
-        // user defined fields
-        $user_defined_data = $this->globalUser->getUserDefinedData();
-        $user_defined_fields = ilUserDefinedFields::_getInstance();
-        $custom_fields = [];
+        $this->addLoginSectionToForm();
 
-        foreach ($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition) {
-            $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
-                $definition,
-                true,
-                $user_defined_data['f_' . $field_id] ?? ''
-            );
-            if ($fprop instanceof ilFormPropertyGUI) {
-                $custom_fields['udf_' . $definition['field_id']] = $fprop;
-            }
-        }
-
-        $this->user_profile->setMode(ilUserProfile::MODE_REGISTRATION);
-        $this->user_profile->skipGroup("preferences");
-
-        $this->user_profile->setAjaxCallback(
-            $this->ctrl->getLinkTarget($this, 'doProfileAutoComplete', '', true)
-        );
         $this->lng->loadLanguageModule("user");
         // add fields to form
-        $this->user_profile->addStandardFieldsToForm($this->form, null, $custom_fields);
-        unset($custom_fields);
+        $this->user_profile->addFieldsToForm($this->form, Context::Registration, true, null, [Alias::class]);
 
-        // set language selection to current display language
-        $flang = $this->form->getItemByPostVar("usr_language");
+        $field = new ilFormSectionHeaderGUI();
+        $field->setTitle($this->lng->txt('settings'));
+        $this->form->addItem($field);
+
+        $lang_setting = $this->user_settings->getSettingByDefinitionClass(LanguageSetting::class);
+        $flang = $lang_setting->getLegacyInput($this->lng, $this->settings);
+        $flang->setDisabled(!$lang_setting->isChangeableByUser());
         if ($flang) {
             $flang->setValue($this->lng->getLangKey());
         }
+        $this->form->addItem($flang);
 
         // add information to role selection (if not hidden)
+        $role = $this->buildRolesInput();
         if ($this->code_enabled) {
-            $role = $this->form->getItemByPostVar("usr_roles");
-            if ($role && $role->getType() === "select") {
-                $role->setInfo($this->lng->txt("registration_code_role_info"));
-            }
+            $role->setInfo($this->lng->txt("registration_code_role_info"));
         }
+        $this->form->addItem($role);
 
         // #11407
         $domains = [];
@@ -281,12 +276,12 @@ class ilAccountRegistrationGUI
         if (
             !$this->registration_settings->passwordGenerationEnabled() &&
             !ilSecuritySettingsChecker::isPasswordValidForUserContext(
-                $this->form->getInput('usr_password'),
+                $this->form->getInput('password'),
                 $this->form->getInput('username'),
                 $error_lng_var
             )
         ) {
-            $passwd_obj = $this->form->getItemByPostVar('usr_password');
+            $passwd_obj = $this->form->getItemByPostVar('password');
             $passwd_obj->setAlert($this->lng->txt($error_lng_var));
             $form_valid = false;
         }
@@ -329,7 +324,7 @@ class ilAccountRegistrationGUI
                 if (ilObjUser::_loginExists($login)) {
                     $login_obj->setAlert($this->lng->txt('login_exists'));
                     $form_valid = false;
-                } elseif ((int) $this->settings->get('allow_change_loginname') &&
+                } elseif ($this->user_profile->userFieldEditableByUser(Alias::class) &&
                     (int) $this->settings->get('reuse_of_loginnames') === 0 &&
                     ilObjUser::_doesLoginnameExistInHistory($login)) {
                     $login_obj->setAlert($this->lng->txt('login_exists'));
@@ -375,59 +370,33 @@ class ilAccountRegistrationGUI
             $this->userObj->setAuthMode('local');
         }
 
-        $this->user_profile->skipGroup("preferences");
-        $this->user_profile->skipGroup("settings");
-        $this->user_profile->skipField("password");
-        $this->user_profile->skipField("birthday");
-        $this->user_profile->skipField("upload");
-        foreach ($this->user_profile->getStandardFields() as $k => $v) {
-            if ($v["method"]) {
-                $method = "set" . substr($v["method"], 3);
-                if (method_exists($this->userObj, $method)) {
-                    if ($k !== "username") {
-                        $k = "usr_" . $k;
-                    }
-                    $field_obj = $this->form->getItemByPostVar($k);
-                    if ($field_obj) {
-                        $this->userObj->$method($this->form->getInput($k));
-                    }
-                }
-            }
-        }
-
-        $this->userObj->setFullName();
-
-        $birthday_obj = $this->form->getItemByPostVar("usr_birthday");
-        if ($birthday_obj) {
-            $birthday = $this->form->getInput("usr_birthday");
-            $this->userObj->setBirthday($birthday);
-        }
-
+        $this->userObj = $this->user_profile->addFormValuesToUser(
+            $this->form,
+            Context::Registration,
+            $this->userObj
+        );
         $this->userObj->setTitle($this->userObj->getFullname());
         $this->userObj->setDescription($this->userObj->getEmail());
+
+        $this->userObj->setLogin(
+            $this->form->getInput('username')
+        );
 
         if ($this->registration_settings->passwordGenerationEnabled()) {
             $password = ilSecuritySettingsChecker::generatePasswords(1);
             $password = $password[0];
         } else {
-            $password = $this->form->getInput("usr_password");
+            $password = $this->form->getInput("password");
         }
+
+        $this->userObj->setLanguage(
+            $this->user_settings->getValueFromLegacyFormByDefinitionClass(
+                LanguageSetting::class,
+                $this->form
+            )
+        );
+
         $this->userObj->setPasswd($password);
-
-        // Set user defined data
-        $user_defined_fields = ilUserDefinedFields::_getInstance();
-        $defs = $user_defined_fields->getRegistrationDefinitions();
-        $udf = [];
-        foreach ($defs as $definition) {
-            $f = "udf_" . $definition['field_id'];
-            $item = $this->form->getItemByPostVar($f);
-            if ($item && !$item->getDisabled()) {
-                $udf[$definition['field_id']] = $this->form->getInput($f);
-            }
-        }
-        $this->userObj->setUserDefinedData($udf);
-
-        $this->userObj->setTimeLimitOwner(7);
 
         $access_limit = null;
 
@@ -604,8 +573,8 @@ class ilAccountRegistrationGUI
         } else {
             $accountMail = new ilAccountRegistrationMail(
                 $this->registration_settings,
-                $this->lng,
-                ilLoggerFactory::getLogger('user')
+                ilLoggerFactory::getLogger('user'),
+                new NewAccountMailRepository($this->db)
             );
             $accountMail->withDirectRegistrationMode()->send($this->userObj, $password, $this->code_was_used);
         }
@@ -644,16 +613,54 @@ class ilAccountRegistrationGUI
         return $tpl;
     }
 
-    protected function doProfileAutoComplete(): void
+    protected function addLoginSectionToForm(): void
     {
-        $field_id = (string) $_REQUEST["f"];
-        $term = (string) $_REQUEST["term"];
+        $field = new ilFormSectionHeaderGUI();
+        $field->setTitle($this->lng->txt('login_data'));
+        $this->form->addItem($field);
 
-        $result = ilPublicUserProfileGUI::getAutocompleteResult($field_id, $term);
-        if (count($result)) {
-            echo json_encode($result, JSON_THROW_ON_ERROR);
+        $login_input = new ilTextInputGUI($this->lng->txt('username'), 'username');
+        $login_input->setSize(255);
+        $login_input->setRequired(true);
+        $this->form->addItem($login_input);
+
+        if ($this->registration_settings->passwordGenerationEnabled()) {
+            $password_input = new ilNonEditableValueGUI($this->lng->txt('password'));
+            $password_input->setValue($this->lng->txt('reg_passwd_via_mail'));
+            $this->form->addItem($password_input);
+            return;
         }
 
-        exit();
+        $password_input = new ilPasswordInputGUI($this->lng->txt('password'), 'password');
+        $password_input->setUseStripSlashes(false);
+        $password_input->setRequired(true);
+        $password_input->setInfo(ilSecuritySettingsChecker::getPasswordRequirementsInfo());
+        $this->form->addItem($password_input);
+    }
+
+    protected function buildRolesInput(): ?ilFormPropertyGUI
+    {
+        $options = [];
+        foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
+            $options[$role['id']] = $role['title'];
+        }
+
+        if ($options === []) {
+            return null;
+        }
+
+        if (count($options) === 1) {
+            $roles_input = new ilHiddenInputGUI('usr_roles');
+            $keys = array_keys($options);
+            $roles_input->setValue((string) array_shift($keys));
+            return $roles_input;
+        }
+
+        $options_with_empty_value = ['' => $this->lng->txt('please_choose')] + $options;
+        $roles_input = new ilSelectInputGUI($this->lng->txt('default_role'), 'usr_roles');
+        $roles_input->setOptions($options_with_empty_value);
+        $roles_input->setRequired(true);
+        return $roles_input;
+
     }
 }

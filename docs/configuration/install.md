@@ -334,11 +334,11 @@ sudo -uwww-data composer install --no-dev
 ## Install ILIAS
 
 After having all dependencies installed and configured you should be able to run
-the [ILIAS Setup on the command-line](../../setup/README.md).
+the [ILIAS Setup on the command-line](../../components/ILIAS/setup_/README.md).
 
-To do so, create a configuration file for the setup by copying the [minimal-config.json](../../setup/minimal-config.json)
+To do so, create a configuration file for the setup by copying the [minimal-config.json](../../components/ILIAS/setup_/minimal-config.json)
 to a location outside your docroot. Fill in the configuration fields that are already
-contained in the minimal config. Have a look into the [list of available config options](../../setup/README.md#about-the-config-file)
+contained in the minimal config. Have a look into the [list of available config options](../../components/ILIAS/setup_/README.md#about-the-config-file)
 and add the fields that your environment and installation requires.
 
 ```shell
@@ -396,7 +396,7 @@ sudo -uwww-data php cli/setup.php install /var/www/config/ilias.json
 ```
 
 The installation will display what currently happens and might prompt you with
-questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
+questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
 or into the help of the program itself `php cli/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
@@ -590,7 +590,7 @@ will need to update your style to match the new release.
 
 Database updates must be done for both minor and major updates, the schema and content
 of the database probably won't match the code otherwise. Database updates are performed
-via the [command line setup program](../../setup/README.md). The required updates
+via the [command line setup program](../../components/ILIAS/setup_/README.md). The required updates
 are split into two groups. **Updates** are tasks that need to be run immediately to
 make your installation work properly. **Migrations** are tasks, that potentially take
 some time, but which can also be executed while the installation is in productive use.
@@ -613,7 +613,7 @@ installation. Run them by using the `--run` parameter and have a look into
 the help of the command for more details: `php cli/setup.php migrate --help`.
 
 Both commands will display what currently happens and might prompt you with
-questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
+questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
 or into the help of the program itself `php cli/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 

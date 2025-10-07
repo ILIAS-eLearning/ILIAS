@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Legacy;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 /**
@@ -36,10 +37,20 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if (!$component instanceof Component\Legacy\Content) {
-            $this->cannotHandleComponent($component);
+
+        if ($component instanceof I\Legacy\Content) {
+            return $this->renderContent($component, $default_renderer);
+        }
+        if ($component instanceof I\Legacy\Segment) {
+            return $this->renderSegment($component, $default_renderer);
         }
 
+        $this->cannotHandleComponent($component);
+
+    }
+
+    protected function renderContent(Content $component, RendererInterface $default_renderer): string
+    {
         $component = $this->registerSignals($component);
         $this->bindJavaScript($component);
 
@@ -77,5 +88,10 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('assets/js/mathjax_config.js');
         $registry->register('node_modules/mathjax/es5/tex-chtml-full.js');
+    }
+
+    protected function renderSegment(Segment $component, RendererInterface $default_renderer): string
+    {
+        return $component->getSegmentContent();
     }
 }

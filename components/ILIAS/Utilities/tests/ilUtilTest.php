@@ -23,15 +23,30 @@ use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\String\Group as StringGroup;
 use ILIAS\Refinery\Transformation;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ilUtilTest extends TestCase
 {
+    private const string HTTP_HOST = 'http://localhost';
+
+    private ?Container $original_dic = null;
+
     protected function setUp(): void
     {
+        global $DIC;
+
+        $this->original_dic = is_object($DIC) ? clone $DIC : $DIC;
+
         parent::setUp();
-        if (!defined("ILIAS_HTTP_PATH")) {
-            define("ILIAS_HTTP_PATH", "http://localhost");
-        }
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->original_dic;
+
+        parent::tearDown();
     }
 
     /**
@@ -39,62 +54,64 @@ class ilUtilTest extends TestCase
      */
     public function testMakeClickableWithoutGotoLinks(): void
     {
+        global $DIC;
+
         $input = 'Small things make base men proud.';
         $expected = 'I do desire we may be better strangers.';
 
-        $GLOBALS['DIC'] = $this->mockClickableCall($input, $expected);
+        $DIC = $this->mockClickableCall($input, $expected);
 
         $this->assertSame($expected, ilUtil::makeClickable($input));
-
-        unset($GLOBALS['DIC']);
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('provideGotoLinkData')]
-    public function testMakeClickableWithGotoLinksAndInvalidRefId(string $expected, string $input, array $ref_to_obj, array $obj_to_title): void
-    {
-        $wrap_array = static fn(array $array): array => (
-            array_map(static fn(int $x): array => [$x], $array)
-        );
+    public function testMakeClickableWithGotoLinksAndInvalidRefId(
+        string $expected,
+        string $input,
+        array $ref_to_obj,
+        array $obj_to_title
+    ): void {
+        global $DIC;
 
         $container = $this->mockClickableCall($input, $expected);
 
         $cache = $this->getMockBuilder(ilObjectDataCache::class)->disableOriginalConstructor()->getMock();
 
         $consecutive_id = [];
-        foreach($ref_to_obj as $k => $v) {
+        foreach ($ref_to_obj as $k => $v) {
             $consecutive_id[] = [$k, $v];
         }
-        $cache->expects(self::exactly(count($ref_to_obj)))
+
+        $cache->expects($this->exactly(count($ref_to_obj)))
             ->method('lookupObjId')
             ->willReturnCallback(
                 function ($id) use (&$consecutive_id) {
-                    list($k, $v) = array_shift($consecutive_id);
+                    [$k, $v] = array_shift($consecutive_id);
                     $this->assertEquals($k, $id);
                     return $v;
                 }
             );
 
         $consecutive_title = [];
-        foreach($obj_to_title as $k => $v) {
+        foreach ($obj_to_title as $k => $v) {
             $consecutive_title[] = [$k, $v];
         }
-        $cache->expects(self::exactly(count($obj_to_title)))
+
+        $cache->expects($this->exactly(count($obj_to_title)))
             ->method('lookupTitle')
             ->willReturnCallback(
                 function ($id) use (&$consecutive_title) {
-                    list($k, $v) = array_shift($consecutive_title);
+                    [$k, $v] = array_shift($consecutive_title);
                     $this->assertEquals($k, $id);
                     return $v;
                 }
             );
 
-        $container->expects(self::exactly(count($ref_to_obj)))->method('offsetGet')->with('ilObjDataCache')->willReturn($cache);
+        $container->expects($this->exactly(count($ref_to_obj)))->method('offsetGet')->with('ilObjDataCache')->willReturn($cache);
 
-        $GLOBALS['DIC'] = $container;
+        $DIC = $container;
 
-        $this->assertSame($expected, ilUtil::makeClickable($input, true));
-
-        unset($GLOBALS['DIC']);
+        $this->assertSame($expected, ilUtil::makeClickable($input, true, self::HTTP_HOST));
     }
 
     public static function provideGotoLinkData(): array
@@ -143,11 +160,11 @@ class ilUtilTest extends TestCase
         ];
 
         $linkFormats = [
-            'With goto.php: ' => ['http://localhost/goto.php?target=', ''],
-            'With goto_*.html: ' => ['http://localhost/goto_', '.html'],
+            'With goto.php: ' => [self::HTTP_HOST . '/goto.php?target=', ''],
+            'With goto_*.html: ' => [self::HTTP_HOST . '/goto_', '.html'],
         ];
 
-        $repeatForFormat = function (string $format, array $values): array {
+        $repeatForFormat = static function (string $format, array $values): array {
             return array_merge(
                 ...array_fill(0, (count(explode('%s', $format)) - 1) / 2, $values)
             );
@@ -166,19 +183,19 @@ class ilUtilTest extends TestCase
         return $allTests;
     }
 
-    private function mockClickableCall(string $input, string $transformed): Container
+    private function mockClickableCall(string $input, string $transformed): Container&MockObject
     {
         $transformation = $this->getMockBuilder(Transformation::class)->getMock();
-        $transformation->expects(self::once())->method('transform')->with($input)->willReturn($transformed);
+        $transformation->expects($this->once())->method('transform')->with($input)->willReturn($transformed);
 
         $string_group = $this->getMockBuilder(StringGroup::class)->disableOriginalConstructor()->getMock();
-        $string_group->expects(self::once())->method('makeClickable')->willReturn($transformation);
+        $string_group->expects($this->once())->method('makeClickable')->willReturn($transformation);
 
         $refinery = $this->getMockBuilder(Refinery::class)->disableOriginalConstructor()->getMock();
-        $refinery->expects(self::once())->method('string')->willReturn($string_group);
+        $refinery->expects($this->once())->method('string')->willReturn($string_group);
 
         $container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
-        $container->expects(self::once())->method('refinery')->willReturn($refinery);
+        $container->expects($this->once())->method('refinery')->willReturn($refinery);
 
         return $container;
     }

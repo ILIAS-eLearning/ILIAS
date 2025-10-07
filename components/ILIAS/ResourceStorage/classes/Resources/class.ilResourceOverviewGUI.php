@@ -32,7 +32,6 @@ use ILIAS\components\ResourceStorage\Resources\UI\Actions\OverviewActionGenerato
 use ILIAS\components\ResourceStorage\Resources\UI\ResourceListingUI;
 use ILIAS\components\ResourceStorage\Resources\UI\RevisionListingUI;
 
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  *

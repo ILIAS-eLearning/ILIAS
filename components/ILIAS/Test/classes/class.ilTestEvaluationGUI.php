@@ -161,6 +161,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function showResults(): void
     {
+        $this->setCss();
         $this->ctrl->saveParameterByClass(self::class, 'active_ids');
         $selected_active_ids = explode(',', $this->testrequest->strVal('active_ids'));
 

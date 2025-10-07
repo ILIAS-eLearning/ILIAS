@@ -17,7 +17,7 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
 
 .l-bar__space-keeper,
 .l-bar__group {
-    // you MUST NOT add padding or margin and SHOULD NOT add any styling (e.g. background-color) in consumer code 
+    // you MUST NOT add padding or margin and SHOULD NOT add any styling (e.g. background-color) in consumer code
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -34,7 +34,7 @@ $l-bar__element__margin-bottom: $il-margin-xlarge-vertical; // this margin separ
 .l-bar__space-keeper > .l-bar__element,
 .l-bar__group > .l-bar__element {
     margin-bottom: var(--l-bar__element__margin-bottom);
-    &:last-child {
+    &:last-of-type {
         margin-right: 0;
     }
 }

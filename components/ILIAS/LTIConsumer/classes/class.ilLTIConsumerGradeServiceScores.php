@@ -26,6 +26,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
+
 class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 {
     public function __construct(ilLTIConsumerServiceBase $service)
@@ -48,9 +49,9 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         $contextId = $params['context_id'];
         $itemId = $params['item_id'];
 
-        ilObjLTIConsumer::getLogger()->debug("contextId: " . $contextId);
-        ilObjLTIConsumer::getLogger()->debug("objId: " . $itemId);
-        ilObjLTIConsumer::getLogger()->debug("request data: " . $response->getRequestData());
+        ilObjLTIConsumer::getLogger()->info("contextId: " . $contextId);
+        ilObjLTIConsumer::getLogger()->info("objId: " . $itemId);
+        ilObjLTIConsumer::getLogger()->info("request data: " . $response->getRequestData());
 
         // GET is disabled by the moment, but we have the code ready
         // for a future implementation.
@@ -81,11 +82,15 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
     protected function checkScore(string $requestData, int $objId): int
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $logger = $DIC->logger()->root();
+
+        $logger->info('checkScore');
         $score = json_decode($requestData);
         //prüfe Userid
         $userId = ilCmiXapiUser::getUsrIdForObjectAndUsrIdent($objId, $score->userId);
         if ($userId == null) {
-            ilObjLTIConsumer::getLogger()->debug('User not available');
+            ilObjLTIConsumer::getLogger()->info('User not available');
             throw new Exception('User not available', 404);
             return 404;
         }
@@ -100,7 +105,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             (isset($score->scoreGiven) && !isset($score->scoreMaximum)) ||
             (isset($score->scoreMaximum) && !is_numeric($score->scoreMaximum))
         ) {
-            ilObjLTIConsumer::getLogger()->debug('Incorrect score received');
+            ilObjLTIConsumer::getLogger()->info('Incorrect score received');
             ilObjLTIConsumer::getLogger()->dump($score);
             throw new Exception('Incorrect score received', 400);
             return 400;
@@ -114,8 +119,8 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
                 $score->scoreGiven = null;
             }
         }
-        $result = (float)$score->scoreGiven / (float)$score->scoreMaximum;
-        ilObjLTIConsumer::getLogger()->debug("result: " . $result);
+        $result = (float) $score->scoreGiven / (float) $score->scoreMaximum;
+        ilObjLTIConsumer::getLogger()->info("result: " . $result);
 
         $ltiObjRes = new ilLTIConsumerResultService();
 
@@ -135,7 +140,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
 
         $consRes = ilLTIConsumerResult::getByKeys($objId, $userId, false);
         if (empty($consRes)) {
-            ilObjLTIConsumer::getLogger()->debug("lti_consumer_results_id not found!");
+            ilObjLTIConsumer::getLogger()->info("lti_consumer_results_id not found!");
             //            throw new Exception('lti_consumer_results_id not found!', 404);
             //            return 404;
         }

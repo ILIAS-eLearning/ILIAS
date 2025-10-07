@@ -96,6 +96,7 @@ class PermissionManager
         return false;
     }
 
+
     /**
      * Check if user has admin access (approve, may edit & deactivate all postings)
      */
@@ -103,6 +104,17 @@ class PermissionManager
     {
         return ($this->checkPermissionBool("redact") ||
             $this->checkPermissionBool("write"));
+    }
+
+    public function canReadPosting(int $posting_id): bool
+    {
+        return ($this->mayContribute() ||
+            \ilBlogPosting::_lookupActive($posting_id, "blp"));
+    }
+
+    public function isActive(int $posting_id): bool
+    {
+        return (\ilBlogPosting::_lookupActive($posting_id, "blp"));
     }
 
 }

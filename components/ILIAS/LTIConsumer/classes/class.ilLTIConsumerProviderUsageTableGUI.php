@@ -18,108 +18,97 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Services;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Factory;
+
 /**
- * Class ilLTIConsumerProviderSelectionFormGUI
+ * Class ilLTIConsumerProviderUsageTableGUI
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
  * @package components\ILIAS/LTIConsumer
  */
-class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
+class ilLTIConsumerProviderUsageTableGUI implements DataRetrieval
 {
-    /**
-     * @var ilLTIConsumerProviderUsageTableGUI
-     */
-    protected ilLTIConsumerProviderUsageTableGUI $table;
+    protected ilLanguage $lng;
+    protected Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected $request;
+    protected array $records;
 
-    /**
-     * ilLTIConsumerProviderUsageTableGUI constructor.
-     * @param $a_parent_cmd
-     */
-    public function __construct(ilLTIConsumerAdministrationGUI $a_parent_obj, string $a_parent_cmd)
+    public function __construct()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
-        $this->setId('usages');
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        //$this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.lti_consume_provider_usage_table_row.html', 'components/ILIAS/LTIConsumer');
-
-        $this->setTitle($DIC->language()->txt('tbl_provider_usage_header'));
-        $this->setDescription($DIC->language()->txt('tbl_provider_usage_header_info'));
+        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
     }
 
-    public function init(): void
+    public function getRows(DataRowBuilder $row_builder, array $visible_column_ids, Range $range, Order $order, ?array $filter_data, ?array $additional_parameters): Generator
     {
-        parent::determineSelectedColumns();
-        $this->initColumns();
-    }
+        global $DIC;
 
-    protected function initColumns(): void
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        /** @var Services $static_url */
+        $static_url = $DIC["static_url"];
 
-        $this->addColumn($DIC->language()->txt('tbl_lti_prov_icon'), 'icon');
-        $this->addColumn($DIC->language()->txt('tbl_lti_prov_title'), 'title');
-        $this->addColumn($DIC->language()->txt('tbl_lti_prov_usages_trashed'), 'usedByIsTrashed');
-        $this->addColumn($DIC->language()->txt('tbl_lti_prov_used_by'), 'used_by');
-    }
+        foreach ($this->records as $record) {
+            $record['icon'] = $record['icon'] ?? "lti";
+            $record['icon'] = $this->ui_factory->symbol()->icon()->standard($record['icon'], $record['icon'], Icon::SMALL);
 
-    protected function fillRow(array $a_set): void
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TITLE
-        $this->tpl->setVariable('TITLE', $a_set['title']);
+            $link = (string) $static_url->builder()->build(
+                ilObject::_lookupType($record['usedByObjId']),
+                new ReferenceId($record['usedByRefId'])
+            );
 
-        // TRASHED
-        $this->tpl->setCurrentBlock('usages_trashed');
-        $usagesTrashed = $a_set['usedByIsTrashed'] && $this->isTrashEnabled() ? $DIC->language()->txt('yes') : '';
-        $this->tpl->setVariable('USAGES_TRASHED', $usagesTrashed);
-        $this->tpl->parseCurrentBlock();
+            $record['used_by'] = $this->ui_factory->link()->standard(
+                $record['usedByTitle'],
+                $link
+            );
 
-        // USED BY
-        $this->tpl->setCurrentBlock('used_by');
-        $tree = $this->buildLinkToUsedBy($a_set['usedByObjId'], (int) $a_set['usedByRefId'], (string) $a_set['usedByTitle'], (bool) $usagesTrashed);
-        $this->tpl->setVariable('TREE_TO_USED_BY', $tree['tree']);
-        $this->tpl->parseCurrentBlock();
-
-        // ICON
-        if (isset($a_set['icon'])) {
-            $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
-            $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
-        } else {
-            $icon = ilObject::_getIcon(0, "small", "lti");
-            $this->tpl->setVariable('ICON_SRC', $icon);
-            $this->tpl->setVariable('ICON_ALT', 'lti');
+            yield $row_builder->buildDataRow((string) $record['id'], $record);
         }
     }
 
-    /**
-     * @return array<string, string>
-     */
-    protected function buildLinkToUsedBy(int $objId, int $refId, string $title, bool $trashed): array
+    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $tree = $DIC->repositoryTree()->getPathFull($refId);
-        $treeNodes = [];
-        foreach ($tree as $node) {
-            $node['title'] = (int) $node['parent'] === 0 ? $DIC->language()->txt('repository') : $node['title'];
-            $treeNodes[] = $trashed === true ? $node['title'] : '<a href="' . ilLink::_getLink((int) $node['ref_id']) . '">' . $node['title'] . '</a>';
-        }
-        $endnode = '<a href="' . ilLink::_getLink((int) $refId) . '">' . $title . '</a>';
-        if ($trashed === true) {
-            $treeNodes[] = $title;
-        }
-
-        return ['endnode' => $endnode, 'tree' => implode(' > ', $treeNodes)];
+        return count($this->records);
     }
 
-    protected static function isTrashEnabled(): bool
+    public function setData(array $data): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        return (bool) ((int) $DIC->settings()->get('enable_trash', "0"));
+        $this->records = $data;
     }
-} // EOF class
+
+    public function getHTML(): string
+    {
+        $table = $this->ui_factory->table()
+            ->data($this->lng->txt('tbl_provider_usage_header'), $this->getColumns(), $this)
+            ->withOrder(new Order('title', Order::ASC))
+            ->withRequest($this->request);
+
+        return $this->ui_renderer->render($table);
+    }
+
+    private function getColumns(): array
+    {
+        return [
+            "icon" => $this->ui_factory->table()->column()->statusIcon($this->lng->txt('tbl_lti_prov_icon')),
+            "title" => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_title')),
+            "usedByIsTrashed" => $this->ui_factory->table()->column()->boolean(
+                $this->lng->txt('tbl_lti_prov_usages_trashed'),
+                $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_ok.svg', $this->lng->txt('icon_ok'), Icon::SMALL),
+                $this->ui_factory->symbol()->icon()->custom('assets/images/standard/icon_not_ok.svg', $this->lng->txt('icon_not_ok'), Icon::SMALL)
+            ),
+            "used_by" => $this->ui_factory->table()->column()->link($this->lng->txt('tbl_lti_prov_used_by'))
+        ];
+    }
+}

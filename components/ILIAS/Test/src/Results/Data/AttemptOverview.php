@@ -123,6 +123,11 @@ class AttemptOverview
         return $this->nr_of_attempts;
     }
 
+    public function getTotalTimeOnTask(): int
+    {
+        return $this->total_time_on_task;
+    }
+
     public function getAsDescriptiveListing(
         Language $lng,
         UIFactory $ui_factory,

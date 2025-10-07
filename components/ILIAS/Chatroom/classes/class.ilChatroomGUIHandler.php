@@ -52,6 +52,7 @@ abstract class ilChatroomGUIHandler
     protected UIRenderer $uiRenderer;
     protected GlobalHttpState $http;
     protected Refinery $refinery;
+    protected ILIAS\FileDelivery\Services $file_delivery;
 
     /**
      * @param ilChatroomObjectGUI $gui
@@ -76,6 +77,7 @@ abstract class ilChatroomGUIHandler
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->file_delivery = $DIC['file_delivery'];
     }
 
     /**

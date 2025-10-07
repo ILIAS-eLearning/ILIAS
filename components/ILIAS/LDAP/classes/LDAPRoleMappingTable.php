@@ -23,7 +23,6 @@ use ILIAS\Data\Range;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,10 +46,10 @@ class LDAPRoleMappingTable implements DataRetrieval
         private readonly ServerRequestInterface $http_request,
         private readonly ilLanguage $lng,
         private readonly UIFactory $ui_factory,
-        private readonly DataFactory $data_factory,
         private readonly int $server_id,
         private readonly ilObjectDataCache $object_data_cache,
         private readonly ilRbacReview $rbac_review,
+        private readonly \ILIAS\Data\URI $action_url
     ) {
     }
 
@@ -92,8 +91,7 @@ class LDAPRoleMappingTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         $query_params_namespace = ['ldap', 'role', 'mapping'];
-        $table_uri = $this->data_factory->uri($this->http_request->getUri()->__toString());
-        $url_builder = new URLBuilder($table_uri);
+        $url_builder = new URLBuilder($this->action_url);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
             $query_params_namespace,
             'table_action',

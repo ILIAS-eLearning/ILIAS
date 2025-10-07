@@ -138,7 +138,7 @@ open a PR against the `trunk`-branch of the [official ILIAS Repository](https://
 and tag it with `authorities`, `documentation` and `jour fixe`. The change will
 then be announced on the next Jour Fixe.
 * If a `Component` lacks an `Authority to Sign off on Code Changes` or if the holder
-of the last `Authority to Sign off on Code Chagnes` would like to pass the
+of the last `Authority to Sign off on Code Changes` would like to pass the
 responsibility over to somebody else, the `Component` is added to the agenda of
 the Jour Fixe by the Product Manager.
 
@@ -921,7 +921,7 @@ of ILIAS. The file contains the following fields:
 
 * **Learning Module SCORM (1.2 and 2004)**
     * Authority to Sign off on Conceptual Changes: [wischniak](https://docu.ilias.de/go/usr/21896)
-    * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160)
+    * Authority to Sign off on Code Changes: [qualitus.dahme](https://docu.ilias.de/go/usr/99160), [qualitus.hartwig](https://docu.ilias.de/go/usr/104063)
     * Authority to Curate Test Cases: [tim.fehske](https://docu.ilias.de/go/usr/101255)
     * Authority to (De-)Assign Authorities: [wischniak](https://docu.ilias.de/go/usr/21896)
 	* Tester: n.n., Qualitus
@@ -1585,12 +1585,13 @@ of ILIAS. The file contains the following fields:
 	* Authority to Sign off on Conceptual Changes: [dstrassner](https://docu.ilias.de/go/usr/48931)
     * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
         , [skergomard](https://docu.ilias.de/go/usr/44474)
+        , [dstrassner](https://docu.ilias.de/go/usr/48931)
         , [tjoussen](https://docu.ilias.de/go/usr/103745)
     * Authority to Curate Test Cases: [dstrassner](https://docu.ilias.de/go/usr/48931)
     * Authority to (De-)Assign Authorities: [dstrassner](https://docu.ilias.de/go/usr/48931)
 	* Testcases: SIG E-Assessment
 	* Tester: [dehling](https://docu.ilias.de/go/usr/12725)
-        , [NDJ1508](https://docu.ilias.de/go/usr/93043)
+        , Testteam University of Hohenheim
         , [ksgrie](https://docu.ilias.de/go/usr/95947)
         , [simon.lowe](https://docu.ilias.de/go/usr/79091)
         , [rabah](https://docu.ilias.de/go/usr/40218)
@@ -1647,19 +1648,19 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UI-Service)
 
 * **UI-Service**
-    * Authority to Sign off on Conceptual Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
+    * Authority to Sign off on Conceptual Changes: [yseiler](https://docu.ilias.de/go/usr/17694)
 	  , [rklees](https://docu.ilias.de/go/usr/34047)
       , [tfuhrer](https://docu.ilias.de/go/usr/81947)
-    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
+    * Authority to Sign off on Code Changes: [yseiler](https://docu.ilias.de/go/usr/17694)
 	  , [rklees](https://docu.ilias.de/go/usr/34047)
       , [tfuhrer](https://docu.ilias.de/go/usr/81947)
     * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631)
-    * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/go/usr/26468)
+    * Authority to (De-)Assign Authorities: [yseiler](https://docu.ilias.de/go/usr/17694)
 	  , [rklees](https://docu.ilias.de/go/usr/34047)
       , [tfuhrer](https://docu.ilias.de/go/usr/81947)
-	* Tester: [kauerswald](https://docu.ilias.de/go/usr/70029)
-    * Assignee for Security Reports: [amstutz](https://docu.ilias.de/go/usr/26468)
-    * Assignee for Security Issues: [amstutz](https://docu.ilias.de/go/usr/26468)
+	* Tester: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Assignee for Security Reports: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Assignee for Security Issues: [yseiler](https://docu.ilias.de/go/usr/17694)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UI-Service)

@@ -32,6 +32,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 
 class MediaObjectManager
 {
+    protected \ilLogger $logger;
     protected ImageOutputOptions $output_options;
     protected Images $image_converters;
     protected MediaObjectRepository $repo;
@@ -45,6 +46,7 @@ class MediaObjectManager
         $this->repo = $repo->mediaObject();
         $this->image_converters = new Images(true);
         $this->output_options = new ImageOutputOptions();
+        $this->logger = \ilLoggerFactory::getLogger('mob');
     }
 
     public function create(
@@ -228,16 +230,55 @@ class MediaObjectManager
         string $url,
         string $target_location
     ): void {
-        $str = file_get_contents($url);
-        $res = fopen('php://memory', 'r+');
-        fwrite($res, $str);
-        rewind($res);
-        $stream = new Stream($res);
-        $this->repo->addStream(
-            $mob_id,
-            $target_location,
-            $stream
-        );
+        $log = $this->logger;
+        try {
+            $log->debug('Trying to fetch thumbnail from URL: {thumbnail_url}', [
+                'thumbnail_url' => $url,
+            ]);
+            $curl = new \ilCurlConnection($url);
+            $curl->init(true);
+            $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+            $curl->setOpt(CURLOPT_VERBOSE, true);
+            $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+            $curl->setOpt(CURLOPT_TIMEOUT_MS, 5000);
+            $curl->setOpt(CURLOPT_TIMEOUT, 5);
+            $curl->setOpt(CURLOPT_FAILONERROR, true);
+            $curl->setOpt(CURLOPT_SSL_VERIFYPEER, 1);
+            $curl->setOpt(CURLOPT_SSL_VERIFYHOST, 2);
+
+            $str = $curl->exec();
+            $info = $curl->getInfo();
+
+            $log->debug('cURL Info: {info}', [
+                'info' => print_r($info, true)
+            ]);
+
+            $status = $info['http_code'] ?? '';
+            if ((int) $status === 200) {
+                $log->debug('Successfully fetched preview file from URL: Received {bytes} bytes', [
+                    'bytes' => (string) strlen($str),
+                ]);
+            } else {
+                $log->error('Could not fetch thumbnail from YouTube: {thumbnail_url}', [
+                    'thumbnail_url' => $url,
+                ]);
+            }
+
+            $res = fopen('php://memory', 'r+');
+            fwrite($res, $str);
+            rewind($res);
+            $stream = new Stream($res);
+            $this->repo->addStream(
+                $mob_id,
+                $target_location,
+                $stream
+            );
+        } catch (\Exception $e) {
+            $log->error('Could not fetch thumbnail from Url: {message}', [
+                'message' => $e->getMessage(),
+            ]);
+            $log->error($e->getTraceAsString());
+        }
     }
 
     public function getSrtFiles(int $mob_id, bool $vtt_only = false): array

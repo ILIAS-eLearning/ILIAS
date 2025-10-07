@@ -22,6 +22,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Table\PresentationRow;
 use ILIAS\UI\Component\Dropdown\Dropdown;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * List of members fo iass
@@ -336,9 +337,9 @@ class ilIndividualAssessmentMembersTableGUI
     protected function getProfileLink(string $full_name, int $user_id): string
     {
         $back_url = $this->ctrl->getLinkTarget($this->parent, "view");
-        $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', $user_id);
-        $this->ctrl->setParameterByClass('ilpublicuserprofilegui', "back_url", rawurlencode($back_url));
-        $link = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $user_id);
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, "back_url", rawurlencode($back_url));
+        $link = $this->ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'getHTML');
         $link = $this->factory->link()->standard($full_name, $link);
 
         return $this->renderer->render($link);

@@ -29,7 +29,8 @@ namespace ILIAS\UI\examples\Dropdown\Standard;
  *   ILIAS shows a base dropdown button. Clicking the button will open a
  *   dropdown menu with the entries "ILIAS" rendered as a link and "GitHub" rendered as a shy button. Clicking the
  *   shy button will open the appropriate website in the same browser window while clicking the link will open the
- *   appropriate website in a new browser tab.
+ *   appropriate website in a new browser tab. One entry reads "An unavailable action" with a dull design to
+ *   indicate inactivity. Clicking it does nothing.
  * ---
  */
 function with_buttons_and_links()
@@ -40,6 +41,7 @@ function with_buttons_and_links()
 
     $items = array(
         $f->button()->shy("Github", "https://www.github.com"),
+        $f->button()->shy("An unavailable action", "#")->withUnavailableAction(),
         $f->link()->standard("ILIAS", "https://www.ilias.de")->withOpenInNewViewport(true)
     );
     return $renderer->render($f->dropdown()->standard($items)->withLabel("Actions"));

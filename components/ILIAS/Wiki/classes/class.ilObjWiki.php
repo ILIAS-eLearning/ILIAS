@@ -228,6 +228,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
         $this->notes->domain()->activateComments($this->getId(), $this->getPublicNotes());
 
+        parent::createMetaData();
+
         return $id;
     }
 
@@ -268,6 +270,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page->create();
         }
         $this->notes->domain()->activateComments($this->getId(), $this->getPublicNotes());
+
+        parent::updateMetaData();
 
         return true;
     }
@@ -321,6 +325,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         ilNotification::removeForObject(ilNotification::TYPE_WIKI, $this->getId());
 
         ilWikiPage::deleteAllPagesOfWiki($this->getId());
+
+        parent::deleteMetaData();
 
         return true;
     }
@@ -578,6 +584,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $new_rc->setDescription((string) $rc["description"]);
             $new_rc->save();
         }
+
+        parent::cloneMetaData($new_obj);
 
         return $new_obj;
     }

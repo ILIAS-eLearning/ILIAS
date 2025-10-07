@@ -267,16 +267,18 @@ const filter = function ($) {
     // Remove Input Field from Filter
     $el.parents('.il-popover-container').hide();
 
-    // Clear Input Field (Text, Numeric, Select) when it is removed
-    const input_element = searchInputElement($el);
-    input_element.val('');
-
-    // Clear Multi Select Input Field when it is removed
-    const checkboxes = searchInputElementMultiSelect($el);
-    checkboxes.each(function () {
-      $(this).prop('checked', false);
-    });
-    checkboxes.parents('.il-popover-container').find('.il-filter-field').html('');
+    var input_element = searchInputElement($el);
+    if (input_element.length === 1 && input_element[0].type !== 'checkbox') {
+      //Clear Input Field (Text, Numeric, Select) when it is removed
+      input_element.val('');
+    } else {
+      //Clear Multi Select Input Field when it is removed
+      const checkboxes = searchInputElementMultiSelect($el);
+      checkboxes.each(function () {
+        $(this).prop('checked', false);
+      });
+      checkboxes.parents('.il-popover-container').find('.il-filter-field').html('');
+    }
 
     // Add Input Field to Add-Button
     const label = $el.parents('.input-group').find('.input-group-addon.leftaddon').html();

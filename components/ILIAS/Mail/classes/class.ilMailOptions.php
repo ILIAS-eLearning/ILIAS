@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Clock\ClockInterface;
+use ILIAS\User\Settings\Settings;
+use ILIAS\Mail\UserSettings\IncomingMail;
+use ILIAS\Mail\UserSettings\NewMailNotification;
 
 class ilMailOptions
 {
@@ -35,6 +38,7 @@ class ilMailOptions
     protected ILIAS $ilias;
     protected ilDBInterface $db;
     protected ilSetting $settings;
+    protected Settings $user_settings;
     protected string $table_mail_options = 'mail_options';
     protected string $signature = '';
     protected bool $is_cron_notification_enabled = false;
@@ -42,6 +46,7 @@ class ilMailOptions
     protected int $default_incoming_type = self::INCOMING_LOCAL;
     protected int $email_address_mode = self::FIRST_EMAIL;
     protected int $default_email_address_mode = self::FIRST_EMAIL;
+    protected ?int $stored_email_address_mode = null;
     protected ilMailTransportSettings $mail_transport_settings;
     protected string $first_mail_address = '';
     protected string $second_mail_address = '';
@@ -57,13 +62,15 @@ class ilMailOptions
         ?ilMailTransportSettings $mail_transport_settings = null,
         ?ClockInterface $clock_service = null,
         ?ilSetting $settings = null,
-        ?ilDBInterface $db = null
+        ?ilDBInterface $db = null,
+        ?Settings $user_settings = null
     ) {
         global $DIC;
         $this->db = $db ?? $DIC->database();
         $this->settings = $settings ?? $DIC->settings();
         $this->mail_transport_settings = $mail_transport_settings ?? new ilMailTransportSettings($this);
         $this->clock_service = $clock_service ?? (new DataFactory())->clock()->utc();
+        $this->user_settings = $user_settings ?? $DIC['user']->getSettings();
 
         $this->incoming_type = self::INCOMING_LOCAL;
         $default_incoming_type = $this->settings->get('mail_incoming_mail', '');
@@ -91,6 +98,8 @@ class ilMailOptions
      */
     public function createMailOptionsEntry(): void
     {
+        $this->stored_email_address_mode = $this->default_email_address_mode;
+
         $this->db->replace(
             $this->table_mail_options,
             [
@@ -105,18 +114,16 @@ class ilMailOptions
         );
     }
 
-    public function mayModifyIndividualTransportSettings(): bool
+    public function mayModifyIndividualTransportSetting(): bool
     {
-        return (
-            $this->mayManageInvididualSettings() &&
-            $this->maySeeIndividualTransportSettings() &&
-            $this->settings->get('usr_settings_disable_mail_incoming_mail') !== '1'
-        );
+        return $this->mayManageInvididualSettings()
+            && $this->user_settings->settingAvailableToUser(IncomingMail::class);
     }
 
-    public function maySeeIndividualTransportSettings(): bool
+    public function mayModifyNewMailNotificationSetting(): bool
     {
-        return $this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1';
+        return $this->mayManageInvididualSettings()
+            && $this->user_settings->settingAvailableToUser(NewMailNotification::class);
     }
 
     public function mayManageInvididualSettings(): bool
@@ -128,7 +135,7 @@ class ilMailOptions
     {
         $query = 'SELECT mail_options.cronjob_notification,
 					mail_options.signature,
-					
+
 					mail_options.incoming_type,
 					mail_options.mail_address_option,
 					mail_options.absence_status,
@@ -138,7 +145,7 @@ class ilMailOptions
 					mail_options.absence_ar_body,
 					usr_data.email,
 					usr_data.second_email
-			 FROM mail_options 
+			 FROM mail_options
 			 INNER JOIN usr_data ON mail_options.user_id = usr_data.usr_id
 			 WHERE mail_options.user_id = %s';
         $res = $this->db->queryF(
@@ -154,6 +161,8 @@ class ilMailOptions
 
         $this->first_mail_address = (string) $row->email;
         $this->second_mail_address = (string) $row->second_email;
+        $this->stored_email_address_mode = (int) $row->mail_address_option;
+
         if ($this->mayManageInvididualSettings()) {
             $this->is_cron_notification_enabled = (bool) $row->cronjob_notification;
             $this->signature = (string) $row->signature;
@@ -164,7 +173,7 @@ class ilMailOptions
             $this->setAbsenceAutoresponderBody($row->absence_ar_body ?? '');
         }
 
-        if ($this->mayModifyIndividualTransportSettings()) {
+        if ($this->mayModifyIndividualTransportSetting()) {
             $this->incoming_type = (int) $row->incoming_type;
             $this->email_address_mode = (int) $row->mail_address_option;
 
@@ -208,6 +217,8 @@ class ilMailOptions
         $data['absence_ar_subject'] = ['text', $this->getAbsenceAutoresponderSubject()];
         $data['absence_ar_body'] = ['clob', $this->getAbsenceAutoresponderBody()];
 
+        $this->stored_email_address_mode = $this->getEmailAddressMode();
+
         return $this->db->replace(
             $this->table_mail_options,
             [
@@ -250,6 +261,11 @@ class ilMailOptions
     public function getEmailAddressMode(): int
     {
         return $this->email_address_mode;
+    }
+
+    public function getStoredEmailAddressMode(): ?int
+    {
+        return $this->stored_email_address_mode;
     }
 
     public function setEmailAddressmode(int $email_address_mode): void

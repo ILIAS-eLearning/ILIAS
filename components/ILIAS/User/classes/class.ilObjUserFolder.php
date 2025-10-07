@@ -18,6 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Custom\Custom;
+use ILIAS\User\Profile\Fields\Standard\Roles;
+use ILIAS\User\Profile\Fields\Standard\Alias;
+
 /**
  * Class ilObjUserFolder
  * @author Stefan Meyer <meyer@leifos.com>
@@ -30,12 +37,16 @@ class ilObjUserFolder extends ilObject
     public const FILE_TYPE_CSV = 'userfolder_export_csv';
     public const FILE_TYPE_XML = 'userfolder_export_xml';
 
+    private Profile $profile;
+
     public function __construct(
         int $a_id,
         bool $a_call_by_reference = true
     ) {
         $this->type = "usrf";
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->profile = LocalDIC::dic()[Profile::class];
     }
 
 
@@ -135,15 +146,13 @@ class ilObjUserFolder extends ilObject
 
     protected function getUserDefinedExportFields(): array // Missing array type.
     {
-        $udf_ex_fields = [];
-        foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
-            if ($definition['export'] != false) {
-                $udf_ex_fields[] = ['name' => $definition['field_name'],
-                    'id' => $definition['field_id']];
-            }
-        }
-
-        return $udf_ex_fields;
+        return array_map(
+            fn(Field $v): array => [
+                'name' => $v->getLabel($this->lng),
+                'id' => $v->getIdentifier()
+            ],
+            $this->profile->getVisibleUserDefinedFields(Context::Export)
+        );
     }
 
     protected function createCSVExport(
@@ -288,9 +297,8 @@ class ilObjUserFolder extends ilObject
 
         $db_settings = [];
 
-        $up = new ilUserProfile();
-        $up->skipField("roles");
-        $profile_fields = $up->getStandardFields();
+        $up = LocalDIC::dic()[Profile::class];
+        $profile_fields = $up->getFields([], [Roles::class]);
 
         $query = "SELECT * FROM settings WHERE " .
             $ilDB->like("keyword", "text", '%usr_settings_export_%');
@@ -370,7 +378,7 @@ class ilObjUserFolder extends ilObject
 
         // multi-text
         $multi = [];
-        $set = $ilDB->query("SELECT * FROM usr_data_multi");
+        $set = $ilDB->query("SELECT * FROM usr_profile_data");
         while ($row = $ilDB->fetchAssoc($set)) {
             if (!is_array($user_data_filter) ||
                 in_array($row["usr_id"], $user_data_filter)) {
@@ -460,126 +468,10 @@ class ilObjUserFolder extends ilObject
      */
     public static function getProfileFields(): array // Missing array type.
     {
-        $up = new ilUserProfile();
-        $up->skipField("username");
-        $up->skipField("roles");
-        $up->skipGroup("preferences");
-        $fds = $up->getStandardFields();
-        $profile_fields = [];
-        foreach ($fds as $k => $f) {
-            $profile_fields[] = $k;
-        }
-
-        return $profile_fields;
-    }
-
-    public static function _writeNewAccountMail(
-        string $a_lang,
-        string $a_subject,
-        string $a_sal_g,
-        string $a_sal_f,
-        string $a_sal_m,
-        string $a_body
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        if (self::_lookupNewAccountMail($a_lang)) {
-            $values = [
-                'subject' => ['text',$a_subject],
-                'body' => ['clob',$a_body],
-                'sal_g' => ['text',$a_sal_g],
-                'sal_f' => ['text',$a_sal_f],
-                'sal_m' => ['text',$a_sal_m]
-                ];
-            $ilDB->update(
-                'mail_template',
-                $values,
-                ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
-            );
-        } else {
-            $values = [
-                'subject' => ['text',$a_subject],
-                'body' => ['clob',$a_body],
-                'sal_g' => ['text',$a_sal_g],
-                'sal_f' => ['text',$a_sal_f],
-                'sal_m' => ['text',$a_sal_m],
-                'lang' => ['text',$a_lang],
-                'type' => ['text','nacc']
-                ];
-            $ilDB->insert('mail_template', $values);
-        }
-    }
-
-    /**
-     * Update account mail attachment
-     * @throws ilException
-     */
-    public static function _updateAccountMailAttachment(
-        string $a_lang,
-        string $a_tmp_name,
-        string $a_name
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
-        $fs->create();
-        $path = $fs->getAbsolutePath() . "/";
-
-        ilFileUtils::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
-
-        $ilDB->update(
-            'mail_template',
-            ['att_file' => ['text', $a_name]],
-            ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
-        );
-    }
-
-    /**
-     * Delete account mail attachment
-     */
-    public static function _deleteAccountMailAttachment(
-        string $a_lang
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
-        $path = $fs->getAbsolutePath() . "/";
-
-        if (file_exists($path . $a_lang)) {
-            unlink($path . $a_lang);
-        }
-
-        $ilDB->update(
-            'mail_template',
-            ['att_file' => ['text', '']],
-            ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
-        );
-    }
-
-    /**
-     * @param string $a_lang
-     * @return array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null}
-     */
-    public static function _lookupNewAccountMail(string $a_lang): array
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $set = $ilDB->query("SELECT * FROM mail_template " .
-            " WHERE type='nacc' AND lang = " . $ilDB->quote($a_lang, 'text'));
-
-        if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return $rec;
-        }
-
-        return [];
+        return array_key(LocalDIC::dic()[Profile::class]->getFields(
+            [],
+            [Alias::class, Roles::class]
+        ));
     }
 
     /**

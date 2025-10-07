@@ -21,6 +21,9 @@ declare(strict_types=1);
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
 
 /**
  * Class ilObjGroupGUI
@@ -29,7 +32,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @author    Sascha Hofmann <saschahofmann@gmx.de>
  *
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ILIAS\User\Profile\PublicProfileGUI, ilObjCourseGroupingGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
@@ -49,6 +52,7 @@ class ilObjGroupGUI extends ilContainerGUI
     protected Factory $refinery;
     protected ilRbacSystem $rbacsystem;
     protected News $news;
+    protected Profile $profile;
 
     /**
      * @inheritDoc
@@ -65,6 +69,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->refinery = $DIC->refinery();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->news = $DIC->news();
+        $this->profile = $DIC['user']->getProfile();
     }
 
     protected function initRefIdFromQuery(): int
@@ -191,7 +196,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($course_content_obj);
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $this->setSubTabs('members');
                 $this->tabs_gui->setTabActive('group_members');
                 $this->tabs_gui->setSubTabActive('grp_members_gallery');
@@ -202,7 +207,7 @@ class ilObjGroupGUI extends ilContainerGUI
                         $this->refinery->kindlyTo()->int()
                     );
                 }
-                $profile_gui = new ilPublicUserProfileGUI($usr_id);
+                $profile_gui = new PublicProfileGUI($usr_id);
                 $back_url = '';
                 if ($this->http->wrapper()->query()->has('back_url')) {
                     $back_url = $this->http->wrapper()->query()->retrieve(
@@ -1229,7 +1234,7 @@ class ilObjGroupGUI extends ilContainerGUI
         if (count($contacts) > 0) {
             $info->addSection($this->lng->txt("grp_mem_contacts"));
             foreach ($contacts as $c) {
-                $pgui = new ilPublicUserProfileGUI($c);
+                $pgui = new PublicProfileGUI($c);
                 $pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
                 $pgui->setEmbedded(true);
                 $info->addProperty("", $pgui->getHTML());
@@ -1972,24 +1977,24 @@ class ilObjGroupGUI extends ilContainerGUI
     {
         // object defined fields
         $odfs = ilCourseUserData::_getValuesByObjId($this->object->getId());
+        $udfs = $this->profile->getAllUserDefinedFields();
 
-        $res_data = array();
-        foreach ($a_data as $usr_id => $user_data) {
-            $res_data[$usr_id] = $user_data;
+        return array_reduce(
+            $this->profile->getDataForMultiple(array_keys($a_data)),
+            function (array $c, ProfileData $v) use ($a_data, $udfs, $odfs): array {
+                $c[$v->getId()] = $a_data[$v->getId()];
 
-            // udf
-            $udf_data = new ilUserDefinedData($usr_id);
-            foreach ($udf_data->getAll() as $field => $value) {
-                list($f, $field_id) = explode('_', $field);
-                $res_data[$usr_id]['udf_' . $field_id] = (string) $value;
-            }
+                foreach ($udfs as $field) {
+                    $field_id = $field->getIdentifier();
+                    $c[$v->getId()]['udf_' . $field_id] = (string) $v->getAdditionalFieldByIdentifier($field_id);
+                }
 
-            foreach ((array) ($odfs[$usr_id] ?? []) as $cdf_field => $cdf_value) {
-                $res_data[$usr_id]['cdf_' . $cdf_field] = (string) $cdf_value;
-            }
-        }
-
-        return $res_data;
+                foreach ((array) ($odfs[$v->getId()] ?? []) as $cdf_field => $cdf_value) {
+                    $c[$v->getId()]['cdf_' . $cdf_field] = (string) $cdf_value;
+                }
+            },
+            []
+        );
     }
 
     public function getLocalRoles(): array

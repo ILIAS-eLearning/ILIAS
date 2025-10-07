@@ -22,13 +22,14 @@ use ILIAS\Wiki\WikiGUIRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Wiki\Settings\SettingsGUI;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
  * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
- * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjectContentStyleSettingsGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ILIAS\User\Profile\PublicProfileGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
@@ -214,8 +215,8 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI(
+            case strtolower(PublicProfileGUI::class):
+                $profile_gui = new PublicProfileGUI(
                     $this->edit_request->getUserId()
                 );
                 $ret = $this->ctrl->forwardCommand($profile_gui);
@@ -467,6 +468,8 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("meta");
         $this->lng->loadLanguageModule("wiki");
 
+        $info->addMetaDataSections($this->getObject()->getId(), 0, 'wiki');
+
         // forward the command
         $this->ctrl->forwardCommand($info);
     }
@@ -563,7 +566,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 strtolower($ilCtrl->getCmdClass()),
                 array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
-            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui')
+            "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilmdeditorgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui')
             ) || in_array($ilCtrl->getNextClass(), ["ilpermissiongui", strtolower(TranslationGUI::class)])) {
             if ($this->requested_page !== "") {
                 $page_id = ($this->edit_request->getWikiPageId() > 0)

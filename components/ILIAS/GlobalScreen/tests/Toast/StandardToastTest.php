@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -36,8 +37,8 @@ class StandardToastTest extends BaseToastSetUp
         );
 
         $this->assertInstanceOf(StandardToastItem::class, $standard_toast);
-        $this->assertEquals('Toast Title', $standard_toast->getTitle());
-        $this->assertEquals([], $standard_toast->getAllToastActions());
+        $this->assertSame('Toast Title', $standard_toast->getTitle());
+        $this->assertSame([], $standard_toast->getAllToastActions());
         $this->assertCount(0, $standard_toast->getAllToastActions());
         $this->assertCount(0, $standard_toast->getAdditionalToastActions());
 
@@ -68,15 +69,12 @@ class StandardToastTest extends BaseToastSetUp
         $standard_toast = $standard_toast->withAdditionToastAction($this->factory->action('two', 'Two', $handle));
     }
 
-    public static function reservedActionsProvider(): array
+    public static function reservedActionsProvider(): \Iterator
     {
         $action = (fn(): true => true);
-
-        return [
-            [new ToastAction('shown', 'shown', $action)],
-            [new ToastAction('closed', 'closed', $action)],
-            [new ToastAction('vanished', 'vanished', $action)],
-        ];
+        yield [new ToastAction('shown', 'shown', $action)];
+        yield [new ToastAction('closed', 'closed', $action)];
+        yield [new ToastAction('vanished', 'vanished', $action)];
     }
 
     #[DataProvider('reservedActionsProvider')]

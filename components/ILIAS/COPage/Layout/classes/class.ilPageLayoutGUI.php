@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Input\Field\Radio;
  *
  * @author Hendrik Holtmann <holtmann@me.com>
  * @ilCtrl_Calls ilPageLayoutGUI: ilPageEditorGUI, ilEditClipboardGUI
- * @ilCtrl_Calls ilPageLayoutGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilPageLayoutGUI: ILIAS\User\Profile\PublicProfileGUI, ilPageObjectGUI
  */
 class ilPageLayoutGUI extends ilPageObjectGUI
 {

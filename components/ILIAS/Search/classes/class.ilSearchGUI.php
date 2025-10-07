@@ -29,6 +29,7 @@ use ILIAS\UI\Renderer as UIRenderer;
  * @ilCtrl_Calls ilSearchGUI: ilObjectGUI, ilContainerGUI
  * @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
  * @ilCtrl_Calls ilSearchGUI: ilObjStudyProgrammeGUI
+ * @ilCtrl_Calls ilSearchGUI: ilObjectCopyGUI
  */
 class ilSearchGUI extends ilSearchBaseGUI
 {

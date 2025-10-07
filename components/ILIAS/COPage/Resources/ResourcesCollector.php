@@ -46,7 +46,7 @@ class ResourcesCollector
         if (is_null($pg)) {
             $pg = new \ilLMPage();
         }
-        if($pg->getXMLContent() === "") {
+        if ($pg->getXMLContent() === "") {
             $pg->setXMLContent("<PageObject></PageObject>");
         }
         $this->output_mode = $output_mode;
@@ -67,6 +67,8 @@ class ResourcesCollector
             $this->js_files[] = \iljQueryUtil::getLocaljQueryPath();
             $this->js_files[] = \iljQueryUtil::getLocaljQueryUIPath();
             $this->js_files[] = 'assets/js/Basic.js';
+            $this->js_files[] = 'assets/js/mathjax_config.js';
+            $this->js_files[] = 'node_modules/mathjax/es5/tex-chtml-full.js';
         }
 
         $this->js_files[] = "components/ILIAS/COPage/js/ilCOPagePres.js";

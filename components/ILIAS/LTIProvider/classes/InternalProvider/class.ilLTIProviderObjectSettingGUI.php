@@ -145,7 +145,7 @@ class ilLTIProviderObjectSettingGUI
      * Show settings
      * @param ilPropertyFormGUI $form
      */
-    protected function settings(?ilPropertyFormGUI $form = null): void
+    protected function settings(ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initObjectSettingsForm();
@@ -259,7 +259,7 @@ class ilLTIProviderObjectSettingGUI
 
             $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), LtiVersion::V1->value);
             $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
-            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+            $url->setValue(ILIAS_HTTP_PATH . '/lti.php');
             $op0->addSubItem($url);
             $key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key_' . $global_consumer->getExtConsumerId());
             if (is_null($active_consumer->getKey())) {
@@ -288,8 +288,8 @@ class ilLTIProviderObjectSettingGUI
     protected function updateSettings(): void
     {
         $form = $this->initObjectSettingsForm();
+        $form->setValuesByPost();
         if (!$form->checkInput()) {
-            $form->setValuesByPost();
             $this->settings($form);
             return;
         }

@@ -113,7 +113,7 @@ class ilTestToplistGUI
 
         if ($this->isOwnRankingTableRequired()) {
             $tables[] = $this->buildTable(
-                count($tables) == 0 ? $this->lng->txt('toplist_by_score' . $order_by->getLabel()) : '',
+                count($tables) == 0 ? $this->lng->txt('toplist_by_' . $order_by->getLabel()) : '',
                 TopListType::USER,
                 $order_by
             )->withId('tst_own_list' . $this->test_obj->getRefId());

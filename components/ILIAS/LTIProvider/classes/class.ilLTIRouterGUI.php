@@ -42,11 +42,12 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
 
     /**
      * The only thing this execute Command does is forward the command in the command chain.
+     * @throws ilCtrlException
      */
     public function executeCommand(): void
     {
         $next_class = $this->ilCtrl->getNextClass($this);
-        $class_file = $this->ilCtrl->lookupClassPath($next_class);
+        $class_file = '../' . ltrim($this->ilCtrl->lookupClassPath($next_class), './');
 
         if (is_file($class_file)) {
             //ToDo: check - was $gui = $next_class::getInstance(); // Singleton!

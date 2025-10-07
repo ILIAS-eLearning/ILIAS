@@ -73,6 +73,11 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
 
     public function executeCommand(): void
     {
+        if (strtolower($this->controller->getNextClass()) === strtolower(ilPersonalNotificationsSettingsGUI::class)) {
+            $this->controller->forwardCommand(new ilPersonalNotificationsSettingsGUI());
+            return;
+        }
+
         if (!$this->controller->getCmd()) {
             return;
         }

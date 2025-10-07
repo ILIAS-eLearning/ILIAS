@@ -89,7 +89,7 @@ class LegacyZipTest extends TestCase
             true
         );
 
-        $this->assertTrue(file_exists($zip_output_path));
+        $this->assertFileExists($zip_output_path);
 
         // unzip
         $this->extracting_dir = $extracting_dir = $this->unzips_dir . 'extracted';
@@ -108,7 +108,7 @@ class LegacyZipTest extends TestCase
 
         // remove zip file
         unlink($zip_output_path);
-        $this->assertFalse(file_exists($zip_output_path));
+        $this->assertFileDoesNotExist($zip_output_path);
 
         // remove extracted dir
         $this->recurseRmdir($extracting_dir);

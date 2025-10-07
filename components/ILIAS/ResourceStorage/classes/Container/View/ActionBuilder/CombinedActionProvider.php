@@ -28,7 +28,6 @@ use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ActionProvider
  */
 final class CombinedActionProvider implements ActionProvider
 {
-
     /**
      * @var ActionProvider[]
      */

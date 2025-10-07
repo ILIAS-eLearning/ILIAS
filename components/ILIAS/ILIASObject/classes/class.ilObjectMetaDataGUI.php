@@ -320,7 +320,8 @@ class ilObjectMetaDataGUI
                 'lti',
                 'cmix',
                 'mep',
-                'mep:mpg'
+                'mep:mpg',
+                'wiki'
             ])
         );
     }

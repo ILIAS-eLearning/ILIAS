@@ -165,6 +165,8 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
             $pd_set = new ilSetting("pd");
             $pd_set->set("user_activity_time", (int) $form->getInput("time_removal"));
 
+            $this->settings->set('hide_own_online_status', $form->getInput('show_own_online_status'));
+
             $prov = $this->admin_manager->getAllUserProviders();
             foreach ($prov as $p) {
                 $this->admin_manager->setActivationMode(
@@ -250,6 +252,14 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         $osd->setChecked($awrn_set->get("use_osd", true));
         $en->addSubItem($osd);
 
+        $osd = new ilSelectInputGUI($this->lng->txt('awrn_user_show_default'), 'show_own_online_status');
+        $osd->setInfo($this->lng->txt('awrn_user_show_default_info'));
+        $osd->setOptions([
+            'n' => $this->lng->txt('user_awrn_show'),
+            'y' => $this->lng->txt('user_awrn_hide')
+        ]);
+        $osd->setValue($this->settings->get("hide_own_online_status", 'y'));
+        $en->addSubItem($osd);
 
         $prov = $this->admin_manager->getAllUserProviders();
         foreach ($prov as $p) {

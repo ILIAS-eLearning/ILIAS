@@ -1330,7 +1330,6 @@ assessment#:#true#:#WAHR
 assessment#:#tst_access_code_created#:#Dla zapewnienia Ci stałego dostępu do wyników Twojego testu i do umożliwienia jego odzyskania, został utworzony unikalny kod dostępu do testu. Zapisz ten kod i użyj go do dalszych operacji.
 assessment#:#tst_activate_skill_service#:#Kompetencje
 assessment#:#tst_activate_skill_service_desc#:#Umożliwia przydzielanie pytań do kompetencji oraz definicję wartości progowych w celu osiągnięcia poszczególnych poziomów kompetencji.
-assessment#:#tst_activation_limited_visibility_info#:#Jeśli wybrano, widoczny jest tylko tytuł testu pomimo ustawień o dostępności testu.
 assessment#:#tst_activation_online_info#:#Jeśli wybrano tryb offline, tylko administratorzy mogą wyświetlać i edytować test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Edytor komunikatów zwrotnych i podpowiedzi
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Użyj edytora stron ILIAS do edytowania komunikatów zwrotnych oraz podpowiedzi.
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Data
 common#:#udf_type_datetime#:#Data i godzina
 common#:#udf_type_select#:#Pole wyboru (wartość stała)
 common#:#udf_type_text#:#Pole tekstowe (wartość opcjonalna)
-common#:#udf_type_wysiwyg#:#Obszar tekstowy (WYSIWYG)
+common#:#udf_type_textarea#:#Obszar tekstowy (WYSIWYG)
 common#:#udf_update_select_field#:#Edytuj pole wyboru
 common#:#udf_update_text_field#:#Edycja pola tekstowego
 common#:#udf_update_wysiwyg_field#:#Edytuj pole dla obszaru tekstowego (WYSIWYG)
@@ -5874,7 +5873,6 @@ common#:#uploading#:#Wyślij...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Plik nie został odnaleziony
-common#:#url_to_latex#:#URL do skryptu CGI LaTeX
 common#:#use_customized_instructions#:#Użyj dostosowany tekst instrukcji:
 common#:#use_default_instructions#:#Użyj standardowego tekstu instrukcji.
 common#:#user#:#Użytkownik
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Pole do wypełnienia dla korespondencji
 mail#:#mail_settings_external_frm_head#:#Zewnętrzne wiadomości mailowe
 mail#:#mail_settings_external_tab#:#Zewnętrzne wiadomości
 mail#:#mail_settings_general_tab#:#Ogólne informacje
-mail#:#mail_settings_incoming_type_see_also#:#Kolejną możliwością zmiany rodzaju otrzymywania wiadomości użytkowników dostępna jest <a href=”%s”>tutaj</a>.
 mail#:#mail_settings_system_frm_head#:#System wiadomości mailowych
 mail#:#mail_settings_user_frm_head#:#Wiadomości mailowe użytkowników
 mail#:#mail_smtp_encryption#:#Zakodowanie
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Custom Icon
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Edytuj pytania
+obj#:#multiple_selection#:#Wybór wielokrotny
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Aktywuj opcję treści w wielu językach dla edytora stron
 obj#:#obj_activate_multilang#:#Aktywuj opcję treści w wielu językach

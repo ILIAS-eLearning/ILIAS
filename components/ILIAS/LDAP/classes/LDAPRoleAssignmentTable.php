@@ -23,7 +23,6 @@ use ILIAS\Data\Range;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\DataRetrieval;
@@ -47,8 +46,8 @@ class LDAPRoleAssignmentTable implements DataRetrieval
         private readonly ServerRequestInterface $http_request,
         private readonly ilLanguage $lng,
         private readonly UIFactory $ui_factory,
-        private readonly DataFactory $data_factory,
-        private readonly int $server_id,
+        private readonly \ILIAS\Data\URI $action_url,
+        private readonly int $server_id
     ) {
     }
 
@@ -105,8 +104,7 @@ class LDAPRoleAssignmentTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         $query_params_namespace = ['ldap', 'role', 'assignment'];
-        $table_uri = $this->data_factory->uri($this->http_request->getUri()->__toString());
-        $url_builder = new URLBuilder($table_uri);
+        $url_builder = new URLBuilder($this->action_url);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
             $query_params_namespace,
             'table_action',

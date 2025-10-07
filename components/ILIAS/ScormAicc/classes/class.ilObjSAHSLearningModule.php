@@ -143,7 +143,7 @@ class ilObjSAHSLearningModule extends ilObject
             $this->setTries((int) $lm_rec["question_tries"]);
             $this->setLocalization((string) $lm_rec["localization"]);
             $this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
-            $this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
+            $this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"] ?? "n"));
             $this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
             $this->setFourth_edition(ilUtil::yn2tf($lm_rec["fourth_edition"]));
             $this->setSequencing(ilUtil::yn2tf($lm_rec["sequencing"]));

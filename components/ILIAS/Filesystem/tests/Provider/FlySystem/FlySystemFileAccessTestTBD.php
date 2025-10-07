@@ -51,10 +51,6 @@ class FlySystemFileAccessTest extends TestCase
 
     private FlySystemFileAccess $subject;
     private Filesystem|MockInterface $filesystemMock;
-    /**
-     * @var AdapterInterface|Mockery\LegacyMockInterface|MockInterface
-     */
-    private LegacyMockInterface $adapterMock;
 
     /**
      * Sets up the fixture, for example, open a network connection.
@@ -65,7 +61,7 @@ class FlySystemFileAccessTest extends TestCase
         parent::setUp();
 
         $this->filesystemMock = Mockery::mock(FilesystemOperator::class);
-        $this->adapterMock = Mockery::mock(FilesystemAdapter::class);
+        $adapterMock = Mockery::mock(FilesystemAdapter::class);
         $this->subject = new FlySystemFileAccess($this->filesystemMock);
     }
 

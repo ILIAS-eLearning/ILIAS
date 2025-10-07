@@ -51,10 +51,10 @@ class ValueTest extends TestCase
         $integer3 = new IntegerValue(4);
         $integer3->setValue(4);
 
-        $this->assertEquals($integer->getValue(), 3);
+        $this->assertEquals(3, $integer->getValue());
         $this->assertTrue($integer->equals($integer2));
-        $this->assertEquals($integer->getHash(), $integer2->getHash());
-        $this->assertNotEquals($integer->getHash(), $integer3->getHash());
+        $this->assertSame($integer->getHash(), $integer2->getHash());
+        $this->assertNotSame($integer->getHash(), $integer3->getHash());
         $integer3->unserialize($integer->serialize());
         $this->assertTrue($integer->equals($integer3));
         $this->assertTrue($integer->getType()->equals(new SingleType(IntegerValue::class)));

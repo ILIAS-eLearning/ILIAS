@@ -95,7 +95,11 @@ class ilSoapClient
         $internal_path = $this->settings->get('soap_internal_wsdl_path');
         if (trim($this->getServer()) === '') {
             if ($internal_path) {
-                $this->uri = $internal_path;
+                $uri = (new \ILIAS\Data\URI($internal_path));
+                parse_str($uri->getQuery() ?? '', $query);
+                $this->uri = (string) (isset($query['wsdl']) ?
+                                       $uri :
+                                       $uri->withQuery(http_build_query(array_merge($query, ['wsdl' => '']))));
             } elseif (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
                 $this->uri = $this->settings->get('soap_wsdl_path', '');
             } else {

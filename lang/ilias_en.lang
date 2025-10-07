@@ -602,7 +602,6 @@ assessment#:#create_new#:#Create New
 assessment#:#created#:#Created
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Participants
-assessment#:#date_time#:#Date and Time
 assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
@@ -1176,8 +1175,11 @@ assessment#:#redirectAfterSave#:#The maximum working time has been reached. In a
 assessment#:#redirect_after_finishing_rule#:#Redirect
 assessment#:#redirect_after_finishing_tst#:#Redirect
 assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.
-assessment#:#redirect_always#:#always to the webpage specified below
-assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
+assessment#:#redirect_always#:#Always to the specified webpage
+assessment#:#redirect_always_to_logout#:#Always to the logout screen
+assessment#:#redirect_in_kiosk_mode#:#When ‘Exam View’ is activated to the specified webpage
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
 assessment#:#remaining_duration#:#Remaining Duration
@@ -1341,12 +1343,12 @@ assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questi
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the period during which the test is available,  the test's title will be displayed, but participants won’t be able to take the test. Access, including to tests already in progress, will be prevented once the period of availability has ended.
 assessment#:#tst_activation_online_info#:#Participants can take the test if it is ‘Online’.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
-assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
-assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
-assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
-assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback can be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers and feedbacks
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers and feedbacks. But feedback cannot be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_add_quest_cont_edit_mode_plain#:#Use plain text
-assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers, feedback, and hints.
+assessment#:#tst_add_quest_cont_edit_mode_plain_info#:#No formatting of text in question, answers and feedback.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#All user data for this test has been removed!
@@ -1515,8 +1517,6 @@ assessment#:#tst_highscore_anon#:#Without Names
 assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.
 assessment#:#tst_highscore_description#:#Within the 'My Results'-tab participants are presented with a subtab 'Show Ranking'. On clicking it participants are presented with a league table on the performance in the test. You have to activate 'Access to Test Results', too in order to use this functionality.
 assessment#:#tst_highscore_enabled#:#Ranking
-assessment#:#tst_highscore_hints#:#Hints
-assessment#:#tst_highscore_hints_description#:#A column containing the requested hints will be included in the ranking.
 assessment#:#tst_highscore_mode#:#Mode
 assessment#:#tst_highscore_own_table#:#Participant's Own Rank
 assessment#:#tst_highscore_own_table_description#:#Participants are advised of their own position in the ranking.
@@ -1769,13 +1769,6 @@ assessment#:#tst_question_set_type_random#:#Random Set of Questions
 assessment#:#tst_question_set_type_random_desc#:#Each participant gets a different set of questions. Questions are randomly selected from one or more question pools.
 assessment#:#tst_question_title#:#Question Title
 assessment#:#tst_question_type#:#Question Type
-assessment#:#tst_questions_hints_table_cmd_save_order#:#Save Order
-assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cut Hint to Ordering Clipboard
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hint(s)
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Append Hint to the Selected One
-assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Prepend Hint to the Selected One
-assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Add Hint
-assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hint Ordering Clipboard
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
@@ -1868,6 +1861,7 @@ assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.
 assessment#:#tst_settings_header_additional#:#Additional Features
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
@@ -2195,6 +2189,8 @@ awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
 awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"
+awrn#:#awrn_user_show_default#:#Default Value for  the Visibility in "Who-Is-Online?"
+awrn#:#awrn_user_show_default_info#:#Defines the default value for the visibility of the status of a user in "Who-Is-Online?".
 awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
@@ -2585,6 +2581,7 @@ book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No bookings have been made for you.
 book#:#book_no_objects#:#No Bookings
 book#:#book_no_of_objects#:#No. of Units
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
 book#:#book_no_recurrence#:#Book only this date
 book#:#book_not#:#Not
@@ -2680,6 +2677,7 @@ book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
+buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
@@ -2882,6 +2880,7 @@ chatroom#:#chat_anonymous_not_allowed#:#Please login to use the chat.
 chatroom#:#chat_auth_token_info#:#Please define unique strings used by ILIAS for authentication purposes when sending requests to the chat server. You can automatically create these strings by clicking the corresponding button. Please note that the chat server is able to communicate with multiple ILIAS clients, but each client name has to be <b>unique</b>.
 chatroom#:#chat_ban#:#Ban
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
+chatroom#:#chat_broadcast_typing_default_info#:#If enabled, typing will be broadcasted to other participants of a conversation or chat room by default.
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
 chatroom#:#chat_connection_disconnected#:##username# left the chat room.
 chatroom#:#chat_connection_established#:##username# has entered chat room.
@@ -2919,6 +2918,7 @@ chatroom#:#chat_message_options#:#Display
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
+chatroom#:#chat_osc_accept_msg_default_info#:#If enabled, users are by default allowed to send each other messages using the on-screen chat system.
 chatroom#:#chat_osc_accept_msg_info#:#Allow other users to send you messages using the on-screen chat system.
 chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".
 chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)
@@ -3022,7 +3022,8 @@ chatroom#:#preferred_chatname#:#Preferred Name
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#scope#:#Room
 chatroom#:#select_custom_username#:#Select Custom Username
-chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
+chatroom#:#server_further_information#:#You can find further information about the server configuration in the readme file.
+chatroom#:#server_readme_file_btn_label#:#Readme File
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#General
 chatroom#:#settings_title#:#Settings
@@ -3674,7 +3675,7 @@ common#:#change_assignment#:#Change assignment
 common#:#change_header_title#:#Edit Header Title
 common#:#change_owner#:#Change Owner
 common#:#change_sort_direction#:#Change sort direction
-common#:#changeable#:#Changeable in Profile
+common#:#changeable#:#Changeable by User
 common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
@@ -3750,6 +3751,7 @@ common#:#condition_not_finished#:#Not finished
 common#:#condition_passed#:#Passed
 common#:#condition_select_object#:#Please select one object.
 common#:#conditions_updated#:#Conditions saved
+common#:#configuration#:#Configuration
 common#:#confirm#:#Confirm
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
 common#:#confirmation#:#Confirmation
@@ -3774,7 +3776,7 @@ common#:#copy#:#Copy
 common#:#copyChapter#:#Copy
 common#:#copyPage#:#Copy
 common#:#copy_all#:#Copy all
-common#:#copy_n_of_suffix#:#- Copy (%1$s)
+common#:#copy_n_of_suffix#:#(%1$s)
 common#:#copy_of#:#Copy of
 common#:#copy_of_suffix#:#- Copy
 common#:#copy_perma_link#:#Copy link to clipboard
@@ -3855,6 +3857,7 @@ common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
 common#:#date#:#Date
+common#:#date_time#:#Date and Time
 common#:#dateplaner#:#Calendar
 common#:#day#:#Day
 common#:#days#:#Days
@@ -4402,7 +4405,7 @@ common#:#installed_local#:#Installed With Custom file
 common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Local roles (only automatically generated)
-common#:#invalid_visible_required_options_selected#:#All fields set to required has to be set to visible in registration, too.
+common#:#invalid_visible_required_options_selected#:#All fields set to required have to be set to visible in registration, too.
 common#:#invisible_block#:#Invisible Block
 common#:#invisible_block_mess#:#You do not have the permission to view this block.
 common#:#ip_address#:#IP Address
@@ -5261,6 +5264,7 @@ common#:#personal_picture#:#Avatar
 common#:#personal_profile#:#Profile and Privacy
 common#:#personal_resources#:#Personal Resources
 common#:#personal_settings#:#Settings
+common#:#personalise_date_time#:#Personalise Date and Time Settings
 common#:#persons#:#Persons
 common#:#pg_add#:#Add page
 common#:#pg_new#:#New page
@@ -5552,7 +5556,7 @@ common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
 common#:#session_reminder#:#Session Reminder
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
-common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
+common#:#session_reminder_default_lead_time_info#:#Please specify how many minutes before the expiration of a session a reminder should be shown.<br / >The function is deactivated when the value is '%s'. The recommended value is %s.<br / >The current length of a session is %s.
 common#:#session_reminder_input#:#Session Reminder (in Minutes)
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify how many minutes before the expiration of a session you would like to receive a reminder.<br / >The function is deactivated when the value is '%s'. Recommended value is %s.<br / >Your current length of a session is %s.
@@ -5783,9 +5787,9 @@ common#:#udf_name_already_exists#:#This field name already exists. Please choose
 common#:#udf_required_requires_visib_reg#:#When a field is ‘Required’, it must also be ‘Visible in Registration’
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
-common#:#udf_type_select#:#Selection List (Single Choice)
+common#:#udf_type_select#:#Selection List
 common#:#udf_type_text#:#Text Field (One Line)
-common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
+common#:#udf_type_textarea#:#Text Area
 common#:#udf_update_select_field#:#Edit Select Box
 common#:#udf_update_text_field#:#Edit Text Field
 common#:#udf_update_wysiwyg_field#:#Edit Text Area (WYSIWYG) Field
@@ -5887,7 +5891,7 @@ common#:#usr_new#:#New User
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration
 common#:#usr_settings_explanation_profile#:#Check ‘Visible’ to show fields in the registration form and personal settings. Check ‘Changeable’ to allow the user to change the values. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal settings. All data can be changed in the user administration independent on these settings.
 common#:#usr_settings_header_profile#:#Standard User Data Fields
-common#:#usr_settings_saved#:#Global user settings saved successfully!
+common#:#usr_settings_saved#:#The configuration was saved successfully.
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_without_courses#:#Users without courses assigned
@@ -6425,7 +6429,7 @@ content#:#cont_ed_split_page_next#:#Split to Next Page
 content#:#cont_ed_textitem#:# Text Item
 content#:#cont_ed_width#:#Width
 content#:#cont_edit_base_image#:#Edit Background Image
-content#:#cont_edit_comp#:#Editing
+content#:#cont_edit_comp#:#Edit
 content#:#cont_edit_definition#:#Edit Definition
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_language_version#:#Edit Version
@@ -6434,7 +6438,7 @@ content#:#cont_edit_marker_position#:#Edit Marker Position
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mode#:#Edit Mode
-content#:#cont_edit_multi#:#Selection
+content#:#cont_edit_multi#:#Select
 content#:#cont_edit_overlay_position#:#Edit Overlay Position
 content#:#cont_edit_par#:#Edit Text
 content#:#cont_edit_personal_data#:#Edit Personal Data
@@ -7339,6 +7343,7 @@ copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_pages#:#Pages
 copg#:#copg_par_format_selection#:#Paragraph Format Selection
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
+copg#:#copg_plugin#:#Plugin
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
@@ -8069,6 +8074,10 @@ dash#:#dash_learning_sequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
+dash#:#dash_manual_new_item_pos#:#Position of New Objects
+dash#:#dash_manual_new_item_pos_bot#:#Bottom
+dash#:#dash_manual_new_item_pos_top#:#Top
+dash#:#dash_manual_sorting_title#:#Manual Sorting of Favorites
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_memberships#:#My Courses and Groups
 dash#:#dash_page_edit_info#:#The content of this page is displayed to all users on their dashboard. The contents of the various blocks of the dashboard are presented below.
@@ -8078,8 +8087,12 @@ dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sort_by_alphabet#:#Alphabet
 dash#:#dash_sort_by_location#:#Location
+dash#:#dash_sort_by_manually#:#Manually
 dash#:#dash_sort_by_start_date#:#Period of Event
 dash#:#dash_sort_by_type#:#Type
+dash#:#dash_sort_option_bot#:#Bottom
+dash#:#dash_sort_option_top#:#Top
+dash#:#dash_sort_options#:#Postition of new Objects
 dash#:#dash_sortation#:#Sortation
 dash#:#dash_study_programmes#:#My Study Programmes
 dash#:#dash_tile#:#Tile
@@ -8275,7 +8288,7 @@ dateplaner#:#cal_crs_timing_start#:#Suggested Start
 dateplaner#:#cal_daily#:#Daily
 dateplaner#:#cal_date_and_time#:#Date and Time
 dateplaner#:#cal_date_booked#:#booked
-dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.
+dateplaner#:#cal_date_format_info#:#Please choose a format for presentation of dates.
 dateplaner#:#cal_date_time_title#:#Date and Time
 dateplaner#:#cal_day_end#:#Day End
 dateplaner#:#cal_day_of_month#:#Day of the month
@@ -8474,7 +8487,7 @@ dateplaner#:#cal_unshare#:#Cancel Sharing
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
 dateplaner#:#cal_upcoming_events_header#:#Upcoming Events
-dateplaner#:#cal_user_date_format#:#Date Input Format
+dateplaner#:#cal_user_date_format#:#Date Format
 dateplaner#:#cal_user_notification#:#User Notification
 dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by e-mail. Please enter ILIAS user names or e-mail addresses.
 dateplaner#:#cal_user_settings#:#Calendar Settings
@@ -8584,6 +8597,7 @@ dcl#:#dcl_delete_fields#:#Delete Fields
 dcl#:#dcl_delete_fields_no_selection#:#Please select at least one field to delete
 dcl#:#dcl_delete_perm#:#Delete Entries
 dcl#:#dcl_delete_records#:#Delete Entries
+dcl#:#dcl_deleted_entries#:#Deleted Entries
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_deprecated_copy#:#(Deprecated)
 dcl#:#dcl_desc#:#Descending ↓
@@ -8678,6 +8692,7 @@ dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must e
 dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
+dcl#:#dcl_new_entries#:#New Entries
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_new_view#:#New View
@@ -8693,11 +8708,12 @@ dcl#:#dcl_no_such_reference#:#The following value is not available in the refere
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
-dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
+dcl#:#dcl_notification_activate#:#Activate Notification for Data Collection
 dcl#:#dcl_notification_activated#:#Notification Activated
-dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
+dcl#:#dcl_notification_deactivate#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
+dcl#:#dcl_notification_settings#:#Notification Settings
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
@@ -8801,6 +8817,7 @@ dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_unknown_plugin#:#Unknown plugin type
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_update_record#:#Update Entry
+dcl#:#dcl_updated_entries#:#Updated Entries
 dcl#:#dcl_url#:#Mandatory URL or E-Mail
 dcl#:#dcl_view_configuration#:#View Configuration
 dcl#:#dcl_view_own_records_perm#:#View Only Own Entries
@@ -12923,8 +12940,11 @@ noti#:#noti_activate_notification#:#Activate Notification
 noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
+notifications#:#push_notification#:#Push Notifications
 notifications_adm#:#enable_osd#:#Enable Toasts
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.
+notifications_adm#:#enable_push#:#Enable Push Notifications
+notifications_adm#:#enable_push_desc#:#If enabled, users are notified by push notifications. User can change this behaviour within their user settings.
 notifications_adm#:#notification_settings#:#Notification Settings
 notifications_adm#:#osd_error_refresh_interval_too_small#:#The Refresh Interval has to be at least than 3000 miliseconds.
 notifications_adm#:#osd_interval#:#Refresh interval
@@ -12932,6 +12952,13 @@ notifications_adm#:#osd_interval_desc#:#Polling interval for checking of new not
 notifications_adm#:#osd_play_sound#:#Play a Sound
 notifications_adm#:#osd_play_sound_desc#:#Play a sound when receiving a new notficiation.
 notifications_adm#:#osd_settings#:#Toasts
+notifications_adm#:#push_client_already_used#:#Push notifications are already used by another user for this client.
+notifications_adm#:#push_client_edge_case#:#The Edge Browser might have deactivated notifications without your consent. Enter your browser settings to reactivate them.
+notifications_adm#:#push_client_inactive#:#Push notifications are disabled for this website. Open your browser settings to activate them.
+notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, Ipod) push notifications for websites are not supported. Create an access via web app to enable them.
+notifications_adm#:#push_settings#:#Push Notifications
+notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful
+notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.
 obj#:#activation_visible_when_disabled#:#Visibility
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.
@@ -12950,6 +12977,7 @@ obj#:#edit_questions#:#Edit Questions
 obj#:#make_default_language#:#Make Default Language
 obj#:#missing_migration#:#You cannot edit information on this page until all migrations have been run. Please contact your system administrator.
 obj#:#multiple_reference_deletion_info#:#Further references exist for the following objects.
+obj#:#multiple_selection#:#Multiple Selection
 obj#:#no_objects_selected#:#At least one object needs to be selected.
 obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing
 obj#:#obj_activate_multilang#:#Activate Multilingualism
@@ -13185,7 +13213,7 @@ pdesk#:#bookmark_select_target#:#Please select target.
 poll#:#poll_absolute#:#Current Votes
 poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
 poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.
+poll#:#poll_anonymous_warning#:#Individual votes are recorded, but your name will not be shown in the poll results.
 poll#:#poll_answer#:#Answer
 poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
@@ -13209,7 +13237,7 @@ poll#:#poll_max_number_of_answers#:#Max. Answers
 poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
 poll#:#poll_mode_anonymous#:#Without Names / Anonymous
-poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ the names of participants are omitted.
+poll#:#poll_mode_anonymous_info#:#The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database.
 poll#:#poll_mode_personal#:#With Names
 poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
@@ -13778,12 +13806,13 @@ ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
 ps#:#ps_password_change_on_first_login_enabled_info#:#Require users to change their password the first time they log in (unless they self-registered).
 ps#:#ps_password_chars_and_numbers_enabled#:#Force Characters and Numbers
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Require passwords to contain characters and numbers.
+ps#:#ps_password_force_user_reset#:#Force Password Reset
 ps#:#ps_password_max_age#:#Maximum Password Age
 ps#:#ps_password_max_age_info#:#Enter the maximum age allowed for passwords in days. Set to 0 to disable this option.
 ps#:#ps_password_max_length#:#Maximum Password Size
 ps#:#ps_password_max_length_info#:#Enter the maximum size allowed for account passwords. Set to 0 to disable this option.
 ps#:#ps_password_min_length#:#Minimum Password Size
-ps#:#ps_password_min_length_info#:#Enter the minimum required length for account passwords. If set to 0, passwords are still required to have a minimum length of 1. If the required length is altered, the new requirement will be applied only to those accounts created or changed after the new length is set. Existing accounts are not affected.
+ps#:#ps_password_min_length_info#:#Enter the minimum required length for account passwords. If the required length is altered, the new requirement will be applied only to those accounts created or changed after the new length is set. Existing accounts are not affected.
 ps#:#ps_password_settings#:#Password Settings
 ps#:#ps_password_special_chars_enabled#:#Force Special Characters
 ps#:#ps_password_special_chars_enabled_info#:#Require passwords to contain special characters.
@@ -13828,6 +13857,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments
 qpl#:#qpl_filter_commented_only#:#Questions with comments
 qpl#:#qpl_page_type_qfbg#:#General Feedback
@@ -14895,7 +14925,7 @@ registration#:#registration_settings#:#ILIAS Auth / Self-Registration
 registration#:#registration_tab_codes#:#Registration Codes
 registration#:#registration_tab_settings#:#Registration Settings
 registration#:#registration_used#:#Date Of Usage
-registration#:#registration_user_new_account_mail#:#Edit New Account Mail
+registration#:#registration_user_new_account_mail#:#New Account Mail
 rep#:#btn_undelete_new_location#:#Restore (new location)
 rep#:#btn_undelete_origin_location#:#Restore (same location)
 rep#:#rep_activation_access#:#Access
@@ -15981,6 +16011,7 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_nr_objects#:#Number of Objects
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Ordered List
@@ -17244,6 +17275,10 @@ ui#:#footer_link_groups#:#Footer Link-Groups
 ui#:#footer_links#:#Footer Links
 ui#:#footer_permanent_link#:#Footer Permanent Link
 ui#:#footer_texts#:#Footer Texts
+ui#:#image_alt_text#:#Alternate Text
+ui#:#image_purpose_decorative#:#Decorative Image
+ui#:#image_purpose_informative#:#Informative Image
+ui#:#image_purpose_user_defined#:#Image Purpose
 ui#:#label_fieldselection#:#Field Selection
 ui#:#label_fieldselection_refresh#:#Apply
 ui#:#label_modeviewcontrol#:#view mode
@@ -17281,6 +17316,8 @@ ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_md_input_edit#:#Edit
 ui#:#ui_md_input_view#:#View
+ui#:#ui_nav_sequence_control_label#:#Sequence control for contents below
+ui#:#ui_nav_sequence_description#:#Used to navigate through this content or trigger actions and filters on the entire sequence.
 ui#:#ui_pagination_unlimited#:#Unlimited
 ui#:#ui_select_dropdown_label#:#Please select
 ui#:#ui_table_no_records#:#No records
@@ -17289,6 +17326,8 @@ ui#:#ui_transcription#:#Transcript
 ui#:#unselect_node#:#Remove node %s from selection
 ui#:#vc_sort#:#Sort by:
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.
+user#:#activate_in_profile_fields#:#To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields
+user#:#administrative_settings#:#Administrative Settings
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
 user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.
@@ -17312,11 +17351,14 @@ user#:#del_mail_body#:#Hello %1$s, %2$s You have not logged in to %3$s for a lon
 user#:#del_mail_subject#:#Your ILIAS account will be deleted soon
 user#:#delete_inactive_user_accounts_frequency#:#Frequency
 user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and e-mail distribution will be tested.
+user#:#edit_field#:#Edit Field
+user#:#edit_setting#:#Edit Setting
 user#:#editing_this_role#:#Role
 user#:#email_could_not_be_changed#:#The request to change your email could not be finalized.
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#Allow local user accounts to be administrated in categories and organisational units.
 user#:#feedhash#:#Newsfeedhash
+user#:#field_type_custom#:#Custom
 user#:#has_role#:#Role
 user#:#info_accessFree_sure#:#Are you sure you want to remove the valid until date from the following accounts?
 user#:#inform_user_mail_info#:#If activated, an e-mail will be sent to the user. Its content can be defined in 'Administration » Users and Roles » User Management', tab 'Settings : New Account Mail'.
@@ -17329,6 +17371,11 @@ user#:#ldoc_not_accepted_yet#:#Not accepted yet
 user#:#msg_spoint_not_modified#:#Starting point not modified
 user#:#no_deactivate_yourself#:#You cannot deactivate your own user account.
 user#:#obj_ref_id_not_exist#:#The entered Reference-ID does not exist
+user#:#personalise_additional#:#Personalise Additional Settings
+user#:#personalise_communication#:#Personalise Communication Settings
+user#:#personalise_privacy#:#Personalise Privacy Settings
+user#:#profile_fields#:#Profile Fields
+user#:#profile_section#:#Section
 user#:#restrict_user_access#:#Restricted Search in User Accounts
 user#:#restrict_user_access_info#:#ILIAS-accounts will only be autocompleted in search for roles with ‘Read Access to User Accounts’.
 user#:#roles_without_starting_point#:#Roles without defined starting point:
@@ -17344,6 +17391,7 @@ user#:#starting_page#:#Starting Point
 user#:#starting_point#:#Starting Point
 user#:#starting_point_settings#:#Starting Point Settings
 user#:#starting_points#:#Starting Points
+user#:#udf_select_options#:#Options
 user#:#user_access_limited#:#Limited
 user#:#user_access_unlimited#:#Unlimited
 user#:#user_account_code#:#Code
@@ -17365,6 +17413,7 @@ user#:#user_account_deleted_confirmation#:#Your account has been deleted. An e-m
 user#:#user_activate_public_profile#:#Activation
 user#:#user_activate_public_profile_info#:#Your first and last name will always be visible in your profile if it is activated.
 user#:#user_activation#:#Activation
+user#:#user_admin_options#:#Options
 user#:#user_all#:#All
 user#:#user_allow_delete_own_account#:#Allow Users to Delete Own Account
 user#:#user_any#:#Any
@@ -17426,6 +17475,7 @@ user#:#user_save_ordering_and_titles#:#Save Order and Titles
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_set_publishing_options#:#Set publishing options
 user#:#user_set_visibilty_options#:#Set visibility options
+user#:#user_settings#:#User Settings
 user#:#user_store_last_visited#:#Last Visited
 user#:#user_visibility_settings#:#Visibility
 user#:#user_visible_in_profile#:#Visible in Personal Data

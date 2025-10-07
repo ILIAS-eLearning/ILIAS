@@ -3,9 +3,10 @@
 	<Document type="default">
 		<xi:include href="../../../components/ILIAS/ILIASObject/LuceneDataSource.xml" />
 		<xi:include href="../../../components/ILIAS/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
 		<DataSource type="JDBC" action="append">
 			<Query>
-				SELECT introduction 
+				SELECT introduction
 				FROM il_wiki_data
 				WHERE id IN(?)
 			</Query>
@@ -26,7 +27,7 @@
 		<DataSource type="JDBC" action="create">
 			<Query>
 				SELECT wiki_id, file_id, file_name, version, 'file' AS type FROM il_wiki_page wpg
-				JOIN file_usage fu ON wpg.id = usage_id 
+				JOIN file_usage fu ON wpg.id = usage_id
 				JOIN file_data fd ON fu.id = file_id
 				WHERE wiki_id IN(?)
 				AND usage_type = 'wpg:pg'
@@ -64,6 +65,6 @@
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="wiki_id" type="integer" name="objId" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="objType" type="text" name="type" />
 			<xi:include href="../../../components/ILIAS/AdvancedMetaData/LuceneSubItemDataSource.xml" />
-		</DataSource>		
+		</DataSource>
 	</Document>
 </ObjectDefinition>

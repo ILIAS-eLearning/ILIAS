@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
  * Class ilObjLTIAdministrationGUI
  * @author Jesús López <lopez@leifos.com>
@@ -62,7 +63,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
             case 'illticonsumeradministrationgui':
                 $this->tabs_gui->activateTab('lti_consuming');
-                $gui = new ilLTIConsumerAdministrationGUI();
+                $gui = new ilLTIConsumerAdministrationGUI($this->checkPermissionBool('write'));
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -135,7 +136,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    protected function initSettingsForm(?ilPropertyFormGUI $form = null): void
+    protected function initSettingsForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getSettingsForm();
@@ -230,7 +231,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     // consumers
 
-    protected function initConsumerForm(?ilPropertyFormGUI $form = null): void
+    protected function initConsumerForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getConsumerForm();
@@ -309,7 +310,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      * Edit consumer
      * @param ilPropertyFormGUI $a_form
      */
-    protected function editConsumer(?ilPropertyFormGUI $a_form = null): void
+    protected function editConsumer(ilPropertyFormGUI $a_form = null): void
     {
         $this->ctrl->setParameter($this, "cid", $this->consumer_id);
 
@@ -435,10 +436,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
 
         $this->tabs_gui->activateSubTab("consumers");
-        $tbl = new ilObjectConsumerTableGUI(
-            $this,
-            "listConsumers"
-        );
+        $tbl = new ilObjectConsumerTableGUI();
         $tbl->setEditable($this->checkPermissionBool('write'));
         $this->tpl->setContent($tbl->getHTML());
     }
@@ -473,9 +471,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateSubTab('releasedObjects');
 
-        $table = new ilLTIProviderReleasedObjectsTableGUI($this, 'releasedObjects', 'ltireleases');
-        $table->init();
-        $table->parse();
+        $table = new ilLTIProviderReleasedObjectsTableGUI();
 
         $this->tpl->setContent($table->getHTML());
     }

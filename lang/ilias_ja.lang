@@ -1330,7 +1330,6 @@ assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
 assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成用に帰属します。
-assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテストのタイトルのみが表示されます。受験者はテスト受験できません。
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#ページオブジェクトエディタ付の追加コンテンツ編集
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#日付
 common#:#udf_type_datetime#:#日付と時間
 common#:#udf_type_select#:#選択一覧 (ドロップして下へ)
 common#:#udf_type_text#:#テキスト欄 (1行)
-common#:#udf_type_wysiwyg#:#テキスト範囲 (WYSIWYG)
+common#:#udf_type_textarea#:#テキスト範囲 (WYSIWYG)
 common#:#udf_update_select_field#:#選択ボックスを編集
 common#:#udf_update_text_field#:#テキスト欄を編集
 common#:#udf_update_wysiwyg_field#:#テキスト範囲欄(WYSIWYG)を編集
@@ -5874,7 +5873,6 @@ common#:#uploading#:#アップロード中…
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#ファイルが見つかりません
-common#:#url_to_latex#:#LaTeX CGIスクリプトのURL
 common#:#use_customized_instructions#:#カスタマイズされた説明書を使用
 common#:#use_default_instructions#:#初期設定の説明書を使用します。
 common#:#user#:#ユーザ
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#シリアルレタープレースフォ
 mail#:#mail_settings_external_frm_head#:#外部email
 mail#:#mail_settings_external_tab#:#外部
 mail#:#mail_settings_general_tab#:#全般
-mail#:#mail_settings_incoming_type_see_also#:#<a href="%s">ここ</a>でユーザの受信emaiタイプを修正可能です。
 mail#:#mail_settings_system_frm_head#:#システムemail
 mail#:#mail_settings_user_frm_head#:#ユーザemail
 mail#:#mail_smtp_encryption#:#エンクリプション
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#カスタムアイコン
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#問題編集
+obj#:#multiple_selection#:#複数選択
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#ページ編集用の翻訳を有効化
 obj#:#obj_activate_multilang#:#多言語機能を有効化

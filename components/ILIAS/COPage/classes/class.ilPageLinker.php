@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\User\Profile\PublicProfileGUI;
+
 /**
  * Page linker
  * @author Alexander Killing <killing@leifos.de>
@@ -173,10 +175,10 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         if ($obj_type == "usr") {
                             $back = $this->profile_back_url;
                             //var_dump($back); exit;
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+                            $this->ctrl->setParameterByClass(PublicProfileGUI::class, "user_id", $target_id);
                             if (strlen($back)) {
                                 $this->ctrl->setParameterByClass(
-                                    "ilpublicuserprofilegui",
+                                    PublicProfileGUI::class,
                                     "back_url",
                                     rawurlencode($back)
                                 );
@@ -184,14 +186,14 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                             $href = "";
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
-                                    ["ilpublicuserprofilegui"],
+                                    [PublicProfileGUI::class],
                                     "getHTML",
                                     "",
                                     false,
                                     true
                                 );
                             }
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+                            $this->ctrl->setParameterByClass(PublicProfileGUI::class, "user_id", "");
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                             $lcontent = str_replace("&", "&amp;", htmlentities($lcontent));
                         }

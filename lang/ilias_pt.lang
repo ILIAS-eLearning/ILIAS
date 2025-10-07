@@ -1330,7 +1330,6 @@ assessment#:#true#:#Verdadeiro
 assessment#:#tst_access_code_created#:#Para fornecer-lhe acesso permanente aos resultados do seu teste e permitir-lhe retomar este teste, foi criado um acesso único ao teste. Anote este código para poder usá-lo noutras ocasiões.
 assessment#:#tst_activate_skill_service#:#Serviço de competência
 assessment#:#tst_activate_skill_service_desc#:#Suporta a atribuição de perguntas a competências e a definição de limites para alcançar um nível de competência específico.
-assessment#:#tst_activation_limited_visibility_info#:#Antes e depois do período indicado, aparece somente o título do teste. Os participantes não podem fazer o teste.
 assessment#:#tst_activation_online_info#:#Se estiverem online, os participantes podem fazer o teste.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor para feedback e sugestões
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Usar editor de páginas ILIAS para editar feedback e sugestões
@@ -5835,7 +5834,7 @@ common#:#udf_type_date#:#Inserir pergunta
 common#:#udf_type_datetime#:#Data e hora
 common#:#udf_type_select#:#Inserir espaço
 common#:#udf_type_text#:#Inserir dados pessoais
-common#:#udf_type_wysiwyg#:#Área de texto (WYSIWYG)
+common#:#udf_type_textarea#:#Área de texto (WYSIWYG)
 common#:#udf_update_select_field#:#Editar caixa de seleção
 common#:#udf_update_text_field#:#Editar campo de texto
 common#:#udf_update_wysiwyg_field#:#Editar área de texto (WYSIWYG) campo
@@ -5874,7 +5873,6 @@ common#:#uploading#:#A carregar...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Ficheiro não encontrado
-common#:#url_to_latex#:#URL para script LaTeX CGI
 common#:#use_customized_instructions#:#Usar instruções personalizadas:
 common#:#use_default_instructions#:#Usar instruções predefinidas.
 common#:#user#:#Nova linha antes
@@ -11601,7 +11599,6 @@ mail#:#mail_serial_letter_placeholders#:#Variáveis de letras em série
 mail#:#mail_settings_external_frm_head#:#Ativar ‘Itens selecionados’
 mail#:#mail_settings_external_tab#:#Externo
 mail#:#mail_settings_general_tab#:#Geral
-mail#:#mail_settings_incoming_type_see_also#:#A vista ‘Itens selecionados’ contém todos os objetos que estão no computador pessoal do utilizador.
 mail#:#mail_settings_system_frm_head#:#As minhas adesões
 mail#:#mail_settings_user_frm_head#:#Bem-vindo a As minhas adesões
 mail#:#mail_smtp_encryption#:#Encriptação
@@ -12999,6 +12996,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###26 08 2024 new variabl
 obj#:#custom_icon#:#Ícone personalizado
 obj#:#edit_availability_period#:#Availability Period###26 08 2024 new variable
 obj#:#edit_questions#:#Editar perguntas
+obj#:#multiple_selection#:#Seleção múltipla
 obj#:#no_objects_selected#:#At least one object needs to be selected.###26 08 2024 new variable
 obj#:#obj_activate_content_lang#:#Ativar tradução para edição de página
 obj#:#obj_activate_multilang#:#Utilizadores

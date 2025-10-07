@@ -49,7 +49,7 @@ class ilServicesAdministrativeNotificationTest extends TestCase
     public function testBasisc(): void
     {
         $notification = new ilADNNotification();
-        $this->assertEquals(0, $notification->getId());
+        $this->assertSame(0, $notification->getId());
 
         $notification->setTitle('Title');
         $notification->setActive(true);

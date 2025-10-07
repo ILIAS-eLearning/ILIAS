@@ -29,7 +29,7 @@ class ObjectReferenceProperties
         private ?int $obj_id = null,
         private ?\DateTimeImmutable $date_of_deletion = null,
         private ?int $deleted_by = null,
-        private ObjectAvailabilityPeriodProperty $object_time_based_activation_property = new AvailabilityPeriod()
+        private AvailabilityPeriod $object_time_based_activation_property = new AvailabilityPeriod()
     ) {
     }
 

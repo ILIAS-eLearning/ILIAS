@@ -2843,15 +2843,15 @@
 		<xsl:when test="$fullscreen_link = 'fullscreen.html'">
 			<a target="_blank">
 			<xsl:attribute name="href">fullscreen_<xsl:value-of select="substring-after($cmobid,'mob_')"/>.html</xsl:attribute>
-			<img style="float: right; width: auto;">
+			<img style="float: right;">
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
 		</xsl:when>
 		<xsl:otherwise>
-			<a target="_blank">
+			<a href="#" style="float: right; width: auto; display:inline-block" target="_blank">
 			<xsl:attribute name="onclick">il.COPagePres.openFullScreenModal('<xsl:value-of select="$fullscreen_link"/>&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>'); return false;</xsl:attribute>
-			<img style="float: right; width: auto;">
+			<img>
 			<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 			</img>
 			</a>
@@ -3648,6 +3648,8 @@
 
 <!-- Plugged -->
 <xsl:template match="Plugged">
+	<xsl:variable name="lang_var">pc_plugged_<xsl:value-of select="@PluginName"/></xsl:variable>
+	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name=$lang_var]/@value"/></xsl:with-param></xsl:call-template>
 	<xsl:call-template name="EditReturnAnchors"/>
 		{{{{{Plugged<pl/><xsl:value-of select="@PluginName"/><pl/><xsl:value-of select="@PluginVersion"/><xsl:for-each select="./PluggedProperty"><pl/><xsl:value-of select="@Name"/><pl/><xsl:value-of select="."/></xsl:for-each>}}}}}
 		<xsl:if test="$mode = 'edit'">

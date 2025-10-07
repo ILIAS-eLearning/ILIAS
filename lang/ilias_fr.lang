@@ -1315,7 +1315,6 @@ assessment#:#true#:#Vrai
 assessment#:#tst_access_code_created#:#Pour vous donner un accès permanent aux résultats du test et vous permettre de le refaire, un code d'accès unique a été créé. Veuillez noter et conserver ce code pour consulter les résultats ou refaire ce test ultérieurement.
 assessment#:#tst_activate_skill_service#:#Activer Service de Compétences
 assessment#:#tst_activate_skill_service_desc#:#Un nouvel onglet 'Competences' sera affiché. Dans cet onglet les questions sont affectées aux compétences, puis des seuils sont attribués pour atteindre un niveau spécifique d'une compétence.
-assessment#:#tst_activation_limited_visibility_info#:#Lorsque activé, le test est visible même en dehors de la période de disponibilité.
 assessment#:#tst_activation_online_info#:#Lorsque le test est hors-ligne, seuls les administrateurs peuvent le voir et l'éditer.
 assessment#:#tst_add_quest_cont_edit_mode#:#Mode d'Edition par Défaut pour Contenu Additionnel
 assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Edition de Contenu Supplémentaire avec Editeur de Page
@@ -5820,7 +5819,7 @@ common#:#udf_type_date#:#Zone date
 common#:#udf_type_datetime#:#Date et Heure
 common#:#udf_type_select#:#Boîte de sélection (Les valeurs sont fixées)
 common#:#udf_type_text#:#Zone Texte (Valeurs facultatives)
-common#:#udf_type_wysiwyg#:#Zone de texte (WYSIWYG)
+common#:#udf_type_textarea#:#Zone de texte (WYSIWYG)
 common#:#udf_update_select_field#:#Éditer Boîte de Sélection
 common#:#udf_update_text_field#:#Éditer le Champ Texte
 common#:#udf_update_wysiwyg_field#:#Modifier la zone de texte (WYSIWYG)
@@ -5859,7 +5858,6 @@ common#:#uploading#:#Téléchargement...
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_not_found#:#Fichier Non Trouvé
-common#:#url_to_latex#:#URL du script LaTeX CGI
 common#:#use_customized_instructions#:#Utiliser instructions personnalisées :
 common#:#use_default_instructions#:#Utiliser instructions par défaut.
 common#:#user#:#Utilisateur
@@ -11586,7 +11584,6 @@ mail#:#mail_serial_letter_placeholders#:#Caractères de remplacement des lettres
 mail#:#mail_settings_external_frm_head#:#E-mail externe
 mail#:#mail_settings_external_tab#:#Externe
 mail#:#mail_settings_general_tab#:#Général
-mail#:#mail_settings_incoming_type_see_also#:#Vous avez la possibilité de modifier le type d'arrivée des e-mails pour les utilisateurs <a href="%s">ici</a>
 mail#:#mail_settings_system_frm_head#:#E-mails du système
 mail#:#mail_settings_user_frm_head#:#E-mails de l’utilisateur
 mail#:#mail_smtp_encryption#:#Cryptage
@@ -12984,6 +12981,7 @@ obj#:#copy_container_page_yes_label#:#Copy Content Page###31 10 2023 new variabl
 obj#:#custom_icon#:#Custom Icon###31 10 2023 new variable
 obj#:#edit_availability_period#:#Edit Availability Period###31 10 2023 new variable
 obj#:#edit_questions#:#Editer Questions
+obj#:#multiple_selection#:#Sélection Multiple
 obj#:#no_objects_selected#:#At least one object needs to be selected.###31 10 2023 new variable
 obj#:#obj_activate_content_lang#:#Activer la Traduction pour l'Edition des Pages
 obj#:#obj_activate_multilang#:#Activer Multi-Linguisme

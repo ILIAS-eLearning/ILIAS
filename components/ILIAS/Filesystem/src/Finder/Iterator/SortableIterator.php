@@ -97,7 +97,7 @@ class SortableIterator implements IteratorAggregate
         } elseif (is_callable($sort)) {
             $this->sort = $sort;
             if ($reverseOrder) {
-                $this->sort = static fn (Metadata $left, Metadata $right): int|float => -$sort($left, $right);
+                $this->sort = static fn(Metadata $left, Metadata $right): int|float => -$sort($left, $right);
             }
         } else {
             throw new InvalidArgumentException(

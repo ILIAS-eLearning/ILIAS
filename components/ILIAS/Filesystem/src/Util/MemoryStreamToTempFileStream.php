@@ -33,7 +33,7 @@ trait MemoryStreamToTempFileStream
         if ($stream->getMetadata()['uri'] === 'php://memory') {
             // save stream to temp file
             $tmp = tmpfile();
-            fwrite($tmp, (string)$stream);
+            fwrite($tmp, (string) $stream);
             $temp_stream = Streams::ofResource($tmp);
             $temp_stream->rewind();
 
