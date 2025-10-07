@@ -626,6 +626,11 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->createId();
 
         foreach ($component->getOptions() as $value => $label) {
+
+            if ($component->hasOptionFilter()) {
+                $tpl->touchBlock('filterableitem');
+            }
+
             $opt_id = $id . '_' . $value . '_opt';
 
             $tpl->setCurrentBlock('optionblock');
@@ -649,7 +654,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
+        if ($component->hasOptionFilter()) {
+            $tpl->touchBlock("filterablelist");
+            $field_html = $tpl->get();
+            list($field_html, $component) = $this->wrapInHasOptionFilterContext($field_html, $component, $default_renderer);
+        } else {
+            $field_html = $tpl->get();
+        }
+
+        return $this->wrapInFormContext($component, $component->getLabel(), $field_html);
     }
 
     protected function renderMultiSelectField(F\MultiSelect $component, RendererInterface $default_renderer): string
@@ -661,6 +674,10 @@ class Renderer extends AbstractComponentRenderer
             $value = $component->getValue();
             $name = $this->applyName($component, $tpl);
             foreach ($options as $opt_value => $opt_label) {
+                if ($component->hasOptionFilter()) {
+                    $tpl->touchBlock('filterableitem');
+                }
+
                 $tpl->setCurrentBlock("option");
                 $tpl->setVariable("NAME", $name);
                 $tpl->setVariable("VALUE", $opt_value);
@@ -669,13 +686,22 @@ class Renderer extends AbstractComponentRenderer
                 if ($value && in_array($opt_value, $value)) {
                     $tpl->setVariable("CHECKED", 'checked="checked"');
                 }
+
                 $tpl->parseCurrentBlock();
             }
         } else {
             $tpl->touchBlock("no_options");
         }
 
-        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
+        if ($component->hasOptionFilter()) {
+            $tpl->touchBlock("filterablelist");
+            $field_html = $tpl->get();
+            list($field_html, $component) = $this->wrapInHasOptionFilterContext($field_html, $component, $default_renderer);
+        } else {
+            $field_html = $tpl->get();
+        }
+
+        return $this->wrapInFormContext($component, $component->getLabel(), $field_html);
     }
 
     protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): string
@@ -1218,5 +1244,58 @@ class Renderer extends AbstractComponentRenderer
         $template->parseCurrentBlock();
 
         $template->parseCurrentBlock();
+    }
+
+    /**
+     * Adds a list search around input fields that support it.
+     *
+     * @param string $input_html Rendered HTML of the inner input field made searchable.
+     * @param FormInput $component The component object to attach onload JavaScript to.
+     * @return array<string, FormInput>
+     */
+
+    private function wrapInHasOptionFilterContext(string $input_html, FormInput $component, RendererInterface $default_renderer): array
+    {
+        $search_tpl = $this->getTemplate("tpl.has_option_filter_context.html", true, true);
+        $search_tpl->setVariable('INPUT', $input_html);
+
+        $search_input_id = $this->createId();
+        $search_input_label_id = $this->createId();
+        $search_input_description_id = $this->createId();
+        $list_id = $this->createId();
+
+        $search_tpl->setVariable('SEARCH_INPUT_ID', $search_input_id);
+        $search_tpl->setVariable('SEARCH_INPUT_LABEL_ID', $search_input_label_id);
+        $search_tpl->setVariable('SEARCH_INPUT_DESCRIPTION_ID', $search_input_description_id);
+        $search_tpl->setVariable('LIST_ID', $list_id);
+
+        $no_selection_text = $this->txt('ui_field_filterable_context_no_selection');
+        $search_tpl->setVariable('NOTHING_SELECTED', $no_selection_text);
+        $search_tpl->setVariable('ARIA_FILTERED_RESULTS', $this->txt('ui_field_filterable_context_filtered_results_aria_label'));
+
+        $search_tpl->setVariable('SEARCH_LABEL', $this->txt("ui_field_filterable_context_search_in"));
+        $search_tpl->setVariable('SCREEN_READER_HINT', $this->txt('ui_field_filterable_context_screen_reader_hint'));
+        $search_tpl->setVariable('NO_MATCH', $this->txt('ui_field_filterable_context_no_match'));
+        $search_tpl->setVariable('OPTIONS_SHOWN', $this->txt('ui_field_filterable_context_options_shown'));
+
+        $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand());
+        $search_tpl->setVariable('EXPAND_TEXT', $expand_icon . $this->txt('ui_field_filterable_context_show_all_options'));
+
+        $collapse_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->collapseHorizontal());
+        $search_tpl->setVariable('COLLAPSE_TEXT', $collapse_icon . $this->txt('ui_field_filterable_context_show_less'));
+
+        $remove_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->remove());
+        $search_tpl->setVariable('CLEAR_SEARCH_BTN', $remove_icon . $this->txt('ui_field_filterable_context_clear_search'));
+
+        $component = $component->withAdditionalOnLoadCode(
+            static function ($id): string {
+                return "
+                    searchcontextField = document.getElementById('$id');
+                    il.UI.Input.hasOptionFilterContext.init(searchcontextField);
+                ";
+            }
+        );
+
+        return [$search_tpl->get(), $component];
     }
 }

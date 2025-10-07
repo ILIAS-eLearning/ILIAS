@@ -57,6 +57,11 @@ class ExamplesTest extends ILIAS_UI_TestBase
         $_SERVER['SCRIPT_NAME'] = "";
         $_SERVER['QUERY_STRING'] = "param=1";
 
+        // allows example Unit Tests to find resources like additional data or css
+        if (!defined('ILIAS_ABSOLUTE_PATH')) {
+            define('ILIAS_ABSOLUTE_PATH', realpath(__DIR__ . '/../../../../../'));
+        }
+
         //This avoids Undefined index: ilfilehash for the moment
         $_POST["ilfilehash"] = "";
         $this->setUpMockDependencies();

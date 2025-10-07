@@ -22,6 +22,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Input\InputData;
+use ILIAS\UI\Implementation\Component\Input\hasOptionFilter;
+use ILIAS\UI\Implementation\Component\Input\Searchable;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\Refinery\Constraint;
@@ -31,10 +33,11 @@ use Closure;
 /**
  * This implements the radio input.
  */
-class Radio extends FormInput implements C\Input\Field\Radio
+class Radio extends FormInput implements C\Input\Field\Radio, C\Input\Field\hasOptionFilter
 {
     use JavaScriptBindable;
     use Triggerer;
+    use hasOptionFilter;
 
     /**
      * @var array <string,string> {$value => $label}

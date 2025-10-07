@@ -18,17 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input;
 
-use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
-
-/**
- * This describes a multi-select input.
- */
-interface MultiSelect extends FilterInput, hasOptionFilter
+trait hasOptionFilter
 {
-    /**
-     * Get options as value=>label.
-     */
-    public function getOptions(): array;
+    protected ?bool $hasOptionFilter = false;
+
+    public function withHasOptionFilter(bool $value = true): static
+    {
+        $clone = clone $this;
+        $clone->hasOptionFilter = $value;
+        return $clone;
+    }
+
+    public function hasOptionFilter(): bool
+    {
+        return $this->hasOptionFilter;
+    }
 }

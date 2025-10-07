@@ -41,6 +41,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
         'ShyButton',
         'BulkyLink',
         'ShyLink',
+        'MultiSelectFieldInput',
+        'RadioFieldInput',
     ];
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer

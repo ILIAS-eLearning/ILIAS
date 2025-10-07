@@ -20,15 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
-
 /**
- * This describes a multi-select input.
+ * Allows fields with list-like items to be collapsible with a searchbar filter
  */
-interface MultiSelect extends FilterInput, hasOptionFilter
+interface hasOptionFilter
 {
     /**
-     * Get options as value=>label.
+     * Adds a collapsed view and a searchbar to the field.
      */
-    public function getOptions(): array;
+    public function withHasOptionFilter(bool $hasFilter = true): static;
 }

@@ -1,0 +1,28 @@
+<button type="button" class="c-input--has-option-filter__visibility-toggle btn btn-link" aria-controls="{LIST_ID}"
+        aria-expanded="false">
+    <span class="text-expand">{EXPAND_TEXT}</span>
+    <span class="text-collapse" style="display: none;">{COLLAPSE_TEXT}</span>
+</button>
+<div class="c-input--has-option-filter__search-input" role="search">
+    <label for="{SEARCH_INPUT_ID}">
+        <span class="label__text" id="{SEARCH_INPUT_LABEL_ID}">{SEARCH_LABEL}</span>
+        <span class="screen-reader-hint sr-only" id="{SEARCH_INPUT_DESCRIPTION_ID}">{SCREEN_READER_HINT}</span>
+        <input id="{SEARCH_INPUT_ID}" type="text"
+               role="searchbox"
+               aria-labelledby="{SEARCH_INPUT_LABEL_ID}"
+               aria-describedby="{SEARCH_INPUT_DESCRIPTION_ID}">
+    </label>
+    <button type="button"
+            class="c-input--has-option-filter__clear-search btn btn-link"
+            aria-controls="{SEARCH_INPUT_ID}"
+            style="display: none;">
+        {CLEAR_SEARCH_BTN}
+    </button>
+</div>
+<div class="c-input--has-option-filter__field" id="{LIST_ID}" role="region" aria-label="{ARIA_FILTERED_RESULTS}">
+    <div class="c-input--has-option-filter__synopsis"><div class="result-count sr-only" role="status" aria-live="polite" style="display: none;">{OPTIONS_SHOWN}</div></div>
+    <div class="c-input--has-option-filter__nothing-selected">{NOTHING_SELECTED}</div>
+    {INPUT}
+    <span class="message-no-match" style="display: none">{NO_MATCH}</span>
+</div>
+
