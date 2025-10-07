@@ -75,4 +75,10 @@ interface Sortation extends Component, JavaScriptBindable, Triggerer
      * Set the selected option.
      */
     public function withSelected(string $selected_option): self;
+
+
+
+     /** NEW: default true (backward compatible) */
+     public function withHasPopup(bool $has_popup): self;
+     public function hasPopup(): bool;
 }

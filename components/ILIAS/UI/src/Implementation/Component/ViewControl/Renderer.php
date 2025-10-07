@@ -161,6 +161,11 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("ID_MENU", $id . '_ctrl');
 
+        /* NEW: control aria-haspopup via template block */
+        if ($component->hasPopup()) {
+            $tpl->touchBlock('has_popup');
+        }
+
         $options = $component->getOptions();
         $items = [];
 

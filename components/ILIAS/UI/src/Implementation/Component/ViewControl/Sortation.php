@@ -39,6 +39,9 @@ class Sortation implements C\ViewControl\Sortation
     protected string $parameter_name = "sortation";
     protected ?string $active = null;
 
+    /** NEW: default = true for BC */
+    private bool $has_popup = true;
+
     /**
      * @param array<string,string> $options
      */
@@ -152,4 +155,19 @@ class Sortation implements C\ViewControl\Sortation
     {
         return $this->selected;
     }
+
+
+     /** NEW */
+     public function withHasPopup(bool $has_popup): self
+     {
+         $clone = clone $this;
+         $clone->has_popup = $has_popup;
+         return $clone;
+     }
+ 
+     /** NEW */
+     public function hasPopup(): bool
+     {
+         return $this->has_popup;
+     }
 }

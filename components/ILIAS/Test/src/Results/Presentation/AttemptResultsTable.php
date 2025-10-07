@@ -168,10 +168,14 @@ class AttemptResultsTable
         ];
 
         $pre = implode(URLBuilder::SEPARATOR, $this->getViewControlNamespace()) . URLBuilder::SEPARATOR;
-        $vc_sort = $ui_factory->viewControl()->sortation($options, $sortation)->withTargetURL(
+        $vc_sort = $ui_factory->viewControl()
+        ->sortation($options, $sortation)
+        ->withHasPopup(false)   // removed aria-haspopup 
+        ->withTargetURL(
             $target->buildURI()->__toString(),
             $pre . self::PARAM_SORT
         );
+
 
         return [
             $vc_mode,
