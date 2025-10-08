@@ -70,6 +70,7 @@ interface Factory
      * @return \ILIAS\UI\Component\Navigation\Sequence\Sequence
      */
     public function sequence(
-        Sequence\SegmentRetrieval $segment_retrieval
+        Sequence\SegmentRetrieval $segment_retrieval,
+        string $title = ''
     ): Sequence\Sequence;
 }

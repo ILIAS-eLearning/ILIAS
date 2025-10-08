@@ -51,7 +51,8 @@ class Sequence implements ISequence\Sequence
         protected DataFactory $data_factory,
         protected Refinery $refinery,
         protected Storage $storage,
-        protected ISequence\SegmentRetrieval $segment_retrieval
+        protected ISequence\SegmentRetrieval $segment_retrieval,
+        protected string $title
     ) {
     }
 
@@ -188,6 +189,11 @@ class Sequence implements ISequence\Sequence
     protected function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     protected function applyValuesToViewcontrols(
