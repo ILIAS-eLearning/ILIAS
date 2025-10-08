@@ -184,10 +184,13 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         $filter = $this->getFilter();
         $this->filter_values = $this->filter_service->getData($filter);
 
-        $sequence = $this->ui_factory->navigation()->sequence($this)
-            ->withId('cs_' . (string) $this->object->getRefId())
-            ->withViewControls($this->getViewControls())
-            ->withRequest($this->request);
+        $sequence = $this->ui_factory->navigation()->sequence(
+            $this,
+            $this->lng->txt(TabsManager::TAB_ID_MANUAL_SCORING)
+        )
+        ->withId('cs_' . (string) $this->object->getRefId())
+        ->withViewControls($this->getViewControls())
+        ->withRequest($this->request);
 
         return $this->ui_renderer->render([
             $filter,
