@@ -18,9 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferencePropertiesCachedRepository;
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
-use ILIAS\Object\Properties\ObjectReferenceProperties\ObjectAvailabilityPeriodProperty;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\CachedRepository as ReferencePropertiesRepository;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\ObjectReferenceProperties;
+use ILIAS\ILIASObject\Properties\ObjectReferenceProperties\AvailabilityPeriod\AvailabilityPeriod;
+use ILIAS\ILIASObject\LocalDIC;
 
 class ilObjLearningSequence extends ilContainer
 {
@@ -47,7 +48,7 @@ class ilObjLearningSequence extends ilContainer
     protected ilCtrl $ctrl;
     protected \ILIAS\News\Service $il_news;
     protected ilConditionHandler $il_condition_handler;
-    protected ObjectReferencePropertiesCachedRepository $repo_ref_props;
+    protected ReferencePropertiesRepository $repo_ref_props;
     protected ?ObjectReferenceProperties $ref_props = null;
 
     public function __construct(int $id = 0, bool $call_by_reference = true)
@@ -64,8 +65,7 @@ class ilObjLearningSequence extends ilContainer
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->il_news = $DIC->news();
         $this->il_condition_handler = new ilConditionHandler();
-        $this->repo_ref_props = \ILIAS\Object\ilObjectDIC::dic()['object_reference_repository'];
-
+        $this->repo_ref_props = LocalDIC::dic()['properties.object_reference.repositoy'];
         parent::__construct($id, $call_by_reference);
 
         $this->lng->loadLanguageModule('rbac');
@@ -145,7 +145,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->ref_props;
     }
 
-    public function storeAvailabilityPeriod(ObjectAvailabilityPeriodProperty $period): void
+    public function storeAvailabilityPeriod(AvailabilityPeriod $period): void
     {
         $this->repo_ref_props->storePropertyAvailabilityPeriod($period);
     }

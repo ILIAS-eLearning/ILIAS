@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\ILIASObject\Properties\CoreProperties\Online;
 
 class ilObjLearningSequenceSettingsGUI
 {
