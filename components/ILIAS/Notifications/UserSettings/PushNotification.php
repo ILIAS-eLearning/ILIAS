@@ -45,7 +45,7 @@ class PushNotification implements SettingDefinition
 
     public function isAvailable(): bool
     {
-        return (new ilSetting('notifications'))->get('enable_push') === '1';
+        return (new ilSetting('notifications'))->get('enable_push') === '1' && count(require PushNotificationObjective::PATH()) > 0;
     }
 
     public function getLabel(Language $lng): string
@@ -76,11 +76,12 @@ class PushNotification implements SettingDefinition
         $pref = $user ? $this->retrieveValueFromUser($user) : [];
         $provider = [];
 
-        foreach ((new PushNotificationObjective(new NullConfig()))->getArtifacts() as $value) {
-            $provider[get_class($value)] = $field_factory->checkbox(
-                $value->getName($lng),
-                $value->getDescription($lng),
-            )->withValue(in_array(get_class($value), $pref));
+        foreach (require PushNotificationObjective::PATH() as $class) {
+            $obj = new $class();
+            $provider[$obj->getIdentifier()] = $field_factory->checkbox(
+                $obj->getName($lng),
+                $obj->getDescription($lng),
+            )->withValue(in_array($obj->getIdentifier(), $pref));
         }
 
         return $field_factory->section(

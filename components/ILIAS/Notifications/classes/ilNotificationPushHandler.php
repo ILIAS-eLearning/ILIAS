@@ -23,6 +23,8 @@ namespace ILIAS\Notifications;
 use Firebase\JWT\JWT;
 use ilCurlConnection;
 use ILIAS\HTTP\StatusCode;
+use ILIAS\Notifications\Interfaces\InternalPushProvider;
+use ILIAS\Notifications\Interfaces\PushProviderInterface;
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ILIAS\Notifications\Model\Push\PushQueueResult;
 use ILIAS\Notifications\Repository\PushRepository;
@@ -49,10 +51,12 @@ class ilNotificationPushHandler extends ilNotificationHandler
     protected string $sub;
     protected bool $is_enabled;
     protected ?PushQueueResult $last_queue_result;
+    private PushProviderInterface $provider;
 
-    public function __construct()
+    public function __construct(PushProviderInterface $provider)
     {
         global $DIC;
+        $this->provider = $provider;
         $this->logger = $DIC->logger()->root();
         $this->sub = $DIC->settings()->get('admin_email');
         $this->subscription_repo = new PushRepository($DIC->database(), $DIC->user());
@@ -66,7 +70,7 @@ class ilNotificationPushHandler extends ilNotificationHandler
      * @param bool $force The use of this parameter is explicitly not recommended! Forced notifications are distributed
      * to a user without agknowledgement of their preferences and should therefore be used with care!
      */
-    public function notify(ilNotificationObject $notification, bool $force = false): void
+    public function notify(ilNotificationObject $notification): void
     {
         $this->resetLastQueueResult();
 
@@ -76,10 +80,10 @@ class ilNotificationPushHandler extends ilNotificationHandler
             return;
         }
 
-        if (!$force) {
-            $class = $notification->handlerParams['setting']['user_pref'];
-            if (!$this->validateForUser($notification->user, $class)) {
-                $this->logger->debug('Notification for ' . $class . ' not send due to user preferences.');
+        if (!$this->provider instanceof InternalPushProvider) {
+            $id = $notification->handlerParams['setting']['user_pref'];
+            if (!$this->validateForUser($notification->user, $id)) {
+                $this->logger->debug('Notification for ' . $id . ' not send due to user preferences.');
                 $this->setLastQueueResult(PushQueueResult::FAILED);
                 return;
             }
@@ -248,9 +252,9 @@ class ilNotificationPushHandler extends ilNotificationHandler
         }
     }
 
-    protected function validateForUser(ilObjUser $user, string $provider): bool
+    protected function validateForUser(ilObjUser $user, string $id): bool
     {
-        return in_array($provider, json_decode($user->getPref('push_notification_provider') ?? '[]'));
+        return in_array($id, json_decode($user->getPref('push_notification_provider') ?? '[]'));
     }
 
     public function getLastQueueResult(): PushQueueResult

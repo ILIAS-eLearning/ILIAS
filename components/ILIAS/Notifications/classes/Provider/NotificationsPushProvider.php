@@ -29,24 +29,21 @@ use ILIAS\Notifications\Model\Push\PushQueueResult;
 use ilLanguage;
 use ilObjUser;
 
-abstract class NotificationsPushProvider implements PushProviderInterface
+class NotificationsPushProvider
 {
     protected const int TTL = 60;
     protected ilNotificationPushHandler $handler;
     protected ilNotificationConfig $config;
 
-    final public function __construct(?ilNotificationPushHandler $handler = null)
+    final public function __construct(PushProviderInterface $provider)
     {
-        $this->handler = $handler ?? new ilNotificationPushHandler();
+        $this->handler = new ilNotificationPushHandler($provider);
         $this->config = new ilNotificationConfig('push');
-        $this->config->setHandlerParam('setting.user_pref', get_class($this));
+        $this->config->setHandlerParam('setting.user_pref', $provider->getIdentifier());
         $this->config->setHandlerParam('setting.ttl', (string) $this::TTL);
     }
 
-    abstract public function getName(ilLanguage $lng): string;
-    abstract public function getDescription(ilLanguage $lng): string;
-
-    public function push(ilObjUser $user, string $title, string $description = '', ilNotificationLink $link = null): bool
+    public function push(ilObjUser $user, string $title, string $description = '', ?ilNotificationLink $link = null): bool
     {
         $notification = new ilNotificationObject($this->config, $user);
         $notification->title = $title;
@@ -55,5 +52,4 @@ abstract class NotificationsPushProvider implements PushProviderInterface
         $this->handler->notify($notification);
         return $this->handler->getLastQueueResult() === PushQueueResult::SUCCEEDED;
     }
-
 }

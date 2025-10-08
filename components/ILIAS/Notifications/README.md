@@ -79,12 +79,16 @@ openssl ecparam -name prime256v1 -genkey
 
 #### Usage
 
-With fulfilled setup requirements, a new push notification provider can be added by implementing the [NotificationPushProvider](classes/Provider/NotificationsPushProvider.php) .
+With fulfilled setup requirements, a new push notification provider can be added by implementing the [PushProviderInterface](classes/Provider/PushProviderInterface.php).
+This provider has to be added to the component revision:
+```php
+        $contribute[\ILIAS\Notifications\Interfaces\PushProviderInterface::class] = fn() => new MyProvider();
+```
 
 After the creation of such a provider and update of the installation, you can send a push notification by calling the function `push()`
 on the provider:
 ```php
-(new MyProvider())->push($user, 'This is a test Notification');
+(new NotificationsPushProvider(new MyProvider()))->push($user, 'This is a test Notification');
 ```
 
 Be aware that a notification is only sent if the user actively selects your provider inside his user settings.

@@ -20,9 +20,11 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\Notifications\ilNotificationPushHandler;
+use ILIAS\Notifications\Interfaces\InternalPushProvider;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ILIAS\Notifications\Model\Push\PushSubscription;
+use ILIAS\Notifications\Provider\NotificationsPushProvider;
 use ILIAS\Notifications\Repository\PushRepository;
 
 /**
@@ -96,10 +98,11 @@ readonly class ilPersonalNotificationsSettingsGUI
             ));
         }
 
-        $notification = new ilNotificationObject(new ilNotificationConfig('none'), $this->dic->user());
-        $notification->title = $this->dic->language()->txt('push_subscription_successfull');
-        $notification->shortDescription = $this->dic->language()->txt('push_subscription_successfull_desc');
-        (new ilNotificationPushHandler())->notify($notification, true);
+        (new NotificationsPushProvider(new InternalPushProvider()))->push(
+            $this->dic->user(),
+            $this->dic->language()->txt('push_subscription_successfull'),
+            $this->dic->language()->txt('push_subscription_successfull_desc')
+        );
     }
 
     protected function removeSubscription(): void

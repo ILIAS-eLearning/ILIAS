@@ -34,9 +34,9 @@ class Notifications implements Component\Component
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
             new \ilNotificationsSetupAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+                $pull[\ILIAS\Refinery\Factory::class],
+                $seek[\ILIAS\Notifications\Interfaces\PushProviderInterface::class]
             );
-
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "notifications.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>

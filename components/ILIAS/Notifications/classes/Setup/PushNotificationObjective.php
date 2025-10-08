@@ -29,24 +29,16 @@ use ILIAS\Setup\NullConfig;
 
 class PushNotificationObjective extends BuildArtifactObjective
 {
-    public function __construct(protected readonly Config $config)
-    {
-    }
-
     /**
-     * @return Generator<PushProviderInterface>
+     * @param PushProviderInterface[] $provider
      */
-    public function getArtifacts(): Generator
+    public function __construct(protected readonly array $provider, protected readonly Config $config)
     {
-        foreach (require $this::PATH() as $class) {
-            yield new $class();
-        }
     }
 
     public function build(): Artifact
     {
-        $finder = new ImplementationOfInterfaceFinder();
-        return new ArrayArtifact(iterator_to_array($finder->getMatchingClassNames(PushProviderInterface::class)));
+        return new ArrayArtifact(array_map(fn($p) => $p::class, $this->provider));
     }
 
     public function getPreconditions(Environment $environment): array

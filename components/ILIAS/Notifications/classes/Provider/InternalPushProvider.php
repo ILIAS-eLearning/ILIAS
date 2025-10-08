@@ -22,20 +22,23 @@ namespace ILIAS\Notifications\Interfaces;
 
 use ilLanguage;
 
-interface PushProviderInterface
+/**
+ * @internal This class should not be inherited! This is only to verify a push notification is working and not for practical use!
+ */
+final class InternalPushProvider implements PushProviderInterface
 {
-    /**
-     * Return a unique identifier
-     */
-    public function getIdentifier(): string;
+    final public function getIdentifier(): string
+    {
+        return '';
+    }
 
-    /**
-     * Return the presentation name of the provider.
-     */
-    public function getName(ilLanguage $lng): string;
+    final public function getName(ilLanguage $lng): string
+    {
+        return '';
+    }
 
-    /**
-     * Return the description of the provider.
-     */
-    public function getDescription(ilLanguage $lng): string;
+    final public function getDescription(ilLanguage $lng): string
+    {
+        return '';
+    }
 }

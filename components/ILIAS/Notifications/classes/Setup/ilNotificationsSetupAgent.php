@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Notifications\Interfaces\PushProviderInterface;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\Agent;
@@ -33,9 +34,13 @@ class ilNotificationsSetupAgent implements Agent
 {
     use HasNoNamedObjective;
 
-    public function __construct(protected Factory $refinery)
+    /**
+     * @param PushProviderInterface[] $provider
+     */
+    public function __construct(protected readonly Factory $refinery, protected readonly array $provider)
     {
     }
+
     public function hasConfig(): bool
     {
         return true;
@@ -59,7 +64,7 @@ class ilNotificationsSetupAgent implements Agent
 
     public function getInstallObjective(Config $config = null): Objective
     {
-        return new PushNotificationObjective($config ?? new NullConfig());
+        return new PushNotificationObjective($this->provider, $config ?? new NullConfig());
     }
 
     public function getUpdateObjective(Config $config = null): Objective
@@ -70,7 +75,7 @@ class ilNotificationsSetupAgent implements Agent
             new ilTreeAdminNodeAddedObjective('nota', 'Notification Service Administration Object'),
             new ilDatabaseUpdateStepsExecutedObjective(new ilNotificationUpdateSteps()),
             new ilDatabaseUpdateStepsExecutedObjective(new ilNotificationUpdateSteps11()),
-            new PushNotificationObjective($config ?? new NullConfig())
+            new PushNotificationObjective($this->provider, $config ?? new NullConfig())
         );
     }
 
