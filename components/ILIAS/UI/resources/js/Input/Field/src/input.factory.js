@@ -31,7 +31,7 @@ import TextareaFactory from './Textarea/textarea.factory.js';
 import MarkdownFactory from './Markdown/markdown.factory.js';
 import TreeSelectFactory from './TreeSelect/TreeSelectFactory.js';
 import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
-import Tagify from 'Tagify';
+import Tagify from '@yaireo/tagify';
 import * as tag from './Tag/tag.js';
 
 il.UI = il.UI || {};

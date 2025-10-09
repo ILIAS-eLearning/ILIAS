@@ -866,7 +866,6 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/tagify.js');
         $registry->register('assets/css/tagify.css');
         $registry->register('assets/js/tagInput.js');
 
