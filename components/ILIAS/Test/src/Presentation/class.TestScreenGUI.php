@@ -314,6 +314,7 @@ class TestScreenGUI
             && $request->getQueryParams()[$key] === 'exam_modal') {
             $launcher = $launcher->withRequest($request);
         }
+
         return $launcher;
     }
 
@@ -333,7 +334,13 @@ class TestScreenGUI
             $modal_inputs['exam_conditions'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_conditions'),
                 $this->lng->txt('tst_exam_conditions_label')
-            )->withRequired(true);
+            )->withRequired(true)
+            ->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    static fn(bool $value): bool => $value,
+                    $this->lng->txt('tst_exam_conditions_not_checked_message'),
+                )
+            );
         }
 
         if ($this->main_settings->getAccessSettings()->getPasswordEnabled()) {
@@ -343,10 +350,9 @@ class TestScreenGUI
             )->withRevelation(true)
             ->withRequired(true)
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(
-                    static function (Password $value): string {
-                        return $value->toString();
-                    }
+                $this->refinery->custom()->constraint(
+                    fn(Password $value): bool => $value->toString() === $this->main_settings->getAccessSettings()->getPassword(),
+                    $this->lng->txt('tst_exam_password_invalid_message'),
                 )
             );
         }
@@ -355,6 +361,11 @@ class TestScreenGUI
             $access_code_input = $this->ui_factory->input()->field()->text(
                 $this->lng->txt('tst_exam_access_code'),
                 $this->lng->txt('tst_exam_access_code_label')
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->constraint(
+                    fn(string $value): bool => $value === '' || $this->test_session->isAccessCodeUsed($value),
+                    $this->lng->txt('tst_exam_access_code_invalid_message'),
+                )
             );
 
             $access_code_from_session = $this->test_session->getAccessCodeFromSession();
@@ -365,11 +376,17 @@ class TestScreenGUI
             $modal_inputs['exam_access_code'] = $access_code_input;
         }
 
-        if ($this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
-            && $this->test_passes_selector->getLastFinishedPass() >= 0) {
+        if (
+            $this->test_passes_selector->getLastFinishedPass() >= 0
+            && $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
+        ) {
             $modal_inputs['exam_use_previous_answers'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_use_previous_answers'),
                 $this->lng->txt('tst_exam_use_previous_answers_label')
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(
+                    static fn(bool $value): string => $value ? '1' : '0'
+                )
             );
         }
 
@@ -419,95 +436,43 @@ class TestScreenGUI
 
     private function evaluateLauncherModalForm(Result $result): void
     {
-        if ($result->isOK()) {
-            $conditions_met = true;
-            $message = '';
-            $access_settings_password = $this->main_settings->getAccessSettings()->getPassword();
-            $anonymous = $this->user->isAnonymous();
-            foreach ($result->value() as $key => $value) {
-
-                switch ($key) {
-                    case 'exam_conditions':
-                        $exam_conditions_value = (bool) $value;
-                        if (!$exam_conditions_value) {
-                            $conditions_met = false;
-                            $message .= $this->lng->txt('tst_exam_conditions_not_checked_message') . '<br>';
-                        }
-                        break;
-                    case 'exam_password':
-                        $password = $value;
-                        $exam_password_valid = ($password === $access_settings_password);
-                        if (!$exam_password_valid) {
-                            $conditions_met = false;
-                            $message .= $this->lng->txt('tst_exam_password_invalid_message') . '<br>';
-                            if ($this->object->getTestLogger()->isLoggingEnabled()
-                                && !$this->object->getAnonymity()) {
-                                $logger = $this->object->getTestLogger();
-                                $logger->logParticipantInteraction(
-                                    $logger->getInteractionFactory()->buildParticipantInteraction(
-                                        $this->ref_id,
-                                        null,
-                                        $this->user->getId(),
-                                        $_SERVER['REMOTE_ADDR'],
-                                        TestParticipantInteractionTypes::WRONG_TEST_PASSWORD_PROVIDED,
-                                        []
-                                    )
-                                );
-                            }
-                        }
-                        $this->password_checker->setUserEnteredPassword($password);
-                        break;
-                    case 'exam_access_code':
-                        if ($anonymous && !empty($value)) {
-                            $this->test_session->setAccessCodeToSession($value);
-                        } else {
-                            $this->test_session->unsetAccessCodeInSession();
-                        }
-                        break;
-                    case 'exam_use_previous_answers':
-                        $exam_use_previous_answers_value = (string) (int) $value;
-                        break;
-                }
-            }
-
-            if ($message !== '') {
-                $this->tpl->setOnScreenMessage(\ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $message, true);
-            }
-
-            if (empty($result->value())) {
-                $this->tpl->setOnScreenMessage(
-                    \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                    $this->lng->txt('tst_exam_required_fields_not_filled_message'),
-                    true
-                );
-            } elseif ($conditions_met) {
-                if (
-                    !$anonymous &&
-                    $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
-                ) {
-                    $this->user->setPref('tst_use_previous_answers', $exam_use_previous_answers_value ?? '0');
-                    $this->user->update();
-                }
-
-                if (isset($password) && $password === $access_settings_password) {
-                    \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
-                } else {
-                    \ilSession::set('tst_password_' . $this->object->getTestId(), '');
-                    $this->test_session->setPasswordChecked(false);
-                }
-
-                $this->ctrl->redirectByClass(
-                    (new \ilTestPlayerFactory($this->object))->getPlayerGUI()::class,
-                    \ilTestPlayerCommands::INIT_TEST
-                );
-            }
-        } else {
-            $this->tpl->setOnScreenMessage(
-                \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('tst_exam_required_fields_not_filled_message'),
-                true
-            );
+        if ($result->isError()) {
+            return;
         }
+
+        $anonymous = $this->user->isAnonymous();
+        if (array_key_exists('exam_access_code', $result->value())) {
+            $value = $result->value()['exam_access_code'];
+            if ($anonymous && !empty($value)) {
+                $this->test_session->setAccessCodeToSession($value);
+            } else {
+                $this->test_session->unsetAccessCodeInSession();
+            }
+        }
+
+        if (
+            !$anonymous &&
+            $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
+        ) {
+            $this->user->setPref(
+                'tst_use_previous_answers',
+                $result->value()['exam_use_previous_answers'] ?? '0'
+            );
+            $this->user->update();
+        }
+
+        $password = $result->value()['exam_password']->toString() ?? '';
+        if ($password === $this->main_settings->getAccessSettings()->getPassword()) {
+            \ilSession::set('tst_password_' . $this->object->getTestId(), $password);
+        } else {
+            \ilSession::set('tst_password_' . $this->object->getTestId(), '');
+            $this->test_session->setPasswordChecked(false);
+        }
+
+        $this->ctrl->redirectByClass(
+            (new \ilTestPlayerFactory($this->object))->getPlayerGUI()::class,
+            \ilTestPlayerCommands::INIT_TEST
+        );
     }
 
     private function testCanBeStarted(): bool
