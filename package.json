@@ -11,6 +11,7 @@
     "chart.js": "^4.4.7",
     "dropzone": "^5.9.3",
     "jquery": "^3.7.1",
+    "jstree": "^3.3.17",
     "linkify-element": "^4.3.2",
     "linkifyjs": "^4.3.2",
     "mathjax": "^3.2.2",
@@ -132,6 +133,13 @@
       "developer": null,
       "purpose": "We still use jQuery for many JS-related actions in ILIAS, unfortunately.",
       "last-update-for-ilias": "10.0"
+    },
+    "jstree": {
+      "introduction-date": null,
+      "approved-by": "Jour Fix",
+      "developer": "alex40724",
+      "purpose": "Legacy explorer tree representation",
+      "last-update-for-ilias": "11.0"
     },
     "sass": {
       "introduction-date": null,
