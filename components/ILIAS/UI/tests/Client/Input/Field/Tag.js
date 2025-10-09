@@ -16,12 +16,12 @@
  */
 
 import { describe, it, mock } from 'node:test';
-import { strict } from 'node:assert/strict';
+import * as assert from 'node:assert';
 import { init } from '../../../../resources/js/Input/Field/src/Tag/tag.js';
 
 describe('Tag Input Field', () => {
   const pseudoConfig = {
-    options: [],
+    options: ['123', 'Yay'],
     userInput: false,
     allowDuplicates: false,
     maxItems: 5,
@@ -32,50 +32,52 @@ describe('Tag Input Field', () => {
     dropdownCloseOnSelect: true,
     highlight: true,
   };
-  it('should call the provided async endpoint.', () => {
-    const inputMock = {
-      id: 'test-id',
-    };
-    const tagifyWindowMock = {
-      setTimeout: mock.fn(() => {}),
-      clearTimeout: () => {
-      },
-    };
-    const tagifyInstanceMock = {
-      DOM: { scope: { ownerDocument: { defaultView: tagifyWindowMock } } },
-      on: mock.fn(() => {
-      }),
-      loading: () => {
-      },
-      addTags: () => {
-      },
-    };
-    const tagifyMock = class {
-      constructor() {
-        // eslint-disable-next-line no-constructor-return
-        return tagifyInstanceMock;
-      }
-    };
-    const urlBuilderMock = {
-      writeParameter: () => {
-      },
-      getUrl() {
-        return {
-          toString() {
-            return '';
-          },
-        };
-      },
-    };
-    const urlBuilderTokenMock = {};
+  const inputMock = {
+    id: 'test-id',
+  };
+  const tagifyWindowMock = {
+    setTimeout: mock.fn(() => {}),
+    clearTimeout: () => {
+    },
+  };
+  const tagifyInstanceMock = {
+    DOM: { scope: { ownerDocument: { defaultView: tagifyWindowMock } } },
+    on: mock.fn(() => {
+    }),
+    loading: () => {
+    },
+    addTags: () => {
+    },
+    settings: null,
+  };
+  const tagifyMock = class {
+    constructor(inputMock, settings) {
+      tagifyInstanceMock.settings  = settings;
+      // eslint-disable-next-line no-constructor-return
+      return tagifyInstanceMock;
+    }
+  };
+  const urlBuilderMock = {
+    writeParameter: () => {
+    },
+    getUrl() {
+      return {
+        toString() {
+          return '';
+        },
+      };
+    },
+  };
+  const urlBuilderTokenMock = {};
 
+  it('should call the provided async endpoint.', () => {
     init(tagifyMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
 
-    strict.equal(tagifyInstanceMock.on.mock.callCount(), 1);
-    strict.equal(tagifyInstanceMock.on.mock.calls[0].arguments[0], 'input');
+    assert.strict.equal(tagifyInstanceMock.on.mock.callCount(), 1);
+    assert.strict.equal(tagifyInstanceMock.on.mock.calls[0].arguments[0], 'input');
     const inputEventHandler = tagifyInstanceMock.on.mock.calls[0].arguments[1];
-    strict.notEqual(inputEventHandler, undefined);
-    strict.notEqual(inputEventHandler, null);
+    assert.strict.notEqual(inputEventHandler, undefined);
+    assert.strict.notEqual(inputEventHandler, null);
 
     const eventMock = {
       detail: { value: { length: pseudoConfig.suggestionStarts + 1 } },
@@ -86,17 +88,127 @@ describe('Tag Input Field', () => {
 
     inputEventHandler(eventMock);
 
-    strict.equal(tagifyWindowMock.setTimeout.mock.callCount(), 1);
-    strict.equal(
+    assert.strict.equal(tagifyWindowMock.setTimeout.mock.callCount(), 1);
+    assert.strict.equal(
       tagifyWindowMock.setTimeout.mock.calls[0].arguments[1],
       pseudoConfig.autocompleteTriggerTimeout,
     );
     const timoutHandler = tagifyWindowMock.setTimeout.mock.calls[0].arguments[0];
-    strict.notEqual(timoutHandler, undefined);
-    strict.notEqual(timoutHandler, null);
+    assert.strict.notEqual(timoutHandler, undefined);
+    assert.strict.notEqual(timoutHandler, null);
 
     timoutHandler();
-    strict.equal(fetchMock.mock.callCount(), 1);
+    assert.strict.equal(fetchMock.mock.callCount(), 1);
+
+    mock.reset();
+  });
+
+  it('should build correct settings.', () => {
+    init(tagifyMock, inputMock, pseudoConfig, [], urlBuilderMock, urlBuilderTokenMock);
+
+    assert.strict.equal(tagifyInstanceMock.settings.whitelist, pseudoConfig.options);
+    assert.strict.equal(tagifyInstanceMock.settings.enforceWhitelist, !pseudoConfig.userInput);
+    assert.strict.equal(tagifyInstanceMock.settings.duplicates, pseudoConfig.allowDuplicates);
+    assert.strict.equal(tagifyInstanceMock.settings.maxTags, pseudoConfig.maxItems);
+    assert.strict.equal(tagifyInstanceMock.settings.dropdown.enabled, pseudoConfig.dropdownSuggestionsStartAfter);
+    assert.strict.equal(tagifyInstanceMock.settings.dropdown.maxItems, pseudoConfig.dropdownMaxItems);
+    assert.strict.equal(tagifyInstanceMock.settings.dropdown.closeOnSelect, pseudoConfig.dropdownCloseOnSelect);
+    assert.strict.equal(tagifyInstanceMock.settings.dropdown.highlightFirst, pseudoConfig.highlight);
+
+    mock.reset();
+  });
+
+  it('should urldecode user input.', () => {
+    const userInput = [
+      {value: '++1#*'},
+      {value: '[-2]'},
+      {value: '{?3}'},
+      {value: 'some\'thing "else"'},
+      {value: '&/\\'},
+      {value: 'fünf, sechs'},
+      {value: 'sieben, acht'},
+      {value: '<sieben, acht>'},
+      {value: '<test>'},
+    ];
+    init(tagifyMock, inputMock, pseudoConfig, userInput, urlBuilderMock, urlBuilderTokenMock);
+
+    userInput.forEach((v) => {
+      const display = v.value;
+      tagifyInstanceMock.settings.transformTag(v);
+      assert.deepEqual(v, {value: encodeURIComponent(display), display: display.replace(/</g, '&lt;').replace(/>/g, '&gt;')});
+    });
+
+    mock.reset();
+  });
+
+  it('should wrapp in div with attributes.', () => {
+    const tagData = {value: 'test', display: 'test', tagifySuggestionIdx: 'test'};
+    init(tagifyMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
+
+    const input = {className: 'test'};
+
+    const config  = [
+      {classNames: {namespace: 'all_false'}, readonly: false, disabled: false, required: false, mode: ''},
+      {classNames: {namespace: 'all_true', strictMode: 'strict_mode'}, readonly: true, disabled: true, required: true, mode: 'strict'},
+    ];
+
+    const result = [
+      `<div class="all_false  test" tabIndex="-1">\u200B</div>`.replace(/ /g, ''),
+      `<div class="all_true strict_mode test" readonly disabled required tabIndex="-1">\u200B</div>`.replace(/ /g, ''),
+    ];
+
+    config.forEach(
+      (v, i) => {
+        const test_obj = new class {
+          settings = {templates: {input: {call: () => ''}}};
+
+          test(wrapper_function, v, result) {
+            const wf = wrapper_function.bind(this);
+            console.log(this.settings.templates.input.call);
+            assert.strict.equal(
+              wf(input, v).replace(/[ \n]/g, ''),
+              result,
+            );
+          }
+        };
+
+        test_obj.test(tagifyInstanceMock.settings.templates.wrapper, v, result[i]);
+      }
+    );
+
+    mock.reset();
+  });
+
+  it('should build correct tags as divs.', () => {
+    const tagData = {value: 'test', display: 'test', tagifySuggestionIdx: 'test'};
+    init(tagifyMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
+
+    assert.strict.equal(
+      tagifyInstanceMock.settings.templates.tag(tagData),
+      `<div contenteditable='false'
+          spellcheck="false" class='tagify__tag'
+          value="${tagData.value}"
+          tabindex="0">
+          <span title='remove tag' class='tagify__tag__removeBtn'></span>
+          <div>
+              <span class='tagify__tag-text'>${tagData.display}</span>
+          </div>
+        </div>`
+    );
+
+    mock.reset();
+  });
+
+  it('should build correct dropdowns as divs.', () => {
+    const tagData = {value: 'test', display: 'test', tagifySuggestionIdx: 'test'};
+    init(tagifyMock, inputMock, pseudoConfig, tagData, urlBuilderMock, urlBuilderTokenMock);
+
+    assert.strict.equal(
+      tagifyInstanceMock.settings.templates.dropdownItem(tagData),
+      `<div class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}" value="${tagData.value}">
+          <span>${tagData.display}</span>
+          </div>`
+    );
 
     mock.reset();
   });
