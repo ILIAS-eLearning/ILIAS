@@ -366,9 +366,7 @@ class TestScreenGUI
                 $this->lng->txt('tst_exam_access_code_label')
             )->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    function (string $value): bool {
-                        return !empty($value);
-                    },
+                    fn(string $value): bool => !empty($value),
                     fn($lng_closure, $value) => $this->lng->txt('tst_exam_access_code_required_message'),
                 )
             );
@@ -381,11 +379,17 @@ class TestScreenGUI
             $modal_inputs['exam_access_code'] = $access_code_input;
         }
 
-        if ($this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
-            && $this->test_passes_selector->getLastFinishedPass() >= 0) {
+        if (
+            $this->test_passes_selector->getLastFinishedPass() >= 0
+            && $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
+        ) {
             $modal_inputs['exam_use_previous_answers'] = $this->ui_factory->input()->field()->checkbox(
                 $this->lng->txt('tst_exam_use_previous_answers'),
                 $this->lng->txt('tst_exam_use_previous_answers_label')
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(
+                    fn($value) => (string) (int) ($value ?? false)
+                )
             );
         }
 
@@ -419,7 +423,7 @@ class TestScreenGUI
 
     private function evaluateLauncherModalForm(Result $result): void
     {
-        if ($result->isError()) {
+        if (empty($result->value()) || $result->isError()) {
             $this->tpl->setOnScreenMessage(
                 \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('tst_exam_required_fields_not_filled_message'),
@@ -429,35 +433,23 @@ class TestScreenGUI
         }
 
         $anonymous = $this->user->isAnonymous();
-        foreach ($result->value() as $key => $value) {
-            switch ($key) {
-                case 'exam_access_code':
-                    if ($anonymous && !empty($value)) {
-                        $this->test_session->setAccessCodeToSession($value);
-                    } else {
-                        $this->test_session->unsetAccessCodeInSession();
-                    }
-                    break;
-                case 'exam_use_previous_answers':
-                    $exam_use_previous_answers_value = (string) (int) $value;
-                    break;
+        if (array_key_exists('exam_access_code', $result->value())) {
+            $value = $result->value()['exam_access_code'];
+            if ($anonymous && !empty($value)) {
+                $this->test_session->setAccessCodeToSession($value);
+            } else {
+                $this->test_session->unsetAccessCodeInSession();
             }
-        }
-
-        if (empty($result->value())) {
-            $this->tpl->setOnScreenMessage(
-                \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('tst_exam_required_fields_not_filled_message'),
-                true
-            );
-            return;
         }
 
         if (
             !$anonymous &&
             $this->main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed()
         ) {
-            $this->user->setPref('tst_use_previous_answers', $exam_use_previous_answers_value ?? '0');
+            $this->user->setPref(
+                'tst_use_previous_answers',
+                $result->value()['exam_use_previous_answers'] ?? '0'
+            );
             $this->user->update();
         }
 
