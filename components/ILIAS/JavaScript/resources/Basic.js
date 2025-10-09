@@ -566,7 +566,7 @@ il.UICore = {
       let more_than_two_lines;
       more_than_two_lines = tabsHeight >= 50;
       if (more_than_two_lines) {
-        $('#ilLastTab a').removeClass('ilNoDisplay');
+        $('#ilLastTab .dropdown-toggle').removeClass('ilNoDisplay');
 
         // as long as we have two lines...
         while (more_than_two_lines) {
@@ -590,7 +590,7 @@ il.UICore = {
           tabsHeight = tabs.innerHeight();
         }
         if ($('#ilTabDropDown').children('li').length == 0) {
-          $('#ilLastTab a').addClass('ilNoDisplay');
+          $('#ilLastTab .dropdown-toggle').addClass('ilNoDisplay');
         }
         if (tabsHeight > 50 && !recheck) { // double chk height again
           il.UICore.collapseTabs(true);
