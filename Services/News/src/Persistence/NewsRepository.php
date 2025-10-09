@@ -60,14 +60,10 @@ class NewsRepository
             return [];
         }
 
-        $result = $this->db->query(
-            "SELECT il_news_item.*, object_reference.ref_id FROM il_news_item 
-                    RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id WHERE "
-                    . $this->db->in('id', $news_ids, false, \ilDBConstants::T_INTEGER)
-        );
-
+        $result = $this->db->query($this->buildFindQuery($news_ids));
         return array_map(fn($row) => $this->factory->newsItem($row), $this->db->fetchAll($result));
     }
+
 
     /**
      * @param int[] $news_ids
@@ -80,17 +76,51 @@ class NewsRepository
             return [];
         }
 
-        $in_ids = $this->db->in('id', $news_ids, false, \ilDBConstants::T_INTEGER);
-        $in_types = $this->db->in('context_obj_type', $group_context_types, false, \ilDBConstants::T_TEXT);
+        $result = $this->db->query($this->buildFindQuery($news_ids));
+        $news_items = [];
+        $additional_obj_ids = [];
 
-        $result = $this->db->query(
-            "SELECT DISTINCT il_news_item.*, object_reference.ref_id FROM il_news_item 
-                    RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id 
-                    WHERE {$in_ids} OR context_obj_id IN 
-                        (SELECT il_news_item.context_obj_id FROM il_news_item WHERE {$in_ids} AND {$in_types})"
+        foreach ($this->db->fetchAll($result) as $row) {
+            $news_item = $this->factory->newsItem($row);
+
+            if (in_array($news_item->getContextObjType(), $group_context_types)) {
+                $additional_obj_ids[] = $news_item->getContextObjId();
+            }
+
+            $news_items[] = $news_item;
+        }
+
+        if (empty($additional_obj_ids)) {
+            return $news_items;
+        }
+
+        // Fetch all additional items with same context_obj_id for grouping
+        $query = $this->buildFindQuery()
+            . " WHERE " . $this->db->in('context_obj_id', $additional_obj_ids, false, \ilDBConstants::T_INTEGER)
+            . " AND " . $this->db->in('id', $news_ids, true, \ilDBConstants::T_INTEGER);
+        $result = $this->db->query($query);
+
+        return array_merge(
+            $news_items,
+            array_map(fn($row) => $this->factory->newsItem($row), $this->db->fetchAll($result))
         );
+    }
 
-        return array_map(fn($row) => $this->factory->newsItem($row), $this->db->fetchAll($result));
+    private function buildFindQuery(?array $news_ids = null): string
+    {
+        $query = "
+            SELECT il_news_item.*, 
+               COALESCE(
+                    (SELECT ref_id FROM object_reference WHERE object_reference.obj_id = il_news_item.context_obj_id LIMIT 1), 
+                    0
+                ) AS ref_id 
+            FROM il_news_item ";
+
+        if ($news_ids !== null) {
+            $query .= "WHERE " . $this->db->in('id', $news_ids, false, \ilDBConstants::T_INTEGER);
+        }
+
+        return $query;
     }
 
     /**
@@ -178,13 +208,15 @@ class NewsRepository
     {
         $values = [];
         $types = [];
+        $joins = '';
 
         if ($only_id) {
             $columns = ['il_news_item.id'];
-            $joins = '';
         } else {
-            $columns = ['il_news_item.*', 'object_reference.ref_id'];
-            $joins = 'RIGHT JOIN object_reference ON il_news_item.context_obj_id = object_reference.obj_id ';
+            $columns = [
+                'il_news_item.*',
+                'COALESCE((SELECT ref_id FROM object_reference WHERE object_reference.obj_id = il_news_item.context_obj_id LIMIT 1), 0) AS ref_id'
+            ];
         }
 
         if ($criteria->isIncludeReadStatus()) {
