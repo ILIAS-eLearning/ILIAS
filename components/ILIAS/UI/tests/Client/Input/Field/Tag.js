@@ -118,7 +118,7 @@ describe('Tag Input Field', () => {
     mock.reset();
   });
 
-  it('should urldecode user input.', () => {
+  it('should urlencode user input.', () => {
     const userInput = [
       {value: '++1#*'},
       {value: '[-2]'},
