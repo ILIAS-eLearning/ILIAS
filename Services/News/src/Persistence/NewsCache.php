@@ -34,15 +34,10 @@ use ILIAS\News\Data\NewsCriteria;
  */
 class NewsCache
 {
-    private const INDEX_MAX_SIZE = 10000;
-
     protected readonly bool $enabled;
     /** @var int Number of minutes until an entry expires */
     protected readonly int $cache_ttl;
     protected readonly \ilCache $il_cache;
-
-    /** @var array<int, string[]> Inverted index for lookup of aggregated contexts */
-    protected array $inverted_index = [];
 
     public function __construct(
     ) {
@@ -53,8 +48,6 @@ class NewsCache
 
         $this->il_cache = new \ilCache('ServicesNews', 'NewsMultiLevel', true);
         $this->il_cache->setExpiresAfter($this->cache_ttl * 60);
-
-        $this->loadIndex();
     }
 
     /**
@@ -71,109 +64,20 @@ class NewsCache
             return ['hit' => [], 'missing' => $contexts];
         }
 
-        // Check for exact matches
-        if ($hits = $this->getAggregatedContextsStrict($contexts)) {
-            return ['hit' => $hits, 'missing' => []];
+        $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
+        sort($context_ids, SORT_NUMERIC);
+
+        if ($entry = $this->il_cache->getEntry($this->generateL1Key($context_ids))) {
+            $contexts = array_map(fn($raw) => NewsContext::denormalize($raw), unserialize($entry));
+            return ['hit' => $contexts, 'missing' => []];
         }
 
-        $hits = [];
-        $uncovered = [];
-        foreach ($contexts as $context) {
-            $uncovered[$context->getRefId()] = $context;
-        }
-
-        // Use greedy algorithm to solve set-cover-problem and find stored subsets
-        while (!empty($uncovered)) {
-            $best_candidate_key = '';
-            $best_candidate_items = [];
-
-            // Use inverted index to find potential candidates
-            foreach ($this->findPotentialCandidates(array_keys($uncovered)) as $candidate_key) {
-                // Check if the candidate is a subset of the remaining uncovered ids
-                $candidate_items = explode(',', $candidate_key);
-                $is_subset = true;
-                foreach ($candidate_items as $k) {
-                    if (!isset($uncovered[$k])) {
-                        $is_subset = false;
-                        break;
-                    }
-                }
-
-                // The best candidate is the one that covers the most items
-                if ($is_subset && count($candidate_items) > count($best_candidate_items)) {
-                    $best_candidate_key = $candidate_key;
-                    $best_candidate_items = $candidate_items;
-                }
-            }
-
-            // If a candidate was found, fetch the stored elements
-            if ($best_candidate_key !== '') {
-                if ($entry = $this->il_cache->getEntry($this->generateL1Key($best_candidate_key))) {
-                    array_push($hits, ...unserialize($entry));
-
-                    // Remove the covered items from the map
-                    foreach ($best_candidate_items as $k) {
-                        unset($uncovered[$k]);
-                    }
-                } else {
-                    // Remove items from the index if the cache entry is no longer valid
-                    $this->invalidateInvertedIndex($best_candidate_items);
-                }
-            } else {
-                // Break if no more hits can be found
-                break;
-            }
-        }
-
-        $this->saveIndex();
-
-        return ['hit' => $hits, 'missing' => array_values($uncovered)];
-    }
-
-    /**
-     * @param int[] $elements
-     * @return string[]
-     */
-    protected function findPotentialCandidates(array $elements): array
-    {
-        $keys = [];
-        foreach ($elements as $element) {
-            if (isset($this->inverted_index[$element])) {
-                array_push($keys, ...$this->inverted_index[$element]);
-            }
-        }
-        return array_unique($keys);
+        return ['hit' => [], 'missing' => $contexts];
     }
 
     protected function generateL1Key(string|array $contexts): string
     {
         return 'agg:' . md5(is_array($contexts) ? implode(',', $contexts) : $contexts);
-    }
-
-    /**
-     * Level-1 Cache stores a collection of the aggregated contexts for the provided base context.
-     * It returns a list of the NewsContexts (complete) or null on cache miss.
-     *
-     * @param NewsContext[] $contexts
-     * @return NewsContext[]|null
-     */
-    public function getAggregatedContextsStrict(array $contexts): ?array
-    {
-        if (!$this->enabled) {
-            return null;
-        }
-
-        if (empty($contexts)) {
-            return [];
-        }
-
-        $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
-        sort($context_ids, SORT_NUMERIC);
-
-        if ($entry = $this->il_cache->getEntry($this->generateL1Key($context_ids))) {
-            return unserialize($entry);
-        }
-        return null;
     }
 
     /**
@@ -188,23 +92,10 @@ class NewsCache
 
         $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
         sort($context_ids, SORT_NUMERIC);
-
         $key = implode(',', $context_ids);
-        $this->il_cache->storeEntry($this->generateL1Key($key), serialize($aggregated));
 
-        // Check index size to prevent memory overflow
-        if (count($this->inverted_index) >= self::INDEX_MAX_SIZE) {
-            return;
-        }
-
-        foreach ($context_ids as $context_id) {
-            if (!isset($this->inverted_index[$context_id])) {
-                $this->inverted_index[$context_id] = [];
-            }
-            $this->inverted_index[$context_id][] = $key;
-        }
-
-        $this->saveIndex();
+        $payload = array_map(fn($context) => $context->normalize(), $contexts);
+        $this->il_cache->storeEntry($this->generateL1Key($key), serialize($payload));
     }
 
     /**
@@ -222,22 +113,6 @@ class NewsCache
 
         // Delete cache entry
         $this->il_cache->deleteEntry($this->generateL1Key($key));
-
-        // Delete reference from inverted index
-        $this->invalidateInvertedIndex($context_ids);
-        $this->saveIndex();
-    }
-
-    private function invalidateInvertedIndex(array $context_ids): void
-    {
-        sort($context_ids, SORT_NUMERIC);
-        $key = implode(',', $context_ids);
-
-        foreach ($context_ids as $context_id) {
-            if (isset($this->inverted_index[$context_id])) {
-                $this->inverted_index[$context_id] = array_diff($this->inverted_index[$context_id], [$key]);
-            }
-        }
     }
 
 
@@ -349,35 +224,5 @@ class NewsCache
     public function flush(): void
     {
         $this->il_cache->deleteAllEntries();
-        $this->inverted_index = [];
-        $this->saveIndex();
-    }
-
-
-    protected function loadIndex(): void
-    {
-        if (apcu_enabled() && apcu_exists('news:cache:idx')) {
-            $this->inverted_index = apcu_fetch('news:cache:idx');
-            return;
-        }
-
-        if ($entry = $this->il_cache->getEntry('idx')) {
-            $this->inverted_index = unserialize($entry);
-            return;
-        }
-
-        $this->inverted_index = [];
-
-    }
-
-    protected function saveIndex(): void
-    {
-        $this->il_cache->setExpiresAfter(86400);
-        $this->il_cache->storeEntry('idx', serialize($this->inverted_index));
-        $this->il_cache->setExpiresAfter($this->cache_ttl);
-
-        if (apcu_enabled()) {
-            apcu_store('news:cache:idx', $this->inverted_index);
-        }
     }
 }

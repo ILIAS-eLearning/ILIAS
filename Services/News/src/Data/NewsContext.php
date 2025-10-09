@@ -120,4 +120,36 @@ final class NewsContext
     {
         return $this->parent_ref_id === null;
     }
+
+    /*
+        Optimized Serializing
+     */
+
+    /**
+     * Transform this object into array representation and keep only properties which are not default values.
+     *
+     * @return array<string, mixed>
+     */
+    public function normalize(): array
+    {
+        $vars = get_object_vars($this);
+        return array_filter($vars);
+    }
+
+    /**
+     * Create new object from reduced array representation.
+     *
+     * @param array<string, mixed> $raw
+     * @return self
+     */
+    public static function denormalize(array $raw): self
+    {
+        return new self(
+            $raw['ref_id'],
+            $raw['obj_id'] ?? null,
+            $raw['obj_type'] ?? null,
+            $raw['parent_ref_id'] ?? null,
+            $raw['level'] ?? 0,
+        );
+    }
 }
