@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\News\Persistence;
 
@@ -102,8 +102,8 @@ class NewsRepository
             return new NewsCollection();
         }
 
-        $obj_ods = array_map(fn($context) => $context->getObjId(), $contexts);
-        $result = $this->db->queryF(...$this->buildBatchQuery($obj_ods, $criteria));
+        $obj_ids = array_map(fn($context) => $context->getObjId(), $contexts);
+        $result = $this->db->queryF(...$this->buildBatchQuery($obj_ids, $criteria));
 
         $items = [];
         $user_read = [];
@@ -130,8 +130,8 @@ class NewsRepository
             return new LazyNewsCollection();
         }
 
-        $obj_ods = array_map(fn($context) => $context->getObjId(), $contexts);
-        $result = $this->db->queryF(...$this->buildBatchQuery($obj_ods, $criteria, true));
+        $obj_ids = array_map(fn($context) => $context->getObjId(), $contexts);
+        $result = $this->db->queryF(...$this->buildBatchQuery($obj_ids, $criteria, true));
 
         $items = [];
         $user_read = [];

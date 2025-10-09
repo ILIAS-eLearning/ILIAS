@@ -624,7 +624,7 @@ class ilNewsItem
      * Get news aggregation (e.g. for courses, groups)
      * @param string|int $a_time_period
      *
-     * @depracated will be removed after migrating `getNewsForRefId`
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     protected function getAggregatedNewsData(
         int $a_ref_id,
@@ -731,7 +731,7 @@ class ilNewsItem
     }
 
     /**
-     * @depracated will be removed after migrating `getNewsForRefId`
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     protected function aggregateForums(
         array $news,
@@ -779,7 +779,7 @@ class ilNewsItem
     }
 
     /**
-     * @depracated will be removed after migrating `getNewsForRefId`
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     protected function aggregateFiles(
         array $news,
@@ -812,7 +812,7 @@ class ilNewsItem
     /**
      * Get news aggregation for child objects (e.g. for categories)
      *
-     * @depracated will be removed after migrating `getNewsForRefId`
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     protected function getAggregatedChildNewsData(
         int $a_ref_id,
@@ -936,7 +936,7 @@ class ilNewsItem
      * Query news for a context
      * @param string|int $a_time_period
      *
-     * @depracated will be removed after migrating `getNewsForRefId`
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     public function queryNewsForContext(
         bool $a_for_rss_use = false,
@@ -1108,7 +1108,7 @@ class ilNewsItem
     /**
      * @param string|int $a_time_period
      *
-     * @depracated will be removed after migrating `getNewsForRefId`
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     private function queryNewsForMultipleContexts(
         array $a_contexts,
@@ -1557,7 +1557,7 @@ class ilNewsItem
             $up_cnt = $cr_cnt = 0;
             foreach ($a_aggregation as $item) {
                 $title = $item instanceof NewsItem ? $item->getTitle() : $item['title'];
-                if ($title === "file_updated") {
+                if ($title === 'file_updated') {
                     $up_cnt++;
                 } else {
                     $cr_cnt++;

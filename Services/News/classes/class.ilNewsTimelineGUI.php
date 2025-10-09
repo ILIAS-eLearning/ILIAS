@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\News\Data\NewsCollection;
+use ILIAS\News\Data\NewsItem;
 use ILIAS\News\StandardGUIRequest;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
@@ -214,7 +215,7 @@ class ilNewsTimelineGUI
 
         $js_items = [];
 
-        /** @var \ILIAS\News\Data\NewsItem $news_item */
+        /** @var NewsItem $news_item */
         foreach ($this->news_collection as $news_item) {
             $item = ilNewsTimelineItemGUI::getInstance($news_item, $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
@@ -288,7 +289,7 @@ class ilNewsTimelineGUI
 
         $js_items = [];
 
-        /** @var \ILIAS\News\Data\NewsItem $news_item */
+        /** @var NewsItem $news_item */
         foreach ($this->news_collection as $news_item) {
             $item = ilNewsTimelineItemGUI::getInstance($news_item, $like_gui);
             $item->setUserEditAll($this->getUserEditAll());

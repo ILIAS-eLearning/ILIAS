@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +16,12 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\News\Aggregation;
 
 use ILIAS\News\Data\NewsContext;
 use SplQueue;
-
-use function RectorPrefix202304\compressJs;
 
 /**
  * News Aggregator aggregates related contexts for a news context using a layer-wise Batching BFS to aggregate context
@@ -33,9 +31,13 @@ class NewsAggregator
 {
     /** @var array<string, NewsAggregationStrategy> */
     protected array $strategies = [];
+    protected \ilTree $tree;
 
     public function __construct()
     {
+        global $DIC;
+
+        $this->tree = $DIC->repositoryTree();
         $this->initializeStrategies();
     }
 
@@ -70,7 +72,7 @@ class NewsAggregator
             // 2. Collect children for each type using the appropriate strategy
             foreach ($batches as $type => $batch) {
                 $strategy = $this->getStrategy($type);
-                if (!$strategy) {
+                if ($strategy === null) {
                     continue;
                 }
 
@@ -101,12 +103,9 @@ class NewsAggregator
 
     protected function initializeStrategies(): void
     {
-        //TODO: use constructor injection instead
-        global $DIC;
+        $subtree_strategy = new SubtreeAggregationStrategy($this->tree);
 
-        $subtree_strategy = new SubtreeAggregationStrategy($DIC->repositoryTree());
-
-        $this->strategies['cat'] = new CategoryAggregationStrategy($DIC->repositoryTree());
+        $this->strategies['cat'] = new CategoryAggregationStrategy($this->tree);
         $this->strategies['crs'] = $subtree_strategy;
         $this->strategies['grp'] = $subtree_strategy;
     }

@@ -18,21 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\Agent\HasNoNamedObjective;
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\Metrics;
-use ILIAS\Setup\Config;
-use ILIAS\Setup;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
-use ILIAS\Test\Setup\ilRemoveDynamicTestsAndCorrespondingDataMigration;
-use ILIAS\Test\Setup\ilSeparateQuestionListSettingMigration;
-use ILIAS\Test\Setup\CloneIntroductionAndClosingRemarksMigration;
-use ILIAS\Test\Setup\ilManScoringRecalculateReachedPoints;
 
 class ilNewsSetupAgent extends NullAgent
 {
-    use Setup\Agent\HasNoNamedObjective;
+    use HasNoNamedObjective;
 
     public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
     {

@@ -175,11 +175,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         if ($item->getContextRefId() > 0) {
             $obj_id = $item->getContextObjId();
             $type = $item->getContextObjType();
-            $context_ref = $item->getContextRefId();
 
-            $lang_type = in_array($type, ['sahs', 'lm', 'htlm'])
-                ? 'lres'
-                : 'obj_' . $type;
+            $lang_type = in_array($type, ['sahs', 'lm', 'htlm']) ? 'lres' : 'obj_' . $type;
 
             $type_txt = ($this->obj_def->isPlugin($item->getContextObjType()))
                 ? ilObjectPlugin::lookupTxtById($item->getContextObjType(), $lang_type)
@@ -190,7 +187,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $info['obj_title'] = ilStr::shortenWords(ilObject::_lookupTitle($obj_id));
             $info['user_read'] = $this->collection->isReadByUser($this->user->getId(), $news_id);
 
-            $this->ctrl->setParameter($this, 'news_context', $context_ref);
+            $this->ctrl->setParameter($this, 'news_context', $item->getContextRefId());
         } else {
             $this->ctrl->setParameter($this, 'news_context', '');
         }
@@ -420,7 +417,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $news_context = $current_item->getContextRefId();
         }
 
-        if (!$current_item) {
+        if ($current_item === null) {
             return '';
         }
 
@@ -637,8 +634,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $item->getContextObjType(),
                     $item->getTitle(),
                     $item->isContentIsLangVar(),
-                    !$is_grouped_item && $grouping ? $grouping['agg_ref_id'] : 0,
-                    !$is_grouped_item && $grouping ? $grouping['aggregation'] : [],
+                    (!$is_grouped_item && $grouping) ? $grouping['agg_ref_id'] : 0,
+                    (!$is_grouped_item && $grouping) ? $grouping['aggregation'] : [],
                 )
             );
 

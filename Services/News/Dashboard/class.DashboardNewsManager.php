@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\News\Dashboard;
 
 use ILIAS\News\Data\NewsCriteria;
@@ -31,20 +31,14 @@ use ILIAS\News\InternalDomainService;
 class DashboardNewsManager
 {
     protected DashboardSessionRepository $session_repo;
-    protected InternalRepoService $repo;
-    protected InternalDataService $data;
-    protected InternalDomainService $domain;
     protected \ilFavouritesManager $fav_manager;
 
     public function __construct(
-        InternalDataService $data,
-        InternalRepoService $repo,
-        InternalDomainService $domain
+        protected InternalDataService $data,
+        protected InternalRepoService $repo,
+        protected InternalDomainService $domain
     ) {
         $this->session_repo = $repo->dashboard();
-        $this->repo = $repo;
-        $this->data = $data;
-        $this->domain = $domain;
         $this->fav_manager = new \ilFavouritesManager();
     }
 
@@ -116,13 +110,10 @@ class DashboardNewsManager
      */
     public function getContextOptions(): array
     {
-        $lng = $this->domain->lng();
-        $period = $this->getDashboardNewsPeriod();
-
         $context_count = $this->repo->news()->countByContextsBatch(
             $this->domain->resolver()->getAccessibleContexts(
                 $this->domain->user(),
-                new NewsCriteria(period: $period, only_public: false)
+                new NewsCriteria(period: $this->getDashboardNewsPeriod(), only_public: false)
             )
         );
 
@@ -132,6 +123,6 @@ class DashboardNewsManager
         }
         asort($options);
 
-        return [0 => $lng->txt('news_all_items')] + $options;
+        return [0 => $this->domain->lng()->txt('news_all_items')] + $options;
     }
 }

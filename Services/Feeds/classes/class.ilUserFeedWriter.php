@@ -52,9 +52,8 @@ class ilUserFeedWriter extends ilFeedWriter
 
         $hash = ilObjUser::_lookupFeedHash($a_user_id);
 
-        $rss_period = ilNewsItem::_lookupRSSPeriod();
-
         if ($a_hash == $hash) {
+            $rss_period = ilNewsItem::_lookupRSSPeriod();
             $items = $DIC->news()->internal()->domain()->collection()->getNewsForUser(
                 new ilObjUser($a_user_id),
                 new NewsCriteria(period: $rss_period, only_public: !$privFeed),
@@ -76,7 +75,7 @@ class ilUserFeedWriter extends ilFeedWriter
                 $obj_title = ilObject::_lookupTitle($item->getContextObjId());
 
                 // not nice, to do: general solution
-                if ($item->getContextObjType() == "mcst") {
+                if ($item->getContextObjType() === 'mcst') {
                     if (!ilObjMediaCastAccess::_lookupOnline($item->getContextObjId())) {
                         continue;
                     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\News\Persistence;
 
@@ -68,18 +68,12 @@ class NewsCache
     public function getAggregatedContexts(array $contexts): array
     {
         if (!$this->enabled || empty($contexts)) {
-            return [
-                'hit' => [],
-                'missing' => $contexts,
-            ];
+            return ['hit' => [], 'missing' => $contexts];
         }
 
         // Check for exact matches
         if ($hits = $this->getAggregatedContextsStrict($contexts)) {
-            return [
-                'hit' => $hits,
-                'missing' => [],
-            ];
+            return ['hit' => $hits, 'missing' => []];
         }
 
         $hits = [];
@@ -133,10 +127,7 @@ class NewsCache
 
         $this->saveIndex();
 
-        return [
-            'hit' => $hits,
-            'missing' => array_values($uncovered),
-        ];
+        return ['hit' => $hits, 'missing' => array_values($uncovered)];
     }
 
     /**
@@ -156,7 +147,7 @@ class NewsCache
 
     protected function generateL1Key(string|array $contexts): string
     {
-        return 'agg:' . md5(is_array($contexts) ? join(',', $contexts) : $contexts);
+        return 'agg:' . md5(is_array($contexts) ? implode(',', $contexts) : $contexts);
     }
 
     /**
@@ -198,7 +189,7 @@ class NewsCache
         $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
         sort($context_ids, SORT_NUMERIC);
 
-        $key = join(',', $context_ids);
+        $key = implode(',', $context_ids);
         $this->il_cache->storeEntry($this->generateL1Key($key), serialize($aggregated));
 
         // Check index size to prevent memory overflow
@@ -227,7 +218,7 @@ class NewsCache
 
         $context_ids = array_map(fn($context) => $context->getRefId(), $contexts);
         sort($context_ids, SORT_NUMERIC);
-        $key = join(',', $context_ids);
+        $key = implode(',', $context_ids);
 
         // Delete cache entry
         $this->il_cache->deleteEntry($this->generateL1Key($key));
@@ -235,13 +226,12 @@ class NewsCache
         // Delete reference from inverted index
         $this->invalidateInvertedIndex($context_ids);
         $this->saveIndex();
-
     }
 
     private function invalidateInvertedIndex(array $context_ids): void
     {
         sort($context_ids, SORT_NUMERIC);
-        $key = join(',', $context_ids);
+        $key = implode(',', $context_ids);
 
         foreach ($context_ids as $context_id) {
             if (isset($this->inverted_index[$context_id])) {
@@ -368,11 +358,16 @@ class NewsCache
     {
         if (apcu_enabled() && apcu_exists('news:cache:idx')) {
             $this->inverted_index = apcu_fetch('news:cache:idx');
-        } elseif ($entry = $this->il_cache->getEntry('idx')) {
-            $this->inverted_index = unserialize($entry);
-        } else {
-            $this->inverted_index = [];
+            return;
         }
+
+        if ($entry = $this->il_cache->getEntry('idx')) {
+            $this->inverted_index = unserialize($entry);
+            return;
+        }
+
+        $this->inverted_index = [];
+
     }
 
     protected function saveIndex(): void

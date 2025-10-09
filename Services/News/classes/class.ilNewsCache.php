@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @depracated Use \ILIAS\News\Persistence\NewsCache instead
+ * @deprecated Use \ILIAS\News\Persistence\NewsCache instead
  */
 class ilNewsCache extends ilCache
 {

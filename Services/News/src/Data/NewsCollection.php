@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\News\Data;
 
@@ -256,7 +256,7 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
                 'mob_cnt_play' => $item->getMobCntPlay(),
                 'content_html' => $item->isContentHtml(),
                 'update_user_id' => $item->getUpdateUserId(),
-                'user_read' => $this->isReadByUser($item->getUserId(), $item->getId()) ? 1 : 0,
+                'user_read' => (int) $this->isReadByUser($item->getUserId(), $item->getId()),
                 'ref_id' => $item->getContextRefId()
             ];
 
@@ -266,17 +266,18 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
                     $idx = $file_aggregation_map[$item->getContextObjId()];
                     $items[$idx]['aggregation'][$item->getId()] = $entry;
                     continue;
-                } else {
-                    // If this is the first news for this file, set the aggregation array
-                    $entry['aggregation'] = [];
-                    $entry['agg_ref_id'] = $item->getContextRefId();
-                    $file_aggregation_map[$item->getContextObjId()] = $item->getId();
                 }
+
+                // If this is the first news for this file, set the aggregation array
+                $entry['aggregation'] = [];
+                $entry['agg_ref_id'] = $item->getContextRefId();
+                $file_aggregation_map[$item->getContextObjId()] = $item->getId();
+
             }
 
             if ($aggregate_forums) {
                 // If we are grouping by sequence, we need to reset the entry in the aggregation map when switching
-                if ($group_posting_sequence && $last_forum !== $item->getContextObjType() && $last_forum !== 0) {
+                if ($group_posting_sequence && $last_forum !== 0 && $last_forum !== $item->getContextObjType()) {
                     $forum_aggregation_map[$last_forum] = null;
                 }
 
@@ -288,15 +289,16 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
                         $idx = $forum_aggregation_map[$item->getContextObjId()];
                         $items[$idx]['aggregation'][$item->getId()] = $entry;
                         continue;
-                    } else {
-                        // If this is the first news for this forum, set the aggregation array
-                        $entry['agg_ref_id'] = $item->getContextRefId();
-                        $entry['content'] = '';
-                        $entry['content_long'] = '';
-
-                        $forum_aggregation_map[$item->getContextObjId()] = $item->getId();
-                        $last_forum = $item->getContextObjType();
                     }
+
+                    // If this is the first news for this forum, set the aggregation array
+                    $entry['agg_ref_id'] = $item->getContextRefId();
+                    $entry['content'] = '';
+                    $entry['content_long'] = '';
+
+                    $forum_aggregation_map[$item->getContextObjId()] = $item->getId();
+                    $last_forum = $item->getContextObjType();
+
                 }
             }
 
@@ -387,14 +389,9 @@ class NewsCollection implements \Countable, \IteratorAggregate, \JsonSerializabl
 
         // Merge user read status
         foreach ($other->user_read_status as $user_id => $read_ids) {
-            if (isset($this->user_read_status[$user_id])) {
-                $merged->user_read_status[$user_id] = array_merge(
-                    $this->user_read_status[$user_id],
-                    $read_ids
-                );
-            } else {
-                $merged->user_read_status[$user_id] = $read_ids;
-            }
+            $merged->user_read_status[$user_id] = isset($this->user_read_status[$user_id])
+                ? array_merge($this->user_read_status[$user_id], $read_ids)
+                : $read_ids;
         }
 
         return $merged;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\News\Domain;
 
@@ -67,10 +67,7 @@ class UserContextResolver
 
         // Get user's personal desktop items
         if ($this->shouldIncludePersonalDesktop($user)) {
-            $contexts = array_merge(
-                $contexts,
-                $this->getPersonalDesktopContexts($user)
-            );
+            $contexts = array_merge($contexts, $this->getPersonalDesktopContexts($user));
         }
 
         // Get user's memberships
@@ -130,10 +127,11 @@ class UserContextResolver
                 continue;
             }
 
-            if (!$criteria->isOnlyPublic()) {
-                if (!$this->access->checkAccessOfUser($user->getId(), 'read', '', $context->getRefId())) {
-                    continue;
-                }
+            if (
+                !$criteria->isOnlyPublic() &&
+                !$this->access->checkAccessOfUser($user->getId(), 'read', '', $context->getRefId())
+            ) {
+                continue;
             }
 
             $unique_contexts[$context->getRefId()] = $context;

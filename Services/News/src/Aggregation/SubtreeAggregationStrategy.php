@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\News\Aggregation;
 
 use ILIAS\News\Data\NewsContext;
@@ -27,9 +27,8 @@ use ILIAS\News\Data\NewsContext;
  */
 class SubtreeAggregationStrategy implements NewsAggregationStrategy
 {
-    public function __construct(
-        protected readonly \ilTree $tree
-    ) {
+    public function __construct(protected readonly \ilTree $tree)
+    {
     }
 
     /**
@@ -46,7 +45,7 @@ class SubtreeAggregationStrategy implements NewsAggregationStrategy
             }
 
             $context_node = $this->tree->getNodeData($context->getRefId());
-            if (!$context_node) {
+            if ($context_node === []) {
                 continue;
             }
 

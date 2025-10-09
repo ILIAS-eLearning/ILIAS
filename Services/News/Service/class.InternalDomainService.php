@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\News;
 
@@ -34,16 +34,11 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
-
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
     }
 

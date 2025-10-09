@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\News\Data;
 
@@ -131,10 +131,10 @@ class LazyNewsCollection extends NewsCollection
         $needs_file_grouping = false;
         $needs_forum_grouping = false;
         foreach ($items as $item) {
-            if ($item->getContextObjType() === 'file' && $this->group_files === true) {
+            if ($this->group_files === true && $item->getContextObjType() === 'file') {
                 $needs_file_grouping = true;
             }
-            if ($item->getContextObjType() === 'frm' && $this->group_forums > 0) {
+            if ($this->group_forums > 0 && $item->getContextObjType() === 'frm') {
                 $needs_forum_grouping = true;
             }
         }
@@ -197,15 +197,7 @@ class LazyNewsCollection extends NewsCollection
         $index = max(0, $offset);
         $news_id = array_keys($this->news_items)[$index] ?? null;
 
-        if ($news_id === null) {
-            return null;
-        }
-
-        if (!$this->has($news_id)) {
-            $this->load([$news_id]);
-        }
-
-        return $this->news_items[$news_id] ?? null;
+        return $news_id !== null ? $this->getById($news_id) : null;
     }
 
     /**

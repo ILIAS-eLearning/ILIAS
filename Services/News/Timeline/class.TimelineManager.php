@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\News\Timeline;
 
 use ILIAS\News\Data\NewsCollection;
@@ -33,17 +33,11 @@ use ILIAS\News\InternalDomainService;
  */
 class TimelineManager
 {
-    protected InternalRepoService $repo;
-    protected InternalDataService $data;
-    protected InternalDomainService $domain;
-
     public function __construct(
-        InternalDataService $data,
-        InternalRepoService $repo,
-        InternalDomainService $domain
+        protected InternalDataService $data,
+        protected InternalRepoService $repo,
+        protected InternalDomainService $domain
     ) {
-        $this->data = $data;
-        $this->domain = $domain;
     }
 
     public function getNewsData(
