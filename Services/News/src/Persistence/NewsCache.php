@@ -94,7 +94,7 @@ class NewsCache
         sort($context_ids, SORT_NUMERIC);
         $key = implode(',', $context_ids);
 
-        $payload = array_map(fn($context) => $context->normalize(), $contexts);
+        $payload = array_map(fn($context) => $context->normalize(), $aggregated);
         $this->il_cache->storeEntry($this->generateL1Key($key), serialize($payload));
     }
 
