@@ -620,16 +620,33 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $frontend->authenticate();
 
+        setcookie(session_name(), session_id(), [
+            'expires' => 0,
+            'path' => rtrim(IL_COOKIE_PATH, '/'),
+            'domain' => IL_COOKIE_DOMAIN,
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'None'
+        ]);
+
+        $lti_context_ids = ilSession::get("lti_context_ids");
+
+        if (is_array($lti_context_ids) && isset($lti_context_ids[0])) {
+            $ref_id = $lti_context_ids[0];
+            $obj_type = ilObject::_lookupType($ref_id, true);
+            ilSession::set('orig_request_target', "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $ref_id);
+        }
+
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
                 ilInitialisation::redirectToStartingPage();
 
-                // no break
+            // no break
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
                 $this->ctrl->redirect($this, 'showAccountMigration');
 
-                // no break
+            // no break
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt($status->getReason()), true);
                 $this->ctrl->redirect($this, 'showLoginPage');
