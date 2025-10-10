@@ -72,7 +72,7 @@ class ilLTIConsumeProviderSettingsGUI
         }
     }
 
-    protected function showSettingsCmd(ilLTIConsumeProviderFormGUI $form = null): void
+    protected function showSettingsCmd(?ilLTIConsumeProviderFormGUI $form = null): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

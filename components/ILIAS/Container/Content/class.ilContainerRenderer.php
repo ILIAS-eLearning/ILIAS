@@ -766,7 +766,7 @@ class ilContainerRenderer
     protected function addStandardRow(
         ilTemplate $a_tpl,
         string $a_html,
-        string $a_item_id = null
+        ?string $a_item_id = null
     ): void {
         if ($a_item_id) {
             $a_tpl->setCurrentBlock("row");

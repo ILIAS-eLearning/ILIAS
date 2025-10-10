@@ -22,7 +22,7 @@ use ILIAS\Setup;
 
 class ilScorm2004SetupAgent extends Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(?Setup\Config $config = null) : Setup\Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilScorm2004DatabaseUpdateSteps());
     }

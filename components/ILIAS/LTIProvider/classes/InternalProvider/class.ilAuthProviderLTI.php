@@ -529,7 +529,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         return $userObj->getId();
     }
 
-    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer, int $target_ref_id, int $default_rol_id = null): bool
+    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer, int $target_ref_id, ?int $default_rol_id = null): bool
     {
         global $DIC;
         $this->getLogger()->info('$target_ref_id: ' . $target_ref_id);

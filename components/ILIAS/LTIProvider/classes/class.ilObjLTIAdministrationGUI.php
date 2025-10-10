@@ -136,7 +136,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    protected function initSettingsForm(ilPropertyFormGUI $form = null): void
+    protected function initSettingsForm(?ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getSettingsForm();
@@ -231,7 +231,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     // consumers
 
-    protected function initConsumerForm(ilPropertyFormGUI $form = null): void
+    protected function initConsumerForm(?ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getConsumerForm();
@@ -310,7 +310,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      * Edit consumer
      * @param ilPropertyFormGUI $a_form
      */
-    protected function editConsumer(ilPropertyFormGUI $a_form = null): void
+    protected function editConsumer(?ilPropertyFormGUI $a_form = null): void
     {
         $this->ctrl->setParameter($this, "cid", $this->consumer_id);
 

@@ -87,7 +87,7 @@ class ilLTITool extends Tool
         return $res;
     }
 
-    public function handleRequest(bool $strictMode = null, bool $disableCookieCheck = false, bool $generateWarnings = false): void
+    public function handleRequest(?bool $strictMode = null, bool $disableCookieCheck = false, bool $generateWarnings = false): void
     {
         global $DIC;
 

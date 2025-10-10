@@ -145,7 +145,7 @@ class ilLTIProviderObjectSettingGUI
      * Show settings
      * @param ilPropertyFormGUI $form
      */
-    protected function settings(ilPropertyFormGUI $form = null): void
+    protected function settings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initObjectSettingsForm();
