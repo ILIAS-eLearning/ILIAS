@@ -32,7 +32,7 @@ import MarkdownFactory from './Markdown/markdown.factory.js';
 import TreeSelectFactory from './TreeSelect/TreeSelectFactory.js';
 import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
 import Tagify from '@yaireo/tagify';
-import * as tag from './Tag/tag.js';
+import tag from './Tag/tag.js';
 
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
@@ -48,7 +48,6 @@ il.UI.Input = il.UI.Input || {};
     document,
   );
   Input.tagInput = Input.tag || {};
-  Input.tagInput.init = (input, config, value, autocompleteEndpoint, autocompleteToken) => tag.init(
+  Input.tagInput.init = (input, config, value, autocompleteEndpoint, autocompleteToken) => tag(
     Tagify, input, config, value, autocompleteEndpoint, autocompleteToken);
-  Input.tagInput.getTagifyInstance = (input_id) => tag.getTagifyInstance(input_id);
 }(il.UI.Input));

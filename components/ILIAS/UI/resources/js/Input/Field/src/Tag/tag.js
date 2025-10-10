@@ -15,12 +15,6 @@
 
 /**
  *
- * @type {Array}
- */
-const instances = [];
-
-/**
- *
  * @type {AbortController}
  */
 let abortController;
@@ -143,15 +137,6 @@ function retrieveAutocomplete(
 }
 
 /**
- *
- * @param {string} instanceId
- * @returns {Tagify}
- */
-export function getTagifyInstance(instanceId) {
-  return instances[instanceId];
-}
-
-/**
  * @param {Tagify} Tagify
  * @param {HTMLInput} input
  * @param {Object} config
@@ -159,16 +144,23 @@ export function getTagifyInstance(instanceId) {
  * @param {URLBuilder} autocompleteEndpoint
  * @param {URLBuilderToken} autocompleteToken
  */
-export function init(Tagify, input, config, value, autocompleteEndpoint, autocompleteToken) {
-  instances[input.id] = new Tagify(
+export default function init(
+  Tagify,
+  input,
+  config,
+  value,
+  autocompleteEndpoint,
+  autocompleteToken,
+) {
+  const instance = new Tagify(
     input,
     buildSettings(input.id, config),
   );
-  instances[input.id].addTags(value);
+  instance.addTags(value);
   if (typeof autocompleteEndpoint !== 'undefined') {
-    instances[input.id].on('input', (event) => {
+    instance.on('input', (event) => {
       retrieveAutocomplete(
-        instances[input.id],
+        instance,
         config.suggestionStarts,
         autocompleteEndpoint,
         autocompleteToken,
