@@ -642,11 +642,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
                 ilInitialisation::redirectToStartingPage();
 
-            // no break
+                // no break
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
                 $this->ctrl->redirect($this, 'showAccountMigration');
 
-            // no break
+                // no break
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt($status->getReason()), true);
                 $this->ctrl->redirect($this, 'showLoginPage');
