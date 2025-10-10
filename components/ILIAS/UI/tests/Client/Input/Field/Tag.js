@@ -17,7 +17,7 @@
 
 import { describe, it, mock } from 'node:test';
 import * as assert from 'node:assert';
-import { init } from '../../../../resources/js/Input/Field/src/Tag/tag.js';
+import init from '../../../../resources/js/Input/Field/src/Tag/tag.js';
 
 describe('Tag Input Field', () => {
   const pseudoConfig = {
