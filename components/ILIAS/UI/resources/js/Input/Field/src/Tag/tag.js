@@ -15,18 +15,18 @@
 
 /**
  *
- * @type {AbortController}
+ * @type {undefined|AbortController}
  */
 let abortController;
 
 /**
  *
- * @type {number}
+ * @type {undefined|number}
  */
 let timeout;
 
-/*
- * @param {HTMLInput} input
+/**
+ * @param {string} inputId
  * @param {Object} config
  * @returns {Object}
  */
@@ -93,7 +93,6 @@ function buildSettings(inputId, config) {
  * @param {URLBuilderToken} autocompleteToken
  * @param {InputEvent} event
  * @param {number} tagAutocompleteTriggerTimeout
- * @returns {void}
  */
 function retrieveAutocomplete(
   instance,
@@ -103,14 +102,14 @@ function retrieveAutocomplete(
   event,
   tagAutocompleteTriggerTimeout,
 ) {
-  if (typeof abortController !== 'undefined') {
+  if (abortController instanceof AbortController) {
     abortController.abort();
   }
   abortController = new AbortController();
 
   instance.whitelist = null;
 
-  if (typeof timeout === 'number') {
+  if (timeout !== undefined) {
     instance.DOM.scope.ownerDocument.defaultView.clearTimeout(timeout);
     timeout = undefined;
   }
@@ -138,11 +137,11 @@ function retrieveAutocomplete(
 
 /**
  * @param {Tagify} Tagify
- * @param {HTMLInput} input
+ * @param {HTMLElement} input
  * @param {Object} config
- * @param {array} value
- * @param {URLBuilder} autocompleteEndpoint
- * @param {URLBuilderToken} autocompleteToken
+ * @param {Array} value
+ * @param {undefined|URLBuilder} autocompleteEndpoint
+ * @param {undefined|URLBuilderToken} autocompleteToken
  */
 export default function init(
   Tagify,
@@ -157,7 +156,7 @@ export default function init(
     buildSettings(input.id, config),
   );
   instance.addTags(value);
-  if (typeof autocompleteEndpoint !== 'undefined') {
+  if (autocompleteEndpoint !== undefined) {
     instance.on('input', (event) => {
       retrieveAutocomplete(
         instance,
