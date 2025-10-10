@@ -72,7 +72,7 @@ class ilBookingParticipantGUI
                 $ref_id = $this->ref_id;
                 $rep_search->addUserAccessFilterCallable(function ($a_user_id) {
                     return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                        'render',
+                        'write',
                         'render',
                         $this->ref_id,
                         $a_user_id
