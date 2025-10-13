@@ -37,8 +37,26 @@ class Renderer
     public function getComponent(): \ILIAS\UI\Component\Component
     {
         $tpl = new \ilTemplate('tpl.wopi_container.html', true, true, 'Services/WOPI');
-        $tpl->setVariable('EDITOR_URL', (string) $this->embedded_application->getActionLauncherURL());
-        $tpl->setVariable('INLINE', (string) (int) $this->embedded_application->isInline());
+        //$tpl->setVariable('EDITOR_URL', (string) $this->embedded_application->getActionLauncherURL());
+        // --- Language forwarding (generic BCP47) ---------------------------------
+        global $DIC;
+	$lang_key = $DIC->language()->getLangKey() ?: 'en'; // e.g. de, en, fr-CH
+	if (strpos($lang_key, '-') !== false) {
+    	$locale = $lang_key; // already BCP47-like
+	} else {
+    	$lang_key = strtolower($lang_key);
+    	$locale = $lang_key . '-' . strtoupper($lang_key);
+	}
+	$ui = rawurlencode($locale);
+
+	$editor_url = (string) $this->embedded_application->getActionLauncherURL();
+	$separator = (strpos($editor_url, '?') === false) ? '?' : '&';
+	$editor_url .= $separator . 'ui=' . $ui;
+
+	$tpl->setVariable('EDITOR_URL', $editor_url);
+
+
+	$tpl->setVariable('INLINE', (string) (int) $this->embedded_application->isInline());
         $tpl->setVariable('TOKEN', (string) $this->embedded_application->getToken());
         $tpl->setVariable('TTL', (string) (time() + $this->embedded_application->getTTL()) * 1000); // in milliseconds
 
