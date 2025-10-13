@@ -19,8 +19,6 @@
 
 declare(strict_types=1);
 
-declare(strict_types=1);
-
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
@@ -43,13 +41,13 @@ class Section extends Group implements C\Input\Field\Section
         ?string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
-        $this->updateChildrenNestingLevels();
+        // only set/update nesting levels recursively once during construction.
+        $this->setSectionNestingLevelsRecursively($this->getInputs(), $this->getNestingLevel());
     }
 
     public function setNestingLevel(int $nesting_level): void
     {
         $this->nesting_level = $nesting_level;
-        $this->updateChildrenNestingLevels();
     }
 
     public function getNestingLevel(): int
@@ -57,18 +55,20 @@ class Section extends Group implements C\Input\Field\Section
         return $this->nesting_level;
     }
 
-    protected function setInputs(array $inputs): void
+    /**
+     * @param C\Input\Input[] $inputs
+     */
+    protected function setSectionNestingLevelsRecursively(array $inputs, int $current_nesting_level): void
     {
-        parent::setInputs($inputs);
-        $this->updateChildrenNestingLevels();
-    }
-
-    private function updateChildrenNestingLevels(): void
-    {
-        foreach ($this->getInputs() as $input) {
-            if ($input instanceof Section) {
-                $nesting_level = $this->getNestingLevel() + 1;
-                $input->setNestingLevel($nesting_level);
+        foreach ($inputs as $input) {
+            if ($input instanceof C\Input\Group && !($input instanceof self)) {
+                $this->setSectionNestingLevelsRecursively($input->getInputs(), $current_nesting_level);
+                continue;
+            }
+            if ($input instanceof self) {
+                $next_nesting_level = $current_nesting_level + 1;
+                $input->setNestingLevel($next_nesting_level);
+                $input->setSectionNestingLevelsRecursively($input->getInputs(), $next_nesting_level);
             }
         }
     }
