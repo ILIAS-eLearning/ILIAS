@@ -47,7 +47,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
         $additional_data = $called_contexts->getLast()->getAdditionalData();
         if ($additional_data->exists(self::SHOW_MAIL_FOLDERS_TOOL) &&
             $additional_data->get(self::SHOW_MAIL_FOLDERS_TOOL) === true) {
-            $title = $this->dic->language()->txt('mail_folders');
+            $title = $this->dic->language()->txt('mail');
             $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', $title);
 
             $tools[] = $this->factory
