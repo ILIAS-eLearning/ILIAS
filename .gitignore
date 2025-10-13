@@ -21,10 +21,6 @@
 *.swp
 *.swo
 
-# Core Components and Components From Other Vendors
-/components/*
-!/components/ILIAS
-
 # Generated Files
 /artifacts/*
 /ilias.ini.php
