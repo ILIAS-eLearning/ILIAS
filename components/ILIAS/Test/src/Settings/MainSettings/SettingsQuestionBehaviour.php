@@ -24,19 +24,17 @@ use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
-use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Constraint;
+use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
 
 class SettingsQuestionBehaviour extends TestSettings
 {
     private const DEFAULT_AUTOSAVE_INTERVAL = 30000;
 
     public const ANSWER_FIXATION_NONE = 'none';
-    public const ANSWER_FIXATION_ON_INSTANT_FEEDBACK = 'instant_feedback';
-    public const ANSWER_FIXATION_ON_FOLLOWUP_QUESTION = 'followup_question';
     public const ANSWER_FIXATION_ON_IFB_OR_FUQST = 'ifb_or_fuqst';
 
     public function __construct(
@@ -271,65 +269,46 @@ class SettingsQuestionBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): Radio {
-        $lock_answers = $f->radio(
-            $lng->txt('tst_answer_fixation_handling')
-        )->withOption(
-            self::ANSWER_FIXATION_NONE,
-            $lng->txt('tst_answer_fixation_none'),
-            $lng->txt('tst_answer_fixation_none_desc')
-        )->withOption(
-            self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK,
-            $lng->txt('tst_answer_fixation_on_instant_feedback'),
-            $lng->txt('tst_answer_fixation_on_instant_feedback_desc')
-        )->withOption(
-            self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION,
-            $lng->txt('tst_answer_fixation_on_followup_question'),
-            $lng->txt('tst_answer_fixation_on_followup_question_desc')
-        )->withOption(
-            self::ANSWER_FIXATION_ON_IFB_OR_FUQST,
-            $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst'),
+    ): SwitchableGroup {
+        $constraint = $refinery->custom()->constraint(
+            static fn(?array $vs): bool => $vs === null || array_filter($vs[1]) !== [],
+            $lng->txt('select_at_least_one_lock_answer_type')
+        );
+
+        $group1 = $f->group([], $lng->txt('tst_answer_fixation_none'));
+
+        $group2 = $f->group(
+            [
+                'lock_answer_on_instant_feedback' => $f->checkbox(
+                    $lng->txt('tst_answer_fixation_on_instant_feedback'),
+                    $lng->txt('tst_answer_fixation_on_instant_feedback_desc')
+                ),
+                'lock_answer_on_next_question' => $f->checkbox(
+                    $lng->txt('tst_answer_fixation_on_followup_question'),
+                    $lng->txt('tst_answer_fixation_on_followup_question_desc')
+                )
+            ],
+            $lng->txt('tst_answer_fixation'),
             $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst_desc')
-        )->withValue(
-            $this->getAnswerFixationSettingsAsFormValue()
-        )->withAdditionalTransformation($this->getTransformationLockAnswers($refinery));
+        )->withRequired(true);
 
-        if (!$environment['participant_data_exists']) {
-            return $lock_answers;
-        }
+        $lock_answers = $f->switchableGroup(
+            [self::ANSWER_FIXATION_NONE => $group1, self::ANSWER_FIXATION_ON_IFB_OR_FUQST => $group2],
+            $lng->txt('tst_answer_fixation_handling')
+        )
+        ->withAdditionalTransformation($constraint)
+        ->withAdditionalTransformation($this->getTransformationLockAnswers($refinery))
+        ->withValue($this->getAnswerFixationSettingsAsFormValue());
 
-        return $lock_answers->withDisabled(true);
+        return !$environment['participant_data_exists'] ? $lock_answers : $lock_answers->withDisabled(true);
     }
 
     private function getTransformationLockAnswers(Refinery $refinery): Transformation
     {
         return $refinery->custom()->transformation(
-            static function (?string $v): array {
-                if ($v === null || $v === self::ANSWER_FIXATION_NONE) {
-                    return [
-                        'lock_answer_on_instant_feedback' => false,
-                        'lock_answer_on_next_question' => false
-                    ];
-                }
-
-                if ($v === self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK) {
-                    return [
-                        'lock_answer_on_instant_feedback' => true,
-                        'lock_answer_on_next_question' => false
-                    ];
-                }
-                if ($v === self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION) {
-                    return [
-                        'lock_answer_on_instant_feedback' => false,
-                        'lock_answer_on_next_question' => true
-                    ];
-                }
-
-                return [
-                    'lock_answer_on_instant_feedback' => true,
-                    'lock_answer_on_next_question' => true
-                ];
-            }
+            static fn(?array $v): array => ($v[0] ?? null) === self::ANSWER_FIXATION_ON_IFB_OR_FUQST
+                ? $v[1]
+                : ['lock_answer_on_instant_feedback' => false, 'lock_answer_on_next_question' => false]
         );
     }
 
@@ -577,21 +556,18 @@ class SettingsQuestionBehaviour extends TestSettings
         return $clone;
     }
 
-    private function getAnswerFixationSettingsAsFormValue(): string
+    private function getAnswerFixationSettingsAsFormValue(): array
     {
-        if ($this->getLockAnswerOnInstantFeedbackEnabled()
-            && $this->getLockAnswerOnNextQuestionEnabled()) {
-            return self::ANSWER_FIXATION_ON_IFB_OR_FUQST;
+        if ($this->getLockAnswerOnInstantFeedbackEnabled() || $this->getLockAnswerOnNextQuestionEnabled()) {
+            return [
+                0 => self::ANSWER_FIXATION_ON_IFB_OR_FUQST,
+                1 => [
+                    'lock_answer_on_instant_feedback' => $this->getLockAnswerOnInstantFeedbackEnabled(),
+                    'lock_answer_on_next_question' => $this->getLockAnswerOnNextQuestionEnabled()
+                ]
+            ];
         }
 
-        if ($this->getLockAnswerOnInstantFeedbackEnabled()) {
-            return self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK;
-        }
-
-        if ($this->getLockAnswerOnNextQuestionEnabled()) {
-            return self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION;
-        }
-
-        return self::ANSWER_FIXATION_NONE;
+        return [0 => self::ANSWER_FIXATION_NONE, 1 => []];
     }
 }
