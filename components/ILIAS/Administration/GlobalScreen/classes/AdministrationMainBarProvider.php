@@ -85,7 +85,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->withAction($action)
                         ->withSymbol($icon)
                         ->withVisibilityCallable(function () use ($ref_id) {
-                            return $this->dic->rbac()->system()->checkAccess('visible,read', (int) $ref_id);
+                            return $this->dic->rbac()->system()->checkAccess('read', (int) $ref_id);
                         });
                 }
 

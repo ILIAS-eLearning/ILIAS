@@ -64,7 +64,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         ?ILIAS\UI\Component\Input\Container\Form\Form $auth_mode_determination_form = null,
         ?ILIAS\UI\Component\Input\Container\Form\Form $registration_role_mapping_form = null
     ): void {
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -848,7 +848,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd() ?? '';
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
         }
 
@@ -948,7 +948,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     {
         $this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'authentication_settings',
                 $this->ctrl->getLinkTarget($this, 'authSettings'),

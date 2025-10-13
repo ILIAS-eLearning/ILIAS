@@ -42,7 +42,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -67,7 +67,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
     {
         $rbacsystem = $this->rbac_system;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "news_edit_news_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),

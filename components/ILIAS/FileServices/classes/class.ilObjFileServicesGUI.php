@@ -144,7 +144,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     {
         // General Settings for File-Services
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )
         ) {
@@ -156,7 +156,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
         // Resource-Overview
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )
         ) {
@@ -168,7 +168,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
         // Upload-Limit
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )
         ) {
@@ -180,7 +180,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
         // WOPI
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )
         ) {
@@ -279,7 +279,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     {
         $this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 
-        $this->checkPermissionOrFail("visible,read");
+        $this->checkPermissionOrFail("read");
 
         // get form
         $form = $this->initSettingsForm();

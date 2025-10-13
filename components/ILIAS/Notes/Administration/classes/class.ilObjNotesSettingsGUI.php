@@ -71,7 +71,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("editSettings");
 
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -102,7 +102,7 @@ class ilObjNotesSettingsGUI extends ilObjectGUI
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $tabs->addTab(
                 "settings",
                 $lng->txt("settings"),

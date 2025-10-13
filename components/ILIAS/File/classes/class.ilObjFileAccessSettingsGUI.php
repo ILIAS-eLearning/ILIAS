@@ -133,7 +133,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     #[\Override]
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'file_objects',
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
