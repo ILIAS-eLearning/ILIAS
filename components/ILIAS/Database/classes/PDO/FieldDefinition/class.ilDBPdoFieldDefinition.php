@@ -42,7 +42,7 @@ abstract class ilDBPdoFieldDefinition
     public const T_TIME = 'time';
     public const T_TIMESTAMP = 'timestamp';
 
-    private const MAX_TABLE_IDENTIFIER_LENGTH = 48;
+    private const MAX_TABLE_IDENTIFIER_LENGTH = 63;
 
     protected static \ilDBPdoFieldDefinition $instance;
     /**
