@@ -8012,6 +8012,37 @@ button .minimize, button .close {
   line-height: 1.428571429;
 }
 
+.c-field-tag__tag[draggable=true] {
+  cursor: move;
+}
+.c-field-tag__tag.t-draggable--dragging {
+  opacity: 0.5;
+}
+
+.c-field-tag__dropzone {
+  display: none;
+  background: #f9f9f9;
+  border: 1px solid #dddddd;
+}
+.c-field-tag__dropzone.t-draggable__dropzone--active {
+  display: block;
+}
+.c-field-tag__dropzone.t-draggable__dropzone--hover {
+  background-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
+}
+
+.c-field-tag__assistive-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 .c-field-password__revelation-glyph {
   float: right;
   margin-top: -21px;

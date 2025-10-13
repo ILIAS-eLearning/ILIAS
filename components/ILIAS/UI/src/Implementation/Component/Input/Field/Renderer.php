@@ -396,23 +396,35 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.tag_input.html", true, true);
         $this->applyName($component, $tpl);
 
-        $configuration = $component->getConfiguration();
+        $configuration = $component->getConfiguration(fn(string $id): string => $this->txt($id));
         $value = $component->getValue();
 
         if ($value) {
             $value = array_map(
                 function ($v) {
-                    return ['value' => urlencode($v), 'display' => $v];
+                    return ['value' => rawurlencode($v), 'display' => $v];
                 },
                 $value
             );
         }
 
+        $autocomplete_endpoint = 'undefined';
+        $autocomplete_token = 'undefined';
+        if ($component->getAsyncAutocompleteEndpoint() !== null) {
+            $autocomplete_endpoint = $component->getAsyncAutocompleteEndpoint()
+                ->renderObject([$component->getAsyncAutocompleteToken()]);
+            $autocomplete_token = $component->getAsyncAutocompleteToken()->render();
+        }
+
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($configuration, $value) {
+            function ($id) use ($configuration, $value, $autocomplete_endpoint, $autocomplete_token) {
                 $encoded = json_encode($configuration);
                 $value = json_encode($value);
-                return "il.UI.Input.tagInput.init('{$id}', {$encoded}, {$value});";
+                return 'il.UI.Input.tagInput.init(document.querySelector('
+                . "'#{$id} .c-field-tag'), {$encoded}, {$value},"
+                . " {$autocomplete_endpoint}, "
+                . " {$autocomplete_token}"
+                . ");";
             }
         );
 

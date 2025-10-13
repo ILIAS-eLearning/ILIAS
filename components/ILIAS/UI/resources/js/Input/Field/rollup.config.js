@@ -33,6 +33,7 @@ export default {
       jquery: '$',
       ilias: 'il',
       document: 'document',
+      Tagify: 'Tagify',
     },
     plugins: [
       terser({

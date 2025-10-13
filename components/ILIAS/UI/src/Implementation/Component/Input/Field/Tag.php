@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result\Ok;
+use ILIAS\Data\URI;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Input\InputData;
@@ -32,6 +33,8 @@ use Closure;
 use LogicException;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * Class TagInput
@@ -54,6 +57,9 @@ class Tag extends FormInput implements C\Input\Field\Tag
     protected bool $extendable = true;
     protected int $suggestion_starts_with = 1;
     protected array $tags = [];
+    protected ?URLBuilder $async_autocomplete_endpoint = null;
+    protected ?URLBuilderToken $async_autocomplete_token = null;
+    protected bool $orderable = false;
 
     public function __construct(
         DataFactory $data_factory,
@@ -75,16 +81,17 @@ class Tag extends FormInput implements C\Input\Field\Tag
             if (count($v) == 1 && $v[0] === '') {
                 return [];
             }
-            $array = array_map("urldecode", $v);
+            $array = array_map('rawurldecode', $v);
             return array_map('strip_tags', $array);
         }));
     }
 
-    public function getConfiguration(): stdClass
-    {
+    public function getConfiguration(
+        Closure $txt
+    ): stdClass {
         $options = array_map(
             fn($tag) => [
-                'value' => urlencode(trim($tag)),
+                'value' => rawurlencode(trim($tag)),
                 'display' => $tag,
                 'searchBy' => $tag
             ],
@@ -102,6 +109,8 @@ class Tag extends FormInput implements C\Input\Field\Tag
         $configuration->userInput = $this->areUserCreatedTagsAllowed();
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+        $configuration->autocompleteTriggerTimeout = 200;
+        $configuration->orderable = $this->getOrderable();
         $configuration->maxChars = 2000;
         $configuration->suggestionLimit = 50;
         $configuration->debug = false;
@@ -109,8 +118,24 @@ class Tag extends FormInput implements C\Input\Field\Tag
         $configuration->highlight = true;
         $configuration->tagClass = "input-tag";
         $configuration->tagTextProp = "displayValue";
+        $configuration->accessibilityInfo = $this->buildAccessibilityInfo($txt);
 
         return $configuration;
+    }
+
+    protected function buildAccessibilityInfo(Closure $txt): array
+    {
+        $default_text = $txt('edit_tag_accessibility_info');
+        if ($this->getOrderable()) {
+            $default_text .= " {$txt('order_tags_accessibility_info')}";
+        }
+
+        return [
+            'default' => $default_text,
+            'tagSelected' => $txt('tag_selected_accessibility_info'),
+            'positionInfoFirst' => $txt('tag_position_first_accessibility_info'),
+            'positionInfo' => $txt('tag_position_accessibility_info')
+        ];
     }
 
     /**
@@ -263,6 +288,53 @@ class Tag extends FormInput implements C\Input\Field\Tag
     public function getMaxTags(): int
     {
         return $this->max_tags;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withAsyncAutocomplete(
+        URLBuilder $autocomplete_endpoint,
+        URLBuilderToken $term_token
+    ): Tag {
+        $clone = clone $this;
+        $clone->async_autocomplete_endpoint = $autocomplete_endpoint;
+        $clone->async_autocomplete_token = $term_token;
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocompleteEndpoint(): ?URLBuilder
+    {
+        return $this->async_autocomplete_endpoint;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocompleteToken(): ?URLBuilderToken
+    {
+        return $this->async_autocomplete_token;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withOrderable(bool $orderable): Tag
+    {
+        $clone = clone $this;
+        $clone->orderable = $orderable;
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOrderable(): bool
+    {
+        return $this->orderable;
     }
 
     /**

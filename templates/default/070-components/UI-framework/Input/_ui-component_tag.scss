@@ -1,7 +1,12 @@
-@use "../../../010-settings/"as *;
-@use "../../../050-layout/basics"as *;
+@use "../../../010-settings/" as *;
+@use "../../../030-tools/tool_draggable" as *;
+@use "../../../030-tools/tool_screen-reader-only" as *;
+@use "../../../050-layout/basics" as *;
 
 //** Tag Input
+$il-input-tag-dropzone-bg-color: $il-main-dark-bg;
+$il-input-tag-dropzone-bg-color-hover: $il-highlight-bg;
+$il-input-tag-dropzone-border: $il-main-border;
 $il-input-tag-color-bg: $il-btn-standard-bg;
 $il-input-tag-color-text: $il-btn-standard-color;
 $il-input-tag-color-disabled: #EEEEEE;
@@ -9,7 +14,7 @@ $il-input-tag-color-disabled: #EEEEEE;
 .c-field-tag {
 	width: 100%;
 	background-color: $il-main-bg;
-	
+
 	--tags-focus-border-color: #{$il-input-tag-color-bg};
 	--tag-bg: #{$il-input-tag-color-bg};
 	--tag-hover: #{$il-input-tag-color-bg};
@@ -21,4 +26,20 @@ $il-input-tag-color-disabled: #EEEEEE;
 	--tag-remove-btn-bg--hover: #{$il-input-tag-color-bg};
 	--tag-hide-transition: .0s;
 	line-height: $il-line-height-base;
+}
+
+.c-field-tag__tag {
+    @include draggable-element;
+}
+
+.c-field-tag__dropzone {
+    display: none;
+    background: $il-input-tag-dropzone-bg-color;
+    border: $il-main-border;
+
+    @include draggable-dropzone($il-input-tag-dropzone-bg-color-hover);
+}
+
+.c-field-tag__assistive-text {
+    @include sr-only();
 }
