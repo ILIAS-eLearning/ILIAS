@@ -11556,6 +11556,7 @@ mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in the ‘Message Content’ field)
 mail#:#mail_nacc_user_fullname#:#User Full Name
 mail#:#mail_nacc_user_login#:#User Login
+mail#:#mail_new#:#New Mail
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_mail_items#:#No unread mails.
 mail#:#mail_no_permissions_write_smtp#:#You do not have permission to send external e-mails.
@@ -11566,6 +11567,7 @@ mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned#:#Notification Mail
 mail#:#mail_notify_orphaned_info#:#If you enter a value here that is larger than or equal to 1, ILIAS will send a notification e-mail to all affected accounts that many days before any internal mails are deleted. Please make sure that external e-mail reception is possible.
 mail#:#mail_operation_on_invalid_folder#:#It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator.
+mail#:#mail_options#:#Mail Options
 mail#:#mail_options_saved#:#Options saved.
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
 mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are older than the configured threshold value (configurable via the ‘Edit’ link to the right of this cron job).

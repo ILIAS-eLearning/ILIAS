@@ -11553,6 +11553,7 @@ mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_use_placeholder#:#Im Feld 'Inhalt' können folgende Platzhalter verwendet werden
 mail#:#mail_nacc_user_fullname#:#Vollständiger Benutzername
 mail#:#mail_nacc_user_login#:#Anmeldename
+mail#:#mail_new#:#Neue Nachricht
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_no_mail_items#:#Keine ungelesenen Mails.
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
@@ -11563,6 +11564,7 @@ mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
 mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an alle betroffenen Mail-Konten so viele Tage vor dem Löschen von etwaigen internen Mails. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
 mail#:#mail_operation_on_invalid_folder#:#Die Aktion konnte nicht ausgeführt werden, der aus der Serveranfrage bestimmte Ordner ist ungültig. Bitte wenden Sie sich an die Administration.
+mail#:#mail_options#:#E-Mail Optionen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
 mail#:#mail_orphaned_mails_desc#:#Löscht verwaiste Mails und Mails die älter sind als der eingestellte Schwellenwert (einstellbar über den „Bearbeiten“-Link in der „Aktionen“-Spalte dieses Cron-Jobs).
