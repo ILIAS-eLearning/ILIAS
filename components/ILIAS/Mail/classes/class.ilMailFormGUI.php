@@ -299,7 +299,7 @@ class ilMailFormGUI
 
     public function searchUsers(bool $save = true): void
     {
-        $this->tpl->setTitle($this->lng->txt('mail'));
+        $this->tpl->setTitle($this->lng->txt('mail_new'));
 
         if ($save) {
             $files = $this->getBodyParam(
@@ -504,7 +504,7 @@ class ilMailFormGUI
             'tpl.mail_new.html',
             'components/ILIAS/Mail'
         );
-        $this->tpl->setTitle($this->lng->txt('mail'));
+        $this->tpl->setTitle($this->lng->txt('mail_new'));
 
         $this->lng->loadLanguageModule('crs');
 
