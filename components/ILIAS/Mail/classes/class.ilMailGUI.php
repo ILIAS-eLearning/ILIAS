@@ -311,10 +311,4 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_$type.svg"));
 
     }
-
-    protected function toggleExplorerNodeState(): void
-    {
-        $exp = new ilMailExplorer($this, $this->user->getId());
-        $exp->toggleExplorerNodeState();
-    }
 }
