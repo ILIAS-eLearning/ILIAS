@@ -1570,7 +1570,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Pokaż właściwą do odpowi
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Po kliknięciu opcji 'Zażądaj komunikatu zwrotnego' ILIAS wyświetli każdej udzielonej odpowiedzi odpowiedni, zapisany komunikat zwrotny. Nie wszystkie typy pytań obsługują ten rodzaj komunikatów zwrotnych. Komunikaty zwrotne należy zapisać przy odpowiedzi w zakładce 'Komunikat zwrotny'.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_forced#:#Wyświetl komunikat zwrotny zawsze przy udzieleniu odpowiedzi
 assessment#:#tst_instant_feedback_results#:#Pokaż wyniki (tylko punkty)
 assessment#:#tst_instant_feedback_results_desc#:#Jeśli uczestnicy klikną przy odpowiadaniu na pytanie na opcję  'Zażądaj komunikatu zwrotnego', ILIAS wyświetli liczbę punktów otrzymanych za tę odpowiedź.
 assessment#:#tst_instant_feedback_solution#:#Pokaż rozwiązania

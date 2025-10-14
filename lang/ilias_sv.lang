@@ -1570,7 +1570,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Olika feedback per givet sva
 assessment#:#tst_instant_feedback_answer_specific_desc#:#När du klickar på knappen "Begär feedback" visar ILIAS respektive feedback för varje inlämnat svar. Inte alla frågetyper stöder denna typ av feedback. Återkopplingen måste lagras i frågan på fliken "Återkoppling".
 assessment#:#tst_instant_feedback_contents#:#Innehållet i återkopplingen
 assessment#:#tst_instant_feedback_desc#:#Om frågorna är försedda med feedback är dessa tillgängliga för deltagarna under testet.
-assessment#:#tst_instant_feedback_forced#:#Visa alltid feedback när du skickar ett svar
 assessment#:#tst_instant_feedback_results#:#Antal uppnådda poäng
 assessment#:#tst_instant_feedback_results_desc#:#När deltagarna svarar på en fråga klickar de på knappen "Begär feedback" och ILIAS visar hur många poäng som uppnåddes för det givna svaret.
 assessment#:#tst_instant_feedback_solution#:#Visa bästa möjliga lösning

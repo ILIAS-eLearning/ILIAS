@@ -1573,7 +1573,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Unterschiedliche Rückmeldun
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS zu jeder abgegebenen Antwort die jeweils hinterlegte  Rückmeldung an. Nicht alle Fragetypen unterstützen diese Art von Rückmeldungen. Die Rückmeldungen müssen bei der Frage im Reiter „Rückmeldung“ hinterlegt werden.
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
-assessment#:#tst_instant_feedback_forced#:#Rückmeldung immer beim Einreichen einer Antwort anzeigen
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
 assessment#:#tst_instant_feedback_results_desc#:#Klicken Teilnehmer beim Beantworten einer Frage auf den Button „Rückmeldung anfordern“ zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreichen wurden.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
