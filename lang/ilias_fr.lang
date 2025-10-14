@@ -1495,7 +1495,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Commentaire spécifique à  
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Si coché, le Commentaire sera affiché en fonction des réponses du participant (si la configuration de la question le permet).
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_forced#:#Forcer le retour instantané
 assessment#:#tst_instant_feedback_results#:#Résultats (en points)
 assessment#:#tst_instant_feedback_results_desc#:#Si coché, les points atteints seront affichés.
 assessment#:#tst_instant_feedback_solution#:#Solutions

@@ -1494,7 +1494,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Mostra la valutazione delle 
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Se viene selezionato un feedback specifico per la risposta, verrà visualizzato il feedback predefinito, a seconda delle risposte del partecipante (se supportato dal tipo di domanda).
 assessment#:#tst_instant_feedback_contents#:#Contenuto del feedback
 assessment#:#tst_instant_feedback_desc#:#Quando le domande sono configurate con feedback, vengono fornite ai partecipanti durante il superamento del test.
-assessment#:#tst_instant_feedback_forced#:#Forza feedback immediato
 assessment#:#tst_instant_feedback_results#:#Mostra il risultato (in punti)
 assessment#:#tst_instant_feedback_results_desc#:#Se vengono selezionati i risultati (in punti), verranno visualizzati i punti raggiunti.
 assessment#:#tst_instant_feedback_solution#:#Mostra la soluzione migliore

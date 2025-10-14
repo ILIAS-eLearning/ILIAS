@@ -1495,7 +1495,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Zobrazit odpovědi specifick
 assessment#:#tst_instant_feedback_answer_specific_desc#:#If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant (if supported by the question type).###26 09 2014 new variable
 assessment#:#tst_instant_feedback_contents#:#Included Contents###10 11 2018 new variable
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.###10 11 2018 new variable
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback###30 08 2015 new variable
 assessment#:#tst_instant_feedback_results#:#Zobrazit výsledky (jen body)
 assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
 assessment#:#tst_instant_feedback_solution#:#Zobrazit řešení

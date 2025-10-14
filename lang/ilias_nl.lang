@@ -1495,7 +1495,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Toon specifiek antwoord feed
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Als antwoord-specifieke feedback is geselecteerd zal de voorgedefieerde feedback worden getoond, afhankelijk van de antwoorden van de deelnemer (indien dit wordt ondersteund door het vragentype).
 assessment#:#tst_instant_feedback_contents#:#Included Contents###10 11 2018 new variable
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.###10 11 2018 new variable
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback###30 08 2015 new variable
 assessment#:#tst_instant_feedback_results#:#Toon resultaten (alleen punten)
 assessment#:#tst_instant_feedback_results_desc#:#Na het vragen van feedback zal ILIAS tonen hoeveel punten er zijn gehaald
 assessment#:#tst_instant_feedback_solution#:#Toon oplossingen

@@ -1495,7 +1495,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Показване на об
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Ако е избрана обратна връзка за конкретен отговор, ще се покаже предварително зададената обратна връзка в зависимост от отговорите на участника (ако това се поддържа от типа въпрос).
 assessment#:#tst_instant_feedback_contents#:#Включено съдържание
 assessment#:#tst_instant_feedback_desc#:#Когато въпросите са конфигурирани с обратна връзка, тя се предоставя на участниците по време на преминаването на теста.
-assessment#:#tst_instant_feedback_forced#:#Засилване на незабавната обратна връзка
 assessment#:#tst_instant_feedback_results#:#Показване на резултатите (само точки)
 assessment#:#tst_instant_feedback_results_desc#:#Ако са избрани резултати (в точки), ще бъдат показани постигнатите точки.
 assessment#:#tst_instant_feedback_solution#:#Показване на решения

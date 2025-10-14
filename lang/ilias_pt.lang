@@ -1495,7 +1495,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Se clicar no botão ‘Marca
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Pontos obtidos
 assessment#:#tst_instant_feedback_contents#:#Se clicar no botão ‘Marcar’, ILIAS mostra quantos pontos foram obtidos ao responder a esta pergunta.
 assessment#:#tst_instant_feedback_desc#:#Mostrar a melhor resposta possível
-assessment#:#tst_instant_feedback_forced#:#Forçar feedback instantâneo
 assessment#:#tst_instant_feedback_results#:#Ao clicar no botão ‘Marcar', ILIAS mostra a melhor resposta possível à pergunta.
 assessment#:#tst_instant_feedback_results_desc#:#Mensagem introdutória
 assessment#:#tst_instant_feedback_solution#:#Mostra uma mensagem introdutória no separador 'Informação' do teste. Este texto está acessível antes de o teste poder ser iniciado.
