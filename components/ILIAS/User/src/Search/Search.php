@@ -18,36 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User;
+namespace ILIAS\User\Search;
 
-use ILIAS\User\Profile\Profile;
-use ILIAS\User\Search\Search;
-use ILIAS\User\Settings\Settings;
+use ILIAS\User\Profile\DataRepository;
+use ILIAS\UI\Component\Input\Field\Tag;
 
-class PublicInterface
+class Search
 {
     public function __construct(
-        private readonly \ilObjUser $logged_in_user
+        private readonly DataRepository $profile_data_repository
     ) {
     }
 
-    public function getSearch(): Search
+    public function getInput(): Tag
     {
-        return LocalDIC::dic()[Search::class];
-    }
 
-    public function getProfile(): Profile
-    {
-        return LocalDIC::dic()[Profile::class];
-    }
-
-    public function getSettings(): Settings
-    {
-        return LocalDIC::dic()[Settings::class];
-    }
-
-    public function getLoggedInUser(): \ilObjUser
-    {
-        return $this->logged_in_user;
     }
 }

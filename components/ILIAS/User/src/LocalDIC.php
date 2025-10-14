@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User;
 
+use ILIAS\User\Search\Search;
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\User\Settings\SettingsImplementation as UserSettingsImplementation;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
@@ -30,6 +31,7 @@ use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\ProfileImplementation;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
 use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
+use ILIAS\User\Profile\DataRepositoryDatabase as ProfileDataRepositoryDatabase;
 use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
 use ILIAS\User\Profile\Fields\Standard;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
@@ -82,7 +84,7 @@ class LocalDIC extends PimpleContainer
                 $c[UserSettingsRepository::class]
             );
         $this[ProfileDataRepository::class] = fn($c): ProfileDataRepository =>
-            new ProfileDataRepository(
+            new ProfileDataRepositoryDatabase(
                 $DIC['ilDB'],
                 $DIC['resource_storage'],
                 $c[ProfileFieldsConfigurationRepository::class]
@@ -145,6 +147,10 @@ class LocalDIC extends PimpleContainer
             new ProfileImplementation(
                 $DIC['lng'],
                 $c[ProfileFieldsConfigurationRepository::class],
+                $c[ProfileDataRepository::class]
+            );
+        $this[Search::class] = fn($c): Search =>
+            new Search(
                 $c[ProfileDataRepository::class]
             );
         $this[NewAccountMailRepository::class] = fn($c): NewAccountMailRepository =>
