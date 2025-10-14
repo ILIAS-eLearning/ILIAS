@@ -1557,7 +1557,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Različne povratne informaci
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Ob kliku na gumb ‚Zahtevaj povratno informacijo' ILIAS prikaže povratne informacije za vsak oddani odgovor. Vsi tipi vprašanj ne podpirajo te vrste povratnih informacij. Povratne informacije morajo biti shranjene pri vprašanju pod zavihkom ‚Povratna informacija'.
 assessment#:#tst_instant_feedback_contents#:#Vsebine povratnih informacij
 assessment#:#tst_instant_feedback_desc#:#Ko so vprašanja konfigurirana s povratnimi informacijami, so te informacije udeležencem na voljo med testom.
-assessment#:#tst_instant_feedback_forced#:#Povratna informacija naj se vedno prikaže ob oddaji odgovora
 assessment#:#tst_instant_feedback_results#:#Dosežene točke
 assessment#:#tst_instant_feedback_results_desc#:#Če udeleženci ob odgovarjanju na posamezno vprašanje kliknejo na gumb ‚Zahtevaj povratno informacijo', ILIAS prikaže, koliko točk je bilo doseženih v danem odgovoru.
 assessment#:#tst_instant_feedback_solution#:#Prikaži najboljši odgovor

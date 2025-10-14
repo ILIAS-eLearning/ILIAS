@@ -1557,7 +1557,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Válaszlehetőségenkénti v
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Az <i>Ellenőrzés</i> gombra kattintva előre meghatározott visszajelzés jelenik meg a felhasználó által kiválasztott akármelyik válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszajelzést. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszajelzés.
 assessment#:#tst_instant_feedback_contents#:#Belefoglalt tartalmak
 assessment#:#tst_instant_feedback_desc#:#Amikor a kérdéseket visszajelzéssel állítják be, az a résztvevőknek a teszt kitöltése alatt jelenik meg.
-assessment#:#tst_instant_feedback_forced#:#Azonnali visszajelzés kikényszerítése
 assessment#:#tst_instant_feedback_results#:#Elért pontszámok
 assessment#:#tst_instant_feedback_results_desc#:#Az <i>Ellenőrzés</i> gombra kattintva megjelenítik az erre a kérdésre adott válaszra kapott pontszám.
 assessment#:#tst_instant_feedback_solution#:#Legjobb lehetséges válasz megjelenítése

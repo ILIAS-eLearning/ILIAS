@@ -1559,7 +1559,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Mostrar comentarios del tuto
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Si se activa esta opción se mostrarán los comentarios del tutor particulares para cada respuesta dada por el alumno (si se han configurado en la pregunta). Sólo en posible en estos tipos de preguntas: Opción múltiple, Mapa de imagen, Respuesta Corta, Detectar errores en texto y Relleno de huecos.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_forced#:#Forzar comentario instantáneo
 assessment#:#tst_instant_feedback_results#:#Mostrar resultados (sólo puntuación)
 assessment#:#tst_instant_feedback_results_desc#:#Si se seleccion "resultados (en puntos)", se mostrará la puntuación alcanzada.
 assessment#:#tst_instant_feedback_solution#:#Mostrar soluciones

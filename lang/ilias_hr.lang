@@ -1557,7 +1557,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Različite povratne informac
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Klikom na tipku ‘Provjeri'ILIAS će pokazati određenu povratnu informaciju za svaki mogući odgovor koji je odabrao sudionik. Povratna informacija mora se pohraniti uz pitanje. Ovu vrstu povratne informacije ne podržavaju sve vrste pitanja.
 assessment#:#tst_instant_feedback_contents#:#Sadržaji povratne informacije
 assessment#:#tst_instant_feedback_desc#:#Kada su pitanja konfigurirana s povratnim informacijama, te informacije sudionicima stoje na raspolaganju tijekom testa.
-assessment#:#tst_instant_feedback_forced#:#Prikaži povratne informacije uvijek prilikom predaje odgovora
 assessment#:#tst_instant_feedback_results#:#Ostvareni bodovi
 assessment#:#tst_instant_feedback_results_desc#:#Klikom na tipku ‘Provjeri’ ILIAS će prikazati koliko je bodova postignuto danim odgovorom.
 assessment#:#tst_instant_feedback_solution#:#Prikaži najbolji mogući odgovor

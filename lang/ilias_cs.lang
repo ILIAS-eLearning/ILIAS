@@ -1557,7 +1557,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Zobrazit odpovědi specifick
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Je-li zvolena zpětná vazba specifická pro odpověď, zobrazí se předem definovaná zpětná vazba v závislosti na odpovědích účastníka (pokud je podporován typem otázky).
 assessment#:#tst_instant_feedback_contents#:#Zahrnutý obsah
 assessment#:#tst_instant_feedback_desc#:#Když jsou otázky konfigurovány se zpětnou vazbou, je účastníkům poskytnuta během průchodu testem.
-assessment#:#tst_instant_feedback_forced#:#Vynutit okamžitou zpětnou vazbu
 assessment#:#tst_instant_feedback_results#:#Zobrazit výsledky (jen body)
 assessment#:#tst_instant_feedback_results_desc#:#Pokud jsou vybrány výsledky (v bodech), zobrazí se dosažené body.
 assessment#:#tst_instant_feedback_solution#:#Zobrazit řešení
