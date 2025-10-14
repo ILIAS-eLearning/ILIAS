@@ -178,7 +178,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
             $this->ctrl->redirect($this);
         }
 
-        $this->tpl->setTitle($this->lng->txt('mail'));
+        $this->tpl->setTitle($this->lng->txt('mail_attachments'));
 
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this, self::CMD_DELETE_ATTACHMENTS));
@@ -242,7 +242,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
 
     private function showAttachmentsCommand(): void
     {
-        $this->tpl->setTitle($this->lng->txt('mail'));
+        $this->tpl->setTitle($this->lng->txt('mail_attachments'));
 
         if ($this->mode === AttachmentManagement::CONSUME) {
             $this->tabs->clearTargets();
