@@ -26,7 +26,6 @@ declare(strict_types=1);
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
-    public const EDIT_WOPI = "editWopi";
     public ilRbacSystem $rbacsystem;
     public ilRbacReview $rbacreview;
 
@@ -52,7 +51,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $lng->loadLanguageModule("delic");
         $lng->loadLanguageModule("maps");
         $lng->loadLanguageModule("mathjax");
-        $lng->loadLanguageModule("wopi");
     }
 
     public function getAdminTabs(): void
@@ -65,13 +63,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $rbacsystem = $this->rbacsystem;
 
         $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
-                'wopi_settings',
-                $this->ctrl->getLinkTargetByClass(ilWOPIAdministrationGUI::class)
-            );
-        }
 
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -94,9 +85,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-            case strtolower(ilWOPIAdministrationGUI::class):
-                $this->ctrl->forwardCommand(new ilWOPIAdministrationGUI());
-                break;
 
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
@@ -104,7 +92,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('perm_settings');
                 break;
             default:
-                $this->ctrl->redirectToURL($this->ctrl->getLinkTargetByClass(ilWOPIAdministrationGUI::class));
+                $this->ctrl->redirectToURL($this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm'));
                 break;
         }
     }
