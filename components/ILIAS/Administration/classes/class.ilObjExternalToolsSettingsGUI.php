@@ -68,13 +68,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
-                "settings",
-                $this->ctrl->getLinkTarget($this, "view"),
-                array("editMaps", "editMathJax", ""),
-                "",
-                ""
+                'wopi_settings',
+                $this->ctrl->getLinkTargetByClass(ilWOPIAdministrationGUI::class)
             );
-            $this->lng->loadLanguageModule('ecs');
         }
 
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
@@ -85,132 +81,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
                 'ilpermissiongui'
             );
         }
-    }
-
-
-    public function editMapsObject(): void
-    {
-        $tpl = $this->tpl;
-
-        $this->initSubTabs("editMaps");
-        $form = $this->getMapsForm();
-        $tpl->setContent($form->getHTML());
-    }
-
-    public function getMapsForm(): ilPropertyFormGUI
-    {
-        $ilAccess = $this->access;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $std_latitude = (float) ilMapUtil::getStdLatitude();
-        $std_longitude = (float) ilMapUtil::getStdLongitude();
-        $std_zoom = ilMapUtil::getStdZoom();
-        $type = ilMapUtil::getType();
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this));
-        $form->setTitle($lng->txt("maps_settings"));
-
-        // Enable Maps
-        $enable = new ilCheckboxInputGUI($lng->txt("maps_enable_maps"), "enable");
-        $enable->setChecked(ilMapUtil::isActivated());
-        $enable->setInfo($lng->txt("maps_enable_maps_info"));
-        $form->addItem($enable);
-
-        // Select type
-        $types = new ilSelectInputGUI($lng->txt("maps_map_type"), "type");
-        $types->setOptions(ilMapUtil::getAvailableMapTypes());
-        $types->setValue($type);
-        $form->addItem($types);
-
-        // map data server property
-        if ($type === "openlayers") {
-            $tile = new ilTextInputGUI($lng->txt("maps_tile_server"), "tile");
-            $tile->setValue(ilMapUtil::getStdTileServers());
-            $tile->setInfo(sprintf($lng->txt("maps_custom_tile_server_info"), ilMapUtil::DEFAULT_TILE));
-            $geolocation = new ilTextInputGUI($lng->txt("maps_geolocation_server"), "geolocation");
-            $geolocation->setValue(ilMapUtil::getStdGeolocationServer());
-            $geolocation->setInfo($lng->txt("maps_custom_geolocation_server_info"));
-
-            $form->addItem($tile);
-            $form->addItem($geolocation);
-        } else {
-            // api key for google
-            $key = new ilTextInputGUI("Google API Key", "api_key");
-            $key->setMaxLength(200);
-            $key->setValue(ilMapUtil::getApiKey());
-            $form->addItem($key);
-        }
-
-        // location property
-        $loc_prop = new ilLocationInputGUI(
-            $lng->txt("maps_std_location"),
-            "std_location"
-        );
-
-        $loc_prop->setLatitude($std_latitude);
-        $loc_prop->setLongitude($std_longitude);
-        $loc_prop->setZoom((int) $std_zoom);
-        $form->addItem($loc_prop);
-
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $form->addCommandButton("saveMaps", $lng->txt("save"));
-            $form->addCommandButton("view", $lng->txt("cancel"));
-        }
-
-        return $form;
-    }
-
-    /**
-     * Save Maps Settings
-     */
-    public function saveMapsObject(): void
-    {
-        $ilCtrl = $this->ctrl;
-
-        $form = $this->getMapsForm();
-        if ($form->checkInput()) {
-            if ($form->getInput("type") === 'openlayers' && 'openlayers' === ilMapUtil::getType()) {
-                ilMapUtil::setStdTileServers($form->getInput("tile"));
-                ilMapUtil::setStdGeolocationServer(
-                    $form->getInput("geolocation")
-                );
-            } else {
-                ilMapUtil::setApiKey($form->getInput("api_key"));
-            }
-
-            ilMapUtil::setActivated($form->getInput("enable") === "1");
-            ilMapUtil::setType($form->getInput("type"));
-            $location = $form->getInput("std_location");
-            ilMapUtil::setStdLatitude((string) $location["latitude"]);
-            ilMapUtil::setStdLongitude((string) $location["longitude"]);
-            ilMapUtil::setStdZoom((string) $location["zoom"]);
-        }
-        $ilCtrl->redirect($this, "editMaps");
-    }
-
-    // init sub tabs
-    public function initSubTabs(string $a_cmd): void
-    {
-        $maps = $a_cmd === 'editMaps';
-        $mathjax = $a_cmd === 'editMathJax';
-        $wopi = $a_cmd === self::EDIT_WOPI;
-
-        $this->tabs_gui->addSubTabTarget(
-            "maps_extt_maps",
-            $this->ctrl->getLinkTarget($this, "editMaps"),
-            "",
-            "",
-            "",
-            $maps
-        );
-        $this->tabs_gui->addSubTabTarget(
-            "wopi_settings",
-            $this->ctrl->getLinkTargetByClass(ilWOPIAdministrationGUI::class),
-            "",
-            "",
-            "",
-            $wopi
-        );
     }
 
     public function executeCommand(): void
@@ -224,13 +94,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-            case 'ilecssettingsgui':
-                $this->tabs_gui->setTabActive('ecs_server_settings');
-                $this->ctrl->forwardCommand(new ilECSSettingsGUI());
-                break;
-
             case strtolower(ilWOPIAdministrationGUI::class):
-                $this->initSubTabs(self::EDIT_WOPI);
                 $this->ctrl->forwardCommand(new ilWOPIAdministrationGUI());
                 break;
 
@@ -239,15 +103,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 $this->tabs_gui->setTabActive('perm_settings');
                 break;
-
             default:
-                $this->tabs_gui->setTabActive('settings');
-                if (!$cmd || $cmd === 'view') {
-                    $cmd = "editMaps";
-                }
-                $cmd .= "Object";
-                $this->$cmd();
-
+                $this->ctrl->redirectToURL($this->ctrl->getLinkTargetByClass(ilWOPIAdministrationGUI::class));
                 break;
         }
     }

@@ -34,5 +34,9 @@ class Maps implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ServiceOpenLayers.js");
+        $contribute[\ILIAS\Setup\Agent::class] = fn() =>
+            new \ILIAS\Maps\Setup\Agent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
     }
 }

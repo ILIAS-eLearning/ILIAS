@@ -4959,6 +4959,7 @@ common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Globale Mail-Einstellungen
 common#:#obj_mailr#:#Gelesene Mail
 common#:#obj_mailu#:#Ungelesene Mail
+common#:#obj_maps#:#Karten
 common#:#obj_mcst#:#Mediacast
 common#:#obj_mcst_duplicate#:#Mediacast kopieren
 common#:#obj_mcts#:#Mediacast
@@ -11682,7 +11683,6 @@ maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geol
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist „%s“.
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_enable_maps_info#:#Karten können systemweit in Profilen, Kursen und Gruppen angezeigt werden.
-maps#:#maps_extt_maps#:#Karten
 maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
 maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_https_for_reverse_lookup#:#Https für Reverse Lookup

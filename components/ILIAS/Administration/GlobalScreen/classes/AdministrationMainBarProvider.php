@@ -226,7 +226,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>
-                array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
+                array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt", 'maps'),
             "legal_regulations" =>
                 array("impr" ,"tos", "accs", 'dpro')
         );
