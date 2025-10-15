@@ -68,7 +68,7 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 | PHP          | 8.3, 8.4                                               | 8.3              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
 | JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
-| Node.js      | 20 (LTS), 21, 22 (LTS), 23 Recommended: 22             | 16.20            |
+| Node.js      | 22 (LTS), 23, 24 Recommended: 24                       | v24.10.0         |
 | Ghostscript  | 10.x                                                   | 9.55             |
 | Imagemagick  | 6.9.x                                                  | 6.9.11           |
 | Browser      | a contemporary browser supporting ES6, CSS3 and HTML 5 |                  |
