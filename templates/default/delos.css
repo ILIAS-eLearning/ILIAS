@@ -6073,7 +6073,6 @@ a[aria-disabled].il-link.link-bulky:hover {
 .il-maincontrols-metabar > li > .btn.btn-bulky.engaged, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
-  border: none;
   color: initial;
   outline-color: transparent;
 }
