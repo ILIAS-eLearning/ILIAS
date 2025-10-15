@@ -65,6 +65,7 @@ use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Taxonomy\DomainService as TaxonomyService;
 use ILIAS\Style\Content\Service as ContentStyle;
 use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\Test\GUIFactory;
 
 /**
  * Class ilObjTestGUI
@@ -153,6 +154,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
     protected TaxonomyService $taxonomy;
+    protected GUIFactory $gui_factory;
 
     protected bool $create_question_mode;
 
@@ -240,6 +242,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->objective_oriented_container,
             $this->test_session_factory->getSession()
         );
+
+        $this->gui_factory = $local_dic['gui.factory'];
     }
 
     /**
@@ -544,8 +548,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 if ((!$this->access->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $this->redirectAfterMissingRead();
                 }
-                $specific_dic = $this->getTestObject()->getLocalDIC()->specificDic($this->getTestObject());
-                $output_gui = $specific_dic['manscoring.consecutive.gui'];
+                $output_gui = $this->gui_factory->get(ConsecutiveScoringGUI::class, $this->getTestObject());
                 $this->prepareOutput();
                 $this->ctrl->forwardCommand($output_gui);
                 $this->addHeaderAction();

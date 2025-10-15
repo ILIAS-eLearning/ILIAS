@@ -22,10 +22,10 @@ namespace ILIAS\Test\Scoring\Manual;
 
 class ConsecutiveScoringMode
 {
-    public const MODE_USER = 'u';
-    public const MODE_QUESTION = 'q';
-    public const MODE_ALL = 'a';
-    public const MODE_ONE = 'o';
+    public const ORIENTATION_USER = 'u';
+    public const ORIENTATION_QUESTION = 'q';
+    public const MODE_ALL_AT_ONCE = 'a';
+    public const MODE_ONE_BY_ONE = 'o';
 
     public function __construct(
         protected readonly string $transposition,
@@ -35,12 +35,12 @@ class ConsecutiveScoringMode
 
     public function isUserCentric(): bool
     {
-        return $this->transposition === self::MODE_USER;
+        return $this->transposition === self::ORIENTATION_USER;
     }
 
     public function isSingle(): bool
     {
-        return $this->cardinality === self::MODE_ONE;
+        return $this->cardinality === self::MODE_ONE_BY_ONE;
     }
 
 }

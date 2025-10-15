@@ -27,15 +27,12 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as RequestWrapper;
 use ILIAS\Data\URI;
 
-//use ILIAS\Data\Factory as DataFactory;
-
 class ConsecutiveScoringURLs
 {
-    private URLBuilderToken $act_token;
-    private URLBuilderToken $qid_token;
-    private URLBuilderToken $uid_token;
-    private URLBuilderToken $pid_token;
-
+    private URLBuilderToken $action_token;
+    private URLBuilderToken $question_token;
+    private URLBuilderToken $user_token;
+    private URLBuilderToken $attempt_token;
     private Transformation $refine_string;
     private Transformation $refine_int;
 
@@ -46,22 +43,22 @@ class ConsecutiveScoringURLs
         private readonly RequestWrapper $request_wrapper,
         private readonly \ilCtrl $ctrl,
     ) {
-        list(
+        [
             $this->url_builder,
-            $this->act_token,
-            $this->qid_token,
-            $this->uid_token,
-            $this->pid_token
-        ) = $this->url_builder->acquireParameters(
+            $this->action_token,
+            $this->question_token,
+            $this->user_token,
+            $this->attempt_token
+        ] = $this->url_builder->acquireParameters(
             $namespace,
-            'act',
-            'qid',
-            'uid',
-            'pid',
+            'action',
+            'question',
+            'user',
+            'attemp',
         );
     }
 
-    protected function retrieveString(URLBuilderToken $token): ?string
+    private function retrieveString(URLBuilderToken $token): ?string
     {
         return $this->request_wrapper->retrieve(
             $token->getName(),
@@ -71,7 +68,7 @@ class ConsecutiveScoringURLs
             ])
         );
     }
-    protected function retrieveInt(URLBuilderToken $token): ?int
+    private function retrieveInt(URLBuilderToken $token): ?int
     {
         return $this->request_wrapper->retrieve(
             $token->getName(),
@@ -89,53 +86,55 @@ class ConsecutiveScoringURLs
 
     public function getAction(): ?string
     {
-        return $this->retrieveString($this->act_token);
+        return $this->retrieveString($this->action_token);
     }
 
     public function withAction(string $act): self
     {
-        //$clone = clone $this;
-        $this->url_builder = $this->url_builder
-            ->withParameter($this->act_token, $act);
-        return $this;
+        $clone = clone $this;
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->action_token, $act);
+        return $clone;
     }
 
     public function withFragment(string $fragment): self
     {
-        //$clone = clone $this;
-        $this->url_builder = $this->url_builder
+        $clone = clone $this;
+        $clone->url_builder = $clone->url_builder
             ->withFragment($fragment);
-        return $this;
+        return $clone;
     }
 
     public function getIdParameters(): array
     {
         return [
-            $this->retrieveInt($this->qid_token),
-            $this->retrieveInt($this->uid_token),
-            $this->retrieveInt($this->pid_token)
+            $this->retrieveInt($this->question_token),
+            $this->retrieveInt($this->user_token),
+            $this->retrieveInt($this->attempt_token)
         ];
     }
 
-    public function withIdParameters(int $qid, int $uid, int $pid): self
+    public function withIdParameters(int $qid, int $uid, int $attempt): self
     {
-        $this->url_builder = $this->url_builder
-            ->withParameter($this->qid_token, (string) $qid)
-            ->withParameter($this->uid_token, (string) $uid)
-            ->withParameter($this->pid_token, (string) $pid);
-        return $this;
+        $clone = clone $this;
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->question_token, (string) $qid)
+            ->withParameter($clone->user_token, (string) $uid)
+            ->withParameter($clone->attempt_token, (string) $attempt);
+        return $clone;
     }
 
     public function withUserId(int $uid): self
     {
-        $this->url_builder = $this->url_builder
-            ->withParameter($this->uid_token, (string) $uid);
-        return $this;
+        $clone = clone $this;
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->user_token, (string) $uid);
+        return $clone;
     }
 
     public function getUserId(): int
     {
-        return $this->retrieveInt($this->uid_token);
+        return $this->retrieveInt($this->user_token);
     }
 
     public function redirect(): void

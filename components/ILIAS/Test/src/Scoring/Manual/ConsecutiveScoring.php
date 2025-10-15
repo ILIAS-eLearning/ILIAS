@@ -73,19 +73,19 @@ class ConsecutiveScoring
         return $this->getQuestionGUI($qid)->getObject();
     }
 
-    public function getPassUsedForEvaluation(int $usr_active_id): int
+    public function getAttemptUsedForEvaluation(int $usr_active_id): int
     {
         return $this->object->_getResultPass($usr_active_id);
     }
 
     public function getUserFullName(
         int $usr_active_id,
-        string $pass
+        string $attempt
     ): string {
         if ($this->object->getAnonymity()
             || !$this->test_access->checkScoreParticipantsAccess()
         ) {
-            return \ilObjTest::buildExamId($usr_active_id, $pass, $this->object->getId());
+            return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
         $user_id = (string) $this->object->_getUserIdFromActiveId($usr_active_id);
         $user_data = $this->object->getUserData([$user_id]);
@@ -96,29 +96,23 @@ class ConsecutiveScoring
             $user["lastname"],
             $user["login"]
         );
-        /**
-        return $this->object->userLookupFullName(
-            $this->object->_getUserIdFromActiveId($usr_active_id),
-            false,
-            true
-        );*/
     }
 
     public function getUserId(
         int $usr_active_id,
-        string $pass,
+        string $attempt,
     ): string {
         if ($this->object->getAnonymity()
             || !$this->test_access->checkScoreParticipantsAccess()
         ) {
-            return \ilObjTest::buildExamId($usr_active_id, $pass, $this->object->getId());
+            return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
         return (string) $this->object->_getUserIdFromActiveId($usr_active_id);
     }
 
-    public function getSingleManualFeedback(int $qid, int $usr_active_id, int $pass_id): array
+    public function getSingleManualFeedback(int $qid, int $usr_active_id, int $attempt_id): array
     {
-        $fb = $this->object->getSingleManualFeedback($usr_active_id, $qid, $pass_id);
+        $fb = \ilObjTest::getSingleManualFeedback($usr_active_id, $qid, $attempt_id);
         if (array_key_exists("finalized_tstamp", $fb)) {
             $fb["finalized_time"] = $this->current_user->getDateTimeFormat()->applyTo(
                 \DateTimeImmutable::createFromFormat('U', (string) $fb["finalized_tstamp"])
@@ -127,16 +121,15 @@ class ConsecutiveScoring
         return $fb;
     }
 
-    public function getUserQuestionGUI(int $qid, int $usr_active_id, int $pass_id): \assQuestionGUI
+    public function getUserQuestionGUI(int $qid, int $usr_active_id, int $attempt_id): \assQuestionGUI
     {
         $question_gui = $this->getQuestionGUI($qid);
-        $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $usr_active_id, $pass_id);
+        $shuffle_trafo = $this->shuffler->getAnswerShuffleFor($qid, $usr_active_id, $attempt_id);
         $question = $question_gui->getObject();
         $question->setShuffler($shuffle_trafo);
         $question_gui->setObject($question);
         return $question_gui;
     }
-
 
     /**
      * @return array<int, int[]>, uid => [qids]
@@ -147,13 +140,13 @@ class ConsecutiveScoring
         foreach ($usr_active_ids as $usr_active_id) {
             $answered[$usr_active_id] = [];
 
-            $pass_id = $this->getPassUsedForEvaluation($usr_active_id);
+            $attempt_id = $this->getAttemptUsedForEvaluation($usr_active_id);
             $user_results = $this->object->getTestResult(
                 $usr_active_id,
-                $pass_id,
-                false, //$ordered_sequence
-                true,//$settings->getShowHiddenQuestions(),
-                true//$settings->getShowOptionalQuestions()
+                $attempt_id,
+                false,
+                true,
+                true
             );
 
             foreach ($user_results as $idx => $qresult) {
@@ -182,8 +175,8 @@ class ConsecutiveScoring
                 if (! array_key_exists($uid, $finalized)) {
                     $finalized[$uid] = [];
                 }
-                $pass_id = $this->getPassUsedForEvaluation($uid);
-                if ((bool) ($feedback[$uid][$pass_id][$qid]['finalized_evaluation'] ?? false)) {
+                $attempt_id = $this->getAttemptUsedForEvaluation($uid);
+                if ((bool) ($feedback[$uid][$attempt_id][$qid]['finalized_evaluation'] ?? false)) {
                     $finalized[$uid][] = $qid;
                 }
             }
@@ -202,8 +195,8 @@ class ConsecutiveScoring
                 if (! array_key_exists($uid, $finalized)) {
                     $finalized[$uid] = [];
                 }
-                $pass_id = $this->getPassUsedForEvaluation($uid);
-                $scorer = $feedback[$uid][$pass_id][$qid]['finalized_by_usr_id'] ?? 0;
+                $attempt_id = $this->getAttemptUsedForEvaluation($uid);
+                $scorer = $feedback[$uid][$attempt_id][$qid]['finalized_by_usr_id'] ?? 0;
                 if (in_array($scorer, $finalizing_usr_ids)) {
                     $finalized[$uid][] = $qid;
                 }
@@ -211,7 +204,6 @@ class ConsecutiveScoring
         }
         return $finalized;
     }
-
 
     /**
      * @return int[]
@@ -228,9 +220,9 @@ class ConsecutiveScoring
             $feedback = $this->object->getCompleteManualFeedback($qid);
 
             foreach ($usr_active_ids as $uid) {
-                $pass_id = $this->getPassUsedForEvaluation($uid);
-                if ($feedback[$uid][$pass_id][$qid]['finalized_by_usr_id'] ?? false) {
-                    $ret[] = $feedback[$uid][$pass_id][$qid]['finalized_by_usr_id'];
+                $attempt_id = $this->getAttemptUsedForEvaluation($uid);
+                if ($feedback[$uid][$attempt_id][$qid]['finalized_by_usr_id'] ?? false) {
+                    $ret[] = $feedback[$uid][$attempt_id][$qid]['finalized_by_usr_id'];
                 }
             }
         }
@@ -240,7 +232,7 @@ class ConsecutiveScoring
     public function store(
         int $qid,
         int $usr_active_id,
-        int $pass_id,
+        int $attempt_id,
         float $score,
         bool $final,
         string $feedback,
@@ -255,14 +247,14 @@ class ConsecutiveScoring
         // fix #35543: save manual points only if they differ from the existing points
         // this prevents a question being set to "answered" if only feedback is entered
         $previously_reached_points = $this->getQuestionObject($qid)
-            ->getReachedPoints($usr_active_id, $pass_id);
+            ->getReachedPoints($usr_active_id, $attempt_id);
         if ($score !== $previously_reached_points) {
             \assQuestion::_setReachedPoints(
                 $usr_active_id,
                 $qid,
                 $score,
                 $max_points,
-                $pass_id,
+                $attempt_id,
                 true
             );
         }
@@ -270,13 +262,13 @@ class ConsecutiveScoring
         $this->object->saveManualFeedback(
             $usr_active_id,
             $qid,
-            $pass_id,
+            $attempt_id,
             $feedback,
             $final
         );
 
         $this->scorer->setPreserveManualScores(true);
-        $this->scorer->recalculateSolution($usr_active_id, $pass_id);
+        $this->scorer->recalculateSolution($usr_active_id, $attempt_id);
 
         \ilLPStatusWrapper::_updateStatus(
             $this->object->getId(),
@@ -313,6 +305,5 @@ class ConsecutiveScoring
     {
         return $this->scoring_done_helper->isDone($usr_active_id);
     }
-
 
 }

@@ -24,39 +24,40 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Container\ViewControl\ViewControl as ViewControlContainer;
-use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterContainer;
-use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use ILIAS\Test\ResponseHandler;
 use ILIAS\Test\Presentation\TabsManager;
-use ILIAS\UI\Component\Navigation\Sequence\SegmentRetrieval;
-use ILIAS\UI\Component\Navigation\Sequence\SegmentBuilder;
-use ILIAS\UI\Component\Navigation\Sequence\Segment;
-use ILIAS\UI\Component\Legacy\Content as LegacyContent;
-use ILIAS\UI\Component\Prompt\Prompt;
-use ILIAS\UI\Component\Button\Standard as StdButton;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties;
-use ILIAS\UI\Component\Panel\Report as ReportPanel;
-use ILIAS\UI\Component\Panel\Sub as SubPanel;
+use ILIAS\UI\Implementation\Component\Input\Container\ViewControl\ViewControl as ViewControlContainer;
+use ILIAS\UI\Implementation\Component\Input\Container\Filter\Standard as FilterContainer;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\Standard as Form;
+use ILIAS\UI\Component\Navigation\Sequence\SegmentRetrieval;
+use ILIAS\UI\Implementation\Component\Navigation\Sequence\Segment;
+use ILIAS\UI\Implementation\Component\Prompt\Prompt;
+use ILIAS\UI\Implementation\Component\Button\Standard as StdButton;
+use ILIAS\UI\Implementation\Component\Listing\Property as PropertyListing;
+use ILIAS\UI\Implementation\Component\Layout\Alignment\Alignment;
+use ILIAS\UI\Implementation\Component\Legacy\Content as LegacyContent;
+use ILIAS\UI\Implementation\Component\Entity\Entity;
 
 class ConsecutiveScoringGUI implements SegmentRetrieval
 {
     public const CMD_VIEW = 'view';
     public const DEFAULT_COMMAND = 'view';
 
-    private const ACT_FORM_STATE = 'fs';
-    private const ACT_STORE_STATE = 'ss';
-    private const ACT_STORE = 'store';
-    private const ACT_SCORING_COMPLETE = 'ucomplete';
-    private const ACT_SCORING_INCOMPLETE = 'uincomplete';
+    private const ACTION_FORM_STATE = 'fs';
+    private const ACTION_STORE_STATE = 'ss';
+    private const ACTION_STORE = 'store';
+    private const ACTION_SCORING_COMPLETE = 'ucomplete';
+    private const ACTION_SCORING_INCOMPLETE = 'uincomplete';
 
-    private const F_USERS = 'fusers';
-    private const F_QUESTIONS = 'fquestions';
-    private const F_ANSWERED = 'fanswerd';
-    private const F_FINAL = 'ffinal';
-    private const F_USER_FINAL = 'fusrfinal';
-    private const F_ONLY = 'only';
-    private const F_HIDE = 'hide';
-    private const F_SCOREDBY = 'fscrby';
+    private const FILTER_USERS = 'fusers';
+    private const FILTER_QUESTIONS = 'fquestions';
+    private const FILTER_ANSWERED = 'fanswerd';
+    private const FILTER_FINAL = 'ffinal';
+    private const FILTER_USER_FINAL = 'fusrfinal';
+    private const FILTER_ONLY = 'only';
+    private const FILTER_HIDE = 'hide';
+    private const FILTER_SCOREDBY = 'fscrby';
 
     private ?array $filter_values = null;
     private Prompt $prompt;
@@ -72,11 +73,12 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         protected UIRenderer $ui_renderer,
         protected readonly Refinery $refinery,
         protected readonly ServerRequestInterface $request,
+        protected readonly ResponseHandler $test_response,
         protected readonly ConsecutiveScoring $scoring,
-        protected readonly ConsecutiveScoringURLs $url_builder,
+        protected readonly ConsecutiveScoringURLs $scoring_url_builder,
         protected readonly \ilUIFilterService $filter_service,
     ) {
-        $this->prompt = $this->ui_factory->prompt()->standard($this->url_builder->buildURI());
+        $this->prompt = $this->ui_factory->prompt()->standard($this->scoring_url_builder->buildURI());
     }
     public function executeCommand(): void
     {
@@ -88,45 +90,47 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
 
         if (!$this->object->getGlobalSettings()->isManualScoringEnabled()) {
             // allow only if at least one question type is marked for manual scoring
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("manscoring_not_allowed"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('manscoring_not_allowed'), true);
             $this->ctrl->redirectByClass([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
         }
 
         $this->tabs->activateTab(TabsManager::TAB_ID_MANUAL_SCORING);
 
-        $act = $this->url_builder->getAction() ?? self::DEFAULT_COMMAND;
-        list($qid, $uid, $pid) = $this->url_builder->getIdParameters();
+        $act = $this->scoring_url_builder->getAction() ?? self::DEFAULT_COMMAND;
+        [$question_id, $user_id, $attempt_id] = $this->scoring_url_builder->getIdParameters();
 
         switch ($act) {
-            case self::ACT_FORM_STATE:
+            case self::ACTION_FORM_STATE:
                 $answer_section =
                     $this->ui_renderer->render([
-                        $this->getUserRepresentation($uid, $pid),
-                        $this->getUserAnswer($qid, $uid, $pid, false, false),
+                        $this->getUserRepresentation($user_id, $attempt_id),
+                        $this->getUserAnswer($question_id, $user_id, $attempt_id, false, false),
                     ]);
                 $response = $this->ui_factory->prompt()->state()->show(
-                    $this->getScoringForm(self::ACT_STORE_STATE, $qid, $uid, $pid)
+                    $this->getScoringForm(self::ACTION_STORE_STATE, $question_id, $user_id, $attempt_id)
                 )->withTitle( //TODO: should not be on state, but on form
                     $answer_section
                 );
-                echo($this->ui_renderer->renderAsync($response));
-                exit();
+                $this->test_response->sendAsync(
+                    $this->ui_renderer->renderAsync($response)
+                );
+                break;
 
-            case self::ACT_STORE_STATE:
-                $form = $this->getScoringForm(self::ACT_STORE_STATE, $qid, $uid, $pid)
+            case self::ACTION_STORE_STATE:
+                $form = $this->getScoringForm(self::ACTION_STORE_STATE, $question_id, $user_id, $attempt_id)
                     ->withRequest($this->request);
                 $formdata = $form->getData();
                 if ($formdata !== null) {
                     $this->store($formdata);
                     $msg = sprintf(
                         $this->lng->txt('tst_saved_manscoring_successfully'),
-                        $pid + 1,
-                        $this->scoring->getUserFullName($uid, (string) $pid)
+                        $attempt_id + 1,
+                        $this->scoring->getUserFullName($user_id, (string) $attempt_id)
                     );
                     $this->tpl->setOnScreenMessage('success', $msg, true);
 
                     $anchor = sprintf('anchor_%s_%s', $formdata['qid'], $formdata['usr_active_id']);
-                    $url = $this->url_builder
+                    $url = $this->scoring_url_builder
                         ->withAction(self::CMD_VIEW)
                         ->withFragment($anchor)
                         ->buildURI();
@@ -135,11 +139,14 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 } else {
                     $response = $this->ui_factory->prompt()->state()->show($form);
                 }
-                echo($this->ui_renderer->renderAsync($response));
-                exit();
 
-            case self::ACT_STORE:
-                $form = $this->getScoringForm(self::ACT_STORE, $qid, $uid, $pid)
+                $this->test_response->sendAsync(
+                    $this->ui_renderer->renderAsync($response)
+                );
+                break;
+
+            case self::ACTION_STORE:
+                $form = $this->getScoringForm(self::ACTION_STORE, $question_id, $user_id, $attempt_id)
                     ->withRequest($this->request);
                 $formdata = $form->getData();
                 if ($formdata === null) {
@@ -148,26 +155,26 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                     $this->store($formdata);
                     $msg = sprintf(
                         $this->lng->txt('tst_saved_manscoring_successfully'),
-                        $pid + 1,
-                        $this->scoring->getUserFullName($uid, (string) $pid)
+                        $attempt_id + 1,
+                        $this->scoring->getUserFullName($user_id, (string) $attempt_id)
                     );
                     $this->tpl->setOnScreenMessage('success', $msg, true);
-                    $this->url_builder->withAction(self::CMD_VIEW)->redirect();
+                    $this->scoring_url_builder->withAction(self::CMD_VIEW)->redirect();
                 }
                 break;
 
-            case self::ACT_SCORING_COMPLETE:
-                $this->scoring->completeScoring($uid, true);
+            case self::ACTION_SCORING_COMPLETE:
+                $this->scoring->completeScoring($user_id, true);
                 $msg = $this->lng->txt('manscoring_finalized');
                 $this->tpl->setOnScreenMessage('success', $msg, true);
-                $this->url_builder->withAction(self::CMD_VIEW)->redirect();
+                $this->scoring_url_builder->withAction(self::CMD_VIEW)->redirect();
                 break;
 
-            case self::ACT_SCORING_INCOMPLETE:
-                $this->scoring->completeScoring($uid, false);
+            case self::ACTION_SCORING_INCOMPLETE:
+                $this->scoring->completeScoring($user_id, false);
                 $msg = $this->lng->txt('manscoring_finalized_removed');
                 $this->tpl->setOnScreenMessage('success', $msg, true);
-                $this->url_builder->withAction(self::CMD_VIEW)->redirect();
+                $this->scoring_url_builder->withAction(self::CMD_VIEW)->redirect();
                 break;
 
             case self::DEFAULT_COMMAND:
@@ -209,10 +216,10 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         $filter_values = $this->filter_values;
         $positions = [];
 
-        $usr_active_ids = $filter_values[self::F_USERS] ?? array_keys($this->scoring->getTestParticipants());
+        $usr_active_ids = $filter_values[self::FILTER_USERS] ?? array_keys($this->scoring->getTestParticipants());
         $usr_active_ids = array_map('intval', $usr_active_ids);
 
-        $question_ids = $filter_values[self::F_QUESTIONS] ??
+        $question_ids = $filter_values[self::FILTER_QUESTIONS] ??
             array_map(
                 static fn(GeneralQuestionProperties $q) => $q->getQuestionId(),
                 $this->scoring->getManuallyScorableQuestionsInTest()
@@ -220,37 +227,50 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         $question_ids = array_map('intval', $question_ids);
 
 
-        if ($filter_values[self::F_USER_FINAL] ?? '' !== '') {
+        if ($filter_values[self::FILTER_USER_FINAL] ?? '' !== '') {
             $usr_active_ids = array_filter(
                 $usr_active_ids,
-                function ($uid) use ($filter_values) {
-                    $complete = $this->scoring->isScoringComplete($uid);
-                    $filter = $filter_values[self::F_USER_FINAL];
+                function ($user_id) use ($filter_values) {
+                    $complete = $this->scoring->isScoringComplete($user_id);
+                    $filter = $filter_values[self::FILTER_USER_FINAL];
                     return
-                        ($complete && $filter === self::F_ONLY) ||
-                        (!$complete && $filter === self::F_HIDE);
+                        ($complete && $filter === self::FILTER_ONLY) ||
+                        (!$complete && $filter === self::FILTER_HIDE);
                 }
             );
         }
 
-        $viewcontrol_values = array_shift($viewcontrol_values);
+        return $this->filterPositions(
+            $usr_active_ids,
+            $question_ids,
+            array_shift($viewcontrol_values),
+            $filter_values
+        );
+    }
 
+    protected function filterPositions(
+        array $usr_active_ids,
+        array $question_ids,
+        ConsecutiveScoringMode $viewcontrol_values,
+        array $filter_values
+    ): array {
+        $positions = [];
         if ($viewcontrol_values->isUserCentric()) {
             $position_ids = $this->filterForUsers(
                 $usr_active_ids,
                 $question_ids,
-                $filter_values[self::F_ANSWERED] ?? null,
-                $filter_values[self::F_FINAL] ?? null,
-                $filter_values[self::F_SCOREDBY] ?? [],
+                $filter_values[self::FILTER_ANSWERED] ?? null,
+                $filter_values[self::FILTER_FINAL] ?? null,
+                $filter_values[self::FILTER_SCOREDBY] ?? [],
             );
 
-            foreach ($position_ids as $uid => $qids) {
+            foreach ($position_ids as $user_id => $question_ids) {
                 if ($viewcontrol_values->isSingle()) {
-                    foreach ($qids as $qid) {
-                        $positions[] = [[$uid], [$qid]];
+                    foreach ($question_ids as $question_id) {
+                        $positions[] = [[$user_id], [$question_id]];
                     }
                 } else {
-                    $positions[] = [[$uid], $qids];
+                    $positions[] = [[$user_id], $question_ids];
                 }
             }
 
@@ -258,18 +278,18 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             $position_ids = $this->filterForQuestions(
                 $usr_active_ids,
                 $question_ids,
-                $filter_values[self::F_ANSWERED] ?? null,
-                $filter_values[self::F_FINAL] ?? null,
-                $filter_values[self::F_SCOREDBY] ?? [],
+                $filter_values[self::FILTER_ANSWERED] ?? null,
+                $filter_values[self::FILTER_FINAL] ?? null,
+                $filter_values[self::FILTER_SCOREDBY] ?? [],
             );
 
-            foreach ($position_ids as $qid => $uids) {
+            foreach ($position_ids as $question_id => $user_ids) {
                 if ($viewcontrol_values->isSingle()) {
-                    foreach ($uids as $uid) {
-                        $positions[] = [[$uid], [$qid]];
+                    foreach ($user_ids as $user_id) {
+                        $positions[] = [[$user_id], [$question_id]];
                     }
                 } else {
-                    $positions[] = [$uids, [$qid]];
+                    $positions[] = [$user_ids, [$question_id]];
                 }
             }
         }
@@ -293,8 +313,8 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     ): array {
         $answered = array_reduce(
             $usr_active_ids,
-            function ($r, $uid) use ($question_ids) {
-                $r[$uid] = $question_ids;
+            function ($r, $user_id) use ($question_ids) {
+                $r[$user_id] = $question_ids;
                 return $r;
             },
             []
@@ -318,24 +338,24 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         }
 
         $ret = [];
-        foreach ($usr_active_ids as $uid) {
-            $ret[$uid] = $question_ids;
+        foreach ($usr_active_ids as $user_id) {
+            $ret[$user_id] = $question_ids;
 
-            if ($filter_answered === self::F_ONLY) {
-                $ret[$uid] = array_intersect($ret[$uid], $answered[$uid]);
+            if ($filter_answered === self::FILTER_ONLY) {
+                $ret[$user_id] = array_intersect($ret[$user_id], $answered[$user_id]);
             }
-            if ($filter_answered === self::F_HIDE) {
-                $ret[$uid] = array_diff($ret[$uid], $answered[$uid]);
+            if ($filter_answered === self::FILTER_HIDE) {
+                $ret[$user_id] = array_diff($ret[$user_id], $answered[$user_id]);
             }
 
-            if ($filter_finalized === self::F_ONLY) {
-                $ret[$uid] = array_diff($ret[$uid], $finalized[$uid]);
+            if ($filter_finalized === self::FILTER_ONLY) {
+                $ret[$user_id] = array_diff($ret[$user_id], $finalized[$user_id]);
             }
-            if ($filter_finalized === self::F_HIDE) {
-                $ret[$uid] = array_intersect($ret[$uid], $finalized[$uid]);
+            if ($filter_finalized === self::FILTER_HIDE) {
+                $ret[$user_id] = array_intersect($ret[$user_id], $finalized[$user_id]);
             }
-            if (array_key_exists($uid, $scored_by)) {
-                $ret[$uid] = array_intersect($ret[$uid], $scored_by[$uid]);
+            if (array_key_exists($user_id, $scored_by)) {
+                $ret[$user_id] = array_intersect($ret[$user_id], $scored_by[$user_id]);
             }
         }
         return array_filter($ret);
@@ -353,8 +373,8 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     ): array {
         $answered = array_reduce(
             $question_ids,
-            function ($r, $qid) use ($usr_active_ids) {
-                $r[$qid] = $usr_active_ids;
+            function ($r, $question_id) use ($usr_active_ids) {
+                $r[$question_id] = $usr_active_ids;
                 return $r;
             },
             []
@@ -384,23 +404,23 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         }
 
         $ret = [];
-        foreach ($question_ids as $qid) {
-            $ret[$qid] = $usr_active_ids;
+        foreach ($question_ids as $question_id) {
+            $ret[$question_id] = $usr_active_ids;
 
-            if ($filter_answered === self::F_ONLY) {
-                $ret[$qid] = array_diff($ret[$qid], $answered[$qid] ?? []);
+            if ($filter_answered === self::FILTER_ONLY) {
+                $ret[$question_id] = array_diff($ret[$question_id], $answered[$question_id] ?? []);
             }
-            if ($filter_answered === self::F_HIDE) {
-                $ret[$qid] = array_intersect($ret[$qid], $answered[$qid] ?? []);
+            if ($filter_answered === self::FILTER_HIDE) {
+                $ret[$question_id] = array_intersect($ret[$question_id], $answered[$question_id] ?? []);
             }
-            if ($filter_finalized === self::F_ONLY) {
-                $ret[$qid] = array_diff($ret[$qid], $finalized[$qid] ?? []);
+            if ($filter_finalized === self::FILTER_ONLY) {
+                $ret[$question_id] = array_diff($ret[$question_id], $finalized[$question_id] ?? []);
             }
-            if ($filter_finalized === self::F_HIDE) {
-                $ret[$qid] = array_intersect($ret[$qid], $finalized[$qid] ?? []);
+            if ($filter_finalized === self::FILTER_HIDE) {
+                $ret[$question_id] = array_intersect($ret[$question_id], $finalized[$question_id] ?? []);
             }
-            if (array_key_exists($qid, $scored_by)) {
-                $ret[$qid] = array_intersect($ret[$qid], $scored_by[$qid]);
+            if (array_key_exists($question_id, $scored_by)) {
+                $ret[$question_id] = array_intersect($ret[$question_id], $scored_by[$question_id]);
             }
         }
         return array_filter($ret);
@@ -426,72 +446,46 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         mixed $viewcontrol_values,
         mixed $filter_values
     ): Segment {
-
         if ($position_data === null) {
             return $this->ui_factory->legacy()->segment(
                 '',
                 $this->lng->txt('ui_table_no_records')
             );
         }
-        list($usr_active_ids, $question_ids) = $position_data;
 
-        $pass_id = $this->scoring->getPassUsedForEvaluation(current($usr_active_ids));
-
+        [$usr_active_ids, $question_ids] = $position_data;
+        $usr_active_id = current($usr_active_ids);
+        $question_id = current($question_ids);
+        $attempt_id = $this->scoring->getAttemptUsedForEvaluation($usr_active_id);
         $viewcontrol_values = array_shift($viewcontrol_values);
 
-        $title = $viewcontrol_values->isUserCentric() ?
-            $this->getUserRepresentation(current($usr_active_ids), $pass_id) :
-            $this->getQuestionRepresentation(current($question_ids), true);
+        $question_representation = $this->getQuestionRepresentation($question_id, true);
+        $user_representation = $this->getUserRepresentation($usr_active_id, $attempt_id);
 
-        $usr_active_id = current($usr_active_ids);
-        $qid = current($question_ids);
-
-        if ($viewcontrol_values->isSingle()) {
-
-            $form = $this->getScoringForm(self::ACT_STORE, $qid, $usr_active_id, $pass_id);
-
-            if ($request->getMethod() === 'POST') {
-                $form = $form->withRequest($request);
-            }
-
-            $representation = $viewcontrol_values->isUserCentric() ?
-                $this->getQuestionRepresentation(current($question_ids), true) :
-                $this->getUserRepresentation(current($usr_active_ids), $pass_id);
-
-            $user_answer = $this->getUserAnswer($qid, $usr_active_id, $pass_id);
-
-            $feedback_properties = $this->ui_factory->listing()->property();
-            $feedback = $this->scoring->getSingleManualFeedback($qid, $usr_active_id, $pass_id);
-            $feedback_properties = $this->getWithFinalizedProperties($feedback, $feedback_properties);
-            $panel = $this->ui_factory->panel()->standard("", [$form, $feedback_properties]);
-
-            $layout = $this->ui_factory->layout()->alignment()->horizontal()->evenlyDistributed(
-                $user_answer,
-                $panel,
-            );
-
-            $out = [
-                $representation,
-                $layout,
-            ];
-
-        } else {
-            $out = $viewcontrol_values->isUserCentric() ?
-                $this->collectForUser($usr_active_id, $question_ids) :
-                $this->collectForQuestion($qid, $usr_active_ids);
-            $out[] = $this->prompt;
-        }
-
-        $segment = $this->ui_factory->legacy()->segment(
-            $this->ui_renderer->render($title),
-            $this->ui_renderer->render($out)
+        return $this->ui_factory->legacy()->segment(
+            $this->ui_renderer->render(
+                $viewcontrol_values->isUserCentric() ? $user_representation : $question_representation
+            ),
+            $this->ui_renderer->render(
+                $viewcontrol_values->isSingle()
+                    ? [
+                        $viewcontrol_values->isUserCentric() ? $question_representation : $user_representation,
+                        $this->singleSegmentContent($question_id, $usr_active_id, $attempt_id, $request)
+                    ]
+                    : [
+                        $viewcontrol_values->isUserCentric()
+                            ? $this->collectForUser($usr_active_id, $question_ids)
+                            : $this->collectForQuestion($question_id, $usr_active_ids),
+                        $this->prompt
+                    ]
+            )
+        )
+        ->withSegmentActions(
+            ...
+            $viewcontrol_values->isUserCentric()
+                ? $this->getSegmentActionsForUser($usr_active_id)
+                : []
         );
-        if ($viewcontrol_values->isUserCentric()) {
-            $segment = $segment->withSegmentActions(
-                ...$this->getSegmentActionsForUser($usr_active_id)
-            );
-        }
-        return $segment;
     }
 
     protected function getViewControls(): ViewControlContainer
@@ -499,14 +493,14 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         $vcs = [
             $this->ui_factory->input()->viewControl()->mode(
                 [
-                    ConsecutiveScoringMode::MODE_USER => $this->lng->txt('mode_user'),
-                    ConsecutiveScoringMode::MODE_QUESTION => $this->lng->txt('mode_question'),
+                    ConsecutiveScoringMode::ORIENTATION_USER => $this->lng->txt('mode_user'),
+                    ConsecutiveScoringMode::ORIENTATION_QUESTION => $this->lng->txt('mode_question'),
                 ]
             ),
             $this->ui_factory->input()->viewControl()->mode(
                 [
-                    ConsecutiveScoringMode::MODE_ALL => $this->lng->txt('mode_allatonce'),
-                    ConsecutiveScoringMode::MODE_ONE => $this->lng->txt('mode_onebyone'),
+                    ConsecutiveScoringMode::MODE_ALL_AT_ONCE => $this->lng->txt('mode_allatonce'),
+                    ConsecutiveScoringMode::MODE_ONE_BY_ONE => $this->lng->txt('mode_onebyone'),
                 ]
             )
         ];
@@ -536,48 +530,48 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         }
 
         $answered_options = [
-            self::F_ONLY => $this->lng->txt('tst_man_scoring_answered_only'),
-            self::F_HIDE => $this->lng->txt('tst_man_scoring_answered_hide'),
+            self::FILTER_ONLY => $this->lng->txt('tst_man_scoring_answered_only'),
+            self::FILTER_HIDE => $this->lng->txt('tst_man_scoring_answered_hide'),
         ];
 
         $finalized_options = [
-            self::F_ONLY => $this->lng->txt('tst_man_scoring_finalized_hide'),
-            self::F_HIDE => $this->lng->txt('tst_man_scoring_finalized_only'),
+            self::FILTER_ONLY => $this->lng->txt('tst_man_scoring_finalized_hide'),
+            self::FILTER_HIDE => $this->lng->txt('tst_man_scoring_finalized_only'),
         ];
 
         $final_options = [
-            self::F_ONLY => $this->lng->txt('evaluated_users'),
-            self::F_HIDE => $this->lng->txt('not_evaluated_users')
+            self::FILTER_ONLY => $this->lng->txt('evaluated_users'),
+            self::FILTER_HIDE => $this->lng->txt('not_evaluated_users')
         ];
 
         $scored_by_options = [];
         foreach ($this->scoring->getAllFinalizingUsrIds() as $scorer_id) {
             $ud = current(\ilObjUser::_getUserData([$scorer_id]));
-            $scored_by_options[$scorer_id] = $ud['firstname'] . " " . $ud['lastname'];
+            $scored_by_options[$scorer_id] = $ud['firstname'] . ' ' . $ud['lastname'];
         }
 
         $filter = [
-            self::F_USERS => $this->ui_factory->input()->field()->multiselect(
+            self::FILTER_USERS => $this->ui_factory->input()->field()->multiselect(
                 $this->lng->txt('tst_man_scoring_userselection'),
                 $user_options
             ),
-            self::F_QUESTIONS => $this->ui_factory->input()->field()->multiselect(
+            self::FILTER_QUESTIONS => $this->ui_factory->input()->field()->multiselect(
                 $this->lng->txt('tst_man_scoring_questionselection'),
                 $question_options
             ),
-            self::F_ANSWERED => $this->ui_factory->input()->field()->select(
+            self::FILTER_ANSWERED => $this->ui_factory->input()->field()->select(
                 $this->lng->txt('tst_man_scoring_only_answered'),
                 $answered_options
             )->withValue(null),
-            self::F_FINAL => $this->ui_factory->input()->field()->select(
+            self::FILTER_FINAL => $this->ui_factory->input()->field()->select(
                 $this->lng->txt('tst_man_scoring_finalized'),
                 $finalized_options
             )->withValue(null),
-            self::F_USER_FINAL => $this->ui_factory->input()->field()->select(
+            self::FILTER_USER_FINAL => $this->ui_factory->input()->field()->select(
                 $this->lng->txt('finalized_evaluation'),
                 $final_options
             )->withValue(null),
-            self::F_SCOREDBY => $this->ui_factory->input()->field()->multiselect(
+            self::FILTER_SCOREDBY => $this->ui_factory->input()->field()->multiselect(
                 $this->lng->txt('scored_by'),
                 $scored_by_options
             )->withValue(null),
@@ -593,69 +587,62 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         );
     }
 
-    protected function getUserRepresentation(int $usr_active_id, $pass_id): \ILIAS\UI\Component\Entity\Entity
+    protected function getUserRepresentation(int $usr_active_id, int $attempt_id): Entity
     {
-        $pid = $this->scoring->getPassUsedForEvaluation($usr_active_id);
-        $usr_fullname = $this->scoring->getUserFullName($usr_active_id, (string) $pid);
-
-        $usr_avatar = (new \ilUserAvatarResolver((int) $this->scoring->getUserId($usr_active_id, (string) $pid)))->getAvatar();
-
+        $usr_fullname = $this->scoring->getUserFullName($usr_active_id, (string) $attempt_id);
+        $usr_avatar = (new \ilUserAvatarResolver((int) $this->scoring->getUserId($usr_active_id, (string) $attempt_id)))->getAvatar();
         $scored_participant_entity =
             $this->ui_factory->entity()->standard(
                 $usr_fullname,
                 $usr_avatar
             )->withDetails(
                 $this->ui_factory->listing()->property()->withProperty(
-                    $this->lng->txt("scored_pass"),
-                    (string) ($pid + 1)
+                    $this->lng->txt('scored_pass'),
+                    (string) ($attempt_id + 1)
                 )->withProperty(
-                    $this->lng->txt("usr_manscoring_complete"),
+                    $this->lng->txt('usr_manscoring_complete'),
                     $this->scoring->isScoringComplete($usr_active_id) ?
                         $this->lng->txt('yes') : $this->lng->txt('no')
                 )->withProperty(
-                    $this->lng->txt("exam_id"),
-                    $this->object->lookupExamId($usr_active_id, $pass_id)
+                    $this->lng->txt('exam_id'),
+                    $this->object->lookupExamId($usr_active_id, $attempt_id)
                 )
             );
         return $scored_participant_entity;
     }
 
-    protected function getQuestionRepresentation(int $qid, bool $show_title = false): \ILIAS\UI\Component\Legacy\Content
+    protected function getQuestionRepresentation(int $question_id, bool $show_title = false): LegacyContent
     {
         $tpl = new \ilTemplate('tpl.il_as_tst_manual_scoring_consecutive_question.html', true, true, 'components/ILIAS/Test');
-
-        $question = $this->scoring->getQuestionObject($qid);
-
+        $question = $this->scoring->getQuestionObject($question_id);
         $question_text = $question->getQuestion();
 
         if ($show_title) {
-            $tpl->setCurrentBlock("expandable_title");
+            $tpl->setCurrentBlock('expandable_title');
             $question_title = $question->getTitle();
             $tpl->setVariable('TITLE', $question_title);
         } else {
-            $tpl->setCurrentBlock("question_only");
-            $tpl->setVariable('EXPAND_COLLAPSE', $this->lng->txt("expand") . "/" . $this->lng->txt("collapse"));
+            $tpl->setCurrentBlock('question_only');
+            $tpl->setVariable('EXPAND_COLLAPSE', $this->lng->txt('expand') . '/' . $this->lng->txt('collapse'));
         }
         $tpl->setVariable('QUESTION', $question_text);
         $tpl->parseCurrentBlock();
 
-        $legacy_container = $this->ui_factory->legacy()->content($tpl->get());
-
-        return $legacy_container;
+        return $this->ui_factory->legacy()->content($tpl->get());
     }
 
     protected function getUserAnswer(
-        int $qid,
+        int $question_id,
         int $usr_active_id,
-        int $pass_id,
+        int $attempt_id,
         bool $show_feedback_html = false,
         bool $show_grade_btn = false,
         bool $show_properties = false
     ): LegacyContent {
-        $question_gui = $this->scoring->getUserQuestionGUI($qid, $usr_active_id, $pass_id);
+        $question_gui = $this->scoring->getUserQuestionGUI($question_id, $usr_active_id, $attempt_id);
         $question_solution = $question_gui->getSolutionOutput(
             $usr_active_id,
-            $pass_id,
+            $attempt_id,
             $graphical_output = true,
             $result_output = true,
             $show_question_only = true,
@@ -668,14 +655,14 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         $tpl = new \ilTemplate('tpl.il_as_tst_manual_scoring_consecutive_answer.html', true, true, 'components/ILIAS/Test');
 
         $usr_question = $question_gui->getObject();
-        $feedback = $this->scoring->getSingleManualFeedback($qid, $usr_active_id, $pass_id);
+        $feedback = $this->scoring->getSingleManualFeedback($question_id, $usr_active_id, $attempt_id);
 
         if ($show_properties) {
             $info =
                 $this->ui_factory->listing()->property()
                     ->withProperty(
                         $this->lng->txt('tst_highscore_score'),
-                        (string) $usr_question->getReachedPoints($usr_active_id, $pass_id) . " " . $this->lng->txt('tst_manscoring_input_of_max') . " " . (string) $usr_question->getMaximumPoints()
+                        (string) $usr_question->getReachedPoints($usr_active_id, $attempt_id) . ' ' . $this->lng->txt('tst_manscoring_input_of_max') . ' ' . (string) $usr_question->getMaximumPoints()
                     )
                     ->withProperty(
                         $this->lng->txt('finalized_evaluation'),
@@ -699,7 +686,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             $tpl->setVariable(
                 'GRADEBTN',
                 $this->ui_renderer->render(
-                    $this->getSingleFormButton($qid, $usr_active_id, $pass_id)
+                    $this->getSingleFormButton($question_id, $usr_active_id, $attempt_id)
                 )
             );
         }
@@ -707,17 +694,17 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         return $this->ui_factory->legacy()->content($tpl->get());
     }
 
-    protected function getScoringForm(string $action, int $qid, int $usr_active_id, int $pass_id): Form
+    protected function getScoringForm(string $action, int $question_id, int $usr_active_id, int $attempt_id): Form
     {
-        $action = $this->url_builder
+        $action = $this->scoring_url_builder
             ->withAction($action)
-            ->withIdParameters($qid, $usr_active_id, $pass_id)
+            ->withIdParameters($question_id, $usr_active_id, $attempt_id)
             ->buildURI()->__toString();
 
-        $question = $this->scoring->getQuestionObject($qid);
+        $question = $this->scoring->getQuestionObject($question_id);
         $max_points = $question->getMaximumPoints();
-        $score = $question->getReachedPoints($usr_active_id, $pass_id);
-        $feedback = $this->scoring->getSingleManualFeedback($qid, $usr_active_id, $pass_id);
+        $score = $question->getReachedPoints($usr_active_id, $attempt_id);
+        $feedback = $this->scoring->getSingleManualFeedback($question_id, $usr_active_id, $attempt_id);
         $feedback_final = (bool) ($feedback['finalized_evaluation'] ?? false);
         $feedback_txt = $feedback['feedback'] ?? '';
 
@@ -725,7 +712,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         $inputs[] = $this->ui_factory->input()->field()->numeric(
             $this->lng->txt('tst_change_points_for_question')
         )
-        ->withByline($this->lng->txt('tst_manscoring_input_of_max') . " " . $max_points)
+        ->withByline($this->lng->txt('tst_manscoring_input_of_max') . ' ' . $max_points)
         ->withAdditionalTransformation(
             $this->refinery->custom()->constraint(
                 fn($v) => (float) $v <= $max_points,
@@ -756,13 +743,13 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             [
                 $this->ui_factory->input()->field()->hidden()
                 ->withAdditionalTransformation($to_int)
-                ->withValue($qid),
+                ->withValue($question_id),
                 $this->ui_factory->input()->field()->hidden()
                 ->withAdditionalTransformation($to_int)
                 ->withValue($usr_active_id),
                 $this->ui_factory->input()->field()->hidden()
                 ->withAdditionalTransformation($to_int)
-                ->withValue($pass_id)
+                ->withValue($attempt_id)
             ]
         )
         ->withAdditionalTransformation(
@@ -770,7 +757,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 fn($values) => [
                         'qid' => $values[0],
                         'usr_active_id' => $values[1],
-                        'pass_id' => $values[2],
+                        'attempt_id' => $values[2],
                     ]
             )
         );
@@ -781,7 +768,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                     fn($values) => [
                         'qid' => $values[3]['qid'],
                         'usr_active_id' => $values[3]['usr_active_id'],
-                        'attempt' => $values[3]['pass_id'],
+                        'attempt' => $values[3]['attempt_id'],
                         'score' => $values[0],
                         'final' => $values[2] ?? false,
                         'feedback' => $values[1],
@@ -793,42 +780,64 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
 
     protected function collectForUser(int $usr_active_id, array $question_ids): array
     {
-        $pass_id = $this->scoring->getPassUsedForEvaluation($usr_active_id);
+        $attempt_id = $this->scoring->getAttemptUsedForEvaluation($usr_active_id);
         $entries = [];
-        foreach ($question_ids as $qid) {
+        foreach ($question_ids as $question_id) {
             $content = [
-                $this->getQuestionRepresentation($qid, true),
-                $this->getUserAnswer($qid, $usr_active_id, $pass_id, true, true, true)
+                $this->getQuestionRepresentation($question_id, true),
+                $this->getUserAnswer($question_id, $usr_active_id, $attempt_id, true, true, true)
             ];
-            $panel = $this->ui_factory->panel()->standard("", $content);
-            $entries[] = $this->ui_factory->legacy()->content(sprintf('<a id="anchor_%s_%s"></a>', $qid, $usr_active_id));
+            $panel = $this->ui_factory->panel()->standard('', $content);
+            $entries[] = $this->ui_factory->legacy()->content(sprintf('<a id="anchor_%s_%s"></a>', $question_id, $usr_active_id));
             $entries[] = $panel;
         }
         return $entries;
     }
 
-    protected function collectForQuestion(int $qid, array $usr_active_ids): array
+    protected function collectForQuestion(int $question_id, array $usr_active_ids): array
     {
         $entries = [];
         foreach ($usr_active_ids as $usr_active_id) {
-            $pass_id = $this->scoring->getPassUsedForEvaluation($usr_active_id);
+            $attempt_id = $this->scoring->getAttemptUsedForEvaluation($usr_active_id);
             $content = [
-                $this->getUserRepresentation($usr_active_id, $pass_id),
-                $this->getUserAnswer($qid, $usr_active_id, $pass_id, true, true, true)
+                $this->getUserRepresentation($usr_active_id, $attempt_id),
+                $this->getUserAnswer($question_id, $usr_active_id, $attempt_id, true, true, true)
             ];
-            $panel = $this->ui_factory->panel()->standard("", $content);
-            $entries[] = $this->ui_factory->legacy()->content(sprintf('<a id="anchor_%s_%s"></a>', $qid, $usr_active_id));
+            $panel = $this->ui_factory->panel()->standard('', $content);
+            $entries[] = $this->ui_factory->legacy()->content(sprintf('<a id="anchor_%s_%s"></a>', $question_id, $usr_active_id));
             $entries[] = $panel;
         }
         return $entries;
     }
 
+    protected function singleSegmentContent(
+        int $question_id,
+        int $usr_active_id,
+        int $attempt_id,
+        ServerRequestInterface $request
+    ): Alignment {
+        $form = $this->getScoringForm(self::ACTION_STORE, $question_id, $usr_active_id, $attempt_id);
+        if ($request->getMethod() === 'POST') {
+            $form = $form->withRequest($request);
+        }
 
-    protected function getSingleFormButton(int $qid, int $usr_active_id, int $pass_id): StdButton
+        $feedback_properties = $this->getWithFinalizedProperties(
+            $this->scoring->getSingleManualFeedback($question_id, $usr_active_id, $attempt_id),
+            $this->ui_factory->listing()->property()
+        );
+
+        return $this->ui_factory->layout()->alignment()->horizontal()->evenlyDistributed(
+            $this->getUserAnswer($question_id, $usr_active_id, $attempt_id),
+            $this->ui_factory->panel()->standard('', [$form, $feedback_properties])
+        );
+    }
+
+
+    protected function getSingleFormButton(int $question_id, int $usr_active_id, int $attempt_id): StdButton
     {
-        $url = $this->url_builder
-            ->withAction(self::ACT_FORM_STATE)
-            ->withIdParameters($qid, $usr_active_id, $pass_id)
+        $url = $this->scoring_url_builder
+            ->withAction(self::ACTION_FORM_STATE)
+            ->withIdParameters($question_id, $usr_active_id, $attempt_id)
             ->buildURI();
 
         return $this->ui_factory->button()->standard(
@@ -840,14 +849,14 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     protected function getSegmentActionsForUser(int $usr_active_id): array
     {
         $done_label = 'set_manscoring_done';
-        $done_action = self::ACT_SCORING_COMPLETE;
+        $done_action = self::ACTION_SCORING_COMPLETE;
         if ($this->scoring->isScoringComplete($usr_active_id)) {
             $done_label = 'set_manscoring_open';
-            $done_action = self::ACT_SCORING_INCOMPLETE;
+            $done_action = self::ACTION_SCORING_INCOMPLETE;
         }
         $btn_done = $this->ui_factory->button()->standard(
             $this->lng->txt($done_label),
-            $this->url_builder
+            $this->scoring_url_builder
                 ->withAction($done_action)
                 ->withUserId($usr_active_id)
                 ->buildURI()->__toString()
@@ -869,16 +878,13 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
     }
 
     /**
-     * @param array $feedback
-     * @param \ILIAS\UI\Component\Listing\Property $info
-     * @return \ILIAS\UI\Component\Listing\Property
+     * @param array $feedback //TODO: specify
      */
-    public function getWithFinalizedProperties(array $feedback, \ILIAS\UI\Component\Listing\Property $info): \ILIAS\UI\Component\Listing\Property
+    public function getWithFinalizedProperties(array $feedback, PropertyListing $info): PropertyListing
     {
-
         if (array_key_exists('finalized_by_usr_id', $feedback) && $feedback['finalized_by_usr_id'] !== 0) {
             $feedback_usr_data = $this->object->getUserData([$feedback['finalized_by_usr_id']])[$feedback['finalized_by_usr_id']];
-            $feedback_usr_name = $feedback_usr_data['firstname'] . " " . $feedback_usr_data['lastname'];
+            $feedback_usr_name = $feedback_usr_data['firstname'] . ' ' . $feedback_usr_data['lastname'];
             $info = $info->withProperty(
                 $this->lng->txt('finalized_by'),
                 $feedback_usr_name

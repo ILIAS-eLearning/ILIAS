@@ -181,8 +181,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
             ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true],
             ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI::view", "lang_var" => "manscoring", "default" => true],
-
-
         ];
     }
 
