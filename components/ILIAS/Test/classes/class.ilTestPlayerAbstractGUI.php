@@ -1899,16 +1899,22 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             }
 
             $status = ILIAS\UI\Component\Listing\Workflow\Step::NOT_STARTED;
+            $status_text = '';
 
             if (
                 ($row['worked_through'] || $row['isAnswered'])
                 && $row['has_authorized_answer']
             ) {
                 $status = ILIAS\UI\Component\Listing\Workflow\Step::IN_PROGRESS;
+                $status_text = $this->lng->txt('tst_answer_status_answered');
+            } else {
+                $status_text = $this->lng->txt('tst_answer_status_not_answered');
             }
 
+            $title_with_status = $title . ' (' . $status_text . ')';
+
             $questions[] = $this->ui_factory->listing()->workflow()
-                ->step($title, $description, $action)
+                ->step($title_with_status, $description, $action)
                 ->withStatus($status);
             $active = $row['sequence'] == $current_sequence_element ? $idx : $active;
         }
