@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\User\Settings\Settings as UserSettings;
 
 /**
  * Consultation hours administration
@@ -31,6 +32,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
     private int $user_id = 0;
     private UIRenderer $renderer;
     private UIFactory $uiFactory;
+    private UserSettings $user_settings;
 
     public function __construct(object $a_gui, string $a_cmd, int $a_user_id)
     {
@@ -42,6 +44,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         global $DIC;
         $this->renderer = $DIC->ui()->renderer();
         $this->uiFactory = $DIC->ui()->factory();
+        $this->user_settings = $DIC['user']->getSettings();
 
         $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('appointment'), 'start');
@@ -91,8 +94,8 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         }
         if ($a_set['bookings']) {
             foreach ($a_set['bookings'] as $user_id => $name) {
-                $user_profile_prefs = ilObjUser::_getPreferences($user_id);
-                if (($user_profile_prefs["public_profile"] ?? '') == "y") {
+                $public_profile = $this->user_settings->getSettingValueFor($user_id, 'public_profile') ?? '';
+                if ($public_profile == "y") {
                     $this->tpl->setCurrentBlock('booking_with_link');
                     $this->ctrl->setParameter($this->getParentObject(), 'user', $user_id);
                     $this->tpl->setVariable(
