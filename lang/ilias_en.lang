@@ -5706,7 +5706,7 @@ common#:#show_hidden_sections#:#Show More Information &raquo;
 common#:#show_less#:#Show less
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
-common#:#show_more#:#Show More
+common#:#menu_label#:#Menu
 common#:#show_owner#:#Show Owner
 common#:#show_preview#:#Show Preview
 common#:#show_users_online#:#Show active users
