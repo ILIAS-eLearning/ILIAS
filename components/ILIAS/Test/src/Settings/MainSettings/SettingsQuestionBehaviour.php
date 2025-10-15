@@ -292,15 +292,14 @@ class SettingsQuestionBehaviour extends TestSettings
             $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst_desc')
         )->withRequired(true);
 
-        $lock_answers = $f->switchableGroup(
+        return $f->switchableGroup(
             [self::ANSWER_FIXATION_NONE => $group1, self::ANSWER_FIXATION_ON_IFB_OR_FUQST => $group2],
             $lng->txt('tst_answer_fixation_handling')
         )
         ->withAdditionalTransformation($constraint)
         ->withAdditionalTransformation($this->getTransformationLockAnswers($refinery))
-        ->withValue($this->getAnswerFixationSettingsAsFormValue());
-
-        return !$environment['participant_data_exists'] ? $lock_answers : $lock_answers->withDisabled(true);
+        ->withValue($this->getAnswerFixationSettingsAsFormValue())
+        ->withDisabled($environment['participant_data_exists']);
     }
 
     private function getTransformationLockAnswers(Refinery $refinery): Transformation
