@@ -4696,6 +4696,7 @@ common#:#member#:#Member
 common#:#member_status#:#Member Status
 common#:#members#:#Members
 common#:#membership_leave#:#Leave
+common#:#menu_label#:#Menu
 common#:#mep#:#Media Pool
 common#:#mep_add#:#Add Media Pool
 common#:#mep_edit#:#Edit Media Pool Properties
@@ -5706,7 +5707,6 @@ common#:#show_hidden_sections#:#Show More Information &raquo;
 common#:#show_less#:#Show less
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
-common#:#menu_label#:#Menu
 common#:#show_more#:#Show More
 common#:#show_owner#:#Show Owner
 common#:#show_preview#:#Show Preview
