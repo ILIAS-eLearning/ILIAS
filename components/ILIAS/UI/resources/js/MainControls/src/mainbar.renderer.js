@@ -200,7 +200,7 @@
 
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
-                
+
                 //a11y
                 triggerer.getElement().attr('aria-controls', slate.html_id);
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
@@ -219,6 +219,15 @@
                     remover = parts.remover.withHtmlId(dom_references[entry.id].remover);
                     remover.mb_show(true);
                 }
+                
+                var slateName = triggerer.getElement().find('.bulky-label').text().trim();
+                if (slateName) {
+                    var closeButton = $('.il-mainbar-close-slates .btn-bulky');
+                    var closeLabel = il.Language.txt('close') + ' ' + slateName;
+                    closeButton.attr('aria-label', closeLabel);
+                    closeButton.find('.bulky-label').text(closeLabel);
+                }
+            
             } else {
                 triggerer.disengage();
                 slate.disengage();

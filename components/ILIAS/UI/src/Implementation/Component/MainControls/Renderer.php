@@ -391,6 +391,8 @@ class Renderer extends AbstractComponentRenderer
     {
         $trigger_signals = $this->trigger_signals;
 
+        $this->toJS('close');
+
         $inititally_active = $component->getActive();
 
         $component = $component->withOnLoadCode(
