@@ -249,8 +249,7 @@ class SettingsTestBehaviour extends TestSettings
 
         $sub_inputs_time_limit_for_completion['time_limit_for_completion_value'] = $f
             ->numeric(
-                $lng->txt('tst_processing_time_duration'),
-                $lng->txt('tst_processing_time_desc')
+                $lng->txt('tst_processing_time_duration')
             )
             ->withRequired(true)
             ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
