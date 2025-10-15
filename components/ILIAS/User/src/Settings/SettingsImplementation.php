@@ -33,7 +33,8 @@ class SettingsImplementation implements Settings
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly UIFactory $ui_factory,
         private readonly Refinery $refinery,
-        private readonly Repository $user_settings_repository
+        private readonly ConfigurationRepository $user_settings_configuration_repository,
+        private readonly DataRepository $user_settings_data_repository
     ) {
     }
 
@@ -150,7 +151,7 @@ class SettingsImplementation implements Settings
     public function getSettingByDefinitionClass(
         string $definition_class
     ): Setting {
-        $setting = $this->user_settings_repository->getByDefinitionClass($definition_class);
+        $setting = $this->user_settings_configuration_repository->getByDefinitionClass($definition_class);
         if ($setting === null) {
             throw new \UnexpectedValueException('No class by that name');
         }
@@ -174,6 +175,11 @@ class SettingsImplementation implements Settings
         );
     }
 
+    public function getSettingValueFor(int $user_id, string $key): ?string
+    {
+        return $this->user_settings_data_repository->getFor($user_id)[$key] ?? null;
+    }
+
     /**
      * @param array<ILIAS\User\Settings\AvailablePages> $pages
      */
@@ -182,7 +188,7 @@ class SettingsImplementation implements Settings
     ): array {
         return $this->reorderSections(
             array_reduce(
-                $this->user_settings_repository->get(),
+                $this->user_settings_configuration_repository->get(),
                 function (array $c, Setting $v) use ($pages): array {
                     if (!in_array($v->getSettingsPage(), $pages)) {
                         return $c;
@@ -354,6 +360,6 @@ class SettingsImplementation implements Settings
     private function checkStartingPointValue(\ilPropertyFormGUI $form): bool
     {
         return $form->getInput('additional') === ''
-            || $this->user_settings_repository->getByIdentifier('starting_point')->validateUserChoice($this->tpl, $this->lng, $form);
+            || $this->user_settings_configuration_repository->getByIdentifier('starting_point')->validateUserChoice($this->tpl, $this->lng, $form);
     }
 }

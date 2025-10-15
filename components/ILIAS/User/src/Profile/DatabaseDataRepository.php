@@ -20,15 +20,31 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile;
 
+use ILIAS\User\Profile\Fields\Standard\FirstName;
+use ILIAS\User\Profile\Fields\Standard\LastName;
+use ILIAS\User\Profile\Fields\Standard\Email;
+use ILIAS\User\Profile\Fields\Standard\SecondEmail;
 use ILIAS\User\Profile\Fields\Standard\Genders;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
+use ILIAS\User\Search\AutocompleteQuery;
+use ILIAS\User\Search\DefaultAutocompleteItem;
+use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
 
-class DataRepositoryDatabase implements DataRepository
+class DatabaseDataRepository implements DataRepository
 {
     private const string USER_BASE_TABLE = 'usr_data';
     public const string USER_VALUES_TABLE = 'usr_profile_data';
 
     private const string NO_AVATAR_RID = '-';
+
+    private const array SEARCH_FIELDS = [
+        'login' => true,
+        'firstname' => false,
+        'lastname' => false,
+        'email' => false,
+        'second_email' => false
+    ];
 
     public function __construct(
         private readonly \ilDBInterface $db,
@@ -186,7 +202,8 @@ class DataRepositoryDatabase implements DataRepository
         ?string $salt
     ): void {
         $this->db->manipulateF(
-            'UPDATE usr_data SET passwd = %s, passwd_enc_type = %s, passwd_salt = %s WHERE usr_id = %s',
+            'UPDATE ' . self::USER_BASE_TABLE . ' SET passwd = %s,' . PHP_EOL
+            . 'passwd_enc_type = %s, passwd_salt = %s WHERE usr_id = %s',
             [\ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
             [$password, $encoding_type, $salt, $usr_id]
         );
@@ -197,10 +214,37 @@ class DataRepositoryDatabase implements DataRepository
         string $login
     ): void {
         $this->db->manipulateF(
-            'UPDATE usr_data SET login = %s WHERE usr_id = %s',
+            'UPDATE ' . self::USER_BASE_TABLE . ' SET login = %s WHERE usr_id = %s',
             [\ilDBConstants::T_TEXT, \ilDBConstants::T_INTEGER],
             [$login, $usr_id]
         );
+    }
+
+    /**
+     * @return list<\ILIAS\User\Search\AutocompleteItem>
+     */
+    public function searchUsers(
+        SettingsDataRepository $settings_data_repository,
+        ProfileFieldsConfigurationRepository $profile_fields_config_repo,
+        AutocompleteQuery $autocomplete_query
+    ): array {
+        $query = $this->db->query(
+            $settings_data_repository->getSearchSelectConditionalOnVisibility(
+                self::USER_BASE_TABLE,
+                ...array_keys(self::SEARCH_FIELDS)
+            ) . PHP_EOL
+            . $this->buildSearchUsersWhereString($profile_fields_config_repo, $autocomplete_query)
+        );
+
+        $results = [];
+        while (($row = $this->db->fetchObject($query)) !== null) {
+            $results[] = new DefaultAutocompleteItem(
+                $row->login,
+                $row->lastname ?? '',
+                $row->firstname ?? ''
+            );
+        }
+        return $results;
     }
 
     private function buildFromData(
@@ -294,6 +338,61 @@ class DataRepositoryDatabase implements DataRepository
         $this->db->manipulate(
             'INSERT INTO ' . self::USER_VALUES_TABLE . ' (usr_id, field_id, value) '
                 . 'VALUES ' . $values_for_storage
+        );
+    }
+
+    private function buildSearchUsersWhereString(
+        ProfileFieldsConfigurationRepository $profile_fields_config_repo,
+        AutocompleteQuery $autocomplete_query
+    ): string {
+        $outer_conditions = [];
+        $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, \ilDBConstants::T_INTEGER);
+        $outer_conditions[] = 'usr_data.active != ' . $this->db->quote(0, \ilDBConstants::T_INTEGER);
+
+        if (\ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
+            $outer_conditions[] = $this->db->in(
+                'time_limit_owner',
+                \ilUserFilter::getInstance()->getFolderIds(),
+                false,
+                'integer'
+            );
+        }
+
+        $available_fields = array_filter(
+            $this->getSearchFieldsWithAvailability(
+                $profile_fields_config_repo,
+                $autocomplete_query
+            )
+        );
+
+        $outer_conditions[] = '(' . implode(
+            ' OR ',
+            array_map(
+                fn(string $v) => $this->db->like($v, \ilDBConstants::T_TEXT, "%{$available_fields[$v]}%"),
+                array_keys($available_fields)
+            )
+        ) . ')';
+
+        return ' WHERE ' . implode(' AND ', $outer_conditions);
+    }
+
+    private function getSearchFieldsWithAvailability(
+        ProfileFieldsConfigurationRepository $profile_fields_config_repo,
+        AutocompleteQuery $autocomplete_query
+    ): array {
+        return array_merge(
+            self::SEARCH_FIELDS,
+            [
+                'login' => $autocomplete_query->getSearchTermQueryString(),
+                'firstname' => $profile_fields_config_repo->getByClass(FirstName::class)->isSearchable()
+                    ? $autocomplete_query->getFirstnameQueryString() : null,
+                'lastname' => $profile_fields_config_repo->getByClass(LastName::class)->isSearchable()
+                    ? $autocomplete_query->getLastnameQueryString() : null,
+                'email' => $profile_fields_config_repo->getByClass(Email::class)->isSearchable()
+                    ? $autocomplete_query->getSearchTermQueryString() : null,
+                'second_email' => $profile_fields_config_repo->getByClass(SecondEmail::class)->isSearchable()
+                    ? $autocomplete_query->getSearchTermQueryString() : null
+            ]
         );
     }
 }

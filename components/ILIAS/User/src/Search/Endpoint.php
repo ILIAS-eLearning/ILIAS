@@ -1,0 +1,147 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\User\Search;
+
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as FieldConfigurationRepository;
+use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
+use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Services as HttpService;
+use ILIAS\Refinery\Factory as Refinery;
+
+abstract class Endpoint
+{
+    private const int SUGGESTIONS_START_AFTER = 3;
+
+    private readonly FieldConfigurationRepository $field_configuration_repository;
+    private readonly ProfileDataRepository $profile_data_repository;
+    private readonly SettingsDataRepository $settings_data_repository;
+    private readonly \ilObjUser $current_user;
+    private readonly HttpService $http;
+    private readonly Refinery $refinery;
+
+    protected readonly \ilCtrl $ctrl;
+    protected readonly DataFactory $data_factory;
+
+    public function __construct()
+    {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->current_user = $DIC['ilUser'];
+        $this->http = $DIC['http'];
+        $this->refinery = $DIC['refinery'];
+        $this->ctrl = $DIC['ilCtrl'];
+
+        $local_dic = LocalDIC::dic();
+        $this->field_configuration_repository = $local_dic[FieldConfigurationRepository::class];
+        $this->profile_data_repository = $local_dic[ProfileDataRepository::class];
+        $this->settings_data_repository = $local_dic[SettingsDataRepository::class];
+
+        $this->data_factory = new DataFactory();
+    }
+
+    /**
+     * @return array{0: \ILIAS\UI\URLBuilder, 1: \ILIAS\UI\URLBuilderToken}
+     */
+    abstract public function acquireBuilderAndToken(): array;
+
+    /**
+     * @return array{} These values will be added to the results
+     * before ordering them.
+     */
+    abstract protected function getAdditionalAnswerElements(
+        \ilObjUser $current_user,
+        AutocompleteQuery $autocomplete_query
+    ): array;
+
+    public function getSuggestionsStartAfter(): int
+    {
+        return self::SUGGESTIONS_START_AFTER;
+    }
+
+    final public function executeCommand(): void
+    {
+        $this->http->saveResponse(
+            $this->http->response()->withBody(
+                Streams::ofString($this->buildResponse())
+            )
+        );
+        $this->http->sendResponse();
+        $this->http->close();
+    }
+
+    private function buildResponse(): string
+    {
+        if ($this->current_user->getId() === ANONYMOUS_USER_ID) {
+            return '';
+        }
+
+        /** @var \ILIAS\UI\URLBuilderToken $token */
+        [, $token] = $this->acquireBuilderAndToken();
+
+        $autocomplete_query = $this->http->wrapper()->query()->retrieve(
+            $token->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->custom()->transformation(
+                    $this->buildQueryStringTransformation()
+                ),
+                $this->refinery->always(null)
+            ])
+        );
+
+        if ($autocomplete_query->getSearchTermLength() < $this->getSuggestionsStartAfter()) {
+            return json_encode([]);
+        }
+
+        $response = array_map(
+            static fn(AutocompleteItem $v) => $v->getTagArray(),
+            array_merge(
+                $this->getAdditionalAnswerElements(
+                    $this->current_user,
+                    $autocomplete_query
+                ),
+                $this->profile_data_repository->searchUsers(
+                    $this->settings_data_repository,
+                    $this->field_configuration_repository,
+                    $autocomplete_query
+                )
+            )
+        );
+
+        usort(
+            $response,
+            fn(AutocompleteItem $a, AutocompleteItem $b): int => $a <=> $b
+        );
+
+        return json_encode($response);
+    }
+
+    public function buildQueryStringTransformation(): \Closure
+    {
+        return function ($parameter): AutocompleteQuery {
+            return new AutocompleteQuery(
+                $this->refinery->kindlyTo()->string()->transform($parameter)
+            );
+        };
+    }
+}

@@ -25,6 +25,7 @@ use ILIAS\User\Profile\Fields\Standard\Genders;
 use ILIAS\User\Profile\Fields\Standard\Interests;
 use ILIAS\User\Profile\Fields\Standard\HelpOffered;
 use ILIAS\User\Profile\Fields\Standard\HelpLookedFor;
+use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
 use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -69,7 +70,7 @@ class ilObjUser extends ilObject
     private bool $passwd_policy_reset = false;
     private int $login_attempts = 0;
     /** @var array<string, string> */
-    private array $prefs = [];
+    private array $user_settings = [];
     private static array $personal_image_cache = [];
     private ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
@@ -80,12 +81,13 @@ class ilObjUser extends ilObject
     private Data $profile_data;
     private ProfileDataRepository $profile_data_repository;
     private ProfileConfigurationRepository $profile_configuration_repository;
+    private SettingsDataRepository $settings_data_repository;
 
     private StreamDelivery $delivery;
     private DataFactory $data_factory;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_user_reminder_mail;
     private Services $irss;
-    private ilSetting $settings;
+    private ilSetting $ilias_settings;
     private ilAuthSession $auth_session;
     private ilCtrl $ctrl;
 
@@ -95,7 +97,7 @@ class ilObjUser extends ilObject
     ) {
         global $DIC;
         $this->irss = $DIC['resource_storage'];
-        $this->settings = $DIC['ilSetting'];
+        $this->ilias_settings = $DIC['ilSetting'];
         $this->auth_session = $DIC['ilAuthSession'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
@@ -109,6 +111,7 @@ class ilObjUser extends ilObject
         $this->profile_data_repository = $local_dic[ProfileDataRepository::class];
         $this->profile_data = $this->profile_data_repository->getDefault();
         $this->profile_configuration_repository = $local_dic[ProfileConfigurationRepository::class];
+        $this->settings_data_repository = $local_dic[SettingsDataRepository::class];
 
         $this->data_factory = (new DataFactory());
 
@@ -125,10 +128,10 @@ class ilObjUser extends ilObject
             return;
         }
 
-        $this->prefs = [];
-        $this->prefs['language'] = $this->ilias->ini->readVariable('language', 'default');
-        $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
-        $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
+        $this->user_settings = [];
+        $this->user_settings['language'] = $this->ilias->ini->readVariable('language', 'default');
+        $this->user_settings['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
+        $this->user_settings['style'] = $this->ilias->ini->readVariable('layout', 'style');
     }
 
     /**
@@ -142,7 +145,7 @@ class ilObjUser extends ilObject
         $this->setFullname();
         $this->assignSystemInformationFromDB($this->profile_data->getSystemInformation());
 
-        $this->readPrefs();
+        $this->readSettings();
 
         parent::read();
     }
@@ -328,14 +331,14 @@ class ilObjUser extends ilObject
         }
 
         // throw exception if the desired loginame is already in history and it is not allowed to reuse it
-        if ($this->settings->get('reuse_of_loginnames') === '0'
+        if ($this->ilias_settings->get('reuse_of_loginnames') === '0'
             && self::_doesLoginnameExistInHistory($login)) {
             throw new ilUserException($this->lng->txt('loginname_already_exists'));
         }
 
-        if ((int) $this->settings->get('loginname_change_blocking_time') > 0
+        if ((int) $this->ilias_settings->get('loginname_change_blocking_time') > 0
             && is_array($last_history_entry)
-            && $last_history_entry[1] + (int) $this->settings->get('loginname_change_blocking_time') > time()) {
+            && $last_history_entry[1] + (int) $this->ilias_settings->get('loginname_change_blocking_time') > time()) {
             throw new ilUserException(
                 sprintf(
                     $this->lng->txt('changing_loginname_not_possible_info'),
@@ -343,13 +346,13 @@ class ilObjUser extends ilObject
                         new ilDateTime($last_history_entry[1], IL_CAL_UNIX)
                     ),
                     ilDatePresentation::formatDate(
-                        new ilDateTime(($last_history_entry[1] + (int) $this->settings->get('loginname_change_blocking_time')), IL_CAL_UNIX)
+                        new ilDateTime(($last_history_entry[1] + (int) $this->ilias_settings->get('loginname_change_blocking_time')), IL_CAL_UNIX)
                     )
                 )
             );
         }
 
-        if ($this->settings->get('create_history_loginname') === '1') {
+        if ($this->ilias_settings->get('create_history_loginname') === '1') {
             $this->writeHistory($this->profile_data->getAlias());
         }
 
@@ -380,47 +383,23 @@ class ilObjUser extends ilObject
     }
 
     public function writePref(
-        string $keyword,
+        string $key,
         string $value
     ): void {
-        $this->db->replace(
-            'usr_pref',
-            [
-                'usr_id' => [ilDBConstants::T_INTEGER, $this->id],
-                'keyword' => [ilDBConstants::T_TEXT, $keyword],
-            ],
-            [
-                'value' => [ilDBConstants::T_TEXT,$value]
-            ]
-        );
-        $this->setPref($keyword, $value);
+        $this->settings_data_repository->storeSingleFor($this->id, $key, $value);
+        $this->setPref($key, $value);
     }
 
-    public function deletePref(string $keyword): void
+    public function deletePref(string $key): void
     {
-        $this->db->manipulateF(
-            'DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s',
-            ['integer', 'text'],
-            [$this->id, $keyword]
-        );
-        unset($this->prefs[$keyword]);
-    }
-
-    private function deleteAllPrefs(): void
-    {
-        $this->db->manipulateF(
-            'DELETE FROM usr_pref WHERE usr_id = %s',
-            ['integer'],
-            [$this->id]
-        );
+        $this->settings_data_repository->deleteSingleFor($this->id, $key);
+        unset($this->user_settings[$keyword]);
     }
 
     public function writePrefs(): void
     {
-        $this->deleteAllPrefs();
-        foreach ($this->prefs as $keyword => $value) {
-            $this->writePref($keyword, (string) $value);
-        }
+        $this->settings_data_repository->deleteFor($this->id);
+        $this->settings_data_repository->storeFor($this->id, $this->user_settings);
     }
 
     public function getTimeZone(): string
@@ -467,13 +446,13 @@ class ilObjUser extends ilObject
     public function setPref(string $a_keyword, ?string $a_value): void
     {
         if ($a_keyword !== '') {
-            $this->prefs[$a_keyword] = $a_value;
+            $this->user_settings[$a_keyword] = $a_value;
         }
     }
 
-    public function getPref(string $a_keyword): ?string
+    public function getPref(string $keyword): ?string
     {
-        return $this->prefs[$a_keyword] ?? null;
+        return $this->user_settings[$keyword] ?? null;
     }
 
     /**
@@ -481,19 +460,19 @@ class ilObjUser extends ilObject
      */
     public function getPrefs(): array
     {
-        return $this->prefs;
+        return $this->user_settings;
     }
 
-    private function readPrefs(): void
+    private function readSettings(): void
     {
-        $this->prefs = self::_getPreferences($this->id);
-        if (!isset($this->prefs['style'])
-            || $this->prefs['style'] === ''
-            || !ilStyleDefinition::styleExists($this->prefs['style'])
-            || !ilStyleDefinition::skinExists($this->prefs['skin'])
-                && ilStyleDefinition::styleExistsForSkinId($this->prefs['skin'], $this->prefs['style'])) {
-            $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
-            $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
+        $this->user_settings = $this->settings_data_repository->getFor($this->id);
+        if (!isset($this->user_settings['style'])
+            || $this->user_settings['style'] === ''
+            || !ilStyleDefinition::styleExists($this->user_settings['style'])
+            || !ilStyleDefinition::skinExists($this->user_settings['skin'])
+                && ilStyleDefinition::styleExistsForSkinId($this->user_settings['skin'], $this->user_settings['style'])) {
+            $this->user_settings['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
+            $this->user_settings['style'] = $this->ilias->ini->readVariable('layout', 'style');
         }
     }
 
@@ -527,7 +506,7 @@ class ilObjUser extends ilObject
         ilBadgeAssignment::deleteByUserId($this->getId());
         $this->clipboardDeleteAll();
 
-        $this->deleteAllPrefs();
+        $this->settings_data_repository->deleteFor($this->id);
         $this->removeUserPicture();
         $this->profile_data_repository->deleteForUser($this->getId());
 
@@ -836,7 +815,7 @@ class ilObjUser extends ilObject
 
     public function getLanguage(): string
     {
-        return $this->prefs['language'] ?? '';
+        return $this->user_settings['language'] ?? '';
     }
 
     public function getPasswordEncodingType(): ?string
@@ -1075,7 +1054,7 @@ class ilObjUser extends ilObject
 
     public function getSkin(): string
     {
-        return $this->prefs['skin'];
+        return $this->user_settings['skin'];
     }
 
     public function setTimeLimitOwner(int $a_owner): void
@@ -2135,26 +2114,6 @@ class ilObjUser extends ilObject
             $data[] = $row;
         }
         return $data;
-    }
-
-    public static function _getPreferences(int $user_id): array
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $prefs = [];
-
-        $r = $ilDB->queryF(
-            'SELECT * FROM usr_pref WHERE usr_id = %s',
-            ['integer'],
-            [$user_id]
-        );
-
-        while ($row = $ilDB->fetchAssoc($r)) {
-            $prefs[$row['keyword']] = $row['value'];
-        }
-
-        return $prefs;
     }
 
     public static function getUserSubsetByPreferenceValue(

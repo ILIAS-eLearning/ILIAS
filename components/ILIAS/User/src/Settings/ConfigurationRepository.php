@@ -18,24 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Profile\Fields;
+namespace ILIAS\User\Settings;
 
 interface ConfigurationRepository
 {
-    public function hasMigrationBeenRun(): bool;
-
     /**
-     * @return array<\ILIAS\User\Profile\Fields\Field>
+     * @return array<\ILIAS\User\Settings\Setting>
      */
     public function get(): array;
-    public function getByIdentifier(string $identifier): ?Field;
-    public function getByClass(string $class): ?Field;
-    public function storeConfiguration(Field $field): void;
-
-    /**
-     * @return array<\ILIAS\User\Profile\Fields\FieldDefinition>
-     */
-    public function getCustomFieldTypes(): array;
-    public function getUnspecifiedCustomField(): Field;
-    public function deleteCustomField(Field $field): void;
+    public function getByIdentifier(string $identifier): ?Setting;
+    public function getByDefinitionClass(string $class): ?Setting;
+    public function storeConfiguration(Setting $setting): void;
 }

@@ -201,11 +201,6 @@ class PersonalProfileGUI
         }
     }
 
-    public function userSettingVisible(string $setting): bool
-    {
-        return $this->user_settings_config->isVisible($setting);
-    }
-
     /**
     * show profile form
     *

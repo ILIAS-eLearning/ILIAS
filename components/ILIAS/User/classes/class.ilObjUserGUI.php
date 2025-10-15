@@ -379,11 +379,10 @@ class ilObjUserGUI extends ilObjectGUI
 
         $msg = $this->lng->txt('user_added');
 
-        $this->user->setPref(
+        $this->user->writePref(
             'send_info_mails',
-            ($this->form_gui->getInput('send_mail') == 'y') ? 'y' : 'n'
+            $this->form_gui->getInput('send_mail') === 'y' ? 'y' : 'n'
         );
-        $this->user->writePrefs();
 
         if ($profile_maybe_incomplete
             && $this->user_profile->isProfileIncomplete($this->object)) {
@@ -473,11 +472,10 @@ class ilObjUserGUI extends ilObjectGUI
         if ($this->user->getId() === $this->object->getId()) {
             $this->user = $this->object;
         }
-        $this->user->setPref(
+        $this->user->writePref(
             'send_info_mails',
             ($this->form_gui->getInput('send_mail') === 'y') ? 'y' : 'n'
         );
-        $this->user->writePrefs();
 
         $mail_message = $this->__sendProfileMail();
         $msg = $this->lng->txt('saved_successfully') . $mail_message;

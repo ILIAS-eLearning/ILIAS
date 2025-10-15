@@ -25,7 +25,7 @@ use ILIAS\User\Settings\Administration\SettingsGUI as AdminSettingsGUI;
 use ILIAS\User\Settings\ConfigurationGUI as UserSettingsConfigurationGUI;
 use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
-use ILIAS\User\Settings\Repository as UserSettingsRepository;
+use ILIAS\User\Settings\ConfigurationRepository as UserSettingsConfigurationRepository;
 use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileConfigurationRepository;
 use ILIAS\User\Profile\Fields\ConfigurationGUI as ProfileFieldsConfigurationGUI;
@@ -85,7 +85,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private LegacyArchives $archives;
     private ResourceStorage $irss;
     private NewAccountMailRepository $account_mail_repo;
-    private UserSettingsRepository $user_settings_repo;
+    private UserSettingsConfigurationRepository $user_settings_repo;
     private ProfileConfigurationRepository $profile_configuration_repo;
     private array $profile_field_change_listeners;
 
@@ -107,7 +107,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $local_dic = LocalDIC::dic();
         $this->account_mail_repo = $local_dic[NewAccountMailRepository::class];
-        $this->user_settings_repo = $local_dic[UserSettingsRepository::class];
+        $this->user_settings_repo = $local_dic[UserSettingsConfigurationRepository::class];
         $this->profile_configuration_repo = $local_dic[ProfileConfigurationRepository::class];
         $this->profile_field_change_listeners = $local_dic['profile.fields.changelisteners'];
 

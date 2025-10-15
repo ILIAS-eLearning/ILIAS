@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile;
 
+use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
+use ILIAS\User\Search\AutocompleteQuery;
+
 interface DataRepository
 {
     public function getDefault(): Data;
@@ -32,11 +36,8 @@ interface DataRepository
      */
     public function getMultiple(array $user_ids): \Generator;
     public function store(Data $user_data): void;
-
     public function deleteForFieldIdentifier(string $identifier): void;
-
     public function deleteForUser(int $usr_id): void;
-
     public function storePasswordFor(
         int $usr_id,
         string $password,
@@ -47,4 +48,9 @@ interface DataRepository
         int $usr_id,
         string $login
     ): void;
+    public function searchUsers(
+        SettingsDataRepository $settings_data_repository,
+        ProfileFieldsConfigurationRepository $profile_fields_config_repo,
+        AutocompleteQuery $search_term
+    ): array;
 }

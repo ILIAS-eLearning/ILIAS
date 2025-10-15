@@ -22,7 +22,7 @@ namespace ILIAS\User\Settings;
 
 use ILIAS\User\PropertyAttributes;
 
-class Repository
+class DatabaseConfigurationRepository implements ConfigurationRepository
 {
     public function __construct(
         private readonly \ilSetting $settings,

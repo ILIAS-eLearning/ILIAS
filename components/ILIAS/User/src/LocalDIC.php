@@ -24,14 +24,18 @@ use ILIAS\User\Search\Search;
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\User\Settings\SettingsImplementation as UserSettingsImplementation;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
-use ILIAS\User\Settings\Repository as UserSettingsRepository;
+use ILIAS\User\Settings\ConfigurationRepository as UserSettingsConfigurationRepository;
+use ILIAS\User\Settings\DatabaseConfigurationRepository as DatatabaseUserSettingsConfigurationRepository;
+use ILIAS\User\Settings\DataRepository as UserSettingsDataRepository;
+use ILIAS\User\Settings\DatabaseDataRepository as DatatabaseUserSettingsDataRepository;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
 use ILIAS\User\Settings\CollectSettingsObjective;
 use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\ProfileImplementation;
+use ILIAS\User\Profile\Fields\CachedConfigurationRepository as DatabaseProfileFieldsConfigurationRepository;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
 use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
-use ILIAS\User\Profile\DataRepositoryDatabase as ProfileDataRepositoryDatabase;
+use ILIAS\User\Profile\DatabaseDataRepository as DatabaseProfileDataRepository;
 use ILIAS\User\Profile\Fields\Custom\CollectTypesObjective;
 use ILIAS\User\Profile\Fields\Standard;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
@@ -56,8 +60,8 @@ class LocalDIC extends PimpleContainer
 
     private function init(ILIASContainer $DIC): void
     {
-        $this[UserSettingsRepository::class] = fn($c): UserSettingsRepository =>
-            new UserSettingsRepository(
+        $this[UserSettingsConfigurationRepository::class] = fn($c): UserSettingsConfigurationRepository =>
+            new DatatabaseUserSettingsConfigurationRepository(
                 $DIC['ilSetting'],
                 is_readable(CollectSettingsObjective::PATH())
                     ? include CollectSettingsObjective::PATH()
@@ -70,7 +74,8 @@ class LocalDIC extends PimpleContainer
                 $DIC['tpl'],
                 $DIC['ui.factory'],
                 $DIC['refinery'],
-                $c[UserSettingsRepository::class]
+                $c[UserSettingsConfigurationRepository::class],
+                $c[UserSettingsDataRepository::class]
             );
         $this[StartingPointRepository::class] = fn($c): StartingPointRepository =>
             new StartingPointRepository(
@@ -81,16 +86,20 @@ class LocalDIC extends PimpleContainer
                 $DIC['rbacreview'],
                 $DIC['rbacsystem'],
                 $DIC['ilSetting'],
-                $c[UserSettingsRepository::class]
+                $c[UserSettingsConfigurationRepository::class]
+            );
+        $this[UserSettingsDataRepository::class] = fn($c): UserSettingsDataRepository =>
+            new DatatabaseUserSettingsDataRepository(
+                $DIC['ilDB']
             );
         $this[ProfileDataRepository::class] = fn($c): ProfileDataRepository =>
-            new ProfileDataRepositoryDatabase(
+            new DatabaseProfileDataRepository(
                 $DIC['ilDB'],
                 $DIC['resource_storage'],
                 $c[ProfileFieldsConfigurationRepository::class]
             );
         $this[ProfileFieldsConfigurationRepository::class] = fn($c): ProfileFieldsConfigurationRepository =>
-            new ProfileFieldsConfigurationRepository(
+            new DatabaseProfileFieldsConfigurationRepository(
                 $DIC['ilDB'],
                 new UUIDFactory(),
                 is_readable(CollectTypesObjective::PATH())
@@ -151,7 +160,7 @@ class LocalDIC extends PimpleContainer
             );
         $this[Search::class] = fn($c): Search =>
             new Search(
-                $c[ProfileDataRepository::class]
+                $DIC['ui.factory']
             );
         $this[NewAccountMailRepository::class] = fn($c): NewAccountMailRepository =>
             new NewAccountMailRepository($DIC['ilDB']);

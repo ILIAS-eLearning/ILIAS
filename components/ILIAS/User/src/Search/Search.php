@@ -21,17 +21,24 @@ declare(strict_types=1);
 namespace ILIAS\User\Search;
 
 use ILIAS\User\Profile\DataRepository;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Tag;
 
 class Search
 {
     public function __construct(
-        private readonly DataRepository $profile_data_repository
+        private readonly UIFactory $ui_factory
     ) {
     }
 
-    public function getInput(): Tag
-    {
-
+    public function getInput(
+        string $label,
+        ?Endpoint $endpoint = null,
+        ?string $byline = null
+    ): Tag {
+        $endpoint ??= new DefaultEndpointGUI();
+        return $this->ui_factory->input()->field()->tag($label, [], $byline)
+            ->withSuggestionsStartAfter($endpoint->getSuggestionsStartAfter())
+            ->withAsyncAutocomplete(...$endpoint->acquireBuilderAndToken());
     }
 }

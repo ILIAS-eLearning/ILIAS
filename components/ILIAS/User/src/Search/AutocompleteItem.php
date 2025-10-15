@@ -16,19 +16,15 @@
  *
  *********************************************************************/
 
-namespace ILIAS\User\Settings;
+declare(strict_types=1);
 
-interface Settings
+namespace ILIAS\User\Search;
+
+interface AutocompleteItem
 {
-    public function getSettingByDefinitionClass(
-        string $definition_class
-    ): Setting;
-
-    public function getValueFromLegacyFormByDefinitionClass(
-        string $definition_class,
-        \ilPropertyFormGUI $form
-    ): mixed;
-
-    public function settingAvailableToUser(string $definition_class): bool;
-    public function getSettingValueFor(int $user_id, string $key): ?string;
+    /**
+     * MUST return an array containing three properties "value", "display", and
+     * "searchBy". The property "value" MUST be save to transmit as url-parameter
+     */
+    public function getTagArray(): array;
 }

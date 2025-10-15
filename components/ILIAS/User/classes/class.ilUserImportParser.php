@@ -1025,7 +1025,7 @@ class ilUserImportParser extends ilSaxParser
                                 $this->user_obj->setPref('bs_allow_to_contact_me', $this->settings->get('bs_allow_to_contact_me', 'n'));
                             }
 
-                            $this->user_obj->writePrefs();
+                            $this->user_obj->update();
 
                             // update mail preferences, to be extended
                             $this->updateMailPreferences($this->user_obj->getId());
