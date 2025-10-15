@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\User\Profile\Profile;
 use ILIAS\User\Context;
 
 /**
@@ -194,13 +193,15 @@ class ilUserSearchOptions
     {
         global $DIC;
 
-        $settings = $DIC->settings();
+        /** @var \ILIAS\User\Profile\Profile $profile */
+        $profile = $DIC['user']->getProfile();
 
         // login is always enabled
         if ($a_key == 'login') {
             return true;
         }
-        return (bool) $settings->get('search_enabled_' . $a_key);
+
+        return $profile->getFieldByIdentifier($a_key)->isSearchable();
     }
 
     public static function _saveStatus(string $a_key, bool $a_enabled): bool
