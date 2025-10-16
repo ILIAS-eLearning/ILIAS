@@ -167,7 +167,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 
         $tpl->setVariable("LABEL", $label);
-        $tpl->setVariable("INPUT", $input_html);
         $tpl->setVariable("UI_COMPONENT_NAME", $this->getComponentCanonicalNameAttribute($component));
         $tpl->setVariable("INPUT_NAME", $component->getName());
 
@@ -184,9 +183,14 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock('tabindex');
         }
 
+        $described_by_ids = [];
+
         $byline = $component->getByline();
         if ($byline) {
+            $byline_id = $this->createId();
             $tpl->setVariable("BYLINE", $byline);
+            $tpl->setVariable("BYLINE_ID", $byline_id);
+            $described_by_ids[] = $byline_id;
         }
 
         $required = $component->isRequired();
@@ -206,15 +210,51 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ERROR_LABEL", $this->txt("ui_error"));
             $tpl->setVariable("ERROR_ID", $error_id);
             $tpl->setVariable("ERROR", $error);
+            $described_by_ids[] = $error_id;
             if ($id_for_label) {
                 $tpl->setVariable("ERROR_FOR_ID", $id_for_label);
             }
+        }
+
+        if (!empty($described_by_ids) && $id_for_label) {
+            $described_by_value = implode(' ', $described_by_ids);
+            $input_html = $this->addAriaDescribedByToInput($input_html, $id_for_label, $described_by_value);
+        }
+
+        $tpl->setVariable("INPUT", $input_html);
+
+        if (!empty($described_by_ids)) {
+            $tpl->setCurrentBlock('described');
+            $tpl->setVariable("DESCRIBED_BY_IDS", implode(' ', $described_by_ids));
+            $tpl->parseCurrentBlock();
         }
 
         if ($dependant_group_html) {
             $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
         }
         return $tpl->get();
+    }
+
+    protected function addAriaDescribedByToInput(string $input_html, string $input_id, string $described_by_value): string
+    {
+        $pattern = '/<(input|textarea|select)([^>]*id=["\']' . preg_quote($input_id, '/') . '["\'][^>]*)>/i';
+
+        return preg_replace_callback($pattern, function ($matches) use ($described_by_value) {
+            $tag = $matches[1];
+            $attributes = $matches[2];
+
+            if (strpos($attributes, 'aria-describedby') !== false) {
+                $attributes = preg_replace(
+                    '/aria-describedby=["\']([^"\']*)["\']/',
+                    'aria-describedby="$1 ' . htmlspecialchars($described_by_value, ENT_QUOTES) . '"',
+                    $attributes
+                );
+            } else {
+                $attributes .= ' aria-describedby="' . htmlspecialchars($described_by_value, ENT_QUOTES) . '"';
+            }
+
+            return '<' . $tag . $attributes . '>';
+        }, $input_html);
     }
 
     protected function applyName(FormInput $component, Template $tpl): ?string
@@ -247,6 +287,30 @@ class Renderer extends AbstractComponentRenderer
         }
         if (isset($value) && $value !== '') {
             $tpl->setVariable("VALUE", $value);
+        }
+    }
+
+    protected function getDescribedByIds(FormInput $component): array
+    {
+        $described_by_ids = [];
+
+        if ($component->getByline()) {
+            $described_by_ids[] = $this->createId();
+        }
+
+        if ($component->getError()) {
+            $described_by_ids[] = $this->createId();
+        }
+
+        return $described_by_ids;
+    }
+
+    protected function applyAriaDescribedBy(Template $tpl, array $described_by_ids): void
+    {
+        if (!empty($described_by_ids)) {
+            $tpl->setCurrentBlock('described_by');
+            $tpl->setVariable("DESCRIBED_BY_IDS", implode(' ', $described_by_ids));
+            $tpl->parseCurrentBlock();
         }
     }
 
