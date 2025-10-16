@@ -65,6 +65,9 @@ class ilCourseCleanupActivationMigration implements Migration
         );
 
         if ($parent_data === null) {
+            $this->db->manipulate(
+                "DELETE FROM crs_items WHERE obj_id = {$activation_data->obj_id}"
+            );
             return;
         }
 
