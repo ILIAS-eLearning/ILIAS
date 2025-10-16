@@ -14606,6 +14606,7 @@ rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurs
 rbac#:#rcrs_visible#:#ECS-Kurs ist sichtbar
 rbac#:#rcrs_write#:#ECS-Kurs bearbeiten
+rbac#:#read_all_accounts#:#Alle Anmeldekonten einsehen
 rbac#:#read_comp#:#Lesezugriff Kompetenzen
 rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
@@ -14778,6 +14779,7 @@ rbac#:#usrf_edit_permission#:#Rechteeinstellungen für die Anmeldekontenverwaltu
 rbac#:#usrf_edit_roleassignment#:#Rollenzuweisung von Anmeldekonten ändern
 rbac#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte anderen Benutzern als empfohlene Inhalte vorzulegen.
 rbac#:#usrf_read#:#Lesezugriff auf Anmeldekontenverwaltung
+rbac#:#usrf_read_all_accounts#:#Lesezugriff auf alle Anmeldekonten
 rbac#:#usrf_read_users#:#Lesezugriff auf Anmeldekonten für lokale Administration
 rbac#:#usrf_visible#:#Anmeldekontenverwaltung ist sichtbar
 rbac#:#usrf_write#:#Einstellungen in Anmeldekontenverwaltung bearbeiten

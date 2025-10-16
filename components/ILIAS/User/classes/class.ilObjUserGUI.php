@@ -220,10 +220,13 @@ class ilObjUserGUI extends ilObjectGUI
             );
         }
 
-        // learning progress
-        if ($this->rbac_system->checkAccess('read', $this->ref_id) and
-            ilObjUserTracking::_enabledLearningProgress() and
-            ilObjUserTracking::_enabledUserRelatedData()) {
+        if ((
+            $this->context === Context::LocalUserAdministration
+                && $this->rbac_system->checkAccess('read', $this->ref_id)
+            || $this->context === Context::UserAdministration
+                && $this->rbac_system->checkAccess(\ilObjUserFolder::PERM_READ_ALL, $this->ref_id)
+        ) && ilObjUserTracking::_enabledLearningProgress()
+            && ilObjUserTracking::_enabledUserRelatedData()) {
             $this->tabs_gui->addTarget(
                 'learning_progress',
                 $this->ctrl->getLinkTargetByClass('illearningprogressgui', ''),
@@ -1322,29 +1325,25 @@ class ilObjUserGUI extends ilObjectGUI
 
     private function checkUserWritePermission(): void
     {
-        if ($this->usrf_ref_id === USER_FOLDER_ID
-            && (
-                !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)
-                || !$this->rbac_system->checkAccess('write', $this->usrf_ref_id)
-                    && (
-                        !$this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
-                        || $this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
-                            && !in_array(
-                                $this->object->getId(),
-                                $this->access->filterUserIdsByPositionOfCurrentUser(
-                                    \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                                    USER_FOLDER_ID,
-                                    [$this->object->getId()]
-                                )
-                            )
+        if ($this->context === Context::UserAdministration
+            && !(
+                $this->rbac_system->checkAccess(\ilObjUserFolder::PERM_READ_ALL_AND_WRITE, $this->usrf_ref_id)
+                || $this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                    && in_array(
+                        $this->object->getId(),
+                        $this->access->filterUserIdsByPositionOfCurrentUser(
+                            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                            USER_FOLDER_ID,
+                            [$this->object->getId()]
+                        )
                     )
-            )
-        ) {
+            )) {
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $this->lng->txt('msg_no_perm_modify_user')
+                $this->lng->txt('msg_no_perm_modify_user'),
+                true
             );
-            $this->ctrl->redirectByClass(ilObjUserFolderAccess::class);
+            $this->ctrl->redirectByClass(ilObjUserFolderGUI::class);
         }
 
         // if called from local administration $this->usrf_ref_id is category id
