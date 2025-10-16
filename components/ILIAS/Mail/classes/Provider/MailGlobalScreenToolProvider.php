@@ -139,8 +139,6 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                         $this->lng->txt('mail'),
                         $sub_items
                     );
-
-
                     return $this->ui_factory->legacy()->content(
                         $this->ui_renderer->render($item)
                     );

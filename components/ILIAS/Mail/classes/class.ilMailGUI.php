@@ -313,6 +313,5 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         }
 
         $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_$type.svg"));
-
     }
 }
