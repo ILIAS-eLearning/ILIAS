@@ -18,16 +18,21 @@
 
 declare(strict_types=1);
 
-use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Agent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Config;
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
 
-class ilCourseObjectiveSetupAgent extends NullAgent
+class ilCourseObjectiveSetupAgent implements Agent
 {
     use Setup\Agent\HasNoNamedObjective;
+
+    public function hasConfig(): bool
+    {
+        return false;
+    }
 
     public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
     {
