@@ -199,6 +199,10 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
         return $items;
     }
 
+    /**
+     * @param class-string|list<class-string> $class
+     * @throws ilCtrlException
+     */
     private function buildFolderLink(int $folderId, string|array $class, ?string $cmd = null): string
     {
         $this->ctrl->setParameterByClass(is_array($class) ? current($class) : $class, 'mobj_id', $folderId);
