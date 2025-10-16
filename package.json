@@ -6,6 +6,10 @@
   "directories": {
     "doc": "docs"
   },
+  "engines": {
+    "node": "^22.18 || ^24.0",
+    "npm": "^10.9.3 || ^11.3"
+  },
   "dependencies": {
     "@yaireo/tagify": "^4.32.1",
     "chart.js": "^4.4.7",
