@@ -241,7 +241,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             }
         }
 
-        if ($this->current_folder->isDrafts()) {
+        if ($this->current_folder->isDrafts() || $this->current_folder->isOutbox()) {
             unset($actions[self::ACTION_SHOW], $actions[self::ACTION_REPLY], $actions[self::ACTION_FORWARD]);
         } else {
             unset($actions[self::ACTION_EDIT]);
@@ -425,7 +425,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             (string) $this->url_builder
                 ->withParameter(
                     $this->action_token,
-                    $this->current_folder->isDrafts() ? self::ACTION_EDIT : self::ACTION_SHOW
+                    $this->current_folder->isDrafts() || $this->current_folder->isOutbox() ? self::ACTION_EDIT : self::ACTION_SHOW
                 )
                 ->withParameter($this->row_id_token, (string) $record->getMailId())
                 ->buildURI()

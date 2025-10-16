@@ -32,6 +32,9 @@ use ILIAS\Mail\RecipientSearch\SentMailsBasedProvider;
 use ILIAS\Mail\RecipientSearch\Search;
 use ILIAS\Contact\BuddySystem\MailRecipientSearch\MailRecipientSearchProvider;
 use ILIAS\Mail\RecipientSearch\UserSearchEndpointConfigurator;
+use ILIAS\Data\Clock\ClockFactory;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Mail\Folder\MailScheduleData;
 
 /**
  * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI, ilMailFormUploadHandlerGUI
@@ -49,6 +52,7 @@ class ilMailFormGUI
     final public const string MAIL_FORM_TYPE_ADDRESS = 'address';
     final public const string MAIL_FORM_TYPE_FORWARD = 'forward';
     final public const string MAIL_FORM_TYPE_DRAFT = 'draft';
+    final public const string MAIL_FORM_TYPE_OUTBOX = 'outbox';
 
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilCtrlInterface $ctrl;
@@ -75,6 +79,7 @@ class ilMailFormGUI
     private readonly ILIAS\ResourceStorage\Services $storage;
     private readonly ilSetting $settings;
     private readonly \ILIAS\User\Search\Search $user_search;
+    private readonly ClockFactory $clock;
 
     public function __construct(
         ?ilMailTemplateService $template_service = null,
@@ -107,6 +112,7 @@ class ilMailFormGUI
         /** @var \ILIAS\User\PublicInterface $user_api */
         $user_api = $DIC['user'];
         $this->user_search = $user_api->getSearch();
+        $this->clock = (new DataFactory())->clock();
 
         $mail_obj_id = $this->getBodyParam(
             'mobj_id',
@@ -217,6 +223,85 @@ class ilMailFormGUI
         return $decoded_files;
     }
 
+    public function saveMessageToOutbox(array $form_values, Form $form): void
+    {
+        $files = [];
+        if (count($form_values["attachments"]) > 0) {
+            $files = $this->handleAttachments($form_values["attachments"]);
+        }
+
+        $rcp_to = '';
+        $rcp_cc = '';
+        $rcp_bcc = '';
+        if ($form_values['rcp_to'] !== []) {
+            $rcp_to = $form_values['rcp_to'][0];
+        }
+        if ($form_values['rcp_cc'] !== []) {
+            $rcp_cc = $form_values['rcp_cc'][0];
+        }
+        if ($form_values['rcp_bcc'] !== []) {
+            $rcp_bcc = $form_values['rcp_bcc'][0];
+        }
+
+        $errors = $this->umail->validateRecipients(
+            $rcp_to,
+            $rcp_cc,
+            $rcp_bcc,
+        );
+        if ($errors) {
+            $this->showSubmissionErrors($errors);
+            $this->showForm();
+            $this->http->close();
+        }
+
+        $message = ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), ''));
+        $mail_body = new ilMailBody($message, $this->purifier);
+        $sanitized_message = $mail_body->getContent();
+
+        $outbox_folder_id = $this->mbox->getOutboxFolder();
+        if (ilSession::get('outbox')) {
+            $outbox_id = (int) ilSession::get('outbox');
+            ilSession::clear('outbox');
+        }
+
+        $this->umail->scheduledMail(
+            $outbox_folder_id,
+            $this->user->getId(),
+            new MailScheduleData(
+                $rcp_to,
+                $rcp_cc,
+                $rcp_bcc,
+                ilUtil::securePlainString(
+                    $this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')
+                ) ?: 'No Subject',
+                $sanitized_message,
+                $files,
+                $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
+                $outbox_id ?? null,
+                $form_values['use_schedule']['m_schedule']
+            ),
+            ilMailFormCall::getContextId(),
+            ilMailFormCall::getContextParameters()
+        );
+
+        if (ilSession::get('draft')) {
+            $draft_id = (int) ilSession::get('draft');
+            ilSession::clear('draft');
+            $this->umail->deleteMails([$draft_id]);
+        }
+
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $outbox_folder_id);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_scheduled'), true);
+
+        if (ilMailFormCall::isRefererStored()) {
+            ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
+        } else {
+            $this->ctrl->redirectByClass([ilMailGUI::class, ilMailFolderGUI::class]);
+        }
+
+        $this->showForm();
+    }
+
     public function sendMessage(): void
     {
         $form = $this->buildForm()->withRequest($this->request);
@@ -228,6 +313,16 @@ class ilMailFormGUI
         }
 
         $value = $result->value()[0];
+
+        $schedule_date = $value['use_schedule']['m_schedule'] ?? null;
+        if (
+            $schedule_date instanceof DateTimeImmutable &&
+            $schedule_date > $this->clock->local(new DateTimeZone($this->user->getTimeZone()))->now()
+        ) {
+            $this->saveMessageToOutbox($value, $form);
+            return;
+        }
+
         $files = [];
         if (count($value["attachments"]) > 0) {
             $files = $this->handleAttachments($value["attachments"]);
@@ -265,6 +360,8 @@ class ilMailFormGUI
         )
         ) {
             $this->showSubmissionErrors($errors);
+            $this->showForm($form);
+            $this->http->close();
         } else {
             $mailer->autoresponder()->disableAutoresponder();
 
@@ -277,6 +374,19 @@ class ilMailFormGUI
                 '',
                 null
             );
+
+            $mail_id = null;
+            if (ilSession::get('outbox')) {
+                $mail_id = (int) ilSession::get('outbox');
+                ilSession::clear('outbox');
+            } elseif (ilSession::get('draft')) {
+                $mail_id = (int) ilSession::get('draft');
+                ilSession::clear('draft');
+            }
+
+            if ($mail_id) {
+                $mailer->deleteMails([$mail_id]);
+            }
 
             $this->ctrl->setParameterByClass(ilMailGUI::class, 'type', 'message_sent');
 
@@ -345,11 +455,19 @@ class ilMailFormGUI
             ilUtil::securePlainString($value['m_subject']),
             $value['m_message'],
             $draft_id,
+            $value['use_schedule']['m_schedule'] ?? null,
             $value['use_placeholders'],
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
 
+        if (ilSession::get('outbox')) {
+            $outbox_id = (int) ilSession::get('outbox');
+            ilSession::clear('outbox');
+            $this->umail->deleteMails([$outbox_id]);
+        }
+
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $draft_folder_id);
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_saved'), true);
 
         if (ilMailFormCall::isRefererStored()) {
@@ -603,6 +721,13 @@ class ilMailFormGUI
                 ilMailFormCall::setContextParameters($mail_data['tpl_ctx_params']);
                 break;
 
+            case self::MAIL_FORM_TYPE_OUTBOX:
+                ilSession::set('outbox', $mail_id);
+                $mail_data = $this->umail->getMail($mail_id);
+                ilMailFormCall::setContextId($mail_data['tpl_ctx_id']);
+                ilMailFormCall::setContextParameters($mail_data['tpl_ctx_params']);
+                break;
+
             case self::MAIL_FORM_TYPE_FORWARD:
                 $mail_data = $this->umail->getMail($mail_id);
                 $mail_data['rcp_to'] = $mail_data['rcp_cc'] = $mail_data['rcp_bcc'] = '';
@@ -621,6 +746,8 @@ class ilMailFormGUI
                 break;
 
             case self::MAIL_FORM_TYPE_NEW:
+                ilSession::clear('draft');
+                ilSession::clear('outbox');
                 // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                 $to = ilUtil::securePlainString($this->getQueryParam('rcp_to', $this->refinery->kindlyTo()->string(), ''));
                 if ($to === '' && ilSession::get('rcp_to')) {
@@ -1016,6 +1143,54 @@ class ilMailFormGUI
             $elements[] = $template_chb;
         }
         $elements['m_message'] = $m_message;
+
+        $schedule_date_time_value = null;
+        $current_time = $this->clock->local(new DateTimeZone($this->user->getTimeZone()))->now();
+        $schedule_date_time_input = $ff->dateTime('')
+                                       ->withUseTime(true)
+                                       ->withTimezone($this->user->getTimezone())
+                                       ->withAdditionalTransformation(
+                                           $this->refinery->custom()->constraint(
+                                               function (DateTimeImmutable $v) use ($current_time) {
+                                                   return $v > $current_time;
+                                               },
+                                               $this->lng->txt('mail_schedule_error_past_datetime')
+                                           )
+                                       );
+
+        $title_validation_constraint = $this->refinery->custom()->constraint(
+            fn(string $v): bool => preg_match('/^il_.*$/', $v) ? false : true,
+            $this->lng->txt('msg_role_reserved_prefix')
+        );
+
+        if (isset($mail_data['schedule_datetime'])) {
+            $schedule_time = new DateTimeImmutable(
+                (string) $mail_data['schedule_datetime'],
+                new DateTimeZone($mail_data['schedule_timezone'] ?? '')
+            );
+            $schedule_time->setTimezone(new DateTimeZone($this->user->getTimeZone()));
+            $schedule_date_time_value = $schedule_time > $current_time ? $schedule_time : null;
+        }
+
+        $use_schedule_input = $ff->optionalGroup(
+            ['m_schedule' => $schedule_date_time_input],
+            $this->lng->txt('mail_message_scheduled')
+        )->withAdditionalTransformation(
+            $this->refinery->custom()->constraint(
+                function (?array $v) {
+                    return $v === null || (isset($v['m_schedule']) && $v['m_schedule'] instanceof DateTimeImmutable);
+                },
+                $this->lng->txt('mail_schedule_error_no_datetime')
+            )
+        );
+        if ($schedule_date_time_value !== null) {
+            $use_schedule_input = $use_schedule_input->withValue(['m_schedule' => $schedule_date_time_value]);
+        } else {
+            $use_schedule_input = $use_schedule_input->withValue(null);
+        }
+
+        $elements['use_schedule'] = $use_schedule_input;
+
         $elements['use_placeholders'] = $use_placeholders;
         $section = $ff->section(
             $elements,

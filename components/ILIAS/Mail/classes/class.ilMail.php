@@ -25,6 +25,7 @@ use ILIAS\Mail\Recipient;
 use ILIAS\Mail\Service\MailSignatureService;
 use ILIAS\Mail\Transformation\Utf8Mb4Sanitizer;
 use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\Mail\Folder\MailScheduleData;
 
 class ilMail
 {
@@ -468,6 +469,7 @@ class ilMail
         string $a_m_subject,
         string $a_m_message,
         int $a_draft_id = 0,
+        ?DateTimeImmutable $schedule_time = null,
         bool $a_use_placeholders = false,
         ?string $a_tpl_context_id = null,
         array $a_tpl_context_params = []
@@ -487,6 +489,8 @@ class ilMail
                 'use_placeholders' => ['integer', (int) $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
                 'tpl_ctx_params' => ['blob', json_encode($a_tpl_context_params, JSON_THROW_ON_ERROR)],
+                'schedule_datetime' => [ilDBConstants::T_TIMESTAMP, $schedule_time?->format('Y-m-d H:i:s')],
+                'schedule_timezone' => [ilDBConstants::T_TEXT, $schedule_time?->getTimezone()->getName()],
             ],
             [
                 'mail_id' => ['integer', $a_draft_id],
@@ -494,6 +498,50 @@ class ilMail
         );
 
         return $a_draft_id;
+    }
+
+    public function scheduledMail(
+        int $folder_id,
+        int $sender_usr_id,
+        MailScheduleData $mail_data,
+        ?string $template_context_id = null,
+        array $template_context_parameters = []
+    ): int {
+        $message = $mail_data->getMessage();
+        if ($mail_data->isUsePlaceholder()) {
+            $message = $this->replacePlaceholders($mail_data->getMessage(), $sender_usr_id);
+        }
+        $message = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $message);
+        $mail_values = [
+            'user_id' => [ilDBConstants::T_INTEGER, $sender_usr_id],
+            'folder_id' => [ilDBConstants::T_INTEGER, $folder_id],
+            'sender_id' => [ilDBConstants::T_INTEGER, $sender_usr_id],
+            'attachments' => [ilDBConstants::T_CLOB, serialize($mail_data->getAttachments())],
+            'send_time' => [ilDBConstants::T_TIMESTAMP, date('Y-m-d H:i:s')],
+            'rcp_to' => [ilDBConstants::T_CLOB, $mail_data->getTo()],
+            'rcp_cc' => [ilDBConstants::T_CLOB, $mail_data->getCC()],
+            'rcp_bcc' => [ilDBConstants::T_CLOB, $mail_data->getBcc()],
+            'm_status' => [ilDBConstants::T_TEXT, 'read'],
+            'm_subject' => [ilDBConstants::T_TEXT, $mail_data->getSubject()],
+            'm_message' => [ilDBConstants::T_CLOB, $message],
+            'tpl_ctx_id' => [ilDBConstants::T_TEXT, $template_context_id],
+            'tpl_ctx_params' => [ilDBConstants::T_BLOB, json_encode($template_context_parameters, JSON_THROW_ON_ERROR)],
+            'schedule_datetime' => [ilDBConstants::T_TIMESTAMP, $mail_data->getScheduleDatetime()->format('Y-m-d H:i:s')],
+            'schedule_timezone' => [ilDBConstants::T_TEXT, $mail_data->getScheduleDatetime()->getTimezone()->getName()],
+        ];
+
+        if (!$mail_data->getInternalMailId()) {
+            $outbox_id = $this->db->nextId($this->table_mail);
+            $mail_values['mail_id'] = [ilDBConstants::T_INTEGER, $outbox_id];
+            $this->db->insert($this->table_mail, $mail_values);
+        } else {
+            $outbox_id = $mail_data->getInternalMailId();
+            $this->db->update($this->table_mail, $mail_values, [
+               'mail_id' => [ilDBConstants::T_INTEGER, $outbox_id],
+            ]);
+        }
+
+        return $outbox_id;
     }
 
     private function sendInternalMail(

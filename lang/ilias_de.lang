@@ -4580,21 +4580,30 @@ common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben 
 common#:#mail_attachment#:#Mailanhang
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
+common#:#mail_cron_scheduled_mails#:#Versende geplante Mails
+common#:#mail_cron_scheduled_mails_desc#:#Versendet Mails von Nutzenden gemäß individuell definiertem Zeitpunkt.
 common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen
+common#:#mail_e_outbox#:#Postausgang
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_edit_permission#:#Rechteeinstellungen der Mail-Administration ändern
+common#:#mail_f_sent#:#Gesendete
 common#:#mail_folders#:#Mail-Ordner
 common#:#mail_import_file#:#Exportdatei
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
+common#:#mail_message_scheduled#:#Mail planen
+common#:#mail_message_scheduled_info#:#Geplante Mails werden bis zum gewählten Zeitpunkt im Postausgang verbleiben.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
+common#:#mail_schedule_error_no_datetime#:#Das Planen einer Mail erfordert ein Datum und eine Uhrzeit.
+common#:#mail_schedule_error_past_datetime#:#Mails können nicht in der Vergangenheit geplant werden.
+common#:#mail_scheduled#:#Mail zur späteren Zustellung im Postausgang abgelegt.
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_select_one#:#Sie müssen mindestens eine Mail auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Mail
-common#:#mail_sent#:#Ihre Mail wurde versandt
+common#:#mail_sent#:#Ihre Mail wurde versandt.
 common#:#mail_settings#:#Mail-Einstellungen
 common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt)
 common#:#mail_z_local#:#Eigene Ordner

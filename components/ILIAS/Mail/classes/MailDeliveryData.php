@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-final class MailDeliveryData
+class MailDeliveryData
 {
     public function __construct(
         private readonly string $to,

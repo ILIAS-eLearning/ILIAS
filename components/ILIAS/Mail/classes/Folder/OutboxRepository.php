@@ -20,14 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Mail\Folder;
 
-enum MailFolderType: string
+use Generator;
+
+interface OutboxRepository
 {
-    case ROOT = 'root';
-    case INBOX = 'inbox';
-    case TRASH = 'trash';
-    case DRAFTS = 'drafts';
-    case SENT = 'sent';
-    case LOCAL = 'local';
-    case USER = 'user_folder';
-    case OUTBOX = 'outbox';
+    /**
+     * @return Generator<MailScheduleData>
+     */
+    public function getOutboxMails(): Generator;
 }

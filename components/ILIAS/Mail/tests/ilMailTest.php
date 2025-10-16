@@ -434,6 +434,10 @@ class ilMailTest extends ilMailBaseTestCase
 
     public function testUpdateDraft(): void
     {
+        $send_time = '2022-01-01 00:00:00';
+        $tz = new DateTimeZone('Europe/Berlin');
+        $date_time = new DateTimeImmutable($send_time, $tz);
+
         $folder_id = 7890;
         $instance = $this->create();
         $to = 'abc';
@@ -459,11 +463,29 @@ class ilMailTest extends ilMailBaseTestCase
             'use_placeholders' => ['integer', (int) $use_placeholders],
             'tpl_ctx_id' => ['text', $context_id],
             'tpl_ctx_params' => ['blob', json_encode($params, JSON_THROW_ON_ERROR)],
+            'schedule_datetime' => ['timestamp', $date_time->format('Y-m-d H:i:s')],
+            'schedule_timezone' => ['text', $tz->getName()],
         ], [
             'mail_id' => ['integer', $draft_id],
         ]);
 
-        $this->assertSame($draft_id, $instance->updateDraft($folder_id, [], $to, $cc, $bcc, $subject, $message, $draft_id, $use_placeholders, $context_id, $params));
+        $this->assertSame(
+            $draft_id,
+            $instance->updateDraft(
+                $folder_id,
+                [],
+                $to,
+                $cc,
+                $bcc,
+                $subject,
+                $message,
+                $draft_id,
+                $date_time,
+                $use_placeholders,
+                $context_id,
+                $params,
+            )
+        );
     }
 
     public function testPersistingToStage(): void

@@ -233,12 +233,15 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 return;
 
             case MailFolderTableUI::ACTION_EDIT:
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
+                if ($this->folder->isOutbox()) {
+                    $this->umail->moveMailsToFolder($mail_ids, $this->mbox->getDraftsFolder());
+                }
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
                     self::PARAM_FOLDER_ID,
-                    (string) $this->folder->getFolderId()
+                    (string) $this->mbox->getDraftsFolder()
                 );
-                $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);
                 $this->ctrl->redirectByClass(ilMailFormGUI::class);
 
@@ -312,7 +315,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                     self::URL_BUILDER_PREFIX . URLBuilder::SEPARATOR . self::PARAM_TARGET_FOLDER,
                     $this->refinery->kindlyTo()->int()
                 );
-                if (empty($folder_id)) {
+                if (empty($folder_id) || $folder_id === $this->mbox->getOutboxFolder()) {
                     $this->tpl->setOnScreenMessage(
                         ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
                         $this->lng->txt('mail_move_error')

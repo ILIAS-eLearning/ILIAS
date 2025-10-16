@@ -49,4 +49,9 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
         $a_tpl->setVariable('PROP_GENERIC', $tpl->get());
         $a_tpl->parseCurrentBlock();
     }
+
+    public function checkInput(): bool
+    {
+        return true;
+    }
 }
