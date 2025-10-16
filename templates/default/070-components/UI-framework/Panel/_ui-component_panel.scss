@@ -53,12 +53,12 @@
 
 	.panel-viewcontrols {
 		@include break.on-screen-size(small) {
-			order: 3;
+			order: 2;
 			width: 100%;
 			justify-content: center;
 		}
 		@include break.on-screen-size(medium) {
-			order: 3;
+			order: 2;
 			width: 100%;
 			justify-content: center;
 		}
@@ -101,10 +101,10 @@
 		justify-content: flex-end;
 		margin-left: auto;
 		@include break.on-screen-size(small) {
-			order: 2;
+			order: 3;
 		}
 		@include break.on-screen-size(medium) {
-			order: 2;
+			order: 3;
 		}
 		@include break.on-screen-size(large) {
 			order: 3;
