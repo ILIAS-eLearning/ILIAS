@@ -90,12 +90,16 @@
             additional_engage: function(){
                 var element = this.getElement(),
                     entry_id = dom_ref_to_element[this.html_id],
+                    triggerer_id = dom_references[entry_id].triggerer,
+                    triggerer_element = $('#' + triggerer_id),
+                    label_text = triggerer_element.find('.bulky-label').text().trim(),
                     isInView = il.UI.maincontrols.mainbar.model.isInView(entry_id),
                     thrown = thrown_for[entry_id];
 
                 element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
                 element.attr('role', 'region');
+                element.attr('aria-labelledby', label_text);
                 if(isInView && !thrown) {
                     element.trigger('in_view'); //this is most important for async loading of slates,
                                                 //it triggers the GlobalScreen-Service.
