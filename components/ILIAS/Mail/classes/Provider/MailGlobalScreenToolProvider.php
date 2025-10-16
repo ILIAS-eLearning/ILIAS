@@ -175,7 +175,11 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                 $items[] = $this->ui_factory->menu()->sub(
                     $folder->getTitle(),
                     [
-                        $this->buildItem($folder->getTitle(), $icon_name, $this->buildFolderLink($folder->getFolderId(), ilMailFolderGUI::class)),
+                        $this->buildItem(
+                            $this->lng->txt("mail_main_folder"),
+                            $icon_name,
+                            $this->buildFolderLink($folder->getFolderId(), ilMailFolderGUI::class)
+                        ),
                         ...array_map(
                             function (MailFolderData $folder) use ($icon_name): BulkyButton {
                                 return $this->buildItem(
