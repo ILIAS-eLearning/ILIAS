@@ -72,8 +72,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
         ?Refinery        $refinery = null,
         ?ilLanguage      $lng = null,
         ?IconFactory     $icon_factory = null
-    )
-    {
+    ) {
         parent::__construct($dic);
         $this->ui_factory = $ui_factory ?? $this->dic->ui()->factory();
         $this->ui_renderer = $ui_renderer ?? $this->dic->ui()->renderer();
@@ -92,10 +91,6 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
         return $this->context_collection->main()->repository()->administration();
     }
 
-    /**
-     * @return Tool[]
-     * @throws ilCtrlException
-     */
     public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         $identification = fn($id): IdentificationInterface => $this->identification_provider->contextAwareIdentifier($id);
@@ -244,9 +239,11 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                 $user_folders[] = $folder;
                 continue;
             }
+
             $filtered_folders[] = $folder;
         }
         $folders = $filtered_folders;
+
         return $user_folders;
     }
 }

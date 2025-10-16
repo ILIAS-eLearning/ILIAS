@@ -289,17 +289,21 @@ class ilMailGUI implements ilCtrlBaseClassInterface
                 case MailFolderType::USER:
                     $type = "local";
                     break;
+
                 default:
-                    switch (strtolower($this->ctrl->getCmdClass())) {
+                    switch (strtolower($this->ctrl->getCmdClass() ?? '')) {
                         case strtolower(ilMailFormGUI::class):
                             $type = 'mail';
                             break;
+
                         case strtolower(ilMailOptionsGUI::class):
                             $type = 'adm';
                             break;
+
                         case strtolower(ilMailAttachmentGUI::class):
                             $type = 'fils';
                             break;
+
                         default:
                             $type = $folder->getType()->value;
                             break;
