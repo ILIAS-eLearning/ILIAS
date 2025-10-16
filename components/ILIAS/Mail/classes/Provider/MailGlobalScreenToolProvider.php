@@ -63,15 +63,15 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
     private IconFactory $icon_factory;
 
     public function __construct(
-        Container        $dic,
-        ?UIFactory       $ui_factory = null,
-        ?UIRenderer      $ui_renderer = null,
-        ?ilObjUser       $user = null,
+        Container $dic,
+        ?UIFactory $ui_factory = null,
+        ?UIRenderer $ui_renderer = null,
+        ?ilObjUser $user = null,
         ?ilCtrlInterface $ctrl = null,
-        ?HttpWrapper     $http_wrapper = null,
-        ?Refinery        $refinery = null,
-        ?ilLanguage      $lng = null,
-        ?IconFactory     $icon_factory = null
+        ?HttpWrapper $http_wrapper = null,
+        ?Refinery $refinery = null,
+        ?ilLanguage $lng = null,
+        ?IconFactory $icon_factory = null
     ) {
         parent::__construct($dic);
         $this->ui_factory = $ui_factory ?? $this->dic->ui()->factory();
