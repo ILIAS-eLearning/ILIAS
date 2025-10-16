@@ -203,7 +203,10 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
     private function buildFolderLink(int $folderId, string|array $class, ?string $cmd = null): string
     {
         $this->ctrl->setParameterByClass(is_array($class) ? current($class) : $class, 'mobj_id', $folderId);
-        return $this->ctrl->getLinkTargetByClass($class, $cmd);
+        $url = $this->ctrl->getLinkTargetByClass($class, $cmd);
+        $this->ctrl->setParameterByClass(is_array($class) ? current($class) : $class, 'mob_id', null);
+
+        return $url;
     }
 
     private function buildItem(string $title, string $icon_name, string $link): BulkyButton
