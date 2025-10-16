@@ -167,10 +167,10 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
             $folders,
             static fn(MailFolderData $a, MailFolderData $b): int => $a->isTrash() && !$b->isUserLocalFolder() ? 1 : 0
         );
-        $userFolders = $this->filterUserFolders($folders);
+        $user_folders = $this->filterUserFolders($folders);
 
         foreach ($folders as $folder) {
-            if ($folder->isUserLocalFolder() && $userFolders !== []) {
+            if ($folder->isUserLocalFolder() && $user_folders !== []) {
                 $icon_name = $folder->getType()->value;
                 $items[] = $this->ui_factory->menu()->sub(
                     $folder->getTitle(),
@@ -184,7 +184,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                                     $this->buildFolderLink($folder->getFolderId(), ilMailFolderGUI::class)
                                 );
                             },
-                            $userFolders
+                            $user_folders
                         ),
                     ]
                 );
