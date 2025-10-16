@@ -572,6 +572,10 @@ class Renderer extends AbstractComponentRenderer
             {
                 return $dedicated_name;
             }
+            public function withReset(): static
+            {
+                return $this;
+            }
         };
 
         $numeric_label = $this->txt("ui_table_order");

@@ -51,4 +51,12 @@ class FormInputNameSource implements NameSource
             return $dedicated_name;
         }
     }
+
+    public function withReset(): static
+    {
+        $clone = clone $this;
+        $clone->count = 0;
+        $clone->used_names = [];
+        return $clone;
+    }
 }

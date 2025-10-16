@@ -29,4 +29,9 @@ interface NameSource
      * Generates a unique name on every call.
      */
     public function getNewName(): string;
+
+    /**
+     * Resets internal counters/used names and returns a copy
+     */
+    public function withReset(): static;
 }

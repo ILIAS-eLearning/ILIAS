@@ -281,6 +281,17 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     }
 
     /**
+     * Implementation of NameSource
+     */
+    public function withReset(): static
+    {
+        $clone = clone $this;
+        $clone->count = 0;
+        $clone->used_names = [];
+        return $clone;
+    }
+
+    /**
      * @inheritdoc
      */
     public function isActivated(): bool

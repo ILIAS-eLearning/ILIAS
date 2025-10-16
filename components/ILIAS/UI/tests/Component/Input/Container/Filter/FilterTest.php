@@ -40,6 +40,10 @@ class FixedNameSourceFilter implements NameSource
     {
         return $this->name;
     }
+    public function withReset(): static
+    {
+        return $this;
+    }
 }
 
 class ConcreteFilter extends Filter

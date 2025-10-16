@@ -113,6 +113,10 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             {
                 return "name0";
             }
+            public function withReset(): static
+            {
+                return $this;
+            }
         });
     }
 

@@ -57,4 +57,15 @@ class FormInputNameSourceTest extends TestCase
             $name_source->getNewDedicatedName('dedicated')
         );
     }
+
+    public function testNameSourceReset(): void
+    {
+        $name_source = new FormInputNameSource();
+        $name = $name_source->getNewName();
+        $name = $name_source->getNewName();
+        $this->assertEquals('input_1', $name);
+        $name = $name_source->withReset()->getNewName();
+        $this->assertEquals('input_0', $name);
+    }
+
 }

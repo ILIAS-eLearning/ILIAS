@@ -47,7 +47,7 @@ abstract class Container implements C\Input\Container\Container
      */
     public function __construct(NameSource $name_source)
     {
-        $this->name_source = clone $name_source;
+        $this->name_source = $name_source->withReset();
     }
 
     /**
