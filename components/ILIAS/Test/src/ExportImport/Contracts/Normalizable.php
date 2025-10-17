@@ -27,10 +27,10 @@ namespace ILIAS\Test\ExportImport\Contracts;
  * intermediate array structure. This array serves as a stable representation for further
  * processing, such as serialization into transport formats like XML or JSON during
  * export/import operations.
- * 
- * A normalized array must only contain scalar values (string, int, float, bool) and nested 
- * normalized arrays. 
- * 
+ *
+ * A normalized array must only contain scalar values (string, int, float, bool) and nested
+ * normalized arrays.
+ *
  * @phpstan-type NormalizedArray array<array-key, scalar|NormalizedArray>
  *
  * ---
