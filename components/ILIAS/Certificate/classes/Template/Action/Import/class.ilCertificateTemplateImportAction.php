@@ -263,8 +263,8 @@ class ilCertificateTemplateImportAction
                         time(),
                         false,
                         isset($background_rid) ? $background_rid->serialize() : '',
-            isset($tile_image_rid) ? $tile_image_rid->serialize() : ''
-        );
+                        isset($tile_image_rid) ? $tile_image_rid->serialize() : ''
+                    );
 
                     $this->templateRepository->save($template);
 
