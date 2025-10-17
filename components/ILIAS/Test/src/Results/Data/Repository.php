@@ -96,7 +96,7 @@ class Repository
 
     public function updateTestResultCache(int $active_id, ?\ilAssQuestionProcessLocker $process_locker = null): ?ParticipantResult
     {
-        $attempt = \ilObjTest::_getResultPass($active_id);
+        $attempt = $this->lookupAttempt($active_id);
         $attempt_result = $this->fetchTestAttemptResult($active_id, $attempt);
         if (!$attempt_result) {
             return null;
@@ -360,6 +360,11 @@ class Repository
         foreach ($user_ids as $row) {
             $this->cache->delete($row['user_fi'] . ':' . $test_obj_id);
         }
+    }
+
+    protected function lookupAttempt(int $active_id): ?int
+    {
+        return \ilObjTest::_getResultPass($active_id);
     }
 
 

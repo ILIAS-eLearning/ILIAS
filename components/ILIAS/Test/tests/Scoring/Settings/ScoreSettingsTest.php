@@ -516,6 +516,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
     public function testScoreSettingsDirectlyAccessedByTestObj(): void
     {
         $s = new ScoreSettings(
+            0,
             new SettingsScoring(),
             new SettingsResultSummary(),
             new SettingsResultDetails(),

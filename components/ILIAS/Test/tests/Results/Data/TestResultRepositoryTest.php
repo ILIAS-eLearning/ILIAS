@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Tests\Results\Data;
 
 use ILIAS\Cache\Container\Container;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Test\Results\Data\AttemptResult;
 use ILIAS\Test\Results\Data\ParticipantResult;
@@ -226,15 +227,28 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
 
     private function createInstance(?array $mock_data = null): Repository
     {
+        global $DIC;
+
         $global_cache = $this->createConfiguredMock(
             \ILIAS\Cache\Services::class,
             ['get' => $this->createCacheMock()]
         );
 
-        return $this->createInstanceOf(
-            Repository::class,
-            ['marks_repository' => $this->createMarksRepositoryMock($mock_data), 'global_cache' => $global_cache]
-        );
+        $partial_mock = $this->getMockBuilder(Repository::class)
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setConstructorArgs([
+                $DIC->database(),
+                $this->createMock(Refinery::class),
+                $this->createMarksRepositoryMock($mock_data),
+                $global_cache
+            ])
+            ->onlyMethods(['lookupAttempt'])
+            ->getMock();
+        $partial_mock->method('lookupAttempt')->willReturn(0);
+
+        return $partial_mock;
     }
 
     private function createMarksRepositoryMock(?array $mock_data): MarksRepository
@@ -419,24 +433,19 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
      */
     private function mockUpdateTestResultCache(?array $test_attempt_result, bool $passed_once = false): void
     {
-        $fetch_assoc_mocks = [
-            ['pass_scoring' => \ilObjTest::SCORE_LAST_PASS],    // \ilObjTest::_getPassScoring
-            ['maxpass' => 0],                                   // \ilObjTest::_getMaxPass
-            $test_attempt_result,                               // TestResultRepository::fetchTestPassResult
-        ];
-
         $this->adaptDICServiceMock(
             \ilDBInterface::class,
-            function (\ilDBInterface|MockObject $mock) use ($fetch_assoc_mocks) {
+            function (\ilDBInterface|MockObject $mock) use ($test_attempt_result) {
                 // Ensures that the check whether results are available is mocked
                 $mocked_stmt = $this->createConfiguredMock(\ilDBStatement::class, [
                     'numRows' => 1,
                 ]);
                 $mock->method('queryF')->willReturn($mocked_stmt);
 
-                $mock->expects($this->exactly(count($fetch_assoc_mocks)))
+                // TestResultRepository::fetchTestPassResult
+                $mock->expects($this->exactly(1))
                     ->method('fetchAssoc')
-                    ->willReturnOnConsecutiveCalls(...$fetch_assoc_mocks);
+                    ->willReturn($test_attempt_result);
 
                 $mock->expects($this->exactly(1))->method('replace');
             }
