@@ -79,20 +79,11 @@ adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for techni
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_support_contacts_info#:#Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the "Contact technical support" link in the ILIAS footer. If the "Who is online?" display is active, these people will also be displayed there as technical support.
 administration#:#adm_achievements#:#Achievements
-administration#:#adm_activate_db_benchmark#:#Activate Benchmarking
-administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#Only allow administrators to assign or remove users from the role of administrator.
 administration#:#adm_auth_login#:#Authentication Login
 administration#:#adm_auth_reg#:#Authentication Registration
 administration#:#adm_communication#:#Communication
-administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL
-administration#:#adm_db_bench_chronological#:#Chronological
-administration#:#adm_db_bench_slowest_first#:#Slowest First
-administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
-administration#:#adm_db_benchmark#:#DB Benchmark
-administration#:#adm_db_benchmark_user#:#User Account Name
-administration#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.
 administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_external_setting_edit#:#Edit Settings
 administration#:#adm_hide#:#Hide in Settings Form
@@ -127,9 +118,7 @@ administration#:#adm_repository_and_objects#:#Repository and Objects
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_show_comments_tagging_in_lists#:#Show Number of Notes, Comments and Tags in Object Lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
-administration#:#adm_sql#:#SQL
 administration#:#adm_table#:#Table
-administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#Users and Roles
 administration#:#adm_user_starting_point#:#Personal Starting Point
 administration#:#adm_user_starting_point_info#:#Select the page or object which is to be shown after login.
@@ -2290,6 +2279,17 @@ badge#:#sort_by_title_desc#:#Title Descending
 badge#:#table_view#:#Table View
 badge#:#tile_view#:#Tile View
 badge#:#valid_until#:#Valid until
+benchmark#:#adm_activate_db_benchmark#:#Activate Benchmarking
+benchmark#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
+benchmark#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL
+benchmark#:#adm_db_bench_chronological#:#Chronological
+benchmark#:#adm_db_bench_slowest_first#:#Slowest First
+benchmark#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
+benchmark#:#adm_db_benchmark#:#DB Benchmark
+benchmark#:#adm_db_benchmark_user#:#User Account Name
+benchmark#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.
+benchmark#:#adm_sql#:#SQL
+benchmark#:#adm_time#:#Time
 bgtask#:#bgtask_blocked#:#Concurrent download
 bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
 bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download
@@ -3611,8 +3611,6 @@ common#:#basedn#:#BaseDN
 common#:#basic_settings#:#Basic Settings
 common#:#before#:#Before
 common#:#behind#:#Behind
-common#:#benchmark#:#Benchmark
-common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographical Data
 common#:#bibl_add#:#Add Bibliography
 common#:#birthday#:#Birthday
@@ -4868,6 +4866,8 @@ common#:#obj_bibs#:#Bibliography
 common#:#obj_bibs_desc#:#Bibliography Administration
 common#:#obj_blog#:#Blog
 common#:#obj_blog_duplicate#:#Copy Blog
+common#:#obj_bnmk#:#Benchmarking
+common#:#obj_bnmk_desc#:#Recording and display of database query durations
 common#:#obj_book#:#Booking Pool
 common#:#obj_cadm#:#Contacts
 common#:#obj_cadm_desc#:#Contacts Administration

@@ -43,7 +43,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     protected ilStyleDefinition $style_definition;
     protected ilHelpGUI $help;
     protected ilIniFile $client_ini;
-    protected ilBenchmark $bench;
     public string $type;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     protected \ILIAS\Refinery\Factory $refinery;
@@ -73,7 +72,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->toolbar = $DIC->toolbar();
         $this->client_ini = $DIC["ilClientIniFile"];
         $this->type = "adm";
-        $this->bench = $DIC["ilBench"];
         $this->wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -159,200 +157,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "view");
     }
 
-
-    /**
-     * Benchmark settings
-     */
-    public function benchmarkObject(): void
-    {
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
-        }
-
-        $write_access = $this->rbacsystem->checkAccess("write", $this->object->getRefId());
-
-        $this->benchmarkSubTabs("settings");
-
-        $this->form = new ilPropertyFormGUI();
-
-        // Activate DB Benchmark
-        $cb = new ilCheckboxInputGUI($this->lng->txt("adm_activate_db_benchmark"), ilBenchmark::ENABLE_DB_BENCH);
-        $cb->setChecked((bool) $this->settings->get(ilBenchmark::ENABLE_DB_BENCH));
-        $cb->setInfo($this->lng->txt("adm_activate_db_benchmark_desc"));
-        $cb->setDisabled(!$write_access);
-        $this->form->addItem($cb);
-
-        // DB Benchmark User
-        $ti = new ilTextInputGUI($this->lng->txt("adm_db_benchmark_user"), ilBenchmark::DB_BENCH_USER);
-        $user_id = ($this->settings->get(ilBenchmark::DB_BENCH_USER)) ?? null;
-        if ($user_id !== null && ilObjUser::_lookupLogin((int) $user_id) !== '') {
-            $ti->setValue(ilObjUser::_lookupLogin($user_id));
-        } else {
-            $ti->setValue('');
-        }
-        $ti->setInfo($this->lng->txt("adm_db_benchmark_user_desc"));
-        $ti->setDisabled(!$write_access);
-        $this->form->addItem($ti);
-
-        if ($write_access) {
-            $this->form->addCommandButton("saveBenchSettings", $this->lng->txt("save"));
-        }
-
-        $this->form->setTitle($this->lng->txt("adm_db_benchmark"));
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
-
-        $this->tpl->setContent($this->form->getHTML());
-    }
-
-    /**
-     * Show db benchmark results
-     */
-    public function showDbBenchChronologicalObject(): void
-    {
-        $this->benchmarkSubTabs("chronological");
-        $this->showDbBenchResults("chronological");
-    }
-
-    /**
-     * Show db benchmark results
-     */
-    public function showDbBenchSlowestFirstObject(): void
-    {
-        $this->benchmarkSubTabs("slowest_first");
-        $this->showDbBenchResults("slowest_first");
-    }
-
-    /**
-     * Show db benchmark results
-     */
-    public function showDbBenchSortedBySqlObject(): void
-    {
-        $this->benchmarkSubTabs("sorted_by_sql");
-        $this->showDbBenchResults("sorted_by_sql");
-    }
-
-    /**
-     * Show db benchmark results
-     */
-    public function showDbBenchByFirstTableObject(): void
-    {
-        $this->benchmarkSubTabs("by_first_table");
-        $this->showDbBenchResults("by_first_table");
-    }
-
-    /**
-     * Show Db Benchmark Results
-     *
-     * @param	string		mode
-     */
-    public function showDbBenchResults($a_mode): void
-    {
-        $tpl = $this->tpl;
-
-        $ilBench = $this->bench;
-        $rec = $ilBench->getDbBenchRecords();
-
-        $table = new ilBenchmarkTableGUI($this, "benchmark", $rec, $a_mode);
-        $tpl->setContent($table->getHTML());
-    }
-
-    /**
-     * Benchmark sub tabs
-     *
-     * @param
-     * @return
-     */
-    public function benchmarkSubTabs($a_current): void
-    {
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $ilBench = $this->bench;
-        $ilTabs->activateTab("benchmarks"); // #18083
-
-        $ilTabs->addSubtab(
-            "settings",
-            $lng->txt("settings"),
-            $ilCtrl->getLinkTarget($this, "benchmark")
-        );
-
-        $rec = $ilBench->getDbBenchRecords();
-        if ($rec !== []) {
-            $ilTabs->addSubtab(
-                "chronological",
-                $lng->txt("adm_db_bench_chronological"),
-                $ilCtrl->getLinkTarget($this, "showDbBenchChronological")
-            );
-            $ilTabs->addSubtab(
-                "slowest_first",
-                $lng->txt("adm_db_bench_slowest_first"),
-                $ilCtrl->getLinkTarget($this, "showDbBenchSlowestFirst")
-            );
-            $ilTabs->addSubtab(
-                "sorted_by_sql",
-                $lng->txt("adm_db_bench_sorted_by_sql"),
-                $ilCtrl->getLinkTarget($this, "showDbBenchSortedBySql")
-            );
-            $ilTabs->addSubtab(
-                "by_first_table",
-                $lng->txt("adm_db_bench_by_first_table"),
-                $ilCtrl->getLinkTarget($this, "showDbBenchByFirstTable")
-            );
-        }
-
-        $ilTabs->activateSubTab($a_current);
-    }
-
-
-    /**
-     * Save benchmark settings
-     */
-    public function saveBenchSettingsObject(): void
-    {
-        $write_access = $this->rbacsystem->checkAccess("write", $this->object->getRefId());
-        if (!$write_access) {
-            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
-            return;
-        }
-
-        if ($this->wrapper->post()->has(ilBenchmark::ENABLE_DB_BENCH)
-            && $this->wrapper->post()->has(ilBenchmark::DB_BENCH_USER)) {
-            $activate = $this->wrapper->post()->retrieve(ilBenchmark::ENABLE_DB_BENCH, $this->refinery->kindlyTo()->bool());
-            if ($activate) {
-                $user_name = $this->wrapper->post()->retrieve(ilBenchmark::DB_BENCH_USER, $this->refinery->kindlyTo()->string());
-                $this->bench->enableDbBenchmarkForUserName($user_name);
-            }
-        } else {
-            $this->bench->disableDbBenchmark();
-        }
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-
-        $this->ctrl->redirect($this, "benchmark");
-    }
-
-
-    /**
-    * save benchmark settings
-    */
-    public function switchBenchModuleObject(): void
-    {
-        $this->ctrl->setParameter($this, 'cur_mod', $_POST['module']);
-        $this->ctrl->redirect($this, "benchmark");
-    }
-
-
-    /**
-    * delete all benchmark records
-    */
-    public function clearBenchObject(): void
-    {
-        $ilBench = $this->bench;
-        $ilBench->clearData();
-        $this->saveBenchSettingsObject();
-    }
-
     // get tabs
     public function getAdminTabs(): void
     {
@@ -379,15 +183,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 "server",
                 $this->ctrl->getLinkTarget($this, "showServerInfo"),
                 ["showServerInfo", "view"],
-                get_class($this)
-            );
-        }
-
-        if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
-                'benchmarks',
-                $this->ctrl->getLinkTarget($this, 'benchmark'),
-                'benchmark',
                 get_class($this)
             );
         }

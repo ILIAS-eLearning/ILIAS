@@ -94,7 +94,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $ilCtrl = $DIC->ctrl();
 
         $this->lng = $lng;
-        $this->lng->loadLanguageModule('administration');
+        $this->lng->loadLanguageModule('benchmark');
         $this->tpl = $tpl;
         $this->tree = $tree;
         $this->rbacsystem = $rbacsystem;

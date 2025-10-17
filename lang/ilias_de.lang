@@ -79,20 +79,11 @@ adm#:#adm_awrn_support_contacts_info#:#Alle Benutzer für die technische Betreuu
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_support_contacts_info#:#Bitte tragen Sie hier komma-separiert die Anmeldenamen der Personen ein, die bei Fragen und technischen Problemen kontaktiert werden können. Die Kontaktaufnahme erfolgt per Mail über den Link „Technische Betreuung kontaktieren“ im Footer von ILIAS. Ist die „Wer ist online?“-Anzeige aktiv, werden diese Personen auch dort als technische Betreuung angezeigt.
 administration#:#adm_achievements#:#Lernerfolge
-administration#:#adm_activate_db_benchmark#:#Messung aktivieren
-administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_adm_role_protect#:#Rolle „Administration“ schützen
 administration#:#adm_adm_role_protect_info#:#Nur Personen, welche selbst die Rolle „Administration“ inne haben, können weitere ILIAS-Konten in diese Rolle eintragen.
 administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_auth_reg#:#Authentifizierung Registrierung
 administration#:#adm_communication#:#Kommunikation
-administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
-administration#:#adm_db_bench_chronological#:#Chronologisch
-administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
-administration#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
-administration#:#adm_db_benchmark#:#Datenbank Benchmark
-administration#:#adm_db_benchmark_user#:#Anmeldename
-administration#:#adm_db_benchmark_user_desc#:#Für dieses ILIAS-Konto wird die Messung durchgeführt. Aktivieren Sie diese Funktion nicht für Ihr eigenes Konto.
 administration#:#adm_extending_ilias#:#ILIAS erweitern
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
@@ -127,9 +118,7 @@ administration#:#adm_repository_and_objects#:#Magazin und Objekte
 administration#:#adm_search_and_find#:#Suchen und finden
 administration#:#adm_show_comments_tagging_in_lists#:#Anzahl der Notizen, Kommentare und Tags in Objektlisten anzeigen
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
-administration#:#adm_sql#:#SQL
 administration#:#adm_table#:#Tabelle
-administration#:#adm_time#:#Zeit
 administration#:#adm_user_administration#:#Konten und Rollen
 administration#:#adm_user_starting_point#:#Persönliche Startseite
 administration#:#adm_user_starting_point_info#:#Wählen Sie die Seite oder Objekt, welche nach dem Login gezeigt wird.
@@ -2289,6 +2278,17 @@ badge#:#sort_by_title_desc#:#Titel, absteigend
 badge#:#table_view#:#Tabelle
 badge#:#tile_view#:#Kacheln
 badge#:#valid_until#:#Gültig bis
+benchmark#:#adm_activate_db_benchmark#:#Messung aktivieren
+benchmark#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
+benchmark#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
+benchmark#:#adm_db_bench_chronological#:#Chronologisch
+benchmark#:#adm_db_bench_slowest_first#:#Langsamste zuerst
+benchmark#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
+benchmark#:#adm_db_benchmark#:#Datenbank Benchmark
+benchmark#:#adm_db_benchmark_user#:#Anmeldename
+benchmark#:#adm_db_benchmark_user_desc#:#Für dieses ILIAS-Konto wird die Messung durchgeführt. Aktivieren Sie diese Funktion nicht für Ihr eigenes Konto.
+benchmark#:#adm_sql#:#SQL
+benchmark#:#adm_time#:#Zeit
 bgtask#:#bgtask_blocked#:#Laufender Download
 bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
 bgtask#:#bgtask_blocked_cancel_old#:#Laufenden Download abbrechen
@@ -3611,8 +3611,6 @@ common#:#basedn#:#BaseDN
 common#:#basic_settings#:#Grundeinstellungen
 common#:#before#:#vor
 common#:#behind#:#Nach
-common#:#benchmark#:#Benchmark
-common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographische Daten
 common#:#bibl_add#:#Literaturliste anlegen
 common#:#birthday#:#Geburtstag
@@ -4868,6 +4866,8 @@ common#:#obj_bibs#:#Literaturliste
 common#:#obj_bibs_desc#:#Literaturlisten-Administration
 common#:#obj_blog#:#Blog
 common#:#obj_blog_duplicate#:#Blog kopieren
+common#:#obj_bnmk#:#Benchmarking
+common#:#obj_bnmk_desc#:#Aufzeichnung und Auswertung der Dauer von Datenbankabfragen
 common#:#obj_book#:#Buchungspool
 common#:#obj_cadm#:#Benutzerkontakte
 common#:#obj_cadm_desc#:#Administration für Benutzerkontakte
