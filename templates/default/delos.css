@@ -5667,6 +5667,40 @@ a[aria-disabled].il-link.link-bulky:hover {
   border-top: none;
 }
 
+li.il-listing-characteristic-value-row {
+  list-style: none;
+}
+
+/* only when the component is used as a real list */
+ul.il-listing-characteristic-value {
+  list-style: none;
+}
+
+ul.il-listing-characteristic-value > li.il-listing-characteristic-value-row {
+  display: grid;
+  grid-template-columns: max-content 1fr; /* label hugs text, value takes rest */
+  align-items: center;
+  gap: 0.25rem 1rem; /* tighten horizontal space */
+}
+
+/* neutralize the old float/width logic only in the list context */
+ul.il-listing-characteristic-value .il-listing-characteristic-value-label,
+ul.il-listing-characteristic-value .il-listing-characteristic-value-item {
+  float: none; /* overrides @include ilFloatLeft/Right */
+  width: auto; /* overrides 50% / 75% / 25% widths */
+  left: auto;
+  right: auto;
+  padding-left: 0; /* remove extra gap added on the value */
+}
+
+/* optional: small screens — keep same 2-col layout or stack if you want */
+@media (max-width: 991px) {
+  ul.il-listing-characteristic-value > li.il-listing-characteristic-value-row {
+    grid-template-columns: max-content 1fr; /* or: 1fr auto */
+    gap: 0.25rem 0.75rem;
+  }
+}
+
 .il-listing-characteristic-value-label {
   float: left;
   width: 50%;
