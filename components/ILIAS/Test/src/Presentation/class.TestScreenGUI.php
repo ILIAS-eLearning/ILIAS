@@ -140,11 +140,39 @@ class TestScreenGUI
             $message_box_message_elements[] = $this->lng->txt('tst_launcher_status_message_password');
         }
 
-        if ($test_behaviour_settings->getProcessingTimeEnabled() && !$this->isUserOutOfProcessingTime()) {
-            $message_box_message_elements[] = sprintf(
-                $this->lng->txt('tst_time_limit_message'),
-                $test_behaviour_settings->getProcessingTimeAsMinutes()
-            );
+        // Always show remaining time (ignore Limited Duration / Reset / Suspend settings)
+         if ($test_behaviour_settings->getProcessingTimeEnabled()) {
+
+            $processing_time_minutes = (int) $test_behaviour_settings->getProcessingTimeAsMinutes();
+
+            $active_id = $this->test_passes_selector->getActiveId();
+            $last_started_pass = $this->test_session->getLastStartedPass();
+
+            // try to get start timestamp (of last attempt)
+            $started_ts = 0;
+            if ($last_started_pass !== null) {
+                $started_ts = (int) $this->object->getStartingTimeOfUser($active_id, $last_started_pass);
+            }
+
+            if ($started_ts > 0) {
+                $total_secs = $processing_time_minutes * 60;
+                $elapsed    = max(0, time() - $started_ts);
+                $remaining  = max(0, $total_secs - $elapsed);
+
+                //  use floor to match the in-player countdown
+                $mins_left = (int) floor($remaining / 60);
+
+                $message_box_message_elements[] = sprintf(
+                    $this->lng->txt('tst_time_limit_message'),
+                    $mins_left
+                );
+            } else {
+                // Fallback if test never started
+                $message_box_message_elements[] = sprintf(
+                    $this->lng->txt('tst_time_limit_message'),
+                    $processing_time_minutes
+                );
+            }
         }
 
         $nr_of_tries = $this->object->getNrOfTries();
