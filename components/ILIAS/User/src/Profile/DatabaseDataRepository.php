@@ -228,12 +228,21 @@ class DatabaseDataRepository implements DataRepository
         ProfileFieldsConfigurationRepository $profile_fields_config_repo,
         AutocompleteQuery $autocomplete_query
     ): array {
+        $where = $this->buildSearchUsersWhereString(
+            $profile_fields_config_repo,
+            $autocomplete_query
+        );
+
+        if ($where === null) {
+            return [];
+        }
+
         $query = $this->db->query(
             $settings_data_repository->getSearchSelectConditionalOnVisibility(
                 self::USER_BASE_TABLE,
                 ...array_keys(self::SEARCH_FIELDS)
             ) . PHP_EOL
-            . $this->buildSearchUsersWhereString($profile_fields_config_repo, $autocomplete_query)
+            . $where
         );
 
         $results = [];
@@ -344,7 +353,18 @@ class DatabaseDataRepository implements DataRepository
     private function buildSearchUsersWhereString(
         ProfileFieldsConfigurationRepository $profile_fields_config_repo,
         AutocompleteQuery $autocomplete_query
-    ): string {
+    ): ?string {
+        $available_fields = array_filter(
+            $this->getSearchFieldsWithAvailability(
+                $profile_fields_config_repo,
+                $autocomplete_query
+            )
+        );
+
+        if ($available_fields === []) {
+            return null;
+        }
+
         $outer_conditions = [];
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, \ilDBConstants::T_INTEGER);
         $outer_conditions[] = 'usr_data.active != ' . $this->db->quote(0, \ilDBConstants::T_INTEGER);
@@ -357,13 +377,6 @@ class DatabaseDataRepository implements DataRepository
                 'integer'
             );
         }
-
-        $available_fields = array_filter(
-            $this->getSearchFieldsWithAvailability(
-                $profile_fields_config_repo,
-                $autocomplete_query
-            )
-        );
 
         $outer_conditions[] = '(' . implode(
             ' OR ',
@@ -380,17 +393,26 @@ class DatabaseDataRepository implements DataRepository
         ProfileFieldsConfigurationRepository $profile_fields_config_repo,
         AutocompleteQuery $autocomplete_query
     ): array {
+        $search_term = $autocomplete_query->getSearchTermQueryString();
+        $search_term_long_enough = $autocomplete_query->checkSearchTermLength($search_term);
+        $firstname_term = $autocomplete_query->getFirstnameQueryString();
+        $lastname_term = $autocomplete_query->getLastnameQueryString();
+
         return array_merge(
             self::SEARCH_FIELDS,
             [
-                'login' => $autocomplete_query->getSearchTermQueryString(),
+                'login' => $search_term_long_enough ? $search_term : null,
                 'firstname' => $profile_fields_config_repo->getByClass(FirstName::class)->isSearchable()
-                    ? $autocomplete_query->getFirstnameQueryString() : null,
+                    && $autocomplete_query->checkSearchTermLength($firstname_term)
+                    ? $firstname_term : null,
                 'lastname' => $profile_fields_config_repo->getByClass(LastName::class)->isSearchable()
+                    && $autocomplete_query->checkSearchTermLength($lastname_term)
                     ? $autocomplete_query->getLastnameQueryString() : null,
                 'email' => $profile_fields_config_repo->getByClass(Email::class)->isSearchable()
+                    && $search_term_long_enough
                     ? $autocomplete_query->getSearchTermQueryString() : null,
                 'second_email' => $profile_fields_config_repo->getByClass(SecondEmail::class)->isSearchable()
+                    && $search_term_long_enough
                     ? $autocomplete_query->getSearchTermQueryString() : null
             ]
         );

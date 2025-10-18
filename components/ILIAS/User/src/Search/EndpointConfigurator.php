@@ -20,26 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Search;
 
-use ILIAS\UI\URLBuilder;
-
-class DefaultEndpointGUI extends Endpoint implements \ilCtrlBaseClassInterface
+interface EndpointConfigurator
 {
-    private const array NAMESPACE = ['u', 's'];
-    private const string SEARCH_TERM_TOKEN = 't';
-
-    public function acquireBuilderAndToken(): array
-    {
-        return (new URLBuilder(
-            $this->data_factory->uri(
-                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class)
-            )
-        ))->acquireParameter(self::NAMESPACE, self::SEARCH_TERM_TOKEN);
-    }
-
+    public function getParentClassPath(): array;
     public function getAdditionalAnswerElements(
         \ilObjUser $current_user,
         AutocompleteQuery $autocomplete_query
-    ): array {
-        return [];
-    }
+    );
 }

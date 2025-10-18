@@ -27,14 +27,15 @@ namespace ILIAS\User\Search;
  */
 class AutocompleteQuery
 {
-    private readonly ?string $processed_search_term;
-    private readonly ?string $lastname_search_term;
-    private readonly ?string $firstname_search_term;
+    private string $processed_search_term;
+    private ?string $lastname_search_term = null;
+    private ?string $firstname_search_term = null;
 
     public function __construct(
+        private readonly int $required_search_term_length,
         private readonly string $search_term,
     ) {
-        $processed_search_term = str_replace(
+        $this->processed_search_term = str_replace(
             ['%', '_'],
             ['\%', '\_'],
             trim($search_term)
@@ -43,7 +44,6 @@ class AutocompleteQuery
         $comma_separated = explode(',', $search_term);
 
         if (count($comma_separated) !== 2) {
-            $this->processed_search_term = $processed_search_term;
             return;
         }
 
@@ -51,30 +51,19 @@ class AutocompleteQuery
         $firstname_search_term = trim($comma_separated[1]);
 
         if ($lastname_search_term . $firstname_search_term === '') {
-            $this->processed_search_term = $processed_search_term;
             return;
         }
 
-        $this->processed_search_term = null;
         $this->lastname_search_term = $lastname_search_term === '' ? null : $lastname_search_term;
         $this->firstname_search_term = $firstname_search_term === '' ? null : $firstname_search_term;
     }
 
-    /**
-     * The length of the term is either calculated from the full length of the
-     * provided search term or if the string is seen as being of the form
-     * "lastname, firstname" from the longer of the two.
-     */
-    public function getSearchTermLength(): int
+    public function checkSearchTermLength(?string $search_term): bool
     {
-        if ($this->search_term !== null) {
-            return strlen($this->search_term);
+        if ($search_term === null) {
+            return false;
         }
-
-        return max(
-            strlen($this->lastname ?? ''),
-            strlen($this->firstname ?? '')
-        );
+        return strlen($search_term) >= $this->required_search_term_length;
     }
 
     /**
@@ -86,23 +75,29 @@ class AutocompleteQuery
         return $this->search_term;
     }
 
+    /**
+     *
+     * @return string|null The return value will be null, if it is determined
+     * that a search for lastname and/or firstname is needed.
+     */
     public function getSearchTermQueryString(): ?string
     {
-        if ($this->search_term === null) {
+        if ($this->lastname_search_term !== null
+            || $this->firstname_search_term !== null) {
             return null;
         }
 
-        return "%{$this->search_term}%";
+        return $this->search_term;
     }
 
     public function getLastnameQueryString(): ?string
     {
-        if ($this->lastname !== null) {
-            return "%{$this->lastname}%";
+        if ($this->lastname_search_term !== null) {
+            return $this->lastname_search_term;
         }
 
-        if ($this->search_term !== null) {
-            return "%{$this->search_term}%";
+        if ($this->firstname_search_term === null) {
+            return $this->search_term;
         }
 
         return null;
@@ -110,12 +105,12 @@ class AutocompleteQuery
 
     public function getFirstnameQueryString(): ?string
     {
-        if ($this->firstname !== null) {
-            return "%{$this->firstname}%";
+        if ($this->firstname_search_term !== null) {
+            return $this->firstname_search_term;
         }
 
-        if ($this->search_term !== null) {
-            return "%{$this->search_term}%";
+        if ($this->lastname_search_term === null) {
+            return $this->search_term;
         }
 
         return null;

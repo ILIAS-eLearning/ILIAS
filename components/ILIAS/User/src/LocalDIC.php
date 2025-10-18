@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User;
 
+use ILIAS\User\Search\EndpointFactory;
 use ILIAS\User\Search\Search;
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\User\Settings\SettingsImplementation as UserSettingsImplementation;
@@ -41,6 +42,7 @@ use ILIAS\User\Profile\Fields\Standard;
 use ILIAS\User\Profile\ChangeListeners\CollectListenersObjective;
 use Pimple\Container as PimpleContainer;
 use ILIAS\DI\Container as ILIASContainer;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UUIDFactory;
 
 class LocalDIC extends PimpleContainer
@@ -158,10 +160,21 @@ class LocalDIC extends PimpleContainer
                 $c[ProfileFieldsConfigurationRepository::class],
                 $c[ProfileDataRepository::class]
             );
-        $this[Search::class] = fn($c): Search =>
-            new Search(
-                $DIC['ui.factory']
+        $this[EndpointFactory::class] = fn($c): EndpointFactory =>
+            new EndpointFactory(
+                $c[ProfileFieldsConfigurationRepository::class],
+                $c[ProfileDataRepository::class],
+                $c[UserSettingsDataRepository::class],
+                $DIC['user']->getLoggedInUser(),
+                $DIC['http'],
+                $DIC['refinery'],
+                $DIC['ilCtrl'],
+                new DataFactory()
             );
+        $this[Search::class] = fn($c): Search => new Search(
+            $DIC['ui.factory'],
+            $c[EndpointFactory::class]
+        );
         $this[NewAccountMailRepository::class] = fn($c): NewAccountMailRepository =>
             new NewAccountMailRepository($DIC['ilDB']);
     }

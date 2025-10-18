@@ -145,7 +145,7 @@ class DatabaseDataRepository implements DataRepository
                 sprintf(
                     "(CASE WHEN ({$primary_email_data_column_name} IS NOT NULL" . PHP_EOL
                     . 'AND (profilevisibility.value = %s OR profilevisibility.value = %s)' . PHP_EOL
-                    . 'AND primaryemailvisibility.value = %s)'
+                    . 'AND primaryemailvisibility.value = %s)' . PHP_EOL
                     . "THEN {$primary_email_data_column_name} ELSE '' END) {$primary_email_data_column_name}",
                     $this->db->quote('y', \ilDBConstants::T_TEXT),
                     $this->db->quote('g', \ilDBConstants::T_TEXT),
@@ -154,7 +154,7 @@ class DatabaseDataRepository implements DataRepository
                 sprintf(
                     "(CASE WHEN ({$secondary_email_data_column_name} IS NOT NULL" . PHP_EOL
                     . 'AND (profilevisibility.value = %s OR profilevisibility.value = %s)' . PHP_EOL
-                    . 'AND secondaryemailvisibility.value = %s)'
+                    . 'AND secondaryemailvisibility.value = %s)' . PHP_EOL
                     . "THEN {$secondary_email_data_column_name} ELSE '' END) {$secondary_email_data_column_name}",
                     $this->db->quote('y', \ilDBConstants::T_TEXT),
                     $this->db->quote('g', \ilDBConstants::T_TEXT),

@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Search;
 
-use ILIAS\User\LocalDIC;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as FieldConfigurationRepository;
 use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
 use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
@@ -28,58 +27,50 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\URLBuilder;
 
-abstract class Endpoint
+class EndpointGUI
 {
+    private const array NAMESPACE = ['u', 's'];
+    private const string SEARCH_TERM_TOKEN = 't';
     private const int SUGGESTIONS_START_AFTER = 3;
 
-    private readonly FieldConfigurationRepository $field_configuration_repository;
-    private readonly ProfileDataRepository $profile_data_repository;
-    private readonly SettingsDataRepository $settings_data_repository;
-    private readonly \ilObjUser $current_user;
-    private readonly HttpService $http;
-    private readonly Refinery $refinery;
-
-    protected readonly \ilCtrl $ctrl;
-    protected readonly DataFactory $data_factory;
-
-    public function __construct()
-    {
-        /** @var \ILIAS\DI\Container $DIC */
-        global $DIC;
-        $this->current_user = $DIC['ilUser'];
-        $this->http = $DIC['http'];
-        $this->refinery = $DIC['refinery'];
-        $this->ctrl = $DIC['ilCtrl'];
-
-        $local_dic = LocalDIC::dic();
-        $this->field_configuration_repository = $local_dic[FieldConfigurationRepository::class];
-        $this->profile_data_repository = $local_dic[ProfileDataRepository::class];
-        $this->settings_data_repository = $local_dic[SettingsDataRepository::class];
-
-        $this->data_factory = new DataFactory();
+    public function __construct(
+        private readonly FieldConfigurationRepository $field_configuration_repository,
+        private readonly ProfileDataRepository $profile_data_repository,
+        private readonly SettingsDataRepository $settings_data_repository,
+        private readonly \ilObjUser $current_user,
+        private readonly HttpService $http,
+        private readonly Refinery $refinery,
+        private readonly \ilCtrl $ctrl,
+        private readonly DataFactory $data_factory,
+        private readonly EndpointConfigurator $endpoint_configurator
+    ) {
     }
 
     /**
      * @return array{0: \ILIAS\UI\URLBuilder, 1: \ILIAS\UI\URLBuilderToken}
      */
-    abstract public function acquireBuilderAndToken(): array;
-
-    /**
-     * @return array{} These values will be added to the results
-     * before ordering them.
-     */
-    abstract protected function getAdditionalAnswerElements(
-        \ilObjUser $current_user,
-        AutocompleteQuery $autocomplete_query
-    ): array;
+    public function acquireBuilderAndToken(): array
+    {
+        return (new URLBuilder(
+            $this->data_factory->uri(
+                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                    array_merge(
+                        $this->endpoint_configurator->getParentClassPath(),
+                        [self::class]
+                    )
+                )
+            )
+        ))->acquireParameter(self::NAMESPACE, self::SEARCH_TERM_TOKEN);
+    }
 
     public function getSuggestionsStartAfter(): int
     {
         return self::SUGGESTIONS_START_AFTER;
     }
 
-    final public function executeCommand(): void
+    public function executeCommand(): void
     {
         $this->http->saveResponse(
             $this->http->response()->withBody(
@@ -109,14 +100,10 @@ abstract class Endpoint
             ])
         );
 
-        if ($autocomplete_query->getSearchTermLength() < $this->getSuggestionsStartAfter()) {
-            return json_encode([]);
-        }
-
         $response = array_map(
             static fn(AutocompleteItem $v) => $v->getTagArray(),
             array_merge(
-                $this->getAdditionalAnswerElements(
+                $this->endpoint_configurator->getAdditionalAnswerElements(
                     $this->current_user,
                     $autocomplete_query
                 ),
@@ -136,10 +123,11 @@ abstract class Endpoint
         return json_encode($response);
     }
 
-    public function buildQueryStringTransformation(): \Closure
+    private function buildQueryStringTransformation(): \Closure
     {
         return function ($parameter): AutocompleteQuery {
             return new AutocompleteQuery(
+                $this->getSuggestionsStartAfter(),
                 $this->refinery->kindlyTo()->string()->transform($parameter)
             );
         };

@@ -51,6 +51,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\ConfigurationGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\CustomFieldsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Search\DefaultEndpointGUI
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
