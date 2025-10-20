@@ -25,26 +25,26 @@ class DefaultAutocompleteItem implements AutocompleteItem
     public function __construct(
         private readonly string $login,
         private readonly string $lastname,
-        private readonly string $firstname
+        private readonly string $firstname,
+        private readonly string $unprocessed_search_term
     ) {
     }
 
     public function getTagArray(): array
     {
         $return = [
-            'value' => rawurlencode($this->login)
+            'value' => rawurlencode($this->login),
+            'searchBy' => $this->unprocessed_search_term
         ];
 
         if ($this->lastname === '' && $this->firstname === '') {
             return $return + [
-                'display' => $this->login,
-                'searchBy' => $this->login
+                'display' => $this->login
             ];
         }
 
         return $return + [
-            'display' => "{$this->login} [{$this->buildNameComponent()}]",
-            'searchBy' => "{$this->login} [{$this->buildNameComponent()}]"
+            'display' => "{$this->login} [{$this->buildNameComponent()}]"
         ];
     }
 

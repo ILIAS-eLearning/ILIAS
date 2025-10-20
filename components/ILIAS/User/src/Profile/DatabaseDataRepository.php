@@ -250,7 +250,8 @@ class DatabaseDataRepository implements DataRepository
             $results[] = new DefaultAutocompleteItem(
                 $row->login,
                 $row->lastname ?? '',
-                $row->firstname ?? ''
+                $row->firstname ?? '',
+                $autocomplete_query->getUnprocessedSearchTerm()
             );
         }
         return $results;

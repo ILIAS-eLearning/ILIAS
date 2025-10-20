@@ -41,7 +41,7 @@ class EndpointFactory
     ) {
     }
 
-    public function getEndpointConfigurator(
+    public function getEndpointGUI(
         EndpointConfigurator $endpoint_configurator
     ): EndpointGUI {
         return new EndpointGUI(

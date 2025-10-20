@@ -54,7 +54,7 @@ class Search
     public function getEndpointGUI(
         EndpointConfigurator $endpoint_configurator
     ): EndpointGUI {
-        return $this->endpoint_factory->getEndpointConfigurator($endpoint_configurator);
+        return $this->endpoint_factory->getEndpointGUI($endpoint_configurator);
     }
 
     /**
