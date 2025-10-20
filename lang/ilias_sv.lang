@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#Deltagaren har angett fel testl
 assessment#:#longmenu#:#Lång meny
 assessment#:#longmenu_answeroptions_differ#:#Den här frågan fungerar inte korrekt eftersom den inte har samma antal luckor i texten som i svarsalternativen.
 assessment#:#longmenu_text#:#"Lång meny" text
-assessment#:#mailnottype#:#En sändning sker också när enskilda testkörningar avslutas
-assessment#:#mailnottype_desc#:#Testets ägare meddelas även om antalet körningar inte är begränsat.
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###21 11 2023 new variable
 assessment#:#maintenance#:#Underhåll
 assessment#:#manscoring#:#Manuell bedömning
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:#Ja, jag vill avsluta testet
 assessment#:#tst_finish_confirm_cancel_button#:#Nej, jag vill gå tillbaka till det senaste svaret
 assessment#:#tst_finish_confirmation_question#:#Du är på väg att avsluta testet och nå det maximala antalet tillåtna testkörningar. Efter det kommer du inte längre att kunna komma åt testet igen för att ändra dina svar. Vill du verkligen avsluta testet?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###21 11 2023 new variable
-assessment#:#tst_finish_notification#:#Notifiering
-assessment#:#tst_finish_notification_advanced#:#Fullständigt testresultat per användare
-assessment#:#tst_finish_notification_content_type#:#Content of e-mail###21 11 2023 new variable
-assessment#:#tst_finish_notification_desc#:#Ett mail skickas för varje person som genomför ett test. Mailet skickas till den användare som är angiven på fliken "Rättigheter" under "Ägs av". Mailet innehåller följande information
 assessment#:#tst_finish_notification_no#:#Ingen anmälan
-assessment#:#tst_finish_notification_simple#:#Endast inloggningsnamn och datum för uppsägning
 assessment#:#tst_finished#:#Färdig
 assessment#:#tst_form_dynamic_question_set_config#:#Kontinuerligt urval av frågor
 assessment#:#tst_gap_analysis#:#Analys av luckor

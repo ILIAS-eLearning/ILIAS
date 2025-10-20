@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#O participante introduziu uma p
 assessment#:#longmenu#:#Menu comprido
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Texto de menu comprido
-assessment#:#mailnottype#:#Enviar notificação mesmo que um utilizador termine uma tentativa de teste
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Manutenção
 assessment#:#manscoring#:#Pontuação manual
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:#Sim, quero terminar o teste
 assessment#:#tst_finish_confirm_cancel_button#:#Notificação
 assessment#:#tst_finish_confirmation_question#:#Não, voltar à resposta anterior
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#Enviar resultado de teste completo
-assessment#:#tst_finish_notification_advanced#:#Enviar nome de utilizador e data de fim
-assessment#:#tst_finish_notification_content_type#:#Conteúdo do e-mail
-assessment#:#tst_finish_notification_desc#:#Envia um e-mail para o proprietário do teste relativamente a cada utilizador que completou o teste.
 assessment#:#tst_finish_notification_no#:#Nenhum e-mail
-assessment#:#tst_finish_notification_simple#:#Definições gerais
 assessment#:#tst_finished#:#Terminado
 assessment#:#tst_form_dynamic_question_set_config#:#Continuar seleção de perguntas
 assessment#:#tst_gap_analysis#:#Análise de intervalo

@@ -880,8 +880,6 @@ assessment#:#logs_wrong_test_password_provided#:#Le Participant a entré un mot 
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.
 assessment#:#longmenu_text#:#Texte de menu long
-assessment#:#mailnottype#:#Envoyer notification lorsqu'un utilisateur achève un passage de test.
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###31 10 2023 new variable
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Notation Manuelle
@@ -1462,12 +1460,7 @@ assessment#:#tst_finish_confirm_button#:#Oui, je souhaite terminer le test
 assessment#:#tst_finish_confirm_cancel_button#:#Non, revenir à la question précédente
 assessment#:#tst_finish_confirmation_question#:#Vous allez terminer ce test et atteindre le nombre maximum de tests autorisés validés. Vous ne pourrez plus refaire ce test une nouvelle fois pour modifier vos réponses. Voulez-vous vraiment terminer ce test ?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###31 10 2023 new variable
-assessment#:#tst_finish_notification#:#Notification par Email en fin de test
-assessment#:#tst_finish_notification_advanced#:#Envoyer résultat complet du test au propriétaire du test
-assessment#:#tst_finish_notification_content_type#:#Content of e-mail###31 10 2023 new variable
-assessment#:#tst_finish_notification_desc#:#Envoie un mail au propriétaire du test pour chaque utilisateur qui a terminé le test.
 assessment#:#tst_finish_notification_no#:#Ne pas envoyer de notification par email lorsqu'un utilisateur achève un test
-assessment#:#tst_finish_notification_simple#:#Envoyer nom de l'utilisateur et date d'achèvement au propriétaire du test
 assessment#:#tst_finished#:#Terminé
 assessment#:#tst_form_dynamic_question_set_config#:#Sélection des Questions
 assessment#:#tst_gap_analysis#:#Analyse d’écart

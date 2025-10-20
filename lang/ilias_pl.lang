@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#Uczestnik wprowadził nieprawid
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Tekst ‘Long Menu’
-assessment#:#mailnottype#:#Transmisja odbywa się również po zakończeniu poszczególnych przebiegów testu.
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Konserwacja
 assessment#:#manscoring#:#Ręczna punktacja
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:#Tak, chcę skończyć test
 assessment#:#tst_finish_confirm_cancel_button#:#Nie, powrót do poprzedniej odpowiedzi
 assessment#:#tst_finish_confirmation_question#:#Kończysz test i wyczerpałeś wszystkie próby. Już nie będziesz mógł powtórzyć tego testu aby zmienić odpowiedzi. Na pewno chcesz skończyć test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#Mail po zakończeniu
-assessment#:#tst_finish_notification_advanced#:#Wyślij wynik testu do uczestnika testu
-assessment#:#tst_finish_notification_content_type#:#Treść wiadomości
-assessment#:#tst_finish_notification_desc#:#Właściciel testu otrzyma dla każdego uczestnika, który ukończył test, wiadomość mailową zawierającą następujące informacje.
 assessment#:#tst_finish_notification_no#:#Brak wiadomości
-assessment#:#tst_finish_notification_simple#:#Tylko nazwa użytkownika oraz data ukończenia
 assessment#:#tst_finished#:#Ukończone
 assessment#:#tst_form_dynamic_question_set_config#:#Bieżący wybór pytań
 assessment#:#tst_gap_analysis#:#Analiza GAP

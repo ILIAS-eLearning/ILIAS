@@ -201,8 +201,6 @@ class AdditionalInformationGenerator
         'type',
         'answers_select',
         'answers_text_box',
-        'tst_finish_notification_simple',
-        'tst_finish_notification_advanced',
         'test_question_set_type_fixed',
         'tst_title_output_full',
         'tst_title_output_hide_points',

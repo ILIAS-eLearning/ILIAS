@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#Sudionik je unio pogrešnu lozi
 assessment#:#longmenu#:#Dugi izbornik
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Tekst dugog izbornika
-assessment#:#mailnottype#:#Pošalji obavijest čak i ako korisnik završi pojedini prolaz testa
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Održavanje
 assessment#:#manscoring#:#Ručno bodovanje
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:#Da, želim završiti test
 assessment#:#tst_finish_confirm_cancel_button#:#Ne, želim se vratiti na prethodno pitanje
 assessment#:#tst_finish_confirmation_question#:#Završavate ovaj test i dolazite do maksimalnog broja dozvoljenih prolaza testa. Nakon toga nećete moći ponovno ući u ovaj test kako biste promijenili svoje odgovore. Želite li zaista završiti test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#Obavijest
-assessment#:#tst_finish_notification_advanced#:#Pošalji potpuni rezultat testa po korisniku
-assessment#:#tst_finish_notification_content_type#:#Sadržaj e-pošte
-assessment#:#tst_finish_notification_desc#:#Pošalje e-poštu vlasniku testa za svakog korisnika koji je završio test.
 assessment#:#tst_finish_notification_no#:#Nema e-pošte
-assessment#:#tst_finish_notification_simple#:#Pošalji korisničko ime i datum završetka
 assessment#:#tst_finished#:#Završeno
 assessment#:#tst_form_dynamic_question_set_config#:#Kontinuirani izbor pitanja
 assessment#:#tst_gap_analysis#:#Analiza praznine

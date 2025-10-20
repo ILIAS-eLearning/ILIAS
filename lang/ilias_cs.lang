@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#Účastník zadal nesprávné h
 assessment#:#longmenu#:#Dlouhé menu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Text dlouhého menu
-assessment#:#mailnottype#:#Zaslat oznámení vždy, když uživatel ukončil průchod testem
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Údržba
 assessment#:#manscoring#:#Manuální hodnocení
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:#Ano, chci tento test ukončit
 assessment#:#tst_finish_confirm_cancel_button#:#Ne, jít zpět na předchozí otázku
 assessment#:#tst_finish_confirmation_question#:#Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto testu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#E-mail při dokončení
-assessment#:#tst_finish_notification_advanced#:#Poslat kompletní výsledky testu jeho vlastníkovi
-assessment#:#tst_finish_notification_content_type#:#Obsah e-mailu
-assessment#:#tst_finish_notification_desc#:#Odešle e-mail vlastníkovi testu pro každého uživatele, který dokončil test.
 assessment#:#tst_finish_notification_no#:#Žádný e-mail
-assessment#:#tst_finish_notification_simple#:#Poslat uživatelské jméno a finální datum vlastníkovi testu
 assessment#:#tst_finished#:#Ukončeno
 assessment#:#tst_form_dynamic_question_set_config#:#Pokračuje výběr otázek
 assessment#:#tst_gap_analysis#:#Analýza mezer

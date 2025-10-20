@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#A résztvevő rossz jelszót ad
 assessment#:#longmenu#:#Étlap
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#'Étlap'-szöveg
-assessment#:#mailnottype#:#Akkor is küldjön értesítést, amikor egy felhasználó a teszt egy lépését fejezi be.
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Karbantartás
 assessment#:#manscoring#:#Manuális pontozás
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:#Igen, be szeretném fejezni a tesztet.
 assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző kérdéshez.
 assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#Értesítés
-assessment#:#tst_finish_notification_advanced#:#Az összes teszteredmény küldése
-assessment#:#tst_finish_notification_content_type#:#E-mail tartalma
-assessment#:#tst_finish_notification_desc#:#Minden alkalommal e-mail küldése a teszt tulajdonosának, amikor egy résztvevő befejezi a teszt kitöltését.
 assessment#:#tst_finish_notification_no#:#Nincs e-mail
-assessment#:#tst_finish_notification_simple#:#Felhasználónév és záró dátum küldése
 assessment#:#tst_finished#:#Befejezve
 assessment#:#tst_form_dynamic_question_set_config#:#Folyamatos kérdéskiválasztás
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)

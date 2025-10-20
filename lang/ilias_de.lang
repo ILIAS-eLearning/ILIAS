@@ -900,8 +900,6 @@ assessment#:#logs_wrong_test_password_provided#:#Teilnehmer hat falsches Testpas
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht richtig, denn sie hat nicht die gleiche Anzahl Lücken im Text wie in den Antwortoptionen.
 assessment#:#longmenu_text#:#„Long Menu“-Text
-assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
-assessment#:#mailnottype_desc#:#Wer unter „Im Besitz von“ eingetragen ist, erhält auch ohne Beschränkung der Anzahl an Testdurchläufen eine Benachrichtigung.
 assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung

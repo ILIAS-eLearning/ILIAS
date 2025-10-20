@@ -897,8 +897,6 @@ assessment#:#logs_wrong_test_password_provided#:#El participante introdujo un cl
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Texto de menú largo
-assessment#:#mailnottype#:#Enviar notificación incluso cuando un usuario haya terminado un examen, aunque el examen no haya finalizado.
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Mantenimiento
 assessment#:#manscoring#:#Puntuación manual
@@ -1479,12 +1477,7 @@ assessment#:#tst_finish_confirm_button#:#Si, quiero finalizar el test
 assessment#:#tst_finish_confirm_cancel_button#:#No, volver a la pregunta anterior
 assessment#:#tst_finish_confirmation_question#:#Vas a finalizar este test y alcanzarás el máximo número de intentos permitidos. No podrás volver a realizar este test para cambiar tus respuestas. ¿Quieres realmente finalizar el test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#Correo al terminar
-assessment#:#tst_finish_notification_advanced#:#Enviar resultado completo del test al propietario del test
-assessment#:#tst_finish_notification_content_type#:#Contenido del e-mail
-assessment#:#tst_finish_notification_desc#:#Envía un e-mail al propietario del test para cada usuario que se ha completado el test.
 assessment#:#tst_finish_notification_no#:#No enviar correo electrónico
-assessment#:#tst_finish_notification_simple#:#Enviar nombre de usuario y fecha de finalización para poner al propietario del test
 assessment#:#tst_finished#:#Terminado
 assessment#:#tst_form_dynamic_question_set_config#:#Selección continua de preguntas
 assessment#:#tst_gap_analysis#:#Análisis de huecos

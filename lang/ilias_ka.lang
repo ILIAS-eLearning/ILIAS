@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#Participant entered wrong test 
 assessment#:#longmenu#:#Longmenu###10 11 2018 new variable
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Long Menu Text###30 08 2015 new variable
-assessment#:#mailnottype#:#შეტყობინების გაგზავნა მაშინაც როდესაც მომხმარებელი ჩააბარებს ტესტს
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#შენარჩუნება
 assessment#:#manscoring#:#ხელით შეფასება
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:# დიახ, მე მსურს �
 assessment#:#tst_finish_confirm_cancel_button#:#არა, დავბრუნდეთ წინამდებარე კითხვასთან
 assessment#:#tst_finish_confirmation_question#:#თქვენ აპირებთ ტესტის დასრულებას და დაშვებული ჩაბარებების მაქსიმალური რაოდენობის მიღწევას. თქვენ ვერ შეძლებთ ამ ტესტში ხელახლა შესვას პასუხების შესაცვლელად. Nამდვილად გსურთ ტესტის დასრულება?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#ემაილი დამთავრებასთან დაკავშირებით
-assessment#:#tst_finish_notification_advanced#:#გადავაგზავნოთ დასრულებული ტესტის შედეგი მფლობელთან
-assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
-assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
 assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
-assessment#:#tst_finish_notification_simple#:#გადავაგზავნოთ მომხმარებლის სახელი და დასრულების თარიღი ტესტის მფლობელთან
 assessment#:#tst_finished#:#დასრულებული
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection###24 10 2013 new variable
 assessment#:#tst_gap_analysis#:#Gap Analysis###26 09 2014 new variable

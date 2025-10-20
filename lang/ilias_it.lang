@@ -895,8 +895,6 @@ assessment#:#logs_wrong_test_password_provided#:#Il partecipante ha inserito una
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_answeroptions_differ#:#This question does not work correctly, as there are not the same amount of gaps in the text as in the correction options.###26 08 2024 new variable
 assessment#:#longmenu_text#:#Testo menu lungo
-assessment#:#mailnottype#:#Inviare la notifica anche quando un utente termina un passaggio di prova
-assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.###26 08 2024 new variable
 assessment#:#mainbar_button_label_questionlist#:#Questionlist###26 08 2024 new variable
 assessment#:#maintenance#:#Manutenzione
 assessment#:#manscoring#:#Impostazione manuale
@@ -1477,12 +1475,7 @@ assessment#:#tst_finish_confirm_button#:#Sì, voglio finire il test
 assessment#:#tst_finish_confirm_cancel_button#:#No, torna alla risposta precedente
 assessment#:#tst_finish_confirmation_question#:#Stai per finire il test e stai raggiungendo il numero massimo di tentativi disponibili. Non potrai rifare il test e cambaire le tue risposte. Sei sicuro di voler finire il test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification#:#Segnalazione completata
-assessment#:#tst_finish_notification_advanced#:#Invia i risultati completi del test al responsabile
-assessment#:#tst_finish_notification_content_type#:#Contenuto dell’email
-assessment#:#tst_finish_notification_desc#:#Invia una mail al titolare del test per ogni utente che ha completato il test.
 assessment#:#tst_finish_notification_no#:#Nessun email
-assessment#:#tst_finish_notification_simple#:#Invia lo user name e la data di completamento al responsabile del test
 assessment#:#tst_finished#:#Finito
 assessment#:#tst_form_dynamic_question_set_config#:#Selezione continua di domande
 assessment#:#tst_gap_analysis#:#Analisi gap
