@@ -117,7 +117,7 @@ class EndpointGUI
 
         usort(
             $response,
-            fn(AutocompleteItem $a, AutocompleteItem $b): int => $a <=> $b
+            fn(array $a, array $b): int => $a['display'] <=> $b['display']
         );
 
         return json_encode($response);
