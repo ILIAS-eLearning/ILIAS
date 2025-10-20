@@ -418,7 +418,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $this->logger->debug(
             sprintf(
-                'END - Image indentification "%s" is ' . $exists ? 'in use' : 'unused',
+                'END - Image identification "%s" is ' . $exists ? 'in use' : 'unused',
                 $relative_image_identification
             )
         );
