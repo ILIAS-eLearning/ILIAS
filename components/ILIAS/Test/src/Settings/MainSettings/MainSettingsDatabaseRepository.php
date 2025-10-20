@@ -111,8 +111,6 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             . 'concluding_remarks_page_id,' . PHP_EOL
             . 'redirection_mode,' . PHP_EOL
             . 'redirection_url,' . PHP_EOL
-            . 'mailnotification,' . PHP_EOL
-            . 'mailnottype,' . PHP_EOL
             . 'skill_service' . PHP_EOL
             . 'FROM ' . self::TABLE_NAME . PHP_EOL
             . $where_part;
@@ -199,9 +197,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
                 $row['finalstatement'],
                 $row['concluding_remarks_page_id'],
                 RedirectionModes::tryFrom($row['redirection_mode']) ?? RedirectionModes::NONE,
-                $row['redirection_url'],
-                $row['mailnotification'],
-                (bool) $row['mailnottype'],
+                $row['redirection_url']
             ),
             new SettingsAdditional(
                 $test_id,

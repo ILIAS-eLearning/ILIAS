@@ -62,6 +62,9 @@ class TestSetupAgent extends NullAgent
                 5000,
                 ['tst']
             ),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new Test11DBUpdateSteps()
+            )
         );
     }
 
