@@ -22,8 +22,12 @@ use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
 use ILIAS\LTI\ToolProvider\Service;
 use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
 use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
+require_once __DIR__ . '/../ToolProvider/ServiceAction.php';
+require_once __DIR__ . '/../ToolProvider/Outcome.php';
+require_once __DIR__ . '/../ToolProvider/OutcomeType.php';
 use DOMDocument;
 use DOMElement;
+use ILIAS\LTIOAuth\OAuthException;
 
 /**
  * Class to represent a platform resource link
@@ -269,6 +273,8 @@ class ResourceLink
      * @var DataConnector|null $dataConnector
      */
     private ?DataConnector $dataConnector = null;
+
+    private static array $messages = [true => [], false => []];
 
     /**
      * Class constructor.
@@ -710,36 +716,41 @@ class ResourceLink
 
     /**
      * Perform an Outcomes service request.
-     * @param int        $action     The action type constant
-     * @param Outcome    $ltiOutcome Outcome object
+     * @param ServiceAction $action The action type constant
+     * @param Outcome $ltiOutcome Outcome object
      * @param UserResult $userResult UserResult object
      * @return bool    True if the request was successfully processed
+     * @throws OAuthException
      */
-    public function doOutcomesService(int $action, Outcome $ltiOutcome, UserResult $userResult): bool
+    public function doOutcomesService(ServiceAction $action, Outcome $ltiOutcome, UserResult $userResult): bool
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $ok = false;
         $this->extResponse = '';
-        // Lookup service details from the source resource link appropriate to the user (in case the destination is being shared)
+// Lookup service details from the source resource link appropriate to the user (in case the destination is being shared)
         $sourceResourceLink = $userResult->getResourceLink();
         $sourcedId = $userResult->ltiResultSourcedId;
 
-        // Use LTI 1.1 service in preference to extension service if it is available
+// Use LTI 1.1 service in preference to extension service if it is available
         $urlAGS = $sourceResourceLink->getSetting('custom_lineitem_url');
         $urlLTI11 = $sourceResourceLink->getSetting('lis_outcome_service_url');
         $urlExt = $sourceResourceLink->getSetting('ext_ims_lis_basic_outcome_url');
-
+        $logger->info(" urlAGS: " . $urlAGS . " urlLTI11: " . $urlLTI11 . " urlExt: " . $urlExt);
         if (!empty($urlAGS)) {
-            if (($action === self::EXT_READ) && ($ltiOutcome->type === self::EXT_TYPE_DECIMAL) && $sourceResourceLink->hasResultService()) {
-                $ltiOutcome = $this->doResultService($userResult, $urlAGS);
-                $ok = !empty($ltiOutcome);
-            } elseif ((($action === self::EXT_WRITE) && $this->checkValueType($ltiOutcome, array(self::EXT_TYPE_DECIMAL)) && $sourceResourceLink->hasScoreService()) ||
-                ($action === self::EXT_DELETE)) {
-                if ($action === self::EXT_DELETE) {
+            if (($action === ServiceAction::Read) && ($ltiOutcome->type === OutcomeType::Decimal->value) && $sourceResourceLink->hasResultService()) {
+                $ok = $this->doResultService($ltiOutcome, $userResult, $urlAGS);
+                $logger->info("action: " . json_encode($action) . " ltiOutcome->type: " . $ltiOutcome->type . " ok: " . ($ok === true ? 'true' : 'false'));
+            } elseif ((($action === ServiceAction::Write) && $this->checkValueType($ltiOutcome, [OutcomeType::Decimal->value]) && $sourceResourceLink->hasScoreService()) ||
+                ($action === ServiceAction::Delete)) {
+                $logger->info("2. action: " . json_encode($action) . " ltiOutcome->type: " . $ltiOutcome->type);
+                if ($action === ServiceAction::Delete) {
                     $ltiOutcome->setValue(null);
                     $ltiOutcome->activityProgress = 'Initialized';
                     $ltiOutcome->gradingProgress = 'NotReady';
                 }
                 $ok = $this->doScoreService($ltiOutcome, $userResult, $urlAGS);
+                $logger->info("3. action: " . json_encode($action) . " ltiOutcome->type: " . $ltiOutcome->type . " ok: " . ($ok === true ? 'true' : 'false'));
             }
         }
         if (!$ok && is_null($ltiOutcome->getValue())) {
@@ -748,19 +759,20 @@ class ResourceLink
         if (!$ok && !empty($urlLTI11)) {
             $do = '';
             $outcome = $ltiOutcome->getValue();
-            if (($action === self::EXT_READ) && ($ltiOutcome->type === self::EXT_TYPE_DECIMAL)) {
+            if (($action === ServiceAction::Read) && ($ltiOutcome->type === OutcomeType::Decimal->value)) {
                 $do = 'readResult';
-            } elseif (($action === self::EXT_WRITE) && $this->checkValueType($ltiOutcome, array(self::EXT_TYPE_DECIMAL))) {
+            } elseif (($action === ServiceAction::Write) && $this->checkValueType($ltiOutcome, [OutcomeType::Decimal->value])) {
                 $do = 'replaceResult';
                 if (($ltiOutcome->getPointsPossible() <> 1) && ($ltiOutcome->getPointsPossible() > 0)) {
                     $outcome = $outcome / $ltiOutcome->getPointsPossible();
                 }
-            } elseif ($action === self::EXT_DELETE) {
+            } elseif ($action === ServiceAction::Delete) {
                 $do = 'deleteResult';
             }
+            $logger->info("4. action: " . json_encode($action) . " ltiOutcome->type: " . $ltiOutcome->type . " do: " . $do . " --  " . ($action === ServiceAction::Write) . " --- " . ($this->checkValueType($ltiOutcome, [OutcomeType::Decimal->value])) . " -- >");
             if (!empty($do)) {
                 $xml = '';
-                if ($action === self::EXT_WRITE) {
+                if ($action === ServiceAction::Write) {
                     $comment = (empty($ltiOutcome->comment)) ? '' : trim($ltiOutcome->comment);
                     if (!empty($comment) && !empty($sourceResourceLink->getSetting('ext_outcome_data_values_accepted'))) {
                         $resultDataTypes = explode(',', $sourceResourceLink->getSetting('ext_outcome_data_values_accepted'));
@@ -768,7 +780,7 @@ class ResourceLink
                         if (count($resultDataTypes) === 1) {
                             $resultDataType = $resultDataTypes[0];
                         } elseif (count($resultDataTypes) > 1) {
-                            $isUrl = (strpos($comment, 'http://') === 0) || (strpos($comment, 'https://') === 0);
+                            $isUrl = str_starts_with($comment, 'http://') || str_starts_with($comment, 'https://');
                             if ($isUrl && in_array('ltiLaunchUrl', $resultDataTypes)) {
                                 $resultDataType = 'ltiLaunchUrl';
                             } elseif ($isUrl && in_array('url', $resultDataTypes)) {
@@ -778,15 +790,15 @@ class ResourceLink
                             }
                         }
                         if (!empty($resultDataType)) {
-                            $xml = <<< EOF
+                            $xml = <<< EOD
 
           <resultData>
             <{$resultDataType}>{$comment}</{$resultDataType}>
           </resultData>
-EOF;
+EOD;
                         }
                     }
-                    $xml = <<< EOF
+                    $xml = <<< EOD
 
         <result>
           <resultScore>
@@ -794,27 +806,30 @@ EOF;
             <textString>{$outcome}</textString>
           </resultScore>{$xml}
         </result>
-EOF;
+EOD;
+                    $logger->info("5. action: " . json_encode($action) . " xml: " . $xml . " do: " . $do . " -- outcome: " . $outcome);
                 }
                 $sourcedId = htmlentities($sourcedId);
-                $xml = <<<EOF
+                $xml = <<< EOD
       <resultRecord>
         <sourcedGUID>
           <sourcedId>{$sourcedId}</sourcedId>
         </sourcedGUID>{$xml}
       </resultRecord>
-EOF;
+EOD;
                 if ($this->doLTI11Service($do, $urlLTI11, $xml)) {
+                    $logger->info(" --- this->doLTI11Service -- do: " . $do . " urlLTI11: " . $urlLTI11 . " - xml: " . $xml . " -- ltiOutcome: " . json_encode($ltiOutcome));
                     switch ($action) {
-                        case self::EXT_READ:
+                        case ServiceAction::Read:
                             if (!isset($this->extNodes['imsx_POXBody']["{$do}Response"]['result']['resultScore']['textString'])) {
                                 break;
-                            } else {
+                            } elseif (!empty($this->extNodes['imsx_POXBody']["{$do}Response"]['result']['resultScore']['textString'])) {
                                 $ltiOutcome->setValue($this->extNodes['imsx_POXBody']["{$do}Response"]['result']['resultScore']['textString']);
+                            } else {
+                                $ltiOutcome->setValue(null);
                             }
-                            // no break
-                        case self::EXT_WRITE:
-                        case self::EXT_DELETE:
+                        case ServiceAction::Write:
+                        case ServiceAction::Delete:
                             $ok = true;
                             break;
                     }
@@ -822,20 +837,24 @@ EOF;
             }
         }
         if (!$ok && !empty($urlExt)) {
+            $logger->info("6. action: " . json_encode($action) . " urlExt: " . $urlExt);
             $do = '';
             $outcome = $ltiOutcome->getValue();
-            if (($action === self::EXT_READ) && ($ltiOutcome->type === self::EXT_TYPE_DECIMAL)) {
+            if ($action === ServiceAction::Read) {
                 $do = 'basic-lis-readresult';
-            } elseif (($action === self::EXT_WRITE) && $this->checkValueType($ltiOutcome, array(self::EXT_TYPE_DECIMAL))) {
+            } elseif ($action === ServiceAction::Write) {
                 $do = 'basic-lis-updateresult';
-                if (($ltiOutcome->getPointsPossible() <> 1) && ($ltiOutcome->getPointsPossible() > 0)) {
-                    $outcome = $outcome / $ltiOutcome->getPointsPossible();
+                if ($this->checkValueType($ltiOutcome, [OutcomeType::Decimal->value])) {
+                    if (($ltiOutcome->getPointsPossible() <> 1) && ($ltiOutcome->getPointsPossible() > 0)) {
+                        $outcome = $outcome / $ltiOutcome->getPointsPossible();
+                    }
                 }
-            } elseif ($action === self::EXT_DELETE) {
+            } elseif ($action === ServiceAction::Delete) {
                 $do = 'basic-lis-deleteresult';
             }
+            $logger->info("7. action: " . json_encode($action) . " urlExt: " . $urlExt . " do: " . $do . "--");
             if (!empty($do)) {
-                $params = array();
+                $params = [];
                 $params['sourcedid'] = $sourcedId;
                 $params['result_resultscore_textstring'] = $outcome;
                 if (!empty($ltiOutcome->language)) {
@@ -848,20 +867,23 @@ EOF;
                     $params['result_date'] = $ltiOutcome->date;
                 }
                 if (!empty($ltiOutcome->type)) {
-                    $params['result_resultvaluesourcedid'] = $ltiOutcome->type;
+                    $params['result_resultvaluesourcedid'] = $ltiOutcome->type->value;
                 }
                 if (!empty($ltiOutcome->dataSource)) {
                     $params['result_datasource'] = $ltiOutcome->dataSource;
                 }
                 if ($this->doService($do, $urlExt, $params, 'https://purl.imsglobal.org/spec/lti-ext/scope/outcomes')) {
                     switch ($action) {
-                        case self::EXT_READ:
+                        case ServiceAction::Read:
                             if (isset($this->extNodes['result']['resultscore']['textstring'])) {
-                                $ltiOutcome->setValue($this->extNodes['result']['resultscore']['textstring']);
+                                $value = $this->extNodes['result']['resultscore']['textstring'];
+                                if (!is_string($value)) {
+                                    $value = null;
+                                }
+                                $ltiOutcome->setValue($value);
                             }
-                            // no break
-                        case self::EXT_WRITE:
-                        case self::EXT_DELETE:
+                        case ServiceAction::Write:
+                        case ServiceAction::Delete:
                             $ok = true;
                             break;
                     }
@@ -874,12 +896,12 @@ EOF;
             $response = $hook->doOutcomesService($action, $ltiOutcome, $userResult);
             if ($response !== false) {
                 $ok = true;
-                if ($action === self::EXT_READ) {
+                if ($action === ServiceAction::Read) {
                     $ltiOutcome->setValue($response);
                 }
             }
         }
-
+        $logger->info("doOutcomesService -- ok: " . ($ok === true ? 'true' : 'false') . " ltiOutcome: " . json_encode($ltiOutcome) . " urlExt: " . $urlExt);
         return $ok;
     }
 
@@ -1466,16 +1488,20 @@ EOF;
      */
     private function checkValueType(Outcome $ltiOutcome, array $supportedTypes = null): bool
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         if (empty($supportedTypes)) {
             $supportedTypes = explode(
                 ',',
-                str_replace(' ', '', strtolower($this->getSetting('ext_ims_lis_resultvalue_sourcedids', self::EXT_TYPE_DECIMAL)))
+                str_replace(' ', '', strtolower($this->getSetting('ext_ims_lis_resultvalue_sourcedids', "decimal")))
             );
         }
         $type = $ltiOutcome->type;
         $value = $ltiOutcome->getValue();
+
         // Check whether the type is supported or there is no value
         $ok = in_array($type, $supportedTypes) || empty($value);
+        $logger->info(" -> checkValueType -- type  $type  --- value:  $value -- supportedTypes: " . json_encode($supportedTypes) . " -- ok  " .($ok === true ? 'true' : 'false') . ".." . var_export($supportedTypes, true));
         if (!$ok) {
             // Convert numeric values to decimal
             if ($type === self::EXT_TYPE_PERCENTAGE) {
@@ -1532,19 +1558,24 @@ EOF;
             }
         }
 
+        $logger->info(" -> checkValueType -- type  $type  --- value:  $value -- supportedTypes:  " . json_encode($supportedTypes) . " -- ok  " .($ok === true ? 'true' : 'false') . "-- ltiOutcome: " . json_encode($ltiOutcome));
+
         return $ok;
     }
 
     /**
      * Send an unofficial LTI service request to the platform.
-     * @param string $type   Message type value
-     * @param string $url    URL to send request to
-     * @param array  $params Associative array of parameter values to be passed
-     * @param string $scope  Scope for service
+     * @param string $type Message type value
+     * @param string $url URL to send request to
+     * @param array $params Associative array of parameter values to be passed
+     * @param string $scope Scope for service
      * @return bool    True if the request successfully obtained a response
+     * @throws OAuthException
      */
     private function doService(string $type, string $url, array $params, string $scope): bool
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $ok = false;
         $this->extRequest = '';
         $this->extRequestHeaders = '';
@@ -1609,27 +1640,31 @@ EOF;
             $this->extRequestHeaders = $http->requestHeaders;
             $this->lastServiceRequest = $http;
         }
-
         return $ok;
     }
 
     /**
      * Send a request to the Result service endpoint.
+     * @param Outcome $ltiOutcome
      * @param UserResult $userResult UserResult object
-     * @param string     $url        URL to send request to
-     * @return Outcome    Outcome object
+     * @param string $url URL to send request to
+     * @return bool Outcome object
      */
-    private function doResultService(UserResult $userResult, string $url): ?Outcome
+    private function doResultService(Outcome $ltiOutcome, UserResult $userResult, string $url): bool
     {
-        $outcome = null;
+        $ok = false;
         $this->extRequest = '';
-        $this->extRequestHeaders = '';
+        $this->extRequestHeaders = [];
         $this->extResponse = '';
-        $this->extResponseHeaders = '';
+        $this->extResponseHeaders = [];
         $this->lastServiceRequest = null;
         if (!empty($url)) {
             $resultService = new Service\Result($this->getPlatform(), $url);
             $outcome = $resultService->get($userResult);
+            $ok = !empty($outcome);
+            if ($ok) {
+                $ltiOutcome->assign($outcome);
+            }
             $http = $resultService->getHttpMessage();
             $this->extResponse = $http->response;
             $this->extResponseHeaders = $http->responseHeaders;
@@ -1638,7 +1673,7 @@ EOF;
             $this->lastServiceRequest = $http;
         }
 
-        return $outcome;
+        return $ok;
     }
 
     /**
@@ -1674,18 +1709,22 @@ EOF;
     /**
      * Send an LTI 1.1 service request to the platform.
      * @param string $type Message type value
-     * @param string $url  URL to send request to
-     * @param string $xml  XML of message request
+     * @param string $url URL to send request to
+     * @param string $xml XML of message request
      * @return bool    True if the request successfully obtained a response
+     * @throws OAuthException
      */
     private function doLTI11Service(string $type, string $url, string $xml): bool
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $ok = false;
         $this->extRequest = '';
-        $this->extRequestHeaders = '';
+        $this->extRequestHeaders = [];
         $this->extResponse = '';
-        $this->extResponseHeaders = '';
+        $this->extResponseHeaders = [];
         $this->lastServiceRequest = null;
+        $logger->info("Getting LTI result for user $type: --url -" . $url . " ---- " . $xml . "---");
         if (!empty($url)) {
             $id = uniqid();
             $xmlRequest = <<< EOD
@@ -1714,10 +1753,8 @@ EOD;
                     $accessToken = new AccessToken($this->platform);
                     $this->platform->setAccessToken($accessToken);
                 }
-                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array(
-                    $scope,
-                    Tool::$defaultTool->requiredScopes
-                ))) {
+                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array($scope,
+                            Tool::$defaultTool->requiredScopes))) {
                     $accessToken->expires = time();
                     $accessToken->get($scope, true);
                     $this->platform->setAccessToken($accessToken);
@@ -1725,23 +1762,39 @@ EOD;
                 }
             }
             do {
-                // Add message signature
+// Add message signature
                 $header = $this->getPlatform()->addSignature($url, $xmlRequest, 'POST', 'application/xml');
-                // Connect to platform
+                $header .= "\nAccept: application/xml";
+// Connect to platform
                 $http = new \ILIAS\LTI\ToolProvider\Http\HttpMessage($url, 'POST', $xmlRequest, $header);
+                $logger->info("sending http value: ". json_encode($http));
                 if ($http->send()) {
-                    // Parse XML response
+// Parse XML response
+                    $logger->info("HTTP status: " . $http->status . " headers: " . var_export($http->responseHeaders, true));
+                    $logger->info("Raw body: " . substr((string)$http->response, 0, 500));
                     $this->extResponse = $http->response;
                     $this->extResponseHeaders = $http->responseHeaders;
                     try {
                         $this->extDoc = new DOMDocument();
-                        $this->extDoc->loadXML($http->response);
-                        $this->extNodes = $this->domnodeToArray($this->extDoc->documentElement);
-                        if (isset($this->extNodes['imsx_POXHeader']['imsx_POXResponseHeaderInfo']['imsx_statusInfo']['imsx_codeMajor']) &&
-                            ($this->extNodes['imsx_POXHeader']['imsx_POXResponseHeaderInfo']['imsx_statusInfo']['imsx_codeMajor'] === 'success')) {
-                            $ok = true;
+                        @$this->extDoc->loadXML($http->response);
+                        $logger->info("HTTP status: " . $http->status . " headers: " . var_export($http->responseHeaders, true));
+                        $logger->info("Raw body: " . substr((string)$http->response, 0, 500));
+
+                        $logger->info("doLTI11Service (this->extDoc->loadXML)-> " . json_encode($this->extDoc) . " extDoc->documentElement " . json_encode($this->extDoc->documentElement));
+
+                        if ($this->extDoc->documentElement) {
+                            $this->extNodes = $this->domnodeToArray($this->extDoc->documentElement);
+                            $logger->info("doLTI11Service -2- (this->extDoc->loadXML)-> " . json_encode($this->extDoc) . " extDoc->documentElement " . json_encode($this->extDoc->documentElement));
+
+                            if (isset($this->extNodes['imsx_POXHeader']['imsx_POXResponseHeaderInfo']['imsx_statusInfo']['imsx_codeMajor']) &&
+                                ($this->extNodes['imsx_POXHeader']['imsx_POXResponseHeaderInfo']['imsx_statusInfo']['imsx_codeMajor'] === 'success')) {
+                                $ok = true;
+                            }
+                        } else {
+                            self::setMessage(true, 'Invalid XML in service response');
                         }
                     } catch (\Exception $e) {
+
                     }
                 }
                 $retry = $retry && !$newToken && !$ok;
@@ -1757,8 +1810,15 @@ EOD;
             $this->extRequestHeaders = $http->requestHeaders;
             $this->lastServiceRequest = $http;
         }
-
+        $logger->info("doLTI11Service -> " . $ok . " this->extNodes " . json_encode($this->extNodes));
         return $ok;
+    }
+
+    public static function setMessage(bool $isError, string $message): void
+    {
+        if (!in_array($message, self::$messages[$isError])) {
+            self::$messages[$isError][] = $message;
+        }
     }
 
     /**

@@ -157,14 +157,18 @@ if (!class_exists(OAuthSignatureMethod::class)) {
          */
         public function check_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token, string $signature): bool
         {
+            global $DIC;
+            $logger = $DIC->logger()->root();
             $built = $this->build_signature($request, $consumer, $token);
 
             // Check for zero length, although unlikely here
             if (strlen($built) == 0 || strlen($signature) == 0) {
+                $logger->error("check_signature -- strlen(built) == 0 || strlen(signature) == 0");
                 return false;
             }
 
             if (strlen($built) != strlen($signature)) {
+                $logger->error("check_signature -- strlen(built) != strlen(signature)");
                 return false;
             }
 
@@ -173,7 +177,6 @@ if (!class_exists(OAuthSignatureMethod::class)) {
             for ($i = 0; $i < strlen($signature); $i++) {
                 $result |= ord($built[$i]) ^ ord($signature[$i]);
             }
-
             return $result == 0;
         }
     }
@@ -195,7 +198,10 @@ if (!class_exists(OAuthSignatureMethod_HMAC_SHA1::class)) {
 
 
         /**
-         * @param OAuthToken $token|null
+         * @param OAuthRequest $request
+         * @param OAuthConsumer $consumer
+         * @param OAuthToken|null $token |null
+         * @return string
          */
         public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token): string
         {
@@ -215,6 +221,7 @@ if (!class_exists(OAuthSignatureMethod_HMAC_SHA1::class)) {
         }
     }
 }
+
 /**
  * The PLAINTEXT method does not provide any security protection and SHOULD only be used
  * over a secure channel such as HTTPS. It does not use the Signature Base String.
@@ -347,7 +354,7 @@ if (!class_exists(OAuthRequest::class)) {
     class OAuthRequest
     {
         /** @var array */
-        protected array $parameters;
+        protected ?array $parameters;
 
         /** @var string */
         protected string $http_method;
@@ -372,9 +379,9 @@ if (!class_exists(OAuthRequest::class)) {
          * @param array|null $parameters
          * @return void
          */
-        public function __construct(string $http_method, string $http_url, ?array $parameters = null)
+        function __construct(string $http_method, string $http_url, ?array $parameters = null)
         {
-            $parameters = ($parameters) ? $parameters : [];
+            $parameters = isset($parameters) ? $parameters: [];
             $parameters = array_merge(OAuthUtil::parse_parameters((string) parse_url($http_url, PHP_URL_QUERY)), $parameters);
             $this->parameters = $parameters;
             $this->http_method = $http_method;
@@ -390,65 +397,62 @@ if (!class_exists(OAuthRequest::class)) {
          */
         public static function from_request(?string $http_method = null, ?string $http_url = null, ?array $parameters = null): OAuthRequest
         {
-            $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")
-            ? 'http'
-            : 'https';
-
-            //SPECIAL FOR LTI BEGIN
-            global $UseHttpHostInsteadOfServerName;
-            if ($UseHttpHostInsteadOfServerName == true) {
-                $port = "";
-                if ($_SERVER['SERVER_PORT'] != "80" && $_SERVER['SERVER_PORT'] != "443" &&
-            strpos(':', $_SERVER['HTTP_HOST']) < 0) {
-                    $port = ':' . $_SERVER['SERVER_PORT'] ;
+            if (!$http_url) {
+                if ((isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) ||
+                    (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && ($_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')) ||
+                    (isset($_SERVER['HTTP_X_URL_SCHEME']) && ($_SERVER['HTTP_X_URL_SCHEME'] === 'https'))) {
+                    $_SERVER['HTTPS'] = 'on';
+                    $_SERVER['SERVER_PORT'] = 443;
+                } elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+                    $_SERVER['HTTPS'] = 'off';
+                    $_SERVER['SERVER_PORT'] = 80;
+                } elseif (!isset($_SERVER['HTTPS'])) {
+                    $_SERVER['HTTPS'] = 'off';
                 }
-                $http_url = ($http_url) ? $http_url : $scheme .
-                '://' . $_SERVER['HTTP_HOST'] .
-                $port .
-                $_SERVER['REQUEST_URI'];
-            } else {
-                $http_url = ($http_url) ? $http_url : $scheme .
-                '://' . $_SERVER['SERVER_NAME'] .
-                ':' .
-                $_SERVER['SERVER_PORT'] .
-                $_SERVER['REQUEST_URI'];
+                if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+                    $forwardedHosts = str_replace(' ', ',', trim($_SERVER['HTTP_X_FORWARDED_HOST']));  // Use first if multiple hosts listed
+                    $hosts = explode(',', $forwardedHosts);
+                    if (!empty($hosts[0])) {
+                        $host = explode(':', $hosts[0], 2);
+                        $_SERVER['SERVER_NAME'] = $host[0];
+                        if (count($host) > 1) {
+                            $_SERVER['SERVER_PORT'] = $host[1];
+                        } elseif ($_SERVER['HTTPS'] === 'on') {
+                            $_SERVER['SERVER_PORT'] = 443;
+                        } else {
+                            $_SERVER['SERVER_PORT'] = 80;
+                        }
+                    }
+                } elseif (!empty($_SERVER['HTTP_X_ORIGINAL_HOST'])) {
+                    $_SERVER['SERVER_NAME'] = $_SERVER['HTTP_X_ORIGINAL_HOST'];
+                }
+                $scheme = ($_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
+                $http_url = "{$scheme}://{$_SERVER['SERVER_NAME']}:{$_SERVER['SERVER_PORT']}{$_SERVER['REQUEST_URI']}";
             }
-            //SPECIAL FOR LTI END
-
             $http_method = ($http_method) ? $http_method : $_SERVER['REQUEST_METHOD'];
 
             // We weren't handed any parameters, so let's find the ones relevant to
             // this request.
             // If you run XML-RPC or similar you should use this to provide your own
             // parsed parameter-list
-            if (!$parameters) {
+
+            if (!$parameters || sizeof($parameters) < 1) {
                 // Find request headers
                 $request_headers = OAuthUtil::get_headers();
 
-                // Parse the query-string to find GET parameters
-                $parameters = OAuthUtil::parse_parameters($_SERVER['QUERY_STRING']);
-
-                // It's a POST request of the proper content-type, so parse POST
-                // parameters and add those overriding any duplicates from GET
-                if ($http_method == "POST"
-                && isset($request_headers['Content-Type'])
-                && strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')
-                ) {
-                    $post_data = OAuthUtil::parse_parameters(
-                        file_get_contents(self::$POST_INPUT)
-                    );
-                    $parameters = array_merge($parameters, $post_data);
+                $parameters = [];
+                if (($http_method === 'POST' && isset($request_headers['Content-Type']) && stristr($request_headers['Content-Type'],
+                            'application/x-www-form-urlencoded')) || !empty($_POST)) {
+                    // It's a POST request of the proper content-type, so parse POST
+                    // parameters and add those overriding any duplicates from GET
+                    $parameters = OAuthUtil::parse_parameters(file_get_contents(self::$POST_INPUT));
                 }
 
                 // We have a Authorization-header with OAuth data. Parse the header
                 // and add those overriding any duplicates from GET or POST
-                if (isset($request_headers['Authorization'])
-                && substr($request_headers['Authorization'], 0, 6) == 'OAuth '
-                ) {
-                    $header_parameters = OAuthUtil::split_header(
-                        $request_headers['Authorization']
-                    );
-                    $parameters = array_merge($parameters, $header_parameters);
+                if (isset($request_headers['Authorization']) && str_starts_with($request_headers['Authorization'], 'OAuth ')) {
+                    $header_parameters = OAuthUtil::split_header($request_headers['Authorization']);
+                    $parameters = OAuthUtil::array_merge_recursive($parameters, $header_parameters);
                 }
             }
 
@@ -456,26 +460,31 @@ if (!class_exists(OAuthRequest::class)) {
         }
 
         /**
-         * pretty much a helper function to set up the request
-         * @param OAuthConsumer   $consumer
-         * @param OAuthToken|null $token
-         * @param string          $http_method
-         * @param string          $http_url
-         * @param array|null      $parameters
+         * Pretty much a helper function to set up the request.
+         *
+         * @param OAuthConsumer $consumer  Consumer
+         * @param OAuthToken|null $token   Token
+         * @param string $http_method      HTTP method
+         * @param string $http_url         HTTP URL
+         * @param array|null $parameters   Request parameters
+         *
          * @return OAuthRequest
          */
-        public static function from_consumer_and_token(OAuthConsumer $consumer, ?OAuthToken $token, string $http_method, string $http_url, ?array $parameters = null): OAuthRequest
+        public static function from_consumer_and_token(OAuthConsumer $consumer, ?OAuthToken $token, string $http_method,
+                                                       string $http_url, ?array $parameters = null): OAuthRequest
         {
             $parameters = ($parameters) ? $parameters : [];
-            $defaults = ["oauth_version" => OAuthRequest::$version,
-                            "oauth_nonce" => OAuthRequest::generate_nonce(),
-                            "oauth_timestamp" => OAuthRequest::generate_timestamp(),
-                            "oauth_consumer_key" => $consumer->key];
+            $defaults = [
+                'oauth_version' => OAuthRequest::$version,
+                'oauth_nonce' => OAuthRequest::generate_nonce(),
+                'oauth_timestamp' => strval(OAuthRequest::generate_timestamp()),
+                'oauth_consumer_key' => $consumer->key]
+            ;
             if ($token) {
                 $defaults['oauth_token'] = $token->key;
             }
 
-            $parameters = array_merge($defaults, $parameters);
+            $parameters = OAuthUtil::array_merge_recursive($defaults, $parameters);
 
             return new OAuthRequest($http_method, $http_url, $parameters);
         }
@@ -615,36 +624,31 @@ if (!class_exists(OAuthRequest::class)) {
         }
 
         /**
-         * builds the Authorization: header
-         * @param string|null $realm
+         * Builds the Authorization: header.
+         *
+         * @param string|null $realm  Realm
+         *
          * @return string
          * @throws OAuthException
          */
         public function to_header(?string $realm = null): string
         {
             $first = true;
-            if (!is_null($realm)) {
-                /** @var string $realm */
-                $realm = OAuthUtil::urlencode_rfc3986($realm);
-                $out = 'Authorization: OAuth realm="' . $realm . '"';
+            if ($realm) {
+                $out = 'Authorization: OAuth realm="' . OAuthUtil::urlencode_rfc3986($realm) . '"';
                 $first = false;
-            } else {
+            } else
                 $out = 'Authorization: OAuth';
-            }
 
             foreach ($this->parameters as $k => $v) {
-                if (substr($k, 0, 5) != "oauth") {
+                if (!str_starts_with($k, 'oauth')) {
                     continue;
                 }
                 if (is_array($v)) {
                     throw new OAuthException('Arrays not supported in headers');
                 }
                 $out .= ($first) ? ' ' : ',';
-                /** @var string $key */
-                $key = OAuthUtil::urlencode_rfc3986($k);
-                /** @var string $value */
-                $value = OAuthUtil::urlencode_rfc3986($v);
-                $out .= $key . '="' . $value . '"';
+                $out .= OAuthUtil::urlencode_rfc3986($k) . '="' . OAuthUtil::urlencode_rfc3986($v) . '"';
                 $first = false;
             }
             return $out;
@@ -727,8 +731,7 @@ if (!class_exists(OAuthServer::class)) {
 
         public function add_signature_method(OAuthSignatureMethod $signature_method): void
         {
-            $this->signature_methods[$signature_method->get_name()] =
-            $signature_method;
+            $this->signature_methods[$signature_method->get_name()] = $signature_method;
         }
 
 
@@ -736,6 +739,7 @@ if (!class_exists(OAuthServer::class)) {
         /**
          * process a request_token request
          * returns the request token on success
+         * @throws OAuthException
          */
         public function fetch_request_token(OAuthRequest &$request): OAuthToken
         {
@@ -759,6 +763,7 @@ if (!class_exists(OAuthServer::class)) {
         /**
          * process an access_token request
          * returns the access token on success
+         * @throws OAuthException
          */
         public function fetch_access_token(OAuthRequest &$request): OAuthToken
         {
@@ -783,6 +788,7 @@ if (!class_exists(OAuthServer::class)) {
          * verify an api call, checks all the parameters
          *
          * @return OAuthConsumer[]|OAuthToken[]
+         * @throws OAuthException
          */
         public function verify_request(OAuthRequest &$request): array
         {
@@ -838,8 +844,8 @@ if (!class_exists(OAuthServer::class)) {
             if (!in_array($signature_method, array_keys($this->signature_methods))) {
                 throw new OAuthException(
                     "Signature method '$signature_method' not supported " .
-                "try one of the following: " .
-                implode(", ", array_keys($this->signature_methods))
+                    "try one of the following: " .
+                    implode(", ", array_keys($this->signature_methods))
                 );
             }
             return $this->signature_methods[$signature_method];
@@ -853,14 +859,18 @@ if (!class_exists(OAuthServer::class)) {
          */
         private function getConsumer(OAuthRequest $request): OAuthConsumer
         {
+            global $DIC;
+            $logger = $DIC->logger()->root();
             $consumer_key = $request->get_parameter("oauth_consumer_key");
 
             if (!$consumer_key) {
+                $logger->error("Consumer key not provided");
                 throw new OAuthException("Invalid consumer key");
             }
 
             $consumer = $this->data_store->lookup_consumer($consumer_key);
             if (!$consumer) {
+                $logger->error("Invalid consumer key");
                 throw new OAuthException("Invalid consumer");
             }
 
@@ -875,11 +885,15 @@ if (!class_exists(OAuthServer::class)) {
          */
         private function getToken(OAuthRequest $request, OAuthConsumer $consumer, string $token_type = "access"): OAuthToken
         {
+            global $DIC;
+            $logger = $DIC->logger()->root();
+
             $token_field = $request->get_parameter('oauth_token');
 
             if (!empty($token_field)) {
                 $token = $this->data_store->lookup_token($consumer, $token_type, $token_field);
                 if (!$token) {
+                    $logger->error("getToken - Token field '$token_field' not found");
                     throw new OAuthException('Invalid ' . $token_type . ' token: ' . $token_field);
                 }
             } else {
@@ -934,7 +948,10 @@ if (!class_exists(OAuthServer::class)) {
          */
         private function checkTimestamp(?int $timestamp): void
         {
+            global $DIC;
+            $logger = $DIC->logger()->root();
             if (!$timestamp) {
+                $logger->error("Missing timestamp parameter. The parameter is required");
                 throw new OAuthException(
                     'Missing timestamp parameter. The parameter is required'
                 );
@@ -943,6 +960,7 @@ if (!class_exists(OAuthServer::class)) {
             // verify that timestamp is recentish
             $now = time();
             if (abs($now - $timestamp) > $this->timestamp_threshold) {
+                $logger->error("Expired timestamp, yours $timestamp, ours $now");
                 throw new OAuthException(
                     "Expired timestamp, yours $timestamp, ours $now"
                 );
@@ -957,7 +975,10 @@ if (!class_exists(OAuthServer::class)) {
          */
         private function checkNonce(OAuthConsumer $consumer, ?OAuthToken $token, string $nonce, int $timestamp): void
         {
+            global $DIC;
+            $logger = $DIC->logger()->root();
             if (!$nonce) {
+                $logger->error("Missing nonce parameter. The parameter is required");
                 throw new OAuthException(
                     'Missing nonce parameter. The parameter is required'
                 );
@@ -971,6 +992,7 @@ if (!class_exists(OAuthServer::class)) {
                 $timestamp
             );
             if ($found) {
+                $logger->error("Nonce already used: $nonce");
                 throw new OAuthException("Nonce already used: $nonce");
             }
         }
@@ -1023,6 +1045,44 @@ if (!class_exists(OAuthUtil::class)) {
             }
         }
 
+        /**
+         * Recursively merge two arrays.
+         *
+         * @param array $array1  First array
+         * @param array $array2  Second array
+         *
+         * @return array
+         */
+        public static function array_merge_recursive(array $array1, array $array2): array
+        {
+            $array = [];
+            foreach ($array1 as $key => $value) {
+                if (!isset($array2[$key])) {
+                    $array[$key] = $value;
+                } elseif (!is_array($value)) {
+                    if (!is_array($array2[$key])) {
+                        $array[$key] = [$value, $array2[$key]];
+                    } else {
+                        $array[$key] = self::array_merge_recursive([$value], $array2[$key]);
+                    }
+                } else {
+                    if (!is_array($array2[$key])) {
+                        $array3 = [$array2[$key]];
+                    } else {
+                        $array3 = $array2[$key];
+                    }
+                    $array[$key] = self::array_merge_recursive($value, $array3);
+                }
+            }
+            foreach ($array2 as $key => $value) {
+                if (!isset($array1[$key])) {
+                    $array[$key] = $value;
+                }
+            }
+
+            return $array;
+        }
+
 
         /**
          * This decode function isn't taking into consideration the above
@@ -1073,7 +1133,7 @@ if (!class_exists(OAuthUtil::class)) {
             if (function_exists('apache_request_headers')) {
                 // we need this to get the actual Authorization: header
                 // because apache tends to tell us it doesn't exist
-                $headers = getallheaders();
+                $headers = apache_request_headers();
 
                 // sanitize the output of apache_request_headers because
                 // we always want the keys to be Cased-Like-This and arh()
@@ -1081,11 +1141,7 @@ if (!class_exists(OAuthUtil::class)) {
                 // request
                 $out = [];
                 foreach ($headers as $key => $value) {
-                    $key = str_replace(
-                        " ",
-                        "-",
-                        ucwords(strtolower(str_replace("-", " ", $key)))
-                    );
+                    $key = str_replace(" ", "-", ucwords(strtolower(str_replace("-", " ", $key))));
                     $out[$key] = $value;
                 }
             } else {
@@ -1098,21 +1154,15 @@ if (!class_exists(OAuthUtil::class)) {
                 if (isset($_ENV['CONTENT_TYPE'])) {
                     $out['Content-Type'] = $_ENV['CONTENT_TYPE'];
                 }
-
                 foreach ($_SERVER as $key => $value) {
-                    if (substr($key, 0, 5) == "HTTP_") {
+                    if (str_starts_with($key, 'HTTP_')) {
                         // this is chaos, basically it is just there to capitalize the first
                         // letter of every word that is not an initial HTTP and strip HTTP
                         // code from przemek
-                        $key = str_replace(
-                            " ",
-                            "-",
-                            ucwords(strtolower(str_replace("_", " ", substr($key, 5))))
-                        );
+                        $key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
                         $out[$key] = $value;
                     }
                 }
-                // The "Authorization" header may get turned into "Auth".
                 if (isset($out['Auth'])) {
                     $out['Authorization'] = $out['Auth'];
                 }
@@ -1122,25 +1172,28 @@ if (!class_exists(OAuthUtil::class)) {
 
 
         /**
+         * Parse parameters.
+         *
          * This function takes a input like a=b&a=c&d=e and returns the parsed
          * parameters like this
-         * array('a' => array('b','c'), 'd' => 'e')
+         * ['a' => ['b','c'], 'd' => 'e']
          *
-         * @return mixed[]
+         * @param string|null $input  Parameter string to be parsed
+         *
+         * @return array
          */
         public static function parse_parameters(?string $input): array
         {
-            if (!isset($input) || $input == "") {
+            if (!isset($input) || !$input)
                 return [];
-            }
 
             $pairs = explode('&', $input);
 
             $parsed_parameters = [];
             foreach ($pairs as $pair) {
                 $split = explode('=', $pair, 2);
-                $parameter = OAuthUtil::urldecode_rfc3986($split[0]);
-                $value = isset($split[1]) ? OAuthUtil::urldecode_rfc3986($split[1]) : '';
+                $parameter = self::urldecode_rfc3986($split[0]);
+                $value = isset($split[1]) ? self::urldecode_rfc3986($split[1]) : '';
 
                 if (isset($parsed_parameters[$parameter])) {
                     // We have already recieved parameter(s) with this name, so add to the list

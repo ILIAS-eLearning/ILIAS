@@ -32,12 +32,9 @@ class HttpMessage
     /**
      * True if message was processed successfully.
      *
-     * @var bool    $ok
+     * @var bool $ok
      */
     public bool $ok = false;
-
-    //UK:added
-    public object $responseJson;
 
     /**
      * Request body.
@@ -49,9 +46,9 @@ class HttpMessage
     /**
      * Request headers.
      *
-     * @var string|array $requestHeaders
+     * @var array $requestHeaders
      */
-    public $requestHeaders = '';
+    public array $requestHeaders = [];
 
     /**
      * Response body.
@@ -63,16 +60,23 @@ class HttpMessage
     /**
      * Response headers.
      *
-     * @var string|array $responseHeaders
+     * @var array $responseHeaders
      */
-    public $responseHeaders = '';
+    public array $responseHeaders = [];
+
+    /**
+     * JSON response body.
+     *
+     * @var object|array|null $responseJson
+     */
+    public object|array|null $responseJson = null;
 
     /**
      * Relative links in response headers.
      *
      * @var array $relativeLinks
      */
-    public array $relativeLinks = array();
+    public array $relativeLinks = [];
 
     /**
      * Status of response (0 if undetermined).
@@ -98,7 +102,7 @@ class HttpMessage
     /**
      * Request method.
      *
-     * @var string $method
+     * @var string|null $method
      */
     private ?string $method = null;
 
@@ -107,17 +111,19 @@ class HttpMessage
      *
      * @var ClientInterface $httpClient
      */
-    private static ?ClientInterface $httpClient = null; //changed ...= null
+    private static ClientInterface $httpClient;
 
     /**
      * Class constructor.
-     * @param string      $url    URL to send request to
-     * @param string      $method Request method to use (optional, default is GET)
-     * @param mixed       $params Associative array of parameter values to be passed or message body (optional, default is none)
-     * @param string|null $header Values to include in the request header (optional, default is none)
+     * @param string $url URL to send request to
+     * @param string $method Request method to use (optional, default is GET)
+     * @param mixed $params Associative array of parameter values to be passed or message body (optional, default is none)
+     * @param array|string|null $header Values to include in the request header (optional, default is none)
      */
-    public function __construct(string $url, string $method = 'GET', $params = null, string $header = null)
+    function __construct(string $url, string $method = 'GET', array|string|null $params = null, array|string|null $header = null)
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $this->url = $url;
         $this->method = strtoupper($method);
         if (is_array($params)) {
@@ -126,8 +132,13 @@ class HttpMessage
             $this->request = $params;
         }
         if (!empty($header)) {
-            $this->requestHeaders = explode("\n", $header);
+            if (is_array($header)) {
+                $this->requestHeaders = $header;
+            } else {
+                $this->requestHeaders = (array)explode("\n", $header);
+            }
         }
+        $logger->info("request headers - __construct httpMessage: ". json_encode($this->requestHeaders));
     }
 
     /**
@@ -164,20 +175,29 @@ class HttpMessage
     /**
      * Get the HTTP client to use for sending the message. If one is not set, a default client is created.
      *
-     * @return StreamClient|CurlClient|ClientInterface|null  The HTTP client
+     * @return ClientInterface|null  The HTTP client
      */
-    public static function getHttpClient()
+    public static function getHttpClient(): ?ClientInterface
     {
-        if (!self::$httpClient) {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+
+        if (empty(self::$httpClient)) {
+            $logger->info("httpClient set to null");
             if (function_exists('curl_init')) {
                 self::$httpClient = new CurlClient();
+                $logger->info("init httpClient curl_init");
             } elseif (ini_get('allow_url_fopen')) {
                 self::$httpClient = new StreamClient();
+                $logger->info("init httpClient StreamClient");
             }
             if (self::$httpClient) {
                 Util::logDebug('HttpClient set to \'' . get_class(self::$httpClient) . '\'');
+                $logger->info('HttpClient set to \'' . get_class(self::$httpClient) . '\'');
             }
         }
+
+        $logger->info("httpClient was already there");
 
         return self::$httpClient;
     }
@@ -185,51 +205,59 @@ class HttpMessage
     /**
      * Send the request to the target URL.
      *
-     * @return bool    True if the request was successful
+     * @return bool  True if the request was successful
      */
     public function send(): bool
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $client = self::getHttpClient();
-        $this->relativeLinks = array();
+        $this->relativeLinks = [];
         if (empty($client)) {
             $this->ok = false;
             $message = 'No HTTP client interface is available';
             $this->error = $message;
             Util::logError($message, true);
+            $logger->info("1. " . $message);
         } elseif (empty($this->url)) {
             $this->ok = false;
             $message = 'No URL provided for HTTP request';
             $this->error = $message;
             Util::logError($message, true);
+            $logger->info("2. " . $message);
         } else {
+            $logger->info("public function send pre --- this->requestHeaders: " . json_encode($this->requestHeaders) . " !empty: " . !empty($this->requestHeaders) ? "true" : "false" );
             $this->ok = $client->send($this);
             $this->parseRelativeLinks();
             if (Util::$logLevel > Util::LOGLEVEL_NONE) {
                 $message = "Http\\HttpMessage->send {$this->method} request to '{$this->url}'";
+                $logger->info("public function send: " . $message . " --- this->requestHeaders: " . json_encode($this->requestHeaders) . " !empty: " . !empty($this->requestHeaders) ? "true" : "false" );
                 if (!empty($this->requestHeaders)) {
-                    $message .= "\n{$this->requestHeaders}";
+                    $message .= "\n" . implode("\n", $this->requestHeaders);
                 }
                 if (!empty($this->request)) {
                     $message .= "\n\n{$this->request}";
                 }
                 $message .= "\nResponse:";
                 if (!empty($this->responseHeaders)) {
-                    $message .= "\n{$this->responseHeaders}";
+                    $message .= "\n" . implode("\n", $this->responseHeaders);
                 }
                 if (!empty($this->response)) {
                     $message .= "\n\n{$this->response}";
                 }
                 if ($this->ok) {
-                    Util::logInfo($message);
+                    Util::logInfo("message: " . $message);
+                    $logger->info("3. " . $message);
                 } else {
                     if (!empty($this->error)) {
                         $message .= "\nError: {$this->error}";
                     }
                     Util::logError($message);
+                    $logger->info("4. " . $message);
                 }
             }
         }
-
+        $logger->info("5 HTTP message send. " . ($this->ok === true ? 'true' : 'false'));
         return $this->ok;
     }
 
@@ -275,16 +303,16 @@ class HttpMessage
     /**
      * Parse the response headers for relative links.
      */
-    private function parseRelativeLinks()
+    private function parseRelativeLinks(): void
     {
-        $matched = preg_match_all('/^(Link|link): *(.*)$/m', $this->responseHeaders, $matches);
+        $matched = preg_match_all('/^(Link|link): *(.*)$/m', implode("\n", $this->responseHeaders), $matches);
         if ($matched) {
             for ($i = 0; $i < $matched; $i++) {
                 $links = explode(',', $matches[2][$i]);
                 foreach ($links as $link) {
                     if (preg_match('/^\<([^\>]+)\>; *rel=([^ ]+)$/', trim($link), $match)) {
-                        $rel = strtolower(utf8_decode($match[2]));
-                        if ((strpos($rel, '"') === 0) || (strpos($rel, '?') === 0)) {
+                        $rel = strtolower(mb_convert_encoding($match[2], 'ISO-8859-1', 'UTF-8'));
+                        if (str_starts_with($rel, '"') || str_starts_with($rel, '?')) {
                             $rel = substr($rel, 1, strlen($rel) - 2);
                         }
                         if ($rel === 'previous') {

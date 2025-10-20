@@ -88,17 +88,29 @@ class ilLTIConsumerResultService
     public function handleRequest(): void
     {
         try {
+
+            global $DIC;
+            $logger = $DIC->logger()->root();
+            $logger->debug('LTI Consumer Result Service: Incoming request');
             // get the request as xml
             $xml = simplexml_load_file('php://input');
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
-            //            $request = current($xml->imsx_POXBody->children());
-            $request = $xml->imsx_POXBody->children()[0];
+            $children = (array) $xml->imsx_POXBody->children();
+            $request = current($children);
+
+            $ns = $xml->getNamespaces(true);
+            $body = $xml->children($ns[''])->imsx_POXBody;
+
+            $logger->info('LTI Consumer Result Service: request loaded');
             $this->operation = str_replace('Request', '', $request->getName());
 
+            $request = $body->replaceResultRequest;
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
+            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
+                $logger->error('LTI Consumer Result Service: Incoming request res' . json_encode($this->result) . " -");
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
                 return;
             }
@@ -108,6 +120,7 @@ class ilLTIConsumerResultService
             $this->readProperties($this->result->obj_id);
 
             if (!$this->isAvailable()) {
+                $logger->error('LTI Consumer Result Service: $this->isAvailable - ');
                 $this->respondUnsupported();
                 return;
             }
@@ -116,10 +129,12 @@ class ilLTIConsumerResultService
             $this->readFields($this->result->obj_id);
             $result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
             if ($result instanceof Exception) {
+                $logger->error('LTI Consumer Result Service: Incoming request - ' . $result->getMessage());
                 $this->respondUnauthorized($result->getMessage());
                 return;
             }
 
+            $logger->info("LTI Consumer Result Service: Request signature verified, this->operation: $this->operation");
             // Dispatch the operation
             switch ($this->operation) {
                 case 'readResult':
@@ -165,15 +180,19 @@ class ilLTIConsumerResultService
      */
     protected function replaceResult(\SimpleXMLElement $request): void
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $result = (string) $request->resultRecord->result->resultScore->textString;
         if (!is_numeric($result)) {
             $code = "failure";
             $severity = "status";
             $description = "The result is not a number.";
+            $logger->error($description . " - result: " . $result);
         } elseif ($result < 0 or $result > 1) {
             $code = "failure";
             $severity = "status";
             $description = "The result is out of range from 0 to 1.";
+            $logger->error($description . " - result: " . $result);
         } else {
             $this->result->result = (float) $result;
             $this->result->save();
@@ -191,6 +210,8 @@ class ilLTIConsumerResultService
             $code = "success";
             $severity = "status";
             $description = sprintf("Score for %s is now %s", $this->result->id, $this->result->result);
+
+            $logger->info($description . " - result: " . $result . " - lp_status: " . $lp_status . " - lp_percentage: " . $lp_percentage);
         }
 
         $response = $this->loadResponse('replaceResult.xml');
@@ -360,19 +381,33 @@ class ilLTIConsumerResultService
      */
     private function checkSignature(string $a_key, string $a_secret)
     {
-        $store = new TrivialOAuthDataStore();
-        $store->add_consumer($a_key, $a_secret);
+
+        $platform = new ilLTIPlatform();
+        global $DIC;
+        $logger = $DIC->logger()->root();
+        $logger->info("Checking signature");
+
+        $platform->setKey($a_key);
+        $platform->setSecret($a_secret);
+        $platform->setRecordId($this->result->obj_id);
+        $store = new \ILIAS\LTI\ToolProvider\OAuthDataStore($platform);
 
         $server = new \ILIAS\LTIOAuth\OAuthServer($store);
         $method = new \ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
+        $request_headers = \ILIAS\LTIOAuth\OAuthUtil::get_headers();
+        if (isset($request_headers['Authorization']) && str_starts_with($request_headers['Authorization'], 'OAuth ')) {
+            $parameters = \ILIAS\LTIOAuth\OAuthUtil::split_header($request_headers['Authorization']);
+        }
 
-        $request = \ILIAS\LTIOAuth\OAuthRequest::from_request();
+        $request = \ILIAS\LTIOAuth\OAuthRequest::from_request(null, null, $parameters ?? []);
         try {
             $server->verify_request($request);
         } catch (Exception $e) {
+            $logger->error($e->getMessage());
             return $e;
         }
+        $logger->info("Getting signature from LTI Consumer checkSignature True");
         return true;
     }
 

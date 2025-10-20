@@ -110,22 +110,16 @@ class ilLTIConsumerLaunch
      *
      * @return array|string	signed data
      */
-    public static function signOAuth(array $a_params)
+    public static function signOAuth(array $a_params): array
     {
         switch ($a_params['sign_method']) {
             case "HMAC_SHA1":
                 $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
                 break;
-            case "PLAINTEXT":
-                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_PLAINTEXT();
-                break;
-                //            case "RSA_SHA1":
-                //                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_RSA_SHA1();
-                //                break;
-
             default:
-                return "ERROR: unsupported signature method!";
+                throw new Exception("Unknown signature method: " . $a_params['sign_method']);
         }
+
         $consumer = new ILIAS\LTIOAuth\OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
         $request = ILIAS\LTIOAuth\OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
         $request->sign_request($method, $consumer, $a_params["token"]);

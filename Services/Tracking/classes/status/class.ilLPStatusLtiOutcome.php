@@ -42,17 +42,27 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         int $a_usr_id,
         object $a_obj = null
     ): int {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
 
         if ($ltiResult instanceof ilLTIConsumerResult) {
             $object = $this->ensureObject($a_obj_id, $a_obj);
             $ltiMasteryScore = $object->getMasteryScore();
+            //dump($ltiResult);exit();
+            $logger->info("Getting LTI result for user $a_usr_id: " . $ltiResult->getResult());
 
-            if ($ltiResult->getResult() >= $ltiMasteryScore) {
+            if ($ltiResult->getResult() === 0) {
+                return self::LP_STATUS_FAILED_NUM;
+            } elseif (is_null($ltiResult->getResult())) {
+                return self::LP_STATUS_NOT_ATTEMPTED_NUM;
+            } elseif ($ltiResult->getResult() >= $ltiMasteryScore) {
                 return self::LP_STATUS_COMPLETED_NUM;
+            } else {
+                return self::LP_STATUS_FAILED_NUM;
             }
-
-            return self::LP_STATUS_IN_PROGRESS_NUM;
+        } else {
+            $logger->info("No LTI result for user $a_usr_id");
         }
 
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
