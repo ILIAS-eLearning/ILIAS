@@ -95,11 +95,6 @@ class StandardGUIRequest
         return trim($this->str("file"));
     }
 
-    public function getBackUrl(): string
-    {
-        return trim($this->str("back_url"));
-    }
-
     public function getPortfolioPageId(): int
     {
         return $this->int("ppage");
