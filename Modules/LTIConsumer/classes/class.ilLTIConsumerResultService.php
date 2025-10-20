@@ -106,7 +106,6 @@ class ilLTIConsumerResultService
 
             $request = $body->replaceResultRequest;
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
-            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
@@ -182,6 +181,7 @@ class ilLTIConsumerResultService
     {
         global $DIC;
         $logger = $DIC->logger()->root();
+        $logger->info('LTI Consumer Result Service: Replacing result: ' . json_encode($request->resultRecord->result->resultScore));
         $result = (string) $request->resultRecord->result->resultScore->textString;
         if (!is_numeric($result)) {
             $code = "failure";
@@ -195,12 +195,13 @@ class ilLTIConsumerResultService
             $logger->error($description . " - result: " . $result);
         } else {
             $this->result->result = (float) $result;
+            $this->result->setAttended(true);
             $this->result->save();
 
             if ($result >= $this->getMasteryScore()) {
                 $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } else {
-                $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
             }
             $lp_percentage = (int) round(100 * $result);
 
@@ -232,9 +233,10 @@ class ilLTIConsumerResultService
     protected function deleteResult(\SimpleXMLElement $request): void
     {
         $this->result->result = null;
+        $this->result->setAttended(false);
         $this->result->save();
 
-        $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+        $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         $lp_percentage = 0;
         ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
 

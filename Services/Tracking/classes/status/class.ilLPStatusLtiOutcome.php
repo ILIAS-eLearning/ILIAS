@@ -52,9 +52,9 @@ class ilLPStatusLtiOutcome extends ilLPStatus
             //dump($ltiResult);exit();
             $logger->info("Getting LTI result for user $a_usr_id: " . $ltiResult->getResult());
 
-            if ($ltiResult->getResult() === 0) {
+            if ($ltiResult->getResult() === 0 || is_null($ltiResult->getResult()) && $ltiResult->isAttended()) {
                 return self::LP_STATUS_FAILED_NUM;
-            } elseif (is_null($ltiResult->getResult())) {
+            } elseif (is_null($ltiResult->getResult()) && !$ltiResult->isAttended()) {
                 return self::LP_STATUS_NOT_ATTEMPTED_NUM;
             } elseif ($ltiResult->getResult() >= $ltiMasteryScore) {
                 return self::LP_STATUS_COMPLETED_NUM;
