@@ -57,7 +57,7 @@ class PersonalSettingsTableShowAction implements TableAction
         URLBuilderToken $action_type_token
     ): Action {
         return $this->ui_factory->table()->action()->single(
-            $this->lng->txt('additional_info'),
+            $this->lng->txt('personal_settings_show'),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
                 ->withParameter($action_type_token, ParticipantTableActions::SHOW_ACTION),

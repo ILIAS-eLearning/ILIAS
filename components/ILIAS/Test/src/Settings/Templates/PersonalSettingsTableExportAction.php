@@ -52,7 +52,7 @@ class PersonalSettingsTableExportAction implements TableAction
         URLBuilderToken $action_type_token
     ): Action {
         return $this->ui_factory->table()->action()->single(
-            $this->lng->txt('export'),
+            $this->lng->txt('personal_settings_export'),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
                 ->withParameter($action_type_token, ParticipantTableActions::SUBMIT_ACTION),

@@ -1014,22 +1014,29 @@ assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#percentage#:#Prozentsatz
 assessment#:#percentage_points_achieved#:#Erreichte Punkte
 assessment#:#percentile#:#Perzentil
-assessment#:#personal_settings#:#Persönliche Testeinstellungsvorlagen
+assessment#:#personal_settings_apply#:#Einstellungsvorlage anwenden
 assessment#:#personal_settings_apply_changed_confirmation#:#Die aktuellen Testeinstellungen werden mit den Einstellungen der ausgewählten Vorlage überschrieben. Damit wird auch die Auswahl der Testfragen überschrieben. Der Vorgang kann nicht rückgängig gemacht werden!
 assessment#:#personal_settings_apply_confirmation#:#Die aktuellen Testeinstellungen werden mit den Einstellungen der ausgewählten Vorlage überschrieben. Dieser Vorgang kann nicht rückgängig gemacht werden!
 assessment#:#personal_settings_apply_description#:#Diese Vorlage überschreibt alle Einstellungen des Tests '%s'.
 assessment#:#personal_settings_apply_not_possible#:#ILIAS konnte die ausgewählte Vorlage nicht auf diesen Test anwenden! Möglicherweise enthält dieser Test bereits Teilnehmerdatensätze.
 assessment#:#personal_settings_apply_success#:#Die persönlichen Testeinstellungen wurden erfolgreich angewendet.
+assessment#:#personal_settings_author#:#Erstellt von
 assessment#:#personal_settings_create#:#Einstellungsvorlage hinzufügen
 assessment#:#personal_settings_delete_confirmation#:#Die ausgewählte Vorlage(n) wird/werden dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
 assessment#:#personal_settings_delete_success#:#Die ausgewählte Vorlage(n) wurde/werden gelöscht.
+assessment#:#personal_settings_description#:#Vorlagenbeschreibung
 assessment#:#personal_settings_explanation#:#ILIAS speichert die Einstellungen des aktuellen Tests in einer Vorlage. Diese Vorlage kann verwendet werden, um die Einstellungen auf einen anderen Test zu übertragen.
+assessment#:#personal_settings_export#:#Einstellungsvorlage exportieren
 assessment#:#personal_settings_import#:#Einstellungsvorlage importieren
 assessment#:#personal_settings_import_success#:#Die Vorlage wurde erfolgreich importiert.
 assessment#:#personal_settings_invalid_selection#:#Bitte wählen Sie eine Vorlage aus.
+assessment#:#personal_settings_name#:#Vorlagentitel
+assessment#:#personal_settings_required_author#:#Bitte geben Sie einen Autor für Ihre Vorlage ein.
 assessment#:#personal_settings_required_title#:#Bitte geben Sie einen Titel für Ihre Vorlage ein.
 assessment#:#personal_settings_save#:#Neue Einstellungsvorlage speichern
-assessment#:#personal_settings_templates_available#:#Testeinstellungsvorlagen
+assessment#:#personal_settings_show#:#Einstellungsvorlage anzeigen
+assessment#:#personal_settings_templates_available#:#Persönliche Testeinstellungsvorlagen
+assessment#:#personal_settings_timestamp#:#Erstellt am
 assessment#:#picture#:#Bild
 assessment#:#point#:#Punkt
 assessment#:#points#:#Punkte

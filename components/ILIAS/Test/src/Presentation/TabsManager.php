@@ -68,7 +68,7 @@ class TabsManager
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';
     public const SETTINGS_SUBTAB_ID_ASSIGN_SKILL_TRESHOLDS = 'tst_skl_sub_tab_thresholds';
     public const SETTINGS_SUBTAB_ID_ASSIGN_SKILLS_TO_QUESTIONS = 'qpl_skl_sub_tab_quest_assign';
-    private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'personal_settings';
+    private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'personal_settings_templates_available';
 
     private const QUESTIONS_SUBTAB_ID_RANDOM_SETTINGS = 'tst_rnd_quest_cfg_tab_general';
     private const QUESTIONS_SUBTAB_ID_RANDOM_POOLS = 'tst_rnd_quest_cfg_tab_pool';

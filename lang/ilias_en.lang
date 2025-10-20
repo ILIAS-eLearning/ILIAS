@@ -1014,22 +1014,29 @@ assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
 assessment#:#percentage_points_achieved#:#Reached Points
 assessment#:#percentile#:#Percentile
-assessment#:#personal_settings#:#Personal Test Settings Templates
+assessment#:#personal_settings_apply#:#Apply Settings Template
 assessment#:#personal_settings_apply_changed_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!
 assessment#:#personal_settings_apply_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!
 assessment#:#personal_settings_apply_description#:#This template overrides all settings of test '%s'.
 assessment#:#personal_settings_apply_not_possible#:#ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets.
 assessment#:#personal_settings_apply_success#:#Personal Test Settings have been applied successfully.
+assessment#:#personal_settings_author#:#Created by
 assessment#:#personal_settings_create#:#Add New Setting Template
 assessment#:#personal_settings_delete_confirmation#:#The selected template(s) will be permanently deleted. This cannot be undone.
 assessment#:#personal_settings_delete_success#:#The selected template(s) have been deleted.
+assessment#:#personal_settings_description#:#Template Description
 assessment#:#personal_settings_explanation#:#ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test.
+assessment#:#personal_settings_export#:#Export Settings Template
 assessment#:#personal_settings_import#:#Import Setting Templates
 assessment#:#personal_settings_import_success#:#The template was imported successfully.
 assessment#:#personal_settings_invalid_selection#:#Please select one template.
+assessment#:#personal_settings_name#:#Template Title
+assessment#:#personal_settings_required_author#:#Please enter an author for your template.
 assessment#:#personal_settings_required_title#:#Please enter a title for your template.
 assessment#:#personal_settings_save#:#Save New Setting Template
-assessment#:#personal_settings_templates_available#:#Test Setting Templates
+assessment#:#personal_settings_show#:#Show Template Details
+assessment#:#personal_settings_templates_available#:#Personal Test Settings Templates
+assessment#:#personal_settings_timestamp#:#Creation Date
 assessment#:#picture#:#Picture
 assessment#:#point#:#Point
 assessment#:#points#:#Points

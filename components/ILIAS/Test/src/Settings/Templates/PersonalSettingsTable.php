@@ -74,17 +74,17 @@ class PersonalSettingsTable implements DataRetrieval
         $date_format = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->standard());
 
         return [
-            'name' => $column_factory->text($this->lng->txt('title')),
-            'author' => $column_factory->text($this->lng->txt('author')),
-            'description' => $column_factory->text($this->lng->txt('description'))->withIsSortable(false),
-            'timestamp' => $column_factory->date($this->lng->txt('create_date'), $date_format),
+            'name' => $column_factory->text($this->lng->txt('personal_settings_name')),
+            'description' => $column_factory->text($this->lng->txt('personal_settings_description'))->withIsSortable(false),
+            'timestamp' => $column_factory->date($this->lng->txt('personal_settings_timestamp'), $date_format),
+            'author' => $column_factory->text($this->lng->txt('personal_settings_author'))
         ];
     }
 
     public function getComponent(): DataTable
     {
         return $this->ui_factory->table()
-            ->data($this, $this->lng->txt('personal_settings'), $this->getColumns())
+            ->data($this, $this->lng->txt('personal_settings_templates_available'), $this->getColumns())
             ->withRequest($this->test_request->getRequest())
             ->withActions($this->table_actions->getActions(...$this->acquireParameters()))
             ->withOrder(new Order('timestamp', Order::DESC))

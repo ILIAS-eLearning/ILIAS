@@ -41,6 +41,7 @@ class PersonalSettingsCreateAction
 
         $inputs = [
             'name' => $input_factory->field()->text($this->lng->txt('title'))
+                ->withLabel($this->lng->txt('title'))
                 ->withRequired(true),
             'author' => $input_factory->field()->text($this->lng->txt('author'))
                 ->withRequired(true)
@@ -62,18 +63,26 @@ class PersonalSettingsCreateAction
 
     public function perform(int $test_id, ServerRequestInterface $request): void
     {
-        $data = $this->buildInput('')->withRequest($request)->getData();
+        $container = $this->buildInput('')->withRequest($request);
+        $data = $container->getData();
 
-        $name = $data['name'] ?? '';
-        if ($name === '') {
-            throw new \InvalidArgumentException('personal_settings_required_title');
+        if ($data === null) {
+            $inputs = $container->getInputs();
+
+            if ($inputs['name']->getValue() === '') {
+                throw new \InvalidArgumentException('personal_settings_required_title');
+            }
+
+            if ($inputs['author']->getValue() === '') {
+                throw new \InvalidArgumentException('personal_settings_required_author');
+            }
         }
 
         $this->repository->createTemplateFor(
             $test_id,
-            $name,
+            $data['name'],
             $data['description'] ?? '',
-            $data['author'] ?? ''
+            $data['author']
         );
     }
 }

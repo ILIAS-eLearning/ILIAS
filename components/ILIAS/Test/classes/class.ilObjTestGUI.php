@@ -1399,15 +1399,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         exit;
     }
 
-    public function retrieveAdditionalDidacticTemplateOptions(): array
-    {
-        $additional_options = [];
-        foreach ($this->personal_settings_templates_repository->getTemplatesForUser() as $template) {
-            $additional_options["tstdef_{$template->getId()}"] = [$template->getName(), $this->lng->txt('personal_settings')];
-        }
-        return $additional_options;
-    }
-
     /**
     * save object
     * @access	public

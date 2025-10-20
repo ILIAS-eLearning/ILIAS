@@ -74,6 +74,10 @@ trait PropertyNormalizer
             return $value->format(\DateTimeInterface::ATOM);
         }
 
+        if ($value instanceof \BackedEnum) {
+            return $value->value;
+        }
+
         if ($value instanceof Normalizable) {
             return $value->normalize();
         }
@@ -183,6 +187,11 @@ trait PropertyNormalizer
                     ) {
                         return $type_name::denormalize($value);
                     }
+
+                    if (class_exists($type_name) && is_subclass_of($type_name, \BackedEnum::class)) {
+                        return $type_name::from($value);
+                    }
+
                     return $value;
             }
         }

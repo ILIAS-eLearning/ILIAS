@@ -58,7 +58,7 @@ class PersonalSettingsTableApplyAction implements TableAction
         URLBuilderToken $action_type_token
     ): Action {
         return $this->ui_factory->table()->action()->single(
-            $this->lng->txt('apply'),
+            $this->lng->txt('personal_settings_apply'),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
                 ->withParameter($action_type_token, ParticipantTableActions::SHOW_ACTION),
