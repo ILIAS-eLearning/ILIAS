@@ -262,7 +262,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
                 (int) $consumer
             );
 
-            $logger->info('Resources for update: ' . dump($resources));
+            $logger->debug('Resources for update: ' . dump($resources));
 
             foreach ($resources as $resource) {
                 // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);

@@ -2092,14 +2092,12 @@ EOD;
                 if (!Tool::$authenticateUsingGet) {
                     $this->output = Util::sendForm($this->platform->authenticationUrl, $params);
                 } else {
-                    //dump($this->platform->authenticationUrl, $redirectUri);exit();
                     Util::redirect($this->platform->authenticationUrl, $params);
                 }
             } else {
                 $this->reason = 'Unable to generate a state value.';
             }
         }
-        //dump($ok);exit();
         return $ok;
     }
 

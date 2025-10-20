@@ -138,7 +138,6 @@ class HttpMessage
                 $this->requestHeaders = (array)explode("\n", $header);
             }
         }
-        $logger->info("request headers - __construct httpMessage: ". json_encode($this->requestHeaders));
     }
 
     /**
@@ -209,8 +208,6 @@ class HttpMessage
      */
     public function send(): bool
     {
-        global $DIC;
-        $logger = $DIC->logger()->root();
         $client = self::getHttpClient();
         $this->relativeLinks = [];
         if (empty($client)) {
@@ -218,20 +215,16 @@ class HttpMessage
             $message = 'No HTTP client interface is available';
             $this->error = $message;
             Util::logError($message, true);
-            $logger->info("1. " . $message);
         } elseif (empty($this->url)) {
             $this->ok = false;
             $message = 'No URL provided for HTTP request';
             $this->error = $message;
             Util::logError($message, true);
-            $logger->info("2. " . $message);
         } else {
-            $logger->info("public function send pre --- this->requestHeaders: " . json_encode($this->requestHeaders) . " !empty: " . !empty($this->requestHeaders) ? "true" : "false" );
             $this->ok = $client->send($this);
             $this->parseRelativeLinks();
             if (Util::$logLevel > Util::LOGLEVEL_NONE) {
                 $message = "Http\\HttpMessage->send {$this->method} request to '{$this->url}'";
-                $logger->info("public function send: " . $message . " --- this->requestHeaders: " . json_encode($this->requestHeaders) . " !empty: " . !empty($this->requestHeaders) ? "true" : "false" );
                 if (!empty($this->requestHeaders)) {
                     $message .= "\n" . implode("\n", $this->requestHeaders);
                 }
@@ -247,17 +240,14 @@ class HttpMessage
                 }
                 if ($this->ok) {
                     Util::logInfo("message: " . $message);
-                    $logger->info("3. " . $message);
                 } else {
                     if (!empty($this->error)) {
                         $message .= "\nError: {$this->error}";
                     }
                     Util::logError($message);
-                    $logger->info("4. " . $message);
                 }
             }
         }
-        $logger->info("5 HTTP message send. " . ($this->ok === true ? 'true' : 'false'));
         return $this->ok;
     }
 
