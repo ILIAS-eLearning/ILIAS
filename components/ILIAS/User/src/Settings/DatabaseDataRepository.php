@@ -126,21 +126,17 @@ class DatabaseDataRepository implements DataRepository
                 $login_data_column_name,
                 sprintf(
                     "(CASE WHEN ({$firstname_data_column_name} IS NOT NULL" . PHP_EOL
-                    . 'AND (profilevisibility.value = %s OR profilevisibility.value = %s)' . PHP_EOL
-                    . 'AND firstnamevisibility.value = %s)' . PHP_EOL
+                    . 'AND (profilevisibility.value = %s OR profilevisibility.value = %s))' . PHP_EOL
                     . "THEN {$firstname_data_column_name} ELSE '' END) {$firstname_data_column_name}",
                     $this->db->quote('y', \ilDBConstants::T_TEXT),
-                    $this->db->quote('g', \ilDBConstants::T_TEXT),
-                    $this->db->quote('y', \ilDBConstants::T_TEXT)
+                    $this->db->quote('g', \ilDBConstants::T_TEXT)
                 ),
                 sprintf(
                     "(CASE WHEN ({$lastname_data_column_name} IS NOT NULL" . PHP_EOL
-                    . 'AND (profilevisibility.value = %s OR profilevisibility.value = %s)' . PHP_EOL
-                    . 'AND lastnamevisibility.value = %s)' . PHP_EOL
+                    . 'AND (profilevisibility.value = %s OR profilevisibility.value = %s))' . PHP_EOL
                     . "THEN {$lastname_data_column_name} ELSE '' END) {$lastname_data_column_name}",
                     $this->db->quote('y', \ilDBConstants::T_TEXT),
-                    $this->db->quote('g', \ilDBConstants::T_TEXT),
-                    $this->db->quote('y', \ilDBConstants::T_TEXT)
+                    $this->db->quote('g', \ilDBConstants::T_TEXT)
                 ),
                 sprintf(
                     "(CASE WHEN ({$primary_email_data_column_name} IS NOT NULL" . PHP_EOL
