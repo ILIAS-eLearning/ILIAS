@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#Proprietati generale
 assessment#:#tst_header_participant#:#Result:###24 10 2013 new variable
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Correct solution:###24 10 2013 new variable
-assessment#:#tst_heading_scoring#:#Scoring ### 2006-8-11 --- Add new translation here.
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#Nu exista nici o definitie a notelor, va rug
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!###07 11 2014 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Va rugam selectati cel putin o intrebare pentru a o sterge!
 assessment#:#tst_no_scorable_qst_available#:#No scorable question available###24 10 2013 new variable
-assessment#:#tst_no_tries#:#Nici o incercare
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.###25 10 2016 new variable
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###10 11 2018 new variable
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools###25 10 2016 new variable
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#the manual scoring for 
 assessment#:#tst_nr_of_passes#:#Number of Test Passes###25 02 2007 new variable
 assessment#:#tst_nr_of_tries#:#Numarul maxim de incercari###23 Dec 2005 content changed
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.###07 11 2014 new variable
-assessment#:#tst_nr_of_tries_of_user#:#Incercari deja completate###23 Dec 2005 content changed
 assessment#:#tst_num_all_questions#:#Number of All Questions###07 11 2014 new variable
 assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions###07 11 2014 new variable
 assessment#:#tst_num_non_answered_questions_notseen#:#Non Answered Questions (never seen)###30 08 2015 new variable
@@ -1883,16 +1880,12 @@ assessment#:#tst_score_cut_question_desc#:#Participants may score negative resul
 assessment#:#tst_score_cut_test#:#Cut negative points for the sum of all question results###10 Jul 2006 new variable
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.###27 01 2015 new variable
 assessment#:#tst_score_cutting#:#Cut negative points###10 Jul 2006 new variable
-assessment#:#tst_score_reporting#:#Afisarea rezultatelor
-assessment#:#tst_score_reporting_date#:#Data afisarii rezultatelor
 assessment#:#tst_search_users#:#Add fixed participants###16 07 2010 new variable
 assessment#:#tst_select_questionpool#:#Va rugam selectati o baza de intrebari in care sa salvati intrebarea creata
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully###06 Nov 2005 new variable
-assessment#:#tst_sequence#:#Secventa
 assessment#:#tst_sequence_fixed#:#Secventa de intrebari este fixa
 assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass###29 05 2007 new variable
 assessment#:#tst_sequence_properties#:#Proprietatile secventei
-assessment#:#tst_session_settings#:#Setarile sesiunii
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###24 10 2013 new variable
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.###28 08 2012 new variable
 assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints###28 08 2012 new variable

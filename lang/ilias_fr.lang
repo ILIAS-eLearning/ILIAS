@@ -1475,7 +1475,6 @@ assessment#:#tst_general_properties#:#Paramètres Généraux
 assessment#:#tst_header_participant#:#Résultat :
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Solution correcte :
-assessment#:#tst_heading_scoring#:#Notation
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###31 10 2023 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###31 10 2023 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 10 2023 new variable
@@ -1630,7 +1629,6 @@ assessment#:#tst_no_marks_defined#:#Aucune appréciation n'est définie. Veuille
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Veuillez choisir au moins une question à  ajouter à  un groupe de questions !
 assessment#:#tst_no_question_selected_for_removal#:#Veuillez sélectionner au moins une question à  retirer.
 assessment#:#tst_no_scorable_qst_available#:#Aucune question évaluable disponible
-assessment#:#tst_no_tries#:#aucun
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Ce pool de questions n’est plus disponible. Il n’est plus possible de synchroniser des questions de ce pool. Vous pouvez obtenir un nouveau pool de questions à partir des questions contenues dans ce test.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#Ce pool de questions est jeté à la corbeille lorsqu'il est retiré du système de façon permanente. Le test n’est plus capable de synchroniser des questions à partir de ce pool.
 assessment#:#tst_non_avail_pools_table#:#Pools de questions non disponibles
@@ -1643,7 +1641,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#La notation manuelle du
 assessment#:#tst_nr_of_passes#:#Nombre de tentatives
 assessment#:#tst_nr_of_tries#:#Nombre Max. d'Essais
 assessment#:#tst_nr_of_tries_desc#:#Nombre maximum d'essai qu'un participant peut tenter.
-assessment#:#tst_nr_of_tries_of_user#:#Tentatives
 assessment#:#tst_num_all_questions#:#Nombre total de questions
 assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
 assessment#:#tst_num_non_answered_questions_notseen#:#Non Answered Questions (never seen)
@@ -1868,16 +1865,10 @@ assessment#:#tst_score_cut_question_desc#:#Les participants peuvent obtenir une 
 assessment#:#tst_score_cut_test#:#Ne pas comptabiliser les points négatifs dans le total de l'ensemble des questions
 assessment#:#tst_score_cut_test_desc#:#Les participants peuvent obtenir des points négatifs dans les questions. Les points obtenus pour toutes les questions sont cumulés. Le résultat global sera réglé sur 0 point uniquement si le résultat global du test est négatif. Avec ce réglage, les points négatifs ont beaucoup d’importance.
 assessment#:#tst_score_cutting#:#Ne pas comptabiliser les points négatifs
-assessment#:#tst_score_reporting#:#Communication des scores
-assessment#:#tst_score_reporting_date#:#Date de communication des scores
 assessment#:#tst_search_users#:#Rechercher des utilisateurs
 assessment#:#tst_select_questionpool#:#Veuillez choisir une banque de questions pour stocker la question créée
 assessment#:#tst_selected_user_data_deleted#:#Les données du test des utilisateurs sélectionnés ont été correctement effacées.
-assessment#:#tst_sequence#:#Séquence
-assessment#:#tst_sequence_fixed#:#La séquence de questions est fixée
-assessment#:#tst_sequence_postpone#:#Les questions peuvent être reportées à la fin du test
 assessment#:#tst_sequence_properties#:#Paramètres de Séquencement
-assessment#:#tst_session_settings#:#Paramètres de Session
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Le test a été mis hors-ligne car le mode de test a été modifié. Vous devez choisir une configuration avant de pouvoir mettre le test en-ligne.
 assessment#:#tst_setting_offer_hints_info#:#Lorsque activé, des indices peuvent être proposés pour certaines questions.
 assessment#:#tst_setting_offer_hints_label#:#Questions avec Indices

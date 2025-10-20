@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#Opće postavke
 assessment#:#tst_header_participant#:#Vaš odgovor:
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Najbolje moguće rješenje:
-assessment#:#tst_heading_scoring#:#Broj bodova
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#Nema definiranih ocjena. Molimo izradite bar
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Molimo izaberite barem jedno pitanje koje želite dodati u bazen pitanja!
 assessment#:#tst_no_question_selected_for_removal#:#Molimo odaberite najmanje jedno pitanje za uklanjanje!
 assessment#:#tst_no_scorable_qst_available#:#Nije dostupno nijedno pitanje za ručno ocjenjivanje
-assessment#:#tst_no_tries#:#nema
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Ovaj bazen pitanja više nije dostupan Sinkronizacija pitanja iz ovog bazena više nije moguća. Iz pitanja koja se već nalaze u testu možete izvesti novi bazen pitanja.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#Ovaj bazen pitanja je u košu za smeće. Ako se trajno ukloni iz sustava, test više neće biti u stanju sinkronizirati pitanja iz ovoga bazena.
 assessment#:#tst_non_avail_pools_table#:#Bazeni pitanja koji nisu dostupni
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Vaš je test ocijenjen 
 assessment#:#tst_nr_of_passes#:#Broja prolaza testa
 assessment#:#tst_nr_of_tries#:#Maks. broj prolaza
 assessment#:#tst_nr_of_tries_desc#:#Maksimalni broj prolaza koje sudionik može apsolvirati.
-assessment#:#tst_nr_of_tries_of_user#:#Već provedeni prolazi testa
 assessment#:#tst_num_all_questions#:#Broj sva pitanja
 assessment#:#tst_num_correct_answered_questions#:#Ispravno odgovoreno
 assessment#:#tst_num_non_answered_questions_notseen#:#Još nije pregledano
@@ -1883,16 +1880,10 @@ assessment#:#tst_score_cut_question_desc#:#Kod dodjele negativnih bodova za poje
 assessment#:#tst_score_cut_test#:#Negativan rezultat za cjelokupni test postavljen je na ‘0 bodova’
 assessment#:#tst_score_cut_test_desc#:#Po pitanju se mogu ostvariti negativni bodovi, Bodovi ostvarenih kod svih pitanja se zbrajaju. Ukupni rezultat postavit će se na 0 bodova samo ako je ukupan rezultat testa negativan. S ovom postavkom negativni bodovi imaju veliki značaj.
 assessment#:#tst_score_cutting#:#Negativni bodovi
-assessment#:#tst_score_reporting#:#Izvješće s rezultatima
-assessment#:#tst_score_reporting_date#:#Datum izvješća s rezultatima
 assessment#:#tst_search_users#:#Pretraži sudionike
 assessment#:#tst_select_questionpool#:#Molimo odaberite bazen pitanja u koji želite spremiti izrađeno pitanje
 assessment#:#tst_selected_user_data_deleted#:#Podaci o testu odabranog(ih) korisnika uspješno su uklonjeni
-assessment#:#tst_sequence#:#Redoslijed
-assessment#:#tst_sequence_fixed#:#Redoslijed pitanja je fiksan
-assessment#:#tst_sequence_postpone#:#Pitanja se mogu pomaknuti na kraj prolaza testa
 assessment#:#tst_sequence_properties#:#Provedba testa: Funkcionalnosti koje su dostupne sudionicim
-assessment#:#tst_session_settings#:#Postavke sesije
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Test je postavljen offline, jer je postavka načina rada testa promijenjena. Morate dodijeliti pitanja za test prije nego što ga opet možete postaviti online.
 assessment#:#tst_setting_offer_hints_info#:#Sudionici mogu zatražiti savjete kako bi odgovorili na pitanje. Sa svakim savjetom smanjuju se bodovi za točan odgovor.
 assessment#:#tst_setting_offer_hints_label#:#Savjeti (hints)

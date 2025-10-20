@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#Inställningar för testet
 assessment#:#tst_header_participant#:#Ditt svar
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Bästa möjliga lösning
-assessment#:#tst_heading_scoring#:#Rating
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###21 11 2023 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###21 11 2023 new variable
 assessment#:#tst_hide_pagecontents#:# Dölj sidans innehåll
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#Det finns inga noter definierade. Vänligen 
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Välj minst en fråga som du vill överföra till en frågepool!
 assessment#:#tst_no_question_selected_for_removal#:#Välj minst en fråga att ta bort!
 assessment#:#tst_no_scorable_qst_available#:#Ingen manuellt bedömbar fråga tillgänglig
-assessment#:#tst_no_tries#:#Ingen
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Den här<b>frågepoolen är inte längre tillgänglig.</b><br />Det går inte längre att synkronisera frågor från den här frågepoolen. Du kan härleda en ny frågepool från de frågor som redan finns i testet.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Frågepoolen är i papperskorgen.</b><br />Om den tas bort permanent från systemet kan testet inte återsynkronisera frågorna från denna pool.
 assessment#:#tst_non_avail_pools_table#:#Inte tillgängliga frågepooler
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#den manuella bedömning
 assessment#:#tst_nr_of_passes#:#Antal testkörningar
 assessment#:#tst_nr_of_tries#:#Maximalt antal testkörningar
 assessment#:#tst_nr_of_tries_desc#:#Maximalt antal testkörningar som en deltagare kan genomföra.
-assessment#:#tst_nr_of_tries_of_user#:#Testkörningar som redan har genomförts
 assessment#:#tst_num_all_questions#:#Antal av alla frågor
 assessment#:#tst_num_correct_answered_questions#:#Rätt besvarad
 assessment#:#tst_num_non_answered_questions_notseen#:#Ännu inte visad
@@ -1883,16 +1880,12 @@ assessment#:#tst_score_cut_question_desc#:#Vid tilldelning av minuspoäng för e
 assessment#:#tst_score_cut_test#:#En fråga kan också ha en negativ poäng.
 assessment#:#tst_score_cut_test_desc#:#Minuspoäng kan erhållas per fråga. Poängen för alla frågor läggs ihop och endast om denna summa fortfarande är negativ, sätts det totala resultatet av testet till 0 poäng. Helt eller delvis felaktigt besvarade frågor väger därför mycket tungt.
 assessment#:#tst_score_cutting#:#Negativa punkter
-assessment#:#tst_score_reporting#:#Utgående resultat
-assessment#:#tst_score_reporting_date#:#Datum för utmatning av resultat
 assessment#:#tst_search_users#:#Sök efter deltagare
 assessment#:#tst_select_questionpool#:#Välj en frågepool där du kommer att lagra den skapade frågan!
 assessment#:#tst_selected_user_data_deleted#:#Testdata för de valda användarna har raderats framgångsrikt.
-assessment#:#tst_sequence#:#Beställ
 assessment#:#tst_sequence_fixed#:#Ordningen på frågorna måste följas.
 assessment#:#tst_sequence_postpone#:#Frågor kan skjutas upp till slutet av en testkörning.
 assessment#:#tst_sequence_properties#:#Utförande
-assessment#:#tst_session_settings#:#Utförande
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Testet har satts offline eftersom inställningen för val av testfrågor har ändrats. Tilldela frågor till testet igen. Du kan sedan sätta testet online igen.
 assessment#:#tst_setting_offer_hints_info#:#Deltagare kan begära ledtrådar för att svara på en fråga. För varje ledtråd som ges minskas poängen för det korrekta svaret.
 assessment#:#tst_setting_offer_hints_label#:#Tips på lösningar

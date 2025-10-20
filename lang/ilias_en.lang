@@ -1505,7 +1505,6 @@ assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_header_participant#:#Question and your answer:
 assessment#:#tst_header_participant_no_answer#:#Question - not answered
 assessment#:#tst_header_solution#:#Best Solution:
-assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_info_tab#:#Hide Info Tab
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.
 assessment#:#tst_hide_pagecontents#:#Hide page content
@@ -1658,7 +1657,6 @@ assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_scorable_qst_available#:#No question to score available
-assessment#:#tst_no_tries#:#none
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools
@@ -1671,7 +1669,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been grad
 assessment#:#tst_nr_of_passes#:#Number of Test Attempts
 assessment#:#tst_nr_of_tries#:#Max. Number of Attempts
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
-assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_num_all_questions#:#Number of All Questions
 assessment#:#tst_num_correct_answered_questions#:#Answered Correctly
 assessment#:#tst_num_non_answered_questions_notseen#:#Not Presented, Yet
@@ -1849,16 +1846,10 @@ assessment#:#tst_score_cut_question_desc#:#Participants may score negative resul
 assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.
 assessment#:#tst_score_cutting#:#Negative Points
-assessment#:#tst_score_reporting#:#Score Reporting
-assessment#:#tst_score_reporting_date#:#Score Reporting Date
 assessment#:#tst_search_users#:#Search Participants
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was removed successfully
-assessment#:#tst_sequence#:#Sequence
-assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
-assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test attempt
 assessment#:#tst_sequence_properties#:#Administering the Test: Functionality Available to Participants
-assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".

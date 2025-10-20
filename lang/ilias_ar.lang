@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#الخصائص العامة
 assessment#:#tst_header_participant#:#Result:###24 10 2013 new variable
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Correct solution:###24 10 2013 new variable
-assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Please choose at least one question to be added to a question pool!###07 11 2014 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_scorable_qst_available#:#No scorable question available###24 10 2013 new variable
-assessment#:#tst_no_tries#:#لا شيء
 assessment#:#tst_non_avail_pool_msg_status_lost#:#This question pool is not available anymore. Synchronizing questions from this pool is not possible any longer. You can derive a new question pool from the questions contained in this test.###25 10 2016 new variable
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#This question pool is trashed, when it gets removed from system permanently, the test is no longer able to synchronize questions from it.###10 11 2018 new variable
 assessment#:#tst_non_avail_pools_table#:#Non Available Questionpools###25 10 2016 new variable
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#the manual scoring for 
 assessment#:#tst_nr_of_passes#:#Number of Test Passes
 assessment#:#tst_nr_of_tries#:#Max. Number of Passes
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.###07 11 2014 new variable
-assessment#:#tst_nr_of_tries_of_user#:#Passes Already Completed
 assessment#:#tst_num_all_questions#:#Number of All Questions###07 11 2014 new variable
 assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions###07 11 2014 new variable
 assessment#:#tst_num_non_answered_questions_notseen#:#Non Answered Questions (never seen)###30 08 2015 new variable
@@ -1883,16 +1880,10 @@ assessment#:#tst_score_cut_question_desc#:#Participants may score negative resul
 assessment#:#tst_score_cut_test#:#Cut off Negative Test Points
 assessment#:#tst_score_cut_test_desc#:#Participants might score negative points in questions. Scored points of all questions are added up. Only if the overall result of the test is negative this overall result will be set to 0 points. With this setting negative points carry a lot of weight.###27 01 2015 new variable
 assessment#:#tst_score_cutting#:#Cut off Negative Points
-assessment#:#tst_score_reporting#:#Score Reporting
-assessment#:#tst_score_reporting_date#:#Score Reporting Date
 assessment#:#tst_search_users#:#Add fixed participants
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question
 assessment#:#tst_selected_user_data_deleted#:#The test data of the selected user(s) was deleted successfully
-assessment#:#tst_sequence#:#Sequence
-assessment#:#tst_sequence_fixed#:#The Sequence of Questions is Fixed
-assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a test pass
 assessment#:#tst_sequence_properties#:#Sequence Properties
-assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.###24 10 2013 new variable
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.
 assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints

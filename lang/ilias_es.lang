@@ -1492,7 +1492,6 @@ assessment#:#tst_general_properties#:#Propiedades generales
 assessment#:#tst_header_participant#:#Resultado:
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Solución correcta:
-assessment#:#tst_heading_scoring#:#Puntuación
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1647,7 +1646,6 @@ assessment#:#tst_no_marks_defined#:#No hay calificaciones definidas, por favor c
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Elija al menos una pregunta para añadir al banco de preguntas.
 assessment#:#tst_no_question_selected_for_removal#:#Por favor marque al menos una pregunta para eliminar!
 assessment#:#tst_no_scorable_qst_available#:#No hay pregunta puntuable disponible
-assessment#:#tst_no_tries#:#ninguno
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Este banco de preguntas ya no está disponible. Ya no es posible sincronizar preguntas incluidas en este banco. Puede obtener un nuevo banco de preguntas a partir de las preguntas incluidas en este test.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#Este banco de preguntas no sirve. Cuando se quite del sistema permanentemente, el test ya no podrá sincronizar las preguntas que incluye.
 assessment#:#tst_non_avail_pools_table#:#Bancos de preguntas no disponibles
@@ -1660,7 +1658,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#La puntuación manual p
 assessment#:#tst_nr_of_passes#:#Número de ejecuciones del Test
 assessment#:#tst_nr_of_tries#:#Número máximo de intentos
 assessment#:#tst_nr_of_tries_desc#:#Número máximo de veces que un participante puede realizar un test.
-assessment#:#tst_nr_of_tries_of_user#:#Intentos ya completados
 assessment#:#tst_num_all_questions#:#Número total de preguntas
 assessment#:#tst_num_correct_answered_questions#:#Preguntas contestadas correctamente
 assessment#:#tst_num_non_answered_questions_notseen#:#Preguntas no contestadas (nunca vistas)
@@ -1885,16 +1882,10 @@ assessment#:#tst_score_cut_question_desc#:#Los participantes podrían tener un r
 assessment#:#tst_score_cut_test#:#Redondear puntos negativos para la suma de todos los resultados de preguntas
 assessment#:#tst_score_cut_test_desc#:#Los participantes podrían tener un resultado negativo por test dado que las preguntas pueden puntuar de forma negativa. Esta configuración redondea a 0 puntos si al sumar la puntación de las preguntas se obtiene un valor negativo
 assessment#:#tst_score_cutting#:#Redondear puntos negativos
-assessment#:#tst_score_reporting#:#Informe de puntuación
-assessment#:#tst_score_reporting_date#:#Fecha del informe de puntuación
 assessment#:#tst_search_users#:#Añadir participantes
 assessment#:#tst_select_questionpool#:#Por favor seleccione un banco de preguntas para almacenar la pregunta creada
 assessment#:#tst_selected_user_data_deleted#:#Los datos de test del usuario seleccionado fueron eliminados con éxito
-assessment#:#tst_sequence#:#Secuencia
-assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada
-assessment#:#tst_sequence_postpone#:#Las preguntas pueden ser pospuestas para el final de la ejecución de un test
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia
-assessment#:#tst_session_settings#:#Configuración de Sesión
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#El test se ha desactivado porque la configuración ha sido modificada. Tienes que establecer un nuevo modo del test antes que pueda estar en línea de nuevo.
 assessment#:#tst_setting_offer_hints_info#:#Si se activa, se ofrecen las sugerencias específicas para cada pregunta.
 assessment#:#tst_setting_offer_hints_label#:#Sugerencias específicas para preguntas

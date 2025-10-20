@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#A sua resposta:
 assessment#:#tst_header_participant#:#Melhor solução:
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Pontuação
-assessment#:#tst_heading_scoring#:#Ocultar lista de perguntas
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#Este teste pode ser acedido apenas com uma p
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Escolha pelo menos uma pergunta para adicionar a uma banco de perguntas!
 assessment#:#tst_no_question_selected_for_removal#:#Pontuar a melhor tentativa
 assessment#:#tst_no_scorable_qst_available#:#Resultados detalhados
-assessment#:#tst_no_tries#:#Pontuar a última tentativa
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Este banco de perguntas deixou de estar disponível. Deixou de ser possível sincronizar perguntas deste banco de perguntas. Pode derivar um novo banco de perguntas a partir das perguntas contidas neste teste.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#Este banco de perguntas é destruído quando é removido do sistema permanentemente, o teste deixa de estar disponível para se poder sincronizar pergunta a partir dele.
 assessment#:#tst_non_avail_pools_table#:#Bancos de perguntas indisponíveis
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#<b>As perguntas relacio
 assessment#:#tst_nr_of_passes#:#Número de tentativas de teste
 assessment#:#tst_nr_of_tries#:#Pontuar múltiplas tentativas
 assessment#:#tst_nr_of_tries_desc#:#Número máximo de tentativas que um participante pode fazer.
-assessment#:#tst_nr_of_tries_of_user#:#Percentagem de resolvido
 assessment#:#tst_num_all_questions#:#Número de todas as perguntas
 assessment#:#tst_num_correct_answered_questions#:#Perguntas não respondidas
 assessment#:#tst_num_non_answered_questions_notseen#:#As perguntas não respondidas ficam no lugar
@@ -1883,16 +1880,12 @@ assessment#:#tst_score_cut_question_desc#:#Os participantes podem pontuar result
 assessment#:#tst_score_cut_test#:#Mostrar lista de perguntas
 assessment#:#tst_score_cut_test_desc#:#Os participantes podem pontuar pontos negativos nas perguntas. Os pontos pontuados em todas as perguntas são somados. Apenas se o resultado geral do teste for negativo, este resultado geral será definido para 0 pontos. Com esta definição, os pontos negativos têm um forte peso.
 assessment#:#tst_score_cutting#:#O resumo dos resultados será anexado no momento indicado nas definições anteriores: Uma ‘Tabela dos resultados detalhados do teste’ mostra o título das perguntas e os pontos adquiridos numa determinada tentativa de teste. <br> Caso contrário, a tabela será apresentada depois da última tentativa possível de teste (definições no link ‘Geral’, opção ‘Número limite das tentativas de teste’) ou depois de o teste estar oficialmente terminado (definições no link ‘Geral’, opção ‘Tempo para acabar’). <br> Podem ser feitas outras definições sobre o conteúdo da ‘Tabela dos resultados detalhados do teste’ na secção ‘Outros detalhes a incluir nos resultados do teste’ deste formulário.
-assessment#:#tst_score_reporting#:#Para além da ‘Tabela dos resultados detalhados do teste’, o participante recebe um link para uma página por cada pergunta. Esta página contém a pergunta, a resposta fornecida pelo participante, informação sobre se a resposta estava correta e pontos adquiridos com esta resposta.
-assessment#:#tst_score_reporting_date#:#Feedback
 assessment#:#tst_search_users#:#É apresentado o feedback relacionado com as respostas fornecidas pelo participante. Note que esta opção só é válida se tiver ativado Respostas pontuadas do participante’ e se o feedback foi preparado juntamente com as perguntas em primeiro lugar.
 assessment#:#tst_select_questionpool#:#É criada uma vista geral de todas as perguntas com as respostas do respetivo participante. Esta lista aparece no separador ‘Informação’.
 assessment#:#tst_selected_user_data_deleted#:#‘Lista de respostas’ adicional para impressão
-assessment#:#tst_sequence#:#Variável para assinatura
 assessment#:#tst_sequence_fixed#:#A versão de impressão preparada contém um espaço de assinatura para o participante. Lembre-se de ativara ‘Tabela de resultados de teste detalhados’ para usar esta funcionalidade.
 assessment#:#tst_sequence_postpone#:#As perguntas podem ser adiadas para o fim de uma tentativa de teste
 assessment#:#tst_sequence_properties#:#Conteúdo para recapitulação
-assessment#:#tst_session_settings#:#Se houver conteúdo para recapitulação atribuído às perguntas do teste, este conteúdo será apresentado na ‘Tabela dos resultados detalhados do teste’. Os participantes têm a oportunidade de uma aprendizagem corretiva. Para efetivar essa opção tem de ativar ‘Tabela dos resultados detalhados do teste’ em ‘Acesso aos resultados de teste’.
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#O teste foi definido para online porque as definições do modo de teste foram alteradas. Tem de definir um novo modo de teste relacionado com a configuração das perguntas antes de o teste poder ser definido para online novamente.
 assessment#:#tst_setting_offer_hints_info#:#Configurar limites de competência
 assessment#:#tst_setting_offer_hints_label#:#Banco de perguntas

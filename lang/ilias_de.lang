@@ -1505,7 +1505,6 @@ assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_header_participant#:#Frage und Ihre Antwort:
 assessment#:#tst_header_participant_no_answer#:#Frage - nicht beantwortet:
 assessment#:#tst_header_solution#:#Bestmögliche Lösung:
-assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
 assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
@@ -1658,7 +1657,6 @@ assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeuge
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Bitte wählen Sie wenigstens eine Frage aus, die Sie in einen Fragenpool überführen möchten!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum Entfernen aus!
 assessment#:#tst_no_scorable_qst_available#:#Keine manuell bewertbare Frage verfügbar
-assessment#:#tst_no_tries#:#keine
 assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Dieser Fragenpool steht nicht mehr zur Verfügung.</b><br />Eine Synchronisierung von Fragen aus diesem Pool ist nicht mehr möglich. Sie können aus den im Test bereits befindlichen Fragen einen neuen Fragenpool ableiten.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Der Fragenpool liegt im Papierkorb.</b><br />Sollte er permanent vom System entfernt werden kann der Test die Fragen aus diesem Pool nicht erneut synchronisieren.
 assessment#:#tst_non_avail_pools_table#:#Nicht verfügbare Fragenpools
@@ -1671,7 +1669,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung 
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
-assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
 assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortet
 assessment#:#tst_num_non_answered_questions_notseen#:#Noch nicht angesehen
@@ -1849,16 +1846,10 @@ assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für
 assessment#:#tst_score_cut_test#:#Eine Frage kann auch ein negatives Punkteergebnis haben.
 assessment#:#tst_score_cut_test_desc#:#Es können pro Frage Minuspunkte erzielt werden. Die Punktestände aller Fragen werden aufsummiert und erst wenn diese Summe noch negativ ist, wird das Gesamtergebnis des Tests auf 0 Punkte gesetzt. Ganz oder teilweise falsch beantwortete Fragen fallen damit sehr stark ins Gewicht.
 assessment#:#tst_score_cutting#:#Negative Punkte
-assessment#:#tst_score_reporting#:#Ergebnisausgabe
-assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_search_users#:#Teilnehmer suchen
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage ablegen!
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählten Benutzer wurden erfolgreich gelöscht.
-assessment#:#tst_sequence#:#Reihenfolge
-assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden.
-assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden.
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
-assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#„Nicht beantwortete Fragen werden ans Testende geschoben“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#„Fragen mischen“ kann nicht zusammen mit „Antworten bei Anzeige der Folgefrage festschreiben“ verwendet werden.

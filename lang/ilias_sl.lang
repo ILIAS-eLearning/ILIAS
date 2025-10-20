@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#Nastavitve testa
 assessment#:#tst_header_participant#:#Vaš odgovor:
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Najboljša možna rešitev:
-assessment#:#tst_heading_scoring#:#Ocena
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#Ocene niso določene. Ustvarite vsaj prepros
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Izberite vsaj eno vprašanje, ki ga želite dodati v skupino vprašanj!
 assessment#:#tst_no_question_selected_for_removal#:#Izberite vsaj eno vprašanje, ki ga želite odstraniti!
 assessment#:#tst_no_scorable_qst_available#:#Na voljo ni nobenih vprašanj za ročno ocenjevanje
-assessment#:#tst_no_tries#:#ne obstaja
 assessment#:#tst_non_avail_pool_msg_status_lost#:#<b>Ta skupina vprašanj ni več na voljo..</b><br />Sinhronizacija vprašanj iz te skupine ni več mogoča. Nicht Iz vprašanj, ki so že v testu, lahko izpeljete novo skupino vprašanj.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#<b>Skupina vprašanj je v košu.</b><br />Če bo trajno odstranjena iz sistema, test ne more več sinhronizirati vprašanj iz te skupine.
 assessment#:#tst_non_avail_pools_table#:#Skupine vprašanj niso na voljo
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Oddana je bila ročna o
 assessment#:#tst_nr_of_passes#:#Število opravljanj testa
 assessment#:#tst_nr_of_tries#:#Maksimalno število opravljanj testa
 assessment#:#tst_nr_of_tries_desc#:#Maksimalno število opravljanj testa, ki jih lahko opravi udeleženec.
-assessment#:#tst_nr_of_tries_of_user#:#Že izvedena opravljanja testa
 assessment#:#tst_num_all_questions#:#Število vseh vprašanj
 assessment#:#tst_num_correct_answered_questions#:#Pravilno odgovorjeno
 assessment#:#tst_num_non_answered_questions_notseen#:#Še ni pregledano
@@ -1883,16 +1880,12 @@ assessment#:#tst_score_cut_question_desc#:#Pri dodelitvi negativnih točk za pos
 assessment#:#tst_score_cut_test#:#Negativen skupni rezultat spremeni na '0 točk'
 assessment#:#tst_score_cut_test_desc#:#Za posamezno vprašanje lahko prejmete negativne točke. Stanje točk vseh vprašanj se sešteje in samo v primeru, da je vsota še negativna, se skupni rezultat testa nastavi na 0 točk. Pri tej nastavitvi so negativne točke zelo pomembne.
 assessment#:#tst_score_cutting#:#Negativne točke
-assessment#:#tst_score_reporting#:#Poročilo z rezultati
-assessment#:#tst_score_reporting_date#:#Datum poročila z rezultati
 assessment#:#tst_search_users#:#Poišči udeležence
 assessment#:#tst_select_questionpool#:#Izberite skupino vprašanj, v katero želite shraniti ustvarjeno vprašanje
 assessment#:#tst_selected_user_data_deleted#:#Testni podatki izbranih uporabnikov so bili uspešno izbrisani
-assessment#:#tst_sequence#:#Vrstni red
 assessment#:#tst_sequence_fixed#:#Upoštevati je treba vrstni red vprašanj
 assessment#:#tst_sequence_postpone#:#Vprašanja lahko premaknete na zaključek opravljanja testa
 assessment#:#tst_sequence_properties#:#Izvedba: Funkcije za udeležence
-assessment#:#tst_session_settings#:#Izvedba
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Test je bil umaknjen s spleta, ker je bila nastavitev za izbiro testnih vprašanj spremenjena. Ponovno dodelite vprašanja testu. Nato test lahko znova objavite na spletu.
 assessment#:#tst_setting_offer_hints_info#:#Udeleženci lahko zahtevajo namig za rešitev vprašanja. Ob vsakem namigu za rešitev se število točk za pravi odgovor zmanjša.
 assessment#:#tst_setting_offer_hints_label#:#Namigi za rešitev

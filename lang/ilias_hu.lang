@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#Általános beállítások
 assessment#:#tst_header_participant#:#Az Ön válasza:
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Legjobb megoldás:
-assessment#:#tst_heading_scoring#:#Pontozás
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#Nincsenek érdemjegyek definiálva, adjon me
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Legalább egy kérdést válasszon, ami kérdésgyűjteményhez kíván adni!
 assessment#:#tst_no_question_selected_for_removal#:#Jelöljön ki legalább egy kérdést az eltávolításhoz!
 assessment#:#tst_no_scorable_qst_available#:#Nincs elérhető pontozandó kérdés
-assessment#:#tst_no_tries#:#0
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Ez a kérdésgyűjtemény többé nem érhető el, ezért kérdései szinkronizációja nem lehetséges. Új kérdésgyűjteményt származtathat a teszt kérdéseiből.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#Ez a kérdésgyűjtemény jelenleg a lomtárban van. Ha a rendszerből végleg eltávolítják, a teszt nem tud majd utána kérdéseket szinkronizálni belőle.
 assessment#:#tst_non_avail_pools_table#:#Nem elérhető kérdésgyűjtemények
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#ezúton tájékoztatjuk
 assessment#:#tst_nr_of_passes#:#Tesztkitöltések száma
 assessment#:#tst_nr_of_tries#:#Próbálkozások maximális száma
 assessment#:#tst_nr_of_tries_desc#:#Egy résztvevő maximális kitöltéseinek száma.
-assessment#:#tst_nr_of_tries_of_user#:#Eddigi kitöltések
 assessment#:#tst_num_all_questions#:#Összes kérdés száma
 assessment#:#tst_num_correct_answered_questions#:#Hibátlanul megválaszoltak
 assessment#:#tst_num_non_answered_questions_notseen#:#Még meg sem nyitottak
@@ -1883,16 +1880,10 @@ assessment#:#tst_score_cut_question_desc#:#Előfordulhat, hogy egy résztvevők 
 assessment#:#tst_score_cut_test#:#Negatív pontszámú végeredmény 0-ra módosítása
 assessment#:#tst_score_cut_test_desc#:#Az összes kérdésre elért válasz pontszáma - melyek között lehet negatív is - összeadódik. A végeredmény, az összpontszám azonban nem lehet negatív, azt 0-ra módosítjuk. Ebben az esetben a negatív pontszámok nagy hangsúlyt kapnak.
 assessment#:#tst_score_cutting#:#Negatív pontszámok
-assessment#:#tst_score_reporting#:#Jelentés a ponteredményekről
-assessment#:#tst_score_reporting_date#:#Eredmény megjelenítésének dátuma
 assessment#:#tst_search_users#:#Résztvevők keresése
 assessment#:#tst_select_questionpool#:#Válasszon ki egy kérdésgyűjteményt a létrehozott kérdés mentéséhez!
 assessment#:#tst_selected_user_data_deleted#:#A kiválasztott felhasználó(k) tesztadatai sikeresen eltávolította.
-assessment#:#tst_sequence#:#Sorrend
-assessment#:#tst_sequence_fixed#:#A kérdéssorrend rögzített
-assessment#:#tst_sequence_postpone#:#Kérdések elhalaszthatók a tesztkitöltés végére
 assessment#:#tst_sequence_properties#:#Teszt felügyelete: Felhasználók számára elérhető funkcionalitások
-assessment#:#tst_session_settings#:#Munkamenet-beállítások
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#A teszt offline lett, mert a teszt-mód beállítása megváltozott. Új teszt-módot szükséges beállítani a kérdésbeállításnak megfelelően, mielőtt a teszt ismét online-ra állítható.
 assessment#:#tst_setting_offer_hints_info#:#A résztvevők a kérdés megválaszolásához segítségeket kérhetnek. A megszerezhető pontszám minden segítségkéréssel csökken.
 assessment#:#tst_setting_offer_hints_label#:#Segítség

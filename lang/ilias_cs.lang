@@ -1490,7 +1490,6 @@ assessment#:#tst_general_properties#:#Obecná nastavení
 assessment#:#tst_header_participant#:#Výsledek:
 assessment#:#tst_header_participant_no_answer#:#Question - not answered###26 08 2024 new variable
 assessment#:#tst_header_solution#:#Správné řešení:
-assessment#:#tst_heading_scoring#:#Hodnocení
 assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
@@ -1645,7 +1644,6 @@ assessment#:#tst_no_marks_defined#:#Není definována žádná známka, vytvořt
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Vyberte alespoň jednu otázku, kterou chcete přidat do zásobníku otázek!
 assessment#:#tst_no_question_selected_for_removal#:#Vyberte prosím alespoň jednu otázku k vymazání!
 assessment#:#tst_no_scorable_qst_available#:#Žádná dostupná otázka k hodnocení
-assessment#:#tst_no_tries#:#není
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Tento zásobník otázek již není k dispozici. Již není možná synchronizace otázek z tohoto zásobníku. Můžete odvodit nový zásobník otázek z otázek obsažených v tomto testu.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#Tento zásobník otázek je vyhozen, když je trvale odstraněn ze systému, test již není schopen synchronizovat z něho dotazy.
 assessment#:#tst_non_avail_pools_table#:#Žádné zásobníky otázek k dispozici
@@ -1658,7 +1656,6 @@ assessment#:#tst_notify_manscoring_done_body_msg_topic#:#manuální hodnocení p
 assessment#:#tst_nr_of_passes#:#Počet průchodů testem
 assessment#:#tst_nr_of_tries#:#Max. počet pokusů
 assessment#:#tst_nr_of_tries_desc#:#Maximální počet průchodů, které může účastník absolvovat.
-assessment#:#tst_nr_of_tries_of_user#:#Zkoušení již ukončeno
 assessment#:#tst_num_all_questions#:#Počet všech otázek
 assessment#:#tst_num_correct_answered_questions#:#Správně zodpovězené otázky
 assessment#:#tst_num_non_answered_questions_notseen#:#Nezodpovězené otázky (nikdy neviděny)
@@ -1883,16 +1880,10 @@ assessment#:#tst_score_cut_question_desc#:#Účastníci mohou získat záporné 
 assessment#:#tst_score_cut_test#:#Vynulovat záporné body testu
 assessment#:#tst_score_cut_test_desc#:#Účastníci mohou v otázkách získat záporné body. Sčítá se počet bodů získaných za všechny otázky. Pouze pokud je celkový výsledek testu záporný, bude tento celkový výsledek nastaven na 0 bodů. S tímto nastavením mají záporné body velkou váhu.
 assessment#:#tst_score_cutting#:#Vynulovat záporné body
-assessment#:#tst_score_reporting#:#Oznamování výsledků
-assessment#:#tst_score_reporting_date#:#Datum oznamování výsledků
 assessment#:#tst_search_users#:#Přidat fixní účastníky
 assessment#:#tst_select_questionpool#:#Vyberte prosím zásobník otázek k uložení vytvořené otázky
 assessment#:#tst_selected_user_data_deleted#:#Data testu vybraných uživatelů byla úspěšně vymazána
-assessment#:#tst_sequence#:#Sekvence
-assessment#:#tst_sequence_fixed#:#Sekvence otázek je pevná
-assessment#:#tst_sequence_postpone#:#Otázky mohou být odloženy na konec průchodu testem
 assessment#:#tst_sequence_properties#:#Vlastnosti sekvence
-assessment#:#tst_session_settings#:#Nastavení lekce
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Tento test byl nastaven na offline, protože nastavení módu testu bylo změněno. Musíte nastavit nový mód testu ve vztahu k nastavení otázek před tím, než bude moci test být znovu nastaven na online.
 assessment#:#tst_setting_offer_hints_info#:#Je-li zapnuto, jsou nabízeny existijící nápovědy specifické odpovědi.
 assessment#:#tst_setting_offer_hints_label#:#Nápovědy specifické odpovědi
