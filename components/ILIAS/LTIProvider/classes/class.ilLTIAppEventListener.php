@@ -26,13 +26,13 @@ use ceLTIc\LTI\UserResult;
 /**
  * Class ilLTIAppEventListener
  */
-class ilLTIAppEventListener implements \ilAppEventListener
+class ilLTIAppEventListener
 {
-    private static ?\ilLTIAppEventListener $instance = null;
+    private static ?ilLTIAppEventListener $instance = null;
 
-    private ?\ilLogger $logger = null;
+    private ?ilLogger $logger = null;
 
-    private ?\ilLTIDataConnector $connector = null;
+    private ?ilLTIDataConnector $connector = null;
 
 
     /**
@@ -41,14 +41,13 @@ class ilLTIAppEventListener implements \ilAppEventListener
     protected function __construct()
     {
         global $DIC;
-
-        $this->logger = ilLoggerFactory::getLogger('ltis');
+        $this->logger = $DIC->logger()->root();
         $this->connector = new ilLTIDataConnector();
     }
 
-    protected static function getInstance(): \ilLTIAppEventListener
+    protected static function getInstance(): ilLTIAppEventListener
     {
-        if (!self::$instance instanceof \ilLTIAppEventListener) {
+        if (!self::$instance instanceof ilLTIAppEventListener) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -60,10 +59,10 @@ class ilLTIAppEventListener implements \ilAppEventListener
      */
     protected function handleUpdateStatus(int $a_obj_id, int $a_usr_id, int $a_status, int $a_percentage): void
     {
-        $this->logger->debug('Handle update status');
+        $this->logger->info('Handle update status');
         $auth_mode = ilObjUser::_lookupAuthMode($a_usr_id);
         if (!$this->isLTIAuthMode($auth_mode)) {
-            $this->logger->debug('Ignoring update for non-LTI-user.');
+            $this->logger->info('Ignoring update for non-LTI-user.');
             return;
         }
         $ext_account = ilObjUser::_lookupExternalAccount($a_usr_id);
@@ -71,7 +70,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
         // iterate through all references
         $refs = ilObject::_getAllReferences($a_obj_id);
-        $this->logger->debug('Refs for : ' . $a_obj_id . ': ' . count($refs));
+        $this->logger->info('Refs for : ' . $a_obj_id . ': ' . count($refs));
         foreach ((array) $refs as $ref_id) {
             $resources = $this->connector->lookupResourcesForUserObjectRelation(
                 $ref_id,
@@ -79,8 +78,8 @@ class ilLTIAppEventListener implements \ilAppEventListener
                 (int) $consumer
             );
 
-            $this->logger->debug('Resources for update:');
-            $this->logger->dump($resources, ilLogLevel::DEBUG);
+            $this->logger->info('Resources for update:');
+            $this->logger->info("resources: " . json_encode($resources));
 
             foreach ($resources as $resource) {
                 $this->tryOutcomeService((int) $resource, $ext_account, $a_status, $a_percentage);
@@ -192,13 +191,17 @@ class ilLTIAppEventListener implements \ilAppEventListener
 
 
     /**
-     * @inheritdoc
+     * Handle an event in a listener.
+     * @param	string $a_component component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
+     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param	array<string, mixed> $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        $logger = ilLoggerFactory::getLogger('ltis');
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $logger->info('Handling event: ' . $a_event . ' from ' . $a_component);
-
+        $logger->info("public static function handleEvent --- ilLTIAppEventListener");
         if ($a_component == 'components/ILIAS/Tracking') {
             if ($a_event == 'updateStatus') {
                 $listener = self::getInstance();
