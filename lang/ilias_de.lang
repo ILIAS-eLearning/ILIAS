@@ -4848,6 +4848,8 @@ common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
+common#:#obj_adma#:#Allgemeine Einstellungen
+common#:#obj_adma_desc#:#Wichtige Einstellungen für die gesamte Installation
 common#:#obj_adn#:#Ankündigungen
 common#:#obj_adve#:#Editor
 common#:#obj_adve_desc#:#Administrationseinstellungen für den ILIAS-Seiteneditor und den TinyMCE-Editor
@@ -5063,6 +5065,8 @@ common#:#obj_sco#:#SCO
 common#:#obj_scov#:#SCORM-Zertifikat
 common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.
+common#:#obj_serv#:#Server
+common#:#obj_serv_desc#:#Einstellungen des Severs
 common#:#obj_sess#:#Sitzung
 common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_skmg#:#Kompetenzmanagement

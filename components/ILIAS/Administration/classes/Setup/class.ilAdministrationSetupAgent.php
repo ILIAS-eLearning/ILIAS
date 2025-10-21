@@ -26,6 +26,10 @@ use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Config;
 use ilDatabaseUpdateStepsExecutedObjective;
 use ilDatabaseUpdateStepsMetricsCollectedObjective;
+use ILIAS\Setup\ObjectiveCollection;
+use ilObjGeneralSettings;
+use ilTreeAdminNodeAddedObjective;
+use ilObjServerInfo;
 
 /**
  * Class ilAdministrationSetupAgent
@@ -33,12 +37,18 @@ use ilDatabaseUpdateStepsMetricsCollectedObjective;
  */
 class ilAdministrationSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(?Config $config = null) : Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps());
+        return new ObjectiveCollection(
+            'Administration',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps()),
+            new ilTreeAdminNodeAddedObjective(ilObjGeneralSettings::TYPE, 'General Settings'),
+            new ilTreeAdminNodeAddedObjective(ilObjServerInfo::TYPE, 'Server Info')
+        );
     }
 
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilAdministrationDBUpdateSteps());
     }

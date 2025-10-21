@@ -30,15 +30,14 @@ class ilInstallationHeadingTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
     protected LOMServices $lom_services;
 
-    protected bool $incl_desc;
+    protected bool $write_enabled = false;
     protected string $base_cmd;
     protected int $nr;
 
     public function __construct(
         ?object $parent_obj,
         string $parent_cmd,
-        bool $incl_desc = true,
-        string $base_cmd = "HeaderTitle"
+        bool $write_enabled
     ) {
         global $DIC;
 
@@ -46,8 +45,7 @@ class ilInstallationHeadingTableGUI extends ilTable2GUI
         $this->lom_services = $DIC->learningObjectMetadata();
 
         parent::__construct($parent_obj, $parent_cmd);
-        $this->incl_desc = $incl_desc;
-        $this->base_cmd = $base_cmd;
+        $this->write_enabled = $write_enabled;
 
         $this->setLimit(9999);
 
@@ -55,13 +53,10 @@ class ilInstallationHeadingTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("language"));
         $this->addColumn($this->lng->txt("default"));
         $this->addColumn($this->lng->txt("title"));
-        if ($incl_desc) {
-            $this->addColumn($this->lng->txt("description"));
-        }
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($parent_obj));
-        $this->setRowTemplate("tpl.installation_heading_table_row.html", "components/ILIAS/SystemFolder");
+        $this->setRowTemplate("tpl.installation_heading_table_row.html", "components/ILIAS/Administration");
         $this->disable("footer");
         $this->setEnableTitle(true);
 
@@ -70,24 +65,18 @@ class ilInstallationHeadingTableGUI extends ilTable2GUI
 
     protected function prepareOutput(): void
     {
-        $this->addMultiCommand("delete" . $this->base_cmd . "s", $this->lng->txt("remove"));
-        if ($this->dataExists()) {
-            $this->addCommandButton("save" . $this->base_cmd . "s", $this->lng->txt("save"));
+        if ($this->write_enabled) {
+            $this->addMultiCommand("delete", $this->lng->txt("remove"));
+            if ($this->dataExists()) {
+                $this->addCommandButton("save", $this->lng->txt("save"));
+            }
+            $this->addCommandButton("add", $this->lng->txt("add"));
         }
-        $this->addCommandButton("add" . $this->base_cmd, $this->lng->txt("add"));
     }
 
     protected function fillRow(array $set): void
     {
         $this->nr++;
-
-        if ($this->incl_desc) {
-            $this->tpl->setCurrentBlock("desc_row");
-            $this->tpl->setVariable("VAL_DESC", ilLegacyFormElementsUtil::prepareFormOutput($set["desc"]));
-            $this->tpl->setVariable("DNR", $this->nr);
-            $this->tpl->parseCurrentBlock();
-        }
-
         $this->tpl->setVariable("NR", $this->nr);
 
         // lang selection

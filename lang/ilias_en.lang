@@ -4848,6 +4848,8 @@ common#:#obj_accs#:#Accessibility
 common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
+common#:#obj_adma#:#General Settings
+common#:#obj_adma_desc#:#Important settings for the whole installation
 common#:#obj_adn#:#Administrative Notifications
 common#:#obj_adve#:#Editing
 common#:#obj_adve_desc#:#Administration settings for the ILIAS Page Editor and the TinyMCE Editor
@@ -5063,6 +5065,8 @@ common#:#obj_sco#:#SCO
 common#:#obj_scov#:#SCORM Certificate
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
+common#:#obj_serv#:#Server
+common#:#obj_serv_desc#:#Settings of the sever
 common#:#obj_sess#:#Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_skmg#:#Competence Management
