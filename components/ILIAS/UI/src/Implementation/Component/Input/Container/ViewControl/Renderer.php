@@ -103,7 +103,13 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $inputs = array_map(
-            fn($input) => $input->withOnChange($submission_signal),
+            static function ($input) use ($submission_signal) {
+                $input = $input->withOnChange($submission_signal);
+                if (method_exists($input, 'withResetInternalSignal')) {
+                    $input = $input->withResetInternalSignal();
+                }
+                return $input;
+            },
             $component->getInputs()
         );
 

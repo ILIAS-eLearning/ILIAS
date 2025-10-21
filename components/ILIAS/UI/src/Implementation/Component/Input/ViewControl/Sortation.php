@@ -39,26 +39,20 @@ class Sortation extends ViewControlInput implements VCInterface\Sortation, HasIn
     protected string $direction;
 
     /**
-     * @var array<string, Order>
-     */
-    protected array $options;
-
-    /**
      * @param array<string, Order> $options
      */
     public function __construct(
         FieldFactory $field_factory,
         DataFactory $data_factory,
         Refinery $refinery,
-        SignalGeneratorInterface $signal_generator,
-        array $options,
+        protected SignalGeneratorInterface $signal_generator,
+        protected array $options,
     ) {
         parent::__construct($data_factory, $refinery);
 
         $aspects = array_keys($options);
         $this->checkArgListElements('options', $aspects, 'string');
         $this->checkArgListElements('options', $options, [Order::class]);
-        $this->options = $options;
 
         $this->setInputGroup($field_factory->group([
             $field_factory->hidden(), //aspect
@@ -66,6 +60,7 @@ class Sortation extends ViewControlInput implements VCInterface\Sortation, HasIn
         ])->withAdditionalTransformation($this->getOrderTransform()));
 
         $this->internal_selection_signal = $signal_generator->create();
+        $this->initInternalSignal();
     }
 
     protected function getOrderTransform(): Transformation
@@ -87,6 +82,18 @@ class Sortation extends ViewControlInput implements VCInterface\Sortation, HasIn
     public function getInternalSignal(): Signal
     {
         return $this->internal_selection_signal;
+    }
+
+    protected function initInternalSignal(): void
+    {
+        $this->internal_selection_signal = $this->signal_generator->create();
+    }
+
+    public function withResetInternalSignal(): self
+    {
+        $clone = clone $this;
+        $clone->initInternalSignal();
+        return $clone;
     }
 
     public function getOptions(): array
