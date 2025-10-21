@@ -693,12 +693,10 @@ assessment#:#examid_in_test_res#:#ILIAS テスト実施 ID
 assessment#:#examid_in_test_res_desc#:#ILIASテスト実施ＩDはテスト結果内に含まれます。
 assessment#:#exp_all_test_runs#:#全テスト試み
 assessment#:#exp_eval_data#:#評価データ用にエクスポート
-assessment#:#exp_file_created#:#エクスポートファイルを作成しました。
 assessment#:#exp_grammar_as#:#as
 assessment#:#exp_scored_test_attempt#:#採点されたテスト試み
 assessment#:#exp_type_certificate#:#証明書 (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#カンマ区切り (CSV)
 assessment#:#expected_result_type#:#予想結果タイプ
 assessment#:#export_cert_failed_for_users_p#:#通知ファイルが生成されて次の %s アカウント: %s へ追加された可能性があります。ログファイルを確認するように管理者へコンタクトしてください。
 assessment#:#export_cert_failed_for_users_s#:#通知ファイルが生成されて次の %s アカウント: %s へアーカイブされた可能性があります。ログファイルを確認するように管理者へコンタクトしてください。
@@ -1434,7 +1432,6 @@ assessment#:#tst_delete_missing_mark#:#削除を進むには一つはマーク�
 assessment#:#tst_derive_new_pool#:#新規問題集を得る
 assessment#:#tst_derive_new_pools#:#新規問題集を得る
 assessment#:#tst_dont_show_msg_again_in_current_session#:#現在のセッションへこのメッセージを再表示しません。
-assessment#:#tst_dont_use_previous_answers#:#前回の解答が今後の試験の初期設定値として使用されることはありません
 assessment#:#tst_edit_competence_assign#:#割り当てのプロパティを編集
 assessment#:#tst_edit_scoring#:#点数を編集
 assessment#:#tst_enable_questionlist#:# '問題リスト’を表示
@@ -1494,7 +1491,6 @@ assessment#:#tst_finish_notification#:#通知
 assessment#:#tst_finish_notification_advanced#:#完了テスト結果を送信
 assessment#:#tst_finish_notification_content_type#:#e-mailのb内容
 assessment#:#tst_finish_notification_desc#:#テスト完了のユーザごとにテストオーナーへe-mailを送付する
-assessment#:#tst_finish_notification_no#:#e-mailしない
 assessment#:#tst_finish_notification_simple#:#ユーザ名と終了日を送る
 assessment#:#tst_finished#:#終了
 assessment#:#tst_form_dynamic_question_set_config#:#問題選択の継続
@@ -1508,7 +1504,6 @@ assessment#:#tst_hide_info_tab#:#Info タブを非表示
 assessment#:#tst_hide_info_tab_desc#:#テストの ‘Info’ タブを非表示
 assessment#:#tst_hide_pagecontents#:#ページコンテンツを非表示
 assessment#:#tst_hide_pagecontents_desc#:#ページ編集ボタン経由の実際のテキスト前後に位置するILIASコンテンツは結果ビューにも印刷にも出力されません。。
-assessment#:#tst_hide_side_list#:#問題一覧を表示しない
 assessment#:#tst_highscore_achieved_ts#:#日付
 assessment#:#tst_highscore_achieved_ts_description#:#テストデータの含まれる列は順位に含まれます。
 assessment#:#tst_highscore_all_tables#:#受験者の自身ランクとトップランキング
@@ -1528,7 +1523,6 @@ assessment#:#tst_highscore_score#:#点数
 assessment#:#tst_highscore_score_description#:#点数入りの列はランキングへ含まれます。
 assessment#:#tst_highscore_top_num#:#トップランキングの長さ
 assessment#:#tst_highscore_top_num_description#:#何位をトップ順位リスト内に含めるかを決める
-assessment#:#tst_highscore_top_num_unit#:#エントリー
 assessment#:#tst_highscore_top_table#:#トップ順位
 assessment#:#tst_highscore_top_table_description#:#受験者はトップランクに含まれるテーブルで表示されます。
 assessment#:#tst_highscore_wtime#:#テスト受験時間
@@ -1924,10 +1918,6 @@ assessment#:#tst_show_results#:#テスト結果を表示
 assessment#:#tst_show_side_list#:#脇に問題一覧を表示
 assessment#:#tst_show_solution_answers_only#:#結果印刷表示(解答のみ)
 assessment#:#tst_show_solution_answers_only_desc#:#選択すると"コンテンツ編集"タブを使って問題の周りに配置したILIASコンテンツのページは印刷には表示されません。少し紙面スペースを保存したい場合はこのオプションを選択します。
-assessment#:#tst_show_solution_compare#:#解答一覧の正解と解答を比較
-assessment#:#tst_show_solution_compare_desc#:#受験者は模範解答の回答と自身の全体回答を比較して表示されます。このビューは、''Info'タブの'テスト結果表示ボタン'を通してアクセス可能な'詳細結果'内へ表示されます。ここに設定しても印刷領域の'回答のリスト'には表示されません。
-assessment#:#tst_show_solution_details#:#受験者の得点回答
-assessment#:#tst_show_solution_details_desc#:#詳細テスト結果表'へadd-onとして追加し、受験者は各問題のページのリンクを得ます。このリンクページには問題、受験者の回答、この回答が正しいかどうかの情報、この問題による得点等が含まれます。
 assessment#:#tst_show_solution_details_singlepage#:#単一ページ上の採点済解答
 assessment#:#tst_show_solution_details_singlepage_desc#:#回答が正解で何点かを確認したければ、受験者は各問題個々にアクセスできます。
 assessment#:#tst_show_solution_feedback#:#フィードバック
@@ -1950,7 +1940,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#この前に能力は�
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#これにより処理される能力の一つはこのテストは、必須問題最小数でトリガーされません。<br />必須問題数は: %sです。
 assessment#:#tst_skl_level_thresholds_link#:#能力-スレッショールドを構成
 assessment#:#tst_skl_level_thresholds_missing#:#関連する能力のスレッショールドがありません!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#単一テストの能力結果は限定的な意味であることを考慮してください。詳細は能力別に収集されます。何もエントリーのない単一能力は価値のない情報収集になります。
 assessment#:#tst_skl_sub_tab_thresholds#:#能力しきい値
 assessment#:#tst_sol_comp_expressions#:#能力しきい値
 assessment#:#tst_solution_compare_cfg#:#正解比較用の構成
@@ -2012,7 +2001,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#プリセット回答は正しい
 assessment#:#tst_unchanged_order_is_correct#:#プリセット順番は正しい
 assessment#:#tst_use_previous_answers#:#前回の回答を使用
 assessment#:#tst_use_previous_answers_description#:#参加者には前回使用の回答が表示されます。このオプションは登録開始前にInfoタブ上に参加者個々で有効する必要があります。
-assessment#:#tst_use_previous_answers_user#:#回答を続ける際の初期値に前の回答を使用
 assessment#:#tst_user_finished_test#:#終了したテスト(%s) を使用
 assessment#:#tst_view_competence_assign#:#割り当てプロパティを表示
 assessment#:#tst_virtual_pass_header_lo_initial#:#学習目標に対する最初のテスト結果<br />%s

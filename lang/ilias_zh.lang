@@ -692,12 +692,10 @@ assessment#:#examid_in_test_res#:#ILIAS Testpass ID###27 01 2015 new variable
 assessment#:#examid_in_test_res_desc#:#The ILIAS Testpass ID will be included in the test results.###27 01 2015 new variable
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#导出评价数据
-assessment#:#exp_file_created#:#Export file created.###24 10 2013 new variable
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#Certificate (PDF) xy
 assessment#:#exp_type_excel#:#  Excel
-assessment#:#exp_type_spss#:#  SPSS
 assessment#:#expected_result_type#:#Expected result type###24 10 2013 new variable
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1433,7 +1431,6 @@ assessment#:#tst_delete_missing_mark#:#请至少选择一个标记步骤去删�
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
-assessment#:#tst_dont_use_previous_answers#:#您之前的答案将不会在未来的测试中作为默认值使用
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#编辑评分
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1493,7 +1490,6 @@ assessment#:#tst_finish_notification#:#邮报完成
 assessment#:#tst_finish_notification_advanced#:#发送完成的测试结果给测试者
 assessment#:#tst_finish_notification_content_type#:#Content of e-mail###27 01 2015 new variable
 assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner for every user that has completed the test.###27 01 2015 new variable
-assessment#:#tst_finish_notification_no#:#No e-mail###06 02 2015 new variable
 assessment#:#tst_finish_notification_simple#:#发送用户名和完成日期给测试者
 assessment#:#tst_finished#:#已完成
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection###24 10 2013 new variable
@@ -1507,7 +1503,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#隐藏题目列表
 assessment#:#tst_highscore_achieved_ts#:#显示测试的日期
 assessment#:#tst_highscore_achieved_ts_description#:#控制，如果测试日期应被显示的一列。
 assessment#:#tst_highscore_all_tables#:#All Rankings###07 11 2014 new variable
@@ -1527,7 +1522,6 @@ assessment#:#tst_highscore_score#:#显示得分
 assessment#:#tst_highscore_score_description#:#控制，如果得分应被显示的一列。
 assessment#:#tst_highscore_top_num#:#行列数
 assessment#:#tst_highscore_top_num_description#:#控制，多少行列应包含在顶部行列表中。
-assessment#:#tst_highscore_top_num_unit#:#条目
 assessment#:#tst_highscore_top_table#:#显示表“顶部排名”
 assessment#:#tst_highscore_top_table_description#:#控制，如果表“顶部行列”应显示。
 assessment#:#tst_highscore_wtime#:#显示工作时间
@@ -1923,10 +1917,6 @@ assessment#:#tst_show_results#:#显示测试成绩
 assessment#:#tst_show_side_list#:#在旁边显示题目列表
 assessment#:#tst_show_solution_answers_only#:#成绩打印视图(仅答案)
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option.###07 11 2014 new variable
-assessment#:#tst_show_solution_compare#:#Compare Answer with Solution in List of Answers###24 10 2013 new variable
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
-assessment#:#tst_show_solution_details#:#显示测试成绩的方案
-assessment#:#tst_show_solution_details_desc#:#If selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown.###07 11 2014 new variable
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#在测试成绩中显示特定的答案反馈
@@ -1949,7 +1939,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't tri
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###10 11 2018 new variable
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds###30 08 2015 new variable
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!###30 08 2015 new variable
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.###30 08 2015 new variable
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds###26 09 2014 new variable
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions###30 08 2015 new variable
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare###30 08 2015 new variable
@@ -2011,7 +2000,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fa
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#使用之前的答案
 assessment#:#tst_use_previous_answers_description#:#如果勾选，在未来的测试过程中，参与者可以选择使用以前的答案做为默认值，否则以前的答案不显示在未来的测试过程中
-assessment#:#tst_use_previous_answers_user#:#在未来的测试过程中使用我以前的答案做为默认值
 assessment#:#tst_user_finished_test#:#用户已完成的测试(%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties###30 08 2015 new variable
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s###30 08 2015 new variable
