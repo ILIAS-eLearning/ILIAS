@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\StatusOfAttempt;
 use ILIAS\Test\Scoring\Marks\Mark;
 
 /**
@@ -208,7 +209,8 @@ class ilTestEvaluationUserData
 
     public function getScoredPass(): int
     {
-        if ($this->getPassScoring() === 1) {
+        $last_pass = $this->passes[$this->getLastPass()];
+        if ($this->getPassScoring() === ilObjTest::SCORE_BEST_PASS && $last_pass->getStatusOfAttempt() !== StatusOfAttempt::RUNNING) {
             return $this->getBestPass();
         }
 
