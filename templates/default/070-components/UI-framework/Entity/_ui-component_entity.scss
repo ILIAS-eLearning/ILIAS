@@ -15,7 +15,6 @@
             "second-id details details details details"
             "second-id reaction reaction f-reaction f-reaction";
         grid-template-columns: min-content auto auto min-content min-content;
-        border: s.$il-main-border;
         background-color: s.$il-main-bg;
         padding: math.div(l.$il-margin-xlarge-vertical, 2) math.div(l.$il-margin-xlarge-horizontal, 2);
         > *:not(:empty) {
