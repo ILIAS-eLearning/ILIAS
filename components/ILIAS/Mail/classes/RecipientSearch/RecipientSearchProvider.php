@@ -18,11 +18,17 @@
 
 declare(strict_types=1);
 
-abstract class ilMailAutoCompleteRecipientProvider implements Iterator
+namespace ILIAS\Mail\RecipientSearch;
+
+/**
+ * @phpstan-type AutoCompleteUserRecord array{login?: string, firstname?: string, lastname?: string}
+ * @template-implements \Iterator<AutoCompleteUserRecord>
+ */
+abstract class RecipientSearchProvider implements \Iterator
 {
-    protected ilDBInterface $db;
-    protected ?ilDBStatement $res = null;
-    /** @var null|array{login?: string, firstname?: string, lastname?: string} */
+    protected \ilDBInterface $db;
+    protected ?\ilDBStatement $res = null;
+    /** @var null|AutoCompleteUserRecord */
     protected ?array $data = null;
     protected int $user_id = 0;
 
@@ -38,7 +44,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     {
         $this->data = $this->db->fetchAssoc($this->res);
 
-        return is_array($this->data) && !empty($this->data);
+        return \is_array($this->data) && !empty($this->data);
     }
 
     public function next(): void

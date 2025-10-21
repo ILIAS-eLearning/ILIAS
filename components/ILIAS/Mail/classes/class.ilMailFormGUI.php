@@ -27,9 +27,15 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Mail\RecipientSearch\LegacyAutocompleteSearchResult;
+use ILIAS\Mail\RecipientSearch\SentMailsBasedProvider;
+use ILIAS\Mail\RecipientSearch\Search;
+use ILIAS\Contact\BuddySystem\MailRecipientSearch\MailRecipientSearchProvider;
+use ILIAS\Mail\RecipientSearch\UserSearchEndpointConfigurator;
 
 /**
  * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI, ilMailFormUploadHandlerGUI
+ * @ilCtrl_Calls ilMailFormGUI: ILIAS\User\Search\EndpointGUI
  */
 class ilMailFormGUI
 {
@@ -68,6 +74,7 @@ class ilMailFormGUI
     private readonly ilFileDataMail $fdm;
     private readonly ILIAS\ResourceStorage\Services $storage;
     private readonly ilSetting $settings;
+    private readonly \ILIAS\User\Search\Search $user_search;
 
     public function __construct(
         ?ilMailTemplateService $template_service = null,
@@ -97,6 +104,9 @@ class ilMailFormGUI
         $this->storage = $DIC->resourceStorage();
         $this->fdm = new ilFileDataMail($this->user->getId());
         $this->settings = $DIC->settings();
+        /** @var \ILIAS\User\PublicInterface $user_api */
+        $user_api = $DIC['user'];
+        $this->user_search = $user_api->getSearch();
 
         $mail_obj_id = $this->getBodyParam(
             'mobj_id',
@@ -143,6 +153,13 @@ class ilMailFormGUI
     {
         $forward_class = $this->ctrl->getNextClass($this) ?? '';
         switch (strtolower($forward_class)) {
+            case strtolower(ILIAS\User\Search\EndpointGUI::class):
+                $gui = $this->user_search->getEndpointGUI(
+                    $this->getUserSearchConfigurator()
+                );
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case strtolower(ilMailAttachmentGUI::class):
                 $this->ctrl->setReturn($this, 'returnFromAttachments');
                 $gui = new ilMailAttachmentGUI();
@@ -828,19 +845,27 @@ class ilMailFormGUI
          );
     }
 
+    private function getUserSearchConfigurator(): \ILIAS\User\Search\EndpointConfigurator
+    {
+        return new UserSearchEndpointConfigurator();
+    }
+
     protected function buildFormElements(?array $mail_data): array
     {
         $ff = $this->ui_factory->input()->field();
 
-        $user_ids = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
-        $logins = [];
-        foreach ($user_ids as $user_id) {
-            $logins[] = ilObjUser::_lookupLogin($user_id);
-        }
-
-        $rcp_to = $ff->tag($this->lng->txt('mail_to'), $logins)->withRequired(true);
-        $rcp_cc = $ff->tag($this->lng->txt('mail_cc'), $logins);
-        $rcp_bcc = $ff->tag($this->lng->txt('mail_bcc'), $logins);
+        $rcp_to = $this->user_search->getInput(
+            $this->lng->txt('mail_to'),
+            $this->getUserSearchConfigurator()
+        )->withRequired(true);
+        $rcp_cc = $this->user_search->getInput(
+            $this->lng->txt('mail_cc'),
+            $this->getUserSearchConfigurator()
+        );
+        $rcp_bcc = $this->user_search->getInput(
+            $this->lng->txt('mail_bcc'),
+            $this->getUserSearchConfigurator()
+        );
 
         if (!is_null($mail_data)) {
             if (isset($mail_data['rcp_to']) && $mail_data['rcp_to'] != '') {

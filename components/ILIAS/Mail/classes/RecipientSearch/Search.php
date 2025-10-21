@@ -18,16 +18,24 @@
 
 declare(strict_types=1);
 
-class ilMailAutoCompleteSearch
-{
-    /** @var Iterator[] */
-    protected array $providers = [];
+namespace ILIAS\Mail\RecipientSearch;
 
-    public function __construct(protected ilMailAutoCompleteRecipientResult $result)
+/**
+ * @phpstan-import-type AutoCompleteUserRecord from RecipientSearchProvider
+ */
+class Search
+{
+    /** @var list<\Iterator<AutoCompleteUserRecord>> */
+    private array $providers = [];
+
+    public function __construct(private readonly SearchResult $result)
     {
     }
 
-    public function addProvider(Iterator $provider): void
+    /**
+     * @param \Iterator<AutoCompleteUserRecord> $provider
+     */
+    public function addProvider(\Iterator $provider): void
     {
         $this->providers[] = $provider;
     }
@@ -35,12 +43,14 @@ class ilMailAutoCompleteSearch
     public function search(): void
     {
         foreach ($this->providers as $provider) {
+            $status = SearchResultStatus::INITIAL;
             foreach ($provider as $row) {
-                if (!$this->result->isResultAddable()) {
-                    $this->result->result['hasMoreResults'] = true;
+                if ($status === SearchResultStatus::LIMIT_REACHED) {
+                    $this->result->markMoreResultsAvailable();
                     break 2;
                 }
-                $this->result->addResult($row['login'], $row['firstname'], $row['lastname']);
+
+                $status = $this->result->addResult($row['login'], $row['firstname'], $row['lastname']);
             }
         }
     }
