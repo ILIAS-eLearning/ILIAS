@@ -3725,6 +3725,7 @@ common#:#cnt_new#:#(%s Neu)
 common#:#collapse#:#Einklappen
 common#:#collapse_all#:#Alle zusammenklappen
 common#:#collapse_content#:#Inhalt einklappen
+common#:#collapse_reload#:#Hier klicken zum Verbergen der Details nach einem Neuladen der Seite.
 common#:#collapsed#:#Geschlossen
 common#:#columns#:#Spalten
 common#:#comma_separated#:#Kommagetrennt
@@ -4062,6 +4063,7 @@ common#:#exp_html#:#HTML exportieren
 common#:#expand#:#Ausklappen
 common#:#expand_all#:#Alle ausklappen
 common#:#expand_content#:#Inhalt ausklappen
+common#:#expand_reload#:#Hier klicken zum Ausklappen der Details nach einem Neuladen der Seite.
 common#:#expanded#:#Geöffnet
 common#:#export#:#Export
 common#:#export_format#:#Exportformat

@@ -3725,6 +3725,7 @@ common#:#cnt_new#:#(%s New)
 common#:#collapse#:#Collapse
 common#:#collapse_all#:#Collapse All
 common#:#collapse_content#:#Collapse Content
+common#:#collapse_reload#:#Click here to hide details after a page reload.
 common#:#collapsed#:#Collapsed
 common#:#columns#:#Columns
 common#:#comma_separated#:#Comma Separated
@@ -4062,6 +4063,7 @@ common#:#exp_html#:#Export HTML
 common#:#expand#:#Expand
 common#:#expand_all#:#Expand All
 common#:#expand_content#:#Expand Content
+common#:#expand_reload#:#Click here to see more details after a page reload.
 common#:#expanded#:#Expanded
 common#:#export#:#Export
 common#:#export_format#:#Export format
