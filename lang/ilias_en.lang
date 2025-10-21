@@ -12978,6 +12978,10 @@ obj#:#obj_base_lang#:#Master Language
 obj#:#obj_conf_delete_lang#:#Do you really want to stop the presentation of title and description in these languages?
 obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.
 obj#:#obj_copy_progress#:#Copy Progress
+obj#:#obj_copy_progress_estimate#:#Estimating duration...
+obj#:#obj_copy_progress_failure#:#Copying failed.
+obj#:#obj_copy_progress_success#:#Copied successfully.
+obj#:#obj_copy_progress_to#:#Copying to %s
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
 obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the base language will be kept.
 obj#:#obj_deactivate_multilang#:#Deactivate Multilingualism
