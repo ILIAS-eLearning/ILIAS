@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Registration\DualOptIn\Repository\PendingRegistrationDatabaseRepository;
+use ILIAS\Registration\DualOptIn\Service\DualOptInServiceImpl;
+
 /**
  * Soap utitliy functions
  * @author Stefan Meyer <meyer@leifos.com>
@@ -457,80 +460,12 @@ class ilSoapUtils extends ilSoapAdministration
 
         global $DIC;
 
-        $db = $DIC->database();
-        $logger = $DIC->logger()->user();
-
-        $logger->debug(
-            'Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...'
+        $dual_opt_in_service = new DualOptInServiceImpl(
+            new PendingRegistrationDatabaseRepository($DIC->database()),
+            $DIC->database(),
+            $DIC->logger()->user(),
         );
-        $lifetime = (new ilRegistrationSettings())->getRegistrationHashLifetime();
-
-        if ($lifetime <= 0) {
-            $logger->debug('Registration hash lifetime is <= 0, kipping deletion.');
-            return true;
-        }
-
-        $utc_clock = (new \ILIAS\Data\Factory())->clock()->utc();
-        $now = $utc_clock->now();
-        $cutoff = $now->sub(new DateInterval('PT' . $lifetime . 'S'));
-        $formatted_cutoff = $cutoff->format(ilObjUser::DATABASE_DATE_FORMAT);
-
-        // Fetch only candidates that must be deleted, prioritize the triggering user
-        $query = '
-        SELECT usr_id, create_date
-          FROM usr_data
-         WHERE active = 0
-           AND reg_hash IS NOT NULL
-           AND reg_hash != \'\'
-           AND ' . $db->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, ilDBConstants::T_INTEGER) . '
-           AND create_date < %s
-         ORDER BY (CASE WHEN usr_id = %s THEN 0 ELSE 1 END), create_date';
-
-        $res = $db->queryF(
-            $query,
-            [ilDBConstants::T_TIMESTAMP, ilDBConstants::T_INTEGER],
-            [$formatted_cutoff, $usr_id]
-        );
-
-        $logger->info(sprintf(
-            '%d inactive user objects eligible for deletion found (cutoff: %s, lifetime: %d s).',
-            $db->numRows($res),
-            $cutoff->format(DateTimeInterface::ATOM),
-            $lifetime
-        ));
-
-        $num_deleted_users = 0;
-        while ($row = $db->fetchAssoc($res)) {
-            $uid = (int) $row['usr_id'];
-
-            $user = ilObjectFactory::getInstanceByObjId($uid, false);
-            if (!($user instanceof ilObjUser)) {
-                continue;
-            }
-
-            $created = DateTimeImmutable::createFromFormat(
-                ilObjUser::DATABASE_DATE_FORMAT,
-                (string) $row['create_date'],
-                new DateTimeZone('UTC')
-            );
-
-            $logger->info(sprintf(
-                'Deleting user (login: %s | id: %d) – expired dual opt-in (created: %s, cutoff: %s, lifetime: %d s)',
-                $user->getLogin(),
-                $uid,
-                $created ? $created->format(DateTimeInterface::ATOM) : '-',
-                $cutoff->format(DateTimeInterface::ATOM),
-                $lifetime
-            ));
-
-            $user->delete();
-            ++$num_deleted_users;
-        }
-
-        $logger->info(sprintf(
-            '%d inactive user objects with expired confirmation hash values (dual opt-in) deleted.',
-            $num_deleted_users
-        ));
+        $dual_opt_in_service->deleteExpiredUserObjects($usr_id);
 
         return true;
     }

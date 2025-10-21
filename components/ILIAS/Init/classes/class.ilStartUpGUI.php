@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Registration\DualOptIn\Exception\DualOptInException;
+use ILIAS\Registration\DualOptIn\Repository\PendingRegistrationDatabaseRepository;
+use ILIAS\Registration\DualOptIn\Service\DualOptInServiceImpl;
+use ILIAS\Registration\DualOptIn\ValueObjects\PendingRegistrationHash;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -27,7 +31,6 @@ use ILIAS\DataProtection\Consumer as DataProtection;
 use ILIAS\components\Authentication\Logout\ConfigurableLogoutTarget;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\components\Authentication\Pages\AuthPageEditorContext;
-use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
 
 /**
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
@@ -1507,15 +1510,30 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function confirmRegistration(): void
     {
         $this->lng->loadLanguageModule('registration');
-
         ilUtil::setCookie('iltest', 'cookie', false);
-        $regitration_hash = trim(
-            $this->http->wrapper()->query()->retrieve(
-                'rh',
-                $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
-            )
-        );
-        if ($regitration_hash === '') {
+
+        try {
+            $reg_hash = $this->refinery->to()
+                ->toNew(PendingRegistrationHash::class)
+                ->transform([$this->http->wrapper()->query()->retrieve('rh', $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->always(null)
+                ]))]);
+
+            $dual_opt_in_service = new DualOptInServiceImpl(
+                new PendingRegistrationDatabaseRepository($this->dic->database()),
+                $this->dic->database(),
+                $this->dic->logger()->user()
+            );
+            $user = $dual_opt_in_service->verifyHashAndActivateUser($reg_hash);
+        } catch (DualOptInException $exception) {
+            $this->mainTemplate->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt($exception->getMessage()),
+                true
+            );
+            $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $this->lng->getLangKey()));
+        } catch (Exception $e) {
             $this->mainTemplate->setOnScreenMessage(
                 ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('reg_confirmation_hash_not_passed'),
@@ -1524,71 +1542,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $this->lng->getLangKey()));
         }
 
-        try {
-            $oRegSettings = new ilRegistrationSettings();
-
-            $usr_id = ilObjUser::_verifyRegistrationHash(trim($regitration_hash));
-            /** @var ilObjUser $user */
-            $user = ilObjectFactory::getInstanceByObjId($usr_id);
-            $user->setActive(true);
-            $password = '';
-            if ($oRegSettings->passwordGenerationEnabled()) {
-                $passwords = ilSecuritySettingsChecker::generatePasswords(1);
-                $password = $passwords[0];
-                $user->setPasswd($password, ilObjUser::PASSWD_PLAIN);
-                $user->setLastPasswordChangeTS(time());
-            }
-            $user->update();
-
-            $accountMail = (new ilAccountRegistrationMail(
-                $oRegSettings,
-                ilLoggerFactory::getLogger('user')
-            ))->withEmailConfirmationRegistrationMode();
-
-            if ($user->getPref('reg_target') ?? '') {
-                $accountMail = $accountMail->withPermanentLinkTarget($user->getPref('reg_target'));
-            }
-
-            $accountMail->send($user, $password);
-
-            $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
-                $this->lng->txt('reg_account_confirmation_successful'),
-                true
-            );
-            $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $user->getLanguage()));
-        } catch (ilRegConfirmationLinkExpiredException $exception) {
-            $soap_client = new ilSoapClient();
-            $soap_client->setResponseTimeout(1);
-            $soap_client->enableWSDL(true);
-            $soap_client->init();
-
-            $this->logger->info(
-                'Triggered soap call (background process) for deletion of inactive user objects with expired confirmation hash values (dual opt in) ...'
-            );
-
-            $soap_client->call(
-                'deleteExpiredDualOptInUserObjects',
-                [
-                    $_COOKIE[session_name()] . '::' . CLIENT_ID,
-                    $exception->getCode() // user id
-                ]
-            );
-
-            $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt($exception->getMessage()),
-                true
-            );
-            $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $this->lng->getLangKey()));
-        } catch (ilRegistrationHashNotFoundException $exception) {
-            $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt($exception->getMessage()),
-                true
-            );
-            $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $this->lng->getLangKey()));
-        }
+        $this->mainTemplate->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->lng->txt('reg_account_confirmation_successful'),
+            true
+        );
+        $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $user->getLanguage()));
     }
 
     /**

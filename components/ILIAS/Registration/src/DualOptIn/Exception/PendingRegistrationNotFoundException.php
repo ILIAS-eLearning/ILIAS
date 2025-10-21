@@ -18,11 +18,17 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\Registration\DualOptIn\Exception;
+
 /**
- * Class for registration related exception handling in ILIAS.
+ * Class for user related exception handling in ILIAS.
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilRegistrationException extends ilException
+class PendingRegistrationNotFoundException extends DualOptInException
 {
+    public function __construct()
+    {
+        parent::__construct('reg_confirmation_hash_not_found');
+    }
 }

@@ -1869,35 +1869,6 @@ class ilObjUser extends ilObject
         return true;
     }
 
-    public function generateRegistrationHash(): string
-    {
-        do {
-            $hashcode = substr(md5(uniqid(mt_rand(), true)), 0, 16);
-
-            $res = $this->db->queryf(
-                'SELECT COUNT(usr_id) cnt FROM usr_data WHERE reg_hash = %s',
-                [ilDBConstants::T_TEXT],
-                [$hashcode]
-            );
-            while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                if ($row->cnt > 0) {
-                    continue 2;
-                }
-                break;
-            }
-
-            $this->db->manipulateF(
-                'UPDATE usr_data SET reg_hash = %s WHERE usr_id = %s',
-                [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
-                [$hashcode, $this->id]
-            );
-            break;
-        } while (true);
-
-        return $hashcode;
-    }
-
-
     private function buildTextFromArray(array $a_attr): string
     {
         if (count($a_attr) > 0) {
@@ -2249,53 +2220,6 @@ class ilObjUser extends ilObject
         );
 
         return $users;
-    }
-
-    public static function _verifyRegistrationHash(
-        string $a_hash
-    ): int {
-        global $DIC;
-        $db = $DIC['ilDB'];
-
-        $res = $db->queryf(
-            'SELECT usr_id, create_date FROM usr_data WHERE reg_hash = %s',
-            [ilDBConstants::T_TEXT],
-            [$a_hash]
-        );
-
-        $row = $db->fetchAssoc($res);
-        if (!$row) {
-            throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
-        }
-
-        $lifetime = (new ilRegistrationSettings())->getRegistrationHashLifetime();
-        if ($lifetime > 0) {
-            $cutoff = (new DataFactory())->clock()->utc()
-                ->now()->sub(
-                    new DateInterval("PT{$lifetime}S")
-                );
-
-            $created = DateTimeImmutable::createFromFormat(
-                self::DATABASE_DATE_FORMAT,
-                (string) $row['create_date'],
-                new DateTimeZone('UTC')
-            );
-
-            if ($created === false || $created < $cutoff) {
-                throw new ilRegConfirmationLinkExpiredException(
-                    'reg_confirmation_hash_life_time_expired',
-                    (int) $row['usr_id']
-                );
-            }
-        }
-
-        $db->manipulateF(
-            'UPDATE usr_data SET reg_hash = NULL WHERE usr_id = %s',
-            [ilDBConstants::T_INTEGER],
-            [(int) $row['usr_id']]
-        );
-
-        return (int) $row['usr_id'];
     }
 
     public static function getUserIdsByInactivityPeriod(
