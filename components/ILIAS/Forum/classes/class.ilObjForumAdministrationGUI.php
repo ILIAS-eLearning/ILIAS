@@ -331,22 +331,29 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         return [];
     }
 
-    private function cronMessage(): Component
+    /**
+     * @return Component[]
+     */
+    private function cronMessage(): array
     {
-        $gui = new ilCronManagerGUI();
+        $gui = ilObjCronGUI::create();
         $data = $gui->addToExternalSettingsForm(ilAdministrationSettingsFormHandler::FORM_FORUM);
         $data = $data['cron_jobs'][1];
 
+        if (!$this->rbac_system->checkAccess('read', $gui->getRefId())) {
+            return [];
+        }
+
+        $this->ctrl->setParameterByClass(ilObjCronGUI::class, 'ref_id', $gui->getRefId());
         $url = $this->ctrl->getLinkTargetByClass(
-            [ilAdministrationGUI::class, ilObjSystemFolderGUI::class],
-            'jumpToCronJobs'
+            [ilAdministrationGUI::class, ilObjCronGUI::class],
         );
 
-        return $this->ui->factory()->messageBox()->info($this->lng->txt(key($data)) . ': ' . current($data))->withLinks(
-            [
+        return [
+            $this->ui->factory()->messageBox()->info($this->lng->txt(key($data)) . ': ' . current($data))->withLinks([
                 $this->ui->factory()->link()->standard($this->lng->txt('adm_external_setting_edit'), $url)
-            ]
-        );
+            ])
+        ];
     }
 
     private function forumJobActive(): bool

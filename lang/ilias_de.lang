@@ -275,6 +275,8 @@ administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Globale Blogeinstellungen
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
+administration#:#obj_cron#:#Cron Jobs
+administration#:#obj_cron_desc#:#Liste aller Cron Jobs
 administration#:#obj_excs#:#Übung
 administration#:#obj_excs_desc#:#Globale Übungseinstellungen
 administration#:#obj_gsfo#:#Fußzeile

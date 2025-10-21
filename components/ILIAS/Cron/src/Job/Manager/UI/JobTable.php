@@ -24,6 +24,7 @@ use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobRepository;
 use ILIAS\Cron\Job\JobEntity;
 use ILIAS\Cron\Job\Collection\OrderedJobEntities;
+use ILIAS\Data\URI;
 
 class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
 {
@@ -35,24 +36,17 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
      * @param list<string> $table_action_namespace
      */
     public function __construct(
-        \ilCronManagerGUI $a_parent_obj,
-        string $a_parent_cmd,
+        URI $form_action,
         array $table_action_namespace,
         string $table_action_param_name,
         string $table_row_identifier_name,
         private readonly \ILIAS\UI\Factory $ui_factory,
         private readonly \Psr\Http\Message\ServerRequestInterface $request,
-        \ilCtrlInterface $ctrl,
         private readonly \ilLanguage $lng,
         private readonly \ILIAS\Cron\Job\JobCollection $job_collection,
         private readonly JobRepository $job_repository,
         private readonly bool $mayWrite = false
     ) {
-        $form_action = (new \ILIAS\Data\Factory())->uri(
-            \ilUtil::_getHttpPath() . '/' .
-            $ctrl->getLinkTarget($a_parent_obj, $a_parent_cmd)
-        );
-
         [
             $this->url_builder,
             $this->action_parameter_token,

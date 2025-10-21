@@ -28,7 +28,6 @@ use ILIAS\Setup\CLI\StatusCommand;
  * @author Stefan Meyer <meyer@leifos.com>
  *
  * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjSystemFolderGUI: ilObjectOwnershipManagementGUI, ilCronManagerGUI
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
@@ -103,12 +102,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             case "ilobjectownershipmanagementgui":
                 $this->setSystemCheckSubTabs("no_owner");
                 $gui = $this->gui->ownership()->ownershipManagementGUI(0);
-                $this->ctrl->forwardCommand($gui);
-                break;
-
-            case "ilcronmanagergui":
-                $ilTabs->activateTab("cron_jobs");
-                $gui = new ilCronManagerGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -391,13 +384,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
 
         if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
-                'cron_jobs',
-                $this->ctrl->getLinkTargetByClass('ilCronManagerGUI', ''),
-                '',
-                get_class($this)
-            );
-
             $this->tabs_gui->addTarget(
                 'benchmarks',
                 $this->ctrl->getLinkTarget($this, 'benchmark'),
@@ -921,35 +907,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $lng = $this->lng;
         $this->saveHeaderTitlesObject(true);
     }
-
-
-    //
-    //
-    // Cron Jobs
-    //
-    //
-
-    /*
-     * OLD GLOBAL CRON JOB SWITCHES (ilSetting)
-     *
-     * cron_user_check => obsolete
-     * cron_inactive_user_delete => obsolete
-     * cron_inactivated_user_delete => obsolete
-     * cron_link_check => obsolete
-     * cron_web_resource_check => migrated
-     * cron_lucene_index => obsolete
-     * forum_notification => migrated
-     * mail_notification => migrated
-     * crsgrp_ntf => migrated
-     * cron_upd_adrbook => migrated
-     */
-
-    public function jumpToCronJobsObject(): void
-    {
-        // #13010 - this is used for external settings
-        $this->ctrl->redirectByClass("ilCronManagerGUI", "render");
-    }
-
 
     //
     //
