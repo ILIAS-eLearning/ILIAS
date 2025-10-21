@@ -33,12 +33,26 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
     {
         return new class () implements NameSource {
             public int $count = 0;
+            public array $used_names = [];
+
             public function getNewName(): string
             {
                 $name = "name_{$this->count}";
                 $this->count++;
 
                 return $name;
+            }
+            public function getNewDedicatedName(string $dedicated_name): string
+            {
+                if ($dedicated_name == 'input') {
+                    return $this->getNewName();
+                }
+                if (in_array($dedicated_name, $this->used_names)) {
+                    return $dedicated_name . '_' . $this->count++;
+                } else {
+                    $this->used_names[] = $dedicated_name;
+                    return $dedicated_name;
+                }
             }
         };
     }

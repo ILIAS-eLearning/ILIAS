@@ -28,20 +28,17 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Order;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 class Sortation extends ViewControlInput implements VCInterface\Sortation, HasInputGroup
 {
     use GroupDecorator;
+    private const FNAME_ASPECT = 'asp';
+    private const FNAME_DIRECTION = 'dir';
+    private const FNAME_SORTATION = 'sort';
 
     protected Signal $internal_selection_signal;
     protected string $aspect;
     protected string $direction;
-
-    /**
-     * @var array<string, Order>
-     */
-    protected array $options;
 
     /**
      * @param array<string, Order> $options
@@ -51,19 +48,20 @@ class Sortation extends ViewControlInput implements VCInterface\Sortation, HasIn
         DataFactory $data_factory,
         Refinery $refinery,
         SignalGeneratorInterface $signal_generator,
-        array $options,
+        protected array $options,
     ) {
         parent::__construct($data_factory, $refinery);
 
         $aspects = array_keys($options);
         $this->checkArgListElements('options', $aspects, 'string');
         $this->checkArgListElements('options', $options, [Order::class]);
-        $this->options = $options;
 
         $this->setInputGroup($field_factory->group([
-            $field_factory->hidden(), //aspect
-            $field_factory->hidden(), //direction
-        ])->withAdditionalTransformation($this->getOrderTransform()));
+            $field_factory->hidden()->withDedicatedName(self::FNAME_ASPECT),
+            $field_factory->hidden()->withDedicatedName(self::FNAME_DIRECTION),
+        ])
+        ->withDedicatedName(self::FNAME_SORTATION)
+        ->withAdditionalTransformation($this->getOrderTransform()));
 
         $this->internal_selection_signal = $signal_generator->create();
     }

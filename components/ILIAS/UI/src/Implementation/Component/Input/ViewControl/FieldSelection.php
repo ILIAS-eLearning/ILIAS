@@ -30,6 +30,8 @@ use ILIAS\UI\Implementation\Component\Input\Input;
 
 class FieldSelection extends ViewControlInput implements VCInterface\FieldSelection
 {
+    private const FNAME_FIELDSELECTION = 'sel';
+
     protected Signal $internal_selection_signal;
     protected string $button_label = '';
 
@@ -41,6 +43,7 @@ class FieldSelection extends ViewControlInput implements VCInterface\FieldSelect
     ) {
         parent::__construct($data_factory, $refinery);
         $this->internal_selection_signal = $signal_generator->create();
+        $this->dedicated_name = self::FNAME_FIELDSELECTION;
     }
 
     protected function isClientSideValueOk($value): bool
