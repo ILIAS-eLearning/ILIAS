@@ -912,7 +912,9 @@ class ilObjLTIConsumer extends ilObject2
             $launch_vars['custom_' . $key] = $value;
         }
 
-        if ($this->getProvider()->isGradeSynchronization()) {
+        if ($this->getProvider()->isGradeSynchronization() || $this->getProvider()->getHasOutcome()) {
+
+            //include_once("components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath(
             ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
@@ -1420,6 +1422,8 @@ class ilObjLTIConsumer extends ilObject2
         if (count($auth) < 1) {
             self::sendResponseError(405, "missing Authorization header");
         }
+        $logger = $DIC->logger()->root();
+        $logger->info("Verifying token: " . json_encode($auth) . " HEADER: " . json_encode($DIC->http()->request()->getHeaders()) .  " REQUEST getParsedBody: " . json_encode($DIC->http()->request()->getParsedBody()) . " REQUEST getParsedBody" . json_encode($DIC->http()->request()->getQueryParams()));
         preg_match('/Bearer\s+(.+)$/i', $auth[0], $matches);
         if (count($matches) != 2) {
             self::sendResponseError(405, "missing required Authorization Baerer token");

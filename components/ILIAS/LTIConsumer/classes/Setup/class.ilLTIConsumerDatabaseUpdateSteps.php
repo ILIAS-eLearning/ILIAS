@@ -236,4 +236,24 @@ class ilLTIConsumerDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addIndex("lti_consumer_grades", array("obj_id","usr_id"), 'i1');
         }
     }
+
+    public function step_16(): void
+    {
+        if (!$this->db->tableColumnExists('lti_consumer_results', 'attended')) {
+            $this->db->addTableColumn('lti_consumer_results', 'attended', [
+                'type' => 'integer',
+                'notnull' => true,
+                'length' => 1,
+                'default' => 0
+            ]);
+
+            $query = /** @lang sql */
+                "
+                UPDATE lti_consumer_results
+                SET attended = 1
+                WHERE result IS NOT NULL AND result > 0
+            ";
+            $this->db->manipulate($query);
+        }
+    }
 }
