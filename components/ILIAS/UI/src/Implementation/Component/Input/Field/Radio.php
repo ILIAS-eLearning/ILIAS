@@ -31,14 +31,13 @@ use Closure;
 /**
  * This implements the radio input.
  */
-class Radio extends FormInput implements C\Input\Field\Radio
+class Radio extends HasOptionFilter implements C\Input\Field\Radio
 {
     use JavaScriptBindable;
     use Triggerer;
-    use HasOptionFilter;
 
     /**
-     * @var array <string,string> {$value => $label}
+     * @var array<string,string> (value => label)
      */
     protected array $options = [];
 

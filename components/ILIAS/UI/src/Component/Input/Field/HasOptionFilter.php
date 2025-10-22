@@ -20,10 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+
 /**
  * Allows fields with list-like items to be collapsible with a searchbar filter
  */
-interface HasOptionFilter
+interface HasOptionFilter extends FormInput
 {
     /**
      * Adds a collapsed view and a searchbar to the field.

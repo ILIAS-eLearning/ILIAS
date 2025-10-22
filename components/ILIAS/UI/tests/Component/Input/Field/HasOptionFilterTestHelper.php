@@ -37,7 +37,7 @@ trait HasOptionFilterTestHelper
         };
     }
 
-    protected function testHasOptionFilter(FormInput $component): void
+    protected function testHasOptionFilter(I\Input\Field\HasOptionFilter $component): void
     {
         $this->assertTrue($component->hasOptionFilter(), 'The component should be searchable.');
 

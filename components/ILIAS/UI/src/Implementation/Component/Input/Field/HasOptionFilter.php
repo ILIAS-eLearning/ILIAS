@@ -20,9 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-trait HasOptionFilter
+use ILIAS\UI\Component as C;
+
+abstract class HasOptionFilter extends FormInput implements C\Input\Field\HasOptionFilter
 {
     protected bool $has_option_filter = false;
+
+    /**
+     * @return array<string, string> (value => label)
+     */
+    abstract public function getOptions(): array;
 
     public function withHasOptionFilter(bool $has_option_filter = true): static
     {
