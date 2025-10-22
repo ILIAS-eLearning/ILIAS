@@ -162,8 +162,6 @@ class ilObjWikiGUI extends ilObjectGUI
                 }
 
                 // alter title and description
-//				$tpl->setTitle($wpage_gui->getPageObject()->getTitle());
-//				$tpl->setDescription($this->object->getTitle());
                 if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
                     $wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
                 }
@@ -258,6 +256,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 break;
 
             case 'ilrepositoryobjectsearchgui':
+                $this->checkPermission("read");
                 $this->addHeaderAction();
                 $this->setSideBlock();
                 $ilTabs->setTabActive("wiki_search_results");
@@ -271,6 +270,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 break;
 
             case 'ilobjnotificationsettingsgui':
+                $this->checkPermission("write");
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("notifications");
@@ -279,6 +279,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 break;
 
             case 'illtiproviderobjectsettinggui':
+                $this->checkPermission("write");
                 $this->addHeaderAction();
                 $ilTabs->activateTab("settings");
                 $this->setSettingsSubTabs("lti_provider");
