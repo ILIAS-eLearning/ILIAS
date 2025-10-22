@@ -114,7 +114,7 @@ class PersonalSettingsTableActions
         }
     }
 
-    protected function submit(
+    private function submit(
         TableAction $action,
         URLBuilder $url_builder,
         array $selection,
@@ -126,7 +126,7 @@ class PersonalSettingsTableActions
         );
     }
 
-    protected function showModal(
+    private function showModal(
         TableAction $action,
         URLBuilder $url_builder,
         array $selection,
@@ -145,7 +145,7 @@ class PersonalSettingsTableActions
     /**
      * @param PersonalSettingsTemplate[] $selection
      */
-    protected function checkAccess(array $selection): bool
+    private function checkAccess(array $selection): bool
     {
         foreach ($selection as $template) {
             if ($this->user->getId() !== $template->getUserId()) {
@@ -155,7 +155,7 @@ class PersonalSettingsTableActions
         return true;
     }
 
-    protected function fail(string $message_key): null
+    private function fail(string $message_key): null
     {
         $this->test_response->sendAsync(
             $this->ui_renderer->renderAsync(

@@ -56,59 +56,59 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
     protected function doSelect(string $where_part): MainSettings
     {
         $query = 'SELECT ' . PHP_EOL
-            . 'st.id,' . PHP_EOL
-            . 'st.question_set_type,' . PHP_EOL
-            . 'st.anonymity,' . PHP_EOL
-            . 'st.intro_enabled,' . PHP_EOL
-            . 'st.hide_info_tab,' . PHP_EOL
-            . 'st.conditions_checkbox_enabled,' . PHP_EOL
-            . 'st.introduction,' . PHP_EOL
-            . 'st.introduction_page_id,' . PHP_EOL
-            . 'st.starting_time_enabled,' . PHP_EOL
-            . 'st.starting_time,' . PHP_EOL
-            . 'st.ending_time_enabled,' . PHP_EOL
-            . 'st.ending_time,' . PHP_EOL
-            . 'st.password_enabled,' . PHP_EOL
-            . 'st.password,' . PHP_EOL
-            . 'st.ip_range_from,' . PHP_EOL
-            . 'st.ip_range_to,' . PHP_EOL
-            . 'st.fixed_participants,' . PHP_EOL
-            . 'st.nr_of_tries,' . PHP_EOL
-            . 'st.block_after_passed,' . PHP_EOL
-            . 'st.pass_waiting,' . PHP_EOL
-            . 'st.enable_processing_time,' . PHP_EOL
-            . 'st.processing_time,' . PHP_EOL
-            . 'st.reset_processing_time,' . PHP_EOL
-            . 'st.kiosk,' . PHP_EOL
-            . 'st.examid_in_test_pass,' . PHP_EOL
-            . 'st.title_output,' . PHP_EOL
-            . 'st.autosave,' . PHP_EOL
-            . 'st.autosave_ival,' . PHP_EOL
-            . 'st.shuffle_questions,' . PHP_EOL
-            . 'st.answer_feedback_points,' . PHP_EOL
-            . 'st.answer_feedback,' . PHP_EOL
-            . 'st.specific_feedback,' . PHP_EOL
-            . 'st.instant_verification,' . PHP_EOL
-            . 'st.force_inst_fb,' . PHP_EOL
-            . 'st.inst_fb_answer_fixation,' . PHP_EOL
-            . 'st.follow_qst_answer_fixation,' . PHP_EOL
-            . 'st.use_previous_answers,' . PHP_EOL
-            . 'st.suspend_test_allowed,' . PHP_EOL
-            . 'st.sequence_settings,' . PHP_EOL
-            . 'st.usr_pass_overview_mode,' . PHP_EOL
-            . 'st.show_marker,' . PHP_EOL
-            . 'st.show_questionlist,' . PHP_EOL
-            . 'st.enable_examview,' . PHP_EOL
-            . 'st.showfinalstatement,' . PHP_EOL
-            . 'st.finalstatement,' . PHP_EOL
-            . 'st.concluding_remarks_page_id,' . PHP_EOL
-            . 'st.redirection_mode,' . PHP_EOL
-            . 'st.redirection_url,' . PHP_EOL
-            . 'st.skill_service,' . PHP_EOL
+            . 'tst_set.id,' . PHP_EOL
+            . 'tst_set.question_set_type,' . PHP_EOL
+            . 'tst_set.anonymity,' . PHP_EOL
+            . 'tst_set.intro_enabled,' . PHP_EOL
+            . 'tst_set.hide_info_tab,' . PHP_EOL
+            . 'tst_set.conditions_checkbox_enabled,' . PHP_EOL
+            . 'tst_set.introduction,' . PHP_EOL
+            . 'tst_set.introduction_page_id,' . PHP_EOL
+            . 'tst_set.starting_time_enabled,' . PHP_EOL
+            . 'tst_set.starting_time,' . PHP_EOL
+            . 'tst_set.ending_time_enabled,' . PHP_EOL
+            . 'tst_set.ending_time,' . PHP_EOL
+            . 'tst_set.password_enabled,' . PHP_EOL
+            . 'tst_set.password,' . PHP_EOL
+            . 'tst_set.ip_range_from,' . PHP_EOL
+            . 'tst_set.ip_range_to,' . PHP_EOL
+            . 'tst_set.fixed_participants,' . PHP_EOL
+            . 'tst_set.nr_of_tries,' . PHP_EOL
+            . 'tst_set.block_after_passed,' . PHP_EOL
+            . 'tst_set.pass_waiting,' . PHP_EOL
+            . 'tst_set.enable_processing_time,' . PHP_EOL
+            . 'tst_set.processing_time,' . PHP_EOL
+            . 'tst_set.reset_processing_time,' . PHP_EOL
+            . 'tst_set.kiosk,' . PHP_EOL
+            . 'tst_set.examid_in_test_pass,' . PHP_EOL
+            . 'tst_set.title_output,' . PHP_EOL
+            . 'tst_set.autosave,' . PHP_EOL
+            . 'tst_set.autosave_ival,' . PHP_EOL
+            . 'tst_set.shuffle_questions,' . PHP_EOL
+            . 'tst_set.answer_feedback_points,' . PHP_EOL
+            . 'tst_set.answer_feedback,' . PHP_EOL
+            . 'tst_set.specific_feedback,' . PHP_EOL
+            . 'tst_set.instant_verification,' . PHP_EOL
+            . 'tst_set.force_inst_fb,' . PHP_EOL
+            . 'tst_set.inst_fb_answer_fixation,' . PHP_EOL
+            . 'tst_set.follow_qst_answer_fixation,' . PHP_EOL
+            . 'tst_set.use_previous_answers,' . PHP_EOL
+            . 'tst_set.suspend_test_allowed,' . PHP_EOL
+            . 'tst_set.sequence_settings,' . PHP_EOL
+            . 'tst_set.usr_pass_overview_mode,' . PHP_EOL
+            . 'tst_set.show_marker,' . PHP_EOL
+            . 'tst_set.show_questionlist,' . PHP_EOL
+            . 'tst_set.enable_examview,' . PHP_EOL
+            . 'tst_set.showfinalstatement,' . PHP_EOL
+            . 'tst_set.finalstatement,' . PHP_EOL
+            . 'tst_set.concluding_remarks_page_id,' . PHP_EOL
+            . 'tst_set.redirection_mode,' . PHP_EOL
+            . 'tst_set.redirection_url,' . PHP_EOL
+            . 'tst_set.skill_service,' . PHP_EOL
             . 'tst.test_id AS test_id,' . PHP_EOL
             . 'tst.obj_fi AS obj_fi' . PHP_EOL
-            . 'FROM tst_test_settings AS st' . PHP_EOL
-            . 'INNER JOIN tst_tests AS tst ON tst.settings_id = st.id' . PHP_EOL
+            . 'FROM tst_test_settings AS tst_set' . PHP_EOL
+            . 'INNER JOIN tst_tests AS tst ON tst.settings_id = tst_set.id' . PHP_EOL
             . $where_part;
 
         $res = $this->db->query($query);
@@ -118,7 +118,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         }
 
         $row = $this->db->fetchAssoc($res);
-        $settings = $this->factory->createMainSettings($row);
+        $settings = $this->factory->createMainSettingsFromDBRow($row);
 
         $this->settings_by_obj_fi[$row['obj_fi']] = $settings->getId();
         $this->settings_by_test_fi[$row['test_id']] = $settings->getId();

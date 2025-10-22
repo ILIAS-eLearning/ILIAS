@@ -28,6 +28,7 @@ use ILIAS\Test\Results\Data\ParticipantResult;
 use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\Scoring\Marks\Mark;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
+use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -265,7 +266,7 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                 ['getMatchingMark' => $mock]
             );
         } else {
-            $mark_schema = (new MarkSchema(0))->createSimpleSchema();
+            $mark_schema = (new MarkSchemaFactory())->createSimpleSchema(0);
         }
 
         return new class ($mark_schema) implements MarksRepository {

@@ -42,18 +42,18 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
     protected function doSelect(string $where_part): ScoreSettings
     {
         $query = 'SELECT ' . PHP_EOL
-            . 'st.id,' . PHP_EOL
-            . 'st.count_system, st.score_cutting, st.pass_scoring,' . PHP_EOL
-            . 'st.score_reporting, st.reporting_date,' . PHP_EOL
-            . 'st.show_grading_status, st.show_grading_mark, st.pass_deletion_allowed,' . PHP_EOL
-            . 'st.print_bs_with_res,' . PHP_EOL //print_bs_with_res_sp
-            . 'st.examid_in_test_res,' . PHP_EOL
-            . 'st.results_presentation,' . PHP_EOL
-            . 'st.exportsettings,' . PHP_EOL
-            . 'st.highscore_enabled, st.highscore_anon, st.highscore_achieved_ts, st.highscore_score, st.highscore_percentage, st.highscore_wtime, st.highscore_own_table, st.highscore_top_table, st.highscore_top_num,' . PHP_EOL
+            . 'tst_set.id,' . PHP_EOL
+            . 'tst_set.count_system, tst_set.score_cutting, tst_set.pass_scoring,' . PHP_EOL
+            . 'tst_set.score_reporting, tst_set.reporting_date,' . PHP_EOL
+            . 'tst_set.show_grading_status, tst_set.show_grading_mark, tst_set.pass_deletion_allowed,' . PHP_EOL
+            . 'tst_set.print_bs_with_res,' . PHP_EOL //print_bs_with_res_sp
+            . 'tst_set.examid_in_test_res,' . PHP_EOL
+            . 'tst_set.results_presentation,' . PHP_EOL
+            . 'tst_set.exportsettings,' . PHP_EOL
+            . 'tst_set.highscore_enabled, tst_set.highscore_anon, tst_set.highscore_achieved_ts, tst_set.highscore_score, tst_set.highscore_percentage, tst_set.highscore_wtime, tst_set.highscore_own_table, tst_set.highscore_top_table, tst_set.highscore_top_num,' . PHP_EOL
             . 'tst.test_id AS test_id' . PHP_EOL
-            . 'FROM tst_test_settings AS st' . PHP_EOL
-            . 'INNER JOIN tst_tests AS tst ON tst.settings_id = st.id' . PHP_EOL
+            . 'FROM tst_test_settings AS tst_set' . PHP_EOL
+            . 'INNER JOIN tst_tests AS tst ON tst.settings_id = tst_set.id' . PHP_EOL
             . $where_part;
 
         $res = $this->db->query($query);
@@ -63,7 +63,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         }
 
         $row = $this->db->fetchAssoc($res);
-        $settings = $this->factory->createScoreSettings($row);
+        $settings = $this->factory->createScoreSettingsFromDBRow($row);
 
         $this->settings_instances[$row['test_id']] = $settings;
 

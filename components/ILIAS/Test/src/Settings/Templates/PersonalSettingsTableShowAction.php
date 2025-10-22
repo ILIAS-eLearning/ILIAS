@@ -80,8 +80,8 @@ class PersonalSettingsTableShowAction implements TableAction
 
         $settings = $this->repository->getSettings($template->getId());
         $settings_info = array_merge(
-            $this->factory->createMainSettings($settings)->getArrayForLog($this->information_generator),
-            $this->factory->createScoreSettings($settings)->getArrayForLog($this->information_generator),
+            $this->factory->createMainSettingsFromDBRow($settings)->getArrayForLog($this->information_generator),
+            $this->factory->createScoreSettingsFromDBRow($settings)->getArrayForLog($this->information_generator),
         );
 
         $modal_content[] = $this->information_generator->parseForTable(

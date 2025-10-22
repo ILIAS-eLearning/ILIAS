@@ -38,7 +38,7 @@ class MarksDatabaseRepository implements MarksRepository
             [$test_id],
         );
 
-        return $this->factory->createMarkSchema($this->db->fetchAll($result), $test_id);
+        return $this->factory->createMarkSchemaFromDBRow($this->db->fetchAll($result), $test_id);
     }
 
     public function storeMarkSchema(MarkSchema $mark_schema): void

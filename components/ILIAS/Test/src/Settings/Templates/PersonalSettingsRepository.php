@@ -32,13 +32,13 @@ use ILIAS\Test\Settings\SettingsFactory;
 class PersonalSettingsRepository
 {
     public function __construct(
-        protected \ilDBInterface $db,
-        protected \ilObjUser $user,
-        protected SettingsFactory $factory,
-        protected MarkSchemaFactory $marks_factory,
-        protected MainSettingsRepository $main_settings_repository,
-        protected ScoreSettingsRepository $score_settings_repository,
-        protected MarksRepository $marks_repository,
+        private readonly \ilDBInterface $db,
+        private readonly \ilObjUser $user,
+        private readonly SettingsFactory $factory,
+        private readonly MarkSchemaFactory $marks_factory,
+        private readonly MainSettingsRepository $main_settings_repository,
+        private readonly ScoreSettingsRepository $score_settings_repository,
+        private readonly MarksRepository $marks_repository,
     ) {
     }
 
@@ -55,7 +55,7 @@ class PersonalSettingsRepository
 
         $templates = [];
         while ($row = $this->db->fetchAssoc($stmt)) {
-            $templates[$row['test_defaults_id']] = $this->factory->createTemplate($row);
+            $templates[$row['test_defaults_id']] = $this->factory->createTemplateFromDBRow($row);
         }
         return $templates;
     }
@@ -72,7 +72,7 @@ class PersonalSettingsRepository
 
         $templates = [];
         while ($row = $this->db->fetchAssoc($stmt)) {
-            $templates[$row['test_defaults_id']] = $this->factory->createTemplate($row);
+            $templates[$row['test_defaults_id']] = $this->factory->createTemplateFromDBRow($row);
         }
         return $templates;
     }
@@ -86,7 +86,7 @@ class PersonalSettingsRepository
         );
 
         if ($row = $this->db->fetchAssoc($stmt)) {
-            return $this->factory->createTemplate($row);
+            return $this->factory->createTemplateFromDBRow($row);
         }
         return null;
     }
@@ -113,7 +113,7 @@ class PersonalSettingsRepository
             [\ilDBConstants::T_INTEGER],
             [$template_id]
         );
-        return $this->marks_factory->createMarkSchema($this->db->fetchAll($stmt), -1);
+        return $this->marks_factory->createMarkSchemaFromDBRow($this->db->fetchAll($stmt), -1);
     }
 
     public function applyTemplate(int $test_id, int $template_id): void
@@ -126,8 +126,8 @@ class PersonalSettingsRepository
         $test_settings_id = $this->db->fetchAssoc($stmt)['settings_id'];
 
         $settings_data = $this->getSettings($template_id);
-        $main_settings = $this->factory->createMainSettings($settings_data)->withId($test_settings_id);
-        $score_settings = $this->factory->createScoreSettings($settings_data)->withId($test_settings_id);
+        $main_settings = $this->factory->createMainSettingsFromDBRow($settings_data)->withId($test_settings_id);
+        $score_settings = $this->factory->createScoreSettingsFromDBRow($settings_data)->withId($test_settings_id);
         $mark_schema = $this->getMarkSchema($template_id)->withTestId($test_id);
 
         $this->main_settings_repository->store($main_settings);

@@ -19,11 +19,14 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystems;
+use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
+use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
+use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\Test\Settings\Templates\PersonalSettingsCreateAction;
+use ILIAS\Test\Settings\Templates\PersonalSettingsExporter;
 use ILIAS\Test\Settings\Templates\PersonalSettingsImportAction;
-use ILIAS\Test\Settings\Templates\PersonalSettingsImportHandler;
 use ILIAS\Test\Settings\Templates\PersonalSettingsRepository;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTable;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTableActions;
@@ -166,6 +169,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected TestResultRepository $test_pass_result_repository;
     protected PersonalSettingsRepository $personal_settings_templates_repository;
     protected MainSettingsDatabaseRepository $main_settings_repository;
+    protected SettingsFactory $settings_factory;
+    protected MarkSchemaFactory $mark_schema_factory;
+    protected AdditionalInformationGenerator $additional_information_generator;
+    protected PersonalSettingsExporter $personal_settings_exporter;
     protected ?QuestionsTableQuery $table_query = null;
     protected ?QuestionsTableActions $table_actions = null;
     protected DataFactory $data_factory;
@@ -218,6 +225,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->toplist_repository = $local_dic['results.toplist.repository'];
         $this->personal_settings_templates_repository = $local_dic['settings.personal_templates.repository'];
         $this->main_settings_repository = $local_dic['settings.main.repository'];
+        $this->settings_factory = $local_dic['settings.factory'];
+        $this->mark_schema_factory = $local_dic['marks.factory'];
+        $this->additional_information_generator = $local_dic['logging.information_generator'];
+        $this->personal_settings_exporter = $local_dic['settings.personal_templates.exporter'];
 
         $ref_id = 0;
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
@@ -593,7 +604,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->request,
                     $this->refinery,
                     $this->ui_factory,
-                    $this->ui_renderer
+                    $this->ui_renderer,
+                    $this->mark_schema_factory
                 );
                 $this->ctrl->forwardCommand($mark_schema_gui);
 
@@ -927,11 +939,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     return;
                 }
 
-                if (in_array($cmd, ['executeTemplatesAction', 'showTemplates', 'createTemplate', 'importTemplate'])) {
-                    $local_cmd = "{$cmd}Cmd";
-                } else {
-                    $local_cmd = "{$cmd}Object";
-                }
+                $local_cmd = "{$cmd}Object";
 
                 if (!method_exists($this, $local_cmd)) {
                     $local_cmd = self::SHOW_QUESTIONS_CMD . 'Object';
@@ -1408,13 +1416,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $info = '';
         $new_object->saveToDb();
 
-        $template_id = $this->getSelectedPersonalDefaultsSettingsFromForm();
-        if ($template_id !== 0) {
-            $this->personal_settings_templates_repository->applyTemplate($new_object->getTestId(), $template_id);
-        }
-
-        $new_object->saveToDb();
-
         if ($new_object->getTestLogger()->isLoggingEnabled()) {
             $new_object->getTestLogger()->logTestAdministrationInteraction(
                 $new_object->getTestLogger()->getInteractionFactory()->buildTestAdministrationInteraction(
@@ -1435,15 +1436,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass(SettingsMainGUI::class);
     }
 
-    private function getSelectedPersonalDefaultsSettingsFromForm(): int
-    {
-        $data = $this->initCreateForm($this->type)
-            ->withRequest($this->request)
-            ->getData();
-        return isset($data['didactic_templates'])
-            ? $this->parseDidacticTemplateVar($data['didactic_templates'], 'tstdef')
-            : 0;
-    }
 
     public function backToRepositoryObject()
     {
@@ -1996,7 +1988,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     }
 
 
-    public function showTemplatesCmd(?Modal $modal = null): void
+    public function showTemplatesObject(?Modal $modal = null): void
     {
         $this->protectByWritePermission();
 
@@ -2032,13 +2024,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         );
     }
 
-    public function createTemplateCmd(): void
+    public function createTemplateObject(): void
     {
         $this->protectByWritePermission();
 
         try {
             $this->buildPersonalSettingsCreateAction()
-                ->perform($this->getTestObject()->getTestId(), $this->request);
+                ->execute($this->getTestObject()->getTestId(), $this->request);
         } catch (\InvalidArgumentException $e) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);
         }
@@ -2046,13 +2038,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass(self::class, 'showTemplates');
     }
 
-    public function importTemplateCmd(): void
+    public function importTemplateObject(): void
     {
         $this->protectByWritePermission();
 
         try {
             $this->buildPersonalSettingsImportAction()
-                ->perform($this->request);
+                ->execute($this->request);
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('personal_settings_import_success'), true);
         } catch (\InvalidArgumentException $e) {
@@ -2062,13 +2054,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->ctrl->redirectByClass(self::class, 'showTemplates');
     }
 
-    public function executeTemplatesActionCmd(): void
+    public function executeTemplatesActionObject(): void
     {
         $this->protectByWritePermission();
 
         $modal = $this->buildPersonalSettingsTable()->execute();
         if ($modal !== null) {
-            $this->showTemplatesCmd($modal);
+            $this->showTemplatesObject($modal);
             return;
         }
         $this->ctrl->redirectByClass(self::class, 'showTemplates');
@@ -2098,8 +2090,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     protected function buildPersonalSettingsTable(): PersonalSettingsTable
     {
-        $local_dic = TestDIC::dic();
-
         $actions = new PersonalSettingsTableActions(
             $this->testrequest,
             $this->response_handler,
@@ -2114,22 +2104,22 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->ui_factory,
                     $this->personal_settings_templates_repository,
                     $this->user,
-                    $local_dic['settings.factory'],
-                    $local_dic['logging.information_generator']
+                    $this->settings_factory,
+                    $this->additional_information_generator
                 ),
                 PersonalSettingsTableApplyAction::ACTION_ID => new PersonalSettingsTableApplyAction(
                     $this->lng,
                     $this->ui_factory,
                     $this->test_question_set_config_factory,
                     $this->personal_settings_templates_repository,
-                    $local_dic['settings.factory'],
+                    $this->settings_factory,
                     $this->getTestObject(),
                     $this->tpl
                 ),
                 PersonalSettingsTableExportAction::ACTION_ID => new PersonalSettingsTableExportAction(
                     $this->lng,
                     $this->ui_factory,
-                    $local_dic['settings.personal_templates.exporter']
+                    $this->personal_settings_exporter
                 ),
                 PersonalSettingsTableDeleteAction::ACTION_ID => new PersonalSettingsTableDeleteAction(
                     $this->lng,

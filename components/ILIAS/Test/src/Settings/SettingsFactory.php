@@ -40,7 +40,7 @@ use ILIAS\Test\Settings\Templates\PersonalSettingsTemplate;
 
 class SettingsFactory
 {
-    public function createMainSettings(array $row): MainSettings
+    public function createMainSettingsFromDBRow(array $row): MainSettings
     {
         return new MainSettings(
             $row['id'],
@@ -115,7 +115,7 @@ class SettingsFactory
         );
     }
 
-    public function createScoreSettings(array $row): ScoreSettings
+    public function createScoreSettingsFromDBRow(array $row): ScoreSettings
     {
         return new ScoreSettings(
             $row['id'],
@@ -149,7 +149,7 @@ class SettingsFactory
         );
     }
 
-    public function createTemplate(array $row): PersonalSettingsTemplate
+    public function createTemplateFromDBRow(array $row): PersonalSettingsTemplate
     {
         return new PersonalSettingsTemplate(
             $row['test_defaults_id'],

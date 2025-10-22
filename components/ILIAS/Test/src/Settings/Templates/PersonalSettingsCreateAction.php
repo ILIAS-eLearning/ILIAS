@@ -61,7 +61,7 @@ class PersonalSettingsCreateAction
         )->withSubmitLabel($this->lng->txt('personal_settings_save'));
     }
 
-    public function perform(int $test_id, ServerRequestInterface $request): void
+    public function execute(int $test_id, ServerRequestInterface $request): void
     {
         $container = $this->buildInput('')->withRequest($request);
         $data = $container->getData();

@@ -28,12 +28,12 @@ class PersonalSettingsTemplate implements Normalizable
     use PropertyNormalizer;
 
     public function __construct(
-        protected int $id,
-        protected int $user_id,
-        protected string $name,
-        protected string $description,
-        protected string $author,
-        protected \DateTimeImmutable $created_at,
+        private int $id,
+        private int $user_id,
+        private string $name,
+        private string $description,
+        private string $author,
+        private \DateTimeImmutable $created_at,
     ) {
     }
 

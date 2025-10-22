@@ -68,8 +68,8 @@ class PersonalSettingsExporter implements Exporter
         }
 
         $raw_settings = $this->repository->getSettings($this->template_id);
-        $main_settings = $this->factory->createMainSettings($raw_settings)->normalize();
-        $score_settings = $this->factory->createScoreSettings($raw_settings)->normalize();
+        $main_settings = $this->factory->createMainSettingsFromDBRow($raw_settings)->normalize();
+        $score_settings = $this->factory->createScoreSettingsFromDBRow($raw_settings)->normalize();
         $mark_schema = $this->repository->getMarkSchema($this->template_id)->normalize();
 
 

@@ -131,7 +131,7 @@ class PersonalSettingsTableApplyAction implements TableAction
     private function hasDifferentQuestionSetType(int $template_id): bool
     {
         $template_settings = $this->repository->getSettings($template_id);
-        $template_main_settings = $this->factory->createMainSettings($template_settings);
+        $template_main_settings = $this->factory->createMainSettingsFromDBRow($template_settings);
         return $template_main_settings->getGeneralSettings()->getQuestionSetType() !== $this->test_obj->getQuestionSetType();
     }
 }

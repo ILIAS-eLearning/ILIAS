@@ -62,7 +62,7 @@ class PersonalSettingsImportAction
         )->withSubmitLabel($this->lng->txt('import'));
     }
 
-    public function perform(ServerRequestInterface $request): void
+    public function execute(ServerRequestInterface $request): void
     {
         $data = $this->buildInput('')->withRequest($request)->getData();
 
@@ -85,8 +85,10 @@ class PersonalSettingsImportAction
     public function importFile(string $file): void
     {
         $dom = new \DOMDocument();
-        $dom->loadXML($this->filesystem->read($file));
-
+        $dom->resolveExternals = false;
+        $dom->substituteEntities = false;
+        $dom->validateOnParse = false;
+        $dom->loadXML($this->filesystem->read($file), LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
 
         if (!$dom->schemaValidate(self::SCHEMA_FILE)) {
             throw new \ilImportException('XML validation failed against XSD schema');
@@ -164,7 +166,7 @@ class PersonalSettingsImportAction
             static fn(mixed $child): bool => $child instanceof \DOMElement,
         );
 
-        if (count($children) > 0) {
+        if ($children !== []) {
             $settings = [];
             foreach ($children as $child) {
                 if ($name = $child->getAttribute('name')) {

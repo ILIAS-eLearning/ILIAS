@@ -68,7 +68,7 @@ class PersonalSettingsTable implements DataRetrieval
     /**
      * @return array<string, Column>
      */
-    protected function getColumns(): array
+    private function getColumns(): array
     {
         $column_factory = $this->ui_factory->table()->column();
         $date_format = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->standard());
