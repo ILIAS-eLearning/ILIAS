@@ -249,14 +249,13 @@ class ilAssQuestionSkillAssignment
 
     public function loadAdditionalSkillData(): void
     {
-        $this->setSkillTitle(
-            ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId())
-        );
+        $this->setSkillTitle(ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId()));
+        $this->setSkillPath(implode(' > ', $this->retrieveNodeTitlesArrayFromPath()));
+    }
 
-        $path = $this->skill_tree_service->getSkillTreePath(
-            $this->getSkillBaseId(),
-            $this->getSkillTrefId()
-        );
+    private function retrieveNodeTitlesArrayFromPath(): array
+    {
+        $path = $this->skill_tree_service->getSkillTreePath($this->getSkillBaseId(), $this->getSkillTrefId());
 
         $nodes = [];
         foreach ($path as $node) {
@@ -278,7 +277,7 @@ class ilAssQuestionSkillAssignment
             );
         }
 
-        $this->setSkillPath(implode(' > ', $nodes));
+        return $nodes;
     }
 
     public function setSkillTitle($skillTitle): void

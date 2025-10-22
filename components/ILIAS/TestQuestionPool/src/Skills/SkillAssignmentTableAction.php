@@ -18,9 +18,8 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\Skill;
+namespace ILIAS\TestQuestionPool\Skills;
 
-use ilAssQuestionSkillAssignment;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Component\Table\Action\Action;
@@ -38,5 +37,5 @@ interface SkillAssignmentTableAction
         URLBuilderToken $action_type_token
     ): Action;
 
-    public function allowActionForRecord(ilAssQuestionSkillAssignment $record): bool;
+    public function allowActionForRecord(\ilAssQuestionSkillAssignment $record): bool;
 }

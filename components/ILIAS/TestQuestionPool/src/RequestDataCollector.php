@@ -18,8 +18,8 @@
 
 namespace ILIAS\TestQuestionPool;
 
-use Closure;
 use GuzzleHttp\Psr7\UploadedFile;
+use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
 use ILIAS\Refinery\ConstraintViolationException;
@@ -81,7 +81,7 @@ class RequestDataCollector
             if (isset($uploaded_files[$index]) && $http_names === []) {
                 /** @var UploadedFile $file */
                 $file = $uploaded_files[$index];
-                $c = Closure::bind(static function (UploadedFile $file): ?string {
+                $c = \Closure::bind(static function (UploadedFile $file): ?string {
                     return $file->file ?? null;
                 }, null, $file);
 
@@ -273,6 +273,12 @@ class RequestDataCollector
             $chain = $this->refinery->kindlyTo()->dictOf($chain);
         }
 
-        return $this->get($key, $this->refinery->byTrying([$chain, $this->refinery->always([])])) ?? [];
+        return $this->get(
+            $key,
+            $this->refinery->byTrying([
+                $chain,
+                $this->refinery->always([])
+            ])
+        ) ?? [];
     }
 }

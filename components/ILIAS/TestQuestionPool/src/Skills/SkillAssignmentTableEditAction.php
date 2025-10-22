@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Skill\SkillAssignmentTableAction;
+namespace ILIAS\TestQuestionPool\Skills;
+
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
@@ -28,8 +29,10 @@ class SkillAssignmentTableEditAction implements SkillAssignmentTableAction
 {
     public const string ACTION_ID = 'edit_assignment';
 
-    public function __construct(private readonly UIFactory $ui_factory, private readonly ilLanguage $lng)
-    {
+    public function __construct(
+        private readonly UIFactory $ui_factory,
+        private readonly \ilLanguage $lng
+    ) {
     }
 
     public function getActionId(): string
@@ -57,7 +60,7 @@ class SkillAssignmentTableEditAction implements SkillAssignmentTableAction
         );
     }
 
-    public function allowActionForRecord(ilAssQuestionSkillAssignment $record): bool
+    public function allowActionForRecord(\ilAssQuestionSkillAssignment $record): bool
     {
         return true;
     }

@@ -18,18 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\TestQuestionPool\Skill;
+namespace ILIAS\TestQuestionPool\Skills;
 
-use Generator;
-use ilAssQuestionSkillAssignmentList;
-use ilDBInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory;
-use ilLanguage;
 
 class SkillUsagesTable implements DataRetrieval
 {
@@ -37,8 +33,8 @@ class SkillUsagesTable implements DataRetrieval
 
     public function __construct(
         private readonly Factory $ui_factory,
-        private readonly ilLanguage $lng,
-        private readonly ilDBInterface $db,
+        private readonly \ilLanguage $lng,
+        private readonly \ilDBInterface $db,
         private readonly int $parent_obj_id
     ) {
     }
@@ -65,29 +61,26 @@ class SkillUsagesTable implements DataRetrieval
 
     public function collectRecords(?array $filter_data, ?array $additional_parameters): array
     {
-        $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+        $assignment_list = new \ilAssQuestionSkillAssignmentList($this->db);
 
-        $assignmentList->setParentObjId($this->parent_obj_id);
-        $assignmentList->loadFromDb();
-        $assignmentList->loadAdditionalSkillData();
+        $assignment_list->setParentObjId($this->parent_obj_id);
+        $assignment_list->loadFromDb();
+        $assignment_list->loadAdditionalSkillData();
 
-        return $assignmentList->getUniqueAssignedSkills();
+        return $assignment_list->getUniqueAssignedSkills();
     }
 
-    private function sortRecords(array $records, Order $order): array
+    private function orderRecords(array $records, Order $order): array
     {
         [$order_field, $order_direction] = $order->join(
             '',
             static fn(string $index, string $key, string $value): array => [$key, $value]
         );
 
-        usort($records, static function (array $a, array $b) use ($order_field): int {
-            if (is_numeric($a[$order_field]) || is_bool($a[$order_field]) || is_array($a[$order_field])) {
-                return $a[$order_field] <=> $b[$order_field];
-            }
-
-            return strcmp($a[$order_field] ?? '', $b[$order_field] ?? '');
-        });
+        usort(
+            $records,
+            static fn(array $a, array $b): int => ($a[$order_field] ?? '') <=> ($b[$order_field] ?? '')
+        );
 
         return $order_direction === $order::DESC ? array_reverse($records) : $records;
     }
@@ -102,11 +95,11 @@ class SkillUsagesTable implements DataRetrieval
         return array_slice($records, $range->getStart(), $range->getLength());
     }
 
-    protected function getRecords(Order $order, Range $range, ?array $filter_data, ?array $additional_parameters): array
+    private function getRecords(Order $order, Range $range, ?array $filter_data, ?array $additional_parameters): array
     {
         $this->initRecords($filter_data, $additional_parameters);
 
-        return $this->limitRecords($this->sortRecords($this->records, $order), $range);
+        return $this->limitRecords($this->orderRecords($this->records, $order), $range);
     }
 
     public function getRows(
@@ -116,7 +109,7 @@ class SkillUsagesTable implements DataRetrieval
         Order $order,
         ?array $filter_data,
         ?array $additional_parameters
-    ): Generator {
+    ): \Generator {
         foreach ($this->getRecords($order, $range, $filter_data, $additional_parameters) as $row_id => $record) {
             yield $row_builder->buildDataRow((string) $row_id, $record);
         }

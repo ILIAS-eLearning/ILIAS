@@ -26,8 +26,6 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function array_map;
-
 class RequestDataCollector
 {
     use BaseGUIRequest;

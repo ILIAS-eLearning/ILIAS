@@ -18,26 +18,25 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\TestQuestionPool\Skills;
+
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Table\PresentationRow;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component\Input\ViewControl\Mode;
 
-class SkillAssignmentsTable
+class SkillsByQuestionOverviewTable
 {
     public const string VIEW_CONTROL_QUERY_PARAM = 'mode';
 
     private const string ROW_ID_PARAMETER = 'q_id';
 
-    /** @var array<SkillAssignments>|null */
-    private ?array $records = null;
-
     public function __construct(
-        private readonly ilAssQuestionList $question_list,
-        private readonly ilAssQuestionSkillAssignmentList $assignment_list,
+        private readonly \ilAssQuestionList $question_list,
+        private readonly \ilAssQuestionSkillAssignmentList $assignment_list,
         private readonly UIFactory $ui_factory,
-        private readonly ilLanguage $lng,
-        private readonly ilCtrl $ctrl,
+        private readonly \ilLanguage $lng,
+        private readonly \ilCtrl $ctrl
     ) {
     }
 
@@ -49,7 +48,7 @@ class SkillAssignmentsTable
                 $this->getViewControls($skill_assignment_view_control_mode),
                 fn(PresentationRow $row, SkillAssignments $record): PresentationRow => $this->mapRow($row, $record, $edit_uri)
             )
-            ->withData($this->loadRecords($skill_assignment_view_control_mode))
+            ->withData($this->retrieveRecords($skill_assignment_view_control_mode))
         ];
     }
 
@@ -76,7 +75,7 @@ class SkillAssignmentsTable
             ->withHeadline($record->getQuestion()['title'])
             ->withSubheadline($record->getQuestion()['description'])
             ->withLeadingSymbol(
-                $this->ui_factory->symbol()->icon()->standard('ques', "")
+                $this->ui_factory->symbol()->icon()->standard('ques', '')
             )
             ->withContent(
                 $assignment_details !== []
@@ -91,27 +90,23 @@ class SkillAssignmentsTable
             );
 
         $assignments = $this->assignment_list->getAssignmentsByQuestionId($record->getQuestion()['question_id']);
-        if ($assignments !== []) {
-            $row = $row->withImportantFields([
-                $this->lng->txt('tst_competence') => implode(
-                    ', ',
-                    array_map(static fn(ilAssQuestionSkillAssignment $a) => $a->getSkillTitle(), $assignments)
-                ),
-            ]);
+        if ($assignments === []) {
+            return $row;
         }
 
-        return $row;
+        return $row->withImportantFields([
+            $this->lng->txt('tst_competence') => implode(
+                ', ',
+                array_map(static fn(\ilAssQuestionSkillAssignment $a) => $a->getSkillTitle(), $assignments)
+            ),
+        ]);
     }
 
     /**
      * @return array<SkillAssignments>
      */
-    public function loadRecords(SkillAssignmentViewControlMode $skill_assignment_view_control_mode = SkillAssignmentViewControlMode::ALL): array
+    public function retrieveRecords(SkillAssignmentViewControlMode $skill_assignment_view_control_mode = SkillAssignmentViewControlMode::ALL): array
     {
-        if ($this->records !== null) {
-            return $this->records;
-        }
-
         $records = [];
         foreach ($this->question_list->getQuestionDataArray() as $question_id => $question_data) {
             $assignments_by_question_id = $this->assignment_list->getAssignmentsByQuestionId($question_id);
@@ -132,7 +127,7 @@ class SkillAssignmentsTable
             $records[] = new SkillAssignments($question_data, $assignments_by_question_id);
         }
 
-        return $this->records = $records;
+        return $records;
     }
 
     /**
@@ -143,13 +138,13 @@ class SkillAssignmentsTable
         $labeled_actions = [];
         foreach (SkillAssignmentViewControlMode::cases() as $value) {
             $this->ctrl->setParameterByClass(
-                ilAssQuestionSkillAssignmentsGUI::class,
+                \ilAssQuestionSkillAssignmentsGUI::class,
                 self::VIEW_CONTROL_QUERY_PARAM,
                 $value->value
             );
             $labeled_actions[$this->lng->txt($value->getLabel())] = $this->ctrl->getLinkTargetByClass(
-                ilAssQuestionSkillAssignmentsGUI::class,
-                ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+                \ilAssQuestionSkillAssignmentsGUI::class,
+                \ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
             );
         }
 

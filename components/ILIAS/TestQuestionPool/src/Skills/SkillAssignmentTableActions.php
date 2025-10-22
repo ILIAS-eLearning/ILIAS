@@ -18,7 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\TestQuestionPool\Skill\SkillAssignmentTableAction;
+namespace ILIAS\TestQuestionPool\Skills;
+
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\URLBuilder;
@@ -27,17 +28,18 @@ use ILIAS\UI\URLBuilderToken;
 class SkillAssignmentTableActions
 {
     public const string ROW_ID_PARAMETER = 'a_id';
-    public const string FULL_ROW_ID_PARAMETER = SkillAssignmentTable::ID . '_' . self::ROW_ID_PARAMETER;
+    public const string FULL_ROW_ID_PARAMETER = EditSkillsOfQuestionTable::ID . '_' . self::ROW_ID_PARAMETER;
     public const string ACTION_PARAMETER = 'action';
     public const string ACTION_TYPE_PARAMETER = 'action_type';
     public const string SHOW_ACTION = 'showAction';
-    public const string ALL_OBJECTS = 'ALL_OBJECTS';
 
     /**
      * @param array<SkillAssignmentTableAction> $actions
      */
-    public function __construct(protected readonly ilGlobalTemplateInterface $tpl, private array $actions)
-    {
+    public function __construct(
+        protected readonly \ilGlobalTemplateInterface $tpl,
+        private readonly array $actions
+    ) {
     }
 
     public function getEnabledActions(
@@ -68,7 +70,7 @@ class SkillAssignmentTableActions
         return $this->actions[$action_id] ?? null;
     }
 
-    public function onDataRow(DataRow $row, mixed $record): DataRow
+    public function setAvailabilityOnDataRow(DataRow $row, mixed $record): DataRow
     {
         return array_reduce(
             array_keys($this->actions),

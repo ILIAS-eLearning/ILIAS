@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Skills\SkillAssignmentTableActions;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -80,6 +81,12 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 
     public function build(): void
     {
+        $assignment = $this->getAssignment();
+        $this->ctrl->setParameter(
+            $this->parent_gui,
+            SkillAssignmentTableActions::FULL_ROW_ID_PARAMETER,
+            "{$assignment?->getQuestionId()}_{$assignment?->getSkillBaseId()}_{$assignment?->getSkillTrefId()}"
+        );
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 
         if ($this->isManipulationEnabled()) {

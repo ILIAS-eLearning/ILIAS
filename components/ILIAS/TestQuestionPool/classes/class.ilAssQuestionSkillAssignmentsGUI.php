@@ -22,6 +22,11 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\TestQuestionPool\Skills\SkillsByQuestionOverviewTable;
+use ILIAS\TestQuestionPool\Skills\EditSkillsOfQuestionTable;
+use ILIAS\TestQuestionPool\Skills\SkillAssignmentTableActions;
+use ILIAS\TestQuestionPool\Skills\SkillAssignmentTableEditAction;
+use ILIAS\TestQuestionPool\Skills\SkillAssignmentViewControlMode;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
@@ -33,7 +38,6 @@ use ILIAS\UI\URLBuilder;
  * @author  Björn Heyser <bheyser@databay.de>
  * @package components\ILIAS/Test
  *
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentsTableGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilSkillSelectorGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilToolbarGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentPropertyFormGUI
@@ -98,11 +102,11 @@ class ilAssQuestionSkillAssignmentsGUI
 
         global $DIC;
         $this->skillUsageService = $DIC->skills()->usage();
-        $this->ui_factory = $DIC->ui()->factory();
-        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC['ui.factory'];
+        $this->ui_renderer = $DIC['ui.renderer'];
         $this->data_factory = new DataFactory();
-        $this->refinery = $DIC->refinery();
-        $this->http = $DIC->http();
+        $this->refinery = $DIC['refinery'];
+        $this->http = $DIC['http'];
     }
 
     public function getQuestionOrderSequence(): ?array
@@ -402,8 +406,8 @@ class ilAssQuestionSkillAssignmentsGUI
         if ($this->isTestQuestion($question_id)) {
             $question_gui = assQuestionGUI::_getQuestionGUI('', $question_id);
 
-            $row_id_parameter = $this->request_data_collector->strArray(SkillAssignmentTableActions::FULL_ROW_ID_PARAMETER);
-            [1 => $skill_base_id, 2 => $skill_tref_id] = explode('_', $row_id_parameter[0]);
+            $row_id_parameter = $this->request_data_collector->string(SkillAssignmentTableActions::FULL_ROW_ID_PARAMETER);
+            [1 => $skill_base_id, 2 => $skill_tref_id] = explode('_', $row_id_parameter);
             $assignment = $this->buildQuestionSkillAssignment($question_id, (int) $skill_base_id, (int) $skill_tref_id);
 
             $this->keepAssignmentParameters();
@@ -473,22 +477,17 @@ class ilAssQuestionSkillAssignmentsGUI
         return $form;
     }
 
-    private function showSkillQuestionAssignmentsCmd(bool $loadSkillPointsFromRequest = false): void
+    private function showSkillQuestionAssignmentsCmd(bool $load_skill_points_from_request = false): void
     {
         $this->handleAssignmentConfigurationHintMessage();
 
-        $table = $this->buildTableGUI();
-        $table->loadSkillPointsFromRequest($loadSkillPointsFromRequest);
-
-        $assignmentList = $this->buildSkillQuestionAssignmentList();
-        $assignmentList->loadFromDb();
-        $assignmentList->loadAdditionalSkillData();
-        $table->setSkillQuestionAssignmentList($assignmentList);
-        $table->setData($this->orderQuestionData($this->question_list->getQuestionDataArray()));
+        $assignment_list = $this->buildSkillQuestionAssignmentList();
+        $assignment_list->loadFromDb();
+        $assignment_list->loadAdditionalSkillData();
 
         /** @var string $mode */
         $mode = $this->http->wrapper()->query()->retrieve(
-            SkillAssignmentsTable::VIEW_CONTROL_QUERY_PARAM,
+            SkillsByQuestionOverviewTable::VIEW_CONTROL_QUERY_PARAM,
             $this->refinery->byTrying([
               $this->refinery->kindlyTo()->string(),
               $this->refinery->always(SkillAssignmentViewControlMode::ALL->value),
@@ -502,11 +501,10 @@ class ilAssQuestionSkillAssignmentsGUI
             )
         );
 
-        // TODO: Remove legacy table and related code
-        $this->tpl->setContent($table->getHTML() . $this->ui_renderer->render(
-            (new SkillAssignmentsTable(
+        $this->tpl->setContent($this->ui_renderer->render(
+            (new SkillsByQuestionOverviewTable(
                 $this->question_list,
-                $assignmentList,
+                $assignment_list,
                 $this->ui_factory,
                 $this->lng,
                 $this->ctrl,
@@ -519,9 +517,9 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function editSkillQuestionAssignmentCmd(): void
     {
-        $assignmentList = $this->buildSkillQuestionAssignmentList();
-        $assignmentList->loadFromDb();
-        $assignmentList->loadAdditionalSkillData();
+        $assignment_list = $this->buildSkillQuestionAssignmentList();
+        $assignment_list->loadFromDb();
+        $assignment_list->loadAdditionalSkillData();
 
         $edit_uri = $this->data_factory->uri(
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
@@ -530,9 +528,9 @@ class ilAssQuestionSkillAssignmentsGUI
             )
         );
 
-        $components = (new SkillAssignmentTable(
+        $components = (new EditSkillsOfQuestionTable(
             $this->request_data_collector,
-            $assignmentList,
+            $assignment_list,
             $this->ui_factory,
             $this->lng,
             (new SkillAssignmentTableActions(
@@ -597,15 +595,6 @@ class ilAssQuestionSkillAssignmentsGUI
         }
 
         $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
-    }
-
-    private function buildTableGUI(): ilAssQuestionSkillAssignmentsTableGUI
-    {
-        $table = new ilAssQuestionSkillAssignmentsTableGUI($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->ctrl, $this->lng);
-        $table->setManipulationsEnabled($this->isAssignmentEditingEnabled());
-        $table->init();
-
-        return $table;
     }
 
     private function buildSkillQuestionAssignmentList(): ilAssQuestionSkillAssignmentList
@@ -767,34 +756,6 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->ctrl->saveParameter($this, 'q_id');
         $this->ctrl->saveParameter($this, 'skill_base_id');
         $this->ctrl->saveParameter($this, 'skill_tref_id');
-    }
-
-    /**
-     * @deprecated
-     */
-    private function orderQuestionData(array $questionData): array
-    {
-        $orderedQuestionsData = [];
-
-        if ($this->getQuestionOrderSequence()) {
-            foreach ($this->getQuestionOrderSequence() as $questionId) {
-                $orderedQuestionsData[$questionId] = $questionData[$questionId];
-            }
-
-            return $orderedQuestionsData;
-        }
-
-        foreach ($questionData as $questionId => $data) {
-            $orderedQuestionsData[$questionId] = $data['title'];
-        }
-
-        $orderedQuestionsData = $this->sortAlphabetically($orderedQuestionsData);
-
-        foreach ($orderedQuestionsData as $questionId => $questionTitle) {
-            $orderedQuestionsData[$questionId] = $questionData[$questionId];
-        }
-
-        return $orderedQuestionsData;
     }
 
     private function handleAssignmentConfigurationHintMessage(): void

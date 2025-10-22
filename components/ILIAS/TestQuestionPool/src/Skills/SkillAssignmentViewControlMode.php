@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\TestQuestionPool\Skills;
+
 enum SkillAssignmentViewControlMode: string
 {
     case ALL = 'all';

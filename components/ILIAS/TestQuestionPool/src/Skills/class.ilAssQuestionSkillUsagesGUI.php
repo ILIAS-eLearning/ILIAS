@@ -18,8 +18,9 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\TestQuestionPool\Skills;
+
 use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\TestQuestionPool\Skill\SkillUsagesTable;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -31,9 +32,9 @@ class ilAssQuestionSkillUsagesGUI
         private readonly Factory $ui_factory,
         private readonly Renderer $ui_renderer,
         private readonly GlobalHttpState $http_state,
-        private readonly ilLanguage $lng,
-        private readonly ilGlobalTemplateInterface $tpl,
-        private readonly ilDBInterface $db,
+        private readonly \ilLanguage $lng,
+        private readonly \ilGlobalTemplateInterface $tpl,
+        private readonly \ilDBInterface $db,
         private readonly int $parent_obj_id
     ) {
     }

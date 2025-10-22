@@ -18,13 +18,17 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\TestQuestionPool\Skills;
+
 class SkillAssignments
 {
     /**
-     * @param array<ilAssQuestionSkillAssignment> $skill_assignments
+     * @param array<\ilAssQuestionSkillAssignment> $skill_assignments
      */
-    public function __construct(private readonly array $question, private readonly array $skill_assignments)
-    {
+    public function __construct(
+        private readonly array $question,
+        private readonly array $skill_assignments
+    ) {
     }
 
     public function getQuestion(): array
@@ -33,7 +37,7 @@ class SkillAssignments
     }
 
     /**
-     * @return array<ilAssQuestionSkillAssignment>
+     * @return array<\ilAssQuestionSkillAssignment>
      */
     public function getSkillAssignments(): array
     {

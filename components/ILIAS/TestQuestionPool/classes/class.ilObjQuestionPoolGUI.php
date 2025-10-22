@@ -36,7 +36,6 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
-use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
@@ -440,24 +439,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             case strtolower(ilQuestionPoolSkillAdministrationGUI::class):
                 /** @var ilObjQuestionPool $obj */
                 $obj = $this->object;
-                $gui = new ilQuestionPoolSkillAdministrationGUI(
-                    $this->ilias,
-                    $this->ctrl,
-                    $this->ui_factory,
-                    $this->ui_renderer,
-                    $this->http,
-                    $this->refinery,
-                    $this->access,
-                    $this->tabs_gui,
-                    $this->tpl,
-                    $this->lng,
-                    $this->db,
-                    $this->component_repository,
-                    $obj,
-                    $this->ref_id
-                );
 
-                $this->ctrl->forwardCommand($gui);
+                $this->ctrl->forwardCommand(
+                    new ilQuestionPoolSkillAdministrationGUI(
+                        $this->ctrl,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->http,
+                        $this->refinery,
+                        $this->access,
+                        $this->tabs_gui,
+                        $this->tpl,
+                        $this->lng,
+                        $this->db,
+                        $this->component_repository,
+                        $obj,
+                        $this->ref_id
+                    )
+                );
                 break;
 
             case 'ilbulkeditquestionsgui':
