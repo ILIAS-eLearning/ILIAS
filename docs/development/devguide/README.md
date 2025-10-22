@@ -30,6 +30,6 @@ Additional topics are gradually added as new articles are contributed.
 ## Contributing
 
 The tutorial is a community-driven resource.
-If you would like to share your knowledge, improve existing content, or add a new topic, your contribution is welcome.
+If you would like to share your knowledge, improve existing content, or write an article for an open topic, your contribution is welcome.
 
 A template including key questions to guide the creation of a tutorial article can be found [here](template-tutorial-article.md).
