@@ -53,7 +53,7 @@ describe('OptionFilterFactory', () => {
   it('init creates & registers instances of InputHasOptionFilter', () => {
     const factory = new OptionFilterFactory();
     factory.init(elementMock);
-    strict.equal((factory.instances[someId] instanceof OptionFilter), true);
+    strict.equal((factory.get(someId) instanceof OptionFilter), true);
   });
 
   it('get with valid id returns instance', () => {

@@ -15,7 +15,13 @@
  * @author Ferdinand Engländer <ferdinand.englaender@concepts-and-training.de>
  */
 
-/* eslint-env browser */
+import sprintf from '../../../../Core/src/sprintf.js';
+
+/**
+ * @todo: please add some information about this value.
+ * @type {number}
+ */
+const A11Y_DEBOUNCE_DELAY = 500;
 
 /**
  * Option Filter Context for inputs like MultiSelect, Radio etc.
@@ -33,52 +39,52 @@ export default class OptionFilter {
   /**
    * @type {HTMLFieldSetElement}
    */
-  inputFieldContext;
+  #inputFieldContext;
 
   /**
    * @type {HTMLInputElement}
    */
-  searchbar;
+  #searchbar;
 
   /**
    * @type {string}
    */
-  listType;
+  #listType;
 
   /**
    * @type {HTMLElement}
    */
-  itemList;
+  #itemList;
 
   /**
    * @type {NodeList}
    */
-  items;
+  #items;
 
   /**
    * @type {HTMLButtonElement}
    */
-  engageDisengageToggle;
+  #engageDisengageToggle;
 
   /**
    * @type {HTMLSpanElement}
    */
-  toggleExpandText;
+  #toggleExpandText;
 
   /**
    * @type {HTMLSpanElement}
    */
-  toggleCollapseText;
+  #toggleCollapseText;
 
   /**
    * @type {HTMLButtonElement}
    */
-  clearFilterButton;
+  #clearFilterButton;
 
   /**
    * @type {HTMLDivElement}
    */
-  scrollContainer;
+  #scrollContainer;
 
   /**
    * @type {boolean}
@@ -86,29 +92,29 @@ export default class OptionFilter {
   #isFiltered;
 
   /**
-   * @type {HTMLDivElement}
+   * @type {boolean}
    */
-  messageNoMatch;
+  #isEngaged;
 
   /**
    * @type {HTMLDivElement}
    */
-  resultCountDisplay;
+  #messageNoMatch;
+
+  /**
+   * @type {HTMLDivElement}
+   */
+  #resultCountDisplay;
 
   /**
    * @type {string}
    */
-  resultCountTranslationString;
-
-  /**
-   * @type {function}
-   */
-  #debouncedUpdateA11y;
+  #resultCountTranslationString;
 
   /**
    * @type {null|number}
    */
-  #timeoutId;
+  #timeoutId = null;
 
   /**
    *
@@ -140,112 +146,117 @@ export default class OptionFilter {
     resultCountDisplay,
   ) {
     /* DOM Elements */
-    this.inputFieldContext = inputFieldContext;
-    this.scrollContainer = scrollContainer;
-    this.searchbar = searchbar;
-    this.listType = listType;
-    this.itemList = itemList;
-    this.items = items;
-    this.messageNoMatch = messageNoMatch;
-    this.resultCountDisplay = resultCountDisplay;
+    this.#inputFieldContext = inputFieldContext;
+    this.#scrollContainer = scrollContainer;
+    this.#searchbar = searchbar;
+    this.#listType = listType;
+    this.#itemList = itemList;
+    this.#items = items;
+    this.#messageNoMatch = messageNoMatch;
+    this.#resultCountDisplay = resultCountDisplay;
 
     /* translation string from php render */
-    this.resultCountTranslationString = this.resultCountDisplay.innerHTML;
+    this.#resultCountTranslationString = this.#resultCountDisplay.innerHTML;
 
     /* Buttons */
-    this.clearFilterButton = clearFilterButton;
-    this.engageDisengageToggle = engageDisengageToggle;
-    this.toggleExpandText = toggleExpandText;
-    this.toggleCollapseText = toggleCollapseText;
+    this.#clearFilterButton = clearFilterButton;
+    this.#engageDisengageToggle = engageDisengageToggle;
+    this.#toggleExpandText = toggleExpandText;
+    this.#toggleCollapseText = toggleCollapseText;
 
     /* Initialize states */
-    this.isEngaged = false;
+    this.#isEngaged = false;
     this.#isFiltered = false;
 
     /* Event Listeners */
-    this.searchbar.addEventListener('input', this.filterItemsSearch);
-
-    this.#timeoutId = null;
-    // reusable debounced function stored on the instance
-    this.#debouncedUpdateA11y = this.#debounce((text) => {
-      this.resultCountDisplay.textContent = '';
-      requestAnimationFrame(() => {
-        this.resultCountDisplay.textContent = text;
-      });
-    }, 500);
-
-    const clearFilter = () => { this.setIsFiltered(false); };
-    this.clearFilterButton.addEventListener('click', clearFilter);
-
-    this.engageDisengageToggle.addEventListener('click', this.toggleVisibility);
-
-    if (this.listType === 'radio-field-input') {
-      this.scrollListToTop = this.scrollListToTop.bind(this);
-      this.items.forEach((item) => {
-        item.addEventListener('change', this.scrollListToTop);
+    this.#searchbar.addEventListener('input', (event) => {
+      this.filterItemsSearch(event);
+    });
+    this.#clearFilterButton.addEventListener('click', () => {
+      this.setFiltered(false);
+    });
+    this.#engageDisengageToggle.addEventListener('click', () => {
+      this.toggleVisibility();
+    });
+    if (this.#listType === 'radio-field-input') {
+      this.#items.forEach((item) => {
+        item.addEventListener('change', () => {
+          this.scrollListToTop();
+        });
       });
     }
   }
 
   /**
-   * Getter for isFiltered state
+   * Getter for #isEngaged state
    * @returns {boolean}
    */
-  getIsFiltered() {
+  isEngaged() {
+    return this.#isEngaged;
+  }
+
+  /**
+   * Getter for #isFiltered state
+   * @returns {boolean}
+   */
+  isFiltered() {
     return this.#isFiltered;
   }
 
   /**
-   * Setter for isFiltered state
+   * Setter for #isFiltered state
    * @param {boolean} value
    */
-  setIsFiltered(value) {
+  setFiltered(value) {
     if (this.#isFiltered === value) return;
     this.#isFiltered = value;
     if (value) {
-      this.clearFilterButton.style.removeProperty('display');
-      this.resultCountDisplay.style.removeProperty('display');
+      this.#clearFilterButton.style.removeProperty('display');
+      this.#resultCountDisplay.style.removeProperty('display');
     } else {
-      this.searchbar.value = '';
-      this.clearFilterButton.style.display = 'none';
-      this.resultCountDisplay.style.display = 'none';
-      this.messageNoMatch.style.display = 'none';
-      this.resetItemsDisplay();
+      this.#searchbar.value = '';
+      this.#clearFilterButton.style.display = 'none';
+      this.#resultCountDisplay.style.display = 'none';
+      this.#messageNoMatch.style.display = 'none';
+      this.#resetItemsDisplay();
     }
   }
 
-  toggleVisibility = () => {
-    if (this.isEngaged) {
-      this.isEngaged = false;
-      this.inputFieldContext.classList.remove('engaged');
-      this.setIsFiltered(false);
-      this.engageDisengageToggle.setAttribute('aria-expanded', 'false');
-      this.toggleExpandText.style.removeProperty('display');
-      this.toggleCollapseText.style.display = 'none';
+  toggleVisibility() {
+    if (this.isEngaged()) {
+      this.#isEngaged = false;
+      this.#inputFieldContext.classList.remove('engaged');
+      this.setFiltered(false);
+      this.#engageDisengageToggle.setAttribute('aria-expanded', 'false');
+      this.#toggleExpandText.style.removeProperty('display');
+      this.#toggleCollapseText.style.display = 'none';
     } else {
-      this.isEngaged = true;
-      this.inputFieldContext.classList.add('engaged');
-      this.engageDisengageToggle.setAttribute('aria-expanded', 'true');
-      this.toggleExpandText.style.display = 'none';
-      this.toggleCollapseText.style.removeProperty('display');
+      this.#isEngaged = true;
+      this.#inputFieldContext.classList.add('engaged');
+      this.#engageDisengageToggle.setAttribute('aria-expanded', 'true');
+      this.#toggleExpandText.style.display = 'none';
+      this.#toggleCollapseText.style.removeProperty('display');
     }
-  };
-
-  #debounce(callback, wait = 200) {
-    return (...args) => {
-      window.clearTimeout(this.#timeoutId);
-      this.#timeoutId = window.setTimeout(() => {
-        callback(...args);
-      }, wait);
-    };
   }
 
   /**
-   *
+   * @param {string} text
+   */
+  #debouncedUpdateA11y(text) {
+    this.#inputFieldContext.ownerDocument.defaultView.clearTimeout(this.#timeoutId);
+    this.#timeoutId = this.#inputFieldContext.ownerDocument.defaultView.setTimeout(() => {
+      this.#resultCountDisplay.textContent = '';
+      this.#inputFieldContext.ownerDocument.defaultView.requestAnimationFrame(() => {
+        this.#resultCountDisplay.textContent = text;
+      });
+    }, A11Y_DEBOUNCE_DELAY);
+  }
+
+  /**
    * @param {string} count
    */
-  updateA11yResultCount(count) {
-    const resultText = this.resultCountTranslationString.replace('%s', count);
+  #updateA11yResultCount(count) {
+    const resultText = sprintf(this.#resultCountTranslationString, count);
     this.#debouncedUpdateA11y(resultText);
   }
 
@@ -253,13 +264,13 @@ export default class OptionFilter {
    * Filter items based on search input
    * @param {Event} event
    */
-  filterItemsSearch = (event) => {
+  filterItemsSearch(event) {
     const value = event.target.value.toLowerCase();
-    this.setIsFiltered(!!value); // negates any search term input to false then flips it to true
+    this.setFiltered(!!value); // negates any search term input to false then flips it to true
 
     let resultCount = 0;
     let foundMatch = false;
-    this.items.forEach((item) => {
+    this.#items.forEach((item) => {
       const itemText = item.textContent.toLowerCase();
       const isMatch = itemText.includes(value);
       if (isMatch) {
@@ -270,27 +281,27 @@ export default class OptionFilter {
         hideItem(item);
       }
     });
-    this.updateA11yResultCount(resultCount.toString());
+    this.#updateA11yResultCount(resultCount.toString());
     if (value !== '' && foundMatch === false) {
-      this.messageNoMatch.style.removeProperty('display');
+      this.#messageNoMatch.style.removeProperty('display');
     } else if (value === '' || foundMatch) {
-      this.messageNoMatch.style.display = 'none';
+      this.#messageNoMatch.style.display = 'none';
     }
-  };
+  }
 
   /**
    * Reset the display of all items
    */
-  resetItemsDisplay() {
-    this.items.forEach((item) => showItem(item));
+  #resetItemsDisplay() {
+    this.#items.forEach((item) => showItem(item));
   }
 
-  scrollListToTop = () => {
-    this.scrollContainer.scrollTo({
+  scrollListToTop() {
+    this.#scrollContainer.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
-  };
+  }
 }
 
 /**

@@ -18,10 +18,8 @@
 import OptionFilter from './OptionFilter.js';
 
 export default class OptionFilterFactory {
-  /**
-     * @type {Array<string, OptionFilter>}
-     */
-  instances = [];
+  /** @type {Map<string, OptionFIlter>} */
+  #instances = new Map();
 
   /**
      * @param {HTMLElement} inputFieldWithOptionFilter
@@ -32,7 +30,7 @@ export default class OptionFilterFactory {
     if (inputFieldWithOptionFilter === undefined) {
       throw new TypeError('During init of an InputHasOptionFilter an undefined element was passed to the factory.');
     }
-    if (undefined !== this.instances[inputFieldWithOptionFilter.id]) {
+    if (this.#instances.has(inputFieldWithOptionFilter.id)) {
       throw new Error(`A InputHasOptionFilter with id '${inputFieldWithOptionFilter.id}' has already been initialized.`);
     }
 
@@ -67,16 +65,19 @@ export default class OptionFilterFactory {
       resultCountDisplay,
     );
 
-    this.instances[inputFieldWithOptionFilter.id] = instance;
+    this.#instances.set(inputFieldWithOptionFilter.id, instance);
 
     return instance;
   }
 
   /**
-     * @param {string} inputID
-     * @return {OptionFilter|null}
-     */
+   * @param {string} inputID
+   * @return {OptionFilter|null}
+   */
   get(inputID) {
-    return this.instances[inputID] ?? null;
+    if (this.#instances.has(inputID)) {
+      return this.#instances.get(inputID);
+    }
+    return null;
   }
 }
