@@ -1,8 +1,10 @@
 # Development Tutorial
 
 >Please note that this tutorial is a work in progress.
+>
 >Its growth depends on voluntary contributions from the developer community and on funding that supports the creation of new content.
 
+---
 
 Welcome to the **ILIAS Development Tutorial**.
 
