@@ -20,23 +20,20 @@ declare(strict_types=1);
 
 class ilDclDetailedViewDefinitionConfig extends ilPageConfig
 {
-    protected int $table_id;
-
     public function init(): void
     {
         $this->setPreventHTMLUnmasking(true);
         $this->setEnableInternalLinks(false);
         $this->setEnableWikiLinks(false);
         $this->setEnableActivation(false);
-        global $DIC;
-        $tableview = new ilDclTableView($DIC->http()->wrapper()->query()->retrieve('tableview_id', $DIC->refinery()->kindlyTo()->int()));
-        $this->table_id = $tableview->getTableId();
     }
 
     public function getTextTemplates(): array
     {
+        global $DIC;
+        $tableview = new ilDclTableView($DIC->http()->wrapper()->query()->retrieve('tableview_id', $DIC->refinery()->kindlyTo()->int()));
         $placeholder = [];
-        foreach (ilDclCache::getTableCache($this->table_id)->getFields() as $p) {
+        foreach (ilDclCache::getTableCache($tableview->getTableId())->getFields() as $p) {
             $placeholder[$p->getTitle()] = '[[' . $p->getId() . ']]';
         }
         return $placeholder;
