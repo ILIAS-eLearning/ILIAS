@@ -4,7 +4,7 @@
 >*Its growth depends on voluntary contributions from the developer community and on funding that supports the creation of new content.*  
 
 
-**Welcome to the ILIAS Development Tutorial!** This tutorial is your starting point for learning how to develop with ILIAS. It is designed for developers who want to contribute to ILIAS by fixing bugs, building plugins, or improving the core.
+Welcome to the ILIAS Development Tutorial! This tutorial is your starting point for learning how to develop with ILIAS. It is designed for developers who want to contribute to ILIAS by fixing bugs, building plugins, or improving the core.
 
 
 ## Audience
