@@ -17320,15 +17320,15 @@ ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_error#:#Fehler
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
-ui#:#ui_field_filterable_context_clear_search#:#Zurücksetzen
-ui#:#ui_field_filterable_context_filtered_results_aria_label#:#Auswahlliste - einklappbar und filterbar
-ui#:#ui_field_filterable_context_no_match#:#Es gibt keine Übereinstimmung mit dem Suchbegriff.
-ui#:#ui_field_filterable_context_no_selection#:#Es wurde keine Auswahl getroffen.
-ui#:#ui_field_filterable_context_options_shown#:#Aktuell werden %s Optionen angezeigt.
-ui#:#ui_field_filterable_context_screen_reader_hint#:#Durch die Eingabe eines Suchbegriffes wird die nachfolgende Auswahlliste gefiltert.
-ui#:#ui_field_filterable_context_search_in#:#Finde
-ui#:#ui_field_filterable_context_show_all_options#:#Zeige alle Optionen
-ui#:#ui_field_filterable_context_show_less#:#Weniger anzeigen
+ui#:#ui_field_option_filter_clear_search#:#Zurücksetzen
+ui#:#ui_field_option_filter_filtered_results_aria_label#:#Auswahlliste - einklappbar und filterbar
+ui#:#ui_field_option_filter_no_match#:#Es gibt keine Übereinstimmung mit dem Suchbegriff.
+ui#:#ui_field_option_filter_no_selection#:#Es wurde keine Auswahl getroffen.
+ui#:#ui_field_option_filter_options_shown#:#Aktuell werden %s Optionen angezeigt.
+ui#:#ui_field_option_filter_screen_reader_hint#:#Durch die Eingabe eines Suchbegriffes wird die nachfolgende Auswahlliste gefiltert.
+ui#:#ui_field_option_filter_search_in#:#Finde
+ui#:#ui_field_option_filter_show_all_options#:#Zeige alle Optionen
+ui#:#ui_field_option_filter_show_less#:#Weniger anzeigen
 ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.
 ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
 ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ „%s“ sind nicht erlaubt.

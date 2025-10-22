@@ -20,7 +20,7 @@ namespace ILIAS\UI\examples\Input\Field\Radio;
  *   On screen readers, the number of filtered results is announced.
  * ---
  */
-function filterable_section_style_templates()
+function with_has_option_filter_section_style_templates(): string
 {
     //Step 1: Declare dependencies
     global $DIC;

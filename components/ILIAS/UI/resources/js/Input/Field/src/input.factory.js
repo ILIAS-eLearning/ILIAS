@@ -31,9 +31,9 @@ import TextareaFactory from './Textarea/textarea.factory.js';
 import MarkdownFactory from './Markdown/markdown.factory.js';
 import TreeSelectFactory from './TreeSelect/TreeSelectFactory.js';
 import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
-import InputHasOptionFilterContextFactory from './hasQuickFilterContext/hasOptionFilter.factory.js';
 import Tagify from '@yaireo/tagify';
 import tag from './Tag/tag.js';
+import OptionFilterFactory from './OptionFilter/OptionFilterFactory.js';
 
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
@@ -41,12 +41,12 @@ il.UI.Input = il.UI.Input || {};
 (function (Input) {
   Input.textarea = new TextareaFactory();
   Input.markdown = new MarkdownFactory();
-  Input.hasOptionFilterContext = new InputHasOptionFilterContextFactory();
+  Input.optionFilter = new OptionFilterFactory();
   Input.treeSelect = new TreeSelectFactory(
     new JQueryEventListener($),
     il.UI.menu.drilldown,
     // workaround for language being initialised after UI
-    {txt: (s) => il.Language.txt(s)},
+    { txt: (s) => il.Language.txt(s) },
     document,
   );
   Input.tagInput = Input.tag || {};

@@ -21,7 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/CommonFieldRendering.php");
-require_once(__DIR__ . "/hasOptionFilter.php");
+require_once(__DIR__ . "/HasOptionFilterTestHelper.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -34,7 +34,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class MultiSelectInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
-    use hasOptionFilter;
+    use HasOptionFilterTestHelper;
 
     protected DefNamesource $name_source;
 
@@ -180,7 +180,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $this->render($ms));
     }
 
-    public function testRenderWithSearchableContext(): void
+    public function testRenderWithHasOptionFilter(): void
     {
         $f = $this->getFieldFactory();
         $options = array(

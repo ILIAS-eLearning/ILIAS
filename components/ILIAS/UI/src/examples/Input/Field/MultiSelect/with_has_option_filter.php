@@ -19,8 +19,7 @@ namespace ILIAS\UI\examples\Input\Field\MultiSelect;
  *   On screen readers, the number of filtered results is announced.
  * ---
  */
-
-function filterable()
+function with_has_option_filter(): string
 {
     global $DIC;
     $ui = $DIC->ui()->factory();

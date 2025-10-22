@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 /**
  * This is what a radio-input looks like.
  */
-interface Radio extends FormInput
+interface Radio extends FormInput, HasOptionFilter
 {
     /**
      * Add an option-entry to the radio-input.

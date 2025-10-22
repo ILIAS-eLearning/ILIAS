@@ -19,10 +19,10 @@ import {
   beforeEach, afterEach, describe, it,
 } from 'node:test';
 import { strict } from 'node:assert/strict';
-import InputHasOptionFilterContextFactory
-  from '../../../../resources/js/Input/Field/src/hasQuickFilterContext/hasOptionFilter.factory.js';
+import OptionFilterFactory
+  from '../../../../resources/js/Input/Field/src/OptionFilter/OptionFilterFactory.js';
 
-describe('InputHasOptionFilterContext', () => {
+describe('OptionFilter', () => {
   let listeners;
   let elementMock;
   const someId = 'someId';
@@ -88,7 +88,7 @@ describe('InputHasOptionFilterContext', () => {
       textContent: '',
     };
 
-    factory = new InputHasOptionFilterContextFactory();
+    factory = new OptionFilterFactory();
     component = factory.init(elementMock);
   });
 

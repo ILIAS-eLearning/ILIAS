@@ -15,17 +15,17 @@
  * @author Ferdinand Engländer <ferdinand.englaender@concepts-and-training.de>
  */
 
-import InputHasOptionFilterContext from './hasOptionFilter.class.js';
+import OptionFilter from './OptionFilter.js';
 
-export default class InputHasOptionFilterContextFactory {
+export default class OptionFilterFactory {
   /**
-     * @type {Array<string, InputHasOptionFilterContext>}
+     * @type {Array<string, OptionFilter>}
      */
   instances = [];
 
   /**
      * @param {HTMLElement} inputFieldWithOptionFilter
-     * @return {InputHasOptionFilterContext}
+     * @return {OptionFilter}
      * @throws {Error} if the input was already initialized.
      */
   init(inputFieldWithOptionFilter) {
@@ -52,7 +52,7 @@ export default class InputHasOptionFilterContextFactory {
     const toggleExpandText = engageDisengageToggle.querySelector('.text-expand');
     const toggleCollapseText = engageDisengageToggle.querySelector('.text-collapse');
 
-    const instance = new InputHasOptionFilterContext(
+    const instance = new OptionFilter(
       inputFieldWithOptionFilter,
       scrollContainer,
       searchbar,
@@ -74,7 +74,7 @@ export default class InputHasOptionFilterContextFactory {
 
   /**
      * @param {string} inputID
-     * @return {InputHasOptionFilterContext|null}
+     * @return {OptionFilter|null}
      */
   get(inputID) {
     return this.instances[inputID] ?? null;

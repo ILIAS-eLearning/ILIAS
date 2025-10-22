@@ -17,12 +17,11 @@
 
 import { beforeEach, describe, it } from 'node:test';
 import { strict } from 'node:assert/strict';
-import InputHasOptionFilterContextFactory
-  from '../../../../resources/js/Input/Field/src/hasQuickFilterContext/hasOptionFilter.factory.js';
-import InputHasOptionFilterContext
-  from '../../../../resources/js/Input/Field/src/hasQuickFilterContext/hasOptionFilter.class.js';
+import OptionFilter from '../../../../resources/js/Input/Field/src/OptionFilter/OptionFilter.js';
+import OptionFilterFactory
+  from '../../../../resources/js/Input/Field/src/OptionFilter/OptionFilterFactory.js';
 
-describe('InputHasOptionFilterContextFactory', () => {
+describe('OptionFilterFactory', () => {
   let elementMock;
   const someId = 'someId';
 
@@ -46,26 +45,26 @@ describe('InputHasOptionFilterContextFactory', () => {
   });
 
   it('init returns component', () => {
-    const factory = new InputHasOptionFilterContextFactory();
+    const factory = new OptionFilterFactory();
     const component = factory.init(elementMock);
-    strict.equal((component instanceof InputHasOptionFilterContext), true);
+    strict.equal((component instanceof OptionFilter), true);
   });
 
   it('init creates & registers instances of InputHasOptionFilter', () => {
-    const factory = new InputHasOptionFilterContextFactory();
+    const factory = new OptionFilterFactory();
     factory.init(elementMock);
-    strict.equal((factory.instances[someId] instanceof InputHasOptionFilterContext), true);
+    strict.equal((factory.instances[someId] instanceof OptionFilter), true);
   });
 
   it('get with valid id returns instance', () => {
-    const factory = new InputHasOptionFilterContextFactory();
+    const factory = new OptionFilterFactory();
     const componentFromInit = factory.init(elementMock);
     const componentFromRegistry = factory.get(someId);
     strict.deepEqual(componentFromInit, componentFromRegistry);
   });
 
   it('init throws for undefined elements', () => {
-    const factory = new InputHasOptionFilterContextFactory();
+    const factory = new OptionFilterFactory();
     strict.throws(
       () => factory.init(undefined),
       {
@@ -76,7 +75,7 @@ describe('InputHasOptionFilterContextFactory', () => {
   });
 
   it('init throws for element with same id already initialized', () => {
-    const factory = new InputHasOptionFilterContextFactory();
+    const factory = new OptionFilterFactory();
     factory.init(elementMock);
     strict.throws(
       () => factory.init(elementMock),

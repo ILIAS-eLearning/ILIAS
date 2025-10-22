@@ -21,7 +21,7 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/CommonFieldRendering.php");
-require_once(__DIR__ . "/hasOptionFilter.php");
+require_once(__DIR__ . "/HasOptionFilterTestHelper.php");
 
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -29,12 +29,10 @@ use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 
-use function PHPUnit\Framework\assertStringContainsString;
-
 class RadioInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
-    use hasOptionFilter;
+    use HasOptionFilterTestHelper;
 
     protected DefNamesource $name_source;
 
@@ -43,7 +41,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildRadio($isSearchable = false): \ILIAS\UI\Component\Input\Container\Form\FormInput
+    protected function buildRadio(bool $with_has_option_filter = false): \ILIAS\UI\Component\Input\Container\Form\FormInput
     {
         $f = $this->getFieldFactory();
         $label = "label";
@@ -53,7 +51,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
                 ->withOption('value0', 'label0', 'byline0')
                 ->withOption('1', 'label1', 'byline1')
                 ->withNameFrom($this->name_source);
-        if ($isSearchable) {
+        if ($with_has_option_filter) {
             $return = $return->withHasOptionFilter();
         }
         return $return;
@@ -128,7 +126,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $this->render($radio));
     }
 
-    public function testRenderWithSearchableContext(): void
+    public function testRenderWithHasOptionFilter(): void
     {
         $radio = $this->buildRadio(true);
 

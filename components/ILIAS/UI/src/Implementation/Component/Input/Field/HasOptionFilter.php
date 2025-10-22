@@ -18,15 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-/**
- * Allows fields with list-like items to be collapsible with a searchbar filter
- */
-interface hasOptionFilter
+trait HasOptionFilter
 {
-    /**
-     * Adds a collapsed view and a searchbar to the field.
-     */
-    public function withHasOptionFilter(bool $hasFilter = true): static;
+    protected bool $has_option_filter = false;
+
+    public function withHasOptionFilter(bool $has_option_filter = true): static
+    {
+        $clone = clone $this;
+        $clone->has_option_filter = $has_option_filter;
+        return $clone;
+    }
+
+    public function hasOptionFilter(): bool
+    {
+        return $this->has_option_filter;
+    }
 }

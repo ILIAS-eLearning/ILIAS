@@ -196,7 +196,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testRenderMultiSelectWithFilterContext(): void
+    public function testRenderMultiSelectWithHasOptionFilter(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();

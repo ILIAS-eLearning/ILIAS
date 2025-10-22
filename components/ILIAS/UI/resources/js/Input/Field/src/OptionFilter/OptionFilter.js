@@ -29,7 +29,7 @@
  *    - item switching position animation
  * @author Ferdinand Engländer <ferdinand.englaender@concepts-and-training.de>
  */
-export default class InputHasOptionFilterContext {
+export default class OptionFilter {
   /**
    * @type {HTMLFieldSetElement}
    */
