@@ -282,7 +282,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         // add read / back button
         if ($ilAccess->checkAccess("read", "", $refId)) {
             $ilToolbar = $GLOBALS['DIC']->toolbar();
-            $ilToolbar->addButtonInstance($this->slm_gui->getObject()->getViewButton());
+            $ilToolbar->addComponent($this->slm_gui->getObject()->getViewButton());
         }
 
         // show standard meta data section

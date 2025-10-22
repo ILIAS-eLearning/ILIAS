@@ -112,7 +112,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_settings');
         // view
-        $ilToolbar->addButtonInstance($this->object->getViewButton());
+        $ilToolbar->addComponent($this->object->getViewButton());
 
         // output forms
         $this->initPropertiesForm();
