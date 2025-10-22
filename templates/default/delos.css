@@ -2051,11 +2051,12 @@ dialog::backdrop {
   animation-duration: 0.3s;
   animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
   animation-fill-mode: both;
+  backdrop-filter: blur(3px) brightness(0.5);
 }
 
 @keyframes fadeBackdropIn {
   from {
-    backdrop-filter: blur(0 px) brightness(0.5);
+    backdrop-filter: blur(0) brightness(1);
   }
   to {
     backdrop-filter: blur(3px) brightness(0.5);
