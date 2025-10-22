@@ -88,17 +88,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     public function showPage(): string
     {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getStyleId()));
-        if ($this->getOutputMode() === ilPageObjectGUI::EDIT) {
-            $legend = $this->getPageObject()->getAvailablePlaceholders();
-            if (sizeof($legend)) {
-                $html = "<span class=\"small\">" . $this->lng->txt("dcl_legend_placeholders") . ":<br>";
-                foreach ($legend as $field) {
-                    $html .= "[[" . $field->getID() . ']]<i style="opacity: 0.3"> - ' . $field->getTitle() . '</i><br>';
-                }
-                $this->setPrependingHtml($html . "</span>");
-            }
-        }
-
         return parent::showPage();
     }
 
