@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\UICore\GlobalTemplate;
 
 /**
  * Class ilObjOrgUnit GUI class
@@ -183,11 +184,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 break;
             case "ilinfoscreengui":
                 $this->tabs_gui->activateTab("info_short");
-                if (!$this->ilAccess->checkAccess(
-                    "read",
-                    "",
-                    $this->ref_id
-                ) and !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+                // info screen is only available to child org units with visible permission
+                if ($this->ref_id === ilObjOrgUnit::getRootOrgRefId()
+                    || !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
                     $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
                 }
                 $info = new ilInfoScreenGUI($this);
@@ -388,9 +387,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public function view(): void
     {
         if (!$this->rbacsystem->checkAccess("read", $this->ref_id)) {
-            if ($this->rbacsystem->checkAccess("visible", $this->ref_id)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_read"));
-                $this->ctrl->redirectByClass('ilinfoscreengui', '');
+            // show failure message on info screen if info screen is available
+            if ($this->ref_id !== ilObjOrgUnit::getRootOrgRefId()
+                && $this->rbacsystem->checkAccess("visible", $this->ref_id)) {
+                $this->tpl->setOnScreenMessage(
+                    GlobalTemplate::MESSAGE_TYPE_FAILURE,
+                    $this->lng->txt("msg_no_perm_read"),
+                    true
+                );
+                $this->ctrl->redirectByClass([self::class, ilInfoScreenGUI::class], "showSummary");
             }
 
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
@@ -508,23 +513,25 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     public function getTabs(): void
     {
-        $read_access_ref_id = $this->rbacsystem->checkAccess('visible', $this->object->getRefId())
-            && $this->rbacsystem->checkAccess('read', $this->object->getRefId());
-        if ($read_access_ref_id) {
+        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_VIEW_CONTENT,
                 $this->lng->txt("content"),
                 $this->ctrl->getLinkTarget($this, "")
             );
-            $this->tabs_gui->addTab(
-                "info_short",
-                "Info",
-                $this->ctrl->getLinkTargetByClass([self::class, ilInfoScreenGUI::class], "showSummary")
-            );
         }
 
         // Tabs for OrgUnits exclusive root!
         if ($this->object->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
+
+            if ($this->rbacsystem->checkAccess('visible', $this->object->getRefId())) {
+                $this->tabs_gui->addTab(
+                    "info_short",
+                    "Info",
+                    $this->ctrl->getLinkTargetByClass([self::class, ilInfoScreenGUI::class], "showSummary")
+                );
+            }
+
             if (ilObjOrgUnitAccess::_checkAccessStaff($this->object->getRefId())) {
                 $this->tabs_gui->addTab(
                     self::TAB_STAFF,
