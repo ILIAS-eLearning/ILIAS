@@ -188,7 +188,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
 
     protected function view(): string
     {
-        $filter = $this->getFilter();
+        $filter = $this->getFilterInputs();
         $this->filter_values = $this->filter_service->getData($filter);
 
         $sequence = $this->ui_factory->navigation()->sequence(
@@ -214,230 +214,9 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         mixed $filter_values
     ): array {
         $filter_values = $this->filter_values;
-        $positions = [];
-
-        $usr_active_ids = $filter_values[self::FILTER_USERS] ?? array_keys($this->scoring->getTestParticipants());
-        $usr_active_ids = array_map('intval', $usr_active_ids);
-
-        $question_ids = $filter_values[self::FILTER_QUESTIONS] ??
-            array_map(
-                static fn(GeneralQuestionProperties $q) => $q->getQuestionId(),
-                $this->scoring->getManuallyScorableQuestionsInTest()
-            );
-        $question_ids = array_map('intval', $question_ids);
-
-
-        if ($filter_values[self::FILTER_USER_FINAL] ?? '' !== '') {
-            $usr_active_ids = array_filter(
-                $usr_active_ids,
-                function ($user_id) use ($filter_values) {
-                    $complete = $this->scoring->isScoringComplete($user_id);
-                    $filter = $filter_values[self::FILTER_USER_FINAL];
-                    return
-                        ($complete && $filter === self::FILTER_ONLY) ||
-                        (!$complete && $filter === self::FILTER_HIDE);
-                }
-            );
-        }
-
-        return $this->filterPositions(
-            $usr_active_ids,
-            $question_ids,
-            array_shift($viewcontrol_values),
-            $filter_values
-        );
-    }
-
-    protected function filterPositions(
-        array $usr_active_ids,
-        array $question_ids,
-        ConsecutiveScoringMode $viewcontrol_values,
-        array $filter_values
-    ): array {
-        $positions = [];
-        if ($viewcontrol_values->isUserCentric()) {
-            $position_ids = $this->filterForUsers(
-                $usr_active_ids,
-                $question_ids,
-                $filter_values[self::FILTER_ANSWERED] ?? null,
-                $filter_values[self::FILTER_FINAL] ?? null,
-                $filter_values[self::FILTER_SCOREDBY] ?? [],
-            );
-
-            foreach ($position_ids as $user_id => $question_ids) {
-                if ($viewcontrol_values->isSingle()) {
-                    foreach ($question_ids as $question_id) {
-                        $positions[] = [[$user_id], [$question_id]];
-                    }
-                } else {
-                    $positions[] = [[$user_id], $question_ids];
-                }
-            }
-
-        } else {
-            $position_ids = $this->filterForQuestions(
-                $usr_active_ids,
-                $question_ids,
-                $filter_values[self::FILTER_ANSWERED] ?? null,
-                $filter_values[self::FILTER_FINAL] ?? null,
-                $filter_values[self::FILTER_SCOREDBY] ?? [],
-            );
-
-            foreach ($position_ids as $question_id => $user_ids) {
-                if ($viewcontrol_values->isSingle()) {
-                    foreach ($user_ids as $user_id) {
-                        $positions[] = [[$user_id], [$question_id]];
-                    }
-                } else {
-                    $positions[] = [$user_ids, [$question_id]];
-                }
-            }
-        }
-
-        if ($positions === []) {
-            return [null];
-        }
-        return $positions;
-    }
-
-
-    /**
-     * @return uid => qids
-     */
-    protected function filterForUsers(
-        array $usr_active_ids,
-        array $question_ids,
-        ?string $filter_answered,
-        ?string $filter_finalized,
-        array $filter_scoredby,
-    ): array {
-        $answered = array_reduce(
-            $usr_active_ids,
-            function ($r, $user_id) use ($question_ids) {
-                $r[$user_id] = $question_ids;
-                return $r;
-            },
-            []
-        );
-        $finalized = $answered;
-
-        if ($filter_answered !== null) {
-            $answered = $this->scoring->getAnsweredQuestionIds(...$usr_active_ids);
-        }
-        if ($filter_finalized !== null) {
-            $finalized = $this->scoring->getFinalizedFeedbackIds($usr_active_ids, $question_ids);
-        }
-
-        $scored_by = [];
-        if ($filter_scoredby !== []) {
-            $scored_by = $this->scoring->getQidsFinalizedBy(
-                $usr_active_ids,
-                $question_ids,
-                $filter_scoredby
-            );
-        }
-
-        $ret = [];
-        foreach ($usr_active_ids as $user_id) {
-            $ret[$user_id] = $question_ids;
-
-            if ($filter_answered === self::FILTER_ONLY) {
-                $ret[$user_id] = array_intersect($ret[$user_id], $answered[$user_id]);
-            }
-            if ($filter_answered === self::FILTER_HIDE) {
-                $ret[$user_id] = array_diff($ret[$user_id], $answered[$user_id]);
-            }
-
-            if ($filter_finalized === self::FILTER_ONLY) {
-                $ret[$user_id] = array_diff($ret[$user_id], $finalized[$user_id]);
-            }
-            if ($filter_finalized === self::FILTER_HIDE) {
-                $ret[$user_id] = array_intersect($ret[$user_id], $finalized[$user_id]);
-            }
-            if (array_key_exists($user_id, $scored_by)) {
-                $ret[$user_id] = array_intersect($ret[$user_id], $scored_by[$user_id]);
-            }
-        }
-        return array_filter($ret);
-    }
-
-    /**
-     * @return qid => uids
-     */
-    protected function filterForQuestions(
-        array $usr_active_ids,
-        array $question_ids,
-        ?string $filter_answered,
-        ?string $filter_finalized,
-        array $filter_scoredby,
-    ): array {
-        $answered = array_reduce(
-            $question_ids,
-            function ($r, $question_id) use ($usr_active_ids) {
-                $r[$question_id] = $usr_active_ids;
-                return $r;
-            },
-            []
-        );
-        $finalized = $answered;
-
-        if ($filter_answered !== null) {
-            $answered = $this->pivot(
-                $this->scoring->getAnsweredQuestionIds(...$usr_active_ids)
-            );
-        }
-        if ($filter_finalized !== null) {
-            $finalized = $this->pivot(
-                $this->scoring->getFinalizedFeedbackIds($usr_active_ids, $question_ids)
-            );
-        }
-
-        $scored_by = [];
-        if ($filter_scoredby !== []) {
-            $scored_by = $this->pivot(
-                $this->scoring->getQidsFinalizedBy(
-                    $usr_active_ids,
-                    $question_ids,
-                    $filter_scoredby
-                )
-            );
-        }
-
-        $ret = [];
-        foreach ($question_ids as $question_id) {
-            $ret[$question_id] = $usr_active_ids;
-
-            if ($filter_answered === self::FILTER_ONLY) {
-                $ret[$question_id] = array_diff($ret[$question_id], $answered[$question_id] ?? []);
-            }
-            if ($filter_answered === self::FILTER_HIDE) {
-                $ret[$question_id] = array_intersect($ret[$question_id], $answered[$question_id] ?? []);
-            }
-            if ($filter_finalized === self::FILTER_ONLY) {
-                $ret[$question_id] = array_diff($ret[$question_id], $finalized[$question_id] ?? []);
-            }
-            if ($filter_finalized === self::FILTER_HIDE) {
-                $ret[$question_id] = array_intersect($ret[$question_id], $finalized[$question_id] ?? []);
-            }
-            if (array_key_exists($question_id, $scored_by)) {
-                $ret[$question_id] = array_intersect($ret[$question_id], $scored_by[$question_id]);
-            }
-        }
-        return array_filter($ret);
-    }
-
-    private function pivot(array $data): array
-    {
-        $pivoted = [];
-        foreach ($data as $key => $values) {
-            foreach ($values as $value) {
-                if (!array_key_exists($value, $pivoted)) {
-                    $pivoted[$value] = [];
-                }
-                $pivoted[$value][] = $key;
-            }
-        }
-        return $pivoted;
+        return $this->scoring->getPositions()
+            ->applyFilters(...$this->getFilters($filter_values))
+            ->get($viewcontrol_values);
     }
 
     public function getSegment(
@@ -456,9 +235,8 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         [$usr_active_ids, $question_ids] = $position_data;
         $usr_active_id = current($usr_active_ids);
         $question_id = current($question_ids);
-        $attempt_id = $this->scoring->getAttemptUsedForEvaluation($usr_active_id);
-        $viewcontrol_values = array_shift($viewcontrol_values);
 
+        $attempt_id = $this->scoring->getAttemptUsedForEvaluation($usr_active_id);
         $question_representation = $this->getQuestionRepresentation($question_id, true);
         $user_representation = $this->getUserRepresentation($usr_active_id, $attempt_id);
 
@@ -508,72 +286,46 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
         return $this->ui_factory->input()->container()->viewControl()->standard($vcs)
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
-                    fn($v) => [new ConsecutiveScoringMode(...$v)]
+                    fn($v) => new ConsecutiveScoringMode(...$v)
                 )
             );
     }
 
-    protected function getFilter(): FilterContainer
+    protected function getFilterInputs(): FilterContainer
     {
-        $user_options = [];
-        foreach ($this->scoring->getTestParticipants() as $usr_active_id => $u) {
-            $user_options[$usr_active_id] = $this->scoring->getUserFullName($usr_active_id, 'x');
-        }
-
-        $question_options = [];
-        foreach ($this->scoring->getManuallyScorableQuestionsInTest() as $q) {
-            $question_options[$q->getQuestionId()] = sprintf(
-                '%s (%s)',
-                $q->getTitle(),
-                $q->getTypeName($this->lng)
-            );
-        }
-
-        $answered_options = [
-            self::FILTER_ONLY => $this->lng->txt('tst_man_scoring_answered_only'),
-            self::FILTER_HIDE => $this->lng->txt('tst_man_scoring_answered_hide'),
-        ];
-
-        $finalized_options = [
-            self::FILTER_ONLY => $this->lng->txt('tst_man_scoring_finalized_hide'),
-            self::FILTER_HIDE => $this->lng->txt('tst_man_scoring_finalized_only'),
-        ];
-
-        $final_options = [
-            self::FILTER_ONLY => $this->lng->txt('evaluated_users'),
-            self::FILTER_HIDE => $this->lng->txt('not_evaluated_users')
-        ];
-
-        $scored_by_options = [];
-        foreach ($this->scoring->getAllFinalizingUsrIds() as $scorer_id) {
-            $ud = current(\ilObjUser::_getUserData([$scorer_id]));
-            $scored_by_options[$scorer_id] = $ud['firstname'] . ' ' . $ud['lastname'];
-        }
-
         $filter = [
             self::FILTER_USERS => $this->ui_factory->input()->field()->multiselect(
                 $this->lng->txt('tst_man_scoring_userselection'),
-                $user_options
+                $this->scoring->getParticipantNames()
             ),
             self::FILTER_QUESTIONS => $this->ui_factory->input()->field()->multiselect(
                 $this->lng->txt('tst_man_scoring_questionselection'),
-                $question_options
+                $this->scoring->getQuestionTitles($this->lng)
             ),
             self::FILTER_ANSWERED => $this->ui_factory->input()->field()->select(
                 $this->lng->txt('tst_man_scoring_only_answered'),
-                $answered_options
+                [
+                    self::FILTER_ONLY => $this->lng->txt('tst_man_scoring_answered_only'),
+                    self::FILTER_HIDE => $this->lng->txt('tst_man_scoring_answered_hide'),
+                ]
             )->withValue(null),
             self::FILTER_FINAL => $this->ui_factory->input()->field()->select(
                 $this->lng->txt('tst_man_scoring_finalized'),
-                $finalized_options
+                [
+                    self::FILTER_ONLY => $this->lng->txt('tst_man_scoring_finalized_only'),
+                    self::FILTER_HIDE => $this->lng->txt('tst_man_scoring_finalized_hide'),
+                ]
             )->withValue(null),
             self::FILTER_USER_FINAL => $this->ui_factory->input()->field()->select(
                 $this->lng->txt('finalized_evaluation'),
-                $final_options
+                [
+                    self::FILTER_ONLY => $this->lng->txt('evaluated_users'),
+                    self::FILTER_HIDE => $this->lng->txt('not_evaluated_users')
+                ]
             )->withValue(null),
             self::FILTER_SCOREDBY => $this->ui_factory->input()->field()->multiselect(
                 $this->lng->txt('scored_by'),
-                $scored_by_options
+                $this->scoring->getAllFinalizingUserNames()
             )->withValue(null),
 
         ];
@@ -585,6 +337,73 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             true,
             true
         );
+    }
+    /**
+     * @return \Closure[]
+     */
+    protected function getFilters(array $filter_values): array
+    {
+        $filter_values = array_map(fn($v) => $v === '' ? null : $v, $filter_values);
+        $ret = [];
+
+        if ($filter_values[self::FILTER_USERS] !== null) {
+            $ret[] = static fn(array $uids, array $qids): array => [
+                array_intersect($uids, $filter_values[self::FILTER_USERS]),
+                $qids
+            ];
+        }
+
+        if ($filter_values[self::FILTER_QUESTIONS] !== null) {
+            $ret[] = static fn(array $uids, array $qids): array => [
+                $uids,
+                array_intersect($qids, $filter_values[self::FILTER_QUESTIONS])
+            ];
+        }
+
+        if ($filter_values[self::FILTER_USER_FINAL] !== null) {
+            $ret[] = fn(array $uids, array $qids): array => [
+                array_filter(
+                    $uids,
+                    function ($uid) use ($filter_values) {
+                        $complete = $this->scoring->isScoringComplete($uid);
+                        $filter = $filter_values[self::FILTER_USER_FINAL];
+                        return ($complete && $filter === self::FILTER_ONLY)
+                            || (!$complete && $filter === self::FILTER_HIDE);
+                    }
+                ),
+                $qids
+            ];
+        }
+
+        if ($filter_values[self::FILTER_ANSWERED] !== null) {
+            $answered = $this->scoring->getAnsweredQuestionIds();
+            $ret[] = function (array $uids, array $qids) use ($filter_values, $answered): array {
+                $qids = ($filter_values[self::FILTER_ANSWERED] === self::FILTER_ONLY)
+                    ? array_intersect($qids, $answered[current($uids)])
+                    : array_diff($qids, $answered[current($uids)]);
+                return [$uids, $qids];
+            };
+        }
+
+        if ($filter_values[self::FILTER_FINAL] !== null) {
+            $finalized = $this->scoring->getFinalizedFeedbackIds();
+            $ret[] = function (array $uids, array $qids) use ($filter_values, $finalized): array {
+                $qids = ($filter_values[self::FILTER_FINAL] === self::FILTER_ONLY)
+                    ? array_intersect($qids, $finalized[current($uids)])
+                    : array_diff($qids, $finalized[current($uids)]);
+                return [$uids, $qids];
+            };
+        }
+
+        if ($filter_values[self::FILTER_SCOREDBY] !== null) {
+            $scored_by = $this->scoring->getQidsFinalizedBy($filter_values[self::FILTER_SCOREDBY]);
+            $ret[] = static fn(array $uids, array $qids): array => [
+                $uids,
+                array_intersect($qids, $scored_by),
+            ];
+        }
+
+        return $ret;
     }
 
     protected function getUserRepresentation(int $usr_active_id, int $attempt_id): Entity
@@ -605,7 +424,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                         $this->lng->txt('yes') : $this->lng->txt('no')
                 )->withProperty(
                     $this->lng->txt('exam_id'),
-                    $this->object->lookupExamId($usr_active_id, $attempt_id)
+                    \ilObjTest::buildExamId($usr_active_id, $attempt_id, $this->object->getId())
                 )
             );
         return $scored_participant_entity;
@@ -662,7 +481,11 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                 $this->ui_factory->listing()->property()
                     ->withProperty(
                         $this->lng->txt('tst_highscore_score'),
-                        (string) $usr_question->getReachedPoints($usr_active_id, $attempt_id) . ' ' . $this->lng->txt('tst_manscoring_input_of_max') . ' ' . (string) $usr_question->getMaximumPoints()
+                        implode(' ', [
+                            (string) $usr_question->getReachedPoints($usr_active_id, $attempt_id),
+                            $this->lng->txt('tst_manscoring_input_of_max'),
+                            (string) $usr_question->getMaximumPoints()
+                        ])
                     )
                     ->withProperty(
                         $this->lng->txt('finalized_evaluation'),

@@ -25,6 +25,7 @@ use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Scoring\Manual\ConsecutiveScoring;
 use ILIAS\Test\Scoring\Manual\ConsecutiveScoringURLs;
+use ILIAS\Test\Scoring\Manual\PositionsFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\Data\Factory as DataFactory;
 
@@ -68,16 +69,21 @@ class GUIFactory
 
         $this->internal['manscoring.consecutive'] = fn(\ilObjTest $test_obj): ConsecutiveScoring =>
                 new ConsecutiveScoring(
+                    $this->internal['manscoring.positionsfactory']($test_obj)->get(),
                     $test_obj,
-                    $this->test_dic['question.general_properties.repository'],
                     $this->test_dic['shuffler'],
                     $this->test_dic['logging.logger'],
                     $this->internal['manscoring.testscoring']($test_obj),
                     $this->test_dic['scoring.manual.done_helper'],
                     $this->global_dic['ilUser'],
                     $this->internal['test.access']($test_obj),
-                    new DataFactory(),
                 );
+
+        $this->internal['manscoring.positionsfactory'] = fn(\ilObjTest $test_obj): PositionsFactory =>
+            new PositionsFactory(
+                $test_obj,
+                $this->test_dic['question.general_properties.repository']
+            );
 
         $this->internal['manscoring.testscoring'] = fn(\ilObjTest $test_obj): TestScoring =>
                 new TestScoring(

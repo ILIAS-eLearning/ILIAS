@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
@@ -30,40 +29,28 @@ use ILIAS\Test\TestManScoringDoneHelper;
 class ConsecutiveScoring
 {
     public function __construct(
-        protected readonly \ilObjTest $object,
-        protected readonly GeneralQuestionPropertiesRepository $question_repo,
-        protected readonly \ilTestShuffler $shuffler,
-        protected readonly TestLogger $logger,
-        protected TestScoring $scorer,
-        protected TestManScoringDoneHelper $scoring_done_helper,
-        protected \ilObjUser $current_user,
-        protected readonly \ilTestAccess $test_access,
-        protected DataFactory $data_factory,
+        private readonly Positions $positions,
+        private readonly \ilObjTest $object,
+        private readonly \ilTestShuffler $shuffler,
+        private readonly TestLogger $logger,
+        private TestScoring $scorer,
+        private TestManScoringDoneHelper $scoring_done_helper,
+        private \ilObjUser $current_user,
+        private readonly \ilTestAccess $test_access,
     ) {
     }
 
-    /**
-     * @return ILIAS\TestQuestionPool\Questions\GeneralQuestionProperties[]
-     */
-    public function getManuallyScorableQuestionsInTest(): array
+    public function getPositions(): Positions
     {
-        $qtypes = $this->object->getGlobalSettings()->getDisabledQuestionTypes();
-        $ret = [];
-        foreach ($this->object->getQuestions() as $qid) {
-            $qprops = $this->question_repo->getForQuestionId($qid);
-            if (!in_array($qprops->getTypeId(), $qtypes)) {
-                $ret[] = $qprops;
-            }
-        }
-        return $ret;
+        return $this->positions;
     }
 
-    public function getTestParticipants(): array
+    public function getAttemptUsedForEvaluation(int $usr_active_id): int
     {
-        return $this->object->getTestParticipants();
+        return $this->positions->getAllAttempts()[$usr_active_id];
     }
 
-    protected function getQuestionGUI(int $qid): \assQuestionGUI
+    private function getQuestionGUI(int $qid): \assQuestionGUI
     {
         return $this->object->createQuestionGUI("", $qid);
     }
@@ -73,9 +60,29 @@ class ConsecutiveScoring
         return $this->getQuestionGUI($qid)->getObject();
     }
 
-    public function getAttemptUsedForEvaluation(int $usr_active_id): int
+    public function getParticipantNames(): array
     {
-        return $this->object->_getResultPass($usr_active_id);
+        $participants = [];
+        foreach ($this->positions->getAllAttempts() as $usr_active_id => $attempt) {
+            $participants[$usr_active_id] = $this->getUserFullName(
+                $usr_active_id,
+                (string) $attempt
+            );
+        };
+        return $participants;
+    }
+
+    public function getQuestionTitles(\ilLanguage $lng): array
+    {
+        $question_titles = [];
+        foreach ($this->positions->getAllQuestionProperties() as $qid => $qprop) {
+            $question_titles[$qid] = sprintf(
+                '%s (%s)',
+                $qprop->getTitle(),
+                $qprop->getTypeName($lng)
+            );
+        }
+        return $question_titles;
     }
 
     public function getUserFullName(
@@ -134,13 +141,12 @@ class ConsecutiveScoring
     /**
      * @return array<int, int[]>, uid => [qids]
      */
-    public function getAnsweredQuestionIds(int ...$usr_active_ids): array
+    public function getAnsweredQuestionIds(): array
     {
         $answered = [];
-        foreach ($usr_active_ids as $usr_active_id) {
+        foreach ($this->positions->getAllAttempts() as $usr_active_id => $attempt_id) {
             $answered[$usr_active_id] = [];
 
-            $attempt_id = $this->getAttemptUsedForEvaluation($usr_active_id);
             $user_results = $this->object->getTestResult(
                 $usr_active_id,
                 $attempt_id,
@@ -164,12 +170,11 @@ class ConsecutiveScoring
     /**
      * @return array<int, int[]>, uid => [qids]
      */
-    public function getFinalizedFeedbackIds(
-        array $usr_active_ids,
-        array $question_ids
-    ): array {
+    public function getFinalizedFeedbackIds(): array
+    {
         $finalized = [];
-        foreach ($question_ids as $qid) {
+        $usr_active_ids = array_keys($this->positions->getAllAttempts());
+        foreach (array_keys($this->positions->getAllQuestionProperties()) as $qid) {
             $feedback = $this->object->getCompleteManualFeedback($qid);
             foreach ($usr_active_ids as $uid) {
                 if (! array_key_exists($uid, $finalized)) {
@@ -183,50 +188,54 @@ class ConsecutiveScoring
         }
         return $finalized;
     }
-    public function getQidsFinalizedBy(
-        array $usr_active_ids,
-        array $question_ids,
-        array $finalizing_usr_ids,
-    ): array {
+
+    /**
+     * @return int[]>, question ids
+     */
+    public function getQidsFinalizedBy(array $finalizing_usr_ids): array
+    {
         $finalized = [];
-        foreach ($question_ids as $qid) {
+        $usr_active_ids = array_keys($this->positions->getAllAttempts());
+        foreach (array_keys($this->positions->getAllQuestionProperties()) as $qid) {
             $feedback = $this->object->getCompleteManualFeedback($qid);
             foreach ($usr_active_ids as $uid) {
-                if (! array_key_exists($uid, $finalized)) {
-                    $finalized[$uid] = [];
-                }
                 $attempt_id = $this->getAttemptUsedForEvaluation($uid);
                 $scorer = $feedback[$uid][$attempt_id][$qid]['finalized_by_usr_id'] ?? 0;
+
                 if (in_array($scorer, $finalizing_usr_ids)) {
-                    $finalized[$uid][] = $qid;
+                    $finalized[] = $qid;
                 }
             }
         }
-        return $finalized;
+        return array_unique($finalized);
     }
 
     /**
-     * @return int[]
+     * @return array <int, string>
      */
-    public function getAllFinalizingUsrIds(): array
+    public function getAllFinalizingUserNames(): array
     {
-        $ret = [];
-        $usr_active_ids = array_keys($this->getTestParticipants());
-        $question_ids = array_map(
-            static fn($q): int => $q->getQuestionId(),
-            $this->getManuallyScorableQuestionsInTest()
-        );
+        $finalized_by = [];
+        $attempts = $this->positions->getAllAttempts();
+        $question_ids = array_keys($this->positions->getAllQuestionProperties());
+
         foreach ($question_ids as $qid) {
             $feedback = $this->object->getCompleteManualFeedback($qid);
 
-            foreach ($usr_active_ids as $uid) {
-                $attempt_id = $this->getAttemptUsedForEvaluation($uid);
+            foreach ($attempts as $uid => $attempt_id) {
                 if ($feedback[$uid][$attempt_id][$qid]['finalized_by_usr_id'] ?? false) {
-                    $ret[] = $feedback[$uid][$attempt_id][$qid]['finalized_by_usr_id'];
+                    $scorer_id = $feedback[$uid][$attempt_id][$qid]['finalized_by_usr_id'];
+                    $finalized_by[$scorer_id] = $scorer_id;
                 }
             }
         }
-        return array_unique($ret);
+        return array_map(
+            function ($scorer_id) {
+                $ud = current(\ilObjUser::_getUserData([$scorer_id]));
+                return $ud['firstname'] . ' ' . $ud['lastname'];
+            },
+            $finalized_by
+        );
     }
 
     public function store(
