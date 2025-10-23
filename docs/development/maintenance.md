@@ -863,14 +863,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LanguageHandling)
 
 * **Language Handling**
-    * Authority to Sign off on Conceptual Changes: [kunkel](https://docu.ilias.de/go/usr/115)
-    * Authority to Sign off on Code Changes: [kunkel](https://docu.ilias.de/go/usr/115)
-        , [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
+    * Authority to Sign off on Conceptual Changes: [mkunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to Sign off on Code Changes: [mkunkel](https://docu.ilias.de/go/usr/115), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [ChrisPotter](https://docu.ilias.de/go/usr/90855)
     * Authority to Curate Test Cases: [ChrisPotter](https://docu.ilias.de/go/usr/90855)
-    * Authority to (De-)Assign Authorities: [kunkel](https://docu.ilias.de/go/usr/115)
-	* Tester: [kunkel](https://docu.ilias.de/go/usr/115)
-    * Assignee for Security Reports: [kunkel](https://docu.ilias.de/go/usr/115)
-    * Assignee for Security Issues: [kunkel](https://docu.ilias.de/go/usr/115)
+    * Authority to (De-)Assign Authorities: [mkunkel](https://docu.ilias.de/go/usr/115)
+	* Tester: [mkunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Reports: [mkunkel](https://docu.ilias.de/go/usr/115)
+    * Assignee for Security Issues: [mkunkel](https://docu.ilias.de/go/usr/115)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LanguageHandling)
