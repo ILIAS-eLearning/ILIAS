@@ -49,6 +49,7 @@ interface Factory
      *     and a bulky button offers navigation to an upper level.
      *     The label of the Drilldown Menu will be shown as part of the label of
      *     the filter.
+     *     The filter can optionally be hidden/removed.
      *   effect: >
      *     The Drilldown Menu maybe presented in one or two columns depending on the available
      *     space.

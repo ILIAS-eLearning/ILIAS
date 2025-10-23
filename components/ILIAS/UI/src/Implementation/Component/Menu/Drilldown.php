@@ -35,6 +35,7 @@ class Drilldown extends Menu implements IMenu\Drilldown
 
     protected Signal $signal;
     protected ?string $persistence_id = null;
+    protected bool $filter_hidden = false;
 
     /**
      * @param array<Component\Menu\Sub, Component\Clickable, Component\Link\Link, Component\Divider\Horizontal, Component\Input\Field\Node\Node> $items
@@ -68,5 +69,18 @@ class Drilldown extends Menu implements IMenu\Drilldown
     public function getPersistenceId(): ?string
     {
         return $this->persistence_id;
+    }
+
+
+    public function withHiddenFilter(bool $filter_hidden): self
+    {
+        $clone = clone $this;
+        $clone->filter_hidden = $filter_hidden;
+        return $clone;
+    }
+
+    public function isFilterHidden(): bool
+    {
+        return $this->filter_hidden;
     }
 }

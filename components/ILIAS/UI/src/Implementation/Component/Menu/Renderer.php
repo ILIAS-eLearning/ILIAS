@@ -100,7 +100,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('BACKNAV', $back_button_html);
         $tpl->setVariable('DRILLDOWN', $items_html);
         $tpl->setVariable('NO_ITEMS_TEXT', $this->txt(self::NO_ITEMS_LABEL));
-        $this->addMenuFilter($component, $tpl, $default_renderer);
+        if (!$component->isFilterHidden()) {
+            $this->addMenuFilter($component, $tpl, $default_renderer);
+        }
 
         return $tpl->get();
     }
