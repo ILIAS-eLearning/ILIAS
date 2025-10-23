@@ -52,12 +52,12 @@ class ilAssQuestionSkillUsagesGUI
 
     private function getTable(): string
     {
-        $table = new SkillUsagesTable(
-            $this->ui_factory,
-            $this->lng,
-            $this->parent_obj_id,
-            new \ilAssQuestionSkillAssignmentList($this->db)
-        );
+        $assignment_list = new \ilAssQuestionSkillAssignmentList($this->db);
+        $assignment_list->setParentObjId($this->parent_obj_id);
+        $assignment_list->loadFromDb();
+        $assignment_list->loadAdditionalSkillData();
+
+        $table = new SkillUsagesTable($this->ui_factory, $this->lng, $assignment_list);
 
         return $this->ui_renderer->render($table->getComponent()->withRequest($this->http_state->request()));
     }

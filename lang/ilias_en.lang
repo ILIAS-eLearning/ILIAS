@@ -1109,7 +1109,7 @@ assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result
 assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare
 assessment#:#qpl_skl_all_questions#:#All questions
 assessment#:#qpl_skl_assigned_questions#:#Questions with assignment
-assessment#:#qpl_skl_assignment_for_question:#:#Competence assignments for question „%s“
+assessment#:#qpl_skl_assignment_for_question#:#Competence assignments for question „%s“
 assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment
 assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency
 assessment#:#qpl_skl_unassigned_questions#:#Questions without assignment

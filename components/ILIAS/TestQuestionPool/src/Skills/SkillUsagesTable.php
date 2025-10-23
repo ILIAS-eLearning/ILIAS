@@ -32,12 +32,8 @@ class SkillUsagesTable implements DataRetrieval
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly \ilLanguage $lng,
-        private readonly int $parent_obj_id,
         private readonly \ilAssQuestionSkillAssignmentList $assignment_list
     ) {
-        $this->assignment_list->setParentObjId($this->parent_obj_id);
-        $this->assignment_list->loadFromDb();
-        $this->assignment_list->loadAdditionalSkillData();
     }
 
     public function getComponent(): Data
@@ -46,7 +42,7 @@ class SkillUsagesTable implements DataRetrieval
             $this,
             $this->lng->txt('qpl_skl_sub_tab_usages'),
             $this->getColumns()
-        )->withId((string) $this->parent_obj_id);
+        );
     }
 
     public function getColumns(): array
