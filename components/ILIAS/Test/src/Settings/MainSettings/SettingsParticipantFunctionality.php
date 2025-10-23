@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -29,10 +28,8 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsParticipantFunctionality extends TestSettings implements Normalizable
+class SettingsParticipantFunctionality extends TestSettings implements Exportable
 {
-    use PropertyNormalizer;
-
     public function __construct(
         protected bool $use_previous_answers_allowed = false,
         protected bool $suspend_test_allowed = false,
@@ -266,5 +263,29 @@ class SettingsParticipantFunctionality extends TestSettings implements Normaliza
         $clone = clone $this;
         $clone->question_marking_enabled = $question_marking_enabled;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'use_previous_answers' => $this->getUsePreviousAnswerAllowed(),
+            'suspend_test_allowed' => $this->getSuspendTestAllowed(),
+            'postponed_questions_move_to_end' => $this->getPostponedQuestionsMoveToEnd(),
+            'usr_pass_overview_mode' => $this->getUsrPassOverviewMode(),
+            'question_marking_enabled' => $this->getQuestionMarkingEnabled(),
+            'show_questionlist' => $this->getQuestionListEnabled()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (bool) $data['use_previous_answers'],
+            (bool) $data['suspend_test_allowed'],
+            (bool) $data['postponed_questions_move_to_end'],
+            (int) $data['usr_pass_overview_mode'],
+            (bool) $data['question_marking_enabled'],
+            (bool) $data['show_questionlist']
+        );
     }
 }

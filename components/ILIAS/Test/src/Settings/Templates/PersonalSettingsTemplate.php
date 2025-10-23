@@ -20,13 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
+use ILIAS\Test\ExportImport\Exportable;
 
-class PersonalSettingsTemplate implements Normalizable
+class PersonalSettingsTemplate implements Exportable
 {
-    use PropertyNormalizer;
-
     public function __construct(
         private int $id,
         private int $user_id,
@@ -79,5 +76,29 @@ class PersonalSettingsTemplate implements Normalizable
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->created_at;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'user_id' => $this->getUserId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'author' => $this->getAuthor(),
+            'created_at' => $this->getCreatedAt()->format(\DateTimeInterface::ATOM),
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (int) $data['id'],
+            (int) $data['user_id'],
+            (string) $data['name'],
+            (string) $data['description'],
+            (string) $data['author'],
+            new \DateTimeImmutable($data['created_at'])
+        );
     }
 }

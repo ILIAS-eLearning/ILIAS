@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Settings;
 
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class Settings extends TestSettings implements Normalizable
+class Settings extends TestSettings implements Exportable
 {
     public const int COUNT_PARTIAL_SOLUTIONS = 0;
     public const int COUNT_CORRECT_SOLUTIONS = 1;
@@ -131,7 +131,7 @@ class Settings extends TestSettings implements Normalizable
         return $clone;
     }
 
-    public function normalize(): array
+    public function toExport(): array
     {
         return [
             'count_system' => $this->getCountSystem(),
@@ -140,11 +140,11 @@ class Settings extends TestSettings implements Normalizable
         ];
     }
 
-    public static function denormalize(array $data): static
+    public static function fromExport(array $data): static
     {
         return (new self())
-            ->withCountSystem($data['count_system'])
-            ->withScoreCutting($data['score_cutting'])
-            ->withPassScoring($data['pass_scoring']);
+            ->withCountSystem((int) $data['count_system'])
+            ->withScoreCutting((int) $data['score_cutting'])
+            ->withPassScoring((int) $data['pass_scoring']);
     }
 }

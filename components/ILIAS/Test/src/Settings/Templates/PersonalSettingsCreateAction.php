@@ -35,7 +35,7 @@ class PersonalSettingsCreateAction
     ) {
     }
 
-    public function buildInput(string $url): RoundTrip
+    public function buildModal(string $url): RoundTrip
     {
         $input_factory = $this->ui_factory->input();
 
@@ -63,7 +63,7 @@ class PersonalSettingsCreateAction
 
     public function execute(int $test_id, ServerRequestInterface $request): void
     {
-        $container = $this->buildInput('')->withRequest($request);
+        $container = $this->buildModal('')->withRequest($request);
         $data = $container->getData();
 
         if ($data === null) {

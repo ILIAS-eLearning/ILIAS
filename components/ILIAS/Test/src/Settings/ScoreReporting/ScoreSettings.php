@@ -20,11 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
-class ScoreSettings implements Normalizable
+class ScoreSettings implements Exportable
 {
     public function __construct(
         protected int $id,
@@ -105,24 +105,24 @@ class ScoreSettings implements Normalizable
             + $this->settings_gamification->toLog($additional_info);
     }
 
-    public function normalize(): array
+    public function toExport(): array
     {
         return [
-            'settings_scoring' => $this->settings_scoring->normalize(),
-            'settings_result_summary' => $this->settings_result_summary->normalize(),
-            'settings_result_details' => $this->settings_result_details->normalize(),
-            'settings_gamification' => $this->settings_gamification->normalize()
+            'settings_scoring' => $this->settings_scoring->toExport(),
+            'settings_result_summary' => $this->settings_result_summary->toExport(),
+            'settings_result_details' => $this->settings_result_details->toExport(),
+            'settings_gamification' => $this->settings_gamification->toExport()
         ];
     }
 
-    public static function denormalize(array $data): static
+    public static function fromExport(array $data): static
     {
         return new self(
             $data['id'] ?? -1,
-            SettingsScoring::denormalize($data['settings_scoring']),
-            SettingsResultSummary::denormalize($data['settings_result_summary']),
-            SettingsResultDetails::denormalize($data['settings_result_details']),
-            SettingsGamification::denormalize($data['settings_gamification'])
+            SettingsScoring::fromExport($data['settings_scoring']),
+            SettingsResultSummary::fromExport($data['settings_result_summary']),
+            SettingsResultDetails::fromExport($data['settings_result_details']),
+            SettingsGamification::fromExport($data['settings_gamification'])
         );
     }
 }

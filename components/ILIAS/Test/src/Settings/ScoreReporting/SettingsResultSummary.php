@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsResultSummary extends TestSettings implements Normalizable
+class SettingsResultSummary extends TestSettings implements Exportable
 {
     protected ScoreReportingTypes $score_reporting = ScoreReportingTypes::SCORE_REPORTING_DISABLED;
     protected ?\DateTimeImmutable $reporting_date = null;
@@ -277,11 +277,11 @@ class SettingsResultSummary extends TestSettings implements Normalizable
         return $clone;
     }
 
-    public function normalize(): array
+    public function toExport(): array
     {
         return [
             'score_reporting' => $this->getScoreReporting()->value,
-            'reporting_date' => $this->getReportingDate() !== null ? $this->getReportingDate()->getTimestamp() : 0,
+            'reporting_date' => $this->getReportingDate()?->format(\DateTimeInterface::ATOM),
             'show_grading_status' => $this->getShowGradingStatusEnabled(),
             'show_grading_mark' => $this->getShowGradingMarkEnabled(),
             'show_pass_details' => $this->getShowPassDetails(),
@@ -289,14 +289,14 @@ class SettingsResultSummary extends TestSettings implements Normalizable
         ];
     }
 
-    public static function denormalize(array $data): static
+    public static function fromExport(array $data): static
     {
         return (new self())
             ->withScoreReporting(ScoreReportingTypes::from($data['score_reporting']))
-            ->withReportingDate($data['reporting_date'] !== 0 ? new \DateTimeImmutable('@' . $data['reporting_date']) : null)
-            ->withShowGradingStatusEnabled($data['show_grading_status'])
-            ->withShowGradingMarkEnabled($data['show_grading_mark'])
-            ->withShowPassDetails($data['show_pass_details'])
-            ->withPassDeletionAllowed($data['pass_deletion_allowed']);
+            ->withReportingDate($data['reporting_date'] !== 0 ? new \DateTimeImmutable($data['reporting_date']) : null)
+            ->withShowGradingStatusEnabled((bool) $data['show_grading_status'])
+            ->withShowGradingMarkEnabled((bool) $data['show_grading_mark'])
+            ->withShowPassDetails((bool) $data['show_pass_details'])
+            ->withPassDeletionAllowed((bool) $data['pass_deletion_allowed']);
     }
 }

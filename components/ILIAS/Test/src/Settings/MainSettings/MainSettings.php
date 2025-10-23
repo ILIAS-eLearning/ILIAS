@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 
-class MainSettings implements Normalizable
+class MainSettings implements Exportable
 {
     public function __construct(
         protected int $id,
@@ -159,32 +159,32 @@ class MainSettings implements Normalizable
             + $this->settings_additional->toLog($additional_info);
     }
 
-    public function normalize(): array
+    public function toExport(): array
     {
         return [
-            'settings_general' => $this->settings_general->normalize(),
-            'settings_introduction' => $this->settings_introduction->normalize(),
-            'settings_access' => $this->settings_access->normalize(),
-            'settings_test_behaviour' => $this->settings_test_behaviour->normalize(),
-            'settings_question_behaviour' => $this->settings_question_behaviour->normalize(),
-            'settings_participant_functionality' => $this->settings_participant_functionality->normalize(),
-            'settings_finishing' => $this->settings_finishing->normalize(),
-            'settings_additional' => $this->settings_additional->normalize(),
+            'settings_general' => $this->settings_general->toExport(),
+            'settings_introduction' => $this->settings_introduction->toExport(),
+            'settings_access' => $this->settings_access->toExport(),
+            'settings_test_behaviour' => $this->settings_test_behaviour->toExport(),
+            'settings_question_behaviour' => $this->settings_question_behaviour->toExport(),
+            'settings_participant_functionality' => $this->settings_participant_functionality->toExport(),
+            'settings_finishing' => $this->settings_finishing->toExport(),
+            'settings_additional' => $this->settings_additional->toExport(),
         ];
     }
 
-    public static function denormalize(array $data): static
+    public static function fromExport(array $data): static
     {
         return new self(
             $data['id'] ?? -1,
-            SettingsGeneral::denormalize($data['settings_general']),
-            SettingsIntroduction::denormalize($data['settings_introduction']),
-            SettingsAccess::denormalize($data['settings_access']),
-            SettingsTestBehaviour::denormalize($data['settings_test_behaviour']),
-            SettingsQuestionBehaviour::denormalize($data['settings_question_behaviour']),
-            SettingsParticipantFunctionality::denormalize($data['settings_participant_functionality']),
-            SettingsFinishing::denormalize($data['settings_finishing']),
-            SettingsAdditional::denormalize($data['settings_additional']),
+            SettingsGeneral::fromExport($data['settings_general']),
+            SettingsIntroduction::fromExport($data['settings_introduction']),
+            SettingsAccess::fromExport($data['settings_access']),
+            SettingsTestBehaviour::fromExport($data['settings_test_behaviour']),
+            SettingsQuestionBehaviour::fromExport($data['settings_question_behaviour']),
+            SettingsParticipantFunctionality::fromExport($data['settings_participant_functionality']),
+            SettingsFinishing::fromExport($data['settings_finishing']),
+            SettingsAdditional::fromExport($data['settings_additional']),
         );
     }
 }

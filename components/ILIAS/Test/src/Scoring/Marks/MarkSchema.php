@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Marks;
 
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
@@ -33,7 +33,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup components\ILIASTest
  */
-class MarkSchema implements Normalizable
+class MarkSchema implements Exportable
 {
     /**
      * @var array<\ILIAS\Test\Scoring\Marks\Mark>
@@ -173,14 +173,14 @@ class MarkSchema implements Normalizable
         return $log_array;
     }
 
-    public function normalize(): array
+    public function toExport(): array
     {
-        return ['mark_steps' => array_map(static fn(Mark $mark): array => $mark->normalize(), $this->mark_steps)];
+        return ['mark_steps' => array_map(static fn(Mark $mark): array => $mark->toExport(), $this->mark_steps)];
     }
 
-    public static function denormalize(array $data): static
+    public static function fromExport(array $data): static
     {
         return (new self($data['test_id'] ?? -1))
-            ->withMarkSteps(array_map(static fn(array $mark): Mark => Mark::denormalize($mark), $data['mark_steps']));
+            ->withMarkSteps(array_map(static fn(array $mark): Mark => Mark::fromExport($mark), $data['mark_steps']));
     }
 }

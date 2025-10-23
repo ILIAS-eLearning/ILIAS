@@ -20,18 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsGeneral extends TestSettings implements Normalizable
+class SettingsGeneral extends TestSettings implements Exportable
 {
-    use PropertyNormalizer;
-
     public function __construct(
         protected string $question_set_type = \ilObjTest::QUESTION_SET_TYPE_FIXED,
         protected bool $anonymous_test = false
@@ -138,5 +135,21 @@ class SettingsGeneral extends TestSettings implements Normalizable
         $clone = clone $this;
         $clone->anonymous_test = $anonymous_test;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'question_set_type' => $this->getQuestionSetType(),
+            'anonymity' => $this->getAnonymity()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (string) $data['question_set_type'],
+            (bool) $data['anonymity']
+        );
     }
 }

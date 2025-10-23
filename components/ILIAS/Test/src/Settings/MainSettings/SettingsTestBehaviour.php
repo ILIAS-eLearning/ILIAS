@@ -20,18 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsTestBehaviour extends TestSettings implements Normalizable
+class SettingsTestBehaviour extends TestSettings implements Exportable
 {
-    use PropertyNormalizer;
-
     private const DEFAULT_PROCESSING_TIME_MINUTES = 90;
 
     public function __construct(
@@ -508,5 +505,33 @@ class SettingsTestBehaviour extends TestSettings implements Normalizable
         $clone = clone $this;
         $clone->examid_in_test_attempt_enabled = $exam_id_in_test_pass_enabled;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'nr_of_tries' => $this->getNumberOfTries(),
+            'block_after_passed' => $this->getBlockAfterPassedEnabled(),
+            'pass_waiting' => $this->getPassWaiting(),
+            'enable_processing_time' => $this->getProcessingTimeEnabled(),
+            'processing_time' => $this->getProcessingTime(),
+            'reset_processing_time' => $this->getResetProcessingTime(),
+            'kiosk_mode' => $this->getKioskMode(),
+            'examid_in_test_pass' => $this->getExamIdInTestAttemptEnabled()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (int) $data['nr_of_tries'],
+            (bool) $data['block_after_passed'],
+            $data['pass_waiting'],
+            (bool) $data['enable_processing_time'],
+            $data['processing_time'],
+            (bool) $data['reset_processing_time'],
+            (int) $data['kiosk_mode'],
+            (bool) $data['examid_in_test_pass']
+        );
     }
 }

@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsGamification extends TestSettings implements Normalizable
+class SettingsGamification extends TestSettings implements Exportable
 {
     public const HIGHSCORE_SHOW_OWN_TABLE = 1;
     public const HIGHSCORE_SHOW_TOP_TABLE = 2;
@@ -294,7 +294,7 @@ class SettingsGamification extends TestSettings implements Normalizable
         return $clone;
     }
 
-    public function normalize(): array
+    public function toExport(): array
     {
         return [
             'highscore_enabled' => $this->getHighscoreEnabled(),
@@ -309,17 +309,17 @@ class SettingsGamification extends TestSettings implements Normalizable
         ];
     }
 
-    public static function denormalize(array $data): static
+    public static function fromExport(array $data): static
     {
         return (new self())
-            ->withHighscoreEnabled($data['highscore_enabled'])
-            ->withHighscoreAnon($data['highscore_anon'])
-            ->withHighscoreAchievedTS($data['highscore_achieved_ts'])
-            ->withHighscoreScore($data['highscore_score'])
-            ->withHighscorePercentage($data['highscore_percentage'])
-            ->withHighscoreWTime($data['highscore_wtime'])
-            ->withHighscoreOwnTable($data['highscore_own_table'])
-            ->withHighscoreTopTable($data['highscore_top_table'])
-            ->withHighscoreTopNum($data['highscore_top_num']);
+            ->withHighscoreEnabled((bool) $data['highscore_enabled'])
+            ->withHighscoreAnon((bool) $data['highscore_anon'])
+            ->withHighscoreAchievedTS((bool) $data['highscore_achieved_ts'])
+            ->withHighscoreScore((bool) $data['highscore_score'])
+            ->withHighscorePercentage((bool) $data['highscore_percentage'])
+            ->withHighscoreWTime((bool) $data['highscore_wtime'])
+            ->withHighscoreOwnTable((bool) $data['highscore_own_table'])
+            ->withHighscoreTopTable((bool) $data['highscore_top_table'])
+            ->withHighscoreTopNum((int) $data['highscore_top_num']);
     }
 }

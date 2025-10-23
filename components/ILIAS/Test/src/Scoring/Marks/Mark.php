@@ -21,8 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Scoring\Marks;
 
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Group;
 
@@ -34,10 +33,8 @@ use ILIAS\UI\Component\Input\Field\Group;
  * @version	$Id$
  * @ingroup components\ILIASTest
  */
-class Mark implements Normalizable
+class Mark implements Exportable
 {
-    use PropertyNormalizer;
-
     public function __construct(
         private string $short_name = "",
         private string $official_name = "",
@@ -185,5 +182,25 @@ class Mark implements Normalizable
             'passed' => ['text', (int) $this->getPassed()],
             'tstamp' => ['integer', time()]
         ];
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'short_name' => $this->getShortName(),
+            'official_name' => $this->getOfficialName(),
+            'minimum_level' => $this->getMinimumLevel(),
+            'passed' => $this->getPassed()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (string) $data['short_name'],
+            (string) $data['official_name'],
+            (float) $data['minimum_level'],
+            (bool) $data['passed']
+        );
     }
 }

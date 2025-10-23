@@ -45,7 +45,7 @@ class PersonalSettingsImportAction
     ) {
     }
 
-    public function buildInput(string $url): RoundTrip
+    public function buildModal(string $url): RoundTrip
     {
         $input_handler = new PersonalSettingsImportHandlerGUI();
 
@@ -64,7 +64,7 @@ class PersonalSettingsImportAction
 
     public function execute(ServerRequestInterface $request): void
     {
-        $data = $this->buildInput('')->withRequest($request)->getData();
+        $data = $this->buildModal('')->withRequest($request)->getData();
 
         if (!isset($data['upload']) || $data['upload'] === []) {
             throw new \InvalidArgumentException('import_file_not_valid_here');
@@ -114,14 +114,14 @@ class PersonalSettingsImportAction
             $this->firstChildElement($doc, 'mark-schema')
         );
 
-        $template = PersonalSettingsTemplate::denormalize($this->getAttributes($doc))
+        $template = PersonalSettingsTemplate::fromExport($this->getAttributes($doc))
             ->withUserId($this->user->getId());
 
         $this->repository->createTemplate(
             $template,
-            MainSettings::denormalize($main_settings_data),
-            ScoreSettings::denormalize($score_settings_data),
-            MarkSchema::denormalize($mark_schema_data)
+            MainSettings::fromExport($main_settings_data),
+            ScoreSettings::fromExport($score_settings_data),
+            MarkSchema::fromExport($mark_schema_data)
         );
     }
 
@@ -179,7 +179,7 @@ class PersonalSettingsImportAction
         }
 
         $type = $parent->getAttribute('type') ?? 'string';
-        $value = $parent->textContent;
+        $value = $this->sanitizeContent($parent->textContent);
         return match($type) {
             'string' => htmlspecialchars_decode($value),
             'integer' => (int) $value,
@@ -188,5 +188,24 @@ class PersonalSettingsImportAction
             'NULL' => null,
             default => throw new \InvalidArgumentException("Invalid type: {$type}"),
         };
+    }
+
+    /**
+     * Sanitize string values parsed from XML to avoid displaying malicious content.
+     *
+     * - Decodes HTML entities to catch encoded tags
+     * - Strips all HTML/PHP tags
+     * - Removes control characters (except tab, newline, carriage return)
+     * - Trims surrounding whitespace
+     */
+    private function sanitizeContent(string $value): string
+    {
+        // Decode entities first so that encoded tags like &lt;script&gt; are handled
+        $decoded = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        // Remove all tags
+        $stripped = strip_tags($decoded);
+        // Remove non-printable control characters except for common whitespace (tab, LF, CR)
+        $clean = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $stripped);
+        return trim($clean ?? '');
     }
 }

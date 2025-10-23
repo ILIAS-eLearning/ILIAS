@@ -37,7 +37,6 @@ use ILIAS\UI\URLBuilder;
 class PersonalSettingsTable implements DataRetrieval
 {
     private const string ID = 'pst';
-    private ?array $records = null;
 
     public function __construct(
         private readonly Language $lng,
@@ -76,7 +75,7 @@ class PersonalSettingsTable implements DataRetrieval
         return [
             'name' => $column_factory->text($this->lng->txt('personal_settings_name')),
             'description' => $column_factory->text($this->lng->txt('personal_settings_description'))->withIsSortable(false),
-            'timestamp' => $column_factory->date($this->lng->txt('personal_settings_timestamp'), $date_format),
+            'tstamp' => $column_factory->date($this->lng->txt('personal_settings_timestamp'), $date_format),
             'author' => $column_factory->text($this->lng->txt('personal_settings_author'))
         ];
     }
@@ -87,51 +86,8 @@ class PersonalSettingsTable implements DataRetrieval
             ->data($this, $this->lng->txt('personal_settings_templates_available'), $this->getColumns())
             ->withRequest($this->test_request->getRequest())
             ->withActions($this->table_actions->getActions(...$this->acquireParameters()))
-            ->withOrder(new Order('timestamp', Order::DESC))
+            ->withOrder(new Order('tstamp', Order::DESC))
             ->withId(self::ID);
-    }
-
-    private function getRecords(): array
-    {
-        $this->records ??= $this->repository->getTemplatesForUser();
-        return $this->records;
-    }
-
-    private function limitRecords(array $records, Range $range): array
-    {
-        return array_slice($records, $range->getStart(), $range->getLength());
-    }
-
-    private function sortRecords(array $records, Order $order): array
-    {
-        uasort($records, static function (PersonalSettingsTemplate $a, PersonalSettingsTemplate $b) use ($order): int {
-            foreach ($order->get() as $subject => $direction) {
-                $position = match ($subject) {
-                    'name' => $a->getName() <=> $b->getName(),
-                    'timestamp' => $a->getCreatedAt() <=> $b->getCreatedAt(),
-                    'author' => $a->getAuthor() <=> $b->getAuthor(),
-                };
-
-                if ($position !== 0) {
-                    return $direction === 'DESC' ? $position * -1 : $position;
-                }
-            }
-
-            return 0;
-        });
-
-        return $records;
-    }
-
-    private function getViewControlledRecords(Range $range, Order $order): array
-    {
-        return $this->limitRecords(
-            $this->sortRecords(
-                $this->getRecords(),
-                $order
-            ),
-            $range
-        );
     }
 
     public function getRows(
@@ -142,10 +98,10 @@ class PersonalSettingsTable implements DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): Generator {
-        foreach ($this->getViewControlledRecords($range, $order) as $template) {
+        foreach ($this->repository->getTemplatesForUser($range, $order) as $template) {
             $row = [
                 'name' => $template->getName(),
-                'timestamp' => $template->getCreatedAt(),
+                'tstamp' => $template->getCreatedAt(),
                 'description' => $template->getDescription(),
                 'author' => $template->getAuthor(),
             ];
@@ -156,6 +112,6 @@ class PersonalSettingsTable implements DataRetrieval
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        return count($this->getRecords());
+        return $this->repository->countTemplatesForUser();
     }
 }

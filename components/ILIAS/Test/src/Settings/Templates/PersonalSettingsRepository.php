@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
@@ -45,19 +47,36 @@ class PersonalSettingsRepository
     /**
      * @return array<int, PersonalSettingsTemplate>
      */
-    public function getTemplatesForUser(): array
+    public function getTemplatesForUser(?Range $range = null, ?Order $order = null): array
     {
-        $stmt = $this->db->queryF(
-            "SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
-            [\ilDBConstants::T_INTEGER],
-            [$this->user->getId()]
-        );
+        $query = "SELECT * FROM tst_test_defaults WHERE user_fi = %s ";
+
+        if($order === null) {
+            $order = new Order('name', Order::ASC);
+        }
+        $query .= $order->join('ORDER BY', fn(...$o) => implode(' ', $o));
+
+        if($range !== null) {
+            $query .= " LIMIT {$range->getLength()} OFFSET {$range->getStart()}";
+        }
+
+        $stmt = $this->db->queryF($query, [\ilDBConstants::T_INTEGER], [$this->user->getId()]);
 
         $templates = [];
         while ($row = $this->db->fetchAssoc($stmt)) {
             $templates[$row['test_defaults_id']] = $this->factory->createTemplateFromDBRow($row);
         }
         return $templates;
+    }
+
+    public function countTemplatesForUser(): int
+    {
+        $stmt = $this->db->queryF(
+            "SELECT COUNT(*) as cnt FROM tst_test_defaults WHERE user_fi = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$this->user->getId()]
+        );
+        return (int) $this->db->fetchAssoc($stmt)['cnt'];
     }
 
     /**

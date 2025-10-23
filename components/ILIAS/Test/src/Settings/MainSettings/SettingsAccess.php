@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -30,10 +29,8 @@ use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsAccess extends TestSettings implements Normalizable
+class SettingsAccess extends TestSettings implements Exportable
 {
-    use PropertyNormalizer;
-
     private const MAX_PASSWORD_LENGTH = 20;
 
     public function __construct(
@@ -386,5 +383,35 @@ class SettingsAccess extends TestSettings implements Normalizable
         $clone = clone $this;
         $clone->fixed_participants = $fixed_participants;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'starting_time_enabled' => $this->getStartTimeEnabled(),
+            'starting_time' => $this->getStartTime()?->format(\DateTimeInterface::ATOM),
+            'ending_time_enabled' => $this->getEndTimeEnabled(),
+            'ending_time' => $this->getEndTime()?->format(\DateTimeInterface::ATOM),
+            'password_enabled' => $this->getPasswordEnabled(),
+            'password' => $this->getPassword(),
+            'ip_range_from' => $this->getIpRangeFrom(),
+            'ip_range_to' => $this->getIpRangeTo(),
+            'fixed_participants' => $this->getFixedParticipants()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (bool) $data['starting_time_enabled'],
+            $data['starting_time'] !== null ? new \DateTimeImmutable($data['starting_time']) : null,
+            (bool) $data['ending_time_enabled'],
+            $data['ending_time'] !== null ? new \DateTimeImmutable($data['ending_time']) : null,
+            (bool) $data['password_enabled'],
+            $data['password'],
+            $data['ip_range_from'],
+            $data['ip_range_to'],
+            (bool) $data['fixed_participants'],
+        );
     }
 }

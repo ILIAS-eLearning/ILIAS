@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Test\ExportImport\Contracts;
+namespace ILIAS\Test\ExportImport;
 
 /**
  * Provides a contract for objects capable of self-contained normalization and denormalization.
@@ -37,20 +37,19 @@ namespace ILIAS\Test\ExportImport\Contracts;
  * IMPORTANT: Implementations of this interface MUST be self-contained.
  * The methods should operate solely on the object's internal state and the provided
  * data array, without relying on external services, database connections, or any other context.
- * For context-dependent normalization, see `ContextualNormalizable`-Contract.
  * ---
  */
-interface Normalizable
+interface Exportable
 {
     /**
      * Normalizes the object into a simple, associative array.
      *
      * The resulting array represents the object's state and should contain only
-     * scalar values, arrays, or other Normalizable objects.
+     * scalar values, arrays, or other Exportable objects.
      *
      * @return NormalizedArray The normalized representation of the object
      */
-    public function normalize(): array;
+    public function toExport(): array;
 
     /**
      * Denormalizes an array back into an instance of the object.
@@ -62,5 +61,5 @@ interface Normalizable
      * @param NormalizedArray $data The data to restore the object from
      * @return static A new instance of the class
      */
-    public static function denormalize(array $data): static;
+    public static function fromExport(array $data): static;
 }

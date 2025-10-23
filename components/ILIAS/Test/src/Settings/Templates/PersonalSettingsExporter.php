@@ -68,9 +68,9 @@ class PersonalSettingsExporter implements Exporter
         }
 
         $raw_settings = $this->repository->getSettings($this->template_id);
-        $main_settings = $this->factory->createMainSettingsFromDBRow($raw_settings)->normalize();
-        $score_settings = $this->factory->createScoreSettingsFromDBRow($raw_settings)->normalize();
-        $mark_schema = $this->repository->getMarkSchema($this->template_id)->normalize();
+        $main_settings = $this->factory->createMainSettingsFromDBRow($raw_settings)->toExport();
+        $score_settings = $this->factory->createScoreSettingsFromDBRow($raw_settings)->toExport();
+        $mark_schema = $this->repository->getMarkSchema($this->template_id)->toExport();
 
 
         $xml_writer = new \XMLWriter();
@@ -83,7 +83,7 @@ class PersonalSettingsExporter implements Exporter
 
         $xml_writer->startElement('template');
         $xml_writer->writeAttribute('ilias-version', ILIAS_VERSION_NUMERIC);
-        foreach ($template->normalize() as $name => $value) {
+        foreach ($template->toExport() as $name => $value) {
             $xml_writer->writeAttribute(str_replace('_', '-', $name), (string) $value);
         }
 

@@ -20,8 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -29,10 +28,8 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsFinishing extends TestSettings implements Normalizable
+class SettingsFinishing extends TestSettings implements Exportable
 {
-    use PropertyNormalizer;
-
     public function __construct(
         protected bool $show_answer_overview = false,
         protected bool $concluding_remarks_enabled = false,
@@ -262,5 +259,29 @@ class SettingsFinishing extends TestSettings implements Normalizable
         $clone = clone $this;
         $clone->redirection_url = $redirection_url;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'enable_examview' => $this->getShowAnswerOverview(),
+            'showfinalstatement' => $this->getConcludingRemarksEnabled(),
+            'finalstatement' => $this->getConcludingRemarksText(),
+            'concluding_remarks_page_id' => $this->getConcludingRemarksPageId(),
+            'redirection_mode' => $this->getRedirectionMode()->value,
+            'redirection_url' => $this->getRedirectionUrl()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (bool) $data['enable_examview'],
+            (bool) $data['showfinalstatement'],
+            $data['finalstatement'],
+            $data['concluding_remarks_page_id'],
+            RedirectionModes::from($data['redirection_mode']),
+            $data['redirection_url']
+        );
     }
 }

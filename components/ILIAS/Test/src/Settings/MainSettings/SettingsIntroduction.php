@@ -20,18 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\ExportImport\Concerns\PropertyNormalizer;
-use ILIAS\Test\ExportImport\Contracts\Normalizable;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsIntroduction extends TestSettings implements Normalizable
+class SettingsIntroduction extends TestSettings implements Exportable
 {
-    use PropertyNormalizer;
-
     public function __construct(
         protected bool $introduction_enabled = false,
         protected ?string $introduction_text = null,
@@ -123,5 +120,25 @@ class SettingsIntroduction extends TestSettings implements Normalizable
         $clone = clone $this;
         $clone->conditions_checkbox_enabled = $conditions_checkbox_enabled;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'intro_enabled' =>$this->getIntroductionEnabled(),
+            'introduction' => $this->getIntroductionText(),
+            'introduction_page_id' => $this->getIntroductionPageId(),
+            'conditions_checkbox_enabled' => $this->getExamConditionsCheckboxEnabled()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (bool) $data['intro_enabled'],
+            $data['introduction'],
+            $data['introduction_page_id'],
+            (bool) $data['conditions_checkbox_enabled'],
+        );
     }
 }
