@@ -82,6 +82,8 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private HTTP $http;
 
+    private ilToolbarGUI $toolbar;
+
     /**
      * @param ilCtrl $ctrl
      * @param ilAccessHandler $access
@@ -107,6 +109,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->data_factory = new DataFactory();
         $this->refinery = $DIC['refinery'];
         $this->http = $DIC['http'];
+        $this->toolbar = $DIC["ilToolbar"];
     }
 
     public function getQuestionOrderSequence(): ?array
@@ -525,6 +528,16 @@ class ilAssQuestionSkillAssignmentsGUI
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
                 self::class,
                 self::CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM
+            )
+        );
+
+        $this->toolbar->addComponent(
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('tst_manage_competence_assigns'),
+                $this->ctrl->getLinkTargetByClass(
+                    [ilAssQuestionSkillAssignmentsGUI::class],
+                    'showSkillSelection'
+                )
             )
         );
 
