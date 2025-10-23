@@ -125,7 +125,7 @@ class SettingsIntroduction extends TestSettings implements Exportable
     public function toExport(): array
     {
         return [
-            'intro_enabled' =>$this->getIntroductionEnabled(),
+            'intro_enabled' => $this->getIntroductionEnabled(),
             'introduction' => $this->getIntroductionText(),
             'introduction_page_id' => $this->getIntroductionPageId(),
             'conditions_checkbox_enabled' => $this->getExamConditionsCheckboxEnabled()

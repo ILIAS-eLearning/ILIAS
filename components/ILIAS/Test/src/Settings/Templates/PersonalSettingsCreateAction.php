@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
+use ILIAS\Test\Scoring\Marks\MarksRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\Language\Language;
@@ -32,6 +35,9 @@ class PersonalSettingsCreateAction
         private readonly Language $lng,
         private readonly \ilObjUser $user,
         private readonly PersonalSettingsRepository $repository,
+        private readonly MainSettingsRepository $main_settings_repository,
+        private readonly ScoreSettingsRepository $score_settings_repository,
+        private readonly MarksRepository $marks_repository,
     ) {
     }
 
@@ -66,6 +72,7 @@ class PersonalSettingsCreateAction
         $container = $this->buildModal('')->withRequest($request);
         $data = $container->getData();
 
+        // 1. Resolve error messages on validation failure
         if ($data === null) {
             $inputs = $container->getInputs();
 
@@ -78,11 +85,24 @@ class PersonalSettingsCreateAction
             }
         }
 
-        $this->repository->createTemplateFor(
-            $test_id,
+        // 2. Create a new template
+        $template = $this->repository->create(
             $data['name'],
             $data['description'] ?? '',
             $data['author']
         );
+
+        // 3. Clone settings from test for the new template
+        $this->main_settings_repository->store(
+            $this->main_settings_repository->getFor($test_id)->withId($template->getSettingsId())
+        );
+        $this->score_settings_repository->store(
+            $this->score_settings_repository->getFor($test_id)->withId($template->getSettingsId())
+        );
+
+        // 4. Clone the mark schema of the test and create references for the template
+        $mark_schema = $this->marks_repository->getMarkSchemaFor($test_id);
+        $mark_ids = $this->marks_repository->storeMarkSchema($mark_schema->withTestId(-1));
+        $this->repository->associateMarkSteps($template->getId(), $mark_ids);
     }
 }

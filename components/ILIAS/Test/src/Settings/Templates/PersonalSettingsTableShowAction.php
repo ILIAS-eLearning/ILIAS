@@ -23,7 +23,9 @@ namespace ILIAS\Test\Settings\Templates;
 use ILIAS\Language\Language;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Participants\ParticipantTableActions;
-use ILIAS\Test\Settings\SettingsFactory;
+use ILIAS\Test\Scoring\Marks\MarksRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Factory as UIFactory;
@@ -38,9 +40,11 @@ class PersonalSettingsTableShowAction implements TableAction
     public function __construct(
         private readonly Language $lng,
         private readonly UIFactory $ui_factory,
-        private readonly PersonalSettingsRepository $repository,
         private readonly \ilObjUser $user,
-        private readonly SettingsFactory $factory,
+        private readonly PersonalSettingsRepository $repository,
+        private readonly MainSettingsRepository $main_settings_repository,
+        private readonly ScoreSettingsRepository $score_settings_repository,
+        private readonly MarksRepository $marks_repository,
         private readonly AdditionalInformationGenerator $information_generator,
     ) {
     }
@@ -78,10 +82,10 @@ class PersonalSettingsTableShowAction implements TableAction
             'date_format' => $this->user->getDateFormat()->toString()
         ];
 
-        $settings = $this->repository->getSettings($template->getId());
+        $settings_id = $template->getSettingsId();
         $settings_info = array_merge(
-            $this->factory->createMainSettingsFromDBRow($settings)->getArrayForLog($this->information_generator),
-            $this->factory->createScoreSettingsFromDBRow($settings)->getArrayForLog($this->information_generator),
+            $this->main_settings_repository->getById($settings_id)->getArrayForLog($this->information_generator),
+            $this->score_settings_repository->getById($settings_id)->getArrayForLog($this->information_generator),
         );
 
         $modal_content[] = $this->information_generator->parseForTable(
@@ -89,9 +93,12 @@ class PersonalSettingsTableShowAction implements TableAction
             $environment
         );
 
+        $mark_steps = $this->repository->lookupMarkSteps($template->getId());
+        $mark_schema = $this->marks_repository->getMarkSchemaBySteps($mark_steps);
+
         $modal_content[] = $this->ui_factory->legacy()->content("<h4>{$this->lng->txt('mark_schema')}</h4>");
         $modal_content[] = $this->information_generator->parseForTable(
-            $this->repository->getMarkSchema($template->getId())->toLog($this->information_generator),
+            $mark_schema->toLog($this->information_generator),
             $environment
         );
 

@@ -98,7 +98,7 @@ class PersonalSettingsTable implements DataRetrieval
         ?array $filter_data,
         ?array $additional_parameters
     ): Generator {
-        foreach ($this->repository->getTemplatesForUser($range, $order) as $template) {
+        foreach ($this->repository->getForUser($range, $order) as $template) {
             $row = [
                 'name' => $template->getName(),
                 'tstamp' => $template->getCreatedAt(),
@@ -112,6 +112,6 @@ class PersonalSettingsTable implements DataRetrieval
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        return $this->repository->countTemplatesForUser();
+        return $this->repository->countForUser();
     }
 }

@@ -22,6 +22,7 @@ namespace ILIAS\Test\Settings\Templates;
 
 use ILIAS\Language\Language;
 use ILIAS\Test\Participants\ParticipantTableActions;
+use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Factory as UIFactory;
@@ -37,8 +38,9 @@ class PersonalSettingsTableDeleteAction implements TableAction
     public function __construct(
         private readonly Language $lng,
         private readonly UIFactory $ui_factory,
-        private readonly PersonalSettingsRepository $repository,
         private readonly GlobalTemplate $tpl,
+        private readonly PersonalSettingsRepository $repository,
+        private readonly MarksRepository $marks_repository,
     ) {
     }
 
@@ -86,7 +88,7 @@ class PersonalSettingsTableDeleteAction implements TableAction
         array $selected_templates,
     ): ?Modal {
         foreach ($selected_templates as $template) {
-            $this->repository->deleteTemplate($template->getId());
+            $this->deleteTemplate($template);
         }
 
         $this->tpl->setOnScreenMessage(
@@ -95,5 +97,14 @@ class PersonalSettingsTableDeleteAction implements TableAction
             true
         );
         return null;
+    }
+
+    public function deleteTemplate(PersonalSettingsTemplate $template): void
+    {
+        $mark_ids = $this->repository->lookupMarkSteps($template->getId());
+        $this->repository->detachMarkSteps($template->getId(), $mark_ids);
+        $this->marks_repository->deleteSteps($mark_ids);
+
+        $this->repository->delete($template);
     }
 }

@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
-use ILIAS\Filesystem\Filesystems;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
-use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
+use ILIAS\Test\Scoring\Marks\MarksRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\Test\Settings\Templates\PersonalSettingsCreateAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsExporter;
@@ -168,7 +169,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected ResultsPresentationFactory $results_presentation_factory;
     protected TestResultRepository $test_pass_result_repository;
     protected PersonalSettingsRepository $personal_settings_templates_repository;
-    protected MainSettingsDatabaseRepository $main_settings_repository;
+    protected MainSettingsRepository $main_settings_repository;
+    protected ScoreSettingsRepository $score_settings_repository;
+    protected MarksRepository $marks_repository;
     protected SettingsFactory $settings_factory;
     protected MarkSchemaFactory $mark_schema_factory;
     protected AdditionalInformationGenerator $additional_information_generator;
@@ -225,6 +228,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->toplist_repository = $local_dic['results.toplist.repository'];
         $this->personal_settings_templates_repository = $local_dic['settings.personal_templates.repository'];
         $this->main_settings_repository = $local_dic['settings.main.repository'];
+        $this->score_settings_repository = $local_dic['settings.scoring.repository'];
+        $this->marks_repository = $local_dic['marks.repository'];
         $this->settings_factory = $local_dic['settings.factory'];
         $this->mark_schema_factory = $local_dic['marks.factory'];
         $this->additional_information_generator = $local_dic['logging.information_generator'];
@@ -1995,9 +2000,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->tabs_manager->activateTab(TabsManager::TAB_ID_SETTINGS);
 
         $create_input = $this->buildPersonalSettingsCreateAction()
-            ->buildInput($this->ctrl->getLinkTargetByClass(self::class, 'createTemplate'));
+            ->buildModal($this->ctrl->getLinkTargetByClass(self::class, 'createTemplate'));
         $import_input = $this->buildPersonalSettingsImportAction()
-            ->buildInput($this->ctrl->getLinkTargetByClass(self::class, 'importTemplate'));
+            ->buildModal($this->ctrl->getLinkTargetByClass(self::class, 'importTemplate'));
 
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
@@ -2072,7 +2077,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ui_factory,
             $this->lng,
             $this->user,
-            $this->personal_settings_templates_repository
+            $this->personal_settings_templates_repository,
+            $this->main_settings_repository,
+            $this->score_settings_repository,
+            $this->marks_repository
         );
     }
 
@@ -2083,8 +2091,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->lng,
             $this->data_factory,
             $this->temp_file_system,
-            $this->user,
-            $this->personal_settings_templates_repository
+            $this->personal_settings_templates_repository,
+            $this->main_settings_repository,
+            $this->score_settings_repository,
+            $this->marks_repository
         );
     }
 
@@ -2102,19 +2112,23 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 PersonalSettingsTableShowAction::ACTION_ID => new PersonalSettingsTableShowAction(
                     $this->lng,
                     $this->ui_factory,
-                    $this->personal_settings_templates_repository,
                     $this->user,
-                    $this->settings_factory,
+                    $this->personal_settings_templates_repository,
+                    $this->main_settings_repository,
+                    $this->score_settings_repository,
+                    $this->marks_repository,
                     $this->additional_information_generator
                 ),
                 PersonalSettingsTableApplyAction::ACTION_ID => new PersonalSettingsTableApplyAction(
                     $this->lng,
                     $this->ui_factory,
                     $this->test_question_set_config_factory,
-                    $this->personal_settings_templates_repository,
-                    $this->settings_factory,
+                    $this->tpl,
                     $this->getTestObject(),
-                    $this->tpl
+                    $this->personal_settings_templates_repository,
+                    $this->main_settings_repository,
+                    $this->score_settings_repository,
+                    $this->marks_repository
                 ),
                 PersonalSettingsTableExportAction::ACTION_ID => new PersonalSettingsTableExportAction(
                     $this->lng,
@@ -2124,8 +2138,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 PersonalSettingsTableDeleteAction::ACTION_ID => new PersonalSettingsTableDeleteAction(
                     $this->lng,
                     $this->ui_factory,
+                    $this->tpl,
                     $this->personal_settings_templates_repository,
-                    $this->tpl
+                    $this->marks_repository
                 ),
             ]
         );

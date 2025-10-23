@@ -24,7 +24,10 @@ use ILIAS\Test\Settings\SettingsFactory;
 
 class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 {
-    /** @var array<int, ScoreSettings> Test ID -> Settings DTO */
+    /** @var array<int, int> Test ID -> Settings ID */
+    private array $settings_by_test_fi = [];
+
+    /** @var array<int, ScoreSettings> Settings ID -> Settings DTO */
     private array $settings_instances = [];
 
     public function __construct(
@@ -35,8 +38,31 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
     public function getFor(int $test_id): ScoreSettings
     {
-        return $this->settings_instances[$test_id]
-            ?? $this->doSelect('WHERE test_id = ' . $this->db->quote($test_id, \ilDBConstants::T_INTEGER));
+        return isset($this->settings_by_test_fi[$test_id])
+            ? $this->settings_instances[$this->settings_by_test_fi[$test_id]]
+            : $this->doSelect("WHERE test_id = {$this->db->quote($test_id, \ilDBConstants::T_INTEGER)}");
+    }
+
+    public function getById(int $settings_id): ScoreSettings
+    {
+        if(isset($this->settings_instances[$settings_id])) {
+            return $this->settings_instances[$settings_id];
+        }
+
+        $res = $this->db->queryF(
+            "SELECT * FROM tst_test_settings WHERE id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$settings_id]
+        );
+
+        if ($this->db->numRows($res) === 0) {
+            throw new \Exception("Mo score settings with id: {$settings_id}");
+        }
+
+        $settings = $this->factory->createScoreSettingsFromDBRow($this->db->fetchAssoc($res));
+        $this->settings_instances[$settings->getId()] = $settings;
+
+        return $settings;
     }
 
     protected function doSelect(string $where_part): ScoreSettings

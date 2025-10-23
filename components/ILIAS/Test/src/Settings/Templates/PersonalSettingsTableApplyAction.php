@@ -22,7 +22,9 @@ namespace ILIAS\Test\Settings\Templates;
 
 use ILIAS\Language\Language;
 use ILIAS\Test\Participants\ParticipantTableActions;
-use ILIAS\Test\Settings\SettingsFactory;
+use ILIAS\Test\Scoring\Marks\MarksRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Table\Action\Action;
 use ILIAS\UI\Factory as UIFactory;
@@ -39,10 +41,13 @@ class PersonalSettingsTableApplyAction implements TableAction
         private readonly Language $lng,
         private readonly UIFactory $ui_factory,
         private readonly \ilTestQuestionSetConfigFactory $question_set_config_factory,
-        private readonly PersonalSettingsRepository $repository,
-        private readonly SettingsFactory $factory,
-        private readonly \ilObjTest $test_obj,
         private readonly GlobalTemplate $tpl,
+        private readonly \ilObjTest $test_obj,
+        private readonly PersonalSettingsRepository $repository,
+        private readonly MainSettingsRepository $main_settings_repository,
+        private readonly ScoreSettingsRepository $score_settings_repository,
+        private readonly MarksRepository $marks_repository,
+
     ) {
     }
 
@@ -71,7 +76,7 @@ class PersonalSettingsTableApplyAction implements TableAction
         array $selected_templates
     ): ?Modal {
         $template = $this->checkSelectedTemplate($selected_templates);
-        $question_set_type_changed = $this->hasDifferentQuestionSetType($template->getId());
+        $question_set_type_changed = $this->hasDifferentQuestionSetType($template->getSettingsId());
 
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
@@ -96,11 +101,21 @@ class PersonalSettingsTableApplyAction implements TableAction
     ): ?Modal {
         $template = $this->checkSelectedTemplate($selected_templates);
 
-        $old_question_set_config = $this->hasDifferentQuestionSetType($template->getId()) ?
+        $old_question_set_config = $this->hasDifferentQuestionSetType($template->getSettingsId()) ?
             $this->question_set_config_factory->getQuestionSetConfig() :
             null;
 
-        $this->repository->applyTemplate($this->test_obj->getTestId(), $template->getId());
+        $test_settings_id = $this->test_obj->getMainSettings()->getId();
+        $main_settings = $this->main_settings_repository->getById($template->getSettingsId());
+        $score_settings = $this->score_settings_repository->getById($template->getSettingsId());
+
+        $mark_schema = $this->marks_repository->getMarkSchemaBySteps(
+            $this->repository->lookupMarkSteps($template->getId())
+        );
+
+        $this->main_settings_repository->store($main_settings->withId($test_settings_id));
+        $this->score_settings_repository->store($score_settings->withId($test_settings_id));
+        $this->marks_repository->storeMarkSchema($mark_schema->withTestId($this->test_obj->getTestId()));
 
         if ($old_question_set_config && $old_question_set_config->doesQuestionSetRelatedDataExist()) {
             $old_question_set_config->removeQuestionSetRelatedData();
@@ -128,10 +143,9 @@ class PersonalSettingsTableApplyAction implements TableAction
         return reset($selected_templates);
     }
 
-    private function hasDifferentQuestionSetType(int $template_id): bool
+    private function hasDifferentQuestionSetType(int $template_settings_id): bool
     {
-        $template_settings = $this->repository->getSettings($template_id);
-        $template_main_settings = $this->factory->createMainSettingsFromDBRow($template_settings);
+        $template_main_settings = $this->main_settings_repository->getById($template_settings_id);
         return $template_main_settings->getGeneralSettings()->getQuestionSetType() !== $this->test_obj->getQuestionSetType();
     }
 }

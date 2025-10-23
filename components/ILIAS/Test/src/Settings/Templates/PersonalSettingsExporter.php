@@ -23,6 +23,9 @@ namespace ILIAS\Test\Settings\Templates;
 use ILIAS\FileDelivery\Services as FileDeliveryServices;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Test\ExportImport\Exporter;
+use ILIAS\Test\Scoring\Marks\MarksRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\SettingsFactory;
 
 class PersonalSettingsExporter implements Exporter
@@ -31,9 +34,11 @@ class PersonalSettingsExporter implements Exporter
     private ?PersonalSettingsTemplate $template = null;
 
     public function __construct(
-        private readonly SettingsFactory $factory,
         private readonly FileDeliveryServices $file_delivery,
         private readonly PersonalSettingsRepository $repository,
+        private readonly MainSettingsRepository $main_settings_repository,
+        private readonly ScoreSettingsRepository $score_settings_repository,
+        private readonly MarksRepository $marks_repository
     ) {
     }
 
@@ -45,7 +50,7 @@ class PersonalSettingsExporter implements Exporter
 
     private function getTemplate(): PersonalSettingsTemplate
     {
-        return $this->template ??= $this->repository->getTemplateById($this->template_id);
+        return $this->template ??= $this->repository->getById($this->template_id);
     }
 
     public function deliver(): void
@@ -55,8 +60,8 @@ class PersonalSettingsExporter implements Exporter
         }
 
         $this->file_delivery->delivery()->attached(
-            Streams::ofString($xml_content) ,
-            "{$this->escapeName($this->getTemplate()->getName())}.xml" ,
+            Streams::ofString($xml_content),
+            "{$this->escapeName($this->getTemplate()->getName())}.xml",
             'text/xml',
         );
     }
@@ -67,10 +72,11 @@ class PersonalSettingsExporter implements Exporter
             return null;
         }
 
-        $raw_settings = $this->repository->getSettings($this->template_id);
-        $main_settings = $this->factory->createMainSettingsFromDBRow($raw_settings)->toExport();
-        $score_settings = $this->factory->createScoreSettingsFromDBRow($raw_settings)->toExport();
-        $mark_schema = $this->repository->getMarkSchema($this->template_id)->toExport();
+        $main_settings = $this->main_settings_repository->getById($template->getSettingsId());
+        $score_settings = $this->score_settings_repository->getById($template->getSettingsId());
+        $mark_schema = $this->marks_repository->getMarkSchemaBySteps(
+            $this->repository->lookupMarkSteps($template->getId())
+        );
 
 
         $xml_writer = new \XMLWriter();
@@ -88,15 +94,15 @@ class PersonalSettingsExporter implements Exporter
         }
 
         $xml_writer->startElement('main-settings');
-        $this->writeRecursive($xml_writer, $main_settings, ['settings-group', 'settings-entry']);
+        $this->writeRecursive($xml_writer, $main_settings->toExport(), ['settings-group', 'settings-entry']);
         $xml_writer->endElement();
 
         $xml_writer->startElement('score-settings');
-        $this->writeRecursive($xml_writer, $score_settings, ['settings-group', 'settings-entry']);
+        $this->writeRecursive($xml_writer, $score_settings->toExport(), ['settings-group', 'settings-entry']);
         $xml_writer->endElement();
 
         $xml_writer->startElement('mark-schema');
-        $this->writeRecursive($xml_writer, $mark_schema, ['mark-steps', 'mark']);
+        $this->writeRecursive($xml_writer, $mark_schema->toExport(), ['mark-steps', 'mark']);
         $xml_writer->endElement();
 
         $xml_writer->endElement();

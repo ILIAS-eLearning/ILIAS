@@ -279,7 +279,17 @@ class TestResultRepositoryTest extends \ilTestBaseTestCase
                 return $this->mark_schema;
             }
 
-            public function storeMarkSchema(MarkSchema $mark_schema): void
+            public function storeMarkSchema(MarkSchema $mark_schema): array
+            {
+                throw new \Error('Not implemented');
+            }
+
+            public function getMarkSchemaBySteps(array $step_ids): MarkSchema
+            {
+                throw new \Error('Not implemented');
+            }
+
+            public function deleteSteps(array $step_ids): void
             {
                 throw new \Error('Not implemented');
             }

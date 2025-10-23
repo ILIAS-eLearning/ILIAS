@@ -157,7 +157,8 @@ class SettingsFactory
             $row['name'],
             $row['description'] ?? '',
             $row['author'] ?? '',
-            \DateTimeImmutable::createFromFormat('U', (string) $row['tstamp'])
+            \DateTimeImmutable::createFromFormat('U', (string) $row['tstamp']),
+            $row['settings_id'] ?? -1,
         );
     }
 }

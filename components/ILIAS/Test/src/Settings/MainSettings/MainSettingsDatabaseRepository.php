@@ -53,6 +53,28 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             : $this->doSelect("WHERE test_id = {$this->db->quote($test_id, \ilDBConstants::T_INTEGER)}");
     }
 
+    public function getById(int $settings_id): MainSettings
+    {
+        if(isset($this->settings_instances[$settings_id])) {
+            return $this->settings_instances[$settings_id];
+        }
+
+        $res = $this->db->queryF(
+            "SELECT * FROM tst_test_settings WHERE id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$settings_id]
+        );
+
+        if ($this->db->numRows($res) === 0) {
+            throw new \Exception("Mo main settings with id: {$settings_id}");
+        }
+
+        $settings = $this->factory->createMainSettingsFromDBRow($this->db->fetchAssoc($res));
+        $this->settings_instances[$settings->getId()] = $settings;
+
+        return $settings;
+    }
+
     protected function doSelect(string $where_part): MainSettings
     {
         $query = 'SELECT ' . PHP_EOL

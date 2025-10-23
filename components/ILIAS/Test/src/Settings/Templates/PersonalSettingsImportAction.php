@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\Templates;
 
+use ILIAS\Test\Scoring\Marks\MarksRepository;
+use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use PersonalSettingsImportHandlerGUI;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Filesystem\Filesystem;
@@ -40,8 +43,10 @@ class PersonalSettingsImportAction
         private readonly Language $lng,
         private readonly DataFactory $data_factory,
         private readonly Filesystem $filesystem,
-        private readonly \ilObjUser $user,
         private readonly PersonalSettingsRepository $repository,
+        private readonly MainSettingsRepository $main_settings_repository,
+        private readonly ScoreSettingsRepository $score_settings_repository,
+        private readonly MarksRepository $marks_repository,
     ) {
     }
 
@@ -114,15 +119,23 @@ class PersonalSettingsImportAction
             $this->firstChildElement($doc, 'mark-schema')
         );
 
-        $template = PersonalSettingsTemplate::fromExport($this->getAttributes($doc))
-            ->withUserId($this->user->getId());
-
-        $this->repository->createTemplate(
-            $template,
-            MainSettings::fromExport($main_settings_data),
-            ScoreSettings::fromExport($score_settings_data),
-            MarkSchema::fromExport($mark_schema_data)
+        $imported_template = PersonalSettingsTemplate::fromExport($this->getAttributes($doc));
+        $template = $this->repository->create(
+            $imported_template->getName(),
+            $imported_template->getDescription(),
+            $imported_template->getAuthor(),
+            $imported_template->getCreatedAt()
         );
+
+        $this->main_settings_repository->store(
+            MainSettings::fromExport($main_settings_data)->withId($template->getSettingsId())
+        );
+        $this->score_settings_repository->store(
+            ScoreSettings::fromExport($score_settings_data)->withId($template->getSettingsId())
+        );
+
+        $mark_ids = $this->marks_repository->storeMarkSchema(MarkSchema::fromExport($mark_schema_data));
+        $this->repository->associateMarkSteps($template->getId(), $mark_ids);
     }
 
     /**
@@ -136,7 +149,7 @@ class PersonalSettingsImportAction
         $attributes = [];
         foreach ($element->getAttributeNames() as $name) {
             $property_name = str_replace('-', '_', $name);
-            $attributes[$property_name] = $element->getAttribute($name);
+            $attributes[$property_name] = $this->sanitizeContent($element->getAttribute($name));
         }
         return $attributes;
     }

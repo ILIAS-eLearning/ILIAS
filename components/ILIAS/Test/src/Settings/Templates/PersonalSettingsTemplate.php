@@ -31,6 +31,7 @@ class PersonalSettingsTemplate implements Exportable
         private string $description,
         private string $author,
         private \DateTimeImmutable $created_at,
+        private int $settings_id = -1
     ) {
     }
 
@@ -76,6 +77,11 @@ class PersonalSettingsTemplate implements Exportable
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->created_at;
+    }
+
+    public function getSettingsId(): int
+    {
+        return $this->settings_id;
     }
 
     public function toExport(): array
