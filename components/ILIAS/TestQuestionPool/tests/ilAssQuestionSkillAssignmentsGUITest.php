@@ -35,6 +35,8 @@ class ilAssQuestionSkillAssignmentsGUITest extends assBaseTestCase
     {
         parent::setUp();
 
+        $this->addGlobal_ilToolbar();
+
         $ctrl = $this->createMock(ilCtrl::class);
         $access = $this->createMock(ilAccessHandler::class);
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);

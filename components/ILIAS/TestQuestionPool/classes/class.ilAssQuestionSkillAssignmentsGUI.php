@@ -47,6 +47,7 @@ use ILIAS\UI\URLBuilder;
 class ilAssQuestionSkillAssignmentsGUI
 {
     public const CMD_SHOW_SKILL_QUEST_ASSIGNS = 'showSkillQuestionAssignments';
+    public const CMD_EDIT_SKILL_QUEST_ASSIGNS = 'editSkillQuestionAssignment';
     public const CMD_SHOW_SKILL_SELECT = 'showSkillSelection';
     public const CMD_UPDATE_SKILL_QUEST_ASSIGNS = 'updateSkillQuestionAssignments';
     public const CMD_SHOW_SKILL_QUEST_ASSIGN_PROPERTIES_FORM = 'showSkillQuestionAssignmentPropertiesForm';
@@ -342,7 +343,7 @@ class ilAssQuestionSkillAssignmentsGUI
             }
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+        $this->ctrl->redirect($this, self::CMD_EDIT_SKILL_QUEST_ASSIGNS);
     }
 
     private function showSkillSelectionCmd(): void
@@ -500,7 +501,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $edit_uri = $this->data_factory->uri(
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
                 self::class,
-                'editSkillQuestionAssignment'
+                self::CMD_EDIT_SKILL_QUEST_ASSIGNS
             )
         );
 
@@ -536,7 +537,7 @@ class ilAssQuestionSkillAssignmentsGUI
                 $this->lng->txt('tst_manage_competence_assigns'),
                 $this->ctrl->getLinkTargetByClass(
                     [ilAssQuestionSkillAssignmentsGUI::class],
-                    'showSkillSelection'
+                    self::CMD_SHOW_SKILL_SELECT
                 )
             )
         );
@@ -655,7 +656,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
         $skillSelectorToolbarGUI->setFormAction($this->ctrl->getFormAction($this));
         $skillSelectorToolbarGUI->addFormButton($this->lng->txt('qpl_save_skill_assigns_update'), self::CMD_UPDATE_SKILL_QUEST_ASSIGNS);
-        $skillSelectorToolbarGUI->addFormButton($this->lng->txt('qpl_cancel_skill_assigns_update'), self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+        $skillSelectorToolbarGUI->addFormButton($this->lng->txt('qpl_cancel_skill_assigns_update'), self::CMD_EDIT_SKILL_QUEST_ASSIGNS);
 
         return $skillSelectorToolbarGUI;
     }
