@@ -83,7 +83,8 @@ $il-metabar-small-glyph-size: 1.25rem;
 			box-shadow: $il-mainbar-shadow-right;
 			background-color: $il-metabar-slates-bg-color;
 			color: initial;
-			outline-color: transparent;
+			border: $il-metabar-entry-border;
+			@include f.il-focus-border-only();
 		}
 		.glyphicon {
 			color: $il-metabar-glyph-color;
