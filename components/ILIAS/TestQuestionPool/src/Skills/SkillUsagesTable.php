@@ -25,18 +25,19 @@ use ILIAS\Data\Range;
 use ILIAS\UI\Component\Table\Data;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Factory;
+use ILIAS\UI\Factory as UIFactory;
 
 class SkillUsagesTable implements DataRetrieval
 {
-    private ?array $records = null;
-
     public function __construct(
-        private readonly Factory $ui_factory,
+        private readonly UIFactory $ui_factory,
         private readonly \ilLanguage $lng,
-        private readonly \ilDBInterface $db,
-        private readonly int $parent_obj_id
+        private readonly int $parent_obj_id,
+        private readonly \ilAssQuestionSkillAssignmentList $assignment_list
     ) {
+        $this->assignment_list->setParentObjId($this->parent_obj_id);
+        $this->assignment_list->loadFromDb();
+        $this->assignment_list->loadAdditionalSkillData();
     }
 
     public function getComponent(): Data
@@ -61,13 +62,7 @@ class SkillUsagesTable implements DataRetrieval
 
     public function collectRecords(?array $filter_data, ?array $additional_parameters): array
     {
-        $assignment_list = new \ilAssQuestionSkillAssignmentList($this->db);
-
-        $assignment_list->setParentObjId($this->parent_obj_id);
-        $assignment_list->loadFromDb();
-        $assignment_list->loadAdditionalSkillData();
-
-        return $assignment_list->getUniqueAssignedSkills();
+        return $this->assignment_list->getUniqueAssignedSkills();
     }
 
     private function orderRecords(array $records, Order $order): array
@@ -85,11 +80,6 @@ class SkillUsagesTable implements DataRetrieval
         return $order_direction === $order::DESC ? array_reverse($records) : $records;
     }
 
-    private function initRecords(?array $filter_data, ?array $additional_parameters): void
-    {
-        $this->records ??= $this->collectRecords($filter_data, $additional_parameters);
-    }
-
     private function limitRecords(array $records, Range $range): array
     {
         return array_slice($records, $range->getStart(), $range->getLength());
@@ -97,9 +87,13 @@ class SkillUsagesTable implements DataRetrieval
 
     private function getRecords(Order $order, Range $range, ?array $filter_data, ?array $additional_parameters): array
     {
-        $this->initRecords($filter_data, $additional_parameters);
-
-        return $this->limitRecords($this->orderRecords($this->records, $order), $range);
+        return $this->limitRecords(
+            $this->orderRecords(
+                $this->collectRecords($filter_data, $additional_parameters),
+                $order
+            ),
+            $range
+        );
     }
 
     public function getRows(
@@ -117,7 +111,6 @@ class SkillUsagesTable implements DataRetrieval
 
     public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
     {
-        $this->initRecords($filter_data, $additional_parameters);
-        return count($this->records);
+        return count($this->collectRecords($filter_data, $additional_parameters));
     }
 }

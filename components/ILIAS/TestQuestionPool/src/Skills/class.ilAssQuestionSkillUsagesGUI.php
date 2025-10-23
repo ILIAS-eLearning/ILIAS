@@ -21,16 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\TestQuestionPool\Skills;
 
 use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 class ilAssQuestionSkillUsagesGUI
 {
     public const string CMD_SHOW = 'show';
 
     public function __construct(
-        private readonly Factory $ui_factory,
-        private readonly Renderer $ui_renderer,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
         private readonly GlobalHttpState $http_state,
         private readonly \ilLanguage $lng,
         private readonly \ilGlobalTemplateInterface $tpl,
@@ -52,7 +52,12 @@ class ilAssQuestionSkillUsagesGUI
 
     private function getTable(): string
     {
-        $table = new SkillUsagesTable($this->ui_factory, $this->lng, $this->db, $this->parent_obj_id);
+        $table = new SkillUsagesTable(
+            $this->ui_factory,
+            $this->lng,
+            $this->parent_obj_id,
+            new \ilAssQuestionSkillAssignmentList($this->db)
+        );
 
         return $this->ui_renderer->render($table->getComponent()->withRequest($this->http_state->request()));
     }

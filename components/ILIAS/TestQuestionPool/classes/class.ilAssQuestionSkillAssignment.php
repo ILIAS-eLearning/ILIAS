@@ -256,10 +256,14 @@ class ilAssQuestionSkillAssignment
     private function retrieveNodeTitlesArrayFromPath(): array
     {
         $path = $this->skill_tree_service->getSkillTreePath($this->getSkillBaseId(), $this->getSkillTrefId());
+        if ($path === []) {
+            return [];
+
+        }
 
         $nodes = [];
         foreach ($path as $node) {
-            if ($node['title'] === "Skill Tree Root Node") {
+            if ($node['title'] === 'Skill Tree Root Node') {
                 continue;
             }
 
@@ -268,14 +272,11 @@ class ilAssQuestionSkillAssignment
             }
         }
 
-        $root_node = reset($path);
-        $skl_tree_id = $root_node['skl_tree_id'] ?? null;
-        if (is_numeric($skl_tree_id)) {
-            array_unshift(
-                $nodes,
-                htmlspecialchars($this->skill_tree_service->getObjSkillTreeById((int) $skl_tree_id)->getTitle())
-            );
-        }
+        $root_node_skl_tree_id = reset($path)['skl_tree_id'];
+        array_unshift(
+            $nodes,
+            htmlspecialchars($this->skill_tree_service->getObjSkillTreeById($root_node_skl_tree_id)->getTitle())
+        );
 
         return $nodes;
     }
