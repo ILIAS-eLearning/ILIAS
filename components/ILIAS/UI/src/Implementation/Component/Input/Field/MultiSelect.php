@@ -28,10 +28,12 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends HasOptionFilter implements C\Input\Field\MultiSelect
+class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
 {
+    use HasOptionFilter;
+
     /**
-     * @var array<string, string> (value => label)
+     * @var array <string,string> {$value => $label}
      */
     protected array $options = [];
 
