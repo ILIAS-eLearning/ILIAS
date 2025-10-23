@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\Enum\ServiceAction;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\UserResult;
 
 /**
@@ -176,8 +177,26 @@ class ilLTIAppEventListener
                 $score = 0;
             }
         }
+        $platform = $resource_link->getPlatform();
 
-        $this->logger->info('Sending score: ' . (string) $score);
+        $platform->accessTokenUrl = $platform->accessTokenUrl
+            ?: $platform->getSetting('custom_oauth2_access_token_url')
+                ?: \ilObjLTIConsumer::getAccessTokenUrl();
+
+        $priv = \ilObjLTIConsumer::getPrivateKey();
+
+        $tool = new Tool();
+        $tool->rsaKey          = $priv['key'];                             // PEM private key
+        $tool->kid             = $priv['kid'];                             // kid for JWT header
+        $tool->jku             = \ilObjLTIConsumer::getPublicKeysetUrl();  // optional but recommended
+        $tool->requiredScopes  = [
+            "https://purl.imsglobal.org/spec/lti-ags/scope/score",     // https://purl.imsglobal.org/spec/lti-ags/scope/score
+            "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",    // https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly
+        ];
+        $tool->signatureMethod = $platform->signatureMethod;
+
+        Tool::$defaultTool = $tool;
+        $tool->platform = $platform;
 
         $outcome = new Outcome((string) $score);
 
@@ -268,6 +287,7 @@ class ilLTIAppEventListener
             foreach ($resources as $resource) {
                 // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
                 $resource_link = ResourceLink::fromRecordId($resource, $connector);
+
                 if ($resource_link->hasOutcomesService()) {
                     $user = UserResult::fromResourceLink($resource_link, $ext_account);
                     $logger->debug('Sending score: ' . (string) $score);

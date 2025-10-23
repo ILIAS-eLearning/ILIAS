@@ -127,6 +127,7 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
         $ltiObjRes->readProperties($objId);
         // check the object status
         if (!$ltiObjRes->isAvailable()) {
+            ilObjLTIConsumer::getLogger()->error("Tool for Object not available" );
             throw new Exception('Tool for Object not available', 404);
             return 404;
         }

@@ -772,7 +772,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => self::getIliasHttpPath(
-            ) . "/ltiresult.php?client_id=" . CLIENT_ID,
+                ) . "/ltiresult.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -865,7 +865,7 @@ class ilObjLTIConsumer extends ilObject2
         }
         $toolConsumerInstanceGuid .= $parseIliasUrl["host"];
         $launch_vars = [
-            "lti_message_type" => "basic-lti-launch-request",
+            "lti_message_type" => "LtiResourceLinkRequest",
             "lti_version" => "1.3.0",
             "resource_link_id" => (string) $resource_link_id,
             "resource_link_title" => $this->getTitle(),
@@ -899,9 +899,6 @@ class ilObjLTIConsumer extends ilObject2
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
-            "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => self::getIliasHttpPath(
-            ) . "/ltiresult.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -917,12 +914,13 @@ class ilObjLTIConsumer extends ilObject2
             //include_once("components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath(
-            ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+                ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
 
             // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
             // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
-            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath(
-            ) . "/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
+
+            $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath()
+                . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/";
 
             $launch_vars['custom_ags_scopes'] = implode(",", $gradeservice->getPermittedScopes());
         }
@@ -1089,6 +1087,28 @@ class ilObjLTIConsumer extends ilObject2
         $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/deployment_id'] = strval($typeId);
         if (!empty($endpoint)) {  // only for launch request
             $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/target_link_uri'] = $endpoint;
+        }
+
+        if (!empty($parms['custom_lineitem_url']) || !empty($parms['custom_lineitems_url']) || !empty($parms['custom_ags_scopes'])) {
+            $ags_claim = [];
+
+            if (!empty($parms['custom_lineitem_url'])) {
+                $ags_claim['lineitem'] = $parms['custom_lineitem_url'];
+            }
+            if (!empty($parms['custom_lineitems_url'])) {
+                $ags_claim['lineitems'] = $parms['custom_lineitems_url'];
+            }
+            if (!empty($parms['custom_ags_scopes'])) {
+                // scopes are comma-separated in launch_vars
+                $ags_claim['scope'] = array_values(array_filter(array_map('trim', explode(',', $parms['custom_ags_scopes']))));
+            }
+
+            if (!empty($ags_claim)) {
+                $payLoad['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'] = $ags_claim;
+            }
+
+            // prevent them from also being added to custom/claim/custom later
+            unset($parms['custom_lineitem_url'], $parms['custom_lineitems_url'], $parms['custom_ags_scopes']);
         }
 
         foreach ($parms as $key => $value) {
@@ -1323,7 +1343,10 @@ class ilObjLTIConsumer extends ilObject2
         $reponseData = $data;
         $provider = new ilLTIConsumeProvider();
         $toolConfig = $data['https://purl.imsglobal.org/spec/lti-tool-configuration'];
-        $provider->setTitle(strip_tags($data['client_name'], ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
+        $provider->setTitle($DIC->refinery()->encode()->htmlSpecialCharsAsEntities()->transform(
+            $data['client_name']
+        )
+        );
         $provider->setProviderUrl($toolConfig['target_link_uri']);
         $provider->setInitiateLogin($data['initiate_login_uri']);
         $provider->setRedirectionUris(implode(",", $data['redirect_uris']));
@@ -1405,7 +1428,7 @@ class ilObjLTIConsumer extends ilObject2
         return file_get_contents('php://input');
     }
 
-    public static function getTokenObject(string $token): ?object
+    public static function getTokenObject(string $token): ?stdClass
     {
         try {
             $keys = JWK::parseKeySet(self::getJwks());

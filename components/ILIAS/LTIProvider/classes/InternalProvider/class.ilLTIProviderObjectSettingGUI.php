@@ -228,6 +228,10 @@ class ilLTIProviderObjectSettingGUI
             $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
             $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
             $op1->addSubItem($url);
+
+            $urlJwks = new ilNonEditableValueGUI($this->lng->txt('lti_con_key_type_jwk'), $this->lng->txt('lti_con_key_type_jwk'));
+            $urlJwks->setValue(ILIAS_HTTP_PATH . '/lticerts.php');
+            $op1->addSubItem($urlJwks);
             //                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_initiate_url'), 'url');
             //                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
             //                    $version->addSubItem($url);
