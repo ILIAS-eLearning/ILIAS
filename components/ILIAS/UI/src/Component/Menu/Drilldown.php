@@ -27,4 +27,5 @@ use ILIAS\UI\Component\JavaScriptBindable;
  */
 interface Drilldown extends Menu, JavaScriptBindable
 {
+    public function withHiddenFilter(bool $filter_hidden): self;
 }
