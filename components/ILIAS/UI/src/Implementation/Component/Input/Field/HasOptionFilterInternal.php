@@ -14,21 +14,23 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
 
 declare(strict_types=1);
 
-namespace ILIAS\UI\Component\Input\Field;
+namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Implementation\Component\Input as I;
+use ILIAS\UI\Component\Input as C;
 
 /**
- * Allows fields with list-like items to be collapsible with a searchbar filter
+ * @see I\Field\HasOptionFilter for implementation
  */
-interface HasOptionFilter extends FormInput
+interface HasOptionFilterInternal extends C\Field\HasOptionFilter
 {
     /**
-     * Adds a collapsed view and a searchbar to the field.
+     * @return array<string, string> (value => label)
      */
-    public function withHasOptionFilter(bool $has_option_filter = true): static;
+    public function getOptions(): array;
 }

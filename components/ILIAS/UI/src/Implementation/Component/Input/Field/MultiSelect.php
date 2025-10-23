@@ -28,14 +28,9 @@ use Closure;
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
+class MultiSelect extends FormInput implements C\Input\Field\MultiSelect, HasOptionFilterInternal
 {
     use HasOptionFilter;
-
-    /**
-     * @var array <string,string> {$value => $label}
-     */
-    protected array $options = [];
 
     /**
      * @param array<string, string> $options
@@ -49,14 +44,6 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->options = $options;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
     }
 
     /**

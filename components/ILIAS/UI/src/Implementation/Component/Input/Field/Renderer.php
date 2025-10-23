@@ -1253,10 +1253,10 @@ class Renderer extends AbstractComponentRenderer
      * Renders a list search around input fields that support it.
      *
      * @param string $input_html Rendered HTML of the inner input field made searchable.
-     * @param FormInput $component The component object to attach onload JavaScript to.
-     * @return array{0: string, 1: FormInput}
+     * @param F\HasOptionFilterInternal $component The component object to attach onload JavaScript to.
+     * @return array{0: string, 1: F\HasOptionFilterInternal}
      */
-    protected function renderOptionFilter(string $input_html, FormInput $component, RendererInterface $default_renderer): array
+    protected function renderOptionFilter(string $input_html, F\HasOptionFilterInternal $component, RendererInterface $default_renderer): array
     {
         $option_filter_template = $this->getTemplate("tpl.option_filter.html", true, true);
         $option_filter_template->setVariable('INPUT', $input_html);

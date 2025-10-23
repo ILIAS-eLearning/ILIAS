@@ -20,9 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+/**
+ * @see HasOptionFilterInternal for interface definition
+ */
 trait HasOptionFilter
 {
     protected bool $has_option_filter = false;
+
+    /** @var array<string, string> (value => label) */
+    protected array $options = [];
 
     public function withHasOptionFilter(bool $has_option_filter = true): static
     {
@@ -34,5 +40,10 @@ trait HasOptionFilter
     public function hasOptionFilter(): bool
     {
         return $this->has_option_filter;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }

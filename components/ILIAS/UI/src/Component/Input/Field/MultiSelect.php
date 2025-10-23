@@ -27,8 +27,4 @@ use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
  */
 interface MultiSelect extends FilterInput, HasOptionFilter
 {
-    /**
-     * Get options as value=>label.
-     */
-    public function getOptions(): array;
 }
