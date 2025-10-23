@@ -1607,6 +1607,7 @@ assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
 assessment#:#tst_man_scoring_only_answered#:#Only answered
 assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
+assessment#:#tst_manage_competence_select_skills#:#Select Competences
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!

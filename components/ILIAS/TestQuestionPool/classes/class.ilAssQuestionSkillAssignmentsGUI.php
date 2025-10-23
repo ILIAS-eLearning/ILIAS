@@ -85,13 +85,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private ilToolbarGUI $toolbar;
 
-    /**
-     * @param ilCtrl $ctrl
-     * @param ilAccessHandler $access
-     * @param ilGlobalTemplateInterface $tpl
-     * @param ilLanguage $lng
-     * @param ilDBInterface $db
-     */
     public function __construct(
         private ilCtrl $ctrl,
         private ilAccessHandler $access,
@@ -534,7 +527,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
-                $this->lng->txt('tst_manage_competence_assigns'),
+                $this->lng->txt('tst_manage_competence_select_skills'),
                 $this->ctrl->getLinkTargetByClass(
                     [ilAssQuestionSkillAssignmentsGUI::class],
                     self::CMD_SHOW_SKILL_SELECT
