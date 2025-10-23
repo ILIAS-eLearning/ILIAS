@@ -33,6 +33,7 @@ class ConsecutiveScoringURLs
     private URLBuilderToken $question_token;
     private URLBuilderToken $user_token;
     private URLBuilderToken $attempt_token;
+    private URLBuilderToken $force_redirect_token;
     private Transformation $refine_string;
     private Transformation $refine_int;
 
@@ -48,13 +49,15 @@ class ConsecutiveScoringURLs
             $this->action_token,
             $this->question_token,
             $this->user_token,
-            $this->attempt_token
+            $this->attempt_token,
+            $this->force_redirect_token,
         ] = $this->url_builder->acquireParameters(
             $namespace,
             'action',
             'question',
             'user',
-            'attemp',
+            'attempt',
+            'force',
         );
     }
 
@@ -102,6 +105,14 @@ class ConsecutiveScoringURLs
         $clone = clone $this;
         $clone->url_builder = $clone->url_builder
             ->withFragment($fragment);
+        return $clone;
+    }
+
+    public function withForceRedirect(): self
+    {
+        $clone = clone $this;
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->force_redirect_token, (string) time());
         return $clone;
     }
 

@@ -129,12 +129,12 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
                     );
                     $this->tpl->setOnScreenMessage('success', $msg, true);
 
-                    $anchor = sprintf('anchor_%s_%s', $formdata['qid'], $formdata['usr_active_id']);
+                    $anchor = sprintf('anchor_%s_%s', $question_id, $user_id);
                     $url = $this->scoring_url_builder
                         ->withAction(self::CMD_VIEW)
                         ->withFragment($anchor)
+                        ->withForceRedirect()
                         ->buildURI();
-
                     $response = $this->ui_factory->prompt()->state()->redirect($url);
                 } else {
                     $response = $this->ui_factory->prompt()->state()->show($form);
@@ -654,7 +654,6 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             $this->ui_factory->panel()->standard('', [$form, $feedback_properties])
         );
     }
-
 
     protected function getSingleFormButton(int $question_id, int $usr_active_id, int $attempt_id): StdButton
     {
