@@ -59,20 +59,26 @@ class ilCourseCleanupActivationMigration implements Migration
         }
 
         $parent_data = $this->db->fetchObject(
-            $this->db->query(
-                "SELECT parent FROM tree WHERE child={$activation_data->obj_id}"
+            $this->db->queryF(
+                'SELECT parent FROM tree WHERE child=%s',
+                [ilDBConstants::T_INTEGER],
+                [$activation_data->obj_id]
             )
         );
 
         if ($parent_data === null) {
-            $this->db->manipulate(
-                "DELETE FROM crs_items WHERE obj_id = {$activation_data->obj_id}"
+            $this->db->manipulateF(
+                'DELETE FROM crs_items WHERE obj_id = %s',
+                [ilDBConstants::T_INTEGER],
+                [$activation_data->obj_id]
             );
             return;
         }
 
-        $this->db->manipulate(
-            "DELETE FROM crs_items WHERE obj_id = {$activation_data->obj_id} AND parent_id != {$parent_data->parent}"
+        $this->db->manipulateF(
+            'DELETE FROM crs_items WHERE obj_id = %s AND parent_id != %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$activation_data->obj_id, $parent_data->parent]
         );
     }
 
