@@ -18,7 +18,9 @@
 import sprintf from '../../../../Core/src/sprintf.js';
 
 /**
- * @todo: please add some information about this value.
+ * Screen readers announce result count with delay, so users aren't interrupted during typing.
+ * Accessibility advisors recommend 300ms, but in tests Orca kept skipping live announcements.
+ * At 500ms, announcements feel quick enough and are not skipped when expected.
  * @type {number}
  */
 const A11Y_DEBOUNCE_DELAY = 500;
