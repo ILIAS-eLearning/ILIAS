@@ -362,7 +362,7 @@ class ilTestParticipantList implements Iterator
         }
 
         if ($this->getTestObj()->getAnonymity()) {
-            return ilObjTestAccess::_getParticipantData($participant->getActiveId());
+            return $this->lng->txt('anonymous');
         }
 
         return trim("{$participant->getLastname()}, {$participant->getFirstname()}");
