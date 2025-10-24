@@ -186,8 +186,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $counter = 1;
         if (count($participantData->getActiveIds()) > 0) {
+            $test_participants = $this->getObject()?->getTestParticipants() ?? [];
             $test_participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
-            $test_participant_list->initializeFromDbRows($this->getObject()?->getTestParticipants());
+            if ($test_participants !== []) {
+                $test_participant_list->initializeFromDbRows($test_participants);
+            }
 
             foreach ($participantData->getActiveIds() as $active_id) {
                 if (!isset($found_participants[$active_id]) || !($found_participants[$active_id] instanceof ilTestEvaluationUserData)) {

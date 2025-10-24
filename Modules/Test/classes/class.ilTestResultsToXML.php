@@ -61,11 +61,11 @@ class ilTestResultsToXML extends ilXmlWriter
 
         $this->xmlStartTag('tst_active', null);
         while ($row = $this->db->fetchAssoc($result)) {
-            $this->active_ids[] = $active_id = $row['active_id'];
-            $participant = $test_participant_list->getParticipantByActiveId($active_id);
+            $this->active_ids[] = $row['active_id'];
+            $participant = $test_participant_list->getParticipantByActiveId($row['active_id']);
 
             $attrs = [
-                'active_id' => $active_id,
+                'active_id' => $row['active_id'],
                 'user_fi' => $this->test_obj->getAnonymity() ? '' : ($row['user_fi'] ?? ''),
                 'fullname' => $participant ? $test_participant_list->buildFullname($participant) : '',
                 'anonymous_id' => $row['anonymous_id'] ?? '',
