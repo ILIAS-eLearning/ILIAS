@@ -1365,9 +1365,9 @@ assessment#:#tst_anonymity_no_anonymization#:#Testergebnisse mit Namen
 assessment#:#tst_answer_aggr_answer_header#:#Antwort
 assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#tst_answer_details#:#Antwortdetails
-assessment#:#tst_answer_fixation#:#Antworten festschreiben
+assessment#:#tst_answer_fixation#:#Antworten bei Anzeige der Rückmeldung und/oder Übergang zur nächsten Frage sperren
 assessment#:#tst_answer_fixation_handling#:#Antworten festschreiben
-assessment#:#tst_answer_fixation_none#:Nie
+assessment#:#tst_answer_fixation_none#:Antworten während des Testdurchlaufs nicht festschreiben
 assessment#:#tst_answer_fixation_none_desc#:#Solange ein Testdurchlauf nicht beendet ist, können Teilnehmer ihre Antworten beliebig verändern.
 assessment#:#tst_answer_fixation_on_followup_question#:#Bei der Anzeige der Folgefrage
 assessment#:#tst_answer_fixation_on_followup_question_desc#:#Nach dem Anzeigen der Folgefrage können Teilnehmer die Antwort auf die vorherige Frage nicht mehr verändern.
