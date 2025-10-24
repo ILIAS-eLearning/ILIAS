@@ -63,12 +63,13 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	min-width: 100px;
 	max-width: 400px;
 	@media screen and (max-width: $screen-md-max) {
-		max-width: 200px;
+		max-width: 50vw;
 	}
 	@media screen and (max-width: $screen-sm-max) {
-		max-width: 100px;
+		max-width: 50vw;
 	}
 }
 

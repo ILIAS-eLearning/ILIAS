@@ -68,13 +68,19 @@ interface Factory
      *   effect: >
      *      Clicking on the Buttons left or right changes the selection of the displayed data by a fixed interval. Clicking
      *      the Button in the middle opens the sections hinted by the label of the button (e.g. "Today").
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Dropdowns MUST NOT be used for any other purpose than skipping a section of the navigation
+     *       (e.g. jumping from Chapter 1 to Chapter 5).
      * ---
      * @param   \ILIAS\UI\Component\Button\Button $previous_action Button to be placed in the left.
-     * @param   \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month $button Button to be placed in the middle (Month Button or Default Button).
+     * @param   \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month|\ILIAS\UI\Component\Dropdown\Standard $button Button to be placed in the middle (Month Button or Default Button).
      * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
      * @return \ILIAS\UI\Component\ViewControl\Section
      */
-    public function section(Button $previous_action, Component $button, Button $next_action): Section;
+    public function section(Button $previous_action, \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month|\ILIAS\UI\Component\Dropdown\Standard $button, Button $next_action): Section;
 
     /**
      * ---

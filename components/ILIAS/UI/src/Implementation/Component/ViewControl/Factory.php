@@ -45,7 +45,7 @@ class Factory implements VC\Factory
     /**
      * @inheritdoc
      */
-    public function section(Button $previous_action, Component $button, Button $next_action): VC\Section
+    public function section(Button $previous_action, \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month|\ILIAS\UI\Component\Dropdown\Standard $button, Button $next_action): VC\Section
     {
         return new Section($previous_action, $button, $next_action);
     }
