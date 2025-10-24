@@ -23,13 +23,6 @@
   color: $il-text-color-invert;
 }
 
-.c-input-markdown__preview,
-.c-input-markdown .ui-input-textarea textarea {
-  border-radius: $il-border-radius-small;
-  min-height: 200px;
-  margin-bottom: $il-padding-large-vertical;
-}
-
 .c-field-markdown__preview {
   min-height: l-form.$il-textarea-height;
   border: $il-main-border;
@@ -43,4 +36,12 @@
 // when working with markdown syntax we should use a monospaced font.
 .c-field-markdown > textarea {
   font-family: Monospace, Courier;
+}
+
+ul.c-input--has-mustache-variables__definitions {
+  padding-inline-start: 0;
+
+  > li {
+    list-style: none;
+  }
 }

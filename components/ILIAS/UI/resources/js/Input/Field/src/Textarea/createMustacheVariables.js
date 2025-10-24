@@ -33,7 +33,7 @@ export default function createMustacheVariables(textareaComponent, inputElement)
   mustacheVariableNames.forEach((variableNameElement) => {
     const variableName = extractVariableName(variableNameElement);
     variableNameElement.addEventListener('click', () => {
-      textareaComponent.insertCharactersAroundSelection(`{{${variableName}}`, '');
+      textareaComponent.insertCharactersAroundSelection(`{{${variableName}}}`, '');
     });
   });
 }

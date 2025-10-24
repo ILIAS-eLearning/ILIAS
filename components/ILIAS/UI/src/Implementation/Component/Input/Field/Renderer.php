@@ -523,9 +523,8 @@ class Renderer extends AbstractComponentRenderer
         $component = $component->withAdditionalOnLoadCode(
             static function ($id) use ($component): string {
                 return "
-                    const id = document.querySelector('#$id .c-input__field textarea')?.id;
                     il.UI.Input.markdown.init(
-                        id,
+                        document.querySelector('#$id .c-input__field textarea')?.id,
                         '{$component->getMarkdownRenderer()->getAsyncUrl()}',
                         '{$component->getMarkdownRenderer()->getParameterName()}'
                     );
@@ -618,7 +617,11 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('MUSTACHE_VARIABLES_HTML', $mustache_variable_html);
 
         $this->applyName($component, $tpl);
-        $this->applyValue($component, $tpl, $this->htmlEntities());
+        $this->applyValue(
+            $component,
+            $tpl,
+            $this->mustacheVariableEntities()
+        );
         return [$tpl, $component];
     }
 
@@ -1333,5 +1336,13 @@ class Renderer extends AbstractComponentRenderer
         );
 
         return [$option_filter_template->get(), $component];
+    }
+
+    private function mustacheVariableEntities(): Closure
+    {
+        return function ($val) {
+            $val = htmlentities((string) $val);
+            return str_replace('{{', '&lcub;&lcub;', str_replace('}}', '&rcub;&rcub;', $val));
+        };
     }
 }

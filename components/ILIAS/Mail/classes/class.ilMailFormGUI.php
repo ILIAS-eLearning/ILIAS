@@ -838,11 +838,11 @@ class ilMailFormGUI
         return $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'sendMessage'),
             $this->buildFormElements($mail_data)
+        )->withAdditionalFormAction(
+            $this->ctrl->getFormAction($this, 'saveDraft'),
+            $this->lng->txt('save_message')
         )->withSubmitLabel($this->lng->txt('send_mail'))
-         ->withAdditionalSubmitButton(
-             $this->lng->txt('save_message'),
-             $this->ctrl->getFormAction($this, 'saveDraft')
-         );
+        ;
     }
 
     private function getUserSearchConfigurator(): \ILIAS\User\Search\EndpointConfigurator
@@ -960,11 +960,12 @@ class ilMailFormGUI
         }
         if (count($placeholders) > 0) {
             $m_message = $m_message
-                ->withMustachable($placeholders)
-                ->withPlaceholderAdvice(
+                ->withMustacheVariables(
+                    $placeholders,
                     $this->lng->txt('mail_nacc_use_placeholder') . '<br />'
                     . sprintf($this->lng->txt('placeholders_advise'), '<br />')
-                );
+                )
+            ;
             $use_placeholders = $use_placeholders->withValue('1');
         }
         $use_placeholders = $use_placeholders->withAdditionalTransformation(
@@ -1044,6 +1045,7 @@ class ilMailFormGUI
                 });";
             }
         );
+
         $this->toolbar->addComponent($btn);
 
         $action = $this->ctrl->getFormAction($this, 'searchCoursesTo');

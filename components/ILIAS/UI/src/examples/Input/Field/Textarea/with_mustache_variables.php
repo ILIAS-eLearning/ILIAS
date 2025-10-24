@@ -23,10 +23,13 @@ namespace ILIAS\UI\examples\Input\Field\Textarea;
 /**
  * ---
  * description: >
- *   ...
+ *   Examples showing how to create and render a basic textarea field with individual clickable mustache variables.
+ *   A variable will be inserted into the textarea field after clicking onto it. This example does
+ *    not contain any data processing.
  *
  * expected output: >
- *   ...
+ *   Three variables in double curly brackets are rendered below the markdown field as shy buttons (clickable).
+ *   A click onto a variable will insert the variable into the markdown field.
  * ---
  */
 function with_mustache_variables(): string

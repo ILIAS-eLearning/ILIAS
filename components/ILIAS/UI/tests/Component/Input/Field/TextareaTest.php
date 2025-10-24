@@ -250,4 +250,44 @@ class TextareaTest extends ILIAS_UI_TestBase
         $content = $text->getContent();
         $this->assertEquals("<script>alert()</script>", $content->value());
     }
+
+    public function testWithMustacheVariables(): void
+    {
+        $f = $this->getFieldFactory();
+        $id = 'id_1';
+        $label = "label";
+        $byline = "byline";
+        $name = "name_1";
+        $value = "Lorem ipsum dolor sit";
+        $textarea = $f->textarea($label, $byline)
+            ->withValue($value)
+            ->withNameFrom($this->name_source)
+            ->withNameFrom($this->name_source)
+            ->withMustacheVariables(
+                [
+                'var1' => 'Test Variable 1',
+                'var2' => 'Test Variable 2'
+            ],
+                'Also, some more info could be added here as well.'
+            )
+        ;
+
+        $expected = $this->brutallyTrimHTML("
+            <fieldset class=\"c-input\" data-il-ui-component=\"textarea-field-input\" data-il-ui-input-name=\"$name\" id=\"id_2\">
+            <label for=\"id_1\">label</label>
+                <div class=\"c-input__field\">
+                    <textarea id=\"$id\" class=\"c-field-textarea\" name=\"$name\">$value</textarea>
+                    <div class=\"c-input--has-mustache-variables\">
+                        <span>Also, some more info could be added here as well.</span>
+                        <ul class=\"c-input--has-mustache-variables__definitions\">
+                            <li><a href=\"#\">&lcub;&lcub;var1&rcub;&rcub;</a> Test Variable 1</li>
+                            <li><a href=\"#\">&lcub;&lcub;var2&rcub;&rcub;</a> Test Variable 2</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class=\"c-input__help-byline\">byline</div>
+            </fieldset>
+        ");
+        $this->assertEquals($expected, $this->render($textarea));
+    }
 }

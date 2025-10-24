@@ -23,11 +23,12 @@ namespace ILIAS\UI\examples\Input\Container\Form\Standard;
 /**
  * ---
  * description: >
- *   ...
+ *   Examples showing how to create and render a basic form with additional form actions. This example does
+ *   not contain any data processing.
  *
  * expected output: >
- *   After submission check the anchor, should be right.
- *   ...
+ *   Three clickable buttons (Action 1, Action 2 and Main Action) are rendered above and below the Input field.
+ *   The Main Action button is rendered in a different color than Action 1 and Action 2.
  * ---
  */
 function with_additional_form_action(): string
