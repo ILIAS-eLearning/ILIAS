@@ -2163,6 +2163,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->lng,
             $this->ui_factory,
             $this->data_factory,
+            $this->user,
             $this->testrequest,
             $actions,
             new URLBuilder($this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $uri)),

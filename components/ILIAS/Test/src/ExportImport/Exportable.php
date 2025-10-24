@@ -21,17 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Test\ExportImport;
 
 /**
- * Provides a contract for objects capable of self-contained normalization and denormalization.
- *
  * This interface allows an object to define its own transformation into a language-neutral,
  * intermediate array structure. This array serves as a stable representation for further
  * processing, such as serialization into transport formats like XML or JSON during
  * export/import operations.
  *
- * A normalized array must only contain scalar values (string, int, float, bool) and nested
- * normalized arrays.
+ * This structure must only contain scalar values (string, int, float, bool) and nested arrays.
  *
- * @phpstan-type NormalizedArray array<array-key, scalar|NormalizedArray>
+ * @phpstan-type ExportableArray array<array-key, scalar|ExportableArray>
  *
  * ---
  * IMPORTANT: Implementations of this interface MUST be self-contained.
@@ -42,23 +39,23 @@ namespace ILIAS\Test\ExportImport;
 interface Exportable
 {
     /**
-     * Normalizes the object into a simple, associative array.
+     * Transform the object into a simple, associative array.
      *
      * The resulting array represents the object's state and should contain only
      * scalar values, arrays, or other Exportable objects.
      *
-     * @return NormalizedArray The normalized representation of the object
+     * @return ExportableArray The exportable array representation of the object
      */
     public function toExport(): array;
 
     /**
-     * Denormalizes an array back into an instance of the object.
+     * Creates an instance of the object from an array.
      *
      * This static factory method is responsible for constructing a new object instance
      * from the provided array data. It should validate the input and may throw an
      * exception if the data is incomplete or malformed.
      *
-     * @param NormalizedArray $data The data to restore the object from
+     * @param ExportableArray $data The data to restore the object from
      * @return static A new instance of the class
      */
     public static function fromExport(array $data): static;

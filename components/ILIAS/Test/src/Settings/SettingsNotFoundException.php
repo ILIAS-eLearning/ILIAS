@@ -18,12 +18,15 @@
 
 namespace ILIAS\Test\Settings;
 
+/**
+ * @depracated This is only a temporary exception to identify missing migrations and will be removed in the future.
+ */
 class SettingsNotFoundException extends \ilObjectNotFoundException
 {
     public function __construct($a_message)
     {
-        $a_message .= "\nThis may be because the test settings have not yet been migrated. 
-            Please try to run RemoveLegacyTestSettingsMigration if not already done so.";
+        $a_message .= "\nThis error occurs because the test settings migrations have not been completed yet.
+            Without these migrations, the tests are unusable.";
 
         parent::__construct($a_message);
     }

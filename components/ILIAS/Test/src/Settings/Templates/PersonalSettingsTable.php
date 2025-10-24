@@ -42,6 +42,7 @@ class PersonalSettingsTable implements DataRetrieval
         private readonly Language $lng,
         private readonly UIFactory $ui_factory,
         private readonly DataFactory $data_factory,
+        private readonly \ilObjUser $user,
         private readonly RequestDataCollector $test_request,
         private readonly PersonalSettingsTableActions $table_actions,
         private readonly URLBuilder $url_builder,
@@ -70,12 +71,11 @@ class PersonalSettingsTable implements DataRetrieval
     private function getColumns(): array
     {
         $column_factory = $this->ui_factory->table()->column();
-        $date_format = $this->data_factory->dateFormat()->withTime24($this->data_factory->dateFormat()->standard());
 
         return [
             'name' => $column_factory->text($this->lng->txt('personal_settings_name')),
             'description' => $column_factory->text($this->lng->txt('personal_settings_description'))->withIsSortable(false),
-            'tstamp' => $column_factory->date($this->lng->txt('personal_settings_timestamp'), $date_format),
+            'tstamp' => $column_factory->date($this->lng->txt('personal_settings_timestamp'), $this->user->getDateTimeFormat()),
             'author' => $column_factory->text($this->lng->txt('personal_settings_author'))
         ];
     }
