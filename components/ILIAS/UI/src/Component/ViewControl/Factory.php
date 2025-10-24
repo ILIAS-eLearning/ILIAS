@@ -23,6 +23,7 @@ namespace ILIAS\UI\Component\ViewControl;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Month;
+use ILIAS\UI\Component\Dropdown\Standard as StandardDropdown;
 
 /**
  * This is how the factory for UI elements looks.
@@ -62,18 +63,24 @@ interface Factory
      *      days/weeks/months in a calendar or entries in a blog.
      *   composition: >
      *      Section View Controls are composed of three Buttons. The Button on the left caries a Back Glyph, the Button
-     *      in the middle is either a Default- or Split Button labeling the data displayed below and the Button on the right carries
+     *      in the middle is either a Default-, Month Button or a Dropdown labeling the data displayed below and the Button on the right carries
      *      a next Glyph.
      *   effect: >
      *      Clicking on the Buttons left or right changes the selection of the displayed data by a fixed interval. Clicking
      *      the Button in the middle opens the sections hinted by the label of the button (e.g. "Today").
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Dropdowns MUST NOT be used for any other purpose than skipping a section of the navigation
+     *       (e.g. jumping from Chapter 1 to Chapter 5).
      * ---
-     * @param   \ILIAS\UI\Component\Button\Button $previous_action Button to be placed in the left.
-     * @param   \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month $button Button to be placed in the middle (Month Button or Default Button).
-     * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
+     * @param Button                $previous_action Button to be placed in the left.
+     * @param Button|Month|StandardDropdown $button          Button to be placed in the middle (Month Button or Default Button).
+     * @param Button                $next_action     Button to be placed in the right.
      * @return \ILIAS\UI\Component\ViewControl\Section
      */
-    public function section(Button $previous_action, Component $button, Button $next_action): Section;
+    public function section(Button $previous_action, Button|Month|StandardDropdown $button, Button $next_action): Section;
 
     /**
      * ---
