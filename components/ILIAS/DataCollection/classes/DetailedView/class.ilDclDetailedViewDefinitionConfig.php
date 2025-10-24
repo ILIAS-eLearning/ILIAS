@@ -34,7 +34,7 @@ class ilDclDetailedViewDefinitionConfig extends ilPageConfig
         $tableview = new ilDclTableView($DIC->http()->wrapper()->query()->retrieve('tableview_id', $DIC->refinery()->kindlyTo()->int()));
         $placeholder = [];
         foreach (ilDclCache::getTableCache($tableview->getTableId())->getFields() as $p) {
-            $placeholder[$p->getTitle()] = '[[' . $p->getId() . ']]';
+            $placeholder[$p->getTitle()] = '[[' . $p->getTitle() . ']]';
         }
         return $placeholder;
     }

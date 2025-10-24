@@ -8737,6 +8737,7 @@ dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
+dcl#:#dcl_placeholder_info#:#Um Daten aus Einträgen dieser Datensammlung in deren Einzelansicht zu verwenden, nutzen Sie bitte die entsprechenden Platzhalter. Diese sind in den Seitenelementen „Text“ und „Datentabelle“ verfügbar.
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
