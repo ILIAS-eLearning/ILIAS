@@ -115,7 +115,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('NAVIGATION_DESCRIPTION', $nav_description);
 
         $title = $component->getTitle();
-        if ($title !== '') {
+        if ($title !== null) {
             $tpl->setVariable('TITLE', $title);
         }
 

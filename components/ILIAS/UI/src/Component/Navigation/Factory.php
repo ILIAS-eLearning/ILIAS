@@ -71,6 +71,6 @@ interface Factory
      */
     public function sequence(
         Sequence\SegmentRetrieval $segment_retrieval,
-        string $title = ''
+        ?string $title = null
     ): Sequence\Sequence;
 }

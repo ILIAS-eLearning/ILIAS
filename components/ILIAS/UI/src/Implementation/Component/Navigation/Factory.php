@@ -39,7 +39,7 @@ class Factory implements INavigation\Factory
      */
     public function sequence(
         INavigation\Sequence\SegmentRetrieval $segment_retrieval,
-        string $title = ''
+        ?string $title = null
     ): Sequence\Sequence {
         return new Sequence\Sequence(
             $this->data_factory,

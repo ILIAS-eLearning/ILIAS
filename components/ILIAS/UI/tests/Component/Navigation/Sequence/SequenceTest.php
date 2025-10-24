@@ -193,4 +193,68 @@ class SequenceTest extends ILIAS_UI_TestBase
         $this->assertEquals(12, $sequence->getCurrentPosition());
         $this->assertStringContainsString('_p=11', $sequence->getNext(-1)->__toString());
     }
+
+
+    public function testSequenceNavigationTitleRendering(): void
+    {
+        $binding = new class () implements C\Navigation\Sequence\SegmentRetrieval {
+            public function getAllPositions(
+                ServerRequestInterface $request,
+                mixed $viewcontrol_values,
+                mixed $filter_values,
+            ): array {
+                return [null];
+            }
+            public function getSegment(
+                ServerRequestInterface $request,
+                mixed $position_data,
+                mixed $viewcontrol_values,
+                mixed $filter_values,
+            ): I\Legacy\Segment {
+                return new I\Legacy\Segment('title', 'content');
+            }
+        };
+
+        $title = 'Sequence Title';
+        $sequence = $this->getNavigationFactory()->sequence($binding, $title)
+            ->withRequest($this->request);
+        $actual_html = $this->getDefaultRenderer(null, [$this->button_stub])
+            ->render($sequence);
+
+        $expected_html = <<<EOT
+            <div class="c-sequence c-sequence--linear">
+                <h2 class="ilHeader">{$title}</h2>
+                <div class="c-sequence__header">
+
+                    <div  id="id_3" class="c-sequence__navigation">
+                        <div class="c-sequence__navigation--back">
+                            {$this->button_html}
+                        </div>
+                        <div class="c-sequence__navigation--next">
+                            {$this->button_html}
+                        </div>
+                    </div>
+
+                    <div class="c-sequence__header__segment">
+                        <div class="c-sequence__header__segment__title">
+                            <div id="id_2">title</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="c-sequence__segment">
+                    <div id="id_1" class="c-sequence__segment__contents">
+                        content
+                    </div>
+                </div>
+
+            </div>
+        EOT;
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($actual_html)
+        );
+    }
 }

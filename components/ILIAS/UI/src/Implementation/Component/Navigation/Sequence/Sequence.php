@@ -52,7 +52,7 @@ class Sequence implements ISequence\Sequence
         protected Refinery $refinery,
         protected Storage $storage,
         protected ISequence\SegmentRetrieval $segment_retrieval,
-        protected string $title
+        protected ?string $title
     ) {
     }
 
@@ -191,7 +191,7 @@ class Sequence implements ISequence\Sequence
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
