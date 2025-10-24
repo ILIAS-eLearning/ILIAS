@@ -86,13 +86,14 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private ilToolbarGUI $toolbar;
 
+    private ilTabsGUI $tabs;
+
     public function __construct(
         private ilCtrl $ctrl,
         private ilAccessHandler $access,
         private ilGlobalTemplateInterface $tpl,
         private ilLanguage $lng,
-        private ilDBInterface $db,
-        private ilTabsGUI $tabs
+        private ilDBInterface $db
     ) {
 
         $local_dic = QuestionPoolDIC::dic();
@@ -105,7 +106,8 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->data_factory = new DataFactory();
         $this->refinery = $DIC['refinery'];
         $this->http = $DIC['http'];
-        $this->toolbar = $DIC["ilToolbar"];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->tabs = $DIC['ilTabs'];
     }
 
     public function getQuestionOrderSequence(): ?array
