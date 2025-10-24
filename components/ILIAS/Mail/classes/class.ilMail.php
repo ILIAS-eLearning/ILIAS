@@ -393,7 +393,7 @@ class ilMail
         }
     }
 
-    private function fetchMailData(?array $row): ?array
+    public function fetchMailData(?array $row): ?array
     {
         if (!is_array($row) || empty($row)) {
             return null;
@@ -500,6 +500,9 @@ class ilMail
         return $a_draft_id;
     }
 
+    /**
+     * @param array<string, mixed> $template_context_parameters
+     */
     public function scheduledMail(
         int $folder_id,
         int $sender_usr_id,
@@ -507,22 +510,22 @@ class ilMail
         ?string $template_context_id = null,
         array $template_context_parameters = []
     ): int {
-        $message = $mail_data->getMessage();
-        if ($mail_data->isUsePlaceholder()) {
-            $message = $this->replacePlaceholders($mail_data->getMessage(), $sender_usr_id);
+        $message = $mail_data->getMailDeliveryData()->getMessage();
+        if ($mail_data->getMailDeliveryData()->isUsePlaceholder()) {
+            $message = $this->replacePlaceholders($mail_data->getMailDeliveryData()->getMessage(), $sender_usr_id);
         }
         $message = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $message);
         $mail_values = [
             'user_id' => [ilDBConstants::T_INTEGER, $sender_usr_id],
             'folder_id' => [ilDBConstants::T_INTEGER, $folder_id],
             'sender_id' => [ilDBConstants::T_INTEGER, $sender_usr_id],
-            'attachments' => [ilDBConstants::T_CLOB, serialize($mail_data->getAttachments())],
+            'attachments' => [ilDBConstants::T_CLOB, serialize($mail_data->getMailDeliveryData()->getAttachments())],
             'send_time' => [ilDBConstants::T_TIMESTAMP, date('Y-m-d H:i:s')],
-            'rcp_to' => [ilDBConstants::T_CLOB, $mail_data->getTo()],
-            'rcp_cc' => [ilDBConstants::T_CLOB, $mail_data->getCC()],
-            'rcp_bcc' => [ilDBConstants::T_CLOB, $mail_data->getBcc()],
+            'rcp_to' => [ilDBConstants::T_CLOB, $mail_data->getMailDeliveryData()->getTo()],
+            'rcp_cc' => [ilDBConstants::T_CLOB, $mail_data->getMailDeliveryData()->getCC()],
+            'rcp_bcc' => [ilDBConstants::T_CLOB, $mail_data->getMailDeliveryData()->getBcc()],
             'm_status' => [ilDBConstants::T_TEXT, 'read'],
-            'm_subject' => [ilDBConstants::T_TEXT, $mail_data->getSubject()],
+            'm_subject' => [ilDBConstants::T_TEXT, $mail_data->getMailDeliveryData()->getSubject()],
             'm_message' => [ilDBConstants::T_CLOB, $message],
             'tpl_ctx_id' => [ilDBConstants::T_TEXT, $template_context_id],
             'tpl_ctx_params' => [ilDBConstants::T_BLOB, json_encode($template_context_parameters, JSON_THROW_ON_ERROR)],
@@ -530,12 +533,12 @@ class ilMail
             'schedule_timezone' => [ilDBConstants::T_TEXT, $mail_data->getScheduleDatetime()->getTimezone()->getName()],
         ];
 
-        if (!$mail_data->getInternalMailId()) {
+        if (!$mail_data->getMailDeliveryData()->getInternalMailId()) {
             $outbox_id = $this->db->nextId($this->table_mail);
             $mail_values['mail_id'] = [ilDBConstants::T_INTEGER, $outbox_id];
             $this->db->insert($this->table_mail, $mail_values);
         } else {
-            $outbox_id = $mail_data->getInternalMailId();
+            $outbox_id = $mail_data->getMailDeliveryData()->getInternalMailId();
             $this->db->update($this->table_mail, $mail_values, [
                'mail_id' => [ilDBConstants::T_INTEGER, $outbox_id],
             ]);

@@ -268,16 +268,18 @@ class ilMailFormGUI
             $outbox_folder_id,
             $this->user->getId(),
             new MailScheduleData(
-                $rcp_to,
-                $rcp_cc,
-                $rcp_bcc,
-                ilUtil::securePlainString(
-                    $this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')
-                ) ?: 'No Subject',
-                $sanitized_message,
-                $files,
-                $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
-                $outbox_id ?? null,
+                new MailDeliveryData(
+                    $rcp_to,
+                    $rcp_cc,
+                    $rcp_bcc,
+                    ilUtil::securePlainString(
+                        $this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')
+                    ) ?: 'No Subject',
+                    $sanitized_message,
+                    $files,
+                    $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
+                    $outbox_id ?? null
+                ),
                 $form_values['use_schedule']['m_schedule']
             ),
             ilMailFormCall::getContextId(),

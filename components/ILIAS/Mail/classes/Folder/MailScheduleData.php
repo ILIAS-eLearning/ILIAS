@@ -23,24 +23,21 @@ namespace ILIAS\Mail\Folder;
 use MailDeliveryData;
 use DateTimeImmutable;
 
-class MailScheduleData extends MailDeliveryData
+readonly class MailScheduleData
 {
     public function __construct(
-        public readonly string $to,
-        public readonly string $cc,
-        public readonly string $bcc,
-        public readonly string $subject,
-        public readonly string $message,
-        public readonly array $attachments,
-        public readonly bool $use_placeholder,
-        public readonly ?int $internal_mail_id = null,
-        private readonly DateTimeImmutable $schedule_datetime
+        private MailDeliveryData $data,
+        private DateTimeImmutable $schedule_datetime
     ) {
-        parent::__construct($to, $cc, $bcc, $subject, $message, $attachments, $use_placeholder, $internal_mail_id);
     }
 
     public function getScheduleDatetime(): DateTimeImmutable
     {
         return $this->schedule_datetime;
+    }
+
+    public function getMailDeliveryData(): MailDeliveryData
+    {
+        return $this->data;
     }
 }

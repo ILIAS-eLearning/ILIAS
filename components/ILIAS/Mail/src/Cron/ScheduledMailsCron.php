@@ -66,7 +66,8 @@ class ScheduledMailsCron extends CronJob
             $this->init_done = true;
             $this->outbox_repository = new OutboxDatabaseRepository(
                 $DIC->database(),
-                (new DataFactory())->clock()
+                (new DataFactory())->clock(),
+                $this->mail
             );
         }
     }
@@ -122,7 +123,7 @@ class ScheduledMailsCron extends CronJob
         $mails = $this->outbox_repository->getOutboxMails();
         $sent_mail_ids = [];
         foreach ($mails as $mail) {
-            /** @var MailScheduleData $mail */
+            /** @var MailDeliveryData $mail */
             try {
                 $mailer = $this->umail
                     ->withContextId(ilContext::CONTEXT_CRON);

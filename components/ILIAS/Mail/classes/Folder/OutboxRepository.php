@@ -21,11 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Folder;
 
 use Generator;
+use MailDeliveryData;
 
 interface OutboxRepository
 {
     /**
-     * @return Generator<MailScheduleData>
+     * @return Generator<MailDeliveryData>
      */
     public function getOutboxMails(): Generator;
 }

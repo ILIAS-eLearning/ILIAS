@@ -24,19 +24,22 @@ use Generator;
 use DateTimeZone;
 use ilDBConstants;
 use ilDBInterface;
+use MailDeliveryData;
 use DateTimeImmutable;
 use ILIAS\Data\Clock\ClockFactory;
+use ilMail;
 
 readonly class OutboxDatabaseRepository implements OutboxRepository
 {
     public function __construct(
         private ilDBInterface $db,
-        private ClockFactory $clock
+        private ClockFactory $clock,
+        private ilMail $mail,
     ) {
     }
 
     /**
-     * @return Generator<MailScheduleData>
+     * @return Generator<MailDeliveryData>
      */
     public function getOutboxMails(): Generator
     {
@@ -63,13 +66,13 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
         );
         $current_time = $this->clock->utc()->now();
 
-        while ($row = $this->db->fetchAssoc($res)) {
+        while ($row = $this->mail->fetchMailData($this->db->fetchAssoc($res))) {
             $schedule_datetime = new DateTimeImmutable(
                 $row['schedule_datetime'],
                 new DateTimeZone($row['schedule_timezone'])
             );
             if ($schedule_datetime <= $current_time) {
-                yield new MailScheduleData(
+                yield new MailDeliveryData(
                     $row['rcp_to'],
                     $row['rcp_cc'],
                     $row['rcp_bcc'],
@@ -77,8 +80,7 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                     $row['m_message'],
                     unserialize($row['attachments'], ['allowed_classes' => false]),
                     (bool) ($row['use_placeholders'] ?? false),
-                    isset($row['mail_id']) ? (int) $row['mail_id'] : null,
-                    $schedule_datetime
+                    isset($row['mail_id']) ? (int) $row['mail_id'] : null
                 );
             }
         }

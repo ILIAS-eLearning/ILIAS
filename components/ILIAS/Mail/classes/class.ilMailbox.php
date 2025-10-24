@@ -76,7 +76,7 @@ class ilMailbox
 
         $row = $this->db->fetchAssoc($res);
 
-        return (int) ($row['obj_id'] ?? null);
+        return isset($row['obj_id']) ? (int) $row['obj_id'] : null;
     }
 
     public function getInboxFolder(): int

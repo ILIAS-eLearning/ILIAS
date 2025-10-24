@@ -4581,7 +4581,7 @@ common#:#mail_attachment#:#Mail attachment
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_c_trash#:#Trash
 common#:#mail_cron_scheduled_mails#:#Send scheduled mails.
-common#:#mail_cron_scheduled_mails_desc#:#Sends emails from users according to individually defined times.
+common#:#mail_cron_scheduled_mails_desc#:#Sends scheduled user mails according to their defined delivery times
 common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error#:#Error while deleting.
 common#:#mail_e_outbox#:#Outbox
@@ -4595,9 +4595,9 @@ common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
 common#:#mail_message_scheduled#:#Scheduled mail
-common#:#mail_message_scheduled_info#:#Scheduled mails will remain in the outbox until the selected time.
+common#:#mail_message_scheduled_info#:#Mails remain in the outbox until the scheduled sending time.
 common#:#mail_not_sent#:#Mail not sent!
-common#:#mail_schedule_error_no_datetime#:#Scheduling a mail requires a date and time to be selected.
+common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date and time must be specified.
 common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.
 common#:#mail_scheduled#:#Mail stored in outbox for later delivery.
 common#:#mail_search_no#:#No entries found.

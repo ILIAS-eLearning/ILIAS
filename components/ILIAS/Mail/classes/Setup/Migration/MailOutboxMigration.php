@@ -33,6 +33,7 @@ class MailOutboxMigration implements Migration
 {
     public const int NUMBER_OF_STEPS = 10;
     public const int NUMBER_OF_PATHS_PER_STEP = 10;
+
     private ilDBStatement $ps_in_fold_entry;
     private ilDBStatement $ps_in_tree_entry;
     private ilDBStatement $ps_up_tree_entry;
@@ -93,13 +94,17 @@ class MailOutboxMigration implements Migration
         $sql = <<<SQL
             SELECT mail_obj_data.*, mail_tree.*
             FROM usr_data AS ud
-            INNER JOIN  mail_obj_data ON mail_obj_data.user_id = ud.usr_id  AND mail_obj_data.title = 'd_drafts' AND mail_obj_data.m_type = 'drafts'
+            INNER JOIN  mail_obj_data ON mail_obj_data.user_id = ud.usr_id  AND mail_obj_data.title = %s AND mail_obj_data.m_type = %s
             INNER JOIN mail_tree ON mail_tree.child = mail_obj_data.obj_id AND mail_tree.tree = ud.usr_id
-            LEFT JOIN mail_obj_data AS outbox ON outbox.user_id = ud.usr_id  AND outbox.title = 'e_outbox'
+            LEFT JOIN mail_obj_data AS outbox ON outbox.user_id = ud.usr_id  AND outbox.title = %s
             WHERE outbox.obj_id IS NULL
         SQL;
 
-        $res = $this->db->query($sql);
+        $res = $this->db->queryF(
+            $sql,
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            ['d_drafts', 'drafts', 'e_outbox']
+        );
         while ($draft_folder_row = $this->db->fetchAssoc($res)) {
             $outbox_folder_id = $this->db->nextId('mail_obj_data');
             $this->db->execute(
@@ -137,13 +142,17 @@ class MailOutboxMigration implements Migration
         $sql = <<<SQL
             SELECT COUNT(*) AS paths
             FROM usr_data AS ud
-            INNER JOIN  mail_obj_data ON mail_obj_data.user_id = ud.usr_id  AND mail_obj_data.title = 'd_drafts' AND mail_obj_data.m_type = 'drafts'
+            INNER JOIN  mail_obj_data ON mail_obj_data.user_id = ud.usr_id  AND mail_obj_data.title = %s AND mail_obj_data.m_type = %s
             INNER JOIN mail_tree ON mail_tree.child = mail_obj_data.obj_id AND mail_tree.tree = ud.usr_id
-            LEFT JOIN mail_obj_data AS outbox ON outbox.user_id = ud.usr_id  AND outbox.title = 'e_outbox'
+            LEFT JOIN mail_obj_data AS outbox ON outbox.user_id = ud.usr_id  AND outbox.title = %s
             WHERE outbox.obj_id IS NULL
         SQL;
 
-        $res = $this->db->query($sql);
+        $res = $this->db->queryF(
+            $sql,
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            ['d_drafts', 'drafts', 'e_outbox']
+        );
         $row = $this->db->fetchAssoc($res);
         $paths = (int) ($row['paths'] ?? 0);
         $num_steps = (int) ceil($paths / self::NUMBER_OF_PATHS_PER_STEP);
