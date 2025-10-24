@@ -46,17 +46,21 @@ class assFormulaQuestionVariable
     {
         if (
             $this->getPrecision() === 0
-            && !$this->isIntPrecisionValid($this->getIntprecision(), $this->getRangeMin(), $this->getRangeMax())
+            && !$this->isIntPrecisionValid(
+                $this->getIntprecision(),
+                $this->getRangeMin(),
+                $this->getRangeMax()
+            )
         ) {
             global $DIC;
-            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('err_divider_too_big'));
+            $DIC['tpl']->setOnScreenMessage('failure', $DIC['lng']->txt('err_divider_too_big'));
             return 0.0;
         }
 
         $mul = ilMath::_pow(10, $this->getPrecision());
         $r1 = round((float) ilMath::_mul($this->getRangeMin(), $mul));
         $r2 = round((float) ilMath::_mul($this->getRangeMax(), $mul));
-        $calc_val = $this->getRangeMin() - 1;
+        $calc_val = $this->getRangeMin() - 1.0;
 
         $rounded_range_min = round($this->getRangeMin(), $this->getPrecision());
         $rounded_range_max = round($this->getRangeMax(), $this->getPrecision());
@@ -74,7 +78,7 @@ class assFormulaQuestionVariable
             }
         }
 
-        return (float) $calc_val;
+        return $calc_val;
     }
 
     public function setRandomValue(): void
@@ -84,7 +88,8 @@ class assFormulaQuestionVariable
 
     public function isIntPrecisionValid(?int $int_precision, float $min_range, float $max_range): bool
     {
-        return is_int($int_precision) && $int_precision <= max(abs($max_range), abs($min_range));
+        $max = max(abs($max_range), abs($min_range));
+        return $int_precision !== null && $int_precision <= $max;
     }
 
     /************************************
