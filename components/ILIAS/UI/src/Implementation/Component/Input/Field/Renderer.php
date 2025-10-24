@@ -521,12 +521,11 @@ class Renderer extends AbstractComponentRenderer
         $component = $component->withAdditionalOnLoadCode(
             static function ($id) use ($component): string {
                 return "
-                    const id = document.querySelector('#$id .c-input__field textarea')?.id;
-                    il.UI.Input.markdown.init(
-                        id,
-                        '{$component->getMarkdownRenderer()->getAsyncUrl()}',
-                        '{$component->getMarkdownRenderer()->getParameterName()}'
-                    );
+                        il.UI.Input.markdown.init(
+                            document.querySelector('#$id .c-input__field textarea')?.id,
+                            '{$component->getMarkdownRenderer()->getAsyncUrl()}',
+                            '{$component->getMarkdownRenderer()->getParameterName()}'
+                        );
                 ";
             }
         );
