@@ -153,6 +153,45 @@ class ilLTIProviderObjectSettingGUI
         $this->tpl->setContent($form->getHTML());
     }
 
+    private function checkToShowInDeepLink(int $ref_id, array $proccesedIds): bool
+    {
+        global $DIC;
+        $access = $DIC->access();
+        return !in_array($ref_id, $proccesedIds) && !ilObject::_isInTrash($ref_id) && $access->checkAccess('write', '', $ref_id);
+    }
+
+    public function getAvailableResourcesForDL(int $ref_id, ?array &$proccesedIds = array()): ?array
+    {
+        $context = array();
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $tree = $DIC->repositoryTree();
+        $path = array_reverse($tree->getPathFull($ref_id));
+
+        foreach ($path as $row) {
+            if (true) {
+                if (in_array($row['type'], array('cat', 'root')) && !empty($context)) {
+                    break;
+                }
+                if ($this->checkToShowInDeepLink($row['child'], $proccesedIds)) {
+                    $context[$row['child']] = $row['title'];
+                    $proccesedIds[] = $row['child'];
+                    $children = $tree->getChilds($row['child']);
+                    if (sizeof($children) > 0 && sizeof($proccesedIds) < 8) {
+                        foreach ($children as $child) {
+                            if ($this->checkToShowInDeepLink($child['child'], $proccesedIds)) {
+                                $contextRes = $this->getAvailableResourcesForDL($child['child'], $proccesedIds);
+                                $context += $contextRes;
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        return $context;
+    }
+
 
     /**
      * Init object settings form
@@ -259,6 +298,14 @@ class ilLTIProviderObjectSettingGUI
             $tf = new ilTextInputGUI($this->lng->txt('lti_13_authentication_url'), 'authentication_url_' . $global_consumer->getExtConsumerId());
             $tf->setValue($active_consumer->authenticationUrl);
             $op1->addSubItem($tf);
+
+            $availableResources = $this->getAvailableResourcesForDL($this->ref_id);
+            $resourceSelector = new ilSelectInputGUI($this->lng->txt("tab_content"), "resource_id_" . $global_consumer->getExtConsumerId());
+            $resourceSelector->setOptions($availableResources);     // [id => "Title"]
+            $resourceSelector->setRequired(true);
+            $resourceSelector->setValue($active_consumer->getSetting("resource_dl_id", $availableResources[array_key_first($availableResources)]));
+
+            $op1->addSubItem($resourceSelector);
             $version->addOption($op1);
 
             $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), LtiVersion::V1->value);
@@ -347,6 +394,14 @@ class ilLTIProviderObjectSettingGUI
                 } else {
                     $consumer->accessTokenUrl = '';
                 }
+                $availableResources = $this->getAvailableResourcesForDL($this->ref_id);
+
+                if ($form->getInput('resource_id_' . $global_consumer->getExtConsumerId())) {
+                    $consumer->setSetting("resource_dl_id", $form->getInput('resource_id_' . $global_consumer->getExtConsumerId()));
+                } else {
+                    $consumer->setSetting("resource_dl_id", $availableResources[0]);
+                }
+
                 if ($form->getInput('authentication_url_' . $global_consumer->getExtConsumerId())) {
                     $consumer->authenticationUrl = $form->getInput('authentication_url_' . $global_consumer->getExtConsumerId());
                 } else {
