@@ -25,6 +25,7 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
 use ILIAS\Test\Settings\SettingsFactory;
+use ILIAS\Test\Settings\SettingsNotFoundException;
 use ILIAS\Test\Settings\Templates\PersonalSettingsCreateAction;
 use ILIAS\Test\Settings\Templates\PersonalSettingsExporter;
 use ILIAS\Test\Settings\Templates\PersonalSettingsImportAction;
@@ -239,7 +240,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if ($this->testrequest->hasRefId() && is_numeric($this->testrequest->getRefId())) {
             $ref_id = $this->testrequest->getRefId();
         }
-        parent::__construct("", $ref_id, true, false);
+
+        try {
+            parent::__construct("", $ref_id, true, false);
+        } catch (SettingsNotFoundException $e) {
+            $this->object = null;
+        }
 
         $this->ctrl->saveParameter($this, ['ref_id', 'test_ref_id']);
 
@@ -285,6 +291,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function executeCommand(): void
     {
+        if ($this->object === null) {
+            $this->prepareOutput();
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_not_found_msg'));
+            $this->tpl->printToStdout();
+            return;
+        }
+
         $cmd = $this->ctrl->getCmd('testScreen');
 
         $cmds_disabled_due_to_offline_status = [

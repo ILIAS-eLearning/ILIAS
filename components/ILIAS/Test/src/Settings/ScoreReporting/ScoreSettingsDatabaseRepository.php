@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\ScoreReporting;
 
 use ILIAS\Test\Settings\SettingsFactory;
+use ILIAS\Test\Settings\SettingsNotFoundException;
 
 class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 {
@@ -45,7 +46,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
 
     public function getById(int $settings_id): ScoreSettings
     {
-        if(isset($this->settings_instances[$settings_id])) {
+        if (isset($this->settings_instances[$settings_id])) {
             return $this->settings_instances[$settings_id];
         }
 
@@ -56,7 +57,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         );
 
         if ($this->db->numRows($res) === 0) {
-            throw new \Exception("Mo score settings with id: {$settings_id}");
+            throw new SettingsNotFoundException("No score settings with id: {$settings_id}");
         }
 
         $settings = $this->factory->createScoreSettingsFromDBRow($this->db->fetchAssoc($res));
@@ -85,7 +86,7 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
         $res = $this->db->query($query);
 
         if ($this->db->numRows($res) === 0) {
-            throw new \Exception("no score settings: {$where_part}");
+            throw new SettingsNotFoundException("No score settings for: {$where_part}");
         }
 
         $row = $this->db->fetchAssoc($res);

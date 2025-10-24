@@ -26,7 +26,9 @@ use ILIAS\Setup\Migration;
 
 class RemoveLegacyTestSettingsMigration implements Migration
 {
-    public const array UNUSED_LEGACY_COLUMNS = [
+    use TestSettingsSetup;
+
+    private const array UNUSED_LEGACY_COLUMNS = [
         'ects_output',
         'ects_fx',
         'ects_a',
@@ -44,6 +46,7 @@ class RemoveLegacyTestSettingsMigration implements Migration
     ];
 
     private \ilDBInterface $db;
+    private bool $data_loss_detected = false;
 
     public function getLabel(): string
     {
@@ -57,17 +60,39 @@ class RemoveLegacyTestSettingsMigration implements Migration
 
     public function getPreconditions(Environment $environment): array
     {
-        return [new \ilDatabaseInitializedObjective()];
+        return [
+            new \ilDatabaseInitializedObjective(),
+        ];
     }
 
     public function prepare(Environment $environment): void
     {
         $this->db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+
+        $move_settings = new MoveTestSettingsMigration();
+        $move_settings->prepare($environment);
+        if ($move_settings->getRemainingAmountOfSteps() > 0) {
+            $this->data_loss_detected = true;
+            return;
+        }
+
+        $move_templates = new MoveSettingsTemplatesMigration();
+        $move_templates->prepare($environment);
+        if ($move_templates->getRemainingAmountOfSteps() > 0) {
+            $this->data_loss_detected = true;
+            return;
+        }
     }
 
     public function step(Environment $environment): void
     {
-        $test_columns = array_merge(array_keys(TestSettingsUpdateSteps::SETTINGS_COLUMNS), self::UNUSED_LEGACY_COLUMNS);
+        if ($this->data_loss_detected) {
+            throw new Setup\UnachievableException(
+                'Failed to remove legacy test settings. Please run MoveTestSettingsMigration and MoveSettingsTemplatesMigration first.'
+            );
+        }
+
+        $test_columns = array_merge(array_keys(self::SETTINGS_COLUMNS), self::UNUSED_LEGACY_COLUMNS);
         foreach ($test_columns as $column) {
             $this->dropColumn('tst_tests', $column);
         }
@@ -78,7 +103,7 @@ class RemoveLegacyTestSettingsMigration implements Migration
 
     public function getRemainingAmountOfSteps(): int
     {
-        return (int) ($this->db->tableColumnExists('tst_tests', array_key_first(TestSettingsUpdateSteps::SETTINGS_COLUMNS))
+        return (int) ($this->db->tableColumnExists('tst_tests', array_key_first(self::SETTINGS_COLUMNS))
             || $this->db->tableColumnExists('tst_tests', self::UNUSED_LEGACY_COLUMNS[0])
             || $this->db->tableColumnExists('tst_test_defaults', 'defaults'));
     }

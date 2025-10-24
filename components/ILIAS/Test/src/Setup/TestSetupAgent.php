@@ -55,9 +55,6 @@ class TestSetupAgent extends NullAgent
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new ilTestNoHintsDBUpdateSteps()
             ),
-            new \ilDatabaseUpdateStepsExecutedObjective(
-                new TestSettingsUpdateSteps()
-            ),
             new \ilAccessCustomRBACOperationAddedObjective(
                 'score_anon',
                 'Score Pseudonymously',
@@ -90,7 +87,7 @@ class TestSetupAgent extends NullAgent
             ),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new TestSettingsUpdateSteps()
+                new Test11DBUpdateSteps()
             ),
         );
     }
@@ -118,6 +115,8 @@ class TestSetupAgent extends NullAgent
     public function getMigrations(): array
     {
         return [
+            new MoveTestSettingsMigration(),
+            new MoveSettingsTemplatesMigration(),
             new RemoveLegacyTestSettingsMigration()
         ];
     }

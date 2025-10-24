@@ -1887,6 +1887,8 @@ assessment#:#tst_settings_header_additional#:#Additional Features
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
+assessment#:#tst_settings_not_found#:#Missing Test Settings
+assessment#:#tst_settings_not_found_msg#:#Test Settings could not found. This may be due to a missing migration step. Please contact your system administrator.
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_cancel_description#:#Participants are presented with a button to stop the test run and to continue it later. Caution: Suspending the test does not stop the countdown of the maximum duration of the test.

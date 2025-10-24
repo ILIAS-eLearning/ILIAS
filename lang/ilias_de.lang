@@ -1888,6 +1888,8 @@ assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
 assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
+assessment#:#tst_settings_not_found#:#Fehlende Testeinstellungen
+assessment#:#tst_settings_not_found_msg#:#Testeinstellungen wurden nicht gefunden. Möglicherweise fehlt ein Migrationsschritt. Bitte wenden Sie sich an Ihren Systemadministrator.
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter „Maximale Bearbeitungsdauer“ festgelegte Bearbeitungszeit an.

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Settings\MainSettings;
 
 use ILIAS\Test\Settings\SettingsFactory;
+use ILIAS\Test\Settings\SettingsNotFoundException;
 
 class MainSettingsDatabaseRepository implements MainSettingsRepository
 {
@@ -55,7 +56,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
 
     public function getById(int $settings_id): MainSettings
     {
-        if(isset($this->settings_instances[$settings_id])) {
+        if (isset($this->settings_instances[$settings_id])) {
             return $this->settings_instances[$settings_id];
         }
 
@@ -66,7 +67,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         );
 
         if ($this->db->numRows($res) === 0) {
-            throw new \Exception("Mo main settings with id: {$settings_id}");
+            throw new SettingsNotFoundException("No main settings with id: {$settings_id}");
         }
 
         $settings = $this->factory->createMainSettingsFromDBRow($this->db->fetchAssoc($res));
@@ -136,7 +137,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         $res = $this->db->query($query);
 
         if ($this->db->numRows($res) === 0) {
-            throw new \Exception("Mo main settings for: {$where_part}");
+            throw new SettingsNotFoundException("No main settings for: {$where_part}");
         }
 
         $row = $this->db->fetchAssoc($res);
