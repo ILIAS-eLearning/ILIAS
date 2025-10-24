@@ -27,7 +27,7 @@ class MarkSchemaFactory
      */
     public function createMarkSchemaFromDBRow(array $rows, int $test_id): MarkSchema
     {
-        if($rows === []) {
+        if ($rows === []) {
             return $this->createSimpleSchema($test_id);
         }
 

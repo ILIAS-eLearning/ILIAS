@@ -55,7 +55,7 @@ class MarksDatabaseRepository implements MarksRepository
             return [];
         }
 
-        if($mark_schema->getTestId() > 0) {
+        if ($mark_schema->getTestId() > 0) {
             // Delete all entries
             $this->db->manipulateF(
                 'DELETE FROM ' . self::DB_TABLE . ' WHERE test_fi = %s',
