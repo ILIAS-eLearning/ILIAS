@@ -47,7 +47,7 @@ il.UI.Input = il.UI.Input || {};
 			removal_glyph: '[data-action="remove"] .glyph',
 			expand_glyph: '[data-action="expand"] .glyph',
 			collapse_glyph: '[data-action="collapse"] .glyph',
-			form_submit_buttons: '.il-standard-form-cmd > button',
+			form_submit_buttons: '.c-form_actions > button',
 			modal_form_controls: '.modal-footer button',
 
 			progress_container: '.ui-input-file-input-progress-container',
