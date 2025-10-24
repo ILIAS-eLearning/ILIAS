@@ -25,10 +25,4 @@ namespace ILIAS\UI\Component\Button;
  */
 interface Standard extends Button, LoadingAnimationOnClick
 {
-    /**
-     * Adds a formaction attribute to a button
-     */
-    public function withFormaction(string $formaction): self;
-
-    public function getFormaction(): string;
 }

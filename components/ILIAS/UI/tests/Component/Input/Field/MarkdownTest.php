@@ -129,8 +129,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -184,8 +184,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -246,8 +246,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -304,8 +304,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" disabled=\"disabled\" id=\"id_2\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" disabled=\"disabled\" id=\"id_2\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                     <div class=\"c-field-markdown\">
@@ -361,8 +361,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\">
-                <label for=\"id_1\">$label<span class=\"asterisk\" aria-label=\"required_field\">*</span></label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label<span class=\"asterisk\" aria-label=\"required_field\">*</span></label>
                 <div class=\"c-input__field\">
 
                         <div class=\"c-field-markdown\">
@@ -419,8 +419,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML(
             "
-            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" aria-describedby=\"id_9\" id=\"id_8\">
-                <label for=\"id_1\">$label</label>
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" aria-describedby=\"id_9\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
                 <div class=\"c-input__field\">
 
                         <div class=\"c-field-markdown\">

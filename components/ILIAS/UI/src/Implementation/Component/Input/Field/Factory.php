@@ -93,7 +93,7 @@ class Factory implements I\Factory
 
     public function textarea(string $label, ?string $byline = null): Textarea
     {
-        return new Textarea($this->data_factory, $this->refinery, $label, $byline, $this->signal_generator);
+        return new Textarea($this->data_factory, $this->refinery, $label, $byline);
     }
 
     public function radio(string $label, ?string $byline = null): Radio
@@ -178,7 +178,7 @@ class Factory implements I\Factory
 
     public function markdown(I\MarkdownRenderer $md_renderer, string $label, ?string $byline = null): Markdown
     {
-        return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline, $this->signal_generator);
+        return new Markdown($this->data_factory, $this->refinery, $md_renderer, $label, $byline);
     }
 
     public function rating(string $label, ?string $byline = null): Rating

@@ -142,10 +142,6 @@ class Renderer extends AbstractComponentRenderer
 
         $this->maybeRenderId($component, $tpl);
 
-        if ($component instanceof Component\Button\Standard) {
-            $this->additionalRenderStandard($component, $tpl);
-        }
-
         if ($component instanceof Component\Button\Tag) {
             $this->additionalRenderTag($component, $tpl);
         }
@@ -343,16 +339,6 @@ class Renderer extends AbstractComponentRenderer
                 }
                 $tpl->parseCurrentBlock();
             }
-        }
-    }
-
-    protected function additionalRenderStandard(Component\Button\Button $component, $tpl): void
-    {
-        $formaction = $component->getFormaction();
-        if ($formaction !== '') {
-            $tpl->setCurrentBlock("with_formaction");
-            $tpl->setVariable("FORMACTION", $formaction);
-            $tpl->parseCurrentBlock();
         }
     }
 }

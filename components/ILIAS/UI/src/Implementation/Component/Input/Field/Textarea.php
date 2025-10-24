@@ -26,7 +26,6 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
 use Closure;
 use Generator;
-use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * This implements the textarea input.
@@ -34,12 +33,10 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 class Textarea extends FormInput implements C\Input\Field\Textarea
 {
     use JavaScriptBindable;
-    use Mustachable;
 
     protected ?int $max_limit = null;
+
     protected ?int $min_limit = null;
-    protected SignalGeneratorInterface $signal_generator;
-    protected C\Signal $insert_signal;
 
     private bool $strip_tags_from_input = true;
 
@@ -50,19 +47,9 @@ class Textarea extends FormInput implements C\Input\Field\Textarea
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
         string $label,
-        ?string $byline,
-        SignalGeneratorInterface $signal_generator,
-        bool $use_transformation = true
+        ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-
-        if ($use_transformation) {
-            $this->setAdditionalTransformation(
-                $refinery->string()->stripTags()
-            );
-        }
-        $this->signal_generator = $signal_generator;
-        $this->initSignals();
     }
 
     /**
@@ -174,22 +161,5 @@ class Textarea extends FormInput implements C\Input\Field\Textarea
         $clone = clone $this;
         $clone->strip_tags_from_input = false;
         return $clone;
-    }
-
-    public function initSignals(): void
-    {
-        $this->insert_signal = $this->signal_generator->create();
-    }
-
-    public function withResetSignals(): self
-    {
-        $clone = clone $this;
-        $clone->initSignals();
-        return $clone;
-    }
-
-    public function getInsertSignal(): C\Signal
-    {
-        return $this->insert_signal;
     }
 }

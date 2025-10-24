@@ -53,7 +53,6 @@ function initMockedDom() {
                     </div>
                 </div>
                     <textarea id="${test_input_id}" class="c-field-textarea" name="test_input_1"></textarea>
-                    <div class="ui-input-textarea-placeholder">placeholder</div>
                 <div class="c-field-markdown__preview hidden"></div>
             </div>
         `,

@@ -36,18 +36,4 @@ interface Standard extends FormWithPostURL, IsPromptContent
      * Gets the submit label of the form.
      */
     public function getSubmitLabel(): ?string;
-
-    /**
-     * Adds an additional submit button to the form
-     * which change the form's action and MUST have a different
-     * label than the standard submit button.
-     * This method can be called multiple times to add more buttons.
-     */
-    public function withAdditionalSubmitButton(string $label, string $action): self;
-
-    /**
-     * Gets an array of all additional submit buttons
-     * as label => action pairs
-     */
-    public function getAdditionalSubmitButtons(): array;
 }
