@@ -88,8 +88,7 @@ class assFormulaQuestionVariable
 
     public function isIntPrecisionValid(?int $int_precision, float $min_range, float $max_range): bool
     {
-        $max = max(abs($max_range), abs($min_range));
-        return $int_precision !== null && $int_precision <= $max;
+        return $int_precision !== null && $int_precision <= max(abs($max_range), abs($min_range));
     }
 
     /************************************
