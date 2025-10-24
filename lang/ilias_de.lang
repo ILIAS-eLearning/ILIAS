@@ -550,7 +550,7 @@ assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
 assessment#:#backtocallingpage#:#Zurück zur Fragenseite
 assessment#:#backtocallingpool#:#Zurück zum Fragenpool
-assessment#:#backtocallingtest#:#Zurück zum Test
+assessment#:#backtocallingtest#:#Zurück zur Liste der Fragen
 assessment#:#baseunit#:#Basiseinheit
 assessment#:#broken_test#:#Kaputtes Test-Objekt
 assessment#:#bulkedit_author#:#Autor ändern
@@ -612,9 +612,9 @@ assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testerg
 assessment#:#delete_image_header#:#Bild entfernen
 assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
 assessment#:#delete_mark_confirmation#:#Soll die folgende Notenstufe definitiv gelöscht werden?
-assessment#:#delete_participants_no_valid_participants_selected#:#Für die gewählten Teilnehmer liegen bereits Testergebnisse vor und können deshalb nicht entfernt werden.
+assessment#:#delete_participants_no_valid_participants_selected#:#Für die gewählten Teilnehmer liegen bereits Testergebnisse vor. Deshalb können sie nicht entfernt werden.
 assessment#:#delete_result_no_valid_participants_selected#:#Für die gewählten Teilnehmer liegen keine Testergebnisse vor und können deshalb nicht entfernt werden.
-assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Teilnehmenden entfernen wollen?
+assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Teilnehmenden entfernen wollen? Bitte beachten Sie: Teilnehmenden die nicht manuell als „ausgewählte Teilnehmende“ hinzugefügt wurden, werden vollständig aus der Teilnehmerliste entfernt.
 assessment#:#delete_user_data#:#Testergebnisse entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s Uhr bearbeitet werden.
@@ -684,13 +684,13 @@ assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte a
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#evaluated_users#:#Bewertete Benutzer
-assessment#:#exam_id#:#ILIAS-Prüfungsnummer:
-assessment#:#exam_id_label#:#ILIAS-Prüfungsnummer
-assessment#:#exam_id_of_attempt#:#Test ID des Versuchs
-assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
-assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
-assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
-assessment#:#examid_in_test_res_desc#:#In den Testergebnissen und dem Excel-Export wird die ILIAS-Prüfungsnummer dargestellt.
+assessment#:#exam_id#:#ILIAS-Test-ID:
+assessment#:#exam_id_label#:#ILIAS-Test-ID
+assessment#:#exam_id_of_attempt#:#Test-ID des Versuchs
+assessment#:#examid_in_test_pass#:#ILIAS-Test-ID anzeigen
+assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Test-ID angezeigt. Für jeden Testdurchlauf wird eine eigene ID erzeugt.
+assessment#:#examid_in_test_res#:#ILIAS-Test-ID anzeigen
+assessment#:#examid_in_test_res_desc#:#Die ILIAS-Test-ID wird in den Ansichten „Detaillierte Ergebnisse“ und   „Druckbare Liste der Antworten“ angezeigt sowie in den über den Reiter „Teilnehmer“ exportierten Tabellenkalkulationsdateien.
 assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_eval_data#:#Daten exportieren
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
@@ -736,7 +736,7 @@ assessment#:#filter_all_questionpools#:#Alle Fragenpools
 assessment#:#filter_show_question_types#:#Zeige folgende Fragetypen
 assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#final_statement#:#Abschließende Bemerkung
-assessment#:#final_statement_show_desc#:#Zeigt die Abschließende Bemerkung nach Abgabe des Tests an.
+assessment#:#final_statement_show_desc#:#Zeigt die Abschließende Bemerkung nach Abgabe des Tests an.  Von dieser Seite aus ist es nicht möglich, zum Test zurückzukehren. Die abschließende Bemerkung kann im Unterreiter „Abschließende Bemerkung bearbeiten“ des Reiters „Einstellungen“ bearbeitet werden.
 assessment#:#finalized_by#:#Bewertung abgeschlossen von
 assessment#:#finalized_evaluation#:#Endgültig bewertet
 assessment#:#finalized_on#:#Bewertung abgeschlossen am
@@ -1306,7 +1306,7 @@ assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
 assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden, als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
 assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#test_question_set_type_random_info#:#Jedem Teilnehmenden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
-assessment#:#test_results#:#Bekanntgabe des Testergebnisses
+assessment#:#test_results#:#Testergebnisse
 assessment#:#test_scoring#:#Bewertung des Tests
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_title#:#Test Titel
@@ -1366,14 +1366,14 @@ assessment#:#tst_answer_aggr_answer_header#:#Antwort
 assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#tst_answer_details#:#Antwortdetails
 assessment#:#tst_answer_fixation#:#Antworten festschreiben
-assessment#:#tst_answer_fixation_handling#:#Teilnehmerantworten
-assessment#:#tst_answer_fixation_none#:#Antworten während des Testdurchlaufs nicht festschreiben
+assessment#:#tst_answer_fixation_handling#:#Antworten festschreiben
+assessment#:#tst_answer_fixation_none#:Nie
 assessment#:#tst_answer_fixation_none_desc#:#Solange ein Testdurchlauf nicht beendet ist, können Teilnehmer ihre Antworten beliebig verändern.
-assessment#:#tst_answer_fixation_on_followup_question#:#Antworten bei Anzeige der Folgefrage festschreiben
+assessment#:#tst_answer_fixation_on_followup_question#:#Bei der Anzeige der Folgefrage
 assessment#:#tst_answer_fixation_on_followup_question_desc#:#Nach dem Anzeigen der Folgefrage können Teilnehmer die Antwort auf die vorherige Frage nicht mehr verändern.
-assessment#:#tst_answer_fixation_on_instant_feedback#:#Antworten bei Anzeige der Rückmeldung festschreiben
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Bei der Anzeige der Rückmeldung
 assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#Wenn die Rückmeldung zu einer Frage gezeigt wird, können Teilnehmer ihre Antworten nicht mehr verändern.
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Antworten mit der Anzeige von Rückmeldungen oder der Folgefrage festschreiben
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Bei Anzeige der Rückmeldung oder Übergang zur nächsten Frage
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Teilnehmer können Antworten nicht mehr verändern, nachdem die Rückmeldung zur Frage oder die Folgefrage gezeigt wurde.
 assessment#:#tst_answer_status_answered#:#Beantwortet
 assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
@@ -1407,7 +1407,7 @@ assessment#:#tst_comp_eval_mode#:#Evaluierung über
 assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_competence#:#Kompetenz
 assessment#:#tst_conditions_checkbox_enabled#:#Prüfungsbedingungen
-assessment#:#tst_conditions_checkbox_enabled_desc#:#Die Teilnehmer müssen ein Kontrollkästchen auswählen, um den Test zu starten. Bitte verwenden Sie die Einführungsnachricht, um den Teilnehmern die Prüfung vorzustellen.
+assessment#:#tst_conditions_checkbox_enabled_desc#:#Die Teilnehmer müssen ein Kontrollkästchen auswählen, um den Test zu starten. Bitte verwenden Sie die Einleitung, um den Teilnehmern die Prüfungsbedingungen vorzustellen.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
 assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#tst_copy#:#Test kopieren
@@ -1446,7 +1446,7 @@ assessment#:#tst_enable_questionlist#:#Fragenliste
 assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
 assessment#:#tst_ending_time#:#Ende
 assessment#:#tst_ending_time_before_starting_time#:#Bitte geben Sie für das Ende des Tests ein Datum ein, das nach dem Startdatum liegt.
-assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <strong>Wichtig</strong>: Benutzen Sie diese Option <strong>nicht</strong> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen z.B. die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe bei Freitext-Fragen jedes Teilnehmers automatisch als Auto-Save-Inhalt gespeichert. <strong>VORSICHT:</strong> Dieser Inhalt wird <strong>NICHT</strong> automatisch bewertet.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmenden keine Antworten mehr abgeben können. <strong>Wichtig</strong>: Benutzen Sie diese Option <strong>nicht</strong> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“ (siehe unten). Nur dann wird der Test serverseitig beendet und die letzte Eingabe jeder teilnehmenden Person automatisch als Auto-Save-Inhalt gespeichert. <strong>VORSICHT:</strong> Dieser Inhalt wird <strong>NICHT</strong> automatisch bewertet.
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_results_by_pass#:#Liste der Antworten für Testdurchlauf %s
@@ -1470,12 +1470,12 @@ assessment#:#tst_exam_modal_message_conditions_and_password#:#Bitte bestätigen 
 assessment#:#tst_exam_modal_message_password#:#Bitte geben Sie das Passwort ein, um den Test zu starten.
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#Sie können den Test nicht starten, da Sie kein zugewiesener Teilnehmer sind.
 assessment#:#tst_exam_password#:#Testpasswort
-assessment#:#tst_exam_password_invalid_message#:#Das angegebene Passwort ist ungültig!
+assessment#:#tst_exam_password_invalid_message#:#Das von Ihnen eingegebene Passwort ist ungültig. Bitte versuchen Sie es erneut und wenden Sie sich gegebenenfalls an die für diesen Test verantwortliche Person.
 assessment#:#tst_exam_password_label#:#Passwort
 assessment#:#tst_exam_required_fields_not_filled_message#:#Sie müssen alle erforderlichen Felder ausfüllen!
 assessment#:#tst_exam_start#:#Test starten
-assessment#:#tst_exam_use_previous_answers#:#Vorherige Antworten
-assessment#:#tst_exam_use_previous_answers_label#:#Wenn aktiviert, werden Antworten aus früheren Tests vorausgefüllt.
+assessment#:#tst_exam_use_previous_answers#:#Vorherige Antworten verwenden
+assessment#:#tst_exam_use_previous_answers_label#:#Wenn aktiviert, werden Antworten aus Ihrem letzten Testdurchlauf vorausgefüllt.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
 assessment#:#tst_extratime_info#:#Falls die Bearbeitungszeit eines Testteilnehmers mehrmals verlängert wird, geben Sie hier bitte die Summe aller seiner Zeitverlängerungen an.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
@@ -1498,7 +1498,7 @@ assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei,
 assessment#:#tst_finish_notification#:#Benachrichtigung
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
 assessment#:#tst_finish_notification_content_type#:#Inhalt der Benachrichtigung
-assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine Mail versendet. Die Mail wird an den Benutzer versendet, welcher im Reiter „Rechte“ unter „Im Besitz von“ eingetragen ist. Die Mail enthält die folgenden Informationen:
+assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine Mail an die Person die für den Test verantwortlich ist, versendet. Diese Person wird in dem Unterreiter „Im Besitz von“ des Reiters „Rechte“ aufgeführt.
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Anmeldename und Datum des Beendens
 assessment#:#tst_finished#:#Beendet
@@ -1512,10 +1512,10 @@ assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
 assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
-assessment#:#tst_hide_pagecontents_desc#:#ILIAS-Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
+assessment#:#tst_hide_pagecontents_desc#:#Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
 assessment#:#tst_hide_side_list#:#Fragenliste aus
-assessment#:#tst_highscore_achieved_ts#:#Datum
-assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte mit dem Zeitpunkt des Tests eingeblendet.
+assessment#:#tst_highscore_achieved_ts#:#Datum / Uhrzeit
+assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte eingeblendet, die anzeigt, wann der Test beendet wurde.
 assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
 assessment#:#tst_highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
 assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
@@ -1576,13 +1576,13 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rüc
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
-assessment#:#tst_instant_feedback_results_desc#:#Klicken Teilnehmer beim Beantworten einer Frage auf den Button „Rückmeldung anfordern“ zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreichen wurden.
+assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
-assessment#:#tst_instant_feedback_solution_desc#:#Bei Anklicken des „Rückmeldung anfordern“-Buttons zeigt ILIAS die bestmögliche Lösung der Frage an.
+assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
 assessment#:#tst_instant_feedback_trigger#:#Auslöser der Rückmeldung
-assessment#:#tst_instant_feedback_trigger_forced#:#Die Rückmeldung wird bei Beantwortung von Fragen gezeigt
+assessment#:#tst_instant_feedback_trigger_forced#:#Eine Frage beantworten
 assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer Frage wird die Rückmeldung automatisch ausgelöst.
-assessment#:#tst_instant_feedback_trigger_manual#:#Teilnehmer können die Rückmeldung selbst auslösen
+assessment#:#tst_instant_feedback_trigger_manual#:#Manuelle Auslösung
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#Die Rückmeldung steht Teilnehmern zur Verfügung, wird aber erst gezeigt, wenn der Teilnehmer diese auslöst.
 assessment#:#tst_introduction#:#Einleitung
 assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem „Test”-Reiter an. Der Einleitungstext kann im Unterreiter „Einleitung bearbeiten” geändert werden und ist bereits vor Beginn des Tests zugänglich.
@@ -1598,7 +1598,7 @@ assessment#:#tst_limit_nr_of_tries#:#Anzahl von Testdurchläufen begrenzen
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
 assessment#:#tst_list_answer_details#:#Zeige in Liste unterhalb
 assessment#:#tst_list_of_answers#:#Liste der Antworten
-assessment#:#tst_list_of_answers_show#:#Bewertete Antworten
+assessment#:#tst_list_of_answers_show#:#Druckbare Liste der Antworten
 assessment#:#tst_list_of_questions_end#:#Vor dem Ende des Test anzeigen
 assessment#:#tst_list_of_questions_start#:#Noch vor der ersten Frage anzeigen
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen anzeigen
@@ -1618,7 +1618,7 @@ assessment#:#tst_mark_minimum_level_invalid#:#Der Mindestprozentsatz muss zwisch
 assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
-assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Das aktuelle Schema wird durch ein einfaches Notenschema ersetzt. Es werden alle in diesem Test am Notenschema vorgenommenen Änderungen verworfen.
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:Möchten Sie wirklich fortfahren? Das aktuelle Notenschema wird durch ein einfaches Notenschema mit den Stufen „bestanden“ und „nicht bestanden“ ersetzt. Alle lokalen Änderungen werden gelöscht.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_max_comp_points#:#Maximale Kompetenz-Punkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
@@ -1650,9 +1650,9 @@ assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenz-Punkte wurd
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Regel für die Fragenauswahl wurde erfolgreich gelöscht.
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
-assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten Frage
+assessment#:#tst_nav_next_locks_current_answer_header#:#Aktuelle Antwort festschreiben?
 assessment#:#tst_nav_next_locks_empty_answer_confirm#:#Sie haben keine Antwort eingegeben. Eine leere Lösung wird als Antwort zur aktuellen Frage gespeichert und festgeschrieben. Die Antwort kann nicht mehr verändert werden.
-assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigieren ohne Antwort
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Leere Antwort festschreiben?
 assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Abbrechen
 assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
 assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Nicht Speichern
@@ -1675,7 +1675,7 @@ assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung f�
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung für folgenden Test wurde eingereicht:
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
-assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
+assessment#:#tst_nr_of_tries_desc#:#Die maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann. Wenn diese Option nicht ausgewählt ist, kann der Test unbegrenzt wiederholt werden, solange er verfügbar ist.
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
 assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortet
@@ -1695,8 +1695,7 @@ assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Teilnehmerstatus
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_pass_best_pass#:#Besten Durchlauf des Tests bewerten
-assessment#:#tst_pass_best_pass_desc#:#Es wird der Durchlauf bewertet, bei dem die höchste Punktezahl erreicht wurde.
-assessment#:#tst_pass_deletion#:#Durchläufe löschen
+assessment#:#tst_pass_best_pass_desc#:#Wenn multiple Durchläufe erlaubt werden, wird der Durchlauf bewertet, bei dem die höchste Punktezahl erreicht wurde.
 assessment#:#tst_pass_deletion_allowed#:#Durchläufe, die nicht zur Bewertung verwendet werden, können gelöscht werden.
 assessment#:#tst_pass_details#:#Detaillierte Ergebnisse
 assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
@@ -1721,7 +1720,7 @@ assessment#:#tst_passed#:#Bestanden
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_password#:#Testpasswort
 assessment#:#tst_password_details#:#Wird ein Testpasswort definiert, müssen Teilnehmer dieses eingeben, um den Test starten oder fortsetzen zu können. Dies betrifft auch laufende Testdurchläufe.
-assessment#:#tst_password_enter#:#Passwort eingeben
+assessment#:#tst_password_enter#:#Passwort:
 assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht starten, da Sie ein falsches Testpasswort eingegeben haben!
 assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet bzw. fortgeführt werden. Bitte tragen Sie das Passwort hier ein.
@@ -1733,9 +1732,9 @@ assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
 assessment#:#tst_postpone#:#Nicht beantwortete Fragen
 assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen bleiben an ihrem Platz
-assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen oder Fragen überblättern, verbleiben die Fragen an ihrer Position im Test.
+assessment#:#tst_postpone_off_desc#:#Auch wenn Fragen verworfen oder übersprungen werden, verbleiben die Fragen an ihrer Position im Test.
 assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
-assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal.
+assessment#:#tst_postpone_on_desc#:#Fragen, die verworfen oder übersprungen werden, präsentiert ILIAS am Ende des Test noch einmal.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verfügbar!
@@ -1757,7 +1756,7 @@ assessment#:#tst_question_answer_status#:#Welche Fragen sollen in die Wiedervorl
 assessment#:#tst_question_answer_status_all_non_correct#:#Alle, außer richtig beantwortete Fragen
 assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete Fragen
 assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
-assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur Übersicht der Rückmeldungen
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Lösungshinweise
 assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
@@ -1859,10 +1858,10 @@ assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_results_access_always#:#Sofort
 assessment#:#tst_results_access_always_desc#:#Schon während eines Testdurchlaufs kann ein Zwischenergebnis über den Reiter „Meine Ergebnisse“ eingesehen werden. Nach Abschluss des Durchlaufs wird automatisch das Testergebnis angezeigt.
-assessment#:#tst_results_access_date#:#Ab definiertem Datum
-assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum werden Ergebnisse im Reiter „Meine Ergebnisse” anzeigt.
+assessment#:#tst_results_access_date#:#Ab einem festgelegten Zeitpunkt
+assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum und der gewählten Uhrzeit werden Ergebnisse im Reiter „Meine Ergebnisse” anzeigt.
 assessment#:#tst_results_access_enabled#:#Eigenes Testergebnis einsehen
-assessment#:#tst_results_access_enabled_desc#:#Teilnehmerinnen und Teilnehmer erhalten Zugriff auf Ihre Testergebnisse über den Reiter „Meine Ergebnisse“.
+assessment#:#tst_results_access_enabled_desc#:#Teilnehmerinnen und Teilnehmer erhalten Zugriff auf Ihre Testergebnisse über den Reiter „Meine Ergebnisse“. Die darin enthaltenen Informationen und wann darauf zugegriffen werden kann, können unten konfiguriert werden.
 assessment#:#tst_results_access_finished#:#Nach Durchlauf des Tests
 assessment#:#tst_results_access_finished_desc#:#Nach Abschluss eines Testdurchlaufs werden die Ergebnisse automatisch im Reiter „Meine Ergebnisse” angezeigt.
 assessment#:#tst_results_access_passed#:#Nach Bestehen des Tests
@@ -1873,7 +1872,7 @@ assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
 assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_details_options#:#Weitere Optionen
 assessment#:#tst_results_gamification#:#Gamification
-assessment#:#tst_results_grading_opt_show_details#:#Detaillierte Testergebnisse anzeigen
+assessment#:#tst_results_grading_opt_show_details#:#Detaillierte Testergebnisse zugänglich machen
 assessment#:#tst_results_grading_opt_show_details_desc#:#Zusätzlich zum zusammenfassenden Testergebnis wird eine Aktion „Detaillierte Ergebnisse“ angeboten. Die Tabelle „Detaillierte Testergebnisse” zeigt für jeden Durchlauf die Titel der Fragen, die erreichten Punkte und die gewählten Antworten an. Der Inhalt der Tabelle kann im Abschnitt „Weitere Optionen“ weiter ergänzt werden.
 assessment#:#tst_results_grading_opt_show_mark#:#Note anzeigen
 assessment#:#tst_results_grading_opt_show_mark_desc#:#Eine Meldung im Reiter „Meine Ergebnisse“ informiert Teilnehmerinnen und Teilnehmer, welche Note sie erzielt haben.
@@ -1881,7 +1880,7 @@ assessment#:#tst_results_grading_opt_show_status#:#„Bestanden“ / „Nicht be
 assessment#:#tst_results_grading_opt_show_status_desc#:#Eine Meldung im Reiter „Meine Ergebnisse“ informiert Teilnehmerinnen und Teilnehmer, ob sie bestanden haben oder nicht.
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
-assessment#:#tst_results_print_best_solution_info#:#Den eigenen Antworten werden die bestmöglichen Lösungen gegenübergestellt.
+assessment#:#tst_results_print_best_solution_info#:#In den detaillierten Ergebnissen jedes Durchlauf, werden den eigenen Antworten die bestmöglichen Lösungen gegenübergestellt. Der Zugriff erfolgt über das Aktionsmenü jedes einzelnen Testversuchs unter „Meine Ergebnisse“. Dazu müssen „Eigenes Testergebnis einsehen“ und anschließend „Detaillierte Testergebnisse zugänglich machen“ aktiviert worden sein (siehe oben).
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
@@ -1907,7 +1906,7 @@ assessment#:#tst_search_users#:#Teilnehmer suchen
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage ablegen!
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählten Benutzer wurden erfolgreich gelöscht.
 assessment#:#tst_sequence#:#Reihenfolge
-assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden.
+assessment#:#tst_sequence_fixed#:#Fragen werden in einer festgelegten Reihenfolge präsentiert. Unbeantwortete Fragen werden nicht an das Ende des Tests verschoben.
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden.
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_session_settings#:#Durchführung
@@ -1938,13 +1937,13 @@ assessment#:#tst_show_solution_details_singlepage_desc#:#Teilnehmerinnen und Tei
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
 assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option „Detallierte Testergebnisse anzeigen“ aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_show_solution_printview#:#Druckbare Liste der Antworten
-assessment#:#tst_show_solution_printview_desc#:#Nach dem Klick auf „Test beenden“ wird im Reiter „Meine Ergebnisse“ ein zusätzlicher Reiter „Bewertete Antworten“ eingeblendet. Den Teilnehmerinnen und Teilnehmern werden hier ihre Antworten zu den einzelnen Testfragen angezeigt.
+assessment#:#tst_show_solution_printview_desc#:#Nach dem Klick auf „Test beenden“ wird im Reiter „Meine Ergebnisse“ ein zusätzlicher Reiter „Druckbare Liste der Antworten“ eingeblendet. Den Teilnehmerinnen und Teilnehmern werden hier ihre Antworten zu den einzelnen Testfragen angezeigt.
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_signature_desc#:#Ist die Option „Detaillierte Testergebnisse anzeigen“ oder „Druckbare Liste der Antworten“ aktiviert, fügt ILIAS zusätzlich ein Unterschriftenfeld in den Ausdruck ein. In diesem kann die Person, die den Test durchgeführt hat, unterschreiben.
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese angezeigt. Sie müssen die Option „Detaillierte Testergebnissen anzeigen“ aktivieren, um diese Funktion zu nutzen. Teilnehmerinnen und Teilnehmer können so etwaige Wissenslücken schließen.
 assessment#:#tst_show_summary#:#Übersicht Testdurchlauf
-assessment#:#tst_show_summary_description#:#Mit der Schaltfläche „Übersicht Testdurchlauf“ können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten des „Übersicht Testdurchlauf“ können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary_description#:#Mit dem Button „Übersicht Testdurchlauf“ können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet haben. Außerdem werden angezeigt, welche Fragen markiert wurden und wie viele Punkte eine Frage wert ist, je nachdem, welche dieser Optionen aktiviert wurden. Das Verhalten des „Übersicht Testdurchlauf“ können Sie unten noch weiter konfigurieren:
 assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
@@ -2005,7 +2004,7 @@ assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_time_already_spent#:#Sie haben den Test gestartet: %s. Ihre maximale Bearbeitungsdauer beträgt %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
 assessment#:#tst_time_limit_message#:#Sie haben <b>%s Minuten</b>, um alle Fragen zu beantworten.
-assessment#:#tst_title_output#:#Anzeige der Fragentitel
+assessment#:#tst_title_output#:#Anzeigevarianten für Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_info#:#Setzt die Kombination von Titel und/oder verfügbaren Punkten fest, die den Teilnehmenden während der Durchführung sowie auf der Übersicht des Testduchlaufs angezeigt wird.
