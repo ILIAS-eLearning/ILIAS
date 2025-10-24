@@ -517,6 +517,8 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderMarkdownField(F\Markdown $component, RendererInterface $default_renderer): string
     {
+        [$textarea_tpl, $component] = $this->getPreparedTextareaTemplate($component);
+
         /** @var $component F\Markdown */
         $component = $component->withAdditionalOnLoadCode(
             static function ($id) use ($component): string {
@@ -532,7 +534,6 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $textarea_id = $this->createId();
-        $textarea_tpl = $this->getPreparedTextareaTemplate($component);
         $textarea_tpl->setVariable('ID', $textarea_id);
 
         $markdown_tpl = $this->getTemplate("tpl.markdown.html", true, true);
@@ -584,24 +585,22 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderTextareaField(F\Textarea $component, RendererInterface $default_renderer): string
     {
+        [$tpl, $component] = $this->getPreparedTextareaTemplate($component);
+
         /** @var $component F\Textarea */
         $component = $component->withAdditionalOnLoadCode(
-            static function ($id): string {
-                return "
-                    taId = document.querySelector('#$id .c-input__field textarea')?.id;
-                    il.UI.Input.textarea.init(taId);
-                ";
-            }
+            static fn($id) => "il.UI.Input.textarea.init(document.querySelector('#$id .c-input__field textarea')?.id);",
         );
-
-        $tpl = $this->getPreparedTextareaTemplate($component);
 
         $label_id = $this->createId();
         $tpl->setVariable('ID', $label_id);
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
     }
 
-    protected function getPreparedTextareaTemplate(F\Textarea $component): Template
+    /**
+     * @return array{0: Template, 1: F\Textarea}
+     */
+    protected function getPreparedTextareaTemplate(F\Textarea $component): array
     {
         $tpl = $this->getTemplate("tpl.textarea.html", true, true);
 
@@ -615,9 +614,49 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('MIN_LIMIT', $component->getMinLimit());
         }
 
+        [$mustache_variable_html, $component] = $this->renderMustacheVariables($component);
+        $tpl->setVariable('MUSTACHE_VARIABLES_HTML', $mustache_variable_html);
+
         $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->htmlEntities());
-        return $tpl;
+        return [$tpl, $component];
+    }
+
+    /**
+     * @return array{0: string, 1: F\HasMustacheVariablesInternal}
+     */
+    protected function renderMustacheVariables(F\HasMustacheVariablesInternal $component): array
+    {
+        $mustache_variable_definitions = $component->getMustacheVariables();
+        if (empty($mustache_variable_definitions)) {
+            return ['', $component];
+        }
+
+        $template = $this->getTemplate('tpl.mustache_variables.html', true, true);
+        $template->setVariable('MUSTACHE_VARIABLE_USAGE_INFO', $this->txt('ui_mustache_variables_usage_info'));
+
+        $mustache_variable_context_info = $component->getMustacheVariableContextInfo();
+        if (null !== $mustache_variable_context_info) {
+            $template->setVariable('MUSTACHE_VARIABLE_CONTEXT_INFO', $mustache_variable_context_info);
+        }
+
+        foreach ($mustache_variable_definitions as $variable_name => $description) {
+            $template->setCurrentBlock('with_mustache_variable_definition');
+            $template->setVariable('VARIABLE_NAME', $variable_name);
+            $template->setVariable('VARIABLE_DESCRIPTION', $description);
+            $template->parseCurrentBlock();
+        }
+
+        // @todo: this feature is currently highly coupled to textareas
+        $enriched_component = $component->withAdditionalOnLoadCode(static fn($id) => "
+            il.UI.Input.mustacheVariables.init(
+                il.UI.Input.textarea.get(document.querySelector('#$id .c-input__field textarea')?.id) ??
+                il.UI.Input.markdown.get(document.querySelector('#$id .c-input__field textarea')?.id),
+                document.getElementById('$id'),
+            );
+        ");
+
+        return [$template->get(), $enriched_component];
     }
 
     protected function renderRadioField(F\Radio $component, RendererInterface $default_renderer): string
