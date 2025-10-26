@@ -264,8 +264,6 @@ administration#:#nothing_to_restore#:#Nothing to restore...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Global Blog Settings
 administration#:#obj_chta_desc#:#Chat Administration
-administration#:#obj_cron#:#Cron Jobs
-administration#:#obj_cron_desc#:#List of all Cron Jobs
 administration#:#obj_excs#:#Exercise
 administration#:#obj_excs_desc#:#Global Exercise Settings
 administration#:#obj_gsfo#:#Footer
@@ -4895,6 +4893,8 @@ common#:#obj_copa#:#Content Page
 common#:#obj_cpad#:#Content Pages
 common#:#obj_cpad#_desc#:#Content Page Administration
 common#:#obj_cpad_desc#:#Content Page Administration
+common#:#obj_cron#:#Cron Jobs
+common#:#obj_cron_desc#:#List of all Cron Jobs
 common#:#obj_crs#:#Course
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crsr#:#Course Link

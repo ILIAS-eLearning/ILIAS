@@ -264,8 +264,6 @@ administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Globale Blogeinstellungen
 administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
-administration#:#obj_cron#:#Cron Jobs
-administration#:#obj_cron_desc#:#Liste aller Cron Jobs
 administration#:#obj_excs#:#Übung
 administration#:#obj_excs_desc#:#Globale Übungseinstellungen
 administration#:#obj_gsfo#:#Fußzeile
@@ -1364,7 +1362,7 @@ assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#tst_answer_details#:#Antwortdetails
 assessment#:#tst_answer_fixation#:#Antworten bei Anzeige der Rückmeldung und/oder Übergang zur nächsten Frage sperren
 assessment#:#tst_answer_fixation_handling#:#Antworten festschreiben
-assessment#:#tst_answer_fixation_none#:Antworten während des Testdurchlaufs nicht festschreiben
+assessment#:#tst_answer_fixation_none#:#Antworten während des Testdurchlaufs nicht festschreiben
 assessment#:#tst_answer_fixation_none_desc#:#Solange ein Testdurchlauf nicht beendet ist, können Teilnehmer ihre Antworten beliebig verändern.
 assessment#:#tst_answer_fixation_on_followup_question#:#Bei der Anzeige der Folgefrage
 assessment#:#tst_answer_fixation_on_followup_question_desc#:#Nach dem Anzeigen der Folgefrage können Teilnehmer die Antwort auf die vorherige Frage nicht mehr verändern.
@@ -1618,7 +1616,7 @@ assessment#:#tst_mark_minimum_level_invalid#:#Der Mindestprozentsatz muss zwisch
 assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
-assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:Möchten Sie wirklich fortfahren? Das aktuelle Notenschema wird durch ein einfaches Notenschema mit den Stufen „bestanden“ und „nicht bestanden“ ersetzt. Alle lokalen Änderungen werden gelöscht.
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Möchten Sie wirklich fortfahren? Das aktuelle Notenschema wird durch ein einfaches Notenschema mit den Stufen „bestanden“ und „nicht bestanden“ ersetzt. Alle lokalen Änderungen werden gelöscht.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_max_comp_points#:#Maximale Kompetenz-Punkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
@@ -4895,6 +4893,8 @@ common#:#obj_copa#:#Inhaltsseite
 common#:#obj_cpad#:#Inhaltsseiten
 common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
 common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
+common#:#obj_cron#:#Cron Jobs
+common#:#obj_cron_desc#:#Liste aller Cron Jobs
 common#:#obj_crs#:#Kurs
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crsr#:#Kurslink

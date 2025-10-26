@@ -213,7 +213,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function executeCommand(): void
     {
-        if (!$this->rbac->system()->checkAccess('read', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('read', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -304,7 +304,7 @@ final class ilObjCronGUI extends ilObjectGUI
             $this->lng,
             $filtered_jobs,
             $this->cron_repository,
-            $this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)
+            $this->rbac->system()->checkAccess('write', $this->ref_id)
         );
 
         $this->tpl->setContent(
@@ -320,7 +320,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function edit(?ILIAS\UI\Component\Input\Container\Form\Form $form = null): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -345,7 +345,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function editLegacy(?ilPropertyFormGUI $a_form = null): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -571,7 +571,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function update(): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -631,7 +631,7 @@ final class ilObjCronGUI extends ilObjectGUI
     #[\Deprecated('Will be removed without any alternative, KS/UI forms will be expected', since: '12.0')]
     public function updateLegacy(): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -678,7 +678,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function confirmedRun(): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -704,7 +704,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function confirmedActivate(): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -731,7 +731,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function confirmedDeactivate(): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -758,7 +758,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     public function confirmedReset(): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -800,7 +800,7 @@ final class ilObjCronGUI extends ilObjectGUI
 
     protected function confirm(string $a_action): void
     {
-        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+        if (!$this->rbac->system()->checkAccess('write', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
