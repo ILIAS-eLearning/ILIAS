@@ -223,7 +223,7 @@ class AchieveCommandTest extends TestCase
         $agent
             ->expects($this->once())
             ->method("getNamedObjectives")
-            ->will($this->returnCallback(function ($config) use (&$seen_config, $objective) {
+            ->willReturnCallback(function ($config) use (&$seen_config, $objective) {
                 $seen_config = $config;
                 return [
                     "my.objective" => new Setup\ObjectiveConstructor(
@@ -233,7 +233,7 @@ class AchieveCommandTest extends TestCase
                         }
                     )
                 ];
-            }));
+            });
 
         $objective
             ->expects($this->once())

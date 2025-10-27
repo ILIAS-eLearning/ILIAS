@@ -360,8 +360,6 @@ class Reader
         return $mock_builder
             ->disableOriginalConstructor()
             ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
             ->getMock();
     }
 }

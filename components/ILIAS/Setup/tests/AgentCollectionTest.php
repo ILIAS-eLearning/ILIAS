@@ -473,10 +473,10 @@ class AgentCollectionTest extends TestCase
         $seen_config = null;
         $agent
             ->method("getNamedObjectives")
-            ->will($this->returnCallback(function ($config) use (&$seen_config) {
+            ->willReturnCallback(function ($config) use (&$seen_config) {
                 $seen_config = $config;
                 return [];
-            }));
+            });
 
         $collection = new Setup\AgentCollection(
             $refinery,

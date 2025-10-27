@@ -52,9 +52,9 @@ class BuildCommandTest extends TestCase
         $objective
             ->expects($this->once())
             ->method("achieve")
-            ->will($this->returnCallback(function (Setup\Environment $e) {
+            ->willReturnCallback(function (Setup\Environment $e) {
                 return $e;
-            }));
+            });
 
         $objective
             ->expects($this->once())

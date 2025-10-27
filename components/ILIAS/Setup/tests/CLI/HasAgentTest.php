@@ -79,10 +79,10 @@ class HasAgentTest extends TestCase
 
         $ii
             ->method("getOption")
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 ["no-legacy-plugins", true],
                 ["skip-legacy-plugin", null]
-            ]));
+            ]);
 
         $this->agent_finder
             ->expects($this->once())
@@ -107,11 +107,11 @@ class HasAgentTest extends TestCase
 
         $ii
             ->method("getOption")
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 ["no-legacy-plugins", null],
                 ["legacy-plugin", "foobar"],
                 ["skip-legacy-plugin", null]
-            ]));
+            ]);
 
         $this->agent_finder
             ->expects($this->once())
