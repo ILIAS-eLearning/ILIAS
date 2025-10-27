@@ -337,7 +337,12 @@ abstract class ilPlugin
 
     protected function buildLanguageHandler(): ilPluginLanguage
     {
-        return new ilPluginLanguage($this->getPluginInfo());
+        $plugin_info = $this->getPluginInfo();
+        $component = $plugin_info->getComponent();
+        $slot = $plugin_info->getPluginSlot();
+        $prefix = $component->getId() . "_" . $slot->getId() . "_" . $plugin_info->getId();
+        $path = $plugin_info->getPath() . "/lang";
+        return new ilPluginLanguage($prefix, $path);
     }
 
     /**

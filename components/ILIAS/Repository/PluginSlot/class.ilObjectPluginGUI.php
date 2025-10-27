@@ -24,12 +24,11 @@ use ILIAS\Repository\PluginSlot\PluginSlotGUIRequest;
  */
 abstract class ilObjectPluginGUI extends ilObject2GUI
 {
-    protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
     protected ?ilPlugin $plugin = null;
     protected PluginSlotGUIRequest $slot_request;
-    protected ilComponentFactory $component_factory;
+    protected \ILIAS\Repository\AdditionalRepositoryObjects $plugin_repository;
 
     public function __construct(
         int $a_ref_id = 0,
@@ -53,8 +52,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $this->tabs = $DIC->tabs();
         $this->locator = $DIC["ilLocator"];
         $this->user = $DIC->user();
-        $this->component_factory = $DIC["component.factory"];
-        $this->component_repository = $DIC["component.repository"];
+        $this->plugin_repository = $DIC['repository.objects'];
+
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
         $this->plugin = $this->getPlugin();
     }
@@ -204,7 +203,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     protected function getPlugin(): ilPlugin
     {
         if (!$this->plugin) {
-            $this->plugin = $this->component_factory->getPlugin($this->getType());
+            $this->plugin = $this->plugin_repository->get($this->getType());
         }
         return $this->plugin;
     }
@@ -412,9 +411,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     protected function supportsExport(): bool
     {
-        $component_repository = $this->component_repository;
-
-        return $component_repository->getPluginSlotById("robj")->getPluginByName($this->getPlugin()->getPluginName())->supportsExport();
+        return $this->plugin->supportsExport();
     }
 
     protected function lookupParentTitleInCreationMode(): string

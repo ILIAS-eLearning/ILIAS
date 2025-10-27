@@ -21,7 +21,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-abstract class ilRepositoryObjectPlugin extends ilPlugin
+abstract class ilRepositoryObjectPlugin extends \ILIAS\Repository\RepositoryObject
 {
     protected ilLanguage $lng;
 
@@ -48,8 +48,9 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         }
 
         $component_repository = $DIC["component.repository"];
+        $plugin_repository = $DIC['repository.objects'];
 
-        $plugin = $component_repository->getPluginByName($a_pname);
+        $plugin = $plugin_repository->getPluginByName($a_pname);
         $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
 
         $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
@@ -58,34 +59,22 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         if (is_int(strpos($img, "Customizing"))) {
             return $img;
         }
-
+        //throw new \Exception('stop');
         $d = $plugin->getPath();
         return $d . "/templates/images/" . $a_img;
     }
 
-
-
     public static function _getIcon(string $a_type): string
     {
         global $DIC;
-        $component_repository = $DIC["component.repository"];
+        $plugin_repository = $DIC['repository.objects'];
         return self::_getImagePath(
             ilComponentInfo::TYPES[0],
             "Repository",
             "robj",
-            $component_repository->getPluginById($a_type)->getName(),
+            $plugin_repository->get($a_type)->getName(),
             "icon_" . $a_type . ".svg"
         );
-    }
-
-    public static function _getName(string $a_id): string
-    {
-        global $DIC;
-        $component_repository = $DIC["component.repository"];
-        if (!$component_repository->hasPluginId($a_id)) {
-            return "";
-        }
-        return $component_repository->getPluginById($a_id)->getName();
     }
 
     protected function beforeActivation(): bool
@@ -213,34 +202,4 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         return false;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getParentTypes(): array
-    {
-        $par_types = ["root", "cat", "crs", "grp", "fold"];
-        return $par_types;
-    }
-
-    /**
-     * decides if this repository plugin can be copied
-     */
-    public function allowCopy(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Decide if this repository plugin uses OrgUnit Permissions
-     */
-    public function useOrguPermissions(): bool
-    {
-        return false;
-    }
-
-    public function getPrefix(): string
-    {
-        $lh = $this->getLanguageHandler();
-        return $lh->getPrefix();
-    }
 }

@@ -24,28 +24,26 @@
 abstract class ilObjectPlugin extends ilObject2
 {
     protected ?ilPlugin $plugin = null;
-    protected ilComponentFactory $component_factory;
+    protected \ILIAS\Repository\AdditionalRepositoryObjects $plugin_repository;
 
     public function __construct(int $a_ref_id = 0)
     {
         global $DIC;
-        $this->component_factory = $DIC["component.factory"];
         $this->initType();
         parent::__construct($a_ref_id, true);
+        $this->plugin_repository = $DIC['repository.objects'];
         $this->plugin = $this->getPlugin();
     }
-
 
     /**
      * Return either a repoObject plugin or a orgunit extension plugin or null if the type is not a plugin.
      * @return null | ilRepositoryObjectPlugin | ilOrgUnitExtensionPlugin
      */
-    public static function getPluginObjectByType(string $type): ?ilPlugin
+    public static function getPluginObjectByType(string $type): ?ILIAS\Repository\RepositoryObject
     {
         global $DIC;
-        $component_factory = $DIC["component.factory"];
         try {
-            return $component_factory->getPlugin($type);
+            return $DIC['repository.objects']->get($type);
         } catch (InvalidArgumentException $e) {
             ilLoggerFactory::getLogger("obj")->log("There was an error while instantiating repo plugin obj of type: $type. Error: $e");
         }
@@ -60,14 +58,10 @@ abstract class ilObjectPlugin extends ilObject2
         return $pl->txt($lang_var);
     }
 
-    /**
-     * Get plugin object
-     * @throws ilPluginException
-     */
     protected function getPlugin(): ilPlugin
     {
         if (!$this->plugin) {
-            $this->plugin = $this->component_factory->getPlugin($this->getType());
+            $this->plugin = $this->plugin_repository->get($this->getType());
         }
         return $this->plugin;
     }

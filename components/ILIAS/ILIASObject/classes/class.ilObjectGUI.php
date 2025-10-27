@@ -2200,14 +2200,15 @@ class ilObjectGUI implements ImplementsCreationCallback
         array $obj_types_in_group,
         array $subtypes
     ): array {
+
         $add_new_items_content_array = [];
-        foreach ($obj_types_in_group as $type) {
+        foreach (array_values($obj_types_in_group) as $idx => $type) {
             if (!array_key_exists($type, $subtypes)) {
                 continue;
             }
             $subitem = $subtypes[$type];
             $this->ctrl->setParameterByClass($create_target_class, 'new_type', $type);
-            $add_new_items_content_array[$subitem['pos']] = new AddNewItemElement(
+            $add_new_items_content_array[$subitem['pos'] . '_' . $idx] = new AddNewItemElement(
                 AddNewItemElementTypes::Object,
                 $this->getTranslatedObjectTypeNameFromItemArray($subitem),
                 empty($subitem['plugin'])

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Repository\AdditionalRepositoryObjects;
+
 /**
 * parses the objects.xml
 * it handles the xml-description of all ilias objects
@@ -33,6 +35,7 @@ class ilObjectDefinition
 
     protected ilSetting $settings;
     protected ilComponentRepository $component_repository;
+    protected readonly AdditionalRepositoryObjects $plugin_repository;
 
     protected array $obj_data = [];
     protected array $obj_group = [];
@@ -47,6 +50,7 @@ class ilObjectDefinition
         global $DIC;
 
         $this->component_repository = $DIC["component.repository"];
+        $this->plugin_repository = $DIC["repository.objects"];
         $this->settings = $DIC->settings();
         $this->readDefinitionData();
     }
@@ -110,9 +114,8 @@ class ilObjectDefinition
     protected static function getGroupedPluginObjectTypes(array $grouped_obj, string $slotId): array
     {
         global $DIC;
+        $plugins = $DIC['repository.objects']->getAll();
 
-        $component_repository = $DIC["component.repository"];
-        $plugins = $component_repository->getPluginSlotById($slotId)->getActivePlugins();
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             if (!isset($grouped_obj[$pl_id])) {
@@ -872,17 +875,14 @@ class ilObjectDefinition
      */
     protected function parsePluginData(string $slotId, bool $isInAdministration): void
     {
-        $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
-        foreach ($plugins as $plugin) {
+        foreach ($this->plugin_repository->getAll() as $plugin) {
             $pl_id = $plugin->getId();
             if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
                 $loc = $plugin->getPath() . "/classes";
                 // The plugin_id is the same as the type_id in repository object plugins.
-                $pl = ilObjectPlugin::getPluginObjectByType($pl_id);
-
                 $this->obj_data[$pl_id] = [
                     "name" => $pl_id,
-                    "class_name" => $pl->getPluginName(),
+                    "class_name" => $plugin->getName(),
                     "plugin" => "1",
                     "location" => $loc,
                     "checkbox" => "1",
@@ -891,7 +891,8 @@ class ilObjectDefinition
                     "translate" => "0",
                     "devmode" => "0",
                     "allow_link" => "1",
-                    "allow_copy" => $pl->allowCopy() ? '1' : '0',
+                    "allow_copy" => $plugin->allowCopy() ? '1' : '0',
+                    "allow_copy" => '0',
                     "rbac" => "1",
                     "group" => null,
                     "system" => "0",
@@ -902,10 +903,10 @@ class ilObjectDefinition
                     "sideblock" => "0",
                     'export' => $plugin->supportsExport(),
                     'offline_handling' => '0',
-                    'orgunit_permissions' => $pl->useOrguPermissions() ? '1' : '0'
+                    'orgunit_permissions' => $plugin->useOrguPermissions() ? '1' : '0'
                 ];
 
-                $parent_types = $pl->getParentTypes();
+                $parent_types = $plugin->getParentTypes();
                 foreach ($parent_types as $parent_type) {
                     $this->obj_data[$parent_type]["subobjects"][$pl_id] = [
                         "name" => $pl_id,

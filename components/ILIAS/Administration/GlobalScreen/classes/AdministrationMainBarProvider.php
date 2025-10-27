@@ -75,7 +75,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&admin_mode=repository";
                     } else {
                         $identification = $this->if->identifier("mm_adm_" . $titems[$group_item]["type"]);
-                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&cmd=jump";
+                        $action = $titems[$group_item]["href"] ?? "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&cmd=jump";
                     }
 
                     $links[] = $this->globalScreen()
@@ -230,6 +230,46 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "legal_regulations" =>
                 array("impr" ,"tos", "accs", 'dpro')
         );
+
+        $additional_repo_objs = $this->dic['repository.objects']->getAll();
+        foreach ($additional_repo_objs as $aro) {
+            $config_gui_classname = $aro->getConfigGUIClassName();
+            if (class_exists($config_gui_classname)) {
+
+                $ctrl = $this->dic['ilCtrl'];
+                $gui = new $config_gui_classname();
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_PLUGIN_ID, $aro->getId());
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_CTYPE, $aro->getId());
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_CNAME, $aro->getName());
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_SLOT_ID, 'robj');
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_PLUGIN_NAME, $aro->getName());
+                $ctrl->setParameter(
+                    $gui,
+                    \ilObjComponentSettingsGUI::P_BACK,
+                    urlencode($this->dic->http()->request()->getUri()->__toString())
+                );
+                $href = $ctrl->getLinkTargetByClass(
+                    [\ilAdministrationGUI::class, $aro->getConfigGUIClassName()],
+                    \ilObjComponentSettingsGUI::CMD_CONFIGURE
+                );
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_PLUGIN_ID, null);
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_CTYPE, null);
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_CNAME, null);
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_SLOT_ID, null);
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_PLUGIN_NAME, null);
+                $ctrl->setParameter($gui, \ilObjComponentSettingsGUI::P_BACK, null);
+
+                $id = $aro->getId();
+                $titems[$id] = [
+                    'type' => $id,
+                    'title' => $aro->getName(),
+                    'ref_id' => -1,
+                    'href' => $href
+                ];
+                $layout['repository_and_objects'][] = $id;
+            }
+        }
+
         $groups = [];
         // now get all items and groups that are accessible
         foreach ($layout as $group => $entries) {

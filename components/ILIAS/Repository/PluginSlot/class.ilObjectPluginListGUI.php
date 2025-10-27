@@ -25,14 +25,13 @@
  */
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
-    protected ilComponentFactory $component_factory;
+    protected ILIAS\Repository\AdditionalRepositoryObjects $plugin_repository;
     protected ?ilRepositoryObjectPlugin $plugin = null;
 
     public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
-
-        $this->component_factory = $DIC["component.factory"];
+        $this->plugin_repository = $DIC['repository.objects'];
 
         parent::__construct($a_context);
 
@@ -63,7 +62,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     protected function getPlugin(): ?ilRepositoryObjectPlugin
     {
         if (!$this->plugin) {
-            $this->plugin = $this->component_factory->getPlugin($this->getType());
+            $this->plugin = $this->plugin_repository->get($this->getType());
         }
         return $this->plugin;
     }
