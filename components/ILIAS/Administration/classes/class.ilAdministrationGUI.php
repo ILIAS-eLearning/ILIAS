@@ -70,8 +70,8 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     private readonly ilGlobalTemplateInterface $tpl;
     private readonly ilTree $tree;
     private readonly ilAccessHandler $access;
-    private ilRbacReview $rbac_review;
-    private ilObjUser $user;
+    private readonly ilRbacReview $rbac_review;
+    private readonly ilObjUser $user;
     private readonly ilCtrl $ctrl;
     private readonly AdminGUIRequest $request;
     private readonly GlobalScreen $global_screen;
