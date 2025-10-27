@@ -248,6 +248,21 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END Badges)
 
+[//]: # (BEGIN Benchmark)
+
+* **Benchmark**
+  * Authority to Sign off on Conceptual Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+  * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    , [smeyer](https://docu.ilias.de/go/usr/191)
+  * Authority to Curate Test Cases: [fschmid](https://docu.ilias.de/go/usr/21087)
+  * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
+  * Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
+  * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
+  * Assignee for Security Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
+  * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
+
+[//]: # (END Benchmark)
+
 [//]: # (BEGIN BibliographicListItem)
 
 * **Bibliographic List Item**
