@@ -34,16 +34,15 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\Mark;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Manual\TestScoring;
+use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\Test\Settings\GlobalSettings\Repository as GlobalSettingsRepository;
 use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
-use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Test\Settings\MainSettings\RedirectionModes;
 use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
 use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
-use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -130,6 +129,7 @@ class ilObjTest extends ilObject
     protected ?MainSettingsRepository $main_settings_repository = null;
     protected ?ScoreSettings $score_settings = null;
     protected ?ScoreSettingsRepository $score_settings_repository = null;
+    protected SettingsFactory $settings_factory;
 
     protected TestLogger $logger;
     protected TestLogViewer $log_viewer;
@@ -175,6 +175,7 @@ class ilObjTest extends ilObject
         $this->log_viewer = $local_dic['logging.viewer'];
         $this->global_settings_repo = $local_dic['settings.global.repository'];
         $this->marks_repository = $local_dic['marks.repository'];
+        $this->settings_factory = $local_dic['settings.factory'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
         $this->participant_repository = $local_dic['participant.repository'];
@@ -477,7 +478,10 @@ class ilObjTest extends ilObject
 
             $this->test_id = $next_id;
 
-            $this->getMainSettingsRepository()->createFor($this->test_id);
+            $this->getMainSettingsRepository()->store(
+                $this->settings_factory->createDefaultMainSettings(),
+                $this->getTestId()
+            );
         } else {
             if ($this->evalTotalPersons() > 0) {
                 // reset the finished status of participants if the nr of test passes did change
@@ -3980,8 +3984,7 @@ class ilObjTest extends ilObject
         $new_obj->saveToDb();
         $new_obj->addToNewsOnOnline(false, $new_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline());
 
-        $new_settings_id = $this->getMainSettingsRepository()->createFor($new_obj->getTestId());
-        $new_settings = $this->getMainSettings()
+        $new_main_settings = $this->getMainSettings()
             ->withIntroductionSettings(
                 $this->getMainSettings()->getIntroductionSettings()->withIntroductionPageId(
                     $this->cloneIntroduction()
@@ -3990,11 +3993,11 @@ class ilObjTest extends ilObject
                 $this->getMainSettings()->getFinishingSettings()->withConcludingRemarksPageId(
                     $this->cloneConcludingRemarks()
                 )
-            )->withId($new_settings_id);
+            );
 
-        $this->getMainSettingsRepository()->store($new_settings);
+        $new_main_settings = $this->getMainSettingsRepository()->store($new_main_settings, $new_obj->getTestId());
         $this->getScoreSettingsRepository()->store(
-            $this->getScoreSettings()->withId($new_settings_id)
+            $this->getScoreSettings()->withId($new_main_settings->getId())
         );
         $this->marks_repository->storeMarkSchema(
             $this->getMarkSchema()->withTestId($new_obj->getTestId())

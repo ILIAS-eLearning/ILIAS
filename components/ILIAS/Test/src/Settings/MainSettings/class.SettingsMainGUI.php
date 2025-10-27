@@ -640,7 +640,6 @@ class SettingsMainGUI extends TestSettingsGUI
     private function getFinishingSettingsForStorage(array $section): SettingsFinishing
     {
         $redirect_after_finish = $section['redirect_after_finish'];
-        $finish_notification = $section['finish_notification'];
         return $this->main_settings->getFinishingSettings()
             ->withShowAnswerOverview($section['show_answer_overview'])
             ->withConcludingRemarksEnabled($section['show_concluding_remarks'])

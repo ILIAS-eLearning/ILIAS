@@ -150,26 +150,8 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
         return $settings;
     }
 
-    public function createFor(int $test_id): int
+    public function store(MainSettings $settings, ?int $test_id = null): MainSettings
     {
-        $settings_id = $this->db->nextId('tst_test_settings');
-        $this->db->insert('tst_test_settings', ['id' => [\ilDBConstants::T_INTEGER, $settings_id]]);
-
-        $this->db->update(
-            'tst_tests',
-            ['settings_id' => [\ilDBConstants::T_INTEGER, $settings_id]],
-            ['test_id' => [\ilDBConstants::T_INTEGER, $test_id]]
-        );
-
-        return $settings_id;
-    }
-
-    public function store(MainSettings $settings): void
-    {
-        if ($settings->getId() === 0) {
-            throw new \Exception('Cannot store settings without ID');
-        }
-
         $values = array_merge(
             $settings->getGeneralSettings()->toStorage(),
             $settings->getIntroductionSettings()->toStorage(),
@@ -181,7 +163,23 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             $settings->getAdditionalSettings()->toStorage()
         );
 
-        $this->db->update('tst_test_settings', $values, ['id' => [\ilDBConstants::T_INTEGER, $settings->getId()]]);
+        if ($settings->getId() === 0) {
+            $settings = $settings->withId($this->db->nextId('tst_test_settings'));
+            $values['id'] = [\ilDBConstants::T_INTEGER, $settings->getId()];
+
+            $this->db->insert('tst_test_settings', $values);
+            $this->db->update(
+                'tst_tests',
+                ['settings_id' => [\ilDBConstants::T_INTEGER, $settings->getId()]],
+                ['test_id' => [\ilDBConstants::T_INTEGER, $test_id]]
+            );
+        } else {
+            $this->db->update(
+                'tst_test_settings',
+                $values,
+                ['id' => [\ilDBConstants::T_INTEGER, $settings->getId()]]
+            );
+        }
 
         unset($this->settings_instances[$settings->getId()]);
         $this->settings_by_obj_fi = array_filter(
@@ -192,5 +190,7 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             $this->settings_by_test_fi,
             static fn(int $value): bool => $value !== $settings->getId(),
         );
+
+        return $settings;
     }
 }

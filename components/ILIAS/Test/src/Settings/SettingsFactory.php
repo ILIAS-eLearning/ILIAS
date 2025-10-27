@@ -115,6 +115,33 @@ class SettingsFactory
         );
     }
 
+    public function createDefaultMainSettings(): MainSettings
+    {
+        return new MainSettings(
+            0,
+            new SettingsGeneral(),
+            new SettingsIntroduction(),
+            new SettingsAccess(),
+            new SettingsTestBehaviour(),
+            new SettingsQuestionBehaviour(
+                0,
+                false,
+                0,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ),
+            new SettingsParticipantFunctionality(),
+            new SettingsFinishing(),
+            new SettingsAdditional()
+        );
+    }
+
     public function createScoreSettingsFromDBRow(array $row): ScoreSettings
     {
         return new ScoreSettings(
