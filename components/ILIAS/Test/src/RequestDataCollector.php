@@ -25,6 +25,7 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
 use ILIAS\TestQuestionPool\RequestDataCollectorInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RequestDataCollector implements RequestDataCollectorInterface
 {
@@ -39,10 +40,40 @@ class RequestDataCollector implements RequestDataCollectorInterface
         $this->initRequest($http, $refinery);
     }
 
+    public function getRequest(): ServerRequestInterface
+    {
+        return $this->http->request();
+    }
+
+    public function isset(string $key): bool
+    {
+        return $this->raw($key) !== null;
+    }
+
+    public function hasRefId(): bool
+    {
+        return $this->raw('ref_id') !== null;
+    }
+
+    public function getRefId(): int
+    {
+        return $this->int("ref_id");
+    }
+
     /** @return string[] */
     public function getIds(): array
     {
         return $this->strArray("id");
+    }
+
+    public function hasQuestionId(): bool
+    {
+        return $this->raw('q_id') !== null;
+    }
+
+    public function getQuestionId(): int
+    {
+        return $this->int('q_id');
     }
 
     public function getQuestionIds(): array
@@ -95,9 +126,30 @@ class RequestDataCollector implements RequestDataCollectorInterface
         );
     }
 
+    /**
+     * @return mixed|null
+     */
+    public function raw(string $key): mixed
+    {
+        return $this->get($key, $this->refinery->identity());
+    }
+
     public function strVal(string $key): string
     {
         return $this->str($key);
+    }
+
+    public function getParsedBody(): ?array
+    {
+        return $this->http->request()->getParsedBody();
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getPostKeys(): array
+    {
+        return $this->http->wrapper()->post()->keys();
     }
 
     public function isPostRequest(): bool
@@ -129,6 +181,27 @@ class RequestDataCollector implements RequestDataCollectorInterface
                 $this->refinery->kindlyTo()->listOf($transformation),
                 $this->refinery->always([])
             ])
+        );
+    }
+
+    /**
+     * @return array|string<int>
+     */
+    public function getMultiSelectionIds(string $key): array|string
+    {
+        $query = $this->http->wrapper()->query();
+
+        if (!$query->has($key)) {
+            return [];
+        }
+
+        return $query->retrieve(
+            $key,
+            $this->refinery->custom()->transformation(
+                static fn(array|string $value): array|string => $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS'
+                    ? 'ALL_OBJECTS'
+                    : array_map('intval', $value)
+            )
         );
     }
 }

@@ -41,13 +41,6 @@ interface RequestDataCollectorInterface
 
     public function raw(string $key): mixed;
 
-    public function int(string $key): int;
-
-    public function float(string $key): float;
-
-    public function string(string $key): string;
-
-    public function bool(string $key): ?bool;
 
     public function getParsedBody(): object|array|null;
 
@@ -56,22 +49,6 @@ interface RequestDataCollectorInterface
      */
     public function getPostKeys(): array;
 
-    /**
-     * @return array<string>
-     */
-    public function strArray(string $key, int $depth = 1): array;
-
-    /**
-     * @return array<float>
-     */
-    public function floatArray(string $key, int $depth = 1): array;
-
-    /**
-     * @return array<int>
-     */
-    public function intArray(string $key, int $depth = 1): array;
-
-    public function rawArray(string $key, int $depth = 1): array;
 
     /**
      * @return array|string<int>

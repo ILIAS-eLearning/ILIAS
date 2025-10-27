@@ -22,9 +22,6 @@ namespace ILIAS\Repository;
 
 use ILIAS\HTTP;
 use ILIAS\Refinery;
-use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery\Transformation;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base gui request wrapper. This class processes all
@@ -60,20 +57,39 @@ trait BaseGUIRequest
         $this->passed_query_params = $passed_query_params;
     }
 
-    private function retrieveArray(string $key, int $depth, Transformation $transformation): array
+    // get integer parameter kindly
+    public function int(string $key): int
     {
-        $chain = $this->refinery->kindlyTo()->dictOf($transformation);
-        for ($i = 1; $i < $depth; $i++) {
-            $chain = $this->refinery->kindlyTo()->dictOf($chain);
+        if ($this->isArray($key) || $this->str($key) === "") {
+            return 0;
         }
+        $t = $this->refinery->kindlyTo()->int();
+        return (int) ($this->get($key, $t) ?? 0);
+    }
 
-        return $this->get(
-            $key,
-            $this->refinery->byTrying([
-                $chain,
-                $this->refinery->always([])
-            ])
-        ) ?? [];
+    // get integer array kindly
+    protected function intArray(string $key): array
+    {
+        if (!$this->isArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to int
+                return array_column(
+                    array_map(
+                        static function ($k, $v): array {
+                            return [$k, (int) $v];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->get($key, $t) ?? []);
     }
 
     protected function strip(string $input): string
@@ -86,11 +102,45 @@ trait BaseGUIRequest
         return $str;
     }
 
+    // get string parameter kindly
     protected function str(string $key): string
     {
-        return $this->string($key);
+        if ($this->isArray($key)) {
+            return "";
+        }
+        $t = $this->refinery->kindlyTo()->string();
+        return $this->strip((string) ($this->get($key, $t) ?? ""));
     }
 
+    // get string array kindly
+    protected function strArray(string $key): array
+    {
+        if (!$this->isArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to string
+                return array_column(
+                    array_map(
+                        function ($k, $v): array {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
+                            return [$k, $this->strip((string) $v)];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->get($key, $t) ?? []);
+    }
+
+    // get string array kindly
     protected function arrayArray(string $key): array
     {
         if (!$this->isArray($key)) {
@@ -140,6 +190,17 @@ trait BaseGUIRequest
     }
 
     /**
+     * @return mixed|null
+     */
+    protected function raw(string $key): mixed
+    {
+        $no_transform = $this->refinery->identity();
+        return $this->get($key, $no_transform);
+    }
+
+
+
+    /**
      * Get passed parameter, if not data passed, get key from http request
      * @param string                  $key
      * @param Refinery\Transformation $t
@@ -163,124 +224,5 @@ trait BaseGUIRequest
             return $t->transform($this->passed_query_params[$key]);
         }
         return null;
-    }
-
-    /**
-     * @return mixed|null
-     */
-    public function raw(string $key): mixed
-    {
-        return $this->get($key, $this->refinery->identity());
-    }
-
-    public function int(string $key): int
-    {
-        try {
-            return $this->get($key, $this->refinery->kindlyTo()->int()) ?? 0;
-        } catch (ConstraintViolationException) {
-            return 0;
-        }
-    }
-
-    public function float(string $key): float
-    {
-        try {
-            return $this->get($key, $this->refinery->kindlyTo()->float()) ?? 0.0;
-        } catch (ConstraintViolationException) {
-            return 0.0;
-        }
-    }
-
-    public function string(string $key): string
-    {
-        return $this->get($key, $this->refinery->kindlyTo()->string()) ?? '';
-    }
-
-    public function bool(string $key): ?bool
-    {
-        return $this->get($key, $this->refinery->kindlyTo()->bool());
-    }
-
-    public function strArray(string $key, int $depth = 1): array
-    {
-        return $this->retrieveArray($key, $depth, $this->refinery->kindlyTo()->string());
-    }
-
-    public function floatArray(string $key, int $depth = 1): array
-    {
-        return $this->retrieveArray($key, $depth, $this->refinery->kindlyTo()->float());
-    }
-
-    public function intArray(string $key, int $depth = 1): array
-    {
-        return $this->retrieveArray($key, $depth, $this->refinery->kindlyTo()->int());
-    }
-
-    public function rawArray(string $key, int $depth = 1): array
-    {
-        return $this->retrieveArray($key, $depth, $this->refinery->identity());
-    }
-
-    public function getRequest(): ServerRequestInterface
-    {
-        return $this->http->request();
-    }
-
-    public function isset(string $key): bool
-    {
-        return $this->raw($key) !== null;
-    }
-
-    public function hasRefId(): bool
-    {
-        return $this->raw('ref_id') !== null;
-    }
-
-    public function getRefId(): int
-    {
-        return $this->int('ref_id');
-    }
-
-    public function hasQuestionId(): bool
-    {
-        return $this->raw('q_id') !== null;
-    }
-
-    public function getQuestionId(): int
-    {
-        return $this->int('q_id');
-    }
-
-    public function getIds(): array
-    {
-        return $this->strArray('id');
-    }
-
-    public function getParsedBody(): object|array|null
-    {
-        return $this->http->request()->getParsedBody();
-    }
-
-    public function getPostKeys(): array
-    {
-        return $this->http->wrapper()->post()->keys();
-    }
-
-    public function getMultiSelectionIds(string $key): array|string
-    {
-        $query = $this->http->wrapper()->query();
-
-        if (!$query->has($key)) {
-            return [];
-        }
-
-        return $query->retrieve(
-            $key,
-            $this->refinery->custom()->transformation(
-                static fn(array|string $value): array|string => $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS'
-                    ? 'ALL_OBJECTS'
-                    : array_map('intval', $value)
-            )
-        );
     }
 }

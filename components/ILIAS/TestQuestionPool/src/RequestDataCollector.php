@@ -20,10 +20,13 @@ namespace ILIAS\TestQuestionPool;
 
 use GuzzleHttp\Psr7\UploadedFile;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
+use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\HTTP\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\FileUpload;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RequestDataCollector implements RequestDataCollectorInterface
 {
@@ -35,6 +38,11 @@ class RequestDataCollector implements RequestDataCollectorInterface
         protected readonly FileUpload $upload
     ) {
         $this->initRequest($http, $refinery);
+    }
+
+    public function getRequest(): ServerRequestInterface
+    {
+        return $this->http->request();
     }
 
     /**
@@ -89,6 +97,71 @@ class RequestDataCollector implements RequestDataCollectorInterface
         return $this->upload;
     }
 
+    public function isset(string $key): bool
+    {
+        return $this->raw($key) !== null;
+    }
+
+    public function hasRefId(): int
+    {
+        return $this->raw('ref_id') !== null;
+    }
+
+    public function getRefId(): int
+    {
+        return $this->int('ref_id');
+    }
+
+    public function hasQuestionId(): bool
+    {
+        return $this->raw('q_id') !== null;
+    }
+
+    public function getQuestionId(): int
+    {
+        return $this->int('q_id');
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getIds(): array
+    {
+        return $this->strArray('id');
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function raw(string $key): mixed
+    {
+        return $this->get($key, $this->refinery->identity());
+    }
+
+    public function float(string $key): float
+    {
+        try {
+            return $this->get($key, $this->refinery->kindlyTo()->float()) ?? 0.0;
+        } catch (ConstraintViolationException $e) {
+            return 0.0;
+        }
+    }
+
+    public function string(string $key): string
+    {
+        return $this->get($key, $this->refinery->kindlyTo()->string()) ?? '';
+    }
+
+    public function bool(string $key): ?bool
+    {
+        return $this->get($key, $this->refinery->kindlyTo()->bool());
+    }
+
+    public function getParsedBody(): object|array|null
+    {
+        return $this->http->request()->getParsedBody();
+    }
+
     /**
      * @return array<int>
      */
@@ -126,6 +199,11 @@ class RequestDataCollector implements RequestDataCollectorInterface
         );
     }
 
+    public function getPostKeys(): array
+    {
+        return $this->http->wrapper()->post()->keys();
+    }
+
     public function getCmdIndex(string $key): int|string|null
     {
         $cmd = $this->rawArray('cmd');
@@ -133,5 +211,74 @@ class RequestDataCollector implements RequestDataCollectorInterface
             return null;
         }
         return key($cmd[$key]);
+    }
+
+    /**
+     * @return array<string|array>
+     */
+    public function strArray(string $key, int $depth = 1): array
+    {
+        return $this->retrieveArray($key, $depth, $this->refinery->kindlyTo()->string());
+    }
+
+    /**
+     * @return array<float>
+     */
+    public function floatArray(string $key): array
+    {
+        return $this->retrieveArray($key, 1, $this->refinery->kindlyTo()->float());
+    }
+
+    /**
+     * @return array<int>
+     */
+    public function intArray(string $key): array
+    {
+        return $this->retrieveArray($key, 1, $this->refinery->kindlyTo()->int());
+    }
+
+    /**
+     * @return array<mixed|array>
+     */
+    public function rawArray(string $key): array
+    {
+        return $this->retrieveArray($key, 1, $this->refinery->identity());
+    }
+
+    /**
+     * @return array<int>|string
+     */
+    public function getMultiSelectionIds(string $key): array|string
+    {
+        $query = $this->http->wrapper()->query();
+
+        if (!$query->has($key)) {
+            return [];
+        }
+
+        return $query->retrieve(
+            $key,
+            $this->refinery->custom()->transformation(
+                static fn(array|string $value): array|string => $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS'
+                    ? 'ALL_OBJECTS'
+                    : array_map('intval', $value)
+            )
+        );
+    }
+
+    private function retrieveArray(string $key, int $depth, Transformation $transformation): array
+    {
+        $chain = $this->refinery->kindlyTo()->dictOf($transformation);
+        for ($i = 1; $i < $depth; $i++) {
+            $chain = $this->refinery->kindlyTo()->dictOf($chain);
+        }
+
+        return $this->get(
+            $key,
+            $this->refinery->byTrying([
+                $chain,
+                $this->refinery->always([])
+            ])
+        ) ?? [];
     }
 }
