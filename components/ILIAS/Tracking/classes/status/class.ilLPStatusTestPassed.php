@@ -94,7 +94,7 @@ class ilLPStatusTestPassed extends ilLPStatus
                 "sequences"
             ) . ", tst_active.last_finished_pass,
 				CASE WHEN
-					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
+					(tst_test_settings.nr_of_tries - 1) = tst_active.last_finished_pass
 				THEN '1'
 				ELSE '0'
 				END is_last_pass
@@ -103,6 +103,8 @@ class ilLPStatusTestPassed extends ilLPStatus
 			ON tst_sequence.active_fi = tst_active.active_id
 			LEFT JOIN tst_tests
 			ON tst_tests.test_id = tst_active.test_fi
+			LEFT JOIN tst_test_settings
+			ON tst_test_settings.id = tst_tests.settings_id
 			WHERE tst_active.user_fi = {$this->db->quote($a_usr_id, "integer")}
 			AND tst_active.test_fi = {$this->db->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), ilDBConstants::T_INTEGER)}
 			GROUP BY tst_active.active_id, tst_active.tries, is_last_pass

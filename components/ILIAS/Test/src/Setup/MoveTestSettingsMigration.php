@@ -52,7 +52,7 @@ class MoveTestSettingsMigration implements Migration
 
     public function step(Environment $environment): void
     {
-        $columns = implode(',', array_keys(TestSettingsUpdateSteps::SETTINGS_COLUMNS));
+        $columns = implode(',', array_keys(self::SETTINGS_COLUMNS));
         $row = $this->db->fetchAssoc(
             $this->db->query("SELECT test_id, {$columns} FROM tst_tests WHERE settings_id IS NULL LIMIT 1")
         );
