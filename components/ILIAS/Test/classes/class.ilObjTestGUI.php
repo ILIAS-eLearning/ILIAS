@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
 use ILIAS\Test\Scoring\Marks\MarksRepository;
@@ -182,6 +183,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     protected DataFactory $data_factory;
     protected TaxonomyService $taxonomy;
     protected GUIFactory $gui_factory;
+    protected SkillUsageService $skill_usage_service;
 
     protected bool $create_question_mode;
 
@@ -211,6 +213,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $this->taxonomy = $DIC->taxonomy()->domain();
         $this->ui_service = $DIC->uiService();
         $this->content_style = $DIC->contentStyle();
+        $this->skill_usage_service = $DIC->skills()->usage();
 
         $local_dic = TestDIC::dic();
         $this->questionrepository = $local_dic['question.general_properties.repository'];
@@ -779,6 +782,12 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->getTestObject(),
                     $this->questionrepository,
                     $this->testrequest,
+                    $this->http,
+                    $this->toolbar,
+                    $this->skill_usage_service,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->tabs_gui,
                     $this->ref_id
                 );
                 $this->ctrl->forwardCommand($gui);

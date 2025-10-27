@@ -19,10 +19,9 @@
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\TestQuestionPool\QuestionPoolDIC;
-use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\RequestDataCollector as QuestionPoolRequestDataCollector;
+use ILIAS\Test\RequestDataCollector as TestRequestDataCollector;
 use ILIAS\Skill\Service\SkillUsageService;
-use ILIAS\TestQuestionPool\Skills\ilAssQuestionSkillUsagesGUI;
 use ILIAS\TestQuestionPool\Skills\SkillsByQuestionOverviewTable;
 use ILIAS\TestQuestionPool\Skills\EditSkillsOfQuestionTable;
 use ILIAS\TestQuestionPool\Skills\EditSkillsOfQuestionTableActions;
@@ -64,50 +63,26 @@ class ilAssQuestionSkillAssignmentsGUI
     private bool $assignment_editing_enabled;
     private ?string $assignment_configuration_hint_message = null;
 
-    /**
-     * @var array
-     */
-    private $questionOrderSequence;
-
-
-    private RequestDataCollector $request_data_collector;
-
-    private SkillUsageService $skillUsageService;
-
-    private UIFactory $ui_factory;
-
-    private UIRenderer $ui_renderer;
+    private array $questionOrderSequence;
 
     private DataFactory $data_factory;
 
-    private Refinery $refinery;
-
-    private HTTP $http;
-
-    private ilToolbarGUI $toolbar;
-
-    private ilTabsGUI $tabs;
-
     public function __construct(
-        private ilCtrl $ctrl,
-        private ilAccessHandler $access,
-        private ilGlobalTemplateInterface $tpl,
-        private ilLanguage $lng,
-        private ilDBInterface $db
+        private readonly ilCtrl $ctrl,
+        private readonly ilAccessHandler $access,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly ilLanguage $lng,
+        private readonly ilDBInterface $db,
+        private readonly QuestionPoolRequestDataCollector|TestRequestDataCollector $request_data_collector,
+        private readonly SkillUsageService $skill_usage_service,
+        private readonly UIFactory $ui_factory,
+        private readonly UIRenderer $ui_renderer,
+        private readonly Refinery $refinery,
+        private readonly HTTP $http,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly ilTabsGUI $tabs
     ) {
-
-        $local_dic = QuestionPoolDIC::dic();
-        $this->request_data_collector = $local_dic['request_data_collector'];
-
-        global $DIC;
-        $this->skillUsageService = $DIC->skills()->usage();
-        $this->ui_factory = $DIC['ui.factory'];
-        $this->ui_renderer = $DIC['ui.renderer'];
         $this->data_factory = new DataFactory();
-        $this->refinery = $DIC['refinery'];
-        $this->http = $DIC['http'];
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->tabs = $DIC['ilTabs'];
     }
 
     public function getQuestionOrderSequence(): ?array
@@ -282,7 +257,7 @@ class ilAssQuestionSkillAssignmentsGUI
                             $assignment->saveToDb();
 
                             // add skill usage
-                            $this->skillUsageService->addUsage($this->getQuestionContainerId(), $skillBaseId, $skillTrefId);
+                            $this->skill_usage_service->addUsage($this->getQuestionContainerId(), $skillBaseId, $skillTrefId);
                         }
                     }
                 }
@@ -333,7 +308,7 @@ class ilAssQuestionSkillAssignmentsGUI
                         $assignment->saveToDb();
 
                         // add skill usage
-                        $this->skillUsageService->addUsage($this->getQuestionContainerId(), $skillBaseId, $skillTrefId);
+                        $this->skill_usage_service->addUsage($this->getQuestionContainerId(), $skillBaseId, $skillTrefId);
                     }
 
                     $handledSkills[$skillId] = $skill;
@@ -349,7 +324,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
                 // remove skill usage
                 if (!$assignment->isSkillUsed()) {
-                    $this->skillUsageService->removeUsage(
+                    $this->skill_usage_service->removeUsage(
                         $assignment->getParentObjId(),
                         $assignment->getSkillBaseId(),
                         $assignment->getSkillTrefId()
@@ -474,7 +449,7 @@ class ilAssQuestionSkillAssignmentsGUI
             $assignment->saveToDb();
 
             // add skill usage
-            $this->skillUsageService->addUsage(
+            $this->skill_usage_service->addUsage(
                 $this->getQuestionContainerId(),
                 $this->request_data_collector->int('skill_base_id'),
                 $this->request_data_collector->int('skill_tref_id')
