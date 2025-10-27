@@ -79,7 +79,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
 
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.db_bench.html", "components/ILIAS/SystemFolder");
+        $this->setRowTemplate("tpl.db_bench.html", "components/ILIAS/Benchmark");
         $this->disable("footer");
         $this->setEnableTitle(true);
 
