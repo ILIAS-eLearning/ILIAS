@@ -333,30 +333,25 @@ class ilTestParticipantList implements Iterator
         return $this->getTestObj()->_getLastAccess($active_id);
     }
 
-    protected function buildFullname(ilTestParticipant $participant): string
+    public function buildFullname(ilTestParticipant $participant): string
     {
-        if ($this->getTestObj()->getMainSettings()->getAccessSettings()->getFixedParticipants() && !$participant->getActiveId()) {
-            return $this->buildInviteeFullname($participant);
-        }
-
-        return $this->buildParticipantsFullname($participant);
+        $active_id = $participant->getActiveId();
+        $fixed_participants = $this->getTestObj()->getMainSettings()->getAccessSettings()->getFixedParticipants();
+        return $fixed_participants && !$active_id
+            ? $this->buildInviteeFullname($participant)
+            : ilObjTestAccess::_getParticipantData($active_id);
     }
 
     protected function buildInviteeFullname(ilTestParticipant $participant): string
     {
-        if (strlen($participant->getFirstname() . $participant->getLastname()) == 0) {
-            return $this->lng->txt("deleted_user");
+        if ("{$participant->getFirstname()}{$participant->getLastname()}" === '') {
+            return $this->lng->txt('deleted_user');
         }
 
         if ($this->getTestObj()->getAnonymity()) {
             return $this->lng->txt('anonymous');
         }
 
-        return trim($participant->getLastname() . ", " . $participant->getFirstname());
-    }
-
-    protected function buildParticipantsFullname(ilTestParticipant $participant): string
-    {
-        return ilObjTestAccess::_getParticipantData($participant->getActiveId());
+        return trim("{$participant->getLastname()}, {$participant->getFirstname()}");
     }
 }

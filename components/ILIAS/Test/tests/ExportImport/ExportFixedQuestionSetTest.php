@@ -39,7 +39,7 @@ class ExportFixedQuestionSetTest extends \ilTestBaseTestCase
         $this->addGlobal_resourceStorage();
 
         $this->testObj = new ExportFixedQuestionSet(
-            $this->createMock(\ILIAS\Language\Language::class),
+            $this->createMock(\ilLanguage::class),
             $this->createMock(\ilDBInterface::class),
             $this->createMock(\ilBenchmark::class),
             $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
@@ -48,7 +48,8 @@ class ExportFixedQuestionSetTest extends \ilTestBaseTestCase
             $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(\ILIAS\FileDelivery\Services::class),
             $this->createMock(\ilObjTest::class),
-            $DIC['resource_storage']
+            $DIC['resource_storage'],
+            $DIC['ilUser']
         );
     }
 
