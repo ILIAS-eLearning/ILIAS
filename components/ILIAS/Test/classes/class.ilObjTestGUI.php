@@ -292,9 +292,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     public function executeCommand(): void
     {
         if ($this->object === null) {
-            $this->prepareOutput();
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_not_found_msg'));
-            $this->tpl->printToStdout();
+            $this->error->raiseError($this->lng->txt('tst_settings_not_found_msg'), $this->error->MESSAGE);
             return;
         }
 
