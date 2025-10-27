@@ -102,7 +102,7 @@ class RequestDataCollector implements RequestDataCollectorInterface
         return $this->raw($key) !== null;
     }
 
-    public function hasRefId(): int
+    public function hasRefId(): bool
     {
         return $this->raw('ref_id') !== null;
     }
