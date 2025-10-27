@@ -67,7 +67,7 @@ class PersonalSettingsImportAction
         )->withSubmitLabel($this->lng->txt('import'));
     }
 
-    public function execute(ServerRequestInterface $request): void
+    public function perform(ServerRequestInterface $request): void
     {
         $data = $this->buildModal('')->withRequest($request)->getData();
 

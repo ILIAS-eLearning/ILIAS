@@ -70,7 +70,7 @@ class PersonalSettingsTableActions
         return $this->actions[$action_id] ?? null;
     }
 
-    public function execute(
+    public function perform(
         URLBuilder $url_builder,
         URLBuilderToken $row_id_token,
         URLBuilderToken $action_token,

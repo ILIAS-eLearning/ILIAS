@@ -2048,7 +2048,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         try {
             $this->buildPersonalSettingsCreateAction()
-                ->execute($this->getTestObject()->getTestId(), $this->request);
+                ->perform($this->getTestObject()->getTestId(), $this->request);
         } catch (\InvalidArgumentException $e) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt($e->getMessage()), true);
         }
@@ -2062,7 +2062,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
         try {
             $this->buildPersonalSettingsImportAction()
-                ->execute($this->request);
+                ->perform($this->request);
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('personal_settings_import_success'), true);
         } catch (\InvalidArgumentException $e) {
@@ -2076,7 +2076,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     {
         $this->protectByWritePermission();
 
-        $modal = $this->buildPersonalSettingsTable()->execute();
+        $modal = $this->buildPersonalSettingsTable()->perform();
         if ($modal !== null) {
             $this->showTemplatesObject($modal);
             return;

@@ -50,9 +50,9 @@ class PersonalSettingsTable implements DataRetrieval
     ) {
     }
 
-    public function execute(): ?Modal
+    public function perform(): ?Modal
     {
-        return $this->table_actions->execute(...$this->acquireParameters());
+        return $this->table_actions->perform(...$this->acquireParameters());
     }
 
     private function acquireParameters(): array

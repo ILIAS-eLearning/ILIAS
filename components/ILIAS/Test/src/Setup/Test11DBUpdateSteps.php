@@ -127,7 +127,7 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addPrimaryKey('tst_defaults_marks', ['defaults_id', 'mark_id']);
 
             $this->db->addForeignKey(
-                'test_default_fkey',
+                'test_default_fkey2',
                 ['defaults_id '],
                 'tst_defaults_marks',
                 ['test_defaults_id'],
