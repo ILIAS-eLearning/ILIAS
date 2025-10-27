@@ -85,10 +85,7 @@ class Factory
 
             case Types::XML:
             case Types::XML_WITH_RESULTS:
-                $export_class = ExportFixedQuestionSet::class;
-                if (!$test_obj->isFixedTest()) {
-                    $export_class = ExportRandomQuestionSet::class;
-                }
+                $export_class = $test_obj->isFixedTest() ? ExportFixedQuestionSet::class : ExportRandomQuestionSet::class;
 
                 $export = new $export_class(
                     $this->lng,
@@ -100,13 +97,11 @@ class Factory
                     $this->questionrepository,
                     $this->file_delivery,
                     $test_obj,
-                    $this->irss
+                    $this->irss,
+                    $this->current_user
                 );
 
-                if ($export_type === Types::XML_WITH_RESULTS) {
-                    return $export->withResultExportingEnabled(true);
-                }
-                return $export;
+                return $export->withResultExportingEnabled($export_type === Types::XML_WITH_RESULTS);
 
             case Types::PLUGIN:
                 if ($plugin_type === null) {

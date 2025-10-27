@@ -54,7 +54,7 @@ abstract class Export implements Exporter
     protected string $inst_id;
 
     public function __construct(
-        protected readonly Language $lng,
+        protected readonly \ilLanguage $lng,
         protected readonly \ilDBInterface $db,
         protected readonly \ilBenchmark $bench,
         protected readonly TestLogger $logger,
@@ -63,7 +63,8 @@ abstract class Export implements Exporter
         protected readonly GeneralQuestionPropertiesRepository $questionrepository,
         protected readonly FileDeliveryServices $file_delivery,
         protected readonly \ilObjTest $test_obj,
-        protected readonly ResourceStorage $irss
+        protected readonly ResourceStorage $irss,
+        protected readonly \ilObjUser $user
     ) {
         $this->inst_id = (string) IL_INST_ID;
         $this->export_dir = $test_obj->getExportDirectory();
@@ -166,11 +167,12 @@ abstract class Export implements Exporter
 
         if ($this->isResultExportingEnabled()) {
             $resultwriter = new \ilTestResultsToXML(
-                $this->test_obj->getTestId(),
+                $this->test_obj,
                 $this->db,
                 $this->irss,
-                $this->export_dir . "/" . $this->subdir . "/objects",
-                $this->test_obj->getAnonymity()
+                $this->user,
+                $this->lng,
+                "{$this->export_dir}/{$this->subdir}/objects"
             );
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $this->bench->start('TestExport', 'write_results');

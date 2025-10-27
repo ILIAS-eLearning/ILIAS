@@ -38,7 +38,7 @@ class ExportRandomQuestionSetTest extends \ilTestBaseTestCase
         $this->addGlobal_resourceStorage();
 
         $this->testObj = new ExportRandomQuestionSet(
-            $this->createMock(\ILIAS\Language\Language::class),
+            $this->createMock(\ilLanguage::class),
             $this->createMock(\ilDBInterface::class),
             $this->createmOck(\ilBenchmark::class),
             $this->createMock(\ILIAS\Test\Logging\TestLogger::class),
@@ -47,7 +47,8 @@ class ExportRandomQuestionSetTest extends \ilTestBaseTestCase
             $this->createMock(\ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository::class),
             $this->createMock(\ILIAS\FileDelivery\Services::class),
             $this->getTestObjMock(),
-            $DIC['resource_storage']
+            $DIC['resource_storage'],
+            $DIC['ilUser']
         );
     }
 
