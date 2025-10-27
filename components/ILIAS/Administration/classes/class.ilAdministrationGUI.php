@@ -22,7 +22,7 @@ use ILIAS\Administration\AdminGUIRequest;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 /**
-* Class ilAdministratioGUI
+* Class ilAdministrationGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
 *
@@ -78,9 +78,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
     private readonly ilLogger $logger;
 
     private int $cur_ref_id;
-    private string $cmd;
     private string $admin_mode = "";
-    private bool $creation_mode = false;
     private int $requested_obj_id = 0;
     private ilObjectGUI $gui_obj;
 
@@ -159,13 +157,12 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         // e.g. creation of a new role, user org unit, talk template
         $new_type = $this->request->getNewType();
         if ($new_type) {
-            $this->creation_mode = true;
-        }
-        // determine next class
-        if ($this->creation_mode) {
+            $creation_mode = true;
             $obj_type = $new_type;
             $class_name = $this->obj_definition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
+        } else {
+            $creation_mode = false;
         }
 
         // set next_class directly for page translations
@@ -205,7 +202,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             } else {
                 if ($this->obj_definition->isPlugin(ilObject::_lookupType($this->cur_ref_id, true))) {
                     $this->gui_obj = new $class_name($this->cur_ref_id);
-                } elseif (!$this->creation_mode) {
+                } elseif (!$creation_mode) {
                     if (is_subclass_of($class_name, "ilObject2GUI")) {
                         $this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
                     } else {
@@ -218,7 +215,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                         $this->gui_obj = new $class_name("", 0, true, false);
                     }
                 }
-                $this->gui_obj->setCreationMode($this->creation_mode);
+                $this->gui_obj->setCreationMode($creation_mode);
             }
             $this->gui_obj->setAdminMode($this->admin_mode);
             $this->help->setScreenIdComponent(ilObject::_lookupType($this->cur_ref_id, true));
