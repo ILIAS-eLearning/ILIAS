@@ -22,7 +22,6 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\FileUpload;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
@@ -81,7 +80,7 @@ class File extends HasDynamicInputs implements C\Input\Field\File
         return $this->upload_handler;
     }
 
-    public function withMaxFileSize(int $size_in_bytes): FileUpload
+    public function withMaxFileSize(int $size_in_bytes): File
     {
         $clone = clone $this;
         $clone->max_file_size_in_bytes = $clone->upload_limit_resolver->getBestPossibleUploadLimitInBytes(
@@ -97,7 +96,7 @@ class File extends HasDynamicInputs implements C\Input\Field\File
         return $this->max_file_size_in_bytes;
     }
 
-    public function withMaxFiles(int $max_file_amount): FileUpload
+    public function withMaxFiles(int $max_file_amount): File
     {
         $clone = clone $this;
         $clone->max_file_amount = $max_file_amount;
@@ -110,7 +109,7 @@ class File extends HasDynamicInputs implements C\Input\Field\File
         return $this->max_file_amount;
     }
 
-    public function withAcceptedMimeTypes(array $mime_types): FileUpload
+    public function withAcceptedMimeTypes(array $mime_types): File
     {
         $clone = clone $this;
         $clone->accepted_mime_types = $mime_types;
