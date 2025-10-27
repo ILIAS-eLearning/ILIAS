@@ -45,7 +45,8 @@ class ilAdministrationSetupAgent extends NullAgent
             new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps()),
             new ilTreeAdminNodeAddedObjective(ilObjGeneralSettings::TYPE, 'General Settings'),
             new ilTreeAdminNodeAddedObjective(ilObjServerInfo::TYPE, 'Server Info'),
-            new AdminNodesVisibilityRemovedObjective()
+            new AdminNodesVisibilityRemovedObjective(),
+            new ExternalToolsRemovedObjective()
         );
     }
 

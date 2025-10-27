@@ -16,47 +16,17 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\Administration\HeaderTitleRepo;
 
-/**
- * Class ilObjSystemFolder
- *
- * @author Stefan Meyer <meyer@leifos.com>
- */
 class ilObjSystemFolder extends ilObject
 {
-    protected ilObjUser $user;
-
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id, $a_call_by_reference = true)
-    {
-        global $DIC;
-
-        $this->db = $DIC->database();
-        $this->user = $DIC->user();
-        $this->type = "adm";
-        parent::__construct($a_id, $a_call_by_reference);
-    }
-
-
-    /**
-    * delete systemfolder and all related data
-    * DISABLED
-    */
-    public function delete(): bool
-    {
-        // DISABLED
-        return false;
-    }
+    protected string $type = 'adm';
 
     public static function _getHeaderTitle(): string
     {
         $repo = new HeaderTitleRepo();
         return $repo->getHeaderTitle();
     }
-} // END class.ilObjSystemFolder
+}

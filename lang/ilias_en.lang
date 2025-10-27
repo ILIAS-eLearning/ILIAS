@@ -328,6 +328,7 @@ administration#:#svn_revision_current#:#Current Revision: %s
 administration#:#svn_revision_last_change#:#Last Changed Revision: %s
 administration#:#svn_root#:#Root: %s
 administration#:#system_check_no_owner#:#Ownerless Objects
+administration#:#system_folder_info#:#Please choose an item from the administration main menu.
 administration#:#systemcheck#:#System check
 administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#user_criteria#:#Unique user criteria

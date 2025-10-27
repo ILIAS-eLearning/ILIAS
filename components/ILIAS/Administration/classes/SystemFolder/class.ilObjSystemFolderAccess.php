@@ -18,11 +18,17 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilObjExternalToolsSettingsAccess
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class ilObjExternalToolsSettingsAccess extends ilObjectAccess
+class ilObjSystemFolderAccess extends ilObjectAccess
 {
+    /**
+     * check whether goto script will succeed
+     */
+    public static function _checkGoto(string $target): bool
+    {
+        global $DIC;
+        if ($DIC->rbac()->system()->hasAnyAdminReadPermission()) {
+            return true;
+        }
+        return false;
+    }
 }

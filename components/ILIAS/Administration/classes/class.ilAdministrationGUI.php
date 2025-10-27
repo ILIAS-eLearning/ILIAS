@@ -139,7 +139,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         // - admin nodes and their childs (e.g. org units) must have read permission to be called
         // - admin mode for repository and trash is only available to the global admin role
         $has_access = false;
-        if ($this->tree->isGrandChild(SYSTEM_FOLDER_ID, $this->cur_ref_id)) {
+        if ($this->cur_ref_id === SYSTEM_FOLDER_ID || $this->tree->isGrandChild(SYSTEM_FOLDER_ID, $this->cur_ref_id)) {
             $has_access = $this->access->checkAccess('read', '', $this->cur_ref_id);
         } else {
             $has_access = $this->rbac_review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID);

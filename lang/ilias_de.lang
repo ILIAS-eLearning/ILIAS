@@ -328,6 +328,7 @@ administration#:#svn_revision_current#:#Aktuelle Revision: %s
 administration#:#svn_revision_last_change#:#Zuletzt geänderte Revision: %s
 administration#:#svn_root#:#Root: %s
 administration#:#system_check_no_owner#:#Objekte ohne Angabe zum Besitz
+administration#:#system_folder_info#:#Bitte wählen Sie einen Eintrag im Administrations-Menü.
 administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#user_criteria#:#Eindeutiges Benutzermerkmal
