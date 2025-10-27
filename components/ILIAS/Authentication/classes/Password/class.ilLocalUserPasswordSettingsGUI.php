@@ -210,10 +210,14 @@ class ilLocalUserPasswordSettingsGUI
             $items = ['password' => $section];
         }
 
-        return $this->ui_factory->input()->container()->form()->standard(
+        $form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getLinkTarget($this, 'savePassword'),
             $items
         )->withSubmitLabel($this->lng->txt('save'));
+        if ($request !== null) {
+            $form = $form->withRequest($request);
+        }
+        return $form;
     }
 
     public function savePassword(): void
@@ -234,17 +238,18 @@ class ilLocalUserPasswordSettingsGUI
         $np = $section->getInputs()[self::NEW_PASSWORD];
         $errors = [self::CURRENT_PASSWORD => [], self::NEW_PASSWORD => []];
 
+        $error = false;
+        if ($cp && $cp->getError()) {
+            $error = true;
+            $errors[self::CURRENT_PASSWORD][] = $cp->getError();
+        }
+        if ($np->getError()) {
+            $error = true;
+            $errors[self::NEW_PASSWORD][] = $np->getError();
+        }
+
         if (!$form->getError()) {
             $data = $form->getData();
-            $error = false;
-            if ($cp && $cp->getError()) {
-                $error = true;
-                $errors[self::CURRENT_PASSWORD][] = $cp->getError();
-            }
-            if ($np->getError()) {
-                $error = true;
-                $errors[self::NEW_PASSWORD][] = $np->getError();
-            }
 
             $entered_current_password = $cp ? $cp->getValue() : '';
             $entered_new_password = $np->getValue();
