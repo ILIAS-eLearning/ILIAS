@@ -124,11 +124,11 @@ class ScoreSettingsDatabaseRepository implements ScoreSettingsRepository
     {
         $result = $this->db->query(
             'SELECT ' . PHP_EOL
-            . 'score_reporting, reporting_date,' . PHP_EOL
-            . 'show_grading_status, show_grading_mark, pass_deletion_allowed' . PHP_EOL
+            . 'tst_set.score_reporting, tst_set.reporting_date,' . PHP_EOL
+            . 'tst_set.show_grading_status, tst_set.show_grading_mark, tst_set.pass_deletion_allowed,' . PHP_EOL
             . 'tst_tests.obj_fi AS obj_fi' . PHP_EOL
-            . 'FROM tst_test_settings' . PHP_EOL
-            . 'INNER JOIN tst_tests ON tst_tests.settings_id = tst_test_settings.id' . PHP_EOL
+            . 'FROM tst_test_settings AS tst_set' . PHP_EOL
+            . 'INNER JOIN tst_tests ON tst_tests.settings_id = tst_set.id' . PHP_EOL
             . 'WHERE ' . $this->db->in('obj_fi', $obj_ids, false, \ilDBConstants::T_INTEGER)
         );
 
