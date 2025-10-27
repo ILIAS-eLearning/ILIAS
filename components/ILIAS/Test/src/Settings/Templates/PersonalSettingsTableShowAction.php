@@ -97,6 +97,8 @@ class PersonalSettingsTableShowAction implements TableAction
         $mark_schema = $this->marks_repository->getMarkSchemaBySteps($mark_steps);
 
         $modal_content[] = $this->ui_factory->legacy()->content("<h4>{$this->lng->txt('mark_schema')}</h4>");
+
+        // le, 2025-10-27: This is not the right way to go, as a logging facility is used directly for presentation.
         $modal_content[] = $this->information_generator->parseForTable(
             $mark_schema->toLog($this->information_generator),
             $environment
