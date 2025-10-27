@@ -19,9 +19,8 @@
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\TestQuestionPool\RequestDataCollector as QuestionPoolRequestDataCollector;
-use ILIAS\Test\RequestDataCollector as TestRequestDataCollector;
 use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\TestQuestionPool\RequestDataCollectorInterface;
 use ILIAS\TestQuestionPool\Skills\SkillsByQuestionOverviewTable;
 use ILIAS\TestQuestionPool\Skills\EditSkillsOfQuestionTable;
 use ILIAS\TestQuestionPool\Skills\EditSkillsOfQuestionTableActions;
@@ -73,7 +72,7 @@ class ilAssQuestionSkillAssignmentsGUI
         private readonly ilGlobalTemplateInterface $tpl,
         private readonly ilLanguage $lng,
         private readonly ilDBInterface $db,
-        private readonly QuestionPoolRequestDataCollector|TestRequestDataCollector $request_data_collector,
+        private readonly RequestDataCollectorInterface $request_data_collector,
         private readonly SkillUsageService $skill_usage_service,
         private readonly UIFactory $ui_factory,
         private readonly UIRenderer $ui_renderer,
