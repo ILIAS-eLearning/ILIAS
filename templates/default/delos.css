@@ -12398,6 +12398,11 @@ div.ilc_Question {
   padding-right: 15px;
 }
 
+img.ilc_solution_image {
+  min-width: 13px;
+  min-height: 13px;
+}
+
 .solutionbox {
   color: black;
   background-color: white;
