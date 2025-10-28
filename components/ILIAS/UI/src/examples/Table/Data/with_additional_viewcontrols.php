@@ -13,6 +13,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * ---
+ * description: >
+ *   Example showing an Data Table with additional view controls.
+ *
  * expected output: >
  *   ILIAS shows the rendered Table Component with
  *   - two additional Mode View Controls,
