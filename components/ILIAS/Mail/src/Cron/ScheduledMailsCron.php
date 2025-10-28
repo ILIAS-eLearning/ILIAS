@@ -150,12 +150,14 @@ class ScheduledMailsCron extends CronJob
                     'Error sending scheduled mail with id ' . ((string) ($mail->getInternalMailId() ?? 'unknown')) . ': ' .
                     $e->getMessage() . '\n' . $e->getTraceAsString()
                 );
-                $job_result->setMessage(substr($e->getMessage() . ' ' . $e->getTraceAsString(), 0, 4000));
+                $job_result->setMessage(mb_substr($e->getMessage() . ' ' . $e->getTraceAsString(), 0, 4000));
 
                 return $job_result;
+            } finally {
+                $mailer->autoresponder()->disableAutoresponder();
+                $this->mail->deleteMails($sent_mail_ids);
             }
         }
-        $this->mail->deleteMails($sent_mail_ids);
         ilLoggerFactory::getLogger('mail')->info(
             'Sent ' . count($sent_mail_ids) . ' scheduled mails and removed them from outbox.'
         );
