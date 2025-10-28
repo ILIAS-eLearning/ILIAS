@@ -155,6 +155,11 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::QST,
         self::STUS,
         self::GSFO,
+        self::ADMA,
+        self::SERV,
+        self::CRON,
+        self::BNMK,
+        self::MAPS
     ];
 
     private static array $standard_page_editor_icons = [
