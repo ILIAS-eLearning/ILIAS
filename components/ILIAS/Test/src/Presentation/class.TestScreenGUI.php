@@ -335,10 +335,8 @@ class TestScreenGUI
             )->withRequired(true)
             ->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    function (bool $value): bool {
-                        return $value === true;
-                    },
-                    fn($lng_closure, $value) => $this->lng->txt('tst_exam_conditions_not_checked_message'),
+                    static fn(bool $value): bool => $value,
+                    $this->lng->txt('tst_exam_conditions_not_checked_message'),
                 )
             );
         }
@@ -351,11 +349,8 @@ class TestScreenGUI
             ->withRequired(true)
             ->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    function (Password $value): bool {
-                        $access_settings_password = $this->main_settings->getAccessSettings()->getPassword();
-                        return $value->toString() === $access_settings_password;
-                    },
-                    fn($lng_closure, $value) => $this->lng->txt('tst_exam_password_invalid_message'),
+                    fn(Password $value): bool => $value->toString() === $this->main_settings->getAccessSettings()->getPassword(),
+                    $this->lng->txt('tst_exam_password_invalid_message'),
                 )
             );
         }
@@ -366,8 +361,8 @@ class TestScreenGUI
                 $this->lng->txt('tst_exam_access_code_label')
             )->withAdditionalTransformation(
                 $this->refinery->custom()->constraint(
-                    fn(string $value): bool => !empty($value),
-                    fn($lng_closure, $value) => $this->lng->txt('tst_exam_access_code_required_message'),
+                    fn(string $value): bool => $value === '' || $this->test_session->isAccessCodeUsed($value),
+                    $this->lng->txt('tst_exam_access_code_required_message'),
                 )
             );
 
@@ -388,7 +383,7 @@ class TestScreenGUI
                 $this->lng->txt('tst_exam_use_previous_answers_label')
             )->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
-                    fn($value) => (string) (int) ($value ?? false)
+                    static fn(bool $value): string => $value ? '1' : '0'
                 )
             );
         }
@@ -423,7 +418,7 @@ class TestScreenGUI
 
     private function evaluateLauncherModalForm(Result $result): void
     {
-        if (empty($result->value()) || $result->isError()) {
+        if ($result->isError()) {
             $this->tpl->setOnScreenMessage(
                 \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('tst_exam_required_fields_not_filled_message'),

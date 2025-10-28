@@ -456,15 +456,11 @@ class ilTestSession
 
     public function isAccessCodeUsed(string $code): bool
     {
-        $query = "SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s";
-
-        $result = $this->db->queryF(
-            $query,
-            ['integer', 'text'],
+        return $this->db->queryF(
+            'SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s' ,
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
             [$this->getTestId(), $code]
-        );
-
-        return ($result->numRows() > 0);
+        )->rowCount() > 0;
     }
 
     private function buildAccessCode(): string
