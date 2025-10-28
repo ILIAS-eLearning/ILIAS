@@ -52,15 +52,15 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
     final public const string SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
-    private UIFactory $ui_factory;
-    private UIRenderer $ui_renderer;
-    private ilMailbox $mbox;
-    private ilObjUser $user;
-    private ?ilCtrlInterface $ctrl;
-    private HttpWrapper $http_wrapper;
-    private Refinery $refinery;
-    private ilLanguage $lng;
-    private IconFactory $icon_factory;
+    private readonly UIFactory $ui_factory;
+    private readonly UIRenderer $ui_renderer;
+    private readonly ilMailbox $mbox;
+    private readonly ilObjUser $user;
+    private readonly ?ilCtrlInterface $ctrl;
+    private readonly HttpWrapper $http_wrapper;
+    private readonly Refinery $refinery;
+    private readonly ilLanguage $lng;
+    private readonly IconFactory $icon_factory;
 
     public function __construct(
         Container $dic,
