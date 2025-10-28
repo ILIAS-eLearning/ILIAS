@@ -462,10 +462,8 @@ class Renderer extends AbstractComponentRenderer
             });
 
             $f = $this->getUIFactory();
-            $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
-                              ->withOnClick($sig_reveal);
-            $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
-                            ->withOnClick($sig_mask);
+            $glyph_reveal = $f->button()->shy('', $sig_reveal)->withSymbol($f->symbol()->glyph()->eyeopen());
+            $glyph_mask = $f->button()->shy('', $sig_mask)->withSymbol($f->symbol()->glyph()->eyeclosed());
 
             $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
