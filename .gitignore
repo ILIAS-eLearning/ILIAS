@@ -56,3 +56,9 @@ phpstan-baseline.neon
 override.php
 components/ILIAS/FileHandlingDemo
 public/data/
+node_modules/ 
+*.map 
+.DS_Store 
+node_modules/
+*.map
+.DS_Store
