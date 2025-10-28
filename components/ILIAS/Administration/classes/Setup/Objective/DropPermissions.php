@@ -80,7 +80,7 @@ readonly class DropPermissions implements Objective
         }
 
         // rbac_pa is not cleanup by ilAccessRBACOperationDeletedObjective::class.
-        $update_row = $db->prepare('UPDATE rbac_pa SET ops_id = ? WHERE ref_id = ?', [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER]);
+        $update_row = $db->prepare('UPDATE rbac_pa SET ops_id = ? WHERE rol_id = ? AND ref_id = ?', [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER]);
         $delete_row = $db->prepare('DELETE FROM rbac_pa WHERE rol_id = ? AND ref_id = ?', [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER]);
         foreach ($db->fetchAll($db->queryF('SELECT * FROM rbac_pa WHERE ref_id = %s', [ilDBConstants::T_INTEGER], [$ref_id])) as $row) {
             $ops_id = unserialize($row['ops_id'], ['allowed_classes' => false]);
@@ -88,7 +88,7 @@ readonly class DropPermissions implements Objective
             if ($ops_id === []) {
                 $db->execute($delete_row, [$row['rol_id'], $ref_id]);
             } else {
-                $db->execute($update_row, [serialize($ops_id), $ref_id]);
+                $db->execute($update_row, [serialize($ops_id), $row['rol_id'], $ref_id]);
             }
         }
 
