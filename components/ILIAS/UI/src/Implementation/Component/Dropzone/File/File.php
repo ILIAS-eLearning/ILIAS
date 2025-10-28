@@ -191,6 +191,13 @@ abstract class File implements FileDropzone
         return $this->modal->getReplaceSignal();
     }
 
+    public function withAdditionalFormAction(string $action, string $label): static
+    {
+        $clone = clone $this;
+        $clone->modal = $clone->modal->withAdditionalFormAction($action, $label);
+        return $clone;
+    }
+
     public function getPostURL(): string
     {
         return $this->modal->getPostURL();

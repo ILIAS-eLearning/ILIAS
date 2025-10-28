@@ -542,9 +542,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // delete file data entry
         $this->database->manipulateF("DELETE FROM file_data WHERE file_id = %s", ['integer'], [$this->getId()]);
 
-        // delete history entries
-        ilHistory::_removeEntriesForObject($this->getId());
-
         // delete meta data
         if ($this->getMode() !== self::MODE_FILELIST) {
             $this->deleteMetaData();

@@ -18,18 +18,23 @@
 
 declare(strict_types=1);
 
-class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRecipientProvider
+namespace ILIAS\Mail\RecipientSearch;
+
+/**
+ * @phpstan-import-type AutoCompleteUserRecord from RecipientSearchProvider
+ */
+final class SentMailsBasedProvider extends RecipientSearchProvider
 {
-    /** @var list<array{login: string, firstname: string, lastname: string}> */
+    /** @var list<AutoCompleteUserRecord> */
     private array $users_stack = [];
 
     /**
-     * @return array{login: string, firstname: string, lastname: string}
-     * @throws OutOfBoundsException
+     * @return AutoCompleteUserRecord
+     * @throws \OutOfBoundsException
      */
     public function current(): array
     {
-        if (is_array($this->data) && !empty($this->data)) {
+        if (\is_array($this->data) && !empty($this->data)) {
             return [
                 'login' => $this->data['login'],
                 'firstname' => '',
@@ -45,12 +50,12 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             ];
         }
 
-        throw new OutOfBoundsException('No more users available');
+        throw new \OutOfBoundsException('No more users available');
     }
 
     public function key(): string
     {
-        if (is_array($this->data) && !empty($this->data)) {
+        if (\is_array($this->data) && !empty($this->data)) {
             return $this->data['login'];
         }
 
@@ -64,7 +69,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     public function valid(): bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
-        if (is_array($this->data) &&
+        if (\is_array($this->data) &&
             !empty($this->data) &&
             (
                 strpos((string) $this->data['login'], ',') ||
@@ -73,12 +78,12 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             $parts = array_filter(
                 array_map(
                     'trim',
-                    preg_split("/[ ]*[;,][ ]*/", trim((string) $this->data['login']))
+                    preg_split('/[ ]*[;,][ ]*/', trim((string) $this->data['login']))
                 )
             );
 
             foreach ($parts as $part) {
-                if (ilStr::strPos(ilStr::strToLower($part), ilStr::strToLower($this->term), 0) !== false) {
+                if (\ilStr::strPos(\ilStr::strToLower($part), \ilStr::strToLower($this->term), 0) !== false) {
                     $this->users_stack[] = $part;
                 }
             }
@@ -88,7 +93,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             }
         }
 
-        return (is_array($this->data) && !empty($this->data)) || $this->users_stack !== [];
+        return (\is_array($this->data) && !empty($this->data)) || $this->users_stack !== [];
     }
 
     public function rewind(): void
@@ -98,14 +103,14 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             $this->res = null;
         }
 
-        $query = "
+        $query = '
 			SELECT DISTINCT
 				mail.rcp_to login
 			FROM mail
-			WHERE " . $this->db->like('mail.rcp_to', 'text', $this->quoted_term) . "
+			WHERE ' . $this->db->like('mail.rcp_to', 'text', $this->quoted_term) . "
 			AND mail.rcp_to IS NOT NULL AND mail.rcp_to != ''
-			AND sender_id = " . $this->db->quote($this->user_id, 'integer') . "
-			AND mail.sender_id = mail.user_id";
+			AND sender_id = " . $this->db->quote($this->user_id, 'integer') . '
+			AND mail.sender_id = mail.user_id';
 
         $this->res = $this->db->query($query);
     }

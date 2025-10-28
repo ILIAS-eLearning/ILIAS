@@ -18,10 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- * Class ilMailAutoCompleteBuddyRecipientsProvider
- */
-class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserProvider
+namespace ILIAS\Contact\BuddySystem\MailRecipientSearch;
+
+use ILIAS\Mail\RecipientSearch\LegacyUserSearchBasedProvider;
+
+class MailRecipientSearchProvider extends LegacyUserSearchBasedProvider
 {
     protected function getFromPart(): string
     {

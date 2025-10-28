@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
-/**
- */
+use ILIAS\History\Setup\HistorySetupAgent;
+use ILIAS\Setup\Agent;
+
 class History implements Component\Component
 {
     public function init(
@@ -34,6 +35,7 @@ class History implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Agent::class] = static fn() =>
+        new HistorySetupAgent();
     }
 }

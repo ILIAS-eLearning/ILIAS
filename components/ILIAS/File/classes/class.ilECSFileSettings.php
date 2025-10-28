@@ -35,18 +35,7 @@ class ilECSFileSettings extends ilECSObjectSettings
     {
         $json = $this->getJsonCore('application/ecs-file');
         $json->version = $this->content_obj->getVersion();
-        $entries = ilHistory::_getEntriesForObject(
-            $this->content_obj->getId(),
-            $this->content_obj->getType()
-        );
-        if ($entries !== []) {
-            $entry = array_shift($entries);
-            $entry = new ilDateTime($entry["date"], IL_CAL_DATETIME);
-
-            $json->version_date = $entry->get(IL_CAL_UNIX);
-        } else {
-            $json->version_date = time();
-        }
+        $json->version_date = time();
 
         return $json;
     }

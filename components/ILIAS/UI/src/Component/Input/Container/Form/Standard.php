@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Prompt\IsPromptContent;
+use ILIAS\Data\URI;
 
 /**
  * This describes a standard form.

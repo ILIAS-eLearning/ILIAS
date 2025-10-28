@@ -5849,6 +5849,7 @@ common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#upload#:#Hochladen
 common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
+common#:#upload_ok#:#Der Upload war erfolgreich
 common#:#upload_pending#:#Ausstehend
 common#:#upload_settings#:#Upload-Einstellungen
 common#:#upload_svg_rejection_message#:#Eine hochgeladene SVG-Datei enthält möglicherweise bösartigen Code und kann nicht verarbeitet werden.
@@ -11483,6 +11484,7 @@ mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto 
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
+mail#:#edit_attachments#:#Anhänge bearbeiten
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
 mail#:#goto_invitation_chat#:#Chatraum öffnen
@@ -11604,6 +11606,7 @@ mail#:#mail_mailing_list#:#Verteilerliste
 mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_main_folder#:#Hauptordner
 mail#:#mail_manage_attachments#:#Anhänge Verwalten
 mail#:#mail_manage_attachments_back_to_compose#:#Zurück zum Erstellen
 mail#:#mail_manage_attachments_drop_files_msg#:#Datei zum Hinzufügen hier ablegen
@@ -11644,6 +11647,7 @@ mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_use_placeholder#:#Im Feld 'Inhalt' können folgende Platzhalter verwendet werden
 mail#:#mail_nacc_user_fullname#:#Nachname, Vorname [Anmeldename]
 mail#:#mail_nacc_user_login#:#Anmeldename
+mail#:#mail_new#:#Neue Nachricht
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_no_mail_items#:#Keine ungelesenen Mails.
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
@@ -11654,6 +11658,7 @@ mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
 mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an alle betroffenen Mail-Konten so viele Tage vor dem Löschen von etwaigen internen Mails. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
 mail#:#mail_operation_on_invalid_folder#:#Die Aktion konnte nicht ausgeführt werden, der aus der Serveranfrage bestimmte Ordner ist ungültig. Bitte wenden Sie sich an die Administration.
+mail#:#mail_options#:#E-Mail Optionen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
 mail#:#mail_orphaned_mails_desc#:#Löscht verwaiste Mails und Mails die älter sind als der eingestellte Schwellenwert (einstellbar über den „Bearbeiten“-Link in der „Aktionen“-Spalte dieses Cron-Jobs).

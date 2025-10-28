@@ -8408,6 +8408,13 @@ button .minimize, button .close {
   font-family: Monospace, Courier;
 }
 
+ul.c-input--has-mustache-variables__definitions {
+  padding-inline-start: 0;
+}
+ul.c-input--has-mustache-variables__definitions > li {
+  list-style: none;
+}
+
 .c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field,
 .c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field {
   display: flex;

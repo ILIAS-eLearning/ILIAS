@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Mail\Folder\MailFolderType;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
 
@@ -204,20 +205,15 @@ class ilMailGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand(new ilMailFormGUI());
                 break;
 
-            case strtolower(ilContactGUI::class):
-                $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
-                $this->ctrl->forwardCommand(new ilContactGUI());
-                break;
-
             case strtolower(ilMailAttachmentGUI::class):
-                $this->tpl->setTitle($this->lng->txt('mail'));
+                $this->tpl->setTitle($this->lng->txt('mail_attachments'));
                 $gui = new ilMailAttachmentGUI();
                 $gui->manage();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             case strtolower(ilMailOptionsGUI::class):
-                $this->tpl->setTitle($this->lng->txt('mail'));
+                $this->tpl->setTitle($this->lng->txt('mail_options'));
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
@@ -284,65 +280,38 @@ class ilMailGUI implements ilCtrlBaseClassInterface
 
         $DIC['ilHelp']->setScreenIdComponent('mail');
 
-        $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitleIcon(ilUtil::getImagePath('standard/icon_mail.svg'));
+        $folder = $this->mbox->getFolderData($this->current_folder_id);
+        $type = 'mail';
 
-        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->current_folder_id);
-        $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));
-        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_NEW);
-        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->current_folder_id);
-        $DIC->tabs()->addTarget('compose', $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
-        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
+        if ($folder) {
+            switch ($folder->getType()) {
+                case MailFolderType::USER:
+                    $type = "local";
+                    break;
 
-        $this->ctrl->setParameterByClass(ilContactGUI::class, 'mobj_id', $this->current_folder_id);
-        $DIC->tabs()->addTarget(
-            'mail_addressbook',
-            $this->ctrl->getLinkTargetByClass(ilContactGUI::class)
-        );
-        $this->ctrl->clearParametersByClass(ilContactGUI::class);
+                default:
+                    switch (strtolower($this->ctrl->getCmdClass() ?? '')) {
+                        case strtolower(ilMailFormGUI::class):
+                            $type = 'mail';
+                            break;
 
-        $this->ctrl->setParameterByClass(
-            ilMailAttachmentGUI::class,
-            'mobj_id',
-            $this->current_folder_id
-        );
-        $DIC->tabs()->addTarget(
-            'mail_manage_attachments',
-            $this->ctrl->getLinkTargetByClass([self::class, ilMailAttachmentGUI::class])
-        );
-        $this->ctrl->clearParametersByClass(ilMailAttachmentGUI::class);
+                        case strtolower(ilMailOptionsGUI::class):
+                            $type = 'adm';
+                            break;
 
-        if ($DIC->settings()->get('show_mail_settings', '0')) {
-            $this->ctrl->setParameterByClass(
-                ilMailOptionsGUI::class,
-                'mobj_id',
-                $this->current_folder_id
-            );
-            $DIC->tabs()->addTarget(
-                'options',
-                $this->ctrl->getLinkTargetByClass(ilMailOptionsGUI::class)
-            );
-            $this->ctrl->clearParametersByClass(ilMailOptionsGUI::class);
+                        case strtolower(ilMailAttachmentGUI::class):
+                            $type = 'fils';
+                            break;
+
+                        default:
+                            $type = $folder->getType()->value;
+                            break;
+                    }
+                    break;
+            }
         }
 
-        match (strtolower($this->forward_class)) {
-            strtolower(ilMailFormGUI::class) => $DIC->tabs()->setTabActive('compose'),
-            strtolower(ilContactGUI::class) => $DIC->tabs()->setTabActive('mail_addressbook'),
-            strtolower(ilMailOptionsGUI::class) => $DIC->tabs()->setTabActive('options'),
-            strtolower(ilMailAttachmentGUI::class) => $DIC->tabs()->setTabActive('mail_manage_attachments'),
-            default => $DIC->tabs()->setTabActive('fold'),
-        };
-
-        if ($this->http->wrapper()->query()->has('message_sent')) {
-            $DIC->tabs()->setTabActive('fold');
-        }
-    }
-
-    protected function toggleExplorerNodeState(): void
-    {
-        $exp = new ilMailExplorer($this, $this->user->getId());
-        $exp->toggleExplorerNodeState();
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("standard/icon_$type.svg"));
     }
 }

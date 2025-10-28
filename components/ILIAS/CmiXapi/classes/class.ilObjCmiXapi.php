@@ -1311,7 +1311,6 @@ class ilObjCmiXapi extends ilObject2
         // delete file data entry
         $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $this->database->quote($this->getId(), 'integer');
         $this->database->manipulate($query);
-        ilHistory::_removeEntriesForObject($this->getId());
 
         // delete entire directory and its content
         $dirUtil = new ilCmiXapiContentUploadImporter($this);

@@ -18,10 +18,15 @@
 
 declare(strict_types=1);
 
-class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
+namespace ILIAS\Mail\RecipientSearch;
+
+/**
+ * @phpstan-import-type AutoCompleteUserRecord from RecipientSearchProvider
+ */
+class LegacyUserSearchBasedProvider extends RecipientSearchProvider
 {
     /**
-     * @return array{login: string, firstname: string, lastname:string}
+     * @return AutoCompleteUserRecord
      */
     public function current(): array
     {
@@ -61,17 +66,17 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     {
         $fields = [
             'login',
-            sprintf(
+            \sprintf(
                 '(CASE WHEN (firstname IS NOT NULL AND (profpref.value = %s OR profpref.value = %s)) THEN firstname ELSE \'\' END) firstname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
-            sprintf(
+            \sprintf(
                 '(CASE WHEN (lastname IS NOT NULL AND (profpref.value = %s OR profpref.value = %s)) THEN lastname ELSE \'\' END) lastname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
-            sprintf(
+            \sprintf(
                 '(CASE WHEN (email IS NOT NULL AND (profpref.value = %s OR profpref.value = %s) ' .
                 "AND pubemail.value = %s) THEN email ELSE '' END) email",
                 $this->db->quote('y', 'text'),
@@ -113,7 +118,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         foreach ($this->getFields() as $field) {
             $field_condition = $this->getQueryConditionByFieldAndValue($field, $search_query);
 
-            if ('email' === $field) {
+            if ($field === 'email') {
                 // If privacy should be respected,
                 // the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
@@ -134,20 +139,22 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         if ($field_conditions !== []) {
             $fields = '(' . implode(' OR ', $field_conditions) . ')';
 
-            $field_conditions = ['(' . implode(' AND ', [
-                $fields,
-                $this->db->in('profpref.value', ['y', 'g'], false, 'text'),
-            ]) . ')'];
+            $field_conditions = [
+                '(' . implode(' AND ', [
+                    $fields,
+                    $this->db->in('profpref.value', ['y', 'g'], false, 'text'),
+                ]) . ')'
+            ];
         }
 
         // The login field must be searchable regardless (for 'logged in' users) of any privacy settings.
         // We handled the general condition for 'anonymous' context above: profile = 'g'
         $field_conditions[] = $this->getQueryConditionByFieldAndValue('login', $search_query);
 
-        if (ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
+        if (\ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
             $outer_conditions[] = $this->db->in(
                 'time_limit_owner',
-                ilUserFilter::getInstance()->getFolderIds(),
+                \ilUserFilter::getInstance()->getFolderIds(),
                 false,
                 'integer'
             );
@@ -171,16 +178,17 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     protected function getFields(): array
     {
         $available_fields = [];
         foreach (['firstname', 'lastname'] as $field) {
-            if (ilUserSearchOptions::_isEnabled($field)) {
+            if (\ilUserSearchOptions::_isEnabled($field)) {
                 $available_fields[] = $field;
             }
         }
+
         return $available_fields;
     }
 }
