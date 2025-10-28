@@ -30,6 +30,10 @@ use ILIAS\Setup\ObjectiveCollection;
 use ilObjGeneralSettings;
 use ilTreeAdminNodeAddedObjective;
 use ilObjServerInfo;
+use ilAccessRBACOperationDeletedObjective;
+use ILIAS\Administration\Setup\Objective\DropPermissions;
+use ILIAS\Administration\Setup\Objective\CopyPermissions;
+use ilObjBenchmark;
 
 /**
  * Class ilAdministrationSetupAgent
@@ -37,8 +41,15 @@ use ilObjServerInfo;
  */
 class ilAdministrationSetupAgent extends NullAgent
 {
+    private const DROP_PERMISSIONS = [
+        1, // ilTreeAdminNodeAddedObjective::RBAC_OP_EDIT_PERMISSIONS,
+        2, // ilTreeAdminNodeAddedObjective::RBAC_OP_VISIBLE,
+        4, // ilTreeAdminNodeAddedObjective::RBAC_OP_WRITE,
+    ];
+
     public function getUpdateObjective(?Config $config = null): Objective
     {
+        $drop_visible = new DropPermissions('adm', [2]); // ilTreeAdminNodeAddedObjective::RBAC_OP_VISIBLE
         return new ObjectiveCollection(
             'Administration',
             true,
@@ -46,7 +57,14 @@ class ilAdministrationSetupAgent extends NullAgent
             new ilTreeAdminNodeAddedObjective(ilObjGeneralSettings::TYPE, 'General Settings'),
             new ilTreeAdminNodeAddedObjective(ilObjServerInfo::TYPE, 'Server Info'),
             new AdminNodesVisibilityRemovedObjective(),
-            new ExternalToolsRemovedObjective()
+            new ExternalToolsRemovedObjective(),
+            // First drop visible then copy permissions then drop all except READ.
+            new DropPermissions('adm', self::DROP_PERMISSIONS, [
+                new CopyPermissions('adm', ilObjGeneralSettings::TYPE, [$drop_visible]),
+                new CopyPermissions('adm', ilObjServerInfo::TYPE, [$drop_visible]),
+                new CopyPermissions('adm', 'cron', [$drop_visible]),
+                new CopyPermissions('adm', ilObjBenchmark::TYPE, [$drop_visible]),
+            ]),
         );
     }
 
