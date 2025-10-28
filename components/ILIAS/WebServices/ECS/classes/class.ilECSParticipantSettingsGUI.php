@@ -55,6 +55,7 @@ class ilECSParticipantSettingsGUI
         $this->mid = $a_mid;
 
         $this->lng->loadLanguageModule('ecs');
+        $this->lng->loadLanguageModule('auth');
 
         $this->participant = new ilECSParticipantSetting($this->getServerId(), $this->getMid());
         $this->auth_factory = new ilECSAuthFactory();
@@ -272,8 +273,13 @@ class ilECSParticipantSettingsGUI
         $user_credentials->setValue($this->getParticipant()->getOutgoingAuthModes());
         $import->addSubItem($user_credentials);
         foreach ($this->parseAvailableAuthModes() as $option_name => $option_text) {
+            // default login does not need a placeholder
+            if ($option_name === 'ilias') {
+                continue;
+            }
+
             $option = new ilCheckboxOption(
-                $this->lng->txt('ecs_import_auth_mode') . ' ' . $option_text,
+                sprintf($this->lng->txt('ecs_import_auth_mode'), $option_text),
                 $option_name
             );
             $user_credentials->addOption($option);
