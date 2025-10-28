@@ -139,6 +139,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                         $this->lng->txt('mail'),
                         $sub_items
                     );
+
                     return $this->ui_factory->legacy()->content(
                         $this->ui_renderer->render($item)
                     );
@@ -194,6 +195,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                 $this->buildFolderLink($folder->getFolderId(), ilMailFolderGUI::class)
             );
         }
+
         return $items;
     }
 
@@ -228,8 +230,8 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
     }
 
     /**
-     * @param MailFolderData[] $folders
-     * @return MailFolderData[]
+     * @param list<MailFolderData> $folders
+     * @return list<MailFolderData>
      */
     private function filterUserFolders(array &$folders): array
     {
