@@ -290,38 +290,27 @@ class Renderer extends AbstractComponentRenderer
         $columns = $component->getVisibleColumns();
 
         foreach ($columns as $col_id => $col) {
-            $param_sort_direction = Order::ASC;
+            $sortation = "";
             $col_title = $col->getTitle();
-            if ($col_id === $sort_col) {
-                if ($sort_direction === Order::ASC) {
-                    $sortation = "ascending"; // aria-sort should not be translated and always be in English
-                    $sortation_glyph = $glyph_factory->sortAscending("#");
-                    $param_sort_direction = Order::DESC;
+            if ($col->isSortable() && !is_null($sortation_signal)) {
+                $sort_signal = clone $sortation_signal;
+                $param_sort_direction = Order::ASC;
+                $sortation_glyph = null;
+
+                if ($col_id === $sort_col) {
+                    $param_sort_direction = $param_sort_direction === Order::ASC ? Order::DESC : Order::ASC;
+                    $sortation_glyph = $sort_direction === Order::ASC ? $glyph_factory->sortAscending() : $glyph_factory->sortDescending();
+                    $sortation = $sort_direction === Order::ASC ? 'ascending' : 'descending';
                 }
-                if ($sort_direction === Order::DESC) {
-                    $sortation = "descending"; // aria-sort should not be translated and always be in English
-                    $sortation_glyph = $glyph_factory->sortDescending("#");
-                }
+
+                $sort_signal->addOption('value', "$col_id:$param_sort_direction");
+                $button = $this->getUIFactory()->button()->shy($col->getTitle(), $sort_signal)->withSymbol($sortation_glyph);
+                $col_title = $default_renderer->render($button);
             }
 
             $tpl->setCurrentBlock('header_cell');
-
+            $tpl->setVariable('COL_SORTATION', $sortation);
             $tpl->setVariable('COL_INDEX', (string) $col->getIndex() + $compensate_col_index);
-
-            if ($col->isSortable() && !is_null($sortation_signal)) {
-                $sort_signal = clone $sortation_signal;
-                $sort_signal->addOption('value', "$col_id:$param_sort_direction");
-                $col_title = $default_renderer->render(
-                    $this->getUIFactory()->button()->shy($col_title, $sort_signal)
-                );
-
-                if ($col_id === $sort_col) {
-                    $sortation_glyph = $default_renderer->render($sortation_glyph->withOnClick($sort_signal));
-                    $tpl->setVariable('COL_SORTATION', $sortation);
-                    $tpl->setVariable('COL_SORTATION_GLYPH', $sortation_glyph);
-                }
-            }
-
             $tpl->setVariable('COL_TITLE', $col_title);
             $tpl->setVariable('COL_TYPE', strtolower($col->getType()));
             $tpl->parseCurrentBlock();
@@ -344,9 +333,9 @@ class Renderer extends AbstractComponentRenderer
             $signal = $component->getSelectionSignal();
             $sig_all = clone $signal;
             $sig_all->addOption('select', true);
-            $select_all = $glyph_factory->add()->withOnClick($sig_all);
+            $select_all = $this->getUIFactory()->button()->shy("", $sig_all)->withSymbol($glyph_factory->add());
             $signal->addOption('select', false);
-            $select_none = $glyph_factory->close()->withOnClick($signal);
+            $select_none = $this->getUIFactory()->button()->shy("", $signal)->withSymbol($glyph_factory->close());
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
             $tpl->setVariable('SELECTION_CONTROL_DESELECT', $default_renderer->render($select_none));
         }
