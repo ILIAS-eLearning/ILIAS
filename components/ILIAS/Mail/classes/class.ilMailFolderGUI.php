@@ -916,7 +916,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             str_replace(
                 ['{', '}'],
                 ['&#123;', '&#125;'],
-                ilUtil::htmlencodePlainString($mail_data['m_message'] ?? '', true)
+                html_entity_decode($this->refinery->string()->markdown()->toHTML()->transform($mail_data['m_message']) ?? '')
             )
         );
 

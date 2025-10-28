@@ -772,10 +772,6 @@ class ilMail
             }
         }
 
-        $message = $this->refinery->string()->markdown()->toHTML()->transform($message) ? null : html_entity_decode($message);
-        if ($message === null) {
-            $message = '';
-        }
         $this->delegateExternalEmails(
             $mail_data->getSubject(),
             $mail_data->getAttachments(),
@@ -1143,9 +1139,9 @@ class ilMail
                 $external_mail_recipients_cc,
                 $external_eail_recipients_bcc,
                 $mail_data->getSubject(),
-                $this->refinery->string()->markdown()->toHTML()->transform(
-                    $mail_data->isUsePlaceholder() ? $this->replacePlaceholders($mail_data->getMessage(), 0, false) : $mail_data->getMessage()
-                ),
+                $mail_data->isUsePlaceholder() ?
+                    $this->replacePlaceholders($mail_data->getMessage(), 0) :
+                    $mail_data->getMessage(),
                 $mail_data->getAttachments()
             );
         } else {

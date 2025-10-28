@@ -157,9 +157,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
                     </div>
 
                 </div>
@@ -213,10 +212,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                             </div>
                         </div>
 
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
 
                     </div>
                 
@@ -274,12 +271,11 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\" minlength=\"$min\" maxlength=\"$max\"></textarea>
                             <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining<span data-action=\"remainder\">$max</span></div>
-                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
-                    </div>
-                
+
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
             </fieldset>
@@ -332,11 +328,10 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
-                    </div>
-
+    
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
             </fieldset>
@@ -389,9 +384,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
+                                <div class=\"c-field-markdown__preview hidden\"></div>
                                  <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
                     </div>
 
                 </div>
@@ -447,9 +441,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                                 <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
+                            <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
                     </div>
 
                 </div>
@@ -595,15 +588,14 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
-                             <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                             <div class=\"c-input--has-mustache-variables\">
-                                <span>Also, some more info could be added here as well.</span>
-                                <ul class=\"c-input--has-mustache-variables__definitions\">
-                                    <li><a href=\"#\">&lcub;&lcub;var1&rcub;&rcub;</a> Test Variable 1</li>
-                                    <li><a href=\"#\">&lcub;&lcub;var2&rcub;&rcub;</a> Test Variable 2</li>
-                                </ul>
-                            </div>
-                        <div class=\"c-field-markdown__preview hidden\">
+                         <div class=\"c-field-markdown__preview hidden\"></div>
+                         <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
+                         <div class=\"c-input--has-mustache-variables\">
+                            <span>Also, some more info could be added here as well.</span>
+                            <ul class=\"c-input--has-mustache-variables__definitions\">
+                                <li><a href=\"#\">&lcub;&lcub;var1&rcub;&rcub;</a> Test Variable 1</li>
+                                <li><a href=\"#\">&lcub;&lcub;var2&rcub;&rcub;</a> Test Variable 2</li>
+                            </ul>
                         </div>
                     </div>
 
