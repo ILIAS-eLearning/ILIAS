@@ -1005,9 +1005,10 @@ class Renderer extends AbstractComponentRenderer
         ?FileInfoResult $file_info,
         Template $template
     ): Template {
+        $f = $this->getUIFactory();
         $template->setCurrentBlock('block_file_preview');
         $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
-            $this->getUIFactory()->symbol()->glyph()->close()->withAction("#")
+            $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->close())
         ));
 
         if (null !== $file_info) {
@@ -1022,15 +1023,14 @@ class Renderer extends AbstractComponentRenderer
         // contains actual (unhidden) inputs.
         if ($file_input->hasMetadataInputs()) {
             $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->expand()->withAction("#")
+                $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->expand())
             ));
             $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->collapse()->withAction("#")
+                $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->collapse())
             ));
         }
 
         $template->setVariable('METADATA_INPUTS', $default_renderer->render($metadata_input));
-
         $template->parseCurrentBlock();
 
         return $template;
