@@ -272,12 +272,10 @@ class ilMailFormGUI
                     $rcp_to,
                     $rcp_cc,
                     $rcp_bcc,
-                    ilUtil::securePlainString(
-                        $this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')
-                    ) ?: 'No Subject',
+                    ilUtil::securePlainString($form_values['m_subject'] ?? $this->lng->txt('mail_no_subject')),
                     $sanitized_message,
                     $files,
-                    $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
+                    $form_values['use_placeholders'],
                     $outbox_id ?? null
                 ),
                 $form_values['use_schedule']['m_schedule']

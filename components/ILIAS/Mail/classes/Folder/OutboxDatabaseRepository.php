@@ -78,7 +78,7 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
                     $row['rcp_bcc'],
                     $row['m_subject'],
                     $row['m_message'],
-                    unserialize($row['attachments'], ['allowed_classes' => false]),
+                    $row['attachments'],
                     (bool) ($row['use_placeholders'] ?? false),
                     isset($row['mail_id']) ? (int) $row['mail_id'] : null
                 );

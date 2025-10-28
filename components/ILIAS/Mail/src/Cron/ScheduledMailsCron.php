@@ -133,10 +133,10 @@ class ScheduledMailsCron extends CronJob
                 $mailer->autoresponder()->enableAutoresponder();
                 $errors = $mailer->enqueue(
                     $mail->getTo(),
-                    $mail->getSubject(),
-                    $mail->getMessage(),
                     $mail->getCc(),
                     $mail->getBcc(),
+                    $mail->getSubject(),
+                    $mail->getMessage(),
                     $mail->getAttachments(),
                     $mail->isUsePlaceholder()
                 );
