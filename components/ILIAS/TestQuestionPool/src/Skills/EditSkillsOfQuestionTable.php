@@ -65,8 +65,9 @@ class EditSkillsOfQuestionTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         /** @var \ilAssQuestionSkillAssignment $record */
         foreach ($this->retrieveRecords() as $record) {
@@ -87,8 +88,11 @@ class EditSkillsOfQuestionTable implements DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count(
             $this->assignment_list->getAssignmentsByQuestionId(
                 $this->pool_request->getQuestionId()
