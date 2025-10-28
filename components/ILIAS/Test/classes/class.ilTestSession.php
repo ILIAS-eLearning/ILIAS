@@ -457,7 +457,7 @@ class ilTestSession
     public function isAccessCodeUsed(string $code): bool
     {
         return $this->db->queryF(
-            'SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s' ,
+            'SELECT anonymous_id FROM tst_active WHERE test_fi = %s AND anonymous_id = %s',
             [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
             [$this->getTestId(), $code]
         )->rowCount() > 0;
