@@ -663,7 +663,7 @@ class ConsecutiveScoringGUI implements SegmentRetrieval
             ->buildURI();
 
         return $this->ui_factory->button()->standard(
-            $this->lng->txt('grade'),
+            $this->lng->txt('edit_score'),
             $this->prompt->getShowSignal($url)
         );
     }
