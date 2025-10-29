@@ -133,31 +133,25 @@ class ilBookingReservationsGUI
      */
     public function log(): void
     {
-        $tpl = $this->tpl;
         $this->showRerunPreferenceAssignment();
-        $table = $this->getReservationsTable();
-        $tpl->setContent($table->getHTML());
+        $this->tpl->setContent($this->getReservationsTable()->getHTML());
     }
 
     /**
      * Get reservationsTable
      */
-    protected function getReservationsTable(
-        ?string $reservation_id = null
-    ): ilBookingReservationsTableGUI {
-        $show_all = ($this->checkPermissionBool('write') || $this->pool->hasPublicLog());
+    protected function getReservationsTable(?string $reservation_id = null): ilBookingReservationsTableGUI
+    {
+        $show_all = $this->checkPermissionBool('write') || $this->pool->hasPublicLog();
 
-        $filter = null;
+        $filter = [];
         if ($this->book_obj_id > 0) {
-            $filter["object"] = $this->book_obj_id;
+            $filter['object'] = $this->book_obj_id;
         }
         // coming from participants tab to cancel reservations.
         if ($this->book_request->getUserId() > 0) {
-            $filter["user_id"] = $this->book_request->getUserId();
+            $filter['user_id'] = $this->book_request->getUserId();
         }
-        $context_filter = ($this->context_obj_id > 0)
-            ? [$this->context_obj_id]
-            : null;
 
         return new ilBookingReservationsTableGUI(
             $this,
@@ -167,7 +161,7 @@ class ilBookingReservationsGUI
             $show_all,
             $filter,
             $reservation_id,
-            $context_filter
+            $this->context_obj_id > 0 ? [$this->context_obj_id] : null
         );
     }
 
