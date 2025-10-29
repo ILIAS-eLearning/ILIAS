@@ -195,7 +195,8 @@ class ilQTIParser extends ilSaxParser
         int $a_mode = self::IL_MO_PARSE_QTI,
         int $a_qpl_id = 0,
         $a_import_idents = '',
-        array $mappings = []
+        array $mappings = [],
+        bool $throw_errors = false
     ) {
         global $DIC;
 
@@ -211,7 +212,7 @@ class ilQTIParser extends ilSaxParser
         }
 
         $this->depth = $this->createParserStorage();
-        $this->setThrowException(true);
+        $this->setThrowException($throw_errors);
     }
 
     public function isIgnoreItemsEnabled(): bool
