@@ -155,7 +155,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         $this->addBasicQuestionFormProperties($form);
 
-        $answer_type = $this->request->string('answer_type') ?: null;
+        $answer_type = $this->request_data_collector->string('answer_type') ?: null;
         $this->populateQuestionSpecificFormPart($form, $answer_type);
         $this->populateAnswerSpecificFormPart($form, $answer_type);
 

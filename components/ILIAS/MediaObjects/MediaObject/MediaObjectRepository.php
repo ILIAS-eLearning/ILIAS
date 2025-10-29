@@ -196,7 +196,7 @@ class MediaObjectRepository
     public function getInfoOfEntry(
         int $mob_id,
         string $path
-    ) {
+    ): array {
         return $this->irss->getContainerEntryInfo(
             $this->getRidForMobId($mob_id),
             $path

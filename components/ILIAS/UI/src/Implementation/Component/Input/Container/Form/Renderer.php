@@ -50,13 +50,32 @@ class Renderer extends AbstractComponentRenderer
         $this->addPostURL($component, $tpl);
         $this->maybeAddError($component, $tpl);
 
-        $submit_button = $this->getUIFactory()->button()->standard(
+        $additional_form_actions = $component->getAdditionalFormActions();
+        foreach ($additional_form_actions as $action => $label) {
+            $tpl->setCurrentBlock('with_additional_form_action_top');
+            $tpl->setVariable('ACTION_TOP', $action);
+            $tpl->setVariable('ACTION_LABEL_TOP', $label);
+            $tpl->parseCurrentBlock();
+
+            $tpl->setCurrentBlock('with_additional_form_action_bottom');
+            $tpl->setVariable('ACTION_BOTTOM', $action);
+            $tpl->setVariable('ACTION_LABEL_BOTTOM', $label);
+            $tpl->parseCurrentBlock();
+        }
+
+        if (empty($additional_form_actions)) {
+            $main_submit_button_type = 'standard';
+        } else {
+            $main_submit_button_type = 'primary';
+        }
+
+        $main_submit_button = $this->getUIFactory()->button()->{$main_submit_button_type}(
             $component->getSubmitLabel() ?? $this->txt("save"),
             ""
         );
 
-        $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
-        $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
+        $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($main_submit_button));
+        $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($main_submit_button));
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 
         return $tpl->get();

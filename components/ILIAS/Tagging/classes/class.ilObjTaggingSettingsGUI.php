@@ -67,7 +67,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbacsystem->checkAccess("read", $this->object->getRefId())) {
             throw new ilObjectException($this->lng->txt("permission_denied"));
         }
 
@@ -91,7 +91,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     {
         $rbacsystem = $this->rbacsystem;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "tagging_edit_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -121,7 +121,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "editSettings")
             );
 
-            if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            if ($this->rbacsystem->checkAccess("read", $this->object->getRefId())) {
                 $ilTabs->addSubTab(
                     "forbidden_tags",
                     $this->lng->txt("tagging_forbidden_tags"),

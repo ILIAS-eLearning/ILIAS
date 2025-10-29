@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace XapiProxy;
 
 class XapiProxyPolyFill
@@ -66,12 +67,7 @@ class XapiProxyPolyFill
 
     public function log(): \ilLogger
     {
-        if ($this->plugin) {
-            global $log;
-            return $log;
-        } else {
-            return \ilLoggerFactory::getLogger('cmix');
-        }
+        return \ilLoggerFactory::getLogger('cmix');
     }
 
     public function msg(string $msg): string
@@ -86,21 +82,6 @@ class XapiProxyPolyFill
     public function initLrs(): void
     {
         $this->log()->debug($this->msg('initLrs'));
-        //            if ($this->plugin) {
-        //                try {
-        //                    $authToken = \ilXapiCmi5AuthToken::getInstanceByToken($this->token);
-        //                }
-        //                catch (\ilXapiCmi5Exception $e) {
-        //                    $this->log()->error($this->msg($e->getMessage()));
-        //                    header('HTTP/1.1 401 Unauthorized');
-        //                    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
-        //                    header('Access-Control-Allow-Credentials: true');
-        //                    exit;
-        //                }
-        //                $this->authToken = $authToken;
-        //                $this->getLrsTypePlugin();
-        //            }
-        //            else {
         try {
             $authToken = \ilCmiXapiAuthToken::getInstanceByToken($this->token);
         } catch (\ilCmiXapiException $e) {
@@ -113,38 +94,6 @@ class XapiProxyPolyFill
 
         $this->authToken = $authToken;
         $this->getLrsType();
-        //            }
-    }
-
-    private function getLrsTypePlugin(): void
-    {
-        try {
-            $lrsType = $this->getLrsTypeAndMoreByToken();
-            if ($lrsType == null) {
-                // why not using $log?
-                $GLOBALS['DIC']->logger()->root()->log("XapiCmi5Plugin: 401 Unauthorized for token");
-                header('HTTP/1.1 401 Unauthorized');
-                header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
-                header('Access-Control-Allow-Credentials: true');
-                exit;
-            }
-            //                $this->defaultLrsEndpoint = $lrsType->getDefaultLrsEndpoint();
-            //                $this->defaultLrsKey = $lrsType->getDefaultLrsKey();
-            //                $this->defaultLrsSecret = $lrsType->getDefaultLrsSecret();
-            //
-            //                $this->fallbackLrsEndpoint = $lrsType->getFallbackLrsEndpoint();
-            //                $this->fallbackLrsKey = $lrsType->getFallbackLrsKey();
-            //                $this->fallbackLrsSecret = $lrsType->getFallbackLrsSecret();
-
-            $this->lrsType = $lrsType;
-        } catch (\Exception $e) {
-            // why not using $log?
-            $GLOBALS['DIC']->logger()->root()->log("XapiCmi5Plugin: " . $e->getMessage());
-            header('HTTP/1.1 401 Unauthorized');
-            header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
-            header('Access-Control-Allow-Credentials: true');
-            exit;
-        }
     }
 
     /**

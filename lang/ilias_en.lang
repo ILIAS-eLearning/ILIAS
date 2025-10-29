@@ -79,20 +79,11 @@ adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for techni
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_support_contacts_info#:#Please enter the login names of the people who can be contacted with questions and technical problems here, separated by commas. They can be contacted by e-mail via the "Contact technical support" link in the ILIAS footer. If the "Who is online?" display is active, these people will also be displayed there as technical support.
 administration#:#adm_achievements#:#Achievements
-administration#:#adm_activate_db_benchmark#:#Activate Benchmarking
-administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#Only allow administrators to assign or remove users from the role of administrator.
 administration#:#adm_auth_login#:#Authentication Login
 administration#:#adm_auth_reg#:#Authentication Registration
 administration#:#adm_communication#:#Communication
-administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL
-administration#:#adm_db_bench_chronological#:#Chronological
-administration#:#adm_db_bench_slowest_first#:#Slowest First
-administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
-administration#:#adm_db_benchmark#:#DB Benchmark
-administration#:#adm_db_benchmark_user#:#User Account Name
-administration#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.
 administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_external_setting_edit#:#Edit Settings
 administration#:#adm_hide#:#Hide in Settings Form
@@ -127,9 +118,7 @@ administration#:#adm_repository_and_objects#:#Repository and Objects
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_show_comments_tagging_in_lists#:#Show Number of Notes, Comments and Tags in Object Lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
-administration#:#adm_sql#:#SQL
 administration#:#adm_table#:#Table
-administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#Users and Roles
 administration#:#adm_user_starting_point#:#Personal Starting Point
 administration#:#adm_user_starting_point_info#:#Select the page or object which is to be shown after login.
@@ -339,6 +328,7 @@ administration#:#svn_revision_current#:#Current Revision: %s
 administration#:#svn_revision_last_change#:#Last Changed Revision: %s
 administration#:#svn_root#:#Root: %s
 administration#:#system_check_no_owner#:#Ownerless Objects
+administration#:#system_folder_info#:#Please choose an item from the administration main menu.
 administration#:#systemcheck#:#System check
 administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#user_criteria#:#Unique user criteria
@@ -430,8 +420,8 @@ adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE Editor for WYSIWYG Editing
 assessment#:#activate_logging#:#Activate Test and Assessment Logging
-assessment#:#activate_manual_scoring#:#Enable Manual Scoring
-assessment#:#activate_manual_scoring_desc#:#Enables manual Scoring for all question types.
+assessment#:#activate_manual_scoring#:#Enable Scoring
+assessment#:#activate_manual_scoring_desc#:#Enables Scoring for all question types.
 assessment#:#addSuggestedSolution#:#Add Content for Recapitulation
 assessment#:#add_answers#:#Add answers
 assessment#:#add_circle#:#Add circle area
@@ -637,6 +627,7 @@ assessment#:#edit_answer#:#Edit Answer
 assessment#:#edit_concluding_remarks#:#Edit Concluding Remarks
 assessment#:#edit_introduction#:#Edit Introduction
 assessment#:#edit_question#:#Edit Question
+assessment#:#edit_score#:#Edit Score
 assessment#:#edit_test_questions#:#List View
 assessment#:#element_height#:#Minimum Height
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
@@ -652,6 +643,7 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.
 assessment#:#err_no_formula#:#You must enter a formula
@@ -902,13 +894,13 @@ assessment#:#longmenu_answeroptions_differ#:#This question does not work correct
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mainbar_button_label_questionlist#:#Question List
 assessment#:#maintenance#:#Maintenance
-assessment#:#manscoring#:#Manual Scoring
+assessment#:#manscoring#:#Scoring
 assessment#:#manscoring_done#:#Scored Participants
 assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid participants getting access to the test results before you have finished manual scoring, please set a suitable date before which the results cannot be accessed.
 assessment#:#manscoring_none#:#Unscored Participants
-assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
-assessment#:#manscoring_questions_not_found#:#This test attempt does not contain question types which can be scored manually.
-assessment#:#manscoring_results_pass#:#Manual Scored Questions for Pass %s
+assessment#:#manscoring_not_allowed#:#The Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
+assessment#:#manscoring_questions_not_found#:#This test attempt does not contain question types which can be scored.
+assessment#:#manscoring_results_pass#:#Scored Questions for Pass %s
 assessment#:#manual_editing#:#Manual Editing
 assessment#:#manual_entry#:#Manual Entry
 assessment#:#mark_schema#:#Grading System
@@ -931,6 +923,10 @@ assessment#:#min_auto_complete#:#Autocomplete
 assessment#:#min_ip_label#:#Lowest IP With Access
 assessment#:#min_percentage_ne_0#:#One of your grade categories needs to start at the ‘Minimum Score Required (in %)’ level of 0%  Your grading system hasn’t been saved.
 assessment#:#misc#:#Misc Options
+assessment#:#mode_allatonce#:#All
+assessment#:#mode_onebyone#:#One by One
+assessment#:#mode_question#:#Question oriented
+assessment#:#mode_user#:#Participant oriented
 assessment#:#msg_circle_added#:#Circle added
 assessment#:#msg_no_questions_selected#:#No questions were selected.
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
@@ -1010,6 +1006,29 @@ assessment#:#passes_finished#:#%s passes
 assessment#:#percentage#:#Percentage
 assessment#:#percentage_points_achieved#:#Reached Points
 assessment#:#percentile#:#Percentile
+assessment#:#personal_settings_apply#:#Apply Settings Template
+assessment#:#personal_settings_apply_changed_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This also overwrites the Selection of Test Questions. The process cannot be undone!
+assessment#:#personal_settings_apply_confirmation#:#The current test settings will be overwritten with the settings from the selected template. This process cannot be undone!
+assessment#:#personal_settings_apply_description#:#This template overrides all settings of test '%s'.
+assessment#:#personal_settings_apply_not_possible#:#ILIAS could not apply the selected template to this test! Maybe this test already contains participant data sets.
+assessment#:#personal_settings_apply_success#:#Personal Test Settings have been applied successfully.
+assessment#:#personal_settings_author#:#Created by
+assessment#:#personal_settings_create#:#Add New Setting Template
+assessment#:#personal_settings_delete_confirmation#:#The selected template(s) will be permanently deleted. This cannot be undone.
+assessment#:#personal_settings_delete_success#:#The selected template(s) have been deleted.
+assessment#:#personal_settings_description#:#Template Description
+assessment#:#personal_settings_explanation#:#ILIAS will store the settings of the current test in a template. This template can be used to transfer the settings to another test.
+assessment#:#personal_settings_export#:#Export Settings Template
+assessment#:#personal_settings_import#:#Import Setting Templates
+assessment#:#personal_settings_import_success#:#The template was imported successfully.
+assessment#:#personal_settings_invalid_selection#:#Please select one template.
+assessment#:#personal_settings_name#:#Template Title
+assessment#:#personal_settings_required_author#:#Please enter an author for your template.
+assessment#:#personal_settings_required_title#:#Please enter a title for your template.
+assessment#:#personal_settings_save#:#Save New Setting Template
+assessment#:#personal_settings_show#:#Show Template Details
+assessment#:#personal_settings_templates_available#:#Personal Test Settings Templates
+assessment#:#personal_settings_timestamp#:#Creation Date
 assessment#:#picture#:#Picture
 assessment#:#point#:#Point
 assessment#:#points#:#Points
@@ -1189,6 +1208,7 @@ assessment#:#remove_gap#:#Remove Gap
 assessment#:#remove_participants#:#Remove Participant(s)
 assessment#:#remove_question#:#Remove
 assessment#:#remove_selected_participants_confirmation#:#Are you sure you want to remove the selected participants from the test?
+assessment#:#remove_selected_templates_confirmation#:#Are you sure you want to permanently remove the selected personal test settings templates?
 assessment#:#remove_solution#:#Remove Content for Recapitulation
 assessment#:#res_contains_undef_res#:#A result formula contains an undefined result!
 assessment#:#res_contains_undef_var#:#A result formula contains an undefined variable!
@@ -1227,6 +1247,7 @@ assessment#:#saved_adjustment#:#Changes saved.
 assessment#:#score_anon#:#Score anonymously
 assessment#:#score_partsol_enabled#:#Activate Half-Point Scoring
 assessment#:#score_partsol_enabled_info#:#Usually the participant has to answer the question fully correct to get the configured points. With this option the participant gets the half of the configured points with at least three correct decisions.
+assessment#:#scored_by#:#Scored BY
 assessment#:#scored_pass#:#Scored Test Attempt
 assessment#:#scoring#:#Scoring and Results
 assessment#:#scoringadjust#:#Corrections
@@ -1246,6 +1267,7 @@ assessment#:#selection#:#Selection
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
 assessment#:#set_manscoring_done#:#Mark as ‘Scored Participant’
+assessment#:#set_manscoring_open#:#Remove 'scoring complete' flag
 assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#showSuggestedSolution#:#Type
@@ -1417,7 +1439,7 @@ assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Frequency
 assessment#:#tst_corrections_answers_tbl#:#Statistics
 assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.
-assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
+assessment#:#tst_corrections_manscore_reset_warning#:#There are %s scorings that have been done for the question "%s (ID: %s)". All scorings will be reset when saving the question.
 assessment#:#tst_corrections_qst_form#:#Correction of Points
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
@@ -1427,14 +1449,6 @@ assessment#:#tst_count_correct_solutions_desc#:#Participants score either the ma
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
 assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
 assessment#:#tst_current_run_no_longer_valid#:#Your current test run is no longer valid. <br>It was probably completed already or finished by a tutor.
-assessment#:#tst_default_settings#:#Personal Default Settings
-assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
-assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
-assessment#:#tst_defaults_available#:#Available test defaults
-assessment#:#tst_defaults_defaults_of_test#:#the settings of this test as
-assessment#:#tst_defaults_enter_name#:#Please enter a name for your test default settings!
-assessment#:#tst_defaults_not_defined#:#You don’t have any test default settings defined yet.
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to remove it
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
@@ -1594,14 +1608,23 @@ assessment#:#tst_list_of_answers_show#:#Review of Scored Answers
 assessment#:#tst_list_of_questions_end#:#Show before a participant finishes the test
 assessment#:#tst_list_of_questions_start#:#Show prior to the first question
 assessment#:#tst_list_of_questions_with_description#:#Include question descriptions
+assessment#:#tst_man_scoring_answered_hide#:#Hide answered questions
+assessment#:#tst_man_scoring_answered_only#:#Show only answered questions
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
+assessment#:#tst_man_scoring_finalized#:#Show finalized gradings
+assessment#:#tst_man_scoring_finalized_hide#:#Hide finalized gradings
+assessment#:#tst_man_scoring_finalized_only#:#Show only finalized gradings
 assessment#:#tst_man_scoring_only_answered#:#Only answered
+assessment#:#tst_man_scoring_questionselection#:#Questions
+assessment#:#tst_man_scoring_userselection#:#Participants
 assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments
 assessment#:#tst_manage_competence_select_skills#:#Select Competences
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
+assessment#:#tst_manscoring_input_of_max#:#of
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
+assessment#:#tst_manscoring_no_feedback#:#No written feedback has been given yet.
 assessment#:#tst_manscoring_question_section_header#:#Question: %s
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_mark#:#Mark
@@ -1663,8 +1686,8 @@ assessment#:#tst_non_available_pool_newly_derived#:#The new question pool(s) has
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
 assessment#:#tst_notification_explanation_admin#:#You receive this mail from ILIAS because you activated the notification.
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You have received this notification, because you participated in this test.
-assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" committed
-assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded manually:
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Scoring for Test "%s" committed
+assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Your test has been graded:
 assessment#:#tst_nr_of_passes#:#Number of Test Attempts
 assessment#:#tst_nr_of_tries#:#Max. Number of Attempts
 assessment#:#tst_nr_of_tries_desc#:#Maximum number of passes a participant can take.
@@ -1836,10 +1859,10 @@ assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#New Rule for Selection of Quest
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_save_and_proceed#:#Save and Proceed###fau: testNav
 assessment#:#tst_save_comp_points#:#Save Competence Points
-assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test attempt %s has failed.
+assessment#:#tst_save_manscoring_failed#:#Saving the scoring for test attempt %s has failed.
 assessment#:#tst_save_thresholds#:#Save Thresholds
-assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test attempt %s has been saved successfully.
-assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test attempt %s for %s has been saved successfully.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The scoring for the question %s for test attempt %s has been saved successfully.
+assessment#:#tst_saved_manscoring_successfully#:#The scoring for test attempt %s for %s has been saved successfully.
 assessment#:#tst_score_cut_question#:#For Each Questions Negative Points are set to ‘0 Points’
 assessment#:#tst_score_cut_question_desc#:#Participants may score negative results for a question that had negative points for assigned to individual answer options. This setting ensures that per question any negativ result is set to 0 points.
 assessment#:#tst_score_cut_test#:#For the Whole Test a Negative Result is set to ‘0 Points’
@@ -1857,6 +1880,8 @@ assessment#:#tst_settings_header_additional#:#Additional Features
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
+assessment#:#tst_settings_not_found#:#Missing Test Settings
+assessment#:#tst_settings_not_found_msg#:#Test Settings could not found. This may be due to a missing migration step. Please contact your system administrator.
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel#:#Suspend Test
 assessment#:#tst_show_cancel_description#:#Participants are presented with a button to stop the test run and to continue it later. Caution: Suspending the test does not stop the countdown of the maximum duration of the test.
@@ -2002,6 +2027,7 @@ assessment#:#use_previous_solution_advice#:#The solution shown is your solution 
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_ip_outside_range#:#You are not allowed to access the test from this IP.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
+assessment#:#usr_manscoring_complete#:#Marke as 'scored'
 assessment#:#value_between_x_and_y#:#The value should be between %s and %s
 assessment#:#values#:#Values
 assessment#:#variable#:#Variable
@@ -2272,6 +2298,17 @@ badge#:#sort_by_title_desc#:#Title Descending
 badge#:#table_view#:#Table View
 badge#:#tile_view#:#Tile View
 badge#:#valid_until#:#Valid until
+benchmark#:#adm_activate_db_benchmark#:#Activate Benchmarking
+benchmark#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
+benchmark#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL
+benchmark#:#adm_db_bench_chronological#:#Chronological
+benchmark#:#adm_db_bench_slowest_first#:#Slowest First
+benchmark#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
+benchmark#:#adm_db_benchmark#:#DB Benchmark
+benchmark#:#adm_db_benchmark_user#:#User Account Name
+benchmark#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.
+benchmark#:#adm_sql#:#SQL
+benchmark#:#adm_time#:#Time
 bgtask#:#bgtask_blocked#:#Concurrent download
 bgtask#:#bgtask_blocked_cancel_new#:#Cancel new download
 bgtask#:#bgtask_blocked_cancel_old#:#Cancel existing download
@@ -3593,8 +3630,6 @@ common#:#basedn#:#BaseDN
 common#:#basic_settings#:#Basic Settings
 common#:#before#:#Before
 common#:#behind#:#Behind
-common#:#benchmark#:#Benchmark
-common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographical Data
 common#:#bibl_add#:#Add Bibliography
 common#:#birthday#:#Birthday
@@ -4547,17 +4582,26 @@ common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIA
 common#:#mail_attachment#:#Mail attachment
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_c_trash#:#Trash
+common#:#mail_cron_scheduled_mails#:#Send scheduled mails.
+common#:#mail_cron_scheduled_mails_desc#:#Sends scheduled user mails according to their defined delivery times
 common#:#mail_d_drafts#:#Drafts
-common#:#mail_delete_error#:#Error while deleting
+common#:#mail_delete_error#:#Error while deleting.
+common#:#mail_e_outbox#:#Outbox
 common#:#mail_e_sent#:#Sent
 common#:#mail_edit_permission#:#User can change permission settings in Mail administration
+common#:#mail_f_sent#:#Sent
 common#:#mail_folders#:#Mail Folders
 common#:#mail_import_file#:#Export file
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
+common#:#mail_message_scheduled#:#Scheduled mail
+common#:#mail_message_scheduled_info#:#Mails remain in the outbox until the scheduled sending time.
 common#:#mail_not_sent#:#Mail not sent!
+common#:#mail_schedule_error_no_datetime#:#To schedule a mail, a delivery date and time must be specified.
+common#:#mail_schedule_error_past_datetime#:#You cannot schedule emails in the past.
+common#:#mail_scheduled#:#Mail stored in outbox for later delivery.
 common#:#mail_search_no#:#No entries found.
 common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
@@ -4715,7 +4759,7 @@ common#:#msg_link_clipboard_p#:#Now, please select the desired location, where t
 common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
-common#:#msg_min_one_role#:#Each user must have at least one global role!
+common#:#msg_min_one_role#:#Each user must have at least one global role.
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
@@ -4832,6 +4876,8 @@ common#:#obj_accs#:#Accessibility
 common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
+common#:#obj_adma#:#General Settings
+common#:#obj_adma_desc#:#Important settings for the whole installation
 common#:#obj_adn#:#Administrative Notifications
 common#:#obj_adve#:#Editing
 common#:#obj_adve_desc#:#Administration settings for the ILIAS Page Editor and the TinyMCE Editor
@@ -4850,6 +4896,8 @@ common#:#obj_bibs#:#Bibliography
 common#:#obj_bibs_desc#:#Bibliography Administration
 common#:#obj_blog#:#Blog
 common#:#obj_blog_duplicate#:#Copy Blog
+common#:#obj_bnmk#:#Benchmarking
+common#:#obj_bnmk_desc#:#Recording and display of database query durations
 common#:#obj_book#:#Booking Pool
 common#:#obj_cadm#:#Contacts
 common#:#obj_cadm_desc#:#Contacts Administration
@@ -4875,6 +4923,8 @@ common#:#obj_copa#:#Content Page
 common#:#obj_cpad#:#Content Pages
 common#:#obj_cpad#_desc#:#Content Page Administration
 common#:#obj_cpad_desc#:#Content Page Administration
+common#:#obj_cron#:#Cron Jobs
+common#:#obj_cron_desc#:#List of all Cron Jobs
 common#:#obj_crs#:#Course
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crsr#:#Course Link
@@ -4949,6 +4999,7 @@ common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mailr#:#Read Mail
 common#:#obj_mailu#:#Unread Mail
+common#:#obj_maps#:#Maps
 common#:#obj_mcst#:#Mediacast
 common#:#obj_mcst_duplicate#:#Copy Mediacast
 common#:#obj_mcts#:#Mediacast
@@ -5044,6 +5095,8 @@ common#:#obj_sco#:#SCO
 common#:#obj_scov#:#SCORM Certificate
 common#:#obj_seas#:#Search
 common#:#obj_seas_desc#:#Manage the search settings here.
+common#:#obj_serv#:#Server
+common#:#obj_serv_desc#:#Settings of the sever
 common#:#obj_sess#:#Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_skmg#:#Competence Management
@@ -5051,6 +5104,8 @@ common#:#obj_skmg_desc#:#Manage competences and competence categories.
 common#:#obj_spl#:#Question Pool for Surveys
 common#:#obj_spl_select#:#-- Please select one question pool survey --
 common#:#obj_st#:#Chapter
+common#:#obj_stus#:#Shortlinks
+common#:#obj_stus_desc#:#Global Shortlinks Settings
 common#:#obj_sty#:#Style
 common#:#obj_stys#:#Layout and Styles
 common#:#obj_stys_desc#:#Manage system skin and style settings here
@@ -5806,6 +5861,7 @@ common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#upload#:#Upload
 common#:#upload_error_file_not_found#:#Upload error: File not found.
+common#:#upload_ok#:#The upload was successful
 common#:#upload_pending#:#Pending
 common#:#upload_settings#:#Upload Settings
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.
@@ -8721,6 +8777,7 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_page_type_dclf#:#Details View
+dcl#:#dcl_placeholder_info#:#To use data from the data collection in this view, please use the corresponding placeholders. These are available in the page element 'Text' and 'Data Table'.
 dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
@@ -9016,6 +9073,7 @@ ecs#:#ecs_export_auth_type#:#Authentication method for users with external user 
 ecs#:#ecs_export_auth_type_ilias#:#User authentication via LDAP
 ecs#:#ecs_export_auth_type_info#:#Please choose the authentication method for users to authenticate via ECS, for whom an external user attribute was transferred via ECS.
 ecs#:#ecs_export_auth_type_none#:#Do not allow users with external user attribute
+ecs#:#ecs_export_auth_type_oidc#:#User authentication via OpenID Connect
 ecs#:#ecs_export_auth_type_shib#:#User authentication via Shibboleth
 ecs#:#ecs_export_created_body_a#:#A new course has been released
 ecs#:#ecs_export_disabled#:#Do not release this Course
@@ -10454,6 +10512,58 @@ gsfo#:#services#:#Services
 gsfo#:#support#:#Support
 gsfo#:#translate#:#Translate
 gsfo#:#translations#:#Translations
+help#:#gdtr_active#:#Active
+help#:#gdtr_add_step#:#Add Step
+help#:#gdtr_add_tour#:#Add Tour
+help#:#gdtr_close#:#End Tour
+help#:#gdtr_delete_step#:#Delete Step
+help#:#gdtr_delete_step_mess#:#Are you sure you want to delete this step?
+help#:#gdtr_delete_tour#:#Delete Tour
+help#:#gdtr_delete_tour_mess#:#Are you sure you want to delete this tour?
+help#:#gdtr_deleted_step#:#Step has been deleted.
+help#:#gdtr_deleted_tour#:#Tour has been deleted.
+help#:#gdtr_edit_content#:#Edit Content
+help#:#gdtr_edit_page_info#:#Edit the content that should be presented to explain the selected UI element.
+help#:#gdtr_edit_properties#:#Edit Properties
+help#:#gdtr_edit_step_info#:#On this screen you define, which element on the screen should be explained in this step of the tour. A popover with the explanation text you define will be presented pointing to this element.
+help#:#gdtr_edit_steps#:#Edit Steps
+help#:#gdtr_element_id#:#Element ID
+help#:#gdtr_form#:#Form
+help#:#gdtr_form_info#:#The first form of the main content area. Usually views should only contain one form.
+help#:#gdtr_guided_tours#:#Guided Tours
+help#:#gdtr_id_pres_users#:#Show IDs for User Accounts
+help#:#gdtr_id_pres_users_info#:#Login names of user that should get element IDs presented. Separate multiple entries by comma.
+help#:#gdtr_id_settings#:#ID Settings
+help#:#gdtr_import_tour#:#Import Tour
+help#:#gdtr_language#:#Language
+help#:#gdtr_language_info#:#Activates a guided tour only for users with the selected language.
+help#:#gdtr_list_tours_mess#:#To activate the presentation of screen and element IDs as tooltips, switch to ID Settings and enter your account name.
+help#:#gdtr_mainbar#:#Mainbar
+help#:#gdtr_mainbar_info#:#The mainbar ist the main menu on the left side. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.
+help#:#gdtr_metabar#:#Metabar
+help#:#gdtr_metabar_info#:#The metabar is the menu on the top, right. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.
+help#:#gdtr_next_step#:#Next Step
+help#:#gdtr_permission#:#Permission
+help#:#gdtr_permission_info#:#Activates a guided tour only for users with a certain permission on the current repository object, e.g. only for users with "edit settings" permission for a course. If you "Create" is selected, the tour is active, if the user has any creation permission.
+help#:#gdtr_primary_button#:#Primary Button
+help#:#gdtr_primary_button_info#:#The first primary button of the main content area. Primary buttons are presented emphasised compared to standard buttons. Usually views should only contain one primary button.
+help#:#gdtr_reset_tour#:#Reset Tour
+help#:#gdtr_reset_tour_mess#:#If you reset the tour, all users that previously ended the tour, will get the tour presented again. Are you sure to proceed?
+help#:#gdtr_screen_ids#:#Screen IDs
+help#:#gdtr_screen_ids_info#:#Enable a guided tour only for distinct views of the system. If element IDs are activated, you find the Screen ID of a current view on top in the header. Multiple IDs must be separated by comma.
+help#:#gdtr_step#:#Step
+help#:#gdtr_step_type#:#User Interface Element
+help#:#gdtr_table#:#Table
+help#:#gdtr_table_info#:#The first table of the main content area. Usually views should only contain one table.
+help#:#gdtr_tabs#:#Tabs
+help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the screen. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.
+help#:#gdtr_toolbar#:#Toolbar
+help#:#gdtr_toolbar_info#:#The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar.
+help#:#gdtr_tour_has_been_reset#:#Tour has been reset.
+help#:#gdtr_tour_steps#:#Tour Steps
+help#:#gdtr_tours#:#Tours
+help#:#gdtr_type#:#Type
+help#:#guided_tour#:#Guided Tour
 help#:#help_all#:#All
 help#:#help_component#:#Component
 help#:#help_filter#:#Filter
@@ -11389,6 +11499,7 @@ mail#:#chat_users_without_login#:#The following users don't have an ILIAS accoun
 mail#:#chat_users_without_permission#:#The following users don't have access to the selected chat room:
 mail#:#current_folder#:#Current Folder: %s
 mail#:#deleteTemplate#:#Delete
+mail#:#edit_attachments#:#Edit Attachments
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
@@ -11510,6 +11621,7 @@ mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists#:#Mailing Lists
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already added all of your contacts to this mailing list.
 mail#:#mail_mailing_lists_no_contact_entries#:#You don’t have any entries in your contacts to add to a mailing list.
+mail#:#mail_main_folder#:#Main Folder
 mail#:#mail_manage_attachments#:#Manage Attachments
 mail#:#mail_manage_attachments_back_to_compose#:#Back to Compose
 mail#:#mail_manage_attachments_drop_files_msg#:#Drop file to upload
@@ -11550,6 +11662,7 @@ mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in the ‘Message Content’ field)
 mail#:#mail_nacc_user_fullname#:#User Full Name
 mail#:#mail_nacc_user_login#:#User Login
+mail#:#mail_new#:#New Mail
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_mail_items#:#No unread mails.
 mail#:#mail_no_permissions_write_smtp#:#You do not have permission to send external e-mails.
@@ -11560,6 +11673,7 @@ mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned#:#Notification Mail
 mail#:#mail_notify_orphaned_info#:#If you enter a value here that is larger than or equal to 1, ILIAS will send a notification e-mail to all affected accounts that many days before any internal mails are deleted. Please make sure that external e-mail reception is possible.
 mail#:#mail_operation_on_invalid_folder#:#It was not possible to carry out the requested operation. The folder given in the server request is invalid. Please contact an administrator.
+mail#:#mail_options#:#Mail Options
 mail#:#mail_options_saved#:#Options saved.
 mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
 mail#:#mail_orphaned_mails_desc#:#Deletes orphaned mails and mails that are older than the configured threshold value (configurable via the ‘Edit’ link to the right of this cron job).
@@ -11679,7 +11793,6 @@ maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-d
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
-maps#:#maps_extt_maps#:#Maps
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup
@@ -14625,6 +14738,7 @@ rbac#:#rcrs_edit_permission#:#User can change permission settings
 rbac#:#rcrs_read#:#User can use ECS Course
 rbac#:#rcrs_visible#:#ECS Course is visible
 rbac#:#rcrs_write#:#User can edit settings of ECS Course
+rbac#:#read_all_accounts#:#Read All Accounts
 rbac#:#read_comp#:#Read Competences
 rbac#:#read_learning_progress#:#View learning progress of other users
 rbac#:#read_outcomes#:#View learning experiences of other users
@@ -14731,6 +14845,9 @@ rbac#:#spl_read#:#User can read survey questions in pool and insert them in surv
 rbac#:#spl_visible#:#Question pool is visible
 rbac#:#spl_write#:#User can edit survey questions and settings of question pool
 rbac#:#statistics_read#:#View Statistics
+rbac#:#stus_edit_permission#:#User can change permission settings in Shortlink administration
+rbac#:#stus_read#:#User can see the Shortlink Administration
+rbac#:#stus_write#:#User can edit Shortlinks
 rbac#:#sty_write_content#:#Edit Content Styles
 rbac#:#sty_write_page_layout#:#Edit Page Layouts
 rbac#:#sty_write_system#:#Edit System Styles
@@ -14797,6 +14914,7 @@ rbac#:#usrf_edit_permission#:#User can change permission settings in User admini
 rbac#:#usrf_edit_roleassignment#:#User can change role assignment of user account
 rbac#:#usrf_push_desktop_items#:#User is allowed to add recommended content for role members.
 rbac#:#usrf_read#:#User has read access to User administration
+rbac#:#usrf_read_all_accounts#:#User can list all accounts in User administration
 rbac#:#usrf_read_users#:#User has read access to local user accounts (local administrators)
 rbac#:#usrf_visible#:#User administration is visible
 rbac#:#usrf_write#:#Edit settings in User administration
@@ -14858,7 +14976,7 @@ registration#:#reg_approve#:#Registration with Approval
 registration#:#reg_approve_info#:#Newly-registered users have to be approved by an administrator.
 registration#:#reg_approve_needs_recipient#:#For the registration type ‘Registration with Approval’ you should appoint at least one user who will be notified about new registrations.
 registration#:#reg_available_roles#:#Available Roles:
-registration#:#reg_confirmation_already_confirmed#:#The registration is no longer pending, it has already been confirmed. 
+registration#:#reg_confirmation_already_confirmed#:#The registration is no longer pending, it has already been confirmed.
 registration#:#reg_confirmation_hash_life_time#:#Valid for
 registration#:#reg_confirmation_hash_life_time_expired#:#This confirmation link is no longer valid. Please re-register and click on the link in the new confirmation e-mail within a few minutes of receipt.
 registration#:#reg_confirmation_hash_life_time_info#:#Enter for how long (in seconds ) the confirmation link should be valid. The recommended value is 1800 seconds.
@@ -15782,6 +15900,38 @@ skmg#:#skmg_usage_type_info_prof#:#Used in Competence Profiles
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Learning Material
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
+stus#:#stus_action_delete#:#Delete
+stus#:#stus_action_edit#:#Edit
+stus#:#stus_action_toggle#:#Activate/Deactivate
+stus#:#stus_active#:#Active
+stus#:#stus_alias#:#Shortlink
+stus#:#stus_alias_already_exists#:#The shortlink is already taken. Please choose another one.
+stus#:#stus_alias_invalid#:#The shortlink contains invalid characters. Permitted characters: A-Z, a-z, 0-9, - and _
+stus#:#stus_confirm_delete#:#Delete entries
+stus#:#stus_create_shortlink#:#Create shortlink
+stus#:#stus_delete#:#Delete
+stus#:#stus_delete_shortlink#:#Delete
+stus#:#stus_delete_shortlink_msg#:#Shortlink deleted
+stus#:#stus_index#:#Manage
+stus#:#stus_info#:#Information
+stus#:#stus_info_active#:#Inactive shortlinks are not redirected when called up.
+stus#:#stus_info_alias#:#May only contain the following characters: A-Z, a-z, 0-9, - und _
+stus#:#stus_info_target_ref_id#:#Target object
+stus#:#stus_order_saved#:#Order saved
+stus#:#stus_prefix#:#Prefix
+stus#:#stus_rbac_permissions#:#Permissions
+stus#:#stus_shortlink#:#Shortlink
+stus#:#stus_shortlinks#:#Shortlinks
+stus#:#stus_shortlinks_deleted#:#Shortlinks have been deleted
+stus#:#stus_shortlinks_toggled#:#Shortlinks have been deactivated/activated
+stus#:#stus_stus_stored_sucessfully#:#Shortlink successfully saved
+stus#:#stus_stus_toggle#:#Deactivate/Activate
+stus#:#stus_target_link#:#Target object
+stus#:#stus_target_ref_id#:#Target object
+stus#:#stus_target_ref_id_required#:#Select a target object.
+stus#:#stus_toggle#:#Deactivate/Activate
+stus#:#stus_toggle_shortlink#:#Change status
+stus#:#stus_toggle_shortlink_msg#:#Would you like to change the active status of the following entries?
 style#:#Style#:#Style
 style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
@@ -17319,6 +17469,15 @@ ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_error#:#Error
 ui#:#ui_error_in_group#:#There is some error in this part.
 ui#:#ui_error_switchable_group_required#:#Please select an option.
+ui#:#ui_field_option_filter_clear_search#:#Clear search
+ui#:#ui_field_option_filter_filtered_results_aria_label#:#List of options - collapsible and filterable
+ui#:#ui_field_option_filter_no_match#:#There was no match for the search term you entered.
+ui#:#ui_field_option_filter_no_selection#:#Nothing selected.
+ui#:#ui_field_option_filter_options_shown#:#Currently showing %s options.
+ui#:#ui_field_option_filter_screen_reader_hint#:#Start typing and the field options below will be filtered accordingly.
+ui#:#ui_field_option_filter_search_in#:#Find
+ui#:#ui_field_option_filter_show_all_options#:#Show all options
+ui#:#ui_field_option_filter_show_less#:#Show less
 ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident.
 ui#:#ui_file_input_invalid_amount#:#You cannot upload this many files, please remove some in order to continue.
 ui#:#ui_file_input_invalid_mime#:#Files of type '%s' are not allowed

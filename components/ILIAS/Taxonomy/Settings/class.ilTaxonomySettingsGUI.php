@@ -128,7 +128,7 @@ class ilTaxonomySettingsGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("tax_max_one_tax"));
         }
         $items = [];
-        foreach($tax_ids as $t) {
+        foreach ($tax_ids as $t) {
             $this->ctrl->setParameterByClass(ilObjTaxonomyGUI::class, "tax_id", $t["tax_id"]);
             $action = [];
             $action[] = $f->button()->shy(

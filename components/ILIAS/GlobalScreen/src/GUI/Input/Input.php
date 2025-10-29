@@ -150,4 +150,9 @@ class Input
         return $this->http->request();
     }
 
+    public function refinery(): Refinery\Factory
+    {
+        return $this->refinery;
+    }
+
 }

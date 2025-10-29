@@ -467,7 +467,12 @@ interface Factory
      *        A meaningful labeling SHOULD be chosen instead.
      *   ordering:
      *     1: The presumably most relevant option SHOULD be the first option.
-     *
+     *   accessibility:
+     *     1: Radio and Radio withHasOptionFilter MUST both be operable with keyboard only.
+     *     2: >
+     *       Be aware that the screen-reader-only hint text when using withHasOptionFilter is not
+     *       visible, but MUST be up to date and localized for users relying on screen readers.
+     *     3: Screen Reader announce the number of filtered options through a live status.
      * ---
      * @param string      $label
      * @param string|null $byline
@@ -482,8 +487,16 @@ interface Factory
      *     A Multi Select is used to allow users to pick several options from a list.
      *   composition: >
      *     The Multi Select field will render labeled checkboxes according to given options.
+     *     If the with withHasOptionFilter parameter is set, there is a toggle button to expand and collapse the Radio list.
+     *     An expanded Multi Select withHasOptionFilter also shows a searchbar with a 'clear search' button.
      *   effect: >
-     *
+     *     A Multi Select withHasOptionFilter can be expanded and collapsed.
+     *     When collapsed, it only shows the currently selected options and does not react to inputs.
+     *     When the toggle is clicked to expand, the Multi Select list shows all choices in a scrollable box and takes inputs.
+     *     It then also shows a searchbar which instantly filters through the option list when typing any text input.
+     *     After any search input has been given, the list can be reset to be unfiltered by clicking a button.
+     *     Collapsing the Multi Select with Search also resets the filter.
+     *     Choosing an option in the Multi Select withHasOptionFilter makes the picked choice jump to the top.
      *   rivals:
      *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
      *     Tag Field: Use a Tag Input when the user is able to extend the list of given options.
@@ -502,7 +515,14 @@ interface Factory
      *     3: >
      *      A Multi Select input MUST NOT be used whenever a user has to perform a choice from a list of
      *      options where only one option can be selected. A Select MUST be used in this case
-     *
+     *     4: >
+     *      A Multi Select withHasOptionFilter SHOULD be used if the list contains more than 5 items.
+     *   accessibility:
+     *     1: Multi Select and Multi Select withHasOptionFilter MUST both be operable with keyboard only.
+     *     2: >
+     *       Be aware that the screen-reader-only hint text when using withHasOptionFilter is not
+     *       visible, but MUST be up to date and localized for users relying on screen readers.
+     *     3: Screen Reader announce the number of filtered options through a live status.
      *   wording:
      *     1: Each option MUST be labeled.
      *     2: >

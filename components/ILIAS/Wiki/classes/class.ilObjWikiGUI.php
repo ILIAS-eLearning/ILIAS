@@ -1147,7 +1147,7 @@ class ilObjWikiGUI extends ilObjectGUI
         return false;
     }
 
-    protected function getRenderedTranslationInfo()
+    protected function getRenderedTranslationInfo(): string
     {
         $mess = $this->gui->ui()->factory()->messageBox()->info(
             $this->lng->txt("wiki_translate_page_master_info")

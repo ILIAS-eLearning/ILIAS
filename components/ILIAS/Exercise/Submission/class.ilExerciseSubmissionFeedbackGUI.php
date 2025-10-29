@@ -108,7 +108,7 @@ class ilExerciseSubmissionFeedbackGUI
 
         $form = $this
             ->gui
-            ->form(self::class, "validateAndSubmitFeedbackForm")
+            ->form([self::class], "validateAndSubmitFeedbackForm")
             ->asyncModal()
             ->textarea(
                 "comment",

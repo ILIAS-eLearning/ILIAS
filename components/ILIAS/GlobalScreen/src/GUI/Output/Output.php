@@ -105,13 +105,18 @@ class Output
         if ($post_url instanceof URI) {
             $post_url = (string) $post_url;
         }
-        $modal = $this->ui_factory->modal()->interruptive(
-            $title,
-            $message,
-            $post_url
-        )->withAffectedItems(
-            $components
-        )->withActionButtonLabel($button_text);
+        $modal = $this
+            ->ui_factory
+            ->modal()
+            ->interruptive(
+                $title,
+                $message,
+                $post_url
+            )
+            ->withAffectedItems(
+                $components
+            )
+            ->withActionButtonLabel($button_text);
 
         $this->outAsync($modal);
     }
@@ -127,39 +132,40 @@ class Output
 
         $is_form = count($components) === 1 && $components[0] instanceof Form;
         $are_interruptive = array_filter(
-                $components,
-                fn($component): bool => $component instanceof InterruptiveItem
-            ) !== [];
+            $components,
+            fn(?Component $component): bool => $component instanceof InterruptiveItem
+        ) !== [];
 
         $modal = match (true) {
-            $is_form => $this->ui_factory->modal()->roundtrip(
-                $title,
-                null,
-                $components[0]->getInputs(),
-                $post_url
-            ),
-            $are_interruptive => $this->ui_factory->modal()->interruptive(
-                $title,
-                $this->translator->translate('confirm_delete'),
-                $post_url
-            )->withAffectedItems(
-                $components
-            //                array_map(
-            //                    fn(KeyValue $item): \ILIAS\UI\Component\Modal\InterruptiveItem\KeyValue => $this->ui_factory->modal(
-            //                    )->interruptiveItem()->keyValue(
-            //                        $this->hash($item->getId()),
-            //                        $item->getKey(),
-            //                        $item->getValue()
-            //                    ),
-            //                    $components
-            //                )
-            ),
-            default => $this->ui_factory->modal()->roundtrip(
-                $title,
-                $components,
-                [],
-                $post_url
-            )
+            $is_form => $this
+                ->ui_factory
+                ->modal()
+                ->roundtrip(
+                    $title,
+                    null,
+                    $components[0]->getInputs(),
+                    $post_url
+                ),
+            $are_interruptive => $this
+                ->ui_factory
+                ->modal()
+                ->interruptive(
+                    $title,
+                    $this->translator->translate('confirm_delete'),
+                    $post_url
+                )
+                ->withAffectedItems(
+                    $components
+                ),
+            default => $this
+                ->ui_factory
+                ->modal()
+                ->roundtrip(
+                    $title,
+                    $components,
+                    [],
+                    $post_url
+                )
         };
 
         $this->outAsync($modal);
@@ -167,7 +173,7 @@ class Output
 
     public function outAsync(?Component ...$components): void
     {
-        $components = array_filter($components, fn($component): bool => $component !== null);
+        $components = array_filter($components, fn(?Component $component): bool => $component !== null);
         $string = $this->ui_renderer->renderAsync($components);
         $response = $this->http->response()->withBody(
             Streams::ofString(
@@ -188,7 +194,7 @@ class Output
     public function out(?Component ...$components): void
     {
         $this->tabs->show();
-        $components = array_filter($components, fn($component): bool => $component !== null);
+        $components = array_filter($components, fn(?Component $component): bool => $component !== null);
 
         $this->main_tpl->setContent(
             $this->ui_renderer->render($components)
@@ -197,7 +203,7 @@ class Output
 
     public function render(?Component ...$components): string
     {
-        $components = array_filter($components, fn($component): bool => $component !== null);
+        $components = array_filter($components, fn(?Component $component): bool => $component !== null);
 
         return $this->ui_renderer->render($components);
     }

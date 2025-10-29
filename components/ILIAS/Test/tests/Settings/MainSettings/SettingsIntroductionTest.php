@@ -25,7 +25,7 @@ class SettingsIntroductionTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithIntroductionEnabledDataProvider')]
     public function testGetAndWithIntroductionEnabled(bool $io): void
     {
-        $settings_introduction = (new SettingsIntroduction(0))->withIntroductionEnabled($io);
+        $settings_introduction = (new SettingsIntroduction())->withIntroductionEnabled($io);
 
         $this->assertInstanceOf(SettingsIntroduction::class, $settings_introduction);
         $this->assertEquals($io, $settings_introduction->getIntroductionEnabled());
@@ -42,7 +42,7 @@ class SettingsIntroductionTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithIntroductionTextDataProvider')]
     public function testGetAndWithIntroductionText(string $io): void
     {
-        $settings_introduction = (new SettingsIntroduction(0))->withIntroductionText($io);
+        $settings_introduction = (new SettingsIntroduction())->withIntroductionText($io);
 
         $this->assertInstanceOf(SettingsIntroduction::class, $settings_introduction);
         $this->assertEquals($io, $settings_introduction->getIntroductionText());
@@ -59,7 +59,7 @@ class SettingsIntroductionTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithIntroductionPageIdDataProvider')]
     public function testGetAndWithIntroductionPageId(?int $io): void
     {
-        $settings_introduction = (new SettingsIntroduction(0))->withIntroductionPageId($io);
+        $settings_introduction = (new SettingsIntroduction())->withIntroductionPageId($io);
 
         $this->assertInstanceOf(SettingsIntroduction::class, $settings_introduction);
         $this->assertEquals($io, $settings_introduction->getIntroductionPageId());
@@ -78,7 +78,7 @@ class SettingsIntroductionTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithExamConditionsCheckboxEnabledDataProvider')]
     public function testGetAndWithExamConditionsCheckboxEnabled(bool $io): void
     {
-        $settings_introduction = (new SettingsIntroduction(0))->withExamConditionsCheckboxEnabled($io);
+        $settings_introduction = (new SettingsIntroduction())->withExamConditionsCheckboxEnabled($io);
 
         $this->assertInstanceOf(SettingsIntroduction::class, $settings_introduction);
         $this->assertEquals($io, $settings_introduction->getExamConditionsCheckboxEnabled());

@@ -1807,6 +1807,22 @@ class ilPageObjectGUI
         exit;
     }
 
+    public function showPageFullscreen(): void
+    {
+        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "components/ILIAS/COPage");
+        $this->setTemplate($tpl);
+        $this->addResourcesToTemplate($tpl);
+        $tpl->addCss(ilUtil::getStyleSheetLocation());
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getStyleId()));
+        $this->setTemplateOutput(false);
+        $this->setHeader("");
+        $ret = $this->showPage();
+        $tpl->setVariable("MEDIA_CONTENT", "<div>" . $ret . "</div>");
+        $tpl->printToStdout();
+        exit;
+    }
+
+
     /**
      * download source code paragraph
      */

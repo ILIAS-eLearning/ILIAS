@@ -35,7 +35,7 @@ class ilPresentationFullGUI
     protected ilNavigationHistory $nav_history;
     protected UI\Factory $ui_fac;
     protected UI\Renderer $ui_ren;
-    protected $parent_obj;
+    protected object $parent_obj;
     protected ilObjGlossary $glossary;
     protected bool $offline = false;
     protected int $tax_node = 0;

@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Database\PDO\FieldDefinition;
+namespace ILIAS\Database\PDO\FieldDefinition;
 
 enum ForeignKeyConstraints: string
 {

@@ -192,7 +192,7 @@ trait BaseGUIRequest
     /**
      * @return mixed|null
      */
-    protected function raw(string $key)
+    protected function raw(string $key): mixed
     {
         $no_transform = $this->refinery->identity();
         return $this->get($key, $no_transform);
@@ -206,7 +206,7 @@ trait BaseGUIRequest
      * @param Refinery\Transformation $t
      * @return mixed|null
      */
-    protected function get(string $key, Refinery\Transformation $t)
+    protected function get(string $key, Refinery\Transformation $t): mixed
     {
         if ($this->passed_query_params === null && $this->passed_post_data === null) {
             $w = $this->http->wrapper();

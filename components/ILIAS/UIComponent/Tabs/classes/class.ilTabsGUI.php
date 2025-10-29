@@ -472,6 +472,7 @@ class ilTabsGUI
                     $link->withOpenInNewViewport(true);
                 }
                 $ttext = $ilHelp->getTabTooltipText($target["id"]);
+                $link = $ilHelp->registerTabLink($target["id"], $link);
                 if ($ttext !== "") {
                     $link = $link->withHelpTopics(
                         ...$f->helpTopics($ttext)

@@ -24,7 +24,6 @@ use ILIAS\Test\Access\AccessQuestionImage;
 use ILIAS\Test\Access\SimpleAccess;
 use ILIAS\Test\Access\Readable;
 use ILIAS\Test\Results\Data\Repository;
-use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
@@ -192,7 +191,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
             ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
             ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true],
-            ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI::showManScoringByQuestionParticipantsTable", "lang_var" => "manscoring", "default" => true],
+            ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI::view", "lang_var" => "manscoring", "default" => true],
         ];
     }
 
@@ -401,7 +400,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         if ((new ilCertificateActiveValidator())->validate()) {
             self::$certificate_preloader = new ilCertificateObjectsForUserPreloader(new ilUserCertificateRepository());
             self::$certificate_preloader->preLoad($DIC['ilUser']->getId(), $obj_ids);
-            self::$settings_result_summaries_by_obj_id = (new ScoreSettingsDatabaseRepository($DIC['ilDB']))
+            self::$settings_result_summaries_by_obj_id = TestDIC::dic()['settings.scoring.repository']
                 ->getSettingsResultSummaryByObjIds($obj_ids);
         }
     }

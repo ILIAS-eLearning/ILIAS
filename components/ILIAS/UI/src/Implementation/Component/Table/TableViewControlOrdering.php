@@ -49,7 +49,6 @@ trait TableViewControlOrdering
 
     protected function getViewControlOrdering(int|null $total_count): Sortation|ViewControl\Group
     {
-
         $sortable_visible_cols = array_filter(
             $this->getVisibleColumns(),
             static fn($c): bool => $c->isSortable()

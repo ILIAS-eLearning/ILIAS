@@ -120,7 +120,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     */
     public function getTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "system_styles",
                 $this->lng->txt("system_styles"),

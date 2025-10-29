@@ -53,8 +53,15 @@ class ilLTIConsumerProviderUsageTableGUI implements DataRetrieval
         $this->request = $DIC->http()->request();
     }
 
-    public function getRows(DataRowBuilder $row_builder, array $visible_column_ids, Range $range, Order $order, ?array $filter_data, ?array $additional_parameters): Generator
-    {
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
         global $DIC;
 
         /** @var Services $static_url */
@@ -78,8 +85,11 @@ class ilLTIConsumerProviderUsageTableGUI implements DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count($this->records);
     }
 

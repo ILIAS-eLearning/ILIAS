@@ -19,7 +19,10 @@
 declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Skills\ilAssQuestionSkillUsagesGUI;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -47,6 +50,10 @@ class ilQuestionPoolSkillAdministrationGUI
         private readonly ilDBInterface $db,
         private readonly ilComponentRepository $component_repository,
         private readonly ilObjQuestionPool $pool_obj,
+        private readonly HTTP $http,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly SkillUsageService $skill_usage_service,
+        private readonly RequestDataCollector $request_data_collector,
         private readonly int $ref_id
     ) {
     }
@@ -110,6 +117,13 @@ class ilQuestionPoolSkillAdministrationGUI
                     $this->tpl,
                     $this->lng,
                     $this->db,
+                    $this->request_data_collector,
+                    $this->skill_usage_service,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->refinery,
+                    $this->http,
+                    $this->toolbar,
                     $this->tabs
                 );
                 $gui->setAssignmentEditingEnabled(true);

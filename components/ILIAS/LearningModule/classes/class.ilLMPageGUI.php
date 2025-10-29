@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
-
 use ILIAS\Refinery\Factory as Refinery;
 
 /**

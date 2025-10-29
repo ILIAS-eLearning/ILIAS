@@ -53,7 +53,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         $this->prepareOutput();
 
         if (!$this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )) {
             $this->error->raiseError(
@@ -81,7 +81,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
     public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )) {
             $this->tabs_gui->addTarget(

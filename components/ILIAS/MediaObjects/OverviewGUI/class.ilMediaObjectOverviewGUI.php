@@ -71,7 +71,7 @@ class ilMediaObjectOverviewGUI
 
         $filter = $this->gui->filter(
             'mob_overview_filter',
-            self::class,
+            [self::class],
             $cmd
         );
 

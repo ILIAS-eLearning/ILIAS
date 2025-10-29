@@ -64,7 +64,7 @@ class ilImageMapEditorGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $ilCtrl = $this->ctrl;
 

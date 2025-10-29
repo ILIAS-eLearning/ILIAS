@@ -117,7 +117,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'settings'),

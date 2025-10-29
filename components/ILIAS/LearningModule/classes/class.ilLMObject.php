@@ -47,7 +47,7 @@ class ilLMObject
     public string $short_title = "";
     public string $description = "";
     public bool $active = true;
-    protected static $data_records = array();
+    protected static array $data_records = [];
     protected ilDBInterface $db;
     protected LOMServices $lom_services;
 

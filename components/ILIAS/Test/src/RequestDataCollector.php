@@ -24,9 +24,10 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
+use ILIAS\TestQuestionPool\RequestDataCollectorInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class RequestDataCollector
+class RequestDataCollector implements RequestDataCollectorInterface
 {
     use BaseGUIRequest;
 

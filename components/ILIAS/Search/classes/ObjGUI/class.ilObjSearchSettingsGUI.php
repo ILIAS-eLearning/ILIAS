@@ -132,7 +132,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     protected function redirectToSettings(): void
     {
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -153,7 +153,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     protected function redirectToLuceneSettings(): void
     {
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -179,7 +179,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'settings',
                 $this->lng->txt('settings'),

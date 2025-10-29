@@ -1,5 +1,7 @@
 @use "../../../010-settings/" as *;
 @use "../../../050-layout/basics" as *;
+@use "../../../050-layout/layout_breakpoints" as l-brk;
+@use "../../../030-tools/tool_fade-edge" as fade;
 @use "./_component_test_legacy.scss" as *;
 
 //== Test Assessment
@@ -119,5 +121,273 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
 }
 
 #tst_pass_details_overview tr {
-    scroll-margin-top: 30px;
+  scroll-margin-top: 30px;
+}
+
+//
+// # Consecutive Scoring
+//
+$max-reading-width: 1200px;
+$cons-scoring-max-height: 40vh;
+$cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
+
+.c-consecutive-scoring__question {
+  &__text {
+    margin-bottom: $il-margin-xxxlarge-vertical * 2;
+  }
+  &__title {
+    display: inline-block;
+  }
+}
+.panel .c-consecutive-scoring__question {
+  &__title {
+    margin-top: 0;
+  }
+}
+
+.c-consecutive-scoring__answer {
+  display: flex;
+  max-height: 40vh;
+  flex-direction: row;
+
+  .l-scroll-fade-container {
+    position: relative;
+    @include fade.fade-edge(
+            $edge: "bottom",
+            $size: $cons-scoring-bottom-fade-height,
+            $color: $il-main-bg
+    );
+  }
+
+  &__scroll-container {
+    width: 60%;
+  }
+
+  &__body {
+    overflow: auto;
+    height: 100%;
+    padding-bottom: $cons-scoring-bottom-fade-height;
+    // page editor content
+    h1:empty {
+      display: none;
+    }
+
+    // fix for ordering question
+    .ilc_qanswer_Answer.solutionbox {
+      width: auto;
+    }
+  }
+
+  &__grade-card {
+    width: 40%;
+    border-left: $il-main-border;
+    display: grid;
+    grid-template-areas: "properties btn"
+                        "feedback feedback";
+    grid-template-columns: 1fr max-content;
+    grid-template-rows: max-content 1fr;
+    margin-left: $il-padding-xxxlarge-vertical * 2;
+    padding-left: $il-padding-xxxlarge-vertical * 2;
+
+    @include l-brk.on-screen-size(small) {
+      border-left: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    // background-color: $card-color;
+    &__properties {
+      grid-area: properties;
+      .c-listing-property__property:nth-child(-n + 2) {
+        font-size: $il-font-size-large;
+      }
+    }
+
+    &__grade-btn {
+      grid-area: btn;
+    }
+
+    &__feedback {
+      grid-area: feedback;
+      margin-top: $il-margin-large-horizontal;
+      min-height: 0; // prevents expanding beyond the card
+      &.l-scroll-fade-container {
+        @include fade.fade-edge(
+                $edge: "bottom",
+                $size: $cons-scoring-bottom-fade-height,
+                $color: $il-main-bg
+        );
+      }
+
+      &__body {
+        padding-bottom: $cons-scoring-bottom-fade-height; // avoid gradient reach into non-scrollable content
+        height: 100%;
+        overflow: auto;
+      }
+    }
+  }
+}
+
+@include l-brk.on-screen-size(small) {
+  .c-consecutive-scoring__answer {
+    max-height: none;
+    display: block;
+    &__grade-card,
+    &__scroll-container {
+      width: 100%;
+    }
+  }
+}
+
+//
+// manual scoring prompt dialog modal
+// this is where the actual editing of the feedback takes place
+// suggestion for UI component: Guided Prompt or Guided Form, placing a form besides relevant content to be evaluated
+//
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] {
+  display: grid;
+  grid-template-areas: "answer btn"
+                        "answer feedback";
+  grid-template-rows: max-content 1fr;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  width: $max-reading-width;
+
+  @include l-brk.on-screen-size(small) {
+    display: block;
+  }
+
+  hr {
+    display: none;
+  }
+
+  .il-prompt__header {
+    grid-area: answer; // we are using the entire title as the left side
+    position: relative; // so fade mixin is attached to the bottom
+    form {
+      // hides the x because there is another close button
+      display: none;
+    }
+
+    .il-prompt__title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .il-prompt__title,
+    .c-consecutive-scoring_sanswer,
+    .c-consecutive-scoring__answer__scroll-container {
+      height: 100%; // fill modal completely
+    }
+
+    .c-consecutive-scoring__answer {
+      flex-direction: column-reverse;
+      max-height: unset;
+      min-height: 0; // push to modal edge but not further
+      &__scroll-container {
+        min-height: 0; // push to scroll card edge not further
+        width: 100%;
+      }
+      &__grade-card {
+        padding: 0;
+        margin: 0;
+        margin-top: $il-margin-xxxlarge-vertical;
+        margin-bottom: $il-margin-xlarge-vertical;
+        border: none;
+        width: 100%;
+      }
+    }
+  }
+
+  .il-prompt__contents {
+    grid-area: feedback;
+    overflow: auto;
+  }
+
+  .il-prompt__buttons {
+    grid-area: btn;
+    justify-self: end;
+  }
+}
+
+//
+// content max-width for better readability of long essay texts
+//
+.c-sequence:has(.c-consecutive-scoring__answer) {
+  .c-sequence__segment,
+  .c-sequence__header__segment__title {
+    width: 100%;
+    max-width: $max-reading-width;
+    margin: 0 auto;
+  }
+
+  .c-sequence__segment__contents {
+    .panel {
+      margin-top: $il-margin-xxxlarge-horizontal;
+    }
+  }
+}
+
+.c-sequence__segment:has(.c-consecutive-scoring__answer),
+.c-sequence:has(.c-consecutive-scoring__answer) .c-sequence__header__segment:has(.c-entity) {
+  max-width: $max-reading-width;
+  margin: 0 auto;
+}
+
+.c-sequence__segment:has(.c-consecutive-scoring__answer) {
+  .panel {
+    .c-entity {
+      margin-bottom: $il-margin-large-vertical;
+    }
+  }
+  .panel-heading:has(.panel-title h2:empty) {
+    display: none;
+  }
+}
+
+//
+// single view
+//
+.c-sequence:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer)  {
+  .c-sequence__segment {
+    .c-entity.__container {
+      margin-bottom: $il-margin-large-vertical;
+      margin-top: $il-margin-xxlarge-vertical;
+    }
+    .c-layout-alignment__block {
+      align-content: space-around;
+    }
+    .c-consecutive-scoring__answer {
+      max-height: 60vh;
+      &__grade-card {
+        display: none;
+      }
+      &__scroll-container {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// question header details in segment header
+
+.c-sequence:has(.c-consecutive-scoring__answer) {
+  .c-sequence__header__segment__title .c-consecutive-scoring__question {
+    details {
+      border-bottom: none;
+    }
+  }
+}
+
+// Change layout of Markdown Form Field in Single View and in Prompt Modal
+.c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer),
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents {
+  form {
+    .c-input[data-il-ui-component="markdown-field-input"] {
+      display: block;
+
+      .c-field-markdown textarea {
+        height: 50vh;
+      }
+    }
+  }
 }

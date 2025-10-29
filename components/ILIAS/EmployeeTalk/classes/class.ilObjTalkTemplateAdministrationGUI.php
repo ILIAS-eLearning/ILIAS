@@ -155,11 +155,6 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $this->tabs_gui->activateTab('view_content');
 
         if (!$this->rbacsystem->checkAccess("read", $this->getRefId())) {
-            if ($this->rbacsystem->checkAccess("visible", $this->getRefId())) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_read"));
-                $this->ctrl->redirectByClass(strtolower(ilInfoScreenGUI::class), '');
-            }
-
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
         }
 
@@ -205,7 +200,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     protected function getTabs(): void
     {
-        $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
+        $read_access_ref_id = $this->rbacsystem->checkAccess('read', $this->object->getRefId());
         if ($read_access_ref_id) {
             $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, "view"));
             $this->tabs_gui->addTab(

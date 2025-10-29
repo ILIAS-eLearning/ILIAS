@@ -40,7 +40,7 @@ use ILIAS\Filesystem\Filesystems;
 
 class IRSSWrapper
 {
-    protected $filesystems;
+    protected Filesystems $filesystems;
     protected \ILIAS\FileDelivery\Services $file_delivery;
     protected \ILIAS\FileUpload\FileUpload $upload;
     protected \ILIAS\ResourceStorage\Services $irss;
@@ -390,7 +390,7 @@ class IRSSWrapper
         string $entry,
         ResourceCollection $target_collection,
         ResourceStakeholder $target_stakeholder
-    ) {
+    ): void {
         $entry_parts = explode("/", $entry);
         $stream = $this->getStreamOfContainerEntry($rid, $entry);
         $feedback_rid = $this->irss->manage()->stream(

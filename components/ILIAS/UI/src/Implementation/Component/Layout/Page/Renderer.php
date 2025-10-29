@@ -27,7 +27,6 @@ use ilGlobalPageTemplate;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use iljQueryUtil;
-use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -40,6 +39,8 @@ class Renderer extends AbstractComponentRenderer
     {
         if ($component instanceof Component\Layout\Page\Standard) {
             return $this->renderStandardPage($component, $default_renderer);
+        } elseif ($component instanceof Mail) {
+            return $this->renderMailPage($component, $default_renderer);
         }
 
         $this->cannotHandleComponent($component);
@@ -111,6 +112,22 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('META_DATA', $this->getDataFactory()->htmlMetadata()->collection(
             $component->getMetaData()
         )->toHtml());
+
+        return $tpl->get();
+    }
+
+    protected function renderMailPage(
+        Mail $component,
+        RendererInterface $default_renderer
+    ): string {
+
+        $tpl = $this->getTemplate('tpl.mailpage.html', true, true);
+
+        $tpl->setVariable('LOGO_SRC', $component->getLogoURL());
+        $tpl->setVariable('INSTALLATION_TITLE', $component->getInstallationTitle());
+        $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
+        $tpl->setVariable('FOOTER_URL', $default_renderer->render($this->getUIFactory()->link()->standard($component->getFooterURL()->getLabel(), $component->getFooterURL()->getURL()->getBaseURI())));
+        $tpl->setVariable('CSS_CONTENT', file_get_contents($component->getStyleSheetPath()) ?: '');
 
         return $tpl->get();
     }

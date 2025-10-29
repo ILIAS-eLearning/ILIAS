@@ -441,7 +441,7 @@ class ilExAssignment
         return $this->peer_min;
     }
 
-    public function setPeerReviewSimpleUnlock(int $a_value)
+    public function setPeerReviewSimpleUnlock(int $a_value): void
     {
         $this->peer_unlock = $a_value;
     }

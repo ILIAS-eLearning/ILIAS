@@ -185,4 +185,12 @@ interface Standard extends Icon
     public const FILS = 'fils';	    //File System Service
     public const TALA = 'tala';	    //Employee Talk Template Admin
     public const QST = 'ques';     //Question
+    public const GSFO = 'gsfo';     //Footer Administration
+    public const STUS = 'stus';     //Shortlink
+    public const ADMA = 'adma';     //Administration - General Settings
+    public const SERV = 'serv';     //Administration - Server
+    public const CRON = 'cron';     //Administration - Cron Jobs
+    public const BNMK = 'bnmk';     //Administration - Benchmarking
+    public const MAPS = 'maps';     //Administration - Maps
+
 }

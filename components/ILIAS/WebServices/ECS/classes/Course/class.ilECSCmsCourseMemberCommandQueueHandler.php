@@ -435,13 +435,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
         }
         $auth_mode = $this->mapping->getAuthMode();
 
-        if (
-            $this->mapping->getAuthMode() ===
-            ilAuthUtils::_getAuthModeName(ilAuthUtils::AUTH_SHIBBOLETH)
-        ) {
-            $this->log->info('Not handling direct user creation for auth mode: ' . $auth_mode);
-            return;
-        }
         if (strpos($auth_mode, 'ldap') !== 0) {
             $this->log->info('Not handling direct user creation for auth mode: ' . $auth_mode);
             return;

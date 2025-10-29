@@ -165,8 +165,7 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
              * i don't think this will work with user >~ 100
              * this will blow up the GET request
              * GET Queries are sometimes limited to an amount of characters
-             */
-            else {
+             */ else {
                 $actor['$or'] = [];
                 foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
                     $actor['$or'][] = ['statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"];

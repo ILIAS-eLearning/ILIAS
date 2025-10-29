@@ -389,7 +389,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // save the revert changes url to allow a tweaking with '#'
         // '#' is needed to close the action popup when clicked
-        if ( revertUrl == '') {
+        if (revertUrl === '') {
             revertUrl = $('#tst_revert_changes_action').attr('href');
         }
 
@@ -397,22 +397,18 @@ il.TestPlayerQuestionEditControl = new function() {
             $('.ilTestAnswerStatusAnswered').removeClass('hidden').show();
             $('.ilTestAnswerStatusNotAnswered').hide();
             $('.ilTestDiscardSolutionAction').removeClass('disabled');
-        }
-        else {
+        } else {
             $('.ilTestAnswerStatusAnswered').hide();
             $('.ilTestAnswerStatusNotAnswered').removeClass('hidden').show();
             $('.ilTestDiscardSolutionAction').addClass('disabled');
-         }
+        }
 
         if(answerChanged) {
             $('.ilTestAnswerStatusEditing').removeClass('hidden').show();
-            $('.ilTestRevertChangesAction').removeClass('disabled');
-            $('#tst_revert_changes_action').attr('href', revertUrl);
-        }
-        else {
+            $('.ilTestRevertChangesAction').removeAttr('disabled');
+        } else {
             $('.ilTestAnswerStatusEditing').hide();
-            $('.ilTestRevertChangesAction').addClass('disabled');
-            $('#tst_revert_changes_action').attr('href','#');
+            $('.ilTestRevertChangesAction').attr('disabled', 'disabled');
         }
     }
 

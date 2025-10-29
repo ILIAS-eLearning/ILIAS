@@ -30,9 +30,10 @@ use Generator;
 /**
  * This implements the textarea input.
  */
-class Textarea extends FormInput implements C\Input\Field\Textarea
+class Textarea extends FormInput implements C\Input\Field\Textarea, HasMustacheVariablesInternal
 {
     use JavaScriptBindable;
+    use HasMustacheVariables;
 
     protected ?int $max_limit = null;
 

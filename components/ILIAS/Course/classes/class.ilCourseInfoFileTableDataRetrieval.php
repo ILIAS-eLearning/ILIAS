@@ -52,8 +52,9 @@ class ilCourseInfoFileTableDataRetrieval implements ilTableDataRetrievalInterfac
         array $visible_column_ids,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         foreach ($this->data as $id => $file) {
             yield $row_builder->buildDataRow(
@@ -86,8 +87,9 @@ class ilCourseInfoFileTableDataRetrieval implements ilTableDataRetrievalInterfac
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->data);
     }

@@ -28,7 +28,7 @@ use ILIAS\Data\URI;
  */
 class Tab
 {
-    private string $permission = 'visible';
+    private string $permission = 'read';
 
     public function __construct(
         private string $id,

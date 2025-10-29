@@ -109,10 +109,7 @@ class BasicAccessCheckClosures
     public function hasAdministrationAccess(?Closure $additional = null): Closure
     {
         if (!isset($this->access_cache['has_admin_access'])) {
-            $this->access_cache['has_admin_access'] = ($this->dic->rbac()->system()->checkAccess(
-                'visible',
-                \SYSTEM_FOLDER_ID
-            ));
+            $this->access_cache['has_admin_access'] = $this->dic->rbac()->system()->hasAnyAdminReadPermission();
         }
         return $this->getClosureWithOptinalClosure(fn(): bool => $this->access_cache['has_admin_access'], $additional);
     }

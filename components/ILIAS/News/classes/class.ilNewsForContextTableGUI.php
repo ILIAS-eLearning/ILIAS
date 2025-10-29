@@ -142,10 +142,10 @@ class ilNewsForContextTableGUI extends ilTable2GUI
         if ($this->news_access->canEdit($news_item)) {
             $this->tpl->setCurrentBlock("edit");
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-            $ilCtrl->setParameterByClass("ilnewsitemgui", "news_item_id", $a_set["id"]);
+            $ilCtrl->setParameterByClass(ilNewsItemGUI::class, "news_item_id", $a_set["id"]);
             $this->tpl->setVariable(
                 "CMD_EDIT",
-                $ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNewsItem")
+                $ilCtrl->getLinkTargetByClass(ilNewsItemGUI::class, "editNewsItem")
             );
             $this->tpl->parseCurrentBlock();
         }

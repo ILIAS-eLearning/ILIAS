@@ -300,7 +300,7 @@ class AdminTabs
     private function readAccessToAccountsGranted(): bool
     {
         return $this->access->checkRbacOrPositionPermissionAccess(
-            'read',
+            \ilObjUserFolder::PERM_READ_ALL,
             \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
             $this->ref_id
         );
@@ -308,9 +308,9 @@ class AdminTabs
 
     private function editSettingsAccessGranted(): bool
     {
-        return $this->access->checkRbacOrPositionPermissionAccess(
+        return $this->access->checkAccess(
             'write',
-            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+            '',
             $this->ref_id
         );
     }

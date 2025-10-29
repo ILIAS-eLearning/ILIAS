@@ -67,9 +67,8 @@ class ilPCDataTable extends ilPCTable
 
     /**
      * Set data of cells
-     * @return bool|array
      */
-    public function setData(array $a_data)
+    public function setData(array $a_data): bool|string|null
     {
         $error = "";
         if (is_array($a_data)) {

@@ -210,7 +210,7 @@ abstract class ilPageObject
         $this->page_config = $a_val;
     }
 
-    public function setConcreteLang(string $a_val)
+    public function setConcreteLang(string $a_val): void
     {
         $this->concrete_lang = $a_val;
     }
@@ -379,10 +379,7 @@ abstract class ilPageObject
         return ilPageUtil::_existsAndNotEmpty($a_parent_type, $a_id, $a_lang);
     }
 
-    /**
-     * @return bool|array
-     */
-    public function buildDom(bool $a_force = false)
+    public function buildDom(bool $a_force = false): string|bool|null
     {
         if ($this->dom_builded && !$a_force) {
             return true;
@@ -1428,7 +1425,7 @@ s     */
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function update(bool $a_validate = true, bool $a_no_history = false)
+    public function update(bool $a_validate = true, bool $a_no_history = false): array|bool
     {
         $this->log->debug("start..., id: " . $this->getId());
         $lm_set = new ilSetting("lm");
@@ -1804,7 +1801,7 @@ s     */
         bool $a_update = true,
         string $a_pcid = "",
         bool $move_operation = false
-    ) {
+    ): array|bool {
         $pm = $this->page_manager->content($this->getDomDoc());
         $pm->deleteContent($this, $a_hid, $a_pcid, $move_operation);
         if ($a_update) {
@@ -1825,7 +1822,7 @@ s     */
         bool $a_update = true,
         bool $a_self_ass = false,
         bool $move_operation = false
-    ) {
+    ): array|bool {
         $pm = $this->page_manager->content($this->getDomDoc());
         $pm->deleteContents($this, $a_hids, $a_self_ass, $move_operation);
         if ($a_update) {
@@ -1839,7 +1836,7 @@ s     */
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function cutContents(array $a_hids)
+    public function cutContents(array $a_hids): array|bool
     {
         $this->copyContents($a_hids);
         return $this->deleteContents(
@@ -1867,7 +1864,7 @@ s     */
     public function pasteContents(
         string $a_hier_id,
         bool $a_self_ass = false
-    ) {
+    ): array|bool {
         $user = $this->user;
         $cm = $this->page_manager->content($this->getDomDoc());
         $cm->pasteContents(
@@ -1890,7 +1887,7 @@ s     */
         array $a_hids,
         bool $a_update = true,
         bool $a_self_ass = false
-    ) {
+    ): array|bool {
         $cm = $this->page_manager->content($this->getDomDoc());
         $cm->switchEnableMultiple($this, $a_hids, $a_self_ass);
         if ($a_update) {
@@ -1956,7 +1953,7 @@ s     */
         string $a_target,
         string $a_spcid = "",
         string $a_tpcid = ""
-    ) {
+    ): array|bool {
         $cm = $this->page_manager->content($this->getDomDoc());
         $cm->moveContentAfter(
             $this,
@@ -3056,7 +3053,7 @@ s     */
         string $char_par,
         string $char_sec,
         string $char_med
-    ) {
+    ): array|bool {
         if (is_array($targets)) {
             foreach ($targets as $t) {
                 $tarr = explode(":", $t);

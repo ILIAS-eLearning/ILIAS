@@ -65,7 +65,7 @@ class SettingsGUI
         $lng = $this->domain->lng();
 
         $form = $this->gui
-            ->form(self::class, "save")
+            ->form([self::class], "save")
             ->section("general", $lng->txt("properties"))
             ->addStdTitleAndDescription($this->obj_id, "spl")
             ->section("avail", $lng->txt("rep_activation_availability"))

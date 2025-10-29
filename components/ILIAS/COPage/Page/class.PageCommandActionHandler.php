@@ -29,7 +29,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     /**
      * @var array|bool|string
      */
-    protected $updated;
+    protected array|bool|string|null $updated;
     protected \ilPCParagraph $content_obj;
     protected \ILIAS\DI\UIServices $ui;
     protected \ilLanguage $lng;

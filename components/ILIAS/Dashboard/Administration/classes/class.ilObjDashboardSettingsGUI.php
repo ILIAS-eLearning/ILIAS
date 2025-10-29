@@ -83,7 +83,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -121,7 +121,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'editSettings'),
@@ -265,7 +265,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $tabs->addSubTab(
                 'general',
                 $lng->txt('general_settings'),

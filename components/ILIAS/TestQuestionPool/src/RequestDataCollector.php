@@ -28,7 +28,7 @@ use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\FileUpload;
 use Psr\Http\Message\ServerRequestInterface;
 
-class RequestDataCollector
+class RequestDataCollector implements RequestDataCollectorInterface
 {
     use BaseGUIRequest;
 
@@ -102,7 +102,7 @@ class RequestDataCollector
         return $this->raw($key) !== null;
     }
 
-    public function hasRefId(): int
+    public function hasRefId(): bool
     {
         return $this->raw('ref_id') !== null;
     }

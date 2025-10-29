@@ -1,0 +1,122 @@
+.table {
+  background-color: #f0f0f0;
+  width: 100%;
+}
+
+.header {
+  background-color: white;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.footer {
+  background-color: white;
+}
+
+.image-data {
+  width: 90px;
+}
+
+td.spacing {
+  padding: 20px 0;
+}
+
+.logo {
+  width: 45px;
+  height: 45px;
+  outline-style: none;
+  text-decoration: none;
+  border: none;
+  margin: 0;
+}
+
+.installation-text {
+  vertical-align: middle;
+}
+.installation-text span {
+  border-collapse: collapse;
+  color: #161616;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.content .spacing {
+  padding: 80px 0;
+}
+
+.content td td {
+  background-color: white;
+}
+
+.text-color {
+  color: #4c6586;
+}
+
+.footer .font-definition {
+  color: #161616;
+}
+
+.font-definition {
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  padding: 30px;
+}
+
+body {
+  height: 100% !important;
+  margin: 0;
+  padding: 0;
+  width: 100% !important;
+  mso-margin-top-alt: 0px;
+  mso-margin-bottom-alt: 0px;
+  mso-padding-alt: 0px 0px 0px 0px;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.w-750 {
+  width: 750px;
+}
+
+.link-color {
+  color: #4c6586;
+}
+
+table {
+  mso-table-lspace: 0pt;
+  mso-table-rspace: 0pt;
+}
+
+table, table th, table td {
+  border-collapse: collapse;
+}
+
+a, img, a img {
+  border: 0;
+  outline: none;
+  text-decoration: none;
+}
+
+img {
+  -ms-interpolation-mode: bicubic;
+}
+
+body, table, td, th, p, a, li {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media only screen and (max-width: 760px) {
+  .w-750 {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=mail.css.map */

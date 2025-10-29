@@ -17,7 +17,6 @@
  *********************************************************************/
 
 declare(strict_types=1);
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
@@ -25,7 +24,6 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 class ilServicesGlobalScreenTest extends TestCase
 {
     private ?Container $dic_backup = null;
-    private int $SYSTEM_FOLDER_ID;
     private int $ROOT_FOLDER_ID;
 
     protected function setUp(): void
@@ -36,7 +34,6 @@ class ilServicesGlobalScreenTest extends TestCase
         if (!defined('SYSTEM_FOLDER_ID')) {
             define('SYSTEM_FOLDER_ID', 42);
         }
-        $this->SYSTEM_FOLDER_ID = SYSTEM_FOLDER_ID;
         if (!defined('ROOT_FOLDER_ID')) {
             define('ROOT_FOLDER_ID', 24);
         }
@@ -56,8 +53,7 @@ class ilServicesGlobalScreenTest extends TestCase
         $class = new BasicAccessCheckClosures($DIC);
 
         $rbac_mock->expects($this->once())
-                  ->method('checkAccess')
-                  ->with('visible', $this->SYSTEM_FOLDER_ID)
+                  ->method('hasAnyAdminReadPermission')
                   ->willReturn(true);
 
         $this->assertTrue($class->hasAdministrationAccess()());
@@ -73,8 +69,7 @@ class ilServicesGlobalScreenTest extends TestCase
         $class = new BasicAccessCheckClosures($DIC);
 
         $rbac_mock->expects($this->once())
-                  ->method('checkAccess')
-                  ->with('visible', $this->SYSTEM_FOLDER_ID)
+                  ->method('hasAnyAdminReadPermission')
                   ->willReturn(false);
 
         $this->assertFalse($class->hasAdministrationAccess()());
@@ -90,8 +85,7 @@ class ilServicesGlobalScreenTest extends TestCase
         $class = new BasicAccessCheckClosures($DIC);
 
         $rbac_mock->expects($this->once())
-                  ->method('checkAccess')
-                  ->with('visible', $this->SYSTEM_FOLDER_ID)
+                  ->method('hasAnyAdminReadPermission')
                   ->willReturn(true);
 
         $closure_returning_false = fn(): bool => false;

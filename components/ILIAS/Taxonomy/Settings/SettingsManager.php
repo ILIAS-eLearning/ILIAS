@@ -22,11 +22,8 @@ namespace ILIAS\Taxonomy\Settings;
 
 class SettingsManager
 {
-    protected $rep_obj_id;
-
-    public function __construct($rep_obj_id)
+    public function __construct(protected int $rep_obj_id)
     {
-        $this->rep_obj_id = $rep_obj_id;
     }
 
     public function isActivated(): bool

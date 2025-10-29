@@ -32,26 +32,26 @@ class ilQuestionExporter
     /**
      * @var ilLanguage
      */
-    protected $lng;
+    protected ilLanguage $lng;
 
-    public static $exported = array(); //json data for all exported questions (class variable)
-    public static $mobs = array(); //json data for all mobs  (class variable)
-    public static $media_files = array(); //json data for all files  (class variable)
+    public static array $exported = []; //json data for all exported questions (class variable)
+    public static array $mobs = []; //json data for all mobs  (class variable)
+    public static array $media_files = []; //json data for all files  (class variable)
 
-    public $db;			// database object
-    public $ref_id;		// reference ID
-    public $inst_id;		// installation id
-    public $q_gui;			// Question GUI object
-    public $tpl;			// question template
-    public $json;			// json object for current question
-    public $json_decoded;	// json object (decoded) for current question
-    public $preview_mode;	// preview mode activated yes/no
+    public ilDBInterface $db;			// database object
+    public int $ref_id;		// reference ID
+    public int $inst_id;		// installation id
+    public ?assQuestionGUI $q_gui;			// Question GUI object
+    public ilTemplate $tpl;			// question template
+    public string $json;			// json object for current question
+    public mixed $json_decoded;	// json object (decoded) for current question
+    public bool $preview_mode;	// preview mode activated yes/no
 
     /**
      * Constructor
      * @access	public
      */
-    public function __construct($a_preview_mode = false)
+    public function __construct(bool $a_preview_mode = false)
     {
         global $DIC;
 
@@ -93,7 +93,7 @@ class ilQuestionExporter
         }
 
         $type = $this->q_gui->getObject()->getQuestionType();
-        if($this->q_gui->getObject() instanceof QuestionLMExportable) {
+        if ($this->q_gui->getObject() instanceof QuestionLMExportable) {
             $this->q_gui->getObject()->setExportImagePath($a_image_path);
             $this->q_gui->getObject()->feedbackOBJ->setPageObjectOutputMode($a_output_mode);
             $this->json = $this->q_gui->getObject()->toJSON();
@@ -106,30 +106,7 @@ class ilQuestionExporter
         }
     }
 
-    public static function indicateNewSco()
-    {
-        self::$exported = array();
-        self::$mobs = array();
-        self::$media_files = array();
-    }
-
-    public static function getMobs()
-    {
-        $allmobs = array();
-        foreach (self::$mobs as $key => $value) {
-            for ($i = 0;$i < count(self::$mobs[$key]);$i++) {
-                array_push($allmobs, self::$mobs[$key][$i]);
-            }
-        }
-        return $allmobs;
-    }
-
-    public static function getFiles()
-    {
-        return self::$media_files;
-    }
-
-    public static function questionsJS(?array $a_qids = null)
+    public static function questionsJS(?array $a_qids = null): string
     {
         $exportstring = '';
         if (!is_array($a_qids)) {
@@ -143,15 +120,7 @@ class ilQuestionExporter
         return $exportstring;
     }
 
-    private function setHeaderFooter()
-    {
-        $this->tpl->setCurrentBlock("common");
-        $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-        $this->tpl->setVariable("VAL_TYPE", $this->json_decoded->type);
-        $this->tpl->parseCurrentBlock();
-    }
-
-    private function assSingleChoice()
+    private function assSingleChoice(): string
     {
         $this->tpl->setCurrentBlock("singlechoice");
         $this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
@@ -174,11 +143,10 @@ class ilQuestionExporter
                 }
             }
         }
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assMultipleChoice()
+    private function assMultipleChoice(): string
     {
         $this->tpl->setCurrentBlock("multiplechoice");
         $this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
@@ -210,12 +178,11 @@ class ilQuestionExporter
                 array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . "thumb." . $answer->image);
             }
         }
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
 
-    private function assKprimChoice()
+    private function assKprimChoice(): string
     {
         $this->tpl->setCurrentBlock("kprimchoice");
 
@@ -253,12 +220,10 @@ class ilQuestionExporter
             }
         }
 
-        //		$this->setHeaderFooter();
-
         return $this->tpl->get();
     }
 
-    private function assTextQuestion()
+    private function assTextQuestion(): string
     {
         $maxlength = $this->json_decoded->maxlength == 0 ? 4096 : $this->json_decoded->maxlength;
         $this->tpl->setCurrentBlock("textquestion");
@@ -269,11 +234,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assClozeTest()
+    private function assClozeTest(): string
     {
         $this->tpl->setCurrentBlock("clozequestion");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
@@ -282,11 +246,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assLongMenu()
+    private function assLongMenu(): string
     {
         $this->tpl->setCurrentBlock("longmenu");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
@@ -295,11 +258,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assOrderingQuestion()
+    private function assOrderingQuestion(): string
     {
         $this->tpl->setCurrentBlock("orderingquestion");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
@@ -324,11 +286,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_SUBTYPE", "_terms");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assMatchingQuestion()
+    private function assMatchingQuestion(): string
     {
         $this->tpl->setCurrentBlock("matchingquestion");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
@@ -338,11 +299,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assImagemapQuestion()
+    private function assImagemapQuestion(): string
     {
         $this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
         array_push(self::$media_files, $this->q_gui->getObject()->getImagePath() . $this->q_gui->getObject()->getImageFilename());
@@ -363,11 +323,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assTextSubset()
+    private function assTextSubset(): string
     {
         $this->tpl->setCurrentBlock("textsubset");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
@@ -376,11 +335,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assOrderingHorizontal()
+    private function assOrderingHorizontal(): string
     {
         $this->tpl->setCurrentBlock("orderinghorizontal");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
@@ -389,11 +347,10 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 
-    private function assErrorText()
+    private function assErrorText(): string
     {
         $this->tpl->setCurrentBlock("errortext");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
@@ -402,7 +359,6 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         $this->tpl->parseCurrentBlock();
-        //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
 }

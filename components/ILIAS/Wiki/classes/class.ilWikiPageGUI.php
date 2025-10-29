@@ -1352,7 +1352,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
     protected function getTranslatePageFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
     {
-        $f = $this->wiki_gui->form(self::class, "createPageTranslation")
+        $f = $this->wiki_gui->form([self::class], "createPageTranslation")
             ->text("title", $this->lng->txt("title"));
         //->required();
         return $f;

@@ -588,8 +588,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->checkFilters();
 
         $count = 'COUNT(*)';

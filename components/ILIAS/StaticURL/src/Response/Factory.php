@@ -47,8 +47,8 @@ class Factory
         return new MaybeCanHandlerAfterLogin();
     }
 
-    public function can(string $uri_path): CanHandleWithURIPath
+    public function can(string $uri_path, bool $shift = false): CanHandleWithURIPath
     {
-        return new CanHandleWithURIPath($uri_path);
+        return new CanHandleWithURIPath($uri_path, $shift ? 1 : 0);
     }
 }

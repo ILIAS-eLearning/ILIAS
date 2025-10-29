@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\MediaObjects\Creation\CreationGUIRequest;
-
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\MediaObjects\InternalGUIService;
@@ -262,7 +261,7 @@ class ilMediaCreationGUI
             $mep_hash = uniqid();
             $this->ctrl->setParameter($this, "mep_hash", $mep_hash);
             $this->bulk_upload_form = $this->gui
-                ->form(self::class, 'performBulkUpload')
+                ->form([self::class], 'performBulkUpload')
                 ->section("props", $this->lng->txt('mob_upload_file'))
                 ->file(
                     "media_files",

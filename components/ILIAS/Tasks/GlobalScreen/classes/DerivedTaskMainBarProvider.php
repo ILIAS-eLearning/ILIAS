@@ -57,7 +57,7 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
             ->withAction($dic->ctrl()->getLinkTargetByClass([ilDerivedTasksGUI::class], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withVisibilityCallable(
-                fn (): bool => true
+                fn(): bool => true
             );
 
         return $entries;

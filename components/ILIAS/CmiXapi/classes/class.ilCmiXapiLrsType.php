@@ -115,6 +115,8 @@ class ilCmiXapiLrsType
 
     protected int $deleteData = 0;
 
+    protected bool $enrichData = false;
+
     private ilDBInterface $database;
 
     /**
@@ -448,6 +450,17 @@ class ilCmiXapiLrsType
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
 
+    public function getEnrichData(): bool
+    {
+        return $this->enrichData;
+    }
+
+    public function setEnrichData(bool $enrichData): void
+    {
+        $this->enrichData = $enrichData;
+    }
+
+
     protected function read(): bool
     {
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
@@ -485,6 +498,7 @@ class ilCmiXapiLrsType
             $this->setDuration((bool) $row->duration);
             $this->setNoSubstatements((bool) $row->no_substatements);
             $this->setDeleteData((int) $row->delete_data);
+            $this->setEnrichData((bool) $row->enrich_data);
 
             return true;
         }
@@ -544,7 +558,8 @@ class ilCmiXapiLrsType
                 'c_timestamp' => array('integer', (int) $this->getTimestamp()),
                 'duration' => array('integer', (int) $this->getDuration()),
                 'no_substatements' => array('integer', (int) $this->getNoSubstatements()),
-                'delete_data' => array('integer', $this->getDeleteData())
+                'delete_data' => array('integer', $this->getDeleteData()),
+                'enrich_data' => array('integer', (int) $this->getEnrichData())
             )
         );
 

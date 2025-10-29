@@ -83,7 +83,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             case 'ilglobalunitconfigurationgui':
-                if (!$this->rbac_system->checkAccess('visible,read', $this->getTestFolder()->getRefId())) {
+                if (!$this->rbac_system->checkAccess('read', $this->getTestFolder()->getRefId())) {
                     $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
                 }
 
@@ -273,7 +273,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $this->getLogdataSubtabs();
         }
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->getTestFolder()->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->getTestFolder()->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'showGlobalSettings'),

@@ -81,8 +81,11 @@ class ParticipantTable implements DataRetrieval
         ];
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return $this->repository->countParticipants($this->test_object->getTestId(), $filter_data);
     }
 
@@ -91,8 +94,9 @@ class ParticipantTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $processing_time = $this->test_object->getProcessingTimeInSeconds();
         $reset_time_on_new_attempt = $this->test_object->getResetProcessingTime();

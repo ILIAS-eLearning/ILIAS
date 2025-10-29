@@ -126,8 +126,9 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
         array $visible_column_ids,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
         $rows = $this->applyFilter($filter_data);
@@ -197,8 +198,9 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->applyFilter($filter_data));
     }

@@ -400,11 +400,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return (bool) self::_lookup($a_wiki_id, "link_md_values");
     }
 
-    /**
-     * Lookup a data field
-     * @return mixed
-     */
-    private static function _lookup(int $a_wiki_id, string $a_field)
+    private static function _lookup(int $a_wiki_id, string $a_field): ?string
     {
         global $DIC;
 

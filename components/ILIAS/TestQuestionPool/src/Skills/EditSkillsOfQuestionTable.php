@@ -23,7 +23,6 @@ namespace ILIAS\TestQuestionPool\Skills;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\TestQuestionPool\RequestDataCollector;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
@@ -38,7 +37,7 @@ class EditSkillsOfQuestionTable implements DataRetrieval
         private readonly \ilAssQuestionSkillAssignmentList $assignment_list,
         private readonly UIFactory $ui_factory,
         private readonly \ilLanguage $lng,
-        private readonly SkillAssignmentTableActions $table_actions
+        private readonly EditSkillsOfQuestionTableActions $table_actions
     ) {
     }
 
@@ -66,8 +65,9 @@ class EditSkillsOfQuestionTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         /** @var \ilAssQuestionSkillAssignment $record */
         foreach ($this->retrieveRecords() as $record) {
@@ -88,8 +88,11 @@ class EditSkillsOfQuestionTable implements DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count(
             $this->assignment_list->getAssignmentsByQuestionId(
                 $this->pool_request->getQuestionId()
@@ -101,9 +104,9 @@ class EditSkillsOfQuestionTable implements DataRetrieval
     {
         return $url_builder->acquireParameters(
             [self::ID],
-            SkillAssignmentTableActions::ROW_ID_PARAMETER,
-            SkillAssignmentTableActions::ACTION_PARAMETER,
-            SkillAssignmentTableActions::ACTION_TYPE_PARAMETER
+            EditSkillsOfQuestionTableActions::ROW_ID_PARAMETER,
+            EditSkillsOfQuestionTableActions::ACTION_PARAMETER,
+            EditSkillsOfQuestionTableActions::ACTION_TYPE_PARAMETER
         );
     }
 

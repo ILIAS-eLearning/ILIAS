@@ -79,20 +79,11 @@ adm#:#adm_awrn_support_contacts_info#:#Alle Benutzer für die technische Betreuu
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_support_contacts_info#:#Bitte tragen Sie hier komma-separiert die Anmeldenamen der Personen ein, die bei Fragen und technischen Problemen kontaktiert werden können. Die Kontaktaufnahme erfolgt per Mail über den Link „Technische Betreuung kontaktieren“ im Footer von ILIAS. Ist die „Wer ist online?“-Anzeige aktiv, werden diese Personen auch dort als technische Betreuung angezeigt.
 administration#:#adm_achievements#:#Lernerfolge
-administration#:#adm_activate_db_benchmark#:#Messung aktivieren
-administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_adm_role_protect#:#Rolle „Administration“ schützen
 administration#:#adm_adm_role_protect_info#:#Nur Personen, welche selbst die Rolle „Administration“ inne haben, können weitere ILIAS-Konten in diese Rolle eintragen.
 administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_auth_reg#:#Authentifizierung Registrierung
 administration#:#adm_communication#:#Kommunikation
-administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
-administration#:#adm_db_bench_chronological#:#Chronologisch
-administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
-administration#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
-administration#:#adm_db_benchmark#:#Datenbank Benchmark
-administration#:#adm_db_benchmark_user#:#Anmeldename
-administration#:#adm_db_benchmark_user_desc#:#Für dieses ILIAS-Konto wird die Messung durchgeführt. Aktivieren Sie diese Funktion nicht für Ihr eigenes Konto.
 administration#:#adm_extending_ilias#:#ILIAS erweitern
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
@@ -127,9 +118,7 @@ administration#:#adm_repository_and_objects#:#Magazin und Objekte
 administration#:#adm_search_and_find#:#Suchen und finden
 administration#:#adm_show_comments_tagging_in_lists#:#Anzahl der Notizen, Kommentare und Tags in Objektlisten anzeigen
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
-administration#:#adm_sql#:#SQL
 administration#:#adm_table#:#Tabelle
-administration#:#adm_time#:#Zeit
 administration#:#adm_user_administration#:#Konten und Rollen
 administration#:#adm_user_starting_point#:#Persönliche Startseite
 administration#:#adm_user_starting_point_info#:#Wählen Sie die Seite oder Objekt, welche nach dem Login gezeigt wird.
@@ -339,6 +328,7 @@ administration#:#svn_revision_current#:#Aktuelle Revision: %s
 administration#:#svn_revision_last_change#:#Zuletzt geänderte Revision: %s
 administration#:#svn_root#:#Root: %s
 administration#:#system_check_no_owner#:#Objekte ohne Angabe zum Besitz
+administration#:#system_folder_info#:#Bitte wählen Sie einen Eintrag im Administrations-Menü.
 administration#:#systemcheck#:#Systemcheck
 administration#:#tree_corrupt#:#Baum ist korrumpiert! Siehe Scan-Log für Details
 administration#:#user_criteria#:#Eindeutiges Benutzermerkmal
@@ -430,8 +420,8 @@ adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE-Editor für WYSIWYG-Bearbeitung aktivieren
 assessment#:#activate_logging#:#Protokollieren des Test und Assessments aktivieren
-assessment#:#activate_manual_scoring#:#Manuelle Bewertung aktivieren
-assessment#:#activate_manual_scoring_desc#:#Aktiviert die manuelle Bewertung für alle Fragentypen
+assessment#:#activate_manual_scoring#:#Bewertung aktivieren
+assessment#:#activate_manual_scoring_desc#:#Aktiviert die Bewertung für alle Fragentypen
 assessment#:#addSuggestedSolution#:#Inhalte zur Wiederholung
 assessment#:#add_answers#:#Antworten hinzufügen
 assessment#:#add_circle#:#Kreis hinzufügen
@@ -552,14 +542,14 @@ assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
 assessment#:#backtocallingpage#:#Zurück zur Fragenseite
 assessment#:#backtocallingpool#:#Zurück zum Fragenpool
-assessment#:#backtocallingtest#:#Zurück zur Fragenliste
+assessment#:#backtocallingtest#:#Zurück zur Liste der Fragen
 assessment#:#baseunit#:#Basiseinheit
 assessment#:#broken_test#:#Kaputtes Test-Objekt
 assessment#:#bulkedit_author#:#Autor ändern
 assessment#:#bulkedit_lifecycle#:#Lebenszyklus ändern
 assessment#:#bulkedit_taxonomies#:#Taxonomien ändern
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die manuelle Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
+assessment#:#cannot_edit_marks#:#Mindestens eine Person hat den Test bereits gestartet. Sie können die Bewertung nur ändern, wenn das Datum für die Ergebnisausgabe noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
@@ -611,9 +601,9 @@ assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testerg
 assessment#:#delete_image_header#:#Bild entfernen
 assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
 assessment#:#delete_mark_confirmation#:#Soll die folgende Notenstufe definitiv gelöscht werden?
-assessment#:#delete_participants_no_valid_participants_selected#:#Für die gewählten Teilnehmer liegen bereits Testergebnisse vor und können deshalb nicht entfernt werden.
+assessment#:#delete_participants_no_valid_participants_selected#:#Für die gewählten Teilnehmer liegen bereits Testergebnisse vor. Deshalb können sie nicht entfernt werden.
 assessment#:#delete_result_no_valid_participants_selected#:#Für die gewählten Teilnehmer liegen keine Testergebnisse vor und können deshalb nicht entfernt werden.
-assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Teilnehmenden entfernen wollen?
+assessment#:#delete_selected_user_data_confirmation#:#Sind Sie sicher, dass Sie alle Testdaten der ausgewählten Teilnehmenden entfernen wollen? Bitte beachten Sie: Teilnehmenden die nicht manuell als „ausgewählte Teilnehmende“ hinzugefügt wurden, werden vollständig aus der Teilnehmerliste entfernt.
 assessment#:#delete_user_data#:#Testergebnisse entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s Uhr bearbeitet werden.
@@ -637,6 +627,7 @@ assessment#:#edit_answer#:#Antwort ändern
 assessment#:#edit_concluding_remarks#:#Abschließende Bemerkung bearbeiten
 assessment#:#edit_introduction#:#Einleitung bearbeiten
 assessment#:#edit_question#:#Frage bearbeiten
+assessment#:#edit_score#:#Bewerten
 assessment#:#edit_test_questions#:#Listenansicht
 assessment#:#element_height#:#Minimale Höhe
 assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.
@@ -652,6 +643,7 @@ assessment#:#errFormulaQuestion#:#Eine Formelfrage enthält fehlerhafte Angaben
 assessment#:#errRecursionInResult#:#Die Formel enthält eine nicht auflösbare Rekursion.
 assessment#:#err_category_in_use#:#Die Kategorie kann nicht gelöscht werden. Eine oder mehrere Einheiten der Kategorie sind bereits in Benutzung.
 assessment#:#err_divider_too_big#:#Der Teiler einer der Variablen in dieser Frage ist zu gross.
+assessment#:#err_divider_too_big_specific#:#Der Teiler dieser Variable ist zu gross.
 assessment#:#err_division#:#Der von Ihnen gesetzte Wert macht es unmöglich einen gültigen Wert für die Variable zu generieren.
 assessment#:#err_duplicate_results#:#Sie haben eine Ergebnisvariable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
 assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an.
@@ -683,13 +675,13 @@ assessment#:#essay_scoring_mode_without_keywords_desc#:#Es werden keine Punkte a
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#evaluated_users#:#Bewertete Benutzer
-assessment#:#exam_id#:#ILIAS-Prüfungsnummer:
-assessment#:#exam_id_label#:#ILIAS-Prüfungsnummer
-assessment#:#exam_id_of_attempt#:#Test ID des Versuchs
-assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
-assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
-assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
-assessment#:#examid_in_test_res_desc#:#In den Testergebnissen und dem Excel-Export wird die ILIAS-Prüfungsnummer dargestellt.
+assessment#:#exam_id#:#ILIAS-Test-ID:
+assessment#:#exam_id_label#:#ILIAS-Test-ID
+assessment#:#exam_id_of_attempt#:#Test-ID des Versuchs
+assessment#:#examid_in_test_pass#:#ILIAS-Test-ID anzeigen
+assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Test-ID angezeigt. Für jeden Testdurchlauf wird eine eigene ID erzeugt.
+assessment#:#examid_in_test_res#:#ILIAS-Test-ID anzeigen
+assessment#:#examid_in_test_res_desc#:#Die ILIAS-Test-ID wird in den Ansichten „Detaillierte Ergebnisse“ und   „Druckbare Liste der Antworten“ angezeigt sowie in den über den Reiter „Teilnehmer“ exportierten Tabellenkalkulationsdateien.
 assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_eval_data#:#Daten exportieren
 assessment#:#exp_file_created#:#Exportdatei erzeugt.
@@ -735,7 +727,7 @@ assessment#:#filter_all_questionpools#:#Alle Fragenpools
 assessment#:#filter_show_question_types#:#Zeige folgende Fragetypen
 assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#final_statement#:#Abschließende Bemerkung
-assessment#:#final_statement_show_desc#:#Zeigt die Abschließende Bemerkung nach Abgabe des Tests an.
+assessment#:#final_statement_show_desc#:#Zeigt die Abschließende Bemerkung nach Abgabe des Tests an.  Von dieser Seite aus ist es nicht möglich, zum Test zurückzukehren. Die abschließende Bemerkung kann im Unterreiter „Abschließende Bemerkung bearbeiten“ des Reiters „Einstellungen“ bearbeitet werden.
 assessment#:#finalized_by#:#Bewertung abgeschlossen von
 assessment#:#finalized_evaluation#:#Endgültig bewertet
 assessment#:#finalized_on#:#Bewertung abgeschlossen am
@@ -902,13 +894,13 @@ assessment#:#longmenu_answeroptions_differ#:#Diese Frage funktioniert nicht rich
 assessment#:#longmenu_text#:#„Long Menu“-Text
 assessment#:#mainbar_button_label_questionlist#:#Fragenliste
 assessment#:#maintenance#:#Wartung
-assessment#:#manscoring#:#Manuelle Bewertung
+assessment#:#manscoring#:#Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
 assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden kann. Wenn Sie planen, Testfragen manuell zu bewerten, sollten Sie ein entsprechend spätes Datum für den Zugang der Teilnehmer zu ihren Testergebnissen festlegen, damit Sie vorher die Bewertung noch durchführen können.
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
-assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
+assessment#:#manscoring_not_allowed#:#Die Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
 assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragetypen, die manuell bewertet werden können.
-assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
+assessment#:#manscoring_results_pass#:#Bewertbare Fragen für Testdurchlauf %s
 assessment#:#manual_editing#:#Manuelle Editierung
 assessment#:#manual_entry#:#Manuell Eintragen
 assessment#:#mark_schema#:#Notenschema
@@ -931,6 +923,10 @@ assessment#:#min_auto_complete#:#Autovervollständigung
 assessment#:#min_ip_label#:#Kleinste IP mit Zugriff
 assessment#:#min_percentage_ne_0#:#Das Notenschema muss mindestens eine Stufe mit einem minimalen Prozentsatz von 0 Prozent enthalten.
 assessment#:#misc#:#Verschiedene Optionen
+assessment#:#mode_allatonce#:#Alle
+assessment#:#mode_onebyone#:#Nacheinander
+assessment#:#mode_question#:#Nach Frage
+assessment#:#mode_user#:#Nach Teilnehmer
 assessment#:#msg_circle_added#:#Kreis hinzugefügt
 assessment#:#msg_no_questions_selected#:#Keine Fragen ausgewählt.
 assessment#:#msg_number_of_terms_too_low#:#Die Anzahl der Terme muss größer oder gleich der Anzahl der Definitionen sein.
@@ -1010,6 +1006,29 @@ assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#percentage#:#Prozentsatz
 assessment#:#percentage_points_achieved#:#Erreichte Punkte
 assessment#:#percentile#:#Perzentil
+assessment#:#personal_settings_apply#:#Einstellungsvorlage anwenden
+assessment#:#personal_settings_apply_changed_confirmation#:#Die aktuellen Testeinstellungen werden mit den Einstellungen der ausgewählten Vorlage überschrieben. Damit wird auch die Auswahl der Testfragen überschrieben. Der Vorgang kann nicht rückgängig gemacht werden!
+assessment#:#personal_settings_apply_confirmation#:#Die aktuellen Testeinstellungen werden mit den Einstellungen der ausgewählten Vorlage überschrieben. Dieser Vorgang kann nicht rückgängig gemacht werden!
+assessment#:#personal_settings_apply_description#:#Diese Vorlage überschreibt alle Einstellungen des Tests '%s'.
+assessment#:#personal_settings_apply_not_possible#:#ILIAS konnte die ausgewählte Vorlage nicht auf diesen Test anwenden! Möglicherweise enthält dieser Test bereits Teilnehmerdatensätze.
+assessment#:#personal_settings_apply_success#:#Die persönlichen Testeinstellungen wurden erfolgreich angewendet.
+assessment#:#personal_settings_author#:#Erstellt von
+assessment#:#personal_settings_create#:#Einstellungsvorlage hinzufügen
+assessment#:#personal_settings_delete_confirmation#:#Die ausgewählte Vorlage(n) wird/werden dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
+assessment#:#personal_settings_delete_success#:#Die ausgewählte Vorlage(n) wurde/werden gelöscht.
+assessment#:#personal_settings_description#:#Vorlagenbeschreibung
+assessment#:#personal_settings_explanation#:#ILIAS speichert die Einstellungen des aktuellen Tests in einer Vorlage. Diese Vorlage kann verwendet werden, um die Einstellungen auf einen anderen Test zu übertragen.
+assessment#:#personal_settings_export#:#Einstellungsvorlage exportieren
+assessment#:#personal_settings_import#:#Einstellungsvorlage importieren
+assessment#:#personal_settings_import_success#:#Die Vorlage wurde erfolgreich importiert.
+assessment#:#personal_settings_invalid_selection#:#Bitte wählen Sie eine Vorlage aus.
+assessment#:#personal_settings_name#:#Vorlagentitel
+assessment#:#personal_settings_required_author#:#Bitte geben Sie einen Autor für Ihre Vorlage ein.
+assessment#:#personal_settings_required_title#:#Bitte geben Sie einen Titel für Ihre Vorlage ein.
+assessment#:#personal_settings_save#:#Neue Einstellungsvorlage speichern
+assessment#:#personal_settings_show#:#Einstellungsvorlage anzeigen
+assessment#:#personal_settings_templates_available#:#Persönliche Testeinstellungsvorlagen
+assessment#:#personal_settings_timestamp#:#Erstellt am
 assessment#:#picture#:#Bild
 assessment#:#point#:#Punkt
 assessment#:#points#:#Punkte
@@ -1189,6 +1208,7 @@ assessment#:#remove_gap#:#Lücke entfernen
 assessment#:#remove_participants#:#Teilnehmende entfernen
 assessment#:#remove_question#:#Entfernen
 assessment#:#remove_selected_participants_confirmation#:#Sind Sie sicher, dass Sie die ausgewählten Teilnehmenden entfernen wollen?
+assessment#:#remove_selected_templates_confirmation#:#Möchten Sie die ausgewählten persönlichen Testeinstellungs­vorlagen wirklich dauerhaft entfernen?
 assessment#:#remove_solution#:#Hinweis auf Inhalte zur Wiederholung entfernen
 assessment#:#res_contains_undef_res#:#In der Formel werden Ergebnisse verwendet, die im Fragen-Text nicht vorhanden sind.
 assessment#:#res_contains_undef_var#:#In der Formel werden Variablen verwendet, die im Fragen-Text nicht vorhanden sind.
@@ -1227,6 +1247,7 @@ assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#score_anon#:#Anonym bewerten
 assessment#:#score_partsol_enabled#:#Halbpunktebewertung aktivieren
 assessment#:#score_partsol_enabled_info#:#Es hat sich als sinnvoll erwiesen, drei korrekte Antworten bereits mit der Hälfte der maximal erreichbaren Punktezahl zu honorieren. Bei weniger als drei korrekten Antworten werden keine Punkte vergeben.
+assessment#:#scored_by#:#Bewertet von
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
 assessment#:#scoringadjust#:#Nachkorrektur
@@ -1247,6 +1268,7 @@ assessment#:#selection#:#Auswahl
 assessment#:#set_edit_mode#:#Bearbeitungsmodus setzen
 assessment#:#set_filter#:#Filter setzen
 assessment#:#set_manscoring_done#:#Als bewertet markieren
+assessment#:#set_manscoring_open#:#Als nicht bewertet markieren
 assessment#:#set_manual_feedback#:#Manuelle Rückmeldung
 assessment#:#shape#:#Form
 assessment#:#showSuggestedSolution#:#Art
@@ -1307,7 +1329,7 @@ assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
 assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden, als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
 assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#test_question_set_type_random_info#:#Jedem Teilnehmenden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
-assessment#:#test_results#:#Bekanntgabe des Testergebnisses
+assessment#:#test_results#:#Testergebnisse
 assessment#:#test_scoring#:#Bewertung des Tests
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_title#:#Test Titel
@@ -1365,15 +1387,15 @@ assessment#:#tst_anonymity_no_anonymization#:#Testergebnisse mit Namen
 assessment#:#tst_answer_aggr_answer_header#:#Antwort
 assessment#:#tst_answer_aggr_frequency_header#:#Häufigkeit
 assessment#:#tst_answer_details#:#Antwortdetails
-assessment#:#tst_answer_fixation#:#Antworten festschreiben
-assessment#:#tst_answer_fixation_handling#:#Teilnehmerantworten
+assessment#:#tst_answer_fixation#:#Antworten bei Anzeige der Rückmeldung und/oder Übergang zur nächsten Frage sperren
+assessment#:#tst_answer_fixation_handling#:#Antworten festschreiben
 assessment#:#tst_answer_fixation_none#:#Antworten während des Testdurchlaufs nicht festschreiben
 assessment#:#tst_answer_fixation_none_desc#:#Solange ein Testdurchlauf nicht beendet ist, können Teilnehmer ihre Antworten beliebig verändern.
-assessment#:#tst_answer_fixation_on_followup_question#:#Antworten bei Anzeige der Folgefrage festschreiben
+assessment#:#tst_answer_fixation_on_followup_question#:#Bei der Anzeige der Folgefrage
 assessment#:#tst_answer_fixation_on_followup_question_desc#:#Nach dem Anzeigen der Folgefrage können Teilnehmer die Antwort auf die vorherige Frage nicht mehr verändern.
-assessment#:#tst_answer_fixation_on_instant_feedback#:#Antworten bei Anzeige der Rückmeldung festschreiben
+assessment#:#tst_answer_fixation_on_instant_feedback#:#Bei der Anzeige der Rückmeldung
 assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#Wenn die Rückmeldung zu einer Frage gezeigt wird, können Teilnehmer ihre Antworten nicht mehr verändern.
-assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Antworten mit der Anzeige von Rückmeldungen oder der Folgefrage festschreiben
+assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Bei Anzeige der Rückmeldung oder Übergang zur nächsten Frage
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#Teilnehmer können Antworten nicht mehr verändern, nachdem die Rückmeldung zur Frage oder die Folgefrage gezeigt wurde.
 assessment#:#tst_answer_status_answered#:#Beantwortet
 assessment#:#tst_answer_status_editing#:#(in Bearbeitung)
@@ -1408,7 +1430,7 @@ assessment#:#tst_comp_points#:#Kompetenz-Punkte
 assessment#:#tst_competence#:#Kompetenz
 assessment#:#tst_competence_tree#:#Kompetenzbaum
 assessment#:#tst_conditions_checkbox_enabled#:#Prüfungsbedingungen
-assessment#:#tst_conditions_checkbox_enabled_desc#:#Die Teilnehmer müssen ein Kontrollkästchen auswählen, um den Test zu starten. Bitte verwenden Sie die Einführungsnachricht, um den Teilnehmern die Prüfung vorzustellen.
+assessment#:#tst_conditions_checkbox_enabled_desc#:#Die Teilnehmer müssen ein Kontrollkästchen auswählen, um den Test zu starten. Bitte verwenden Sie die Einleitung, um den Teilnehmern die Prüfungsbedingungen vorzustellen.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
 assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#tst_copy#:#Test kopieren
@@ -1418,7 +1440,7 @@ assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Häufigkeit
 assessment#:#tst_corrections_answers_tbl#:#Antwortstatistik
 assessment#:#tst_corrections_answers_tbl_subindex#:#Antwortstatistik für %s
 assessment#:#tst_corrections_incompatible_question_set_type#:#Eine Nachkorrektur ist nur möglich, wenn der Test eine fest definierte Fragenauswahl verwendet.
-assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage „%s (ID: %s)” vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
+assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s Bewertungen für die Frage „%s (ID: %s)” vor. Alle Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_corrections_qst_form#:#Korrektur der Punkte
 assessment#:#tst_corrections_tab_question#:#Frage
 assessment#:#tst_corrections_tab_solution#:#Lösung
@@ -1428,14 +1450,6 @@ assessment#:#tst_count_correct_solutions_desc#:#Vollständige und richtige Antwo
 assessment#:#tst_count_partial_solutions#:#Auch teilweise falsch beantwortete Fragen ergeben Punkte
 assessment#:#tst_count_partial_solutions_desc#:#Bei einigen Fragetypen können für korrekt gegebene Teilantworten Punkte erzielt werden. Diese werden aufsummiert. Dies betrifft die Fragetypen Multiple Choice, KPrim, Mehrfachauswahl in Imagemaps, Fehler / Worte markieren und Zuordnungsfrage.
 assessment#:#tst_current_run_no_longer_valid#:#Ihr aktueller Testdurchlauf ist nicht mehr gültig. <br>Er wurde wahrscheinlich bereits abgeschlossen oder von den Testverantwortlichen beendet.
-assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
-assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
-assessment#:#tst_defaults_apply_select_one#:#Bitte wählen Sie exakt eine Standardeinstellung aus, um sie auf diesen Test anzuwenden!
-assessment#:#tst_defaults_available#:#Verfügbare Standardeinstellungen
-assessment#:#tst_defaults_defaults_of_test#:#der Einstellungen dieses Tests als neue Standardeinstellung mit dem Namen
-assessment#:#tst_defaults_enter_name#:#Bitte geben Sie einen Namen für die neuen Standardeinstellungen an!
-assessment#:#tst_defaults_not_defined#:#Sie haben noch keine Standardeinstellungen definiert.
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Entfernen aus!
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
@@ -1447,7 +1461,7 @@ assessment#:#tst_enable_questionlist#:#Fragenliste
 assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
 assessment#:#tst_ending_time#:#Ende
 assessment#:#tst_ending_time_before_starting_time#:#Bitte geben Sie für das Ende des Tests ein Datum ein, das nach dem Startdatum liegt.
-assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <strong>Wichtig</strong>: Benutzen Sie diese Option <strong>nicht</strong> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen z.B. die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe bei Freitext-Fragen jedes Teilnehmers automatisch als Auto-Save-Inhalt gespeichert. <strong>VORSICHT:</strong> Dieser Inhalt wird <strong>NICHT</strong> automatisch bewertet.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmenden keine Antworten mehr abgeben können. <strong>Wichtig</strong>: Benutzen Sie diese Option <strong>nicht</strong> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“ (siehe unten). Nur dann wird der Test serverseitig beendet und die letzte Eingabe jeder teilnehmenden Person automatisch als Auto-Save-Inhalt gespeichert. <strong>VORSICHT:</strong> Dieser Inhalt wird <strong>NICHT</strong> automatisch bewertet.
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
 assessment#:#tst_eval_results_by_pass#:#Liste der Antworten für Testdurchlauf %s
@@ -1471,12 +1485,12 @@ assessment#:#tst_exam_modal_message_conditions_and_password#:#Bitte bestätigen 
 assessment#:#tst_exam_modal_message_password#:#Bitte geben Sie das Passwort ein, um den Test zu starten.
 assessment#:#tst_exam_not_assigned_participant_disclaimer#:#Sie können den Test nicht starten, da Sie kein zugewiesener Teilnehmer sind.
 assessment#:#tst_exam_password#:#Testpasswort
-assessment#:#tst_exam_password_invalid_message#:#Das angegebene Passwort ist ungültig!
+assessment#:#tst_exam_password_invalid_message#:#Das von Ihnen eingegebene Passwort ist ungültig. Bitte versuchen Sie es erneut und wenden Sie sich gegebenenfalls an die für diesen Test verantwortliche Person.
 assessment#:#tst_exam_password_label#:#Passwort
 assessment#:#tst_exam_required_fields_not_filled_message#:#Sie müssen alle erforderlichen Felder ausfüllen!
 assessment#:#tst_exam_start#:#Test starten
-assessment#:#tst_exam_use_previous_answers#:#Vorherige Antworten
-assessment#:#tst_exam_use_previous_answers_label#:#Wenn aktiviert, werden Antworten aus früheren Tests vorausgefüllt.
+assessment#:#tst_exam_use_previous_answers#:#Vorherige Antworten verwenden
+assessment#:#tst_exam_use_previous_answers_label#:#Wenn aktiviert, werden Antworten aus Ihrem letzten Testdurchlauf vorausgefüllt.
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
 assessment#:#tst_extratime_info#:#Falls die Bearbeitungszeit eines Testteilnehmers mehrmals verlängert wird, geben Sie hier bitte die Summe aller seiner Zeitverlängerungen an.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
@@ -1507,10 +1521,10 @@ assessment#:#tst_header_solution#:#Bestmögliche Lösung:
 assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
 assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
-assessment#:#tst_hide_pagecontents_desc#:#ILIAS-Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
+assessment#:#tst_hide_pagecontents_desc#:#Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
 assessment#:#tst_hide_side_list#:#Fragenliste aus
-assessment#:#tst_highscore_achieved_ts#:#Datum
-assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte mit dem Zeitpunkt des Tests eingeblendet.
+assessment#:#tst_highscore_achieved_ts#:#Datum / Uhrzeit
+assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte eingeblendet, die anzeigt, wann der Test beendet wurde.
 assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
 assessment#:#tst_highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
 assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
@@ -1569,13 +1583,13 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rüc
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
-assessment#:#tst_instant_feedback_results_desc#:#Klicken Teilnehmer beim Beantworten einer Frage auf den Button „Rückmeldung anfordern“ zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreichen wurden.
+assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
-assessment#:#tst_instant_feedback_solution_desc#:#Bei Anklicken des „Rückmeldung anfordern“-Buttons zeigt ILIAS die bestmögliche Lösung der Frage an.
+assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
 assessment#:#tst_instant_feedback_trigger#:#Auslöser der Rückmeldung
-assessment#:#tst_instant_feedback_trigger_forced#:#Die Rückmeldung wird bei Beantwortung von Fragen gezeigt
+assessment#:#tst_instant_feedback_trigger_forced#:#Eine Frage beantworten
 assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer Frage wird die Rückmeldung automatisch ausgelöst.
-assessment#:#tst_instant_feedback_trigger_manual#:#Teilnehmer können die Rückmeldung selbst auslösen
+assessment#:#tst_instant_feedback_trigger_manual#:#Manuelle Auslösung
 assessment#:#tst_instant_feedback_trigger_manual_desc#:#Die Rückmeldung steht Teilnehmern zur Verfügung, wird aber erst gezeigt, wenn der Teilnehmer diese auslöst.
 assessment#:#tst_introduction#:#Einleitung
 assessment#:#tst_introduction_desc#:#Zeigt einen Einleitungstext auf dem „Test”-Reiter an. Der Einleitungstext kann im Unterreiter „Einleitung bearbeiten” geändert werden und ist bereits vor Beginn des Tests zugänglich.
@@ -1591,18 +1605,27 @@ assessment#:#tst_limit_nr_of_tries#:#Anzahl von Testdurchläufen begrenzen
 assessment#:#tst_link_only_unassigned#:#Sie haben mindestens eine Frage ausgewählt, die bereits einem Fragepool zugeordnet ist. Nur Fragen, die keinem Fragenpool zugeordnet sind, können einem Fragenpool hinzugefügt werden. Bitte treffen Sie eine neue Auswahl.
 assessment#:#tst_list_answer_details#:#Zeige in Liste unterhalb
 assessment#:#tst_list_of_answers#:#Liste der Antworten
-assessment#:#tst_list_of_answers_show#:#Bewertete Antworten
+assessment#:#tst_list_of_answers_show#:#Druckbare Liste der Antworten
 assessment#:#tst_list_of_questions_end#:#Vor dem Ende des Test anzeigen
 assessment#:#tst_list_of_questions_start#:#Noch vor der ersten Frage anzeigen
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen anzeigen
+assessment#:#tst_man_scoring_answered_hide#:#Nur unbeantwortete Fragen
+assessment#:#tst_man_scoring_answered_only#:#Nur beantwortete Fragen
 assessment#:#tst_man_scoring_by_part#:#Bewertung nach Teilnehmer
 assessment#:#tst_man_scoring_by_qst#:#Bewertung nach Frage
+assessment#:#tst_man_scoring_finalized#:#Bewertete Antworten anzeigen
+assessment#:#tst_man_scoring_finalized_hide#:#Bewertete Antworten ausblenden
+assessment#:#tst_man_scoring_finalized_only#:#Nur bewertete Antworten anzeigen
 assessment#:#tst_man_scoring_only_answered#:#Nur beantwortete
+assessment#:#tst_man_scoring_questionselection#:#Fragen
+assessment#:#tst_man_scoring_userselection#:#Teilnehmer
 assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
 assessment#:#tst_manage_competence_select_skills#:#Kompetenzen auswählen
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
+assessment#:#tst_manscoring_input_of_max#:#von
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Frage und Teilnehmerlösung
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
+assessment#:#tst_manscoring_no_feedback#:#Es wurde noch kein Bewertungstext verfasst.
 assessment#:#tst_manscoring_question_section_header#:#Frage: %s
 assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
 assessment#:#tst_mark#:#Note
@@ -1612,7 +1635,7 @@ assessment#:#tst_mark_minimum_level_invalid#:#Der Mindestprozentsatz muss zwisch
 assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
-assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Das aktuelle Schema wird durch ein einfaches Notenschema ersetzt. Es werden alle in diesem Test am Notenschema vorgenommenen Änderungen verworfen.
+assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Möchten Sie wirklich fortfahren? Das aktuelle Notenschema wird durch ein einfaches Notenschema mit den Stufen „bestanden“ und „nicht bestanden“ ersetzt. Alle lokalen Änderungen werden gelöscht.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_max_comp_points#:#Maximale Kompetenz-Punkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
@@ -1644,9 +1667,9 @@ assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenz-Punkte wurd
 assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Regel für die Fragenauswahl wurde erfolgreich gelöscht.
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
-assessment#:#tst_nav_next_locks_current_answer_header#:#Navigieren zur nächsten Frage
+assessment#:#tst_nav_next_locks_current_answer_header#:#Aktuelle Antwort festschreiben?
 assessment#:#tst_nav_next_locks_empty_answer_confirm#:#Sie haben keine Antwort eingegeben. Eine leere Lösung wird als Antwort zur aktuellen Frage gespeichert und festgeschrieben. Die Antwort kann nicht mehr verändert werden.
-assessment#:#tst_nav_next_locks_empty_answer_header#:#Navigieren ohne Antwort
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Leere Antwort festschreiben?
 assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Abbrechen
 assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
 assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Nicht Speichern
@@ -1664,11 +1687,11 @@ assessment#:#tst_non_available_pool_newly_derived#:#Der/die neue(n) Fragenpool(s
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>Der aktuelle Test-Modus beinhaltet Fragen in seiner Konfiguration, die keinem Fragenpool zugeordnet sind. Wenn Sie den Modus des Tests ändern, gehen diese Fragen unwiederbringlich verloren.</b>
 assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Sie erhalten diese Nachricht, weil Sie an diesem Test teilgenommen haben.
-assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung für Test „%s“ erfolgt
-assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung für folgenden Test wurde eingereicht:
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Bewertung für Test „%s“ erfolgt
+assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Die Bewertung für folgenden Test wurde eingereicht:
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
-assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
+assessment#:#tst_nr_of_tries_desc#:#Die maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann. Wenn diese Option nicht ausgewählt ist, kann der Test unbegrenzt wiederholt werden, solange er verfügbar ist.
 assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
 assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortet
 assessment#:#tst_num_non_answered_questions_notseen#:#Noch nicht angesehen
@@ -1687,8 +1710,7 @@ assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Teilnehmerstatus
 assessment#:#tst_participating_users#:#Teilnehmende Benutzer
 assessment#:#tst_pass_best_pass#:#Besten Durchlauf des Tests bewerten
-assessment#:#tst_pass_best_pass_desc#:#Es wird der Durchlauf bewertet, bei dem die höchste Punktezahl erreicht wurde.
-assessment#:#tst_pass_deletion#:#Durchläufe löschen
+assessment#:#tst_pass_best_pass_desc#:#Wenn multiple Durchläufe erlaubt werden, wird der Durchlauf bewertet, bei dem die höchste Punktezahl erreicht wurde.
 assessment#:#tst_pass_deletion_allowed#:#Durchläufe, die nicht zur Bewertung verwendet werden, können gelöscht werden.
 assessment#:#tst_pass_details#:#Detaillierte Ergebnisse
 assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
@@ -1713,7 +1735,7 @@ assessment#:#tst_passed#:#Bestanden
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_password#:#Testpasswort
 assessment#:#tst_password_details#:#Wird ein Testpasswort definiert, müssen Teilnehmer dieses eingeben, um den Test starten oder fortsetzen zu können. Dies betrifft auch laufende Testdurchläufe.
-assessment#:#tst_password_enter#:#Passwort eingeben
+assessment#:#tst_password_enter#:#Passwort:
 assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht starten, da Sie ein falsches Testpasswort eingegeben haben!
 assessment#:#tst_password_form#:#Eingabe Testpasswort
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet bzw. fortgeführt werden. Bitte tragen Sie das Passwort hier ein.
@@ -1725,9 +1747,9 @@ assessment#:#tst_position#:#Frage %s von %s
 assessment#:#tst_position_without_total#:#Frage %s
 assessment#:#tst_postpone#:#Nicht beantwortete Fragen
 assessment#:#tst_postpone_off#:#Nicht beantwortete Fragen bleiben an ihrem Platz
-assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen oder Fragen überblättern, verbleiben die Fragen an ihrer Position im Test.
+assessment#:#tst_postpone_off_desc#:#Auch wenn Fragen verworfen oder übersprungen werden, verbleiben die Fragen an ihrer Position im Test.
 assessment#:#tst_postpone_on#:#Nicht beantwortete Fragen werden ans Testende geschoben
-assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwerfen oder überblättern, präsentiert ILIAS am Ende des Test noch einmal.
+assessment#:#tst_postpone_on_desc#:#Fragen, die verworfen oder übersprungen werden, präsentiert ILIAS am Ende des Test noch einmal.
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verfügbar!
@@ -1749,7 +1771,7 @@ assessment#:#tst_question_answer_status#:#Welche Fragen sollen in die Wiedervorl
 assessment#:#tst_question_answer_status_all_non_correct#:#Alle, außer richtig beantwortete Fragen
 assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete Fragen
 assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
-assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur Übersicht der Rückmeldungen
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_mark#:#Frage markieren
 assessment#:#tst_question_marked#:#Sie haben die Frage markiert
@@ -1804,10 +1826,10 @@ assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_results_access_always#:#Sofort
 assessment#:#tst_results_access_always_desc#:#Schon während eines Testdurchlaufs kann ein Zwischenergebnis über den Reiter „Meine Ergebnisse“ eingesehen werden. Nach Abschluss des Durchlaufs wird automatisch das Testergebnis angezeigt.
-assessment#:#tst_results_access_date#:#Ab definiertem Datum
-assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum werden Ergebnisse im Reiter „Meine Ergebnisse” anzeigt.
+assessment#:#tst_results_access_date#:#Ab einem festgelegten Zeitpunkt
+assessment#:#tst_results_access_date_desc#:#Erst ab dem gewählten Datum und der gewählten Uhrzeit werden Ergebnisse im Reiter „Meine Ergebnisse” anzeigt.
 assessment#:#tst_results_access_enabled#:#Eigenes Testergebnis einsehen
-assessment#:#tst_results_access_enabled_desc#:#Teilnehmerinnen und Teilnehmer erhalten Zugriff auf Ihre Testergebnisse über den Reiter „Meine Ergebnisse“.
+assessment#:#tst_results_access_enabled_desc#:#Teilnehmerinnen und Teilnehmer erhalten Zugriff auf Ihre Testergebnisse über den Reiter „Meine Ergebnisse“. Die darin enthaltenen Informationen und wann darauf zugegriffen werden kann, können unten konfiguriert werden.
 assessment#:#tst_results_access_finished#:#Nach Durchlauf des Tests
 assessment#:#tst_results_access_finished_desc#:#Nach Abschluss eines Testdurchlaufs werden die Ergebnisse automatisch im Reiter „Meine Ergebnisse” angezeigt.
 assessment#:#tst_results_access_passed#:#Nach Bestehen des Tests
@@ -1818,7 +1840,7 @@ assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
 assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_details_options#:#Weitere Optionen
 assessment#:#tst_results_gamification#:#Gamification
-assessment#:#tst_results_grading_opt_show_details#:#Detaillierte Testergebnisse anzeigen
+assessment#:#tst_results_grading_opt_show_details#:#Detaillierte Testergebnisse zugänglich machen
 assessment#:#tst_results_grading_opt_show_details_desc#:#Zusätzlich zum zusammenfassenden Testergebnis wird eine Aktion „Detaillierte Ergebnisse“ angeboten. Die Tabelle „Detaillierte Testergebnisse” zeigt für jeden Durchlauf die Titel der Fragen, die erreichten Punkte und die gewählten Antworten an. Der Inhalt der Tabelle kann im Abschnitt „Weitere Optionen“ weiter ergänzt werden.
 assessment#:#tst_results_grading_opt_show_mark#:#Note anzeigen
 assessment#:#tst_results_grading_opt_show_mark_desc#:#Eine Meldung im Reiter „Meine Ergebnisse“ informiert Teilnehmerinnen und Teilnehmer, welche Note sie erzielt haben.
@@ -1826,7 +1848,7 @@ assessment#:#tst_results_grading_opt_show_status#:#„Bestanden“ / „Nicht be
 assessment#:#tst_results_grading_opt_show_status_desc#:#Eine Meldung im Reiter „Meine Ergebnisse“ informiert Teilnehmerinnen und Teilnehmer, ob sie bestanden haben oder nicht.
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
-assessment#:#tst_results_print_best_solution_info#:#Den eigenen Antworten werden die bestmöglichen Lösungen gegenübergestellt.
+assessment#:#tst_results_print_best_solution_info#:#In den detaillierten Ergebnissen jedes Durchlauf, werden den eigenen Antworten die bestmöglichen Lösungen gegenübergestellt. Der Zugriff erfolgt über das Aktionsmenü jedes einzelnen Testversuchs unter „Meine Ergebnisse“. Dazu müssen „Eigenes Testergebnis einsehen“ und anschließend „Detaillierte Testergebnisse zugänglich machen“ aktiviert worden sein (siehe oben).
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
@@ -1837,10 +1859,10 @@ assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Regel für Fragenauswahl hinzuf
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_save_and_proceed#:#Speichern und weiter
 assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
-assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
+assessment#:#tst_save_manscoring_failed#:#Die Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
-assessment#:#tst_saved_manscoring_by_question_successfully#:#Die manuelle Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
-assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#Die Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_successfully#:#Die Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
 assessment#:#tst_score_cut_question#:#Das Ergebnis einer Frage kann nie weniger als 0 Punkte sein.
 assessment#:#tst_score_cut_question_desc#:#Bei der Vergabe negativer Punkte für einzelne Antwortoptionen können mit der falschen Beantwortung einer Frage Minuspunkte erzielt werden. Bei dieser Option werden die erreichten Minuspunkte pro Frage auf 0 Punkte gesetzt.
 assessment#:#tst_score_cut_test#:#Eine Frage kann auch ein negatives Punkteergebnis haben.
@@ -1858,6 +1880,8 @@ assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
 assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
+assessment#:#tst_settings_not_found#:#Fehlende Testeinstellungen
+assessment#:#tst_settings_not_found_msg#:#Testeinstellungen wurden nicht gefunden. Möglicherweise fehlt ein Migrationsschritt. Bitte wenden Sie sich an Ihren Systemadministrator.
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter „Maximale Bearbeitungsdauer“ festgelegte Bearbeitungszeit an.
@@ -1875,13 +1899,13 @@ assessment#:#tst_show_solution_details_singlepage_desc#:#Teilnehmerinnen und Tei
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
 assessment#:#tst_show_solution_feedback_desc#:#Falls Rückmeldungen zu den gegebenen Antworten bei der Frage hinterlegt worden sind, werden diese angezeigt. Sie müssen die Option „Detallierte Testergebnisse anzeigen“ aktivieren, um diese Funktion zu nutzen.
 assessment#:#tst_show_solution_printview#:#Druckbare Liste der Antworten
-assessment#:#tst_show_solution_printview_desc#:#Nach dem Klick auf „Test beenden“ wird im Reiter „Meine Ergebnisse“ ein zusätzlicher Reiter „Bewertete Antworten“ eingeblendet. Den Teilnehmerinnen und Teilnehmern werden hier ihre Antworten zu den einzelnen Testfragen angezeigt.
+assessment#:#tst_show_solution_printview_desc#:#Nach dem Klick auf „Test beenden“ wird im Reiter „Meine Ergebnisse“ ein zusätzlicher Reiter „Druckbare Liste der Antworten“ eingeblendet. Den Teilnehmerinnen und Teilnehmern werden hier ihre Antworten zu den einzelnen Testfragen angezeigt.
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift
 assessment#:#tst_show_solution_signature_desc#:#Ist die Option „Detaillierte Testergebnisse anzeigen“ oder „Druckbare Liste der Antworten“ aktiviert, fügt ILIAS zusätzlich ein Unterschriftenfeld in den Ausdruck ein. In diesem kann die Person, die den Test durchgeführt hat, unterschreiben.
 assessment#:#tst_show_solution_suggested#:#Inhalte zur Wiederholung
 assessment#:#tst_show_solution_suggested_desc#:#Falls den Fragen im Test Inhalte zur Wiederholung des Stoffs zugeordnet wurden, werden diese angezeigt. Sie müssen die Option „Detaillierte Testergebnissen anzeigen“ aktivieren, um diese Funktion zu nutzen. Teilnehmerinnen und Teilnehmer können so etwaige Wissenslücken schließen.
 assessment#:#tst_show_summary#:#Übersicht Testdurchlauf
-assessment#:#tst_show_summary_description#:#Mit der Schaltfläche „Übersicht Testdurchlauf“ können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet oder markiert haben. Das Verhalten des „Übersicht Testdurchlauf“ können Sie noch weiter konfigurieren:
+assessment#:#tst_show_summary_description#:#Mit dem Button „Übersicht Testdurchlauf“ können Teilnehmer eine Übersicht aufrufen, die zeigt, welche Fragen sie jeweils bereits bearbeitet haben. Außerdem werden angezeigt, welche Fragen markiert wurden und wie viele Punkte eine Frage wert ist, je nachdem, welche dieser Optionen aktiviert wurden. Das Verhalten des „Übersicht Testdurchlauf“ können Sie unten noch weiter konfigurieren:
 assessment#:#tst_show_toplist#:#Platzierung
 assessment#:#tst_shuffle_questions#:#Fragen mischen
 assessment#:#tst_shuffle_questions_description#:#Die Reihenfolge der Fragen wird pro Teilnehmer und pro Testdurchlauf neu gemischt.
@@ -1942,7 +1966,7 @@ assessment#:#tst_threshold#:#Schwellenwert (in %)
 assessment#:#tst_time_already_spent#:#Sie haben den Test gestartet: %s. Ihre maximale Bearbeitungsdauer beträgt %s.
 assessment#:#tst_time_already_spent_left#:#Es verbleiben Ihnen noch %s
 assessment#:#tst_time_limit_message#:#Sie haben <b>%s Minuten</b>, um alle Fragen zu beantworten.
-assessment#:#tst_title_output#:#Anzeige der Fragentitel
+assessment#:#tst_title_output#:#Anzeigevarianten für Fragentitel
 assessment#:#tst_title_output_full#:#Fragentitel und erreichbare Punkte
 assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_info#:#Setzt die Kombination von Titel und/oder verfügbaren Punkten fest, die den Teilnehmenden während der Durchführung sowie auf der Übersicht des Testduchlaufs angezeigt wird.
@@ -2003,6 +2027,7 @@ assessment#:#use_previous_solution_advice#:#Die angezeigte Lösung wurde vormals
 assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
 assessment#:#user_ip_outside_range#:#Sie dürfen von Ihrer IP aus nicht auf den Test zugreifen.
 assessment#:#user_not_invited#:#Sie sind kein Teilnehmer der Prüfung.
+assessment#:#usr_manscoring_complete#:#Als bewertet markiert
 assessment#:#value_between_x_and_y#:#Der Wert muss zwischen %s und %s liegen
 assessment#:#values#:#Werte
 assessment#:#variable#:#Variable
@@ -2272,6 +2297,17 @@ badge#:#sort_by_title_desc#:#Titel, absteigend
 badge#:#table_view#:#Tabelle
 badge#:#tile_view#:#Kacheln
 badge#:#valid_until#:#Gültig bis
+benchmark#:#adm_activate_db_benchmark#:#Messung aktivieren
+benchmark#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
+benchmark#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
+benchmark#:#adm_db_bench_chronological#:#Chronologisch
+benchmark#:#adm_db_bench_slowest_first#:#Langsamste zuerst
+benchmark#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
+benchmark#:#adm_db_benchmark#:#Datenbank Benchmark
+benchmark#:#adm_db_benchmark_user#:#Anmeldename
+benchmark#:#adm_db_benchmark_user_desc#:#Für dieses ILIAS-Konto wird die Messung durchgeführt. Aktivieren Sie diese Funktion nicht für Ihr eigenes Konto.
+benchmark#:#adm_sql#:#SQL
+benchmark#:#adm_time#:#Zeit
 bgtask#:#bgtask_blocked#:#Laufender Download
 bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
 bgtask#:#bgtask_blocked_cancel_old#:#Laufenden Download abbrechen
@@ -3594,8 +3630,6 @@ common#:#basedn#:#BaseDN
 common#:#basic_settings#:#Grundeinstellungen
 common#:#before#:#vor
 common#:#behind#:#Nach
-common#:#benchmark#:#Benchmark
-common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographische Daten
 common#:#bibl_add#:#Literaturliste anlegen
 common#:#birthday#:#Geburtstag
@@ -4548,21 +4582,30 @@ common#:#mail_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben 
 common#:#mail_attachment#:#Mailanhang
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
+common#:#mail_cron_scheduled_mails#:#Versende geplante Mails
+common#:#mail_cron_scheduled_mails_desc#:#Versendet Mails von Nutzenden gemäß individuell definiertem Zeitpunkt.
 common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen
+common#:#mail_e_outbox#:#Postausgang
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_edit_permission#:#Rechteeinstellungen der Mail-Administration ändern
+common#:#mail_f_sent#:#Gesendete
 common#:#mail_folders#:#Mail-Ordner
 common#:#mail_import_file#:#Exportdatei
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_member#:#Mail an Mitglied
 common#:#mail_members#:#Mail an Mitglieder
+common#:#mail_message_scheduled#:#Mail planen
+common#:#mail_message_scheduled_info#:#Geplante Mails werden bis zum gewählten Zeitpunkt im Postausgang verbleiben.
 common#:#mail_not_sent#:#Ihre Mail konnte nicht verschickt werden
+common#:#mail_schedule_error_no_datetime#:#Das Planen einer Mail erfordert ein Datum und eine Uhrzeit.
+common#:#mail_schedule_error_past_datetime#:#Mails können nicht in der Vergangenheit geplant werden.
+common#:#mail_scheduled#:#Mail zur späteren Zustellung im Postausgang abgelegt.
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_select_one#:#Sie müssen mindestens eine Mail auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Mail
-common#:#mail_sent#:#Ihre Mail wurde versandt
+common#:#mail_sent#:#Ihre Mail wurde versandt.
 common#:#mail_settings#:#Mail-Einstellungen
 common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt)
 common#:#mail_z_local#:#Eigene Ordner
@@ -4716,7 +4759,7 @@ common#:#msg_link_clipboard_p#:#Wählen Sie nun den gewünschten Ort, in den die
 common#:#msg_link_clipboard_s#:#Wählen Sie nun den gewünschten Ort, in den das ausgewählte Objekt verknüpft werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
-common#:#msg_min_one_role#:#Jedes ILIAS-Konto muss mindestens einer globalen Rolle zugewiesen sein!
+common#:#msg_min_one_role#:#Jedes ILIAS-Konto muss mindestens einer globalen Rolle zugewiesen sein.
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen.
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Anmeldekonto löschen.
@@ -4790,7 +4833,7 @@ common#:#new_language#:#Neue Sprache
 common#:#new_pass_equals_old_pass#:#Das neue Passwort ist identisch mit dem alten Passwort.
 common#:#newline#:#Zeilenumbruch
 common#:#news#:#Neuigkeiten
-common#:#next#:#weiter
+common#:#next#:#Weiter
 common#:#no#:#Nein
 common#:#no_access_item#:#Ihnen fehlt die Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#no_access_item_public#:#Um dieses Objekt zu nutzen, müssen Sie angemeldet sein und entsprechende Zugriffsrechte besitzen.
@@ -4833,6 +4876,8 @@ common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
+common#:#obj_adma#:#Allgemeine Einstellungen
+common#:#obj_adma_desc#:#Wichtige Einstellungen für die gesamte Installation
 common#:#obj_adn#:#Ankündigungen
 common#:#obj_adve#:#Editor
 common#:#obj_adve_desc#:#Administrationseinstellungen für den ILIAS-Seiteneditor und den TinyMCE-Editor
@@ -4851,6 +4896,8 @@ common#:#obj_bibs#:#Literaturliste
 common#:#obj_bibs_desc#:#Literaturlisten-Administration
 common#:#obj_blog#:#Blog
 common#:#obj_blog_duplicate#:#Blog kopieren
+common#:#obj_bnmk#:#Benchmarking
+common#:#obj_bnmk_desc#:#Aufzeichnung und Auswertung der Dauer von Datenbankabfragen
 common#:#obj_book#:#Buchungspool
 common#:#obj_cadm#:#Benutzerkontakte
 common#:#obj_cadm_desc#:#Administration für Benutzerkontakte
@@ -4876,6 +4923,8 @@ common#:#obj_copa#:#Inhaltsseite
 common#:#obj_cpad#:#Inhaltsseiten
 common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
 common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
+common#:#obj_cron#:#Cron Jobs
+common#:#obj_cron_desc#:#Liste aller Cron Jobs
 common#:#obj_crs#:#Kurs
 common#:#obj_crs_duplicate#:#Kurs kopieren
 common#:#obj_crsr#:#Kurslink
@@ -4950,6 +4999,7 @@ common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Globale Mail-Einstellungen
 common#:#obj_mailr#:#Gelesene Mail
 common#:#obj_mailu#:#Ungelesene Mail
+common#:#obj_maps#:#Karten
 common#:#obj_mcst#:#Mediacast
 common#:#obj_mcst_duplicate#:#Mediacast kopieren
 common#:#obj_mcts#:#Mediacast
@@ -5045,6 +5095,8 @@ common#:#obj_sco#:#SCO
 common#:#obj_scov#:#SCORM-Zertifikat
 common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.
+common#:#obj_serv#:#Server
+common#:#obj_serv_desc#:#Einstellungen des Severs
 common#:#obj_sess#:#Sitzung
 common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_skmg#:#Kompetenzmanagement
@@ -5052,6 +5104,8 @@ common#:#obj_skmg_desc#:#Kompetenzen und Kategorien verwalten
 common#:#obj_spl#:#Fragenpool für Umfragen
 common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfragen aus --
 common#:#obj_st#:#Kapitel
+common#:#obj_stus#:#Kurz-URLs
+common#:#obj_stus_desc#:#Globale Kurz-URL-Einstellungen
 common#:#obj_sty#:#Style
 common#:#obj_stys#:#Layout
 common#:#obj_stys_desc#:#Einstellungen für das Erscheinungsbild der Installation und für Styles bestimmter Inhaltsobjekte
@@ -5806,6 +5860,7 @@ common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
 common#:#upload#:#Hochladen
 common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
+common#:#upload_ok#:#Der Upload war erfolgreich
 common#:#upload_pending#:#Ausstehend
 common#:#upload_settings#:#Upload-Einstellungen
 common#:#upload_svg_rejection_message#:#Eine hochgeladene SVG-Datei enthält möglicherweise bösartigen Code und kann nicht verarbeitet werden.
@@ -8719,6 +8774,7 @@ dcl#:#dcl_owner#:#Eigener Eintrag von
 dcl#:#dcl_owner_description#:#Eigene Einträge bleiben stets sichtbar.
 dcl#:#dcl_owner_name#:#Im Besitz von (Name)
 dcl#:#dcl_page_type_dclf#:#Detailansicht
+dcl#:#dcl_placeholder_info#:#Um Daten aus Einträgen dieser Datensammlung in deren Einzelansicht zu verwenden, nutzen Sie bitte die entsprechenden Platzhalter. Diese sind in den Seitenelementen „Text“ und „Datentabelle“ verfügbar.
 dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection-Feld Erweiterungen
@@ -9013,6 +9069,7 @@ ecs#:#ecs_export_auth_type#:#Authentifikations-Methode für Benutzer mit externe
 ecs#:#ecs_export_auth_type_ilias#:#Benutzerauthentifikation via LDAP
 ecs#:#ecs_export_auth_type_info#:#Bitte wählen Sie, mit welcher Authentifizierungsmethode sich Benutzer via ECS authentifizieren sollen, bei denen via ECS ein externes Benutzerattribut übertragen wurde.
 ecs#:#ecs_export_auth_type_none#:#Keine Benutzer mit externem Benutzerattribut zulassen
+ecs#:#ecs_export_auth_type_oidc#:#Benutzerauthentifikation via OpenID Connect
 ecs#:#ecs_export_auth_type_shib#:#Benutzerauthentifikation via Shibboleth
 ecs#:#ecs_export_created_body_a#:#Ein neuer Kurs wurde freigegeben:
 ecs#:#ecs_export_disabled#:#Nicht freigeben
@@ -10452,6 +10509,58 @@ gsfo#:#services#:#Services
 gsfo#:#support#:#Support
 gsfo#:#translate#:#Übersetzen
 gsfo#:#translations#:#Übersetzungen
+help#:#gdtr_active#:#Aktiv
+help#:#gdtr_add_step#:#Schritt hinzufügen
+help#:#gdtr_add_tour#:#Add Tour
+help#:#gdtr_close#:#Tour beenden
+help#:#gdtr_delete_step#:#Schritt löschen
+help#:#gdtr_delete_step_mess#:#Sind Sie sicher, dass dieser Schritt gelöscht werden soll?
+help#:#gdtr_delete_tour#:#Tour löschen
+help#:#gdtr_delete_tour_mess#:#Sind Sie sicher, dass diese Tour gelöscht werden soll?
+help#:#gdtr_deleted_step#:#Der Schritt wurde gelöscht.
+help#:#gdtr_deleted_tour#:#Die Tour wurde gelöscht.
+help#:#gdtr_edit_content#:#Inhalt bearbeiten
+help#:#gdtr_edit_page_info#:#Bearbeiten Sie den Inhalt, der erscheinen soll um das ausgewählte Bedienelement zu beschreiben.
+help#:#gdtr_edit_properties#:#Eigenschaften bearbeiten
+help#:#gdtr_edit_step_info#:#In diesem Formular spezifizieren Sie das Bedienelement auf dem Bildschirm, welches einen Erklärungstext in diesem Schritt der Tour erhalten soll. In der Präsentation wird dann ein Popover mit dem definierten Erklärungstext neben dem angegebenen Element dargestellt.
+help#:#gdtr_edit_steps#:#Edit Steps
+help#:#gdtr_element_id#:#Element ID
+help#:#gdtr_form#:#Formular
+help#:#gdtr_form_info#:#Das erste Formular im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. ein Formular enthalten.
+help#:#gdtr_guided_tours#:#Guided Tours
+help#:#gdtr_id_pres_users#:#IDs anzeigen für ILIAS-Konten
+help#:#gdtr_id_pres_users_info#:#ILIAS-Konten, denen die Element IDs angezeigt werden. Mehrere Einträge müssen durch Kommas separiert werden.
+help#:#gdtr_id_settings#:#ID Einstellungen
+help#:#gdtr_import_tour#:#Tour importieren
+help#:#gdtr_language#:#Sprache
+help#:#gdtr_language_info#:#Aktiviert eine Guided-Tour nur für Personen mit der eingestellten Sprache.
+help#:#gdtr_list_tours_mess#:#Um die Anzeige von Screen- und Element-IDs als Tooltips zu aktivieren, müssen Sie ihren Accountnamen in den ID Einstellungen eintragen.
+help#:#gdtr_mainbar#:#Mainbar
+help#:#gdtr_mainbar_info#:#Die Mainbar ist das Hauptmenü auf der linken Seite. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_metabar#:#Metabar
+help#:#gdtr_metabar_info#:#Die Metabar ist das Menü im rechten, oberen Bildrand. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_next_step#:#Nächster Schritt
+help#:#gdtr_permission#:#Berechtigung
+help#:#gdtr_permission_info#:#Aktiviert eine Guided-Tour für Personen mit gegebener Berechtigung, z.B. nur wenn das "Einstellungen bearbeiten" Recht vorhanden ist. Bei der Auswahl von "Erstellen" muss der Nutzende im aktuellen Bereich irgendein Objekt erstellen können.
+help#:#gdtr_primary_button#:#Primary Button
+help#:#gdtr_primary_button_info#:#Der erste Primary-Button im Hauptbereich der Ansicht. Dieser wird um Gegensatz zu anderen Aktionsknöpfen betont dargestellt. Normalerweise sollen Ansichten nur max. eine Primary-Button enthalten.
+help#:#gdtr_reset_tour#:#Tour zurücksetzen
+help#:#gdtr_reset_tour_mess#:#Wenn Sie die Tour zurücksetzen, werden alle diejenigen, die zuvor die Tour abgeschlossen haben, die Tour erneut präsentiert bekommen. Möchten Sie fortfahren?
+help#:#gdtr_screen_ids#:#Screen IDs
+help#:#gdtr_screen_ids_info#:#Ermöglicht es, eine Guided-Tour für einzelne Ansichten des Systems zu aktivieren. Wenn die ID-Anzeige aktiviert ist, wird die Screen-ID einer Ansicht ganz oben im Kopfbereich angezeigt. Mehrere IDs müssen durch Kommas separiert werden.
+help#:#gdtr_step#:#Schritt
+help#:#gdtr_step_type#:#Bedienelement
+help#:#gdtr_table#:#Tabelle
+help#:#gdtr_table_info#:#Die erste Tabelle im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. eine Tabelle enthalten.
+help#:#gdtr_tabs#:#Reiter
+help#:#gdtr_tabs_info#:#Die Reiter werden in der Mitte unter dem Haupttitel einer Ansicht dargestellt. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_toolbar#:#Toolbar
+help#:#gdtr_toolbar_info#:#Die erste Toolbar im Hauptbereich der Ansicht. Diese wird normalerweise unterhalb der Reiter dargestellt und kann mehrere Bedienelemente enthalten. Normalerweise sollen Ansichten nur max. eine Toolbar enthalten.
+help#:#gdtr_tour_has_been_reset#:#Die Tour wurde zurückgesetzt.
+help#:#gdtr_tour_steps#:#Schritte
+help#:#gdtr_tours#:#Tours
+help#:#gdtr_type#:#Typ
+help#:#guided_tour#:#Guided Tour
 help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
@@ -11386,6 +11495,7 @@ mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto 
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
+mail#:#edit_attachments#:#Anhänge bearbeiten
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
 mail#:#goto_invitation_chat#:#Chatraum öffnen
@@ -11507,6 +11617,7 @@ mail#:#mail_mailing_list#:#Verteilerliste
 mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
+mail#:#mail_main_folder#:#Hauptordner
 mail#:#mail_manage_attachments#:#Anhänge Verwalten
 mail#:#mail_manage_attachments_back_to_compose#:#Zurück zum Erstellen
 mail#:#mail_manage_attachments_drop_files_msg#:#Datei zum Hinzufügen hier ablegen
@@ -11547,6 +11658,7 @@ mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_use_placeholder#:#Im Feld 'Inhalt' können folgende Platzhalter verwendet werden
 mail#:#mail_nacc_user_fullname#:#Nachname, Vorname [Anmeldename]
 mail#:#mail_nacc_user_login#:#Anmeldename
+mail#:#mail_new#:#Neue Nachricht
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_no_mail_items#:#Keine ungelesenen Mails.
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
@@ -11557,6 +11669,7 @@ mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
 mail#:#mail_notify_orphaned_info#:#Wenn Sie hier einen Wert größer oder gleich 1 eintragen, sendet ILIAS eine E-Mail an alle betroffenen Mail-Konten so viele Tage vor dem Löschen von etwaigen internen Mails. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist.
 mail#:#mail_operation_on_invalid_folder#:#Die Aktion konnte nicht ausgeführt werden, der aus der Serveranfrage bestimmte Ordner ist ungültig. Bitte wenden Sie sich an die Administration.
+mail#:#mail_options#:#E-Mail Optionen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_orphaned_mails#:#Löschen alter oder verwaister Mails
 mail#:#mail_orphaned_mails_desc#:#Löscht verwaiste Mails und Mails die älter sind als der eingestellte Schwellenwert (einstellbar über den „Bearbeiten“-Link in der „Aktionen“-Spalte dieses Cron-Jobs).
@@ -11676,7 +11789,6 @@ maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geol
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist „%s“.
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_enable_maps_info#:#Karten können systemweit in Profilen, Kursen und Gruppen angezeigt werden.
-maps#:#maps_extt_maps#:#Karten
 maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
 maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_https_for_reverse_lookup#:#Https für Reverse Lookup
@@ -14622,6 +14734,7 @@ rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurs
 rbac#:#rcrs_visible#:#ECS-Kurs ist sichtbar
 rbac#:#rcrs_write#:#ECS-Kurs bearbeiten
+rbac#:#read_all_accounts#:#Alle Anmeldekonten einsehen
 rbac#:#read_comp#:#Lesezugriff Kompetenzen
 rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
@@ -14728,6 +14841,9 @@ rbac#:#spl_read#:#Fragen im Pool können eingesehen und für Umfrage übernommen
 rbac#:#spl_visible#:#Fragenpool ist sichtbar
 rbac#:#spl_write#:#Fragen und Einstellungen des Fragenpools bearbeiten
 rbac#:#statistics_read#:#Statistiken einsehen
+rbac#:#stus_edit_permission#:#Benutzer kann die Berechtigungseinstellungen in der Kurz-URL-Verwaltung ändern
+rbac#:#stus_read#:#Benutzer kann die Kurz-URL-Verwaltung einsehen
+rbac#:#stus_write#:#Benutzer kann Kurz-URLs bearbeiten
 rbac#:#sty_write_content#:#Content-Styles bearbeiten
 rbac#:#sty_write_page_layout#:#Seitenlayouts bearbeiten
 rbac#:#sty_write_system#:#System-Styles bearbeiten
@@ -14794,6 +14910,7 @@ rbac#:#usrf_edit_permission#:#Rechteeinstellungen für die Anmeldekontenverwaltu
 rbac#:#usrf_edit_roleassignment#:#Rollenzuweisung von Anmeldekonten ändern
 rbac#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte anderen Benutzern als empfohlene Inhalte vorzulegen.
 rbac#:#usrf_read#:#Lesezugriff auf Anmeldekontenverwaltung
+rbac#:#usrf_read_all_accounts#:#Lesezugriff auf alle Anmeldekonten
 rbac#:#usrf_read_users#:#Lesezugriff auf Anmeldekonten für lokale Administration
 rbac#:#usrf_visible#:#Anmeldekontenverwaltung ist sichtbar
 rbac#:#usrf_write#:#Einstellungen in Anmeldekontenverwaltung bearbeiten
@@ -15781,6 +15898,38 @@ skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
 skmg#:#skmg_usage_type_info_user#:#Zuordnung zu Benutzern
 skmg#:#skmg_your_self_evaluation#:#Ihre Selbsteinschätzung
+stus#:#stus_action_delete#:#Löschen
+stus#:#stus_action_edit#:#Bearbeiten
+stus#:#stus_action_toggle#:#De-/Aktivieren
+stus#:#stus_active#:#Aktiv
+stus#:#stus_alias#:#Kurz-URL
+stus#:#stus_alias_already_exists#:#Die Kurz-URL ist bereits vergeben. Bitte wählen Sie eine andere.
+stus#:#stus_alias_invalid#:#Die Kurz-URL enthält ungültige Zeichen. Erlaubte Zeichen: A-Z, a-z, 0-9, - und _
+stus#:#stus_confirm_delete#:#Einträge löschen
+stus#:#stus_create_shortlink#:#Kurz-URL anlegen
+stus#:#stus_delete#:#Löschen
+stus#:#stus_delete_shortlink#:#Löschen
+stus#:#stus_delete_shortlink_msg#:#Kurz-URL gelöscht
+stus#:#stus_index#:#Verwalten
+stus#:#stus_info#:#Informationen
+stus#:#stus_info_active#:#Inaktive Kurz-URLs werden nicht weitergeleitet, wenn sie aufgerufen werden.
+stus#:#stus_info_alias#:#Darf nur die folgenden Zeichen enthalten: A-Z, a-z, 0-9, - und _
+stus#:#stus_info_target_ref_id#:#Ziel-Objekt
+stus#:#stus_order_saved#:#Reihenfolge gespeichert
+stus#:#stus_prefix#:#Präfix
+stus#:#stus_rbac_permissions#:#Rechte
+stus#:#stus_shortlink#:#Kurz-URL
+stus#:#stus_shortlinks#:#Kurz-URLs
+stus#:#stus_shortlinks_deleted#:#Kurz-URLs wurden gelöscht
+stus#:#stus_shortlinks_toggled#:#Kurz-URLs wurden de-/aktiviert
+stus#:#stus_stus_stored_sucessfully#:#Kurz-URL erfolgreich gespeichert
+stus#:#stus_stus_toggle#:#De-/Aktivieren
+stus#:#stus_target_link#:#Ziel-Objekt
+stus#:#stus_target_ref_id#:#Ziel-Objekt
+stus#:#stus_target_ref_id_required#:#Wählen Sie ein Ziel-Objekt aus.
+stus#:#stus_toggle#:#De-/Aktivieren
+stus#:#stus_toggle_shortlink#:#Status ändern
+stus#:#stus_toggle_shortlink_msg#:#Möchten Sie den Aktiv-Status der folgenden Einträge ändern?
 style#:#Style#:#Style
 style#:#adapt_icon#:#Anpassung der Icons
 style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
@@ -17320,6 +17469,15 @@ ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_error#:#Fehler
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
+ui#:#ui_field_option_filter_clear_search#:#Zurücksetzen
+ui#:#ui_field_option_filter_filtered_results_aria_label#:#Auswahlliste - einklappbar und filterbar
+ui#:#ui_field_option_filter_no_match#:#Es gibt keine Übereinstimmung mit dem Suchbegriff.
+ui#:#ui_field_option_filter_no_selection#:#Es wurde keine Auswahl getroffen.
+ui#:#ui_field_option_filter_options_shown#:#Aktuell werden %s Optionen angezeigt.
+ui#:#ui_field_option_filter_screen_reader_hint#:#Durch die Eingabe eines Suchbegriffes wird die nachfolgende Auswahlliste gefiltert.
+ui#:#ui_field_option_filter_search_in#:#Finde
+ui#:#ui_field_option_filter_show_all_options#:#Zeige alle Optionen
+ui#:#ui_field_option_filter_show_less#:#Weniger anzeigen
 ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.
 ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
 ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ „%s“ sind nicht erlaubt.

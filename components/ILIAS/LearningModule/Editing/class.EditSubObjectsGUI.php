@@ -409,7 +409,7 @@ class EditSubObjectsGUI
 
         $form = $this
             ->gui
-            ->form(self::class, "saveTitle")
+            ->form([self::class], "saveTitle")
             ->text("title", $lng->txt('title') . $ml, "", ilLMObject::_lookupTitle($id));
         if ($ot->getContentTranslationActivated()) {
             foreach ($ot->getLanguages() as $lang) {

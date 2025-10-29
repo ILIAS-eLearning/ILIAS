@@ -380,7 +380,7 @@ class ilVirtualSkillTree
      *
      * @return array{0: mixed, 1: mixed}|false
      */
-    protected function getFirstUncommonAncestors(string $a, string $b, array $node_data)
+    protected function getFirstUncommonAncestors(string $a, string $b, array $node_data): array|bool
     {
         $path_a = $this->getPath($a, $node_data);
         $path_b = $this->getPath($b, $node_data);

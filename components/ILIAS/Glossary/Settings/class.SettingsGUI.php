@@ -90,7 +90,7 @@ class SettingsGUI
         }
 
         $form = $this->gui
-            ->form(self::class, "save")
+            ->form([self::class], "save")
             ->section("general", $lng->txt("cont_glo_properties"))
             ->addStdTitleAndDescription(
                 $this->obj_id,
@@ -208,9 +208,8 @@ class SettingsGUI
                 ]
             );
 
-            /** @var ILIAS\ILIASObject\Properties\CoreProperties\Online $online_prop */
+            /** @var \ILIAS\ILIASObject\Properties\CoreProperties\Online $online_prop */
             $online_prop = $form->getData("is_online");
-
             $settings = $this->data->settings(
                 $this->obj_id,
                 $online_prop->getIsOnline(),        // must be temporarily kept until usages are refactored

@@ -28,10 +28,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     protected ilWorkspaceAccessHandler $access_handler;
     protected bool $link_to_node_class = false;
     protected string $custom_link_target = "";
-    /**
-     * @var object|string|null
-     */
-    protected $select_gui = null;
+    protected object|string|null $select_gui = null;
     protected string $select_cmd = "";
     protected string $select_par = "";
     protected array $selectable_types = array();

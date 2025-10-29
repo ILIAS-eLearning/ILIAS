@@ -28,23 +28,32 @@ import $ from 'jquery';
 import il from 'ilias';
 import document from 'document';
 import TextareaFactory from './Textarea/textarea.factory.js';
+import createMustacheVariables from './Textarea/createMustacheVariables.js';
 import MarkdownFactory from './Markdown/markdown.factory.js';
 import TreeSelectFactory from './TreeSelect/TreeSelectFactory.js';
 import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
 import Tagify from '@yaireo/tagify';
 import tag from './Tag/tag.js';
+import OptionFilterFactory from './OptionFilter/OptionFilterFactory.js';
 
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
 
 (function (Input) {
   Input.textarea = new TextareaFactory();
+  Input.mustacheVariables = {
+    init: (textareaComponent, inputElement) => createMustacheVariables(
+      textareaComponent,
+      inputElement,
+    ),
+  };
   Input.markdown = new MarkdownFactory();
+  Input.optionFilter = new OptionFilterFactory();
   Input.treeSelect = new TreeSelectFactory(
     new JQueryEventListener($),
     il.UI.menu.drilldown,
     // workaround for language being initialised after UI
-    {txt: (s) => il.Language.txt(s)},
+    { txt: (s) => il.Language.txt(s) },
     document,
   );
   Input.tagInput = Input.tag || {};

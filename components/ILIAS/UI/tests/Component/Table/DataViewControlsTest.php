@@ -46,14 +46,16 @@ class DataViewControlsTest extends TableTestBase
                 array $visible_column_ids,
                 Range $range,
                 Order $order,
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): \Generator {
                 yield $row_builder->buildStandardRow('', []);
             }
             public function getTotalRowCount(
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): ?int {
                 return $this->total_count;
             }
@@ -64,7 +66,9 @@ class DataViewControlsTest extends TableTestBase
     {
         $factory = $this->getTableFactory();
         $table = $factory->data($this->getDataRetrieval($total_count), 'Table', $columns);
-        return $table->applyViewControls([], []);
+        return $table
+            ->withRequest($this->getRequestMock([]))
+            ->applyViewControls([], []);
     }
 
     public function testDataTableHasViewControls(): void
@@ -226,14 +230,15 @@ class DataViewControlsTest extends TableTestBase
             ->withId($table_id)
             ->withRequest(
                 $this->getRequestMock([
-                    'view_control/input_0/input_1' => 0,
-                    'view_control/input_0/input_2' => 10,
-                    'view_control/input_3/input_4' => 'f2',
-                    'view_control/input_3/input_5' => 'DESC',
-                    'view_control/input_6' => ['f2']
+                    'vctesting_data_table/input_7/input_8' => 0,
+                    'vctesting_data_table/input_7/input_9' => 10,
+                    'vctesting_data_table/input_10/input_11' => 'f2',
+                    'vctesting_data_table/input_10/input_12' => 'DESC',
+                    'vctesting_data_table/input_13' => ['f2']
                 ])
             );
         list($table, $view_controls) = $table->applyViewControls([], []);
+
         //applied values from viewcontrols
         $this->assertEquals(new Range(0, 10), $table->getRange());
         $this->assertEquals(new Order('f2', Order::DESC), $table->getOrder());
@@ -256,5 +261,43 @@ class DataViewControlsTest extends TableTestBase
         $this->assertEquals(new Range(0, 10), $table->getRange());
         $this->assertEquals(new Order('f2', Order::DESC), $table->getOrder());
         $this->assertEquals(1, count($table->getSelectedOptionalColumns()));
+    }
+
+    public function testDataTableHasNoFieldSelectionButAdditionalViewControl(): void
+    {
+        $factory = $this->getTableFactory();
+        $columns = [
+            'f1' => $factory->column()->text('f1'),
+            'f2' => $factory->column()->text('f2'),
+        ];
+        $total_count = 200;
+        $table = $factory->data($this->getDataRetrieval($total_count), 'Table', $columns)
+            ->withAdditionalViewControl(
+                $this->getViewControlFactory()->mode([
+                    'mode1' => 'a mode',
+                    'mode2' => 'another mode'
+                ])
+            )
+            ->withId('testing_data_table_id')
+            ->withRequest(
+                $this->getRequestMock([
+                    'vctesting_data_table_id/additional_12' => 'mode2'
+                ])
+            );
+        list($table, $view_controls) = $table->applyViewControls([], []);
+
+        $this->assertEquals(
+            [
+                C\Table\Data::VIEWCONTROL_KEY_PAGINATION,
+                C\Table\Data::VIEWCONTROL_KEY_ORDERING,
+                0
+            ],
+            array_keys($view_controls->getInputs())
+        );
+
+        $this->assertEquals(
+            ['mode2'],
+            $table->getAdditionalViewControlData()
+        );
     }
 }

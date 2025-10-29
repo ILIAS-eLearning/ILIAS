@@ -24,61 +24,72 @@ class MarksDatabaseRepository implements MarksRepository
 {
     private const DB_TABLE = 'tst_mark';
 
-
     public function __construct(
-        private readonly \ilDBInterface $db
+        private readonly \ilDBInterface $db,
+        private readonly MarkSchemaFactory $factory
     ) {
     }
 
     public function getMarkSchemaFor(int $test_id): MarkSchema
     {
-        $schema = new MarkSchema($test_id);
-
         $result = $this->db->queryF(
             'SELECT * FROM ' . self::DB_TABLE . ' WHERE test_fi = %s ORDER BY minimum_level',
-            ['integer'],
-            [$test_id]
+            [\ilDBConstants::T_INTEGER],
+            [$test_id],
         );
-        if ($this->db->numRows($result) > 0) {
-            $mark_steps = [];
-            while ($data = $this->db->fetchAssoc($result)) {
-                $mark_steps[] = new Mark(
-                    $data['short_name'],
-                    $data['official_name'],
-                    (float) $data['minimum_level'],
-                    (bool) $data['passed']
-                );
-            }
-            return $schema->withMarkSteps($mark_steps);
-        }
 
-        return $schema->createSimpleSchema();
+        return $this->factory->createMarkSchemaFromDBRow($this->db->fetchAll($result), $test_id);
     }
 
-    public function storeMarkSchema(MarkSchema $mark_schema): void
+    public function getMarkSchemaBySteps(array $step_ids): MarkSchema
+    {
+        $where_part = $this->db->in('mark_id', $step_ids, false, \ilDBConstants::T_INTEGER);
+        $result = $this->db->query('SELECT * FROM ' . self::DB_TABLE . ' WHERE ' . $where_part . ' ORDER BY minimum_level');
+
+        return $this->factory->createMarkSchemaFromDBRow($this->db->fetchAll($result), -1);
+    }
+
+    public function storeMarkSchema(MarkSchema $mark_schema): array
     {
         if (!$mark_schema->getTestId()) {
-            return;
+            return [];
         }
-        // Delete all entries
-        $this->db->manipulateF(
-            'DELETE FROM ' . self::DB_TABLE . ' WHERE test_fi = %s',
-            ['integer'],
-            [$mark_schema->getTestId()]
-        );
+
+        if ($mark_schema->getTestId() > 0) {
+            // Delete all entries
+            $this->db->manipulateF(
+                'DELETE FROM ' . self::DB_TABLE . ' WHERE test_fi = %s',
+                ['integer'],
+                [$mark_schema->getTestId()]
+            );
+        }
+
         if ($mark_schema->getMarkSteps() === []) {
-            return;
+            return [];
         }
 
         // Write new datasets
+        $mark_ids = [];
         foreach ($mark_schema->getMarkSteps() as $mark) {
+            $mark_id = $this->db->nextId(self::DB_TABLE);
+
             $mark_array = $mark->toStorage();
-            $mark_array['mark_id'] = ['integer', $this->db->nextId(self::DB_TABLE)];
+            $mark_array['mark_id'] = ['integer', $mark_id];
             $mark_array['test_fi'] = ['integer', $mark_schema->getTestId()];
+
             $this->db->insert(
                 self::DB_TABLE,
                 $mark_array
             );
+            $mark_ids[] = $mark_id;
         }
+
+        return $mark_ids;
+    }
+
+    public function deleteSteps(array $step_ids): void
+    {
+        $where_part = $this->db->in('mark_id', $step_ids, false, \ilDBConstants::T_INTEGER);
+        $this->db->manipulate('DELETE FROM ' . self::DB_TABLE . ' WHERE ' . $where_part);
     }
 }

@@ -119,12 +119,12 @@ class ilMailSearchGUI
         $mail_data = $this->umail->retrieveFromStage();
         $this->umail->persistToStage(
             (int) $mail_data['user_id'],
-            $mail_data['attachments'],
             $mail_data['rcp_to'],
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
+            $mail_data['attachments'],
             $mail_data['use_placeholders'],
             $mail_data['tpl_ctx_id'],
             $mail_data['tpl_ctx_params']

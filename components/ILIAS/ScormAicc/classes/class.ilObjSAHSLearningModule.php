@@ -100,8 +100,8 @@ class ilObjSAHSLearningModule extends ilObject
         $this->createDataDirectory();
         $ilDB->manipulateF(
             '
-			INSERT INTO sahs_lm (id, api_adapter, c_type, editable, seq_exp_mode,localization) 
-			VALUES (%s,%s,%s,%s,%s,%s)',
+            INSERT INTO sahs_lm (id, api_adapter, c_type, editable, seq_exp_mode,localization) 
+            VALUES (%s,%s,%s,%s,%s,%s)',
             array('integer', 'text', 'text', 'integer','integer','text'),
             array($this->getId(),'API', $this->getSubType(),(int) $this->getEditable(),
                 0, $this->getLocalization()
@@ -823,43 +823,43 @@ class ilObjSAHSLearningModule extends ilObject
 
         $statement = $ilDB->manipulateF(
             '
-			UPDATE sahs_lm  
-			SET api_adapter = %s, 
-				api_func_prefix = %s,
-				auto_review = %s,
-				default_lesson_mode = %s,
-				c_type = %s,
-				stylesheet = %s, 
-				editable = %s, 
-				max_attempt = %s, 
-				module_version = %s, 
-				credit = %s, 
-				glossary = %s, 
-				question_tries = %s,
-				unlimited_session = %s,
-				no_menu = %s,
-				hide_navig = %s,
-				fourth_edition =%s,
-				sequencing = %s,
-				interactions = %s,
-				objectives = %s,
-				comments = %s,
-				time_from_lms = %s,
-				debug = %s,
-				localization = %s,
-				seq_exp_mode = %s,
-				open_mode = %s,
-				width = %s,
-				height = %s,
-				auto_continue = %s,
-				auto_last_visited = %s,
-				check_values = %s,
-				auto_suspend = %s,
-				ie_force_render = %s,
-				mastery_score = %s,
-				id_setting = %s,
-				name_setting = %s
-			WHERE id = %s',
+            UPDATE sahs_lm  
+            SET api_adapter = %s, 
+                api_func_prefix = %s,
+                auto_review = %s,
+                default_lesson_mode = %s,
+                c_type = %s,
+                stylesheet = %s, 
+                editable = %s, 
+                max_attempt = %s, 
+                module_version = %s, 
+                credit = %s, 
+                glossary = %s, 
+                question_tries = %s,
+                unlimited_session = %s,
+                no_menu = %s,
+                hide_navig = %s,
+                fourth_edition =%s,
+                sequencing = %s,
+                interactions = %s,
+                objectives = %s,
+                comments = %s,
+                time_from_lms = %s,
+                debug = %s,
+                localization = %s,
+                seq_exp_mode = %s,
+                open_mode = %s,
+                width = %s,
+                height = %s,
+                auto_continue = %s,
+                auto_last_visited = %s,
+                check_values = %s,
+                auto_suspend = %s,
+                ie_force_render = %s,
+                mastery_score = %s,
+                id_setting = %s,
+                name_setting = %s
+            WHERE id = %s',
             array(	'text',
                 'text',
                 'text',
@@ -1040,9 +1040,9 @@ class ilObjSAHSLearningModule extends ilObject
             // delete aicc data
             $res = $ilDB->queryF(
                 '
-				SELECT aicc_object.obj_id FROM aicc_object, aicc_units
-				WHERE aicc_object.obj_id = aicc_units.obj_id
-				AND aicc_object.slm_id = %s',
+                SELECT aicc_object.obj_id FROM aicc_object, aicc_units
+                WHERE aicc_object.obj_id = aicc_units.obj_id
+                AND aicc_object.slm_id = %s',
                 array('integer'),
                 array($this->getId())
             );
@@ -1051,7 +1051,7 @@ class ilObjSAHSLearningModule extends ilObject
                 $obj_id = $row['obj_id'];
                 $ilDB->manipulateF(
                     '
-					DELETE FROM aicc_units WHERE obj_id = %s',
+                    DELETE FROM aicc_units WHERE obj_id = %s',
                     array('integer'),
                     array($obj_id)
                 );
@@ -1059,9 +1059,9 @@ class ilObjSAHSLearningModule extends ilObject
 
             $res = $ilDB->queryF(
                 '
-				SELECT aicc_object.obj_id FROM aicc_object, aicc_course
-				WHERE aicc_object.obj_id = aicc_course.obj_id
-				AND aicc_object.slm_id = %s',
+                SELECT aicc_object.obj_id FROM aicc_object, aicc_course
+                WHERE aicc_object.obj_id = aicc_course.obj_id
+                AND aicc_object.slm_id = %s',
                 array('integer'),
                 array($this->getId())
             );
@@ -1070,7 +1070,7 @@ class ilObjSAHSLearningModule extends ilObject
                 $obj_id = $row['obj_id'];
                 $ilDB->manipulateF(
                     '
-					DELETE FROM aicc_course WHERE obj_id = %s',
+                    DELETE FROM aicc_course WHERE obj_id = %s',
                     array('integer'),
                     array($obj_id)
                 );
@@ -1078,7 +1078,7 @@ class ilObjSAHSLearningModule extends ilObject
 
             $ilDB->manipulateF(
                 '
-				DELETE FROM aicc_object WHERE slm_id = %s',
+                DELETE FROM aicc_object WHERE slm_id = %s',
                 array('integer'),
                 array($this->getId())
             );
@@ -1351,34 +1351,38 @@ class ilObjSAHSLearningModule extends ilObject
     /**
      * get button for view
      */
-    public function getViewButton(): ilLinkButton //\ILIAS\UI\Component\Button\Primary
+    public function getViewButton(): \ILIAS\UI\Component\Link\Standard
     {
+        global $DIC;
+
         $setUrl = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->getRefID();
         // $setUrl = $this->getLinkTargetByClass("ilsahspresentationgui", "")."&amp;ref_id=".$this->getRefID();
+
         $setTarget = "ilContObj" . $this->getId();
+
         $om = $this->getOpenMode();
         $width = $this->getWidth();
         $height = $this->getHeight();
+
         if (($om == 5 || $om == 1) && $width > 0 && $height > 0) {
             $om++;
         }
+
         if ($om != 0) {
             $setUrl = "javascript:void(0); onclick=startSAHS('" . $setUrl . "','ilContObj" . $this->getId() . "'," . $om . "," . $width . "," . $height . ");";
             $setTarget = "";
         }
 
+        $button = $this->ui->factory()->link()->standard(
+            $DIC->language()->txt("start_lm"),
+            $setUrl
+        );
 
-        //todo : replace LinkButton - but target needed
-        //        $button = $this->ui->factory()->button()->primary(
-        //            $this->lng->txt("view"),
-        //            $setUrl
-        //        );
+        $button = $button->withOnLoadCode(static fn($id): string => "
+            document.getElementById('$id').setAttribute('target', '$setTarget');
+            document.getElementById('$id').removeAttribute('rel');
+        ");
 
-        $button = ilLinkButton::getInstance();
-        $button->setCaption("start_lm");//view
-        $button->setPrimary(true);
-        $button->setUrl($setUrl);
-        $button->setTarget($setTarget);
         return $button;
     }
 }

@@ -99,7 +99,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             get_class($this)
         );
 
-        if ($this->rbac_system->checkAccess("visible,read", $this->ref_id)) {
+        if ($this->rbac_system->checkAccess("read", $this->ref_id)) {
             if (ilObjUserTracking::_enabledObjectStatistics()) {
                 $this->tabs_gui->addTarget(
                     "statistics",
@@ -142,7 +142,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
     public function settingsObject(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )) {
             $this->error->raiseError(

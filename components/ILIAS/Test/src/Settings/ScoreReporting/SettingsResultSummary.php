@@ -20,13 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsResultSummary extends TestSettings
+class SettingsResultSummary extends TestSettings implements Exportable
 {
     protected ScoreReportingTypes $score_reporting = ScoreReportingTypes::SCORE_REPORTING_DISABLED;
     protected ?\DateTimeImmutable $reporting_date = null;
@@ -38,11 +39,6 @@ class SettingsResultSummary extends TestSettings
     protected bool $show_pass_details = false;
     protected bool $show_grading_status = false;
     protected bool $show_grading_mark = false;
-
-    public function __construct(int $test_id)
-    {
-        parent::__construct($test_id);
-    }
 
     public function toForm(
         \ilLanguage $lng,
@@ -160,17 +156,12 @@ class SettingsResultSummary extends TestSettings
 
     public function toStorage(): array
     {
-        $dat = $this->getReportingDate();
-        if ($dat) {
-            $dat = $dat->setTimezone(new \DateTimeZone('UTC'))
-                ->format(ScoreSettingsDatabaseRepository::STORAGE_DATE_FORMAT);
-        }
         return [
-            'pass_deletion_allowed' => ['integer', (int) $this->getPassDeletionAllowed()],
-            'score_reporting' => ['integer', $this->getScoreReporting()->value],
-            'reporting_date' => ['text', (string) $dat],
-            'show_grading_status' => ['integer', (int) $this->getShowGradingStatusEnabled()],
-            'show_grading_mark' => ['integer', (int) $this->getShowGradingMarkEnabled()]
+            'pass_deletion_allowed' => [\ilDBConstants::T_INTEGER, (int) $this->getPassDeletionAllowed()],
+            'score_reporting' => [\ilDBConstants::T_INTEGER, $this->getScoreReporting()->value],
+            'reporting_date' => [\ilDBConstants::T_INTEGER, $this->getReportingDate() !== null ? $this->getReportingDate()->getTimestamp() : 0],
+            'show_grading_status' => [\ilDBConstants::T_INTEGER, (int) $this->getShowGradingStatusEnabled()],
+            'show_grading_mark' => [\ilDBConstants::T_INTEGER, (int) $this->getShowGradingMarkEnabled()]
         ];
     }
 
@@ -284,5 +275,28 @@ class SettingsResultSummary extends TestSettings
         $clone = clone $this;
         $clone->show_pass_details = $flag;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'score_reporting' => $this->getScoreReporting()->value,
+            'reporting_date' => $this->getReportingDate()?->format(\DateTimeInterface::ATOM),
+            'show_grading_status' => $this->getShowGradingStatusEnabled(),
+            'show_grading_mark' => $this->getShowGradingMarkEnabled(),
+            'show_pass_details' => $this->getShowPassDetails(),
+            'pass_deletion_allowed' => $this->getPassDeletionAllowed()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return (new self())
+            ->withScoreReporting(ScoreReportingTypes::from($data['score_reporting']))
+            ->withReportingDate($data['reporting_date'] !== 0 ? new \DateTimeImmutable($data['reporting_date']) : null)
+            ->withShowGradingStatusEnabled((bool) $data['show_grading_status'])
+            ->withShowGradingMarkEnabled((bool) $data['show_grading_mark'])
+            ->withShowPassDetails((bool) $data['show_pass_details'])
+            ->withPassDeletionAllowed((bool) $data['pass_deletion_allowed']);
     }
 }

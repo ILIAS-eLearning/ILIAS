@@ -38,7 +38,7 @@ class ilSurveyEvaluationGUI
     /**
      * @var mixed
      */
-    protected $last_questionblock_id;
+    protected string $last_questionblock_id = "";
     protected array $array_panels;
 
     protected ilLogger $log;

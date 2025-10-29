@@ -30,10 +30,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     protected MapEditorSessionRepository $map_repo;
     protected ilMediaAliasItem $std_alias_item;
     protected ilPageObject $page;
-    /**
-     * @var ilPCInteractiveImage|ilPCMediaObject
-     */
-    protected $content_obj;
+    protected ilPCInteractiveImage|ilPCMediaObject $content_obj;
     protected EditGUIRequest $edit_request;
 
     /**

@@ -100,7 +100,7 @@ class ParticipantRepository
     public function getParticipantByActiveId(int $test_id, int $active_id): ?Participant
     {
         return $this->fetchParticipant(
-            "{$this->getBaseQuery()} WHERE active_id = %s",
+            "{$this->getBaseQuery()} WHERE participants.active_id = %s",
             ['integer', 'integer', 'integer'],
             [$test_id, $test_id, $active_id]
         );

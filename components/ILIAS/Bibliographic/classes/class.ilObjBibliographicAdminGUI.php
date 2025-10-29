@@ -114,7 +114,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
             ], ilBiblAdminRisFieldGUI::CMD_STANDARD));
         }
 
-        if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass([
                 ilObjBibliographicAdminGUI::class,
                 ilBiblLibraryGUI::class,

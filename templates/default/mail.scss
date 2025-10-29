@@ -1,0 +1,127 @@
+@use "010-settings/"as *;
+
+$il-mail-page-logo-width: $il-standard-page-logo-width !default;
+$il-mail-page-logo-height: $il-standard-page-logo-height !default;
+
+.table {
+  background-color: $il-main-darker-bg;
+  width: 100%;
+}
+
+.header {
+  background-color: $il-standard-page-header-bg-color;
+  border-bottom: 2px solid $il-main-darker-bg;
+}
+
+.footer {
+  background-color: $il-footer-bg-color;
+}
+
+.image-data {
+  width: 90px;
+}
+
+td.spacing {
+  padding: 20px 0;
+}
+.logo {
+  width: $il-mail-page-logo-width;
+  height: $il-mail-page-logo-height;
+  outline-style:none;
+  text-decoration:none;
+  border:none;
+  margin:0;
+}
+
+.installation-text {
+  vertical-align: middle;
+  span {
+    border-collapse: collapse;
+    color: $il-text-color;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+
+.content .spacing {
+  padding: 80px 0;
+}
+
+.content td td {
+  background-color: $il-main-bg;
+}
+
+.text-color {
+  color: $il-main-color;
+}
+
+.footer .font-definition {
+  color:   $il-text-color;
+}
+
+.font-definition {
+  font-family:'Open Sans', Arial, Helvetica, sans-serif;
+  font-size:16px;
+  line-height:22px;
+  padding:30px;
+}
+
+body {
+  height: 100% !important;
+  margin: 0;
+  padding: 0;
+  width: 100% !important;
+  mso-margin-top-alt: 0px;
+  mso-margin-bottom-alt: 0px;
+  mso-padding-alt: 0px 0px 0px 0px;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.w-750 {
+  width: 750px;
+}
+
+.link-color {
+  color: $il-link-color;
+}
+
+
+table {
+  mso-table-lspace: 0pt;
+  mso-table-rspace: 0pt;
+}
+
+table, table th, table td {
+  border-collapse: collapse;
+}
+
+a, img, a img {
+  border: 0;
+  outline: none;
+  text-decoration: none;
+}
+
+img {
+  -ms-interpolation-mode: bicubic;
+}
+
+
+body, table, td, th, p, a, li {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+
+@media only screen and (max-width: 760px) {
+  .w-750 {
+    width: 100%;
+  }
+}

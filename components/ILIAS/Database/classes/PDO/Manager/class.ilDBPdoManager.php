@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Services\Database\PDO\FieldDefinition\ForeignKeyConstraints;
+use ILIAS\Database\PDO\FieldDefinition\ForeignKeyConstraints;
 
 /**
  * Class ilDBPdoManager
@@ -60,7 +60,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 
         $sequence_identifier = "_seq";
         while ($data = $r->fetchColumn()) {
-            if (!preg_match("/$sequence_identifier$/um", $data)) {
+            if (!preg_match("/$sequence_identifier$/um", (string) $data)) {
                 $tables[] = $data;
             }
         }
@@ -165,7 +165,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         }
         $this->pdo->exec($query);
 
-        if ($start == 1) {
+        if ($start === 1) {
             return true;
         }
 

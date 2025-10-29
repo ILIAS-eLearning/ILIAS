@@ -34,7 +34,7 @@ use ILIAS\WOPI\Discovery\Action;
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>
  *
- * @ilCtrl_isCalledBy ilWOPIAdministrationGUI: ilObjExternalToolsSettingsGUI
+ * @ilCtrl_isCalledBy ilWOPIAdministrationGUI: ilObjFileServicesGUI
  */
 class ilWOPIAdministrationGUI
 {
@@ -82,7 +82,7 @@ class ilWOPIAdministrationGUI
     {
         if (!$this->access->checkAccess("read", "", $this->ref_id)) {
             $this->maint_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirectByClass(ilObjExternalToolsSettingsGUI::class);
+            $this->ctrl->redirectByClass(ilObjFileServicesGUI::class);
         }
 
         $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);

@@ -24,7 +24,8 @@ namespace ILIAS\StaticURL\Response;
 class CanHandleWithURIPath implements Response
 {
     public function __construct(
-        private string $uri_path
+        private string $uri_path,
+        private int $shift = 0
     ) {
     }
 
@@ -36,6 +37,11 @@ class CanHandleWithURIPath implements Response
     public function targetCanBeReached(): bool
     {
         return true;
+    }
+
+    public function shift(): int
+    {
+        return $this->shift;
     }
 
 }

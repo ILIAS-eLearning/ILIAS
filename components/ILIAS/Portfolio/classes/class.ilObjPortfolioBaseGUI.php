@@ -38,7 +38,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected string $page_mode; // preview|edit
     protected int $requested_ppage;
     protected int $requested_user_page;
-    protected string $requested_back_url = "";
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -76,16 +75,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->requested_ppage = $this->port_request->getPortfolioPageId();
         $this->requested_user_page = $this->port_request->getUserPage();
 
-        // temp sanitization, should be done smarter in the future
-        $back = str_replace("&amp;", ":::", $this->port_request->getBackUrl());
-        $back = preg_replace(
-            "/[^a-zA-Z0-9_\.\?=:\s]/",
-            "",
-            $back
-        );
-        $this->requested_back_url = str_replace(":::", "&amp;", $back);
-
-        $this->ctrl->setParameterByClass("ilobjportfoliogui", "back_url", rawurlencode($this->requested_back_url));
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
         if ($this->object) {
@@ -581,41 +570,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         if ($this->user_id === ANONYMOUS_USER_ID &&
             $this->getType() === "prtf") {
             $this->tpl->setLoginTargetPar("prtf_" . $this->object->getId() . "_" . $current_page);
-        }
-
-        $back_caption = "";
-
-        // public profile
-        if ($this->requested_back_url != "") {
-            $back = $this->requested_back_url;
-        } elseif (strtolower($this->port_request->getBaseClass()) !== strtolower(PublicProfileGUI::class) &&
-            $this->user_id && $this->user_id !== ANONYMOUS_USER_ID) {
-            if (!$this->checkPermissionBool("write")) {
-                // shared
-                if ($this->getType() === "prtf") {
-                    $this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
-                    $back = $this->ctrl->getLinkTargetByClass(array("ildashboardgui", "ilportfoliorepositorygui"), "showOther");
-                    $this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
-                }
-                // listgui / parent container
-                else {
-                    // #12819
-                    $tree = $this->tree;
-                    $parent_id = $tree->getParentId($this->node_id);
-                    $back = ilLink::_getStaticLink($parent_id);
-                }
-            }
-            // owner
-            else {
-                $back = $this->ctrl->getLinkTarget($this, "view");
-                if ($this->getType() === "prtf") {
-                    $back_caption = $this->lng->txt("prtf_back_to_portfolio_owner");
-                } else {
-                    // #19316
-                    $this->lng->loadLanguageModule("prtt");
-                    $back_caption = $this->lng->txt("prtt_edit");
-                }
-            }
         }
 
         // render tabs

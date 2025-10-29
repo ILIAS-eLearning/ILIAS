@@ -81,6 +81,7 @@ class Agent implements SetupAgent
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new DBUpdateSteps11()
             ),
+            new AddReadAllAccountsPermissionObjective(),
             new CollectSettingsObjective($this->user_settings_contributions),
             new CollectTypesObjective($this->user_custom_profile_fields),
             new CollectListenersObjective($this->user_field_attributes_change_listeners)

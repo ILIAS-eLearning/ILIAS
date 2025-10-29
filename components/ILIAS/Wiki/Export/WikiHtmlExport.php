@@ -52,7 +52,7 @@ class WikiHtmlExport
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     // has global context been initialized?
-    protected static $context_init = false;
+    protected static bool $context_init = false;
 
     public function __construct(\ilObjWiki $a_wiki)
     {

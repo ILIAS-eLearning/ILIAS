@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Repository\Form;
 
-use ILIAS\Object\ilObjectDIC;
 use ILIAS\DI\Container;
 use ILIAS\ILIASObject\Properties\CoreProperties\TitleAndDescription;
 use ILIAS\ILIASObject\LocalDIC;
@@ -29,7 +28,7 @@ trait StdObjProperties
 {
     protected \ILIAS\ILIASObject\Properties\Aggregator $object_prop;
 
-    protected function initStdObjProperties(Container $DIC)
+    protected function initStdObjProperties(Container $DIC): void
     {
         $this->object_prop = LocalDIC::dic()['properties.aggregator'];
     }

@@ -49,7 +49,7 @@ class FilterAdapterGUI
      */
     public function __construct(
         string $filter_id,
-        $class_path,
+        array $class_path,
         string $cmd,
         bool $activated = true,
         bool $expanded = true

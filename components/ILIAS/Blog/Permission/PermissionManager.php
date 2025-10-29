@@ -24,7 +24,7 @@ class PermissionManager
 {
     protected int $owner;
     protected int $id_type;
-    protected $access;
+    protected \ilWorkspaceAccessHandler|\ilAccessHandler $access;
     protected ?int $node_id;
     protected int $user_id;
 

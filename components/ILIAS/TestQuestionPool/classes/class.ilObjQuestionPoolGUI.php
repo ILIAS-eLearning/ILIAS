@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
@@ -89,6 +90,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected URLBuilderToken $row_id_token;
     private Archives $archives;
     private ContentStyle $content_style;
+    protected SkillUsageService $skill_usage_service;
 
     protected RequestDataCollector $request_data_collector;
     protected GeneralQuestionPropertiesRepository $questionrepository;
@@ -111,6 +113,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->taxonomy = $DIC->taxonomy();
         $this->archives = $DIC->archives();
         $this->content_style = $DIC->contentStyle();
+        $this->skill_usage_service = $DIC->skills()->usage();
 
         $this->data_factory = new DataFactory();
 
@@ -454,6 +457,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         $this->db,
                         $this->component_repository,
                         $obj,
+                        $this->http,
+                        $this->toolbar,
+                        $this->skill_usage_service,
+                        $this->request_data_collector,
                         $this->ref_id
                     )
                 );

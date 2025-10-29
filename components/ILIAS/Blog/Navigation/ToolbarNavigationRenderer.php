@@ -31,7 +31,7 @@ class ToolbarNavigationRenderer
     protected int $portfolio_page;
     protected int $blog_page;
     protected \ILIAS\Blog\Presentation\Util $util;
-    protected $current_month;
+    protected string $current_month;
     protected \ilCtrl $ctrl;
     protected PermissionManager $blog_access;
     protected InternalDomainService $domain;
@@ -50,7 +50,7 @@ class ToolbarNavigationRenderer
         array $a_items,
         int $blog_page,
         bool $single_posting,
-        $month,
+        string $month,
         int $portfolio_page
     ): void {
 

@@ -181,8 +181,7 @@ class ilBookingReservation
 
     protected function read(): void
     {
-        if ($this->id) {
-            $row = $this->repo->getForId($this->id);
+        if ($this->id && $row = $this->repo->getForId($this->id)) {
             $this->setUserId($row['user_id']);
             $this->setAssignerId((int) $row['assigner_id']);
             $this->setObjectId($row['object_id']);
@@ -191,7 +190,7 @@ class ilBookingReservation
             $this->setStatus($row['status']);
             $this->setGroupId((int) $row['group_id']);
             $this->setContextObjId((int) $row['context_obj_id']);
-            $this->setMessage((string) $row['message']);
+            $this->setMessage($row['message']);
         }
     }
 

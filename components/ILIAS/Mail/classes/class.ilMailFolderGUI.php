@@ -233,12 +233,15 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                 return;
 
             case MailFolderTableUI::ACTION_EDIT:
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
+                if ($this->folder->isOutbox()) {
+                    $this->umail->moveMailsToFolder($mail_ids, $this->mbox->getDraftsFolder());
+                }
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
                     self::PARAM_FOLDER_ID,
-                    (string) $this->folder->getFolderId()
+                    (string) $this->mbox->getDraftsFolder()
                 );
-                $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);
                 $this->ctrl->redirectByClass(ilMailFormGUI::class);
 
@@ -312,7 +315,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
                     self::URL_BUILDER_PREFIX . URLBuilder::SEPARATOR . self::PARAM_TARGET_FOLDER,
                     $this->refinery->kindlyTo()->int()
                 );
-                if (empty($folder_id)) {
+                if (empty($folder_id) || $folder_id === $this->mbox->getOutboxFolder()) {
                     $this->tpl->setOnScreenMessage(
                         ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
                         $this->lng->txt('mail_move_error')
@@ -912,7 +915,14 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         $form->addItem($date);
 
         $message = new ilCustomInputGUI($this->lng->txt('message') . ':');
-        $message->setHtml(ilUtil::htmlencodePlainString($mail_data['m_message'] ?? '', true));
+        $message->setHtml(
+            str_replace(
+                ['{', '}'],
+                ['&#123;', '&#125;'],
+                html_entity_decode($this->refinery->string()->markdown()->toHTML()->transform($mail_data['m_message']) ?? '')
+            )
+        );
+
         $form->addItem($message);
 
         if ($mail_data['attachments']) {
@@ -920,7 +930,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
 
             $radiog = new ilRadioGroupInputGUI('', 'filename');
             foreach ($mail_data['attachments'] as $file) {
-                $radiog->addOption(new ilRadioOption($file, md5((string) $file)));
+                $radiog->addOption(new ilRadioOption($file, md5($file)));
             }
 
             $att->setHtml($radiog->render());
@@ -1119,7 +1129,7 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
         );
 
         $tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
-        $tplprint->setVariable('MAIL_MESSAGE', nl2br(htmlspecialchars((string) $mail_data['m_message'])));
+        $tplprint->setVariable('MAIL_MESSAGE', html_entity_decode($this->refinery->string()->markdown()->toHTML()->transform($mail_data['m_message'])));
 
         $tplprint->show();
     }

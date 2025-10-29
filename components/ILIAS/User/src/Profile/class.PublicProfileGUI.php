@@ -486,12 +486,8 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         // portfolios
-        $back = ($this->getBackUrl() != '')
-            ? $this->getBackUrl()
-            : \ilLink::_getStaticLink($this->getUserId(), 'usr', true);
         $port = \ilObjPortfolio::getAvailablePortfolioLinksForUserIds(
-            [$this->getUserId()],
-            $back
+            [$this->getUserId()]
         );
         $cnt = 0;
         if ($port !== []) {

@@ -27,12 +27,21 @@ class ilMailbox
     private readonly ilDBInterface $db;
     private readonly ilTree $mtree;
 
-    /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
+    /** @var array{
+     *     b_inbox: string,
+     *     c_trash: string,
+     *     d_drafts: string,
+     *     e_outbox: string,
+     *     f_sent: string,
+     *     z_local : string,
+     * }
+     */
     private array $default_folders = [
         'b_inbox' => 'inbox',
         'c_trash' => 'trash',
         'd_drafts' => 'drafts',
-        'e_sent' => 'sent',
+        'e_outbox' => 'outbox',
+        'f_sent' => 'sent',
         'z_local' => 'local',
     ];
     private readonly string $table_mail_obj_data;
@@ -57,7 +66,7 @@ class ilMailbox
         $this->lng->loadLanguageModule('mail');
     }
 
-    public function getRooFolder(): int
+    public function getRootFolder(): ?int
     {
         $res = $this->db->queryF(
             'SELECT obj_id FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND m_type = %s',
@@ -67,7 +76,7 @@ class ilMailbox
 
         $row = $this->db->fetchAssoc($res);
 
-        return (int) $row['obj_id'];
+        return isset($row['obj_id']) ? (int) $row['obj_id'] : null;
     }
 
     public function getInboxFolder(): int
@@ -94,6 +103,51 @@ class ilMailbox
         $row = $this->db->fetchAssoc($res);
 
         return (int) $row['obj_id'];
+    }
+
+    public function getOutboxFolder(): int
+    {
+        $res = $this->db->queryF(
+            'SELECT obj_id FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND m_type = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+            [$this->usr_id, 'outbox']
+        );
+
+        $row = $this->db->fetchAssoc($res);
+        if ($row === null) {
+            return $this->microMigrateOutboxFolder();
+        }
+
+        return (int) $row['obj_id'];
+    }
+
+    private function microMigrateOutboxFolder(): int
+    {
+        $root_folder_id = $this->getRootFolder();
+        if ($root_folder_id === null) {
+            $this->createDefaultFolder();
+
+            $res = $this->db->queryF(
+                'SELECT obj_id FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND m_type = %s',
+                [ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT],
+                [$this->usr_id, 'outbox']
+            );
+            $row = $this->db->fetchAssoc($res);
+
+            return (int) ($row['obj_id'] ?? 0);
+        }
+
+        $last_id = $this->db->nextId($this->table_mail_obj_data);
+        $this->db->manipulateF(
+            'INSERT INTO ' . $this->table_mail_obj_data .
+            ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            [$last_id, $this->usr_id, 'e_outbox', 'outbox']
+        );
+
+        $this->mtree->insertNode($last_id, $root_folder_id, $this->getDraftsFolder());
+
+        return $last_id;
     }
 
     public function getTrashFolder(): int

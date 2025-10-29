@@ -74,10 +74,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         return false;
     }
 
-    /**
-     * @return mixed
-     */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $ilCtrl = $this->ctrl;
 

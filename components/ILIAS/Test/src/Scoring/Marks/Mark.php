@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Scoring\Marks;
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Group;
 
@@ -32,7 +33,7 @@ use ILIAS\UI\Component\Input\Field\Group;
  * @version	$Id$
  * @ingroup components\ILIASTest
  */
-class Mark
+class Mark implements Exportable
 {
     public function __construct(
         private string $short_name = "",
@@ -168,8 +169,8 @@ class Mark
             'passed' => $f->checkbox($lng->txt('tst_mark_passed'))
                 ->withValue($this->getPassed())
         ])->withAdditionalTransformation($mark_trafo)
-        ->withAdditionalTransformation($missing_passed_check)
-        ->withAdditionalTransformation($missing_zero_check);
+            ->withAdditionalTransformation($missing_passed_check)
+            ->withAdditionalTransformation($missing_zero_check);
     }
 
     public function toStorage(): array
@@ -181,5 +182,25 @@ class Mark
             'passed' => ['text', (int) $this->getPassed()],
             'tstamp' => ['integer', time()]
         ];
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'short_name' => $this->getShortName(),
+            'official_name' => $this->getOfficialName(),
+            'minimum_level' => $this->getMinimumLevel(),
+            'passed' => $this->getPassed()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (string) $data['short_name'],
+            (string) $data['official_name'],
+            (float) $data['minimum_level'],
+            (bool) $data['passed']
+        );
     }
 }

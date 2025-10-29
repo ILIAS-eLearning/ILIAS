@@ -2511,6 +2511,26 @@ code {
     page-break-after: avoid;
   }
 }
+details {
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 15px;
+}
+details > summary {
+  list-style-type: none;
+  cursor: pointer;
+}
+details > summary::before {
+  margin-right: 6px;
+  font-family: il-icons;
+  content: "\e606";
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] > summary::before {
+  content: "\e604";
+}
+
 /*
 * Components
 */
@@ -4845,7 +4865,6 @@ hr.il-divider-with-label {
   display: grid;
   grid-template-areas: "f-blocking f-blocking f-blocking f-blocking actions" "second-id f-prop f-prop f-prop actions" "second-id prim-id prim-id prim-id actions" "second-id status status status status" "second-id f-details f-details f-details f-details" "second-id availab availab availab availab" "second-id details details details details" "second-id reaction reaction f-reaction f-reaction";
   grid-template-columns: min-content auto auto min-content min-content;
-  border: 1px solid #dddddd;
   background-color: white;
   padding: 4.5px 7.5px;
 }
@@ -6072,9 +6091,13 @@ a[aria-disabled].il-link.link-bulky:hover {
 .il-maincontrols-metabar > li > .btn.btn-bulky.engaged, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
-  border: none;
   color: initial;
-  outline-color: transparent;
+  border: none;
+}
+.il-maincontrols-metabar > li > .btn.btn-bulky.engaged:focus-visible, .il-maincontrols-metabar > li > a.il-link.link-bulky.engaged:focus-visible {
+  outline: none;
+  border: 3px solid #0078D7;
+  box-shadow: inset 0px 0px 0px 2px #FFFFFF, 0px 0px 0px 2px #FFFFFF;
 }
 .il-maincontrols-metabar > li > .btn.btn-bulky .glyphicon, .il-maincontrols-metabar > li > a.il-link.link-bulky .glyphicon {
   color: #737373;
@@ -8031,21 +8054,29 @@ button .minimize, button .close {
 }
 
 .c-field-radio > .c-field-radio__item {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-areas: "input label" "input helpline";
+  grid-template-columns: auto 1fr;
   margin-top: 6px;
 }
 .c-field-radio > .c-field-radio__item:first-child {
   margin-top: 0;
 }
 .c-field-radio > .c-field-radio__item > input {
+  grid-area: input;
+  margin-top: 3px;
   margin-right: 9px;
   width: auto;
+  height: max-content;
+  align-self: baseline;
+  justify-self: end;
 }
 .c-field-radio > .c-field-radio__item > label {
+  grid-area: label;
   flex-grow: 1;
 }
 .c-field-radio > .c-field-radio__item > .c-input__help-byline {
+  grid-area: helpline;
   width: 100%;
 }
 
@@ -8377,6 +8408,196 @@ button .minimize, button .close {
   font-family: Monospace, Courier;
 }
 
+ul.c-input--has-mustache-variables__definitions {
+  padding-inline-start: 0;
+}
+ul.c-input--has-mustache-variables__definitions > li {
+  list-style: none;
+}
+
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition-property: height, max-height, padding;
+  transition-duration: 0.5s;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field {
+  order: 1;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__visibility-toggle,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__visibility-toggle {
+  order: 2;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field .c-input--has-option-filter__field,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field .c-input--has-option-filter__field {
+  margin-top: 6px;
+  width: 100%;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input label,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input label {
+  display: flex;
+  width: max-content;
+  flex-grow: 1;
+  margin-bottom: 6px;
+  align-items: center;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input label .label__text,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input label .label__text {
+  margin-right: 12px;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input label input,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input label input {
+  flex-grow: 1;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input .c-input--has-option-filter__clear-search,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__search-input .c-input--has-option-filter__clear-search {
+  margin-left: 12px;
+  width: auto;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__visibility-toggle,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__visibility-toggle {
+  margin-top: 6px;
+  width: auto;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect {
+  display: flex;
+  flex-direction: column;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li {
+  order: 2;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li:has(input:checked),
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li:has(input:checked) {
+  animation: fade-item-up 0.5s;
+  order: 1;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > .c-field-radio,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > .c-field-radio {
+  display: flex;
+  flex-direction: column;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item {
+  order: 2;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item:has(input:checked),
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field) .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item:has(input:checked) {
+  animation: fade-item-up 0.5s;
+  order: 1;
+  margin-bottom: 6px;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__help-byline,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__help-byline {
+  display: none;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__search-input,
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field input,
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li:has(input:not(:checked)),
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item:has(input:not(:checked)),
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__search-input,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field input,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li:has(input:not(:checked)),
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item:has(input:not(:checked)) {
+  display: none !important;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li,
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > ul.c-field-multiselect li,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item {
+  pointer-events: none;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field:has(input:checked) .c-input--has-option-filter__nothing-selected,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field):not(.engaged) > .c-input__field:has(input:checked) .c-input--has-option-filter__nothing-selected {
+  display: none;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field {
+  padding: 9px 15px;
+  border: 1px solid #dddddd;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field .c-input--has-option-filter__nothing-selected,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field .c-input--has-option-filter__nothing-selected {
+  display: none;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field > .c-input--has-option-filter__search-input > .c-input,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field > .c-input--has-option-filter__search-input > .c-input {
+  display: block;
+}
+.c-input[data-il-ui-component=radio-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field > .c-input--has-option-filter__field,
+.c-input[data-il-ui-component=multi-select-field-input]:has(.c-input--has-option-filter__field).engaged > .c-input__field > .c-input--has-option-filter__field {
+  margin-top: 6px;
+  overflow: auto;
+  border: 1px solid #dddddd;
+  padding: 6px 12px;
+  max-height: 300px;
+  animation: expanding-list 0.5s;
+}
+
+@keyframes fade-item-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 2;
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(-20px);
+    order: 2;
+  }
+  51% {
+    opacity: 0;
+    transform: translateY(20px);
+    order: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 1;
+  }
+}
+@keyframes fade-item-down {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 1;
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(20px);
+    order: 1;
+  }
+  51% {
+    opacity: 0;
+    transform: translateY(-20px);
+    order: 2;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 2;
+  }
+}
+@keyframes expanding-list {
+  0% {
+    max-height: 100px;
+  }
+  100% {
+    max-height: 300px;
+  }
+}
 .il-input-rating .il-input-rating__text {
   clear: both;
 }
@@ -16372,6 +16593,218 @@ div.ilc_Page.readonly textarea[disabled] {
 
 #tst_pass_details_overview tr {
   scroll-margin-top: 30px;
+}
+
+.c-consecutive-scoring__question__text {
+  margin-bottom: 30px;
+}
+.c-consecutive-scoring__question__title {
+  display: inline-block;
+}
+
+.panel .c-consecutive-scoring__question__title {
+  margin-top: 0;
+}
+
+.c-consecutive-scoring__answer {
+  display: flex;
+  max-height: 40vh;
+  flex-direction: row;
+}
+.c-consecutive-scoring__answer .l-scroll-fade-container {
+  position: relative;
+}
+.c-consecutive-scoring__answer .l-scroll-fade-container::after {
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  position: absolute;
+  height: 30px;
+  background: linear-gradient(360deg, white, transparent);
+  pointer-events: none;
+}
+.c-consecutive-scoring__answer__scroll-container {
+  width: 60%;
+}
+.c-consecutive-scoring__answer__body {
+  overflow: auto;
+  height: 100%;
+  padding-bottom: 30px;
+}
+.c-consecutive-scoring__answer__body h1:empty {
+  display: none;
+}
+.c-consecutive-scoring__answer__body .ilc_qanswer_Answer.solutionbox {
+  width: auto;
+}
+.c-consecutive-scoring__answer__grade-card {
+  width: 40%;
+  border-left: 1px solid #dddddd;
+  display: grid;
+  grid-template-areas: "properties btn" "feedback feedback";
+  grid-template-columns: 1fr max-content;
+  grid-template-rows: max-content 1fr;
+  margin-left: 30px;
+  padding-left: 30px;
+}
+@media screen and (max-width: 768px) {
+  .c-consecutive-scoring__answer__grade-card {
+    border-left: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+.c-consecutive-scoring__answer__grade-card__properties {
+  grid-area: properties;
+}
+.c-consecutive-scoring__answer__grade-card__properties .c-listing-property__property:nth-child(-n+2) {
+  font-size: 1rem;
+}
+.c-consecutive-scoring__answer__grade-card__grade-btn {
+  grid-area: btn;
+}
+.c-consecutive-scoring__answer__grade-card__feedback {
+  grid-area: feedback;
+  margin-top: 12px;
+  min-height: 0;
+}
+.c-consecutive-scoring__answer__grade-card__feedback.l-scroll-fade-container::after {
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  position: absolute;
+  height: 30px;
+  background: linear-gradient(360deg, white, transparent);
+  pointer-events: none;
+}
+.c-consecutive-scoring__answer__grade-card__feedback__body {
+  padding-bottom: 30px;
+  height: 100%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .c-consecutive-scoring__answer {
+    max-height: none;
+    display: block;
+  }
+  .c-consecutive-scoring__answer__grade-card, .c-consecutive-scoring__answer__scroll-container {
+    width: 100%;
+  }
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] {
+  display: grid;
+  grid-template-areas: "answer btn" "answer feedback";
+  grid-template-rows: max-content 1fr;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+  width: 1200px;
+}
+@media screen and (max-width: 768px) {
+  .panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] {
+    display: block;
+  }
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] hr {
+  display: none;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header {
+  grid-area: answer;
+  position: relative;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header form {
+  display: none;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .il-prompt__title {
+  display: flex;
+  flex-direction: column;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .il-prompt__title,
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring_sanswer,
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer__scroll-container {
+  height: 100%;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer {
+  flex-direction: column-reverse;
+  max-height: unset;
+  min-height: 0;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer__scroll-container {
+  min-height: 0;
+  width: 100%;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__header .c-consecutive-scoring__answer__grade-card {
+  padding: 0;
+  margin: 0;
+  margin-top: 15px;
+  margin-bottom: 9px;
+  border: none;
+  width: 100%;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents {
+  grid-area: feedback;
+  overflow: auto;
+}
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__buttons {
+  grid-area: btn;
+  justify-self: end;
+}
+
+.c-sequence:has(.c-consecutive-scoring__answer) .c-sequence__segment,
+.c-sequence:has(.c-consecutive-scoring__answer) .c-sequence__header__segment__title {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.c-sequence:has(.c-consecutive-scoring__answer) .c-sequence__segment__contents .panel {
+  margin-top: 18px;
+}
+
+.c-sequence__segment:has(.c-consecutive-scoring__answer),
+.c-sequence:has(.c-consecutive-scoring__answer) .c-sequence__header__segment:has(.c-entity) {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.c-sequence__segment:has(.c-consecutive-scoring__answer) .panel .c-entity {
+  margin-bottom: 6px;
+}
+.c-sequence__segment:has(.c-consecutive-scoring__answer) .panel-heading:has(.panel-title h2:empty) {
+  display: none;
+}
+
+.c-sequence:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) .c-sequence__segment .c-entity.__container {
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+.c-sequence:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) .c-sequence__segment .c-layout-alignment__block {
+  align-content: space-around;
+}
+.c-sequence:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) .c-sequence__segment .c-consecutive-scoring__answer {
+  max-height: 60vh;
+}
+.c-sequence:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) .c-sequence__segment .c-consecutive-scoring__answer__grade-card {
+  display: none;
+}
+.c-sequence:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) .c-sequence__segment .c-consecutive-scoring__answer__scroll-container {
+  width: 100%;
+}
+
+.c-sequence:has(.c-consecutive-scoring__answer) .c-sequence__header__segment__title .c-consecutive-scoring__question details {
+  border-bottom: none;
+}
+
+.c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) form .c-input[data-il-ui-component=markdown-field-input],
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents form .c-input[data-il-ui-component=markdown-field-input] {
+  display: block;
+}
+.c-sequence__segment:has(.c-layout-alignment--horizontal-evenly .c-consecutive-scoring__answer) form .c-input[data-il-ui-component=markdown-field-input] .c-field-markdown textarea,
+.panel:has(.c-consecutive-scoring__answer) ~ .il-prompt > dialog[open] .il-prompt__contents form .c-input[data-il-ui-component=markdown-field-input] .c-field-markdown textarea {
+  height: 50vh;
 }
 
 /* Modules/Wiki */

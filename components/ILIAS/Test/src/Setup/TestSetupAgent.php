@@ -85,6 +85,10 @@ class TestSetupAgent extends NullAgent
                 $storage,
                 new ilTestNoHintsDBUpdateSteps()
             ),
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new Test11DBUpdateSteps()
+            ),
         );
     }
 
@@ -111,7 +115,9 @@ class TestSetupAgent extends NullAgent
     public function getMigrations(): array
     {
         return [
-            new CloneIntroductionAndClosingRemarksMigration()
+            new MoveTestSettingsMigration(),
+            new MoveSettingsTemplatesMigration(),
+            new RemoveLegacyTestSettingsMigration()
         ];
     }
 }

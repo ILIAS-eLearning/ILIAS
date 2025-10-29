@@ -42,7 +42,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
     */
     public function viewObject(): void
     {
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
 

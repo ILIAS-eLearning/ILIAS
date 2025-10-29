@@ -328,9 +328,6 @@ class ilFileXMLParser extends ilSaxParser
      */
     public function setFileContents(): void
     {
-        // Delete exists version 1 history
-        ilHistory::_removeEntriesForObject($this->file->getId());
-
         foreach ($this->versions as $version) {
             if (!file_exists($version["tmpFilename"])) {
                 if (!isset($version["tmpFilename"])) {

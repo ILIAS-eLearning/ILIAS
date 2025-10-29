@@ -26,6 +26,14 @@ use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Config;
 use ilDatabaseUpdateStepsExecutedObjective;
 use ilDatabaseUpdateStepsMetricsCollectedObjective;
+use ILIAS\Setup\ObjectiveCollection;
+use ilObjGeneralSettings;
+use ilTreeAdminNodeAddedObjective;
+use ilObjServerInfo;
+use ilAccessRBACOperationDeletedObjective;
+use ILIAS\Administration\Setup\Objective\DropPermissions;
+use ILIAS\Administration\Setup\Objective\CopyPermissions;
+use ilObjBenchmark;
 
 /**
  * Class ilAdministrationSetupAgent
@@ -33,12 +41,34 @@ use ilDatabaseUpdateStepsMetricsCollectedObjective;
  */
 class ilAdministrationSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(?Config $config = null) : Objective
+    private const DROP_PERMISSIONS = [
+        1, // ilTreeAdminNodeAddedObjective::RBAC_OP_EDIT_PERMISSIONS,
+        2, // ilTreeAdminNodeAddedObjective::RBAC_OP_VISIBLE,
+        4, // ilTreeAdminNodeAddedObjective::RBAC_OP_WRITE,
+    ];
+
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps());
+        $drop_visible = new DropPermissions('adm', [2]); // ilTreeAdminNodeAddedObjective::RBAC_OP_VISIBLE
+        return new ObjectiveCollection(
+            'Administration',
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilAdministrationDBUpdateSteps()),
+            new ilTreeAdminNodeAddedObjective(ilObjGeneralSettings::TYPE, 'General Settings'),
+            new ilTreeAdminNodeAddedObjective(ilObjServerInfo::TYPE, 'Server Info'),
+            new AdminNodesVisibilityRemovedObjective(),
+            new ExternalToolsRemovedObjective(),
+            // First drop visible then copy permissions then drop all except READ.
+            new DropPermissions('adm', self::DROP_PERMISSIONS, [
+                new CopyPermissions('adm', ilObjGeneralSettings::TYPE, [$drop_visible]),
+                new CopyPermissions('adm', ilObjServerInfo::TYPE, [$drop_visible]),
+                new CopyPermissions('adm', 'cron', [$drop_visible]),
+                new CopyPermissions('adm', ilObjBenchmark::TYPE, [$drop_visible]),
+            ]),
+        );
     }
 
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilAdministrationDBUpdateSteps());
     }

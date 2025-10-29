@@ -41,7 +41,7 @@ class ilPresentationTableGUI
     protected UI\Factory $ui_fac;
     protected UI\Renderer $ui_ren;
     protected ServerRequestInterface $request;
-    protected $parent_obj;
+    protected object $parent_obj;
     protected ilObjGlossary $glossary;
     protected bool $offline = false;
     protected int $tax_node = 0;

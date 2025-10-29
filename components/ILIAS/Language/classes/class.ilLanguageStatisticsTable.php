@@ -128,8 +128,9 @@ class ilLanguageStatisticsTable implements DataTableInterface\DataRetrieval
         array $visible_column_ids,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         foreach ($this->getItems($range, $order) as $idx => $record) {
             $obj_id = (string) $idx;
@@ -145,8 +146,11 @@ class ilLanguageStatisticsTable implements DataTableInterface\DataRetrieval
     /**
      * @inheritDoc
      */
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count($this->getItems());
     }
 }

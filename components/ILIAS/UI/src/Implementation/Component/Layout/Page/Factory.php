@@ -23,8 +23,10 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page;
+use ILIAS\Data\Link;
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Component\Toast\Container;
+use ILIAS\UI\Component\Legacy\Content;
 
 class Factory implements Page\Factory
 {
@@ -55,6 +57,22 @@ class Factory implements Page\Factory
             $title,
             $short_title,
             $view_title
+        );
+    }
+
+    public function mail(
+        string $stylesheet_path,
+        string $logo_url,
+        string $installation_title,
+        Content $html_content,
+        Link $footer_url,
+    ): Mail {
+        return new Mail(
+            $stylesheet_path,
+            $logo_url,
+            $installation_title,
+            $html_content,
+            $footer_url,
         );
     }
 }

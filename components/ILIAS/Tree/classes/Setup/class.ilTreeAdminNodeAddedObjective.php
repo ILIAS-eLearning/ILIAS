@@ -31,7 +31,6 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
 
     protected array $rbac_ops = [
         self::RBAC_OP_EDIT_PERMISSIONS,
-        self::RBAC_OP_VISIBLE,
         self::RBAC_OP_READ,
         self::RBAC_OP_WRITE
     ];

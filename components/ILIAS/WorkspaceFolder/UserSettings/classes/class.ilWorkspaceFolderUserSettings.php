@@ -51,7 +51,7 @@ class ilWorkspaceFolderUserSettings
         return ilWorkspaceFolderSorting::SORT_ALPHABETICAL_ASC;
     }
 
-    public function updateSortation(int $wfld_id, int $sortation)
+    public function updateSortation(int $wfld_id, int $sortation): void
     {
         $this->repo->updateSortation($wfld_id, $sortation);
     }

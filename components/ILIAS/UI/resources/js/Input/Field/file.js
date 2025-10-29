@@ -47,7 +47,7 @@ il.UI.Input = il.UI.Input || {};
 			removal_glyph: '[data-action="remove"] .glyph',
 			expand_glyph: '[data-action="expand"] .glyph',
 			collapse_glyph: '[data-action="collapse"] .glyph',
-			form_submit_buttons: '.il-standard-form-cmd > button',
+			form_submit_buttons: '.c-form_actions > button',
 			modal_form_controls: '.modal-footer button',
 
 			progress_container: '.ui-input-file-input-progress-container',
@@ -97,7 +97,13 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let removal_items = [];
 
-		/**
+    /**
+     * Current form element and submitter for
+     * supporting multiple submit buttons with different actions
+     */
+    let submitter_button = {};
+
+    /**
 		 * @param {string} input_id
 		 * @param {string} upload_url
 		 * @param {string} removal_url
@@ -294,6 +300,8 @@ il.UI.Input = il.UI.Input || {};
 			// for NoSubmit signals, this can also be an HTMLButtonElement.
 			dropzone.options.form.should_submit = true;
 
+      submitter_button = event.submitter;
+
 			event.preventDefault();
 			setFormControlsDisabledState(dropzone.options.form, true);
 			processCurrentFormDropzones(dropzone.options.form, event);
@@ -337,9 +345,9 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			// abort if the given file is not an allowed file type.
-			if (dropzones[input_id].options.acceptedFiles &&
-				!Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
-			) {
+      if (dropzones[input_id].options.acceptedFiles &&
+        !Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
+      ) {
 				displayErrorMessage(
 					I18N.invalid_mime.replace('%s', file.type),
 					$(`#${input_id} ${SELECTOR.dropzone}`)
@@ -416,9 +424,20 @@ il.UI.Input = il.UI.Input || {};
       console.log(current_dropzone);
       console.log(current_dropzone_count);
 			if (dropzone.options.form.should_submit === true && current_dropzone >= current_dropzone_count) {
+        setSubmitterButtonFormAction(dropzone.options.form);
 				dropzone.options.form.submit();
 			}
 		}
+
+    let setSubmitterButtonFormAction = function (form) {
+      // The check about the submitter having the attribute 'formaction' needs to stay
+      // else the main submit button won't get triggered at all. Also this implementation is just
+      // a workaround as currently 'requestSubmit()' does not work even if it should. As the file.js
+      // should get refactored at some point it was decided to not change the function right now.
+      if (submitter_button && submitter_button.hasAttribute('formaction')) {
+        form.action = submitter_button.formAction;
+      }
+    }
 
 		let enableAutoProcessingHook = function () {
 			let dropzone = $(this)[0];
@@ -642,6 +661,7 @@ il.UI.Input = il.UI.Input || {};
                 }
                 // handle case if no files selected.
                 if (total_files === 0) {
+                  setSubmitterButtonFormAction(form);
                   form.submit();
                 }
             } else {
@@ -651,7 +671,8 @@ il.UI.Input = il.UI.Input || {};
                 if (0 !== dropzone.getQueuedFiles().length) {
                     dropzone.processQueue();
                 } else {
-                    form.submit();
+                  setSubmitterButtonFormAction(form);
+                  form.submit();
                 }
             }
 		}

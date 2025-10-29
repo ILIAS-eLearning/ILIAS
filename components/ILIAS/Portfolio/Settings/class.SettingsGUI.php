@@ -70,7 +70,7 @@ class SettingsGUI
         $lng->loadLanguageModule("rep");
 
         $form = $this->gui
-            ->form(self::class, "save")
+            ->form([self::class], "save")
             ->section("general", $lng->txt("prtf_edit_portfolio"));
         if ($this->in_repository) {
             $form = $form

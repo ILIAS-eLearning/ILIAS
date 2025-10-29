@@ -152,7 +152,7 @@ class ilPCParagraph extends ilPageContent
     public function setText(
         string $a_text,
         bool $a_auto_split = false
-    ) {
+    ): string|null|bool {
         $text = $a_text;
         if ($a_auto_split) {
             $text = $this->autoSplit($a_text);
@@ -1333,7 +1333,7 @@ class ilPCParagraph extends ilPageContent
         string $a_pc_id,
         string $a_insert_at = "",
         bool $from_placeholder = false
-    ) {
+    ): string|bool|array {
         $ilUser = $this->user;
 
         $a_content = str_replace("<br>", "<br />", $a_content);
@@ -1617,7 +1617,7 @@ class ilPCParagraph extends ilPageContent
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function updatePage(ilPageObject $a_page)
+    public function updatePage(ilPageObject $a_page): array|bool
     {
         $a_page->beforePageContentUpdate($this);
         return $a_page->update();
@@ -2020,7 +2020,7 @@ class ilPCParagraph extends ilPageContent
         string $a_pc_id,
         string $a_insert_at = "",
         string $a_new_pc_id = ""
-    ) {
+    ): array|bool {
         throw new ilCOPagePCEditException("ilPCParagraph->insert is deprecated.");
         $ilUser = $this->user;
 

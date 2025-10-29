@@ -43,7 +43,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
     public function executeCommand(): void
     {
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -66,7 +66,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        if ($this->checkPermissionBool('visible,read')) {
+        if ($this->checkPermissionBool('read')) {
             $this->tabs_gui->addTab(
                 'settings',
                 $this->lng->txt('settings'),

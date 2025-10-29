@@ -20,6 +20,7 @@ use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Container\StandardGUIRequest;
 use ILIAS\Container\Content\ItemManager;
 use ILIAS\Container\Content\BlockSessionRepository;
+use ILIAS\UI\Component\Card\RepositoryObject;
 
 /**
  * Parent class of all container content GUIs.
@@ -486,17 +487,13 @@ abstract class ilContainerContentGUI
         return $item_list_gui->getUniqueItemId();
     }
 
-    /**
-     * Render an item
-     * @return \ILIAS\UI\Component\Card\RepositoryObject|string|null
-     */
     public function renderItem(
         array $a_item_data,
         int $a_position = 0,
         bool $a_force_icon = false,
         string $a_pos_prefix = "",
         string $item_group_list_presentation = ""
-    ) {
+    ): RepositoryObject|string|null {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
@@ -647,7 +644,7 @@ abstract class ilContainerContentGUI
         int $a_position = 0,
         bool $a_force_icon = false,
         string $a_pos_prefix = ""
-    ): ?\ILIAS\UI\Component\Card\RepositoryObject {
+    ): ?RepositoryObject {
         $item_list_gui = $this->getItemGUI($a_item_data);
         $item_list_gui->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash(
             ilCommonActionDispatcherGUI::TYPE_REPOSITORY,

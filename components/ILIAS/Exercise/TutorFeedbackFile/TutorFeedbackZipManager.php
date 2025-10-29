@@ -122,7 +122,7 @@ class TutorFeedbackZipManager
         int $ass_id,
         int $tutor_id,
         array $file_md5s
-    ) {
+    ): void {
         $notification = $this->domain->notification($exc->getRefId());
         foreach ($this->getFiles($exc, $ass_id, $tutor_id) as $file) {
             $user_id = (int) $file["user_id"];

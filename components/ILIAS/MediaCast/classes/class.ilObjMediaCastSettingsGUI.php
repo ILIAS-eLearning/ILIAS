@@ -60,7 +60,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -85,7 +85,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
     {
         $rbac_system = $this->rbac_system;
 
-        if ($rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "mcst_edit_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),

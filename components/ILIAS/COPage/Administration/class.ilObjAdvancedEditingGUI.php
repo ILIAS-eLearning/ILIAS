@@ -133,7 +133,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
     protected function getTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "adve_page_editor_settings",
                 $this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),

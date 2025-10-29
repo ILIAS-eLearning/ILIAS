@@ -32,7 +32,7 @@ class ImportantPageManager
     protected int $wiki_ref_id;
     protected \ILIAS\Wiki\Wiki\DomainService $wiki_domain;
     protected \ILIAS\Wiki\Navigation\ImportantPageDBRepository $imp_page_repo;
-    protected $ref_id;
+    protected int $ref_id;
     protected InternalDataService $data_service;
 
     public function __construct(

@@ -46,10 +46,7 @@ class FormAdapterGUI
     protected array $values = [];
     protected array $disable = [];
 
-    /**
-     * @var mixed|null
-     */
-    protected $raw_data = null;
+    protected ?array $raw_data = null;
     protected \ILIAS\HTTP\Services $http;
     protected \ilCtrlInterface $ctrl;
     protected \ILIAS\DI\UIServices $ui;
@@ -58,7 +55,7 @@ class FormAdapterGUI
     protected array $sections = [self::DEFAULT_SECTION => ["title" => "", "description" => "", "fields" => []]];
     protected string $current_section = self::DEFAULT_SECTION;
     protected array $section_of_field = [];
-    protected $class_path;
+    protected ?array $class_path;
     protected string $cmd = self::DEFAULT_SECTION;
     protected ?Form\Standard $form = null;
     protected array $upload_handler = [];
@@ -73,7 +70,7 @@ class FormAdapterGUI
      * @param string|array $class_path
      */
     public function __construct(
-        $class_path,
+        ?array $class_path,
         string $cmd,
         string $submit_caption = ""
     ) {
@@ -371,10 +368,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    /**
-     * @return null|\ilDate|\ilDateTime
-     */
-    protected function getDateTimeData(?\DateTimeImmutable $value, $use_time = false)
+    protected function getDateTimeData(?\DateTimeImmutable $value, $use_time = false): \ilDate|\ilDateTime|null
     {
         if (is_null($value)) {
             return null;
@@ -729,7 +723,7 @@ class FormAdapterGUI
     /**
      * @return mixed
      */
-    public function getData(string $key)
+    public function getData(string $key): mixed
     {
         $this->_getData();
 

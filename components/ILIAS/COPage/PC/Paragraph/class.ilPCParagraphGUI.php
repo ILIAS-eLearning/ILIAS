@@ -184,7 +184,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
      * execute command
      * @return mixed
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);

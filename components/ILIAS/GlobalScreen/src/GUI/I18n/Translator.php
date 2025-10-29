@@ -29,18 +29,17 @@ use ILIAS\GlobalScreen\GUI\I18n\MultiLanguage\TranslationsRepository;
 class Translator
 {
     private bool $internal = false;
-    /**
-     * @var string
-     */
     private const LANG_PHP = 'lang.php';
 
     private MultiLanguage $multi_language;
+    private string $prefix;
 
     public function __construct(
         private \ilLanguage $lng,
         ?TranslationsRepository $translations_repository = null,
         string ...$module
     ) {
+        $this->prefix = $module[0] ?? '';
         foreach ($module as $m) {
             $this->lng->loadLanguageModule($m);
         }
@@ -64,6 +63,10 @@ class Translator
     {
         $key = $prefix !== null ? $prefix . '_' . $identifier : $identifier;
 
+        if (!empty($this->prefix)) {
+            $key = $this->prefix . '_' . $key;
+        }
+
         if ($subsitutions !== []) {
             return sprintf($this->internal($key, $this->lng->txt($key)), ...array_values($subsitutions));
         }
@@ -85,18 +88,18 @@ class Translator
         $file = __DIR__ . '/' . self::LANG_PHP;
         touch($file);
         $current = (array) ((@include $file) ?? []);
-        $untranslated = ($translation === '-' . $key . '-');
+        $untranslated = ($translation === '-' . $key . '-') || ($translation === $key);
 
-        $differs = $untranslated
-            || (
-                ($current[$key] ?? null) !== null
-                && ($current[$key] !== $translation)
-            );
-
-        if ($differs) {
+        // Missing
+        if (!($current[$key] ?? false)) {
             $current[$key] = $translation = $key;
             asort($current);
             file_put_contents($file, '<?php return ' . var_export($current, true) . ';');
+            return $translation;
+        }
+
+        if ($untranslated || ($current[$key] ?? $translation) !== $translation) {
+            return $current[$key] ?? $translation;
         }
 
         return $translation;

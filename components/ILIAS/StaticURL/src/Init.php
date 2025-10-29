@@ -46,13 +46,14 @@ final class Init
             return new HandlerService(
                 $c['static_url.request_builder'],
                 $c['static_url.context'],
-                ...$handlers
+                $handlers
             );
         };
 
+        $c['static_url.config'] = static fn(): Configuration => new StaticURLConfig();
+
         $c['static_url.uri_builder'] = (static fn(Container $c): URIBuilder => new StandardURIBuilder(
-            ILIAS_HTTP_PATH,
-            \ilRobotSettings::getInstance()?->robotSupportEnabled() ?? false
+            $c['static_url.config']
         ));
 
         $c['static_url'] = (static fn(Container $c): Services => new Services(

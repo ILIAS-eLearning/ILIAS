@@ -374,4 +374,37 @@ class TableAdapterGUI
         $html = $this->ui->renderer()->render($this->getTable());
         return $html;
     }
+
+    public function renderDeletionConfirmation(
+        string $modal_title,
+        string $modal_message,
+        string $delete_cmd,
+        array $items
+    ): void {
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
+        $del_items = [];
+        foreach ($items as $id => $title) {
+            if (is_array($title)) {
+                $key = $title[0] ?? "";
+                $val = $title[1] ?? "";
+            } else {
+                $key = $title;
+                $val = "";
+            }
+            $del_items[] = $f->modal()->interruptiveItem()->keyValue((string) $id, $key, $val);
+        }
+        $action = $this->ctrl->getLinkTarget($this->parent_gui, $delete_cmd);
+
+        echo($r->renderAsync([
+            $f->modal()->interruptive(
+                $modal_title,
+                $modal_message,
+                $action
+            )->withAffectedItems($del_items)
+        ]));
+        exit();
+    }
+
+
 }

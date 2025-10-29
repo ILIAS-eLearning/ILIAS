@@ -324,26 +324,6 @@ export default class Markdown extends Textarea {
   }
 
   /**
-     * @param {string} chars_before_seletion
-     * @param {string} chars_after_selection
-     * @return {void}
-     */
-  insertCharactersAroundSelection(chars_before_seletion, chars_after_selection) {
-    const new_content = this.getTextBeforeSelection()
-            + chars_before_seletion
-            + this.getTextOfSelection()
-            + chars_after_selection
-            + this.getTextAfterSelection();
-
-    // selection must be moved by the length of chars inserted before the selection
-    // in order to keep the same text highlighted.
-    const new_selection_start = this.getAbsoluteSelectionStart() + chars_before_seletion.length;
-    const new_selection_end = this.getAbsoluteSelectionEnd() + chars_before_seletion.length;
-
-    this.updateTextareaContent(new_content, new_selection_start, new_selection_end);
-  }
-
-  /**
      * Updates the current preview if the previously rendered content has changed.
      *
      * @return {void}

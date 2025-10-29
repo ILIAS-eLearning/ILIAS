@@ -681,8 +681,8 @@ class PropertyAndActionBuilderUI
     }
 
     /**
-     * @throws ilCtrlException
-     * @throws ilDateTimeException
+     * @throws \ilCtrlException
+     * @throws \ilDateTimeException
      */
     protected function buildSubmission(): void
     {
@@ -849,7 +849,7 @@ class PropertyAndActionBuilderUI
 
     /**
      * Get time string for deadline
-     * @throws ilDateTimeException
+     * @throws \ilDateTimeException
      */
     protected function getTimeString(int $a_deadline): string
     {

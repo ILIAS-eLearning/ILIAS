@@ -86,7 +86,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'lti_providing',
                 $this->lng->txt("lti_providing_tab"),
@@ -115,7 +115,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
     protected function addProvidingSubtabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             // currently no general settings.
             //			$this->tabs_gui->addTab("settings",
             //				$this->lng->txt("settings"),
@@ -127,7 +127,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "listConsumers")
             );
         }
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addSubTab(
                 "releasedObjects",
                 $this->lng->txt("lti_released_objects"),

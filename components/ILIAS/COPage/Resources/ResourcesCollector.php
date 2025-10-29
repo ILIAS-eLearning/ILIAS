@@ -18,14 +18,14 @@
 
 namespace ILIAS\COPage;
 
+use ILIAS\COPage\PC\PCDefinition;
+
 /**
  * Collects all js/css/onload resources necessary for page rendering
- *
- * @author Alexander Killing <killing@leifos.de>
  */
 class ResourcesCollector
 {
-    protected $pc_definition;
+    protected PCDefinition $pc_definition;
     protected string $output_mode = "";
     protected array $js_files = [];
     protected array $css_files = [];

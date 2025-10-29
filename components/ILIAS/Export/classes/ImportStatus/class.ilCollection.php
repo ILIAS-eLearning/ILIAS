@@ -140,7 +140,7 @@ class ilCollection implements ilCollectionInterface
         }
         $msg .= "):<br>";
         $elements = $collection->toArray();
-        for($i = 0; $i < count($elements); $i++) {
+        for ($i = 0; $i < count($elements); $i++) {
             $faied_status = $elements[$i];
             $msg .= "<br>";
             $msg .= $this->is_numbering_enabled

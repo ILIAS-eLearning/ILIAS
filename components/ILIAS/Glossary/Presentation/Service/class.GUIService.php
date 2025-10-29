@@ -63,7 +63,7 @@ class GUIService
         \ilObjGlossary $glossary,
         bool $offline_mode,
         int $tax_node = 0
-    ) {
+    ): \ilPresentationFullGUI {
         return new \ilPresentationFullGUI($parent_object, $glossary, $offline_mode, $tax_node);
     }
 
@@ -72,7 +72,7 @@ class GUIService
         \ilObjGlossary $glossary,
         bool $offline_mode,
         int $tax_node = 0
-    ) {
+    ): \ilPresentationTableGUI {
         return new \ilPresentationTableGUI($parent_object, $glossary, $offline_mode, $tax_node);
     }
 }

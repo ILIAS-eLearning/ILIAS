@@ -69,7 +69,7 @@ class SettingsGUI
         $settings = $this->domain->blogSettings()->getByObjId($this->obj_id);
 
         $lng = $this->domain->lng();
-        $form = $this->gui->form(self::class, "save")
+        $form = $this->gui->form([self::class], "save")
                           ->section("general", $lng->txt("blog_edit"))
                           ->addStdTitleAndDescription(
                               $this->obj_id,
