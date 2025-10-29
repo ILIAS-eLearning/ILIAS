@@ -307,6 +307,7 @@ class Renderer extends AbstractComponentRenderer
         RendererInterface $default_renderer
     ): string {
         $tpl = $this->getTemplate("tpl.system_info.html", true, true);
+        $f = $this->getUIFactory();
         $tpl->setVariable('HEADLINE', $component->getHeadLine());
         $tpl->setVariable('BODY', $component->getInformationText());
         $tpl->setVariable('DENOTATION', $component->getDenotation());
@@ -320,15 +321,14 @@ class Renderer extends AbstractComponentRenderer
                 break;
         }
         if ($component->isDismissable()) {
-            $close = $this->getUIFactory()->symbol()->glyph()->close("#");
             $signal = $component->getCloseSignal();
-            $close = $close->withOnClick($signal);
+            $close = $f->button()->shy('', $signal)->withSymbol($f->symbol()->glyph()->close());
             $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close));
             $tpl->setVariable('CLOSE_URI', (string) $component->getDismissAction());
             $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });");
         }
 
-        $more = $this->getUIFactory()->symbol()->glyph()->more("#");
+        $more = $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->more());
         $tpl->setVariable('MORE_BUTTON', $default_renderer->render($more));
 
         $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.maincontrols.system_info.init('$id')");
