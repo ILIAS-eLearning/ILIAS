@@ -326,7 +326,6 @@ class Renderer extends AbstractComponentRenderer
     {
         $props = $component->getProperties();
         if (count($props) > 0) {
-            $cnt = 0;
             foreach ($props as $name => $value) {
                 $name = htmlentities($name);
                 if ($value instanceof Button\Shy || $value instanceof \ILIAS\UI\Component\Symbol\Icon\Icon) {
@@ -336,18 +335,10 @@ class Renderer extends AbstractComponentRenderer
                     //should introduce here htmlentities
                     $value = $value;
                 }
-                $cnt++;
-                if ($cnt % 2 == 1) {
-                    $tpl->setCurrentBlock("property_row");
-                    $tpl->setVariable("PROP_NAME_A", $name);
-                    $tpl->setVariable("PROP_VAL_A", $value);
-                } else {
-                    $tpl->setVariable("PROP_NAME_B", $name);
-                    $tpl->setVariable("PROP_VAL_B", $value);
-                    $tpl->parseCurrentBlock();
-                }
-            }
-            if ($cnt % 2 == 1) {
+
+                $tpl->setCurrentBlock("property_row");
+                $tpl->setVariable("PROP_NAME_A", $name);
+                $tpl->setVariable("PROP_VAL_A", $value);
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("properties");

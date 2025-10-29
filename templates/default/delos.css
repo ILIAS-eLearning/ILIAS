@@ -4952,17 +4952,30 @@ hr.il-divider-with-label {
   font-size: 0.75rem;
   clear: both;
 }
-.il-item .il-item-property-name {
+.il-item .il-item-property-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(auto, auto) minmax(25%, 1fr));
+  column-gap: 6px;
+}
+@media screen and (max-width: 768px) {
+  .il-item .il-item-property-list {
+    grid-template-columns: minmax(auto, auto) minmax(50%, 1fr);
+  }
+}
+.il-item .il-item-property-list .il-item-property-name {
+  text-align: right;
   font-size: 0.75rem;
   color: #6f6f6f;
-  overflow: hidden;
 }
-.il-item .il-item-property-name:not(:empty):after {
+.il-item .il-item-property-list .il-item-property-name:not(:empty)::after {
   content: ": ";
 }
-.il-item .il-item-property-value {
+.il-item .il-item-property-list .il-item-property-value {
+  padding-right: 15px;
   font-size: 0.75rem;
-  overflow: hidden;
+}
+.il-item .il-item-property-list .il-item-property-value:nth-of-type(2n) {
+  padding-right: 0;
 }
 .il-item .il-chart-progressmeter-box {
   max-width: 80px;

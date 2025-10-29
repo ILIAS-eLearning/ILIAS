@@ -1,0 +1,49 @@
+////
+/// Create column layouts with multiple unnested pairs of key and value columns in one row
+/// Needed to layout definition lists like <dl><dt></dt><dd></dd>...</dl> where nesting is prohibited.
+/// @group layout-tools
+////
+
+@use "sass:string";
+@use "sass:math";
+@use "../010-settings" as s;
+@use "../050-layout/basics" as l;
+@use "../050-layout/layout_breakpoints" as l-brk;
+
+///
+/// Make container grid (e.g. <dl>)
+/// MUST be the direct parent of the columns
+/// children MUST be pairs of alternating key and value columns
+///
+@mixin make-grid-for-key-value-pairs($number-of-col-pairs-in-row) {
+  display: grid;
+  grid-template-columns: repeat($number-of-col-pairs-in-row, minmax(auto, auto) minmax(math.div(100%, $number-of-col-pairs-in-row * 2), 1fr));
+  column-gap: l.$il-margin-small-horizontal;
+  @include l-brk.on-screen-size(small) {
+    grid-template-columns: minmax(auto, auto) minmax(50%, 1fr);
+  }
+}
+
+///
+/// Make key column (e.g. for <dt>)
+/// Next sibling MUST be value column
+///
+@mixin make-key-column($add-colon: true) {
+  text-align: right;
+  @if $add-colon {
+    &:not(:empty)::after {
+      content: ": "
+    }
+  }
+}
+
+///
+/// Make value column (e.g. for <dd>)
+/// Next sibling (if any) MUST be key column
+///
+@mixin make-value-column($number-of-col-pairs-in-row) {
+  padding-right: l.$il-margin-xxlarge-horizontal; // nudge next pair further away
+  &:nth-of-type(#{string.unquote(#{$number-of-col-pairs-in-row}n)}) {
+    padding-right: 0; // stay flush at the end of the row
+  }
+}

@@ -1,8 +1,10 @@
+@use "sass:string";
 @use "../../../010-settings/" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_chart" as *;
 @use "../../../010-settings/legacy-settings/legacy-settings_symbol" as *;
 @use "../../../030-tools/tool_rem-conversion" as *;
+@use "../../../050-layout/layout_grid-paired-key-value-columns" as l-kv-grid;
 @use "../../../050-layout/basics" as *;
 
 //== Item
@@ -36,7 +38,7 @@ $il-item-gap-xs: 1px;
 		.btn-link, a {
 			font-size: inherit;
 			line-height: $il-line-height-base;
-			
+
 			&:focus-visible {
 				display: block;
 			}
@@ -71,18 +73,18 @@ $il-item-gap-xs: 1px;
 		clear: both;
 	}
 
-	.il-item-property-name {
-		font-size: $il-font-size-small;
-		color: $il-text-light-color;
-		overflow: hidden;
-		&:not(:empty):after {
-			content: ": "
+	$pairs-in-row: 2;
+	.il-item-property-list {
+		@include l-kv-grid.make-grid-for-key-value-pairs($pairs-in-row);
+		.il-item-property-name {
+			@include l-kv-grid.make-key-column();
+			font-size: $il-font-size-small;
+			color: $il-text-light-color;
 		}
-	}
-
-	.il-item-property-value {
-		font-size: $il-font-size-small;
-		overflow: hidden;
+		.il-item-property-value {
+			@include l-kv-grid.make-value-column($pairs-in-row);
+			font-size: $il-font-size-small;
+		}
 	}
 
 	.il-chart-progressmeter-box {
