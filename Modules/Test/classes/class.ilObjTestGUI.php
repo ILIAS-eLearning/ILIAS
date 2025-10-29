@@ -1304,7 +1304,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             return false;
         }
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
-        $qtiParser->startParsing();
+        try {
+            $qtiParser->startParsing();
+        } catch (ilSaxParserException) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
         $founditems = $qtiParser->getFoundItems();
 
         $complete = 0;

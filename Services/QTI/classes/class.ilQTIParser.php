@@ -211,6 +211,7 @@ class ilQTIParser extends ilSaxParser
         }
 
         $this->depth = $this->createParserStorage();
+        $this->setThrowException(true);
     }
 
     public function isIgnoreItemsEnabled(): bool
