@@ -49,11 +49,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock('secondid_string');
         } elseif ($secondary_identifier instanceof Component\Image\Image) {
             $tpl->touchBlock('secondid_image');
-        } elseif ($secondary_identifier instanceof Component\Image\Symbol) {
+        } elseif ($secondary_identifier instanceof Component\Symbol\Symbol) {
             $tpl->touchBlock('secondid_symbol');
-        } elseif ($secondary_identifier instanceof Component\Image\Link) {
+        } elseif ($secondary_identifier instanceof Component\Link\Standard) {
             $tpl->touchBlock('secondid_link');
-        } elseif ($secondary_identifier instanceof Component\Image\Shy) {
+        } elseif ($secondary_identifier instanceof Component\Button\Shy) {
             $tpl->touchBlock('secondid_shy');
         }
 

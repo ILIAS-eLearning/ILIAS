@@ -85,31 +85,31 @@ class EntityTest extends ILIAS_UI_TestBase
 
     public function testEntityActionProperties(): void
     {
-        $glyph = new Symbol\Glyph\Glyph('laugh', 'some glyph');
+        $shy_button = (new Button\Shy('', '#'))->withSymbol(new Symbol\Glyph\Glyph('laugh', 'some glyph'));
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
-            ->withPrioritizedReactions($glyph, $tag)
-            ->withReactions($glyph, $glyph, $glyph)
+            ->withPrioritizedReactions($shy_button, $tag)
+            ->withReactions($shy_button, $shy_button, $shy_button)
             ->withActions($shy);
 
-        $this->assertEquals([$glyph, $tag], $entity->getPrioritizedReactions());
-        $this->assertEquals([$glyph,$glyph,$glyph], $entity->getReactions());
+        $this->assertEquals([$shy_button, $tag], $entity->getPrioritizedReactions());
+        $this->assertEquals([$shy_button,$shy_button,$shy_button], $entity->getReactions());
         $this->assertEquals([$shy], $entity->getActions());
     }
 
     public function testEntityComponentProperties(): void
     {
-        $glyph = new Symbol\Glyph\Glyph('laugh', 'some glyph');
+        $shy_button = (new Button\Shy('', '#'))->withSymbol(new Symbol\Glyph\Glyph('laugh', 'some glyph'));
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
-            ->withPrioritizedReactions($glyph, $tag)
-            ->withReactions($glyph)
+            ->withPrioritizedReactions($shy_button, $tag)
+            ->withReactions($shy_button)
             ->withActions($shy);
 
-        $this->assertEquals([$glyph, $tag], $entity->getPrioritizedReactions());
-        $this->assertEquals([$glyph], $entity->getReactions());
+        $this->assertEquals([$shy_button, $tag], $entity->getPrioritizedReactions());
+        $this->assertEquals([$shy_button], $entity->getReactions());
         $this->assertEquals([$shy], $entity->getActions());
     }
 
@@ -125,12 +125,12 @@ class EntityTest extends ILIAS_UI_TestBase
     }
     public function testEntityRendering(): void
     {
-        $glyph = new Symbol\Glyph\Glyph('laugh', 'some glyph');
+        $shy_button = (new Button\Shy('', '#'))->withSymbol(new Symbol\Glyph\Glyph('laugh', 'some glyph'));
         $tag = new Button\Tag('tag', '#');
         $shy = new Button\Shy('shy', '#');
         $entity = $this->getEntityFactory()->standard('primary', 'secondary')
-            ->withPrioritizedReactions($glyph, $tag)
-            ->withReactions($glyph, $glyph)
+            ->withPrioritizedReactions($shy_button, $tag)
+            ->withReactions($shy_button, $shy_button)
             ->withActions($shy, $shy)
             ->withBlockingAvailabilityConditions($this->legacy('bc'))
             ->withFeaturedProperties($this->legacy('fp'))
@@ -161,12 +161,12 @@ class EntityTest extends ILIAS_UI_TestBase
     <div class="c-entity __availability">a</div>
     <div class="c-entity __details">d</div>
     <div class="c-entity __reactions">
-        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
-        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
+        <button class="btn btn-link" data-action="#" id="id_10"><span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span></button>
+        <button class="btn btn-link" data-action="#" id="id_11"><span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span></button>
     </div>
     <div class="c-entity __featured-reactions">
-        <a class="glyph" aria-label="some glyph"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></a>
-        <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_10">tag</button>
+        <button class="btn btn-link" data-action="#" id="id_12"><span class="glyph" aria-label="some glyph" role="img"><span class="glyphicon il-glyphicon-laugh" aria-hidden="true"></span></span></button>
+        <button class="btn btn-tag btn-tag-relevance-veryhigh" data-action="#" id="id_13">tag</button>
     </div>
 </div>
         ');

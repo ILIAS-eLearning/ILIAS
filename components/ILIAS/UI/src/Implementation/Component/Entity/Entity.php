@@ -48,11 +48,11 @@ abstract class Entity implements I\Entity
      */
     protected array $main_details = [];
     /**
-     * @var array<Glyph | Tag>
+     * @var array<Shy | Tag>
      */
     protected array $prio_reactions = [];
     /**
-     * @var array<Glyph | Tag>
+     * @var array<Shy | Tag>
      */
     protected array $reactions = [];
     /**
@@ -157,19 +157,19 @@ abstract class Entity implements I\Entity
     /**
      * @inheritdoc
      */
-    public function withPrioritizedReactions(Glyph | Tag ...$prio_reactions): self
+    public function withPrioritizedReactions(Shy | Tag ...$prio_reactions): self
     {
         $this->checkArgListElements(
             "Entity Prioritized Reactions",
             $prio_reactions,
-            [Glyph::class, Tag::class]
+            [Shy::class, Tag::class]
         );
         $clone = clone $this;
         $clone->prio_reactions = $prio_reactions;
         return $clone;
     }
     /**
-     * @return array<Glyph | Tag>
+     * @return array<Shy | Tag>
      */
     public function getPrioritizedReactions(): array
     {
@@ -179,12 +179,12 @@ abstract class Entity implements I\Entity
     /**
      * @inheritdoc
      */
-    public function withReactions(Glyph | Tag ...$reactions): self
+    public function withReactions(Shy | Tag ...$reactions): self
     {
         $this->checkArgListElements(
             "Entity Reactions",
             $reactions,
-            [Glyph::class, Tag::class]
+            [Shy::class, Tag::class]
         );
 
         $clone = clone $this;
@@ -192,7 +192,7 @@ abstract class Entity implements I\Entity
         return $clone;
     }
     /**
-     * @return array<Glyph | Tag>
+     * @return array<Shy | Tag>
      */
     public function getReactions(): array
     {

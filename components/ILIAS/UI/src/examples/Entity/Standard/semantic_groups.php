@@ -49,7 +49,7 @@ function semantic_groups()
         ->withAvailability($f->legacy()->content('Availability'))
         ->withDetails($f->legacy()->content('Details'))
         ->withReactions($f->button()->tag('reaction', '#'))
-        ->withPrioritizedReactions($f->symbol()->glyph()->like())
+        ->withPrioritizedReactions($f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->like()))
         ->withActions($f->button()->shy('action', '#'))
     ;
 
