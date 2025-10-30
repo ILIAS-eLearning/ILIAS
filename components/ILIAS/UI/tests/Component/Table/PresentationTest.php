@@ -163,14 +163,18 @@ class PresentationTest extends TableTestBase
 
             <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
-                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" id="id_5">
+                        <span class="glyph" aria-label="expand_content" role="img">
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </span>
+                    </button>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" id="id_6">
+                        <span class="glyph" aria-label="collapse_content" role="img">
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        </span>
+                    </button>
                 </div>
             </div>
 
@@ -266,14 +270,18 @@ EXP;
 
             <div class="il-table-presentation-row-controls col-lg-auto col-sm-12">
                 <div class="il-table-presentation-row-controls-expander inline">
-                    <a tabindex="0" class="glyph" href="#" aria-label="expand_content" id="id_5">
-                        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" id="id_5">
+                        <span class="glyph" aria-label="expand_content" role="img">
+                            <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </span>
+                    </button>
                 </div>
                 <div class="il-table-presentation-row-controls-collapser">
-                    <a tabindex="0" class="glyph" href="#" aria-label="collapse_content" id="id_6">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                    </a>
+                    <button class="btn btn-link" id="id_6">
+                        <span class="glyph" aria-label="collapse_content" role="img">
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        </span>
+                    </button>
                 </div>
             </div>
 

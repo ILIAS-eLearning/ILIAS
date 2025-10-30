@@ -135,12 +135,9 @@ class Renderer extends AbstractComponentRenderer
         $sig_toggle = $component->getToggleSignal();
         $id = $this->bindJavaScript($component);
 
-        $expander = $f->symbol()->glyph()->expand("#")
-            ->withOnClick($sig_show);
-        $collapser = $f->symbol()->glyph()->collapse("#")
-            ->withOnClick($sig_hide);
-        $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "#")
-            ->withOnClick($sig_show);
+        $expander = $f->button()->shy('', $sig_show)->withSymbol($f->symbol()->glyph()->expand());
+        $collapser = $f->button()->shy('', $sig_hide)->withSymbol($f->symbol()->glyph()->collapse());
+        $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), $sig_show);
 
         $tpl->setVariable("ID", $id);
         $tpl->setVariable("EXPANDER", $default_renderer->render($expander));
