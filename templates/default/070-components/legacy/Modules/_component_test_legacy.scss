@@ -4,6 +4,8 @@
 
 /* not yet refactored code from former ta.css */
 
+$il-test-icon-min-size: $il-font-size-base;
+
 .fullwidth_invisible {
 	background-color: transparent !important;
 }
@@ -130,8 +132,8 @@ div.ilc_Question {
 }
 
 img.ilc_solution_image {
-    min-width: 13px;
-    min-height: 13px;
+    min-width: $il-test-icon-min-size;
+    min-height: $il-test-icon-min-size;
 }
 
 .solutionbox {
