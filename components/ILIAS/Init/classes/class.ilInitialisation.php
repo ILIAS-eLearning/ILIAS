@@ -1510,7 +1510,9 @@ class ilInitialisation
                 continue;
             }
             $plugin = $component_factory->getPlugin($pl->getId());
-            $c['ui.renderer'] = $plugin->exchangeUIRendererAfterInitialization($c);
+            $closure = $plugin->exchangeUIRendererAfterInitialization($c);
+            $c->offsetUnset('ui.renderer');
+            $c['ui.renderer'] = $closure;
 
             foreach ($c->keys() as $key) {
                 if (strpos($key, "ui.factory") === 0) {
