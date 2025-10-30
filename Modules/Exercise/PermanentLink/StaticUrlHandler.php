@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Exercise\PermanentLink;
 
+use ilDashboardGUI;
+use ilGlobalTemplateInterface;
 use ILIAS\StaticURL\Response\Response;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Handler\BaseHandler;
@@ -141,7 +143,12 @@ class StaticURLHandler extends BaseHandler implements Handler
             if ($exc_domain->user()->isAnonymous() || $exc_domain->user()->getId() == 0) {
                 return $response_factory->loginFirst();
             } else {
-                return $response_factory->cannot();
+                $main_tpl->setOnScreenMessage(
+                    ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                    $lng->txt('permission_denied'),
+                    true
+                );
+                $uri = $ctrl->getLinkTargetByClass(ilDashboardGUI::class);
             }
         }
         return $response_factory->can($uri);
