@@ -82,7 +82,7 @@ class ilLanguageStatisticsTable implements DataTableInterface\DataRetrieval
         $total["unchanged"] = $total["unchanged"];
         array_unshift($data, $total);
 
-        if($order) {
+        if ($order) {
             list($order_field, $order_direction) = $order->join([], fn($ret, $key, $value) => [$key, $value]);
             usort(
                 $data,

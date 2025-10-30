@@ -889,7 +889,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     protected function getUrl(string $action, ?array $lang_ids = null): string
     {
         $url_builder = $this->url_builder->withParameter($this->action_token, $action);
-        if($lang_ids) {
+        if ($lang_ids) {
             $url_builder = $url_builder->withParameter($this->id_token, $lang_ids);
         }
         return $url_builder->buildURI()->__toString();

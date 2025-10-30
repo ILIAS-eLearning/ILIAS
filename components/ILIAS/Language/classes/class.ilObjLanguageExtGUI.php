@@ -70,17 +70,20 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // type and id of get the bound object
         $this->type = "lng";
         $obj_id_get = 0;
-        if ($this->http->wrapper()->query()->has("obj_id")) {
-            $obj_id_get = $this->http->wrapper()->query()->retrieve("obj_id", $this->refinery->kindlyTo()->int());
-        } elseif ($this->http->wrapper()->query()->has("language_folder_obj_ids")) {
-            $obj_id_get = $this->http->wrapper()->query()->retrieve("language_folder_obj_ids", $this->refinery->kindlyTo()->int());
-        }
+
         if (!$this->id = $obj_id_get) {
             $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
         }
 
         // do all generic GUI initialisations
         parent::__construct($a_data, $this->id, false, true);
+
+        if ($this->http->wrapper()->query()->has("obj_id")) {
+            $obj_id_get = $this->http->wrapper()->query()->retrieve("obj_id", $this->refinery->kindlyTo()->int());
+        } elseif ($this->http->wrapper()->query()->has("language_folder_obj_ids")) {
+            $obj_id_get = $this->http->wrapper()->query()->retrieve("language_folder_obj_ids", $this->refinery->kindlyTo()->int());
+        }
+
 
         // initialize the array to store session variables for extended language maintenance
         if (!is_array($this->getSession())) {
