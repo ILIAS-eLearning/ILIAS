@@ -160,7 +160,7 @@
                 return $('.' + css.mainbar);
             },
             getOffsetTop: function() {
-                return this.getElement().offset().top;
+                return (document.querySelector('.il-system-infos').clientHeight + document.querySelector('.header').clientHeight);
             }
         }
     },
