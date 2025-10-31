@@ -205,16 +205,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("write", "", $ref);
     }
 
-    public static function hasEditAccess(int $ref, ?int $user_id = 0): bool
+    public static function hasEditAccess(int $ref, ?int $user_id = null): bool
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-
-        if ($user_id) {
-            return $ilAccess->checkAccessOfUser($user_id, "write", "", $ref);
-        }
-
-        return $ilAccess->checkAccess("edit_content", "", $ref);
+        return $DIC->access()->checkAccessOfUser($user_id ?? $DIC->user()->getId(), "edit_content", "", $ref);
     }
 
     /**
