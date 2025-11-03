@@ -546,9 +546,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $this->tpl->setVariable("LOCATION_STYLESHEET", "./style/" . $style_name);
         }
 
-        // to make e.g. advanced seletions lists work:
-        //			$GLOBALS["tpl"] = $this->tpl;
-
         foreach ($node->childNodes as $child) {
             $child_attr = $this->attrib2arr($child->attributes);
 

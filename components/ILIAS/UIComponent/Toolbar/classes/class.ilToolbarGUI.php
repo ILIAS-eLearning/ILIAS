@@ -191,10 +191,6 @@ class ilToolbarGUI
         $this->items[] = array("type" => "dropdown", "txt" => $a_txt, "dd_html" => $a_dd_html);
     }
 
-    public function addAdvancedSelectionList(ilAdvancedSelectionListGUI $adv): void
-    {
-        $this->items[] = array("type" => "adv_sel_list", "list" => $adv);
-    }
 
     public function addSeparator(): void
     {
@@ -379,11 +375,6 @@ class ilToolbarGUI
 
                         case "component":
                             $tpl_items->setVariable("COMPONENT", $this->ui->renderer()->render($item["component"]));
-                            break;
-
-                        case "adv_sel_list":
-                            $tpl_items->setVariable("COMPONENT", $item["list"]->getHTML());
-                            $tpl_items->parseCurrentBlock();
                             break;
 
                         case "link":

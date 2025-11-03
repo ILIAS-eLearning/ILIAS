@@ -1,9 +1,3 @@
-import ACTIONS from '../actions/paragraph-action-types.js';
-import PAGE_ACTIONS from '../../page/actions/page-action-types.js';
-import TinyWrapper from './tiny-wrapper.js';
-import TINY_CB from './tiny-wrapper-cb-types.js';
-import AutoSave from './auto-save.js';
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +13,12 @@ import AutoSave from './auto-save.js';
  * https://github.com/ILIAS-eLearning
  *
  ******************************************************************** */
+
+import ACTIONS from '../actions/paragraph-action-types.js';
+import PAGE_ACTIONS from '../../page/actions/page-action-types.js';
+import TinyWrapper from './tiny-wrapper.js';
+import TINY_CB from './tiny-wrapper-cb-types.js';
+import AutoSave from './auto-save.js';
 
 /**
  * paragraph ui
@@ -236,17 +236,6 @@ export default class ParagraphUI {
           });
           break;
       }
-    });
-
-    // characteristic selection
-    document.querySelectorAll('#ilAdvSelListTable_style_selection li').forEach((li) => {
-      let cl;
-      li.removeAttribute('onclick');
-      li.addEventListener('click', (event) => {
-        cl = li.querySelector('.ilCOPgEditStyleSelectionItem').querySelector('h1,h2,h3,div').classList[0];
-        cl = this.getCharacteristicFromClass(cl);
-        this.setParagraphClass(cl);
-      });
     });
   }
 

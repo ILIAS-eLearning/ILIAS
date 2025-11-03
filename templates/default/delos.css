@@ -18606,18 +18606,9 @@ a.nostyle:hover {
   background-color: rgb(226.2857142857, 231.6428571429, 238.7142857143);
 }
 
-ul#ilAdvSelListTable_style_selection {
-  overflow: auto;
-  max-height: 400px;
-}
-
 a.ilCOPageSection {
   color: inherit;
   text-decoration: inherit;
-}
-
-#ilAdvSelListAnchorText_char_style_selection > span {
-  min-width: auto;
 }
 
 div.ilc_answers.answer-table div.ilc_qanswer_Answer {
@@ -19489,10 +19480,6 @@ a#ilHelpClose {
 
 #ilHelpPanel li {
   padding: 0;
-}
-
-#ilHelpPanel .ilGroupedListLE {
-  padding: 5px 10px 5px 20px;
 }
 
 #il_screen_id {
@@ -21500,142 +21487,6 @@ a.ilTag:hover, a.ilTag:active {
   display: inline-block;
 }
 
-/* Services/UIComponent/AdvancedSelectionList */
-div.il_adv_sel {
-  border: 1px solid #dddddd;
-  -webkit-box-shadow: 2px 2px 4px #c0c0c0;
-  box-shadow: 2px 2px 4px #c0c0c0;
-}
-
-table.il_adv_sel {
-  color: #161616;
-  background-color: white;
-  border-spacing: 0;
-  cursor: pointer;
-}
-
-tr.il_adv_sel {
-  cursor: pointer;
-}
-
-tr.il_adv_sel_act {
-  background-color: #fff9bc;
-  cursor: pointer;
-}
-
-td.il_adv_sel {
-  border-bottom: 1px solid #dddddd;
-  padding: 3px 10px;
-  text-align: left;
-  white-space: nowrap;
-  cursor: pointer;
-  font-weight: 400;
-}
-
-#ilAdvSelListTable_item_creation td.il_adv_sel {
-  min-width: 150px;
-}
-
-td.il_adv_sel_ic {
-  border-bottom: 1px solid #dddddd;
-  padding: 3px 0 3px 10px;
-  text-align: left;
-  cursor: pointer;
-}
-
-td.ilAsyncImgLoader {
-  padding: 0 40px;
-}
-
-span[id^=ilAdvSelListAnchorElement_] + div {
-  position: absolute;
-  z-index: 5000;
-  left: 0;
-  right: 0;
-}
-
-div[id^=ilAdvSelListTable_] {
-  overflow: auto;
-  background-color: white;
-  clear: both;
-  display: none;
-  position: absolute;
-}
-
-@media only screen and (min-width: 1200px) {
-  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row .row,
-  #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row .row,
-  #mm_adm_tr + span + ul.dropdown-menu > li > div.row .row,
-  #mm_adm_tr + ul.dropdown-menu > li > div.row .row {
-    width: auto;
-  }
-  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row ul,
-  #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row ul,
-  #mm_adm_tr + span + ul.dropdown-menu > li > div.row ul,
-  #mm_adm_tr + ul.dropdown-menu > li > div.row ul {
-    min-width: 250px;
-  }
-}
-@media only screen and (max-width: 991px) {
-  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
-  #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
-  #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
-  #mm_adm_tr + ul.dropdown-menu > li > div.row {
-    width: 100% !important;
-    margin: 0;
-  }
-}
-
-@media only screen and (max-width: 992px) {
-  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row {
-    min-width: 260px;
-  }
-}
-@media only screen and (min-width: 992px) and (max-width: 1200px) {
-  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row {
-    min-width: 520px;
-  }
-}
-@media only screen and (min-width: 1200px) {
-  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row {
-    min-width: 780px;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  #ilAdvSelListAnchorText_asl + ul.dropdown-menu {
-    position: absolute;
-    background-color: white;
-  }
-}
-
-div.ilNewObjectSelector {
-  display: block;
-  text-align: right;
-  margin-bottom: 8px;
-  padding: 0;
-  width: 100%;
-}
-div.ilNewObjectSelector > .btn-group.open {
-  display: inline-block;
-  width: 100%;
-}
-div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl {
-  float: right;
-}
-div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl + .dropdown-menu {
-  top: 30px;
-  right: 0;
-  left: auto;
-}
-div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl + .dropdown-menu .dropdown-header {
-  margin-right: 1px;
-}
-
-#il-add-new-item-gl h2, #il-add-new-item-gl a {
-  white-space: break-spaces;
-}
-
 /* Services/UIComponent/Checklist */
 div.ilChecklist ul {
   list-style-type: none;
@@ -21853,33 +21704,6 @@ img.il_ExplorerIcon {
 .il-maincontrols-slate-content .jstree-default li.jstree-node {
   margin-left: 0.875rem;
   padding: 0 3px;
-}
-
-/* Services/UIComponent/GroupedLists */
-div.ilGroupedListH {
-  padding: 6px 0 3px 0;
-  color: #161616;
-}
-
-div.ilGroupedListSep {
-  padding-bottom: 3px;
-  border-bottom: 1px solid #dddddd;
-  margin: 0 10px 3px;
-}
-
-a.ilGroupedListLE {
-  display: block;
-  padding: 5px 10px;
-  font-size: 0.75rem;
-}
-
-a.ilGroupedListLE:hover {
-  background-color: #ffffd9;
-  text-decoration: none;
-}
-
-td.ilGroupedListNewCol {
-  border-left: 1px solid #dddddd;
 }
 
 /* Services/UIComponent/Lightbox */

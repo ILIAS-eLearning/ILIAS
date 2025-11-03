@@ -64,7 +64,6 @@ class ilColumnGUI
     /** @var array<string,array<string,string>> */
     protected array $block_property = array();
     protected bool $admincommands = false;
-    protected ?ilAdvancedSelectionListGUI $action_menu = null;
 
     //
     // This two arrays may be replaced by some
@@ -799,16 +798,5 @@ class ilColumnGUI
             }
         }
         return false;
-    }
-
-    public function setActionMenu(
-        ilAdvancedSelectionListGUI $action_menu
-    ): void {
-        $this->action_menu = $action_menu;
-    }
-
-    public function getActionMenu(): ilAdvancedSelectionListGUI
-    {
-        return $this->action_menu;
     }
 }

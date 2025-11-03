@@ -45,7 +45,6 @@ Connection
 - MainMenu
 - MediaObjects
 - Table
-- AdvancedSelectionList
 - Explorer
 - Explorer2
 
@@ -56,7 +55,6 @@ ConnectionWithAnimation
 Overlay
 - Test
 - TermsOfService
-- AdvancedSelectionList
 
 Cookie
 - Authentication (SessionReminder)
