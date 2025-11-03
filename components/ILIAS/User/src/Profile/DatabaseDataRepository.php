@@ -30,6 +30,7 @@ use ILIAS\User\Search\AutocompleteQuery;
 use ILIAS\User\Search\DefaultAutocompleteItem;
 use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ilDBConstants;
 
 class DatabaseDataRepository implements DataRepository
 {
@@ -81,7 +82,7 @@ class DatabaseDataRepository implements DataRepository
     {
         $query = $this->db->query(
             'SELECT * FROM ' . self::USER_BASE_TABLE
-                . " WHERE {$this->db->in('usr_id', $user_ids)}"
+                . " WHERE {$this->db->in('usr_id', $user_ids, false, ilDBConstants::T_INTEGER)}"
         );
 
         $prepared_query = $this->db->prepare('SELECT field_id, value FROM '
@@ -91,7 +92,7 @@ class DatabaseDataRepository implements DataRepository
             yield $this->buildFromData(
                 $base_data,
                 $this->db->fetchAll(
-                    $this->db->execute($prepared_query, $base_data->usr_id),
+                    $this->db->execute($prepared_query, [$base_data->usr_id]),
                     \ilDBConstants::FETCHMODE_OBJECT
                 )
             );
