@@ -240,9 +240,22 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             setcookie("launch_presentation_return_url", $this->launchReturnUrl, time() + 86400, "/", "", true, true);
             $this->logger->info("Setting launch_presentation_return_url in cookie storage " . $this->launchReturnUrl);
         }
+
+        $pk = ilObjLTIConsumer::getPrivateKey();
+
+        $lti_provider->rsaKey = $pk['key'];
+        $lti_provider->kid = $pk['kid'];
+        $lti_provider->signatureMethod = 'RS256';
+
         $lti_provider->handleRequest();
         $this->provider = $lti_provider;
         $this->messageParameters = $this->provider->getMessageParameters();
+
+        $message_type = $this->messageParameters['https://purl.imsglobal.org/spec/lti/claim/message_type']
+            ?? $this->messageParameters['lti_message_type']
+            ?? '';
+
+        $isDeepLink = ($message_type === 'LtiDeepLinkingRequest');
 
         if (!$DIC->http()->wrapper()->post()->has('launch_presentation_return_url')) {
             $this->launchReturnUrl = $_COOKIE['launch_presentation_return_url'] ?? "";
@@ -268,6 +281,36 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $platform = ilLTIPlatform::fromConsumerKey($this->provider->platform->getKey(), $this->provider->platform->getDataConnector());
         ilSession::clear("lti_context_ids");
         $this->ref_id = $platform->getRefId();
+
+        if (!empty($this->messageParameters['custom_ilias_ref_id'])) {
+            $this->ref_id = (int) $this->messageParameters['custom_ilias_ref_id'];
+        }
+
+        if ($isDeepLink) {
+            $dl = $this->messageParameters['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'] ?? [];
+
+            ilSession::set('lti_dl_ctx', [
+                'iss' => (string)($this->messageParameters['iss'] ?? ''), // platform issuer
+                'deployment_id' => (string)($this->messageParameters['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] ?? ''),
+                'deep_link_return_url' => (string)($dl['deep_link_return_url'] ?? ''),
+                'data' => $dl['data'] ?? null,
+                'nonce' => $this->messageParameters['nonce'] ?? null
+            ]);
+
+            try {
+                $connector = new ilLTIDataConnector();
+                $extConsumerId = $platform->getExtConsumerId();
+                $active_consumer = ilLTIPlatform::fromGlobalSettingsAndRefId($extConsumerId, $this->ref_id, $connector);
+                $chosenRefId = (string)$active_consumer->getSetting('resource_dl_id', '');
+                if ($chosenRefId !== '') {
+                    ilSession::set('lti_dl_ref_id', $chosenRefId);
+                }
+            } catch (\Throwable $e) {
+                $this->getLogger()->error($e->getMessage());
+            }
+
+            ilSession::set('lti_dl_mode', true);
+        }
 
         $lti_context_ids = ilSession::get('lti_context_ids');
 

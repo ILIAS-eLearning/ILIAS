@@ -27,6 +27,7 @@ use ILIAS\LTI\Screen\LtiViewLayoutProvider;
  * @version $id$
  * @ingroup ServicesLTI
  * @ilCtrl_IsCalledBy ilLTIViewGUI: ilLTIRouterGUI
+ * @ilCtrl_Calls ilLTIViewGUI: ilLTIDeepLinkPickerGUI
  *
  */
 class ilLTIViewGUI

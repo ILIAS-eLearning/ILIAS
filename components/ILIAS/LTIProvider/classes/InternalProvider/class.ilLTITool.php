@@ -55,6 +55,25 @@ class ilLTITool extends Tool
         $this->setParameterConstraint('lis_person_contact_email_primary', true, 80, array('basic-lti-launch-request'));
     }
 
+    protected function onContentItem(): void
+    {
+        $p  = $this->getMessageParameters();
+        $dl = $p['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'] ?? [];
+
+        ilSession::set('lti_dl_ctx', [
+            'deep_link_return_url' => (string)($p['content_item_return_url'] ?? ''),
+            'deployment_id'        => (string)($p['deployment_id'] ?? ''),
+            'iss'                  => (string)(CLIENT_ID ?? ''),
+            'data'                 => $dl['data'] ?? null,
+            'nonce'                => $p['oauth_nonce'] ?? null,
+            'consumer_key'         => (string)($p['oauth_consumer_key'] ?? ''),
+            'context_id'           => (string)($p['context_id'] ?? ''),
+        ]);
+
+        ilSession::set('lti_dl_mode', true);
+        $this->ok = true;
+    }
+
     /**
      * Process a valid launch request
      */

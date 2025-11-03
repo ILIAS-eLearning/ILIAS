@@ -54,5 +54,7 @@ class LTIConsumer implements Component\Component
         new Component\Resource\Endpoint($this, "ltiservices.php");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
         new Component\Resource\Endpoint($this, "ltiresult.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltidlresponse.php");
     }
 }
