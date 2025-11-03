@@ -136,7 +136,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         $active = array_fill(0, count($filter_inputs), true);
 
         $filter = $ui_service->filter()->standard(
-            'question_table_filter_id',
+            "question_table_filter_$this->request_ref_id",
             $action,
             $filter_inputs,
             $active,
