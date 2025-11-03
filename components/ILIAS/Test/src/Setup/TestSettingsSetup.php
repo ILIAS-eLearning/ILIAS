@@ -22,7 +22,8 @@ namespace ILIAS\Test\Setup;
 
 const T_BOOLEAN = ['type' => \ilDBConstants::T_INTEGER, 'length' => 1, 'default' => 0];
 const T_TINYINT = ['type' => \ilDBConstants::T_INTEGER, 'length' => 4, 'default' => 0];
-const T_BIGINT = ['type' => \ilDBConstants::T_INTEGER, 'default' => 0];
+const T_INT = ['type' => \ilDBConstants::T_INTEGER, 'default' => 0];
+const T_BIGINT = ['type' => \ilDBConstants::T_INTEGER, 'default' => 0, 'length' => 8];
 
 const LEGACY_STORAGE_DATE_FORMAT = 'YmdHis';
 
@@ -38,7 +39,7 @@ trait TestSettingsSetup
         'fixed_participants' => [T_BOOLEAN, 'fixed_participants'],
         'suspend_test_allowed' => [T_BOOLEAN, 'ShowCancel'],
         'anonymity' => [T_BOOLEAN, 'Anonymity'],
-        'nr_of_tries' => [['type' => \ilDBConstants::T_INTEGER, 'length' => 8, 'default' => 0], 'NrOfTries'],
+        'nr_of_tries' => [T_BIGINT, 'NrOfTries'],
         'use_previous_answers' => [T_BOOLEAN, 'use_previous_answers'],
         'title_output' => [T_TINYINT, 'TitleOutput'],
         'processing_time' => [['type' => \ilDBConstants::T_TEXT, 'length' => 8, 'default' => null], 'ProcessingTime'],
@@ -51,12 +52,12 @@ trait TestSettingsSetup
         'pass_scoring' => [T_TINYINT, 'PassScoring'],
         'password' => [['type' => \ilDBConstants::T_TEXT, 'length' => 20, 'default' => null], 'password'],
         'results_presentation' => [['type' => \ilDBConstants::T_INTEGER, 'default' => 3], 'ResultsPresentation'],
-        'usr_pass_overview_mode' => [T_BIGINT, 'ListOfQuestionsSettings'],
+        'usr_pass_overview_mode' => [T_INT, 'ListOfQuestionsSettings'],
         'show_marker' => [T_BOOLEAN, 'ShowMarker'],
-        'kiosk' => [T_BIGINT, 'Kiosk'],
+        'kiosk' => [T_INT, 'Kiosk'],
         'finalstatement' => [['type' => \ilDBConstants::T_TEXT, 'length' => 4000, 'default' => null], null],
         'showfinalstatement' => [T_BOOLEAN, 'ShowFinalStatement'],
-        'exportsettings' => [T_BIGINT, null],
+        'exportsettings' => [T_INT, null],
         'print_bs_with_res' => [['type' => \ilDBConstants::T_INTEGER, 'length' => 1, 'default' => 0], 'show_solution_list_comparison'],
         'highscore_enabled' => [T_BOOLEAN, 'highscore_enabled'],
         'highscore_anon' => [T_BOOLEAN, 'highscore_anon'],
@@ -66,10 +67,10 @@ trait TestSettingsSetup
         'highscore_wtime' => [T_BOOLEAN, 'highscore_wtime'],
         'highscore_own_table' => [T_BOOLEAN, 'highscore_own_table'],
         'highscore_top_table' => [T_BOOLEAN, 'highscore_top_table'],
-        'highscore_top_num' => [T_BIGINT, 'highscore_top_num'],
+        'highscore_top_num' => [T_INT, 'highscore_top_num'],
         'specific_feedback' => [T_BOOLEAN, 'SpecificAnswerFeedback'],
         'autosave' => [T_BOOLEAN, 'autosave'],
-        'autosave_ival' => [T_BIGINT, 'autosave_ival'],
+        'autosave_ival' => [T_INT, 'autosave_ival'],
         'pass_deletion_allowed' => [T_BOOLEAN, 'pass_deletion_allowed'],
         'redirection_mode' => [T_TINYINT, 'redirection_mode'],
         'redirection_url' => [['type' => \ilDBConstants::T_TEXT, 'length' => 4000, 'default' => null], 'redirection_url'],

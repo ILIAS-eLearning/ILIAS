@@ -147,4 +147,12 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_3(): void
+    {
+        $columns = ['reporting_date', 'starting_time', 'ending_time'];
+        foreach ($columns as $column) {
+            $this->db->modifyTableColumn('tst_test_settings', $column, ['length' => 8]);
+        }
+    }
 }
