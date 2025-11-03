@@ -100,15 +100,8 @@ class ilNavigationHistory
             return;
         }
 
-
         // update entries in db
-        $ilDB->update(
-            "usr_data",
-            array(
-                    "last_visited" => array("clob", serialize($this->getItems()))),
-            array(
-                "usr_id" => array("integer", $ilUser->getId()))
-        );
+        $ilUser->updateLastVisited($this->getItems());
     }
 
     /**
@@ -140,47 +133,40 @@ class ilNavigationHistory
         }
         // less than 10? -> get items from db
         if (count($items) < 10 && $ilUser->getId() !== ANONYMOUS_USER_ID) {
-            $set = $ilDB->query(
-                "SELECT last_visited FROM usr_data " .
-                " WHERE usr_id = " . $ilDB->quote($ilUser->getId(), "integer")
-            );
-            $rec = $ilDB->fetchAssoc($set);
-            $db_entries = unserialize((string) $rec["last_visited"], ["allowed_classes" => false]);
+            $db_entries = $ilUser->getLastVisited();
             $cnt = count($items);
-            if (is_array($db_entries)) {
-                foreach ($db_entries as $rec) {
-                    if (
-                        $cnt <= 10 &&
-                        !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) &&
-                        $tree->isInTree((int) $rec["ref_id"]) &&
+            foreach ($db_entries as $rec) {
+                if (
+                    $cnt <= 10 &&
+                    !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) &&
+                    $tree->isInTree((int) $rec["ref_id"]) &&
+                    (
+                        !$objDefinition->isPluginTypeName($rec["type"]) ||
                         (
-                            !$objDefinition->isPluginTypeName($rec["type"]) ||
-                            (
-                                $component_repository->hasPluginId($rec["type"]) &&
-                                $component_repository->getPluginById($rec["type"])->isActive()
-                            )
+                            $component_repository->hasPluginId($rec["type"]) &&
+                            $component_repository->getPluginById($rec["type"])->isActive()
                         )
-                    ) {
-                        $link = ($rec["goto_link"] != "")
-                                ? $rec["goto_link"]
-                                : ilLink::_getLink((int) $rec["ref_id"]);
-                        if ($rec["sub_obj_id"] != "") {
-                            $title = $rec["title"];
-                        } elseif ($rec["type"] === "sess") {
-                            try {
-                                $sess = new ilObjSession((int) $rec["ref_id"]);
-                                $title = $sess->getPresentationTitle();
-                            } catch (ilObjectTypeMismatchException) {
-                                $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
-                            }
-                        } else {
+                    )
+                ) {
+                    $link = ($rec["goto_link"] != "")
+                            ? $rec["goto_link"]
+                            : ilLink::_getLink((int) $rec["ref_id"]);
+                    if ($rec["sub_obj_id"] != "") {
+                        $title = $rec["title"];
+                    } elseif ($rec["type"] === "sess") {
+                        try {
+                            $sess = new ilObjSession((int) $rec["ref_id"]);
+                            $title = $sess->getPresentationTitle();
+                        } catch (ilObjectTypeMismatchException) {
                             $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
                         }
-                        $items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]] = array("id" => $rec["ref_id"] . ":" . $rec["sub_obj_id"],
-                                "ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
-                                "type" => $rec["type"], "sub_obj_id" => $rec["sub_obj_id"], "goto_link" => $rec["goto_link"]);
-                        $cnt++;
+                    } else {
+                        $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
                     }
+                    $items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]] = array("id" => $rec["ref_id"] . ":" . $rec["sub_obj_id"],
+                            "ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
+                            "type" => $rec["type"], "sub_obj_id" => $rec["sub_obj_id"], "goto_link" => $rec["goto_link"]);
+                    $cnt++;
                 }
             }
         }
