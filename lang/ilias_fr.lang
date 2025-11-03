@@ -11218,7 +11218,7 @@ lti#:#lti_13_deployment_id#:#Deployment-ID###31 10 2023 new variable
 lti#:#lti_13_keyset_url#:#Public Keyset URL###21 05 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID###31 10 2023 new variable
 lti#:#lti_13_step1#:#Step 1###31 10 2023 new variable
-lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:###31 10 2023 new variable
+lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Deep Linking, Redirection URI, and Registration URL:###31 10 2023 new variable
 lti#:#lti_13_step2#:#Step 2###31 10 2023 new variable
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###31 10 2023 new variable
 lti#:#lti_13_token_url#:#Access Token URL###21 05 2025 new variable

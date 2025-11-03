@@ -11233,7 +11233,7 @@ lti#:#lti_13_deployment_id#:#ID för utplacering
 lti#:#lti_13_keyset_url#:#Public Keyset URL###21 05 2025 new variable
 lti#:#lti_13_platform_id#:#Platform ID
 lti#:#lti_13_step1#:#Steg 1
-lti#:#lti_13_step1_info#:#För den initierande plattformen (konsumenten), ange följande adress för Launch URL, Initiate Login URL, Redirection URI och Registration URL
+lti#:#lti_13_step1_info#:#För den initierande plattformen (konsumenten), ange följande adress för Launch URL, Initiate Login URL, Deep Linking, Redirection URI och Registration URL
 lti#:#lti_13_step2#:#Steg 2
 lti#:#lti_13_step2_info#:#Du kommer att få information från den initierande plattformen (konsumenten) som du måste ange i följande fält. Efter att ha sparat är LTI 1.3-funktionerna tillgängliga.
 lti#:#lti_13_token_url#:#Access Token URL###21 05 2025 new variable

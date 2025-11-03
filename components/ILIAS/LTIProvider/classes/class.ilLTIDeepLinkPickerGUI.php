@@ -36,37 +36,9 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
         $this->dic = $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('lti');
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->logger = $DIC->logger()->root();
-    }
-
-    public function getFormHtml(): string
-    {
-        $dl = ilSession::get('lti_dl_ctx') ?? [];
-        if (empty($dl['deep_link_return_url']) || empty($dl['deployment_id']) || empty($dl['iss'])) {
-            return '<div class="alert alert-danger">Deep linking context missing</div>';
-        }
-
-        $choices = $this->getSelectableItems();
-
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        $form = new ilPropertyFormGUI();
-
-        $form->setFormAction(ilUtil::getHtmlPath('ltidlresponse.php'));
-        $form->setTitle($this->lng->txt('lti_select_content'));
-
-        $si = new ilSelectInputGUI($this->lng->txt('lti_item'), 'ref_id');
-        $si->setRequired(true);
-        $si->setOptions($choices);
-        $form->addItem($si);
-
-        $ti = new ilTextInputGUI($this->lng->txt('title'), 'title');
-        $ti->setInfo($this->lng->txt('optional'));
-        $form->addItem($ti);
-
-        $form->addCommandButton('submit', $this->lng->txt('select'));
-
-        return $form->getHTML();
     }
 
     public function executeCommand(): void
@@ -138,9 +110,9 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction('ltidlresponse.php');
-        $form->setTitle($this->lng->txt('lti_select_content'));
+        $form->setTitle($this->lng->txt("tab_content"));
 
-        $si = new ilSelectInputGUI($this->lng->txt('lti_item'), 'ref_id');
+        $si = new ilSelectInputGUI($this->lng->txt("tab_content"), 'ref_id');
         $si->setRequired(true);
         $si->setOptions($choices);
         $form->addItem($si);
