@@ -258,8 +258,9 @@ class ParticipantTable implements DataRetrieval
             [$filter_inputs[$filter_id], $is_input_initially_rendered[$filter_id]] = $filter;
         }
 
+        $ref_id = $this->test_request->getRefId();
         return $this->ui_service->filter()->standard(
-            'participant_filter',
+            "participant_filter_$ref_id",
             $action,
             $filter_inputs,
             $is_input_initially_rendered,

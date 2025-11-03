@@ -62,7 +62,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     {
         return $this->ui_factory->table()->data(
             $this->lng->txt('questions'),
-            $this->getColums(),
+            $this->getColumns(),
             $this
         )
         ->withActions($this->getActions())
@@ -147,7 +147,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     }
 
 
-    public function getColums(): array
+    public function getColumns(): array
     {
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();

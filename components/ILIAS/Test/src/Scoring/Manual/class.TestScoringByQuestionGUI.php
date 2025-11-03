@@ -117,7 +117,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             $this->url_builder,
             $this->action_parameter_token,
             $this->row_id_token,
-            $this->ui_factory
+            $this->ui_factory,
+            "scoring_by_qst_filter_id_$question_id"
         );
 
         if ($this->testrequest->strVal($this->action_parameter_token->getName()) === ScoringByQuestionTable::ACTION_SCORING) {
