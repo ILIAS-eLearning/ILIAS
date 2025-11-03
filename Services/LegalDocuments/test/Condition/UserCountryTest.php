@@ -66,7 +66,7 @@ class UserCountryTest extends TestCase
             $this->mock(UIFactory::class)
         );
 
-        $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, ['getCountry' => 'foo'])));
+        $this->assertTrue($instance->eval($this->mockTree(ilObjUser::class, ['getSelectedCountry' => 'foo'])));
     }
 
     public function testDefinition(): void
