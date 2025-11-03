@@ -43,7 +43,7 @@ class ilComponentInfo
         string $name,
         array &$pluginslots
     ) {
-        if (!in_array($type, self::TYPES)) {
+        if (!in_array($type, self::TYPES) && preg_match('/components\/(.+)/', $type) !== 1) {
             throw new \InvalidArgumentException(
                 "Invalid component type: $type"
             );
