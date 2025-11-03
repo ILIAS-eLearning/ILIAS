@@ -57,6 +57,13 @@ class Signal implements \ILIAS\UI\Component\Signal
         $this->options[$key] = $value;
     }
 
+    public function withOption(string $key, $value): self
+    {
+        $clone = clone $this;
+        $clone->options[$key] = $value;
+        return $clone;
+    }
+
     /**
      * @return mixed|null
      */
