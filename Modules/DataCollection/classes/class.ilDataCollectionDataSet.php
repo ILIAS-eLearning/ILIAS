@@ -415,12 +415,6 @@ class ilDataCollectionDataSet extends ilDataSet
                         // Need to rewrite internal references and lookup new objects if MOB or File
                         // For some fieldtypes it's better to reset the value, e.g. ILIAS_REF
                         switch ($record_field->getField()->getDatatypeId()) {
-                            case ilDclDatatype::INPUTFORMAT_MOB:
-                                // Check if we got a mapping from old object
-                                $new_mob_id = $a_mapping->getMapping('Services/MediaObjects', 'mob', $a_rec['value']);
-                                $value = ($new_mob_id) ? (int) $new_mob_id : null;
-                                $this->import_temp_new_mob_ids[] = $new_mob_id;
-                                break;
                             case ilDclDatatype::INPUTFORMAT_FILEUPLOAD:
                                 $new_file_id = $a_mapping->getMapping('Modules/File', 'file', $a_rec['value']);
                                 $value = ($new_file_id) ? (int) $new_file_id : null;
@@ -437,6 +431,8 @@ class ilDataCollectionDataSet extends ilDataSet
                                     $this->import_temp_refs[$new_record_field_id] = $value;
                                 }
                                 break;
+                            case ilDclDatatype::INPUTFORMAT_MOB:
+                            case ilDclDatatype::INPUTFORMAT_FILE:
                             case ilDclDatatype::INPUTFORMAT_ILIAS_REF:
                                 $value = null;
                                 break;
