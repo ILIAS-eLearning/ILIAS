@@ -285,10 +285,13 @@ class ilTestParticipantList implements Iterator
     {
         $rows = [];
 
+        $test_session = new ilTestSession($this->db, $this->user);
         foreach ($this as $participant) {
             if (!$participant->hasScoring()) {
                 continue;
             }
+            $test_session->loadFromDb($participant->getActiveId());
+            $submitted_timestamp = $test_session->getSubmittedTimestamp();
 
             $row = [
                 'usr_id' => $participant->getUsrId(),
@@ -299,22 +302,19 @@ class ilTestParticipantList implements Iterator
                 'name' => $this->buildFullname($participant)
             ];
 
-            if ($participant->getScoring()) {
-                $row['scored_pass'] = $participant->getScoring()->getScoredPass();
-                $row['answered_questions'] = $participant->getScoring()->getAnsweredQuestions();
-                $row['total_questions'] = $participant->getScoring()->getTotalQuestions();
-                $row['reached_points'] = $participant->getScoring()->getReachedPoints();
-                $row['max_points'] = $participant->getScoring()->getMaxPoints();
-                $row['percent_result'] = $participant->getScoring()->getPercentResult();
-                $row['passed_status'] = $participant->getScoring()->isPassed();
-                $row['final_mark'] = $participant->getScoring()->getFinalMark();
-                $row['scored_pass_finished_timestamp'] = ilObjTest::lookupLastTestPassAccess(
-                    $participant->getActiveId(),
-                    $participant->getScoring()->getScoredPass()
-                );
-                $row['finished_passes'] = $participant->getFinishedTries();
-                $row['has_unfinished_passes'] = $participant->hasUnfinishedPasses();
-            }
+            $scoring = $participant->getScoring();
+            $row['scored_pass'] = $scoring->getScoredPass();
+            $row['answered_questions'] = $scoring->getAnsweredQuestions();
+            $row['total_questions'] = $scoring->getTotalQuestions();
+            $row['reached_points'] = $scoring->getReachedPoints();
+            $row['max_points'] = $scoring->getMaxPoints();
+            $row['percent_result'] = $scoring->getPercentResult();
+            $row['passed_status'] = $participant->isTestFinished() ? $scoring->isPassed() : '-';
+            $row['final_mark'] = $participant->isTestFinished() ? $scoring->getFinalMark() : '-';
+            $row['scored_pass_finished_timestamp'] = $participant->isTestFinished() && $submitted_timestamp
+                ? strtotime($submitted_timestamp)
+                : null;
+            $row['has_unfinished_passes'] = $participant->hasUnfinishedPasses();
 
             $rows[] = $row;
         }

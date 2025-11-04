@@ -218,14 +218,18 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     protected function buildPassedStatusString(array $data): string
     {
         if ($data['has_unfinished_passes'] && $this->is_score_last_pass) {
-            return '';
+            return '-';
         }
 
-        if ($data['passed_status']) {
-            return $this->buildPassedIcon() . ' ' . $this->lng->txt('tst_passed');
+        $passed_status = $data['passed_status'];
+        if (is_string($passed_status)) {
+            return $passed_status;
         }
 
-        return $this->buildFailedIcon() . ' ' . $this->lng->txt('tst_failed');
+        return $passed_status
+            ? "{$this->buildPassedIcon()} {$this->lng->txt('tst_passed')}"
+            : "{$this->buildFailedIcon()} {$this->lng->txt('tst_failed')}";
+
     }
 
     protected function buildPassedIcon(): string
@@ -259,10 +263,9 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 
     protected function buildScoredPassFinishedString(array $data): string
     {
-        if (isset($data['scored_pass_finished_timestamp'])) {
-            return ilDatePresentation::formatDate(new ilDateTime($data['scored_pass_finished_timestamp'], IL_CAL_UNIX));
-        }
-        return '';
+        return isset($data['scored_pass_finished_timestamp'])
+            ? ilDatePresentation::formatDate(new ilDateTime($data['scored_pass_finished_timestamp'], IL_CAL_UNIX))
+            : '-';
     }
 
     protected function buildAnsweredQuestionsString(array $data): string
