@@ -215,11 +215,11 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LOGIN", $a_set['login']);
         $this->tpl->setVariable("FULLNAME", $a_set['name']);
 
-        $this->tpl->setVariable("STARTED", ($a_set['started']) ? $this->buildOkIcon() : '');
+        $this->tpl->setVariable("STARTED", ($a_set['started']) ? $this->buildOkIcon() : $this->buildNotOkIcon());
         $this->tpl->setVariable("TRIES", $this->fetchTriesValue($a_set));
         $this->tpl->setVariable("UNFINISHED_PASSES", $this->buildUnfinishedPassesStatusString($a_set));
 
-        $this->tpl->setVariable("FINISHED", ($a_set['finished']) ? $this->buildOkIcon() : '');
+        $this->tpl->setVariable("FINISHED", ($a_set['finished']) ? $this->buildOkIcon() : $this->buildNotOkIcon());
         $this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($a_set));
     }
 
@@ -276,6 +276,14 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         return $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(
             ilUtil::getImagePath("standard/icon_ok.svg"),
             $this->lng->txt("ok")
+        ));
+    }
+
+    protected function buildNotOkIcon(): string
+    {
+        return $this->ui_renderer->render($this->ui_factory->symbol()->icon()->custom(
+            ilUtil::getImagePath("standard/icon_not_ok.svg"),
+            $this->lng->txt("not_ok")
         ));
     }
 
