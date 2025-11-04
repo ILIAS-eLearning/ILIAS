@@ -6394,7 +6394,12 @@ class ilObjTest extends ilObject
 
     public function recalculateScores($preserve_manscoring = false)
     {
-        $scoring = new TestScoring($this, $this->user, $this->db, $this->lng);
+        $scoring = new TestScoring(
+            $this,
+            $this->user,
+            $this->db,
+            $this->test_result_repository
+        );
         $scoring->setPreserveManualScores($preserve_manscoring);
         $scoring->recalculateSolutions();
     }
