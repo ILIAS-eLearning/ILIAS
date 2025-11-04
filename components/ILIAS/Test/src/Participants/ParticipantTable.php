@@ -127,28 +127,34 @@ class ParticipantTable implements DataRetrieval
             if ($last_access !== null) {
                 $row['last_access'] = $last_access->setTimezone($current_user_timezone);
             }
-            if ($record->getActiveId() !== null
-               && $this->test_access->checkResultsAccessForActiveId(
-                   $record->getActiveId(),
-                   $this->test_object->getTestId()
-               ) || $record === null && $this->test_access->checkParticipantsResultsAccess()) {
-                $row['reached_points'] = sprintf(
-                    $this->lng->txt('tst_reached_points_of_max'),
-                    $record->getAttemptOverviewInformation()?->getReachedPoints(),
-                    $record->getAttemptOverviewInformation()?->getAvailablePoints()
-                );
+            $active_id = $record->getActiveId();
+            $is_finished = $status_of_attempt->isFinished();
+            if (
+                $this->test_access->checkParticipantsResultsAccess()
+                || (
+                    $active_id !== null
+                    && $this->test_access->checkResultsAccessForActiveId($active_id, $this->test_object->getTestId())
+                )
+            ) {
+                $row['reached_points'] = $is_finished ?
+                    sprintf(
+                        $this->lng->txt('tst_reached_points_of_max'),
+                        $record->getAttemptOverviewInformation()?->getReachedPoints(),
+                        $record->getAttemptOverviewInformation()?->getAvailablePoints()
+                    )
+                    : '-';
                 $row['nr_of_answered_questions'] = sprintf(
                     $this->lng->txt('tst_answered_questions_of_total'),
                     $record->getAttemptOverviewInformation()?->getNrOfAnsweredQuestions(),
                     $record->getAttemptOverviewInformation()?->getNrOfTotalQuestions()
                 );
-                $row['percent_of_available_points'] = $record->getAttemptOverviewInformation()?->getReachedPointsInPercent();
+                $row['percent_of_available_points'] = $is_finished
+                    ? $record->getAttemptOverviewInformation()?->getReachedPointsInPercent() ?? 0.0
+                    : 0.0;
             }
 
-            if ($status_of_attempt->isFinished()) {
-                $row['test_passed'] = $record->getAttemptOverviewInformation()?->hasPassingMark() ?? false;
-                $row['mark'] = $record->getAttemptOverviewInformation()?->getMark();
-            }
+            $row['test_passed'] = $is_finished && ($record->getAttemptOverviewInformation()?->hasPassingMark() ?? false);
+            $row['mark'] = $is_finished ? $record->getAttemptOverviewInformation()?->getMark() ?? '-' : '-';
 
             yield $this->table_actions->onDataRow(
                 $row_builder->buildDataRow((string) $record->getUserId(), $row),

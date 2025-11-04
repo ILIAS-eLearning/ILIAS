@@ -289,8 +289,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             }
         }
 
-        if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
-            $this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1) {
+        if (
+            $this->isGradingMessageRequired()
+            && $this->object->getNrOfTries() === 1
+            && !$this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()
+        ) {
             $grading_message_builder = $this->getGradingMessageBuilder($active_id);
             $grading_message_builder->buildMessage();
             $grading_message_builder->sendMessage();
@@ -403,7 +406,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $template->setVariable('PASS_OVERVIEW', $overview);
         $template->parseCurrentBlock();
 
-        if ($this->isGradingMessageRequired()) {
+        if (
+            $this->isGradingMessageRequired()
+            && $this->object->getNrOfTries() === 1
+            && !$this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()
+        ) {
             $grading_message_builder = $this->getGradingMessageBuilder($active_id);
             $grading_message_builder->buildMessage();
             $grading_message_builder->sendMessage();
