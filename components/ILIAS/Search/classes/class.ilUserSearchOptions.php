@@ -118,14 +118,13 @@ class ilUserSearchOptions
 
                 case 'country':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
-                    $fields[$counter]['values'] = array(0 => $lng->txt('please_choose'));
 
                     // #7843 -- see ilCountrySelectInputGUI
                     $lng->loadLanguageModule('meta');
                     foreach (ilCountry::getCountryCodes() as $c) {
                         $fields[$counter]['values'][$c] = $lng->txt('meta_c_' . $c);
                     }
-                    asort($fields[$counter]['values']);
+                    array_unshift($fields[$counter]['values'], $lng->txt('please_choose'));
                     break;
 
                 case 'org_units':
