@@ -223,7 +223,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("INPUT", $input_html);
 
-        if (!empty($described_by_ids)) {
+        if (!empty($described_by_ids) && !$id_for_label) {
             $tpl->setCurrentBlock('described');
             $tpl->setVariable("DESCRIBED_BY_IDS", implode(' ', $described_by_ids));
             $tpl->parseCurrentBlock();
