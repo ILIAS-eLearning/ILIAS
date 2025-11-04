@@ -237,11 +237,12 @@ class Renderer extends AbstractComponentRenderer
 
     protected function addAriaDescribedByToInput(string $input_html, string $input_id, string $described_by_value): string
     {
-        $pattern = '/<(input|textarea|select)([^>]*id=["\']' . preg_quote($input_id, '/') . '["\'][^>]*)>/i';
+        $pattern = '/<(input|textarea|select)([^>]*id=["\']' . preg_quote($input_id, '/') . '["\'][^>]*?)(\s*\/)?>/i';
 
         return preg_replace_callback($pattern, function ($matches) use ($described_by_value) {
             $tag = $matches[1];
             $attributes = $matches[2];
+            $slash = $matches[3] ?? '';
 
             if (strpos($attributes, 'aria-describedby') !== false) {
                 $attributes = preg_replace(
@@ -253,7 +254,7 @@ class Renderer extends AbstractComponentRenderer
                 $attributes .= ' aria-describedby="' . htmlspecialchars($described_by_value, ENT_QUOTES) . '"';
             }
 
-            return '<' . $tag . $attributes . '>';
+            return '<' . $tag . $attributes . $slash . '>';
         }, $input_html);
     }
 
@@ -512,9 +513,9 @@ class Renderer extends AbstractComponentRenderer
 
             $f = $this->getUIFactory();
             $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
-                              ->withOnClick($sig_reveal);
+                ->withOnClick($sig_reveal);
             $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
-                            ->withOnClick($sig_mask);
+                ->withOnClick($sig_mask);
 
             $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
@@ -801,7 +802,7 @@ class Renderer extends AbstractComponentRenderer
         $input_html = $this->wrapInFormContext($input, $input->getLabel(), $tpl->get(), $from_input_id);
 
         $input = array_shift($inputs) //until
-            ->withAdditionalPickerconfig(['useCurrent' => false]);
+        ->withAdditionalPickerconfig(['useCurrent' => false]);
         list($input, $tpl) = $this->internalRenderDateTimeField($input, $default_renderer);
         $until_input_id = $this->createId();
         $tpl->setVariable('ID', $until_input_id);
