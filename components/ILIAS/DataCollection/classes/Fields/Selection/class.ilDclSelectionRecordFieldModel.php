@@ -109,4 +109,19 @@ abstract class ilDclSelectionRecordFieldModel extends ilDclBaseRecordFieldModel
 
         return null;
     }
+
+    public function getPlainText(): string
+    {
+        $values = ilDclSelectionOption::getValues((int) $this->getField()->getId(), $this->getValue());
+        foreach ($values as $i => $value) {
+            $values[$i] = $this->formatValue($value);
+        }
+
+        return implode(' | ', $values);
+    }
+
+    protected function formatValue(string $value): string
+    {
+        return $value;
+    }
 }
