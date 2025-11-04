@@ -29,7 +29,7 @@ class ilDclMobFieldModel extends ilDclFileFieldModel
         ];
     }
 
-    public function getSupportedExtensions(): array
+    protected function getExtensions(): array
     {
         return ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv'];
     }
