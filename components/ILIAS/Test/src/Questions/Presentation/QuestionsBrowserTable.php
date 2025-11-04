@@ -171,7 +171,7 @@ class QuestionsBrowserTable implements DataRetrieval
     ): int {
         $filter_data ??= [];
         $this->addFiltersToQuestionList($filter_data);
-        return $this->question_list->getTotalRowCount($filter_data, $additional_parameters);
+        return $this->question_list->getTotalRowCount($additional_viewcontrol_data, $filter_data, $additional_parameters);
     }
 
     public function loadRecords(array $filters = [], ?Order $order = null, ?Range $range = null): array
