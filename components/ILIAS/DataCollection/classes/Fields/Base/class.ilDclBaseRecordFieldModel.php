@@ -53,6 +53,11 @@ class ilDclBaseRecordFieldModel
         $this->doRead();
     }
 
+    public function setUser(ilObjUser $user): void
+    {
+        $this->user = $user;
+    }
+
     /**
      * Read object data from database
      */

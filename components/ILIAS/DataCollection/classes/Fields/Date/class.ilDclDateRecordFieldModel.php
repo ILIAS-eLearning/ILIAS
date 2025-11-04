@@ -51,4 +51,9 @@ class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return (string) strtotime($this->getValue() ?: '');
     }
+
+    public function getPlainText(): string
+    {
+        return $this->getValue() ? date($this->user->getDateFormat()->toString(), strtotime($this->getValue())) : '';
+    }
 }
