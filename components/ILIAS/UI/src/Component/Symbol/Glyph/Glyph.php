@@ -21,11 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Symbol\Glyph;
 
 use ILIAS\UI\Component\Counter\Counter;
-use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Symbol\Symbol;
-use ILIAS\UI\Component\Signal;
 
-interface Glyph extends Symbol, Clickable
+interface Glyph extends Symbol
 {
     // Types of glyphs:
     public const SETTINGS = "settings";
@@ -95,12 +93,6 @@ interface Glyph extends Symbol, Clickable
     public function getType(): string;
 
     /**
-     * Get the action on the glyph.
-     * @deprecated with 10 - use a Button with a Glyph as label
-     */
-    public function getAction(): ?string;
-
-    /**
      * Get all counters attached to this glyph.
      *
      * @return	Counter[]
@@ -124,46 +116,4 @@ interface Glyph extends Symbol, Clickable
      * Get a Glyph like this with a highlight.
      */
     public function withHighlight(): Glyph;
-
-    /**
-     * Get to know if the glyph is activated.
-     * @deprecated with 10 - use a Button with a Glyph as label
-     */
-    public function isActive(): bool;
-
-    /**
-     * Get a glyph like this, but action should be unavailable atm.
-     *
-     * The glyph will still have an action afterwards, this might be useful
-     * at some point where we want to reactivate the glyph client side.
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function withUnavailableAction(): Glyph;
-
-    /**
-     * Get a Glyph like this with an action.
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function withAction(string $action): Glyph;
-
-    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
-    public function withOnClick(Signal $signal);
-
-    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
-    public function appendOnClick(Signal $signal);
-
-    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
-    public function withResetTriggeredSignals();
-
-    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
-    public function getTriggeredSignals(): array;
-
-    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
-    public function withOnLoadCode(\Closure $binder);
-
-    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
-    public function withAdditionalOnLoadCode(\Closure $binder);
-
-    /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
-    public function getOnLoadCode(): ?\Closure;
 }

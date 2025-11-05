@@ -22,8 +22,17 @@ namespace ILIAS\UI\examples\Symbol\Glyph\Bold;
 
 /**
  * ---
+ * description: >
+ *   Example for rendring a bold glyph.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   Active:
+ *   ILIAS shows a monochrome bold "B" symbol on a grey background. Moving the cursor above the symbol will darken it's
+ *   color slightly. Additionally the cursor's form will change and it indicates a linking.
+ *
+ *   Highlighted:
+ *   ILIAS shows the same symbol but it's highlighted particularly. Moving the cursor above the symbol will darken it's
+ *   color slightly. Additionally the cursor's form will change and it indicates a linking.
  * ---
  */
 function bold()
@@ -38,7 +47,6 @@ function bold()
     // showcase the various states of this Glyph
     $list = $factory->listing()->descriptive([
         "Active" => $glyph,
-        "Inactive" => $glyph->withUnavailableAction(),
         "Highlighted" => $glyph->withHighlight()
     ]);
 

@@ -173,19 +173,6 @@ imgtag;
         }
     }
 
-    #[\PHPUnit\Framework\Attributes\Depends('testRenderingStandard')]
-    public function testRenderingStandardJSBindable($ico): void
-    {
-        $ico = $ico->withAdditionalOnLoadCode(function ($id) {
-            return 'alert();';
-        });
-        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
-        $path = self::ICON_PATH_REL . 'standard/icon_crs.svg';
-        $expected = "<img  aria-disabled=\"true\"/>";
-        $expected = $this->normalizeHTML("<img id=\"id_1\" class=\"icon crs medium\" src=\"$path\" alt=\"Course\"/>");
-        $this->assertEquals($expected, $html);
-    }
-
     public function testSetCustomLabel(): Custom
     {
         $path = './assets/images/icon_fold.svg';

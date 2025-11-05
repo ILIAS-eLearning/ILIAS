@@ -156,6 +156,10 @@ input.btn {
   fieldset[disabled] & {
     background-color: transparent;
     @include box-shadow(none);
+    > .glyph {
+      color: s.$il-neutral-light-color;
+      pointer-events: none;
+    }
   }
   &,
   &:hover,

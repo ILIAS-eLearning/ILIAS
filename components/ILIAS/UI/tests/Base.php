@@ -62,6 +62,7 @@ class NoUIFactory implements FactoryInternal
     }
     public function button(): I\Button\Factory
     {
+        return new I\Button\Factory();
     }
     public function card(): I\Card\Factory
     {

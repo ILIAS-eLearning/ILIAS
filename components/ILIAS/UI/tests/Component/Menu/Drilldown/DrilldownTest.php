@@ -31,7 +31,7 @@ use ILIAS\UI\Component as C;
 class DrilldownTest extends ILIAS_UI_TestBase
 {
     protected C\Symbol\Icon\Standard $icon;
-    protected C\Symbol\Glyph\Glyph $glyph;
+    protected C\Button\Standard $button_with_symbol;
     protected C\Button\Standard $button;
     protected C\Divider\Horizontal $divider;
     protected C\Legacy\Content $legacy;
@@ -71,8 +71,8 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $button_factory = new I\Button\Factory();
         $divider_factory = new I\Divider\Factory();
         $this->icon = $icon_factory->standard('', '');
-        $this->glyph = $glyph_factory->user('');
         $this->button = $button_factory->standard('', '');
+        $this->button_with_symbol = $this->button->withSymbol($glyph_factory->user());
         $this->divider = $divider_factory->horizontal();
         $this->legacy = $this->getUIFactory()->legacy()->content('');
     }
@@ -119,7 +119,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $items = array(
             $f->menu()->sub('sub', [
                 $this->button,
-                $this->glyph
+                $this->button_with_symbol
             ]),
             $this->divider,
             $this->button

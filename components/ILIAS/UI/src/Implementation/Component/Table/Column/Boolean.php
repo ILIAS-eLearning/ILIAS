@@ -36,15 +36,6 @@ class Boolean extends Column implements C\Boolean
         protected string|Icon|Glyph $false_option
     ) {
         parent::__construct($lng, $title);
-
-        if (
-            ($true_option instanceof Glyph && $true_option->getAction() !== null)
-            || ($false_option instanceof Glyph && $false_option->getAction() !== null)
-        ) {
-            throw new \LogicException(
-                "If Glyps are used to indicate the state, they MUST NOT have an attached action."
-            );
-        }
     }
 
     public function format($value): string|Icon|Glyph
@@ -60,10 +51,10 @@ class Boolean extends Column implements C\Boolean
     {
         $column_value_true = $this->format(true);
         $column_value_false = $this->format(false);
-        if($column_value_true instanceof Symbol) {
+        if ($column_value_true instanceof Symbol) {
             $column_value_true = $column_value_true->getLabel();
         }
-        if($column_value_false instanceof Symbol) {
+        if ($column_value_false instanceof Symbol) {
             $column_value_false = $column_value_false->getLabel();
         }
         return [

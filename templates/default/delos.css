@@ -4082,6 +4082,10 @@ input.btn, .c-input-tree_select > input[type=button], .c-drilldown input.c-drill
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.btn-link > .glyph, .c-input-tree_select > input[type=button] > .glyph, .btn-link:active > .glyph, .btn-link.active > .glyph, .btn-link[disabled] > .glyph, fieldset[disabled] .btn-link > .glyph {
+  color: #737373;
+  pointer-events: none;
+}
 .btn-link, .c-input-tree_select > input[type=button], .btn-link:hover, .btn-link:active {
   border-color: transparent;
 }
@@ -7576,6 +7580,11 @@ input.btn, .c-drilldown input.c-drilldown__menulevel--trigger, input.il-link.lin
   background-color: transparent;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.btn-link > .glyph, .btn-link:active > .glyph, .btn-link.active > .glyph, .btn-link[disabled] > .glyph, fieldset[disabled] .btn-link > .glyph {
+  color: #737373;
+  pointer-events: none;
 }
 
 .btn-link, .btn-link:hover, .btn-link:active {
@@ -11423,10 +11432,6 @@ div.alert ul {
 }
 .glyph.highlighted:hover {
   color: #B54F00;
-}
-.glyph.disabled {
-  color: #737373;
-  pointer-events: none;
 }
 .glyph:hover, .glyph:focus {
   color: rgb(57.5428571429, 76.4714285714, 101.4571428571);

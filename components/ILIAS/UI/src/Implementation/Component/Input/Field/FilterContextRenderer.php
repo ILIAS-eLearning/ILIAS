@@ -31,6 +31,7 @@ use LogicException;
 use Closure;
 use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Implementation\Component\Button\Shy;
 
 /**
  * Class FilterContextRenderer
@@ -141,12 +142,16 @@ class FilterContextRenderer extends Renderer
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
         /**
-         * @var $remove_glyph Component\Symbol\Glyph\Glyph
+         * @var $remove_glyph Shy
          */
-        $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+        $remove_glyph = $f->button()->shy('', '')->withSymbol(
+            $f->symbol()->glyph()->remove()
+        )->withAdditionalOnLoadCode(
+            fn($id) => "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
-					});");
+					});"
+        );
 
         $tpl->setCurrentBlock("addon_left");
         $tpl->setVariable("LABEL", $component->getLabel());

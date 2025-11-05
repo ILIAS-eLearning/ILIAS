@@ -29,6 +29,10 @@ namespace ILIAS\UI\examples\Symbol\Glyph\CollapseHorizontal;
  *   Active:
  *   ILIAS shows a box with three words listed among each other. Every word has got a "<" arrow functioning as a link but
  *   without any actions. The first arrow is active, the second and third is colored.
+ *
+ *   Hightlighted:
+ *   ILIAS shows the same symbol. But it is higlighted particularly. Moving your cursor over the symbol will darken the
+ *   icon's color. Additionally the cursor's form will change and it indicates a linking.
  * ---
  */
 function collapsehorizontal()
@@ -42,7 +46,6 @@ function collapsehorizontal()
     //Showcase the various states of this Glyph
     $list = $f->listing()->descriptive([
         "Active" => $glyph,
-        "Inactive" => $glyph->withUnavailableAction(),
         "Highlighted" => $glyph->withHighlight()
     ]);
 

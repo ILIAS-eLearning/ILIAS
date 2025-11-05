@@ -45,8 +45,7 @@ interface Factory
      *     within interactive containers.
      *   rivals:
      *     Glyph: >
-     *       Glyphs are typographical characters that act as a trigger for
-     *       some action.
+     *       Glyphs are typographical characters.
      *     Image: >
      *       Images belong to the content and can be purely decorative.
      *
@@ -79,8 +78,7 @@ interface Factory
      *       A glyph is a typographical character. As any other typographical character, they can be
      *       manipulated by regular CSS. If hovered, they can change either their color or their background-color in order to indicate possible interactions.
      *   effect: >
-     *       Glyphs act as a trigger for some action (such as opening a certain
-     *       Overlay type) or as a shortcut.
+     *       Glyphs act as symbol for e.g. buttons.
      *   rivals:
      *       Icon: >
      *           Standalone Icons are not interactive. Icons can be in an interactive container however.
@@ -102,9 +100,6 @@ interface Factory
      *          Glyphs MUST be used for cross-sectional functionality such as mail for
      *          example and NOT for representing objects.
      *       3: >
-     *          Glyphs SHOULD be used for very simple tasks that are repeated at
-     *          many places throughout the system.
-     *       4: >
      *          Services such as mail MAY be represented either by a Glyph OR by an Icon plus text label, depending on the usage scenario.
      *   style:
      *       1: >
@@ -112,8 +107,6 @@ interface Factory
      *          set. Exceptions are possible, but MUST be approved by the JF.
      *   accessibility:
      *       1: >
-     *          The functionality triggered by the Glyph MUST be indicated to
-     *          screen readers with the attributes aria-label or aria-labelledby.
      *          If the Glyph has a purely decorative purpose, the aria-label MUST be set to "" or be completely omitted.
      * ---
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Factory
@@ -139,8 +132,7 @@ interface Factory
      *     which triggers further actions (such as a Bulky Button in the Meta Bar).
      *   rivals:
      *     Glyph: >
-     *       Glyphs are typographical characters that act as a trigger for
-     *       some action. There is a user Glyph as well.
+     *       Glyphs are typographical characters. There is a user Glyph as well.
      *     Image: >
      *       Images belong to the content and can be purely decorative.
      *     Icon: >

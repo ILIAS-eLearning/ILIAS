@@ -564,10 +564,6 @@ class Renderer extends AbstractComponentRenderer
         ];
 
         foreach ($markdown_actions_glyphs as $tpl_variable => $glyph) {
-            if ($component->isDisabled()) {
-                $glyph = $glyph->withUnavailableAction();
-            }
-
             $action = $this->getUIFactory()->button()->standard('', '#')->withSymbol($glyph);
 
             if ($component->isDisabled()) {

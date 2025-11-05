@@ -46,33 +46,11 @@ class Renderer extends AbstractComponentRenderer
         $tpl_file = $this->getTemplateFilename();
         $tpl = $this->getTemplate($tpl_file, true, true);
 
-        $tpl = $this->renderAction($component, $tpl);
-
-        if ($component->isTabbable() && !$this instanceof ButtonContextRenderer) { // Buttons are already tabbable itself
-            $tpl->touchBlock("tabbable");
-        }
-
         if ($component->isHighlighted()) {
             $tpl->touchBlock("highlighted");
         }
 
-        if (!$component->isActive()) {
-            $tpl->touchBlock("disabled");
-
-            $tpl->setCurrentBlock("with_aria_disabled");
-            $tpl->setVariable("ARIA_DISABLED", "true");
-            $tpl->parseCurrentBlock();
-        }
-
         $tpl = $this->renderLabel($component, $tpl);
-
-        $id = $this->bindJavaScript($component);
-
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
-        }
 
         $tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
         return $tpl->get();
@@ -81,17 +59,6 @@ class Renderer extends AbstractComponentRenderer
     protected function renderLabel(Component\Component $component, Template $tpl): Template
     {
         $tpl->setVariable("LABEL", $this->txt($component->getLabel()));
-        return $tpl;
-    }
-
-    protected function renderAction(Component\Component $component, Template $tpl): Template
-    {
-        $action = $component->getAction();
-        if ($component->isActive() && $action !== null) {
-            $tpl->setCurrentBlock("with_action");
-            $tpl->setVariable("ACTION", $component->getAction());
-            $tpl->parseCurrentBlock();
-        }
         return $tpl;
     }
 

@@ -24,14 +24,10 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Counter\Counter;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\Triggerer;
 
 class Glyph implements C\Symbol\Glyph\Glyph
 {
     use ComponentHelper;
-    use JavaScriptBindable;
-    use Triggerer;
 
     private static array $types = [
         self::SETTINGS,
@@ -97,20 +93,16 @@ class Glyph implements C\Symbol\Glyph\Glyph
     ];
 
     private string $type;
-    private ?string $action;
     private string $label;
     private array $counters;
     private bool $highlighted;
-    private bool $active = true;
 
-    public function __construct(string $type, string $label, ?string $action = null)
+    public function __construct(string $type, string $label)
     {
         $this->checkArgIsElement("type", $type, self::$types, "glyph type");
 
         $this->type = $type;
         $this->label = $label;
-        // @deprecated with 10 - parameter $action will be removed; use a Button with a Glyph as label
-        $this->action = $action;
         $this->counters = array();
         $this->highlighted = false;
     }
@@ -130,14 +122,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
         $clone = clone $this;
         $clone->label = $label;
         return $clone;
-    }
-
-    /**
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function getAction(): ?string
-    {
-        return $this->action;
     }
 
     public function getCounters(): array
@@ -162,59 +146,5 @@ class Glyph implements C\Symbol\Glyph\Glyph
         $clone = clone $this;
         $clone->highlighted = true;
         return $clone;
-    }
-
-    /**
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function isActive(): bool
-    {
-        return $this->active;
-    }
-
-    /**
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function withUnavailableAction(): C\Symbol\Glyph\Glyph
-    {
-        $clone = clone $this;
-        $clone->active = false;
-        return $clone;
-    }
-
-    /**
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function withOnClick(Signal $signal): C\Clickable
-    {
-        return $this->withTriggeredSignal($signal, 'click');
-    }
-
-    /**
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function appendOnClick(Signal $signal): C\Clickable
-    {
-        return $this->appendTriggeredSignal($signal, 'click');
-    }
-
-    /**
-    * @deprecated with 10; use a Button with a Glyph as label
-    */
-    public function withAction($action): C\Symbol\Glyph\Glyph
-    {
-        $clone = clone $this;
-        $clone->action = $action;
-        return $clone;
-    }
-
-    /**
-     * @deprecated with 10; use a Button with a Glyph as label
-     */
-    public function isTabbable(): bool
-    {
-        $has_action = ($this->action !== null && $this->action !== "");
-        $has_signal = isset($this->triggered_signals['click']) && $this->triggered_signals['click'] !== null;
-        return  ($has_signal || $has_action) && $this->isActive();
     }
 }
