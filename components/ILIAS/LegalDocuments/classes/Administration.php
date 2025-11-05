@@ -48,6 +48,8 @@ use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ilObjUserFolderGUI;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\User\Settings\Administration\SettingsGUI;
+use ilAdministrationGUI;
 
 class Administration
 {
@@ -527,10 +529,13 @@ class Administration
             return $message_box;
         }
 
+        $this->container->language()->loadLanguageModule('administration');
+
+        $this->container->ctrl()->setParameterByClass(SettingsGUI::class, 'ref_id', (string) USER_FOLDER_ID);
         return $message_box->withLinks([
             $this->ui->create()->link()->standard(
                 $this->ui->txt('adm_external_setting_edit'),
-                $this->willLinkWith(ilObjUserFolderGUI::class, ['ref_id' => (string) USER_FOLDER_ID])('generalSettings')
+                $this->container->ctrl()->getLinkTargetByClass([ilAdministrationGUI::class, ilObjUserFolderGUI::class, SettingsGUI::class], 'show')
             )
         ]);
     }
