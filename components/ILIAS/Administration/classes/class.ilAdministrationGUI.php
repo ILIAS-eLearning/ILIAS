@@ -98,6 +98,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
         $this->global_screen = $DIC->globalScreen();
 
+        $this->lng->loadLanguageModule('administration');
         $this->lng->loadLanguageModule('benchmark');
 
         $context = $this->global_screen->tool()->context();
