@@ -238,4 +238,27 @@ class ilItemGroupItems
         }
         return $items;
     }
+
+    public static function getItemGroupsAssociatedWithItem(int $ref_id, int $filter_item_group_id = 0): array
+    {
+        global $DIC;
+        $database = $DIC->database();
+
+        $item_groups = [];
+        $statement = $database->queryF(
+            'SELECT ref_id, title FROM item_group_item '
+            . 'LEFT JOIN object_data ON item_group_item.item_group_id = object_data.obj_id '
+            . 'LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id '
+            . 'WHERE %s '
+            . 'AND item_group_id != %s '
+            . 'AND object_data.type = \'itgr\'',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$ref_id, $filter_item_group_id]
+        );
+        while ($row = $database->fetchAssoc($statement)) {
+            $item_groups[$row['ref_id']] = $row['title'];
+        }
+
+        return $item_groups;
+    }
 }

@@ -10712,7 +10712,8 @@ irss#:#upload_modal_title#:#Add Files
 itgr#:#itgr_always_open#:#Always Open
 itgr#:#itgr_assign_materials#:#Assign Materials
 itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assigned
+itgr#:#itgr_assignment#:#Assigned to this Item Group
+itgr#:#itgr_assignment_to_other_itgr#:#Already assigned to another Item Group
 itgr#:#itgr_desc_info#:#The description will not be a part of the item group's presentation in its container.
 itgr#:#itgr_display#:#Display
 itgr#:#itgr_display_with_title#:#With Title

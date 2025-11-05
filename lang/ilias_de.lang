@@ -10711,7 +10711,8 @@ irss#:#upload_modal_title#:#Dateien hinzufügen
 itgr#:#itgr_always_open#:#Immer offen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
-itgr#:#itgr_assignment#:#Eingebunden
+itgr#:#itgr_assignment#:#Eingebunden in diesem Objekteblock
+itgr#:#itgr_assignment_to_other_itgr#:#Bereits einem anderen Objekteblock zugeordnet
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
 itgr#:#itgr_display#:#Anzeige
 itgr#:#itgr_display_with_title#:#Mit Titel
