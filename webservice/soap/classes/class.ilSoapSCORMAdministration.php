@@ -136,6 +136,10 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             return $this->raiseError("Parent with ID $ref_id has been deleted.", 'Client');
         }
 
+        if(!$rbacsystem->checkAccess('read', $ref_id)) {
+            return $this->raiseError('No Permission to read object with ref_id ' . $ref_id, 'Client');
+        }
+
         $certValidator = new ilCertificateUserCertificateAccessValidator();
 
         return $certValidator->validate($usr_id, $obj_id);
@@ -164,6 +168,13 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
                 'No scorm module found for id: ' . $a_ref_id,
                 'Client'
             );
+        }
+
+        global $DIC;
+        $rbacsystem = $DIC['rbacsystem'];
+
+        if (!$rbacsystem->checkAccess('read', $a_ref_id)) {
+            return $this->raiseError('No permission to read object with ref_id ' . $a_ref_id, 'Client');
         }
 
         include_once 'Services/Tracking/classes/class.ilLPStatus.php';
