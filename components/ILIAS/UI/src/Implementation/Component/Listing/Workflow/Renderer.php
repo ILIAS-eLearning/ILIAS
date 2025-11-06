@@ -44,13 +44,24 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.linear.html", true, true);
         $tpl->setVariable("TITLE", $component->getTitle());
 
+        $status_labels = $component->getStatusLabels();
+
         foreach ($component->getSteps() as $index => $step) {
             $tpl->setCurrentBlock("step");
 
             $action = $step->getAction();
             if (!is_null($action) && $step->getAvailability() === Component\Listing\Workflow\Step::AVAILABLE) {
                 $f = $this->getUIFactory();
-                $shy = $f->button()->shy($step->getLabel(), $action);
+                $label = $step->getLabel();
+                $shy = $f->button()->shy($label, $action);
+
+                $status = $step->getStatus();
+                if (!empty($status_labels) && array_key_exists($status, $status_labels)) {
+                    $status_label = $status_labels[$status];
+                    $aria_label = $label . ' (' . $status_label . ')';
+                    $shy = $shy->withAriaLabel($aria_label);
+                }
+
                 $tpl->setVariable("LABEL", $default_renderer->render($shy));
             } else {
                 $tpl->setVariable("LABEL", $step->getLabel());

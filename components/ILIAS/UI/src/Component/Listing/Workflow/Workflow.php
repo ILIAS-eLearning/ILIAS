@@ -50,4 +50,21 @@ interface Workflow extends Component
      * @return Step[]
      */
     public function getSteps(): array;
+
+    /**
+     * Get a component like this with status labels for accessibility.
+     * The array should map the status constants from the Step interface
+     * to a textual representation.
+     * e.g. [Step::IN_PROGRESS => "In Progress"]
+     *
+     * @param   array<int, string>  $labels
+     */
+    public function withStatusLabels(array $labels): Workflow;
+
+    /**
+     * Get the status labels for accessibility.
+     *
+     * @return  array<int, string>
+     */
+    public function getStatusLabels(): array;
 }

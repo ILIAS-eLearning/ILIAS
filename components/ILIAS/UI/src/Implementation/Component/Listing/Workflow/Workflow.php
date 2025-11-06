@@ -35,6 +35,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     private string $title;
     private array $steps;
     private int $active;
+    private array $status_labels = [];
 
     /**
      * Workflow constructor.
@@ -92,5 +93,23 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     public function getSteps(): array
     {
         return $this->steps;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withStatusLabels(array $labels): C\Listing\Workflow\Workflow
+    {
+        $clone = clone $this;
+        $clone->status_labels = $labels;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusLabels(): array
+    {
+        return $this->status_labels;
     }
 }
