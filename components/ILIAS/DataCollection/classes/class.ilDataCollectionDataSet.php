@@ -213,6 +213,9 @@ class ilDataCollectionDataSet extends ilDataSet
                         $field->setTitle($a_rec['title']);
                         $field->setDescription($a_rec['description']);
                         $field->doCreate();
+                        if ($datatype_id === ilDclDatatype::INPUTFORMAT_TEXT) {
+                            $field->setProperty(ilDclBaseFieldModel::PROP_LENGTH, 200)->store();
+                        }
                         $a_mapping->addMapping('components/ILIAS/DataCollection', 'il_dcl_field', $a_rec['id'], $field->getId());
                     }
                 }
@@ -374,6 +377,14 @@ class ilDataCollectionDataSet extends ilDataSet
                         ];
 
                         $name = $properties[$a_rec['datatype_prop_id']];
+                    }
+
+                    if ($name === 'text_area' && $a_rec['value'] === '1') {
+                        $field = ilDclCache::getFieldCache((int) $new_field_id);
+                        if ($field instanceof ilDclTextFieldModel && !$field->hasProperty('length')) {
+                            $field->setProperty(ilDclBaseFieldModel::PROP_LENGTH, 4000)->store();
+                            break;
+                        }
                     }
 
                     $prop->setName($name);
