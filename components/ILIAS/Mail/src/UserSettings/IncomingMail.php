@@ -41,7 +41,7 @@ class IncomingMail implements SettingDefinition
 
     public function isAvailable(): bool
     {
-        return (new \ilSetting())->get('show_mail_settings') === '1';
+        return (new \ilSetting())->get('show_mail_settings', '1') === '1';
     }
 
     public function getLabel(Language $lng): string

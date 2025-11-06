@@ -44,7 +44,7 @@ class NewMailNotification implements SettingDefinition
 
         return
             $settings->get('mail_notification') === '1' &&
-            $settings->get('show_mail_settings') === '1';
+            $settings->get('show_mail_settings', '1') === '1';
     }
 
     public function getLabel(Language $lng): string
