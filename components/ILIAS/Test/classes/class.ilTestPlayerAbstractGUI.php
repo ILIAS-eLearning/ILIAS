@@ -384,14 +384,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return false;
         }
 
-        if ($this->canSaveResult() || $force) {
-            $saved = $this->save($question_obj, $authorized);
-        }
+        $saved = ($force || $this->canSaveResult()) && $this->save($question_obj, $authorized);
 
-        if (!$saved
-            || ($question_obj instanceof QuestionPartiallySaveable
-                && !$question_obj->validateSolutionSubmit())) {
-
+        if (!$saved || ($question_obj instanceof QuestionPartiallySaveable && !$question_obj->validateSolutionSubmit())) {
             $this->ctrl->setParameter($this, 'save_error', '1');
             ilSession::set('previouspost', $this->testrequest->getParsedBody());
         }
