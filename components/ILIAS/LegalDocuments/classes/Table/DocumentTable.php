@@ -181,7 +181,11 @@ class DocumentTable implements OrderingRetrieval
 
     public function render(): string
     {
-        return $this->ui_renderer->render($this->table);
+        // This MUST be rendered BEFORE $this->modal->components(),
+        // because the components are filled within the rendering process.
+        $html = $this->ui_renderer->render($this->table);
+
+        return $html . $this->ui_renderer->render($this->modal->components());
     }
 
     /**
