@@ -32,7 +32,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
- * @ilCtrl_Calls ilMailFolderGUI:
+ * @ilCtrl_Calls ilMailFolderGUI: ILIAS\User\Profile\PublicProfileGUI
  */
 class ilMailFolderGUI implements ilCtrlSecurityInterface
 {

@@ -24,7 +24,8 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
 
 /**
- * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
+ * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI
+ * @ilCtrl_Calls ilMailGUI: ILIAS\User\Settings\PersonalSettingsGUI, ilObjUserGUI
  */
 class ilMailGUI implements ilCtrlBaseClassInterface
 {

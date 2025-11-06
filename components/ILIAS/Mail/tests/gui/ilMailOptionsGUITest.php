@@ -150,7 +150,7 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
 
         $request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
         $request->method('getQueryParams')->willReturn([
-            'referrer' => ilPersonalSettingsGUI::class,
+            'referrer' => PersonalSettingsGUI::class,
         ]);
         $wrapper = new WrapperFactory($request);
 
