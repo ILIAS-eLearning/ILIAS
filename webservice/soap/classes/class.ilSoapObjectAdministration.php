@@ -1073,6 +1073,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return $this->raiseError('No valid target given.', 'Client');
         }
 
+        if(!$rbacsystem->checkAccess('move', $ref_id)) {
+            return $this->raiseError("No permission to move object with id: $ref_id", 'Client');
+        }
+
         // check for trash
         if (ilObject::_isInTrash($ref_id)) {
             return $this->raiseError('Object is trashed.', 'Client');
