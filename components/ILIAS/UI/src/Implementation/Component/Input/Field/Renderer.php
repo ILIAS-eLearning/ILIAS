@@ -87,6 +87,10 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        if ($component instanceof Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
+
         $component = $this->setSignals($component);
 
         switch (true) {

@@ -34,6 +34,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        if ($component instanceof Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
         if ($component instanceof Component\Dropdown\Dropdown) {
             return $this->renderDropdown($component, $default_renderer);
         }

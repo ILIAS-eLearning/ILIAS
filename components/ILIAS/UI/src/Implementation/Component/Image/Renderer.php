@@ -40,6 +40,9 @@ class Renderer extends AbstractComponentRenderer
             $this->cannotHandleComponent($component);
         }
 
+        /** @var $component Component\Image\Image */
+        $component = $this->addTriggererOnLoadCode($component);
+
         $tpl = $this->getTemplate("tpl.image.html", true, true);
 
         if (($sources = $component->getAdditionalHighResSources()) !== []) {

@@ -38,6 +38,9 @@ class Renderer extends AbstractComponentRenderer
             $this->cannotHandleComponent($component);
         }
 
+        /** @var $component Component\Button\Button */
+        $component = $this->addTriggererOnLoadCode($component);
+
         $tpl_name = "tpl.node.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
 

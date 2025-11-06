@@ -40,6 +40,9 @@ class Renderer extends AbstractComponentRenderer
 
     public function render(Component $component, RendererInterface $default_renderer): string
     {
+        if ($component instanceof \ILIAS\UI\Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
         if ($component instanceof Bar) {
             return $this->renderProgressBar($component, $default_renderer);
         }

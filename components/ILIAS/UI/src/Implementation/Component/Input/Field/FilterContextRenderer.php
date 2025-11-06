@@ -42,6 +42,9 @@ class FilterContextRenderer extends Renderer
 
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        if ($component instanceof Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
         if ($component instanceof FilterInput) {
             $component = $this->setSignals($component);
         }

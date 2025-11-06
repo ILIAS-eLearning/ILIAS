@@ -37,6 +37,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        if ($component instanceof Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
         if ($component instanceof Component\Button\Close) {
             return $this->renderClose($component);
         } elseif ($component instanceof Component\Button\Minimize) {
