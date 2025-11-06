@@ -7,9 +7,8 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 
 ## Prioritized in the long run
 * Reducing the number of reported issues in Test & Assessment
-* Defining a concise interface for questions.
 * Separating the Test-Player from the Questions and the Question-Pool.
-* Refactoring `ilTestParticipantList`: This Class has a lot of very expensive loops in it [Mantis 33596](https://mantis.ilias.de/view.php?id=33596), but we can not remove them right now as it is used in very different contexts for all kind of lists. Sometimes users don't have $active_ids (participant list in test with access limited to selected participants), sometimes they don't have $usr_ids (anonymous tests in public section).
+
 
 ## Roadmap in 2026
 
@@ -26,7 +25,7 @@ Among other challenges, we are planning to use the given developing budget from 
 5. Work on [(Project) Revision of Test Question Creation](https://docu.ilias.de/go/wiki/wpage_8111_1357)
 6. Work on Project Revision of Import/Export of the T&A
 7. Feasibility study Test in Learning sequence - Could the LS uses the actual Exam View (since ILIAS9 - General Kiosk Mode)
-8. * Authorized Saving of Participant Input - Problems e.g. in the question list, see [Mantis 44211](https://mantis.ilias.de/view.php?id=44211). In order to address the problem, we need a concept for the entire test run at the technical level and an analysis of the current situation. From this, we want to derive an operating concept for controlling the test run. By redesigning the test run, we know where we want to go and can at least mitigate the problems in existing ILIAS versions with usability fixes.
+8. Authorized Saving of Participant Input - Problems e.g. in the question list, see [Mantis 44211](https://mantis.ilias.de/view.php?id=44211). In order to address the problem, we need a concept for the entire test run at the technical level and an analysis of the current situation. From this, we want to derive an operating concept for controlling the test run. By redesigning the test run, we know where we want to go and can at least mitigate the problems in existing ILIAS versions with usability fixes.
 9. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project
 
 Depending on development ressources, funding and approval, some new features are conceivable in 2026.
