@@ -356,7 +356,7 @@ class ilTemplate extends HTML_Template_ITX
         if (str_starts_with($a_tplname, $ilias_root)) {
             $a_tplname = str_replace($ilias_root, '', $a_tplname);
         }
-        if (strpos($a_tplname, 'public/Customizing/global/plugins')) {
+        if (str_starts_with($a_tplname, 'public/Customizing/global/plugins')) {
             $tpl_sub_path = '';
         }
 
