@@ -502,7 +502,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         }
 
-        $this->tpl->setContent($this->ui_renderer->render($form));
+        $this->ctrl->redirect($this, 'edit');
     }
 
     protected function setEditTabs(): void
