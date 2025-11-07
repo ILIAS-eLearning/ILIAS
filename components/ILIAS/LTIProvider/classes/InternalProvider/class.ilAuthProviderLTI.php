@@ -83,7 +83,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         global $ilDB;
 
         // move to connector
-        $query = 'SELECT consumer_pk from lti2_consumer where enabled = ' . $ilDB->quote(1, 'integer');
+        $query = /** @lang text */
+            'SELECT consumer_pk from lti2_consumer where enabled = ' . $ilDB->quote(1, 'integer');
         $res = $ilDB->query($query);
 
         $sids = array();
@@ -101,7 +102,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         global $ilDB;
 
         // move to connector
-        $query = 'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
+        $query = /** @lang text */
+            'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
         $res = $ilDB->query($query);
 
         $sids = array();
@@ -161,7 +163,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT consumer_pk from lti2_consumer where consumer_key = ' . $ilDB->quote(
+        $query = /** @lang text */
+            'SELECT consumer_pk from lti2_consumer where consumer_key = ' . $ilDB->quote(
             $a_oauth_consumer_key,
             'text'
         );
@@ -187,7 +190,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT prefix from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
+        $query = /** @lang text */
+            'SELECT prefix from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
 
@@ -209,7 +213,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT role from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
+        $query = /** @lang text */
+            'SELECT role from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
 

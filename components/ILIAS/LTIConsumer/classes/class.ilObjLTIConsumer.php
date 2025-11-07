@@ -106,6 +106,25 @@ class ilObjLTIConsumer extends ilObject2
         parent::__construct($a_id, $a_reference);
     }
 
+    public static function getRefIdOfConsumerByDeploymentId(string $dep_id): int
+    {
+        global $ilDB;
+        $refId = null;
+        $refIds = array();
+        $query = /** @lang text */
+            'SELECT ref_id from lti_consumer_settings join object_reference on lti_consumer_settings.obj_id=object_reference.obj_id where provider_id = ' . $dep_id;
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $refIds[] = $row->ref_id;
+        }
+
+        if (!empty($refIds)) {
+            $refId = $refIds[0];
+        }
+        return $refId;
+
+    }
+
     protected function initType(): void
     {
         $this->type = "lti";

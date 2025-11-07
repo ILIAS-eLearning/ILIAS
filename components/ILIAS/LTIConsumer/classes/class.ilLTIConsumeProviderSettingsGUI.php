@@ -99,6 +99,50 @@ class ilLTIConsumeProviderSettingsGUI
         $this->showSettingsCmd($form);
     }
 
+    protected function startDeepLinkingCmd()
+    {
+        global $DIC;
+        $provider = $this->object->getProvider();
+
+        $platform_client_id = $provider->getClientId();
+        $deployment_id = $provider->getId();
+        $user_id = ilCmiXapiUser::getIdentAsId($provider->getPrivacyIdent(), $DIC->user());                          // or whatever you used as login_hint
+
+        $lti_message_hint = json_encode([
+            'deployment_id' => $deployment_id,
+        ]);
+        $state = bin2hex(random_bytes(16));
+        $_SESSION['lti_oidc_state'] = $state;
+
+
+        $params = [
+            'login_hint'      => $user_id,
+            'iss'             => ilObjLTIConsumer::getPlattformId(),
+            'lti_message_hint'=> $lti_message_hint,
+            'target_link_uri' => $provider->getContentItemUrl(),
+            'client_id'       => $platform_client_id,
+            'state'            => $state
+        ];
+
+        $join = (str_contains($provider->getInitiateLogin(), '?')) ? '&' : '?';
+        $url = $provider->getInitiateLogin()  . $join . http_build_query($params);
+        $_SESSION['lti_dl_provider_id'] = $provider->getId();
+
+        $urlSafe = htmlspecialchars($url, ENT_QUOTES);
+        echo <<<HTML
+        <!doctype html>
+        <html>
+          <body onload="window.location.href='{$urlSafe}'">
+            <noscript>
+              <p>Continue to deep linking...</p>
+              <a href="{$urlSafe}">Continue</a>
+            </noscript>
+          </body>
+        </html>
+        HTML;
+        exit;
+
+    }
 
     /**
      * @throws ilMDServicesException
@@ -130,7 +174,6 @@ class ilLTIConsumeProviderSettingsGUI
     protected function buildForm(ilLTIConsumeProvider $provider): ilLTIConsumeProviderFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $form = new ilLTIConsumeProviderFormGUI($provider);
         $form->initForm(
             $DIC->ctrl()->getFormAction($this),

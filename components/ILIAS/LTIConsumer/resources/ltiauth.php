@@ -1,93 +1,162 @@
 <?php
-
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
-
 declare(strict_types=1);
 
-/** @noRector */
 require_once("../vendor/composer/vendor/autoload.php");
 
+use Firebase\JWT\JWT;
 
-/**
- * There is no way to process a $_GET Request with
- * a valid third-party client_id param in regular initILIAS
- */
-if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
-    $orig = new ArrayObject($_POST);
-    $data = $orig->getArrayCopy();
-} elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
-    $orig = new ArrayObject($_GET);
-    $data = $orig->getArrayCopy();
-    // early removing client_id from $_GET
-    // otherwise the client_id is interpreted as ILIAS client_id
-    // and client.ini.php will not be found
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = $_POST;
+} else {
+    $data = $_GET;
     if (isset($_GET['client_id'])) {
         unset($_GET['client_id']);
     }
-} else {
-    header($_SERVER["SERVER_PROTOCOL"] . " 405 Method Not Allowed", true, 405);
-    exit;
 }
 
 ilInitialisation::initILIAS();
-
 global $DIC;
+$scope        = $data['scope']         ?? '';
+$responseType = $data['response_type'] ?? '';
+$redirectUri  = $data['redirect_uri']  ?? '';
+$clientId     = $data['client_id']     ?? '';
+$state        = $data['state']         ?? '';
+$nonce        = $data['nonce']         ?? '';
+$ltiHintRaw   = $data['lti_message_hint'] ?? '';
+$loginHint    = $data['login_hint']    ?? '';
 
-$ltiMessageHint = $data['lti_message_hint'];
+$isDlMode = false;
+$hint = null;
+$provider_id = 0;
+$refId = 0;
 
+if (
+    $scope === 'openid' &&
+    $responseType === 'id_token' &&
+    $redirectUri !== '' &&
+    $clientId !== ''
+) {
+    $provider_id = ilLTIConsumeProvider::getProviderIdFromClientId($clientId);
+    $provider = ilLTIConsumeProvider::getInstance($provider_id);
+
+
+    if($provider->getContentItemUrl() == $redirectUri) {
+        $isDlMode = true;
+        $hint = json_decode($ltiHintRaw ?? '', true);
+        $ownerId = ilObjectFactory::getInstanceByRefId(224)->getOwner();
+        $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string)$hint['deployment_id']);
+        $refId = $DIC->repositoryTree()->getParentId($childRefId);
+    }
+
+}
+if ($isDlMode) {
+    $now = time();
+    $ctrl = $DIC->ctrl();
+
+    $iframe_url = ilObjLTIConsumer::getPlattformId() . '/ltidlreturn.php?provider_id=' . $provider_id
+        . '&ref_id=' . $refId
+        . '&new_type=lti';
+
+    $iss = ilObjLTIConsumer::getPlattformId();
+    $sub = $loginHint !== '' ? $loginHint : ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
+    $payload = [
+        'iss'   => $iss,
+        'aud'   => $clientId,
+        'iat'   => $now,
+        'exp'   => $now + 600,
+        'nonce' => $nonce ?: bin2hex(random_bytes(8)),
+        'sub'   => $sub,
+
+        // Moodle wants roles + DL message
+        'https://purl.imsglobal.org/spec/lti/claim/roles' => [
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Mentor',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Manager',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Member',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Officer',
+            'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
+        ],
+        'https://purl.imsglobal.org/spec/lti/claim/message_type' => 'LtiDeepLinkingRequest',
+        'https://purl.imsglobal.org/spec/lti/claim/version'      => '1.3.0',
+
+    ];
+
+    if (isset($hint['deployment_id'])) {
+        $payload['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] = (string) $hint['deployment_id'];
+    }
+
+    $payload['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'] = [
+        'deep_link_return_url' => $iframe_url,
+        'accept_types' => ['ltiResourceLink'],
+        'accept_presentation_document_targets' => ['iframe', 'window'],
+    ];
+
+    $payload['https://purl.imsglobal.org/spec/lti/claim/tool_platform'] = [
+        'name' => 'ILIAS',
+        'version' => ILIAS_VERSION_NUMERIC ?? 'unknown',
+        'product_family_code' => 'ilias',
+    ];
+
+
+    $pk  = ilObjLTIConsumer::getPrivateKey();
+    $jwt = JWT::encode($payload, $pk['key'], 'RS256', $pk['kid'], ['kid' => $pk['kid']]);
+    //dump($payload, $data);exit();
+    $redirSafe = htmlspecialchars($redirectUri, ENT_QUOTES);
+    $stateSafe = htmlspecialchars($state, ENT_QUOTES);
+    $jwtSafe   = htmlspecialchars($jwt, ENT_QUOTES);
+
+    echo <<<HTML
+<!doctype html>
+<html><body onload="document.forms[0].submit()">
+  <form action="{$redirSafe}" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="id_token" value="{$jwtSafe}">
+    <input type="hidden" name="state" value="{$stateSafe}">
+    <noscript><button type="submit">Continue</button></noscript>
+  </form>
+</body></html>
+HTML;
+    exit;
+}
+
+$ltiMessageHint = $ltiHintRaw;
 if (empty($ltiMessageHint)) {
     $DIC->http()->saveResponse(
-        $DIC->http()->response()
-        ->withStatus(400)
+        $DIC->http()->response()->withStatus(400)
     );
-    try {
-        $DIC->http()->sendResponse();
-        $DIC->http()->close();
-    } catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
-        $DIC->http()->close();
-    }
+    $DIC->http()->sendResponse();
+    $DIC->http()->close();
+    exit;
 }
-$mh = explode(":", $ltiMessageHint);
+
+$parts = explode(":", $ltiMessageHint);
 $isContentSelection = false;
 $ref_id = '';
-$client_id = '';
+$il_client_id = '';
 $redirect_uri = '';
-if (count($mh) == 2) { // launch message auth
-    list($ref_id, $client_id) = explode(":", $ltiMessageHint);
-} else { // contentSelection message auth
+if (count($parts) === 2) {
+    [$ref_id, $il_client_id] = $parts;
+} else if (count($parts) === 3 && !filter_var($parts[2], FILTER_VALIDATE_URL)) {
+    [$ref_id, $il_client_id, $token] = $parts;
+} else {
     $isContentSelection = true;
-    list($ref_id, $client_id, $redirect_uri) = explode(":", $ltiMessageHint);
+    [$ref_id, $il_client_id, $redirect_uri] = $parts;
 }
 
 ilSession::set('lti13_login_data', $data);
+
 if ($isContentSelection) {
     $url = "../../../" . base64_decode($redirect_uri);
 } else {
-    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $client_id;
+    $url = "../../../goto.php?target=lti_" . $ref_id . "&client_id=" . $il_client_id;
 }
-
 $DIC->http()->saveResponse(
     $DIC->http()->response()
-    ->withStatus(302)
-    ->withAddedHeader('Location', $url)
+        ->withStatus(302)
+        ->withAddedHeader('Location', $url)
 );
-try {
-    $DIC->http()->sendResponse();
-    $DIC->http()->close();
-} catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
-    $DIC->http()->close();
-}
+$DIC->http()->sendResponse();
+$DIC->http()->close();
+exit;

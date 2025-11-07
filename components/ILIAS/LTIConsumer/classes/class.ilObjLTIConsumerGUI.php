@@ -290,7 +290,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $this->createObject();
     }
 
-    protected function createNewObject(string $newType, string $title, string $description): ilObject
+    public function createNewObject(string $newType, string $title, string $description): ilObject
     {
         $classname = "ilObj" . $this->obj_definition->getClassName($newType);
 
