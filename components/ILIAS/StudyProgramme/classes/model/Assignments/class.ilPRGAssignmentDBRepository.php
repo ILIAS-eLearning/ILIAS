@@ -631,8 +631,8 @@ class ilPRGAssignmentDBRepository implements PRGAssignmentRepository
                     $user_data_values[$field] = $this->interimOrguLookup((int) $row[self::ASSIGNMENT_FIELD_USR_ID]);
                     break;
                 case str_starts_with($field, 'udf_'):
-                    $udf_field_id = str_replace('udf_', 'f_', $field);
-                    $user_data_values[$field] = $udf_data->getAdditionalFieldByIdentifier($udf_field_id);
+                    $udf_field_id = mb_substr($field, 4);
+                    $user_data_values[$field] = implode(', ', $udf_data->getAdditionalFieldByIdentifier($udf_field_id) ?? []);
                     break;
                 default:
                     $user_data_values[$field] = $row[$field];
