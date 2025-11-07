@@ -17413,6 +17413,7 @@ ui#:#label_fieldselection_refresh#:#Alkalmaz
 ui#:#label_pagination_limit#:#Sorok számozása
 ui#:#label_pagination_offset#:#Oldalszámozás kezdete
 ui#:#label_sortation#:#Rendezés
+ui#:#metabar_slate_label#:#Menu###07 11 2025 new variable
 ui#:#order_option_alphabetical_ascending#:#A → Z
 ui#:#order_option_alphabetical_descending#:#Z → A
 ui#:#order_option_chronological_ascending#:#Legkorábbi legelől

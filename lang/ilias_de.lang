@@ -4695,7 +4695,6 @@ common#:#member#:#Mitglied
 common#:#member_status#:#Status der Mitgliedschaft
 common#:#members#:#Mitglieder
 common#:#membership_leave#:#Abmelden
-common#:#menu_label#:#Menü
 common#:#mep#:#Medienpool
 common#:#mep_add#:#Medienpool anlegen
 common#:#mep_edit#:#Eigenschaften des Medienpools bearbeiten
@@ -17414,6 +17413,7 @@ ui#:#label_fieldselection_refresh#:#Anwenden
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
+ui#:#metabar_slate_label#:#Menü
 ui#:#order_option_alphabetical_ascending#:#A bis Z
 ui#:#order_option_alphabetical_descending#:#Z bis A
 ui#:#order_option_chronological_ascending#:#Älteste zuerst

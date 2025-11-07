@@ -17413,6 +17413,7 @@ ui#:#label_fieldselection_refresh#:#適用
 ui#:#label_pagination_limit#:#列のページ付け数
 ui#:#label_pagination_offset#:#ページ付けオフセット
 ui#:#label_sortation#:#仕分け
+ui#:#metabar_slate_label#:#Menu###07 11 2025 new variable
 ui#:#order_option_alphabetical_ascending#:#A to Z
 ui#:#order_option_alphabetical_descending#:#Z to A
 ui#:#order_option_chronological_ascending#:#先行順
