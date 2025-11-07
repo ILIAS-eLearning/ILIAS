@@ -127,7 +127,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                         )
                     ];
 
-                    if ($this->dic->settings()->get('show_mail_settings', '1')) {
+                    if ($this->dic->settings()->get('show_mail_settings', '0')) {
                         $sub_items[] = $this->buildItem(
                             $this->lng->txt("mail_options"),
                             "adm",

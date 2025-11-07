@@ -58,7 +58,7 @@ class ilMailOptionsGUI
 
     public function executeCommand(): void
     {
-        if (!$this->mail_options->mayManageIndividualSettings()) {
+        if (!$this->mail_options->mayManageInvididualSettings()) {
             $referrer = '';
             if ($this->http->wrapper()->query()->has('referrer')) {
                 $referrer = $this->http->wrapper()->query()->retrieve(

@@ -184,7 +184,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
                 $sub_both_opt3->setDisabled(true);
             }
 
-            if ($DIC->user()->getSecondEmail() === '' || $DIC->user()->getSecondEmail() === null) {
+            if ($DIC->user()->getSecondEmail() === '') {
                 $sub_mail_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
                 $sub_mail_opt3->setInfo($DIC->language()->txt('second_email_missing_info'));
                 $sub_both_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));

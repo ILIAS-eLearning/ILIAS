@@ -116,19 +116,19 @@ class ilMailOptions
 
     public function mayModifyIndividualTransportSetting(): bool
     {
-        return $this->mayManageIndividualSettings()
+        return $this->mayManageInvididualSettings()
             && $this->user_settings->settingAvailableToUser(IncomingMail::class);
     }
 
     public function mayModifyNewMailNotificationSetting(): bool
     {
-        return $this->mayManageIndividualSettings()
+        return $this->mayManageInvididualSettings()
             && $this->user_settings->settingAvailableToUser(NewMailNotification::class);
     }
 
-    public function mayManageIndividualSettings(): bool
+    public function mayManageInvididualSettings(): bool
     {
-        return $this->settings->get('show_mail_settings', '1') === '1';
+        return $this->settings->get('show_mail_settings') === '1';
     }
 
     protected function read(): void
@@ -163,7 +163,7 @@ class ilMailOptions
         $this->second_mail_address = (string) $row->second_email;
         $this->stored_email_address_mode = (int) $row->mail_address_option;
 
-        if ($this->mayManageIndividualSettings()) {
+        if ($this->mayManageInvididualSettings()) {
             $this->is_cron_notification_enabled = (bool) $row->cronjob_notification;
             $this->signature = (string) $row->signature;
             $this->setAbsenceStatus((bool) $row->absence_status);
