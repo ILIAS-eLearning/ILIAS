@@ -113,7 +113,7 @@ class ilDclRecordListGUI
      */
     public function executeCommand(): void
     {
-        if (!$this->checkAccess()) {
+        if (!ilObjDataCollectionAccess::hasAccessTo($this->getRefId(), $this->table_id, $this->tableview_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             return;
         }
@@ -544,19 +544,6 @@ class ilDclRecordListGUI
             $this->getTableId(),
             self::class,
             self::CMD_SHOW
-        );
-    }
-
-    protected function checkAccess(): bool
-    {
-        if (null === $this->table_id || null === $this->tableview_id) {
-            return false;
-        }
-
-        return ilObjDataCollectionAccess::hasAccessTo(
-            $this->parent_obj->getRefId(),
-            $this->table_id,
-            $this->tableview_id
         );
     }
 
