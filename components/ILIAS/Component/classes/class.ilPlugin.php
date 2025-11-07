@@ -120,7 +120,7 @@ abstract class ilPlugin
      */
     public function getDirectory(): string
     {
-        return $this->getPluginInfo()->getPath();
+        return realpath($this->getPluginInfo()->getPath());
     }
 
     /**
