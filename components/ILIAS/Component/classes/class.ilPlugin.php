@@ -118,9 +118,14 @@ abstract class ilPlugin
      *     - Services/COPage/classes/class.ilPCPlugged.php
      *     - Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php
      */
-    public function getDirectory(): string
+    public function getDirectory(bool $relative = false): string
     {
-        return realpath($this->getPluginInfo()->getPath());
+        $path = realpath($this->getPluginInfo()->getPath());
+        if (!$relative) {
+            return $path;
+        }
+
+        return str_replace(ILIAS_ABSOLUTE_PATH . "/public/", "", realpath($this->getDirectory()));
     }
 
     /**
