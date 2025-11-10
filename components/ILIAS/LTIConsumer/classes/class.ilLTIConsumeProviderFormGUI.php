@@ -91,11 +91,11 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
         $modal = $factory
             ->modal()
-            ->roundtrip($this->lng->txt('lti_con_content_item'), $content);
+            ->roundtrip($this->lng->txt('tab_content'), $content);
 
         $button = $factory
             ->button()
-            ->standard($this->lng->txt('lti_con_content_item'), '')
+            ->standard($this->lng->txt('select'), '')
             ->withOnClick($modal->getShowSignal());
 
         $html = $renderer->render([$button, $modal]);
@@ -199,7 +199,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         if (!empty($this->provider->getContentItemUrl())) {
 
             $dl_html = $this->buildDlUiParts();
-            $dl_input = new ilCustomInputGUI($this->lng->txt('lti_con_content_item'));
+            $dl_input = new ilCustomInputGUI($this->lng->txt('tab_content'));
             $dl_input->setHTML($dl_html);
 
             $lti13->addSubItem($dl_input);
