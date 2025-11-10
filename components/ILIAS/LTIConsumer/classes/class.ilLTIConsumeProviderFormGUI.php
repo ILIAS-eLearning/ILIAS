@@ -196,7 +196,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $lti13->setInfo($lng->txt('lti_con_version_1.3_before_id'));
         }
 
-        if (!empty($this->provider->getContentItemUrl())) {
+        if (!empty($this->provider->isContentItem())) {
 
             $dl_html = $this->buildDlUiParts();
             $dl_input = new ilCustomInputGUI($this->lng->txt('tab_content'));
