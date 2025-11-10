@@ -34,7 +34,10 @@ class News implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        $contribute[SetupAgent::class] = static fn() => new \ilNewsSetupAgent($pull[\ILIAS\Refinery\Factory::class]);
+        $contribute[SetupAgent::class] = static fn() =>
+            new \ilNewsSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "Timeline.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
