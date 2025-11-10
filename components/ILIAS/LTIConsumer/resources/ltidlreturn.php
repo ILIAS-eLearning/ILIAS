@@ -54,14 +54,21 @@ foreach ($data->{'https://purl.imsglobal.org/spec/lti-dl/claim/content_items'} a
     $newObj->save();
     $gui->initMetadata($newObj);
 }
+$obj = ilObjectFactory::getInstanceByRefId($ref_id);
+$target = $obj->getType() . '_' . $ref_id;
+
+$link = 'goto.php?target=' . $target;
+$tpl = $DIC->ui()->mainTemplate();
+$tpl->setOnScreenMessage('success', "Created 1 LTI resource(s).", true); // false => show now
 
 echo <<<HTML
 <!doctype html>
 <html><body>
 <script>
+let url = "$link";
 if (window.parent && window.parent !== window) {
     if (window.parent.onLtiDeepLinkDone) {
-        window.parent.onLtiDeepLinkDone();
+        window.parent.onLtiDeepLinkDone(url);
     }
 }
 </script>

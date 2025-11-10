@@ -112,7 +112,6 @@ class ilLTIConsumeProviderSettingsGUI
             'deployment_id' => $deployment_id,
         ]);
         $state = bin2hex(random_bytes(16));
-        $_SESSION['lti_oidc_state'] = $state;
 
 
         $params = [
@@ -126,7 +125,6 @@ class ilLTIConsumeProviderSettingsGUI
 
         $join = (str_contains($provider->getInitiateLogin(), '?')) ? '&' : '?';
         $url = $provider->getInitiateLogin()  . $join . http_build_query($params);
-        $_SESSION['lti_dl_provider_id'] = $provider->getId();
 
         $urlSafe = htmlspecialchars($url, ENT_QUOTES);
         echo <<<HTML

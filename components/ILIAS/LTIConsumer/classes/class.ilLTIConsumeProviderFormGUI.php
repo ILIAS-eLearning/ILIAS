@@ -103,7 +103,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $html .= <<<HTML
         <script>
         function closeDialog() {
-                        let dlg = document.querySelector('dialog.c-modal.il-modal-roundtrip[open], dialog.c-modal[open]');
+            let dlg = document.querySelector('dialog.c-modal.il-modal-roundtrip[open], dialog.c-modal[open]');
             if (dlg && typeof dlg.close === 'function') {
                 dlg.close();
             }
@@ -117,8 +117,11 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             closeDialog();        
            }, true);
         
-        window.onLtiDeepLinkDone = function () {
-            closeDialog();        
+        window.onLtiDeepLinkDone = function (url) {
+            closeDialog();
+            if(url) {
+                window.location.href = url;
+            }
         };
         </script>
         HTML;
