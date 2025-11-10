@@ -7,36 +7,39 @@ ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
 ilInitialisation::initILIAS();
 
 $dl = ilSession::get('lti_dl_ctx');
-//dump($dl);exit();
+
 if (!$dl || empty($dl['deep_link_return_url']) || empty($dl['deployment_id']) || empty($dl['iss'])) {
-    dump($dl);exit();
     http_response_code(400); echo "Deep linking context missing"; exit;
 }
 
-// Get the ref_id to return (from POST override OR from saved default)
-$ref_id = isset($_POST['ref_id']) ? (int)$_POST['ref_id'] : null;
-$title  = trim($_POST['title'] ?? '') ?: ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
 
-// Build a *launchable* URL for this object (the same entry you use for normal launches)
+$ref_ids = isset($_POST['ref_ids']) ? $_POST['ref_ids'] : null;
+
 $launchUrl = ILIAS_HTTP_PATH
-    . '/lti.php?client_id=' . urlencode(CLIENT_ID)
-    . '&ref_id=' . $ref_id;
-// Optionally, force embedded size or pass custom params
-$content_items = [[
-    "type"  => "ltiResourceLink",
-    "title" => $title,
-    "url"   => $launchUrl,
-    "custom" => [
-        "ilias_ref_id" => (string)$ref_id,
-    ],
-]];
+    . '/lti.php?client_id=' . urlencode(CLIENT_ID);
+
+$content_items = [];
+
+foreach ($ref_ids as $ref_id) {
+    $obj = ilObjectFactory::getInstanceByRefId((int)$ref_id);
+    $title  = trim($_POST['title'] ?? '') ?: $obj->getTitle();
+    $description = trim($_POST['description'] ?? '') ?: $obj->getDescription();
+    $content_items[] = [
+        "type"  => "ltiResourceLink",
+        "title" => $title,
+        "description" => $description,
+        "url"   => $launchUrl,
+        "custom" => [
+            "ilias_ref_id" => (string)$ref_id,
+            "id" => (string)$ref_id
+        ],
+    ];
+}
 $clientId = $dl["consumer_key"];
-// Build DL Response payload
 $now = time();
-//dump($dl, $content_items);exit();
 $payload = [
-    "iss" => $clientId,                // your tool client_id (string)
-    "aud" => $dl['deployment_id'],                                     // platform issuer from request
+    "iss" => $clientId,
+    "aud" => [$dl['platform_id']],
     "iat" => $now,
     "exp" => $now + 600,
     "nonce" => $dl['nonce'] ?? bin2hex(random_bytes(8)),
@@ -47,15 +50,12 @@ $payload = [
     "https://purl.imsglobal.org/spec/lti-dl/claim/content_items" => $content_items,
 ];
 
+
 if (!empty($dl['data'])) {
     $payload["https://purl.imsglobal.org/spec/lti-dl/claim/data"] = $dl['data']; // echo back
 }
-
-// Sign with your existing key (kid must match your JWKS)
 $privateKey = ilObjLTIConsumer::getPrivateKey(); // ['key'=>PEM, 'kid'=>'...']
 $jwt = JWT::encode($payload, $privateKey['key'], 'RS256', $privateKey['kid']);
-
-// Auto-POST to the platform with field name "JWT"
 $return = htmlspecialchars($dl['deep_link_return_url'], ENT_QUOTES);
 echo <<<HTML
 <!doctype html>

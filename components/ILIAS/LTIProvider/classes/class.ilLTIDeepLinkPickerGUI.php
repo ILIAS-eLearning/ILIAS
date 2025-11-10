@@ -45,16 +45,13 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
     {
         $cmd = $this->ctrl->getCmd('show');
 
-        if (!in_array($cmd, ['show', 'submit'])) {
+        if (!in_array($cmd, ['show'])) {
             $cmd = 'show';
         }
         $this->logger->info("Redirecting to cmd: " . $cmd);
         switch ($cmd) {
             case 'show':
                 $this->show();
-                break;
-            case 'submit':
-                $this->submit();
                 break;
         }
     }
@@ -79,7 +76,7 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
                 break;
             }
             if ($this->checkToShowInDeepLink($row['child'], $proccesedIds)) {
-                $context[$row['child']] = $row['title'];
+                $context[(string)$row['child']] = $row['title'];
                 $proccesedIds[] = $row['child'];
                 $children = $tree->getChilds($row['child']);
                 if (sizeof($children) > 0 && sizeof($proccesedIds) < 8) {
@@ -112,9 +109,11 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
         $form->setFormAction('ltidlresponse.php');
         $form->setTitle($this->lng->txt("tab_content"));
 
-        $si = new ilSelectInputGUI($this->lng->txt("tab_content"), 'ref_id');
+        $si = new ilCheckboxGroupInputGUI($this->lng->txt("tab_content"), 'ref_ids');
         $si->setRequired(true);
-        $si->setOptions($choices);
+        foreach ($choices as $id => $label) {
+            $si->addOption(new ilCheckboxOption($label, (string)$id));
+        }
         $form->addItem($si);
 
         $form->addCommandButton('submit', $this->lng->txt('select'));
@@ -134,13 +133,10 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
      */
     protected function getSelectableItems(): array
     {
-        // Example: fixed demo data. Replace with ilTree lookups under a course ref_id.
-        // Respect permissions: only include items the current user can read/launch via LTI.
         $res = [];
         if (ilSession::has("lti_context_ids") && sizeof(ilSession::get("lti_context_ids")) > 0) {
             $res = self::getAvailableResourcesForDL(ilSession::get("lti_context_ids")[0]);
         }
-        //dump($res);
         return $res;
     }
 }

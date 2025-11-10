@@ -59,7 +59,6 @@ class ilLTITool extends Tool
     {
         $p  = $this->getMessageParameters();
         $dl = $p['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'] ?? [];
-
         ilSession::set('lti_dl_ctx', [
             'deep_link_return_url' => (string)($p['content_item_return_url'] ?? ''),
             'deployment_id'        => (string)($p['deployment_id'] ?? ''),
@@ -68,6 +67,7 @@ class ilLTITool extends Tool
             'nonce'                => $p['oauth_nonce'] ?? null,
             'consumer_key'         => (string)($p['oauth_consumer_key'] ?? ''),
             'context_id'           => (string)($p['context_id'] ?? ''),
+            'platform_id'          => (string)($p['platform_id'] ?? ''),
         ]);
 
         ilSession::set('lti_dl_mode', true);

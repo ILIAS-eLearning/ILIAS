@@ -67,7 +67,6 @@ if ($isDlMode) {
         'nonce' => $nonce ?: bin2hex(random_bytes(8)),
         'sub'   => $sub,
 
-        // Moodle wants roles + DL message
         'https://purl.imsglobal.org/spec/lti/claim/roles' => [
             'http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator',
             'http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper',
@@ -103,7 +102,7 @@ if ($isDlMode) {
 
     $pk  = ilObjLTIConsumer::getPrivateKey();
     $jwt = JWT::encode($payload, $pk['key'], 'RS256', $pk['kid'], ['kid' => $pk['kid']]);
-    //dump($payload, $data);exit();
+
     $redirSafe = htmlspecialchars($redirectUri, ENT_QUOTES);
     $stateSafe = htmlspecialchars($state, ENT_QUOTES);
     $jwtSafe   = htmlspecialchars($jwt, ENT_QUOTES);
