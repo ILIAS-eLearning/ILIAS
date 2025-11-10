@@ -798,8 +798,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             0,
             (int) $this->block_id
         );
-
-        if (is_string($hide_news_date) && $hide_news_date !== '') {
+        if (is_string($hide_news_date) && $hide_news_date !== "") {
             $hide_news_date = explode(" ", $hide_news_date);
         }
 
@@ -828,8 +827,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 "hide_news_date"
             );
             $dt_prop->setRequired(true);
-            if (is_array($hide_news_date) && count($hide_news_date) === 2) {
-                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . $hide_news_date[1], IL_CAL_DATETIME));
+            if (isset($hide_news_date[0], $hide_news_date[1])) {
+                $dt_prop->setDate(new ilDateTime($hide_news_date[0] . " " . $hide_news_date[1], IL_CAL_DATETIME));
             }
             $dt_prop->setShowTime(true);
             $hnpd->addSubItem($dt_prop);
