@@ -28,10 +28,7 @@ use ILIAS\LegalDocuments\ConsumerToolbox\Blocks;
 use ILIAS\Data\Factory as DataFactory;
 
 /**
- * @author            Michael Jansen <mjansen@databay.de>
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilPermissionGUI
- * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilTermsOfServiceDocumentGUI
- * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilTermsOfServiceAcceptanceHistoryGUI
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilLegalDocumentsAdministrationGUI
  * @ilCtrl_isCalledBy ilObjTermsOfServiceGUI: ilAdministrationGUI
  */
