@@ -141,6 +141,10 @@ class AllowOnScreenChatConversations implements SettingDefinition
             return $user;
         }
 
+        if ($input === '1' || $input === '0') {
+            $input = $input === '1';
+        }
+
         if (\is_bool($input)) {
             $user->setPref($this->getIdentifier(), $input ? 'y' : 'n');
             $this->updateChatServer($user->getId(), $input);
