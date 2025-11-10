@@ -216,6 +216,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
     private function confirmReset(): void
     {
         $this->legal_documents->admin()->requireEditable();
+        $this->tabs_gui->activateTab('documents');
         $this->legal_documents->admin()->setContent((new Confirmation($this->dic->language()))->render(
             $this->dic->ctrl()->getFormAction($this, 'resetNow'),
             'resetNow',
