@@ -20,16 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
 
-class LogicalOr extends Constraint
+class LogicalOr extends CustomConstraint
 {
     /**
-     * LogicalOr constructor.
      * @param Constraint[] $other
-     * @param Data\Factory $data_factory
-     * @param \ILIAS\Language\Language $lng
      */
     public function __construct(array $other, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {

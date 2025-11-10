@@ -20,23 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
 
-class Parallel extends Constraint
+class Parallel extends CustomConstraint
 {
     /**
      * There's a test to show this state will never be visible
      * ParallelTest::testCorrectErrorMessagesAfterMultiAccept
-     *
      * @var Constraint[]
      */
     protected array $failed_constraints;
 
     /**
      * @param Constraint[] $constraints
-     * @param Data\Factory $data_factory
-     * @param \ILIAS\Language\Language $lng
      */
     public function __construct(array $constraints, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
@@ -59,7 +57,7 @@ class Parallel extends Constraint
                     $messages[] = $constraint->getErrorMessage($value);
                 }
 
-                return implode(" ", $messages);
+                return implode(' ', $messages);
             },
             $data_factory,
             $lng

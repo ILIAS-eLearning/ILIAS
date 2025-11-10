@@ -29,15 +29,11 @@ class Sequential extends CustomConstraint
     /**
      * There's a test to show this state will never be visible
      * SequentialTest::testCorrectErrorMessagesAfterMultiAccept
-     *
-     * @var Constraint
      */
     private Constraint $failed_constraint;
 
     /**
      * @param Constraint[] $constraints
-     * @param Data\Factory $data_factory
-     * @param \ILIAS\Language\Language $lng
      */
     public function __construct(array $constraints, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
     {
