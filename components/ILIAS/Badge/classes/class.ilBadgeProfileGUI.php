@@ -74,19 +74,23 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         switch ($ilCtrl->getNextClass()) {
             default:
                 $cmd = $ilCtrl->getCmd('listBadges');
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd . 'Cmd')) {
+                    $cmd = 'listBadges';
+                }
+                $cmd .= 'Cmd';
 
                 global $DIC;
                 $query = $DIC->http()->wrapper()->query();
                 $action = '';
                 $parameter = 'badge_table_action';
-                if ($cmd === 'action' && $this->query->has($parameter)) {
-                    $action = $this->query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
-                    $cmd = 'listBadges';
+                if ($cmd === 'action' && $query->has($parameter)) {
+                    $action = $query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
+                    $cmd = 'listBadgesCmd';
                 }
                 if ($action === 'obj_badge_activate') {
-                    $this->activate();
+                    $this->activateCmd();
                 } elseif ($action === 'obj_badge_deactivate') {
-                    $this->deactivate();
+                    $this->deactivateCmd();
                 }
                 $this->$cmd();
                 break;
@@ -103,7 +107,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         return ['action'];
     }
 
-    protected function listBadges(): void
+    protected function listBadgesCmd(): void
     {
         $this->tpl->setContent($this->renderDeck($this->tile_view->show()));
         $this->noti_repo->updateLastCheckedTimestamp();
@@ -116,7 +120,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         return $template->get();
     }
 
-    protected function manageBadges(): void
+    protected function manageBadgesCmd(): void
     {
         $tpl = new ilBadgePersonalTableGUI();
         $tpl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
@@ -141,7 +145,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         $this->ctrl->redirect($this, 'manageBadges');
     }
 
-    protected function activate(): void
+    protected function activateCmd(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -158,7 +162,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         $ilCtrl->redirect($this, 'manageBadges');
     }
 
-    protected function deactivate(): void
+    protected function deactivateCmd(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -175,7 +179,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         $ilCtrl->redirect($this, 'manageBadges');
     }
 
-    protected function activateInCard(): void
+    protected function activateInCardCmd(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -192,7 +196,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         $ilCtrl->redirect($this, 'listBadges');
     }
 
-    protected function deactivateInCard(): void
+    protected function deactivateInCardCmd(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -230,7 +234,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         $ilTabs->activateTab('backpack_badges');
     }
 
-    protected function listBackpackGroups(): void
+    protected function listBackpackGroupsCmd(): void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -315,7 +319,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         return $form;
     }
 
-    protected function editSettings(?ilPropertyFormGUI $a_form = null): void
+    protected function editSettingsCmd(?ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -324,7 +328,7 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         $ilCtrl->redirect($this, 'listBadges');
     }
 
-    protected function saveSettings(): void
+    protected function saveSettingsCmd(): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -347,6 +351,6 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         }
 
         $form->setValuesByPost();
-        $this->editSettings($form);
+        $this->editSettingsCmd($form);
     }
 }

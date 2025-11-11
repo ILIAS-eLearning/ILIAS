@@ -149,6 +149,10 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
 
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd('listBadges');
+        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd . 'Cmd')) {
+            $cmd = 'listBadges';
+        }
+        $cmd .= 'Cmd';
 
         switch ($next_class) {
             case 'ilpropertyformgui':
@@ -194,16 +198,16 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
                     '';
 
                 $action = $get($parameter);
-                $return_cmd = $get('returnCmd');
+                $return_cmd = $get('returnCmd') . 'Cmd';
 
                 $actions = [
-                    'badge_table_activate' => ['activateBadges', true],
-                    'badge_table_deactivate' => ['deactivateBadges', true],
-                    'badge_table_edit' => 'editBadge',
-                    'badge_table_delete' => 'confirmDeleteBadges',
-                    'award_revoke_badge' => 'awardBadgeUserSelection',
-                    'revokeBadge' => 'confirmDeassignBadge',
-                    'assignBadge' => 'assignBadge',
+                    'badge_table_activate' => ['activateBadgesCmd', true],
+                    'badge_table_deactivate' => ['deactivateBadgesCmd', true],
+                    'badge_table_edit' => 'editBadgeCmd',
+                    'badge_table_delete' => 'confirmDeleteBadgesCmd',
+                    'award_revoke_badge' => 'awardBadgeUserSelectionCmd',
+                    'revokeBadge' => 'confirmDeassignBadgeCmd',
+                    'assignBadge' => 'assignBadgeCmd',
                 ];
 
                 $entry = $actions[$action] ?? null;
@@ -214,7 +218,14 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
 
                 $entry = is_array($entry) ? $entry : [$entry, false];
                 $this->{$entry[0]}();
-                if ($entry[1] && in_array($return_cmd, ['awardBadgeUserSelection', 'listUsers', 'listUsers', 'listBadges'], true)) {
+                if (
+                    $entry[1] &&
+                    in_array(
+                        $return_cmd,
+                        ['awardBadgeUserSelectionCmd', 'listUsersCmd', 'listUsersCmd', 'listBadgesCmd'],
+                        true
+                    )
+                ) {
                     $this->$return_cmd();
                 }
                 break;
@@ -258,7 +269,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         return $ilAccess->checkAccess('write', '', $this->parent_ref_id);
     }
 
-    protected function listBadges(): void
+    protected function listBadgesCmd(): void
     {
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
@@ -328,7 +339,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
     // badge (CRUD)
     //
 
-    protected function addBadge(?ilPropertyFormGUI $a_form = null): void
+    protected function addBadgeCmd(?ilPropertyFormGUI $a_form = null): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -455,7 +466,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
      * @throws ilCtrlException
      * @throws IllegalStateException
      */
-    protected function saveBadge(): void
+    protected function saveBadgeCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -506,10 +517,10 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         }
 
         $form->setValuesByPost();
-        $this->addBadge($form);
+        $this->addBadgeCmd($form);
     }
 
-    protected function editBadge(?ilPropertyFormGUI $a_form = null): void
+    protected function editBadgeCmd(?ilPropertyFormGUI $a_form = null): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -568,7 +579,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
      * @throws ilCtrlException
      * @throws IllegalStateException
      */
-    protected function updateBadge(): void
+    protected function updateBadgeCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -620,10 +631,10 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
 
         $this->tpl->setOnScreenMessage('failure', $lng->txt('form_input_not_valid'));
         $form->setValuesByPost();
-        $this->editBadge($form);
+        $this->editBadgeCmd($form);
     }
 
-    protected function confirmDeleteBadges(): void
+    protected function confirmDeleteBadgesCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -663,7 +674,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $tpl->setContent($confirmation_gui->getHTML());
     }
 
-    protected function deleteBadges(): void
+    protected function deleteBadgesCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -704,7 +715,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         return $badge_ids;
     }
 
-    protected function copyBadges(): void
+    protected function copyBadgesCmd(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -719,7 +730,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $ilCtrl->redirect($this, 'listBadges');
     }
 
-    protected function clearClipboard(): void
+    protected function clearClipboardCmd(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -746,7 +757,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         return $res;
     }
 
-    protected function pasteBadges(): void
+    protected function pasteBadgesCmd(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -791,12 +802,12 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $ilCtrl->redirect($this, 'listBadges');
     }
 
-    protected function activateBadges(): void
+    protected function activateBadgesCmd(): void
     {
         $this->toggleBadges(true);
     }
 
-    protected function deactivateBadges(): void
+    protected function deactivateBadgesCmd(): void
     {
         $this->toggleBadges(false);
     }
@@ -806,7 +817,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
     // users
     //
 
-    protected function listUsers(): void
+    protected function listUsersCmd(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -835,7 +846,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $tbl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
-    private function selectBadgeForAwardingOrRevoking(): never
+    private function selectBadgeForAwardingOrRevokingCmd(): never
     {
         $this->ctrl->setParameter(
             $this,
@@ -845,7 +856,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $this->ctrl->redirect($this, 'awardBadgeUserSelection');
     }
 
-    protected function awardBadgeUserSelection(): void
+    protected function awardBadgeUserSelectionCmd(): void
     {
         $badge_ids = $this->request->getMultiActionBadgeIdsFromUrl();
         $bid = null;
@@ -894,7 +905,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $tbl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
-    protected function assignBadge(): void
+    protected function assignBadgeCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -926,7 +937,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $ilCtrl->redirect($this, 'listUsers');
     }
 
-    protected function confirmDeassignBadge(): void
+    protected function confirmDeassignBadgeCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -975,7 +986,7 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
         $tpl->setContent($confirmation_gui->getHTML());
     }
 
-    protected function deassignBadge(): void
+    protected function deassignBadgeCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

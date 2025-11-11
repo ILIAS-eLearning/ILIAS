@@ -83,9 +83,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
                 break;
 
             default:
-                if (!$cmd || $cmd === 'view') {
+                if (!$cmd || $cmd === 'view' || $cmd === '' || !method_exists($this, $cmd . 'Cmd')) {
                     $cmd = 'editSettings';
                 }
+                $cmd .= 'Cmd';
 
                 if ($this->badge_request->getBadgeIdFromUrl()) {
                     $this->ctrl->setParameter($this, 'tid', $this->badge_request->getBadgeIdFromUrl());
@@ -100,19 +101,19 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
                 );
 
                 $table_action = $get('tid_table_action');
-                $return_cmd = $get('returnCmd') ?: 'view';
+                $return_cmd = ($get('returnCmd') ?: 'view') . 'Cmd';
 
                 $render_default = true;
                 $actions = [
-                    'badge_type_activate' => ['activateTypes', true],
-                    'badge_type_deactivate' => ['deactivateTypes', true],
-                    'badge_image_template_editImageTemplate' => 'editImageTemplate',
-                    'obj_badge_user' => 'editImageTemplate',
-                    'obj_badge_activate' => 'activateObjectBadges',
-                    'obj_badge_deactivate' => 'deactivateObjectBadges',
-                    'obj_badge_show_users' => 'listObjectBadgeUsers',
-                    'badge_image_template_delete' => 'confirmDeleteImageTemplates',
-                    'obj_badge_delete' => 'confirmDeleteObjectBadges',
+                    'badge_type_activate' => ['activateTypesCmd', true],
+                    'badge_type_deactivate' => ['deactivateTypesCmd', true],
+                    'badge_image_template_editImageTemplate' => 'editImageTemplateCmd',
+                    'obj_badge_user' => 'editImageTemplateCmd',
+                    'obj_badge_activate' => 'activateObjectBadgesCmd',
+                    'obj_badge_deactivate' => 'deactivateObjectBadgesCmd',
+                    'obj_badge_show_users' => 'listObjectBadgeUsersCmd',
+                    'badge_image_template_delete' => 'confirmDeleteImageTemplatesCmd',
+                    'obj_badge_delete' => 'confirmDeleteObjectBadgesCmd',
                 ];
 
                 $entry = $actions[$table_action] ?? null;
@@ -123,7 +124,14 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
 
                 $entry = is_array($entry) ? $entry : [$entry, false];
                 $this->{$entry[0]}();
-                if ($entry[1] && in_array($return_cmd, ['listObjectBadges', 'listObjectBadgeUsers', 'listImageTemplates', 'listTypes'], true)) {
+                if (
+                    $entry[1] &&
+                    in_array(
+                        $return_cmd,
+                        ['listObjectBadgesCmd', 'listObjectBadgeUsersCmd', 'listImageTemplatesCmd', 'listTypesCmd'],
+                        true
+                    )
+                ) {
                     $this->$return_cmd();
                 }
                 break;
@@ -199,7 +207,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
     // settings
     //
 
-    protected function editSettings(?ilPropertyFormGUI $a_form = null): void
+    protected function editSettingsCmd(?ilPropertyFormGUI $a_form = null): void
     {
         $this->tabs_gui->setTabActive('settings');
 
@@ -210,7 +218,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function saveSettings(): void
+    protected function saveSettingsCmd(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -226,7 +234,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         }
 
         $form->setValuesByPost();
-        $this->editSettings($form);
+        $this->editSettingsCmd($form);
     }
 
     protected function initFormSettings(): ilPropertyFormGUI
@@ -257,7 +265,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
     // types
     //
 
-    protected function listTypes(): void
+    protected function listTypesCmd(): void
     {
         $ilAccess = $this->access;
 
@@ -269,7 +277,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         $tpl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
-    protected function activateTypes(): void
+    protected function activateTypesCmd(): void
     {
         $lng = $this->lng;
         $this->assertActive();
@@ -295,7 +303,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         $this->ctrl->redirect($this, 'listTypes');
     }
 
-    protected function deactivateTypes(): void
+    protected function deactivateTypesCmd(): void
     {
         $lng = $this->lng;
         $this->assertActive();
@@ -333,7 +341,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
     // images templates
     //
 
-    protected function listImageTemplates(): void
+    protected function listImageTemplatesCmd(): void
     {
         $lng = $this->lng;
         $ilToolbar = $this->toolbar;
@@ -355,7 +363,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
     }
 
 
-    protected function addImageTemplate(
+    protected function addImageTemplateCmd(
         ?ilPropertyFormGUI $a_form = null
     ): void {
         $tpl = $this->tpl;
@@ -425,7 +433,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         return $form;
     }
 
-    protected function saveImageTemplate(): void
+    protected function saveImageTemplateCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -446,10 +454,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         }
 
         $form->setValuesByPost();
-        $this->addImageTemplate($form);
+        $this->addImageTemplateCmd($form);
     }
 
-    protected function editImageTemplate(
+    protected function editImageTemplateCmd(
         ?ilPropertyFormGUI $a_form = null
     ): void {
         $ilCtrl = $this->ctrl;
@@ -500,7 +508,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         }
     }
 
-    protected function updateImageTemplate(): void
+    protected function updateImageTemplateCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -536,10 +544,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
 
         $this->setImageTemplateFormValues($form, $tmpl);
         $form->setValuesByPost();
-        $this->editImageTemplate($form);
+        $this->editImageTemplateCmd($form);
     }
 
-    protected function confirmDeleteImageTemplates(): void
+    protected function confirmDeleteImageTemplatesCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -580,7 +588,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         $tpl->setContent($confirmation_gui->getHTML());
     }
 
-    protected function deleteImageTemplates(): void
+    protected function deleteImageTemplatesCmd(): void
     {
         $lng = $this->lng;
         $tmpl_ids = $this->badge_request->getIds();
@@ -609,17 +617,17 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
     // object badges
     //
 
-    protected function applyObjectFilter(): void
+    protected function applyObjectFilterCmd(): void
     {
-        $this->listObjectBadges();
+        $this->listObjectBadgesCmd();
     }
 
-    protected function resetObjectFilter(): void
+    protected function resetObjectFilterCmd(): void
     {
-        $this->listObjectBadges();
+        $this->listObjectBadgesCmd();
     }
 
-    protected function listObjectBadgeUsers(): void
+    protected function listObjectBadgeUsersCmd(): void
     {
         $parent_obj_id = $this->badge_request->getParentId();
         if (!$parent_obj_id && $this->badge_request->getBadgeIdFromUrl()) {
@@ -646,17 +654,17 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         $tbl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
     }
 
-    protected function applylistObjectBadgeUsers(): void
+    protected function applylistObjectBadgeUsersCmd(): void
     {
-        $this->listObjectBadges();
+        $this->listObjectBadgesCmd();
     }
 
-    protected function resetlistObjectBadgeUsers(): void
+    protected function resetlistObjectBadgeUsersCmd(): void
     {
-        $this->listObjectBadges();
+        $this->listObjectBadgesCmd();
     }
 
-    protected function listObjectBadges(): void
+    protected function listObjectBadgesCmd(): void
     {
         $this->assertActive();
         $this->tabs_gui->setTabActive('obj_badges');
@@ -714,17 +722,17 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         $ilCtrl->redirect($this, 'listObjectBadges');
     }
 
-    protected function activateObjectBadges(): void
+    protected function activateObjectBadgesCmd(): void
     {
         $this->toggleObjectBadges(true);
     }
 
-    protected function deactivateObjectBadges(): void
+    protected function deactivateObjectBadgesCmd(): void
     {
         $this->toggleObjectBadges(false);
     }
 
-    protected function confirmDeleteObjectBadges(): void
+    protected function confirmDeleteObjectBadgesCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -779,7 +787,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI implements ilCtrlSecurityI
         $tpl->setContent($confirmation_gui->getHTML());
     }
 
-    protected function deleteObjectBadges(): void
+    protected function deleteObjectBadgesCmd(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
