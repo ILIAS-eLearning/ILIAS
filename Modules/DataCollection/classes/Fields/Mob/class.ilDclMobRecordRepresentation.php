@@ -52,7 +52,7 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
         $mob = new ilObjMediaObject($value);
         $med = $mob->getMediaItem('Standard');
 
-        if (!$med || $med->getLocation() === "") {
+        if (!$med || $med->getLocation() === "" || !$this->getField()->getFileSystem()->has(ilObjMediaObject::_getRelativeDirectory($mob->getId()) . '/' . $med->getLocation())) {
             return "";
         }
 
