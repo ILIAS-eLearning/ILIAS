@@ -251,7 +251,6 @@ class ilDclBaseRecordFieldModel
 
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     * @param int|string $value
      * @return int|string|null
      */
     public function parseValue($value)
@@ -340,7 +339,7 @@ class ilDclBaseRecordFieldModel
      */
     public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field): void
     {
-        $this->setValue($old_record_field->getValue());
+        $this->setValue($old_record_field->getValue(), true);
         $this->doUpdate();
     }
 
