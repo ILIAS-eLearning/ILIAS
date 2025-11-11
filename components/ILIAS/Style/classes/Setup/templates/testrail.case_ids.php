@@ -237,7 +237,7 @@ trait TestrailCaseIds
             'show' => 'C50004',
             'validate' => 'C50028',
         ],
-        'Legacy/Legacy' => [
+        'Legacy/Content' => [
             'show' => 'C49998',
             'validate' => 'C50022',
         ],
@@ -619,7 +619,7 @@ trait TestrailCaseIds
             'show' => 'C77435',
             'validate' => 'C77436'
         ],
-        'Input/Field/Color Picker' => [
+        'Input/Field/Color Select' => [
             'show' => 'C77437',
             'validate' => 'C77438'
         ],
