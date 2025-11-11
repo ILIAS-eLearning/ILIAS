@@ -10968,6 +10968,7 @@ ldoc#:#ldoc_document#:#Dokument
 ldoc#:#ldoc_enabled#:#Aktiviert
 ldoc#:#ldoc_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
 ldoc#:#ldoc_form_criterion#:#Vorlagekriterium
+ldoc#:#ldoc_form_criterion_standard_fields_info_text#:#Überprüfen Sie bitte die Einstellungen der Standardfelder, bevor Sie die Vorlagekriterien definieren.
 ldoc#:#ldoc_form_document#:#Dokument
 ldoc#:#ldoc_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
 ldoc#:#ldoc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.

@@ -50,6 +50,7 @@ use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\User\Settings\Administration\SettingsGUI;
 use ilAdministrationGUI;
+use ilGlobalTemplateInterface;
 
 class Administration
 {
@@ -57,6 +58,7 @@ class Administration
     private readonly Closure $confirmation;
     private WrapperFactory $http_wrapper;
     private Factory $refinery;
+    private ilGlobalTemplateInterface $main_template;
 
     /**
      * @param null|Closure(): Confirmation $confirmation
@@ -72,6 +74,7 @@ class Administration
         $this->confirmation = $confirmation ?? fn() => new Confirmation($this->container->language());
         $this->http_wrapper = $http_wrapper ?? $this->container->http()->wrapper();
         $this->refinery = $refinery ?? $this->container->refinery();
+        $this->main_template = $this->ui->mainTemplate();
     }
 
     /**
@@ -324,6 +327,9 @@ class Administration
         if ($value) {
             $group = $group->withValue($value);
         }
+
+        $this->main_template->setOnScreenMessage($this->main_template::MESSAGE_TYPE_INFO, $this->ui->txt('form_criterion_standard_fields_info_text'));
+        ;
 
         $title = $this->ui->create()->input()->field()->text($this->ui->txt('form_document'))->withValue($document->content()->title())->withDisabled(true);
 

@@ -10972,6 +10972,7 @@ ldoc#:#ldoc_document#:#Document
 ldoc#:#ldoc_enabled#:#Enabled
 ldoc#:#ldoc_form_attach_criterion_head#:#Select Criterion for Displaying your Document
 ldoc#:#ldoc_form_criterion#:#Criterion
+ldoc#:#ldoc_form_criterion_standard_fields_info_text#:#Please check the settings of the standard fields before defining the criterion.
 ldoc#:#ldoc_form_document#:#Document
 ldoc#:#ldoc_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.
 ldoc#:#ldoc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head/gt; information removed – only the contents of the body element will be used.
