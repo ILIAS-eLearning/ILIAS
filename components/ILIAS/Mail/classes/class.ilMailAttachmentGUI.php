@@ -38,7 +38,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
     private readonly ilLanguage $lng;
     private readonly ilObjUser $user;
     private readonly ilFormatMail $umail;
-    private readonly ilFileDataMail $mfile;
+    private readonly ilFileDataMail $fdm;
     private readonly Refinery $refinery;
     private readonly \ILIAS\UI\Factory $ui_factory;
     private readonly \ILIAS\UI\Renderer $ui_renderer;
@@ -63,7 +63,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         $this->ctrl->saveParameter($this, 'mobj_id');
 
         $this->umail = new ilFormatMail($DIC->user()->getId());
-        $this->mfile = new ilFileDataMail($DIC->user()->getId());
+        $this->fdm = new ilFileDataMail($DIC->user()->getId());
     }
 
     public function getUnsafeGetCommands(): array
@@ -127,26 +127,26 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         );
 
         if ($files_of_request !== [] && $files_of_request[0] === 'ALL_OBJECTS') {
-            $files_of_request = array_map(static fn(array $file): string => $file['name'], $this->mfile->getUserFilesData());
+            $files_of_request = array_map(static fn(array $file): string => $file['name'], $this->fdm->getUserFilesData());
         }
 
         foreach ($files_of_request as $file) {
-            if (is_file($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode((string) $file)))) {
+            if (is_file($this->fdm->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode((string) $file)))) {
                 $files[] = urldecode((string) $file);
                 $size_of_affected_files += filesize(
-                    $this->mfile->getMailPath() . '/' .
+                    $this->fdm->getMailPath() . '/' .
                     basename($this->user->getId() . '_' . urldecode((string) $file))
                 );
             }
         }
 
         if ($files !== [] &&
-            $this->mfile->getAttachmentsTotalSizeLimit() !== null &&
-            $size_of_affected_files > $this->mfile->getAttachmentsTotalSizeLimit()) {
+            $this->fdm->getAttachmentsTotalSizeLimit() !== null &&
+            $size_of_affected_files > $this->fdm->getAttachmentsTotalSizeLimit()) {
             $this->tpl->setOnScreenMessage(
                 $this->tpl::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
-                ilUtil::formatSize((int) $this->mfile->getAttachmentsTotalSizeLimit())
+                ilUtil::formatSize((int) $this->fdm->getAttachmentsTotalSizeLimit())
             );
             $this->showAttachmentsCommand();
             return;
@@ -175,7 +175,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         );
 
         if ($files !== [] && $files[0] === 'ALL_OBJECTS') {
-            $files = array_map(static fn(array $file): string => $file['name'], $this->mfile->getUserFilesData());
+            $files = array_map(static fn(array $file): string => $file['name'], $this->fdm->getUserFilesData());
         }
 
         if ($files === []) {
@@ -224,7 +224,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
             $decoded_files[] = urldecode((string) $value);
         }
 
-        $error = $this->mfile->unlinkFiles($decoded_files);
+        $error = $this->fdm->unlinkFiles($decoded_files);
         if ($error !== '') {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('mail_error_delete_file') . ' ' . $error, true);
         } else {
@@ -288,7 +288,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         }
 
         $mail_data = $this->umail->retrieveFromStage();
-        $files = $this->mfile->getUserFilesData();
+        $files = $this->fdm->getUserFilesData();
         $records = [];
         $checked_items = [];
         foreach ($files as $file) {
@@ -358,7 +358,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
         $result = end($array);
 
         if ($result instanceof UploadResult && $result->isOK()) {
-            $identifier = $this->mfile->storeUploadedFile($result);
+            $identifier = $this->fdm->storeUploadedFile($result);
             $status = HandlerResult::STATUS_OK;
             $message = $this->lng->txt('saved_successfully');
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('saved_successfully'), true);
