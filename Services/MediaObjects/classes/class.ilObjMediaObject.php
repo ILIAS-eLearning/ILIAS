@@ -23,6 +23,10 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
 use ILIAS\MediaObjects\InternalDomainService;
+use ILIAS\Filesystem\Util\Convert\Images;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Convert\ImageConverter;
+use ILIAS\Filesystem\Util\Convert\ImageConversionOptions;
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
@@ -33,7 +37,8 @@ define("IL_MODE_FULL", 3);
  */
 class ilObjMediaObject extends ilObject
 {
-    private const DEFAULT_PREVIEW_SIZE = 80;
+    private const DEFAULT_PREVIEW_SIZE = 400;
+    private const DEFAULT_THUMB_SIZE = 80;
     protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
@@ -1227,15 +1232,13 @@ class ilObjMediaObject extends ilObject
         $target_file = $file_path["dirname"] . "/" .
             $location;
 
-        $returned_target_file = $DIC->fileConverters()
-            ->legacyImages()
-            ->resizeToFixedSize(
-                $a_file,
-                $target_file,
-                $a_width,
-                $a_height,
-                $a_constrain_prop
-            );
+        $returned_target_file = self::resizeToFixedSize(
+            $a_file,
+            $target_file,
+            $a_width,
+            $a_height,
+            $a_constrain_prop
+        );
 
         if ($returned_target_file !== $target_file) {
             throw new RuntimeException('Could not resize image');
@@ -1486,7 +1489,7 @@ class ilObjMediaObject extends ilObject
         string $a_file,
         string $a_thumbname,
     ): void {
-        $size = self::DEFAULT_PREVIEW_SIZE;
+        $size = self::DEFAULT_THUMB_SIZE;
         $m_dir = ilObjMediaObject::_getDirectory($this->getId());
         $t_dir = ilObjMediaObject::_getThumbnailDirectory($this->getId());
         $file = $m_dir . "/" . $a_file;
@@ -1642,7 +1645,7 @@ class ilObjMediaObject extends ilObject
                     $item->getLocation();
                 if (is_file($file)) {
                     $logger->debug("Calling image converter.");
-                    $this->image_converter->resizeToFixedSize(
+                    self::resizeToFixedSize(
                         $file,
                         $dir . "/mob_vpreview.png",
                         $a_width,
@@ -1692,6 +1695,53 @@ class ilObjMediaObject extends ilObject
             }
         }
     }
+
+    public static function resizeToFixedSize(
+        string $path_to_original,
+        string $path_to_output,
+        int $width,
+        int $height,
+        bool $crop_if_true_and_resize_if_false = true,
+        string $output_format = ImageOutputOptions::FORMAT_KEEP,
+        int $image_quality = 60
+    ): string {
+        $output_options = (new ImageOutputOptions())
+            ->withQuality($image_quality)
+            ->withFormat($output_format);
+        $conversion_options = (new ImageConversionOptions())
+            ->withMakeTemporaryFiles(false)
+            ->withThrowOnError(false)
+            ->withBackgroundColor('#FFFFFF');
+
+        $converter = new ImageConverter(
+            $conversion_options
+                ->withWidth($width)
+                ->withHeight($height)
+                ->withCrop($crop_if_true_and_resize_if_false)
+                ->withKeepAspectRatio(true),
+            $output_options,
+            Streams::ofResource(fopen($path_to_original, 'rb'))
+        );
+
+        return self::storeStream($converter, $path_to_output);
+    }
+
+    private static function storeStream(ImageConverter $converter, string $path): string
+    {
+        if (!$converter->isOK()) {
+            throw $converter->getThrowableIfAny() ?? new \RuntimeException('Could not create requested image');
+        }
+
+        $stream = $converter->getStream();
+
+        $stream->rewind();
+        if (file_put_contents($path, $stream->getContents()) === false) {
+            throw new \RuntimeException('Could not store image');
+        }
+        return $path;
+    }
+
+
 
     public function getVideoPreviewPic(
         bool $a_filename_only = false

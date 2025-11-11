@@ -336,6 +336,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         global $DIC;
 
+        if (!$DIC['ilAccess']->checkAccess('edit_permission', '', ROLE_FOLDER_ID)) {
+            return $this->raiseError('Check access failed. No permission to access role information', 'Server');
+        }
+
         $rbacreview = $DIC['rbacreview'];
 
         if (!$tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false)) {
@@ -694,6 +698,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         }
 
         global $DIC;
+
+        if (!$DIC['ilAccess']->checkAccess('edit_permission', '', ROLE_FOLDER_ID)) {
+            return $this->raiseError('Check access failed. No permission to access role information', 'Server');
+        }
 
         $rbacsystem = $DIC['rbacsystem'];
         $rbacreview = $DIC['rbacreview'];

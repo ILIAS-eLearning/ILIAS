@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#A képlet-kérdés hibás információt tartal
 assessment#:#errRecursionInResult#:#A képlet végtelen rekurziót tartalmaz.
 assessment#:#err_category_in_use#:#Legalább egy kategória nem törölhető. A kategória egy vagy több mértékegysége még használatban van.
 assessment#:#err_divider_too_big#:#Ebben a kérdésben az egyik változó oszója túl nagy.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#Ennek az értéknek a maximumnál kisebbnek kell lennie.
 assessment#:#err_duplicate_results#:#Többször használtál egy végeredményt. Ez tesztkérdésben nem megengedett
 assessment#:#err_no_formula#:#Képletet írjon
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Átirányítás
 assessment#:#redirect_after_finishing_tst#:#Átirányítás
 assessment#:#redirect_after_finishing_tst_desc#:#A teszt befejezése után az összes résztvevő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez. Külső weboldal megadásakor használjon teljes URL-t (beleértve a 'https://'-t is). ILIAS-objektumra irányításhoz használja annak láblécében levő állandó linket.
 assessment#:#redirect_always#:#mindig a megadott URL-re
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#csak akkor, ha a 'Vizsganézet' be van kapcsolva
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL
 assessment#:#region#:#Régió
 assessment#:#remove_as_participant#:#Meghatározottként eltávolítás
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Válaszlehetőségenkénti v
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Az 'Ellenőrzés' gombra kattintva előre meghatározott visszajelzés jelenik meg a felhasználó által kiválasztott válaszadási lehetőségre. A kérdéssel együtt kell elkészíteni az összes válaszhoz tartozó a visszajelzést. Nem minden kérdéstípus esetén lehetséges válaszfüggő visszajelzés.
 assessment#:#tst_instant_feedback_contents#:#Visszajelzés típusai
 assessment#:#tst_instant_feedback_desc#:#Amikor a kérdéseket visszajelzéssel állítják be, az a résztvevőknek a teszt kitöltése alatt jelenik meg.
-assessment#:#tst_instant_feedback_forced#:#Azonnali visszajelzés kikényszerítése
 assessment#:#tst_instant_feedback_results#:#Elért pontszámok
 assessment#:#tst_instant_feedback_results_desc#:#Az 'Ellenőrzés' gombra kattintva megjelenik, mennyi pontot kapna erre válaszra.
 assessment#:#tst_instant_feedback_solution#:#Legjobb lehetséges válasz megjelenítése
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Megbeszéléssorozat dátuma
 etal#:#etal_delete_confirmation_msg#:#Biztos, hogy törli az alábbi megbeszélést?
 etal#:#etal_edit#:#Általános
 etal#:#etal_invalid_user#:#A felhasználó nem létezik vagy nem hívható meg.
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#Új Talk
 etal#:#etal_open#:#Munkavállalói megbeszélés megnyitása
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#Összes
 etal#:#etal_status_completed#:#Befejezve
 etal#:#etal_status_pending#:#Függőben
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Lista nyomtatása
 lso#:#lso_read#:#A felhasználónak hozzáférés van a tanulási sorhoz
 lso#:#lso_search_users#:#Felhasználók keresése
 lso#:#lso_settings_availability#:#Elérhetőség
-lso#:#lso_settings_availability_error#:#A záró dátum nem lehet korábbi, mint a kezdő dátum.
 lso#:#lso_settings_extro#:#Kilépőoldal beállításai
 lso#:#lso_settings_intro#:#Bemutatkozó-oldal beállításai
 lso#:#lso_settings_old_extro#:#Korábbi Kilépőoldal megjelenítése

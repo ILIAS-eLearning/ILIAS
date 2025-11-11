@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Eine Formelfrage enthält fehlerhafte Angaben
 assessment#:#errRecursionInResult#:#Die Formel enthält eine nicht auflösbare Rekursion.
 assessment#:#err_category_in_use#:#Die Kategorie kann nicht gelöscht werden. Eine oder mehrere Einheiten der Kategorie sind bereits in Benutzung.
 assessment#:#err_divider_too_big#:#Der Teiler einer der Variablen in dieser Frage ist zu gross.
+assessment#:#err_divider_too_big_specific#:#Der Teiler dieser Variable ist zu gross.
 assessment#:#err_division#:#Der von Ihnen gesetzte Wert macht es unmöglich einen gültigen Wert für die Variable zu generieren.
 assessment#:#err_duplicate_results#:#Sie haben eine Ergebnisvariable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
 assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an.
@@ -1498,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Unterschiedliche Rückmeldun
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS zu jeder abgegebenen Antwort die jeweils hinterlegte  Rückmeldung an. Nicht alle Fragetypen unterstützen diese Art von Rückmeldungen. Die Rückmeldungen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
-assessment#:#tst_instant_feedback_forced#:#Rückmeldung immer beim Einreichen einer Antwort anzeigen
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
 assessment#:#tst_instant_feedback_results_desc#:#Klicken Teilnehmer beim Beantworten einer Frage auf den Button 'Rückmeldung anfordern' zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreichen wurden.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
@@ -2791,7 +2791,7 @@ certificate#:#certificate_short_name_description#:#Bitte geben Sie einen Kurztit
 certificate#:#certificate_text#:#Text des Zertifikats
 certificate#:#certificate_text_info#:#Bitte geben Sie hier den Text des Zertifikats ein. Falls der WYSIWYG-Edtior in der ILIAS-Administration deaktiviert wurde, können Sie hier dennoch gültiges XHTML zur Formatierung nutzen.<br><br>
 certificate#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
-certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird in der Hauptseite der Administration in der Kategorie Web-Services konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
+certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird durch Angabe von Netzwerk-Host und -Port über das ILIAS-Setup konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
 certificate#:#certificate_var_max_points#:#Maximale Punktzahl im verwendeten Test
 certificate#:#certificate_var_result_mark_long#:#Erreichte Note in der Form 'Offizielle Bezeichnung'
 certificate#:#certificate_var_result_mark_short#:#Erreichte Note in der Form 'Kurzbezeichnung'
@@ -4729,7 +4729,7 @@ common#:#msg_link_clipboard_p#:#Wählen Sie nun den gewünschten Ort, in den die
 common#:#msg_link_clipboard_s#:#Wählen Sie nun den gewünschten Ort, in den das ausgewählte Objekt verknüpft werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
-common#:#msg_min_one_role#:#Jedes ILIAS-Konto muss mindestens einer globalen Rolle zugewiesen sein!
+common#:#msg_min_one_role#:#Jedes ILIAS-Konto muss mindestens einer globalen Rolle zugewiesen sein.
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Anmeldekonto löschen.
@@ -5530,6 +5530,7 @@ common#:#select#:#Auswählen
 common#:#select_all#:#Alle auswählen
 common#:#select_at_least_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 common#:#select_file#:#Datei wählen
+common#:#select_file_from_computer#:#Datei wählen
 common#:#select_files_from_computer#:#Dateien wählen
 common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus.
@@ -8692,6 +8693,7 @@ dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstell
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
+dcl#:#dcl_no_table_found#:#Keine sichbare Tabelle verfügbar!
 dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
@@ -8820,6 +8822,8 @@ dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation diese
 dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
+dcl#:#table_not_found#:#Tabelle nicht gefunden!
+dcl#:#tableview_not_found#:#Tabellenansicht nicht gefunden!
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -9165,8 +9169,10 @@ etal#:#etal_date_series_edit#:#Gesprächsserie
 etal#:#etal_delete_confirmation_msg#:#Sind Sie sicher, dass das folgende Gespräch gelöscht werden soll?
 etal#:#etal_edit#:#Allgemein
 etal#:#etal_invalid_user#:#Dieses Konto existiert nicht, oder kann nicht eingeladen werden.
+etal#:#etal_location#:#Ort
 etal#:#etal_new#:#Neues Gespräch
 etal#:#etal_open#:#Gespräch öffnen
+etal#:#etal_recurrence#:#Wiederholung
 etal#:#etal_status_all#:#Alle
 etal#:#etal_status_completed#:#Abgeschlossen
 etal#:#etal_status_pending#:#Ausstehend
@@ -10953,7 +10959,6 @@ lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
-lso#:#lso_settings_availability_error#:#Das Enddatum darf nicht vor dem Startdatum liegen
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen

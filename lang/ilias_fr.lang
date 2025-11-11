@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#A question de type Formule contient des inform
 assessment#:#errRecursionInResult#:#La formule contient une récursivité infinie.
 assessment#:#err_category_in_use#:#Au minimum une catégorie ne peut être supprimée. Une ou plusieurs unités de la catégorie sont encore utilisées.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.
 assessment#:#err_duplicate_results#:#Vous avez utilisé une variable de résultat plusieurs fois, ce qui n'est pas autorisé dans le texte d'une question.
 assessment#:#err_no_formula#:#Vous devez entrer une formule
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Rediriger
 assessment#:#redirect_after_finishing_tst#:#Rediriger à la fin du test
 assessment#:#redirect_after_finishing_tst_desc#:#Après avoir terminé le test, chaque participant est automatiquement redirigé vers une page Web définie. Ceci est valable uniquement si les participants n'ont pas accès à  leurs résultats.
 assessment#:#redirect_always#:#Toujours vers la page web définie
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Rediriger uniquement en mode kiosque
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Cible de la redirection
 assessment#:#region#:#Zone
 assessment#:#remove_as_participant#:#Retirer de la Liste des Participants
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Commentaire spécifique à  
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Si coché, le Commentaire sera affiché en fonction des réponses du participant (si la configuration de la question le permet).
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_forced#:#Forcer le retour instantané
 assessment#:#tst_instant_feedback_results#:#Résultats (en points)
 assessment#:#tst_instant_feedback_results_desc#:#Si coché, les points atteints seront affichés.
 assessment#:#tst_instant_feedback_solution#:#Solutions
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 10 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 10 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 10 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 10 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 10 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 10 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 10 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 10 2023 new variable
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Print list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search user
 lso#:#lso_settings_availability#:#availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 10 2023 new variable

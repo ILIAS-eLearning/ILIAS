@@ -26,4 +26,8 @@ declare(strict_types=1);
  */
 class ilTestPageConfig extends ilPageConfig
 {
+    public function init(): void
+    {
+        $this->setEnablePCType('ContentInclude', true);
+    }
 }

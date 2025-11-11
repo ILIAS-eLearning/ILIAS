@@ -145,7 +145,10 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         );
 
         $this->tpl->setContent(
-            $this->main_settings->getIntroductionSettings()->getIntroductionText()
+            ilRTE::_replaceMediaObjectImageSrc(
+                $this->main_settings->getIntroductionSettings()->getIntroductionText(),
+                1
+            )
         );
     }
 
@@ -159,7 +162,10 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         );
 
         $this->tpl->setContent(
-            $this->main_settings->getFinishingSettings()->getConcludingRemarksText()
+            ilRTE::_replaceMediaObjectImageSrc(
+                $this->main_settings->getFinishingSettings()->getConcludingRemarksText(),
+                1
+            )
         );
     }
 

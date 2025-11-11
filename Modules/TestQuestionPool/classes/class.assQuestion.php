@@ -2239,7 +2239,7 @@ abstract class assQuestion
             $question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
 
             $assSettings = new ilSetting('assessment');
-            $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
+            $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB, ilLoggerFactory::getLogger('tst'));
             $processLockerFactory->setQuestionId($question_gui->object->getId());
             $processLockerFactory->setUserId($ilUser->getId());
             $processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());

@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Jedno pytanie formuły zawiera błędne dane
 assessment#:#errRecursionInResult#:#Formuła zawiera nie możliwą do rozwiązania rekursję.
 assessment#:#err_category_in_use#:#Nie można usunąć kategorii. Jedna lub kilka jednostek tej kategorii są już używane.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#Kilkakrotnie użyłeś jednej zmiennej wyniku. Poza tekstem zadania jest to niedozwolone!
 assessment#:#err_no_formula#:#Podaj formułę do obliczenia wyniku.
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Przekierowanie
 assessment#:#redirect_after_finishing_tst#:#Przekierowanie
 assessment#:#redirect_after_finishing_tst_desc#:#Po zakończeniu testu uczestnicy zostaną automatycznie przekierowani do określonej strony internetowej. Taka sytuacja ma miejsce tylko wtedy, gdy test został skonfigurowany tak, że po zakończeniu testu uczestnicy nie mają wglądu do swoich wyników.
 assessment#:#redirect_always#:#zawsze na określoną stronę docelową
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#tylko w przypadku aktywnego widoku egzaminacyjnym
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Strona docelowa URL
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Usuń stałego uczestnika
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Pokaż właściwą do odpowi
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Po kliknięciu opcji 'Zażądaj komunikatu zwrotnego' ILIAS wyświetli każdej udzielonej odpowiedzi odpowiedni, zapisany komunikat zwrotny. Nie wszystkie typy pytań obsługują ten rodzaj komunikatów zwrotnych. Komunikaty zwrotne należy zapisać przy odpowiedzi w zakładce 'Komunikat zwrotny'.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_forced#:#Wyświetl komunikat zwrotny zawsze przy udzieleniu odpowiedzi
 assessment#:#tst_instant_feedback_results#:#Pokaż wyniki (tylko punkty)
 assessment#:#tst_instant_feedback_results_desc#:#Jeśli uczestnicy klikną przy odpowiadaniu na pytanie na opcję  'Zażądaj komunikatu zwrotnego', ILIAS wyświetli liczbę punktów otrzymanych za tę odpowiedź.
 assessment#:#tst_instant_feedback_solution#:#Pokaż rozwiązania
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Print list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search user
 lso#:#lso_settings_availability#:#availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable

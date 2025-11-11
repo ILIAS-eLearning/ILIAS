@@ -59,7 +59,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ?ilCertificateTemplateImportAction $importAction = null,
         ?ilLogger $logger = null,
         ?ilCertificateTemplateRepository $templateRepository = null,
-        ?Filesystem $filesystem = null,
+        ?Filesystem $web_fs = null,
+        ?Filesystem $tmp_fs = null,
         ?ilCertificateBackgroundImageFileService $backgroundImageFileService = null
     ) {
         global $DIC;
@@ -76,7 +77,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $certificatePath,
             $placeholderDescriptionObject,
             ($logger ?? $DIC->logger()->cert()),
-            $DIC->filesystem()->web()
+            $web_fs ?? $DIC->filesystem()->web(),
+            $tmp_fs ?? $DIC->filesystem()->temp()
         );
         $this->templateRepository = $templateRepository ?? new ilCertificateTemplateDatabaseRepository(
             $DIC->database(),
@@ -84,7 +86,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         );
         $this->backGroundImageFileService = $backgroundImageFileService ?? new ilCertificateBackgroundImageFileService(
             $certificatePath,
-            ($filesystem ?? $DIC->filesystem()->web())
+            ($web_fs ?? $DIC->filesystem()->web())
         );
 
         $this->global_certificate_settings = new ilObjCertificateSettings();

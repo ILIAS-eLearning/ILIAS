@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#En formelfråga innehåller felaktig informati
 assessment#:#errRecursionInResult#:#Formeln innehåller en icke-lösbar rekursion.
 assessment#:#err_category_in_use#:#Kategorin kan inte raderas. En eller flera enheter i kategorin används redan.
 assessment#:#err_divider_too_big#:#Divisorn för en av variablerna i denna fråga är för stor.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#Det värde du anger gör det omöjligt att generera ett giltigt värde för variabeln.
 assessment#:#err_duplicate_results#:#Du har använt en resultatvariabel mer än en gång. Detta är inte tillåtet i uppgiftstexten!
 assessment#:#err_no_formula#:#Ange en formel för att beräkna resultatet.
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Forwarding
 assessment#:#redirect_after_finishing_tst#:#Forwarding
 assessment#:#redirect_after_finishing_tst_desc#:#Deltagarna omdirigeras automatiskt till en definierad webbplats efter att ha slutfört testet. Detta händer bara om testet har konfigurerats så att deltagarna inte kan se sina testresultat efter att testet har slutförts. Om du anger adressen till en exter
 assessment#:#redirect_always#:# alltid till den definierade målsidan
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Nur när granskningsvyn är aktiverad
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL målsida
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Avlägsna som fast deltagare
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Olika feedback per givet sva
 assessment#:#tst_instant_feedback_answer_specific_desc#:#När du klickar på knappen "Begär feedback" visar ILIAS respektive feedback för varje inlämnat svar. Inte alla frågetyper stöder denna typ av feedback. Återkopplingen måste lagras i frågan på fliken "Återkoppling".
 assessment#:#tst_instant_feedback_contents#:#Innehållet i återkopplingen
 assessment#:#tst_instant_feedback_desc#:#Om frågorna är försedda med feedback är dessa tillgängliga för deltagarna under testet.
-assessment#:#tst_instant_feedback_forced#:#Visa alltid feedback när du skickar ett svar
 assessment#:#tst_instant_feedback_results#:#Antal uppnådda poäng
 assessment#:#tst_instant_feedback_results_desc#:#När deltagarna svarar på en fråga klickar de på knappen "Begär feedback" och ILIAS visar hur många poäng som uppnåddes för det givna svaret.
 assessment#:#tst_instant_feedback_solution#:#Visa bästa möjliga lösning
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Talkserie
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#Allmänt
 etal#:#etal_invalid_user#:#Detta konto existerar inte eller kan inte bjudas in.
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#Nytt samtal
 etal#:#etal_open#:#Öppen konversation
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#Alla
 etal#:#etal_status_completed#:#Fullbordad
 etal#:#etal_status_pending#:#Utgående
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Skapa lista
 lso#:#lso_read#:#Läsning tillgång till Learning Sequence
 lso#:#lso_search_users#:#Sök användare
 lso#:#lso_settings_availability#:#Tillgänglighet
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Redigera sista sidan
 lso#:#lso_settings_intro#:#Redigera introduktionssida
 lso#:#lso_settings_old_extro#:#Visa gamla avslutande sidan

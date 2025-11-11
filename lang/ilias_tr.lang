@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.###24 10 2013 new variable
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.###24 10 2013 new variable
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.###24 10 2013 new variable
 assessment#:#err_no_formula#:#You must enter a formula###24 10 2013 new variable
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Redirect###27 01 2015 new variable
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test###24 10 2013 new variable
 assessment#:#redirect_after_finishing_tst_desc#:#After completion of test each participant is automatically redirected to a defined webpage. This is only valid if the participants have no access to their test results.###27 01 2015 new variable
 assessment#:#redirect_always#:#always to defined webpage###27 01 2015 new variable
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode###24 10 2013 new variable
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Redirection target###24 10 2013 new variable
 assessment#:#region#:#Bölge
 assessment#:#remove_as_participant#:#Sabit Katılımcı olarak kaldır
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Soruya Özgü Geri Bildiriml
 assessment#:#tst_instant_feedback_answer_specific_desc#:#If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant (if supported by the question type).###26 09 2014 new variable
 assessment#:#tst_instant_feedback_contents#:#Included Contents###10 11 2018 new variable
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.###10 11 2018 new variable
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback###30 08 2015 new variable
 assessment#:#tst_instant_feedback_results#:#Sonuçları Göster (Sadece Puan)
 assessment#:#tst_instant_feedback_results_desc#:#If results (in points) are selected, the reached points will be shown.###26 09 2014 new variable
 assessment#:#tst_instant_feedback_solution#:#Çözümleri Göster
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Print list###10 11 2018 new variable
 lso#:#lso_read#:#User has read access to Learning Sequence###10 11 2018 new variable
 lso#:#lso_search_users#:#Search user###10 11 2018 new variable
 lso#:#lso_settings_availability#:#availability###10 11 2018 new variable
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings###10 11 2018 new variable
 lso#:#lso_settings_intro#:#Intropage Settings###10 11 2018 new variable
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable

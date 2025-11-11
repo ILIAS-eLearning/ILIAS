@@ -3,7 +3,11 @@
 ## Short Term
 
 ## Mid Term
-- Split AuthType and Ordering into seperate fields. Currently there is the mixer of int and int_int, which make typing difficult.
+- **Introduce clearer and more consistent status methods for** `ilAuthSession`.
+  Currently, determining the actual authentication state is cumbersome for consumers.
+  The distinction between `isValid()` and `isAuthenticated()` is unclear, and calling
+  `isAuthenticated()` without deeper knowledge of ILIAS internals may lead to confusion,
+  for example, the "Anonymous" user is also treated as authenticated.
 
 ### Improve Architecture
 

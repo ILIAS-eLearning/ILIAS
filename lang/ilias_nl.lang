@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Een Formula-vraag bavt incorrect informatie!!
 assessment#:#errRecursionInResult#:#De formule bevat een oneindige recursie.
 assessment#:#err_category_in_use#:#Tenminste een categorie kon niet worden verwijderd. Een of meer eenheden van de categorie zijn in gebruikt.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#Je gebruikt een resultaatvariabele meerdere malen. Dit is niet toegestaan in de vraagtekst.
 assessment#:#err_no_formula#:#Je moet een formule invoeren
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Redirect###06 02 2015 new variable
 assessment#:#redirect_after_finishing_tst#:#Verwijzing na voltooien van toets
 assessment#:#redirect_after_finishing_tst_desc#:#De deelnemer wordt, na voltooing van de toets, automatisch naar een bepaalde website geleid. Dat gebeurt alleen als de toets zodanig is geconfigureerd dat de deelnemer na het voltoooien van de toets het resultaat niet kan inzien.
 assessment#:#redirect_always#:#always to defined webpage###06 02 2015 new variable
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Doorsturen alleen in kiosk modus
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Omleiden naar
 assessment#:#region#:#Regio
 assessment#:#remove_as_participant#:#Verwijder als vaste deelnemer
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Toon specifiek antwoord feed
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Als antwoord-specifieke feedback is geselecteerd zal de voorgedefieerde feedback worden getoond, afhankelijk van de antwoorden van de deelnemer (indien dit wordt ondersteund door het vragentype).
 assessment#:#tst_instant_feedback_contents#:#Included Contents###10 11 2018 new variable
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.###10 11 2018 new variable
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback###30 08 2015 new variable
 assessment#:#tst_instant_feedback_results#:#Toon resultaten (alleen punten)
 assessment#:#tst_instant_feedback_results_desc#:#Na het vragen van feedback zal ILIAS tonen hoeveel punten er zijn gehaald
 assessment#:#tst_instant_feedback_solution#:#Toon oplossingen
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Print list###10 11 2018 new variable
 lso#:#lso_read#:#User has read access to Learning Sequence###10 11 2018 new variable
 lso#:#lso_search_users#:#Search user###10 11 2018 new variable
 lso#:#lso_settings_availability#:#availability###10 11 2018 new variable
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings###10 11 2018 new variable
 lso#:#lso_settings_intro#:#Intropage Settings###10 11 2018 new variable
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable

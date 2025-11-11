@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Otázka se vzorcem obsahuje nekorektní inform
 assessment#:#errRecursionInResult#:#Vzorec obsahuje neurčitou rekurzi.
 assessment#:#err_category_in_use#:#Nejméně jedna kategorie nemůže být smazána. Jedna nebo více jednotek je již v použití.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#Použil(a) jste více než jednu proměnnou výsledku. To textu otázky není povoleno.
 assessment#:#err_no_formula#:#Musíte vložit vzorec
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Přesměrovat
 assessment#:#redirect_after_finishing_tst#:#Přesměrovat po ukončení testu
 assessment#:#redirect_after_finishing_tst_desc#:#Po ukončení testu je každý účastník automaticky přesměrován na definovanou webovou stránku. To platí pouze v případě, že účastníci nemají přístup k výsledkům svých testů.
 assessment#:#redirect_always#:#vždy na definovanou webovou stránku
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Přesměrovat jen v kioskovém módu
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Cíl přesměrování
 assessment#:#region#:#Oblast
 assessment#:#remove_as_participant#:#Odstranit jako fixního účastníka
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Zobrazit odpovědi specifick
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Je-li zvolena zpětná vazba specifická pro odpověď, zobrazí se předem definovaná zpětná vazba v závislosti na odpovědích účastníka (pokud je podporován typem otázky).
 assessment#:#tst_instant_feedback_contents#:#Zahrnutý obsah
 assessment#:#tst_instant_feedback_desc#:#Když jsou otázky konfigurovány se zpětnou vazbou, je účastníkům poskytnuta během průchodu testem.
-assessment#:#tst_instant_feedback_forced#:#Vynutit okamžitou zpětnou vazbu
 assessment#:#tst_instant_feedback_results#:#Zobrazit výsledky (jen body)
 assessment#:#tst_instant_feedback_results_desc#:#Pokud jsou vybrány výsledky (v bodech), zobrazí se dosažené body.
 assessment#:#tst_instant_feedback_solution#:#Zobrazit řešení
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Vytisknout seznam
 lso#:#lso_read#:#Uživatel má přístup pro čtení k sekvenci učení
 lso#:#lso_search_users#:#Vyhledat uživatele
 lso#:#lso_settings_availability#:#dostupnost
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Nastavení Exitpage
 lso#:#lso_settings_intro#:#Nastavení Intropage
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable

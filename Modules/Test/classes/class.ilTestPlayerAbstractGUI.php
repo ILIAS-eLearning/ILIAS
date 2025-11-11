@@ -115,7 +115,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function initProcessLocker($activeId)
     {
         $ilDB = $this->db;
-        $processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB);
+        $processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB, ilLoggerFactory::getLogger('tst'));
         $this->processLocker = $processLockerFactory->withContextId((int) $activeId)->getLocker();
     }
 
@@ -2141,7 +2141,7 @@ JS;
         $question = assQuestion::instantiateQuestion($question_id);
         $ass_settings = new ilSetting('assessment');
 
-        $process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $this->db);
+        $process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $this->db, ilLoggerFactory::getLogger('tst'));
         $process_locker_factory->setQuestionId($question->getId());
         $process_locker_factory->setUserId($this->user->getId());
         $process_locker_factory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());

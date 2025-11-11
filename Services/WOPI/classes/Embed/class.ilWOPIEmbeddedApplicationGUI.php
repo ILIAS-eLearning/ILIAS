@@ -21,9 +21,9 @@ declare(strict_types=1);
 use ILIAS\GlobalScreen\Services;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory;
-use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
-use ILIAS\Services\WOPI\Embed\Renderer;
-use ILIAS\Services\WOPI\Embed\EmbeddedApplicationGSProvider;
+use ILIAS\WOPI\Embed\EmbeddedApplication;
+use ILIAS\WOPI\Embed\Renderer;
+use ILIAS\WOPI\Embed\EmbeddedApplicationGSProvider;
 use ILIAS\FileDelivery\Token\DataSigner;
 
 /**
@@ -81,7 +81,7 @@ class ilWOPIEmbeddedApplicationGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->global_screen = $DIC->globalScreen();
-        $this->global_screen->layout()->meta()->addJs('./Services/WOPI/js/dist/index.min.js');
+        $this->global_screen->layout()->meta()->addJs('./Services/WOPI/resources/js/dist/wopi.min.js');
         $this->global_screen->layout()->meta()->addOnloadCode('il.WOPI.init();');
         $this->renderer = new Renderer($this->application);
         $this->ui_renderer = $DIC->ui()->renderer();

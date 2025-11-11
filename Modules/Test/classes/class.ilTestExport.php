@@ -56,6 +56,8 @@ abstract class ilTestExport
     protected string $inst_id;
     private ResourceStorage $irss;
 
+    private ilObjUser $user;
+
     public function __construct(
         public ilObjTest $test_obj,
         public string $mode = "xml"
@@ -67,6 +69,7 @@ abstract class ilTestExport
         $this->lng = $DIC['lng'];
         $this->bench = $DIC['ilBench'];
         $this->irss = $DIC['resource_storage'];
+        $this->user = $DIC['ilUser'];
 
         $this->inst_id = (string) IL_INST_ID;
 
@@ -248,11 +251,12 @@ abstract class ilTestExport
 
         if ($this->isResultExportingEnabledForTestExport()) {
             $resultwriter = new ilTestResultsToXML(
-                $this->test_obj->getTestId(),
+                $this->test_obj,
                 $this->db,
                 $this->irss,
-                $this->export_dir . "/" . $this->subdir . "/objects",
-                $this->test_obj->getAnonymity()
+                $this->user,
+                $this->lng,
+                "{$this->export_dir}/{$this->subdir}/objects"
             );
             $resultwriter->setIncludeRandomTestQuestionsEnabled($this->test_obj->isRandomTest());
             $this->bench->start("TestExport", "buildExportFile_results");

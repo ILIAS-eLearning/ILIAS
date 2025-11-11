@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Pitanje u obliku formule sadrži netočne info
 assessment#:#errRecursionInResult#:#Formula sadrži beskonačnu rekurziju.
 assessment#:#err_category_in_use#:#Najmanje jedna kategorija se ne može izbrisati. Jedna ili više jedinica ove kategorije se već koriste.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#Jednu ste varijablu rezultata koristili više puta. Ovo nije dopušteno u tekstu pitanja.
 assessment#:#err_no_formula#:#Morate unijeti formulu
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Preusmjeravanje
 assessment#:#redirect_after_finishing_tst#:#Preusmjeravanje
 assessment#:#redirect_after_finishing_tst_desc#:#Nakon završetka testa svaki se sudionik automatski preusmjerava na definiranu internetsku stranicu. To vrijedi samo ako sudionici nakon završetka testa nemaju pristup svojim rezultatima testa.
 assessment#:#redirect_always#:#uvijek na definiranu internetsku stranicu
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#samo kada je aktiviran prikaz testa
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL internetske stranice
 assessment#:#region#:#Regija
 assessment#:#remove_as_participant#:#Ukloni kao fiksnog sudionika
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Različite povratne informac
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Klikom na tipku ‘Provjeri'ILIAS će pokazati određenu povratnu informaciju za svaki mogući odgovor koji je odabrao sudionik. Povratna informacija mora se pohraniti uz pitanje. Ovu vrstu povratne informacije ne podržavaju sve vrste pitanja.
 assessment#:#tst_instant_feedback_contents#:#Sadržaji povratne informacije
 assessment#:#tst_instant_feedback_desc#:#Kada su pitanja konfigurirana s povratnim informacijama, te informacije sudionicima stoje na raspolaganju tijekom testa.
-assessment#:#tst_instant_feedback_forced#:#Prikaži povratne informacije uvijek prilikom predaje odgovora
 assessment#:#tst_instant_feedback_results#:#Ostvareni bodovi
 assessment#:#tst_instant_feedback_results_desc#:#Klikom na tipku ‘Provjeri’ ILIAS će prikazati koliko je bodova postignuto danim odgovorom.
 assessment#:#tst_instant_feedback_solution#:#Prikaži najbolji mogući odgovor
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Generiraj popis
 lso#:#lso_read#:#Korisnik ima pristup za čitanje sekvence učenja
 lso#:#lso_search_users#:#Pretraži korisnike
 lso#:#lso_settings_availability#:#dostupnost
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Postavke izlazne stranice
 lso#:#lso_settings_intro#:#Postavke uvodne stranice
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable

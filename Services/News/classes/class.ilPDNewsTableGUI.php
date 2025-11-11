@@ -230,9 +230,9 @@ class ilPDNewsTableGUI extends ilTable2GUI
 
         // file hack, not nice
         if ($obj_type === "file") {
-            $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_set["ref_id"]);
-            $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
-            $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
+            $ilCtrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $a_set["ref_id"]);
+            $url = $ilCtrl->getLinkTargetByClass(ilRepositoryGUI::class, "sendfile");
+            $ilCtrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $this->std_request->getRefId());
 
             $button = $this->gui->button(
                 $this->lng->txt("download"),

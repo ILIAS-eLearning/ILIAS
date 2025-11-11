@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Uma pergunta de fórmula contém informação 
 assessment#:#errRecursionInResult#:#A fórmula contém um recurso infinito.
 assessment#:#err_category_in_use#:#Pelo menos uma categoria não pode ser apagada. Uma ou mais unidades da categoria já estão a ser usadas.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#Usou uma variável do resultado mais do que uma vez. Isso não é permitido no texto da pergunta.
 assessment#:#err_no_formula#:#Tem de introduzir uma fórmula
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Redirecionar
 assessment#:#redirect_after_finishing_tst#:#Redirecionar
 assessment#:#redirect_after_finishing_tst_desc#:#Uma vez completado o teste, cada participante será automaticamente redirecionado para uma página definida da web. Isto só é válido se os participantes não tiverem acesso aos resultados do seu teste.
 assessment#:#redirect_always#:#sempre para a página da web definida
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#apenas quando a vista de exame está ativada
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL da página web
 assessment#:#region#:#Região
 assessment#:#remove_as_participant#:#Remover como participante fixo
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Se clicar no botão ‘Marca
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Pontos obtidos
 assessment#:#tst_instant_feedback_contents#:#Se clicar no botão ‘Marcar’, ILIAS mostra quantos pontos foram obtidos ao responder a esta pergunta.
 assessment#:#tst_instant_feedback_desc#:#Mostrar a melhor resposta possível
-assessment#:#tst_instant_feedback_forced#:#Forçar feedback instantâneo
 assessment#:#tst_instant_feedback_results#:#Ao clicar no botão ‘Marcar', ILIAS mostra a melhor resposta possível à pergunta.
 assessment#:#tst_instant_feedback_results_desc#:#Mensagem introdutória
 assessment#:#tst_instant_feedback_solution#:#Mostra uma mensagem introdutória no separador 'Informação' do teste. Este texto está acessível antes de o teste poder ser iniciado.
@@ -9162,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10950,7 +10955,6 @@ lso#:#lso_print_list#:#Nenhuns metadados disponíveis para a secção de Técnic
 lso#:#lso_read#:#Não usado
 lso#:#lso_search_users#:#Obrigatório
 lso#:#lso_settings_availability#:#Opcional
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Sistema Operativo
 lso#:#lso_settings_intro#:#Ou composto
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable

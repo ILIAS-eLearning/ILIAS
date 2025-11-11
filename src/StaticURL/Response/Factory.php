@@ -30,11 +30,25 @@ class Factory
     ) {
     }
 
-    public function cannot(): CannotHandle
+    /**
+     * @description The current Handler cannot redirect the user to the target (e.g. due to missing permissions).
+     */
+    public function cannot(): CannotReach
+    {
+        return new CannotReach();
+    }
+
+    /**
+     * @description The current Handler cannot handle the request (e.g. due to missing resource).
+     */
+    public function notFound(): CannotHandle
     {
         return new CannotHandle();
     }
 
+    /**
+     * @description The user needs to login first before the target may can be reached.
+     */
     public function loginFirst(): MaybeCanHandlerAfterLogin|CannotReach
     {
         if ($this->context->isUserLoggedIn()) {
@@ -47,6 +61,9 @@ class Factory
         return new MaybeCanHandlerAfterLogin();
     }
 
+    /**
+     * @description Everything is fine, the target can be reached. Provide the URI path to it.
+     */
     public function can(string $uri_path): CanHandleWithURIPath
     {
         return new CanHandleWithURIPath($uri_path);

@@ -31,8 +31,8 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data\DataSize;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
-use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
-use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Capabilities\CapabilityBuilder;
@@ -279,7 +279,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $action = match ($capability->getCapability()) {
                     Capabilities::VIEW_EXTERNAL => $this->action_repo->getViewActionForSuffix($suffix),
                     Capabilities::EDIT_EXTERNAL => $this->action_repo->getEditActionForSuffix($suffix),
-                    default => $this->action_repo->null()
+                    default => null
                 };
 
                 $this->tabs_gui->activateTab('content');
@@ -298,7 +298,8 @@ class ilObjFileGUI extends ilObject2GUI
                     $action,
                     $this->stakeholder,
                     new URI($goto_link),
-                    $capability->getCapability() === Capabilities::VIEW_EXTERNAL
+                    $capability->getCapability() === Capabilities::VIEW_EXTERNAL,
+                    $this->lng->getLangKey()
                 );
 
                 $this->ctrl->forwardCommand(

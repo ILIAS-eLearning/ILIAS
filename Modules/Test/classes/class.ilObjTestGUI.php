@@ -590,7 +590,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $this->addHeaderAction();
                 $test_process_locker_factory = (new ilTestProcessLockerFactory(
                     new ilSetting('assessment'),
-                    $this->db
+                    $this->db,
+                    ilLoggerFactory::getLogger('tst')
                 ))->withContextId($this->object->getId());
                 $gui = new ilTestRandomQuestionSetConfigGUI(
                     $this->getTestObject(),
@@ -1303,8 +1304,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl->redirect($this, 'create');
             return false;
         }
-        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
-        $qtiParser->startParsing();
+        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "", [], true);
+        try {
+            $qtiParser->startParsing();
+        } catch (ilSaxParserException) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('import_file_not_valid'), true);
+            $this->ctrl->redirect($this, 'create');
+            return false;
+        }
         $founditems = $qtiParser->getFoundItems();
 
         $complete = 0;
@@ -1500,6 +1507,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             );
         }
 
+        if ($newObj->getId() > 0) {
+            $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);
+        }
 
         // delete import directory
         ilFileUtils::delDir(ilObjTest::_getImportDirectory());

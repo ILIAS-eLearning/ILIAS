@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,8 +14,9 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * QTI item class
@@ -76,6 +75,9 @@ class ilQTIItem
     protected ?string $iliasSourceVersion = null;
     protected ?string $iliasSourceNic = null;
     protected array $response = [];
+
+    private array $unit_categories = [];
+    private array $units = [];
 
     public function setIdent(string $a_ident): void
     {
@@ -260,6 +262,64 @@ class ilQTIItem
         }
 
         return $this->questiontype;
+    }
+
+    public function addUnitCategory(string $label, array $unit_category): void
+    {
+        $this->unit_categories[$label] = $unit_category;
+    }
+
+    public function getUnitCategories(): array
+    {
+        return $this->unit_categories;
+    }
+
+    /**
+     * @return assFormulaQuestionUnitCategory[]
+     */
+    public function getUnitCategoryObjets(): array
+    {
+        $unit_categories = [];
+        foreach ($this->getUnitCategories() as $key => $unit_category) {
+            $formula_question_unit_category = new assFormulaQuestionUnitCategory();
+            $formula_question_unit_category->setCategory($key);
+            $formula_question_unit_category->setId((int) $unit_category['id']);
+            $formula_question_unit_category->setQuestionFi((int) $unit_category['question_fi']);
+            $unit_categories[$key] = $formula_question_unit_category;
+        }
+
+        return $unit_categories;
+    }
+
+    public function addUnit(string $label, array $unit): void
+    {
+        $this->units[$label] = $unit;
+    }
+
+    public function getUnits(): array
+    {
+        return $this->units;
+    }
+
+    /**
+     * @return assFormulaQuestionUnit[]
+     */
+    public function getUnitObjects(): array
+    {
+        $units = [];
+        foreach ($this->getUnits() as $key => $unit) {
+            $formula_question_unit = new assFormulaQuestionUnit();
+            $formula_question_unit->setUnit($key);
+            $formula_question_unit->setId((int) $unit['id']);
+            $formula_question_unit->setSequence((int) $unit['sequence']);
+            $formula_question_unit->setFactor((float) $unit['factor']);
+            $formula_question_unit->setBaseUnit((int) $unit['base_unit']);
+            $formula_question_unit->setBaseunitTitle($unit['base_unit_title']);
+            $formula_question_unit->setCategory((int) $unit['category']);
+            $units[$key] = $formula_question_unit;
+        }
+
+        return $units;
     }
 
     public function setAuthor(string $a_author): void

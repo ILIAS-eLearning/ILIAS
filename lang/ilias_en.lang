@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.
 assessment#:#err_no_formula#:#You must enter a formula
@@ -1189,8 +1190,8 @@ assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presen
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
-assessment#:#show_old_concluding_remarks#:#Show old concluding remarks
-assessment#:#show_old_introduction#:#Show old introduction
+assessment#:#show_old_concluding_remarks#:#Show Old Concluding Remarks
+assessment#:#show_old_introduction#:#Show Old Introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Show User’s Marked Answers
@@ -1498,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each A
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test attempt.
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
 assessment#:#tst_instant_feedback_results#:#Points Attained
 assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’ button ILIAS will display how many points were attained by answering this question.
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
@@ -2539,7 +2539,7 @@ book#:#book_no_objects#:#No Bookings
 book#:#book_no_of_objects#:#No. of Units
 book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
-book#:#book_no_recurrence#:#Book only this date
+book#:#book_no_recurrence#:#Book only this dateDer Java-Server wird durch Angabe von Netzwerk-Host und -Port über das ILIAS-Setup konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
 book#:#book_not#:#Not
 book#:#book_not_enough_preferences#:#You have not selected enough preferences. Your preferences have not been saved.
 book#:#book_notification#:#Send Booking Notifications
@@ -2791,7 +2791,7 @@ certificate#:#certificate_short_name_description#:#Please enter a short title fo
 certificate#:#certificate_text#:#Certificate Text
 certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.<br><br>
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
+certificate#:#certificate_usage#:#Please note that the use and creation of certificates is only possible if you use the ILIAS Java server. The Java server is configured by specifying the network host and port via the ILIAS Setup and is required, among other things, for generating PDF files.
 certificate#:#certificate_var_max_points#:#Maximum number of points in the test used
 certificate#:#certificate_var_result_mark_long#:#Achieved mark presented in 'official form'
 certificate#:#certificate_var_result_mark_short#:#Achieved mark presented in 'short form'
@@ -4729,7 +4729,7 @@ common#:#msg_link_clipboard_p#:#Now, please select the desired location, where t
 common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
-common#:#msg_min_one_role#:#Each user must have at least one global role!
+common#:#msg_min_one_role#:#Each user must have at least one global role.
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
@@ -5530,6 +5530,7 @@ common#:#select#:#Select
 common#:#select_all#:#Select All
 common#:#select_at_least_one_object#:#Please choose at least one object.
 common#:#select_file#:#Select File
+common#:#select_file_from_computer#:#Select File
 common#:#select_files_from_computer#:#Select Files
 common#:#select_max_one_item#:#Please select one item only
 common#:#select_object_to_link#:#Please select the object which you want to link
@@ -6725,7 +6726,7 @@ content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Create Item Group
+content#:#cont_manual_item_group#:#Manually Created Item Group
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Master Language for Translation
@@ -8692,6 +8693,7 @@ dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you ca
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
+dcl#:#dcl_no_table_found#:#No visible table found!
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
@@ -8820,6 +8822,8 @@ dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification fo
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
+dcl#:#table_not_found#:#Table not found!
+dcl#:#tableview_not_found#:#Tableview not found!
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -9165,8 +9169,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.
+etal#:#etal_location#:#Location
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
+etal#:#etal_recurrence#:#Recurrence
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#Completed
 etal#:#etal_status_pending#:#Pending
@@ -10953,7 +10959,6 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_settings_availability#:#Availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Edit Exit Page
 lso#:#lso_settings_intro#:#Edit Intro Page
 lso#:#lso_settings_old_extro#:#View Old Exit Page

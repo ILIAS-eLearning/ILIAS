@@ -31,7 +31,8 @@ class ilTestProcessLockerFileTest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestProcessLockerFile(
-            $this->createMock(ilTestProcessLockFileStorage::class)
+            $this->createMock(ilTestProcessLockFileStorage::class),
+            $this->createMock(ilLogger::class)
         );
     }
 

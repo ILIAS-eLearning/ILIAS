@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Handler;
+namespace ILIAS\WOPI\Handler;
 
 use ILIAS\HTTP\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -31,28 +31,37 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  */
 final class RequestHandler
 {
+    /**
+     * @var string
+     */
     public const WOPI_BASE_URL = '/wopi/index.php/';
+    /**
+     * @var string
+     */
     public const NAMESPACE_FILES = 'files';
-
-    // WOPI Header
-    private const HEADER_X_REQUEST_ID = 'X-Request-ID';
+    /**
+     * @var string
+     */
     private const HEADER_AUTHORIZATION = 'Authorization';
+    /**
+     * @var string
+     */
     private const HEADER_AUTHORIZATION_BEARER = 'Bearer';
+    /**
+     * @var string
+     */
     public const HEADER_X_WOPI_OVERRIDE = 'X-WOPI-Override';
+    /**
+     * @var string
+     */
     public const HEADER_X_WOPI_LOCK = 'X-WOPI-Lock';
+    /**
+     * @var string
+     */
     public const HEADER_X_WOPI_FILE_CONVERSION = 'X-WOPI-FileConversion';
 
-    /**
-     * @readonly
-     */
     private Services $http;
-    /**
-     * @readonly
-     */
     private \ILIAS\ResourceStorage\Services $irss;
-    /**
-     * @readonly
-     */
     private DataSigner $data_signer;
     private ?int $token_user_id = null;
     private ?string $token_resource_id = null;
@@ -66,9 +75,10 @@ final class RequestHandler
         $this->http = $DIC->http();
         $this->data_signer = $DIC['file_delivery.data_signer'];
         $this->irss = $DIC->resourceStorage();
+        $this->saving_interval = (int) $DIC->settings()->get('saving_interval');
     }
 
-    protected function checkAuth(): void
+    private function checkAuth(): void
     {
         $auth = $this->http->request()->getHeader(self::HEADER_AUTHORIZATION)[0] ?? '';
         // spit and check bearer token
@@ -91,14 +101,14 @@ final class RequestHandler
         $this->token_user_id = (int) ($token_data['user_id'] ?? 0);
         $this->token_resource_id = (string) ($token_data['resource_id'] ?? '');
         $this->editable = (bool) ($token_data['editable'] ?? '');
-
-        // Init Stakeholder
-        $stakeholder = $token_data['stakeholder'] ?? WOPIUnknownStakeholder::class;
-        try {
-            $this->stakeholder = new WOPIStakeholderWrapper();
-            $this->stakeholder->init(new $stakeholder(), $this->token_user_id);
-        } catch (\Throwable) {
-            $this->stakeholder = new WOPIUnknownStakeholder();
+        $stakeholder = $token_data['stakeholder'] ?? null;
+        if ($stakeholder !== null) {
+            try {
+                $this->stakeholder = new WOPIStakeholderWrapper();
+                $this->stakeholder->init($stakeholder, $this->token_user_id);
+            } catch (\Throwable) {
+                $this->stakeholder = new WOPIUnknownStakeholder($this->token_user_id);
+            }
         }
     }
 
@@ -128,11 +138,7 @@ final class RequestHandler
                 $this->http->close();
             }
             $resource = $this->irss->manage()->getResource($resource_id);
-            if ($this->editable) {
-                $current_revision = $resource->getCurrentRevisionIncludingDraft();
-            } else {
-                $current_revision = $resource->getCurrentRevision();
-            }
+            $current_revision = $this->editable ? $resource->getCurrentRevisionIncludingDraft() : $resource->getCurrentRevision();
 
             $method_override = $this->http->request()->getHeader(self::HEADER_X_WOPI_OVERRIDE)[0] ?? null;
             $is_file_convertion = (bool) ($this->http->request()->getHeader(

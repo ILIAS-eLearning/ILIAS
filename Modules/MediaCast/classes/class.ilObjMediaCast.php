@@ -444,6 +444,7 @@ class ilObjMediaCast extends ilObject
 
         // copy items
         $mapping = $this->copyItems($new_obj);
+
         $this->copyOrder($new_obj, $mapping);
 
         // clone LP settings
@@ -451,12 +452,12 @@ class ilObjMediaCast extends ilObject
         $obj_settings->cloneSettings($new_obj->getId());
         unset($obj_settings);
 
-        /** @var ilScormLP $olp */
-
+        /** @var ilMediaCastLP $olp */
         $olp = ilObjectLP::getInstance($this->getId());
+        /** @var ilLPCollectionOfMediaObjects $collection */
         $collection = $olp->getCollectionInstance();
         if ($collection) {
-            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
+            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId(), $this->mob_mapping);
         }
 
         return $new_obj;

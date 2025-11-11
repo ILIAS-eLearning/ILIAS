@@ -28,9 +28,11 @@ use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\StaticURL\Response\MaybeCanHandlerAfterLogin;
 use ILIAS\StaticURL\Response\CannotReach;
+use ILIAS\StaticURL\Response\CannotHandle;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
+ * @internal Do not create own instances of this class.
  */
 class HandlerService
 {
@@ -72,12 +74,6 @@ class HandlerService
             throw new \InvalidArgumentException('No handler found for namespace ' . $request->getNamespace());
         }
         $response = $handler->handle($request, $this->context, $this->response_factory);
-        if (!$response->targetCanBeReached()) {
-            throw new \RuntimeException(
-                'Handler ' . $handler->getNamespace() . ' did not return a URI'
-            ); // TODO: we shoud redirect somewhere
-        }
-
         $uri_builder = new StandardURIBuilder(ILIAS_HTTP_PATH, false);
 
         switch (true) {
@@ -95,6 +91,7 @@ class HandlerService
                 $full_uri = $this->appendUnknownParameters($this->context, $full_uri); // Read the comment below
                 break;
             case $response instanceof CannotReach:
+            case $response instanceof CannotHandle:
                 $this->context->mainTemplate()->setOnScreenMessage(
                     'failure',
                     $this->context->lng()->txt('permission_denied'),

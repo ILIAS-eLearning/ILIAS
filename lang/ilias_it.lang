@@ -648,6 +648,7 @@ assessment#:#errFormulaQuestion#:#Una formula di domanda contiene informazioni e
 assessment#:#errRecursionInResult#:#La formula contiene una ricorsione infinita.
 assessment#:#err_category_in_use#:#Non è possibile eliminare alcuna categoria. Una o più unità di categoria sono ancora in uso.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#È stata utilizzata una variabile di risultato più di una volta. Questo non è consentito nel testo della domanda.
 assessment#:#err_no_formula#:#Devi digitare una formula
@@ -1115,7 +1116,10 @@ assessment#:#redirect_after_finishing_rule#:#Reindirizza
 assessment#:#redirect_after_finishing_tst#:#Reindirizzare dopo aver terminato il test
 assessment#:#redirect_after_finishing_tst_desc#:#Dopo il completamento del test, ogni partecipante viene reindirizzato automaticamente a una pagina Web definita. Questo è possibile solo se i partecipanti non hanno accesso ai propri risultati del test.
 assessment#:#redirect_always#:#sempre alla pagine web definita
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Reindirizzamento solo in modalità esame
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Target di reindirizzamento
 assessment#:#region#:#Regione
 assessment#:#remove_as_participant#:#Rimuovere tutti i partecipanti fissi
@@ -1494,7 +1498,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Mostra la valutazione delle 
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Se viene selezionato un feedback specifico per la risposta, verrà visualizzato il feedback predefinito, a seconda delle risposte del partecipante (se supportato dal tipo di domanda).
 assessment#:#tst_instant_feedback_contents#:#Contenuto del feedback
 assessment#:#tst_instant_feedback_desc#:#Quando le domande sono configurate con feedback, vengono fornite ai partecipanti durante il superamento del test.
-assessment#:#tst_instant_feedback_forced#:#Forza feedback immediato
 assessment#:#tst_instant_feedback_results#:#Mostra il risultato (in punti)
 assessment#:#tst_instant_feedback_results_desc#:#Se vengono selezionati i risultati (in punti), verranno visualizzati i punti raggiunti.
 assessment#:#tst_instant_feedback_solution#:#Mostra la soluzione migliore
@@ -9161,8 +9164,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10949,7 +10954,6 @@ lso#:#lso_print_list#:#Stampa l'elenco
 lso#:#lso_read#:#L'utente ha accesso in lettura alla sequenza di apprendimento
 lso#:#lso_search_users#:#Cerca utente
 lso#:#lso_settings_availability#:#Disponibilità
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Impostazioni della pagina di uscita
 lso#:#lso_settings_intro#:#Impostazioni della pagina introduttiva
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable
