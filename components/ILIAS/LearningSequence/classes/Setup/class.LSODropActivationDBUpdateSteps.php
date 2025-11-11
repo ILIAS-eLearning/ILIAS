@@ -16,8 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
-class ilDclNoTableviewException extends ilException
+class LSODropActivationDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
+    private const TABLE_NAME = "lso_activation";
+
+    protected \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
+    {
+        $this->db = $db;
+    }
+
+    public function step_1(): void
+    {
+        $this->db->dropTable(self::TABLE_NAME);
+    }
 }

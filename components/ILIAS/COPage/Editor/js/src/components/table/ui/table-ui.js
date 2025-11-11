@@ -92,7 +92,7 @@ export default class TableUI {
    * @param {TableModel} tableModel
    */
   constructor(client, dispatcher, actionFactory, page_model, toolSlate, pageModifier, paragraphUI, tableModel) {
-    this.debug = true;
+    this.debug = false;
     this.page_model = {};
     this.uiModel = {};
 
@@ -415,7 +415,7 @@ export default class TableUI {
   initCellEditing() {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-    console.log('INIT CELL EDITING');
+    this.log('INIT CELL EDITING');
     document.querySelectorAll("[data-copg-ed-type='data-cell']").forEach((el) => {
       const { column } = el.dataset;
       const { row } = el.dataset;
@@ -423,7 +423,7 @@ export default class TableUI {
       const table_pcid = table.dataset.pcid;
       const table_hierid = table.dataset.hierid;
       const { tableModel } = this;
-      console.log(el.dataset);
+      this.log(el.dataset);
       el.addEventListener('click', (event) => {
         if (tableModel.getState() !== tableModel.STATE_CELLS
           && tableModel.getState() !== tableModel.STATE_MERGE) {
@@ -571,8 +571,8 @@ export default class TableUI {
   }
 
   refreshUIFromModelState(pageModel, table_model) {
-    console.log('REFRESH');
-    console.log(table_model.getState());
+    this.log('REFRESH');
+    this.log(table_model.getState());
     switch (table_model.getState()) {
       case table_model.STATE_TABLE:
         this.showTableProperties();
@@ -663,8 +663,8 @@ export default class TableUI {
       const act = form_button.dataset.copgEdAction;
       const cname = form_button.dataset.copgEdComponent;
       if (cname === 'Table') {
-        console.log('ATTACHING EVENT TO FORM BUTTON');
-        console.log(form_button);
+        this.log('ATTACHING EVENT TO FORM BUTTON');
+        this.log(form_button);
         form_button.addEventListener('click', (event) => {
           event.preventDefault();
           switch (act) {
@@ -692,7 +692,7 @@ export default class TableUI {
   }
 
   updateMergeButton(pageModel, tableModel) {
-    console.log('UPDATE MERGE BUTTON');
+    this.log('UPDATE MERGE BUTTON');
     const b = document.querySelector("#copg-editor-slate-content [data-copg-ed-action='toggle.merge']");
     const sel = tableModel.getSelected();
     if (!b) {
@@ -702,23 +702,23 @@ export default class TableUI {
       && sel.left > -1 && sel.left === sel.right && this.isMerged(sel.top, sel.left)) {
       b.innerHTML = il.Language.txt('cont_split_cell');
       b.disabled = false;
-      console.log('--1--');
+      this.log('--1--');
     } else if (sel.top < sel.bottom || sel.left < sel.right) {
-      console.log('--2--');
+      this.log('--2--');
       b.innerHTML = il.Language.txt('cont_merge_cells');
       b.disabled = false;
     } else {
-      console.log('--3--');
+      this.log('--3--');
       b.disabled = true;
     }
   }
 
   isMerged(row, col) {
     const td = document.querySelector(`td[data-row='${row}'][data-column='${col}']`);
-    console.log('ISMERGED');
-    console.log(td);
-    console.log(td.colSpan);
-    console.log(td.rowSpan);
+    this.log('ISMERGED');
+    this.log(td);
+    this.log(td.colSpan);
+    this.log(td.rowSpan);
     if (td && (td.colSpan > 1 || td.rowSpan > 1)) {
       return true;
     }
@@ -776,8 +776,8 @@ export default class TableUI {
 
   markSelectedCells() {
     const selected = this.tableModel.getSelected();
-    console.log('MARK SELECTED');
-    console.log(selected);
+    this.log('MARK SELECTED');
+    this.log(selected);
     document.querySelectorAll("[data-copg-ed-type='data-cell']").forEach((el) => {
       const col = el.dataset.column;
       const { row } = el.dataset;

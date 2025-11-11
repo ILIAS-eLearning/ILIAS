@@ -653,6 +653,7 @@ assessment#:#errFormulaQuestion#:#数式問題に間違った情報が含まれ�
 assessment#:#errRecursionInResult#:#式に無限再帰が含まれています。
 assessment#:#err_category_in_use#:#カテゴリが一つは削除できません。複数のカテゴリのユニットがすでに使用中です。
 assessment#:#err_divider_too_big#:#この問題の変数の分母は大きすぎます。
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#この値は最大範囲よりも小さくすべきです。
 assessment#:#err_duplicate_results#:#利用可能な結果を複数回使用しています。問題文章中にこれは使用できません。
 assessment#:#err_no_formula#:#式を入力する必要があります
@@ -1178,7 +1179,10 @@ assessment#:#redirect_after_finishing_rule#:#リダイレクト
 assessment#:#redirect_after_finishing_tst#:#リダイレクト
 assessment#:#redirect_after_finishing_tst_desc#:#テストを完了すると各受験者は自動的に決められたWebページへリダイレクトされます。これは受験者がテスト結果へアクセスしない場合のみ有効です。
 assessment#:#redirect_always#:#常に決められたwebページへ
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#試験ビューが有効の際にのみ
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#webページのURL
 assessment#:#region#:#Region
 assessment#:#remaining_duration#:#残り期間
@@ -1230,6 +1234,7 @@ assessment#:#search_groups#:#グループを検索
 assessment#:#search_roles#:#役割を検索
 assessment#:#search_term#:#用語を検索
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#ファイードバックとトリガーの一つは選択してください。
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#穴埋めを選択
 assessment#:#select_max_one_item#:#一アイテムのみ選択してください
 assessment#:#select_one_user#:#最低ユーザ1名を選択してください。
@@ -1361,6 +1366,7 @@ assessment#:#tst_anonymity_no_anonymization#:#記名結果
 assessment#:#tst_answer_aggr_answer_header#:#回答
 assessment#:#tst_answer_aggr_frequency_header#:#頻度
 assessment#:#tst_answer_details#:#解答詳細
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#受験者回答
 assessment#:#tst_answer_fixation_none#:#テスト実行中の受験者回答をロックしない
 assessment#:#tst_answer_fixation_none_desc#:#テスト実行が終了しない限り受験者はいつでも回答を変更できます。
@@ -1570,7 +1576,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#各解答の特定のフィ�
 assessment#:#tst_instant_feedback_answer_specific_desc#:#クリックボタンのクリックでILIASは受験者の選択したオプション全解答の特定のフィードバックを表示します。フィードバックは問題に沿って準備する必要があります。この特定のフィードバックは全問題タイプをサポートするものではありません。
 assessment#:#tst_instant_feedback_contents#:#コンテンツを含む
 assessment#:#tst_instant_feedback_desc#:#質問がフィードバックで構成されている時はテスト実行中受験者へ提供されます。
-assessment#:#tst_instant_feedback_forced#:#即時フィードバックを強制
 assessment#:#tst_instant_feedback_results#:#達成点
 assessment#:#tst_instant_feedback_results_desc#:#クリックボタンをクリックするとILIASはこの問題解答で何点達成されたかを表示します。
 assessment#:#tst_instant_feedback_solution#:#最適な解答案を表示
@@ -3073,6 +3078,7 @@ chatroom#:#public_chat_created#:#パブリックチャットルームがリポ�
 chatroom#:#scope#:#部屋/プライベートルーム
 chatroom#:#select_custom_username#:#カスタムユーザ名を選択
 chatroom#:#server_further_information#:#<a href="%1$s" target="_blank">readmeファイル</a>を参照してサーバー設定に関する追加情報を見る事ができます。
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#セッション
 chatroom#:#settings_general#:#全般
 chatroom#:#settings_title#:#設定
@@ -9225,8 +9231,10 @@ etal#:#etal_date_series_edit#:#トークシリーズの日付
 etal#:#etal_delete_confirmation_msg#:#次のトークを本当に削除しますか?
 etal#:#etal_edit#:#全般
 etal#:#etal_invalid_user#:#このユーザは存在しないかまたは招待されていません。
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#新しいトーク
 etal#:#etal_open#:#Employeeトークを開く
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#完了
 etal#:#etal_status_pending#:#保留
@@ -11100,7 +11108,6 @@ lso#:#lso_print_list#:#リストを印刷
 lso#:#lso_read#:#ユーザは学習シーケンスへ読み込みアクセス権があります。
 lso#:#lso_search_users#:#ユーザを検索
 lso#:#lso_settings_availability#:#アベイラビリティ()
-lso#:#lso_settings_availability_error#:#終了日を開始日よりも早めることはできません。
 lso#:#lso_settings_extro#:#退出ページ設定
 lso#:#lso_settings_intro#:#イントロページ設定
 lso#:#lso_settings_old_extro#:#古いExitページを表示
@@ -11607,7 +11614,6 @@ mail#:#mail_nacc_title#:#タイトル
 mail#:#mail_nacc_use_placeholder#:#次のプレースフォルダを使用できます
 mail#:#mail_nacc_user_fullname#:#ユーザフルネーム
 mail#:#mail_nacc_user_login#:#ユーザログイン
-mail#:#mail_nacc_user_name#:#ユーザ名
 mail#:#mail_new_template#:#新しいTextテンプレート
 mail#:#mail_no_mail_items#:#未読メールなし
 mail#:#mail_no_permissions_write_smtp#:#外部emailに対する書込みアクセス権限がありません

@@ -65,6 +65,7 @@ final class LegacyDelivery extends BaseDelivery
         ?string $mime_type = null,
         ?bool $delete_file = false
     ): never {
+        $this->disableCachingHeaders();
         $r = $this->setGeneralHeaders(
             $this->http->response(),
             $path_to_file,

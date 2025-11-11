@@ -29,4 +29,9 @@ class SHA256 implements Algorithm
     {
         return 'sha256';
     }
+
+    public function after(string $signature): string
+    {
+        return $signature;
+    }
 }

@@ -95,4 +95,34 @@ class LinearWorkflowTest extends ILIAS_UI_TestBase
         }
         $this->assertTrue($raised);
     }
+
+    public function testLinearWorkflowRendering(): void
+    {
+        $expected = <<<EOT
+            <div class="il-workflow linear" id="id_1">
+                <div class="il-workflow-header">
+                    <h3 class="il-workflow-title">title</h3>
+                </div>
+                <ul class="il-workflow-container">
+                    <li class="il-workflow-step first available not-started">
+                        <div class="text">
+                            <span class="il-workflow-step-label"></span>
+                            <span class="il-workflow-step-description"></span>
+                        </div>
+                    </li>
+                    <li class="il-workflow-step last active not-started">
+                        <div class="text">
+                            <span class="il-workflow-step-label"></span>
+                            <span class="il-workflow-step-description"></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+EOT;
+        $actual = $this->getDefaultRenderer()->render($wf = $this->wf->withActive(1));
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($actual),
+        );
+    }
 }

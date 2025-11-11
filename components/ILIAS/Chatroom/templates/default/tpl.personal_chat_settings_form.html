@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
       warning.classList.add('dynamic-errors');
       emptyErrorMessages(parent);
       parent.prepend(warning);
-      warning.querySelector('span').textContent = il.Language.txt(languageVariable);
+      warning.querySelector('span').innerHTML = il.Language.txt(languageVariable);
     };
 
     const deselectAndLockCheckbox = function (elm) {

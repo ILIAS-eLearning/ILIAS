@@ -73,10 +73,7 @@ class ilTestPassesSelector
     private function loadPasses(): void
     {
         $query = '
-			SELECT DISTINCT tst_pass_result.* FROM tst_pass_result
-			LEFT JOIN tst_test_result
-			ON tst_pass_result.pass = tst_test_result.pass
-			AND tst_pass_result.active_fi = tst_test_result.active_fi
+			SELECT tst_pass_result.* FROM tst_pass_result
 			WHERE tst_pass_result.active_fi = %s
 			ORDER BY tst_pass_result.pass
 		';

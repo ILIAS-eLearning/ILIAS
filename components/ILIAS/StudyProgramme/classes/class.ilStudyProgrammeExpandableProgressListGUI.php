@@ -267,7 +267,6 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             return false;
         }
 
-        iljQueryUtil::initjQueryUI();
         $this->tpl->addJavaScript("assets/js/accordion.js", true, 3);
         $this->js_added = true;
     }

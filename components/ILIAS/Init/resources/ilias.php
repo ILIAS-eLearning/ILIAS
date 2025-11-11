@@ -29,6 +29,11 @@ ilInitialisation::initILIAS();
 /** @var $DIC \ILIAS\DI\Container */
 global $DIC;
 
-$DIC->ctrl()->callBaseClass();
+try {
+    $DIC->ctrl()->callBaseClass();
+} catch (ilCtrlException) {
+    $DIC->ctrl()->redirectToURL(ilUtil::_getHttpPath());
+}
+
 $DIC['ilBench']->save();
 $DIC['http']?->close();

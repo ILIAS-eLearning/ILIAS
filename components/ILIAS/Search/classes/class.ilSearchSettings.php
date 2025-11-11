@@ -134,7 +134,7 @@ class ilSearchSettings
     // begin-patch mime_filter
     public function getEnabledLuceneMimeFilterDefinitions(): array
     {
-        if (!$this->isLuceneItemFilterEnabled()) {
+        if (!$this->isLuceneMimeFilterEnabled()) {
             return array();
         }
 

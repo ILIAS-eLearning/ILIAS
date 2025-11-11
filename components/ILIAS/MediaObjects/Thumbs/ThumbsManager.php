@@ -27,21 +27,27 @@ use ILIAS\Filesystem\Stream\Stream;
 use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 use ILIAS\Filesystem\Util\Convert\Images;
 use ILIAS\MediaObjects\InternalGUIService;
+use ILIAS\Filesystem\Util\Convert\ImageConverter;
+use ILIAS\Filesystem\Util\Convert\ImageConversionOptions;
+use ILIAS\MediaObjects\InternalRepoService;
 
 class ThumbsManager
 {
 
+    protected \ILIAS\MediaObjects\MediaObjectRepository $repo;
     protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
     protected ImageOutputOptions $output_options;
     protected Images $image_converters;
 
     public function __construct(
         protected InternalDataService $data,
+        InternalRepoService $repo,
         protected InternalDomainService $domain
     ) {
         $this->media_manager = $this->domain->mediaObject();
         $this->image_converters = new Images(true);
         $this->output_options = new ImageOutputOptions();
+        $this->repo = $repo->mediaObject();
     }
 
     protected function getThumbPath() : string
@@ -109,7 +115,7 @@ class ThumbsManager
             if (!$this->media_manager->hasLocalFile($mob_id, $location)) {
                 return;
             }
-            $width = $height = \ilObjMediaObject::DEFAULT_PREVIEW_SIZE;
+            $width = $height = \ilObjMediaObject::DEFAULT_THUMB_SIZE;
             $image_quality = 90;
 
             // the zip stream is not seekable, which is needed by Imagick
@@ -119,7 +125,7 @@ class ThumbsManager
             rewind($tempStream);
             $stream = new Stream($tempStream);
 
-            $converter = $this->image_converters->resizeToFixedSize(
+            $converter = $this->resizeToFixedSize(
                 $stream,
                 $width,
                 $height,
@@ -136,6 +142,91 @@ class ThumbsManager
             fclose($tempStream);
         }
     }
+
+    public function createPreview(
+        int $mob_id,
+        string $location,
+        bool $local,
+        string $format,
+        int $sec = 1,
+        string $target_location = "mob_vpreview.png"
+    ): void {
+
+        $is_image = is_int(strpos($format, "image/"));
+        $is_video = in_array($format, ["video/mp4", "video/webm"]);
+
+        if ($local) {
+            if ($is_image) {
+                $width = $height = \ilObjMediaObject::DEFAULT_PREVIEW_SIZE;
+                $image_quality = 60;
+
+                // the zip stream is not seekable, which is needed by Imagick
+                // so we create a seekable stream first
+                $tempStream = fopen('php://temp', 'w+');
+                stream_copy_to_stream($this->repo->getLocationStream($mob_id, $location)->detach(), $tempStream);
+                rewind($tempStream);
+                $stream = new Stream($tempStream);
+
+                $converter = $this->resizeToFixedSize(
+                    $stream,
+                    $width,
+                    $height,
+                    true,
+                    $this->output_options
+                        ->withQuality($image_quality)
+                        ->withFormat(ImageOutputOptions::FORMAT_PNG)
+                );
+                $this->repo->addStream(
+                    $mob_id,
+                    $target_location,
+                    $converter->getStream()
+                );
+                fclose($tempStream);
+            }
+            if ($is_video) {
+                $zip_uri = $this->repo->getContainerPath($mob_id);
+                $image_str = \ilFFmpeg::extractPNGFromVideoInZip(
+                    $zip_uri,
+                    $location,
+                    $sec
+                );
+                $png_res = fopen('php://memory', 'r+');
+                fwrite($png_res, $image_str);
+                rewind($png_res);
+                $png_stream = new Stream($png_res);
+                $this->repo->addStream(
+                    $mob_id,
+                    $target_location,
+                    $png_stream
+                );
+            }
+        }
+    }
+
+
+    protected function resizeToFixedSize(
+        Stream $stream,
+        int $width,
+        int $height,
+        bool $crop_if_true_and_resize_if_false,
+        ImageOutputOptions $output_options
+    ): ImageConverter {
+        $conversion_options = (new ImageConversionOptions())
+            ->withMakeTemporaryFiles(false)
+            ->withThrowOnError(false)
+            ->withBackgroundColor('#FFFFFF');
+
+        return new ImageConverter(
+            $conversion_options
+                ->withWidth($width)
+                ->withHeight($height)
+                ->withCrop($crop_if_true_and_resize_if_false)
+                ->withKeepAspectRatio(true),
+            $output_options,
+            $stream
+        );
+    }
+
 
     /**
      * For use in browser src of images

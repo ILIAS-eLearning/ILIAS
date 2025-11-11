@@ -18,33 +18,36 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\WOPI\Embed;
+namespace ILIAS\WOPI\Embed;
 
 use ILIAS\Data\URI;
-use ILIAS\components\WOPI\Discovery\Action;
+use ILIAS\WOPI\Discovery\Action;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\components\WOPI\Handler\RequestHandler;
+use ILIAS\WOPI\Handler\RequestHandler;
 use ILIAS\FileDelivery\Token\DataSigner;
-use ILIAS\components\WOPI\Discovery\ActionTarget;
+use ILIAS\WOPI\Discovery\ActionTarget;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class EmbeddedApplication
 {
+    /**
+     * @var string
+     */
     private const WOPI_SRC = 'WOPISrc';
     private const SUB_THM = 'thm';
     private const SUB_DCHAT = 'dchat';
     private const SUB_EMBED = 'embed';
-    private int $ttl = 3600;
-    private URI $ilias_base_url;
+    private int $ttl = 3600 * 8;
     private string $token;
     private array $substitutions = [
         self::SUB_THM => 1,
         self::SUB_DCHAT => 0,
         self::SUB_EMBED => false
     ];
+    private URI $ilias_base_url;
 
     public function __construct(
         protected ResourceIdentification $identification,
@@ -52,16 +55,14 @@ class EmbeddedApplication
         protected ResourceStakeholder $stakeholder,
         protected URI $back_target,
         protected bool $inline = false,
-        protected ?bool $edit = null,
-        ?URI $ilias_base_url = null
+        ?string $ui_language = null
     ) {
         global $DIC;
         /** @var DataSigner $data_signer */
         $data_signer = $DIC['file_delivery.data_signer'];
+        $this->ilias_base_url = new URI(ILIAS_HTTP_PATH);
+        $editable = $this->action?->getName() === ActionTarget::EDIT->value;
 
-        $editable = $edit ?? ($this->action === null
-            ? false
-            : $this->action->getName() === ActionTarget::EDIT->value);
         $payload = [
             'resource_id' => $this->identification->serialize(),
             'user_id' => $DIC->user()->getId(),
@@ -69,9 +70,12 @@ class EmbeddedApplication
             'editable' => $editable
         ];
 
+        $ui_language ??= 'en_US';
+        $this->substitutions['lang'] = $ui_language;
+        $this->substitutions['rs'] = $ui_language;
+        $this->substitutions['ui'] = $ui_language;
         $this->substitutions[self::SUB_EMBED] = !$editable;
         $this->token = $data_signer->sign($payload, 'wopi', new \DateTimeImmutable("now + $this->ttl seconds"));
-        $this->ilias_base_url = $ilias_base_url ?? new URI(ILIAS_HTTP_PATH);
     }
 
     public function getToken(): string
@@ -133,14 +137,14 @@ class EmbeddedApplication
             if ($appendix !== null) {
                 preg_match_all('/([^<]*)=([^>&]*)/m', $appendix, $appendices, PREG_SET_ORDER, 0);
 
-                $appendices = array_filter($appendices, static fn($appendix): bool => isset($appendix[1], $appendix[2]));
+                $appendices = array_filter($appendices, static fn(array $appendix): bool => isset($appendix[1], $appendix[2]));
 
                 // we set the wopisrc ourselves
-                $appendices = array_filter($appendices, static fn($appendix): bool => strtolower((string) $appendix[1]) !== 'wopisrc');
+                $appendices = array_filter($appendices, static fn(array $appendix): bool => strtolower($appendix[1]) !== 'wopisrc');
 
                 // try substitutions
-                $appendices = array_map(function ($appendix): array {
-                    $key = strtolower((string) $appendix[1]);
+                $appendices = array_map(function (array $appendix): array {
+                    $key = strtolower($appendix[1]);
                     if (isset($this->substitutions[$key])) {
                         $appendix[2] = (string) $this->substitutions[$key];
                     }
@@ -148,11 +152,11 @@ class EmbeddedApplication
                 }, $appendices);
 
                 // we remove all those placeholders
-                $appendices = array_filter($appendices, static fn($appendix): bool => $appendix[0] !== $appendix[1] . '=' . $appendix[2]);
+                $appendices = array_filter($appendices, static fn(array $appendix): bool => $appendix[0] !== $appendix[1] . '=' . $appendix[2]);
 
                 $here = 1;
 
-                $appendices = array_map(static fn($appendix): string => $appendix[1] . '=' . $appendix[2], $appendices);
+                $appendices = array_map(static fn(array $appendix): string => $appendix[1] . '=' . $appendix[2], $appendices);
             }
         } catch (\Throwable $t) {
             return [];

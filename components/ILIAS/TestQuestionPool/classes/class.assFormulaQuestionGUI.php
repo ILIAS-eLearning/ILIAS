@@ -594,29 +594,35 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $errors = !$form->checkInput();
 
             $custom_errors = false;
-            if ($variables !== []) {
-                foreach ($variables as $variable) {
-                    $min_range = $form->getItemByPostVar('range_min_' . $variable->getVariable());
-                    $max_range = $form->getItemByPostVar('range_max_' . $variable->getVariable());
-                    if ($min_range->getValue() > $max_range->getValue()) {
-                        $min_range->setAlert($this->lng->txt('err_range'));
-                        $max_range->setAlert($this->lng->txt('err_range'));
-                        $custom_errors = true;
-                    }
-                    $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
-                    $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
-                    if ($decimal_spots->getValue() == 0
-                        && $min_range->getValue() !== null
-                        && $max_range->getValue() !== null
-                        && !$variable->isIntPrecisionValid(
-                            $intPrecision->getValue(),
-                            $min_range->getValue(),
-                            $max_range->getValue()
-                        )
-                    ) {
-                        $intPrecision->setAlert($this->lng->txt('err_division'));
-                        $custom_errors = true;
-                    }
+            /** @var $variable assFormulaQuestionVariable */
+            foreach ($variables as $variable) {
+                $min_range = $form->getItemByPostVar('range_min_' . $variable->getVariable());
+                $max_range = $form->getItemByPostVar('range_max_' . $variable->getVariable());
+                $min_range_value = $min_range?->getValue();
+                $max_range_value = $max_range?->getValue();
+
+                if ($min_range_value === null || $max_range_value === null) {
+                    $custom_errors = true;
+                    continue;
+                }
+
+                if ($min_range_value > $max_range_value) {
+                    $min_range?->setAlert($this->lng->txt('err_range'));
+                    $max_range?->setAlert($this->lng->txt('err_range'));
+                    $custom_errors = true;
+                }
+
+                $int_precision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
+                if (!$variable->isIntPrecisionValid($int_precision?->getValue(), $min_range_value, $max_range_value)) {
+                    $int_precision?->setAlert($this->lng->txt('err_divider_too_big_specific'));
+                    $custom_errors = true;
+                    continue;
+                }
+
+                $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
+                if ($decimal_spots instanceof ilFormPropertyGUI && $decimal_spots->getValue() === 0) {
+                    $int_precision?->setAlert($this->lng->txt('err_division'));
+                    $custom_errors = true;
                 }
             }
 

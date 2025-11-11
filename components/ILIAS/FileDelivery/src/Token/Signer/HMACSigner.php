@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Token\Signer;
 
-use ILIAS\FileDelivery\Token\Signer\Key\DigestMethod\DigestMethod;
 use ILIAS\FileDelivery\Token\Signer\Algorithm\Algorithm;
 use ILIAS\FileDelivery\Token\Signer\Key\Signing\SigningKey;
 
@@ -44,12 +43,12 @@ class HMACSigner implements Signer
         SigningKey $signing_key
     ): string {
         // sign the payload using hmac_hash
-        return hash_hmac(
+        return $this->algorithm->after(hash_hmac(
             $this->getAlgorithm(),
             $signable_payload,
             $signing_key->get(),
             false
-        );
+        ));
     }
 
     public function verify(

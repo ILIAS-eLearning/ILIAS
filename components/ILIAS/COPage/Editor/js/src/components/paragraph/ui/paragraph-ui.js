@@ -244,12 +244,25 @@ export default class ParagraphUI {
       li.removeAttribute('onclick');
       li.addEventListener('click', (event) => {
         cl = li.querySelector('.ilCOPgEditStyleSelectionItem').querySelector('h1,h2,h3,div').classList[0];
-        this.log(cl);
-        cl = cl.split('_');
-        cl = cl[cl.length - 1];
+        cl = this.getCharacteristicFromClass(cl);
         this.setParagraphClass(cl);
       });
     });
+  }
+
+  /**
+   * E.g. "ilc_text_block_Classname" -> "Classname"
+   */
+  getCharacteristicFromClass(cl) {
+    let characteristic;
+    const prefix = 'ilc_text_block_';
+    if (cl.startsWith(prefix)) {
+      characteristic = cl.slice(prefix.length);
+    } else {
+      const cl_arr = cl.split('_');
+      characteristic = cl_arr[cl_arr.length - 1];
+    }
+    return characteristic;
   }
 
   //

@@ -46,7 +46,7 @@ class ResourcesCollector
         if (is_null($pg)) {
             $pg = new \ilLMPage();
         }
-        if($pg->getXMLContent() === "") {
+        if ($pg->getXMLContent() === "") {
             $pg->setXMLContent("<PageObject></PageObject>");
         }
         $this->output_mode = $output_mode;
@@ -65,7 +65,6 @@ class ResourcesCollector
         // (for all other modes they are included automatically)
         if ($this->output_mode == \ilPageObjectGUI::OFFLINE) {
             $this->js_files[] = \iljQueryUtil::getLocaljQueryPath();
-            $this->js_files[] = \iljQueryUtil::getLocaljQueryUIPath();
             $this->js_files[] = 'assets/js/Basic.js';
         }
 

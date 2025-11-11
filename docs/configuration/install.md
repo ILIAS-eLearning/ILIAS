@@ -11,26 +11,26 @@ for a fully functional ILIAS environment.
 
 - [System Requirements](#system-requirements)
   * [Hardware](#hardware)
-  * [Supported Software Setup and Reference System](#supported-software-setup-and-reference-system)
-- [Installation on Ubuntu 24.04](#installation-on-ubuntu-2404)
+  * [Supported Software Setup and Reference System](#supported-system)
+- [Installation on Ubuntu 24.04](#installation-on-linux)
   * [Install Dependencies](#install-dependencies)
-  * [Webserver Installation/Configuration](#webserver-installationconfiguration)
-  * [Database Installation/Configuration](#database-installationconfiguration)
-  * [Get the Code and Install ILIAS](#get-the-code-and-install-ilias)
+  * [Webserver Installation/Configuration](#install-webserver)
+  * [Database Installation/Configuration](#install-database)
+  * [Get the Code and Install ILIAS](#get-code)
   * [Install ILIAS](#install-ilias)
-  * [Install Further Components](#install-further-components)
+  * [Install Further Components](#install-further)
   * [Install Plugins and Styles](#install-plugins-and-styles)
 - [Backup ILIAS](#backup-ilias)
 - [Upgrading ILIAS](#upgrading-ilias)
   * [Minor Upgrade](#minor-upgrade)
   * [Major Upgrade](#major-upgrade)
   * [Update the Database](#update-the-database)
-  * [Information on Updates](#information-on-updates)
+  * [Information on Updates](#information-updates)
 - [Connect and Contribute](#connect-and-contribute)
 - [Appendix](#appendix)
   * [Upgrading Dependencies](#upgrading-dependencies)
-  * [Configure Cron Jobs](#configure-cron-jobs)
-  * [Configure WebDAV](#configure-webdav)
+  * [Configure Cron Jobs](#configurate-cron)
+  * [Configure WebDAV](#webdav-configuration)
   * [Hardening and Security Guidance](#hardening-and-security-guidance)
   * [MySQL Strict Mode (5.7+)](#mysql-strict-mode-57)
 
@@ -418,7 +418,7 @@ Optionally you can continue with the installation of further components to get t
 
 1. **ILIAS Cron Job**
 A cron job can be automatically executed to perform recurring tasks, such as sending notifications or deleting inactive user accounts. 
-For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configure-cron-jobs).
+For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configurate-cron).
 2. **ILIAS Java RPC server**
 It is used for certain optional functions such as Lucene Search
 or generating PDF Certificates. See [Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) for details

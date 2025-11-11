@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\WOPI\Handler;
+namespace ILIAS\WOPI\Handler;
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -47,31 +47,37 @@ class WOPIStakeholderWrapper extends AbstractResourceStakeholder
         return $this->user_id ?? $this->stakeholder->getOwnerOfNewResources();
     }
 
+    #[\Override]
     public function getFullyQualifiedClassName(): string
     {
         return $this->stakeholder->getFullyQualifiedClassName();
     }
 
+    #[\Override]
     public function isResourceInUse(ResourceIdentification $identification): bool
     {
         return $this->stakeholder->isResourceInUse($identification);
     }
 
+    #[\Override]
     public function canBeAccessedByCurrentUser(ResourceIdentification $identification): bool
     {
         return $this->stakeholder->canBeAccessedByCurrentUser($identification);
     }
 
+    #[\Override]
     public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
         return $this->stakeholder->resourceHasBeenDeleted($identification);
     }
 
+    #[\Override]
     public function getOwnerOfResource(ResourceIdentification $identification): int
     {
         return $this->stakeholder->getOwnerOfResource($identification);
     }
 
+    #[\Override]
     public function getConsumerNameForPresentation(): string
     {
         return $this->stakeholder->getConsumerNameForPresentation();

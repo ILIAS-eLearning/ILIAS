@@ -67,7 +67,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 {
     use TestQuestionsImportTrait;
 
-    public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
+    public const SUPPORTED_IMPORT_MIME_TYPES = [
+        MimeType::APPLICATION__X_ZIP_COMPRESSED,
+        MimeType::APPLICATION__ZIP,
+        MimeType::TEXT__XML
+    ];
     public const DEFAULT_CMD = 'questions';
 
     private HTTPServices $http;
@@ -540,52 +544,58 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     }
                     $ids = array_map('intval', $ids);
 
-                    $class = strtolower($this->questionrepository->getForQuestionId(current($ids))->getGuiClassName());
-                    $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", current($ids));
-                    $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", current($ids));
-                    $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', current($ids));
-                    $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', current($ids));
-                    $this->ctrl->setParameterByClass($class, "q_id", current($ids));
+                    $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', current($ids));
 
                     switch ($action) {
                         case 'preview':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
+                            );
                             break;
                         case 'statistics':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS);
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_STATISTICS)
+                            );
                             break;
                         case 'edit_question':
-                            $url = $this->ctrl->getLinkTargetByClass($class, 'editQuestion');
-                            $this->ctrl->redirectToURL($url);
+                            $class = strtolower($this->questionrepository->getForQuestionId(current($ids))->getGuiClassName());
+                            $this->ctrl->setParameterByClass($class, 'q_id', current($ids));
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass($class, 'editQuestion')
+                            );
                             break;
                         case 'edit_page':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->setParameterByClass(ilAssQuestionPageGUI::class, 'q_id', current($ids));
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionPageGUI::class, 'edit')
+                            );
                             break;
                         case 'feedback':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'q_id', current($ids));
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, ilAssQuestionFeedbackEditingGUI::CMD_SHOW)
+                            );
                             break;
                         case 'hints':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->setParameterByClass(ilAssQuestionHintsGUI::class, 'q_id', current($ids));
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionHintsGUI::class, ilAssQuestionHintsGUI::CMD_SHOW_LIST)
+                            );
                             break;
                         case 'move':
                             $this->moveQuestions($ids);
-                            $this->ctrl->redirect($this, self::DEFAULT_CMD);
+                            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
                             break;
                         case 'copy':
                             $this->copyQuestions($ids);
-                            $this->ctrl->redirect($this, self::DEFAULT_CMD);
+                            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
                             break;
                         case 'delete':
                             $this->confirmDeleteQuestions($ids);
                             break;
                         case 'export':
                             $this->exportQuestions($ids);
-                            $this->ctrl->redirect($this, self::DEFAULT_CMD);
+                            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
                             break;
                         case 'comments':
                             $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
@@ -613,22 +623,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                                 ilBulkEditQuestionsGUI::PARAM_IDS,
                                 implode(',', $ids)
                             );
-                            $url = $this->ctrl->getLinkTargetByClass(
-                                ilBulkEditQuestionsGUI::class,
-                                $action
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(
+                                    ilBulkEditQuestionsGUI::class,
+                                    $action
+                                )
                             );
-                            $this->ctrl->redirectToURL($url);
                             break;
 
                         default:
-                            throw new \Exception("'$action'" . " not implemented");
+                            throw new \Exception("'{$action}' not implemented");
                     }
                     break;
                 }
 
 
                 if ($cmd == self::DEFAULT_CMD) {
-                    $this->ctrl->setParameter($this, 'q_id', '');
+                    $this->ctrl->setParameterByClass(self::class, 'q_id', '');
                 }
                 $cmd .= 'Object';
                 $ret = $this->$cmd();
@@ -1293,14 +1304,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function moveQuestions(array $ids): void
     {
-        if ($ids) {
-            foreach ($ids as $id) {
-                $this->object->moveToClipboard($id);
-            }
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
+        if ($this->checkPermission('write')) {
+            $this->tpl->setOnScreenMessage('failure', 'permission_denied');
+            return;
         }
+
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
+            return;
+        }
+
+        foreach ($ids as $id) {
+            $this->object->moveToClipboard($id);
+        }
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
     }
 
     public function editQuestionForTestObject(): void

@@ -89,4 +89,4 @@ $check = file_put_contents($filenamemin, $outjsmin);
 if (!$check) {
     echo(" not successful");
 }
-echo(" with " . $check . " bytes");
+echo(" with " . $check . " bytes\n");

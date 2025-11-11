@@ -96,7 +96,8 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn($id) => "var checkedBoxes = function() {
+        return fn($id) => "(function() {
+            var checkedBoxes = function() {
 				var options = [];
 				$('#$id').find('li').each(function() {
 				    if ($(this).find('input').prop('checked')) {
@@ -109,7 +110,7 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
 				il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
-			";
+        })();";
     }
 
     /**

@@ -1573,7 +1573,7 @@ class ilObjUserGUI extends ilObjectGUI
              || empty($posted_global_roles) && count($assigned_global_roles_all) === count($assigned_global_roles)) {
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $this->lng->txt('msg_min_one_role') . '<br/>' . $this->lng->txt('action_aborted'),
+                "{$this->lng->txt('action_aborted')}: {$this->lng->txt('msg_min_one_role')}",
                 true
             );
             $this->ctrl->redirect($this, 'roleassignment');

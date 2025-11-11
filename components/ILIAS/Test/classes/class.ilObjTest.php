@@ -74,6 +74,7 @@ class ilObjTest extends ilObject
     public const REDIRECT_NONE = 0;
     public const REDIRECT_ALWAYS = 1;
     public const REDIRECT_KIOSK = 2;
+    public const REDIRECT_ALWAYS_TO_LOGOUT = 3;
 
     private ?bool $activation_limited = null;
     private array $mob_ids;
@@ -681,11 +682,15 @@ class ilObjTest extends ilObject
     public function getIntroduction(): string
     {
         $page_id = $this->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
-        if ($page_id !== null) {
-            return (new ilTestPageGUI('tst', $page_id))->showPage();
+        if ($page_id !== null
+            && ($content = $this->getPageContentFromPageId($page_id)) !== null) {
+            return $content;
         }
 
-        return $this->getMainSettings()->getIntroductionSettings()->getIntroductionText();
+        return ilRTE::_replaceMediaObjectImageSrc(
+            $this->getMainSettings()->getIntroductionSettings()->getIntroductionText(),
+            1
+        );
     }
 
     private function cloneIntroduction(): ?int
@@ -700,10 +705,14 @@ class ilObjTest extends ilObject
     public function getFinalStatement(): string
     {
         $page_id = $this->getMainSettings()->getFinishingSettings()->getConcludingRemarksPageId();
-        if ($page_id !== null) {
-            return (new ilTestPageGUI('tst', $page_id))->showPage();
+        if ($page_id !== null
+            && ($content = $this->getPageContentFromPageId($page_id)) !== null) {
+            return $content;
         }
-        return $this->getMainSettings()->getFinishingSettings()->getConcludingRemarksText();
+        return ilRTE::_replaceMediaObjectImageSrc(
+            $this->getMainSettings()->getFinishingSettings()->getConcludingRemarksText(),
+            1
+        );
     }
 
     private function cloneConcludingRemarks(): ?int
@@ -722,6 +731,16 @@ class ilObjTest extends ilObject
         $new_page_id = $page_object->createPageWithNextId();
         (new ilTestPage($source_page_id))->copy($new_page_id);
         return $new_page_id;
+    }
+
+    private function getPageContentFromPageId(int $page_id): ?string
+    {
+        $page = (new ilTestPageGUI('tst', $page_id));
+        if ($page->getPageObject()->getXMLContent() === '<PageObject></PageObject>') {
+            return null;
+        }
+
+        return $page->showPage();
     }
 
     /**

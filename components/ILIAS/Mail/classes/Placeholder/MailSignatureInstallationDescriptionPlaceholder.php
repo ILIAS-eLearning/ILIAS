@@ -41,7 +41,7 @@ class MailSignatureInstallationDescriptionPlaceholder extends AbstractPlaceholde
 
     public function addPlaceholder(array $placeholder): array
     {
-        $placeholder[$this->getId()] = $this->clientIniFile->readVariable('client', 'name');
+        $placeholder[$this->getId()] = $this->clientIniFile->readVariable('client', 'description');
 
         return $placeholder;
     }

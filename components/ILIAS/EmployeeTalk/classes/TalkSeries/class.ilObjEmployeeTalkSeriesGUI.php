@@ -268,7 +268,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $form->addItem($dur);
 
         // Recurrence
-        $cal = new ilRecurrenceInputGUI("Calender", "frequence");
+        $cal = new ilRecurrenceInputGUI($this->lng->txt("etal_recurrence"), "frequence");
         $event = new ilCalendarRecurrence();
         //$event->setRecurrence(ilEventRecurrence::REC_EXCLUSION);
         //$event->setFrequenceType(ilEventRecurrence::FREQ_DAILY);
@@ -277,7 +277,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $form->addItem($cal);
 
         //Location
-        $location = new ilTextInputGUI("Location", "etal_location");
+        $location = new ilTextInputGUI($this->lng->txt("etal_location"), "etal_location");
         $location->setMaxLength(200);
         $form->addItem($location);
 

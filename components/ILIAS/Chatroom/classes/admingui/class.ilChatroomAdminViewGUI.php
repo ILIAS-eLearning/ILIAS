@@ -27,14 +27,12 @@ declare(strict_types=1);
  */
 class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 {
-    private const CHATROOM_README_PATH = '/components/ILIAS/Chatroom/README.md';
+    private const CHATROOM_README_PATH = __DIR__ . '/../../README.md';
 
     protected ilSetting $commonSettings;
 
     public function __construct(ilChatroomObjectGUI $gui)
     {
-        global $DIC;
-
         parent::__construct($gui);
         $this->commonSettings = new ilSetting('common');
     }
@@ -96,21 +94,6 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
     }
 
-    protected function createSettingTemplate(ilPropertyFormGUI $form): ilTemplate
-    {
-        $furtherInformation = sprintf($this->ilLng->txt('server_further_information'), $this->getReadmePath());
-        $serverTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'components/ILIAS/Chatroom');
-        $serverTpl->setVariable('VAL_SERVERSETTINGS_FORM', $form->getHTML());
-        $serverTpl->setVariable('LBL_SERVERSETTINGS_FURTHER_INFORMATION', $furtherInformation);
-
-        return $serverTpl;
-    }
-
-    protected function getReadmePath(): string
-    {
-        return ilUtil::_getHttpPath() . self::CHATROOM_README_PATH;
-    }
-
     public function saveClientSettings(): void
     {
         $this->redirectIfNoPermission('write');
@@ -155,7 +138,20 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'view-clientsettings');
     }
 
-    public function clientsettings(ilPropertyFormGUI $form = null): void
+    public function deliverDocumentation(): never
+    {
+        $this->redirectIfNoPermission(['visible','read']);
+
+        $this->file_delivery->delivery()->inline(
+            ILIAS\Filesystem\Stream\Streams::ofResource(
+                fopen(self::CHATROOM_README_PATH, 'rb')
+            ),
+            basename(self::CHATROOM_README_PATH),
+            'text/markdown'
+        );
+    }
+
+    public function clientsettings(?ilPropertyFormGUI $form = null): void
     {
         $this->redirectIfNoPermission(['visible','read']);
 
@@ -187,7 +183,16 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
         $form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 
-        $settingsTpl = $this->createSettingTemplate($form);
-        $this->mainTpl->setVariable('ADM_CONTENT', $settingsTpl->get());
+        $this->mainTpl->setContent($this->uiRenderer->render([
+            $this->uiFactory->messageBox()->info(
+                $this->ilLng->txt('server_further_information')
+            )->withLinks([
+                $this->uiFactory->link()->standard(
+                    $this->ilLng->txt('server_readme_file_btn_label'),
+                    $this->ilCtrl->getLinkTarget($this->gui, 'view-deliverDocumentation')
+                )->withOpenInNewViewport(true)
+            ]),
+            $this->uiFactory->legacy($form->getHTML())
+        ]));
     }
 }

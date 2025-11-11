@@ -35,7 +35,10 @@ class ilAssQuestionProcessLockerFileTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new ilAssQuestionProcessLockerFile($this->createMock(ilAssQuestionProcessLockFileStorage::class));
+        $this->object = new ilAssQuestionProcessLockerFile(
+            $this->createMock(ilAssQuestionProcessLockFileStorage::class),
+            $this->createMock(ilLogger::class)
+        );
     }
 
     public function testConstruct(): void

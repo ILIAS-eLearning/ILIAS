@@ -35,7 +35,8 @@ define("IL_MODE_FULL", 3);
  */
 class ilObjMediaObject extends ilObject
 {
-    public const DEFAULT_PREVIEW_SIZE = 80;
+    public const DEFAULT_THUMB_SIZE = 80;
+    public const DEFAULT_PREVIEW_SIZE = 400;
     protected ThumbsManager $thumbs;
     protected MediaObjectManager $manager;
     protected InternalDomainService $domain;
@@ -1584,7 +1585,7 @@ class ilObjMediaObject extends ilObject
         string $thumbname,
     ): void {
         $format = self::getMimeType($source, true);
-        $this->manager->generatePreview(
+        $this->thumbs->createPreview(
             $this->getId(),
             $source,
             true,
@@ -1704,7 +1705,7 @@ class ilObjMediaObject extends ilObject
         $logger->debug("Generate preview pic...");
         $logger->debug("..." . $item->getFormat());
 
-        $this->manager->generatePreview(
+        $this->thumbs->createPreview(
             $this->getId(),
             $item->getLocation(),
             $item->getLocationType() === "LocalFile",

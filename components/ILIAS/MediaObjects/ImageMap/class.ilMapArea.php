@@ -227,7 +227,7 @@ class ilMapArea
             $type = $area_rec["type"];
             $targetframe = $area_rec["target_frame"];
 
-            if (($area_rec["link_type"] == IL_INT_LINK) && (is_int(strpos($target, "__")))) {
+            if (($area_rec["link_type"] == IL_INT_LINK) && (is_int(strpos($target ?? "", "__")))) {
                 $links[$target . ":" . $type . ":" . $targetframe] =
                     array("Target" => $target, "Type" => $type,
                         "TargetFrame" => $targetframe);

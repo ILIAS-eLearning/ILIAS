@@ -20,13 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Setup;
 
+use ILIAS\Setup\Artifact;
+use ILIAS\Setup\Artifact\ArrayArtifact;
+use ILIAS\Setup\Environment;
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
-use ILIAS\Setup;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class DeliveryMethodObjective extends BuildArtifactObjective
+class DeliveryMethodObjective extends BuildStaticConfigStoredObjective
 {
     public const SETTINGS = 'delivery_method';
     public const XSENDFILE = 'xsendfile';
@@ -38,18 +40,16 @@ class DeliveryMethodObjective extends BuildArtifactObjective
         return "delivery_method";
     }
 
-
-
-    public function build(): Setup\Artifact
+    public function build(): Artifact
     {
         // check if mod_xsendfile is loaded
         if ($this->isModXSendFileLoaded()) {
-            return new Setup\Artifact\ArrayArtifact([
+            return new ArrayArtifact([
                 self::SETTINGS => self::XSENDFILE
             ]);
         }
 
-        return new Setup\Artifact\ArrayArtifact([
+        return new ArrayArtifact([
             self::SETTINGS => self::PHP
         ]);
     }
@@ -66,19 +66,17 @@ class DeliveryMethodObjective extends BuildArtifactObjective
                 return false;
             }
 
-            $loaded_modules = array_map(static function ($module) {
-                return explode(" ", trim($module))[0] ?? "";
-            }, explode("\n", shell_exec("apache2ctl -M 2>/dev/null") ?? ''));
+            $loaded_modules = array_map(
+                static fn(string $module): string => explode(" ", trim($module))[0] ?? "",
+                explode("\n", shell_exec("apache2ctl -M 2>/dev/null") ?? '')
+            );
         } catch (\Throwable $e) {
             $loaded_modules = [];
         }
-        if (in_array('xsendfile_module', $loaded_modules, true)) {
-            return true;
-        }
-        return false;
+        return in_array('xsendfile_module', $loaded_modules, true);
     }
 
-    public function isApplicable(Setup\Environment $environment): bool
+    public function isApplicable(Environment $environment): bool
     {
         return !file_exists(BuildArtifactObjective::PATH());
     }

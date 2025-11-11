@@ -334,6 +334,10 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         global $DIC;
 
+        if (!$DIC['ilAccess']->checkAccess('edit_permission', '', ROLE_FOLDER_ID)) {
+            return $this->raiseError('Check access failed. No permission to access role information', 'Server');
+        }
+
         $rbacreview = $DIC['rbacreview'];
 
         if (!$tmp_user = ilObjectFactory::getInstanceByObjId($user_id, false)) {
@@ -575,12 +579,14 @@ class ilSoapRBACAdministration extends ilSoapAdministration
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
 
-        if (strcasecmp($role_type, "") !== 0 &&
+        if (
+            strcasecmp($role_type, "") !== 0 &&
             strcasecmp($role_type, "local") !== 0 &&
             strcasecmp($role_type, "global") !== 0 &&
             strcasecmp($role_type, "user") !== 0 &&
             strcasecmp($role_type, "user_login") !== 0 &&
-            strcasecmp($role_type, "template") !== 0) {
+            strcasecmp($role_type, "template") !== 0
+        ) {
             return $this->raiseError(
                 'Called service with wrong role_type parameter \'' . $role_type . '\'',
                 'Client'
@@ -686,15 +692,21 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         global $DIC;
 
+        if (!$DIC['ilAccess']->checkAccess('edit_permission', '', ROLE_FOLDER_ID)) {
+            return $this->raiseError('Check access failed. No permission to access role information', 'Server');
+        }
+
         $rbacsystem = $DIC['rbacsystem'];
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
 
-        if (strcasecmp($role_type, "") !== 0 &&
+        if (
+            strcasecmp($role_type, "") !== 0 &&
             strcasecmp($role_type, "local") !== 0 &&
             strcasecmp($role_type, "global") !== 0 &&
-            strcasecmp($role_type, "template") !== 0) {
+            strcasecmp($role_type, "template") !== 0
+        ) {
             return $this->raiseError(
                 'Called service with wrong role_type parameter \'' . $role_type . '\'',
                 'Client'
@@ -725,7 +737,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $obj_ids = array();
         foreach ($res->getUniqueResults() as $entry) {
-            $obj_ids [] = $entry['obj_id'];
+            $obj_ids[] = $entry['obj_id'];
         }
 
         $roles = array();

@@ -5,8 +5,9 @@
 	</baseclasses>
 	<objects>
 	</objects>
-	<events>		
+	<events>
 		<event type="listen" id="components/ILIAS/Course" />
+        <event type="listen" id="components/ILIAS/Group" />
 		<event type="listen" id="components/ILIAS/Category" />
 		<event type="listen" id="components/ILIAS/StudyProgramme" />
 		<event type="raise" id="deleteReference" />

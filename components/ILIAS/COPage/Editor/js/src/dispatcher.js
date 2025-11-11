@@ -12,13 +12,12 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * Editor action dispatcher
  */
 export default class Dispatcher {
-
   constructor(modelActionHandler, uiActionHandler) {
     this.modelActionHandler = modelActionHandler;
     this.uiActionHandler = uiActionHandler;
@@ -28,8 +27,8 @@ export default class Dispatcher {
    * @param {EditorAction} action
    */
   dispatch(action) {
-    console.log("dispatch " + action.getType());
-    console.log(action.getParams());
+    // console.log("dispatch " + action.getType());
+    // console.log(action.getParams());
     this.modelActionHandler.handle(action);
     this.uiActionHandler.handle(action, this.modelActionHandler.getModel());
   }

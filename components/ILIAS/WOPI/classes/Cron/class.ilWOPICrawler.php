@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
-use ILIAS\Cron\Schedule\CronJobScheduleType;
-use ILIAS\components\WOPI\Discovery\Crawler;
-use ILIAS\components\WOPI\Discovery\AppDBRepository;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
-use ILIAS\components\WOPI\Discovery\AppRepository;
-use ILIAS\components\WOPI\Discovery\ActionRepository;
+use ILIAS\Cron\Job\Schedule\JobScheduleType;
+use ILIAS\WOPI\Discovery\Crawler;
+use ILIAS\WOPI\Discovery\AppDBRepository;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\AppRepository;
+use ILIAS\WOPI\Discovery\ActionRepository;
 use ILIAS\Data\URI;
+use ILIAS\Cron\Job\JobResult;
+use ILIAS\Cron\Schedule\CronJobScheduleType;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
