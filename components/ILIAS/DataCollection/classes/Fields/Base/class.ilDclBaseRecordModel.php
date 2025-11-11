@@ -567,10 +567,6 @@ class ilDclBaseRecordModel
     {
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
-            if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB) {
-                $this->deleteMob((int) $recordfield->getValue());
-            }
-
             $recordfield->delete();
         }
 
@@ -622,14 +618,6 @@ class ilDclBaseRecordModel
         if (ilObject2::_exists($obj_id, false)) {
             $file = new ilObjFile($obj_id, false);
             $file->delete();
-        }
-    }
-
-    public function deleteMob(int $obj_id): void
-    {
-        if (ilObject2::_lookupObjId($obj_id)) {
-            $mob = new ilObjMediaObject($obj_id);
-            $mob->delete();
         }
     }
 
