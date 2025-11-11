@@ -37,6 +37,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
  * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilPropertyFormGUI
  * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilConfirmationGUI
  * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilTestSettingsChangeConfirmationGUI
+ * @ilCtrl_Calls ilObjTestSettingsMainGUI: ilObjectContentStyleSettingsGUI
  *
  */
 class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
@@ -124,6 +125,14 @@ class ilObjTestSettingsMainGUI extends ilTestSettingsGUI
         if (!$this->access->checkAccess('write', '', $this->test_gui->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirect($this->test_gui, 'infoScreen');
+        }
+
+        $next_class = $this->ctrl->getNextClass();
+        if ($next_class === ilObjectContentStyleSettingsGUI::class) {
+            $this->ctrl->saveParameterByClass(ilObjectContentStyleSettingsGUI::class, 'ref_id');
+            $style_gui = new ilObjectContentStyleSettingsGUI($this->test_object->getRefId());
+            $this->ctrl->forwardCommand($style_gui);
+            return;
         }
 
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM);

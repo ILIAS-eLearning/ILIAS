@@ -71,3 +71,5 @@ Services/ResourceStorage/artifacts/flavour_data.php
 Services/FileHandlingDemo
 src/FileDelivery/artifacts
 src/StaticURL/artifacts
+
+/phpmyadmin

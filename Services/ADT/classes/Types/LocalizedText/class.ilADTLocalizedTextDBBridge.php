@@ -36,21 +36,29 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
 
     public function readRecord(array $a_row): void
     {
+        ilLoggerFactory::getLogger("adt")->warning(
+            'ilADTLocalizedTextDBBridge::readRecord - Element ID: ' . $this->getElementId() .
+            ' - Dati ricevuti: ' . var_export($a_row, true)
+        );
+        
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
         $default_language = $this->getADT()->getCopyOfDefinition()->getDefaultLanguage();
-        $language = $a_row[$this->getElementId() . '_language'] ?? '';
+
+        $language = $a_row[$this->getElementId() . '_language'] ?? null;
+        $translation = $a_row[$this->getElementId() . '_translation'] ?? null;
 
         if (!$this->getADT()->getCopyOfDefinition()->getMultilingualValueSupport()) {
-            $this->getADT()->setText($a_row[$this->getElementId() . '_translation' ]);
-        } elseif (strcmp($language, $default_language) === 0) {
-            $this->getADT()->setText($a_row[$this->getElementId() . '_translation']);
-        } elseif (!strlen($default_language)) {
-            $this->getADT()->setText($a_row[$this->getElementId() . '_translation']);
+            $this->getADT()->setText($translation);
+        } elseif (strcmp((string)$language, (string)$default_language) === 0) {
+            $this->getADT()->setText($translation);
+        } elseif (!strlen((string)$default_language)) {
+            $this->getADT()->setText($translation);
         }
-        if (in_array($language, $active_languages)) {
+
+        if ($language !== null && in_array($language, $active_languages)) {
             $this->getADT()->setTranslation(
                 $language,
-                (string) $a_row[$this->getElementId() . '_translation']
+                (string) $translation
             );
         }
     }

@@ -69,6 +69,7 @@ class ilTestTabsManager
     public const SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE = 'edit_concluding_remarks';
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';
     private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'tst_default_settings';
+    public const SETTINGS_SUBTAB_ID_STYLE = 'obj_sty';
 
     /**
      * @var ilObjTest
@@ -147,6 +148,7 @@ class ilTestTabsManager
             case self::SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE:
             case self::SETTINGS_SUBTAB_ID_CERTIFICATE:
             case self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS:
+            case self::SETTINGS_SUBTAB_ID_STYLE:
 
                 $this->tabs->activateSubTab($subTabId);
         }
@@ -357,6 +359,7 @@ class ilTestTabsManager
         switch (strtolower($this->ctrl->getCmdClass())) {
             case 'ilmarkschemagui':
             case 'ilobjtestsettingsmaingui':
+            case 'ilobjectcontentstylesettingsgui':
             case 'ilobjtestsettingsscoringresultsgui':
 
                 if ($this->isWriteAccessGranted()) {
@@ -538,6 +541,7 @@ class ilTestTabsManager
                     'ilmarkschemagui',
                     'ilobjtestsettingsmaingui',
                     'ilobjtestsettingsscoringresultsgui',
+                    'ilobjectcontentstylesettingsgui',
                     'ilobjtestgui',
                     'ilcertificategui'
                 ]
@@ -838,6 +842,13 @@ class ilTestTabsManager
             $this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'defaults'),
             ['defaults', 'deleteDefaults', 'addDefaults', 'applyDefaults'],
             ['', 'ilobjtestgui', 'ilcertificategui']
+        );
+
+        $this->tabs->addSubTabTarget(
+            self::SETTINGS_SUBTAB_ID_STYLE,
+            $this->ctrl->getLinkTargetByClass([ilObjTestGUI::class, ilObjectContentStyleSettingsGUI::class], ""),
+            '',
+            [ilObjectContentStyleSettingsGUI::class]
         );
 
         $lti_settings = new ilLTIProviderObjectSettingGUI($this->test_object->getRefId());

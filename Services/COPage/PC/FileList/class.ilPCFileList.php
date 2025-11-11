@@ -133,9 +133,9 @@ class ilPCFileList extends ilPageContent
      */
     public function deleteFileItems(array $a_ids): void
     {
+        $nodes = iterator_to_array($this->getChildNode()->childNodes);
         // File Item
-        $childs = iterator_to_array($this->getChildNode()->childNodes);
-        foreach ($childs as $c) {
+        foreach ($nodes as $c) {
             if ($c->nodeName === "FileItem") {
                 $id = $entry = "";
                 $pc_id = $c->getAttribute("PCID");

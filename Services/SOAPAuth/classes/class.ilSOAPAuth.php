@@ -75,7 +75,7 @@ class ilSOAPAuth
             "<br>== Request ==" .
             '<br><pre>' . htmlspecialchars(str_replace("\" ", "\"\n ", str_replace(">", ">\n", $soap_client->request)), ENT_QUOTES) . '</pre><br>' .
             "<br>== Response ==" .
-            "<br>Valid: -" . $valid["valid"] . "-" .
+            "<br>Valid: -" . ($valid["valid"] ?? "null") . "-" .
             '<br><pre>' . htmlspecialchars(str_replace("\" ", "\"\n ", str_replace(">", ">\n", $soap_client->response)), ENT_QUOTES) . '</pre>';
     }
 }

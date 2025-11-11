@@ -465,6 +465,15 @@ class ilToolbarGUI
     {
         $this->items = $items;
     }
+    public function getStickyItems(): array 
+    {
+        return $this->sticky_items;
+    }
+
+    public function setStickyItems(array $items): void
+    {
+        $this->sticky_items = $items;
+    }
 
     /**
      * If the toolbar consists of only one button, make it sticky

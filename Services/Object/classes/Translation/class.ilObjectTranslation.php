@@ -234,6 +234,11 @@ class ilObjectTranslation
     public function removeLanguage(string $lang): void
     {
         if ($lang != $this->getMasterLanguage()) {
+            $this->db->manipulateF(
+                "DELETE FROM page_object WHERE parent_id = %s AND lang = %s",
+                ["integer", "text"],
+                [$this->getObjId(), $lang]
+            );
             unset($this->languages[$lang]);
         }
     }

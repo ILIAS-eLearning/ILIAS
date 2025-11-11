@@ -192,7 +192,9 @@ class ilMediaPoolItem
 
         $ilDB = $DIC->database();
 
+        $objDataCache = $DIC['ilObjDataCache'];
         if (ilObject::_lookupType($a_obj) === "mob") {
+            $objDataCache->deleteCachedEntry($a_obj);
             $title = ilObject::_lookupTitle($a_obj);
             $ilDB->manipulate(
                 "UPDATE mep_item SET " .

@@ -11,7 +11,7 @@ class ilADTEnumDBBridge extends ilADTDBBridge
 
     public function readRecord(array $a_row): void
     {
-        $this->getADT()->setSelection($a_row[$this->getElementId()]);
+        $this->getADT()->setSelection($a_row[$this->getElementId()] ?? null);
     }
 
     public function prepareInsert(array &$a_fields): void
