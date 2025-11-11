@@ -139,7 +139,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testScanDir(): void
     {
         // Use the component directory without artifacts, because this should be mostly stable.
-        $expected = ["Component.php", "README.md", "ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "src", "tests"];
+        $expected = ["Component.php", "PRIVACY.md", "README.md", "ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "src", "tests"];
         $actual = array_values(
             array_diff(
                 $this->builder->_scanDir(__DIR__ . "/../.."),
