@@ -64,7 +64,7 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
     private function initColumns(): void
     {
         if ($this->parent_obj->getObject()->getAnonymity()) {
-            $this->addColumn($this->lng->txt("name"), 'name', '100%');
+            $this->addColumn($this->lng->txt("name"), 'lastname', '100%');
         } else {
             $this->addColumn($this->lng->txt("lastname"), 'lastname', '');
             $this->addColumn($this->lng->txt("firstname"), 'firstname', '');
@@ -108,11 +108,9 @@ class TestScoringByParticipantTableGUI extends \ilTable2GUI
     {
         $this->ctrl->setParameter($this->parent_obj, 'active_id', $a_set['active_id']);
 
-        if ($this->parent_obj->getObject()->getAnonymity()) {
-            $this->tpl->setVariable("PARTICIPANT_LASTNAME", $a_set['name']);
-        } else {
+        $this->tpl->setVariable("PARTICIPANT_LASTNAME", $a_set['lastname']);
+        if (!$this->parent_obj->getObject()->getAnonymity()) {
             $this->tpl->setCurrentBlock('personal');
-            $this->tpl->setVariable("PARTICIPANT_LASTNAME", $a_set['lastname']);
             $this->tpl->setVariable("PARTICIPANT_FIRSTNAME", $a_set['firstname']);
             $this->tpl->setVariable("PARTICIPANT_LOGIN", $a_set['login']);
             $this->tpl->parseCurrentBlock();
