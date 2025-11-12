@@ -528,7 +528,7 @@ class Repository
      */
     public function getSystemDefaultCalendarPeriod(): int
     {
-        return (int) $this->settings->get('user_cal_period');
+        return (int) $this->settings->get('user_calendar_period');
     }
 
     /**
