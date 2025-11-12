@@ -100,6 +100,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     private array $counters;
     private bool $highlighted;
     private bool $active = true;
+    private ?string $aria_expanded = null;
 
     public function __construct(string $type, string $label, string $action = null)
     {
@@ -214,5 +215,17 @@ class Glyph implements C\Symbol\Glyph\Glyph
         $has_action = ($this->action !== null && $this->action !== "");
         $has_signal = isset($this->triggered_signals['click']) && $this->triggered_signals['click'] !== null;
         return  ($has_signal || $has_action) && $this->isActive();
+    }
+
+    public function withAriaExpanded(string $aria_expanded): C\Symbol\Glyph\Glyph
+    {
+        $clone = clone $this;
+        $clone->aria_expanded = $aria_expanded;
+        return $clone;
+    }
+
+    public function getAriaExpanded(): ?string
+    {
+        return $this->aria_expanded;
     }
 }

@@ -164,4 +164,14 @@ interface Glyph extends Symbol, Clickable
 
     /** @deprecated will be removed in ILIAS 11. please use a Button instead. */
     public function getOnLoadCode(): ?\Closure;
+
+    /**
+     * Get a Glyph like this with aria-expanded attribute.
+     */
+    public function withAriaExpanded(string $aria_expanded): Glyph;
+
+    /**
+     * Get the aria-expanded attribute value.
+     */
+    public function getAriaExpanded(): ?string;
 }

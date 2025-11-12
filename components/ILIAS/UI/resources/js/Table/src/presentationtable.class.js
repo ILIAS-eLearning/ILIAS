@@ -38,6 +38,12 @@ export default class PresentationTable {
     const row = this.#component.querySelector(`#${rowId}`);
     row.classList.remove('collapsed');
     row.classList.add('expanded');
+
+    const expandButton = row.querySelector('.il-table-presentation-row-controls-expander .glyph');
+    const collapseButton = row.querySelector('.il-table-presentation-row-controls-collapser .glyph');
+
+    if (expandButton) expandButton.setAttribute('aria-expanded', 'true');
+    if (collapseButton) collapseButton.setAttribute('aria-expanded', 'true');
   }
 
   /**
@@ -47,6 +53,12 @@ export default class PresentationTable {
     const row = this.#component.querySelector(`#${rowId}`);
     row.classList.remove('expanded');
     row.classList.add('collapsed');
+
+    const expandButton = row.querySelector('.il-table-presentation-row-controls-expander .glyph');
+    const collapseButton = row.querySelector('.il-table-presentation-row-controls-collapser .glyph');
+
+    if (expandButton) expandButton.setAttribute('aria-expanded', 'false');
+    if (collapseButton) collapseButton.setAttribute('aria-expanded', 'false');
   }
 
   /**
