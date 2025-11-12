@@ -2099,7 +2099,7 @@ auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
-auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
+auth#:#auth_err_invalid_user_account#:#Login failed. Please check that you have entered your username and password correctly. If this issue persists, your account may be inactive or have expired. In this case, please contact your ILIAS platform's technical support via the link at the bottom of the screen.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).

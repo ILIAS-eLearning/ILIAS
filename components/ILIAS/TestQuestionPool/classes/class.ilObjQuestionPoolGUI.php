@@ -914,7 +914,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         array $selected_questions,
         string $file_to_import
     ): void {
-
         ilSession::set('qpl_import_selected_questions', $selected_questions);
         $imp = new ilImport($this->request_data_collector->getRefId());
         $map = $imp->getMapping();
@@ -1328,8 +1327,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected function importQuestionsFile(string $path_to_uploaded_file_in_temp_dir): void
     {
         if (!$this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)
-            || ($files = $this->temp_file_system->listContents($path_to_uploaded_file_in_temp_dir)) === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_import_file_error'));
+            || ($files = $this->temp_file_system->listContents($path_to_uploaded_file_in_temp_dir)) === []
+            || mb_stripos($files[0]->getPath(), 'tst') !== false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_import_file_error'), true);
+            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
         }
 
         $file_to_import = $this->import_temp_directory . DIRECTORY_SEPARATOR . $files[0]->getPath();

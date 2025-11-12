@@ -2099,7 +2099,7 @@ auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutz
 auth#:#auth_cron_destroy_expired_sessions#:#Löschen abgelaufener Benutzer-Sitzungen
 auth#:#auth_cron_destroy_expired_sessions_desc#:#Dieser Cron-Job löscht bereits abgelaufene Benutzer-Sitzungen
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
-auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
+auth#:#auth_err_invalid_user_account#:#Die Anmeldung ist fehlgeschlagen. Bitte überprüfen Sie, ob Sie Ihren Anmeldenamen und Ihr Passwort korrekt eingegeben haben. Wenn das Problem weiterhin besteht, ist Ihr Konto möglicherweise inaktiv oder abgelaufen. Wenden Sie sich in diesem Fall bitte über den Link am unteren Seitenrand an den technischen Support Ihrer ILIAS-Plattform.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.

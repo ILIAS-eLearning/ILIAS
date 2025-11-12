@@ -117,7 +117,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             $this->url_builder,
             $this->action_parameter_token,
             $this->row_id_token,
-            $this->ui_factory
+            $this->ui_factory,
+            "scoring_by_qst_filter_id_{$question_id}"
         );
 
         if ($this->testrequest->strVal($this->action_parameter_token->getName()) === ScoringByQuestionTable::ACTION_SCORING) {
@@ -387,9 +388,9 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
         if ($this->object->getAnonymity() === true) {
             return $this->lng->txt('answers_of') . ' ' . $this->lng->txt('anonymous');
         }
-        return $this->lng->txt('answers_of') . ' ' . $this->object->getCompleteEvaluationData()
-            ->getParticipant($active_id)
-            ->getName();
+
+        $participant = $this->object->getCompleteEvaluationData()->getParticipant($active_id);
+        return "{$this->lng->txt('answers_of')} {$participant->getName()} ({$participant->getLogin()})";
     }
 
     private function buildForm(

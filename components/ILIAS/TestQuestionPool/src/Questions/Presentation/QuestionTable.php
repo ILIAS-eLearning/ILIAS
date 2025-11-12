@@ -62,7 +62,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     {
         return $this->ui_factory->table()->data(
             $this->lng->txt('questions'),
-            $this->getColums(),
+            $this->getColumns(),
             $this
         )
         ->withActions($this->getActions())
@@ -136,7 +136,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         $active = array_fill(0, count($filter_inputs), true);
 
         $filter = $ui_service->filter()->standard(
-            'question_table_filter_id',
+            "question_table_filter_{$this->request_ref_id}",
             $action,
             $filter_inputs,
             $active,
@@ -147,7 +147,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     }
 
 
-    public function getColums(): array
+    public function getColumns(): array
     {
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();

@@ -513,7 +513,6 @@ class ilExplorer
 
     public function getMaximumTreeDepth(): int
     {
-        $this->tree->getMaximumDepth();
         return 0;   // seems to not return the value...
     }
 

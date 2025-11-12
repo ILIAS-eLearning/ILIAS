@@ -5914,7 +5914,7 @@ class ilObjTest extends ilObject
                     )->withPassWaiting(
                         $testsettings['pass_waiting'] ?? $test_behavior_settings->getPassWaiting()
                     )->withKioskMode(
-                        $testsettings['Kiosk'] ?? $test_behavior_settings->getKioskMode()
+                        (int) ($testsettings['Kiosk'] ?? $test_behavior_settings->getKioskMode())
                     )->withProcessingTimeEnabled(
                         (bool) ($testsettings['EnableProcessingTime'] ?? $test_behavior_settings->getProcessingTimeEnabled())
                     )->withProcessingTime(
