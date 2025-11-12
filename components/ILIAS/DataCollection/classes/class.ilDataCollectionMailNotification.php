@@ -83,6 +83,7 @@ class ilDataCollectionMailNotification extends ilMailNotification
                         if ($field->isStandardField()) {
                             $value = $this->record->getStandardFieldPlainText($field->getId());
                         } elseif ($record_field = $this->record->getRecordField((int) $field->getId())) {
+                            $record_field->setUser(new ilObjUser($user_id));
                             $value = $record_field->getPlainText();
                         }
                         $message .= $field->getTitle() . ': ' . $value . "\n";

@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Certificate\Overview\CertificateOverviewTable;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
 
 /**
  * Certificate Settings.
@@ -44,6 +45,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     private readonly ilLogger $logger;
     private readonly ilUserCertificateRepository $user_certificate_repo;
     private readonly ilCertificateActiveValidator $certificate_active_validator;
+    private readonly FitToSquare $card_thumbnail_definition;
 
     public function __construct(
         $data,
@@ -66,6 +68,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('trac');
 
         $this->irss = $DIC->resourceStorage();
+
+        $this->card_thumbnail_definition = new FitToSquare(
+            true,
+            100
+        );
 
         $this->user_certificate_repo = $user_certificate_repo ?: new ilUserCertificateRepository();
         $this->certificate_active_validator = $certificate_active_validator ?: new ilCertificateActiveValidator();
@@ -110,7 +117,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'settings'),
@@ -182,9 +189,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         if ($this->object->hasBackgroundImage()) {
             $rid = $this->object->getBackgroundImageIdentification();
             if ($rid instanceof ResourceIdentification) {
-                $bgimage->setImage($this->irss->consume()->src($rid)->getSrc(true));
-            } elseif (is_string($rid)) {
-                $bgimage->setImage($rid);
+                $background_flavour = $this->irss->flavours()->get(
+                    $rid,
+                    $this->card_thumbnail_definition
+                );
+                $flavour_urls = $this->irss->consume()->flavourUrls($background_flavour);
+                foreach ($flavour_urls->getURLs(true) as $url) {
+                    /** @var string $url */
+                    $bgimage->setImage($url);
+                }
             }
         }
         $bgimage->setInfo($this->lng->txt('default_background_info'));

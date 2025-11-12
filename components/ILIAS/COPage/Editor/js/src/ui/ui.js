@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 import PageUI from '../components/page/ui/page-ui.js';
 import ParagraphUI from '../components/paragraph/ui/paragraph-ui.js';
@@ -25,58 +25,57 @@ import PlaceHolderUI from '../components/placeholder/ui/placeholder-ui.js';
  * editor ui
  */
 export default class UI {
-
   /**
    * UI model
    * @type {Object}
    */
-  //uiModel = {};
+  // uiModel = {};
 
   /**
    * Model
    * @type {Model}
    */
-  //model = {};
+  // model = {};
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {PageUI}
    */
-  //page;
+  // page;
 
   /**
    * @type {ParagraphUI}
    */
-  //paragraph;
+  // paragraph;
 
   /**
    * @type {MediaUI}
    */
-  //media;
+  // media;
 
   /**
    * @type {ToolSlate}
    */
-  //toolSlate;
+  // toolSlate;
 
   /**
    * @type {pageModifier}
    */
-  //pageModifier;
+  // pageModifier;
 
   /**
    * @param {Client} client
@@ -86,8 +85,14 @@ export default class UI {
    * @param {ToolSlate} toolSlate
    * @param {PageModifer} pageModifer
    */
-  constructor(client, dispatcher, actionFactory, model, toolSlate,
-              pageModifer) {
+  constructor(
+    client,
+    dispatcher,
+    actionFactory,
+    model,
+    toolSlate,
+    pageModifer,
+  ) {
     this.uiModel = {};
     this.client = client;
     this.dispatcher = dispatcher;
@@ -95,57 +100,57 @@ export default class UI {
     this.model = model;
     this.toolSlate = toolSlate;
     this.pageModifer = pageModifer;
-    this.debug = true;
+    this.debug = false;
 
     // @todo we need a ui factory here...
     this.page = new PageUI(
       this.client,
       this.dispatcher,
       this.actionFactory,
-      this.model.model("page"),
+      this.model.model('page'),
       this.toolSlate,
-      this.pageModifer
+      this.pageModifer,
     );
     this.paragraph = new ParagraphUI(
       this.client,
       this.dispatcher,
       this.actionFactory,
-      this.model.model("page"),
+      this.model.model('page'),
       this.toolSlate,
       this.pageModifer,
-      new AutoSave());
+      new AutoSave(),
+    );
     this.media = new MediaUI(
       this.client,
       this.dispatcher,
       this.actionFactory,
-      this.model.model("page"),
+      this.model.model('page'),
       this.toolSlate,
-      this.pageModifer
+      this.pageModifer,
     );
     this.table = new TableUI(
       this.client,
       this.dispatcher,
       this.actionFactory,
-      this.model.model("page"),
+      this.model.model('page'),
       this.toolSlate,
       this.pageModifer,
       this.paragraph,
-      this.model.model("table"),
+      this.model.model('table'),
     );
     this.placeholder = new PlaceHolderUI(
-        this.client,
-        this.dispatcher,
-        this.actionFactory,
-        this.model.model("page"),
-        this.toolSlate,
-        this.pageModifer
+      this.client,
+      this.dispatcher,
+      this.actionFactory,
+      this.model.model('page'),
+      this.toolSlate,
+      this.pageModifer,
     );
 
-
-    this.page.addComponentUI("Paragraph", this.paragraph);
-    this.page.addComponentUI("Media", this.media);
-    this.page.addComponentUI("Table", this.table);
-    this.page.addComponentUI("PlaceHolder", this.placeholder);
+    this.page.addComponentUI('Paragraph', this.paragraph);
+    this.page.addComponentUI('Media', this.media);
+    this.page.addComponentUI('Table', this.table);
+    this.page.addComponentUI('PlaceHolder', this.placeholder);
     this.pageModifer.setPageUI(this.page);
   }
 
@@ -173,16 +178,16 @@ export default class UI {
    */
   init(after_init) {
     const ui_all_action = this.actionFactory.page().query().uiAll();
-    this.client.sendQuery(ui_all_action).then(result => {
+    this.client.sendQuery(ui_all_action).then((result) => {
       this.uiModel = result.getPayload();
 
       // move page component model to model
-      this.log("ui.js, init, uiModel:");
+      this.log('ui.js, init, uiModel:');
       this.log(this.uiModel);
-      this.log("ui.js, init, pcModel:");
+      this.log('ui.js, init, pcModel:');
       this.log(this.uiModel.pcModel);
-      this.model.model("page").setComponentModel(this.uiModel.pcModel);
-      this.model.model("page").activatePasting(this.uiModel.pasting);
+      this.model.model('page').setComponentModel(this.uiModel.pcModel);
+      this.model.model('page').activatePasting(this.uiModel.pasting);
       this.uiModel.pcModel = null;
 
       this.toolSlate.init(this.uiModel);

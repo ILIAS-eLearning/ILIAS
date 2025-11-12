@@ -27,4 +27,6 @@ interface RecordInfosInterface
     public function identfifier(): string;
 
     public function datestamp(): \DateTimeImmutable;
+
+    public function isDeleted(): bool;
 }

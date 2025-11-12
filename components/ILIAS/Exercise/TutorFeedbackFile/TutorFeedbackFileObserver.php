@@ -24,7 +24,6 @@ use ILIAS\ResourceStorage\Events\Event;
 use ILIAS\ResourceStorage\Events\Data;
 use ILIAS\ResourceStorage\Events\Observer;
 use ILIAS\Exercise\InternalDomainService;
-use ILIAS\ResourceStorage\Events\Throwable;
 
 class TutorFeedbackFileObserver implements Observer
 {

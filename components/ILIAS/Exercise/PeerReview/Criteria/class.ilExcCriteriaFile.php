@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Exercise\PeerReview\Criteria\CriteriaFileManager;
+use ILIAS\Exercise\PeerReview\Criteria\CriteriaFile;
 
 /**
  * Class ilExcCriteriaFile
@@ -47,7 +48,7 @@ class ilExcCriteriaFile extends ilExcCriteria
     }
 
     /**
-     * @return \ILIAS\Exercise\PeerReview\Criteria\CriteriaFile[]
+     * @return CriteriaFile[]
      */
     public function getFiles(): array
     {
@@ -124,10 +125,7 @@ class ilExcCriteriaFile extends ilExcCriteria
         return true;
     }
 
-    /**
-     * @return false|mixed
-     */
-    public function getFileByHash()
+    public function getFileByHash(): ?CriteriaFile
     {
         $hash = trim($this->requested_file_hash);
         if ($hash != "") {
@@ -137,7 +135,7 @@ class ilExcCriteriaFile extends ilExcCriteria
                 }
             }
         }
-        return false;
+        return null;
     }
 
     public function getHTML($a_value): string

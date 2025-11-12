@@ -184,7 +184,7 @@ class ilPCSectionGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $ret = "";
 

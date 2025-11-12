@@ -23,6 +23,7 @@ namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use InvalidArgumentException;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class Workflow
@@ -31,6 +32,7 @@ use InvalidArgumentException;
 abstract class Workflow implements C\Listing\Workflow\Workflow
 {
     use ComponentHelper;
+    use JavaScriptBindable;
 
     private string $title;
     private array $steps;

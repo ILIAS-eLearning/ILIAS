@@ -22,7 +22,6 @@ class ilObjLegalNotice extends ilObject2
 {
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
-        global $DIC;
         parent::__construct($a_id, $a_reference);
     }
 

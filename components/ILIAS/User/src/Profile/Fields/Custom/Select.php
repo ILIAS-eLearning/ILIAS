@@ -63,58 +63,36 @@ class Select implements Type
         ?string $data
     ): \ilFormPropertyGUI {
         $parsed_data = $this->parseData($data);
-        if ($parsed_data['allow_multiple']) {
-            $input = new \ilMultiSelectInputGUI($label);
-            $input->setOptions($this->parseData($data)['options']);
-            $input->setValue($user_value);
+        if (!$parsed_data['allow_multiple']) {
+            $input = new \ilSelectInputGUI($label);
+            $input->setOptions(
+                ['' => $lng->txt('please_select')]
+                + array_combine($parsed_data['options'], $parsed_data['options'])
+            );
+            $input->setValue($user_value[0] ?? '');
             return $input;
         }
 
-        $input = new \ilSelectInputGUI($label);
-        $input->setOptions(['' => $lng->txt('please_select')] + $this->parseData($data)['options']);
-        $input->setValue($user_value[0] ?? '');
+        $input = new \ilMultiSelectInputGUI($label);
+        $input->setOptions(
+            array_combine($parsed_data['options'], $parsed_data['options'])
+        );
+        $input->setValue($user_value);
         return $input;
+
+
     }
 
-    public function prepareUserInputForStorage(mixed $input): array
+    public function prepareUserInputForStorage(mixed $input, ?string $data): array
     {
-        if (is_array($input)) {
-            return $input;
-        }
-
-        return [$input];
-    }
-
-    public function buildPresentationValueFromUserValue(
-        array $input,
-        ?string $data
-    ): string {
-        if ($data === null || $input === []) {
-            return '';
-        }
-
         $options = $this->parseData($data)['options'];
+        if (!is_array($input)) {
+            $input = [$input];
+        }
 
-        return implode(
-            ', ',
-            array_reduce(
-                $input,
-                static function (array $c, string|int $v) use ($options): array {
-                    if (array_key_exists($v, $options)) {
-                        $c[] = $options[$v];
-                        return $c;
-                    }
-
-                    $value = array_search($v, $options);
-                    if ($value === false) {
-                        return $c;
-                    }
-
-                    $c[] = $v;
-                    return $c;
-                },
-                []
-            )
+        return array_filter(
+            $input,
+            fn(string $v): bool => in_array($v, $options)
         );
     }
 

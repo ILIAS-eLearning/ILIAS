@@ -35,8 +35,6 @@ class UIComponent implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "Explorer2.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilOverlay.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "LegacyModal.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilExplorer.js");
@@ -47,7 +45,7 @@ class UIComponent implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "ilTextHighlighter.js");
 
-        /* $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
             public function getSource(): string
             {
                 return "node_modules/jstree";
@@ -56,8 +54,7 @@ class UIComponent implements Component\Component
             {
                 return "node_modules/jstree";
             }
-        }; */
-
+        };
 
         /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = static fn() =>

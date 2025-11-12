@@ -29,10 +29,20 @@ class InternalRepoService
     protected InternalDataService $data;
     protected \ilDBInterface $db;
 
+    protected static array $instance = [];
+
     public function __construct(InternalDataService $data, \ilDBInterface $db)
     {
         $this->data = $data;
         $this->db = $db;
+    }
+
+    public function guidedTour(): \ILIAS\Help\GuidedTour\InternalRepoService
+    {
+        return self::$instance["guided"] ??= new GuidedTour\InternalRepoService(
+            $this->data->guidedTour(),
+            $this->db
+        );
     }
 
     public function map(): MapDBRepository

@@ -668,6 +668,7 @@ class ilObjLTIConsumer extends ilObject2
     ): array {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
+        $DIC->user()->setExternalAccount($cmixUser->getUsrIdent());
 
         $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
         //todo if object is in course or group, roles would have to be taken from there s. Mantis 35435 - if necessary Jour Fixe topic
@@ -733,6 +734,7 @@ class ilObjLTIConsumer extends ilObject2
             $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
         }
         $toolConsumerInstanceGuid .= $parseIliasUrl["host"];
+
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
             "lti_version" => "LTI-1p0",
@@ -752,9 +754,9 @@ class ilObjLTIConsumer extends ilObject2
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
             "launch_presentation_document_target" => $documentTarget,
-            "launch_presentation_width" => "",
+            //"launch_presentation_width" => "",
             //recommended
-            "launch_presentation_height" => "",
+            //"launch_presentation_height" => "",
             //recommended
             "launch_presentation_return_url" => $returnUrl,
             "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
@@ -770,7 +772,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => self::getIliasHttpPath(
-            ) . "/components/ILIAS/LTIConsumer/result.php?client_id=" . CLIENT_ID,
+            ) . "/ltiresult.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -794,6 +796,7 @@ class ilObjLTIConsumer extends ilObject2
 
     public function buildLaunchParametersLTI13(
         ilCmiXapiUser $cmixUser,
+        string $token,
         string $endpoint,
         string $clientId,
         int $deploymentId,
@@ -805,11 +808,13 @@ class ilObjLTIConsumer extends ilObject2
     ): ?array {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
+        $roles = $this->determineLTIRole($DIC->user()->getId(), $this->getRefId(), $DIC->rbac()->review());
 
-        $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
         if ($this->getProvider()->getAlwaysLearner() == true) {
-            $roles = "Learner";
+            $roles = 'Learner';
         }
+
+
 
         $resource_link_id = $this->getRefId();
         if ($this->getProvider()->getUseProviderId() == true) {
@@ -878,9 +883,9 @@ class ilObjLTIConsumer extends ilObject2
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
             "launch_presentation_document_target" => $documentTarget,
-            "launch_presentation_width" => "",
+            //"launch_presentation_width" => "",
             //recommended
-            "launch_presentation_height" => "",
+            //"launch_presentation_height" => "",
             //recommended
             "launch_presentation_return_url" => $returnUrl,
             "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
@@ -894,10 +899,9 @@ class ilObjLTIConsumer extends ilObject2
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
-            "lis_result_sourcedid" => "",
-            //$token,
+            "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => self::getIliasHttpPath(
-            ) . "/components/ILIAS/LTIConsumer/result.php?client_id=" . CLIENT_ID,
+            ) . "/ltiresult.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
 
@@ -911,12 +915,12 @@ class ilObjLTIConsumer extends ilObject2
         if ($this->getProvider()->isGradeSynchronization()) {
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath(
-            ) . "/components/ILIAS/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+            ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
 
             // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
             // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
             $launch_vars['custom_lineitems_url'] = self::getIliasHttpPath(
-            ) . "/components/ILIAS/LTIConsumer/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
+            ) . "/ltiservices.php/gradeservice/" . $contextId . "/linetitems/";
 
             $launch_vars['custom_ags_scopes'] = implode(",", $gradeservice->getPermittedScopes());
         }
@@ -1200,6 +1204,8 @@ class ilObjLTIConsumer extends ilObject2
     {
         global $DIC;
 
+        $logger = $DIC->logger()->root();
+
         if ($DIC['https']->isDetected()) {
             $protocol = 'https://';
         } else {
@@ -1221,7 +1227,9 @@ class ilObjLTIConsumer extends ilObject2
         } else {
             $uri = $rq_uri;
         }
+        $logger->info("URI --- 1: " . $uri);
         $uri = str_replace("components/ILIAS/LTIConsumer", "", $uri);
+        $logger->info("URI --- 2: " . $uri);
         $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
         $f = new \ILIAS\Data\Factory();
         $uri = $f->uri(rtrim($iliasHttpPath, "/"));
@@ -1235,37 +1243,37 @@ class ilObjLTIConsumer extends ilObject2
 
     public static function getAuthenticationRequestUrl(): string
     {
-        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiauth.php";
+        return self::getIliasHttpPath() . "/ltiauth.php";
     }
 
     public static function getAccessTokenUrl(): string
     {
-        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltitoken.php";
+        return self::getIliasHttpPath() . "/ltitoken.php";
     }
 
     public static function getPublicKeysetUrl(): string
     {
-        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/lticerts.php";
+        return self::getIliasHttpPath() . "/lticerts.php";
     }
 
     public static function getRegistrationUrl(): string
     {
-        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiregistration.php";
+        return self::getIliasHttpPath() . "/ltiregistration.php";
     }
 
     public static function getRegistrationStartUrl(): string
     {
-        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiregstart.php";
+        return self::getIliasHttpPath() . "/ltiregstart.php";
     }
 
     public static function getRegistrationEndUrl(): string
     {
-        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/ltiregend.php";
+        return self::getIliasHttpPath() . "/ltiregend.php";
     }
 
     public static function getOpenidConfigUrl(): string
     {
-        return self::getIliasHttpPath() . "/components/ILIAS/LTIConsumer/lticonfig.php";
+        return self::getIliasHttpPath() . "/lticonfig.php";
     }
 
     public static function getOpenidConfig(): array
@@ -1423,5 +1431,76 @@ class ilObjLTIConsumer extends ilObject2
     public static function getLogger(): ilLogger
     {
         return ilLoggerFactory::getLogger('lti');
+    }
+
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
+    {
+        // LTI specific properties
+        $new_obj->setProviderId($this->getProviderId());
+        $new_obj->setLaunchMethod($this->getLaunchMethod());
+        $new_obj->setCustomLaunchKey($this->getCustomLaunchKey());
+        $new_obj->setCustomLaunchSecret($this->getCustomLaunchSecret());
+        $new_obj->setCustomParams($this->getCustomParams());
+        $new_obj->setUseXapi($this->getUseXapi());
+        $new_obj->setCustomActivityId($this->getCustomActivityId());
+        $new_obj->setStatementsReportEnabled($this->isStatementsReportEnabled());
+        $new_obj->setMasteryScore($this->getMasteryScore());
+
+        // Highscore configuration
+        $new_obj->setHighscoreEnabled($this->getHighscoreEnabled());
+        $new_obj->setHighscoreAchievedTS($this->getHighscoreAchievedTS());
+        $new_obj->setHighscorePercentage($this->getHighscorePercentage());
+        $new_obj->setHighscoreWTime($this->getHighscoreWTime());
+        $new_obj->setHighscoreOwnTable($this->getHighscoreOwnTable());
+        $new_obj->setHighscoreTopTable($this->getHighscoreTopTable());
+        $new_obj->setHighscoreTopNum($this->getHighscoreTopNum());
+
+        // Activation settings
+        $new_obj->setActivationLimited($this->isActivationLimited());
+        $new_obj->setActivationStartingTime($this->getActivationStartingTime());
+        $new_obj->setActivationEndingTime($this->getActivationEndingTime());
+
+        if ($this->isActivationLimited() && $this->getActivationVisibility() !== null) {
+            $new_obj->setActivationVisibility($this->getActivationVisibility());
+        }
+
+        $new_obj->save();
+    }
+
+    private function determineLTIRole(int $a_user_id, int $a_ref_id, ilRbacReview $rbac_review_instance): string
+    {
+        global $DIC;
+
+        $global_roles = $rbac_review_instance->assignedGlobalRoles($a_user_id);
+        if (in_array(SYSTEM_ROLE_ID, $global_roles)) {
+            return 'Administrator';
+        }
+
+        $user_assigned_roles = $rbac_review_instance->assignedRoles($a_user_id);
+        $parent_roles_data = $rbac_review_instance->getParentRoleIds($a_ref_id, true);
+        $roles_in_path_ids = array_keys($parent_roles_data);
+        $effective_roles_in_context = array_intersect($user_assigned_roles, $roles_in_path_ids);
+
+        if (!empty($effective_roles_in_context)) {
+            $parent_ref_id = $DIC->repositoryTree()->getParentId($a_ref_id);
+            $context_obj_type = ilObject::_lookupType($parent_ref_id, true);
+
+            $instructor_base_titles = [
+                'il_' . $context_obj_type . '_admin',
+                'il_' . $context_obj_type . '_tutor'
+            ];
+
+            foreach ($effective_roles_in_context as $role_id) {
+                $role_title = ilObject::_lookupTitle($role_id);
+
+                foreach ($instructor_base_titles as $base_title) {
+                    if (str_starts_with((string) $role_title, $base_title)) {
+                        return 'Instructor';
+                    }
+                }
+            }
+        }
+
+        return 'Learner';
     }
 }

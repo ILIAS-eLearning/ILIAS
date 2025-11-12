@@ -26,7 +26,6 @@ class SettingsQuestionBehaviourTest extends ilTestBaseTestCase
     {
         return new SettingsQuestionBehaviour(
             0,
-            0,
             true,
             0,
             true,

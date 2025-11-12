@@ -83,8 +83,9 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         foreach ($this->loadToplistData() as $row) {
             $item = $this->buildBasicItemFromRowArray($row);
@@ -106,8 +107,11 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         // return 0 here to avoid pagination in the table. This is the same behavior as in Ilias 8/9
         return 0;
     }

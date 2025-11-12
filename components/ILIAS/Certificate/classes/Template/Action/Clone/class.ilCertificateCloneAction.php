@@ -85,8 +85,6 @@ class ilCertificateCloneAction
                 $iliasVersion,
                 time(),
                 $template->isCurrentlyActive(),
-                $template->getBackgroundImagePath(),
-                $template->getTileImagePath(),
                 $template->getBackgroundImageIdentification(),
                 $template->getTileImageIdentification()
             );

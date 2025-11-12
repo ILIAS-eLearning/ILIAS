@@ -56,7 +56,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $this->access = $DIC->access();
         $this->rbacreview = $DIC->rbac()->review();
         $this->user = $DIC->user();
-        $this->user = $DIC['user']->getProfile();
+        $this->profile = $DIC['user']->getProfile();
 
 
         $this->setPrefix('participants');
@@ -207,7 +207,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', isset($a_set[$field]) ? (string) $a_set[$field] : '');
+                    $this->tpl->setVariable('VAL_CUST', is_array($a_set[$field] ?? '') ? implode(', ', $a_set[$field]) : (string) $a_set[$field]);
                     $this->tpl->parseCurrentBlock();
                     break;
             }
@@ -352,16 +352,19 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
         // Custom user data fields
         if ($udf_ids) {
+            global $DIC;
+            $DIC->logger()->root()->dump($filtered_user_ids);
             $a_user_data = array_reduce(
-                $this->profile->getDataForMultiple($filtered_user_ids),
+                iterator_to_array($this->profile->getDataForMultiple($filtered_user_ids)),
                 function (array $c, ProfileData $v) use ($udf_ids): array {
                     if (!$this->checkAcceptance($v->getId())) {
                         return $c;
                     }
 
                     foreach ($udf_ids as $field_id) {
-                        $c[$v->getId()]['udf_' . $field_id] = $v->getAdditionalFieldByIdentifier($field_id);
+                        $c[$v->getId()]['udf_' . $field_id] = implode(', ', $v->getAdditionalFieldByIdentifier($field_id) ?? []);
                     }
+                    return $c;
                 },
                 $a_user_data
             );

@@ -91,6 +91,12 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
+        return $this->buildSQLCondition($a_element_id, $mode, $quotedWords) . ' OR ' .
+            $this->buildSQLCondition('title', $mode, $quotedWords);
+    }
+
+    protected function buildSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
+    {
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
                 return '';

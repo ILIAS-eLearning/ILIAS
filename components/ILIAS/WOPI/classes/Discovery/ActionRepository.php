@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\WOPI\Discovery;
+namespace ILIAS\WOPI\Discovery;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

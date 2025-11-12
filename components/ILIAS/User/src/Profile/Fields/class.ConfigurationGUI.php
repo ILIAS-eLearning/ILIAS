@@ -51,6 +51,13 @@ class ConfigurationGUI implements DataRetrieval
 
     private const string CHANGED_ATTRIBUTES_PARAMETER = 'ca';
 
+    private const string DEFAULT_CMD = 'show';
+    private const string CMD_SAVE = 'save';
+    private const string CMD_CREATE = 'create';
+    private const string CMD_SAVE_AFTER_LISTENER_CONFIRMATION = 'saveAfterListenerConfirmation';
+    private const string CMD_DELETE = 'delete';
+    private const string CMD_PERFORM_TABLE_ACTION = 'action';
+
     private const string ACTION_EDIT = 'edit';
     private const string ACTION_DELETE = 'delete';
 
@@ -83,7 +90,7 @@ class ConfigurationGUI implements DataRetrieval
             new URI(
                 ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
                     [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
-                    'action'
+                    self::CMD_PERFORM_TABLE_ACTION
                 )
             )
         );
@@ -173,7 +180,7 @@ class ConfigurationGUI implements DataRetrieval
         $this->storeField($data['field']);
         $this->ctrl->redirectByClass(
             [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
-            'show'
+            self::DEFAULT_CMD
         );
     }
 
@@ -197,7 +204,10 @@ class ConfigurationGUI implements DataRetrieval
         }
 
         $this->storeField($data['field']);
-        $this->showCmd();
+        $this->ctrl->redirectByClass(
+            [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
+            self::DEFAULT_CMD
+        );
     }
 
     public function saveAfterListenerConfirmationCmd(): void
@@ -247,7 +257,10 @@ class ConfigurationGUI implements DataRetrieval
         );
         $this->available_fields = $this->repository->get();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('udf_field_deleted'), true);
-        $this->showCmd();
+        $this->ctrl->redirectByClass(
+            [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
+            self::DEFAULT_CMD
+        );
     }
 
     public function getRows(
@@ -255,8 +268,9 @@ class ConfigurationGUI implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $this->orderRows($order);
         foreach ($this->available_fields as $field) {
@@ -270,8 +284,9 @@ class ConfigurationGUI implements DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->available_fields);
     }
@@ -290,6 +305,10 @@ class ConfigurationGUI implements DataRetrieval
     private function getColumns(): array
     {
         $cf = $this->ui_factory->table()->column();
+        $icon_checked = $this->ui_factory->symbol()->icon()
+            ->custom('assets/images/standard/icon_checked.svg', '', 'small');
+        $icon_unchecked = $this->ui_factory->symbol()->icon()
+            ->custom('assets/images/standard/icon_unchecked.svg', '', 'small');
         return [
             'field' => $cf->text($this->lng->txt('user_field'))->withIsSortable(true),
             'type' => $cf->text($this->lng->txt('type'))
@@ -303,29 +322,29 @@ class ConfigurationGUI implements DataRetrieval
                 $this->lng->txt(
                     PropertyAttributes::Required->value
                 ),
-                $this->ui_factory->symbol()->glyph()->checked(),
-                $this->ui_factory->symbol()->glyph()->unchecked()
+                $icon_checked,
+                $icon_unchecked
             )->withIsSortable(true),
             'export' => $cf->boolean(
                 $this->lng->txt(
                     PropertyAttributes::Export->value
                 ),
-                $this->ui_factory->symbol()->glyph()->checked(),
-                $this->ui_factory->symbol()->glyph()->unchecked()
+                $icon_checked,
+                $icon_unchecked
             )->withIsSortable(true),
             'searchable' => $cf->boolean(
                 $this->lng->txt(
                     PropertyAttributes::Searchable->value
                 ),
-                $this->ui_factory->symbol()->glyph()->checked(),
-                $this->ui_factory->symbol()->glyph()->unchecked()
+                $icon_checked,
+                $icon_unchecked
             )->withIsSortable(true),
             'available_in_certificates' => $cf->boolean(
                 $this->lng->txt(
                     PropertyAttributes::AvailableInCertificates->value
                 ),
-                $this->ui_factory->symbol()->glyph()->checked(),
-                $this->ui_factory->symbol()->glyph()->unchecked()
+                $icon_checked,
+                $icon_unchecked
             )->withIsSortable(true)
         ];
     }
@@ -456,7 +475,7 @@ class ConfigurationGUI implements DataRetrieval
             ),
             $this->ctrl->getFormActionByClass(
                 [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
-                'save'
+                self::CMD_SAVE
             )
         );
     }
@@ -478,7 +497,7 @@ class ConfigurationGUI implements DataRetrieval
             ),
             $this->ctrl->getFormActionByClass(
                 [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
-                'create'
+                self::CMD_CREATE
             )
         );
     }
@@ -518,7 +537,7 @@ class ConfigurationGUI implements DataRetrieval
             ),
             $this->ctrl->getFormActionByClass(
                 [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
-                'saveAfterListenerConfirmation'
+                self::CMD_SAVE_AFTER_LISTENER_CONFIRMATION
             )
         );
     }
@@ -531,7 +550,7 @@ class ConfigurationGUI implements DataRetrieval
             $this->lng->txt('udf_delete_sure'),
             $this->ctrl->getFormActionByClass(
                 [\ilAdministrationGUI::class, \ilObjUserFolderGUI::class, self::class],
-                'delete'
+                self::CMD_DELETE
             )
         )->withAffectedItems([
             $this->ui_factory->modal()->interruptiveItem()->standard(

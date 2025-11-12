@@ -144,8 +144,9 @@ class QuestionsBrowserTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $timezone = new \DateTimeZone($this->current_user->getTimeZone());
         foreach ($this->loadRecords($filter_data ?? [], $order, $range) as $record) {
@@ -163,8 +164,11 @@ class QuestionsBrowserTable implements DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): int {
         $filter_data ??= [];
         $this->addFiltersToQuestionList($filter_data);
         return $this->question_list->getTotalRowCount($filter_data, $additional_parameters);

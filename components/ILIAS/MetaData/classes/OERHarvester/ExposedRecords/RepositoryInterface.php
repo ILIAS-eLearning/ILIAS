@@ -59,7 +59,9 @@ interface RepositoryInterface
 
     public function createRecord(int $obj_id, string $identifier, \DOMDocument $metadata): void;
 
-    public function updateRecord(int $obj_id, \DOMDocument $metadata): void;
+    public function updateRecord(int $obj_id, bool $is_deleted, ?\DOMDocument $metadata): void;
+
+    public function deleteRecordsMarkedAsDeletedOlderThan(\DateInterval $interval): void;
 
     public function deleteRecord(int $obj_id): void;
 }

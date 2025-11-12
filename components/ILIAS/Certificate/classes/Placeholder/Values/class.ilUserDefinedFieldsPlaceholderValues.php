@@ -52,10 +52,10 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
             throw new ilException('The entered id: ' . $userId . ' is not an user object');
         }
 
-        $userDefinedFields = $this->user_profile->getVisibleUserDefinedFields(Context::Certificate);
+        $fields = $this->user_profile->getVisibleUserDefinedFields(Context::Certificate);
 
         $placeholder = [];
-        foreach ($userDefinedFields as $field) {
+        foreach ($fields as $field) {
             $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field->getLabel($this->lng)));
             $placeholder[$placeholderText] = $this->ilUtilHelper->prepareFormOutput(
                 $field->retrieveValueFromUser($user)
@@ -72,14 +72,14 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
-        $userDefinedFields = $this->user_profile->getDefinitions();
+        $fields = $this->user_profile->getVisibleUserDefinedFields(Context::Certificate);
 
         $placeholder = [];
-        foreach ($userDefinedFields as $field) {
-            if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
-
-                $placeholder[$placeholderText] = $field['field_name'];
+        foreach ($fields as $field) {
+            if ($field->isAvailableInCertificates()) {
+                $label = $field->getLabel($this->lng);
+                $placeholder_text = '#' . str_replace(' ', '_', ilStr::strToUpper($label));
+                $placeholder[$placeholder_text] = $label;
             }
         }
 

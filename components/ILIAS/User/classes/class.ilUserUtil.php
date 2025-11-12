@@ -18,7 +18,7 @@
 
 use ILIAS\User\LocalDIC;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
-use PublicProfileGUILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilUserUtil

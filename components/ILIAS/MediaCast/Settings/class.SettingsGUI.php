@@ -66,7 +66,7 @@ class SettingsGUI
         $lng = $this->domain->lng();
 
         $form = $this->gui
-            ->form(self::class, "save")
+            ->form([self::class], "save")
             ->section("general", $lng->txt("mcst_settings"))
             ->addStdTitleAndDescription($this->obj_id, "mcst")
             ->section("avail", $lng->txt("rep_activation_availability"))

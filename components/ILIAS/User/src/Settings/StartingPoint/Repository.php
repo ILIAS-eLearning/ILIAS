@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Settings\StartingPoint;
 
-use ILIAS\User\Settings\Repository as UserSettingsRepository;
+use ILIAS\User\Settings\ConfigurationRepository as UserSettingsConfigurationRepository;
 use ILIAS\DI\LoggingServices;
 use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\MyStaff\ilMyStaffAccess;
@@ -68,7 +68,7 @@ class Repository
         private readonly \ilRbacReview $rbac_review,
         private readonly \ilRbacSystem $rbac_system,
         private readonly \ilSetting $settings,
-        private readonly UserSettingsRepository $user_settings_repository
+        private readonly UserSettingsConfigurationRepository $user_settings_repository
     ) {
         global $DIC;
         $this->current_user_has_access_to_my_staff = (new ilMyStaffCachedAccessDecorator(

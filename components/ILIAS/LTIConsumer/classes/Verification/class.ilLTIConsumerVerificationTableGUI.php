@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
  * List all completed course for current user
  *

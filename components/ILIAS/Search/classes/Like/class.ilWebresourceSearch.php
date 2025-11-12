@@ -47,7 +47,8 @@ class ilWebresourceSearch extends ilAbstractSearch
                 (int) $row->webr_id,
                 'webr',
                 $this->__prepareFound($row),
-                (int) $row->link_id
+                (int) $row->link_id,
+                'link'
             );
         }
         return $this->search_result;

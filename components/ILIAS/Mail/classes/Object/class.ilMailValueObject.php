@@ -38,10 +38,10 @@ class ilMailValueObject
         private readonly bool $use_placeholders = false,
         private readonly bool $save_in_sent_box = false
     ) {
-        $this->attachments = array_filter(array_map('trim', $attachments));
         if (ilStr::strLen($this->subject) > 255) {
             throw new InvalidArgumentException('Subject must not be longer than 255 characters');
         }
+        $this->attachments = array_filter(array_map('trim', $attachments));
     }
 
     public function getRecipients(): string

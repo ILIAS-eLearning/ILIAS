@@ -20,19 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Copyright;
 
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Legacy\Content;
 
 class NullRenderer implements RendererInterface
 {
     /**
-     * Returns a string in a legacy UI component if only a string can be returned.
-     * @return Image[]|Link[]|Content[]
+     * @return Icon[]|Link[]|Content[]
      */
     public function toUIComponents(CopyrightDataInterface $copyright): array
     {
         return [];
+    }
+
+    public function toImageOnly(CopyrightDataInterface $copyright): ?Icon
+    {
+        return null;
+    }
+
+    public function toLinkOnly(CopyrightDataInterface $copyright): ?Link
+    {
+        return null;
     }
 
     public function toString(CopyrightDataInterface $copyright): string

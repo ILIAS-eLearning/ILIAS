@@ -24,11 +24,10 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
+use ILIAS\TestQuestionPool\RequestDataCollectorInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function array_map;
-
-class RequestDataCollector
+class RequestDataCollector implements RequestDataCollectorInterface
 {
     use BaseGUIRequest;
 
@@ -58,13 +57,13 @@ class RequestDataCollector
 
     public function getRefId(): int
     {
-        return $this->int("ref_id");
+        return $this->int('ref_id');
     }
 
     /** @return string[] */
     public function getIds(): array
     {
-        return $this->strArray("id");
+        return $this->strArray('id');
     }
 
     public function hasQuestionId(): bool
@@ -190,18 +189,19 @@ class RequestDataCollector
      */
     public function getMultiSelectionIds(string $key): array|string
     {
-        $p = $this->http->wrapper()->query();
-        $r = $this->refinery;
+        $query = $this->http->wrapper()->query();
 
-        if (!$p->has($key)) {
+        if (!$query->has($key)) {
             return [];
         }
 
-        return $p->retrieve(
+        return $query->retrieve(
             $key,
-            $r->custom()->transformation(function ($value) {
-                return $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS' ? 'ALL_OBJECTS' : array_map('intval', $value);
-            })
+            $this->refinery->custom()->transformation(
+                static fn(array|string $value): array|string => $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS'
+                    ? 'ALL_OBJECTS'
+                    : array_map('intval', $value)
+            )
         );
     }
 }

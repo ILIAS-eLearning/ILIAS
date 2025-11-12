@@ -82,7 +82,7 @@ class AllowOnScreenChatConversations implements SettingDefinition
             [
                 self::KEY_ENABLE_BROWSER_NOTIFICATIONS => $field_factory->checkbox(
                     $lng->txt('osc_enable_browser_notifications_label'),
-                    sprintf(
+                    \sprintf(
                         $lng->txt('osc_enable_browser_notifications_info'),
                         (int) $chat_settings->get('conversation_idle_state_in_minutes')
                     )
@@ -103,29 +103,30 @@ class AllowOnScreenChatConversations implements SettingDefinition
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $lng->loadLanguageModule('chatroom');
-            $input = new \ilCheckboxInputGUI($lng->txt('chat_osc_accept_msg'));
-            $input->setChecked(
-                $user !== null
-                    ? $user->getPref('chat_osc_accept_msg') === 'y'
-                    : $settings->get('chat_osc_accept_msg') === 'y'
-            );
-            return $input;
+
+        $input = new \ilCheckboxInputGUI($lng->txt('chat_osc_accept_msg'));
+        $input->setChecked(
+            $user !== null
+                ? $user->getPref('chat_osc_accept_msg') === 'y'
+                : $settings->get('chat_osc_accept_msg') === 'y'
+        );
+
+        return $input;
     }
 
     public function getDefaultValueForDisplay(
         Language $lng,
         \ilSetting $settings
     ): string {
-        return $settings->get($this->getIdentifier()) === 'y'
-            ? $lng->txt('chat_osc_accepts_messages_yes')
-            : $lng->txt('chat_no_use_typing_broadcast');
+        return $lng->txt('chat_osc_accepts_messages_no');
     }
 
     public function hasUserPersonalizedSetting(
         \ilSetting $settings,
         \ilObjUser $user
     ): bool {
-        return $this->retrieveValueFromUser($user) !== $settings->get($this->getIdentifier());
+        $user_value = $this->retrieveValueFromUser($user);
+        return $user_value[$this->getIdentifier()] !== false;
     }
 
     public function persistUserInput(
@@ -135,19 +136,47 @@ class AllowOnScreenChatConversations implements SettingDefinition
         if ($input === null) {
             $user->deletePref($this->getIdentifier());
             $user->deletePref(self::KEY_ENABLE_BROWSER_NOTIFICATIONS);
+            $this->updateChatServer($user->getId(), false);
+
             return $user;
         }
-        if (is_bool($input)) {
-            $user->setPref($this->getIdentifier(), $input);
+
+        if ($input === '1' || $input === '0') {
+            $input = $input === '1';
+        }
+
+        if (\is_bool($input)) {
+            $user->setPref($this->getIdentifier(), $input ? 'y' : 'n');
+            $this->updateChatServer($user->getId(), $input);
+
             return $user;
         }
+
+        if (\is_array($input)) {
+            $user->setPref($this->getIdentifier(), 'y');
+            $user->setPref(
+                self::KEY_ENABLE_BROWSER_NOTIFICATIONS,
+                $input[self::KEY_ENABLE_BROWSER_NOTIFICATIONS] ? 'y' : 'n'
+            );
+            $this->updateChatServer($user->getId(), true);
+        }
+
         return $user;
     }
 
-    public function retrieveValueFromUser(\ilObjUser $user): ?bool
+    public function retrieveValueFromUser(\ilObjUser $user): array
     {
-        $value = $user->getPref($this->getIdentifier());
-        return $value !== null ? $value === 'y' : null;
+        if ($user->getPref($this->getIdentifier()) !== 'y') {
+            return [
+                $this->getIdentifier() => false,
+                self::KEY_ENABLE_BROWSER_NOTIFICATIONS => false
+            ];
+        }
+
+        return [
+            $this->getIdentifier() => true,
+            self::KEY_ENABLE_BROWSER_NOTIFICATIONS => $user->getPref(self::KEY_ENABLE_BROWSER_NOTIFICATIONS) === 'y'
+        ];
     }
 
     private function buildValueForNotificationGroup(
@@ -168,5 +197,18 @@ class AllowOnScreenChatConversations implements SettingDefinition
         return [
             self::KEY_ENABLE_BROWSER_NOTIFICATIONS => $notification
         ];
+    }
+
+    private function updateChatServer(int $user_id, bool $osc_state): void
+    {
+        $message = [
+            $user_id => [
+                'acceptsMessages' => $osc_state,
+            ]
+        ];
+
+        $settings = \ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
+        $connector = new \ilChatroomServerConnector($settings);
+        $connector->sendUserConfigChange(json_encode($message, JSON_THROW_ON_ERROR));
     }
 }

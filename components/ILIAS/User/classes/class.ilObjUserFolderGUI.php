@@ -25,7 +25,7 @@ use ILIAS\User\Settings\Administration\SettingsGUI as AdminSettingsGUI;
 use ILIAS\User\Settings\ConfigurationGUI as UserSettingsConfigurationGUI;
 use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
-use ILIAS\User\Settings\Repository as UserSettingsRepository;
+use ILIAS\User\Settings\ConfigurationRepository as UserSettingsConfigurationRepository;
 use ILIAS\User\Settings\StartingPoint\SettingsGUI as StartingPointSettingsGUI;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileConfigurationRepository;
 use ILIAS\User\Profile\Fields\ConfigurationGUI as ProfileFieldsConfigurationGUI;
@@ -51,6 +51,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\ConfigurationGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Fields\CustomFieldsGUI
  * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Profile\Prompt\SettingsGUI
+ * @ilCtrl_Calls ilObjUserFolderGUI: ILIAS\User\Search\EndpointGUI
  */
 class ilObjUserFolderGUI extends ilObjectGUI
 {
@@ -85,7 +86,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private LegacyArchives $archives;
     private ResourceStorage $irss;
     private NewAccountMailRepository $account_mail_repo;
-    private UserSettingsRepository $user_settings_repo;
+    private UserSettingsConfigurationRepository $user_settings_repo;
     private ProfileConfigurationRepository $profile_configuration_repo;
     private array $profile_field_change_listeners;
 
@@ -107,7 +108,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $local_dic = LocalDIC::dic();
         $this->account_mail_repo = $local_dic[NewAccountMailRepository::class];
-        $this->user_settings_repo = $local_dic[UserSettingsRepository::class];
+        $this->user_settings_repo = $local_dic[UserSettingsConfigurationRepository::class];
         $this->profile_configuration_repo = $local_dic[ProfileConfigurationRepository::class];
         $this->profile_field_change_listeners = $local_dic['profile.fields.changelisteners'];
 
@@ -172,6 +173,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function executeCommand(): void
     {
+        $this->checkPermission('read');
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
@@ -191,7 +194,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 break;
             case strtolower(ilRepositorySearchGUI::class):
                 if (!$this->access->checkRbacOrPositionPermissionAccess(
-                    'read',
+                    \ilObjUserFolder::PERM_READ_ALL,
                     \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                     USER_FOLDER_ID
                 )) {
@@ -400,21 +403,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
         }
 
-        $list_of_users = null;
-        if (!$this->access->checkAccess('read_users', '', USER_FOLDER_ID)
-            && $this->access->checkRbacOrPositionPermissionAccess(
-                'read_users',
-                \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                USER_FOLDER_ID
-            )) {
-            $list_of_users = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'read_users',
-                \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                USER_FOLDER_ID,
-                \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId())
-            );
-        }
-
         $utab = new ilUserTableGUI(
             $this,
             'view',
@@ -423,7 +411,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
         $utab->addFilterItemValue(
             'user_ids',
-            $list_of_users
+            $this->retrieveUserList()
         );
         $utab->getItems();
 
@@ -452,7 +440,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function filterUserIdsByRbacOrPositionOfCurrentUser(array $user_ids): array
     {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'read_users',
+            \ilObjUserFolder::PERM_READ_ALL,
             \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
             USER_FOLDER_ID,
             $user_ids
@@ -848,18 +836,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
 
             if (!$this->access->checkAccess(
-                'read_users',
+                \ilObjUserFolder::PERM_READ_ALL,
                 '',
                 USER_FOLDER_ID
             ) &&
                 $this->access->checkRbacOrPositionPermissionAccess(
-                    'read_users',
+                    \ilObjUserFolder::PERM_READ_ALL,
                     \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                     USER_FOLDER_ID
                 )) {
                 $users = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
                 $filtered_users = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                    'read_users',
+                    \ilObjUserFolder::PERM_READ_ALL,
                     \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                     USER_FOLDER_ID,
                     $users
@@ -874,7 +862,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             return $utab->getUserIdsForFilter();
         } else {
             return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'read_users',
+                \ilObjUserFolder::PERM_READ_ALL,
                 ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,
                 $this->requested_ids
@@ -1877,7 +1865,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function cancelDeleteExportFileObject(): void
     {
         $this->ctrl->redirectByClass(
-            'ilobjuserfoldergui',
+            [self::class, ilExportGUI::class],
             'export'
         );
     }
@@ -1896,7 +1884,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
         }
         $this->ctrl->redirectByClass(
-            'ilobjuserfoldergui',
+            [self::class, ilExportGUI::class],
             'export'
         );
     }
@@ -1907,18 +1895,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
      */
     protected function performExportObject(): void
     {
-        $this->checkPermission('write,read_users');
+        $this->checkPermission(\ilObjUserFolder::PERM_READ_ALL_AND_WRITE);
 
         $this->object->buildExportFile($this->user_request->getExportType());
-        $this->ctrl->redirect(
-            $this,
+        $this->ctrl->redirectByClass(
+            [self::class, ilExportGUI::class],
             'export'
         );
     }
 
     public function exportObject(): void
     {
-        $this->checkPermission('write,read_users');
+        $this->checkPermission(\ilObjUserFolder::PERM_READ_ALL_AND_WRITE);
 
         $export_types = [
             'userfolder_export_excel_x86',
@@ -2021,15 +2009,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function searchUserAccessFilterCallable(array $a_user_ids): array // Missing array type.
     {
-        if (!$this->checkPermissionBool('read_users')) {
-            $a_user_ids = $this->access->filterUserIdsByPositionOfCurrentUser(
-                \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                USER_FOLDER_ID,
-                $a_user_ids
-            );
+        if ($this->checkPermissionBool(\ilObjUserFolder::PERM_READ_ALL, '', '', USER_FOLDER_ID)
+            || $this->checkPermissionBool('read_users')) {
+            return $a_user_ids;
         }
 
-        return $a_user_ids;
+        return $this->access->filterUserIdsByPositionOfCurrentUser(
+            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+            USER_FOLDER_ID,
+            $a_user_ids
+        );
     }
 
     /**
@@ -2125,19 +2114,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect(
-                $this,
+            $this->ctrl->redirectByClass(
+                self::class,
                 'view'
             );
         }
 
-        if ($this->checkPermissionBool('write,read_users')) {
+        if ($this->checkPermissionBool(\ilObjUserFolder::PERM_READ_ALL_AND_WRITE)) {
             $this->object->buildExportFile(
                 ilObjUserFolder::FILE_TYPE_EXCEL,
                 $user_ids
             );
             $this->ctrl->redirectByClass(
-                'ilobjuserfoldergui',
+                [self::class, ilExportGUI::class],
                 'export'
             );
         } elseif ($this->checkUserManipulationAccessBool()) {
@@ -2156,7 +2145,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function usrExportXmlObject(): void
+    protected function usrExportCsvObject(): void
     {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
@@ -2166,13 +2155,49 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'view'
             );
         }
-        if ($this->checkPermissionBool('write,read_users')) {
+
+        if ($this->checkPermissionBool(\ilObjUserFolder::PERM_READ_ALL_AND_WRITE)) {
+            $this->object->buildExportFile(
+                ilObjUserFolder::FILE_TYPE_CSV,
+                $user_ids
+            );
+            $this->ctrl->redirectByClass(
+                'ilobjuserfoldergui',
+                'export'
+            );
+        } elseif ($this->checkUserManipulationAccessBool()) {
+            $fullname = $this->object->buildExportFile(
+                ilObjUserFolder::FILE_TYPE_CSV,
+                $user_ids,
+                true
+            );
+            ilFileDelivery::deliverFileLegacy(
+                $fullname,
+                $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_CSV),
+                '',
+                false,
+                true
+            );
+        }
+    }
+
+    protected function usrExportXmlObject(): void
+    {
+        $user_ids = $this->getActionUserIds();
+        if (!$user_ids) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
+            $this->ctrl->redirectByClass(
+                self::class,
+                'view'
+            );
+        }
+        if ($this->checkPermissionBool(\ilObjUserFolder::PERM_READ_ALL_AND_WRITE)) {
             $this->object->buildExportFile(
                 ilObjUserFolder::FILE_TYPE_XML,
                 $user_ids
             );
             $this->ctrl->redirectByClass(
-                'ilobjuserfoldergui',
+                [self::class, ilExportGUI::class],
                 'export'
             );
         } elseif ($this->checkUserManipulationAccessBool()) {
@@ -2226,12 +2251,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $umail->persistToStage(
             $mail_data['user_id'],
-            $mail_data['attachments'],
             '#il_ml_' . $list_id,
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
+            $mail_data['attachments'],
             $mail_data['use_placeholders'],
             $mail_data['tpl_ctx_id'],
             $mail_data['tpl_ctx_params']
@@ -2328,6 +2353,26 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $this,
             'view'
         );
+    }
+
+    private function retrieveUserList(): ?array
+    {
+        if ($this->access->checkAccess(\ilObjUserFolder::PERM_READ_ALL, '', USER_FOLDER_ID)) {
+            return null;
+        }
+
+        if ($this->access->checkPositionAccess(
+            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+            USER_FOLDER_ID
+        )) {
+            return $this->access->filterUserIdsByPositionOfCurrentUser(
+                \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                USER_FOLDER_ID,
+                \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId())
+            );
+        }
+
+        return [];
     }
 
     private function checkbox(string $name): ilCheckboxInputGUI

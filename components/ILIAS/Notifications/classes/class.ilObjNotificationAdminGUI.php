@@ -23,29 +23,27 @@ use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
- * @author            Ingmar Szmais <iszmais@databay.de>
- *
  * @ilCtrl_IsCalledBy ilObjNotificationAdminGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjNotificationAdminGUI: ilPermissionGUI
  */
 class ilObjNotificationAdminGUI extends ilObjectGUI
 {
     protected Container $dic;
+    protected bool $has_push_config = false;
 
     public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
-
         $this->dic = $DIC;
-
         $this->type = 'nota';
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        $this->has_push_config = is_readable((new ilSetting('notifications'))->get('private_key_path', ''));
         $this->lng->loadLanguageModule('notifications_adm');
     }
 
     public function executeCommand(): void
     {
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -59,16 +57,16 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 break;
             default:
                 match ($this->ctrl->getCmd()) {
-                    'saveOSDSettings' => $this->saveOSDSettings(),
+                    'saveSettings' => $this->saveSettings(),
                     // no break
-                    default => $this->showOSDSettings(),
+                    default => $this->showSettings(),
                 };
         }
     }
 
     public function getAdminTabs(): void
     {
-        if ($this->checkPermissionBool('visible,read')) {
+        if ($this->checkPermissionBool('read')) {
             $this->tabs_gui->addTab(
                 'settings',
                 $this->lng->txt('settings'),
@@ -88,7 +86,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function showOSDSettings(?Form $form = null): void
+    public function showSettings(?Form $form = null): void
     {
         if ($form === null) {
             $settings = new ilSetting('notifications');
@@ -101,6 +99,9 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                     'osd_play_sound' => (bool) $settings->get('osd_play_sound'),
                 ];
             }
+            if ($this->has_push_config) {
+                $values['enable_push'] = $settings->get('enable_push') === '1';
+            }
             $form = $this->getForm($values);
         }
 
@@ -110,7 +111,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function saveOSDSettings(): void
+    public function saveSettings(): void
     {
         if (!$this->checkPermissionBool('write')) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -133,7 +134,13 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 $settings->set('osd_play_sound', ($data['osd']['enable_osd']['osd_play_sound']) ? '1' : '0');
             }
         }
-        $this->showOSDSettings($form);
+
+        $push = false;
+        if ($this->has_push_config) {
+            $push = $data['push']['enable_push'] ?? false;
+        }
+        $settings->set('enable_push', $push ? '1' : '0');
+        $this->showSettings($form);
     }
 
     /**
@@ -164,16 +171,30 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             $this->lng->txt('enable_osd')
         )->withByline($this->lng->txt('enable_osd_desc'));
 
+        $enable_push = $this->dic->ui()->factory()->input()->field()->checkbox(
+            $this->lng->txt('enable_push'),
+            $this->lng->txt('enable_push_desc'),
+        );
+
+        if (!$this->has_push_config) {
+            $enable_push = $enable_push->withDisabled(true);
+        }
+
         if ($values !== null) {
             $enable_osd = $enable_osd->withValue($values['enable_osd'] ?? null);
+            $enable_push = $enable_push->withValue($values['enable_push'] ?? null);
         }
 
         return $this->dic->ui()->factory()->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, 'saveOSDSettings'),
+            $this->ctrl->getFormAction($this, 'saveSettings'),
             [
                 'osd' => $this->dic->ui()->factory()->input()->field()->section(
-                    ['enable_osd' => $enable_osd],
+                    ['enable_osd' => $enable_osd,],
                     $this->lng->txt('osd_settings')
+                ),
+                'push' => $this->dic->ui()->factory()->input()->field()->section(
+                    ['enable_push' => $enable_push],
+                    $this->lng->txt('push_settings')
                 )
             ]
         );

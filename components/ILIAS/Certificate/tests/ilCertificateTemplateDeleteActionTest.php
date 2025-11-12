@@ -42,8 +42,6 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'v5.4.0',
                 1_234_567_890,
                 true,
-                'samples/background.jpg',
-                '',
                 '-',
                 '-'
             ));

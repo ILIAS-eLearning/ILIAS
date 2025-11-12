@@ -365,7 +365,6 @@ class ilSCORM2004Tracking
                 $a_ref_id,
                 $a_obj_id,
                 $a_user_id,
-                false,
                 $attempts,
                 $time
             );
@@ -375,7 +374,6 @@ class ilSCORM2004Tracking
                 $a_ref_id,
                 $a_obj_id,
                 $a_user_id,
-                false,
                 null,
                 $time
             );

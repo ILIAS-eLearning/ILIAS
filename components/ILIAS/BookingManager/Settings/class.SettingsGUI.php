@@ -76,7 +76,7 @@ class SettingsGUI
     {
         $lng = $this->domain->lng();
         $settings = $this->domain->bookingSettings()->getByObjId($this->obj_id);
-        $form = (new FormAdapterGUI(self::class, 'save'))
+        $form = (new FormAdapterGUI([self::class], 'save'))
             ->section("general", $lng->txt("book_edit"))
             ->addStdTitleAndDescription(
                 $this->obj_id,

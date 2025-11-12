@@ -58,7 +58,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     {
         $this->tab_handling->initTabs(
             ilObjAdministrativeNotificationGUI::TAB_MAIN,
-            ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS,
+            'index',
             true
         );
         switch ($cmd) {

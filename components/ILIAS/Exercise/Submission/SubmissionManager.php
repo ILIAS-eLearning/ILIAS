@@ -478,7 +478,7 @@ class SubmissionManager
     public function copySubmissionsToDir(
         array $user_ids,
         string $directory
-    ) {
+    ): void {
         $members = [];
         foreach ($user_ids as $member_id) {
             $submission = new \ilExSubmission($this->assignment, $member_id);

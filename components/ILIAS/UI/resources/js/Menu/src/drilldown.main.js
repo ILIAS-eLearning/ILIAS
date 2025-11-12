@@ -56,7 +56,7 @@ export default class Drilldown {
     jqueryEventListener.on(document, this.#backSignal, () => { this.#upLevel(); });
     this.#mapping.maybeAddFilterHandler(
       (e) => {
-        if (e.key !== 'Tab' && e.key !== 'Shift') {
+        if (e.key !== 'Tab' && e.key !== 'Shift' && !e.isComposing) {
           this.#filter(e);
         }
       },

@@ -26,7 +26,9 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
 
 class ilAccountMail
 {
+    private readonly GlobalHttpState $http;
     private readonly ilSetting $settings;
+    private readonly Refinery $refinery;
     private readonly ilTree $repository_tree;
     private readonly ilMailMimeSenderFactory $sender_factory;
     public string $u_password = '';
@@ -40,6 +42,8 @@ class ilAccountMail
     public function __construct()
     {
         global $DIC;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->settings = $DIC->settings();
         $this->repository_tree = $DIC->repositoryTree();
         $this->sender_factory = $DIC->mail()->mime()->senderFactory();
@@ -120,7 +124,7 @@ class ilAccountMail
             throw new RuntimeException('A user instance must be passed when sending emails');
         }
 
-        if ($user->getEmail() === '') {
+        if (!$user->getEmail() === '') {
             return false;
         }
 
@@ -215,7 +219,7 @@ class ilAccountMail
         $replacements['PASSWORD'] = $this->getUserPassword();
         $replacements['ILIAS_URL'] = ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID;
         $replacements['CLIENT_NAME'] = CLIENT_NAME;
-        $replacements['ADMIN_MAIL'] = $settings->get('admin_email');
+        $replacements['ADMIN_MAIL'] = $this->settings->get('admin_email');
         $replacements['IF_PASSWORD'] = $this->getUserPassword() !== '';
         $replacements['IF_NO_PASSWORD'] = $this->getUserPassword() === '';
 

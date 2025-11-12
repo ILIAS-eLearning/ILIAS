@@ -28,16 +28,9 @@ abstract class AbstractPrintViewProvider implements PrintViewProvider
     public const PRINT = "print";
     public const OFFLINE = "offline";
 
-    /**
-     * @var bool
-     */
-    protected $offline = false;
+    protected bool $offline = false;
 
-    /**
-     * Set output mode
-     * @param string $a_val self::PRINT|self::OFFLINE
-     */
-    public function setOffline(bool $offline)
+    public function setOffline(bool $offline): void
     {
         $this->offline = $offline;
     }

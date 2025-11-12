@@ -66,4 +66,9 @@ class Agent extends Setup\Agent\NullAgent
 
         return $objectives;
     }
+
+    public function getMigrations(): array
+    {
+        return [new InitLOMForWikiMigration()];
+    }
 }

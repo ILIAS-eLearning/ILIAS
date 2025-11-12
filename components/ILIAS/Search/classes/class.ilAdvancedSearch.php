@@ -192,7 +192,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                         (int) $row->rbac_id,
                         (string) $row->obj_type,
                         $found,
-                        (int) $row->obj_id
+                        (int) $row->obj_id,
+                        (string) $row->obj_type
                     );
                 }
             } else {
@@ -200,7 +201,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                     (int) $row->rbac_id,
                     (string) $row->obj_type,
                     array(),
-                    (int) $row->obj_id
+                    (int) $row->obj_id,
+                    (string) $row->obj_type
                 );
             }
         }
@@ -226,7 +228,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -249,7 +252,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -276,7 +280,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                     (int) $row->rbac_id,
                     (string) $row->obj_type,
                     $found,
-                    (int) $row->obj_id
+                    (int) $row->obj_id,
+                    (string) $row->obj_type
                 );
             }
         }
@@ -313,7 +318,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -357,7 +363,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -384,7 +391,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -406,7 +414,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -428,7 +437,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -455,7 +465,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                     (int) $row->rbac_id,
                     (string) $row->obj_type,
                     $found,
-                    (int) $row->obj_id
+                    (int) $row->obj_id,
+                    (string) $row->obj_type
                 );
             }
         }
@@ -487,7 +498,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                     (int) $row->rbac_id,
                     (string) $row->obj_type,
                     $found,
-                    (int) $row->obj_id
+                    (int) $row->obj_id,
+                    (string) $row->obj_type
                 );
             }
         }
@@ -524,7 +536,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                     (int) $row->rbac_id,
                     (string) $row->obj_type,
                     $found,
-                    (int) $row->obj_id
+                    (int) $row->obj_id,
+                    (string) $row->obj_type
                 );
             }
         }
@@ -549,7 +562,8 @@ class ilAdvancedSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 array(),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;

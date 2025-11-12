@@ -38,13 +38,13 @@ interface HandlerInterface
     public function createStandardExport(
         int $user_id,
         ObjectId $object_id,
-        ExportConfigCollectionInterface $export_configs = null
+        ?ExportConfigCollectionInterface $export_configs = null
     ): ilExportHandlerRepositoryElementInterface;
 
     public function createStandardExportByObject(
         int $user_id,
         ilObject $object,
-        ExportConfigCollectionInterface $export_configs = null
+        ?ExportConfigCollectionInterface $export_configs = null
     ): ilExportHandlerRepositoryElementInterface;
 
     public function exportWriter(

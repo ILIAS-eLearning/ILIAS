@@ -1,4 +1,5 @@
-@use "../../../010-settings/"as *;
+@use "sass:color";
+@use "../../../010-settings/" as *;
 @use "../../../050-layout/basics"as *;
 
 //== Toggle Buttons
@@ -9,6 +10,7 @@
 $il-btn-toggle-border-color: rgba(0, 0, 0, 0.1);
 $il-btn-toggle-switch-border-color: rgba(0, 0, 0, 0.2);
 $il-enabled-btn-toggle-switch-color: $il-main-color;
+$il-enabled-btn-toggle-switch-bg-color: color.change($il-secondary-color, $lightness: 30);
 $il-disabled-btn-toggle-switch-color: #808080;
 
 //** The Toggle Button without the Switch
@@ -35,8 +37,8 @@ $il-btn-toggle-label-font-size: $il-font-size-small;
 $il-btn-toggle-label-on-color: $il-main-bg;
 
 //** on
-$il-btn-toggle-bg-color-on: $il-secondary-color;
-$il-btn-toggle-border-color-on: $il-secondary-color;
+$il-btn-toggle-bg-color-on: $il-enabled-btn-toggle-switch-bg-color;
+$il-btn-toggle-border-color-on: $il-enabled-btn-toggle-switch-bg-color;
 $il-btn-toggle-switch-bg-color-on: $il-main-bg;
 $il-btn-toggle-switch-border-color-on: $il-main-bg;
 

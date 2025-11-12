@@ -40,7 +40,6 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
         ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
-        $profile = $DIC['user']->getProfile();
 
         if (null === $language) {
             $language = $DIC->language();
@@ -49,7 +48,7 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $profile, $userDefinedFieldPlaceHolderDescriptionObject);
+            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 

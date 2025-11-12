@@ -545,30 +545,6 @@ class ilColumnGUI
     }
 
     /**
-     * Add a block
-     */
-    public function addBlock(): string
-    {
-        $ilCtrl = $this->ctrl;
-
-        $class = array_search($this->request->getBlockType(), self::$block_types);
-
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $ilCtrl->setCmdClass($class);
-        // $ilCtrl->setCmd("create");
-        $block_gui = new $class();
-        $block_gui->setProperties($this->block_property[$this->request->getBlockType()]);
-        $block_gui->setRepositoryMode($this->getRepositoryMode());
-        $block_gui->setEnableEdit($this->getEnableEdit());
-        $block_gui->setAdminCommands($this->getAdminCommands());
-
-        $ilCtrl->setParameter($this, "block_type", $this->request->getBlockType());
-        $html = $ilCtrl->forwardCommand($block_gui);
-        $ilCtrl->setParameter($this, "block_type", "");
-        return $html;
-    }
-
-    /**
      * Determine which blocks to show.
      */
     public function determineBlocks(): void

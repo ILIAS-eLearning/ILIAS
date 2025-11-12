@@ -99,8 +99,9 @@ class CertificateOverviewTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         /**
          * @var array{certificate_id: null|string, issue_date: null|DateTimeImmutable, object: null|string, owner: null|string} $filter_data
@@ -160,8 +161,11 @@ class CertificateOverviewTable implements DataRetrieval
         return $filter_data;
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $ui_filter_data = $this->mapUiFilterData($this->ui_service->filter()->getData($this->filter));
 
         return $this->repo->fetchCertificatesForOverviewCount($ui_filter_data);

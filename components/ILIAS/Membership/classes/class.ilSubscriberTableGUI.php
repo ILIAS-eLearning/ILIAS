@@ -322,7 +322,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
                     }
 
                     foreach ($udf_ids as $field_id) {
-                        $c[$v->getId()]['udf_' . $field_id] = $v->getAdditionalFieldByIdentifier($field_id);
+                        $c[$v->getId()]['udf_' . $field_id] = implode(', ', $v->getAdditionalFieldByIdentifier($field_id) ?? []);
                     }
                 },
                 $a_user_data

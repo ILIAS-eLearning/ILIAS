@@ -35,7 +35,6 @@ class ilObjCertificateSettings extends ilObject
 {
     private readonly ilSetting $certificate_settings;
     private readonly ResourceStorage $irss;
-    private readonly Filesystem $filesystem;
     private readonly ilCertificateTemplateStakeholder $stakeholder;
     private readonly CertificateResourceHandler $resource_handler;
 
@@ -47,7 +46,6 @@ class ilObjCertificateSettings extends ilObject
         $this->type = 'cert';
         $this->certificate_settings = new ilSetting('certificate');
         $this->irss = $DIC->resourceStorage();
-        $this->filesystem = $DIC->filesystem()->web();
         $this->stakeholder = new ilCertificateTemplateStakeholder();
         $this->resource_handler = new CertificateResourceHandler(
             new ilUserCertificateRepository($DIC->database()),
@@ -58,18 +56,12 @@ class ilObjCertificateSettings extends ilObject
         );
     }
 
-    public function getBackgroundImageIdentification(): ResourceIdentification|string|null
+    public function getBackgroundImageIdentification(): ?ResourceIdentification
     {
         $id = $this->certificate_settings->get('cert_bg_image', '');
 
         if ($rid = $this->irss->manage()->find($id)) {
             return $rid;
-        }
-        if ($id !== '') {
-            $id = $this->getBackgroundImageDefaultFolder() . $id;
-        }
-        if ($id !== '' && $this->filesystem->has($id)) {
-            return ilWACSignedPath::signFile(ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $id);
         }
         return null;
     }

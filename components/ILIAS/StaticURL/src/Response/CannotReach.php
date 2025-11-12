@@ -33,4 +33,9 @@ class CannotReach implements Response
         return true;
     }
 
+    public function shift(): int
+    {
+        return 0;
+    }
+
 }

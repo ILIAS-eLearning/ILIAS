@@ -146,7 +146,7 @@ class McstImageGalleryGUI
 
             $preview_resource = $resource;
             if ($mob->getVideoPreviewPic() != "") {
-                //                $preview_resource = $mob->getVideoPreviewPic();
+                $preview_resource = $mob->getVideoPreviewPic();
             }
 
 

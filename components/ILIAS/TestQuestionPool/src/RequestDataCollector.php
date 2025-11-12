@@ -18,16 +18,17 @@
 
 namespace ILIAS\TestQuestionPool;
 
-use Closure;
 use GuzzleHttp\Psr7\UploadedFile;
+use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Repository\BaseGUIRequest;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\HTTP\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\FileUpload;
+use Psr\Http\Message\ServerRequestInterface;
 
-class RequestDataCollector
+class RequestDataCollector implements RequestDataCollectorInterface
 {
     use BaseGUIRequest;
 
@@ -37,6 +38,11 @@ class RequestDataCollector
         protected readonly FileUpload $upload
     ) {
         $this->initRequest($http, $refinery);
+    }
+
+    public function getRequest(): ServerRequestInterface
+    {
+        return $this->http->request();
     }
 
     /**
@@ -75,7 +81,7 @@ class RequestDataCollector
             if (isset($uploaded_files[$index]) && $http_names === []) {
                 /** @var UploadedFile $file */
                 $file = $uploaded_files[$index];
-                $c = Closure::bind(static function (UploadedFile $file): ?string {
+                $c = \Closure::bind(static function (UploadedFile $file): ?string {
                     return $file->file ?? null;
                 }, null, $file);
 
@@ -96,7 +102,7 @@ class RequestDataCollector
         return $this->raw($key) !== null;
     }
 
-    public function hasRefId(): int
+    public function hasRefId(): bool
     {
         return $this->raw('ref_id') !== null;
     }
@@ -239,6 +245,27 @@ class RequestDataCollector
         return $this->retrieveArray($key, 1, $this->refinery->identity());
     }
 
+    /**
+     * @return array<int>|string
+     */
+    public function getMultiSelectionIds(string $key): array|string
+    {
+        $query = $this->http->wrapper()->query();
+
+        if (!$query->has($key)) {
+            return [];
+        }
+
+        return $query->retrieve(
+            $key,
+            $this->refinery->custom()->transformation(
+                static fn(array|string $value): array|string => $value === 'ALL_OBJECTS' || $value[0] === 'ALL_OBJECTS'
+                    ? 'ALL_OBJECTS'
+                    : array_map('intval', $value)
+            )
+        );
+    }
+
     private function retrieveArray(string $key, int $depth, Transformation $transformation): array
     {
         $chain = $this->refinery->kindlyTo()->dictOf($transformation);
@@ -246,12 +273,12 @@ class RequestDataCollector
             $chain = $this->refinery->kindlyTo()->dictOf($chain);
         }
 
-        return $this->http->wrapper()->post()->retrieve(
+        return $this->get(
             $key,
             $this->refinery->byTrying([
                 $chain,
                 $this->refinery->always([])
             ])
-        );
+        ) ?? [];
     }
 }

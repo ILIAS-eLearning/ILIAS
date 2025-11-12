@@ -11,26 +11,26 @@ for a fully functional ILIAS environment.
 
 - [System Requirements](#system-requirements)
   * [Hardware](#hardware)
-  * [Supported Software Setup and Reference System](#supported-software-setup-and-reference-system)
-- [Installation on Ubuntu 24.04](#installation-on-ubuntu-2404)
+  * [Supported Software Setup and Reference System](#supported-system)
+- [Installation on Ubuntu 24.04](#installation-on-linux)
   * [Install Dependencies](#install-dependencies)
-  * [Webserver Installation/Configuration](#webserver-installationconfiguration)
-  * [Database Installation/Configuration](#database-installationconfiguration)
-  * [Get the Code and Install ILIAS](#get-the-code-and-install-ilias)
+  * [Webserver Installation/Configuration](#install-webserver)
+  * [Database Installation/Configuration](#install-database)
+  * [Get the Code and Install ILIAS](#get-code)
   * [Install ILIAS](#install-ilias)
-  * [Install Further Components](#install-further-components)
+  * [Install Further Components](#install-further)
   * [Install Plugins and Styles](#install-plugins-and-styles)
 - [Backup ILIAS](#backup-ilias)
 - [Upgrading ILIAS](#upgrading-ilias)
   * [Minor Upgrade](#minor-upgrade)
   * [Major Upgrade](#major-upgrade)
   * [Update the Database](#update-the-database)
-  * [Information on Updates](#information-on-updates)
+  * [Information on Updates](#information-updates)
 - [Connect and Contribute](#connect-and-contribute)
 - [Appendix](#appendix)
   * [Upgrading Dependencies](#upgrading-dependencies)
-  * [Configure Cron Jobs](#configure-cron-jobs)
-  * [Configure WebDAV](#configure-webdav)
+  * [Configure Cron Jobs](#configurate-cron)
+  * [Configure WebDAV](#webdav-configuration)
   * [Hardening and Security Guidance](#hardening-and-security-guidance)
   * [MySQL Strict Mode (5.7+)](#mysql-strict-mode-57)
 
@@ -65,10 +65,10 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 |--------------|--------------------------------------------------------|------------------|
 | Distribution | current version of Debian GNU Linux, Ubuntu or RHEL    | Ubuntu 22.04 LTS |
 | Database     | MySQL >8.0.21 or MariaDB 10.5 - 10.11                  | MariaDB 10.6.18  |
-| PHP          | 8.3, 8.4                                               | 8.3              |
+| PHP          | 8.3, 8.4                                               | 8.4              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
 | JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
-| Node.js      | 20 (LTS), 21, 22 (LTS), 23 Recommended: 22             | 16.20            |
+| Node.js      | 22 (LTS), 24 Recommended: 24                           | v24.10.0         |
 | Ghostscript  | 10.x                                                   | 9.55             |
 | Imagemagick  | 6.9.x                                                  | 6.9.11           |
 | Browser      | a contemporary browser supporting ES6, CSS3 and HTML 5 |                  |
@@ -417,7 +417,7 @@ Optionally you can continue with the installation of further components to get t
 
 1. **ILIAS Cron Job**
 A cron job can be automatically executed to perform recurring tasks, such as sending notifications or deleting inactive user accounts. 
-For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configure-cron-jobs).
+For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configurate-cron).
 2. **ILIAS Java RPC server**
 It is used for certain optional functions such as Lucene Search
 or generating PDF Certificates. See [Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) for details

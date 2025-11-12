@@ -82,7 +82,7 @@ class PageContentManager
         string $a_hid,
         string $a_pcid = "",
         bool $move_operation = false
-    ) {
+    ): void {
         $curr_node = $this->getContentDomNode($a_hid, $a_pcid);
         $this->handleDeleteContent($page, $curr_node, $move_operation);
         $curr_node->parentNode->removeChild($curr_node);
@@ -93,7 +93,7 @@ class PageContentManager
         array $a_hids,
         bool $a_self_ass = false,
         bool $move_operation = false
-    ) {
+    ): void {
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
             // @todo 1: hook
@@ -151,7 +151,7 @@ class PageContentManager
         \ilPageObject $page,
         array $a_hids,
         bool $a_self_ass = false
-    ) {
+    ): void {
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
             $curr_node = $this->getContentDomNode($a_hid[0], $a_hid[1] ?? "");
@@ -399,7 +399,7 @@ class PageContentManager
         string $a_hier_id,
         \ilPageObject $page,
         bool $a_self_ass = false
-    ) {
+    ): void {
         $a_hid = explode(":", $a_hier_id);
         $content = $user->getPCClipboardContent();
         // we insert from last to first, because we insert all at the
@@ -656,9 +656,9 @@ class PageContentManager
      * @param string $a_spcid
      * @param string $a_tpcid
      * @return array|bool
-     * @throws ilCOPagePCEditException
-     * @throws ilCOPageUnknownPCTypeException
-     * @throws ilDateTimeException
+     * @throws \ilCOPagePCEditException
+     * @throws \ilCOPageUnknownPCTypeException
+     * @throws \ilDateTimeException
      */
     public function moveContentAfter(
         \ilPageObject $page,

@@ -30,6 +30,9 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class NewMailNotification implements SettingDefinition
 {
+    /** @var array<int|\ilMailOptions> */
+    private array $mail_options_by_user = [];
+
     public function getIdentifier(): string
     {
         return 'new_mail_notification';
@@ -37,7 +40,11 @@ class NewMailNotification implements SettingDefinition
 
     public function isAvailable(): bool
     {
-        return (new \ilSetting())->get('mail_notification') === '1';
+        $settings = new \ilSetting();
+
+        return
+            $settings->get('mail_notification') === '1' &&
+            $settings->get('show_mail_settings', '0') === '1';
     }
 
     public function getLabel(Language $lng): string
@@ -63,30 +70,29 @@ class NewMailNotification implements SettingDefinition
         ?\ilObjUser $user = null
     ): Input {
         $lng->loadLanguageModule('mail');
+
         return $field_factory->checkbox(
             $this->getLabel($lng),
             $lng->txt('mail_cronjob_notification_info')
         )->withValue(
-            $user !== null
-                ? $this->retrieveValueFromUser($user)
-                : false
+            $user !== null && $this->retrieveValueFromUser($user)
         );
     }
 
     public function getLegacyInput(
         Language $lng,
-        \ilSetting $setting,
+        \ilSetting $settings,
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $lng->loadLanguageModule('mail');
+
         $input = new \ilCheckboxInputGUI($this->getLabel($lng));
         $input->setInfo($lng->txt('mail_cronjob_notification_info'));
         $input->setChecked(
-            $user !== null
-                ? $this->retrieveValueFromUser($user)
-                : false
+            $user !== null && $this->retrieveValueFromUser($user)
         );
         $input->setValue('1');
+
         return $input;
     }
 
@@ -110,14 +116,24 @@ class NewMailNotification implements SettingDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $mail_options = new \ilMailOptions($user->getId());
+        $mail_options = $this->mailOptionsFor($user);
         $mail_options->setIsCronJobNotificationStatus($input === true || $input === '1');
         $mail_options->updateOptions();
+
         return $user;
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): bool
     {
-        return (new \ilMailOptions($user->getId()))->isCronJobNotificationEnabled();
+        return $this->mailOptionsFor($user)->isCronJobNotificationEnabled();
+    }
+
+    private function mailOptionsFor(\ilObjUser $user): \ilMailOptions
+    {
+        if (!\array_key_exists($user->getId(), $this->mail_options_by_user)) {
+            $this->mail_options_by_user[$user->getId()] = new \ilMailOptions($user->getId());
+        }
+
+        return $this->mail_options_by_user[$user->getId()];
     }
 }

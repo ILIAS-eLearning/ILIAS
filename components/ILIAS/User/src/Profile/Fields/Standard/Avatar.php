@@ -121,7 +121,7 @@ class Avatar implements FieldDefinition
             return $input;
         }
 
-        $picture_path = $user->getPersonalPicturePath();
+        $picture_path = $user->getPersonalPicturePath('small', true);
         if ($picture_path !== '') {
             $input->setImage($picture_path);
             $input->setAlt($this->getLabel($lng));
@@ -139,12 +139,14 @@ class Avatar implements FieldDefinition
 
     public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        $define = new \ilUserAvatarResolver($user->getId());
-        if (!$define->hasProfilePicture()) {
+
+        if ($user->getAvatarRid() === null) {
             return '';
         }
+        $define = new \ilUserAvatarResolver($user->getId());
         $define->setSize('xsmall');
-        return $this->ui_renderer->render($define->getAvatar());
+        $define->setForcePicture(true);
+        return $define->getLegacyPictureURL();
     }
 
     /**
@@ -270,7 +272,7 @@ class Avatar implements FieldDefinition
     private function retrieveCapture(): ?string
     {
         $from_upload = $this->post_wrapper->retrieve(
-            'upload_capture',
+            'avatar_capture',
             $this->refinery->byTrying([
                 $this->refinery->kindlyTo()->string(),
                 $this->refinery->always('')

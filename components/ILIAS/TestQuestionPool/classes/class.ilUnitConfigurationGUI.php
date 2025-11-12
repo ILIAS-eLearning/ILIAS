@@ -80,15 +80,10 @@ abstract class ilUnitConfigurationGUI
     {
         $cmd = $this->ctrl->getCmd($this->getDefaultCommand());
         $this->checkPermissions($cmd);
-        switch ($cmd) {
-            case 'confirmImportGlobalCategories':
-                $category_ids = $this->request->raw('category_ids');
-                $this->$cmd($category_ids);
-                break;
-            default:
-                $this->$cmd();
-                break;
-        }
+        match ($cmd) {
+            'confirmImportGlobalCategories' => $this->$cmd($this->request->getUnitCategoryIds()),
+            default => $this->$cmd(),
+        };
 
         $this->handleSubtabs();
     }
@@ -482,8 +477,8 @@ abstract class ilUnitConfigurationGUI
             /** @var assFormulaQuestionUnit $unit */
             $data[] = [
                 'unit_id' => $unit->getId(),
-                'unit' => $unit->getUnit(),
-                'baseunit' => $unit->getBaseunitTitle(),
+                'unit' => $unit->getSanitizedUnit(),
+                'baseunit' => $unit->getSanitizedBaseunitTitle(),
                 'baseunit_id' => $unit->getBaseUnit(),
                 'factor' => $unit->getFactor(),
                 'sequence' => $unit->getSequence(),

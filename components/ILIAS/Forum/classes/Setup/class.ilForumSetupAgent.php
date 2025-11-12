@@ -49,9 +49,6 @@ class ilForumSetupAgent implements Setup\Agent
             'Forum',
             true,
             new ilDatabaseUpdateStepsExecutedObjective(
-                new ilForumDatabaseUpdateSteps()
-            ),
-            new ilDatabaseUpdateStepsExecutedObjective(
                 new ilForumDatabaseUpdateSteps11()
             )
         );
@@ -67,8 +64,7 @@ class ilForumSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             'Component Forum',
             true,
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps()),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps9())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilForumDatabaseUpdateSteps11())
         );
     }
 

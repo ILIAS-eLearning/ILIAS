@@ -481,6 +481,8 @@ class ilCalendarPresentationGUI
     protected function redirectWithParameters(string $class): void
     {
         $this->ctrl->saveParameter($this, 'seed');
+        $this->ctrl->saveParameter($this, 'cal_view');
+        $this->ctrl->saveParameter($this, 'cal_agenda_per');
         $this->ctrl->redirectByClass($class);
     }
 

@@ -47,7 +47,8 @@ class ilExerciseSearch extends ilAbstractSearch
                 (int) $row->exc_id,
                 'exc',
                 $this->__prepareFound($row),
-                (int) $row->id
+                (int) $row->id,
+                'ass'
             );
         }
         return $this->search_result;

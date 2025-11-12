@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\User;
 
 use ILIAS\User\Profile\Profile;
+use ILIAS\User\Search\Search;
 use ILIAS\User\Settings\Settings;
 
 class PublicInterface
@@ -29,6 +30,12 @@ class PublicInterface
         private readonly \ilObjUser $logged_in_user
     ) {
     }
+
+    public function getSearch(): Search
+    {
+        return LocalDIC::dic()[Search::class];
+    }
+
     public function getProfile(): Profile
     {
         return LocalDIC::dic()[Profile::class];

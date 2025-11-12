@@ -77,17 +77,22 @@ class JavaScriptBindableTest extends TestCase
 
     public function testWithAdditionalOnLoadCode(): void
     {
-        $m = $this->mock
-            ->withOnLoadCode(function ($id) {
-                return "Its me, $id!";
-            })
-            ->withAdditionalOnLoadCode(function ($id) {
-                return "And again, me: $id.";
-            });
+        $java_script_id = 'js-id-1';
+        $java_script_code_1 = 'first piece of JavaScript code with id: ';
+        $java_script_code_2 = 'second piece of JavaScript code with id: ';
 
-        $binder = $m->getOnLoadCode();
-        $this->assertInstanceOf(Closure::class, $binder);
-        $this->assertEquals("Its me, Mario!\nAnd again, me: Mario.", $binder("Mario"));
+        $java_script_bindable = $this
+            ->mock
+            ->withOnLoadCode(static fn($id) => $java_script_code_1 . $id)
+            ->withAdditionalOnLoadCode(static fn($id) => $java_script_code_2 . $id);
+
+        $java_script_binder = $java_script_bindable->getOnLoadCode();
+        $this->assertInstanceOf(Closure::class, $java_script_binder);
+        $this->assertEquals(
+            $java_script_code_2 . $java_script_id . "\n" .
+            $java_script_code_1 . $java_script_id,
+            $java_script_binder($java_script_id)
+        );
     }
 
     public function testWithAdditionalOnLoadCodeNoPrevious(): void

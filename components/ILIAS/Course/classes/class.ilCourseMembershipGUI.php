@@ -379,7 +379,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         foreach ($a_members as $member_id) {
             // GET USER OBJ
             if ($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id, false)) {
-                foreach ($udf_data->getAll() as $field) {
+                foreach ($udf_data as $field) {
                     $print_member[$member_id]['udf_' . $field->getIdentifier()] = (string) $field->retrieveValueFromUser($tmp_obj);
                 }
 

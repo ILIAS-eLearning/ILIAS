@@ -30,6 +30,11 @@ class Roles implements FieldDefinition
 {
     use NoOverrides;
 
+    public function __construct(
+        private readonly \ilObjectDataCache $object_cache
+    ) {
+    }
+
     public function getIdentifier(): string
     {
         return 'roles';
@@ -50,14 +55,19 @@ class Roles implements FieldDefinition
         return true;
     }
 
+    public function visibleInRegistrationForcedTo(): ?bool
+    {
+        return false;
+    }
+
     public function visibleInCoursesForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function visibleInGroupsForcedTo(): ?bool
     {
-        return true;
+        return false;
     }
 
     public function visibleInStudyProgrammesForcedTo(): ?bool
@@ -95,14 +105,10 @@ class Roles implements FieldDefinition
         Context $context,
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
-        $input = new \ilNonEditableValueGUI($this->getLabel($lng));
-        if ($user === null) {
-            return $input;
+        if ($user !== null) {
+            return $this->buildNonEditableInput($lng, $user);
         }
-        $input->setValue(
-            $this->retrieveValueFromUser($user)
-        );
-        return $input;
+        return $this->buildMultiselect($lng);
     }
 
     public function addValueToUserObject(
@@ -110,23 +116,65 @@ class Roles implements FieldDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
+        if (!is_array($input)) {
+            return $user;
+        }
+
+        $rbac_admin = new \ilRbacAdmin();
+        foreach ($input as $role_id) {
+            $rbac_admin->assignUser((int) $role_id, $user->getId());
+        }
+
         return $user;
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): string
     {
         $rbac_review = new \ilRbacReview();
-        $assinged_roles = $rbac_review->assignedRoles($user->getId());
+        $assigned_roles = $rbac_review->assignedRoles($user->getId());
         return substr(
             array_reduce(
                 $rbac_review->getGlobalRolesArray(),
-                static fn(string $c, array $v) => in_array($v['obj_id'], $assinged_roles)
-                    ? $c . \ilObjectFactory::getInstanceByObjId($v['obj_id'])->getTitle() . ', '
+                fn(string $c, array $v) => in_array($v['obj_id'], $assigned_roles)
+                    ? $c . $this->object_cache->lookupTitle($v['obj_id']) . ', '
                     : $c,
                 ''
             ),
             0,
             -2
         );
+    }
+
+    private function buildNonEditableInput(
+        Language $lng,
+        \ilObjUser $user
+    ): \ilFormPropertyGUI {
+        $input = new \ilNonEditableValueGUI($this->getLabel($lng));
+        $input->setValue(
+            $this->retrieveValueFromUser($user)
+        );
+        return $input;
+    }
+
+    private function buildMultiSelect(Language $lng): \ilFormPropertyGUI
+    {
+        $rbac_review = new \ilRbacReview();
+        $input = new \ilMultiSelectInputGUI($this->getLabel($lng));
+        $input->setOptions(
+            array_reduce(
+                $rbac_review->getGlobalRolesArray(),
+                function (array $c, array $v): array {
+                    if ($v['obj_id'] === ANONYMOUS_ROLE_ID) {
+                        return $c;
+                    }
+                    $c[$v['obj_id']] = $this->object_cache->lookupTitle($v['obj_id']);
+                    return $c;
+                },
+                []
+            ),
+        );
+        $input->setRequired(true);
+
+        return $input;
     }
 }

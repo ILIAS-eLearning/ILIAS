@@ -74,6 +74,8 @@ class FooterMainCollector extends AbstractBaseCollector implements ItemCollector
 
     public function prepareItemsForUIRepresentation(): void
     {
+        $this->map->filter(fn(isItem $item): bool => $item->isAvailable());
+        $this->map->filter(fn(isItem $item): bool => $item->isVisible());
         $this->map->filter(fn(isItem $item): bool => $this->item_information->isItemActive($item));
 
         $this->map->walk(function (isItem &$item): isItem {

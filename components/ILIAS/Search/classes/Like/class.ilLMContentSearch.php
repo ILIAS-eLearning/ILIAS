@@ -51,7 +51,8 @@ class ilLMContentSearch extends ilAbstractSearch
                 (int) $row->parent_id,
                 (string) $row->parent_type,
                 $this->__prepareFound($row),
-                (int) $row->page_id
+                (int) $row->page_id,
+                'pg'
             );
         }
 

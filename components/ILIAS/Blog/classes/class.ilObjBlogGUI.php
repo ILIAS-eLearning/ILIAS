@@ -142,7 +142,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this->items = $this->buildPostingList($this->object->getId());
             if ($this->items) {
                 // current month (if none given or empty)
-                if (!$this->month || !$this->items[$this->month]) {
+                if (!$this->month || !isset($this->items[$this->month]) || $this->items[$this->month] === []) {
                     $m = array_keys($this->items);
                     $this->month = array_shift($m);
                     $this->month_default = true;
@@ -400,7 +400,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if ($this->prvm) {
                     $cmd = "previewFullscreen";
                 }
-                if (in_array($cmd, array("previewFullscreen"))) {
+                if ($cmd === "previewFullscreen") {
                     $this->renderToolbarNavigation($this->items, true);
                 }
                 $ret = $ilCtrl->forwardCommand($bpost_gui);
@@ -881,7 +881,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         bool $a_with_comments = false
     ): void {
         $zip = $this->buildExportFile($a_with_comments);
-        ilFileDelivery::deliverFileLegacy($zip, $this->object->getTitle() . ".zip", '', false, true);
+        ilFileDelivery::deliverFileLegacy($zip->getFilePath(), $this->object->getTitle() . ".zip", '', false, true);
     }
 
 
@@ -1001,7 +1001,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             }
             // workspace (author == owner)
             else {
-                $ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true, true);
+                $ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "xsmall", true);
                 if ($a_export) {
                     $ppic = basename($ppic);
                 }
@@ -1640,7 +1640,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameter($this, "ath", "");
 
                     $base_name = ilUserUtil::getNamePresentation($user_id);
-                    if (substr($base_name, 0, 1) == "[") {
+                    if (str_starts_with($base_name, "[")) {
                         $name = ilUserUtil::getNamePresentation($user_id, true);
                         $sort = $name;
                     } else {

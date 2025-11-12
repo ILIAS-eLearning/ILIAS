@@ -8,7 +8,7 @@
 		<xi:include href="../../../components/ILIAS/File/LuceneFileListDataSource.xml" />
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT title,content, lm_id, obj_id AS metaObjId, 'pg' AS metaType, parent_type 
+				SELECT title,content, lm_id, obj_id AS metaObjId, 'pg' AS metaType, parent_type
 				FROM lm_data ld
 				JOIN page_object po ON ld.obj_id = po.page_id
 				WHERE parent_type = 'lm'
@@ -23,6 +23,7 @@
 			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
 			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
+            <Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="subType" />
 			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
 			<xi:include href="../../../components/ILIAS/MetaData/LuceneDataSource.xml" />
 		</DataSource>
@@ -37,7 +38,8 @@
 			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
 			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="subItem" />
+            <Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="subType" />
 			<Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="type" global="NO"/>
-		</DataSource>		
+		</DataSource>
 	</Document>
 </ObjectDefinition>

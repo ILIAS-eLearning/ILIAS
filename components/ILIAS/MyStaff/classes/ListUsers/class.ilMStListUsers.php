@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -67,7 +68,6 @@ class ilMStListUsers
 	               zipcode,
 	               city,
 	               country,
-	               sel_country,
 	               hobby,
 	               email,
 	               second_email,
@@ -102,7 +102,6 @@ class ilMStListUsers
             $list_user->setZipcode($user['zipcode'] ?? "");
             $list_user->setCity($user['city'] ?? "");
             $list_user->setCountry($user['country'] ?? "");
-            $list_user->setSelCountry($user['sel_country'] ?? "");
             $list_user->setHobby($user['hobby'] ?? "");
             $list_user->setMatriculation($user['matriculation'] ?? "");
             $list_user->setActive(intval($user['active']));

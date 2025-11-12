@@ -404,7 +404,7 @@
 	<xsl:param name="prevent_deletion">n</xsl:param>
 
 	<xsl:if test = "$javascript = 'enable'">
-	<div class="ilOverlay il_editmenu ilNoDisplay">
+	<div class="il_editmenu ilNoDisplay">
 		<xsl:if test = "$droparea = 'n'">
 			<xsl:attribute name="id">contextmenu_<xsl:value-of select="$hier_id"/></xsl:attribute>
 		</xsl:if>
@@ -1931,7 +1931,7 @@
 					<xsl:with-param name="ed_type">edit-flist-item</xsl:with-param>
 				</xsl:call-template>
 				&amp;nbsp;
-				<div class="ilOverlay il_editmenu ilNoDisplay">
+				<div class="il_editmenu ilNoDisplay">
 					<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
 					<xsl:call-template name="ListItemMenu"/>
 				</div>
@@ -2303,7 +2303,7 @@
 
 	<!-- menu -->
 	<xsl:if test="$mode = 'edit' and $javascript='enable'">
-		<div class="ilOverlay il_editmenu ilNoDisplay">
+		<div class="il_editmenu ilNoDisplay">
 			<xsl:attribute name="id">contextmenu_<xsl:value-of select="../../@HierId"/></xsl:attribute>
 			<xsl:call-template name="MOBEditMenu">
 				<xsl:with-param name="hier_id" select="../../@HierId"/>

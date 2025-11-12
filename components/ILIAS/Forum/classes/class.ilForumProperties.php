@@ -60,7 +60,7 @@ class ilForumProperties
     protected int $styleId = 0;
     private bool $exists = false;
     private ?int $lp_req_num_postings = null;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
+    private ?\ILIAS\Style\Content\Object\ObjectFacade $content_style_service = null;
 
     protected function __construct(private int $obj_id = 0)
     {
@@ -68,10 +68,17 @@ class ilForumProperties
 
         $this->db = $DIC->database();
         $this->read();
-        $this->content_style_service = $DIC
-            ->contentStyle()
-            ->domain()
-            ->styleForObjId($obj_id);
+    }
+
+    private function contentStyle(): \ILIAS\Style\Content\Object\ObjectFacade
+    {
+        global $DIC;
+
+        if ($this->content_style_service === null) {
+            $this->content_style_service = $DIC->contentStyle()->domain()->styleForObjId($this->obj_id);
+        }
+
+        return $this->content_style_service;
     }
 
     public static function getInstance(int $a_obj_id = 0): self
@@ -182,7 +189,7 @@ class ilForumProperties
     public function copy(int $a_new_obj_id): bool
     {
         if ($a_new_obj_id !== 0) {
-            $this->content_style_service->cloneTo($a_new_obj_id);
+            $this->contentStyle()->cloneTo($a_new_obj_id);
 
             $this->db->update(
                 'frm_settings',

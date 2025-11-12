@@ -52,7 +52,7 @@ class ilNoteGUI
     /**
      * @var int|int[]
      */
-    protected $rep_obj_id;
+    protected array|int $rep_obj_id;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilObjUser $user;
@@ -97,7 +97,7 @@ class ilNoteGUI
      * @throws ilCtrlException
      */
     public function __construct(
-        $a_rep_obj_id = 0,
+        array|int $a_rep_obj_id = 0,
         int $a_obj_id = 0,
         string $a_obj_type = "",
         bool $a_include_subobjects = false,
@@ -853,7 +853,7 @@ class ilNoteGUI
             $this->ctrl->setParameter($this, "note_id", $this->requested_note_id);
         }
         $action = $this->ctrl->getFormActionByClass(static::class, $cmd, "");
-        $form = $this->gui->form(static::class, $action)
+        $form = $this->gui->form([static::class], $action)
             ->section("props", $this->lng->txt($label_key))
             ->textarea("note", $this->lng->txt("note_text"), "", $value);
         return $form;

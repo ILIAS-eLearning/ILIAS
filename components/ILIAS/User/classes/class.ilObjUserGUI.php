@@ -220,10 +220,13 @@ class ilObjUserGUI extends ilObjectGUI
             );
         }
 
-        // learning progress
-        if ($this->rbac_system->checkAccess('read', $this->ref_id) and
-            ilObjUserTracking::_enabledLearningProgress() and
-            ilObjUserTracking::_enabledUserRelatedData()) {
+        if ((
+            $this->context === Context::LocalUserAdministration
+                && $this->rbac_system->checkAccess('read', $this->ref_id)
+            || $this->context === Context::UserAdministration
+                && $this->rbac_system->checkAccess(\ilObjUserFolder::PERM_READ_ALL, $this->ref_id)
+        ) && ilObjUserTracking::_enabledLearningProgress()
+            && ilObjUserTracking::_enabledUserRelatedData()) {
             $this->tabs_gui->addTarget(
                 'learning_progress',
                 $this->ctrl->getLinkTargetByClass('illearningprogressgui', ''),
@@ -341,10 +344,14 @@ class ilObjUserGUI extends ilObjectGUI
             return;
         }
 
+        $new_user = new ilObjUser();
+        $new_user->create();
+        $new_user->saveAsNew();
+
         $user_object = $this->user_profile->addFormValuesToUser(
             $this->form_gui,
             $this->context,
-            new ilObjUser()
+            $new_user
         );
 
         $user_object->setLogin($this->form_gui->getInput('username'));
@@ -360,8 +367,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         $user_object->setTitle($user_object->getFullname());
         $user_object->setDescription($user_object->getEmail());
-        $user_object->create();
-        $user_object->saveAsNew();
+        $user_object->update();
 
         $this->object = $this->user_settings->saveForm(
             $this->form_gui,
@@ -379,11 +385,10 @@ class ilObjUserGUI extends ilObjectGUI
 
         $msg = $this->lng->txt('user_added');
 
-        $this->user->setPref(
+        $this->user->writePref(
             'send_info_mails',
-            ($this->form_gui->getInput('send_mail') == 'y') ? 'y' : 'n'
+            $this->form_gui->getInput('send_mail') === 'y' ? 'y' : 'n'
         );
-        $this->user->writePrefs();
 
         if ($profile_maybe_incomplete
             && $this->user_profile->isProfileIncomplete($this->object)) {
@@ -424,19 +429,16 @@ class ilObjUserGUI extends ilObjectGUI
         $profile_maybe_incomplete = $this->retrieveAllowIncompleteProfileFromPost();
         $this->initForm(!$profile_maybe_incomplete, $this->object);
 
-        if (!$this->form_gui->checkInput()) {
+        if (!$this->form_gui->checkInput()
+            || !$this->isAccessRangeInputValid()) {
             $this->form_gui->setValuesByPost();
             $this->tabs_gui->activateTab('properties');
             $this->renderForm();
+            return;
         }
-        $this->object = $this->user_profile->addFormValuesToUser(
-            $this->form_gui,
-            $this->context,
-            $this->object
-        );
 
         try {
-            $this->object->updateLogin($this->form_gui->getInput('username'));
+            $this->object->updateLogin($this->form_gui->getInput('username'), $this->context);
         } catch (ilUserException $e) {
             $this->tpl->setOnScreenMessage('failure', $e->getMessage());
             $this->form_gui->setValuesByPost();
@@ -444,10 +446,20 @@ class ilObjUserGUI extends ilObjectGUI
             return;
         }
 
-        if ($this->user->getId() === (int) SYSTEM_USER_ID
-            || !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
-            || in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId()))) {
-            $this->object->setPasswd($this->form_gui->getInput('passwd'), ilObjUser::PASSWD_PLAIN);
+        $this->object->setAuthMode($this->form_gui->getInput('auth_mode'));
+
+        $this->object = $this->user_profile->addFormValuesToUser(
+            $this->form_gui,
+            $this->context,
+            $this->object
+        );
+
+        $passwd = $this->form_gui->getInput('passwd');
+        if (($this->user->getId() === (int) SYSTEM_USER_ID
+                || !in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->object->getId()))
+                || in_array(SYSTEM_ROLE_ID, $this->rbac_review->assignedRoles($this->user->getId())))
+            && !empty($passwd)) {
+            $this->object->setPasswd($passwd, ilObjUser::PASSWD_PLAIN);
         }
         if (ilAuthUtils::_isExternalAccountEnabled()) {
             $this->object->setExternalAccount($this->form_gui->getInput('ext_account'));
@@ -471,11 +483,10 @@ class ilObjUserGUI extends ilObjectGUI
         if ($this->user->getId() === $this->object->getId()) {
             $this->user = $this->object;
         }
-        $this->user->setPref(
+        $this->user->writePref(
             'send_info_mails',
             ($this->form_gui->getInput('send_mail') === 'y') ? 'y' : 'n'
         );
-        $this->user->writePrefs();
 
         $mail_message = $this->__sendProfileMail();
         $msg = $this->lng->txt('saved_successfully') . $mail_message;
@@ -637,8 +648,8 @@ class ilObjUserGUI extends ilObjectGUI
             $this->context,
             $user
         );
-        $input->setDisabled(!$this->context->isFieldChangeableInType($field, $user));
-        $input->setRequired($this->context->isFieldChangeableInType($field, $user));
+        $input->setDisabled(!$this->context->isFieldChangeable($field, $user));
+        $input->setRequired($this->context->isFieldChangeable($field, $user));
         return $input;
     }
 
@@ -689,7 +700,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
         $radg->addOption($op2);
         $radg->setValue(
-            $user?->getTimeLimitUnlimited() ?? false ? '1' : '0'
+            $user?->getTimeLimitUnlimited() ?? true ? '1' : '0'
         );
 
         return $radg;
@@ -804,8 +815,11 @@ class ilObjUserGUI extends ilObjectGUI
             $this->form_gui->addItem($input);
         }
 
-        foreach ($this->legal_documents->userManagementFields($this->object) as $input) {
-            $this->form_gui->addItem($input);
+        foreach ($this->legal_documents->userManagementFields($this->object) as $identifier => $value) {
+            if (is_string($value)) {
+                $value = $this->buildNonEditableInput($identifier, $value);
+            }
+            $this->form_gui->addItem($value);
         }
     }
 
@@ -948,7 +962,7 @@ class ilObjUserGUI extends ilObjectGUI
              || empty($posted_global_roles) && count($assigned_global_roles_all) === count($assigned_global_roles)) {
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $this->lng->txt('msg_min_one_role') . '<br/>' . $this->lng->txt('action_aborted'),
+                "{$this->lng->txt('action_aborted')}: {$this->lng->txt('msg_min_one_role')}",
                 true
             );
             $this->ctrl->redirect($this, 'roleassignment');
@@ -1320,29 +1334,25 @@ class ilObjUserGUI extends ilObjectGUI
 
     private function checkUserWritePermission(): void
     {
-        if ($this->usrf_ref_id === USER_FOLDER_ID
-            && (
-                !$this->rbac_system->checkAccess('visible,read', $this->usrf_ref_id)
-                || !$this->rbac_system->checkAccess('write', $this->usrf_ref_id)
-                    && (
-                        !$this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
-                        || $this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
-                            && !in_array(
-                                $this->object->getId(),
-                                $this->access->filterUserIdsByPositionOfCurrentUser(
-                                    \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
-                                    USER_FOLDER_ID,
-                                    [$this->object->getId()]
-                                )
-                            )
+        if ($this->context === Context::UserAdministration
+            && !(
+                $this->rbac_system->checkAccess(\ilObjUserFolder::PERM_READ_ALL_AND_WRITE, $this->usrf_ref_id)
+                || $this->access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id)
+                    && in_array(
+                        $this->object->getId(),
+                        $this->access->filterUserIdsByPositionOfCurrentUser(
+                            \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+                            USER_FOLDER_ID,
+                            [$this->object->getId()]
+                        )
                     )
-            )
-        ) {
+            )) {
             $this->tpl->setOnScreenMessage(
                 'failure',
-                $this->lng->txt('msg_no_perm_modify_user')
+                $this->lng->txt('msg_no_perm_modify_user'),
+                true
             );
-            $this->ctrl->redirectByClass(ilObjUserFolderAccess::class);
+            $this->ctrl->redirectByClass(ilObjUserFolderGUI::class);
         }
 
         // if called from local administration $this->usrf_ref_id is category id
@@ -1397,5 +1407,20 @@ class ilObjUserGUI extends ilObjectGUI
         }
 
         $this->redirectToRefId($this->usrf_ref_id);
+    }
+
+    private function isAccessRangeInputValid(): bool
+    {
+        if ($this->form_gui->getInput('time_limit_unlimited') === '1') {
+            return true;
+        }
+        $timefrom = $this->form_gui->getItemByPostVar('time_limit_from');
+        $timeuntil = $this->form_gui->getItemByPostVar('time_limit_until');
+        if ($timeuntil->getDate()->get(IL_CAL_UNIX) <= $timefrom->getDate()->get(IL_CAL_UNIX)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
+            $timeuntil->setAlert($this->lng->txt('time_limit_not_valid'));
+            return false;
+        }
+        return true;
     }
 }

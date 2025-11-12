@@ -22,8 +22,8 @@
 *.swo
 
 # Core Components and Components From Other Vendors
-/component/*
-!/component/ILIAS
+/components/*
+!/components/ILIAS
 
 # Generated Files
 /artifacts/*
@@ -51,6 +51,7 @@ scripts/PHPUnit/.phpunit.cache/
 .php-cs-fixer.cache
 phpstan.local.neon
 phpstan-baseline.neon
+/scripts/PHPUnit/.phpunit.cache
 
 # File Delivery
 override.php

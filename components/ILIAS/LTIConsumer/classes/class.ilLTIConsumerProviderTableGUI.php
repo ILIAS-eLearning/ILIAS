@@ -18,561 +18,292 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
+use ILIAS\UI\Component\Symbol\Icon\Icon as IconAlias;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
+use ILIAS\UI\URLBuilder;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface;
+
 /**
- * Class ilLTIConsumerAdminProviderTableGUI
+ * Class ilLTIConsumerProviderTableGUI
  *
  * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  * @author      Björn Heyser <info@bjoernheyser.de>
  *
  * @package components\ILIAS/LTIConsumer
  */
-class ilLTIConsumerProviderTableGUI extends ilTable2GUI
+class ilLTIConsumerProviderTableGUI implements DataRetrieval
 {
-    /**
-     * @var string
-     */
-    protected string $editProviderCmd = '';
+    protected ilLanguage $lng;
+    protected Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected ilUIService $ui_service;
+    private ServerRequestInterface|RequestInterface $request;
+    protected \ILIAS\Data\Factory $data_factory;
+    protected ilCtrlInterface $ctrl;
+    protected WrapperFactory $wrapper;
+    protected \ILIAS\Refinery\Factory $refinery;
+    private array $records;
+    public ?object $parent_obj;
+    public ?string $parent_cmd;
+    private bool $acceptProviderAsGlobal = false;
+    private bool $resetProviderToUserScope = false;
+    private bool $selectProviderForm = false;
 
-    /**
-     * @var string
-     */
-    protected string $acceptProviderAsGlobalCmd = '';
+    public function __construct(?object $a_parent_obj, ?string $a_parent_cmd)
+    {
+        global $DIC;
 
-    /**
-     * @var string
-     */
-    protected string $acceptProviderAsGlobalMultiCmd = '';
+        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ui_service = $DIC->uiService();
+        $this->request = $DIC->http()->request();
+        $this->data_factory = new \ILIAS\Data\Factory();
+        $this->ctrl = $DIC->ctrl();
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
 
-    /**
-     * @var string
-     */
-    protected string $resetProviderToUserScopeCmd = '';
+        $this->parent_obj = $a_parent_obj;
+        $this->parent_cmd = $a_parent_cmd;
+    }
 
-    /**
-     * @var string
-     */
-    protected string $resetProviderToUserScopeMultiCmd = '';
+    public function enableAcceptProviderAsGlobal(): void
+    {
+        $this->acceptProviderAsGlobal = true;
+    }
 
-    /**
-     * @var string
-     */
-    protected string $selectProviderCmd = '';
+    public function enableResetProviderToUserScope(): void
+    {
+        $this->resetProviderToUserScope = true;
+    }
 
-    /**
-     * @var string
-     */
-    protected string $deleteProviderCmd = '';
-
-    /**
-     * @var string
-     */
-    protected string $deleteProviderMultiCmd = '';
-
-    /**
-     * @var bool
-     */
-    protected bool $availabilityColumnEnabled = false;
-
-    /**
-     * @var bool
-     */
-    protected bool $ownProviderColumnEnabled = false;
-
-    /**
-     * @var bool
-     */
-    protected bool $providerCreatorColumnEnabled = false;
+    public function enableSelectProviderForm(): void
+    {
+        $this->selectProviderForm = true;
+    }
 
     /**
-     * @var bool
+     * @throws ilObjectNotFoundException
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
      */
-    protected bool $actionsColumnEnabled = false;
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
+        foreach ($this->records as $record) {
+            $record["icon"] = $record["icon"] ?? "lti";
+            $record["icon"] = $this->ui_factory->symbol()->icon()->standard($record["icon"], $record["icon"], IconAlias::SMALL);
 
-    /**
-     * @var bool
-     */
-    protected bool $detailedUsagesEnabled = false;
-
-    protected array $filter;
-
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $this->setId('providers');
-        parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.lti_consume_provider_table_row.html', 'components/ILIAS/LTIConsumer');
-
-        $this->setTitle($DIC->language()->txt('tbl_provider_header'));
-        //$this->setDescription($DIC->language()->txt('tbl_provider_header_info'));
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function getEditProviderCmd(): string
-    {
-        return $this->editProviderCmd;
-    }
-
-    public function setEditProviderCmd(string $editProviderCmd): void
-    {
-        $this->editProviderCmd = $editProviderCmd;
-    }
-
-    public function getAcceptProviderAsGlobalCmd(): string
-    {
-        return $this->acceptProviderAsGlobalCmd;
-    }
-
-    public function setAcceptProviderAsGlobalCmd(string $acceptProviderAsGlobalCmd): void
-    {
-        $this->acceptProviderAsGlobalCmd = $acceptProviderAsGlobalCmd;
-    }
-
-    public function getAcceptProviderAsGlobalMultiCmd(): string
-    {
-        return $this->acceptProviderAsGlobalMultiCmd;
-    }
-
-    public function setAcceptProviderAsGlobalMultiCmd(string $acceptProviderAsGlobalMultiCmd): void
-    {
-        $this->acceptProviderAsGlobalMultiCmd = $acceptProviderAsGlobalMultiCmd;
-    }
-
-    public function getResetProviderToUserScopeCmd(): string
-    {
-        return $this->resetProviderToUserScopeCmd;
-    }
-
-    public function setResetProviderToUserScopeCmd(string $resetProviderToUserScopeCmd): void
-    {
-        $this->resetProviderToUserScopeCmd = $resetProviderToUserScopeCmd;
-    }
-
-    public function getResetProviderToUserScopeMultiCmd(): string
-    {
-        return $this->resetProviderToUserScopeMultiCmd;
-    }
-
-    public function setResetProviderToUserScopeMultiCmd(string $resetProviderToUserScopeMultiCmd): void
-    {
-        $this->resetProviderToUserScopeMultiCmd = $resetProviderToUserScopeMultiCmd;
-    }
-
-    public function getSelectProviderCmd(): string
-    {
-        return $this->selectProviderCmd;
-    }
-
-    public function setSelectProviderCmd(string $selectProviderCmd): void
-    {
-        $this->selectProviderCmd = $selectProviderCmd;
-    }
-
-    public function getDeleteProviderCmd(): string
-    {
-        return $this->deleteProviderCmd;
-    }
-
-    public function setDeleteProviderCmd(string $deleteProviderCmd): void
-    {
-        $this->deleteProviderCmd = $deleteProviderCmd;
-    }
-
-    public function getDeleteProviderMultiCmd(): string
-    {
-        return $this->deleteProviderMultiCmd;
-    }
-
-    public function setDeleteProviderMultiCmd(string $deleteProviderMultiCmd): void
-    {
-        $this->deleteProviderMultiCmd = $deleteProviderMultiCmd;
-    }
-
-    public function isAvailabilityColumnEnabled(): bool
-    {
-        return $this->availabilityColumnEnabled;
-    }
-
-    public function setAvailabilityColumnEnabled(bool $availabilityColumnEnabled): void
-    {
-        $this->availabilityColumnEnabled = $availabilityColumnEnabled;
-    }
-
-    public function isOwnProviderColumnEnabled(): bool
-    {
-        return $this->ownProviderColumnEnabled;
-    }
-
-    public function setOwnProviderColumnEnabled(bool $ownProviderColumnEnabled): void
-    {
-        $this->ownProviderColumnEnabled = $ownProviderColumnEnabled;
-    }
-
-    public function isProviderCreatorColumnEnabled(): bool
-    {
-        return $this->providerCreatorColumnEnabled;
-    }
-
-    public function setProviderCreatorColumnEnabled(bool $providerCreatorColumnEnabled): void
-    {
-        $this->providerCreatorColumnEnabled = $providerCreatorColumnEnabled;
-    }
-
-    public function isActionsColumnEnabled(): bool
-    {
-        return $this->actionsColumnEnabled;
-    }
-
-    public function setActionsColumnEnabled(bool $actionsColumnEnabled): void
-    {
-        $this->actionsColumnEnabled = $actionsColumnEnabled;
-    }
-
-    public function isDetailedUsagesEnabled(): bool
-    {
-        return $this->detailedUsagesEnabled;
-    }
-
-    public function setDetailedUsagesEnabled(bool $detailedUsagesEnabled): void
-    {
-        $this->detailedUsagesEnabled = $detailedUsagesEnabled;
-    }
-
-    public function hasMultiCommands(): bool
-    {
-        if ($this->getAcceptProviderAsGlobalMultiCmd()) {
-            return true;
-        }
-
-        if ($this->getResetProviderToUserScopeMultiCmd()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function init(): void
-    {
-        parent::determineSelectedColumns();
-
-        $this->initColumns();
-        $this->initFilter();
-        $this->initCommands();
-    }
-
-    protected function initCommands(): void
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        if ($this->getAcceptProviderAsGlobalMultiCmd()) {
-            $this->addMultiCommand(
-                $this->getAcceptProviderAsGlobalMultiCmd(),
-                $DIC->language()->txt('lti_action_accept_providers_as_global')
-            );
-        }
-
-        if ($this->getResetProviderToUserScopeMultiCmd()) {
-            $this->addMultiCommand(
-                $this->getResetProviderToUserScopeMultiCmd(),
-                $DIC->language()->txt('lti_action_reset_providers_to_user_scope')
-            );
-        }
-
-        if ($this->getDeleteProviderMultiCmd()) {
-            $this->addMultiCommand(
-                $this->getDeleteProviderMultiCmd(),
-                $DIC->language()->txt('lti_action_delete_providers')
-            );
-        }
-    }
-
-    protected function initColumns(): void
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        if ($this->hasMultiCommands()) {
-            $this->addColumn('', '', '1%');
-        }
-
-        $this->addColumn($DIC->language()->txt('tbl_lti_prov_icon'), 'icon');
-        $this->addColumn($DIC->language()->txt('tbl_lti_prov_title'), 'title');
-
-        if ($this->isColumnSelected('description')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_description'), 'description');
-        }
-        if ($this->isColumnSelected('category')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_category'), 'category');
-        }
-        if ($this->isColumnSelected('keywords')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_keywords'), 'keywords');
-        }
-        if ($this->isColumnSelected('outcome')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_outcome'), 'outcome');
-        }
-        if ($this->isColumnSelected('internal')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_internal'), 'external');
-        }
-        if ($this->isColumnSelected('with_key')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_with_key'), 'provider_key_customizable');
-        }
-
-        if ($this->isColumnSelected('availability') && $this->isAvailabilityColumnEnabled()) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_availability'), 'availability');
-        }
-
-        if ($this->isColumnSelected('own_provider') && $this->isOwnProviderColumnEnabled()) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_own_provider'), 'own_provider');
-        }
-
-        if ($this->isColumnSelected('provider_creator') && $this->isProviderCreatorColumnEnabled()) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_provider_creator'), 'provider_creator');
-        }
-
-        if ($this->isDetailedUsagesEnabled() && self::isTrashEnabled()) {
-            if ($this->isColumnSelected('usages_untrashed')) {
-                $this->addColumn($DIC->language()->txt('tbl_lti_prov_usages_untrashed'), 'usages_untrashed');
+            if ($this->selectProviderForm) {
+                $this->ctrl->setParameter($this->parent_obj, 'provider_id', $record['id']);
+                $record["title"] = $this->ui_factory->link()->standard($record['title'], $this->ctrl->getLinkTarget($this->parent_obj, "save"));
+            } else {
+                $this->ctrl->setParameter($this->parent_obj, 'provider_id', $record['id']);
+                $record["title"] = $this->ui_factory->link()->standard($record['title'], $this->ctrl->getLinkTarget($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_SHOW_GLOBAL_PROVIDER_FORM));
             }
 
-            if ($this->isColumnSelected('usages_trashed')) {
-                $this->addColumn($DIC->language()->txt('tbl_lti_prov_usages_trashed'), 'usages_trashed');
-            }
-        } elseif ($this->isColumnSelected('usages_untrashed')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_usages'), 'usages_untrashed');
-        }
+            $record["category"] = $this->getCategoryTranslation($record['category']);
 
-        if ($this->isActionsColumnEnabled()) {
-            $this->addColumn('', '', '1%');
+            $record["outcome"] = $this->getHasOutcomeFormatted($record['outcome']);
+            $record["internal"] = $this->getIsInternalFormatted(!$record['external']);
+            $record["with_key"] = $this->getIsWithKeyFormatted(!$record['provider_key_customizable']);
+
+            $record["availability"] = $this->getAvailabilityLabel($record);
+            $record["own_provider"] = $this->getOwnProviderLabel($record);
+            $record["provider_creator"] = $this->getProviderCreatorLabel($record);
+
+            yield $row_builder->buildDataRow((string) $record["id"], $record);
         }
     }
 
-    public function determineSelectedColumns(): void
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
+        return count($this->records);
+    }
+
+    public function setData(array $data): void
     {
-        /**
-         * - do nothing to avoid ilTable2::__construct() from initialising to early
-         * - we do late call to parent method within self::init()
-         */
+        $this->records = $data;
     }
 
     /**
-     * @return array<string, mixed[]>
+     * @throws ilCtrlException
      */
-    public function getSelectableColumns(): array
+    public function getHTML(bool $hasWriteAccess = false): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $table = $this->ui_factory->table()
+            ->data($this->lng->txt('tbl_provider_header'), $this->getColumns(), $this)
+            ->withOrder(new Order('title', Order::ASC))
+            ->withRequest($this->request);
 
-        $columns = [];
-
-        $columns['description'] = [
-            'default' => true, 'txt' => $DIC->language()->txt('tbl_lti_prov_description')
-        ];
-
-        $columns['category'] = [
-            'default' => false, 'txt' => $DIC->language()->txt('tbl_lti_prov_category')
-        ];
-
-        $columns['keywords'] = [
-            'default' => true, 'txt' => $DIC->language()->txt('tbl_lti_prov_keywords')
-        ];
-
-        $columns['outcome'] = [
-            'default' => false, 'txt' => $DIC->language()->txt('tbl_lti_prov_outcome')
-        ];
-
-        $columns['internal'] = [
-            'default' => false, 'txt' => $DIC->language()->txt('tbl_lti_prov_internal')
-        ];
-
-        $columns['with_key'] = [
-            'default' => true, 'txt' => $DIC->language()->txt('tbl_lti_prov_with_key')
-        ];
-
-        if ($this->isAvailabilityColumnEnabled()) {
-            $columns['availability'] = [
-                'default' => true, 'txt' => $DIC->language()->txt('tbl_lti_prov_availability')
-            ];
+        if ($hasWriteAccess) {
+            $table = $table->withActions($this->getActions());
         }
 
-        if ($this->isOwnProviderColumnEnabled()) {
-            $columns['own_provider'] = [
-                'default' => false, 'txt' => $DIC->language()->txt('tbl_lti_prov_own_provider')
-            ];
-        }
-
-        if ($this->isProviderCreatorColumnEnabled()) {
-            $columns['provider_creator'] = [
-                'default' => false, 'txt' => $DIC->language()->txt('tbl_lti_prov_provider_creator')
-            ];
-        }
-
-        $columns['usages_untrashed'] = [
-            'default' => true, 'txt' => $DIC->language()->txt('tbl_lti_prov_usages_untrashed')
-        ];
-
-        if ($this->isDetailedUsagesEnabled() && self::isTrashEnabled()) {
-            $columns['usages_trashed'] = [
-                'default' => false, 'txt' => $DIC->language()->txt('tbl_lti_prov_usages_trashed')
-            ];
-        }
-
-        return $columns;
+        return $this->ui_renderer->render($table);
     }
 
-    public function initFilter(): void
+    private function getColumns(): array
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $title = new ilTextInputGUI($DIC->language()->txt('tbl_lti_prov_title'), 'title');
-        $title->setMaxLength(64);
-        $title->setSize(20);
-        $this->addFilterItem($title);
-        $title->readFromSession();
-        $this->filter['title'] = $title->getValue();
-
-        $keyword = new ilTextInputGUI($DIC->language()->txt('tbl_lti_prov_keyword'), 'keyword');
-        $keyword->setMaxLength(64);
-        $keyword->setSize(20);
-        $this->addFilterItem($keyword);
-        $keyword->readFromSession();
-        $this->filter['keyword'] = $keyword->getValue();
-
-        $hasOutcome = new ilCheckboxInputGUI($DIC->language()->txt('tbl_lti_prov_outcome'), 'outcome');
-        $this->addFilterItem($hasOutcome);
-        $hasOutcome->readFromSession();
-        $this->filter['outcome'] = $hasOutcome->getValue();
-
-        $isInternal = new ilCheckboxInputGUI($DIC->language()->txt('tbl_lti_prov_internal'), 'internal');
-        $this->addFilterItem($isInternal);
-        $isInternal->readFromSession();
-        $this->filter['internal'] = $isInternal->getValue();
-
-        $isWithKey = new ilCheckboxInputGUI($DIC->language()->txt('tbl_lti_prov_with_key'), 'with_key');
-        $this->addFilterItem($isWithKey);
-        $isWithKey->readFromSession();
-        $this->filter['with_key'] = $isWithKey->getValue();
-
-        $category = new ilSelectInputGUI($DIC->language()->txt('tbl_lti_prov_category'), 'category');
-        $category->setOptions(array_merge(
-            ['' => $DIC->language()->txt('tbl_lti_prov_all_categories')],
-            ilLTIConsumeProvider::getCategoriesSelectOptions()
-        ));
-        $this->addFilterItem($category);
-        $category->readFromSession();
-        $this->filter['category'] = $category->getValue();
+        return [
+            'icon' => $this->ui_factory->table()->column()->statusIcon($this->lng->txt('icon')),
+            'title' => $this->ui_factory->table()->column()->link($this->lng->txt('title')),
+            'description' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_description')),
+            'category' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_category'))->withIsOptional(true),
+            'keywords' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_keywords')),
+            'outcome' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_outcome'))->withIsOptional(true),
+            'internal' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_internal'))->withIsOptional(true),
+            'with_key' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_with_key')),
+            'availability' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_availability')),
+            'own_provider' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_own_provider'))->withIsOptional(true),
+            'provider_creator' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_provider_creator'))->withIsOptional(true),
+            'usages_untrashed' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_usages_untrashed')),
+            'usages_trashed' => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_lti_prov_usages_trashed'))->withIsOptional(true),
+        ];
     }
 
-    protected function fillRow(array $a_set): void
+    /**
+     * @throws ilCtrlException
+     */
+    private function getActions(): array
     {
-        if ($this->hasMultiCommands()) {
-            $this->tpl->setCurrentBlock('checkbox_col');
-            $this->tpl->setVariable('PROVIDER_ID', $a_set['id']);
-            $this->tpl->parseCurrentBlock();
+        $df = new \ILIAS\Data\Factory();
+        $here_uri = $df->uri($this->request->getUri()->__toString());
+        $url_builder = new URLBuilder($here_uri);
+
+        $query_params_namespace = ['provider', 'table'];
+        list($url_builder, $id_token, $action_token) = $url_builder->acquireParameters(
+            $query_params_namespace,
+            "provider_id",
+            "action"
+        );
+
+        $query = $this->wrapper->query();
+        if ($query->has($action_token->getName())) {
+            $action = $query->retrieve($action_token->getName(), $this->refinery->to()->string());
+            $ids = $query->retrieve($id_token->getName(), $this->refinery->custom()->transformation(fn($v) => $v));
+
+            switch ($action) {
+                case "edit":
+                    $id = $ids[0] ?? null;
+                    $this->ctrl->setParameter($this->parent_obj, 'provider_id', $id);
+                    $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_SHOW_USER_PROVIDER_FORM);
+                    break;
+                case "delete_global":
+                    if (count($ids) > 1) {
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_ids', implode(",", $ids));
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_DELETE_GLOBAL_PROVIDER_MULTI);
+                    } else {
+                        $id = $ids[0] ?? null;
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_id', $id);
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_DELETE_GLOBAL_PROVIDER);
+                    }
+                    break;
+                case "delete_user":
+                    if (count($ids) > 1) {
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_ids', implode(",", $ids));
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_DELETE_USER_PROVIDER_MULTI);
+                    } else {
+                        $id = $ids[0] ?? null;
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_id', $id);
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_DELETE_USER_PROVIDER);
+                    }
+                    break;
+                case "global":
+                    if (count($ids) > 1) {
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_ids', implode(",", $ids));
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_ACCEPT_PROVIDER_AS_GLOBAL_MULTI);
+                    } else {
+                        $id = $ids[0] ?? null;
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_id', $id);
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_ACCEPT_PROVIDER_AS_GLOBAL);
+                    }
+                    break;
+                case "reset":
+                    if (count($ids) > 1) {
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_ids', implode(",", $ids));
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_RESET_PROVIDER_TO_USER_SCOPE_MULTI);
+                    } else {
+                        $id = $ids[0] ?? null;
+                        $this->ctrl->setParameter($this->parent_obj, 'provider_id', $id);
+                        $this->ctrl->redirect($this->parent_obj, ilLTIConsumerAdministrationGUI::CMD_RESET_PROVIDER_TO_USER_SCOPE);
+                    }
+                    break;
+            }
         }
 
-        if ($this->getSelectProviderCmd()) {
-            $this->tpl->setCurrentBlock('title_linked');
-            $this->tpl->setVariable('TITLE', $a_set['title']);
-            $this->tpl->setVariable('TITLE_HREF', $this->buildProviderLink(
-                $a_set['id'],
-                $this->getSelectProviderCmd()
-            ));
-            $this->tpl->parseCurrentBlock();
-        } elseif ($this->getEditProviderCmd()) {
-            $this->tpl->setCurrentBlock('title_linked');
-            $this->tpl->setVariable('TITLE', $a_set['title']);
-            $this->tpl->setVariable('TITLE_HREF', $this->buildProviderLink(
-                $a_set['id'],
-                $this->getEditProviderCmd()
-            ));
-            $this->tpl->parseCurrentBlock();
-        } else {
-            $this->tpl->setCurrentBlock('title');
-            $this->tpl->setVariable('TITLE', $a_set['title']);
-            $this->tpl->parseCurrentBlock();
+
+        $actions = [
+            "edit" => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('lti_action_edit_provider'),
+                $url_builder->withParameter($action_token, "edit"),
+                $id_token
+            ),
+        ];
+
+        if ($this->acceptProviderAsGlobal) {
+            $actions["global"] = $this->ui_factory->table()->action()->standard(
+                $this->lng->txt('lti_action_accept_provider_as_global'),
+                $url_builder->withParameter($action_token, "global"),
+                $id_token
+            );
+            $actions["delete_user"] = $this->ui_factory->table()->action()->standard(
+                $this->lng->txt('lti_delete_provider'),
+                $url_builder->withParameter($action_token, "delete_user"),
+                $id_token
+            );
         }
 
-        if (isset($a_set['icon'])) {
-            $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
-            $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
-        } else {
-            $icon = ilObject::_getIcon(0, "small", "lti");
-            $this->tpl->setVariable('ICON_SRC', $icon);
-            $this->tpl->setVariable('ICON_ALT', 'lti');
+        if ($this->resetProviderToUserScope) {
+            $actions["reset"] = $this->ui_factory->table()->action()->standard(
+                $this->lng->txt('lti_action_reset_provider_to_user_scope'),
+                $url_builder->withParameter($action_token, "reset"),
+                $id_token
+            );
+            $actions["delete_global"] = $this->ui_factory->table()->action()->standard(
+                $this->lng->txt('lti_delete_provider'),
+                $url_builder->withParameter($action_token, "delete_global"),
+                $id_token
+            );
         }
 
-        if ($this->isColumnSelected('description')) {
-            $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
-        }
-
-        if ($this->isColumnSelected('category')) {
-            $this->tpl->setVariable('CATEGORY', $this->getCategoryTranslation($a_set['category']));
-        }
-
-        if ($this->isColumnSelected('keywords')) {
-            $this->tpl->setVariable('KEYWORDS', $a_set['keywords']);
-        }
-
-        if ($this->isColumnSelected('outcome')) {
-            $this->tpl->setVariable('OUTCOME', $this->getHasOutcomeFormatted($a_set['outcome']));
-        }
-
-        if ($this->isColumnSelected('internal')) {
-            $this->tpl->setVariable('INTERNAL', $this->getIsInternalFormatted(!(bool) $a_set['external']));
-        }
-
-        if ($this->isColumnSelected('with_key')) {
-            $this->tpl->setVariable('WITH_KEY', $this->getIsWithKeyFormatted(!(bool) $a_set['provider_key_customizable']));
-        }
-
-        if ($this->isColumnSelected('availability') && $this->isAvailabilityColumnEnabled()) {
-            $this->tpl->setVariable('AVAILABILITY', $this->getAvailabilityLabel($a_set));
-        }
-
-        if ($this->isColumnSelected('own_provider') && $this->isOwnProviderColumnEnabled()) {
-            $this->tpl->setVariable('OWN_PROVIDER', $this->getOwnProviderLabel($a_set));
-        }
-
-        if ($this->isColumnSelected('provider_creator') && $this->isProviderCreatorColumnEnabled()) {
-            $this->tpl->setVariable('PROVIDER_CREATOR', $this->getProviderCreatorLabel($a_set));
-        }
-
-        if ($this->isColumnSelected('usages_untrashed')) {
-            $usagesUntrashed = $a_set['usages_untrashed'] ? $a_set['usages_untrashed'] : '';
-            $this->tpl->setVariable('USAGES_UNTRASHED', $usagesUntrashed);
-        }
-
-        if ($this->isColumnSelected('usages_trashed') && $this->isDetailedUsagesEnabled() && self::isTrashEnabled()) {
-            $usagesTrashed = $a_set['usages_trashed'] ? $a_set['usages_trashed'] : '';
-            $this->tpl->setVariable('USAGES_TRASHED', $usagesTrashed);
-        }
-
-        if ($this->isActionsColumnEnabled()) {
-            $this->tpl->setVariable('ACTIONS', $this->buildActionsListHtml($a_set));
-        }
+        return $actions;
     }
 
     protected function getHasOutcomeFormatted(bool $hasOutcome): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
         return $hasOutcome ? $DIC->language()->txt('yes') : '';
     }
 
     protected function getIsInternalFormatted(bool $isInternal): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
         return $isInternal ? $DIC->language()->txt('yes') : '';
     }
 
     protected function getIsWithKeyFormatted(bool $isWithKey): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
         return $isWithKey ? $DIC->language()->txt('yes') : '';
     }
@@ -585,27 +316,19 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
 
     protected function getAvailabilityLabel(array $data): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
-        switch ($data['availability']) {
-            case ilLTIConsumeProvider::AVAILABILITY_CREATE:
-
-                return $DIC->language()->txt('lti_con_prov_availability_create');
-
-            case ilLTIConsumeProvider::AVAILABILITY_EXISTING:
-
-                return $DIC->language()->txt('lti_con_prov_availability_existing');
-
-            case ilLTIConsumeProvider::AVAILABILITY_NONE:
-
-                return $DIC->language()->txt('lti_con_prov_availability_non');
-        }
-        return '';
+        return match ($data['availability']) {
+            ilLTIConsumeProvider::AVAILABILITY_CREATE => $DIC->language()->txt('lti_con_prov_availability_create'),
+            ilLTIConsumeProvider::AVAILABILITY_EXISTING => $DIC->language()->txt('lti_con_prov_availability_existing'),
+            ilLTIConsumeProvider::AVAILABILITY_NONE => $DIC->language()->txt('lti_con_prov_availability_non'),
+            default => '',
+        };
     }
 
     protected function getOwnProviderLabel(array $data): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
         if ($data['creator'] == $DIC->user()->getId()) {
             return $DIC->language()->txt('yes');
@@ -614,9 +337,13 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return '';
     }
 
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilDatabaseException
+     */
     protected function getProviderCreatorLabel(array $data): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
         if ($data['creator']) {
             /* @var ilObjUser $user */
@@ -632,90 +359,37 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return '';
     }
 
-    protected function buildActionsListHtml(array $data): string
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $items = $this->getActionItems($data);
-
-        if ($items !== []) {
-            return $DIC->ui()->renderer()->render(
-                $DIC->ui()->factory()->dropdown()->standard($items)->withLabel(
-                    $DIC->language()->txt('actions')
-                )
-            );
-        }
-
-        return '';
-    }
-
     /**
-     * @return mixed[]
+     * @throws ilCtrlException
      */
-    protected function getActionItems(array $data): array
+    public function getFilter(): Filter
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $filter_inputs = [
+            'title' => $this->ui_factory->input()->field()->text($this->lng->txt("title")),
+            'keywords' => $this->ui_factory->input()->field()->text($this->lng->txt("tbl_lti_prov_keywords")),
+            'outcome' => $this->ui_factory->input()->field()->select($this->lng->txt("tbl_lti_prov_outcome"), [
+                'yes' => $this->lng->txt('yes'),
+                'no' => $this->lng->txt('no'),
+            ]),
+            'internal' => $this->ui_factory->input()->field()->select($this->lng->txt("tbl_lti_prov_internal"), [
+                'yes' => $this->lng->txt('yes'),
+                'no' => $this->lng->txt('no'),
+            ]),
+            'with_key' => $this->ui_factory->input()->field()->select($this->lng->txt("tbl_lti_prov_with_key"), [
+                'yes' => $this->lng->txt('yes'),
+                'no' => $this->lng->txt('no'),
+            ]),
+            'category' => $this->ui_factory->input()->field()->select($this->lng->txt("tbl_lti_prov_category"), ilLTIConsumeProvider::getCategoriesSelectOptions()),
+        ];
 
-        $items = array();
+        $active = array_fill(0, count($filter_inputs), true);
 
-        if ($this->getEditProviderCmd()) {
-            $items[] = $DIC->ui()->factory()->button()->shy(
-                $DIC->language()->txt('lti_action_edit_provider'),
-                $this->buildProviderLink($data['id'], $this->getEditProviderCmd())
-            );
-        }
-
-        if ($this->getAcceptProviderAsGlobalCmd()) {
-            $items[] = $DIC->ui()->factory()->button()->shy(
-                $DIC->language()->txt('lti_action_accept_provider_as_global'),
-                $this->buildProviderLink($data['id'], $this->getAcceptProviderAsGlobalCmd())
-            );
-        }
-
-        if ($this->getResetProviderToUserScopeCmd() && $this->isUserCreatedProviderResettableToUserScope($data)) {
-            $items[] = $DIC->ui()->factory()->button()->shy(
-                $DIC->language()->txt('lti_action_reset_provider_to_user_scope'),
-                $this->buildProviderLink($data['id'], $this->getResetProviderToUserScopeCmd())
-            );
-        }
-
-        if ($this->getSelectProviderCmd()) {
-            $items[] = $DIC->ui()->factory()->button()->shy(
-                $DIC->language()->txt('lti_select_provider'),
-                $this->buildProviderLink($data['id'], $this->getSelectProviderCmd())
-            );
-        }
-
-        if ($this->getDeleteProviderCmd() && !$data['usages_untrashed'] && !$data['usages_trashed']) {
-            $items[] = $DIC->ui()->factory()->button()->shy(
-                $DIC->language()->txt('lti_delete_provider'),
-                $this->buildProviderLink($data['id'], $this->getDeleteProviderCmd())
-            );
-        }
-
-        return $items;
-    }
-
-    protected function buildProviderLink(int $providerId, string $command): string
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $DIC->ctrl()->setParameter($this->parent_obj, 'provider_id', $providerId);
-        $link = $DIC->ctrl()->getLinkTarget($this->parent_obj, $command);
-        $DIC->ctrl()->setParameter($this->parent_obj, 'provider_id', 0);
-
-        return $link;
-    }
-
-    protected function isUserCreatedProviderResettableToUserScope(array $data): bool
-    {
-        return (bool) $data['creator'] && (bool) $data['accepted_by'];
-    }
-
-    protected static function isTrashEnabled(): bool
-    {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        return (bool) $DIC->settings()->get('enable_trash', "0");
+        return $this->ui_service->filter()->standard(
+            'lti_consumer_provider_table',
+            $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd),
+            $filter_inputs,
+            $active,
+            true
+        );
     }
 }

@@ -21,6 +21,8 @@ namespace ILIAS\StaticURL\Tests;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Configuration;
+use ILIAS\StaticURL\Config;
 
 require_once "Base.php";
 
@@ -29,9 +31,6 @@ require_once "Base.php";
  */
 class URIBuilderTest extends Base
 {
-    private ?string $ilias_http_path_backup = null;
-    private StandardURIBuilder $uri_builder;
-
     public static function getILIAS_HTTP_Paths(): \Iterator
     {
         yield ['https://ilias.de/ilias', 'https://ilias.de/ilias'];
@@ -50,7 +49,9 @@ class URIBuilderTest extends Base
     #[DataProvider('getILIAS_HTTP_Paths')]
     public function testBaseURI(string $ILIAS_HTTP_PATH, string $expected): void
     {
-        $uri_builder = new StandardURIBuilder($ILIAS_HTTP_PATH);
+        $uri_builder = new StandardURIBuilder(
+            $this->getConfig($ILIAS_HTTP_PATH)
+        );
         $this->assertSame($expected, (string) $uri_builder->getBaseURI());
     }
 
@@ -64,7 +65,9 @@ class URIBuilderTest extends Base
     #[DataProvider('getBuilderParts')]
     public function testFullBuilder(string $namespace, ?int $ref_id, array $params, string $expected): void
     {
-        $uri_builder = new StandardURIBuilder('https://test9.ilias.de');
+        $uri_builder = new StandardURIBuilder(
+            $this->getConfig('https://test9.ilias.de')
+        );
         $uri = $uri_builder->build(
             $namespace,
             $ref_id === null ? null : new ReferenceId($ref_id),
@@ -72,4 +75,29 @@ class URIBuilderTest extends Base
         );
         $this->assertSame($expected, (string) $uri);
     }
+
+    private function getConfig(
+        string $ILIAS_HTTP_PATH
+    ): Configuration {
+        return new class ($ILIAS_HTTP_PATH) implements Configuration {
+            public function __construct(
+                private string $ILIAS_HTTP_PATH
+            ) {
+            }
+
+            public function get(Config $config): mixed
+            {
+                return match ($config) {
+                    Config::BASE_URL => $this->ILIAS_HTTP_PATH,
+                    Config::REWRITE_POSSIBLE => false,
+                    Config::SHORTLINK_NAMESPACE => 'shortlink',
+                    Config::STATIC_LINK_ENDPOINT => StandardURIBuilder::LONG,
+                    Config::ULTRA_SHORT => false,
+                    default => null,
+                };
+            }
+
+        };
+    }
+
 }

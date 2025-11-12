@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
 * Validate Lucene search results
 * Do access checks, create ref_ids from obj_ids...
@@ -157,6 +158,7 @@ class ilLuceneSearchResultFilter
     public function loadFromDb(): void
     {
         $this->checked = $this->cache->getResults();
+        $this->limit_reached = (count($this->checked) >= $this->getMaxHits());
     }
 
     /**

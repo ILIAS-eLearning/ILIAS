@@ -65,7 +65,7 @@ class ilUserAvatarResolver
 
     private function readUserSettings(): void
     {
-        $in = $this->db->in('usr_pref.keyword', ['public_upload', 'public_profile'], false, 'text');
+        $in = $this->db->in('usr_pref.keyword', ['public_avatar', 'public_profile'], false, 'text');
         $res = $this->db->queryF(
             "
 			SELECT usr_data.rid, usr_pref.*
@@ -78,7 +78,7 @@ class ilUserAvatarResolver
         while ($row = $this->db->fetchAssoc($res)) { // MUST be loop
             $this->rid = $row['rid'] ?? null;
             switch ($row['keyword']) {
-                case 'public_upload':
+                case 'public_avatar':
                     $this->has_public_upload = $row['value'] === 'y';
                     break;
                 case 'public_profile':

@@ -20,6 +20,8 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
 use ILIAS\LearningModule\Editing\EditSubObjectsGUI;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\LearningModule\Media\PageRetrieval;
+use ILIAS\LearningModule\Question\Usage\TableBuilder as QuestionUsageTableBuilder;
 
 /**
  * Class ilObjContentObjectGUI
@@ -31,6 +33,7 @@ use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
  * @ilCtrl_Calls ilObjContentObjectGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ILIAS\ILIASObject\Properties\Translations\TranslationGUI
  * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilMediaObjectOverviewGUI
  * @ilCtrl_IsCalledBy ilObjContentObjectGUI: ilExportGUI
  */
 class ilObjContentObjectGUI extends ilObjectGUI
@@ -405,8 +408,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
             case "ilmobmultisrtuploadgui":
                 $this->addHeaderAction();
                 $this->addLocations(true);
-                $this->setTabs("content");
-                $this->setContentSubTabs("srt_files");
+                $this->setTabs("media");
+                $this->setMediaSubTabs("srt_files");
                 $gui = new ilMobMultiSrtUploadGUI(new ilLMMultiSrt($this->lm));
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -449,6 +452,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $this->lm,
                     $this->lng->txt("cont_chapters")
                 );
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            case strtolower(ilMediaObjectOverviewGUI::class):
+                if (!$ilAccess->checkAccess('write', '', $this->lm->getRefId())) {
+                    throw new ilPermissionException($this->lng->txt('permission_denied'));
+                }
+
+                $this->addHeaderAction();
+                $this->addLocations();
+                $this->setTabs("media");
+                $this->setMediaSubTabs("usages");
+
+                $page_retrieval = new PageRetrieval($this->lm->getId(), $this->ctrl);
+                $gui = new ilMediaObjectOverviewGUI($page_retrieval);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -1096,14 +1114,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {
                     $obj->setLMId($this->lm->getId());
-
-                    ilHistory::_createEntry(
-                        $this->lm->getId(),
-                        "delete_" . $obj->getType(),
-                        array(ilLMObject::_lookupTitle($id), $id),
-                        $this->lm->getType()
-                    );
-
                     $obj->delete();
                 }
                 if ($tree->isInTree($id)) {
@@ -1606,6 +1616,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $tpl->setContent($table->getHTML());
     }
 
+    public function listQuestionUsages(): void
+    {
+        $tpl = $this->tpl;
+
+        $this->setTabs("questions");
+        $this->setQuestionsSubTabs("question_usage");
+
+        $table_builder = new QuestionUsageTableBuilder(
+            $this,
+            'listQuestionUsages',
+            $this->lm->getId()
+        );
+        $table = $table_builder->getTable();
+        $tpl->setContent($table->render());
+    }
+
+
     public function listBlockedUsers(): void
     {
         $tpl = $this->tpl;
@@ -1773,13 +1800,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         // srt files
         $ilTabs->addSubTab(
-            "srt_files",
-            $lng->txt("cont_subtitle_files"),
-            $ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", "")
-        );
-
-        // srt files
-        $ilTabs->addSubTab(
             "import",
             $lng->txt("cont_import"),
             $ilCtrl->getLinkTargetByClass("illmimportgui", "")
@@ -1789,11 +1809,41 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilTabs->activateTab("content");
     }
 
+    public function setMediaSubTabs(string $a_active): void
+    {
+        $ilTabs = $this->tabs;
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+
+        // media
+        $ilTabs->addSubTab(
+            "usages",
+            $lng->txt("cont_mob_usages"),
+            $this->ctrl->getLinkTargetByClass(ilMediaObjectOverviewGUI::class, "show")
+        );
+
+        // srt files
+        $ilTabs->addSubTab(
+            "srt_files",
+            $lng->txt("cont_subtitle_files"),
+            $ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", "")
+        );
+
+        $ilTabs->activateSubTab($a_active);
+    }
+
     public function setQuestionsSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        // usage
+        $ilTabs->addSubTab(
+            "question_usage",
+            $lng->txt("cont_question_usage"),
+            $ilCtrl->getLinkTarget($this, "listQuestionUsages")
+        );
 
         // chapters
         $ilTabs->addSubTab(
@@ -1826,6 +1876,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->ctrl->getLinkTargetByClass(EditSubObjectsGUI::class)
         );
 
+        // media
+        $this->lng->loadLanguageModule('mob');
+        $ilTabs->addTab(
+            "media",
+            $lng->txt("mob_media"),
+            $this->ctrl->getLinkTargetByClass(ilMediaObjectOverviewGUI::class, "show")
+        );
+
+        // questions
+        $ilTabs->addTab(
+            "questions",
+            $lng->txt("objs_qst"),
+            $this->ctrl->getLinkTarget($this, "listQuestionUsages")
+        );
+
         // info
         if ($this->object->isInfoEnabled()) {
             $ilTabs->addTab(
@@ -1840,13 +1905,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
             "settings",
             $lng->txt("settings"),
             $this->ctrl->getLinkTarget($this, 'properties')
-        );
-
-        // questions
-        $ilTabs->addTab(
-            "questions",
-            $lng->txt("objs_qst"),
-            $this->ctrl->getLinkTarget($this, "listQuestions")
         );
 
         // learning progress

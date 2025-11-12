@@ -49,7 +49,8 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
                 (int) $row->glo_id,
                 'glo',
                 $this->__prepareFound($row),
-                (int) $row->id
+                (int) $row->id,
+                'term'
             );
         }
 

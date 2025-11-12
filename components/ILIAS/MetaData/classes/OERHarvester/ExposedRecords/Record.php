@@ -23,11 +23,11 @@ namespace ILIAS\MetaData\OERHarvester\ExposedRecords;
 class Record implements RecordInterface
 {
     protected RecordInfosInterface $infos;
-    protected \DOMDocument $metadata;
+    protected ?\DOMDocument $metadata;
 
     public function __construct(
         RecordInfosInterface $infos,
-        \DOMDocument $metadata
+        ?\DOMDocument $metadata
     ) {
         $this->infos = $infos;
         $this->metadata = $metadata;
@@ -38,7 +38,7 @@ class Record implements RecordInterface
         return $this->infos;
     }
 
-    public function metadata(): \DOMDocument
+    public function metadata(): ?\DOMDocument
     {
         return $this->metadata;
     }

@@ -85,12 +85,7 @@ class ProfileBadge implements \ilBadgeType, \ilBadgeAuto
         }
 
         foreach ($config['profile'] as $long_field_id) {
-            $field_id = substr($long_field_id, 4);
-            if (substr($field_id, 0, 4) === 'udf_') {
-                $field_id = substr($field_id, 4);
-            }
-
-            $field = $this->profile->getFieldByIdentifier($field_id);
+            $field = $this->profile->getFieldByIdentifier(mb_substr($long_field_id, 4));
             if ($field === null) {
                 continue;
             }

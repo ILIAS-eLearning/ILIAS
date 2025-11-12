@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,131 +26,98 @@
  */
 class ilAssQuestionSkillAssignmentExporter
 {
-    /**
-     * @var ilXmlWriter
-     */
-    protected $xmlWriter;
+    protected ?ilXmlWriter $xml_writer = null;
 
-    /**
-     * @var array
-     */
-    protected $questionIds;
+    protected array $question_ids = [];
 
-    /**
-     * @var ilAssQuestionSkillAssignmentList
-     */
-    protected $assignmentList;
+    protected ?ilAssQuestionSkillAssignmentList $assignment_list = null;
 
-    /**
-     * ilAssQuestionSkillAssignmentExporter constructor.
-     */
-    public function __construct()
-    {
-        $this->xmlWriter = null;
-        $this->questionIds = [];
-        $this->assignmentList = null;
-    }
-
-    /**
-     * @return ilXmlWriter
-     */
     public function getXmlWriter(): ?ilXmlWriter
     {
-        return $this->xmlWriter;
+        return $this->xml_writer;
     }
 
-    /**
-     * @param ilXmlWriter $xmlWriter
-     */
-    public function setXmlWriter(ilXmlWriter $xmlWriter): void
+    public function setXmlWriter(ilXmlWriter $xml_writer): void
     {
-        $this->xmlWriter = $xmlWriter;
+        $this->xml_writer = $xml_writer;
     }
 
-    /**
-     * @return array
-     */
     public function getQuestionIds(): array
     {
-        return $this->questionIds;
+        return $this->question_ids;
     }
 
-    /**
-     * @param array $questionIds
-     */
-    public function setQuestionIds($questionIds): void
+    public function setQuestionIds(array $question_ids): void
     {
-        $this->questionIds = $questionIds;
+        $this->question_ids = $question_ids;
     }
 
-    /**
-     * @return ilAssQuestionSkillAssignmentList
-     */
     public function getAssignmentList(): ?ilAssQuestionSkillAssignmentList
     {
-        return $this->assignmentList;
+        return $this->assignment_list;
     }
 
-    /**
-     * @param ilAssQuestionSkillAssignmentList $assignmentList
-     */
-    public function setAssignmentList($assignmentList): void
+    public function setAssignmentList(ilAssQuestionSkillAssignmentList $assignment_list): void
     {
-        $this->assignmentList = $assignmentList;
+        $this->assignment_list = $assignment_list;
     }
 
     public function export(): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $this->getXmlWriter()->xmlStartTag('SkillAssignments');
 
-        $this->getXmlWriter()->xmlStartTag('QuestionSkillAssignments');
+        foreach ($this->getQuestionIds() as $question_id) {
+            $this->getXmlWriter()->xmlStartTag('TriggerQuestion', ['Id' => $question_id]);
 
-        foreach ($this->getQuestionIds() as $questionId) {
-            $this->getXmlWriter()->xmlStartTag('TriggerQuestion', ['Id' => $questionId]);
+            foreach ($this->getAssignmentList()->getAssignmentsByQuestionId($question_id) as $question_skill_assignment) {
+                /* @var ilAssQuestionSkillAssignment $question_skill_assignment */
 
-            foreach ($this->getAssignmentList()->getAssignmentsByQuestionId($questionId) as $questionSkillAssignment) {
-                /* @var ilAssQuestionSkillAssignment $questionSkillAssignment */
-
-                $this->getXmlWriter()->xmlStartTag('TriggeredSkill', [
-                    'BaseId' => $questionSkillAssignment->getSkillBaseId(),
-                    'TrefId' => $questionSkillAssignment->getSkillTrefId()
-                ]);
+                $this->getXmlWriter()->xmlStartTag(
+                    'TriggeredSkill',
+                    [
+                        'BaseId' => $question_skill_assignment->getSkillBaseId(),
+                        'TrefId' => $question_skill_assignment->getSkillTrefId()
+                    ]
+                );
 
                 $this->getXmlWriter()->xmlElement(
                     'OriginalSkillTitle',
                     null,
-                    $questionSkillAssignment->getSkillTitle()
+                    $question_skill_assignment->getSkillTitle()
                 );
 
                 $this->getXmlWriter()->xmlElement(
                     'OriginalSkillPath',
                     null,
-                    $questionSkillAssignment->getSkillPath()
+                    $question_skill_assignment->getSkillPath()
                 );
 
-                switch ($questionSkillAssignment->getEvalMode()) {
+                switch ($question_skill_assignment->getEvalMode()) {
                     case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT:
 
-                        $this->getXmlWriter()->xmlElement('EvalByQuestionResult', [
-                            'Points' => $questionSkillAssignment->getSkillPoints()
-                        ]);
+                        $this->getXmlWriter()->xmlElement(
+                            'EvalByQuestionResult',
+                            ['Points' => $question_skill_assignment->getSkillPoints()]
+                        );
                         break;
 
                     case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION:
 
                         $this->getXmlWriter()->xmlStartTag('EvalByQuestionSolution');
 
-                        $questionSkillAssignment->initSolutionComparisonExpressionList();
-                        $expressionList = $questionSkillAssignment->getSolutionComparisonExpressionList();
+                        $question_skill_assignment->initSolutionComparisonExpressionList();
+                        $expression_list = $question_skill_assignment->getSolutionComparisonExpressionList();
 
-                        foreach ($expressionList->get() as $expression) {
+                        foreach ($expression_list->get() as $expression) {
                             /* @var ilAssQuestionSolutionComparisonExpression $expression */
 
-                            $this->getXmlWriter()->xmlStartTag('SolutionComparisonExpression', [
-                                'Points' => $expression->getPoints(),
-                                'Index' => $expression->getOrderIndex()
-                            ]);
+                            $this->getXmlWriter()->xmlStartTag(
+                                'SolutionComparisonExpression',
+                                [
+                                    'Points' => $expression->getPoints(),
+                                    'Index' => $expression->getOrderIndex()
+                                ]
+                            );
 
                             $this->getXmlWriter()->xmlData($expression->getExpression(), false, true);
 
@@ -165,6 +134,6 @@ class ilAssQuestionSkillAssignmentExporter
             $this->getXmlWriter()->xmlEndTag('TriggerQuestion');
         }
 
-        $this->getXmlWriter()->xmlEndTag('QuestionSkillAssignments');
+        $this->getXmlWriter()->xmlEndTag('SkillAssignments');
     }
 }

@@ -18,16 +18,17 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\Container;
+use ILIAS\Registration\DualOptIn\Repository\PendingRegistrationDatabaseRepository;
 use ILIAS\Language\UserSettings\Language as LanguageSetting;
-use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+use ILIAS\Registration\DualOptIn\Service\DualOptInServiceImpl;
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\Fields\Standard\Alias;
 use ILIAS\User\Context;
+use ILIAS\User\Settings\NewAccountMail;
 
 /**
- * Class ilAccountRegistrationGUI
- * @author       Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_Calls ilAccountRegistrationGUI:
  */
 class ilAccountRegistrationGUI
@@ -41,6 +42,7 @@ class ilAccountRegistrationGUI
     protected UserSettings $user_settings;
 
     protected ?ilPropertyFormGUI $form = null;
+    protected Container $dic;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
@@ -62,6 +64,7 @@ class ilAccountRegistrationGUI
     {
         global $DIC;
 
+        $this->dic = $DIC;
         $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
@@ -93,7 +96,7 @@ class ilAccountRegistrationGUI
     public function executeCommand(): void
     {
         if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_DISABLED) {
-            $this->error->raiseError($this->lng->txt('reg_disabled'), $this->error->FATAL);
+            $this->error->raiseError($this->lng->txt('reg_disabled'), $this->error->MESSAGE);
         }
 
         $cmd = $this->ctrl->getCmd();
@@ -137,21 +140,21 @@ class ilAccountRegistrationGUI
             $field = new ilFormSectionHeaderGUI();
             $field->setTitle($this->lng->txt('registration_codes_type_reg'));
             $this->form->addItem($field);
-            $code = new ilTextInputGUI($this->lng->txt("registration_code"), "usr_registration_code");
+            $code = new ilTextInputGUI($this->lng->txt('registration_code'), 'usr_registration_code');
             $code->setSize(40);
             $code->setMaxLength(ilRegistrationCode::CODE_LENGTH);
             if ($this->registration_settings->registrationCodeRequired()) {
                 $code->setRequired(true);
-                $code->setInfo($this->lng->txt("registration_code_required_info"));
+                $code->setInfo($this->lng->txt('registration_code_required_info'));
             } else {
-                $code->setInfo($this->lng->txt("registration_code_optional_info"));
+                $code->setInfo($this->lng->txt('registration_code_optional_info'));
             }
             $this->form->addItem($code);
         }
 
         $this->addLoginSectionToForm();
 
-        $this->lng->loadLanguageModule("user");
+        $this->lng->loadLanguageModule('user');
         // add fields to form
         $this->user_profile->addFieldsToForm($this->form, Context::Registration, true, null, [Alias::class]);
 
@@ -170,7 +173,7 @@ class ilAccountRegistrationGUI
         // add information to role selection (if not hidden)
         $role = $this->buildRolesInput();
         if ($this->code_enabled) {
-            $role->setInfo($this->lng->txt("registration_code_role_info"));
+            $role->setInfo($this->lng->txt('registration_code_role_info'));
         }
         $this->form->addItem($role);
 
@@ -184,10 +187,10 @@ class ilAccountRegistrationGUI
         if (count($domains)) {
             $mail_obj = $this->form->getItemByPostVar('usr_email');
             $mail_obj->setInfo(sprintf(
-                $this->lng->txt("reg_email_domains"),
-                implode(", ", $domains)
-            ) . "<br />" .
-                ($this->code_enabled ? $this->lng->txt("reg_email_domains_code") : ""));
+                $this->lng->txt('reg_email_domains'),
+                implode(', ', $domains)
+            ) . '<br />' .
+                ($this->code_enabled ? $this->lng->txt('reg_email_domains_code') : ''));
         }
 
         // #14272
@@ -201,7 +204,7 @@ class ilAccountRegistrationGUI
         global $DIC;
         array_map($this->form->addItem(...), $DIC['legalDocuments']->selfRegistration()->legacyInputGUIs());
 
-        $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
+        $this->form->addCommandButton('saveForm', $this->lng->txt('register'));
     }
 
     public function saveForm(): ilGlobalTemplateInterface
@@ -240,7 +243,7 @@ class ilAccountRegistrationGUI
         // valid codes override email domain check
         if (!$valid_code) {
             // validate email against restricted domains
-            $email = $this->form->getInput("usr_email");
+            $email = $this->form->getInput('usr_email');
             if ($email) {
                 // #10366
                 $domains = [];
@@ -252,10 +255,10 @@ class ilAccountRegistrationGUI
                 if (count($domains)) {
                     $mail_valid = false;
                     foreach ($domains as $domain) {
-                        $domain = str_replace("*", "~~~", $domain);
+                        $domain = str_replace('*', '~~~', $domain);
                         $domain = preg_quote($domain, '/');
-                        $domain = str_replace("~~~", ".+", $domain);
-                        if (preg_match("/^" . $domain . "$/", $email, $hit)) {
+                        $domain = str_replace('~~~', '.+', $domain);
+                        if (preg_match('/^' . $domain . '$/', $email, $hit)) {
                             $mail_valid = true;
                             break;
                         }
@@ -263,8 +266,8 @@ class ilAccountRegistrationGUI
                     if (!$mail_valid) {
                         $mail_obj = $this->form->getItemByPostVar('usr_email');
                         $mail_obj->setAlert(sprintf(
-                            $this->lng->txt("reg_email_domains"),
-                            implode(", ", $domains)
+                            $this->lng->txt('reg_email_domains'),
+                            implode(', ', $domains)
                         ));
                         $form_valid = false;
                     }
@@ -293,28 +296,28 @@ class ilAccountRegistrationGUI
         if (!$valid_role) {
             // manual selection
             if ($this->registration_settings->roleSelectionEnabled()) {
-                $selected_role = $this->form->getInput("usr_roles");
+                $selected_role = $this->form->getInput('usr_roles');
                 if ($selected_role && ilObjRole::_lookupAllowRegister((int) $selected_role)) {
                     $valid_role = (int) $selected_role;
                 }
             } // assign by email
             else {
                 $registration_role_assignments = new ilRegistrationRoleAssignments();
-                $valid_role = $registration_role_assignments->getRoleByEmail($this->form->getInput("usr_email"));
+                $valid_role = $registration_role_assignments->getRoleByEmail($this->form->getInput('usr_email'));
             }
         }
 
         // no valid role could be determined
         if (!$valid_role && (!isset($selected_role) || $selected_role !== '')) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt("registration_no_valid_role"));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('registration_no_valid_role'));
             $form_valid = false;
         }
 
         // validate username
         $login_obj = $this->form->getItemByPostVar('username');
-        $login = $this->form->getInput("username");
+        $login = $this->form->getInput('username');
         if (!ilUtil::isLogin($login)) {
-            $login_obj->setAlert($this->lng->txt("login_invalid"));
+            $login_obj->setAlert($this->lng->txt('login_invalid'));
             $form_valid = false;
         }
 
@@ -361,8 +364,11 @@ class ilAccountRegistrationGUI
             global $DIC;
 
             $ilias = $DIC['ilias'];
-            $ilias->raiseError("Invalid role selection in registration" .
-                ", IP: " . $_SERVER["REMOTE_ADDR"], $ilias->error_obj->FATAL);
+            $ilias->raiseError(
+                'Invalid role selection in registration' .
+                ', IP: ' . $_SERVER['REMOTE_ADDR'],
+                $ilias->error_obj->FATAL
+            );
         }
 
         $this->userObj = new ilObjUser();
@@ -386,7 +392,7 @@ class ilAccountRegistrationGUI
             $password = ilSecuritySettingsChecker::generatePasswords(1);
             $password = $password[0];
         } else {
-            $password = $this->form->getInput("password");
+            $password = $this->form->getInput('password');
         }
 
         $this->userObj->setLanguage(
@@ -415,23 +421,23 @@ class ilAccountRegistrationGUI
 
                 // handle code attached local role(s) and access limitation
                 $code_data = ilRegistrationCode::getCodeData($code);
-                if ($code_data["role_local"]) {
+                if ($code_data['role_local']) {
                     // need user id before we can assign role(s)
-                    $code_local_roles = explode(";", $code_data["role_local"]);
+                    $code_local_roles = explode(';', $code_data['role_local']);
                 }
-                if ($code_data["alimit"]) {
+                if ($code_data['alimit']) {
                     // see below
                     $code_has_access_limit = true;
 
-                    switch ($code_data["alimit"]) {
-                        case "absolute":
-                            $abs = date_parse($code_data["alimitdt"]);
+                    switch ($code_data['alimit']) {
+                        case 'absolute':
+                            $abs = date_parse($code_data['alimitdt']);
                             $access_limit = mktime(23, 59, 59, $abs['month'], $abs['day'], $abs['year']);
                             break;
 
-                        case "relative":
-                            $rel = unserialize($code_data["alimitdt"], ['allowed_classes' => false]);
-                            $access_limit = (int) ($rel["d"] * 86400 + $rel["m"] * 2592000 + $rel["y"] * 31536000 + time());
+                        case 'relative':
+                            $rel = unserialize($code_data['alimitdt'], ['allowed_classes' => false]);
+                            $access_limit = (int) ($rel['d'] * 86400 + $rel['m'] * 2592000 + $rel['y'] * 31536000 + time());
                             break;
                     }
                 }
@@ -518,7 +524,7 @@ class ilAccountRegistrationGUI
             $code_local_roles = array_map(intval(...), array_unique($code_local_roles));
             foreach ($code_local_roles as $local_role_obj_id) {
                 // is given role (still) valid?
-                if (ilObject::_lookupType($local_role_obj_id) === "role") {
+                if (ilObject::_lookupType($local_role_obj_id) === 'role') {
                     $this->rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());
 
                     // patch to remove for 45 due to mantis 21953
@@ -558,23 +564,21 @@ class ilAccountRegistrationGUI
         }
         // Send mail to new user
         // Registration with confirmation link ist enabled
-        if (!$this->code_was_used &&
-            $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION) {
-            $mail = new ilRegistrationMimeMailNotification();
-            $mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
-            $mail->setRecipients([$this->userObj]);
-            $mail->setAdditionalInformation(
-                [
-                    'usr' => $this->userObj,
-                    'hash_lifetime' => $this->registration_settings->getRegistrationHashLifetime()
-                ]
+        $is_dual_opt_in_reg_mode = $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION;
+        if (!$this->code_was_used && $is_dual_opt_in_reg_mode) {
+            $dual_opt_in_service = new DualOptInServiceImpl(
+                $this->registration_settings,
+                new PendingRegistrationDatabaseRepository($this->dic->database()),
+                $this->dic->database(),
+                $this->dic->logger()->user(),
+                (new \ILIAS\Data\Factory())->clock()
             );
-            $mail->send();
+            $dual_opt_in_service->distributeMailsOnRegistration($this->userObj);
         } else {
             $accountMail = new ilAccountRegistrationMail(
                 $this->registration_settings,
                 ilLoggerFactory::getLogger('user'),
-                new NewAccountMailRepository($this->db)
+                new NewAccountMail\Repository($this->db)
             );
             $accountMail->withDirectRegistrationMode()->send($this->userObj, $password, $this->code_was_used);
         }
@@ -585,7 +589,7 @@ class ilAccountRegistrationGUI
         $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registered.html', 'components/ILIAS/Registration'], false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
-        $tpl->setVariable("TXT_WELCOME", $this->lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
+        $tpl->setVariable('TXT_WELCOME', $this->lng->txt('welcome') . ', ' . $this->userObj->getTitle() . '!');
         if (
             (
                 $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_DIRECT ||

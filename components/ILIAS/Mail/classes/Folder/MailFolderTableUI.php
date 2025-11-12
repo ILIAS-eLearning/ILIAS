@@ -241,7 +241,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             }
         }
 
-        if ($this->current_folder->isDrafts()) {
+        if ($this->current_folder->isDrafts() || $this->current_folder->isOutbox()) {
             unset($actions[self::ACTION_SHOW], $actions[self::ACTION_REPLY], $actions[self::ACTION_FORWARD]);
         } else {
             unset($actions[self::ACTION_EDIT]);
@@ -263,8 +263,9 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,            // not used, because data is filtered by MailDataSearch
-        ?array $additional_parameters   // not used
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,             // not used, because data is filtered by MailDataSearch
+        mixed $additional_parameters    // not used
     ): \Generator {
         // mapping of table columns to allowed order columns of the mailbox query
         $order_columns = [
@@ -325,8 +326,11 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return $this->search->getCount();
     }
 
@@ -421,7 +425,7 @@ class MailFolderTableUI implements \ILIAS\UI\Component\Table\DataRetrieval
             (string) $this->url_builder
                 ->withParameter(
                     $this->action_token,
-                    $this->current_folder->isDrafts() ? self::ACTION_EDIT : self::ACTION_SHOW
+                    $this->current_folder->isDrafts() || $this->current_folder->isOutbox() ? self::ACTION_EDIT : self::ACTION_SHOW
                 )
                 ->withParameter($this->row_id_token, (string) $record->getMailId())
                 ->buildURI()

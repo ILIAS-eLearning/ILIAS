@@ -23,10 +23,8 @@ namespace ILIAS\COPage\Editor;
 use ILIAS\COPage\InternalGUIService;
 use ILIAS\COPage\InternalDomainService;
 use ILIAS\COPage\Editor\UI\Init;
+use ILIAS\COPage\Editor\Server\UIWrapper;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class GUIService
 {
     protected InternalGUIService $gui_service;
@@ -43,5 +41,10 @@ class GUIService
     public function init(): Init
     {
         return new Init();
+    }
+
+    public function uiWrapper(): UIWrapper
+    {
+        return new UIWrapper($this->gui_service->ui(), $this->domain_service->lng());
     }
 }

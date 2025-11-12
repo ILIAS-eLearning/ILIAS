@@ -99,7 +99,7 @@ class LogTable implements Table\DataRetrieval
         return $this->ui_factory->table()->data(
             $this,
             $this->lng->txt('history'),
-            $this->getColums(),
+            $this->getColumns()
         )->withActions($this->getActions());
     }
 
@@ -149,8 +149,13 @@ class LogTable implements Table\DataRetrieval
 
         $active = array_fill(0, count($filter_inputs), true);
 
+        $log_table_filter_id = 'log_table_filter_id';
+        if ($this->ref_id !== null) {
+            $log_table_filter_id .= "_{$this->ref_id}";
+        }
+
         $this->filter = $this->ui_service->filter()->standard(
-            'log_table_filter_id',
+            $log_table_filter_id,
             $this->unmaskCmdNodesFromBuilder($this->url_builder->buildURI()->__toString()),
             $filter_inputs,
             $active,
@@ -160,7 +165,7 @@ class LogTable implements Table\DataRetrieval
     }
 
 
-    private function getColums(): array
+    private function getColumns(): array
     {
         $f = $this->ui_factory->table()->column();
 
@@ -187,8 +192,9 @@ class LogTable implements Table\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         [
             $from_filter,
@@ -231,8 +237,9 @@ class LogTable implements Table\DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         [
             $from_filter,

@@ -129,7 +129,7 @@ class TutorFeedbackFileRepository implements TutorFeedbackFileRepositoryInterfac
     }
 
     /**
-     * @return iterator<ResourceInformation>
+     * @return \Iterator<ResourceInformation>
      */
     public function getCollectionResourcesInfo(
         int $ass_id,

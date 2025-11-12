@@ -21,8 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Custom\Constraint;
-use ILIAS\Refinery\Constraint as ConstraintInterface;
+use ILIAS\Refinery\Constraint;
 
 class Group
 {
@@ -37,32 +36,29 @@ class Group
 
     /**
      * @param Constraint[] $other
-     * @return ConstraintInterface
      */
-    public function logicalOr(array $other): ConstraintInterface
+    public function logicalOr(array $other): Constraint
     {
         return new LogicalOr($other, $this->dataFactory, $this->language);
     }
 
-    public function not(Constraint $constraint): ConstraintInterface
+    public function not(Constraint $constraint): Constraint
     {
         return new Not($constraint, $this->dataFactory, $this->language);
     }
 
     /**
      * @param Constraint[] $constraints
-     * @return ConstraintInterface
      */
-    public function parallel(array $constraints): ConstraintInterface
+    public function parallel(array $constraints): Constraint
     {
         return new Parallel($constraints, $this->dataFactory, $this->language);
     }
 
     /**
      * @param Constraint[] $constraints
-     * @return ConstraintInterface
      */
-    public function sequential(array $constraints): ConstraintInterface
+    public function sequential(array $constraints): Constraint
     {
         return new Sequential($constraints, $this->dataFactory, $this->language);
     }

@@ -18,8 +18,6 @@
 
 namespace ILIAS\User\Settings;
 
-use ILIAS\User\Context;
-
 interface Settings
 {
     public function getSettingByDefinitionClass(
@@ -31,7 +29,6 @@ interface Settings
         \ilPropertyFormGUI $form
     ): mixed;
 
-    public function settingAvailableToUser(
-        string $definition_class
-    ): bool;
+    public function settingAvailableToUser(string $definition_class): bool;
+    public function getSettingValueFor(int $user_id, string $key): ?string;
 }

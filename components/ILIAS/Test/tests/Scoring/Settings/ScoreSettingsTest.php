@@ -40,13 +40,12 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $id = -666;
         $s = new ScoreSettings(
             $id,
-            new SettingsScoring($id),
-            new SettingsResultSummary($id),
-            new SettingsResultDetails($id),
-            new SettingsGamification($id)
+            new SettingsScoring(),
+            new SettingsResultSummary(),
+            new SettingsResultDetails(),
+            new SettingsGamification()
         );
         $this->assertInstanceOf(ScoreSettings::class, $s);
-        $this->assertEquals($id, $s->getTestId());
         $this->assertInstanceOf(SettingsScoring::class, $s->getScoringSettings());
         $this->assertInstanceOf(SettingsResultSummary::class, $s->getResultSummarySettings());
         $this->assertInstanceOf(SettingsResultDetails::class, $s->getResultDetailsSettings());
@@ -55,8 +54,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
     public function testScoreSettingsScoring(): void
     {
-        $s = new SettingsScoring(-666);
-        $this->assertEquals(-667, $s->withTestId(-667)->getTestId());
+        $s = new SettingsScoring();
         $this->assertEquals(2, $s->withCountSystem(2)->getCountSystem());
         $this->assertEquals(4, $s->withScoreCutting(4)->getScoreCutting());
         $this->assertEquals(5, $s->withPassScoring(5)->getPassScoring());
@@ -517,13 +515,12 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
     public function testScoreSettingsDirectlyAccessedByTestObj(): void
     {
-        $id = -666;
         $s = new ScoreSettings(
-            $id,
-            new SettingsScoring($id),
-            new SettingsResultSummary($id),
-            new SettingsResultDetails($id),
-            new SettingsGamification($id)
+            0,
+            new SettingsScoring(),
+            new SettingsResultSummary(),
+            new SettingsResultDetails(),
+            new SettingsGamification()
         );
 
         $t = new class ($s) extends ilObjTest {
@@ -553,25 +550,5 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertIsBool($t->getHighscoreTopTable());
         $this->assertIsInt($t->getHighscoreTopNum());
         $this->assertIsInt($t->getHighscoreMode());
-    }
-
-    public function testScoreSettingsRelayingTestId(): void
-    {
-        $id = -666;
-        $s = new ScoreSettings(
-            $id,
-            new SettingsScoring($id),
-            new SettingsResultSummary($id),
-            new SettingsResultDetails($id),
-            new SettingsGamification($id)
-        );
-
-        $nu_id = 1234;
-        $s = $s->withTestId($nu_id);
-        $this->assertEquals($nu_id, $s->getTestId());
-        $this->assertEquals($nu_id, $s->getScoringSettings()->getTestId());
-        $this->assertEquals($nu_id, $s->getResultSummarySettings()->getTestId());
-        $this->assertEquals($nu_id, $s->getResultDetailsSettings()->getTestId());
-        $this->assertEquals($nu_id, $s->getGamificationSettings()->getTestId());
     }
 }

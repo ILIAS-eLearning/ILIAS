@@ -21,13 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\FileDelivery\Token;
 
 use ILIAS\FileDelivery\Token\Signer\Key\Secret\SecretKeyRotation;
-use ILIAS\FileDelivery\Token\Signer\Signer;
-use ILIAS\FileDelivery\Token\Serializer\Serializer;
 use ILIAS\FileDelivery\Token\Signer\Payload\Payload;
 use ILIAS\FileDelivery\Token\Signer\HMACSigner;
 use ILIAS\FileDelivery\Token\Serializer\JSONSerializer;
 use ILIAS\FileDelivery\Token\Signer\Key\Signing\HMACSigningKeyGenerator;
-use ILIAS\FileDelivery\Token\Signer\Algorithm\SHA1;
 use ILIAS\FileDelivery\Token\Transport\URLSafeTransport;
 use ILIAS\FileDelivery\Token\Compression\DeflateCompression;
 use ILIAS\FileDelivery\Token\Signer\KeyRotatingSigner;
@@ -38,28 +35,28 @@ use ILIAS\FileDelivery\Token\Compression\Compression;
 use ILIAS\FileDelivery\Token\Transport\Transport;
 use ILIAS\FileDelivery\Token\Signer\Payload\Builder;
 use ILIAS\FileDelivery\Delivery\Disposition;
-use ILIAS\FileDelivery\Token\Transport\URLSafeSplitPathTransport;
+use ILIAS\FileDelivery\Token\Signer\Algorithm\ShortenedSHA1;
+use ILIAS\FileDelivery\Token\Signer\Algorithm\Algorithm;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 final class DataSigner
 {
-    private Signer $signer;
-    private Serializer $serializer;
     private SigningSerializer $signing_serializer;
     private Factory $salt_factory;
-    private Compression $compression;
-    private Transport $transport;
     private Builder $payload_builder;
 
     public function __construct(
-        SecretKeyRotation $key_rotation
+        SecretKeyRotation $key_rotation,
+        ?Algorithm $algorithm = null,
+        ?Compression $compression = null,
+        ?Transport $transport = null
     ) {
         $this->salt_factory = new Factory();
-        $compression = new DeflateCompression();
-        $transport = new URLSafeTransport();
-        $algorithm = new SHA1();
+        $compression ??= new DeflateCompression();
+        $transport ??= new URLSafeTransport();
+        $algorithm ??= new ShortenedSHA1();
 
         $this->signing_serializer = new SigningSerializer(
             new KeyRotatingSigner(

@@ -29,10 +29,10 @@ interface Type
     public function getLabel(Language $lng): string;
 
     /**
-     * MAY return a valid FormInput that will be added to the edit form to specify
-     * the input shown to the user. The Input MUST always return a string value
-     * as it will be saved in the table `udf_definition`. Use Transformations to
-     * generate it and for validation.
+     * MAY return a valid FormInput that will be added to the form to edit/create
+     * the custom field to specify the input shown to the user. The Input MUST
+     * always return a string value as it will be saved in the table `udf_definition`.
+     * Use Transformations to generate it and for validation.
      */
     public function getAdditionalEditFormInputs(
         Language $lng,
@@ -42,6 +42,10 @@ interface Type
     ): ?FormInput;
 
     /**
+     * MUST return a ilFormPropertyGUI to be shown to the user when entering the
+     * information. If you need complex inputs, you will need to extend
+     * ilFormPropertyGUI. This will change when we can move these inputs to the
+     * new UI-Components Inputs.
      * You don't need to add a post_var to the input as the User will handle this
      * for you, thus you can also not rely on the post_var anywhere else, as it
      * will be changed.
@@ -58,15 +62,5 @@ interface Type
      * @return array|null Returning null will lead to the deletion of all
      * current values.
      */
-    public function prepareUserInputForStorage(mixed $input): ?array;
-
-    /**
-     * If you have a value that has a $key => $value structure, e.g. because you
-     * implemented ad select-input that returns $key, but needs $value for
-     * presentation, it needs to return the $value, if the input is $key or $value.
-     */
-    public function buildPresentationValueFromUserValue(
-        array $input,
-        ?string $data
-    ): string;
+    public function prepareUserInputForStorage(mixed $input, ?string $data): ?array;
 }

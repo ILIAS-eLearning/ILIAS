@@ -55,6 +55,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected int $table_id;
+    protected int $tableview_id;
     private ilDclNotification $notification_settings;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
@@ -71,7 +72,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->lng->loadLanguageModule('obj');
         $this->lng->loadLanguageModule('cntr');
 
-        $this->setTableId($this->getRefId());
+        $this->setTableData();
 
         if (!$this->ctrl->isAsynch()) {
             $this->addJavaScript();
@@ -80,18 +81,56 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->ctrl->saveParameter($this, 'table_id');
     }
 
-    private function setTableId(int $objectOrRefId = 0): void
+    private function setTableData(): void
     {
-        if ($this->http->wrapper()->query()->has('table_id')) {
-            $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
-        } elseif ($this->http->wrapper()->query()->has('tableview_id')) {
-            $this->table_id = ilDclTableView::find(
-                $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int())
-            )->getTableId();
-        } elseif ($objectOrRefId > 0) {
-            $tables = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? $this->object->getTables() : $this->object->getVisibleTables();
-            if ($tables !== []) {
-                $this->table_id = array_shift($tables)->getId();
+        if ($this->ref_id > 0) {
+            if ($this->http->wrapper()->post()->has('table_id')) {
+                $this->table_id = $this->http->wrapper()->post()->retrieve(
+                    'table_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+            } elseif ($this->http->wrapper()->query()->has('table_id')) {
+                $this->table_id = $this->http->wrapper()->query()->retrieve(
+                    'table_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
+
+            if (!isset($this->table_id) || !in_array($this->table_id, array_keys($this->object->getTables()))) {
+                if (isset($this->table_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('table_not_found'), true);
+                    unset($this->table_id);
+                }
+                $tables = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? $this->object->getTables() : $this->object->getVisibleTables();
+                if ($tables !== []) {
+                    $this->table_id = array_shift($tables)->getId();
+                    $tableview = (ilDclCache::getTableCache($this->table_id))->getFirstTableViewId();
+                    if ($tableview !== null) {
+                        $this->tableview_id = $tableview;
+                    }
+                }
+            } else {
+                if ($this->http->wrapper()->post()->has('tableview_id')) {
+                    $this->tableview_id = $this->http->wrapper()->post()->retrieve(
+                        'tableview_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                } elseif ($this->http->wrapper()->query()->has('tableview_id')) {
+                    $this->tableview_id = $this->http->wrapper()->query()->retrieve(
+                        'tableview_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+
+                if (!isset($this->tableview_id) || !in_array($this->tableview_id, array_keys($this->object->getTableById($this->table_id)->getTableViews()))) {
+                    if (isset($this->tableview_id)) {
+                        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('tableview_not_found'), true);
+                    }
+                    $tableview = (ilDclCache::getTableCache($this->table_id))->getFirstTableViewId();
+                    if ($tableview !== null) {
+                        $this->tableview_id = $tableview;
+                    }
+                }
             }
         }
     }
@@ -171,18 +210,26 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::TAB_CONTENT);
-                try {
-                    $recordlist_gui = new ilDclRecordListGUI($this, $this->table_id, $this->getTableViewId());
-                    $this->ctrl->forwardCommand($recordlist_gui);
-                } catch (ilDclNoTableviewException $e) {
+                if (!isset($this->table_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_table_found'));
+                } elseif (!isset($this->tableview_id)) {
                     $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
+                } else {
+                    $recordlist_gui = new ilDclRecordListGUI($this, $this->table_id, $this->tableview_id);
+                    $this->ctrl->forwardCommand($recordlist_gui);
                 }
                 break;
             case strtolower(ilDclRecordEditGUI::class):
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::TAB_CONTENT);
-                $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->getTableViewId());
-                $this->ctrl->forwardCommand($recordedit_gui);
+                if (!isset($this->table_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_table_found'));
+                } elseif (!isset($this->tableview_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
+                } else {
+                    $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->tableview_id);
+                    $this->ctrl->forwardCommand($recordedit_gui);
+                }
                 break;
             case strtolower(ilObjFileGUI::class):
                 $this->prepareOutput();
@@ -218,33 +265,47 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 break;
             case strtolower(ilDclDetailedViewGUI::class):
                 $this->prepareOutput();
-                $recordview_gui = new ilDclDetailedViewGUI($this, $this->getTableViewId());
-                $this->ctrl->forwardCommand($recordview_gui);
-                $this->tabs->setBackTarget(
-                    $this->lng->txt('back'),
-                    $this->ctrl->getLinkTargetByClass(
-                        ilDclRecordListGUI::class,
-                        ilDclRecordListGUI::CMD_LIST_RECORDS
-                    )
-                );
+                if (!isset($this->tableview_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
+                } else {
+                    $recordview_gui = new ilDclDetailedViewGUI($this, $this->tableview_id);
+                    $this->ctrl->forwardCommand($recordview_gui);
+                    $this->tabs->setBackTarget(
+                        $this->lng->txt('back'),
+                        $this->ctrl->getLinkTargetByClass(
+                            ilDclRecordListGUI::class,
+                            ilDclRecordListGUI::CMD_LIST_RECORDS
+                        )
+                    );
+                }
                 break;
             case strtolower(ilNoteGUI::class):
                 $this->prepareOutput();
-                $recordviewGui = new ilDclDetailedViewGUI($this, $this->getTableViewId());
-                $this->ctrl->forwardCommand($recordviewGui);
-                $this->tabs->clearTargets();
-                $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, ''));
+                if (!isset($this->tableview_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
+                } else {
+                    $recordviewGui = new ilDclDetailedViewGUI($this, $this->tableview_id);
+                    $this->ctrl->forwardCommand($recordviewGui);
+                    $this->tabs->clearTargets();
+                    $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, ''));
+                }
                 break;
             case strtolower(ilExportGUI::class):
                 $this->prepareOutput();
                 $this->handleExport();
                 break;
             case strtolower(ilDclPropertyFormGUI::class):
-                $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->getTableViewId());
-                $recordedit_gui->getRecord();
-                $recordedit_gui->initForm();
-                $form = $recordedit_gui->getForm();
-                $this->ctrl->forwardCommand($form);
+                if (!isset($this->table_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_table_found'));
+                } elseif (!isset($this->tableview_id)) {
+                    $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_no_tableview_found'));
+                } else {
+                    $recordedit_gui = new ilDclRecordEditGUI($this, $this->table_id, $this->tableview_id);
+                    $recordedit_gui->getRecord();
+                    $recordedit_gui->initForm();
+                    $form = $recordedit_gui->getForm();
+                    $this->ctrl->forwardCommand($form);
+                }
                 break;
             case strtolower(ilObjectMetaDataGUI::class):
                 $this->checkPermission('write');
@@ -287,31 +348,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->ctrl->redirect($exp_gui);
     }
 
-    protected function getTableViewId(): int
-    {
-        $tableview_id = null;
-        if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($this->http->wrapper()->post()->has('tableview_id')) {
-            $tableview_id = $this->http->wrapper()->post()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if (!$tableview_id) {
-            $table_obj = ilDclCache::getTableCache($this->table_id);
-            $tableview_id = $table_obj->getFirstTableViewId();
-        }
-        if ($tableview_id === null) {
-            throw new ilDclNoTableviewException('No visible tableview configured!');
-        }
-        return $tableview_id;
-    }
-
     public function infoScreen(): void
     {
         $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
@@ -351,46 +387,28 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     public static function _goto(string $a_target): void
     {
         global $DIC;
-        $lng = $DIC->language();
-
-        $ctrl = $DIC->ctrl();
-        $access = $DIC->access();
-        $tpl = $DIC->ui()->mainTemplate();
 
         $values = [self::GET_REF_ID, self::GET_TABLE_ID, self::GET_VIEW_ID, self::GET_RECORD_ID];
         $values = array_combine($values, array_pad(explode('_', $a_target), count($values), 0));
 
         $ref_id = (int) $values[self::GET_REF_ID];
-
-        if ($access->checkAccess('read', '', $ref_id)) {
-            $ctrl->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
-            $object = new ilObjDataCollection($ref_id);
+        if ($ref_id !== 0) {
+            $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, self::GET_REF_ID, $ref_id);
             $table_id = (int) $values[self::GET_TABLE_ID];
-            if ($table_id !== 0 && isset($object->getVisibleTables()[$table_id])) {
-                $ctrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $table_id);
-                $table = $object->getVisibleTables()[$table_id];
+            if ($table_id !== 0) {
+                $DIC->ctrl()->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_TABLE_ID, $table_id);
                 $view_id = (int) $values[self::GET_VIEW_ID];
-                if ($view_id !== 0 && isset($table->getTableViews()[$view_id])) {
-                    $ctrl->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $view_id);
+                if ($view_id !== 0) {
+                    $DIC->ctrl()->setParameterByClass(ilObjDataCollectionGUI::class, self::GET_VIEW_ID, $view_id);
                 }
                 $record_id = (int) $values[self::GET_RECORD_ID];
-                if ($record_id !== 0 && isset($table->getRecords()[$record_id])) {
-                    $ctrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $record_id);
-                    $ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclDetailedViewGUI::class], 'renderRecord');
+                if ($record_id !== 0) {
+                    $DIC->ctrl()->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_RECORD_ID, $record_id);
+                    $DIC->ctrl()->redirectByClass([ilRepositoryGUI::class, self::class, ilDclDetailedViewGUI::class], 'renderRecord');
                 }
             }
-            $ctrl->redirectByClass([ilRepositoryGUI::class, self::class, ilDclRecordListGUI::class], 'listRecords');
-        } elseif ($access->checkAccess('visbile', '', $ref_id)) {
-            ilObjectGUI::_gotoRepositoryNode((int) $a_target, 'infoScreen');
-        } else {
-            $message = sprintf(
-                $lng->txt('msg_no_perm_read_item'),
-                ilObject::_lookupTitle(ilObject::_lookupObjId((int) $a_target))
-            );
-            $tpl->setOnScreenMessage('failure', $message, true);
-
-            ilObjectGUI::_gotoRepositoryRoot();
         }
+        $DIC->ctrl()->redirectByClass([ilRepositoryGUI::class, self::class, ilDclRecordListGUI::class], 'listRecords');
     }
 
     protected function afterSave(ilObject $new_object): void
@@ -502,7 +520,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
         }
 
-        $this->tpl->setContent($this->ui_renderer->render($form));
+        $this->ctrl->redirect($this, 'edit');
     }
 
     protected function setEditTabs(): void

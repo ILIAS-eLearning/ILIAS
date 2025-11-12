@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\components\Database\Integrity\Integrity;
-use ILIAS\components\Database\PDO\FieldDefinition\ForeignKeyConstraints;
+use ILIAS\Database\Integrity\Integrity;
+use ILIAS\Database\PDO\FieldDefinition\ForeignKeyConstraints;
 
 /**
  * Interface ilDBInterface

@@ -1190,7 +1190,7 @@ class ilConditionHandlerGUI
         )->withAdditionalTransformation(
             $this->refinery->custom()->constraint(
                 function ($min_max) {
-                    return $min_max['min'] < $min_max['max'];
+                    return $min_max['min'] <= $min_max['max'];
                 },
                 $this->lng->txt('precondition_operator_range_err_min_max')
             )

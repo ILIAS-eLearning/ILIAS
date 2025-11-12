@@ -211,7 +211,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         );
     }
 
-    protected function addSubTabs($active = "")
+    protected function addSubTabs($active = ""): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;

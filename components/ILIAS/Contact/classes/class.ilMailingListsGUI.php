@@ -68,7 +68,6 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
         $this->lng->loadLanguageModule('mail');
     }
 
-
     public function getUnsafeGetCommands(): array
     {
         return [
@@ -242,13 +241,21 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
             }
 
             if ($counter !== 0) {
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_deleted_entry'));
+                $this->tpl->setOnScreenMessage(
+                    $this->tpl::MESSAGE_TYPE_SUCCESS,
+                    $this->lng->txt('mail_deleted_entry'),
+                    true
+                );
             }
         } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_delete_error'));
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('mail_delete_error'),
+                true
+            );
         }
 
-        $this->showMailingListsCommand();
+        $this->ctrl->redirect($this, 'showMailingLists');
     }
 
     private function mailToList(): void
@@ -258,13 +265,13 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
         $mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
 
         if (!$mailing_allowed) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'));
             return;
         }
 
         $ml_ids = $this->getMailingListIdsFromRequest();
         if ($ml_ids === []) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('mail_select_one_entry'));
             $this->showMailingListsCommand();
             return;
         }
@@ -292,12 +299,12 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
             $mail_data = $this->umail->appendSearchResult(array_values($lists), 'to');
             $this->umail->persistToStage(
                 (int) $mail_data['user_id'],
-                $mail_data['attachments'],
                 $mail_data['rcp_to'],
                 $mail_data['rcp_cc'],
                 $mail_data['rcp_bcc'],
                 $mail_data['m_subject'],
                 $mail_data['m_message'],
+                $mail_data['attachments'],
                 $mail_data['use_placeholders'],
                 $mail_data['tpl_ctx_id'],
                 $mail_data['tpl_ctx_params']
@@ -387,18 +394,26 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
 
     private function initForm(): void
     {
-        $title = $this->ui_factory->input()->field()->text(
-            $this->lng->txt('title')
-        )
-        ->withRequired(true)
-        ->withValue($this->mlists->getCurrentMailingList() ? $this->mlists->getCurrentMailingList()->getTitle() : '');
+        $title = $this->ui_factory
+            ->input()
+            ->field()
+            ->text(
+                $this->lng->txt('title')
+            )
+            ->withRequired(true)
+            ->withValue(
+                $this->mlists->getCurrentMailingList() ? $this->mlists->getCurrentMailingList()->getTitle() : ''
+            );
 
-        $description = $this->ui_factory->input()->field()->textarea(
-            $this->lng->txt('description')
-        )
-        ->withValue(
-            $this->mlists->getCurrentMailingList() ? $this->mlists->getCurrentMailingList()->getDescription() : ''
-        );
+        $description = $this->ui_factory
+            ->input()
+            ->field()
+            ->textarea(
+                $this->lng->txt('description')
+            )
+            ->withValue(
+                $this->mlists->getCurrentMailingList() ? $this->mlists->getCurrentMailingList()->getDescription() : ''
+            );
 
         $this->form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this, 'saveForm'),
@@ -533,31 +548,37 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if (
-            $this->http->wrapper()->post()->has('a_id') &&
+        if ($this->http->wrapper()->post()->has('a_id') &&
             ($requested_entry_ids = $this->http->wrapper()->post()->retrieve(
                 'a_id',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            )) !== []
-        ) {
+            )) !== []) {
             $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
             foreach ($requested_entry_ids as $id) {
                 if (isset($assigned_entries[$id])) {
                     $this->mlists->getCurrentMailingList()->deleteEntry($id);
                 }
             }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_success_removed_user'));
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_SUCCESS,
+                $this->lng->txt('mail_success_removed_user'),
+                true
+            );
         } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_delete_error'));
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('mail_delete_error'),
+                true
+            );
         }
 
-        $this->showMembersListCommand();
+        $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+        $this->ctrl->redirect($this, 'showMembersList');
     }
 
     private function getAssignmentForm(): ?StandardForm
     {
         $options = [];
-        $options[''] = $this->lng->txt('please_select');
 
         $relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
         $names = ilUserUtil::getNamePresentation(
@@ -581,12 +602,11 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
             }
         }
 
-        if (count($options) > 1) {
+        if (count($options) > 0) {
             $user_select = $this->ui_factory->input()->field()->select(
                 $this->lng->txt('mail_entry_of_contacts'),
                 $options
             );
-
 
             $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
             $form = $this->ui_factory->input()->container()->form()->standard(
@@ -597,19 +617,25 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
             return $form;
         }
 
-        if (count($options) === 1 && count($relations) > 0) {
+        if (count($relations) > 0) {
             $this->tpl->setOnScreenMessage(
-                'info',
+                $this->tpl::MESSAGE_TYPE_INFO,
                 $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'),
                 true
             );
-            $this->ctrl->redirect($this, 'showMembersList');
-        } elseif (count($relations) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_no_contact_entries'), true);
+
+            $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
             $this->ctrl->redirect($this, 'showMembersList');
         }
 
-        return null;
+        $this->tpl->setOnScreenMessage(
+            $this->tpl::MESSAGE_TYPE_INFO,
+            $this->lng->txt('mail_mailing_lists_no_contact_entries'),
+            true
+        );
+
+        $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+        $this->ctrl->redirect($this, 'showMembersList');
     }
 
     private function saveAssignmentFormCommand(): void
@@ -639,9 +665,14 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
             $this->mlists->getCurrentMailingList()->assignUser(
                 $this->refinery->kindlyTo()->int()->transform($data['usr_id'])
             );
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
-            $this->showMembersListCommand();
-            return;
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_SUCCESS,
+                $this->lng->txt('saved_successfully'),
+                true
+            );
+
+            $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
+            $this->ctrl->redirect($this, 'showMembersList');
         }
 
         $this->showAssignmentFormCommand($form);
@@ -659,7 +690,7 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
         }
 
         if (!$form instanceof StandardForm) {
-            $this->ctrl->redirect($this, 'showMembersList');
+            $form = $this->getAssignmentForm();
         }
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));

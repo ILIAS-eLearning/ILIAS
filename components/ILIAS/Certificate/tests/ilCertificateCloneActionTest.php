@@ -54,8 +54,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         'v5.3.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/card_tile_image.jpg',
                         '-',
                         '-',
                         null
@@ -70,8 +68,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         'v5.3.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/card_tile_image.jpg',
                         '-',
                         '-',
                         null
@@ -86,8 +82,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
                         'v5.3.0',
                         123_456_789,
                         true,
-                        '/certificates/default/background.jpg',
-                        '/some/where/card_tile_image.jpg',
                         '-',
                         '-',
                         null

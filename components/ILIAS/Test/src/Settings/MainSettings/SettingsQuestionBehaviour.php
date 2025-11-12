@@ -20,27 +20,25 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
-use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Constraint;
+use ILIAS\UI\Implementation\Component\Input\Field\SwitchableGroup;
 
-class SettingsQuestionBehaviour extends TestSettings
+class SettingsQuestionBehaviour extends TestSettings implements Exportable
 {
     private const DEFAULT_AUTOSAVE_INTERVAL = 30000;
 
     public const ANSWER_FIXATION_NONE = 'none';
-    public const ANSWER_FIXATION_ON_INSTANT_FEEDBACK = 'instant_feedback';
-    public const ANSWER_FIXATION_ON_FOLLOWUP_QUESTION = 'followup_question';
     public const ANSWER_FIXATION_ON_IFB_OR_FUQST = 'ifb_or_fuqst';
 
     public function __construct(
-        int $test_id,
         protected int $question_title_output_mode,
         protected bool $autosave_enabled,
         protected int $autosave_interval,
@@ -53,7 +51,7 @@ class SettingsQuestionBehaviour extends TestSettings
         protected bool $lock_answer_on_instant_feedback,
         protected bool $lock_answer_on_next_question
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     /**
@@ -264,65 +262,45 @@ class SettingsQuestionBehaviour extends TestSettings
         FieldFactory $f,
         Refinery $refinery,
         array $environment
-    ): Radio {
-        $lock_answers = $f->radio(
-            $lng->txt('tst_answer_fixation_handling')
-        )->withOption(
-            self::ANSWER_FIXATION_NONE,
-            $lng->txt('tst_answer_fixation_none'),
-            $lng->txt('tst_answer_fixation_none_desc')
-        )->withOption(
-            self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK,
-            $lng->txt('tst_answer_fixation_on_instant_feedback'),
-            $lng->txt('tst_answer_fixation_on_instant_feedback_desc')
-        )->withOption(
-            self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION,
-            $lng->txt('tst_answer_fixation_on_followup_question'),
-            $lng->txt('tst_answer_fixation_on_followup_question_desc')
-        )->withOption(
-            self::ANSWER_FIXATION_ON_IFB_OR_FUQST,
-            $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst'),
+    ): SwitchableGroup {
+        $constraint = $refinery->custom()->constraint(
+            static fn(?array $vs): bool => $vs === null || $vs[0] === 'none' || array_filter($vs[1]) !== [],
+            $lng->txt('select_at_least_one_lock_answer_type')
+        );
+
+        $group1 = $f->group([], $lng->txt('tst_answer_fixation_none'));
+
+        $group2 = $f->group(
+            [
+                'lock_answer_on_instant_feedback' => $f->checkbox(
+                    $lng->txt('tst_answer_fixation_on_instant_feedback'),
+                    $lng->txt('tst_answer_fixation_on_instant_feedback_desc')
+                ),
+                'lock_answer_on_next_question' => $f->checkbox(
+                    $lng->txt('tst_answer_fixation_on_followup_question'),
+                    $lng->txt('tst_answer_fixation_on_followup_question_desc')
+                )
+            ],
+            $lng->txt('tst_answer_fixation'),
             $lng->txt('tst_answer_fixation_on_instantfb_or_followupqst_desc')
-        )->withValue(
-            $this->getAnswerFixationSettingsAsFormValue()
-        )->withAdditionalTransformation($this->getTransformationLockAnswers($refinery));
+        );
 
-        if (!$environment['participant_data_exists']) {
-            return $lock_answers;
-        }
-
-        return $lock_answers->withDisabled(true);
+        return $f->switchableGroup(
+            [self::ANSWER_FIXATION_NONE => $group1, self::ANSWER_FIXATION_ON_IFB_OR_FUQST => $group2],
+            $lng->txt('tst_answer_fixation_handling')
+        )->withRequired(!$environment['participant_data_exists'])
+        ->withAdditionalTransformation($constraint)
+        ->withAdditionalTransformation($this->getTransformationLockAnswers($refinery))
+        ->withValue($this->getAnswerFixationSettingsAsFormValue())
+        ->withDisabled($environment['participant_data_exists']);
     }
 
     private function getTransformationLockAnswers(Refinery $refinery): Transformation
     {
         return $refinery->custom()->transformation(
-            static function (?string $v): array {
-                if ($v === null || $v === self::ANSWER_FIXATION_NONE) {
-                    return [
-                        'lock_answer_on_instant_feedback' => false,
-                        'lock_answer_on_next_question' => false
-                    ];
-                }
-
-                if ($v === self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK) {
-                    return [
-                        'lock_answer_on_instant_feedback' => true,
-                        'lock_answer_on_next_question' => false
-                    ];
-                }
-                if ($v === self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION) {
-                    return [
-                        'lock_answer_on_instant_feedback' => false,
-                        'lock_answer_on_next_question' => true
-                    ];
-                }
-
-                return [
-                    'lock_answer_on_instant_feedback' => true,
-                    'lock_answer_on_next_question' => true
-                ];
-            }
+            static fn(?array $v): array => ($v[0] ?? null) === self::ANSWER_FIXATION_ON_IFB_OR_FUQST
+                ? $v[1]
+                : ['lock_answer_on_instant_feedback' => false, 'lock_answer_on_next_question' => false]
         );
     }
 
@@ -555,21 +533,52 @@ class SettingsQuestionBehaviour extends TestSettings
         return $clone;
     }
 
-    private function getAnswerFixationSettingsAsFormValue(): string
+    private function getAnswerFixationSettingsAsFormValue(): array
     {
-        if ($this->getLockAnswerOnInstantFeedbackEnabled()
-            && $this->getLockAnswerOnNextQuestionEnabled()) {
-            return self::ANSWER_FIXATION_ON_IFB_OR_FUQST;
+        if ($this->getLockAnswerOnInstantFeedbackEnabled() || $this->getLockAnswerOnNextQuestionEnabled()) {
+            return [
+                0 => self::ANSWER_FIXATION_ON_IFB_OR_FUQST,
+                1 => [
+                    'lock_answer_on_instant_feedback' => $this->getLockAnswerOnInstantFeedbackEnabled(),
+                    'lock_answer_on_next_question' => $this->getLockAnswerOnNextQuestionEnabled()
+                ]
+            ];
         }
 
-        if ($this->getLockAnswerOnInstantFeedbackEnabled()) {
-            return self::ANSWER_FIXATION_ON_INSTANT_FEEDBACK;
-        }
+        return [0 => self::ANSWER_FIXATION_NONE, 1 => []];
+    }
 
-        if ($this->getLockAnswerOnNextQuestionEnabled()) {
-            return self::ANSWER_FIXATION_ON_FOLLOWUP_QUESTION;
-        }
+    public function toExport(): array
+    {
+        return [
+            'title_output_mode' => $this->getQuestionTitleOutputMode(),
+            'autosave_enabled' => $this->getAutosaveEnabled(),
+            'autosave_interval' => $this->getAutosaveInterval(),
+            'shuffle_questions' => $this->getShuffleQuestions(),
+            'instant_feedback_points_enabled' => $this->getInstantFeedbackPointsEnabled(),
+            'instant_feedback_generic_enabled' => $this->getInstantFeedbackGenericEnabled(),
+            'instant_feedback_specific_enabled' => $this->getInstantFeedbackSpecificEnabled(),
+            'instant_feedback_solution_enabled' => $this->getInstantFeedbackSolutionEnabled(),
+            'force_instant_feedback' => $this->getForceInstantFeedbackOnNextQuestion(),
+            'lock_answer_instant_feedback' => $this->getLockAnswerOnInstantFeedbackEnabled(),
+            'lock_answer_next_question' => $this->getLockAnswerOnNextQuestionEnabled()
+        ];
+    }
 
-        return self::ANSWER_FIXATION_NONE;
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (int) $data['title_output_mode'],
+            (bool) $data['autosave_enabled'],
+            (int) $data['autosave_interval'],
+            (bool) $data['shuffle_questions'],
+            (bool) $data['instant_feedback_points_enabled'],
+            (bool) $data['instant_feedback_generic_enabled'],
+            (bool) $data['instant_feedback_specific_enabled'],
+            (bool) $data['instant_feedback_solution_enabled'],
+            (bool) $data['force_instant_feedback'],
+            (bool) $data['lock_answer_instant_feedback'],
+            (bool) $data['lock_answer_next_question']
+        );
     }
 }

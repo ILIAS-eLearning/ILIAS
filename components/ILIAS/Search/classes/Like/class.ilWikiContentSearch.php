@@ -48,7 +48,8 @@ class ilWikiContentSearch extends ilAbstractSearch
                 (int) $row->parent_id,
                 $row->parent_type,
                 $this->__prepareFound($row),
-                (int) $row->page_id
+                (int) $row->page_id,
+                'wpg'
             );
         }
         return $this->search_result;

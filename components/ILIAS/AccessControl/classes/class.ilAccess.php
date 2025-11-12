@@ -274,6 +274,11 @@ class ilAccess implements ilAccessHandler
             return false;
         }
 
+        // As of FR: https://docu.ilias.de/go/wiki/wpage_8648_1357#ilPageTocA248
+        // the ilObjSystemFolderGUI is always readable.
+        if ($a_ref_id === SYSTEM_FOLDER_ID && 'read' === $a_permission) {
+            return true;
+        }
         // rbac check for current object
         if (!$this->doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_type)) {
             $this->current_info->addInfoItem(ilAccessInfo::IL_NO_PERMISSION, $this->getLanguage()->txt("status_no_permission"));

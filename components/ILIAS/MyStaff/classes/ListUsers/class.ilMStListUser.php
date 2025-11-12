@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,7 +40,6 @@ final class ilMStListUser
     private string $zipcode;
     private string $city;
     private string $country;
-    private string $sel_country;
     private string $matriculation;
     private string $firstname;
     private string $lastname;
@@ -204,16 +204,6 @@ final class ilMStListUser
     public function setCountry(string $country): void
     {
         $this->country = $country;
-    }
-
-    public function getSelCountry(): string
-    {
-        return $this->sel_country;
-    }
-
-    public function setSelCountry(string $sel_country): void
-    {
-        $this->sel_country = $sel_country;
     }
 
     public function getMatriculation(): string

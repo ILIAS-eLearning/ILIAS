@@ -1,1 +1,13 @@
-# Roadmap for ILIAS/Maps
+# Roadmap
+
+## Short Term
+
+...
+
+## Mid Term
+
+...
+
+## Long Term
+
+...

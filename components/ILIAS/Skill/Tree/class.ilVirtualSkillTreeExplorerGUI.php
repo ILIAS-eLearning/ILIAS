@@ -241,7 +241,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\
         ]);
     }
 
-    public function getTreeComponent(): \ILIAS\UI\Implementation\Component\Tree\Tree
+    public function getTreeComponent(): \ILIAS\UI\Component\Tree\Tree
     {
         $f = $this->ui->factory();
         $tree = $this->vtree;

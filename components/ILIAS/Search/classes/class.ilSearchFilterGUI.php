@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +16,11 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ILIAS\UI\Component\Input\Container\Filter;
+use ILIAS\Data\URI;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
@@ -26,14 +31,16 @@ class ilSearchFilterGUI
     protected \ILIAS\UI\Renderer $renderer;
     protected ilNavigationHistory $nav_history;
     protected Filter\Standard $filter;
+    protected LOMServices $lom_services;
 
-    public function __construct(object $parent_gui, int $mode)
+    public function __construct(URI $action, bool $for_lucene)
     {
         global $DIC;
 
         $this->filter_service = $DIC->uiService()->filter();
         $this->renderer = $DIC->ui()->renderer();
         $this->nav_history = $DIC["ilNavigationHistory"];
+        $this->lom_services = $DIC->learningObjectMetadata();
         $field_factory = $DIC->ui()->factory()->input()->field();
         $txt = static function (string $id) use ($DIC): string {
             return $DIC->language()->txt($id);
@@ -55,7 +62,7 @@ class ilSearchFilterGUI
 
         $enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
 
-        if ($mode === ilSearchBaseGUI::SEARCH_FORM_LUCENE) {
+        if ($for_lucene) {
             $enabled_types += ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions();
         }
 
@@ -73,9 +80,21 @@ class ilSearchFilterGUI
             $inputs_activated[] = true;
         }
 
+        if ($this->lom_services->copyrightHelper()->isCopyrightSelectionActive()) {
+            $cp_selection = [];
+            foreach ($this->lom_services->copyrightHelper()->getAllCopyrightPresets() as $copyright) {
+                if ($copyright->isDefault()) {
+                    continue;
+                }
+                $cp_selection[$copyright->identifier()] = $copyright->title();
+            }
+            $inputs["search_copyright"] = $field_factory->multiSelect($txt("search_copyright"), $cp_selection);
+            $inputs_activated[] = true;
+        }
+
         $this->filter = $this->filter_service->standard(
             "search_filter",
-            $DIC->ctrl()->getLinkTarget($parent_gui, "performSearchFilter"),
+            (string) $action,
             $inputs,
             $inputs_activated,
             false,

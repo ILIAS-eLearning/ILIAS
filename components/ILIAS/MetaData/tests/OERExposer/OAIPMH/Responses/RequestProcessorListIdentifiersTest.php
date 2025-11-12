@@ -62,6 +62,43 @@ class RequestProcessorListIdentifiersTest extends RequestProcessorTestCase
         $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
     }
 
+    public function testGetResponseToRequestListIdentifiersWithDeletedRecord(): void
+    {
+        $processor = new RequestProcessor(
+            $this->getWriter(),
+            $this->getSettings('prefix_'),
+            $repo = $this->getRepository(
+                null,
+                3,
+                'id1+2022-11-27',
+                'delid2+2022-11-27',
+                'id3+2021-11-13'
+            ),
+            $this->getTokenHandler()
+        );
+
+        $expected_response = <<<XML
+            <response>
+              <response_info>base url:ListIdentifiers:metadataPrefix=oai_dc</response_info>
+              <header>prefix_id1+2022-11-27:2022-11-27</header>
+              <deleted_header>prefix_delid2+2022-11-27:2022-11-27</deleted_header>
+              <header>prefix_id3+2021-11-13:2021-11-13</header>
+            </response>
+            XML;
+
+        $response = $processor->getResponseToRequest($this->getRequest(
+            'base url',
+            Verb::LIST_IDENTIFIERS,
+            [Argument::MD_PREFIX->value => 'oai_dc'],
+        ));
+
+        $this->assertEquals(
+            [['from' => null, 'until' => null, 'limit' => 100, 'offset' => 0]],
+            $repo->exposed_parameters
+        );
+        $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
+    }
+
     public function testGetResponseToRequestListIdentifiersWithDefaultSet(): void
     {
         $processor = new RequestProcessor(

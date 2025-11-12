@@ -67,7 +67,7 @@ class SettingsGUI
         $pass_nr_max = \ilExAssignment::count($this->obj_id);
 
         $form = $this->gui
-            ->form(self::class, "save")
+            ->form([self::class], "save")
             ->section("general", $lng->txt('exc_edit_exercise'))
             ->addStdTitleAndDescription($this->obj_id, "exc")
             ->section("avail", $lng->txt('rep_activation_availability'))

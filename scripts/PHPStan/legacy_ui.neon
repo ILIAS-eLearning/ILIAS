@@ -10,7 +10,6 @@ rules:
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyLightboxUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyModalUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyNestedListUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyOverlayUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyPanelUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyProgressBarUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacySelectionListUsagesRule # ILIAS 9

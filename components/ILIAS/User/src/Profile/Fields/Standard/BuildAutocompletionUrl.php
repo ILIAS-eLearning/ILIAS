@@ -15,6 +15,12 @@ trait BuildAutocompletionUrl
 {
     private function getAutocompleteUrl(\ilCtrl $ctrl): string
     {
-        return $ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'doProfileAutoComplete');
+        return $ctrl->getLinkTargetByClass(
+            [
+                \ilPublicProfileBaseClassGUI::class,
+                PublicProfileGUI::class
+            ],
+            'doProfileAutoComplete'
+        );
     }
 }

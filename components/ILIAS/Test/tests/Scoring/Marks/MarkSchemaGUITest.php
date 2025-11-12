@@ -49,7 +49,8 @@ class MarkSchemaGUITest extends ilTestBaseTestCase
             $this->createMock(\GuzzleHttp\Psr7\Request::class),
             $this->createMock(ILIAS\Refinery\Factory::class),
             $this->createMock(ILIAS\UI\Factory::class),
-            $this->createMock(ILIAS\UI\Renderer::class)
+            $this->createMock(ILIAS\UI\Renderer::class),
+            $this->createMock(ILIAS\Test\Scoring\Marks\MarkSchemaFactory::class),
         );
     }
 

@@ -459,7 +459,7 @@ class ilSkillDataSet extends ilDataSet
                     break;
                 case "8.0":
                     foreach ($a_ids as $obj_id) {
-                        $obj_ref_id = ilObject::_getAllReferences((int)$obj_id);
+                        $obj_ref_id = ilObject::_getAllReferences((int) $obj_id);
                         $obj_ref_id = end($obj_ref_id);
                         $profiles = $this->skill_manager->getProfileManager()->getLocalProfilesForObject($obj_ref_id);
                         $profile_ids = [];

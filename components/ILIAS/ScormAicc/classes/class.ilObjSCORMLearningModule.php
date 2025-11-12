@@ -784,10 +784,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         }
         //        since 8 necessary because attempts can be null
         if (ilChangeEvent::_lookupReadEvents($this->getID(), $user_id) == []) {
-            ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false);
+            ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id);
         }
 
-        ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, false, $attempts, $sco_total_time_sec);
+        ilChangeEvent::_recordReadEvent("sahs", $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int()), $this->getID(), $user_id, $attempts, $sco_total_time_sec);
     }
 
     /**

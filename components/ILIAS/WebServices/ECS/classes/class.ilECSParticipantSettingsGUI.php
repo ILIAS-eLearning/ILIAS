@@ -37,6 +37,7 @@ class ilECSParticipantSettingsGUI
     protected UiFactory $ui_factory;
     protected ilToolbarGUI $toolbar;
     protected ilSetting $settings;
+    protected ilECSAuthFactory $auth_factory;
 
     public function __construct(int $a_server_id, int $a_mid)
     {
@@ -54,8 +55,10 @@ class ilECSParticipantSettingsGUI
         $this->mid = $a_mid;
 
         $this->lng->loadLanguageModule('ecs');
+        $this->lng->loadLanguageModule('auth');
 
         $this->participant = new ilECSParticipantSetting($this->getServerId(), $this->getMid());
+        $this->auth_factory = new ilECSAuthFactory();
     }
 
     public function getServerId(): int
@@ -228,17 +231,11 @@ class ilECSParticipantSettingsGUI
         $external_auth_type->setValue(
             (string) $this->getParticipant()->getIncomingAuthType()
         );
-        $external_auth_type->addOption(
-            new ilRadioOption(
-                $this->lng->txt('ecs_export_auth_type_ilias'),
-                (string) ilECSParticipantSetting::INCOMING_AUTH_TYPE_LOGIN_PAGE
-            )
-        );
-        if ($this->isShibbolethActive()) {
+        foreach ($this->auth_factory->getAvailableStrategies() as $auth_type => $auth_strategy) {
             $external_auth_type->addOption(
                 new ilRadioOption(
-                    $this->lng->txt('ecs_export_auth_type_shib'),
-                    (string) ilECSParticipantSetting::INCOMING_AUTH_TYPE_SHIBBOLETH
+                    $this->lng->txt("ecs_export_auth_type_{$auth_strategy->getName()}"),
+                    (string) $auth_type
                 )
             );
         }
@@ -276,8 +273,13 @@ class ilECSParticipantSettingsGUI
         $user_credentials->setValue($this->getParticipant()->getOutgoingAuthModes());
         $import->addSubItem($user_credentials);
         foreach ($this->parseAvailableAuthModes() as $option_name => $option_text) {
+            // default login does not need a placeholder
+            if ($option_name === 'ilias') {
+                continue;
+            }
+
             $option = new ilCheckboxOption(
-                $this->lng->txt('ecs_import_auth_mode') . ' ' . $option_text,
+                sprintf($this->lng->txt('ecs_import_auth_mode'), $option_text),
                 $option_name
             );
             $user_credentials->addOption($option);
@@ -315,22 +317,18 @@ class ilECSParticipantSettingsGUI
         return $form;
     }
 
-    protected function parseAvailableAuthModes($a_mode_incoming = true): array
+    protected function parseAvailableAuthModes(): array
     {
         $options = [];
-        if ($this->isShibbolethActive()) {
-            $options['shibboleth'] = $this->lng->txt('auth_shib');
+        foreach ($this->auth_factory->getAvailableStrategies() as $auth_strategy) {
+            $options[$auth_strategy->getName()] = $this->lng->txt("auth_{$auth_strategy->getName()}");
         }
+
         foreach (ilLDAPServer::getServerIds() as $server_id) {
             $server = ilLDAPServer::getInstanceByServerId($server_id);
             $options['ldap_' . $server->getServerId()] = $server->getName();
         }
         return $options;
-    }
-
-    protected function isShibbolethActive(): bool
-    {
-        return (bool) $this->settings->get('shib_active', '0');
     }
 
     /**

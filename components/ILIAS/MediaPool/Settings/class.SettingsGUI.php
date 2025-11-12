@@ -64,7 +64,7 @@ class SettingsGUI
         $lng = $this->domain->lng();
 
         $form = $this->gui
-            ->form(self::class, "save")
+            ->form([self::class], "save")
             ->section("general", $lng->txt("mep_edit"))
             ->addStdTitleAndDescription($this->obj_id, "mep")
             ->section("avail", $lng->txt("rep_activation_availability"))

@@ -54,7 +54,7 @@ class Handler implements ilExportHandlerConsumerInterface
     public function createStandardExport(
         int $user_id,
         ObjectId $object_id,
-        ExportConfigCollectionInterface $export_configs = null
+        ?ExportConfigCollectionInterface $export_configs = null
     ): ilExportHandlerRepositoryElementInterface {
         $manager = $this->export_handler->manager()->handler();
         if (is_null($export_configs)) {
@@ -70,7 +70,7 @@ class Handler implements ilExportHandlerConsumerInterface
     public function createStandardExportByObject(
         int $user_id,
         ilObject $object,
-        ExportConfigCollectionInterface $export_configs = null
+        ?ExportConfigCollectionInterface $export_configs = null
     ): ilExportHandlerRepositoryElementInterface {
         $manager = $this->export_handler->manager()->handler();
         if (is_null($export_configs)) {

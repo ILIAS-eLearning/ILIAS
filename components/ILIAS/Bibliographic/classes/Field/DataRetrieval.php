@@ -40,18 +40,16 @@ class DataRetrieval implements I\OrderingRetrieval
 
     public function getRows(
         OrderingRowBuilder $row_builder,
-        array $visible_column_ids
+        array $visible_column_ids,
     ): \Generator {
-        $records = $this->getRecords(new Order('position', 'ASC'));
-        foreach ($records as $record) {
+        $records = $this->getRecords($order);
+        foreach ($records as $idx => $record) {
             $row_id = (string) $record['id'];
             $field = $this->facade->fieldFactory()->findById($record['id']);
             $record['data_type'] = $this->facade->translationFactory()->translate($field);
-            $record['is_standard_field'] = $field->isStandardField() ? $this->lng->txt('standard') : $this->lng->txt(
-                'custom'
-            );
-            yield $row_builder->buildOrderingRow($row_id, $record)
-                              ->withDisabledAction('translate', !$this->has_write_access);
+            $record['is_standard_field'] = $field->isStandardField() ? $this->lng->txt('standard') : $this->lng->txt('custom');
+            yield $row_builder->buildDataRow($row_id, $record)
+                ->withDisabledAction('translate', !$this->has_write_access);
         }
     }
 
@@ -67,8 +65,9 @@ class DataRetrieval implements I\OrderingRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId()));
     }

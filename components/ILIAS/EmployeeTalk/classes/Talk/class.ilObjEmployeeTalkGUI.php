@@ -60,7 +60,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         global $DIC;
 
         $this->refinery = $DIC->refinery();
-        $refId = $this->http->wrapper()->query()->retrieve(
+        $refId = $DIC->http()->wrapper()->query()->retrieve(
             "ref_id",
             $this->refinery->kindlyTo()->int()
         );

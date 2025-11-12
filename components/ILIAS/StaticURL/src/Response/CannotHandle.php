@@ -33,4 +33,9 @@ class CannotHandle implements Response
         return false;
     }
 
+    public function shift(): int
+    {
+        return 0;
+    }
+
 }

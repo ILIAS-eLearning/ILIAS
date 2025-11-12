@@ -14,18 +14,19 @@
  *
  *********************************************************************/
 
-(function($, $scope, $chat, dateTimeFormatter){
+(function(triggerSignal, $scope, $chat, dateTimeFormatter){
 	'use strict';
 
-	var TYPE_CONSTANT	= 'osc';
-	var PREFIX_CONSTANT	= TYPE_CONSTANT + '_';
-	var ACTION_SHOW_CONV = "show";
-	var ACTION_HIDE_CONV = "hide";
-	var ACTION_REMOVE_CONV = "remove";
-	var ACTION_STORE_CONV = "store";
-	var ACTION_DERIVED_FROM_CONV_OPEN_STATUS = "derivefromopen";
+	const TYPE_CONSTANT = 'osc';
+	const PREFIX_CONSTANT = TYPE_CONSTANT + '_';
+	const ACTION_SHOW_CONV = 'show';
+	const ACTION_HIDE_CONV = 'hide';
+	const ACTION_REMOVE_CONV = 'remove';
+	const ACTION_STORE_CONV = 'store';
+	const ACTION_DERIVED_FROM_CONV_OPEN_STATUS = 'derivefromopen';
 	const resizeTextareas = {}; // string: function
 	const MAX_CHAT_LINES = 3;
+	let menu_collector_events_added = false;
 
 	const tryLink = (() => {
 		let link = node => {
@@ -54,7 +55,7 @@
 		messageKeyUpEvent: ['keyup', '[data-onscreenchat-message]'],
 	};
 	$scope.il.OnScreenChatJQueryTriggers = {
-		triggers: mapObject(triggerMap, function(){return function(){};}),
+		triggers: mapObject(triggerMap, () => () => {}),
 
 		setTriggers: function(triggers) {
 			Object.keys(triggerMap).map(function(key){
@@ -67,20 +68,36 @@
 		},
 
 		init: function() {
-			$(window).on('resize', $scope.il.OnScreenChat.resizeWindow).resize();
+			window.addEventListener('resize', $scope.il.OnScreenChat.resizeWindow);
+			$scope.il.OnScreenChat.resizeWindow();
 
-			const body = $('body');
+			const onBody = (event, selector, thunk) => {
+				document.body.addEventListener(event, event => {
+					const node = event.target.closest(selector)
+					if (node) {
+						return thunk.call(node, event);
+					}
+				});
+			};
 			mapObject(triggerMap, function(eventAndSelector, key){
 				piecesOf(2, eventAndSelector).forEach(function(eventAndSelector){
-					body.on(eventAndSelector[0], eventAndSelector[1], $scope.il.OnScreenChatJQueryTriggers.triggers[key]);
+					onBody(eventAndSelector[0], eventAndSelector[1], $scope.il.OnScreenChatJQueryTriggers.triggers[key]);
 				});
 			});
 		}
 	};
 
+	function createNode(type, properties, children)
+	{
+		const n = document.createElement(type);
+		Object.entries(properties || {}).forEach(([k, v]) => n.setAttribute(k, v));
+		(children || []).forEach(c => n.appendChild(c));
+		return n;
+	}
+
 	$scope.il.OnScreenChat = {
 		config: {},
-		container: $('<div></div>').addClass('iosOnScreenChat'),
+		container: createNode('div', {class: 'iosOnScreenChat'}), // @todo replace usages with non jquery
 		storage: undefined,
 		user: undefined,
 		historyBlocked: false,
@@ -104,21 +121,26 @@
 			getModule().conversationToUiIdMap[conversationId] = uiId;
 		},
 
-		setConfig: function(config) {
+		init: function(config) {
 			getModule().config = config;
 			dateTimeFormatter.setLocale(config.locale);
-		},
 
-		init: function() {
-			getModule().storage   = new ConversationStorage();
+			getModule().storage = new ConversationStorage();
 
 			const loadModal = busName => il.Chatroom.sendFromURL(getModule().config.modalURLTemplate)(busName).then(r => r.text()).then(modalHTML => {
-				const modal = $(modalHTML);
-				$(document.body).append(modal);
-				return new Promise(resolve => getModule().bus.onArrived(busName, ([showSignal, closeSignal]) => resolve({
-					showModal: () => $(document).trigger(showSignal, {}),
-					closeModal: () => $(document).trigger(closeSignal, {}),
-					node: modal[0],
+				const dummyParent = document.createElement('div');
+				dummyParent.innerHTML = modalHTML;
+				const modal = dummyParent.children[0];
+				Array.from(dummyParent.querySelectorAll('script'), script => {
+					const s = document.createElement('script');
+					s.appendChild(document.createTextNode(script.innerHTML));
+					script.parentNode.replaceChild(s, script);
+				});
+				dummyParent.childNodes.forEach(n => document.body.appendChild(n));
+								return new Promise(resolve => getModule().bus.onArrived(busName, ([showSignal, closeSignal]) => resolve({
+					showModal: () => triggerSignal(showSignal),
+					closeModal: () => triggerSignal(closeSignal),
+					node: modal,
 				})))
 			});
 
@@ -126,9 +148,12 @@
 				let currentThen = null;
 				const modal = loadModal('confirmRemove');
 				modal.then(({node, closeModal}) => node.querySelector('form').addEventListener('submit', e => {
+					const isSubmit = document.activeElement.matches('input[type="submit"]');
 					e.preventDefault();
 					closeModal();
-					currentThen();
+					if (isSubmit) {
+						currentThen();
+					}
 				}));
 
 				return then => {
@@ -139,19 +164,23 @@
 
 			const inviteModal = lazy(() => {
 				let currentConversationId = null;
-				const setup = loadModal('inviteModal').then(modalInfo => il.Chatroom.inviteUserToRoom(
-					modalInfo,
-					{
-						more: '»' + il.Language.txt('autocomplete_more'),
-						nothingFound: $(getModule().config.nothingFoundTemplate)[0],
-					},
-					entry => getModule().addUser(currentConversationId, entry.id, entry.value),
-					((getModule().storage.get(currentConversationId) || {}).participants || []).map(p => p.id),
-					({search, all}) => il.Chatroom.sendFromURL(getModule().config.userListURL)(
-						'',
-						Object.assign({term: search}, all ? {fetchall: '1'} : {})
-					).then(r => r.json())
-				));
+				const setup = loadModal('inviteModal').then(modalInfo => {
+					const dummyParent = document.createElement('div');
+					dummyParent.innerHTML = getModule().config.nothingFoundTemplate;
+					return il.Chatroom.inviteUserToRoom(
+						modalInfo,
+						{
+							more: '»' + il.Language.txt('autocomplete_more'),
+							nothingFound: dummyParent.children[0],
+						},
+						entry => getModule().addUser(currentConversationId, entry.id, entry.value),
+						((getModule().storage.get(currentConversationId) || {}).participants || []).map(p => p.id),
+						({search, all}) => il.Chatroom.sendFromURL(getModule().config.userListURL)(
+							'',
+							Object.assign({term: search}, all ? {fetchall: '1'} : {})
+						).then(r => r.json())
+					)
+				});
 
 				return conversationId => {
 					currentConversationId = conversationId;
@@ -162,24 +191,24 @@
 			getModule().openConfirmModal = then => confirmModal()(then);
 			getModule().openInviteUserModal = conversationId => inviteModal()(conversationId);
 
-			$.each(getModule().config.initialUserData, function(usrId, item) {
+			Object.entries(getModule().config.initialUserData).forEach(([usrId, item]) => {
 				getModule().participantsNames[usrId] = item.public_name;
 
-				var img = new Image();
+				const img = new Image();
 				img.src = item.profile_image;
 				getModule().participantsImages[usrId] = img;
 			});
 
-			$(window).on('storage', function(e) {
+			window.addEventListener('storage', function(e) {
 				if (
-					typeof e.originalEvent.key !== "string" ||
-					e.originalEvent.key.indexOf(PREFIX_CONSTANT) !== 0
+					typeof e.key !== "string" ||
+					e.key.indexOf(PREFIX_CONSTANT) !== 0
 				) {
 					console.log("Ignored local storage event not being in namespace: " + PREFIX_CONSTANT);
 					return;
 				}
 
-				var conversation = e.originalEvent.newValue;
+				var conversation = e.newValue;
 
 				if (typeof conversation === "string") {
 					conversation = JSON.parse(conversation);
@@ -194,37 +223,33 @@
 						getModule().onRemoveConversation(conversation);
 					}
 
-					if ($.isFunction(conversation.callback)) {
-						conversation.callback();
+					if (e.callback instanceof Function) {
+						e.callback();
 					}
 				}
 			});
 
 			setInterval(() => {
-				$.ajax(
-					getConfig().verifyLoginURL
-				).done(result => {
-					result = JSON.parse(result);
-					if (!result.loggedIn) {
-						window.location = './login.php';
-					}
-				}).fail(e => {
+				const gotoLogin = () => {
 					window.location = './login.php';
-				});
+				};
+				fetch(getConfig().verifyLoginURL)
+					.then(r => r.json())
+					.then(x => x.loggedIn || gotoLogin())
+					.catch(gotoLogin);
 			}, 300000);
 
 			setInterval(() => {
-				$('[data-livestamp]').each(() => {
-					let $this = $(this);
-					$this.html(dateTimeFormatter.fromNowToTime($this.data("livestamp")));
+				document.querySelectorAll('[data-livestamp]').forEach(node => {
+					node.textContent = dateTimeFormatter.fromNowToTime(Number(node.dataset.livestamp));
 				});
-				$('[data-message-time]').each(() => {
-					let $this = $(this);
-					$this.attr('title', dateTimeFormatter.format($this.data('message-time'), 'LT'));
+				document.querySelectorAll('[data-message-time]').forEach(node => {
+					node.setAttribute('title', dateTimeFormatter.format(Number(node.dataset.messageTime), 'LT'));
 				});
 			}, 60000);
 
-			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin, getModule().onUnload);
+			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
+			window.addEventListener('beforeunload', getModule().onUnload);
 			$chat.receiveMessage(getModule().receiveMessage);
 			$chat.onParticipantsSuppressedMessages(getModule().onParticipantsSuppressedMessages);
 			$chat.onSenderSuppressesMessages(getModule().onSenderSuppressesMessages);
@@ -250,12 +275,11 @@
 				menuItemClicked:         getModule().onMenuItemClicked,
 			}).init();
 
-			$('body').append(
-				$('<div></div>')
-					.attr('id', 'onscreenchat-container')
-					.append(getModule().container)
-
-			);
+			document.body.appendChild(createNode(
+				'div',
+				{id: 'onscreenchat-container'},
+				[getModule().container]
+			));
 		},
 
 		/**
@@ -266,8 +290,7 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			let link = $(this),
-				conversationId = $(link).attr('data-onscreenchat-conversation');
+			let conversationId = this.getAttribute('data-onscreenchat-conversation');
 
 			if (!conversationId && this.closest('[data-id]') !== null) {
 				conversationId = this.closest('[data-id]').dataset.id;
@@ -277,8 +300,8 @@
 
 			if (conversation == null) {
 				let participant = {
-					id: $(link).attr('data-onscreenchat-userid'),
-					name: $(link).attr('data-onscreenchat-username')
+					id: this.getAttribute('data-onscreenchat-userid'),
+					name: link.getAttribute('data-onscreenchat-username')
 				};
 
 				if (typeof participant.id !== "undefined" && participant.id.length > 0) {
@@ -292,24 +315,26 @@
 		},
 
 		open: function(conversation) {
-			let conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']'),
-				newDomElementsCreated = false;
+			let conversationWindow = document.querySelector('[data-onscreenchat-window="' + conversation.id + '"]');
+			let newDomElementsCreated = false;
 
-			if (conversationWindow.is(':visible')) {
+			if (conversationWindow && !conversationWindow.matches('.ilNoDisplay')) {
 				return;
 			}
 
-			if (conversationWindow.length === 0) {
-				conversationWindow = $(getModule().createWindow(conversation));
-				conversationWindow.find('.panel-body')
-					.on("dblclick", function() {
-						$(this).trigger("scroll");
-					}).
-					scroll(getModule().onScroll);
-				getModule().container.append(conversationWindow);
+			if (conversationWindow === null) {
+				conversationWindow = getModule().createWindow(conversation);
+				conversationWindow.flatMap(n => Array.from(n.querySelectorAll('.panel-body'))).forEach(n => {
+					n.addEventListener('dblclick', () => n.dispatchEvent(new Event('scroll')))
+					n.addEventListener('scroll', getModule().onScroll);
+				});
+
+				conversationWindow.forEach(n => getModule().container.appendChild(n));
 				getModule().addMessagesOnOpen(conversation);
 
 				newDomElementsCreated = true;
+			} else {
+				conversationWindow = [conversationWindow];
 			}
 
 			if (conversation.latestMessage != null) {
@@ -327,8 +352,10 @@
 				); 
 			}
 
-			conversationWindow.find("[aria-live]").attr("aria-live", "polite")
-			conversationWindow.show();
+			conversationWindow.flatMap(n => Array.from(n.querySelectorAll('[aria-live]'))).forEach(n => {
+				n.setAttribute('aria-live', 'polite');
+			});
+			conversationWindow.forEach(n => {n.classList.remove('ilNoDisplay');});
 
 			if(countOpenChatWindows() > getModule().numWindows) {
 				getModule().closeWindowWithLongestInactivity();
@@ -340,34 +367,37 @@
 				MAX_CHAT_LINES
 			);
 
-			getModule().resizeMessageInput.call($(conversationWindow).find('[data-onscreenchat-message]'));
-			getModule().scrollBottom(conversationWindow);
+			conversationWindow.flatMap(n => Array.from(n.querySelectorAll('[data-onscreenchat-message]'))).forEach(n => {
+				getModule().resizeMessageInput.call(n);
+			});
+			conversationWindow.forEach(getModule().scrollBottom);
 
 		},
 
 		scrollBottom: function(chatWindow) {
 			// Prevented issue with non existing elements (when there is no conv. on document ready)
-			if ($(chatWindow).find('[data-onscreenchat-body]').length > 0) {
-				$(chatWindow).find('.panel-body').animate({
-					scrollTop: $(chatWindow).find('[data-onscreenchat-body]')[0].scrollHeight
-				}, 0);
+			const oscBody = chatWindow.querySelector('[data-onscreenchat-body]');
+			if (oscBody) {
+				chatWindow.querySelectorAll('.panel-body').forEach(n => {
+					n.scrollTop = oscBody.scrollHeight;
+				});
 			}
 		},
 
 		resizeMessageInput: function(e){
-			var inputWrapper = $(this).closest('.panel-footer');
-			var parent = $(inputWrapper).closest('[data-onscreenchat-window]');
-			resizeTextareas[parent.data('onscreenchat-window')]();
-			var wrapperHeight = parent.outerHeight();
-			var headingHeight = parent.find('.panel-heading').outerHeight();
-			var inputHeight = $(inputWrapper).outerHeight();
-			var bodyHeight = wrapperHeight - inputHeight - headingHeight;
+			const inputWrapper = this.closest('.panel-footer');
+			const parent = inputWrapper.closest('[data-onscreenchat-window]');
+			resizeTextareas[parent.dataset.onscreenchatWindow]();
+			const wrapperHeight = parent.getBoundingClientRect().height;
+			const headingHeight = parent.querySelector('.panel-heading').getBoundingClientRect().height;
+			const inputHeight = inputWrapper.getBoundingClientRect().height;
+			const bodyHeight = wrapperHeight - inputHeight - headingHeight;
 
-			if($(this).html() === "<br>") {
-				$(this).html("");
+			if(this.innerHTML === '<br>') {
+				this.innerHTML = '';
 			}
 
-			parent.find('.panel-body').css('height', bodyHeight + "px");
+			parent.querySelectorAll('.panel-body').forEach(n => {n.style.height = bodyHeight + 'px';});
 		},
 
 		createWindow: function(conversation) {
@@ -390,23 +420,26 @@
 			}
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
+			const dummyParent = document.createElement('div');
+			dummyParent.innerHTML = template;
 
-			var $template = $(template);
+			const setAttributes = obj => node => Object.entries(obj)
+			      .forEach(([k, v]) => node.setAttribute(k, v));
 
-			$template.find('[href="addUser"]').attr({
+			dummyParent.querySelectorAll('[href="addUser"]').forEach(setAttributes({
 				"title":                 il.Language.txt('chat_osc_add_user'),
 				"data-onscreenchat-add": conversation.id,
 				"data-toggle":           "tooltip",
 				"data-placement":        "auto"
-			});
-			$template.find('.minimize').attr({
+			}));
+			dummyParent.querySelectorAll('.minimize').forEach(setAttributes({
 				"title":                   il.Language.txt('chat_osc_minimize'),
 				"data-onscreenchat-minimize": conversation.id,
 				"data-toggle":             "tooltip",
 				"data-placement":          "auto"
-			});
+			}));
 
-			return $template;
+			return Array.from(dummyParent.children);
 		},
 		rerenderConversations: function(conversation) {
 			let conversations = Object.values(getModule().conversationItems).filter(function(conversation) {
@@ -433,12 +466,18 @@
 						getModule().menuCollector.querySelectorAll('script').forEach(element => {
 							eval(element.innerHTML);
 						})
-						$(getModule().menuCollector)
-							.off('click', '[data-id]')
-							.off('click', '[data-id] .close');
-						$(getModule().menuCollector)
-							.on('click', '[data-id]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
-							.on('click', '[data-id] .close', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
+						if (!menu_collector_events_added) {
+							getModule().menuCollector.addEventListener('click', e => {
+								const a = e.target.closest('[data-id]');
+								const b = e.target.closest('[data-id] .close');
+								if (b) {
+									$scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest.call(b, e);
+								} else if (a) {
+									$scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked.call(a, e);
+								}
+							});
+							menu_collector_events_added = true;
+						}
 					} else {
 						getModule().menuCollector.innerHTML = '';
 						console.error(xhr.status + ': ' + xhr.responseText);
@@ -459,11 +498,12 @@
 		 * @param conversation
 		 */
 		onRemoveConversation: function(conversation) {
-			const conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
+			const conversationWindow = document.querySelector('[data-onscreenchat-window="' + conversation.id + '"]');
 
-			conversationWindow.find("[aria-live]").attr("aria-live", "off")
-			conversationWindow.hide();
-
+			if (conversationWindow) {
+				conversationWindow.querySelectorAll('[aria-live]').forEach(n => n.setAttribute('aria-live', 'off'));
+				conversationWindow.classList.add('ilNoDisplay');
+			}
 			// Remove conversation
 			if (getModule().conversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().conversationItems[conversation.id];
@@ -476,10 +516,13 @@
 		 * @param conversation
 		 */
 		onCloseConversation: function(conversation) {
-			const conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
+			const conversationWindow = document.querySelector('[data-onscreenchat-window="' + conversation.id + '"]');
 
-			conversationWindow.find("[aria-live]").attr("aria-live", "off")
-			conversationWindow.hide();
+			if (conversationWindow) {
+				conversationWindow.querySelectorAll('[aria-live]')
+					.forEach(n => n.setAttribute('aria-live', 'off'));
+				conversationWindow.classList.add('ilNoDisplay');
+			}
 
 			// Add or update conversation
 			if (!getModule().conversationItems.hasOwnProperty(conversation.id)) {
@@ -514,7 +557,7 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			var conversation = getModule().storage.get($(this).attr('data-onscreenchat-minimize'));
+			const conversation = getModule().storage.get(this.getAttribute('data-onscreenchat-minimize'));
 
 			conversation.action = ACTION_HIDE_CONV;
 			getModule().storage.save(conversation);
@@ -527,28 +570,26 @@
 			if (shiftEnter || altEnter) {
 				const input = this.querySelector('[data-onscreenchat-message]');
 				insertAtCursor(input, '\n');
-				getModule().resizeMessageInput.call($(input));
+				getModule().resizeMessageInput.call(input);
 				e.preventDefault();
 				return false;
 			} else if (isEnter || e.type === 'click') {
 				e.preventDefault();
-				const conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
+				const conversationId = this.closest('[data-onscreenchat-window]').getAttribute('data-onscreenchat-window');
 				getModule().send(conversationId);
 				getModule().historyBlocked = true;
 			}
 		},
 
 		send: function(conversationId) {
-			var input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
-			var message = input.val();
+			const input = document.querySelector('[data-onscreenchat-window="' + conversationId + '"] [data-onscreenchat-message]');
+			const message = input.value;
 
 			if(message !== "") {
 				$chat.sendMessage(conversationId, message);
-				input.val('');
+				input.value = '';
 				getModule().onMessageInput.call(input);
 				getModule().resizeMessageInput.call(input);
-
-				var e = $.Event('click');
 			}
 		},
 
@@ -574,7 +615,7 @@
 				conversation.latestMessage = messageObject;
 
 				conversation.action = ACTION_SHOW_CONV;
-				getModule().storage.save(conversation, function() {
+				getModule().storage.save(conversation, () => {
 					getModule().addMessage(conversation, messageObject, false);
 				});
 
@@ -584,11 +625,13 @@
 					getConfig().enabledBrowserNotifications &&
 					parseInt(getModule().user.id) !== parseInt(messageObject.userId)
 				) {
+					const dummy = document.createElement('span');
+					dummy.innerHTML = messageObject.message;
 					il.OnScreenChatNotifications.send(
 						messageObject.id,
 						conversation.id,
 						il.Language.txt('osc_noti_title'),
-						$("<span>").html(messageObject.message).text(),
+						dummy.textContent,
 						getConfig().notificationIconPath
 					);
 				}
@@ -606,11 +649,9 @@
 
 					if (conversation.isGroup) {
 						messageObject.message = il.Language.txt('chat_osc_subs_rej_msgs_p').replace(
-							/%s/ig, $.map(ignoredParticipants, function(val) {
-								var name = findUsernameByIdByConversation(conversation, val);
-
-								return name ? name : null;
-							}).join(', ')
+							/%s/ig, Object.values(ignoredParticipants).map(
+								val => findUsernameByIdByConversation(conversation, val) || null
+							).join(', ')
 						);
 					} else {
 						messageObject.message = il.Language.txt('chat_osc_subs_rej_msgs');
@@ -632,7 +673,7 @@
 				return;
 			}
 
-			const conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
+			const conversationId = this.closest('[data-onscreenchat-window]').getAttribute('data-onscreenchat-window');
 			const broadcaster = TypingBroadcasterFactory.getInstance(
 				conversationId,
 				function() {
@@ -649,8 +690,8 @@
 				return;
 			}
 
-			const input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
-			if (input.val().trim() === "") {
+			const input = document.querySelector('[data-onscreenchat-window="' + conversationId + '"] [data-onscreenchat-message]');
+			if (input.value.trim() === '') {
 				return '';
 			}
 
@@ -688,9 +729,8 @@
 		},
 		
 		renderTypingInfo: function (conversation, text) {
-			const container = $('[data-onscreenchat-window=' + conversation.id + ']');
-
-			container.find('[data-onscreenchat-typing]').text(text);
+			const node = document.querySelector('[data-onscreenchat-window="' + conversation.id + '"] [data-onscreenchat-typing]') || {};
+			node.textContent = text;
 		},
 
 		/**
@@ -698,39 +738,33 @@
 		 * @param conversation
 		 * @returns {jQuery.Deferred}
 		 */
-		requestUserProfileData: function(conversation) {
-			var dfd = new $.Deferred(),
-				participantsIds = getParticipantsIds(conversation);
-
-			participantsIds = participantsIds.filter(function(id){
-				return !getModule().participantsImages.hasOwnProperty(id);
-			});
+		requestUserProfileData: function(conversation) { // @todo update caller
+			const dfd = Promise.withResolvers();
+			const participantsIds = getParticipantsIds(conversation).filter(
+				id => !getModule().participantsImages.hasOwnProperty(id)
+			);
 
 			if (participantsIds.length === 0) {
 				dfd.resolve();
 
-				return dfd;
+				return dfd.promise;
 			}
 
-			$.ajax({
-				url: getModule().config.userProfileDataURL + '&usr_ids=' + participantsIds.join(','),
-				dataType: 'json',
-				method: 'GET'
-			}).done(function(response) {
-				$.each(response, function(id, item){
-					getModule().participantsNames[id] = item.public_name;
-
-					var img = new Image();
-					img.src = item.profile_image;
-					getModule().participantsImages[id] = img;
-
-					$('[data-onscreenchat-avatar='+id+']').attr('src', img.src);
+			fetch(getModule().config.userProfileDataURL + '&usr_ids=' + participantsIds.join(','))
+				.then(r => r.json())
+				.then(response => {
+					Object.entries(response).forEach(([id, item]) => {
+						getModule().participantsNames[id] = item.public_name;
+						const img = new Image();
+						img.src = item.profile_image;
+						getModule().participantsImages[id] = img;
+						document.querySelector('[data-onscreenchat-avatar="'+id+'"]').setAttribute('src', img.src);
 				});
 
 				dfd.resolve();
 			});
 
-			return dfd;
+			return dfd.promise;
 		},
 
 		/**
@@ -742,13 +776,11 @@
 		onConversationInit: function(conversation){
 			// Directly save the conversation on storage to prevent race conditions
 			conversation.action = ACTION_STORE_CONV;
-			conversation.lastActivity = (new Date).getTime();
+			conversation.lastActivity = new Date().getTime();
 			getModule().storage.save(conversation);
 
-			$
-				.when(getModule().requestUserProfileData(conversation))
-				.then(function() {
-
+			getModule().requestUserProfileData(conversation)
+				.then(() => {
 					conversation.action = ACTION_SHOW_CONV;
 					getModule().storage.save(conversation);
 				});
@@ -758,21 +790,15 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			let $trigger = $(this), conversationId = $trigger.data('onscreenchat-conversation');
-
-			if (!conversationId) {
-				conversationId = $trigger.closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
-			}
-
-			if (!conversationId) {
-				conversationId = this.closest('[data-id]').dataset.id;
-			}
+			const conversationId = this.dataset.onscreenchatConversation
+			      || (this.closest('[data-onscreenchat-conversation]') || {dataset: {}}).dataset.onscreenchatConversation
+			      || (this.closest('[data-id]') || {dataset: {}}).dataset.id;
 
 			if (!conversationId) {
 				return;
 			}
 
-			let conversation = getModule().storage.get(conversationId);
+			const conversation = getModule().storage.get(conversationId);
 			if (conversation.isGroup) {
 				getModule().openConfirmModal(() => {
 					$chat.closeConversation(conversationId, getModule().user.id);
@@ -788,13 +814,13 @@
 
 		onWindowClicked: function(e) {
 			if (
-				$(e.target).closest('[data-onscreenchat-header]').length === 0 &&
-				$(e.target).parent('[data-onscreenchat-body-msg]').length === 0
+				!e.target.closest('[data-onscreenchat-header]') &&
+				!e.target.parentNode.matches('[data-onscreenchat-body-msg]')
 			) {
 				e.preventDefault();
 				e.stopPropagation();
 
-				$(this).find('[data-onscreenchat-message]').focus();
+				this.querySelector('[data-onscreenchat-message]').focus();
 			}
 		},
 
@@ -808,7 +834,7 @@
 		},
 
 		onFocusOut: function() {
-			var conversation = getModule().storage.get($(this).attr('data-onscreenchat-window'));
+			var conversation = getModule().storage.get(this.getAttribute('data-onscreenchat-window'));
 			getModule().trackActivityFor(conversation);
 		},
 
@@ -817,12 +843,11 @@
 			conversation.action = ACTION_STORE_CONV;
 			getModule().storage.save(conversation);
 
-			var chatWindow = $('[data-onscreenchat-window='+conversation.id+']');
+			const chatWindow = document.querySelector('[data-onscreenchat-window="'+conversation.id+'"]');
 
-			$
-				.when(getModule().requestUserProfileData(conversation))
-				.then(function() {
-					if (chatWindow.length !== 0) {
+			getModule().requestUserProfileData(conversation)
+				.then(() => {
+					if (chatWindow) {
 						var participantsNames, header, tooltip;
 						if (conversation.isGroup) {
 							participantsNames = getParticipantsNames(conversation);
@@ -837,22 +862,21 @@
 							tooltip = header = participantsNames.join(', ');
 						}
 
-						chatWindow
-							.find('[data-onscreenchat-window-participants]')
-							.html(header)
-							.attr("title", tooltip)
-							.attr("data-original-title", tooltip);
+						const node = chatWindow.querySelector('[data-onscreenchat-window-participants]');
+						node.innerHTML = header;
+						node.setAttribute('title', tooltip);
+						node.setAttribute('data-original-title', tooltip);
 					}
 
 					conversation.action = ACTION_DERIVED_FROM_CONV_OPEN_STATUS;
 					getModule().storage.save(conversation);
-			});
+				});
 		},
 
 		onHistory: function (conversation) {
-			let container = $('[data-onscreenchat-window=' + conversation.id + ']'),
-				messages = Object.values(conversation.messages),
-				messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
+			const container = document.querySelector('[data-onscreenchat-window="' + conversation.id + '"]');
+			const messages = Object.values(conversation.messages);
+			const messagesHeight = container.querySelector('[data-onscreenchat-body]').getBoundingClientRect().height;
 
 			messages.forEach(function(message) {
 				getModule().addMessage(conversation, message, !conversation.reverseSorting);
@@ -862,29 +886,30 @@
 				undefined === getModule().historyTimestamps[conversation.id] ||
 				conversation.oldestMessageTimestamp < getModule().historyTimestamps[conversation.id]
 			) {
-				let newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
-				container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
+				const newMessagesHeight = container.querySelector('[data-onscreenchat-body]').getBoundingClientRect().height;
+				container.querySelector('.panel-body').scrollTop = newMessagesHeight - messagesHeight;
 				getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
 			}
 
 			getModule().historyBlocked = false;
 
-			container.find('.ilOnScreenChatMenuLoader').closest('div').remove();
+			const menuLoader = container.querySelector('.ilOnScreenChatMenuLoader');
+			menuLoader && menuLoader.closest('div').remove();
 		},
 
 		onScroll: function() {
-			let container = $(this).closest('[data-onscreenchat-window]'),
-				conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
+			const container = this.closest('[data-onscreenchat-window]');
+			const conversation = getModule().storage.get(container.getAttribute('data-onscreenchat-window'));
 
-			if ($(this).scrollTop() === 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
+			if (this.scrollTop === 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
 				getModule().historyBlocked = true;
-				$(this).prepend(
-					$('<div></div>').css('text-align', 'center').css('margin-top', '-10px').append(
-						$('<img />').addClass("ilOnScreenChatMenuLoader").attr('src', getConfig().loaderImg)
-					)
+				this.prepend(
+					createNode('div', {style: 'text-align: center; margin-top: -10px'}, [
+						createNode('img', {class: 'ilOnScreenChatMenuLoader', src: getConfig().loaderImg})
+					])
 				);
 
-				let oldestMessageTimestamp = getModule().historyTimestamps[conversation.id];
+				const oldestMessageTimestamp = getModule().historyTimestamps[conversation.id];
 				$chat.getHistory(conversation.id, oldestMessageTimestamp);
 			}
 		},
@@ -906,7 +931,7 @@
 
 		trackActivityFor: function(conversation){
 			conversation.action = ACTION_STORE_CONV;
-			conversation.lastActivity = (new Date()).getTime();
+			conversation.lastActivity = new Date().getTime();
 			getModule().storage.save(conversation);
 
 			DeferredActivityTrackerFactory.getInstance(conversation.id).track(function() {
@@ -915,8 +940,9 @@
 		},
 
 		getCaretPosition: function(elm) {
-			var caretPos = 0,
-				sel, range;
+			let caretPos = 0;
+			let sel;
+			let range;
 
 			if (window.getSelection) {
 				sel = window.getSelection();
@@ -929,9 +955,9 @@
 			} else if (document.selection && document.selection.createRange) {
 				range = document.selection.createRange();
 				if (range.parentElement() == elm) {
-					var tempEl = document.createElement("span");
+					const tempEl = document.createElement("span");
 					elm.insertBefore(tempEl, elm.firstChild);
-					var tempRange = range.duplicate();
+					const tempRange = range.duplicate();
 					tempRange.moveToElementText(tempEl);
 					tempRange.setEndPoint("EndToEnd", range);
 					caretPos = tempRange.text.length;
@@ -941,16 +967,14 @@
 		},
 
 		onMessageInput: function() {
-			var $this = $(this);
-
-			$this.attr("data-onscreenchat-last-caret-pos", getModule().getCaretPosition($this.get(0)));
+			this.setAttribute('data-onscreenchat-last-caret-pos', getModule().getCaretPosition(this));
 		},
 
 		shouldPrintMessage: function (conversation, messageObject, prepend) {
-			let doPrintMessage = true,
-				username = findUsernameInConversationByMessage(messageObject);
+			let doPrintMessage = true;
+			const username = findUsernameInConversationByMessage(messageObject);
 
-			if (username === "") {
+			if (username === '') {
 				return false;
 			}
 
@@ -968,12 +992,12 @@
 		},
 
 		addMessage: function(conversation, messageObject, prepend) {
-			let template = getModule().config.messageTemplate,
-				position = (messageObject.userId == getModule().config.userId)? 'right' : 'left',
-				message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />'),
-				chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']'),
-				chatBody = chatWindow.find("[data-onscreenchat-body]"),
-				items = [];
+			let template = getModule().config.messageTemplate;
+			const position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
+			const message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
+			const chatWindow = document.querySelector('[data-onscreenchat-window="' + messageObject.conversationId + '"]');
+			const chatBody = chatWindow.querySelector("[data-onscreenchat-body]");
+			const items = [];
 
 			if (!getModule().shouldPrintMessage(conversation, messageObject, prepend)) {
 				if (prepend === false) {
@@ -982,7 +1006,7 @@
 				return;
 			}
 
-			let messageDate = new Date();
+			const messageDate = new Date();
 			messageDate.setTime(messageObject.timestamp);
 			const placeholderClass = 'm' + new Date().getTime();
 			const placeholder = '<span class="' + placeholderClass + '"></span>';
@@ -996,22 +1020,23 @@
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
 			template = template.replace(/\[\[position\]\]/g, position);
 
-			template = $(template);
-			template.find('.' + placeholderClass).each(function(){
-				this.textContent = message;
+			const dummyParent = document.createElement('div');
+			dummyParent.innerHTML = template;
+			dummyParent.querySelectorAll('.' + placeholderClass).forEach(n => {
+				n.textContent = message;
 			});
 
-			let $firstHeader = chatBody.find("li.header").first(),
-				$messages = chatBody.find("li.message"),
-				firstHeaderUsrId = $firstHeader.data("header-usr-id"),
-				renderSeparator = false,
-				renderHeader = true,
-				insertAfterFirstHeader = false,
-				insertBeforeLastAdded = false;
+			const $firstHeader = chatBody.querySelector('li.header');
+			const $messages = chatBody.querySelectorAll('li.message');
+			const firstHeaderUsrId = $firstHeader ? $firstHeader.dataset.headerUsrId : undefined;
+			let renderSeparator = false;
+			let renderHeader = true;
+			let insertAfterFirstHeader = false;
+			let insertBeforeLastAdded = false;
 
 			if (prepend === true) {
 				let firstMessageMessageDate = new Date();
-				firstMessageMessageDate.setTime($messages.first().find(".iosOnScreenChatBodyMsg").attr("data-message-time"));
+				firstMessageMessageDate.setTime($messages[0] ? $messages[0].querySelector('.iosOnScreenChatBodyMsg').getAttribute('data-message-time') : undefined);
 
 				if (
 					messageDate.getDay() !== firstMessageMessageDate.getDay() ||
@@ -1034,8 +1059,11 @@
 					}
 				}
  			} else {
-				let lastMessageDate = new Date();
-				lastMessageDate.setTime($messages.last().find(".iosOnScreenChatBodyMsg").attr("data-message-time"));
+				const lastMessageDate = new Date();
+				const iosMsg = $messages[$messages.length -1] ?
+                                      $messages[$messages.length -1].querySelector('.iosOnScreenChatBodyMsg') :
+				      null;
+				lastMessageDate.setTime(iosMsg ? iosMsg.getAttribute('data-message-time') : undefined);
 
 				if (
 					0 === $messages.length || (
@@ -1049,8 +1077,9 @@
 
 				if (
 					!renderSeparator &&
-					$messages.last().data("usr-id") &&
-					messageObject.userId == $messages.last().data("usr-id")
+					$messages[$messages.length -1] &&
+					$messages[$messages.length -1].dataset.usrId &&
+					messageObject.userId == $messages[$messages.length -1].dataset.usrId
 				) {
 					renderHeader = false;
 				}
@@ -1058,63 +1087,58 @@
 
 			if (messageObject.hasOwnProperty("isSystem") && messageObject.isSystem) {
 				items.push(
-					$("<li></li>").append(
-							$(template).find("li.system").html()
-						)
-						.addClass(position)
+					createNode('li', {class: position}, Array.from(dummyParent.querySelectorAll('li.system > *')).map(n => n.cloneNode(true)))
 				);
 			} else {
 				if (renderSeparator) {
 					items.push(
-						$("<li></li>").append(
-								$(template).find("li.system").find(".iosOnScreenChatBodyMsg").html(
-									dateTimeFormatter.formatDate(messageObject.timestamp)
-								)
-							)
-							.addClass("separator")
+						createNode('li', {class: 'separator'}, Array.from(dummyParent.querySelectorAll('li.system .iosOnScreenChatBodyMsg')).map(n => {
+							n.innerHTML = dateTimeFormatter.formatDate(messageObject.timestamp);
+							return n;
+						}))
 					);
 				}
 
 				if (renderHeader) {
-					items.push($("<li></li>").append(
-							$(template).find("li.with-header." + position).html()
-						)
-						.addClass("header " + position)
-						.data("header-usr-id", messageObject.userId));
+					items.push(createNode('li', {
+						class: 'header ' + position,
+						'data-header-usr-id': messageObject.userId
+					}, Array.from(
+						dummyParent.querySelectorAll('li.with-header.' + position)
+					).map(n => n.cloneNode(true))));
 				}
 
 				items.push(
-					$("<li></li>").append(
-							$(template).find("li.message").html()
-						)
-						.addClass("message " + position)
-						.data("usr-id", messageObject.userId)
-				);
-			}
-
-			if (prepend === true) {
-				items = items.reverse();
+					createNode(
+						'li',
+						{class: 'message ' + position, 'data-usr-id': messageObject.userId},
+						Array.from(dummyParent.querySelectorAll('li.message > *')).map(n => n.cloneNode(true))
+					));
 			}
 
 			let $lastAdded = $firstHeader;
-			items.forEach(function ($template) {
-				$template.addClass("clearfix");
+			(prepend === true ? items.reverse() : items).forEach(function ($template) {
+				$template.classList.add('clearfix');
 
 				if (prepend === true) {
 					if (insertBeforeLastAdded) {
-						$template.insertBefore($lastAdded);
+						$lastAdded.parentNode.insertBefore($template, $lastAdded);
 						$lastAdded = $template;
 					} else if (insertAfterFirstHeader) {
-						$template.insertAfter($firstHeader);
+						if ($firstHeader.nextSibling) {
+							$firstHeader.parentNode.insertBefore($template, $firstHeader.nextSibling);
+						} else {
+							$firstHeader.parentNode.appendChild($template);
+						}
 					} else {
 						chatBody.prepend($template);
 					}
 				} else {
-					chatBody.append($template);
+					chatBody.appendChild($template);
 				}
 			});
 
-			tryLink(chatBody.find('[data-onscreenchat-body-msg]'));
+			chatBody.querySelectorAll('[data-onscreenchat-body-msg]').forEach(tryLink);
 
 			if (prepend === false) {
 				getModule().scrollBottom(chatWindow);
@@ -1123,12 +1147,12 @@
 		},
 
 		resizeWindow: function() {
-			let width = $(this).outerWidth(),
-				space = parseInt(width / getModule().chatWindowWidth);
+			const width = window.outerWidth;
+			const space = parseInt(width / getModule().chatWindowWidth);
 
 			if (space != getModule().numWindows) {
-				let openWindows = countOpenChatWindows(),
-					diff = openWindows - space;
+				const openWindows = countOpenChatWindows();
+				const diff = openWindows - space;
 				getModule().numWindows = space;
 
 				if(diff > 0) {
@@ -1149,9 +1173,9 @@
 		},
 
 		findConversationWithLongestInactivity: function() {
-			var oldest = null;
-			$('[data-onscreenchat-window]:visible').each(function(){
-				var conversation = getModule().storage.get($(this).data('onscreenchat-window'));
+			let oldest = null;
+			document.querySelectorAll('[data-onscreenchat-window]:not(.ilNoDisplay)').forEach(() => {
+				const conversation = getModule().storage.get(this.dataset.onscreenchatWindow);
 				if(oldest == null || oldest.lastActivity > conversation.lastActivity || conversation.lastActivity == null) {
 					oldest = conversation;
 				}
@@ -1180,7 +1204,7 @@
 	}
 
 	function countOpenChatWindows() {
-		return $('[data-onscreenchat-window]:visible').length;
+		return document.querySelectorAll('[data-onscreenchat-window]:not(.ilNoDisplay)').length;
 	}
 
 	const DeferredCallbackFactory = (function() {
@@ -1202,13 +1226,12 @@
 		};
 	})();
 
-	const ConversationStorage = function ConversationStorage() {
-
-		this.get = function get(id) {
+	function ConversationStorage() {
+		this.get = function (id) {
 			return JSON.parse(window.localStorage.getItem(PREFIX_CONSTANT + id));
 		};
 
-		this.syncUIStateWithStored = function mergeWithStored(conversation) {
+		this.syncUIStateWithStored = function (conversation) {
 			let oldValue = this.get(conversation.id);
 
 			if (oldValue != null && oldValue.open !== undefined && (conversation.open === undefined || conversation.open !== oldValue.open)) {
@@ -1229,7 +1252,7 @@
 			return conversation;
 		}; 
 
-		this.save = function save(conversation, callback) {
+		this.save = function (conversation, callback) {
 			let oldValue = this.get(conversation.id);
 
 			conversation.messages = [];
@@ -1246,7 +1269,7 @@
 				}
 
 				if (ACTION_SHOW_CONV === conversation.action) {
-					conversation.lastActivity = (new Date).getTime();
+					conversation.lastActivity = new Date().getTime();
 					conversation.numNewMessages = 0;
 					conversation.open = true;
 				} else if (ACTION_HIDE_CONV === conversation.action || ACTION_REMOVE_CONV === conversation.action) {
@@ -1254,18 +1277,18 @@
 				}
 			}
 
-			conversation.callback	= callback;
-			conversation.type		= TYPE_CONSTANT;
+			conversation.callback = callback;
+			conversation.type = TYPE_CONSTANT;
 
-			window.localStorage.setItem(PREFIX_CONSTANT + conversation.id, JSON.stringify(conversation));
-
-			let e = $.Event('storage');
-			e.originalEvent = {
+			const newValue = JSON.stringify(conversation);
+			window.localStorage.setItem(PREFIX_CONSTANT + conversation.id, newValue);
+			const event = new StorageEvent('storage', {
 				key: PREFIX_CONSTANT + conversation.id,
 				oldValue: oldValue,
-				newValue: conversation
-			};
-			$(window).trigger(e);
+				newValue: newValue,
+			});
+			event.callback = callback;
+			window.dispatchEvent(event);
 		};
 	};
 
@@ -1357,7 +1380,7 @@
 		return names;
 	};
 
-	const ParticipantsTooltipFormatter = function ParticipantsTooltipFormatter(participants) {
+	function ParticipantsTooltipFormatter(participants) {
 		let _participants = participants;
 
 		this.format = function () {
@@ -1377,7 +1400,8 @@
 	};
 
 	const TypingBroadcasterFactory = (function () {
-		let instances = {}, ms = 5000;
+		let instances = {}
+		const ms = 5000;
 
 		/**
 		 * 
@@ -1572,4 +1596,12 @@
 			return cached[key];
 		};
 	}
-})(jQuery, window, window.il.Chat, window.il.ChatDateTimeFormatter);
+})(
+  // Currently jQuery is required for UI events to work:
+  // s => document.dispatchEvent(new CustomEvent(s)) doesn't work
+  // This can be changed when the UI components don't use jQuery for event dispatching.
+  s => $(document).trigger(s, {}),
+  window,
+  window.il.Chat,
+  window.il.ChatDateTimeFormatter
+);

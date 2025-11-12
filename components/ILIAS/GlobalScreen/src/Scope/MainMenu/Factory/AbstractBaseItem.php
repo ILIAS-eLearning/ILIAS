@@ -58,8 +58,13 @@ abstract class AbstractBaseItem implements isItem, isDecorateable
         return $this->provider_identification;
     }
 
-    public function withNonAvailableReason(Content $element): isItem
+    public function withNonAvailableReason(Content|string $element): isItem
     {
+        if (is_string($element)) {
+            global $DIC;
+            $element = $DIC->ui()->factory()->legacy()->content($element);
+        }
+
         $clone = clone $this;
         $clone->non_available_reason = $element;
 
@@ -73,7 +78,7 @@ abstract class AbstractBaseItem implements isItem, isDecorateable
     {
         global $DIC;
 
-        return $this->non_available_reason instanceof Legacy ? $this->non_available_reason : $DIC->ui()->factory()->legacy()->content("");
+        return $this->non_available_reason instanceof Content ? $this->non_available_reason : $DIC->ui()->factory()->legacy()->content("");
     }
 
     /**

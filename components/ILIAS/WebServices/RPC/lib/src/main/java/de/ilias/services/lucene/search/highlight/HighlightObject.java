@@ -60,12 +60,12 @@ public class HighlightObject implements ResultExport, Comparator {
 		this.setObjId(objId);
 	}
 
-	public HighlightItem addItem(int subId) {
+    public HighlightItem addItem(int subId, String subType) {
 
 		if(items.containsKey(subId)) {
 			return items.get(subId);
 		}
-		items.put(subId, new HighlightItem(subId));
+		items.put(subId, new HighlightItem(subId, subType));
 		return items.get(subId);
 	}
 	/**

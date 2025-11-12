@@ -32,11 +32,12 @@ enum Context
     case Certificate;
     case Course;
     case Group;
+    case LearningSequence;
     case StudyProgramme;
     case Search;
     case Export;
 
-    public function isFieldVisibleInType(
+    public function isFieldVisible(
         Field $field,
         ?\ilObjUser $user
     ): bool {
@@ -52,11 +53,12 @@ enum Context
             self::StudyProgramme => $field->isVisibleInStudyProgrammes(),
             self::Search => $field->isSearchable(),
             self::Export => $field->export(),
-            self::UserAdministration => true
+            self::UserAdministration => true,
+            default => false
         };
     }
 
-    public function isFieldChangeableInType(
+    public function isFieldChangeable(
         Field $field,
         ?\ilObjUser $user
     ): bool {
@@ -71,7 +73,7 @@ enum Context
         };
     }
 
-    public function isSettingAvailableInType(
+    public function isSettingAvailable(
         Setting $setting
     ): bool {
         return match($this) {
@@ -89,6 +91,7 @@ enum Context
             'crs' => self::Course,
             'grp' => self::Group,
             'prg' => self::StudyProgramme,
+            'lso' => self::LearningSequence,
             default => null
         };
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -152,6 +153,10 @@ class ilObjCourseReference extends ilContainerReference
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $new_obj->enableMemberUpdate($this->isMemberUpdateEnabled());
         $new_obj->update();
+
+        $lp_settings = new ilLPObjSettings($this->getId());
+        $lp_settings->cloneSettings($new_obj->getId());
+
         return $new_obj;
     }
 }

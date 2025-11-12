@@ -229,7 +229,7 @@ class ilWikiPage extends ilPageObject
     public function update(
         bool $a_validate = true,
         bool $a_no_history = false
-    ) {
+    ): array|bool {
         $ilDB = $this->db;
         $this->wiki_log->debug("start...");
         // update wiki page data

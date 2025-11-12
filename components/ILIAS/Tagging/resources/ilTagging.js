@@ -1,4 +1,3 @@
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,9 +36,6 @@ ilTagging =
 		{
 			window.eventReturnValue = false;
 		}
-
-		// hide overlays
-		//il.Overlay.hideAllOverlays(e, true);
 		
 		this.hash = hash;
 		this.update_code = update_code;

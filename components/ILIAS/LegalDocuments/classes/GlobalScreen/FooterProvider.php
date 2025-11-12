@@ -68,8 +68,11 @@ class FooterProvider extends AbstractStaticFooterProvider
 
     private function item(string $id, string $title, object $obj): isItem
     {
-        return $obj instanceof Modal ?
-            $this->item_factory->modal($this->id_factory->identifier($id), $title, $obj)->withParent($this->parent_id) :
-            $this->item_factory->link($this->id_factory->identifier($id), $title)->withAction($obj);
+        $id = $this->id_factory->identifier($id);
+        $item = $obj instanceof Modal ?
+            $this->item_factory->modal($id, $title, $obj) :
+            $this->item_factory->link($id, $title)->withAction($obj);
+
+        return $item->withParent($this->parent_id);
     }
 }

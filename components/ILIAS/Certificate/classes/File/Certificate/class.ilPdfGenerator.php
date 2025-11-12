@@ -106,7 +106,7 @@ class ilPdfGenerator
     {
         $certificateContent = $certificate->getCertificateContent();
 
-        $background_rid = $this->irss->manage()->find($certificate->getCurrentBackgroundImageUsed());
+        $background_rid = $this->irss->manage()->find($certificate->getBackgroundImageIdentification());
         $background_src = '';
         if ($background_rid instanceof ResourceIdentification) {
             $background_src = $this->irss->consume()->src($background_rid)->getSrc(true);
@@ -114,12 +114,6 @@ class ilPdfGenerator
             $certificateContent = str_replace(
                 ['[BACKGROUND_IMAGE]'],
                 [$background_src],
-                $certificateContent
-            );
-        } elseif ($this->filesystem->has($certificate->getCurrentBackgroundImageUsed())) {
-            $certificateContent = str_replace(
-                ['[BACKGROUND_IMAGE]', '[CLIENT_WEB_DIR]'],
-                ['[CLIENT_WEB_DIR]' . $certificate->getCurrentBackgroundImageUsed(), 'file://' . CLIENT_WEB_DIR],
                 $certificateContent
             );
         }

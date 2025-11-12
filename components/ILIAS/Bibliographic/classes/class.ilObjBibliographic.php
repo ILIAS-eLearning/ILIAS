@@ -208,8 +208,6 @@ class ilObjBibliographic extends ilObject2
                 "DELETE FROM il_bibl_data WHERE id = " . $this->db->quote($this->getId(), "integer")
             );
         }
-        // delete history entries
-        ilHistory::_removeEntriesForObject($this->getId());
     }
 
     /**

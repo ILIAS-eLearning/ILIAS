@@ -41,8 +41,8 @@ class ilMailUserCache
         if ($usr_ids_to_request !== []) {
             $in = $DIC->database()->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
             $query = "
-				SELECT ud.usr_id, login, firstname, lastname, title, gender, 
-				       pprof.value public_profile,pup.value public_upload, pupgen.value public_gender
+				SELECT ud.usr_id, login, firstname, lastname, title, gender,
+				       pprof.value public_profile,pup.value public_avatar, pupgen.value public_gender
 				FROM usr_data ud
 				LEFT JOIN usr_pref pprof ON pprof.usr_id = ud.usr_id AND pprof.keyword = %s
 				LEFT JOIN usr_pref pupgen ON pupgen.usr_id = ud.usr_id AND pupgen.keyword = %s
@@ -53,7 +53,7 @@ class ilMailUserCache
             $res = $DIC->database()->queryF(
                 $query,
                 ['text', 'text', 'text'],
-                ['public_profile', 'public_gender', 'public_upload']
+                ['public_profile', 'public_gender', 'public_avatar']
             );
 
             while ($row = $DIC->database()->fetchAssoc($res)) {
@@ -65,7 +65,7 @@ class ilMailUserCache
                 $user->setFirstname((string) $row['firstname']);
                 $user->setLastname((string) $row['lastname']);
                 $user->setPref('public_profile', $row['public_profile']);
-                $user->setPref('public_upload', $row['public_upload']);
+                $user->setPref('public_avatar', $row['public_avatar']);
                 $user->setPref('public_gender', $row['public_gender']);
 
                 self::$user_instances[(int) $row['usr_id']] = $user;

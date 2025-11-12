@@ -179,13 +179,10 @@ class ilAdministrationSettingsFormHandler
 
         // cron jobs - special handling
 
-        $parent_gui = new ilObjSystemFolderGUI(null, SYSTEM_FOLDER_ID, true);
-        $parent_gui->setCreationMode(true);
-
-        $gui = new ilCronManagerGUI();
+        $gui = ilObjCronGUI::create();
         $data = $gui->addToExternalSettingsForm($a_form_id);
-        if (is_array($data) && count($data)) {
-            self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
+        if ($data !== []) {
+            self::parseFieldDefinition("cron", $a_form, $gui, $data);
         }
     }
 
@@ -301,14 +298,14 @@ class ilAdministrationSettingsFormHandler
                     }
 
                     if ($has_write &&
-                        $rbacsystem->checkAccess("visible,read", $a_gui->getObject()->getRefId())) {
+                        $rbacsystem->checkAccess("read", $a_gui->getObject()->getRefId())) {
                         if (!$cmd) {
                             $cmd = "view";
                         }
                         $ilCtrl->setParameter($a_gui, "ref_id", $a_gui->getObject()->getRefId());
 
                         $ftpl->setCurrentBlock("edit_bl");
-                        $ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTargetByClass(array("ilAdministrationGUI", get_class($a_gui)), $cmd));
+                        $ftpl->setVariable("URL_EDIT", $ilCtrl->getLinkTargetByClass([ilAdministrationGUI::class, $a_gui::class], $cmd));
                         $ftpl->setVariable("TXT_EDIT", $lng->txt("adm_external_setting_edit"));
                         $ftpl->parseCurrentBlock();
                     }

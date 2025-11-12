@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 require_once("./components/ILIAS/MediaObjects/ImageMap/class.ilMapArea.php");
 
@@ -28,7 +29,7 @@ class PCMediaObjectTest extends COPageTestBase
     /**
      * @return (\ILIAS\Repository\Object\ObjectAdapter&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getObjectAdapterMock()
+    protected function getObjectAdapterMock(): MockObject
     {
         $object_adapter = $this->getMockBuilder(\ILIAS\Repository\Object\ObjectAdapter::class)
                              ->disableOriginalConstructor()

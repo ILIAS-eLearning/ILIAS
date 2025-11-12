@@ -322,7 +322,7 @@ class Field implements Property
     ): \ilFormPropertyGUI {
         $input = $this->definition->getLegacyInput($lng, $context, $user);
         $input->setPostVar($this->definition->getIdentifier());
-        $input->setRequired($this->required);
+        $input->setRequired($input->getRequired() || $this->isRequired());
         return $input;
     }
 
@@ -332,7 +332,7 @@ class Field implements Property
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        if (!$context->isFieldChangeableInType($this, $user)) {
+        if (!$context->isFieldChangeable($this, $user)) {
             throw new \Exception('It is not possible to Change this from here!');
         }
         return $this->definition->addValueToUserObject($user, $input, $form);

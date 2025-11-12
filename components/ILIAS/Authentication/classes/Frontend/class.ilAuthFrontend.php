@@ -315,6 +315,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         );
 
         $this->getStatus()->setReason('');
+
         return true;
     }
 
@@ -454,7 +455,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         }
 
         if ($num_deacticated_accounts > 0) {
-            $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
+            $this->getStatus()->setReason('auth_err_invalid_user_account');
         }
     }
 }

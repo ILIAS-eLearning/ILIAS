@@ -146,4 +146,16 @@ class ilMediaObjectsDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_8(): void
+    {
+        $db = $this->db;
+        if (!$db->tableColumnExists('mob_data', 'last_change')) {
+            $db->addTableColumn('mob_data', 'last_change', [
+                'type' => 'integer',
+                'notnull' => true,
+                'length' => 8,
+                'default' => 0
+            ]);
+        }
+    }
 }

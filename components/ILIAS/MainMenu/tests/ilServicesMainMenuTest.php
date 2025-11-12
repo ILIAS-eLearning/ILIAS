@@ -142,6 +142,7 @@ class ilServicesMainMenuTest extends TestCase
     public function testStandardTopItems(): void
     {
         $this->dic_mock['lng'] = $this->createMock(ilLanguage::class);
+        $this->dic_mock['tree'] = $this->createMock(ilTree::class);
         $standard_top_items = new StandardTopItemsProvider($this->dic_mock);
         $items = $standard_top_items->getStaticTopItems();
         $item_identifications = array_map(

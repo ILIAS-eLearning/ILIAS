@@ -88,31 +88,42 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     public function showPage(): string
     {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getStyleId()));
+        $replacements = [];
+        foreach ($this->getPageObject()->getAvailablePlaceholders() as $field) {
+            $replacements['[[' . $field->getId() . ']]'] = '[[' . $field->getTitle() . ']]';
+        }
         if ($this->getOutputMode() === ilPageObjectGUI::EDIT) {
-            $legend = $this->getPageObject()->getAvailablePlaceholders();
-            if (sizeof($legend)) {
-                $html = "<span class=\"small\">" . $this->lng->txt("dcl_legend_placeholders") . ":<br>";
-                foreach ($legend as $field) {
-                    $html .= "[[" . $field->getID() . ']]<i style="opacity: 0.3"> - ' . $field->getTitle() . '</i><br>';
-                }
-                $this->setPrependingHtml($html . "</span>");
-            }
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('dcl_placeholder_info'));
+            $this->obj->setXMLContent(strtr($this->obj->getXMLContent(), $replacements));
+            $this->obj->update();
+        }
+        if ($this->getOutputMode() === ilPageObjectGUI::PREVIEW) {
+            return strtr(parent::showPage(), $replacements);
         }
 
         return parent::showPage();
     }
 
+    public function finishEditing(): void
+    {
+        $replacements = [];
+        foreach ($this->getPageObject()->getAvailablePlaceholders() as $field) {
+            $replacements['[[' . $field->getTitle() . ']]'] = '[[' . $field->getId() . ']]';
+        }
+        $this->obj->setXMLContent(strtr($this->obj->getXMLContent(), $replacements));
+        $this->obj->update();
+        parent::finishEditing();
+    }
+
     public function postOutputProcessing(string $a_output): string
     {
+        $replacements = [];
         foreach ($this->getPageObject()->getAvailablePlaceholders() as $field) {
-            if ($this->record === null) {
-                $replacement = '<b>' . $field->getTitle() . '</b>';
-            } else {
-                $replacement = $this->record->getRecordFieldSingleHTML($field->getId());
+            if ($this->record !== null) {
+                $replacements['[[' . $field->getId() . ']]'] = $this->record->getRecordFieldSingleHTML($field->getId());
             }
-            $a_output = str_replace('[[' . $field->getId() . ']]', $replacement, $a_output);
         }
 
-        return $a_output;
+        return strtr($a_output, $replacements);
     }
 }

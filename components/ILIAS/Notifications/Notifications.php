@@ -33,19 +33,23 @@ class Notifications implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
-            new \ilNotificationUpdateAgent(
-                $pull[\ILIAS\Refinery\Factory::class]
+            new \ilNotificationsSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class],
+                $seek[\ILIAS\Notifications\Interfaces\PushProviderInterface::class]
             );
-
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "notifications.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/dist/BrowserNotifications.min.js");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, "push-subscription.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentCSS($this, "osd.css");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\OfComponent($this, "receive.mp3", "assets/sounds");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\OfComponent($this, "receive.ogg", "assets/sounds");
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Notifications\UserSettings\Settings();
     }
 }

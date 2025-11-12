@@ -172,6 +172,11 @@ class assMatchingQuestionImport extends assQuestionImport
             }
         }
 
+        // additional content editing mode information
+        $this->object->setAdditionalContentEditingMode(
+            $this->fetchAdditionalContentEditingModeInformation($item)
+        );
+
         $this->object->createNewQuestion();
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
@@ -229,10 +234,7 @@ class assMatchingQuestionImport extends assQuestionImport
             }
             $this->object->addMatchingPair(new assAnswerMatchingTerm('', '', (float) $term["ident"]), new assAnswerMatchingDefinition('', '', (int) $definition["answerorder"]), (float) $response['points']);
         }
-        // additional content editing mode information
-        $this->object->setAdditionalContentEditingMode(
-            $this->fetchAdditionalContentEditingModeInformation($item)
-        );
+
         $this->object->saveToDb();
         $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
         foreach ($responses as $response) {

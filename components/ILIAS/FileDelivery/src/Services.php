@@ -74,8 +74,17 @@ class Services
             $user_id,
             $until
         );
+
+        // maybe add suffix
+        $suffix = '';
+        // try to determine suffix from filename
+        $pathinfo = pathinfo($filename);
+        if (isset($pathinfo['extension']) && $pathinfo['extension'] !== '') {
+            $suffix = '.' . $pathinfo['extension'];
+        }
+
         return new URI(
-            $this->getBaseURI() . self::DELIVERY_ENDPOINT . $token
+            $this->getBaseURI() . self::DELIVERY_ENDPOINT . $token . $suffix
         );
     }
 

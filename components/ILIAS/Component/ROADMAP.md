@@ -1,1 +1,13 @@
-# Roadmap for ILIAS/Component
+# Roadmap
+
+## Short Term
+
+...
+
+## Mid Term
+
+...
+
+## Long Term
+
+...

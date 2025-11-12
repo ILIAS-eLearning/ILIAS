@@ -28,26 +28,47 @@ use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Builder\StandardURIBuilder;
 use ILIAS\StaticURL\Response\MaybeCanHandlerAfterLogin;
 use ILIAS\StaticURL\Response\CannotReach;
+use ILIAS\StaticURL\StaticURLConfig;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class HandlerService
 {
-    /**
-     * @var Handler[]
-     */
-    private array $handlers = [];
     private Factory $response_factory;
+    private array $handlers = [];
 
     public function __construct(
         private RequestBuilder $request_builder,
         private Context $context,
-        Handler ...$handlers,
+        private array $handler_instances
     ) {
         $this->response_factory = new Factory($context);
-        foreach ($handlers as $handler) {
+        // check handlers
+        foreach ($handler_instances as $handler_instance) {
+            if (!$handler_instance instanceof Handler) {
+                throw new \InvalidArgumentException(
+                    'Handler instances must implement the Handler interface'
+                );
+            }
+        }
+    }
+
+    public function initHandler(): void
+    {
+        foreach ($this->handler_instances as $handler) {
+            if (isset($this->handlers[$handler->getNamespace()])) {
+                throw new \LogicException("Namespace-Collision detected: " . $handler->getNamespace());
+            }
             $this->handlers[$handler->getNamespace()] = $handler;
+            if ($handler instanceof AliasedHandler) {
+                foreach ($handler->getNamespaceAliasses() as $namespace_aliass) {
+                    if (isset($this->handlers[$namespace_aliass])) {
+                        throw new \LogicException("Namespace-Collision detected: " . $namespace_aliass);
+                    }
+                    $this->handlers[$namespace_aliass] = $handler;
+                }
+            }
         }
     }
 
@@ -56,6 +77,10 @@ class HandlerService
      */
     public function performRedirect(URI $base_uri): void
     {
+        if (empty($this->handlers)) {
+            $this->initHandler();
+        }
+
         $http = $this->context->http();
 
         $request = $this->request_builder->buildRequest(
@@ -73,12 +98,14 @@ class HandlerService
         }
         $response = $handler->handle($request, $this->context, $this->response_factory);
         if (!$response->targetCanBeReached()) {
-            throw new \RuntimeException(
-                'Handler ' . $handler->getNamespace() . ' did not return a URI'
-            ); // TODO: we shoud redirect somewhere
+            $http->saveResponse(
+                $http->response()->withStatus(404),
+            );
+            $http->sendResponse();
+            $http->close();
         }
 
-        $uri_builder = new StandardURIBuilder(ILIAS_HTTP_PATH, false);
+        $uri_builder = new StandardURIBuilder(new StaticURLConfig());
 
         switch (true) {
             case $response instanceof MaybeCanHandlerAfterLogin:
@@ -109,6 +136,11 @@ class HandlerService
                 if ($base_path !== '' && $base_path !== '/') {
                     $uri_path = str_replace(rtrim($base_path, '/') . '/', '', $uri_path);
                 }
+
+                for ($x = 0; $x < $response->shift(); $x++) {
+                    $base_uri = $base_uri->withPath(dirname((string) $base_uri->getPath()));
+                }
+
                 $full_uri = $base_uri . '/' . trim((string) $uri_path, '/');
                 break;
         }

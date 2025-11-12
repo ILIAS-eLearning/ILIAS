@@ -40,6 +40,7 @@ public class HighlightItem implements ResultExport {
 	protected static Logger logger = LogManager.getLogger(HighlightItem.class); 
 	
 	private int subId;
+    private String subType;
 	private double absoluteScore = 0;
 	private final Vector<HighlightField> fields = new Vector<HighlightField>();
 	
@@ -52,15 +53,23 @@ public class HighlightItem implements ResultExport {
 	
 	}
 
-	/**
-	 * @param subId
-	 */
-	public HighlightItem(int subId) {
-		
+    public HighlightItem(int subId, String subType) {
+
+        this.setSubType(subType);
 		this.setSubId(subId);
 	}
 
-	/**
+    private void setSubType(String subType)
+    {
+        this.subType = subType;
+    }
+
+    public String getSubType()
+    {
+        return subType;
+    }
+
+    /**
 	 * @param subId the subId to set
 	 */
 	public void setSubId(int subId) {
@@ -115,6 +124,7 @@ public class HighlightItem implements ResultExport {
 
 		Element item = new Element("Item").setAttribute("id", String.valueOf(getSubId()));
 		item.setAttribute("id",String.valueOf(getSubId()));
+        item.setAttribute("type", String.valueOf(getSubType()));
 		item.setAttribute("absoluteScore",String.valueOf(getAbsoluteScore()));
 		
 		for(Object field : fields) {

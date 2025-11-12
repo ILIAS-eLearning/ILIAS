@@ -30,8 +30,10 @@ use ILIAS\Language\Language;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ILIAS\User\Profile\PublicProfileGUI: ilObjPortfolioGUI
  */
-class PublicProfileGUI implements \ilCtrlBaseClassInterface
+class PublicProfileGUI
 {
+    public const string DEFAULT_CMD = 'view';
+
     private bool $offline = false;
     private GUIRequest $profile_request;
     private int $userid = 0;
@@ -190,10 +192,6 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
                 break;
         }
 
-        // only for direct links
-        if (strtolower($this->profile_request->getBaseClass()) === strtolower(self::class)) {
-            $this->tpl->printToStdout();
-        }
         return (string) $ret;
     }
 
@@ -350,13 +348,15 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             $tpl->setVariable('HREF_VCARD', $this->ctrl->getLinkTarget($this, 'deliverVCard'));
         }
 
-        $imagefile = \ilObjUser::_getPersonalPicturePath($user->getId(), 'big', false, true);
-        if ($this->getPublicPref($user, 'public_upload') === 'y' && $imagefile !== ''
+        if ($this->getPublicPref($user, 'public_avatar') === 'y'
             && ($this->current_user->getId() !== ANONYMOUS_USER_ID || $user->getPref('public_profile') === 'g')) {
+            $define = new \ilUserAvatarResolver($user->getId());
+            $define->setForcePicture(false);
+            $define->setSize('big');
 
             $tpl->setCurrentBlock('image');
             $tpl->setVariable('TXT_IMAGE', $this->lng->txt('image'));
-            $tpl->setVariable('IMAGE_PATH', $imagefile);
+            $tpl->setVariable('IMAGE_PATH', $define->getLegacyPictureURL());
             $tpl->setVariable('IMAGE_ALT', $this->lng->txt('personal_picture'));
             $tpl->parseCurrentBlock();
         }
@@ -486,12 +486,8 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
         }
 
         // portfolios
-        $back = ($this->getBackUrl() != '')
-            ? $this->getBackUrl()
-            : \ilLink::_getStaticLink($this->getUserId(), 'usr', true);
         $port = \ilObjPortfolio::getAvailablePortfolioLinksForUserIds(
-            [$this->getUserId()],
-            $back
+            [$this->getUserId()]
         );
         $cnt = 0;
         if ($port !== []) {
@@ -521,7 +517,7 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
             $tpl->setVariable('TXT_LOCATION', $this->lng->txt('location'));
 
             $map_gui = \ilMapUtil::getMapGUI();
-            $map_gui->setMapId('user_map_' . md5($user->login))
+            $map_gui->setMapId('user_map_' . md5($user->getLogin()))
                     ->setWidth('350px')
                     ->setHeight('230px')
                     ->setLatitude($user->getLatitude())
@@ -685,25 +681,25 @@ class PublicProfileGUI implements \ilCtrlBaseClassInterface
     /**
      * Check if given user id is valid
      */
-    protected function validateUser(int $usrId): bool
+    protected function validateUser(int $usr_id): bool
     {
-        if (\ilObject::_lookupType($usrId) != 'usr') {
+        if (\ilObject::_lookupType($usr_id) !== 'usr') {
             return false;
         }
 
-        $user = new \ilObjUser($usrId);
+        $user = new \ilObjUser($usr_id);
 
         if ($this->current_user->isAnonymous()) {
             if (strtolower($this->ctrl->getCmd()) == strtolower('approveContactRequest')) {
-                $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usrId . '_contact_approved');
+                $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usr_id . '_contact_approved');
             } elseif (strtolower($this->ctrl->getCmd()) == strtolower('ignoreContactRequest')) {
-                $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usrId . '_contact_ignored');
+                $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usr_id . '_contact_ignored');
             }
 
             if ($user->getPref('public_profile') != 'g') {
                 // #12151
                 if ($user->getPref('public_profile') == 'y') {
-                    $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usrId);
+                    $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . $usr_id);
                 }
 
                 return false;

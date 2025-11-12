@@ -54,7 +54,8 @@ class ilForumSearch extends ilAbstractSearch
                 (int) $row->frm_id,
                 'frm',
                 $this->__prepareFound($row),
-                (int) $thread_post
+                (int) $thread_post,
+                'thr'
             );
         }
 
@@ -78,7 +79,8 @@ class ilForumSearch extends ilAbstractSearch
                 (int) $row->frm_id,
                 'frm',
                 $this->__prepareFound($row),
-                (int) $thread_post
+                (int) $thread_post,
+                'thr'
             );
         }
         return $this->search_result;

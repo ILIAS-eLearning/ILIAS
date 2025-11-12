@@ -38,7 +38,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     protected \ILIAS\MediaObjects\Player\GUIService $mob_player_gui;
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     protected \ILIAS\MediaCast\InternalGUIService $gui;
-    protected $video_gui;
+    protected \ILIAS\MediaObjects\Video\GUIService $video_gui;
     protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected ilPropertyFormGUI $form_gui;
     protected ilNewsItem $mcst_item;

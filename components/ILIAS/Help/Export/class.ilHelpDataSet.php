@@ -16,13 +16,10 @@
  *
  *********************************************************************/
 
-/**
- * Help system data set class
- *
- * @author Alexander Killing <killing@leifos.de>
- */
 class ilHelpDataSet extends ilDataSet
 {
+    protected \ILIAS\Help\InternalDomainService $help_domain;
+    protected \ILIAS\Help\InternalDataService $help_data;
     protected \ILIAS\Help\Tooltips\TooltipsManager $help_tooltips;
     protected \ILIAS\Help\Map\MapManager $help_map;
 
@@ -30,12 +27,13 @@ class ilHelpDataSet extends ilDataSet
     {
         global $DIC;
 
-        $help_domain = $DIC->help()->internal()->domain();
+        $this->help_domain = $DIC->help()->internal()->domain();
+        $this->help_data = $DIC->help()->internal()->data();
 
         parent::__construct();
 
-        $this->help_map = $help_domain->map();
-        $this->help_tooltips = $help_domain->tooltips();
+        $this->help_map = $this->help_domain->map();
+        $this->help_tooltips = $this->help_domain->tooltips();
     }
 
     public function getSupportedVersions(): array
@@ -85,6 +83,34 @@ class ilHelpDataSet extends ilDataSet
                     );
             }
         }
+
+        if ($a_entity === "gdtr") {
+            switch ($a_version) {
+                case "10.0":
+                    return [
+                        "ObjId" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "Permission" => "integer",
+                        "ScreenIds" => "text",
+                        "Lang" => "text"
+                    ];
+            }
+        }
+
+        if ($a_entity === "gdtr_step") {
+            switch ($a_version) {
+                case "10.0":
+                    return [
+                        "Id" => "integer",
+                        "TourId" => "integer",
+                        "OrderNr" => "integer",
+                        "Type" => "integer",
+                        "ElementId" => "text"
+                    ];
+            }
+        }
+
         return [];
     }
 
@@ -118,6 +144,29 @@ class ilHelpDataSet extends ilDataSet
                     break;
             }
         }
+
+        if ($a_entity === "gdtr") {
+            switch ($a_version) {
+                case "10.0":
+                    $this->getDirectDataFromQuery("SELECT hs.obj_id, title, description, permission, screen_ids, lang " .
+                        " FROM help_gt_settings hs JOIN object_data od ON (hs.obj_id = od.obj_id)" .
+                        "WHERE " .
+                        $ilDB->in("hs.obj_id", $a_ids, false, "integer"));
+                    break;
+            }
+        }
+
+        if ($a_entity === "gdtr_step") {
+            switch ($a_version) {
+                case "10.0":
+                    $this->getDirectDataFromQuery("SELECT id, tour_id, order_nr, type, element_id " .
+                        " FROM help_gt_step " .
+                        "WHERE " .
+                        $ilDB->in("id", $a_ids, false, "integer"));
+                    break;
+            }
+        }
+
     }
 
     public function importRecord(
@@ -170,6 +219,50 @@ class ilHelpDataSet extends ilDataSet
                 $module_id = $a_mapping->getMapping('components/ILIAS/Help', 'help_module', 0);
                 if ($module_id) {
                     $this->help_tooltips->addTooltip($a_rec["TtId"], $a_rec["TtText"], $module_id);
+                }
+                break;
+
+            case "gdtr":
+                $newObj = new ilObjGuidedTour();
+                $newObj->create(0, true);
+
+                $newObj->setTitle($a_rec["Title"]);
+                $newObj->setDescription($a_rec["Description"]);
+                $newObj->update(true);
+
+                //$this->current_obj = $newObj;
+                $a_mapping->addMapping("components/ILIAS/Help", "gdtr", $a_rec["ObjId"], $newObj->getId());
+                $a_mapping->addMapping("components/ILIAS/ILIASObject", "obj", $a_rec["ObjId"], $newObj->getId());
+
+                $this->help_domain->guidedTour()->tourSettings()->save(
+                    $this->help_data->guidedTour()->settings(
+                        $newObj->getId(),
+                        false,
+                        $a_rec["ScreenIds"],
+                        \ILIAS\Help\GuidedTour\Settings\PermissionType::from((int) $a_rec["Permission"]),
+                        $a_rec["Lang"],
+                    )
+                );
+                break;
+
+            case "gdtr_step":
+                $tour_id = (int) $a_mapping->getMapping("components/ILIAS/Help", "gdtr", $a_rec["TourId"]);
+                if ($tour_id > 0) {
+                    $step_id = $this->help_domain->guidedTour()->step()->create(
+                        $this->help_data->guidedTour()->step(
+                            0,
+                            $tour_id,
+                            (int) $a_rec["OrderNr"],
+                            \ILIAS\Help\GuidedTour\Step\StepType::from((int) $a_rec["Type"]),
+                            $a_rec["ElementId"],
+                        )
+                    );
+                    $a_mapping->addMapping(
+                        "components/ILIAS/COPage",
+                        "pg",
+                        "gdtr:" . $a_rec["Id"],
+                        "gdtr:" . $step_id
+                    );
                 }
                 break;
         }

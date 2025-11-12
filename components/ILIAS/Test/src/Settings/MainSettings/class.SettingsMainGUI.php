@@ -32,10 +32,8 @@ use ILIAS\ILIASObject\Properties\Properties as ObjectProperties;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Checkbox;
-use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Transformation as TransformationInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
 
@@ -74,7 +72,6 @@ class SettingsMainGUI extends TestSettingsGUI
 
     public function __construct(
         private readonly \ilGlobalTemplateInterface $tpl,
-        private readonly \ilToolbarGUI $toolbar,
         private readonly \ilCtrlInterface $ctrl,
         private readonly \ilAccessHandler $access,
         private readonly \ilLanguage $lng,
@@ -127,56 +124,10 @@ class SettingsMainGUI extends TestSettingsGUI
         $this->object_data_cache->deleteCachedEntry($this->test_object->getId());
     }
 
-    private function showOldIntroduction(): void
-    {
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt('back'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'showForm')
-            )
-        );
-
-        $this->tpl->setContent(
-            $this->main_settings->getIntroductionSettings()->getIntroductionText()
-        );
-    }
-
-    private function showOldConcludingRemarks(): void
-    {
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt('back'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'showForm')
-            )
-        );
-
-        $this->tpl->setContent(
-            $this->main_settings->getFinishingSettings()->getConcludingRemarksText()
-        );
-    }
-
     private function showForm(?StandardForm $form = null, ?InterruptiveModal $modal = null): void
     {
         if ($form === null) {
             $form = $this->buildForm();
-        }
-
-        if ($this->main_settings->getIntroductionSettings()->getIntroductionText() !== '') {
-            $this->toolbar->addComponent(
-                $this->ui_factory->link()->standard(
-                    $this->lng->txt('show_old_introduction'),
-                    $this->ctrl->getLinkTargetByClass(self::class, 'showOldIntroduction')
-                )
-            );
-        }
-
-        if ($this->main_settings->getFinishingSettings()->getConcludingRemarksText() !== '') {
-            $this->toolbar->addComponent(
-                $this->ui_factory->link()->standard(
-                    $this->lng->txt('show_old_concluding_remarks'),
-                    $this->ctrl->getLinkTargetByClass(self::class, 'showOldConcludingRemarks')
-                )
-            );
         }
 
         $rendered_modal = '';
@@ -217,8 +168,14 @@ class SettingsMainGUI extends TestSettingsGUI
 
     private function saveForm(): void
     {
-        $form = $this->buildForm()->withRequest($this->request);
-        $data = $form->getData();
+        try {
+            $form = $this->buildForm()->withRequest($this->request);
+            $data = $form->getData();
+        } catch (InvalidArgumentException) {
+            $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+            return;
+        }
+
         if ($data === null) {
             $this->showForm($form);
             return;
@@ -230,7 +187,7 @@ class SettingsMainGUI extends TestSettingsGUI
 
         if ($new_question_set_type === null) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_settings_form_reload_needed'));
-            $this->showForm();
+            $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
             return;
         }
 
@@ -270,7 +227,7 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $this->showForm();
+        $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
     private function anonymityChanged(bool $anonymity_form_data): bool
@@ -426,8 +383,7 @@ class SettingsMainGUI extends TestSettingsGUI
         );
 
         $settings = new MainSettings(
-            $this->test_object->getTestId(),
-            $this->test_object->getId(),
+            $this->main_settings->getId(),
             $general_settings,
             $introduction_settings,
             $access_settings,
@@ -629,14 +585,11 @@ class SettingsMainGUI extends TestSettingsGUI
     private function getFinishingSettingsForStorage(array $section): SettingsFinishing
     {
         $redirect_after_finish = $section['redirect_after_finish'];
-        $finish_notification = $section['finish_notification'];
         return $this->main_settings->getFinishingSettings()
             ->withShowAnswerOverview($section['show_answer_overview'])
             ->withConcludingRemarksEnabled($section['show_concluding_remarks'])
             ->withRedirectionMode($redirect_after_finish['redirect_mode'])
-            ->withRedirectionUrl($redirect_after_finish['redirect_url'])
-            ->withMailNotificationContentType($finish_notification['notification_content_type'])
-            ->withAlwaysSendMailNotification($finish_notification['always_notify']);
+            ->withRedirectionUrl($redirect_after_finish['redirect_url']);
     }
 
     protected function getAdditionalFunctionalitySettingsSections(array $environment): array

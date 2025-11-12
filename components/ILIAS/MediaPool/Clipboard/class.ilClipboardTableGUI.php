@@ -88,6 +88,7 @@ class ilClipboardTableGUI extends ilTable2GUI
 
         $mob = null;
         if ($a_set["type"] === "mob") {
+            $mob = new ilObjMediaObject($a_set["id"]);
             $this->tpl->setVariable(
                 "IMG",
                 $this->thumbs_gui->getThumbHtml((int) $a_set["id"])

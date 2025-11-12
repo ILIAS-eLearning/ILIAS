@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 /**
  * This describes Textarea inputs.
  */
-interface Textarea extends FormInput
+interface Textarea extends HasMustacheVariables
 {
     /**
      * set maximum number of characters

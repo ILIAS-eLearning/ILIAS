@@ -121,16 +121,16 @@ class DateFormat implements SettingDefinition
         \ilObjUser $user,
         mixed $input
     ): \ilObjUser {
-        $calendar_settings = \ilCalendarUserSettings::_getInstance($user->getId());
-        $calendar_settings->setDateFormat(
-            $input !== null ? (int) $input : \ilCalendarSettings::_getInstance()->getDefaultDateFormat()
+        $user->setPref(
+            'date_format',
+            $input !== null ? $input : (string) \ilCalendarSettings::_getInstance()->getDefaultDateFormat()
         );
-        $calendar_settings->save();
         return $user;
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): int
     {
-        return \ilCalendarUserSettings::_getInstance($user->getId())->getDateFormat();
+        return (int) ($user->getPref('date_format')
+            ?? \ilCalendarSettings::_getInstance()->getDefaultDateFormat());
     }
 }

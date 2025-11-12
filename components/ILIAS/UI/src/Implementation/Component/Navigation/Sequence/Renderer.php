@@ -114,6 +114,11 @@ class Renderer extends AbstractComponentRenderer
         $nav_description = $this->txt("ui_nav_sequence_description");
         $tpl->setVariable('NAVIGATION_DESCRIPTION', $nav_description);
 
+        $title = $component->getTitle();
+        if ($title !== null) {
+            $tpl->setVariable('TITLE', $title);
+        }
+
         return $tpl->get();
     }
 }

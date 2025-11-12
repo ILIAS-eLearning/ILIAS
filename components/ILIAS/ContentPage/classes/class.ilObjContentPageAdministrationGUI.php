@@ -51,7 +51,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT));
         }
 
@@ -67,7 +67,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
 
     public function executeCommand(): void
     {
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 

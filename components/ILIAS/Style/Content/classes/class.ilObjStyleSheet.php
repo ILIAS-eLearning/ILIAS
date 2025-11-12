@@ -554,7 +554,7 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate($q);
     }
 
-    public static function writeOwner($obj_id, $style_id)
+    public static function writeOwner($obj_id, $style_id): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1756,7 +1756,7 @@ class ilObjStyleSheet extends ilObject
         }
     }
 
-    public function createExportSubDirectory()
+    public function createExportSubDirectory(): void
     {
         $ex_dir = $this->createExportDirectory();
         $ex_sub_dir = $ex_dir . "/" . $this->getExportSubDir();

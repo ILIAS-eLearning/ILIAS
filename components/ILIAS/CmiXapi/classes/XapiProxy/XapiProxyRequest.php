@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace XapiProxy;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Promise;
-use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use ILIAS\DI\Container;
@@ -227,6 +224,7 @@ class XapiProxyRequest
         $this->handleProxy($request);
     }
 
+
     private function handleProxy(\Psr\Http\Message\RequestInterface $request, $fakePostBody = null): void
     {
         $endpointDefault = $this->xapiproxy->getDefaultLrsEndpoint();
@@ -239,7 +237,7 @@ class XapiProxyRequest
         $secretDefault = $this->xapiproxy->getDefaultLrsSecret();
         $authDefault = 'Basic ' . base64_encode($keyDefault . ':' . $secretDefault);
 
-        $hasFallback = ($endpointFallback === "") ? false : true;
+        $hasFallback = ($endpointFallback !== "");
 
         if ($hasFallback) {
             $keyFallback = $this->xapiproxy->getFallbackLrsKey();
@@ -247,92 +245,76 @@ class XapiProxyRequest
             $authFallback = 'Basic ' . base64_encode($keyFallback . ':' . $secretFallback);
         }
 
-        $req_opts = array(
-            RequestOptions::VERIFY => true,
-            RequestOptions::CONNECT_TIMEOUT => 10,
-            RequestOptions::HTTP_ERRORS => false
-        );
         $cmd = $this->xapiproxy->cmdParts()[2] . $this->cmdPart2plus;
         $upstreamDefault = $endpointDefault . $cmd;
-        $uriDefault = new Uri($upstreamDefault);
         $body = $request->getBody()->getContents();
-        $reqDefault = $this->createProxyRequest($request, $uriDefault, $authDefault, $body);
 
+        // Default request ausführen
+        $responseDefault = $this->sendCurlRequest($upstreamDefault, $authDefault, $request->getMethod(), $body);
+
+        // Falls Fallback definiert, zweites Ziel testen
+        $responseFallback = null;
         if ($hasFallback) {
             $upstreamFallback = $endpointFallback . $cmd;
-            $uriFallback = new Uri($upstreamFallback);
-            $reqFallback = $this->createProxyRequest($request, $uriFallback, $authFallback, $body);
+            $responseFallback = $this->sendCurlRequest($upstreamFallback, $authFallback, $request->getMethod(), $body);
         }
 
-        $httpclient = new Client();
-        if ($hasFallback) {
-            $promises = [
-                'default' => $httpclient->sendAsync($reqDefault, $req_opts),
-                'fallback' => $httpclient->sendAsync($reqFallback, $req_opts)
-            ];
+        // Reaktionen auswerten
+        $defaultOk = $this->xapiProxyResponse->checkResponse($responseDefault, $endpointDefault);
+        $fallbackOk = $hasFallback ? $this->xapiProxyResponse->checkResponse($responseFallback, $endpointFallback) : false;
 
-            // this would throw first ConnectionException
-            // $responses = Promise\unwrap($promises);
+        if ($defaultOk) {
             try {
-                $responses = Promise\Utils::settle($promises)->wait();
+                $this->xapiProxyResponse->handleResponse($request, $responseDefault, $fakePostBody);
             } catch (\Exception $e) {
-                $this->xapiproxy->log()->error($this->msg($e->getMessage()));
+                $this->xapiProxyResponse->exitProxyError();
             }
-
-            $defaultOk = $this->xapiProxyResponse->checkResponse($responses['default'], $endpointDefault);
-            $fallbackOk = $this->xapiProxyResponse->checkResponse($responses['fallback'], $endpointFallback);
-
-            if ($defaultOk) {
-                try {
-                    $this->xapiProxyResponse->handleResponse(
-                        $reqDefault,
-                        $responses['default']['value'],
-                        $fakePostBody
-                    );
-                } catch (\Exception $e) {
-                    //                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
-                    $this->xapiProxyResponse->exitProxyError();
-                }
-            } elseif ($fallbackOk) {
-                try {
-                    $this->xapiProxyResponse->handleResponse(
-                        $reqFallback,
-                        $responses['fallback']['value'],
-                        $fakePostBody
-                    );
-                } catch (\Exception $e) {
-                    //                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
-                    $this->xapiProxyResponse->exitProxyError();
-                }
-            } else {
-                $this->xapiProxyResponse->exitResponseError();
+        } elseif ($fallbackOk) {
+            try {
+                $this->xapiProxyResponse->handleResponse($request, $responseFallback, $fakePostBody);
+            } catch (\Exception $e) {
+                $this->xapiProxyResponse->exitProxyError();
             }
         } else {
-            $promises = [
-                'default' => $httpclient->sendAsync($reqDefault, $req_opts)
-            ];
-            // this would throw first ConnectionException
-            // $responses = Promise\unwrap($promises);
-            try {
-                $responses = Promise\Utils::settle($promises)->wait();
-            } catch (\Exception $e) {
-                $this->xapiproxy->log()->error($this->msg($e->getMessage()));
-            }
-            if ($this->xapiProxyResponse->checkResponse($responses['default'], $endpointDefault)) {
-                try {
-                    $this->xapiProxyResponse->handleResponse(
-                        $reqDefault,
-                        $responses['default']['value'],
-                        $fakePostBody
-                    );
-                } catch (\Exception $e) {
-                    //                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
-                    $this->xapiProxyResponse->exitProxyError();
-                }
-            } else {
-                $this->xapiProxyResponse->exitResponseError();
-            }
+            $this->xapiProxyResponse->exitResponseError();
         }
+    }
+
+    private function sendCurlRequest(string $url, string $authHeader, string $method, string $body = ''): \GuzzleHttp\Psr7\Response
+    {
+        $ch = curl_init($url);
+        $headers = [
+            "Authorization: $authHeader",
+            "X-Experience-API-Version: 1.0.3",
+            "Accept: application/json",
+            "Content-Type: application/json"
+        ];
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_CUSTOMREQUEST => strtoupper($method),
+        ]);
+
+        if (in_array(strtoupper($method), ['POST', 'PUT', 'PATCH'])) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        }
+
+        $rawBody = curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlError) {
+            $this->xapiproxy->log()->error("cURL error for $url: $curlError");
+            $rawBody = '';
+        }
+
+        return new \GuzzleHttp\Psr7\Response($statusCode, [], $rawBody);
     }
 
     private function createProxyRequest(\Psr\Http\Message\RequestInterface $request, \GuzzleHttp\Psr7\Uri $uri, string $auth, string $body): \GuzzleHttp\Psr7\Request

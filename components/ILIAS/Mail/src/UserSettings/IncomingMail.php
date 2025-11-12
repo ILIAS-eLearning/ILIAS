@@ -31,6 +31,9 @@ use ILIAS\Refinery\Transformation;
 
 class IncomingMail implements SettingDefinition
 {
+    /** @var array<int|\ilMailOptions> */
+    private array $mail_options_by_user = [];
+
     public function getIdentifier(): string
     {
         return 'incoming_mail';
@@ -38,7 +41,7 @@ class IncomingMail implements SettingDefinition
 
     public function isAvailable(): bool
     {
-        return (new \ilSetting())->get('show_mail_settings') === '1';
+        return (new \ilSetting())->get('show_mail_settings', '0') === '1';
     }
 
     public function getLabel(Language $lng): string
@@ -64,21 +67,30 @@ class IncomingMail implements SettingDefinition
         ?\ilObjUser $user = null
     ): Input {
         $lng->loadLanguageModule('mail');
-        $byline = $this->buildByline($lng, $user);
+
         $inputs = $this->buildEmailInputs($lng, $field_factory, $user);
+
         return $field_factory->switchableGroup(
             [
                 \ilMailOptions::INCOMING_LOCAL => $field_factory->group([], $lng->txt('mail_incoming_local')),
                 \ilMailOptions::INCOMING_EMAIL => $field_factory->group(
                     $inputs,
-                    $lng->txt('mail_incoming_smtp'),
-                    $byline
-                )->withDisabled($user->getEmail() === '' && $user->getSecondEmail() === ''),
+                    $lng->txt('mail_incoming_smtp')
+                )->withDisabled(
+                    $user === null || (
+                        $user->getEmail() === '' &&
+                        $user->getSecondEmail() === ''
+                    )
+                ),
                 \ilMailOptions::INCOMING_BOTH => $field_factory->group(
                     $inputs,
-                    $lng->txt('mail_incoming_both'),
-                    $byline
-                )->withDisabled($user->getEmail() === '' && $user->getSecondEmail() === ''),
+                    $lng->txt('mail_incoming_both')
+                )->withDisabled(
+                    $user === null || (
+                        $user->getEmail() === '' &&
+                        $user->getSecondEmail() === ''
+                    )
+                )
             ],
             $lng->txt('mail_incoming')
         )->withAdditionalTransformation(
@@ -94,6 +106,7 @@ class IncomingMail implements SettingDefinition
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $lng->loadLanguageModule('mail');
+
         $input = new \ilIncomingMailInputGUI($lng->txt('mail_incoming'), 'incoming_mail');
         $input->setFreeOptionChoice(false);
         $input->setValueByArray(
@@ -104,6 +117,7 @@ class IncomingMail implements SettingDefinition
                     'mail_address_option' => (int) $settings->get('mail_address_option', (string) \ilMailOptions::FIRST_EMAIL)
                 ]
         );
+
         return $input;
     }
 
@@ -137,6 +151,7 @@ class IncomingMail implements SettingDefinition
             'incoming_mail' => (int) $settings->get('mail_incoming_mail', (string) \ilMailOptions::INCOMING_LOCAL),
             'mail_address_option' => (int) $settings->get('mail_address_option', (string) \ilMailOptions::FIRST_EMAIL)
         ];
+
         return $current !== $default;
     }
 
@@ -145,7 +160,7 @@ class IncomingMail implements SettingDefinition
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        $mail_options = new \ilMailOptions($user->getId());
+        $mail_options = $this->mailOptionsFor($user);
         if ($input === null) {
             $settings = new \ilSetting();
             $mail_options->setIncomingType(
@@ -155,27 +170,38 @@ class IncomingMail implements SettingDefinition
                 (int) $settings->get('mail_address_option', (string) \ilMailOptions::FIRST_EMAIL)
             );
             $mail_options->updateOptions();
+
             return $user;
         }
 
-        $type = is_array($input) ? $input['incoming_mail'] : (int) $input;
-        $mail_options->setIncomingType($type);
+        $incoming_type = \is_array($input) ? $input['incoming_mail'] : (int) $input;
+        $mail_options->setIncomingType($incoming_type);
         if ((int) $input === \ilMailOptions::INCOMING_LOCAL) {
             $mail_options->updateOptions();
+
             return $user;
         }
 
-        $address_mode = is_array($input)
-            ? $input['mail_address_option']
-            : (int) $form->getInput('mail_address_option');
-        $mail_options->setEmailAddressmode($address_mode);
+        if (\is_array($input)) {
+            $address_mode = $input['mail_address_option'];
+        } elseif ($form !== null) {
+            $address_mode = (int) $form->getInput('mail_address_option');
+        } else {
+            $address_mode = $mail_options->getEmailAddressMode();
+        }
+        if (\is_int($address_mode)) {
+            $mail_options->setEmailAddressmode($address_mode);
+        }
+
         $mail_options->updateOptions();
+
         return $user;
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): ?array
     {
-        $mail_options = new \ilMailOptions($user->getId());
+        $mail_options = $this->mailOptionsFor($user);
+
         return [
             'incoming_mail' => $mail_options->getIncomingType(),
             'mail_address_option' => $mail_options->getEmailAddressMode()
@@ -184,19 +210,32 @@ class IncomingMail implements SettingDefinition
 
     private function buildTransformation(
         Refinery $refinery,
-        \ilObjUser $user
+        ?\ilObjUser $user = null
     ): Transformation {
         return $refinery->custom()->transformation(
-            static function (array $v) use ($refinery, $user): array {
+            function (array $v) use ($refinery, $user): array {
                 $email_address_option = $v[1]['mail_address_option'] ?? null;
-                if ($user->getEmail() !== '' && $user->getSecondEmail() === '') {
-                    $email_address_option = \ilMailOptions::FIRST_EMAIL;
-                } elseif ($user->getSecondEmail() !== '' && $user->getEmail() === '') {
-                    $email_address_option = \ilMailOptions::SECOND_EMAIL;
+                if ($user !== null) {
+                    if ($user->getEmail() !== '' && $user->getSecondEmail() === '') {
+                        $email_address_option = \ilMailOptions::FIRST_EMAIL;
+                    } elseif ($user->getSecondEmail() !== '' && $user->getEmail() === '') {
+                        $email_address_option = \ilMailOptions::SECOND_EMAIL;
+                    }
                 }
+
+                $incoming_type = $refinery->kindlyTo()->int()->transform($v[0]);
+                if ($email_address_option === null) {
+                    $incoming_type = \ilMailOptions::INCOMING_LOCAL;
+                }
+
                 return [
-                    'incoming_mail' => $refinery->kindlyTo()->int()->transform($v[0]),
-                    'mail_address_option' => $refinery->kindlyTo()->int()->transform($email_address_option)
+                    'incoming_mail' => $incoming_type,
+                    'mail_address_option' => $email_address_option === null && $user !== null
+                        ? $this->mailOptionsFor($user)->getStoredEmailAddressMode()
+                        : $refinery->byTrying([
+                            $refinery->kindlyTo()->int(),
+                            $refinery->always(null)
+                        ])->transform($email_address_option)
                 ];
             }
         );
@@ -204,7 +243,7 @@ class IncomingMail implements SettingDefinition
 
     private function buildValueSetterArray(
         \ilSetting $settings,
-        ?\ilObjUser $user
+        ?\ilObjUser $user = null
     ): int|array {
         $value = $user !== null
             ? $this->retrieveValueFromUser($user)
@@ -212,9 +251,9 @@ class IncomingMail implements SettingDefinition
                 'incoming_mail' => (int) $settings->get('mail_incoming_mail', (string) \ilMailOptions::INCOMING_LOCAL),
                 'mail_address_option' => (int) $settings->get('mail_address_option', (string) \ilMailOptions::FIRST_EMAIL)
             ];
-        if ($value['incoming_mail'] === \ilMailOptions::INCOMING_LOCAL
-            || $user->getEmail() === ''
-            || $user->getSecondEmail() === '') {
+
+        if ($value['incoming_mail'] === \ilMailOptions::INCOMING_LOCAL ||
+            ($user->getEmail() === '' && $user->getSecondEmail() === '')) {
             return $value['incoming_mail'];
         }
 
@@ -226,41 +265,44 @@ class IncomingMail implements SettingDefinition
         ];
     }
 
-    private function buildByline(
-        Language $lng,
-        ?\ilObjUser $user
-    ): string {
-        if ($user->getEmail() !== '' && $user->getSecondEmail() !== '') {
-            return '';
-        }
-
-        if ($user->getEmail() !== '') {
-            return $user->getEmail();
-        }
-
-        if ($user->getSecondEmail() !== '') {
-            return $user->getSecondEmail();
-        }
-
-        return $lng->txt('no_email');
-    }
-
     private function buildEmailInputs(
         Language $lng,
         FieldFactory $field_factory,
         ?\ilObjUser $user
     ): array {
-        if ($user === null
-            || $user->getEmail() === '' || $user->getSecondEmail() === '') {
+        if ($user === null || ($user->getEmail() === '' && $user->getSecondEmail() === '')) {
             return [];
         }
 
         return [
-            'mail_address_option' => $field_factory->radio(
-                $lng->txt('email')
-            )->withOption((string) \ilMailOptions::FIRST_EMAIL, $lng->txt('mail_first_email'))
-            ->withOption((string) \ilMailOptions::SECOND_EMAIL, $lng->txt('mail_second_email'))
-            ->withOption((string) \ilMailOptions::BOTH_EMAIL, $lng->txt('mail_both_email'))
+            'mail_address_option' => $field_factory
+                ->radio(
+                    $lng->txt('email')
+                )
+                ->withOption(
+                    (string) \ilMailOptions::FIRST_EMAIL,
+                    $lng->txt('mail_first_email'),
+                    $user->getEmail() === ''
+                        ? $lng->txt('first_email_missing_info')
+                        : $user->getEmail()
+                )
+                ->withOption(
+                    (string) \ilMailOptions::SECOND_EMAIL,
+                    $lng->txt('mail_second_email'),
+                    $user->getSecondEmail() === ''
+                        ? $lng->txt('second_email_missing_info')
+                        : $user->getSecondEmail()
+                )
+                ->withOption((string) \ilMailOptions::BOTH_EMAIL, $lng->txt('mail_both_email'))
         ];
+    }
+
+    private function mailOptionsFor(\ilObjUser $user): \ilMailOptions
+    {
+        if (!\array_key_exists($user->getId(), $this->mail_options_by_user)) {
+            $this->mail_options_by_user[$user->getId()] = new \ilMailOptions($user->getId());
+        }
+
+        return $this->mail_options_by_user[$user->getId()];
     }
 }

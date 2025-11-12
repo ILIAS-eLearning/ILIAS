@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\WOPI\Handler;
+namespace ILIAS\WOPI\Handler;
 
 use ILIAS\HTTP\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -39,12 +39,6 @@ final class RequestHandler
      * @var string
      */
     public const NAMESPACE_FILES = 'files';
-
-    // WOPI Header
-    /**
-     * @var string
-     */
-    private const HEADER_X_REQUEST_ID = 'X-Request-ID';
     /**
      * @var string
      */
@@ -84,7 +78,7 @@ final class RequestHandler
         $this->saving_interval = (int) $DIC->settings()->get('saving_interval');
     }
 
-    protected function checkAuth(): void
+    private function checkAuth(): void
     {
         $auth = $this->http->request()->getHeader(self::HEADER_AUTHORIZATION)[0] ?? '';
         // spit and check bearer token

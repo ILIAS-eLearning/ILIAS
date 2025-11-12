@@ -28,7 +28,7 @@ class ilTestingHandler extends ilPlainTextHandler
 {
     public function generateResponse(): string
     {
-        return "DEAR TESTER! AN ERROR OCCURRED... PLEASE INCLUDE THE FOLLOWING OUTPUT AS ADDITIONAL INFORMATION IN YOUR BUG REPORT.\n\n"
+        return "Dear Tester - it seems that something has gone wrong. Please include the following output as additional information in your bug report. Thank you.\n\n"
             . $this->getPlainTextExceptionOutput();
     }
 }

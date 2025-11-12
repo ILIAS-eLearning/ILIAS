@@ -68,10 +68,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getFormValuesArray(ilExAssignment $ass)
+    public function getFormValuesArray(ilExAssignment $ass): array
     {
         $values = [];
 

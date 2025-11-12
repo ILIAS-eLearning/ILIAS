@@ -144,13 +144,10 @@ class ilConditionHandler
         return $a_type === 'st';
     }
 
-    /**
-     * Lookup hidden status (also take container control into account)
-     */
-    public static function lookupEffectiveHiddenStatusByTarget(int $a_target_ref_id): bool
+
+    private static function getConditionController(int $a_target_ref_id): ?ilConditionControllerInterface
     {
         global $DIC;
-
         $obj_definition = $DIC['objDefinition'];
         $tree = $DIC->repositoryTree();
 
@@ -162,14 +159,30 @@ class ilConditionHandler
         $class = $obj_definition->getClassName($parent_type);
         $class_name = "il" . $class . "ConditionController";
         $location = $obj_definition->getLocation($parent_type);
+        $path_to_controller = implode('/', [
+            ILIAS_ABSOLUTE_PATH,
+            $location,
+            "class." . $class_name . ".php"
+        ]);
 
         // if yes, get from parent
-        if ($class !== "" && is_file($location . "/class." . $class_name . ".php")) {
-            /** @var ilConditionControllerInterface $controller */
+        if ($class !== "" && is_file($path_to_controller)) {
             $controller = new $class_name();
             if ($controller->isContainerConditionController($parent_ref_id)) {
-                return (bool) $controller->getConditionSetForRepositoryObject($a_target_ref_id)->getHiddenStatus();
+                return $controller;
             }
+        }
+        return null;
+    }
+
+    /**
+     * Lookup hidden status (also take container control into account)
+     */
+    public static function lookupEffectiveHiddenStatusByTarget(int $a_target_ref_id): bool
+    {
+        $controller = self::getConditionController($a_target_ref_id);
+        if ($controller !== null) {
+            return (bool) $controller->getConditionSetForRepositoryObject($a_target_ref_id)->getHiddenStatus();
         }
         return self::lookupPersistedHiddenStatusByTarget($a_target_ref_id);
     }
@@ -427,7 +440,6 @@ class ilConditionHandler
         }
 
         $class = $objDefinition->getClassName($a_type);
-        $location = $objDefinition->getLocation($a_type);
         $full_class = "ilObj" . $class . "Access";
         $reflection = new ReflectionClass($full_class);
         if ($reflection->implementsInterface('ilConditionHandling')) {
@@ -622,44 +634,16 @@ class ilConditionHandler
         int $a_target_obj_id,
         string $a_target_type = ""
     ): array {
-        global $DIC;
-
-        if ($a_target_ref_id === 0) {
-            return [];
-        }
-
-        $obj_definition = $DIC["objDefinition"];
-        $tree = $DIC->repositoryTree();
-
-        // get type if no type given
-        if ($a_target_type === "") {
-            $a_target_type = ilObject::_lookupType($a_target_obj_id);
-        }
-
-        // check if parent takes over control of condition
-        $parent_ref_id = $tree->getParentId($a_target_ref_id);
-        $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
-        $parent_type = ilObject::_lookupType($parent_obj_id);
-
-        $class = $obj_definition->getClassName($parent_type);
-        $class_name = "il" . $class . "ConditionController";
-        $location = $obj_definition->getLocation($parent_type);
-
-        // if yes, get from parent
-        if ($class !== "" && is_file($location . "/class." . $class_name . ".php")
-            && $a_target_type === ilObject::_lookupType($a_target_ref_id, true)) {
-            /** @var ilConditionControllerInterface $controller */
-            $controller = new $class_name();
-            if ($controller->isContainerConditionController($parent_ref_id)) {
-                /** @var ilConditionSet $set */
-                $set = $controller->getConditionSetForRepositoryObject($a_target_ref_id);
-
-                // convert to old structure
-                $cond = [];
-                foreach ($set->getConditions() as $c) {
-                    $obligatory = $set->getAllObligatory() || $c->getObligatory();
-                    $trigger = $c->getTrigger();
-                    $cond[] = array(
+        $controller = self::getConditionController($a_target_ref_id);
+        if ($controller !== null) {
+            /** @var ilConditionSet $set */
+            $set = $controller->getConditionSetForRepositoryObject($a_target_ref_id);
+            // convert to old structure
+            $cond = [];
+            foreach ($set->getConditions() as $c) {
+                $obligatory = $set->getAllObligatory() || $c->getObligatory();
+                $trigger = $c->getTrigger();
+                $cond[] = [
                         "target_ref_id" => $a_target_ref_id,
                         "target_obj_id" => $a_target_obj_id,
                         "target_type" => $a_target_type,
@@ -672,10 +656,9 @@ class ilConditionHandler
                         "obligatory" => $obligatory,
                         "num_obligatory" => $set->getNumObligatory(),
                         "hidden_status" => $set->getHiddenStatus()
-                    );
-                }
-                return $cond;
+                ];
             }
+            return $cond;
         }
 
         return self::_getPersistedConditionsOfTarget($a_target_ref_id, $a_target_obj_id, $a_target_type);
@@ -849,7 +832,6 @@ class ilConditionHandler
                 );
         }
         $class = $objDefinition->getClassName($condition['trigger_type']);
-        $location = $objDefinition->getLocation($condition['trigger_type']);
         $full_class = "ilObj" . $class . "Access";
 
         if (!(is_a($full_class, "ilConditionHandling", true))) {

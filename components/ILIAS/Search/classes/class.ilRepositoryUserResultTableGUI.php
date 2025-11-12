@@ -22,7 +22,6 @@ use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\User\Profile\Profile;
-use ILIAS\User\Profile\Data as ProfileData;
 
 /**
 * TableGUI class user search results
@@ -216,14 +215,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                     $this->tpl->parseCurrentBlock();
                     break;
 
-                case 'interests_general':
-                case 'interests_help_offered':
-                case 'interests_help_looking':
-                    $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', implode(', ', (array) $a_set[$field]));
-                    $this->tpl->parseCurrentBlock();
-                    break;
-
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable(
@@ -248,8 +239,12 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
                     // no break
                 default:
+                    $value = $a_set[$field] ?? '';
+                    if (is_array($value)) {
+                        $value = implode(', ', $value);
+                    }
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set[$field] ?: ''));
+                    $this->tpl->setVariable('VAL_CUST', $value);
                     $this->tpl->parseCurrentBlock();
                     break;
             }
@@ -344,7 +339,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                 }
                 $data = $this->profile->getDataFor((int) $set['usr_id']);
                 foreach ($udf_ids as $udf_field) {
-                    $users[$counter]['udf_' . $udf_field] = $data->getAdditionalFieldByIdentifier($udf_field);
+                    $users[$counter]['udf_' . $udf_field] = implode(', ', $data->getAdditionalFieldByIdentifier($udf_field) ?? []);
                 }
                 ++$counter;
             }

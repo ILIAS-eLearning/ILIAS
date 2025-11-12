@@ -18,19 +18,12 @@
 
 namespace ILIAS\COPage\ReadingTime;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class ReadingTimeDBRepo
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
         $this->db = $DIC->database();
     }
@@ -76,7 +69,7 @@ class ReadingTimeDBRepo
     public function getPagesWithMissingReadingTime(
         string $a_parent_type,
         int $a_parent_id
-    ) {
+    ): array {
         $db = $this->db;
         $q = "SELECT * FROM page_object " .
             " WHERE parent_id = " . $db->quote($a_parent_id, "integer") .

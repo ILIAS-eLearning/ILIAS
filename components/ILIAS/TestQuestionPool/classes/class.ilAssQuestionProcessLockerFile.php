@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -26,20 +28,18 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
 {
     public const PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE = 'questionWorkingStateUpdate';
 
-    protected ilAssQuestionProcessLockFileStorage $lockFileStorage;
-
     /**
      * @var resource
      */
-    protected $lockFileHandles;
+    protected $lockFileHandles = [];
 
     /**
      * @param ilAssQuestionProcessLockFileStorage $lockFileStorage
      */
-    public function __construct(ilAssQuestionProcessLockFileStorage $lockFileStorage)
-    {
-        $this->lockFileStorage = $lockFileStorage;
-        $this->lockFileHandles = [];
+    public function __construct(
+        private ilAssQuestionProcessLockFileStorage $lockFileStorage,
+        private ilLogger|TestLogger $logger
+    ) {
     }
 
     /**
@@ -81,7 +81,9 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     {
         $lockFilePath = $this->getLockFilePath($processName);
         $this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
-        flock($this->lockFileHandles[$processName], LOCK_EX);
+        if (!flock($this->lockFileHandles[$processName], LOCK_EX)) {
+            $this->logger->error("Flock failed for {$lockFilePath}.");
+        }
     }
 
     /**

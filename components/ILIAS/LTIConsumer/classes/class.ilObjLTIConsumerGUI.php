@@ -99,6 +99,46 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
+    public function saveObject(): void
+    {
+        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $forms = $this->initCreateForm($this->requested_new_type);
+
+        foreach ($forms as $form) {
+            if ($form->checkInput()) {
+                $this->ctrl->setParameter($this, "new_type", "");
+
+                $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
+                $newObj = new $class_name();
+                $newObj->setType($this->requested_new_type);
+                $newObj->setTitle($form->getInput("title"));
+                $newObj->setDescription($form->getInput("desc"));
+                $newObj->processAutoRating();
+                $newObj->create();
+
+                $this->putObjectInTree($newObj);
+
+                $dtpl = $this->getDidacticTemplateVar("dtpl");
+                if ($dtpl) {
+                    $newObj->applyDidacticTemplate($dtpl);
+                }
+
+                $this->afterSave($newObj);
+            }
+
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
+
+    }
+
     protected function getCreationFormsHTML(StandardForm|ilPropertyFormGUI|array $forms): string
     {
         if (!is_array($forms)) {
@@ -122,56 +162,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     protected function initNewForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
     {
-        global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
-
-        $form = $this->buildProviderSelectionForm($a_new_type);
-
-        $globalProviderList = new ilLTIConsumeProviderList();
-        $globalProviderList->setAvailabilityFilter((string) ilLTIConsumeProvider::AVAILABILITY_CREATE);
-        $globalProviderList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_GLOBAL);
-
-        $userProviderList = new ilLTIConsumeProviderList();
-        $userProviderList->setAvailabilityFilter((string) ilLTIConsumeProvider::AVAILABILITY_CREATE);
-        $userProviderList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_USER);
-        $userProviderList->setCreatorFilter($DIC->user()->getId());
-
-        if ($form->getFilter('title')) {
-            $globalProviderList->setTitleFilter($form->getFilter('title'));
-            $userProviderList->setTitleFilter($form->getFilter('title'));
-        }
-
-        if ($form->getFilter('category')) {
-            $globalProviderList->setCategoryFilter($form->getFilter('category'));
-            $userProviderList->setCategoryFilter($form->getFilter('category'));
-        }
-
-        if ($form->getFilter('keyword')) {
-            $globalProviderList->setKeywordFilter($form->getFilter('keyword'));
-            $userProviderList->setKeywordFilter($form->getFilter('keyword'));
-        }
-
-        if ($form->getFilter('outcome')) {
-            $globalProviderList->setHasOutcomeFilter(true);
-            $userProviderList->setHasOutcomeFilter(true);
-        }
-
-        if ($form->getFilter('internal')) {
-            $globalProviderList->setIsExternalFilter(false);
-            $userProviderList->setIsExternalFilter(false);
-        }
-
-        if ($form->getFilter('with_key')) {
-            $globalProviderList->setIsProviderKeyCustomizableFilter(false);
-            $userProviderList->setIsProviderKeyCustomizableFilter(false);
-        }
-
-        $globalProviderList->load();
-        $userProviderList->load();
-
-        $form->setData([...$globalProviderList->getTableData(), ...$userProviderList->getTableData()]);
-
-        return $form;
+        return $this->buildProviderSelectionForm($a_new_type);
     }
 
     public function initDynRegForm(string $a_new_type): \ilLTIConsumeProviderFormGUI
@@ -231,23 +222,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $a_new_type,
             $this,
             'create',
-            'applyProviderFilter',
-            'resetProviderFilter'
         );
-    }
-
-    protected function applyProviderFilter(): void
-    {
-        $form = $this->buildProviderSelectionForm('');
-        $form->applyFilter();
-        $this->createObject();
-    }
-
-    protected function resetProviderFilter(): void
-    {
-        $form = $this->buildProviderSelectionForm('');
-        $form->resetFilter();
-        $this->createObject();
     }
 
     protected function createNewObject(string $newType, string $title, string $description): ilObject
@@ -549,10 +524,16 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         exit;
     }
 
+    /**
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws ilCtrlException
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws ilLtiConsumerException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
     protected function afterSave(\ilObject $newObject): void
     {
         global $DIC; //check
-
         if ($DIC->http()->wrapper()->query()->has('provider_id')) {
             $newObject->setProviderId((int) $DIC->http()->wrapper()->query()->retrieve('provider_id', $DIC->refinery()->kindlyTo()->int()));
             $newObject->initProvider();
@@ -563,7 +544,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $newObject->update();
 
             $this->initMetadata($newObject);
-
             $DIC->ctrl()->redirectByClass(ilLTIConsumerSettingsGUI::class);
         }
 
@@ -590,10 +570,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $newObject->update();
 
             $this->initMetadata($newObject);
-
-            $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class);
+            $DIC->ctrl()->redirectByClass([ilLTIConsumerSettingsGUI::class, ilLTIConsumeProviderSettingsGUI::class]);
         }
-
         throw new ilLtiConsumerException(
             'form validation seems to not have worked in ilObjLTIConsumer::saveCustom()!'
         );
@@ -824,14 +802,18 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             case strtolower(ilInfoScreenGUI::class):
 
                 $DIC->tabs()->activateTab(self::TAB_ID_INFO);
-                $this->infoScreen();
-
+                $info = new ilInfoScreenGUI($this);
+                $this->configureInfoScreen($info);
+                $this->ctrl->forwardCommand($info);
                 break;
 
             default:
                 if ($DIC->ctrl()->getCmd() === 'save') {
                     $this->checkContentSelection();
                 } else {
+                    if (isset($this->object) && !$this->isContentTabAvailable()) {
+                        $DIC->ctrl()->redirectToURL($this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class));
+                    }
                     $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
                     $this->{$command}();
                 }
@@ -853,12 +835,21 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 if ($provider->isContentItem() && !empty($provider->getContentItemUrl())) {
                     $this->contentSelection($providerId, $newType, $refId, $provider);
                 } else {
-                    $this->save();
+                    $this->saveObject();
                 }
             }
         } else {
-            $this->save();
+            $this->saveObject();
         }
+    }
+
+    public function isContentTabAvailable(): bool
+    {
+        if (!$this->object->getOfflineStatus() &&
+            $this->object->getProvider()->getAvailability() != ilLTIConsumeProvider::AVAILABILITY_NONE) {
+            return true;
+        }
+        return false;
     }
 
     protected function setTabs(): void
@@ -868,9 +859,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
 
-        if (!$this->object->getOfflineStatus() &&
-            $this->object->getProvider()->getAvailability() != ilLTIConsumeProvider::AVAILABILITY_NONE
-        ) {
+        if (isset($this->object) && $this->isContentTabAvailable()) {
             $DIC->tabs()->addTab(
                 self::TAB_ID_CONTENT,
                 $DIC->language()->txt(self::TAB_ID_CONTENT),
@@ -1043,15 +1032,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     protected function infoScreen(): void
     {
-        global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
-
-        $DIC->tabs()->activateTab(self::TAB_ID_INFO);
-        
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, "showSummary");
     }
 
-    protected function infoScreenForward(): void
+    protected function configureInfoScreen(ilInfoScreenGUI $info): void
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -1064,7 +1048,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
         $this->handleAvailablityMessage();
 
-        $info = new ilInfoScreenGUI($this);
 
         $info->enablePrivateNotes();
 
@@ -1133,8 +1116,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             );
         }
 
-        // FINISHED INFO SCREEN, NOW FORWARD
-        $this->ctrl->forwardCommand($info);
     }
 
     protected function handleAvailablityMessage(): void

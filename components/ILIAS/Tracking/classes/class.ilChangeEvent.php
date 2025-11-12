@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=0);
+
 /**
  * Class ilChangeEvent tracks change events on repository objects.
  * The following events are considered to be a 'write event':
@@ -119,7 +120,6 @@ class ilChangeEvent
         int $a_ref_id,
         int $obj_id,
         int $usr_id,
-        bool $isCatchupWriteEvents = true,
         $a_ext_rc = null,
         $a_ext_time = null
     ): void {
@@ -220,10 +220,6 @@ class ilChangeEvent
             self::$has_accessed[$obj_id][$usr_id] = true;
 
             self::_recordObjStats($obj_id, $time_diff, $read_count_diff);
-        }
-
-        if ($isCatchupWriteEvents) {
-            ilChangeEvent::_catchupWriteEvents($obj_id, $usr_id);
         }
 
         // update parents (no categories or root)
@@ -523,61 +519,6 @@ class ilChangeEvent
                 $ilAtomQuery->run();
             }
         }
-    }
-
-    /**
-     * Catches up with all write events which occured before the specified
-     * timestamp.
-     * @param $obj_id    int The object.
-     * @param $usr_id    int The user.
-     * @param $timestamp string|null timestamp.
-     * @return void
-     *
-     * This method was only used to write to catch_write_events,
-     * but the methods reading out that table are not used anywhere.
-     * @deprecated, will be removed with ILIAS 11
-     */
-    public static function _catchupWriteEvents(
-        int $obj_id,
-        int $usr_id,
-        ?string $timestamp = null
-    ): void {
-    }
-
-    /**
-     * Reads all write events which occured on the object
-     * which happened after the last time the user caught up with them.
-     * @param $obj_id int The object
-     * @param $usr_id int The user who is interested into these events.
-     * @return array with rows from table write_event
-     *
-     * This method is unused, so the table it read from was
-     * removed for performance reasons.
-     * @deprecated, will be removed with ILIAS 11
-     */
-    public static function _lookupUncaughtWriteEvents(
-        int $obj_id,
-        int $usr_id
-    ): array {
-        return [];
-    }
-
-    /**
-     * Returns the change state of the object for the specified user.
-     * which happened after the last time the user caught up with them.
-     * @param $obj_id int The object
-     * @param $usr_id int The user who is interested into these events.
-     * @return int 0 = object is unchanged,
-     *                1 = object is new,
-     *                2 = object has changed
-     *
-     * This method is unused, so the table it read from was
-     * removed for performance reasons.
-     * @deprecated, will be removed with ILIAS 11
-     */
-    public static function _lookupChangeState(int $obj_id, int $usr_id): int
-    {
-        return 0;
     }
 
     /**

@@ -83,6 +83,8 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
 
             default:
                 $this->ctrl->saveParameterByClass(ilObjMediaPoolGUI::class, "ref_id");
+                $this->ctrl->saveParameterByClass(ilObjMediaPoolGUI::class, "mepitem_id");
+                $this->ctrl->saveParameterByClass(ilObjMediaPoolGUI::class, "force_filter");
                 $this->ctrl->redirectByClass(ilObjMediaPoolGUI::class, $this->ctrl->getCmd());
         }
     }

@@ -26,6 +26,9 @@ declare(strict_types=1);
  *
  * @package components\ILIAS/LTIConsumer
  */
+
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+
 class ilLTIConsumeProviderSettingsGUI
 {
     public const CMD_SHOW_SETTINGS = 'showSettings';
@@ -41,13 +44,17 @@ class ilLTIConsumeProviderSettingsGUI
      */
     protected ilLTIConsumerAccess $access;
 
+    protected LOMServices $lom_services;
+
     /**
      * ilLTIConsumerAccess constructor.
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {
+        global $DIC;
         $this->object = $object;
         $this->access = $access;
+        $this->lom_services = $DIC->learningObjectMetadata();
     }
 
     /**
@@ -82,14 +89,39 @@ class ilLTIConsumeProviderSettingsGUI
 
         $provider = $this->object->getProvider();
         $form = $this->buildForm($provider);
-
         if ($form->checkInput()) {
             $form->initProvider($provider);
             $this->object->getProvider()->save();
+            $this->initMetadata($this->object);
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
         }
 
         $this->showSettingsCmd($form);
+    }
+
+
+    /**
+     * @throws ilMDServicesException
+     */
+    public function initMetadata(\ilObject $object): void
+    {
+        // create LOM set from scratch
+        $this->lom_services->derive()
+            ->fromBasicProperties($object->getTitle())
+            ->forObject($object->getId(), $object->getId(), $object->getType());
+
+        // in a second step, set the keywords
+        $keywords = [];
+        foreach ($object->getProvider()->getKeywordsArray() as $keyword) {
+            if ($keyword !== '') {
+                $keywords[] = $keyword;
+            }
+        }
+        $this->lom_services->manipulate($object->getId(), $object->getId(), $object->getType())
+            ->prepareCreateOrUpdate(
+                $this->lom_services->paths()->keywords(),
+                ...$keywords
+            )->execute();
     }
 
     /**
@@ -100,7 +132,6 @@ class ilLTIConsumeProviderSettingsGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $form = new ilLTIConsumeProviderFormGUI($provider);
-
         $form->initForm(
             $DIC->ctrl()->getFormAction($this),
             self::CMD_SAVE_SETTINGS,

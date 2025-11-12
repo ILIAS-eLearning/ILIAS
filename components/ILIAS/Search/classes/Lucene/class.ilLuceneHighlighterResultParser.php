@@ -40,18 +40,18 @@ class ilLuceneHighlighterResultParser
         return $this->max_score;
     }
 
-    public function setMaxScore(float $a_score): void
+    public function setMaxScore(float $score): void
     {
-        $this->max_score = $a_score;
+        $this->max_score = $score;
     }
 
-    public function getRelevance(int $a_obj_id, int $sub_id): float
+    public function getRelevance(int $obj_id, int $sub_id, string $sub_type): float
     {
         if (!$this->getMaxScore()) {
             return 0;
         }
 
-        $score = $this->result[$a_obj_id][$sub_id]['score'];
+        $score = $this->result[$obj_id][$sub_type . '__' . $sub_id]['score'] ?? 0;
         return $score / $this->getMaxScore() * 100;
     }
 
@@ -80,50 +80,55 @@ class ilLuceneHighlighterResultParser
         foreach ($root->children() as $object) {
             $obj_id = (string) $object['id'];
             foreach ($object->children() as $item) {
+                $sub_type = (string) $item['type'];
                 $sub_id = (string) $item['id'];
+
+                $this->result[$obj_id][$sub_type . '__' . $sub_id]['id'] = $sub_id;
+                $this->result[$obj_id][$sub_type . '__' . $sub_id]['type'] = $sub_type;
 
                 // begin-patch mime_filter
                 $score = (string) $item['absoluteScore'];
-                $this->result[$obj_id][$sub_id]['score'] = $score;
+                $this->result[$obj_id][$sub_type . '__' . $sub_id]['score'] = $score;
                 // end-patch mime_filter
 
                 foreach ($item->children() as $field) {
                     $name = (string) $field['name'];
-                    $this->result[$obj_id][$sub_id][$name] = (string) $field;
+                    $this->result[$obj_id][$sub_type . '__' . $sub_id][$name] = (string) $field;
                 }
             }
         }
         return true;
     }
 
-    public function getTitle(int $a_obj_id, int $a_sub_id): string
+    public function getTitle(int $obj_id, int $sub_id, string $sub_type): string
     {
-        return $this->result[$a_obj_id][$a_sub_id]['title'] ?? '';
+        return $this->result[$obj_id][$sub_type . '__' . $sub_id]['title'] ?? '';
     }
 
-    public function getDescription(int $a_obj_id, int $a_sub_id): string
+    public function getDescription(int $obj_id, int $sub_id, string $sub_type): string
     {
-        return $this->result[$a_obj_id][$a_sub_id]['description'] ?? '';
+        return $this->result[$obj_id][$sub_type . '__' . $sub_id]['description'] ?? '';
     }
 
-    public function getContent(int $a_obj_id, int $a_sub_id): string
+    public function getContent(int $obj_id, int $sub_id, string $sub_type): string
     {
-        return $this->result[$a_obj_id][$a_sub_id]['content'] ?? '';
+        return $this->result[$obj_id][$sub_type . '__' . $sub_id]['content'] ?? '';
     }
 
     /**
-     * @return int[]
+     * @return list<array{id: int, type: string}>
      */
-    public function getSubItemIds(int $a_obj_id): array
+    public function getSubItemIds(int $obj_id): array
     {
-        $sub_item_ids = array();
-        if (!isset($this->result[$a_obj_id])) {
-            return array();
+        $sub_item_ids = [];
+        if (!isset($this->result[$obj_id])) {
+            return [];
         }
-        foreach ($this->result[$a_obj_id] as $sub_item_id => $data) {
-            if ($sub_item_id) {
-                $sub_item_ids[] = $sub_item_id;
+        foreach ($this->result[$obj_id] as $data) {
+            if ($data['id'] <= 0) {
+                continue;
             }
+            $sub_item_ids[] = ['id' => (int) $data['id'], 'type' => (string) $data['type']];
         }
         return $sub_item_ids;
     }

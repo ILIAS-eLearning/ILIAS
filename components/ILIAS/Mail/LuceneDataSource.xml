@@ -15,6 +15,7 @@
 	<Field global="YES" store="YES" index="ANALYZED" column="rcp_bcc" type="text" name="mrcp" />
 	<Field global="YES" store="YES" index="NOT_ANALYZED" column="folder_id" type="text" name="mfolder_id" />
 	<Field global="YES" store="YES" index="NOT_ANALYZED" column="mail_id" type="integer" name="subItem" />
+    <Field global="YES" store="YES" index="NOT_ANALYZED" column="type" type="text" name="subType" />
 	<Field global="NO" store="YES" index="NOT_ANALYZED" column="user_id" type="integer" name="objId" />
 	<Field global="NO" store="YES" index="NOT_ANALYZED" column="login" type="text" name="msender" />
 	<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />

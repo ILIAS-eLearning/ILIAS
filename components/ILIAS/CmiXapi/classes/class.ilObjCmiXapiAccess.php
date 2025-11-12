@@ -45,7 +45,7 @@ class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
             ),
             array(
                 'permission' => 'write',
-                'cmd' => 'ilCmiXapiSettingsGUI::show',
+                'cmd' => 'settings',
                 'lang_var' => ilObjCmiXapiGUI::TAB_ID_SETTINGS
             )
         );

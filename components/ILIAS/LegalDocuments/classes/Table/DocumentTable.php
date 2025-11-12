@@ -171,14 +171,21 @@ class DocumentTable implements OrderingRetrieval
         return ($this->criterion_as_component)($criterion->content());
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return $this->repository->countAll();
     }
 
     public function render(): string
     {
-        return $this->ui_renderer->render($this->table);
+        // This MUST be rendered BEFORE $this->modal->components(),
+        // because the components are filled within the rendering process.
+        $html = $this->ui_renderer->render($this->table);
+
+        return $html . $this->ui_renderer->render($this->modal->components());
     }
 
     /**

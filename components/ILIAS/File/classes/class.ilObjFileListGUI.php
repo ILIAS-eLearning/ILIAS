@@ -19,7 +19,7 @@
 use ILIAS\File\Capabilities\CapabilityCollection;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
 use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Capabilities\CapabilityBuilder;
 use ILIAS\File\Capabilities\Context;

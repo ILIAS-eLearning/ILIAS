@@ -17,6 +17,12 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ceLTIc\LTI\OAuth\OAuthRequest;
+use ceLTIc\LTI\OAuth\OAuthServer;
+use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use ceLTIc\LTI\OAuthDataStore;
+
 /**
  * Class ilObjLTIConsumerLaunch
  *
@@ -91,16 +97,31 @@ class ilLTIConsumerResultService
     public function handleRequest(): void
     {
         try {
+
+            global $DIC;
+            $logger = $DIC->logger()->root();
+            $logger->info('LTI Consumer Result Service: Incoming request');
             // get the request as xml
             $xml = simplexml_load_file('php://input');
+            $logger->info('LTI Consumer Result Service: xml loaded');
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
-            $request = current($xml->imsx_POXBody->children());
+            $children = (array) $xml->imsx_POXBody->children();
+            $request = current($children);
+
+            $ns = $xml->getNamespaces(true);
+            $body = $xml->children($ns[''])->imsx_POXBody;
+
+            $logger->info('LTI Consumer Result Service: request loaded');
             $this->operation = str_replace('Request', '', $request->getName());
 
+            $request = $body->replaceResultRequest;
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
+            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 
+            $logger->info("LTI Consumer Result Service: token loaded");
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
+                $logger->error('LTI Consumer Result Service: Incoming request');
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
                 return;
             }
@@ -118,9 +139,12 @@ class ilLTIConsumerResultService
             $this->readFields($this->result->obj_id);
             $result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
             if ($result instanceof Exception) {
+                $logger->error('LTI Consumer Result Service: Incoming request');
                 $this->respondUnauthorized($result->getMessage());
                 return;
             }
+
+            $logger->info("LTI Consumer Result Service: Request signature verified, this->operation: $this->operation");
 
             // Dispatch the operation
             switch ($this->operation) {
@@ -167,12 +191,16 @@ class ilLTIConsumerResultService
      */
     protected function replaceResult(\SimpleXMLElement $request): void
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+
         $result = (string) $request->resultRecord->result->resultScore->textString;
+        $logger->info('LTI Consumer Result Service: Replace result. Result: ' . $result);
         if (!is_numeric($result)) {
             $code = "failure";
             $severity = "status";
             $description = "The result is not a number.";
-        } elseif ($result < 0 or $result > 1) {
+        } elseif ($result > 1) {
             $code = "failure";
             $severity = "status";
             $description = "The result is out of range from 0 to 1.";
@@ -241,7 +269,7 @@ class ilLTIConsumerResultService
      */
     protected function loadResponse($a_name): string
     {
-        return file_get_contents('./components/ILIAS/LTIConsumer/responses/' . $a_name);
+        return file_get_contents(__DIR__ . '/../responses/' . $a_name);
     }
 
 
@@ -358,22 +386,27 @@ class ilLTIConsumerResultService
 
     /**
      * Check the reqest signature
-     * @return bool|Exception    Exception or true
+     * @return bool    Exception or true
      */
-    private function checkSignature(string $a_key, string $a_secret)
+    private function checkSignature(string $a_key, string $a_secret): bool
     {
-        $store = new TrivialOAuthDataStore();
-        $store->add_consumer($a_key, $a_secret);
+        $platform = new ilLTIPlatform();
 
-        $server = new \ILIAS\LTIOAuth\OAuthServer($store);
-        $method = new \ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
+        $platform->setKey($a_key);
+        $platform->setSecret($a_secret);
+
+        $store = new OAuthDataStore($platform);
+
+        $server = new OAuthServer($store);
+        $method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
 
-        $request = \ILIAS\LTIOAuth\OAuthRequest::from_request();
+        $request = OAuthRequest::from_request();
+
         try {
             $server->verify_request($request);
         } catch (Exception $e) {
-            return $e;
+            return false;
         }
         return true;
     }

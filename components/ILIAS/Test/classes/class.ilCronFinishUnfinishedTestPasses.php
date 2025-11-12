@@ -63,7 +63,8 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
-            $this->db
+            $this->db,
+            $this->logger
         );
 
         $this->test_result_repository = TestDic::dic()['results.data.repository'];
@@ -160,8 +161,11 @@ class ilCronFinishUnfinishedTestPasses extends CronJob
 
     protected function getTestsFinishAndProcessingTime(): void
     {
-        $query = 'SELECT test_id, obj_fi, ending_time, ending_time_enabled, processing_time, enable_processing_time FROM tst_tests WHERE ' .
-                    $this->db->in('test_id', $this->test_ids, false, 'integer');
+        $query = "SELECT test_id, obj_fi,
+                    tst_set.ending_time, tst_set.ending_time_enabled, tst_set.processing_time, tst_set.enable_processing_time
+                    FROM tst_tests INNER JOIN tst_test_settings AS tst_set ON tst_tests.settings_id = tst_set.id WHERE " .
+                 $this->db->in('test_id', $this->test_ids, false, ilDBConstants::T_INTEGER);
+
         $result = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($result)) {
             $this->test_ending_times[$row['test_id']] = $row;

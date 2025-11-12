@@ -27,8 +27,8 @@ class NullRecord implements RecordInterface
         return new NullRecordInfos();
     }
 
-    public function metadata(): \DOMDocument
+    public function metadata(): ?\DOMDocument
     {
-        return new \DOMDocument();
+        return null;
     }
 }

@@ -18,6 +18,12 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Factory;
+
 /**
  * Class ilLTIConsumerGradeSynchronizationTableGUI
  *
@@ -26,116 +32,87 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
-class ilLTIConsumerGradeSynchronizationTableGUI extends ilTable2GUI
+class ilLTIConsumerGradeSynchronizationTableGUI implements DataRetrieval
 {
-    public const TABLE_ID = 'lti_grade_table';
-
+    protected ilLanguage $lng;
+    protected Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected $request;
     protected bool $isMultiActorReport;
-    protected array $filter = [];
-    private \ILIAS\DI\Container $dic;
-    private ilLanguage $language;
+    private array $records = [];
 
-    /**
-     * @throws ilCtrlException
-     */
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport)
+    public function __construct(bool $isMultiActorReport)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $this->dic = $DIC;
-        $this->language = $DIC->language();
+        global $DIC;
 
         $this->isMultiActorReport = $isMultiActorReport;
 
-        $this->setId(self::TABLE_ID);
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
 
-        $DIC->language()->loadLanguageModule('form');
-
-        $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        $this->setRowTemplate('tpl.lti_grade_synchronization_table_row.html', 'components/ILIAS/LTIConsumer');
-
-        $this->initColumns();
-        $this->initFilter();
-
-        $this->setExternalSegmentation(false);
-        $this->setExternalSorting(true);
-
-        $this->setDefaultOrderField('lti_timestamp');
-        $this->setDefaultOrderDirection('desc');
     }
 
-    protected function initColumns(): void
-    {
-        $this->addColumn($this->language->txt('tbl_grade_date'), 'lti_timestamp');
+    /**
+     * @throws DateMalformedStringException
+     */
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
+        foreach ($this->records as $record) {
+            $record['lti_timestamp'] = new DateTimeImmutable($record['lti_timestamp']);
+            $record['score_given'] = $record['score_given'] . ' / ' . $record['score_maximum'];
+            $record['activity_progress'] = $this->lng->txt('grade_activity_progress_' . strtolower($record['activity_progress']));
+            $record['grading_progress'] = $this->lng->txt('grade_grading_progress_' . strtolower($record['grading_progress']));
+            $record['stored'] = new DateTimeImmutable($record['stored']);
 
-        if ($this->isMultiActorReport) {
-            $this->addColumn($this->language->txt('tbl_grade_actor'), 'actor');
+            yield $row_builder->buildDataRow((string) $record['id'], $record);
         }
-        $this->addColumn($this->language->txt('tbl_grade_score'), 'score_given');
-        $this->addColumn($this->language->txt('tbl_grade_activity_progress'), '');
-        $this->addColumn($this->language->txt('tbl_grade_grading_progress'), '');
-        $this->addColumn($this->language->txt('tbl_grade_stored'), '');
     }
 
-    public function initFilter(): void
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
+        return count($this->records);
+    }
+
+    public function setRecords(array $records): void
     {
-        if ($this->isMultiActorReport) {
-            $ti = new ilTextInputGUI($this->language->txt('tbl_grade_actor'), "actor");
-            $ti->setDataSource($this->dic->ctrl()->getLinkTarget($this->parent_obj, 'asyncUserAutocomplete', '', true));
-            $ti->setMaxLength(64);
-            $ti->setSize(20);
-            $this->addFilterItem($ti);
-            $ti->readFromSession();
-            $this->filter["actor"] = $ti->getValue();
-        }
-
-        $options = array(
-            '' => $this->language->txt('grade_activity_progress_all'),
-            'Initialized' => $this->language->txt('grade_activity_progress_initialized'),
-            'Started' => $this->language->txt('grade_activity_progress_started'),
-            'InProgress' => $this->language->txt('grade_activity_progress_inprogress'),
-            'Submitted' => $this->language->txt('grade_activity_progress_submitted'),
-            'Completed' => $this->language->txt('grade_activity_progress_completed')
-        );
-
-        $si = new ilSelectInputGUI($this->language->txt('tbl_grade_activity_progress'), "activity_progress");
-        $si->setOptions($options);
-        $this->addFilterItem($si);
-        $si->readFromSession();
-        $this->filter["activity_progress"] = $si->getValue();
-
-        $options = array(
-            '' => $this->language->txt('grade_grading_progress_all'),
-            'NotReady' => $this->language->txt('grade_grading_progress_notready'),
-            'Failed' => $this->language->txt('grade_grading_progress_failed'),
-            'Pending' => $this->language->txt('grade_grading_progress_pending'),
-            'PendingManual' => $this->language->txt('grade_grading_progress_pendingmanual'),
-            'FullyGraded' => $this->language->txt('grade_grading_progress_fullygraded')
-        );
-
-        $si = new ilSelectInputGUI($this->language->txt('tbl_grade_grading_progress'), "grading_progress");
-        $si->setOptions($options);
-        $this->addFilterItem($si);
-        $si->readFromSession();
-        $this->filter["grading_progress"] = $si->getValue();
-
-        $dp = new ilDateDurationInputGUI($this->language->txt('tbl_grade_period'), 'period');
-        $dp->setShowTime(true);
-        $this->addFilterItem($dp);
-        $dp->readFromSession();
-        $this->filter["period"] = $dp->getValue();
+        $this->records = $records;
     }
 
-    protected function fillRow(array $a_set): void
+    public function getHTML(): string
     {
-        $this->tpl->setVariable('STMT_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['lti_timestamp'], IL_CAL_DATETIME)));
-        if ($this->isMultiActorReport) {
-            $this->tpl->setVariable('STMT_ACTOR', $a_set['actor']);
-        }
-        $this->tpl->setVariable('STMT_SCORE', $a_set['score_given'] . ' / ' . $a_set['score_maximum']);
-        $this->tpl->setVariable('STMT_ACTIVITY_PROGRESS', $this->language->txt('grade_activity_progress_' . strtolower($a_set['activity_progress'])));
-        $this->tpl->setVariable('STMT_GRADING_PROGRESS', $this->language->txt('grade_grading_progress_' . strtolower($a_set['grading_progress'])));
-        $this->tpl->setVariable('STMT_STORED', ilDatePresentation::formatDate(new ilDateTime($a_set['stored'], IL_CAL_DATETIME)));
+        $table = $this->ui_factory->table()
+            ->data("", $this->getColumns(), $this)
+            ->withOrder(new Order("lti_timestamp", Order::DESC))
+            ->withRequest($this->request);
+
+        return $this->ui_renderer->render($table);
     }
 
+    private function getColumns(): array
+    {
+        global $DIC;
+        $df = new \ILIAS\Data\Factory();
+
+
+        return [
+            "lti_timestamp" => $this->ui_factory->table()->column()->date($this->lng->txt('tbl_grade_date'), $df->dateFormat()->withTime24($DIC->user()->getDateFormat())),
+            "actor" => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_grade_actor')),
+            "score_given" => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_grade_score')),
+            "activity_progress" => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_grade_activity_progress')),
+            "grading_progress" => $this->ui_factory->table()->column()->text($this->lng->txt('tbl_grade_grading_progress')),
+            "stored" => $this->ui_factory->table()->column()->date($this->lng->txt('tbl_grade_stored'), $df->dateFormat()->withTime24($DIC->user()->getDateFormat()))
+        ];
+    }
 }

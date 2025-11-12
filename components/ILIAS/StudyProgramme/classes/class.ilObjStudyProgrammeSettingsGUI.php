@@ -23,6 +23,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFieldFactory;
 use ILIAS\UI\Renderer;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
+use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
 
 /**
  * @ilCtrl_Calls ilObjStudyProgrammeSettingsGUI: ilStudyProgrammeCommonSettingsGUI

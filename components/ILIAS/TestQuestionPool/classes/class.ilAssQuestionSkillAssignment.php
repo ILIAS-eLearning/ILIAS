@@ -28,20 +28,20 @@ use ILIAS\Skill\Service\SkillTreeService;
  */
 class ilAssQuestionSkillAssignment
 {
-    public const DEFAULT_COMPETENCE_POINTS = 1;
+    public const int DEFAULT_COMPETENCE_POINTS = 1;
 
-    public const EVAL_MODE_BY_QUESTION_RESULT = 'result';
-    public const EVAL_MODE_BY_QUESTION_SOLUTION = 'solution';
+    public const string EVAL_MODE_BY_QUESTION_RESULT = 'result';
+    public const string EVAL_MODE_BY_QUESTION_SOLUTION = 'solution';
 
     private ilDBInterface $db;
     private int $parent_obj_id;
     private int $question_id;
     private int $skill_base_id;
     private int $skill_tref_id;
-    private int $skill_points;
+    private int $skill_points = self::DEFAULT_COMPETENCE_POINTS;
     private string $skill_title = '';
     private string $skill_path = '';
-    private string $eval_mode;
+    private string $eval_mode = '';
 
     private ilAssQuestionSolutionComparisonExpressionList $solution_comparison_expression_list;
     private SkillTreeService $skill_tree_service;
@@ -80,7 +80,7 @@ class ilAssQuestionSkillAssignment
             $this->setEvalMode($row['eval_mode']);
         }
 
-        if ($this->getEvalMode() == self::EVAL_MODE_BY_QUESTION_SOLUTION) {
+        if ($this->getEvalMode() === self::EVAL_MODE_BY_QUESTION_SOLUTION) {
             $this->loadComparisonExpressions();
         }
     }
@@ -249,18 +249,21 @@ class ilAssQuestionSkillAssignment
 
     public function loadAdditionalSkillData(): void
     {
-        $this->setSkillTitle(
-            ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId())
-        );
+        $this->setSkillTitle(ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId()));
+        $this->setSkillPath(implode(' > ', $this->retrieveNodeTitlesArrayFromPath()));
+    }
 
-        $path = $this->skill_tree_service->getSkillTreePath(
-            $this->getSkillBaseId(),
-            $this->getSkillTrefId()
-        );
+    private function retrieveNodeTitlesArrayFromPath(): array
+    {
+        $path = $this->skill_tree_service->getSkillTreePath($this->getSkillBaseId(), $this->getSkillTrefId());
+        if ($path === []) {
+            return [];
+
+        }
 
         $nodes = [];
         foreach ($path as $node) {
-            if ($node['title'] === "Skill Tree Root Node") {
+            if ($node['title'] === 'Skill Tree Root Node') {
                 continue;
             }
 
@@ -269,13 +272,13 @@ class ilAssQuestionSkillAssignment
             }
         }
 
-        $root_node = reset($path);
+        $root_node_skl_tree_id = reset($path)['skl_tree_id'];
         array_unshift(
             $nodes,
-            $this->skill_tree_service->getObjSkillTreeById($root_node['skl_tree_id'])->getTitleForHTMLOutput()
+            htmlspecialchars($this->skill_tree_service->getObjSkillTreeById($root_node_skl_tree_id)->getTitle())
         );
 
-        $this->setSkillPath(implode(' > ', $nodes));
+        return $nodes;
     }
 
     public function setSkillTitle($skillTitle): void

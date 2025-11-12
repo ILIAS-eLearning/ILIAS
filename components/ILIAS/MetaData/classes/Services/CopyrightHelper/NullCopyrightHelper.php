@@ -61,6 +61,11 @@ class NullCopyrightHelper implements CopyrightHelperInterface
         return $manipulator;
     }
 
+    public function getCopyrightPreset(string $copyright_id): CopyrightInterface
+    {
+        return new NullCopyright();
+    }
+
     /**
      * @return CopyrightInterface[]
      */

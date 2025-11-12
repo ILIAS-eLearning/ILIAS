@@ -99,8 +99,6 @@ class AdditionalInformationGenerator
     public const KEY_TEST_CONCLUDING_REMARKS_ENABLED = 'final_statement';
     public const KEY_TEST_REDIRECT_MODE = 'redirect_after_finishing_tst';
     public const KEY_TEST_REDIRECT_URL = 'redirection_url';
-    public const KEY_TEST_MAIL_NOTIFICATION_CONTENT_TYPE = 'tst_finish_notification';
-    public const KEY_TEST_ALWAYS_SEND_NOTIFICATION = 'tst_finish_notification_content_type';
     public const KEY_TEST_TAXONOMIES_ENABLED = 'tst_activate_skill_service';
     public const KEY_TEST_HIDE_INFO_TAB = 'tst_hide_info_tab';
 
@@ -203,8 +201,6 @@ class AdditionalInformationGenerator
         'type',
         'answers_select',
         'answers_text_box',
-        'tst_finish_notification_simple',
-        'tst_finish_notification_advanced',
         'test_question_set_type_fixed',
         'tst_title_output_full',
         'tst_title_output_hide_points',

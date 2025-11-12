@@ -43,12 +43,12 @@ class HMACSigner implements Signer
         SigningKey $signing_key
     ): string {
         // sign the payload using hmac_hash
-        return hash_hmac(
+        return $this->algorithm->after(hash_hmac(
             $this->getAlgorithm(),
             $signable_payload,
             $signing_key->get(),
             false
-        );
+        ));
     }
 
     public function verify(

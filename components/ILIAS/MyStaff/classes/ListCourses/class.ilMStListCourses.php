@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -87,9 +88,15 @@ class ilMStListCourses
                                                                                                                'text'
                                                                                                            ) . '
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
+                    LEFT JOIN orgu_obj_pos_settings AS oupos_set on oupos_set.obj_id = crs.obj_id
+                    INNER JOIN orgu_obj_type_settings AS outype_set ON outype_set.obj_type = "crs"
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id';
 
         $arr_query = [];
+
+        // reflect course settings or org unit settings
+        $query .= " AND (oupos_set.active = 1 OR outype_set.activation_default = 1 OR outype_set.changeable = 0)";
+
         foreach ($users_per_position as $position_id => $users) {
             $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(
                 $this->dic->user()->getId(),

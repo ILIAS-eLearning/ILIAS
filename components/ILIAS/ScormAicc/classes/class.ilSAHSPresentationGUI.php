@@ -91,10 +91,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
         $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
 
-        # AXH: DEBUGGING!
-        $DIC->logger()->root()->info( '===== $next_class: ' . $next_class . ' =====' );
-        $DIC->logger()->root()->info( '===== $cmd: ' . $cmd . ' =====' );
-
         if ($next_class !== "ilinfoscreengui" &&
             $cmd !== "infoScreen" &&
             $next_class !== "ilobjscorm2004learningmodulegui" &&
@@ -104,8 +100,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             $next_class !== "illearningprogressgui") {
             switch ($type) {
                 case "scorm2004":
-                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                    // $this->ctrl->setCmdClass("ilscorm13playergui");
 
                     $this->ctrl->saveParameterByClass(ilSCORM13PlayerGUI::class, "ref_id");
                     $this->ctrl->redirectByClass(ilSCORM13PlayerGUI::class, $this->ctrl->getCmd());
@@ -115,8 +109,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
                     break;
 
                 case "scorm":
-                    // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-                    // $this->ctrl->setCmdClass("ilscormpresentationgui");
 
                     $this->ctrl->saveParameterByClass(ilSCORMPresentationGUI::class, "ref_id");
                     $this->ctrl->redirectByClass(ilSCORMPresentationGUI::class, $this->ctrl->getCmd());
@@ -290,7 +282,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         // add read / back button
         if ($ilAccess->checkAccess("read", "", $refId)) {
             $ilToolbar = $GLOBALS['DIC']->toolbar();
-            $ilToolbar->addButtonInstance($this->slm_gui->getObject()->getViewButton());
+            $ilToolbar->addComponent($this->slm_gui->getObject()->getViewButton());
         }
 
         // show standard meta data section

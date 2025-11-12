@@ -77,7 +77,11 @@ class NullRepository implements RepositoryInterface
     {
     }
 
-    public function updateRecord(int $obj_id, \DOMDocument $metadata): void
+    public function updateRecord(int $obj_id, bool $is_deleted, ?\DOMDocument $metadata): void
+    {
+    }
+
+    public function deleteRecordsMarkedAsDeletedOlderThan(\DateInterval $interval): void
     {
     }
 

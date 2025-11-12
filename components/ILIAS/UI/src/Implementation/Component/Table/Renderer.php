@@ -204,7 +204,8 @@ class Renderer extends AbstractComponentRenderer
         $component = $this->registerActions($component);
 
         [$component, $view_controls] = $component->applyViewControls(
-            $component->getFilter() ?? [],
+            $component->getAdditionalViewControlData(),
+            $component->getFilter(),
             $component->getAdditionalParameters()
         );
 
@@ -213,6 +214,7 @@ class Renderer extends AbstractComponentRenderer
             array_keys($component->getVisibleColumns()),
             $component->getRange(),
             $component->getOrder(),
+            $component->getAdditionalViewControlData(),
             $component->getFilter(),
             $component->getAdditionalParameters()
         );
@@ -381,14 +383,11 @@ class Renderer extends AbstractComponentRenderer
         $opt_action_id = Action::OPT_ACTIONID;
         $opt_row_id = Action::OPT_ROWID;
 
-        $component = $component
-            ->withAdditionalOnLoadCode(
-                static fn($id): string =>
-                    "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
-            )
-            ->withAdditionalOnLoadCode($this->getAsyncActionHandler($component->getAsyncActionSignal()))
-            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getMultiActionSignal()))
-            ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
+        if ($component->hasMultiActions()) {
+            $component = $component->withAdditionalOnLoadCode(
+                static fn($id): string => "il.UI.table.data.get('{$id}').selectAll(false);"
+            );
+        }
 
         $actions = [];
         foreach ($component->getAllActions() as $action_id => $action) {
@@ -402,11 +401,14 @@ class Renderer extends AbstractComponentRenderer
         }
         $component = $component->withActions($actions);
 
-        if ($component->hasMultiActions()) {
-            $component = $component->withAdditionalOnLoadCode(
-                static fn($id): string => "il.UI.table.data.get('{$id}').selectAll(false);"
-            );
-        }
+        $component = $component
+            ->withAdditionalOnLoadCode(
+                static fn($id): string =>
+                    "il.UI.table.data.init('{$id}','{$opt_action_id}','{$opt_row_id}');"
+            )
+            ->withAdditionalOnLoadCode($this->getAsyncActionHandler($component->getAsyncActionSignal()))
+            ->withAdditionalOnLoadCode($this->getMultiActionHandler($component->getMultiActionSignal()))
+            ->withAdditionalOnLoadCode($this->getSelectionHandler($component->getSelectionSignal()));
 
         return $component;
     }

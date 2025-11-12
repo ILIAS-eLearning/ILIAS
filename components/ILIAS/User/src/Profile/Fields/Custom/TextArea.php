@@ -54,15 +54,8 @@ class TextArea implements Type
         return $input;
     }
 
-    public function prepareUserInputForStorage(mixed $input): array
+    public function prepareUserInputForStorage(mixed $input, ?string $data): array
     {
         return [$input];
-    }
-
-    public function buildPresentationValueFromUserValue(
-        array $input,
-        ?string $data
-    ): string {
-        return $input[0] ?? '';
     }
 }

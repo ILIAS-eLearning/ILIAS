@@ -20,18 +20,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsTestBehaviour extends TestSettings
+class SettingsTestBehaviour extends TestSettings implements Exportable
 {
     private const DEFAULT_PROCESSING_TIME_MINUTES = 90;
 
     public function __construct(
-        int $test_id,
         protected int $number_of_tries = 0,
         protected bool $block_after_passed_enabled = false,
         protected ?string $pass_waiting = null,
@@ -42,7 +42,7 @@ class SettingsTestBehaviour extends TestSettings
         protected bool $examid_in_test_attempt_enabled = false
     ) {
         $this->pass_waiting = $this->cleanupPassWaiting($this->pass_waiting);
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     public function toForm(
@@ -505,5 +505,33 @@ class SettingsTestBehaviour extends TestSettings
         $clone = clone $this;
         $clone->examid_in_test_attempt_enabled = $exam_id_in_test_pass_enabled;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'nr_of_tries' => $this->getNumberOfTries(),
+            'block_after_passed' => $this->getBlockAfterPassedEnabled(),
+            'pass_waiting' => $this->getPassWaiting(),
+            'enable_processing_time' => $this->getProcessingTimeEnabled(),
+            'processing_time' => $this->getProcessingTime(),
+            'reset_processing_time' => $this->getResetProcessingTime(),
+            'kiosk_mode' => $this->getKioskMode(),
+            'examid_in_test_pass' => $this->getExamIdInTestAttemptEnabled()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (int) $data['nr_of_tries'],
+            (bool) $data['block_after_passed'],
+            $data['pass_waiting'],
+            (bool) $data['enable_processing_time'],
+            $data['processing_time'],
+            (bool) $data['reset_processing_time'],
+            (int) $data['kiosk_mode'],
+            (bool) $data['examid_in_test_pass']
+        );
     }
 }

@@ -85,6 +85,7 @@ class ilStudyProgrammeDIC
         $dic['mail'] = static fn($dic) =>
             new ilPRGMail(
                 $dic['Log'],
+                $DIC['user']->getSettings(),
                 $DIC['lng']
             );
         $dic['ilAppEventHandler'] = static fn($dic) =>
@@ -138,6 +139,7 @@ class ilStudyProgrammeDIC
         $dic['mail'] = static fn($dic) =>
             new ilPRGMail(
                 $dic['Log'],
+                $DIC['user']->getSettings(),
                 $DIC['lng']
             );
 

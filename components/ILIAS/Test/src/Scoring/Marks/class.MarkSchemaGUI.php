@@ -61,7 +61,8 @@ class MarkSchemaGUI
         private Request $request,
         private Refinery $refinery,
         private UIFactory $ui_factory,
-        private UIRenderer $ui_renderer
+        private UIRenderer $ui_renderer,
+        private MarkSchemaFactory $factory,
     ) {
         $this->mark_schema = $test->getMarkSchema();
         $this->editable = $test->marksEditable();
@@ -166,7 +167,8 @@ class MarkSchemaGUI
     {
         $this->redirectOnMarkSchemaNotEditable();
 
-        $this->mark_schema = $this->mark_schema->createSimpleSchema(
+        $this->mark_schema = $this->factory->createSimpleSchema(
+            $this->mark_schema->getTestId(),
             $this->lng->txt('failed_short'),
             $this->lng->txt('failed_official'),
             0,

@@ -27,6 +27,7 @@ use ILIAS\MetaData\OERHarvester\ExposedRecords\RepositoryInterface as ExposedRec
 use ILIAS\MetaData\OERExposer\OAIPMH\FlowControl\TokenHandlerInterface;
 use ILIAS\MetaData\OERExposer\OAIPMH\DateHelper;
 use ILIAS\MetaData\Settings\SettingsInterface;
+use ILIAS\MetaData\OERHarvester\ExposedRecords\RecordInterface;
 
 class RequestProcessor implements RequestProcessorInterface
 {
@@ -128,11 +129,7 @@ class RequestProcessor implements RequestProcessorInterface
         }
         return $this->writer->writeResponse(
             $request,
-            $this->writer->writeRecord(
-                $this->settings->getOAIIdentifierPrefix() . $record->infos()->identfifier(),
-                $record->infos()->datestamp(),
-                $record->metadata()
-            )
+            $this->writeRecord($record)
         );
     }
 
@@ -307,7 +304,8 @@ class RequestProcessor implements RequestProcessorInterface
             foreach ($record_infos as $info) {
                 $content_xmls[] = $this->writer->writeRecordHeader(
                     $this->settings->getOAIIdentifierPrefix() . $info->identfifier(),
-                    $info->datestamp()
+                    $info->datestamp(),
+                    $info->isDeleted()
                 );
             }
         } elseif ($effective_request->verb() === Verb::LIST_RECORDS) {
@@ -318,11 +316,7 @@ class RequestProcessor implements RequestProcessorInterface
                 $offset
             );
             foreach ($records as $record) {
-                $content_xmls[] = $this->writer->writeRecord(
-                    $this->settings->getOAIIdentifierPrefix() . $record->infos()->identfifier(),
-                    $record->infos()->datestamp(),
-                    $record->metadata()
-                );
+                $content_xmls[] = $this->writeRecord($record);
             }
         } else {
             throw new \ilMDOERExposerException('Invalid verb handling.');
@@ -361,6 +355,21 @@ class RequestProcessor implements RequestProcessorInterface
         return $this->writer->writeResponse(
             $request,
             ...$content_xmls
+        );
+    }
+
+    protected function writeRecord(RecordInterface $record): \DomDocument
+    {
+        if ($record->infos()->isDeleted()) {
+            return $this->writer->writeDeletedRecord(
+                $this->settings->getOAIIdentifierPrefix() . $record->infos()->identfifier(),
+                $record->infos()->datestamp()
+            );
+        }
+        return $this->writer->writeRecord(
+            $this->settings->getOAIIdentifierPrefix() . $record->infos()->identfifier(),
+            $record->infos()->datestamp(),
+            $record->metadata()
         );
     }
 

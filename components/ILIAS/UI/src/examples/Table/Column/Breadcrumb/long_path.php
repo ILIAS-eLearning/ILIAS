@@ -46,8 +46,9 @@ function long_path()
             array $visible_column_ids,
             Range $range,
             Order $order,
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): \Generator {
             global $DIC;
             $link = fn($x) => $DIC->ui()->factory()->link()->standard($x, '/');
@@ -64,8 +65,9 @@ function long_path()
         }
 
         public function getTotalRowCount(
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): ?int {
             return 1;
         }

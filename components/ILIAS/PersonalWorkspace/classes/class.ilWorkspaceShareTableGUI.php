@@ -27,10 +27,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 {
     protected ilSetting $settings;
     protected ilObjUser $user;
-    /**
-     * @var ilWorkspaceAccessHandler|ilPortfolioAccessHandler
-     */
-    protected $handler;
+    protected ilWorkspaceAccessHandler|ilPortfolioAccessHandler $handler;
     protected ?int $parent_node_id = null;
     protected array $filter;
     protected array $crs_ids;
@@ -43,7 +40,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
-        $a_handler,
+        ilWorkspaceAccessHandler|ilPortfolioAccessHandler $a_handler,
         ?int $a_parent_node_id = null,
         bool $a_load_data = false
     ) {

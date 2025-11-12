@@ -24,5 +24,8 @@ interface RecordInterface
 {
     public function infos(): RecordInfosInterface;
 
-    public function metadata(): \DOMDocument;
+    /**
+     * Deleted records don't carry metadata.
+     */
+    public function metadata(): ?\DOMDocument;
 }

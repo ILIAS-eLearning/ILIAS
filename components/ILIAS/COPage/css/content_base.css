@@ -18,7 +18,16 @@
 	width: auto;
 }
 
-#iltinymenu div.ilTinyMenuSection p, #iltinymenu .il-copg-button-group p {
+#iltinymenu div.ilTinyMenuSection {
+	white-space: normal;
+}
+.ilTinyMenuSection > div.dropdown:nth-child(1) > ul.dropdown-menu {
+	right:auto;
+	left:0;
+}
+
+/* see #41844 and #46127 */
+#copg-editor-slate-content p, #iltinymenu .il-copg-button-group p {
 	background-color: transparent;
 }
 

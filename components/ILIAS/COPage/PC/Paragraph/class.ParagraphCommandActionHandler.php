@@ -102,7 +102,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         string $content,
         string $characteristic,
         bool $from_placeholder = false
-    ) {
+    ): array|bool|string {
         $page = $this->page_gui->getPageObject();
 
         $pcid = ":" . $pcid;
@@ -144,7 +144,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         string $pcid,
         string $content,
         string $characteristic
-    ) {
+    ): array|bool|string {
         $page = $this->page_gui->getPageObject();
 
         $pcid = $this->getFullIdForPCId($page, $pcid);

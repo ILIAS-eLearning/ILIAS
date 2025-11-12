@@ -402,17 +402,29 @@ class Renderer extends AbstractComponentRenderer
         if ($value) {
             $value = array_map(
                 function ($v) {
-                    return ['value' => urlencode($v), 'display' => $v];
+                    return ['value' => rawurlencode($v), 'display' => $v];
                 },
                 $value
             );
         }
 
+        $autocomplete_endpoint = 'undefined';
+        $autocomplete_token = 'undefined';
+        if ($component->getAsyncAutocompleteEndpoint() !== null) {
+            $autocomplete_endpoint = $component->getAsyncAutocompleteEndpoint()
+                ->renderObject([$component->getAsyncAutocompleteToken()]);
+            $autocomplete_token = $component->getAsyncAutocompleteToken()->render();
+        }
+
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($configuration, $value) {
+            function ($id) use ($configuration, $value, $autocomplete_endpoint, $autocomplete_token) {
                 $encoded = json_encode($configuration);
                 $value = json_encode($value);
-                return "il.UI.Input.tagInput.init('{$id}', {$encoded}, {$value});";
+                return 'il.UI.Input.tagInput.init(document.querySelector('
+                . "'#{$id} .c-field-tag'), {$encoded}, {$value},"
+                . " {$autocomplete_endpoint}, "
+                . " {$autocomplete_token}"
+                . ");";
             }
         );
 
@@ -505,13 +517,14 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderMarkdownField(F\Markdown $component, RendererInterface $default_renderer): string
     {
+        [$textarea_tpl, $component] = $this->getPreparedTextareaTemplate($component);
+
         /** @var $component F\Markdown */
         $component = $component->withAdditionalOnLoadCode(
             static function ($id) use ($component): string {
                 return "
-                    const id = document.querySelector('#$id .c-input__field textarea')?.id;
                     il.UI.Input.markdown.init(
-                        id,
+                        document.querySelector('#$id .c-input__field textarea')?.id,
                         '{$component->getMarkdownRenderer()->getAsyncUrl()}',
                         '{$component->getMarkdownRenderer()->getParameterName()}'
                     );
@@ -520,7 +533,6 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $textarea_id = $this->createId();
-        $textarea_tpl = $this->getPreparedTextareaTemplate($component);
         $textarea_tpl->setVariable('ID', $textarea_id);
 
         $markdown_tpl = $this->getTemplate("tpl.markdown.html", true, true);
@@ -572,24 +584,22 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderTextareaField(F\Textarea $component, RendererInterface $default_renderer): string
     {
+        [$tpl, $component] = $this->getPreparedTextareaTemplate($component);
+
         /** @var $component F\Textarea */
         $component = $component->withAdditionalOnLoadCode(
-            static function ($id): string {
-                return "
-                    taId = document.querySelector('#$id .c-input__field textarea')?.id;
-                    il.UI.Input.textarea.init(taId);
-                ";
-            }
+            static fn($id) => "il.UI.Input.textarea.init(document.querySelector('#$id .c-input__field textarea')?.id);",
         );
-
-        $tpl = $this->getPreparedTextareaTemplate($component);
 
         $label_id = $this->createId();
         $tpl->setVariable('ID', $label_id);
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
     }
 
-    protected function getPreparedTextareaTemplate(F\Textarea $component): Template
+    /**
+     * @return array{0: Template, 1: F\Textarea}
+     */
+    protected function getPreparedTextareaTemplate(F\Textarea $component): array
     {
         $tpl = $this->getTemplate("tpl.textarea.html", true, true);
 
@@ -603,9 +613,53 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('MIN_LIMIT', $component->getMinLimit());
         }
 
+        [$mustache_variable_html, $component] = $this->renderMustacheVariables($component);
+        $tpl->setVariable('MUSTACHE_VARIABLES_HTML', $mustache_variable_html);
+
         $this->applyName($component, $tpl);
-        $this->applyValue($component, $tpl, $this->htmlEntities());
-        return $tpl;
+        $this->applyValue(
+            $component,
+            $tpl,
+            $this->mustacheVariableEntities()
+        );
+        return [$tpl, $component];
+    }
+
+    /**
+     * @return array{0: string, 1: F\HasMustacheVariablesInternal}
+     */
+    protected function renderMustacheVariables(F\HasMustacheVariablesInternal $component): array
+    {
+        $mustache_variable_definitions = $component->getMustacheVariables();
+        if (empty($mustache_variable_definitions)) {
+            return ['', $component];
+        }
+
+        $template = $this->getTemplate('tpl.mustache_variables.html', true, true);
+        $template->setVariable('MUSTACHE_VARIABLE_USAGE_INFO', $this->txt('ui_mustache_variables_usage_info'));
+
+        $mustache_variable_context_info = $component->getMustacheVariableContextInfo();
+        if (null !== $mustache_variable_context_info) {
+            $template->setVariable('MUSTACHE_VARIABLE_CONTEXT_INFO', $mustache_variable_context_info);
+        }
+
+        foreach ($mustache_variable_definitions as $variable_name => $description) {
+            $template->setCurrentBlock('with_mustache_variable_definition');
+            $template->setVariable('VARIABLE_NAME', $variable_name);
+            $template->setVariable('VARIABLE_DESCRIPTION', $description);
+            $template->parseCurrentBlock();
+        }
+
+        // @todo: this feature is currently highly coupled to textareas
+        $enriched_component = $component->withAdditionalOnLoadCode(static fn($id) => "
+            il.UI.Input.mustacheVariables.init(
+                il.UI.Input.textarea.get(document.querySelector('#$id .c-input__field textarea')?.id) ??
+                il.UI.Input.markdown.get(document.querySelector('#$id .c-input__field textarea')?.id),
+                document.getElementById('$id'),
+            );
+        ");
+
+        return [$template->get(), $enriched_component];
     }
 
     protected function renderRadioField(F\Radio $component, RendererInterface $default_renderer): string
@@ -614,6 +668,11 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->createId();
 
         foreach ($component->getOptions() as $value => $label) {
+            // @todo: can we get rid of this enganglement?
+            if ($component->hasOptionFilter()) {
+                $tpl->touchBlock('is_filter_option');
+            }
+
             $opt_id = $id . '_' . $value . '_opt';
 
             $tpl->setCurrentBlock('optionblock');
@@ -637,7 +696,16 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
+        if ($component->hasOptionFilter()) {
+            // @todo: can we get rid of this enganglement?
+            $tpl->touchBlock("has_option_filter");
+            $field_html = $tpl->get();
+            [$field_html, $component] = $this->renderOptionFilter($field_html, $component, $default_renderer);
+        } else {
+            $field_html = $tpl->get();
+        }
+
+        return $this->wrapInFormContext($component, $component->getLabel(), $field_html);
     }
 
     protected function renderMultiSelectField(F\MultiSelect $component, RendererInterface $default_renderer): string
@@ -649,6 +717,11 @@ class Renderer extends AbstractComponentRenderer
             $value = $component->getValue();
             $name = $this->applyName($component, $tpl);
             foreach ($options as $opt_value => $opt_label) {
+                // @todo: can we get rid of this enganglement?
+                if ($component->hasOptionFilter()) {
+                    $tpl->touchBlock('is_filter_option');
+                }
+
                 $tpl->setCurrentBlock("option");
                 $tpl->setVariable("NAME", $name);
                 $tpl->setVariable("VALUE", $opt_value);
@@ -657,13 +730,23 @@ class Renderer extends AbstractComponentRenderer
                 if ($value && in_array($opt_value, $value)) {
                     $tpl->setVariable("CHECKED", 'checked="checked"');
                 }
+
                 $tpl->parseCurrentBlock();
             }
         } else {
             $tpl->touchBlock("no_options");
         }
 
-        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
+        if ($component->hasOptionFilter()) {
+            // @todo: can we get rid of this enganglement?
+            $tpl->touchBlock("has_option_filter");
+            $field_html = $tpl->get();
+            [$field_html, $component] = $this->renderOptionFilter($field_html, $component, $default_renderer);
+        } else {
+            $field_html = $tpl->get();
+        }
+
+        return $this->wrapInFormContext($component, $component->getLabel(), $field_html);
     }
 
     protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer): string
@@ -824,7 +907,9 @@ class Renderer extends AbstractComponentRenderer
         // display the action button (to choose files).
         $template->setVariable('ACTION_BUTTON', $default_renderer->render(
             $this->getUIFactory()->button()->shy(
-                $this->txt('select_files_from_computer'),
+                $input->getMaxFiles() <= 1
+                    ? $this->txt('select_file_from_computer')
+                    : $this->txt('select_files_from_computer'),
                 '#'
             )
         ));
@@ -854,7 +939,6 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
-        $registry->register('assets/js/tagify.js');
         $registry->register('assets/css/tagify.css');
         $registry->register('assets/js/tagInput.js');
 
@@ -1207,5 +1291,60 @@ class Renderer extends AbstractComponentRenderer
         $template->parseCurrentBlock();
 
         $template->parseCurrentBlock();
+    }
+
+    /**
+     * Renders a list search around input fields that support it.
+     *
+     * @param string $input_html Rendered HTML of the inner input field made searchable.
+     * @param F\HasOptionFilterInternal $component The component object to attach onload JavaScript to.
+     * @return array{0: string, 1: F\HasOptionFilterInternal}
+     */
+    protected function renderOptionFilter(string $input_html, F\HasOptionFilterInternal $component, RendererInterface $default_renderer): array
+    {
+        $option_filter_template = $this->getTemplate("tpl.option_filter.html", true, true);
+        $option_filter_template->setVariable('INPUT', $input_html);
+
+        $search_input_id = $this->createId();
+        $search_input_label_id = $this->createId();
+        $search_input_description_id = $this->createId();
+        $list_id = $this->createId();
+
+        $option_filter_template->setVariable('SEARCH_INPUT_ID', $search_input_id);
+        $option_filter_template->setVariable('SEARCH_INPUT_LABEL_ID', $search_input_label_id);
+        $option_filter_template->setVariable('SEARCH_INPUT_DESCRIPTION_ID', $search_input_description_id);
+        $option_filter_template->setVariable('LIST_ID', $list_id);
+
+        $no_selection_text = $this->txt('ui_field_option_filter_no_selection');
+        $option_filter_template->setVariable('NOTHING_SELECTED', $no_selection_text);
+        $option_filter_template->setVariable('ARIA_FILTERED_RESULTS', $this->txt('ui_field_option_filter_filtered_results_aria_label'));
+
+        $option_filter_template->setVariable('SEARCH_LABEL', $this->txt("ui_field_option_filter_search_in"));
+        $option_filter_template->setVariable('SCREEN_READER_HINT', $this->txt('ui_field_option_filter_screen_reader_hint'));
+        $option_filter_template->setVariable('NO_MATCH', $this->txt('ui_field_option_filter_no_match'));
+        $option_filter_template->setVariable('OPTIONS_SHOWN', $this->txt('ui_field_option_filter_options_shown'));
+
+        $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand());
+        $option_filter_template->setVariable('EXPAND_TEXT', $expand_icon . $this->txt('ui_field_option_filter_show_all_options'));
+
+        $collapse_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->collapseHorizontal());
+        $option_filter_template->setVariable('COLLAPSE_TEXT', $collapse_icon . $this->txt('ui_field_option_filter_show_less'));
+
+        $remove_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->remove());
+        $option_filter_template->setVariable('CLEAR_SEARCH_BTN', $remove_icon . $this->txt('ui_field_option_filter_clear_search'));
+
+        $component = $component->withAdditionalOnLoadCode(
+            static fn($id): string => "il.UI.Input.optionFilter.init(document.getElementById('$id'));",
+        );
+
+        return [$option_filter_template->get(), $component];
+    }
+
+    private function mustacheVariableEntities(): Closure
+    {
+        return function ($val) {
+            $val = htmlentities((string) $val);
+            return str_replace('{{', '&lcub;&lcub;', str_replace('}}', '&rcub;&rcub;', $val));
+        };
     }
 }

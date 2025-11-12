@@ -1,0 +1,30 @@
+@use "../010-settings" as s;
+
+@mixin fade-edge($edge, $size, $color) {
+  @if ($edge == "bottom") {
+    &::after {
+      content: "";
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: block;
+      position: absolute;
+      height: $size;
+      background: linear-gradient(360deg, $color, transparent);
+      pointer-events: none;
+    }
+  }
+  @if ($edge == "right") {
+    &::before {
+      content: "";
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: block;
+      position: absolute;
+      width: $size * 1.5;
+      background: linear-gradient(-90deg, $color, transparent);
+      pointer-events: none;
+    }
+  }
+}

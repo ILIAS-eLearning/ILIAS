@@ -56,7 +56,7 @@ class ZipCode implements FieldDefinition
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $input = new \ilTextInputGUI($this->getLabel($lng));
-        $input->setMaxLength(40);
+        $input->setMaxLength(10);
         if ($user === null) {
             return $input;
         }

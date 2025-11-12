@@ -73,14 +73,6 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'tile_image_ident' => [ilDBConstants::T_TEXT, $certificateTemplate->getTileImageIdentification()]
         ];
 
-        if (
-            $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
-            $this->database->tableColumnExists('il_cert_user_cert', 'tile_image_path')
-        ) {
-            $columns['background_image_path'] = [ilDBConstants::T_TEXT, $certificateTemplate->getBackgroundImagePath()];
-            $columns['tile_image_path'] = [ilDBConstants::T_TEXT, $certificateTemplate->getTileImagePath()];
-        }
-
         $this->database->insert(self::TABLE_NAME, $columns);
 
         $this->logger->debug(
@@ -190,8 +182,6 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             0,
             false,
             '',
-            '',
-            '',
             ''
         );
     }
@@ -237,8 +227,6 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             '0',
             0,
             true,
-            '',
-            '',
             '',
             ''
         );
@@ -409,39 +397,6 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $this->logger->debug(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
     }
 
-    public function updateDefaultBackgroundImagePaths(string $old_relative_path, string $new_relative_path): void
-    {
-        $this->logger->debug(
-            sprintf(
-                'START - Update all default background image paths from "%s" to "%s"',
-                $old_relative_path,
-                $new_relative_path
-            )
-        );
-
-        $affected_rows = $this->database->manipulateF(
-            'UPDATE ' . self::TABLE_NAME . ' SET background_image_ident = %s ' .
-            'WHERE currently_active = 1 AND (background_image_ident = %s OR background_image_ident = %s )',
-            [
-                'text',
-                'text',
-                'text'
-            ],
-            [
-                $new_relative_path,
-                $old_relative_path,
-                '/certificates/default/background.jpg'
-            ]
-        );
-
-        $this->logger->debug(
-            sprintf(
-                'END - Updated %s certificate templates using old path',
-                $affected_rows
-            )
-        );
-    }
-
     public function isResourceUsed(string $relative_image_identification): bool
     {
         $this->logger->debug(
@@ -463,7 +418,7 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
 
         $this->logger->debug(
             sprintf(
-                'END - Image path "%s" is ' . $exists ? 'in use' : 'unused',
+                'END - Image identification "%s" is ' . $exists ? 'in use' : 'unused',
                 $relative_image_identification
             )
         );
@@ -486,8 +441,6 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             $row['ilias_version'],
             (int) $row['created_timestamp'],
             (bool) $row['currently_active'],
-            (string) ($row['background_image_path'] ?? ''),
-            (string) ($row['tile_image_path'] ?? ''),
             (string) ($row['background_image_ident'] ?? ''),
             (string) ($row['tile_image_ident'] ?? ''),
             isset($row['id']) ? (int) $row['id'] : null

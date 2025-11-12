@@ -502,7 +502,7 @@ class ilMemberExport
         ) {
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1];
-            $value = $udf_data->getAdditionalFieldByIdentifier($field_id);
+            $value = implode(', ', $udf_data->getAdditionalFieldByIdentifier($field_id) ?? []);
             $this->addCol($value, $row, $col);
             return true;
         }

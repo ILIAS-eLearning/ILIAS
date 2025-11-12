@@ -162,7 +162,7 @@ class ilWorkspaceCopyDefinition extends AbstractValue
      * Unserialize definitions
      * @param string $data
      */
-    public function unserialize($data)
+    public function unserialize(?string $data): void
     {
         $elements = unserialize((string) $data, ['allowed_classes' => false]);
 

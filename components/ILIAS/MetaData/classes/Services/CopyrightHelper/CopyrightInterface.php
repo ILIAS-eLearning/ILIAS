@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Services\CopyrightHelper;
 
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Legacy\Content;
 
@@ -40,9 +40,26 @@ interface CopyrightInterface
      * The copyright as UI Components, as it should be presented in the
      * UI almost everywhere.
      * If only a string can be returned, it is returned in a legacy UI component.
-     * @return Image[]|Link[]|Content[]
+     * @return Icon[]|Link[]|Content[]
      */
     public function presentAsUIComponents(): array;
+
+    /**
+     * The copyright just as its image, for use e.g. when the copyright
+     * needs to be inserted into other KS components, and the specific
+     * component it's presented as is important.
+     * If the copyright does not have an image, null is returned.
+     */
+    public function presentAsImageOnly(): ?Icon;
+
+    /**
+     *  The copyright just as a link, for use e.g. when the copyright
+     *  needs to be inserted into other KS components, and the specific
+     *  component it's presented as is important.
+     * If the copyright has no link, its full name is returned as a disabled link.
+     * If it also does not have a full name, null is returned.
+     */
+    public function presentAsLinkOnly(): ?Link;
 
     /**
      * The copyright without image in a reduced presentation, for displaying

@@ -79,7 +79,7 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
         }
 
         // check if image is in the public profile
-        $public_upload = ilObjUser::_lookupPref($usr_id, 'public_upload');
+        $public_upload = ilObjUser::_lookupPref($usr_id, 'public_avatar');
         if ($public_upload != 'y') {
             return false;
         }

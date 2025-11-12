@@ -127,6 +127,14 @@ class CopyrightHelper implements CopyrightHelperInterface
         return $this->prepareCreateOrUpdateOfCopyright($manipulator, $custom_copyright);
     }
 
+    public function getCopyrightPreset(string $copyright_id): CopyrightInterface
+    {
+        $entry = $this->copyright_repo->getEntry(
+            $this->identifier_handler->parseEntryIDFromIdentifier($copyright_id)
+        );
+        return $this->getCopyrightEntryWrapper($entry);
+    }
+
     /**
      * @return CopyrightInterface[]
      */

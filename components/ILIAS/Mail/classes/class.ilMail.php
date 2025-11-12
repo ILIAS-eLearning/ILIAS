@@ -24,9 +24,13 @@ use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Mail\Recipient;
 use ILIAS\Mail\Service\MailSignatureService;
 use ILIAS\Mail\Transformation\Utf8Mb4Sanitizer;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\Mail\Folder\MailScheduleData;
 
 class ilMail
 {
+    use FileDataRCHandling;
+
     public const string ILIAS_HOST = 'ilias';
     public const string PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
 
@@ -50,6 +54,7 @@ class ilMail
     private array $user_instances_by_id_map = [];
     private int $max_recipient_character_length = 998;
     private readonly Conductor $legal_documents;
+    private readonly ILIAS\Refinery\Factory $refinery;
 
     public function __construct(
         private int $a_user_id,
@@ -76,6 +81,7 @@ class ilMail
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
         $this->mail_address_type_factory = $mail_address_type_factory ?? new ilMailAddressTypeFactory(null, $logger);
+        $this->mail_address_parser_factory = $this->mail_address_parser_factory ?? new ilMailRfc822AddressParserFactory();
         $this->event_handler = $event_handler ?? $DIC->event();
         $this->db = $db ?? $DIC->database();
         $this->lng = $lng ?? $DIC->language();
@@ -99,6 +105,7 @@ class ilMail
         $this->placeholder_to_empty_resolver = $placeholder_to_empty_resolver ?? $DIC->mail()->placeholderToEmptyResolver();
         $this->legal_documents = $legal_documents ?? $DIC['legalDocuments'];
         $this->signature_service = $signature_service ?? $DIC->mail()->signature();
+        $this->refinery = $DIC->refinery();
     }
 
     public function autoresponder(): AutoresponderService
@@ -386,17 +393,18 @@ class ilMail
         }
     }
 
-    private function fetchMailData(?array $row): ?array
+    public function fetchMailData(?array $row): ?array
     {
         if (!is_array($row) || empty($row)) {
             return null;
         }
 
-        if (isset($row['attachments'])) {
-            $unserialized = unserialize(stripslashes((string) $row['attachments']), ['allowed_classes' => false]);
-            $row['attachments'] = is_array($unserialized) ? $unserialized : [];
+        if (isset($row['attachments']) && is_string($row['attachments']) && str_contains($row['attachments'], '{')) {
+            $row['attachments'] = unserialize($row['attachments']);
+        } elseif (isset($row['attachments']) && is_string($row['attachments']) && $row['attachments'] !== '') {
+            $row['attachments'] = new ResourceCollectionIdentification($row['attachments']);
         } else {
-            $row['attachments'] = [];
+            $row['attachments'] = null;
         }
 
         if (isset($row['tpl_ctx_params']) && is_string($row['tpl_ctx_params'])) {
@@ -461,6 +469,7 @@ class ilMail
         string $a_m_subject,
         string $a_m_message,
         int $a_draft_id = 0,
+        ?DateTimeImmutable $schedule_time = null,
         bool $a_use_placeholders = false,
         ?string $a_tpl_context_id = null,
         array $a_tpl_context_params = []
@@ -480,6 +489,8 @@ class ilMail
                 'use_placeholders' => ['integer', (int) $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
                 'tpl_ctx_params' => ['blob', json_encode($a_tpl_context_params, JSON_THROW_ON_ERROR)],
+                'schedule_datetime' => [ilDBConstants::T_TIMESTAMP, $schedule_time?->format('Y-m-d H:i:s')],
+                'schedule_timezone' => [ilDBConstants::T_TEXT, $schedule_time?->getTimezone()->getName()],
             ],
             [
                 'mail_id' => ['integer', $a_draft_id],
@@ -487,6 +498,53 @@ class ilMail
         );
 
         return $a_draft_id;
+    }
+
+    /**
+     * @param array<string, mixed> $template_context_parameters
+     */
+    public function scheduledMail(
+        int $folder_id,
+        int $sender_usr_id,
+        MailScheduleData $mail_data,
+        ?string $template_context_id = null,
+        array $template_context_parameters = []
+    ): int {
+        $message = $mail_data->getMailDeliveryData()->getMessage();
+        if ($mail_data->getMailDeliveryData()->isUsePlaceholder()) {
+            $message = $this->replacePlaceholders($mail_data->getMailDeliveryData()->getMessage(), $sender_usr_id);
+        }
+        $message = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $message);
+        $mail_values = [
+            'user_id' => [ilDBConstants::T_INTEGER, $sender_usr_id],
+            'folder_id' => [ilDBConstants::T_INTEGER, $folder_id],
+            'sender_id' => [ilDBConstants::T_INTEGER, $sender_usr_id],
+            'attachments' => [ilDBConstants::T_CLOB, serialize($mail_data->getMailDeliveryData()->getAttachments())],
+            'send_time' => [ilDBConstants::T_TIMESTAMP, date('Y-m-d H:i:s')],
+            'rcp_to' => [ilDBConstants::T_CLOB, $mail_data->getMailDeliveryData()->getTo()],
+            'rcp_cc' => [ilDBConstants::T_CLOB, $mail_data->getMailDeliveryData()->getCC()],
+            'rcp_bcc' => [ilDBConstants::T_CLOB, $mail_data->getMailDeliveryData()->getBcc()],
+            'm_status' => [ilDBConstants::T_TEXT, 'read'],
+            'm_subject' => [ilDBConstants::T_TEXT, $mail_data->getMailDeliveryData()->getSubject()],
+            'm_message' => [ilDBConstants::T_CLOB, $message],
+            'tpl_ctx_id' => [ilDBConstants::T_TEXT, $template_context_id],
+            'tpl_ctx_params' => [ilDBConstants::T_BLOB, json_encode($template_context_parameters, JSON_THROW_ON_ERROR)],
+            'schedule_datetime' => [ilDBConstants::T_TIMESTAMP, $mail_data->getScheduleDatetime()->format('Y-m-d H:i:s')],
+            'schedule_timezone' => [ilDBConstants::T_TEXT, $mail_data->getScheduleDatetime()->getTimezone()->getName()],
+        ];
+
+        if (!$mail_data->getMailDeliveryData()->getInternalMailId()) {
+            $outbox_id = $this->db->nextId($this->table_mail);
+            $mail_values['mail_id'] = [ilDBConstants::T_INTEGER, $outbox_id];
+            $this->db->insert($this->table_mail, $mail_values);
+        } else {
+            $outbox_id = $mail_data->getMailDeliveryData()->getInternalMailId();
+            $this->db->update($this->table_mail, $mail_values, [
+               'mail_id' => [ilDBConstants::T_INTEGER, $outbox_id],
+            ]);
+        }
+
+        return $outbox_id;
     }
 
     private function sendInternalMail(
@@ -509,7 +567,7 @@ class ilMail
         if ($use_placeholders) {
             $message = $this->replacePlaceholders($message, $usr_id);
         }
-        $message = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $message);
+        $message = $this->formatLinebreakMessage($this->refinery->string()->markdown()->toHTML()->transform($message) ?? '');
 
         $next_id = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
@@ -918,23 +976,26 @@ class ilMail
      */
     public function persistToStage(
         int $a_user_id,
-        array $a_attachments,
         string $a_rcp_to,
         string $a_rcp_cc,
         string $a_rcp_bcc,
         string $a_m_subject,
         string $a_m_message,
+        ?\ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification $a_attachments = null,
         bool $a_use_placeholders = false,
         ?string $a_tpl_context_id = null,
         ?array $a_tpl_ctx_params = []
     ): bool {
+        if (!is_null($a_attachments)) {
+            $a_attachments = $a_attachments->serialize();
+        }
         $this->db->replace(
             $this->table_mail_saved,
             [
                 'user_id' => ['integer', $this->user_id],
             ],
             [
-                'attachments' => ['clob', serialize($a_attachments)],
+                'attachments' => ['text', $a_attachments],
                 'rcp_to' => ['clob', $a_rcp_to],
                 'rcp_cc' => ['clob', $a_rcp_cc],
                 'rcp_bcc' => ['clob', $a_rcp_bcc],
@@ -961,7 +1022,7 @@ class ilMail
 
         $this->mail_data = $this->fetchMailData($this->db->fetchAssoc($res));
         if (!is_array($this->mail_data)) {
-            $this->persistToStage($this->user_id, [], '', '', '', '', '', false);
+            $this->persistToStage($this->user_id, '', '', '', '', '', null, false);
         }
 
         return $this->mail_data;
@@ -1239,7 +1300,7 @@ class ilMail
         if (!$this->isSystemMail()) {
             $message .= $this->signature_service->user($this->user_id);
         }
-        $mailer->Body($message);
+        $mailer->Body($this->refinery->string()->markdown()->toHTML()->transform($message) ?? '');
 
         if ($cc !== '') {
             $mailer->Cc($cc);
@@ -1248,7 +1309,6 @@ class ilMail
         if ($bcc !== '') {
             $mailer->Bcc($bcc);
         }
-
 
         foreach ($attachments as $attachment) {
             $mailer->Attach(
@@ -1262,15 +1322,16 @@ class ilMail
         $mailer->Send();
     }
 
-    /**
-     * @param list<string> $attachments
-     */
-    public function saveAttachments(array $attachments): void
+    public function saveAttachments(?ResourceCollectionIdentification $attachments): void
     {
+        if (!is_null($attachments)) {
+            $attachments = $attachments->serialize();
+        }
+
         $this->db->update(
             $this->table_mail_saved,
             [
-                'attachments' => ['clob', serialize($attachments)],
+                'attachments' => ['text', $attachments],
             ],
             [
                 'user_id' => ['integer', $this->user_id],

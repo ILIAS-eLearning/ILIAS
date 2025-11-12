@@ -30,6 +30,7 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
      * @var isItem[]
      */
     protected array $children = [];
+    protected int $amount = 0;
 
     /**
      * @inheritDoc
@@ -77,4 +78,18 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
 
         return $this;
     }
+
+    public function calculateAmountOfChildren(): void
+    {
+        $this->amount = count($this->children);
+    }
+
+    public function getAmountOfChildren(bool $including_dropped = true): int
+    {
+        if ($including_dropped) {
+            return $this->amount;
+        }
+        return count($this->children);
+    }
+
 }

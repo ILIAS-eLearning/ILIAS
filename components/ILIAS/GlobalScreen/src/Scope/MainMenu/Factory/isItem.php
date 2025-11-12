@@ -66,7 +66,7 @@ interface isItem extends isGlobalScreenItem
      *      this will be something like in
      *      Services/Administration/templates/default/tpl.external_settings.html
      */
-    public function withNonAvailableReason(Content $element): isItem;
+    public function withNonAvailableReason(Content|string $element): isItem;
 
     /**
      * @return Legacy

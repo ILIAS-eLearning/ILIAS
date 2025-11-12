@@ -573,7 +573,7 @@ abstract class ilAdvancedMDFieldDefinition
 
         $perm = $a_permissions->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            (string) $this->getFieldId(),
+            (int) $this->getFieldId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE
@@ -685,7 +685,7 @@ abstract class ilAdvancedMDFieldDefinition
 
         if ($a_permissions->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            (string) $this->getFieldId(),
+            (int) $this->getFieldId(),
             ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
             ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES
         )) {

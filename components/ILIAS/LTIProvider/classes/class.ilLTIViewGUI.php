@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\LTI\Screen\LtiViewLayoutProvider;
-use ILIAS\User\Profile\PersonalProfileGUI;
 
 /**
  * @classDescription class for ILIAS ViewLTI
@@ -137,12 +136,14 @@ class ilLTIViewGUI
     {
         $this->log->debug("initGUI");
         $baseclass = '';
+        $cmdclass = '';
         if ($this->wrapper->query()->has('baseClass')) {
             $baseclass = strtolower($this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()));
         }
         if ($this->wrapper->query()->has('cmdClass')) {
             $cmdclass = strtolower($this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()));
         }
+
         if ($baseclass == 'illtiroutergui') {
             return;
         }
@@ -204,7 +205,7 @@ class ilLTIViewGUI
                 }
             }
 
-            $referrer = (int) $this->effectiveRefId;
+            $referer = (int) $this->effectiveRefId;
 
             if ($referer > 0) {
                 if (ilSession::has('lti_' . $referer . '_post_data')) {
@@ -237,7 +238,7 @@ class ilLTIViewGUI
                     &&
                     (
                         $this->wrapper->query()->has('cmdClass') &&
-                        $this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()) === strtolower(PersonalProfileGUI::class)
+                        $this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()) === 'ilpersonalprofilegui'
                     )
                 ) {
                     return $context_id;
@@ -245,7 +246,7 @@ class ilLTIViewGUI
                 //                $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $redirect = $this->link_dir . "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $context_id;
                 $this->log->debug("redirect: " . $redirect);
-                ilUtil::redirect($redirect);
+                $DIC->ctrl()->redirectToURL($redirect);
             }
         }
         $lti_context_ids = ilSession::get('lti_context_ids');

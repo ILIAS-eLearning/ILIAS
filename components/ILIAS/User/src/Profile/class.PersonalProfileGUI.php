@@ -29,6 +29,11 @@ use ILIAS\User\Profile\ChangeMail\Status as ChangeMailStatus;
 use ILIAS\User\Profile\ChangeMail\Mail as ChangeMailMail;
 use ILIAS\User\Profile\Prompt\Repository as PromptRepository;
 use ILIAS\User\Profile\Fields\Field as ProfileField;
+use ILIAS\User\Profile\Fields\Standard\FirstName;
+use ILIAS\User\Profile\Fields\Standard\LastName;
+use ILIAS\User\Profile\Fields\Standard\Alias;
+use ILIAS\User\Profile\Fields\Standard\OrganisationalUnits;
+use ILIAS\User\Profile\Fields\Standard\Roles;
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
@@ -199,11 +204,6 @@ class PersonalProfileGUI
                 $this->$cmd();
                 break;
         }
-    }
-
-    public function userSettingVisible(string $setting): bool
-    {
-        return $this->user_settings_config->isVisible($setting);
     }
 
     /**
@@ -440,10 +440,8 @@ class PersonalProfileGUI
             return false;
         }
 
-        $this->user->setLogin($login);
-
         try {
-            $this->user->updateLogin($this->user->getLogin());
+            $this->user->updateLogin($login, Context::User);
             return true;
         } catch (\ilUserException $e) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
@@ -618,7 +616,12 @@ class PersonalProfileGUI
         bool $anonymized = false,
         string $key_suffix = ''
     ): void {
-        foreach ($this->profile->getVisibleFields(Context::User) as $field) {
+        foreach ($this->profile->getVisibleFields(
+            Context::User,
+            null,
+            [],
+            [FirstName::class, LastName::class, Alias::class, OrganisationalUnits::class, Roles::class]
+        ) as $field) {
             $value = $field->retrieveValueFromUser($this->user);
             if (!$anonymized && ($value === '' || $value === '-')) {
                 continue;
@@ -630,12 +633,9 @@ class PersonalProfileGUI
             if ($field->isVisibleToUser()) {
                 // #18795 - we should use ilUserProfile
                 switch ($field->getIdentifier()) {
-                    case 'upload':
-                        $caption = 'personal_picture';
-                        break;
-
-                    case 'title':
-                        $caption = 'person_title';
+                    case 'avatar':
+                        $caption = $this->lng->txt('personal_picture');
+                        $value = "<img src='{$value}' alt='{$this->lng->txt('user_avatar')}' />";
                         break;
 
                     default:

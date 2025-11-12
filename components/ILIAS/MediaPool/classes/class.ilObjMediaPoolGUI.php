@@ -759,12 +759,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         exit;
     }
 
-    /**
-     * Get media pool page
-     * @param
-     * @return
-     */
-    protected function getMediaPoolPageGUI($mep_item_id, $old_nr = 0)
+    protected function getMediaPoolPageGUI($mep_item_id, $old_nr = 0): ilMediaPoolPageGUI
     {
         $page_gui = new ilMediaPoolPageGUI($mep_item_id, $old_nr);
         $page_gui->setPoolGUI($this);
@@ -1459,7 +1454,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $mep_hash = uniqid();
             $this->ctrl->setParameter($this, "mep_hash", $mep_hash);
             $this->bulk_upload_form = $this->gui
-                ->form(self::class, 'performBulkUpload')
+                ->form([self::class], 'performBulkUpload')
                 ->section("props", $this->lng->txt('mep_bulk_upload'))
                 ->file(
                     "media_files",

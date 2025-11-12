@@ -26,14 +26,15 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\Repository\BaseGUIRequest;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Repository\RetrievalInterface;
+use ILIAS\Repository\Filter\FilterAdapterGUI;
 
 class TableAdapterGUI
 {
     use BaseGUIRequest;
 
-    protected const STANDARD = 0;
-    protected const SINGLE = 1;
-    protected const MULTI = 2;
+    protected const int STANDARD = 0;
+    protected const int SINGLE = 1;
+    protected const int MULTI = 2;
     protected string $order_cmd = "";
     protected string $last_action_key;
     protected URLBuilderToken $row_id_token;
@@ -46,8 +47,10 @@ class TableAdapterGUI
     protected string $last_key;
     protected \ilCtrlInterface $ctrl;
     protected \ILIAS\DI\UIServices $ui;
+    protected \ilObjUser $user;
     protected array $columns = [];
     protected array $actions = [];
+    protected array $filter_data = [];
 
     public function __construct(
         protected string $id,
@@ -67,6 +70,7 @@ class TableAdapterGUI
         $this->http = $DIC->http();
         $this->lng = $DIC->language();
         $this->refinery = $DIC->refinery();
+        $this->user = $DIC->user();
         $this->df = new \ILIAS\Data\Factory();
         $this->initRequest($this->http, $this->refinery);
         if ($namespace === "") {
@@ -104,6 +108,36 @@ class TableAdapterGUI
         bool $sortable = false
     ): self {
         $column = $this->ui->factory()->table()->column()->statusIcon($title)->withIsSortable($sortable);
+        $this->addColumn($key, $column);
+        return $this;
+    }
+
+    public function dateColumn(
+        string $key,
+        string $title,
+        bool $sortable = false
+    ): self {
+        $column = $this->ui->factory()->table()->column()->date($title, $this->user->getDateTimeFormat())->withIsSortable($sortable);
+        $this->addColumn($key, $column);
+        return $this;
+    }
+
+    public function linkColumn(
+        string $key,
+        string $title,
+        bool $sortable = false
+    ): self {
+        $column = $this->ui->factory()->table()->column()->link($title)->withIsSortable($sortable);
+        $this->addColumn($key, $column);
+        return $this;
+    }
+
+    public function linkListingColumn(
+        string $key,
+        string $title,
+        bool $sortable = false
+    ): self {
+        $column = $this->ui->factory()->table()->column()->linkListing($title)->withIsSortable($sortable);
         $this->addColumn($key, $column);
         return $this;
     }
@@ -148,6 +182,15 @@ class TableAdapterGUI
         string $title
     ): self {
         $this->addAction(self::MULTI, $action, $title);
+        return $this;
+    }
+
+    /**
+     * Not applied if the table supports ordering.
+     */
+    public function filterData(array $filter_data): self
+    {
+        $this->filter_data = $filter_data;
         return $this;
     }
 
@@ -314,7 +357,8 @@ class TableAdapterGUI
                     ->data($table_retrieval, $this->title, $columns)
                     ->withId($this->id)
                     ->withActions($actions)
-                    ->withRequest($this->http->request());
+                    ->withRequest($this->http->request())
+                    ->withFilter($this->filter_data);
             }
         }
         return $this->table;
@@ -330,4 +374,37 @@ class TableAdapterGUI
         $html = $this->ui->renderer()->render($this->getTable());
         return $html;
     }
+
+    public function renderDeletionConfirmation(
+        string $modal_title,
+        string $modal_message,
+        string $delete_cmd,
+        array $items
+    ): void {
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
+        $del_items = [];
+        foreach ($items as $id => $title) {
+            if (is_array($title)) {
+                $key = $title[0] ?? "";
+                $val = $title[1] ?? "";
+            } else {
+                $key = $title;
+                $val = "";
+            }
+            $del_items[] = $f->modal()->interruptiveItem()->keyValue((string) $id, $key, $val);
+        }
+        $action = $this->ctrl->getLinkTarget($this->parent_gui, $delete_cmd);
+
+        echo($r->renderAsync([
+            $f->modal()->interruptive(
+                $modal_title,
+                $modal_message,
+                $action
+            )->withAffectedItems($del_items)
+        ]));
+        exit();
+    }
+
+
 }

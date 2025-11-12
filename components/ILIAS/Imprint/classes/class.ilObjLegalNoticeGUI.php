@@ -18,10 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Component\Component;
-
 /**
- * @author            Michael Jansen <mjansen@databay.de>
  * @ilCtrl_Calls      ilObjLegalNoticeGUI: ilPermissionGUI, ilImprintGUI
  * @ilCtrl_isCalledBy ilObjLegalNoticeGUI: ilAdministrationGUI
  */
@@ -31,10 +28,9 @@ class ilObjLegalNoticeGUI extends ilObject2GUI
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
-        global $DIC;
         $this->legal_notice_gui = new ilImprintGUI();
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-        $this->legal_notice_gui->setPresentationTitle($this->lng->txt("adm_imprint"));
+        $this->legal_notice_gui->setPresentationTitle($this->lng->txt('adm_imprint'));
     }
 
     public function getType(): string
@@ -49,20 +45,21 @@ class ilObjLegalNoticeGUI extends ilObject2GUI
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-
         switch (strtolower($nextClass)) {
             case strtolower(ilPermissionGUI::class):
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
+
             case (strtolower(ilImprintGUI::class)):
-                if (!$this->checkPermissionBool("write")) {
+                if (!$this->checkPermissionBool('write')) {
                     $this->legal_notice_gui->setEnableEditing(false);
                 }
                 $ret = $this->ctrl->forwardCommand($this->legal_notice_gui);
 
                 $this->tpl->setContent($ret);
                 break;
+
             default:
                 $cmd .= 'Cmd';
                 if (method_exists($this, $cmd)) {
@@ -72,7 +69,7 @@ class ilObjLegalNoticeGUI extends ilObject2GUI
         }
     }
 
-    public function viewCmd(): never
+    private function viewCmd(): never
     {
         $this->ctrl->redirect($this->legal_notice_gui, 'preview');
     }

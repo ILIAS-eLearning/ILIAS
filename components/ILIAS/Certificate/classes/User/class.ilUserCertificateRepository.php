@@ -102,14 +102,6 @@ class ilUserCertificateRepository
             'certificate_id' => ['text', $userCertificate->getCertificateId()->asString()]
         ];
 
-        if (
-            $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
-            $this->database->tableColumnExists('il_cert_user_cert', 'tile_image_path')
-        ) {
-            $columns['background_image_path'] = ['text', $userCertificate->getBackgroundImagePath()];
-            $columns['tile_image_path'] = ['text', $userCertificate->getTileImagePath()];
-        }
-
         $this->logger->debug(
             sprintf(
                 'END - Save certificate with following values: %s',
@@ -564,7 +556,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
     {
         $this->logger->debug(
             sprintf(
-                'START - Checking if any certificate template uses background image path "%s"',
+                'START - Checking if any certificate template uses background image identification "%s"',
                 $relative_image_identification
             )
         );
@@ -581,7 +573,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
 
         $this->logger->debug(
             sprintf(
-                'END - Image path "%s" is ' . $exists ? 'in use' : 'unused',
+                'END - Image identification "%s" is ' . $exists ? 'in use' : 'unused',
                 $relative_image_identification
             )
         );
@@ -608,8 +600,6 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
             $row['ilias_version'],
             (bool) $row['currently_active'],
             new CertificateId($row['certificate_id']),
-            (string) ($row['background_image_path'] ?? ''),
-            (string) ($row['tile_image_path'] ?? ''),
             (string) $row['background_image_ident'],
             (string) $row['tile_image_ident'],
             isset($row['id']) ? (int) $row['id'] : null

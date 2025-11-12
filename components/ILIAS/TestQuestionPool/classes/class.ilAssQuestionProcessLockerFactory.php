@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -24,69 +26,34 @@
  */
 class ilAssQuestionProcessLockerFactory
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ?int $question_id = null;
+    protected ?int $user_id = null;
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var integer
-     */
-    protected $question_id;
-
-    /**
-     * @var integer
-     */
-    protected $userId;
-
-    /**
-     * @param ilSetting $settings
-     * @param ilDBInterface $db
-     */
-    public function __construct(ilSetting $settings, ilDBInterface $db)
-    {
-        $this->settings = $settings;
-        $this->db = $db;
-
-        $this->question_id = null;
-        $this->userId = null;
+    public function __construct(
+        private readonly ilSetting $settings,
+        private readonly ilDBInterface $db,
+        private readonly ilLogger|TestLogger $logger
+    ) {
     }
 
-    /**
-     * @param int $questionId
-     */
-    public function setQuestionId($questionId): void
+    public function setQuestionId(int $question_id): void
     {
-        $this->question_id = $questionId;
+        $this->question_id = $question_id;
     }
 
-    /**
-     * @return int
-     */
     public function getQuestionId(): ?int
     {
         return $this->question_id;
     }
 
-    /**
-     * @param int $userId
-     */
-    public function setUserId($userId): void
+    public function setUserId(int $user_id): void
     {
-        $this->userId = $userId;
+        $this->user_id = $user_id;
     }
 
-    /**
-     * @return int
-     */
     public function getUserId(): ?int
     {
-        return $this->userId;
+        return $this->user_id;
     }
 
     private function getLockModeSettingValue(): ?string
@@ -94,30 +61,19 @@ class ilAssQuestionProcessLockerFactory
         return $this->settings->get('ass_process_lock_mode', ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
     }
 
-    /**
-     * @return ilAssQuestionProcessLockerDb|ilAssQuestionProcessLockerFile|ilAssQuestionProcessLockerNone
-     */
-    public function getLocker()
+    public function getLocker(): ilAssQuestionProcessLocker
     {
         switch ($this->getLockModeSettingValue()) {
             case ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE:
-
-                $locker = new ilAssQuestionProcessLockerNone();
-                break;
+                return new ilAssQuestionProcessLockerNone();
 
             case ilObjTestFolder::ASS_PROC_LOCK_MODE_FILE:
                 $storage = new ilAssQuestionProcessLockFileStorage($this->getQuestionId(), $this->getUserId());
                 $storage->create();
-
-                $locker = new ilAssQuestionProcessLockerFile($storage);
-                break;
+                return new ilAssQuestionProcessLockerFile($storage, $this->logger);
 
             case ilObjTestFolder::ASS_PROC_LOCK_MODE_DB:
-
-                $locker = new ilAssQuestionProcessLockerDb($this->db);
-                break;
+                return new ilAssQuestionProcessLockerDb($this->db);
         }
-
-        return $locker;
     }
 }

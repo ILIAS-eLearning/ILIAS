@@ -16,18 +16,20 @@
  *
  *********************************************************************/
 
-use ILIAS\Setup;
+use ILIAS\Registration\DualOptIn\Setup\DualOptInDatabaseUpdateSteps;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\Metrics;
 
-class ilRegistrationAgent extends Setup\Agent\NullAgent
+class ilRegistrationAgent extends ILIAS\Setup\Agent\NullAgent
 {
-    public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new Setup\ObjectiveCollection(
+        return new ObjectiveCollection(
             "Service/Registation Objectives",
             false,
-            new \ilRegistrationConfigUpdateObjective()
+            new \ilRegistrationConfigUpdateObjective(),
+            new ilDatabaseUpdateStepsExecutedObjective(new DualOptInDatabaseUpdateSteps()),
         );
     }
 }

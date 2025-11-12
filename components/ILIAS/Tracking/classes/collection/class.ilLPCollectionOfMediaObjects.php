@@ -65,7 +65,7 @@ class ilLPCollectionOfMediaObjects extends ilLPCollection
      * @param int $a_target_id
      * @param int $a_copy_id
      */
-    public function cloneCollection(int $a_target_id, int $a_copy_id): void
+    public function cloneCollection(int $a_target_id, int $a_copy_id, ?array $mob_mapping = null): void
     {
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         $new_collection = new static($target_obj_id, $this->mode);

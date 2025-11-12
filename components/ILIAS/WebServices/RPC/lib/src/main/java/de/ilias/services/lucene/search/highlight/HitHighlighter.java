@@ -96,6 +96,8 @@ public class HitHighlighter {
 
 			int objId;
 			int subItem;
+            String subType = "";
+
 			// Add result object
 			try {
 				objId = Integer.parseInt(hitDoc.get("objId"));
@@ -106,6 +108,9 @@ public class HitHighlighter {
 			}
 			try {
 				subItem = Integer.parseInt(hitDoc.get("subItem"));
+                if (hitDoc.get("subType") != null) {
+                    subType = hitDoc.get("subType");
+                }
 			}
 			catch(NumberFormatException e) {
 				subItem = 0;
@@ -113,7 +118,7 @@ public class HitHighlighter {
 			
 			
 			resObject = result.initObject(objId);
-			resItem = resObject.addItem(subItem);
+			resItem = resObject.addItem(subItem, subType);
 			resItem.setAbsoluteScore(hits[i].score);
 			
 			// Title

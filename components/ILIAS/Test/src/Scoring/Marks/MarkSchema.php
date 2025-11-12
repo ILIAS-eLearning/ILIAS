@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Marks;
 
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
 /**
@@ -32,7 +33,7 @@ use ILIAS\Test\Logging\AdditionalInformationGenerator;
  *
  * @ingroup components\ILIASTest
  */
-class MarkSchema
+class MarkSchema implements Exportable
 {
     /**
      * @var array<\ILIAS\Test\Scoring\Marks\Mark>
@@ -67,37 +68,6 @@ class MarkSchema
     public function hasSingleZeroPercentageMark(): bool
     {
         return $this->nr_of_zero_percentage_marks === 1;
-    }
-
-    /**
-     * Creates a simple mark schema for two mark steps:
-     * failed and passed.
-     *
-     * @see    $mark_steps
-     *
-     * @param string    $txt_failed_short    The short text of the failed mark.
-     * @param string    $txt_failed_official The official text of the failed mark.
-     * @param float|int $percentage_failed   The minimum percentage level reaching the failed mark.
-     * @param integer   $failed_passed       Indicates the passed status of the failed mark (0 = failed, 1 = passed).
-     * @param string    $txt_passed_short    The short text of the passed mark.
-     * @param string    $txt_passed_official The official text of the passed mark.
-     * @param float|int $percentage_passed   The minimum percentage level reaching the passed mark.
-     * @param integer   $passed_passed       Indicates the passed status of the passed mark (0 = failed, 1 = passed).
-     */
-    public function createSimpleSchema(
-        string $txt_failed_short = 'failed',
-        string $txt_failed_official = 'failed',
-        float $percentage_failed = 0,
-        bool $failed_passed = false,
-        string $txt_passed_short = 'passed',
-        string $txt_passed_official = 'passed',
-        float $percentage_passed = 50,
-        bool $passed_passed = true
-    ): self {
-        return $this->withMarkSteps([
-            new Mark($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed),
-            new Mark($txt_passed_short, $txt_passed_official, $percentage_passed, $passed_passed)
-        ]);
     }
 
     public function getMatchingMark(
@@ -201,5 +171,16 @@ class MarkSchema
             ];
         }
         return $log_array;
+    }
+
+    public function toExport(): array
+    {
+        return ['mark_steps' => array_map(static fn(Mark $mark): array => $mark->toExport(), $this->mark_steps)];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return (new self($data['test_id'] ?? -1))
+            ->withMarkSteps(array_map(static fn(array $mark): Mark => Mark::fromExport($mark), $data['mark_steps']));
     }
 }

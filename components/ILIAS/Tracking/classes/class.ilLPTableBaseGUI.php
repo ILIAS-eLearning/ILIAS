@@ -1029,11 +1029,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
     ): array {
         $cols = $privacy_fields = array();
 
-        $this->profile->skipGroup(AvailableSections::Interests);
         if ($a_in_course === 1) {
-            $ufs = $this->profile->getVisibleFields(Context::Course);
+            $ufs = $this->profile->getVisibleFields(Context::Course, null, [AvailableSections::Interests]);
         } elseif ($a_in_group === 1) {
-            $ufs = $this->profile->getVisibleFields(Context::Group);
+            $ufs = $this->profile->getVisibleFields(Context::Group, null, [AvailableSections::Interests]);
         } else {
             $ufs = $this->profile->getFields();
         }

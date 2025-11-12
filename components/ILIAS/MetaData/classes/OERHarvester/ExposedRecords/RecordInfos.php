@@ -25,15 +25,18 @@ class RecordInfos implements RecordInfosInterface
     protected int $obj_id;
     protected string $identifier;
     protected \DateTimeImmutable $datestamp;
+    protected bool $is_deleted;
 
     public function __construct(
         int $obj_id,
         string $identifier,
-        \DateTimeImmutable $datestamp
+        \DateTimeImmutable $datestamp,
+        bool $is_deleted
     ) {
         $this->obj_id = $obj_id;
         $this->identifier = $identifier;
         $this->datestamp = $datestamp;
+        $this->is_deleted = $is_deleted;
     }
 
     public function objID(): int
@@ -49,5 +52,10 @@ class RecordInfos implements RecordInfosInterface
     public function datestamp(): \DateTimeImmutable
     {
         return $this->datestamp;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->is_deleted;
     }
 }

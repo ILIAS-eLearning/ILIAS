@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\Registration\DualOptIn\Repository\PendingRegistrationDatabaseRepository;
+use ILIAS\Registration\DualOptIn\Service\DualOptInServiceImpl;
+
 /**
  * Soap utitliy functions
  * @author Stefan Meyer <meyer@leifos.com>
@@ -457,65 +460,14 @@ class ilSoapUtils extends ilSoapAdministration
 
         global $DIC;
 
-        $ilDB = $DIC->database();
-        $ilLog = $DIC->logger()->user();
-
-        $ilLog->debug('Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
-        $oRegSettigs = new ilRegistrationSettings();
-        $query = '';
-
-        /*
-         * Fetch the current actuator user object first, because this user will try to perform very probably
-         * a new registration with the same login name in a few seconds ;-)
-         *
-         */
-        if ($usr_id > 0) {
-            $query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
-                . 'WHERE active = 0 '
-                . 'AND reg_hash IS NOT NULL '
-                . 'AND usr_id = ' . $ilDB->quote($usr_id, 'integer') . ' ';
-            $query .= 'UNION ';
-        }
-
-        $query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
-            . 'WHERE active = 0 '
-            . 'AND reg_hash IS NOT NULL '
-            . 'AND usr_id != ' . $ilDB->quote($usr_id, 'integer') . ' ';
-
-        $res = $ilDB->query($query);
-
-        $ilLog->debug($ilDB->numRows($res) . ' inactive user objects with confirmation hash values (dual opt in) found ...');
-
-        /*
-         * mjansen: 15.12.2010:
-         * I perform the expiration check in php because of multi database support (mysql, postgresql).
-         * I did not find an oracle equivalent for mysql: UNIX_TIMESTAMP()
-         */
-
-        $num_deleted_users = 0;
-        while ($row = $ilDB->fetchAssoc($res)) {
-            if ((int) $row['usr_id'] === ANONYMOUS_USER_ID || (int) $row['usr_id'] === SYSTEM_USER_ID) {
-                continue;
-            }
-
-            if (($row['reg_hash'] ?? '') === '') {
-                continue;
-            }
-
-            if (($row['create_date'] ?? '') !== '' &&
-                $oRegSettigs->getRegistrationHashLifetime() > 0 &&
-                time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
-                $user = ilObjectFactory::getInstanceByObjId($row['usr_id'], false);
-                if ($user instanceof ilObjUser) {
-                    $ilLog->info('User ' . $user->getLogin() . ' (obj_id: ' . $user->getId() . ') will be deleted due to an expired registration hash ...');
-                    $user->delete();
-                    ++$num_deleted_users;
-                }
-            }
-        }
-
-        $ilLog->info($num_deleted_users . ' inactive user objects with expired confirmation hash values (dual opt in) deleted ...');
-        $ilLog->info('Finished deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
+        $dual_opt_in_service = new DualOptInServiceImpl(
+            new ilRegistrationSettings(),
+            new PendingRegistrationDatabaseRepository($DIC->database()),
+            $DIC->database(),
+            $DIC->logger()->user(),
+            (new \ILIAS\Data\Factory())->clock()
+        );
+        $dual_opt_in_service->deleteExpiredUserObjects($usr_id);
 
         return true;
     }

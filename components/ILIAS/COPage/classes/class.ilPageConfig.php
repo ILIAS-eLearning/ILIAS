@@ -492,4 +492,15 @@ abstract class ilPageConfig
     {
         return $this->section_protection_info;
     }
+
+    public function getTextTemplates(): array
+    {
+        return [];
+    }
+
+    public function getTextTemplatesDropdownCaption(): string
+    {
+        return $this->lng->txt("copg_templates");
+    }
+
 }

@@ -29,4 +29,9 @@ class None implements Algorithm
     {
         return '';
     }
+
+    public function after(string $signature): string
+    {
+        return $signature;
+    }
 }

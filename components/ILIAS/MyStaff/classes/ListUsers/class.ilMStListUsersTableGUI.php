@@ -48,6 +48,7 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
         global $DIC;
 
         $this->access = ilMyStaffAccess::getInstance();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->setPrefix('myst_lu');
         $this->setFormName('myst_lu');
@@ -58,7 +59,6 @@ class ilMStListUsersTableGUI extends \ilTable2GUI
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->language = $DIC->language();
-        $this->profile = $DIC['user']->getProfile();
 
         $this->setRowTemplate('tpl.list_users_row.html', "components/ILIAS/MyStaff");
         $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));

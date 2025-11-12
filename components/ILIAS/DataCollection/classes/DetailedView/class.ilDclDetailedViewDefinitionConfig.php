@@ -20,15 +20,27 @@ declare(strict_types=1);
 
 class ilDclDetailedViewDefinitionConfig extends ilPageConfig
 {
-    /**
-     * Init
-     */
     public function init(): void
     {
-        // config
         $this->setPreventHTMLUnmasking(true);
         $this->setEnableInternalLinks(false);
         $this->setEnableWikiLinks(false);
         $this->setEnableActivation(false);
+    }
+
+    public function getTextTemplates(): array
+    {
+        global $DIC;
+        $tableview = new ilDclTableView($DIC->http()->wrapper()->query()->retrieve('tableview_id', $DIC->refinery()->kindlyTo()->int()));
+        $placeholder = [];
+        foreach (ilDclCache::getTableCache($tableview->getTableId())->getFields() as $p) {
+            $placeholder[$p->getTitle()] = '[[' . $p->getTitle() . ']]';
+        }
+        return $placeholder;
+    }
+
+    public function getTextTemplatesDropdownCaption(): string
+    {
+        return $this->lng->txt('dcl_legend_placeholders');
     }
 }

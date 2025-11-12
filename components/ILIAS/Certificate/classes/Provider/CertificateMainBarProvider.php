@@ -59,12 +59,15 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                 )
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withVisibilityCallable(
-                    static function (): bool {
-                        return (
-                            BasicAccessCheckClosuresSingleton::getInstance()->isUserLoggedIn()() &&
-                            (new ilCertificateActiveValidator())->validate()
-                        );
-                    }
+                    static fn(): bool => BasicAccessCheckClosuresSingleton::getInstance()->isUserLoggedIn()()
+                )
+                ->withAvailableCallable(
+                    static fn(): bool => (new ilCertificateActiveValidator())->validate()
+                )
+                ->withNonAvailableReason(
+                    $this->dic->ui()->factory()->legacy()->content(
+                        $this->dic->language()->txt('component_not_active')
+                    )
                 )
                 ->withSymbol($icon)
                 ->withPosition(50),

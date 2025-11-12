@@ -29,7 +29,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
     /**
      * @return ilSurveyEvaluationResults|array
      */
-    public function getResults()
+    public function getResults(): ilSurveyEvaluationResults|array
     {
         $results = array();
 

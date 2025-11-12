@@ -37,7 +37,7 @@ class BroadcastTyping implements SettingDefinition
 
     public function isAvailable(): bool
     {
-        return (new \ilSetting('chatroom'))->get('enable_osc', '0') === '1';
+        return (new \ilSetting('chatroom'))->get('chat_enabled', '0') === '1';
     }
 
     public function getLabel(Language $lng): string
@@ -63,6 +63,7 @@ class BroadcastTyping implements SettingDefinition
         ?\ilObjUser $user = null
     ): Input {
         $lng->loadLanguageModule('chatroom_adm');
+
         return $field_factory->checkbox(
             $lng->txt('chat_broadcast_typing'),
             $lng->txt('chat_broadcast_typing_info')
@@ -79,6 +80,7 @@ class BroadcastTyping implements SettingDefinition
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $lng->loadLanguageModule('chatroom_adm');
+
         $input = new \ilCheckboxInputGUI($lng->txt('chat_broadcast_typing'));
         $input->setInfo($lng->txt('chat_broadcast_typing_info'));
         $input->setChecked(
@@ -86,6 +88,7 @@ class BroadcastTyping implements SettingDefinition
                 ? $user->getPref('chat_broadcast_typing') === 'y'
                 : $settings->get('chat_broadcast_typing') === 'y'
         );
+
         return $input;
     }
 
@@ -111,15 +114,19 @@ class BroadcastTyping implements SettingDefinition
     ): \ilObjUser {
         if ($input === null) {
             $user->deletePref($this->getIdentifier());
+
             return $user;
         }
-        $user->setPref($this->getIdentifier(), $input);
+
+        $user->setPref($this->getIdentifier(), $input ? 'y' : 'n');
+
         return $user;
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): ?bool
     {
         $value = $user->getPref($this->getIdentifier());
+
         return $value !== null ? $value === 'y' : null;
     }
 }

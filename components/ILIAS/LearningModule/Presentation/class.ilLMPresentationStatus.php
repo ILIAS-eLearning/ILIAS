@@ -38,8 +38,8 @@ class ilLMPresentationStatus
     protected ilObjLearningModule $lm;
     protected string $lang;
     protected int $focus_id = 0;
-    protected $concrete_lang = "";
-    protected $embed_mode = false;
+    protected string $concrete_lang = "";
+    protected bool $embed_mode = false;
 
     public function __construct(
         ilObjUser $user,

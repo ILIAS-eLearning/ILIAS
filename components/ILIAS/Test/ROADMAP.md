@@ -1,14 +1,16 @@
+[//]: # (BEGIN Einleitung)
+
+
 # Roadmap
 
 Priorities for the development of the Test & Assessment and the Test Question Pool depend on developer resources provided by a handfull of organizations. Thus no promises are made on timeframes.
 
 ## Prioritized in the long run
 * Reducing the number of reported issues in Test & Assessment
-* Defining a concise interface for questions.
 * Separating the Test-Player from the Questions and the Question-Pool.
-* Refactoring `ilTestParticipantList`: This Class has a lot of very expensive loops in it [Mantis 33596](https://mantis.ilias.de/view.php?id=33596), but we can not remove them right now as it is used in very different contexts for all kind of lists. Sometimes users don't have $active_ids (participant list in test with access limited to selected participants), sometimes they don't have $usr_ids (anonymous tests in public section).
 
-## Roadmap in 2024
+
+## Roadmap in 2026
 
 Among other challenges, we are planning to use the given developing budget from the ILIAS Community Members for the following tasks:
 
@@ -18,28 +20,24 @@ Among other challenges, we are planning to use the given developing budget from 
 4. Fundamental work
 	* Work on the project to abandon legacy ui.
 	* Clarification CTRL-flow
-	* Feasibility study/ Research project: Replacement of TinyMCE in creation of questions
-		* Infrastructure setup for the replacement
-		* Conversion of the Long-Menu-Question to UI-Forms as pilot
 	* Use of IRSS in T&A
     * Further reduction of access and use of request variables (GPCR)
-5. Research possible successor for TinyMCE
-6. Feasibility study Test in Learning sequence - Could the LS uses the actual Exam View (since ILIAS9 - General Kiosk Mode)
-7. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project
+5. Work on [(Project) Revision of Test Question Creation](https://docu.ilias.de/go/wiki/wpage_8111_1357)
+6. Work on Project Revision of Import/Export of the T&A
+7. Feasibility study Test in Learning sequence - Could the LS uses the actual Exam View (since ILIAS9 - General Kiosk Mode)
+8. Authorized Saving of Participant Input - Problems e.g. in the question list, see [Mantis 44211](https://mantis.ilias.de/view.php?id=44211). In order to address the problem, we need a concept for the entire test run at the technical level and an analysis of the current situation. From this, we want to derive an operating concept for controlling the test run. By redesigning the test run, we know where we want to go and can at least mitigate the problems in existing ILIAS versions with usability fixes.
+9. KS Improvements / Exchange of single elements' trough existing KS elements independently of the Legacy-UI-Project
 
-Depending on development ressources, funding and approval, some new features are conceivable in 2023 (e.g. option for a failing attempt).
+Depending on development ressources, funding and approval, some new features are conceivable in 2026.
 
 
 ## Others
 * Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
-* Restructuring Import/Export, removing dependency on ilContObjParser, and clarifying support of QTI
-* UI Forms: Length of text fields not shorter than answer text. (see: [Mantis 35243](https://mantis.ilias.de/view.php?id=35243#c87241))
 * Grading: Use of Short Form / Offical Form. Conceptual changes only with the introduction of new UI forms. (see [Mantis](https://mantis.ilias.de/view.php?id=31209#c83984))
-* Streamlining of trimming and removal of white spaces in answer-options (see: [Mantis 35091](https://mantis.ilias.de/view.php?id=35091))
-* Auto-save messages should use UI components (e.g. toast), so a consistent UI/UX is used and easier to maintain throughout the entire system.
-* Avoid creating question-fragments on incomplete question creation, remove questions fully  on deletion of tests and questionpools
-and provide update/objective to clean database of disjunct leftover of questions
+* Test endings. See e.g. [Dokumentation und Refaktoring des Testendes in ILIAS (german)](https://docu.ilias.de/go/fold/15345) or [Mantis 40770](https://mantis.ilias.de/view.php?id=40770)
 
+
+[//]: # (END Einleitung)
 
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.

@@ -27,10 +27,9 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @author       Stefan Schneider <info@eqsoft.de>
  * @package      Module/CmiXapi
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilObjectCopyGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilPermissionGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilLearningProgressGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiRegistrationGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiLaunchGUI
@@ -38,6 +37,9 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiStatementsGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiScoringGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiExportGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilCommentGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilNewsItemGUI
+ * @ilCtrl_Calls ilObjCmiXapiGUI: ilNewsForContextBlockGUI
  */
 class ilObjCmiXapiGUI extends ilObject2GUI
 {
@@ -115,10 +117,9 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $item->setRequired(true);
         $types = ilCmiXapiLrsTypeList::getTypesData(false, ilCmiXapiLrsType::AVAILABILITY_CREATE);
         foreach ($types as $type) {
-            $option = new ilRadioOption($type['title'], (string) $type['type_id'], $type['description']);
+            $option = new ilRadioOption((string) $type['title'], (string) $type['type_id'], (string) $type['description']);
             $item->addOption($option);
         }
-        #$item->setValue($this->object->typedef->getTypeId());
         $form->addItem($item);
 
         $source = new ilRadioGroupInputGUI($this->lng->txt('cmix_add_source'), 'source_type');
@@ -165,6 +166,39 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
         return $form;
     }
+
+    public function save(): void
+    {
+        // create permission is already checked in createObject. This check here is done to prevent hacking attempts
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
+        }
+
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
+
+        $this->ctrl->setParameter($this, 'new_type', '');
+
+        $class_name = 'ilObj' . $this->obj_definition->getClassName($this->requested_new_type);
+
+        $new_obj = new $class_name();
+        $new_obj->setType($this->requested_new_type);
+        $new_obj->processAutoRating();
+        $new_obj->create();
+
+        $this->putObjectInTree($new_obj);
+
+        $dtpl = $data['didactic_templates'] ?? null;
+        if ($dtpl !== null) {
+            $dtpl_id = $this->parseDidacticTemplateVar($dtpl, 'dtpl');
+            $new_obj->applyDidacticTemplate($dtpl_id);
+        }
+
+        $this->afterSave($new_obj);
+    }
+
 
     protected function afterSave(ilObject $newObject): void
     {
@@ -368,6 +402,15 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
                 break;
 
+            case strtolower(ilInfoScreenGUI::class):
+                $DIC->tabs()->activateTab(self::TAB_ID_INFO);
+                $this->infoScreenForward();
+                break;
+
+            case strtolower(ilCommentGUI::class):
+                $DIC->ctrl()->redirectByClass(ilCommentGUI::class, "getListHTML");
+                break;
+
             case strtolower(ilObjectMetaDataGUI::class):
 
                 $DIC->tabs()->activateTab(self::TAB_ID_METADATA);
@@ -444,6 +487,16 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         }
     }
 
+    protected function settings(): void
+    {
+        $this->ctrl->redirectByClass(ilCmiXapiSettingsGUI::class, "show");
+    }
+
+    protected function showSummary(): void
+    {
+        $this->infoScreen();
+    }
+
     protected function setTabs(): void
     {
         global $DIC;
@@ -452,7 +505,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $DIC->tabs()->addTab(
             self::TAB_ID_INFO,
             $DIC->language()->txt(self::TAB_ID_INFO),
-            $DIC->ctrl()->getLinkTargetByClass(self::class)
+            $DIC->ctrl()->getLinkTargetByClass(ilInfoScreenGUI::class)
         );
 
         if ($this->cmixAccess->hasWriteAccess()) {
@@ -591,14 +644,9 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     public function infoScreen(): void
     {
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
-
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $DIC->ctrl()->setCmd("showSummary");
-        // $DIC->ctrl()->setCmdClass("ilinfoscreengui");
-        $this->infoScreenForward();
+        $this->ctrl->redirectByClass(ilInfoScreenGUI::class, 'showSummary');
     }
 
     public function infoScreenForward(): void
@@ -702,7 +750,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable()) {
+        if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable() && $this->checkPermissionBool("read")) {
             // TODO : check if this is the correct query
             // p.e. switched to another privacyIdent before: user exists but not with the new privacyIdent
             // re_check for isSourceTypeExternal
@@ -737,29 +785,29 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 );
                 $DIC->toolbar()->addComponent($button);
             } else {
-                //                $launchButton = ilLinkButton::getInstance();
-                //                $launchButton->setPrimary(true);
-                //                $launchButton->setCaption('launch');
-                //
-                //                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
-                //                    $launchButton->setTarget('_blank');
-                //                }
-                //
-                //                $launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
-                //                    ilCmiXapiLaunchGUI::class
-                //                ));
-                //
-                //                $DIC->toolbar()->addButtonInstance($launchButton);
+                $launchButton = ilLinkButton::getInstance();
+                $launchButton->setPrimary(true);
+                $launchButton->setCaption('launch');
+
+                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
+                    $launchButton->setTarget('_blank');
+                }
+
+                $launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
+                    ilCmiXapiLaunchGUI::class
+                ));
+
+                $DIC->toolbar()->addButtonInstance($launchButton);
 
                 //todo
                 //                if ($this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN) {
                 //                    setTarget('_blank');
                 //                }
-                $button = $DIC->ui()->factory()->button()->primary(
-                    $this->lng->txt('launch'),
-                    $DIC->ctrl()->getLinkTargetByClass(ilCmiXapiLaunchGUI::class)
-                );
-                $DIC->toolbar()->addComponent($button);
+                //                $button = $DIC->ui()->factory()->button()->primary(
+                //                    $this->lng->txt('launch'),
+                //                    $DIC->ctrl()->getLinkTargetByClass(ilCmiXapiLaunchGUI::class)
+                //                );
+                //                $DIC->toolbar()->addComponent($button);
             }
 
             /**
@@ -798,10 +846,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     protected function handleAvailablityMessage(): void
     {
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
 
         if ($this->object->getLrsType()->getAvailability() == ilCmiXapiLrsType::AVAILABILITY_NONE) {
-            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('cmix_lrstype_not_avail_msg'));
+            $DIC->language()->loadLanguageModule('cmix');
+            $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lrs_type_not_avail_msg'));
         }
     }
 

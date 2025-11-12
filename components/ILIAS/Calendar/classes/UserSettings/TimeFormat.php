@@ -110,17 +110,17 @@ class TimeFormat implements SettingDefinition
         \ilObjUser $user,
         mixed $input
     ): \ilObjUser {
-        $calendar_settings = \ilCalendarUserSettings::_getInstance($user->getId());
-        $calendar_settings->setTimeFormat(
-            $input !== null ? (int) $input : \ilCalendarSettings::_getInstance()->getDefaultTimeFormat()
+        $user->setPref(
+            'time_format',
+            $input !== null ? $input : (string) \ilCalendarSettings::_getInstance()->getDefaultTimeFormat()
         );
-        $calendar_settings->save();
         return $user;
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): int
     {
-        return (int) $user->getTimeFormat();
+        return (int) ($user->getPref('time_format')
+            ?? \ilCalendarSettings::_getInstance()->getDefaultTimeFormat());
     }
 
     private function buildOptions(): array

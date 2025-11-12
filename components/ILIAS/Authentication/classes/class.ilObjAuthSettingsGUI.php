@@ -49,6 +49,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         global $DIC;
         $this->logger = $DIC->logger()->auth();
 
+        $this->lng->loadLanguageModule('administration');
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
         $this->lng->loadLanguageModule('content');
@@ -64,7 +65,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         ?ILIAS\UI\Component\Input\Container\Form\Form $auth_mode_determination_form = null,
         ?ILIAS\UI\Component\Input\Container\Form\Form $registration_role_mapping_form = null
     ): void {
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -214,13 +215,24 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $fields = [];
         $reg_roles = ilObjRole::_lookupRegisterAllowed();
 
-        $excluded_auth_names = ['default', 'saml', 'shibboleth', 'ldap', 'apache', 'ecs', 'openid'];
+        $excluded_auth_names = ['default', 'saml', 'shibboleth', 'ldap', 'lti', 'apache', 'ecs', 'oidc'];
         // do not list auth modes with external login screen
         // even not default, because it can easily be set to
         // a non-working auth mode
         $active_auth_modes = array_filter(
             ilAuthUtils::_getActiveAuthModes(),
-            static fn(string $auth_name): bool => in_array($auth_name, $excluded_auth_names, true),
+            static function (string $auth_name) use ($excluded_auth_names): bool {
+                foreach ($excluded_auth_names as $excluded_auth_name) {
+                    if ($auth_name === $excluded_auth_name) {
+                        return false;
+                    }
+
+                    if (str_starts_with($auth_name, $excluded_auth_name)) {
+                        return false;
+                    }
+                }
+                return true;
+            },
             ARRAY_FILTER_USE_KEY
         );
 
@@ -232,12 +244,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     $name = $this->lng->txt('auth_' . $auth_name) . ' (' . $this->lng->txt(
                         'auth_' . ilAuthUtils::_getAuthModeName($auth_key)
                     ) . ')';
-                } elseif ($id = ilLDAPServer::getServerIdByAuthMode((string) $auth_key)) {
-                    $server = ilLDAPServer::getInstanceByServerId($id);
-                    $name = $server->getName();
-                } elseif ($id = ilSamlIdp::getIdpIdByAuthMode((string) $auth_key)) {
-                    $idp = ilSamlIdp::getInstanceByIdpId($id);
-                    $name = $idp->getEntityId();
                 } else {
                     $name = $this->lng->txt('auth_' . $auth_name);
                 }
@@ -253,7 +259,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 continue;
             }
 
-            $value = $value ?? ilAuthUtils::AUTH_LOCAL;
+            $value = $value ?? ilAuthUtils::_getAuthModeName(ilAuthUtils::AUTH_LOCAL);
 
             $fields['r_' . $role['id']] = $this->ui_factory
                 ->input()
@@ -848,7 +854,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd() ?? '';
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
         }
 
@@ -948,7 +954,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     {
         $this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'authentication_settings',
                 $this->ctrl->getLinkTarget($this, 'authSettings'),

@@ -53,8 +53,6 @@ class ilWOPISetupAgent implements Agent
             new ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB90()),
             new ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB100()),
         );
-
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB90());
     }
 
     public function getBuildObjective(): Objective

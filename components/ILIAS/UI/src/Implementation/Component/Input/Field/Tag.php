@@ -32,6 +32,8 @@ use Closure;
 use LogicException;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 /**
  * Class TagInput
@@ -54,6 +56,8 @@ class Tag extends FormInput implements C\Input\Field\Tag
     protected bool $extendable = true;
     protected int $suggestion_starts_with = 1;
     protected array $tags = [];
+    protected ?URLBuilder $async_autocomplete_endpoint = null;
+    protected ?URLBuilderToken $async_autocomplete_token = null;
 
     public function __construct(
         DataFactory $data_factory,
@@ -75,7 +79,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
             if (count($v) == 1 && $v[0] === '') {
                 return [];
             }
-            $array = array_map("urldecode", $v);
+            $array = array_map('rawurldecode', $v);
             return array_map('strip_tags', $array);
         }));
     }
@@ -84,7 +88,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
     {
         $options = array_map(
             fn($tag) => [
-                'value' => urlencode(trim($tag)),
+                'value' => rawurlencode(trim($tag)),
                 'display' => $tag,
                 'searchBy' => $tag
             ],
@@ -102,6 +106,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
         $configuration->userInput = $this->areUserCreatedTagsAllowed();
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+        $configuration->autocompleteTriggerTimeout = 200;
         $configuration->maxChars = 2000;
         $configuration->suggestionLimit = 50;
         $configuration->debug = false;
@@ -263,6 +268,35 @@ class Tag extends FormInput implements C\Input\Field\Tag
     public function getMaxTags(): int
     {
         return $this->max_tags;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withAsyncAutocomplete(
+        URLBuilder $autocomplete_endpoint,
+        URLBuilderToken $term_token
+    ): Tag {
+        $clone = clone $this;
+        $clone->async_autocomplete_endpoint = $autocomplete_endpoint;
+        $clone->async_autocomplete_token = $term_token;
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocompleteEndpoint(): ?URLBuilder
+    {
+        return $this->async_autocomplete_endpoint;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocompleteToken(): ?URLBuilderToken
+    {
+        return $this->async_autocomplete_token;
     }
 
     /**

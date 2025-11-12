@@ -22,20 +22,51 @@ namespace ILIAS\StaticURL\Builder;
 
 use ILIAS\Data\URI;
 use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Configuration;
+use ILIAS\StaticURL\Config;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class StandardURIBuilder implements URIBuilder
 {
+    private ?URI $cache = null;
+
     public function __construct(
-        private string $ILIAS_HTTP_PATH,
-        private bool $short_url_possible = false
+        private Configuration $config,
     ) {
     }
 
-    public const SHORT = '/go/';
-    public const LONG = '/goto.php/';
+    public const string SHORT = '/go/';
+    public const string LONG = '/goto.php/';
+
+    public function buildLegacy(
+        ?int $a_ref_id,
+        string $a_type = '',
+        array $a_params = [],
+        string $append = ""
+    ): string {
+        global $DIC; // we do not inject this since it's e depreacted method
+
+        $ilObjDataCache = $DIC["ilObjDataCache"];
+
+        if ($a_type === '' && $a_ref_id) {
+            $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
+        }
+
+        $a_params = array_merge($a_params, [$append]);
+        $a_params = array_filter($a_params, static fn($value): bool => $value !== "");
+
+        if (!empty($a_type)) {
+            return (string) $this->build(
+                $a_type,
+                $a_ref_id !== null ? new ReferenceId($a_ref_id) : null,
+                $a_params
+            );
+        }
+
+        return '';
+    }
 
     public function build(
         string $namespace,
@@ -43,7 +74,7 @@ class StandardURIBuilder implements URIBuilder
         array $additional_parameters = []
     ): URI {
         $uri = $this->getBaseURI()
-            . ($this->short_url_possible ? self::SHORT : self::LONG)
+            . $this->config->get(Config::STATIC_LINK_ENDPOINT)
             . $this->buildTarget($namespace, $reference_id, $additional_parameters);
 
         return new URI($uri);
@@ -62,28 +93,32 @@ class StandardURIBuilder implements URIBuilder
 
     public function getBaseURI(): URI
     {
-        $base_path = $this->ILIAS_HTTP_PATH;
+        if ($this->cache !== null) {
+            return $this->cache;
+        }
+
+        $base_path = $this->config->get(Config::BASE_URL);
 
         $offset = match (true) {
-            str_contains($base_path, self::SHORT) => strpos($base_path, self::SHORT),
-            str_contains($base_path, self::LONG) => strpos($base_path, rtrim(self::LONG, '/')),
-            str_contains($base_path, rtrim(self::LONG, '/')) => strpos($base_path, rtrim(self::LONG, '/')),
-            str_contains($base_path, 'Customizing') => strpos($base_path, 'Customizing'),
-            str_contains($base_path, 'src') => strpos($base_path, 'src'),
-            str_contains($base_path, 'webservices') => strpos($base_path, 'webservices'),
+            str_contains((string) $base_path, self::SHORT) => strpos((string) $base_path, self::SHORT),
+            str_contains((string) $base_path, self::LONG) => strpos((string) $base_path, rtrim(self::LONG, '/')),
+            str_contains((string) $base_path, rtrim(self::LONG, '/')) => strpos((string) $base_path, rtrim(self::LONG, '/')),
+            str_contains((string) $base_path, 'Customizing') => strpos((string) $base_path, 'Customizing'),
+            str_contains((string) $base_path, 'src') => strpos((string) $base_path, 'src'),
+            str_contains((string) $base_path, 'webservices') => strpos((string) $base_path, 'webservices'),
             default => false,
         };
 
         if ($offset === false) {
-            return new URI(trim($base_path, '/'));
+            return $this->cache = new URI(trim((string) $base_path, '/'));
         }
 
         $uri_string = substr(
-            $base_path,
+            (string) $base_path,
             0,
             $offset
         );
-        return new URI(
+        return $this->cache = new URI(
             trim($uri_string, '/')
         );
     }

@@ -88,7 +88,7 @@ class Data
     public function withAvatarRid(?ResourceIdentification $avatar_rid): self
     {
         $clone = clone $this;
-        $clone->avatar_rid = $this->avatar_rid;
+        $clone->avatar_rid = $avatar_rid;
         return $clone;
     }
 

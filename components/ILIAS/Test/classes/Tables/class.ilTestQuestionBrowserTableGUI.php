@@ -119,7 +119,7 @@ class ilTestQuestionBrowserTableGUI
             $this->ui_service,
             $this->lng,
             $this->ui_factory,
-            'question_browser_filter',
+            "question_browser_filter_{$this->testrequest->getRefId()}",
             $parent_title
         ))->getComponent($action, $this->http_state->request());
     }

@@ -26,80 +26,35 @@ declare(strict_types=1);
  */
 class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 {
-    public const CONTEXT_MD = 1;
-    public const CONTEXT_RECORD = 2;
-    public const CONTEXT_FIELD = 3;
-    public const CONTEXT_SUBSTITUTION = 4;
-    public const CONTEXT_SUBSTITUTION_COURSE = 5;
-    public const CONTEXT_SUBSTITUTION_CATEGORY = 6;
-    public const CONTEXT_SUBSTITUTION_SESSION = 7;
-    public const CONTEXT_SUBSTITUTION_IASS = 8;
-    public const CONTEXT_SUBSTITUTION_GROUP = 9;
-    public const CONTEXT_SUBSTITUTION_EXERCISE = 10;
+    public const int CONTEXT_MD = 1;
+    public const int CONTEXT_RECORD = 2;
+    public const int CONTEXT_FIELD = 3;
 
-    public const CONTEXT_SUBSTITUTION_FILE = 11;
-    public const CONTEXT_SUBSTITUTION_PRG = 12;
-    public const CONTEXT_SUBSTITUTION_ORG_UNIT = 13;
+    public const int ACTION_MD_CREATE_RECORD = 1;
+    public const int ACTION_MD_IMPORT_RECORDS = 2;
 
-    public const ACTION_MD_CREATE_RECORD = 1;
-    public const ACTION_MD_IMPORT_RECORDS = 2;
+    public const int ACTION_RECORD_EDIT = 5;
+    public const int ACTION_RECORD_DELETE = 6;
+    public const int ACTION_RECORD_EXPORT = 7;
+    public const int ACTION_RECORD_TOGGLE_ACTIVATION = 8;
+    public const int ACTION_RECORD_EDIT_PROPERTY = 9;
+    public const int ACTION_RECORD_EDIT_FIELDS = 10;
+    public const int ACTION_RECORD_CREATE_FIELD = 11;
+    public const int ACTION_RECORD_FIELD_POSITIONS = 12;
 
-    public const ACTION_RECORD_EDIT = 5;
-    public const ACTION_RECORD_DELETE = 6;
-    public const ACTION_RECORD_EXPORT = 7;
-    public const ACTION_RECORD_TOGGLE_ACTIVATION = 8;
-    public const ACTION_RECORD_EDIT_PROPERTY = 9;
-    public const ACTION_RECORD_EDIT_FIELDS = 10;
-    public const ACTION_RECORD_CREATE_FIELD = 11;
-    public const ACTION_RECORD_FIELD_POSITIONS = 12;
+    public const int ACTION_FIELD_EDIT = 13;
+    public const int ACTION_FIELD_DELETE = 14;
+    public const int ACTION_FIELD_EDIT_PROPERTY = 15;
 
-    public const ACTION_FIELD_EDIT = 13;
-    public const ACTION_FIELD_DELETE = 14;
-    public const ACTION_FIELD_EDIT_PROPERTY = 15;
+    public const int SUBACTION_UNDEFINED = 0;
+    public const int SUBACTION_RECORD_TITLE = 1;
+    public const int SUBACTION_RECORD_DESCRIPTION = 2;
+    public const int SUBACTION_RECORD_OBJECT_TYPES = 3;
 
-    public const ACTION_SUBSTITUTION_SHOW_DESCRIPTION = 16;
-    public const ACTION_SUBSTITUTION_SHOW_FIELDNAMES = 17;
-    public const ACTION_SUBSTITUTION_FIELD_POSITIONS = 18;
-
-    public const ACTION_SUBSTITUTION_COURSE_SHOW_FIELD = 19;
-    public const ACTION_SUBSTITUTION_COURSE_EDIT_FIELD_PROPERTY = 20;
-
-    public const ACTION_SUBSTITUTION_CATEGORY_SHOW_FIELD = 21;
-    public const ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY = 22;
-
-    public const ACTION_SUBSTITUTION_SESSION_SHOW_FIELD = 23;
-    public const ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY = 24;
-
-    public const ACTION_SUBSTITUTION_GROUP_SHOW_FIELD = 25;
-    public const ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY = 26;
-
-    public const ACTION_SUBSTITUTION_IASS_SHOW_FIELD = 27;
-    public const ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY = 28;
-
-    public const ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD = 29;
-    public const ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY = 30;
-
-    public const ACTION_SUBSTITUTION_FILE_SHOW_FIELD = 31;
-    public const ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY = 32;
-
-    public const ACTION_SUBSTITUTION_PRG_SHOW_FIELD = 33;
-    public const ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY = 34;
-
-    public const ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD = 35;
-    public const ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY = 36;
-
-    public const SUBACTION_UNDEFINED = 0;
-    public const SUBACTION_RECORD_TITLE = 1;
-    public const SUBACTION_RECORD_DESCRIPTION = 2;
-    public const SUBACTION_RECORD_OBJECT_TYPES = 3;
-
-    public const SUBACTION_FIELD_TITLE = 4;
-    public const SUBACTION_FIELD_DESCRIPTION = 5;
-    public const SUBACTION_FIELD_SEARCHABLE = 6;
-    public const SUBACTION_FIELD_PROPERTIES = 7;
-
-    public const SUBACTION_SUBSTITUTION_BOLD = 8;
-    public const SUBACTION_SUBSTITUTION_NEWLINE = 9;
+    public const int SUBACTION_FIELD_TITLE = 4;
+    public const int SUBACTION_FIELD_DESCRIPTION = 5;
+    public const int SUBACTION_FIELD_SEARCHABLE = 6;
+    public const int SUBACTION_FIELD_PROPERTIES = 7;
 
     protected function readContextIds(int $a_context_type): array
     {
@@ -117,21 +72,9 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
                 break;
 
             case self::CONTEXT_FIELD:
-            case self::CONTEXT_SUBSTITUTION_COURSE:
-            case self::CONTEXT_SUBSTITUTION_GROUP:
-            case self::CONTEXT_SUBSTITUTION_SESSION:
-            case self::CONTEXT_SUBSTITUTION_CATEGORY:
-            case self::CONTEXT_SUBSTITUTION_IASS:
-            case self::CONTEXT_SUBSTITUTION_EXERCISE:
-            case self::CONTEXT_SUBSTITUTION_FILE:
-            case self::CONTEXT_SUBSTITUTION_PRG:
-            case self::CONTEXT_SUBSTITUTION_ORG_UNIT:
                 $set = $ilDB->query("SELECT field_id id" .
                     " FROM adv_mdf_definition");
                 break;
-
-            case self::CONTEXT_SUBSTITUTION:
-                return $this->getAllowedObjectTypes();
 
             default:
                 return array();
@@ -200,133 +143,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
                             self::SUBACTION_FIELD_PROPERTIES
                         )
                 )
-            ),
-            self::CONTEXT_SUBSTITUTION => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_SHOW_DESCRIPTION
-                    ,
-                    self::ACTION_SUBSTITUTION_SHOW_FIELDNAMES
-                    ,
-                    self::ACTION_SUBSTITUTION_FIELD_POSITIONS
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_COURSE => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_COURSE_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_COURSE_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_CATEGORY => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_CATEGORY_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_SESSION => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_SESSION_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_GROUP => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_GROUP_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_IASS => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_IASS_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_EXERCISE => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_FILE => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_FILE_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_PRG => array(
-                "actions" => array(
-                    self::ACTION_SUBSTITUTION_PRG_SHOW_FIELD
-                ),
-                "subactions" => array(
-                    self::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY =>
-                        array(
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        )
-                )
-            ),
-            self::CONTEXT_SUBSTITUTION_ORG_UNIT => [
-                "actions" => [
-                    self::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD
-                ],
-                "subactions" => [
-                    self::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY =>
-                        [
-                            self::SUBACTION_SUBSTITUTION_BOLD
-                            ,
-                            self::SUBACTION_SUBSTITUTION_NEWLINE
-                        ]
-                ]
-            ]
+            )
         );
     }
 
@@ -342,7 +159,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     protected function checkPermission(
         int $a_context_type,
-        string $a_context_id,
+        int $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ): bool {

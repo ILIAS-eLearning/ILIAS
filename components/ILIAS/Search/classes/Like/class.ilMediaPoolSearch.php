@@ -36,7 +36,7 @@ class ilMediaPoolSearch extends ilAbstractSearch
         $and = $this->__createAndCondition();
         $locate = $this->__createLocateString();
 
-        $query = "SELECT mep_id,obj_id " .
+        $query = "SELECT mep_id, obj_id, type " .
             $locate .
             "FROM mep_tree JOIN mep_item ON child = obj_id " .
             $and;
@@ -47,7 +47,8 @@ class ilMediaPoolSearch extends ilAbstractSearch
                 (int) $row->mep_id,
                 'mep',
                 $this->__prepareFound($row),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->type
             );
         }
         return $this->search_result;
@@ -61,7 +62,7 @@ class ilMediaPoolSearch extends ilAbstractSearch
         $locate = $this->__createLocateString();
 
 
-        $query = "SELECT mep_id, child " .
+        $query = "SELECT mep_id, child, type " .
             $locate .
             "FROM mep_item mi " .
             "JOIN mep_tree ON mi.obj_id = child " .
@@ -75,7 +76,8 @@ class ilMediaPoolSearch extends ilAbstractSearch
                 (int) $row->mep_id,
                 'mep',
                 $this->__prepareFound($row),
-                (int) $row->child
+                (int) $row->child,
+                (string) $row->type
             );
         }
         return $this->search_result;

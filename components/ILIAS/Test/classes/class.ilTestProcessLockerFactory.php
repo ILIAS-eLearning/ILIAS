@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -26,40 +28,24 @@ declare(strict_types=1);
  */
 class ilTestProcessLockerFactory
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ?int $context_id;
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var null|int
-     */
-    protected $contextId;
-
-    /**
-     * @param ilSetting $settings
-     * @param ilDBInterface $db
-     */
-    public function __construct(ilSetting $settings, ilDBInterface $db)
-    {
-        $this->settings = $settings;
-        $this->db = $db;
+    public function __construct(
+        private readonly ilSetting $settings,
+        private readonly ilDBInterface $db,
+        private readonly ilLogger|TestLogger $logger
+    ) {
     }
 
     public function getContextId(): ?int
     {
-        return $this->contextId;
+        return $this->context_id;
     }
 
     public function withContextId(int $contextId): self
     {
         $clone = clone $this;
-        $clone->contextId = $contextId;
+        $clone->context_id = $contextId;
 
         return $clone;
     }
@@ -69,32 +55,20 @@ class ilTestProcessLockerFactory
         return $this->settings->get('ass_process_lock_mode', ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE);
     }
 
-    /**
-     * @return ilTestProcessLockerDb|ilTestProcessLockerFile|ilTestProcessLockerNone
-     */
     public function getLocker(): ilTestProcessLocker
     {
         switch ($this->getLockModeSettingValue()) {
             case ilObjTestFolder::ASS_PROC_LOCK_MODE_NONE:
-
-                $locker = new ilTestProcessLockerNone();
-                break;
+                return new ilTestProcessLockerNone();
 
             case ilObjTestFolder::ASS_PROC_LOCK_MODE_FILE:
-
                 $storage = new ilTestProcessLockFileStorage((int) $this->getContextId());
                 $storage->create();
-
-                $locker = new ilTestProcessLockerFile($storage);
-                break;
+                return new ilTestProcessLockerFile($storage, $this->logger);
 
             case ilObjTestFolder::ASS_PROC_LOCK_MODE_DB:
-
-                $locker = new ilTestProcessLockerDb($this->db);
-                break;
+                return new ilTestProcessLockerDb($this->db);
         }
-
-        return $locker;
     }
 
     public function retrieveLockerForNamedOperation(): ilTestProcessLocker

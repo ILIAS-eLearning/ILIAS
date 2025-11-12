@@ -101,7 +101,7 @@ class ilWikiUtil
         bool $a_collect_non_ex = false,
         bool $a_offline = false,
         string $lang = "-"
-    ) {
+    ): array|bool|string {
         global $DIC;
         $page_repo = $DIC->wiki()->internal()->repo()->page();
 

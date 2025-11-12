@@ -228,7 +228,6 @@ class ilSCORM13PlayerGUI
                 break;
 
             case 'cmi':
-
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ilSCORM2004StoreData::persistCMIData(
                         $this->packageId,
@@ -254,15 +253,18 @@ class ilSCORM13PlayerGUI
             case 'debugGUI':
                 $this->debugGUI();
                 break;
+
             case 'postLogEntry':
                 $this->postLogEntry();
                 break;
+
             case 'liveLogContent':
                 $this->liveLogContent();
                 break;
             case 'downloadLog':
                 $this->downloadLog();
                 break;
+
             case 'openLog':
                 $this->openLog();
                 break;
@@ -270,6 +272,7 @@ class ilSCORM13PlayerGUI
             case 'pingSession':
                 $this->pingSession();
                 break;
+
             case 'scormPlayerUnload':
                 ilSCORM2004StoreData::scormPlayerUnload($this->packageId, $this->ref_id, $this->slm->getTime_from_lms(), $this->userId);
                 break;
@@ -277,6 +280,7 @@ class ilSCORM13PlayerGUI
                 // case 'getConfigForPlayer':
                 // $this->getConfigForPlayer();
                 // break;
+
             default:
                 $this->getPlayer();
                 break;
@@ -351,6 +355,10 @@ class ilSCORM13PlayerGUI
         return $config;
     }
 
+    /**
+     * @throws ilCtrlException
+     * @throws ilTemplateException
+     */
     public function getPlayer(): void
     {
         global $DIC;
@@ -389,25 +397,25 @@ class ilSCORM13PlayerGUI
         $config['session_ping'] = $session_timeout;
 
         //url strings
-        $store_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cmi&ref_id=' . $this->ref_id;
-        $unload_url = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=scormPlayerUnload&ref_id=' . $this->ref_id;
+        $store_url = $DIC->ctrl()->getLinkTarget($this, 'cmi');
+        $unload_url = $DIC->ctrl()->getLinkTarget($this, 'scormPlayerUnload');
         if ($this->slm->getSessionDeactivated()) {
             $store_url = 'storeScorm2004.php?package_id=' . $this->packageId . '&ref_id=' . $this->ref_id . '&client_id=' . CLIENT_ID . '&do=store';
             $unload_url = 'storeScorm2004.php?package_id=' . $this->packageId . '&ref_id=' . $this->ref_id . '&client_id=' . CLIENT_ID . '&do=unload';
         }
-        $config['cp_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id=' . $this->ref_id;
-        $config['cmi_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cmi&ref_id=' . $this->ref_id;
+        $config['cp_url'] = $DIC->ctrl()->getLinkTarget($this, 'cp');
+        $config['cmi_url'] = $DIC->ctrl()->getLinkTarget($this, 'cmi');
         $config['store_url'] = $store_url;
-        $config['get_adldata_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getSharedData&ref_id=' . $this->ref_id;
-        $config['set_adldata_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=setSharedData&ref_id=' . $this->ref_id;
-        $config['adlact_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=adlact&ref_id=' . $this->ref_id;
-        $config['specialpage_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=specialPage&ref_id=' . $this->ref_id;
-        $config['suspend_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=suspend&ref_id=' . $this->ref_id;
-        $config['get_suspend_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getSuspend&ref_id=' . $this->ref_id;
+        $config['get_adldata_url'] = $DIC->ctrl()->getLinkTarget($this, 'getSharedData');
+        $config['set_adldata_url'] = $DIC->ctrl()->getLinkTarget($this, 'setSharedData');
+        $config['adlact_url'] = $DIC->ctrl()->getLinkTarget($this, 'adlact');
+        $config['specialpage_url'] = $DIC->ctrl()->getLinkTarget($this, 'specialPage');
+        $config['suspend_url'] = $DIC->ctrl()->getLinkTarget($this, 'suspend');
+        $config['get_suspend_url'] = $DIC->ctrl()->getLinkTarget($this, 'getSuspend');
         //next 2 lines could be deleted later
-        $config['gobjective_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=gobjective&ref_id=' . $this->ref_id;
-        $config['get_gobjective_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getGobjective&ref_id=' . $this->ref_id;
-        $config['ping_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=pingSession&ref_id=' . $this->ref_id;
+        $config['gobjective_url'] = $DIC->ctrl()->getLinkTarget($this, 'gobjective');
+        $config['get_gobjective_url'] = $DIC->ctrl()->getLinkTarget($this, 'getGobjective');
+        $config['ping_url'] = $DIC->ctrl()->getLinkTarget($this, 'pingSession');
         $config['scorm_player_unload_url'] = $unload_url;
         $config['post_log_url'] = $DIC->ctrl()->getLinkTarget($this, 'postLogEntry');
         $config['livelog_url'] = $DIC->ctrl()->getLinkTarget($this, 'liveLogContent');
@@ -441,7 +449,10 @@ class ilSCORM13PlayerGUI
         //template variables
         //$this->tpl = new ilTemplate("tpl.scorm2004.player.html", false, false, "components/ILIAS/Scorm2004");
         $this->tpl = new ilGlobalTemplate("tpl.scorm2004.player.html", true, true, "components/ILIAS/Scorm2004");
-        $this->tpl->setVariable("JS_FILE", iljQueryUtil::getLocaljQueryPath());
+
+        // TODO should work with jquery.min.js
+        $jQueryPath = str_replace('.min', '', iljQueryUtil::getLocaljQueryPath());
+        $this->tpl->setVariable("JS_FILE", $jQueryPath);
 
         // include ilias rte css, if given
         $rte_css = $this->slm->getDataDirectory() . "/ilias_css_4_2/css/style.css";
@@ -456,7 +467,7 @@ class ilSCORM13PlayerGUI
         // include_once("../components/ILIAS/YUI/classes/class.ilYuiUtil.php");
         // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
         // $this->tpl->setVariable('TREE_JS', "../components/ILIAS/UIComponent/NestedList/js/ilNestedList.js");
-        $this->tpl->setVariable('TREE_JS', "../components/ILIAS/Scorm2004/scripts/ilNestedList.js");
+        $this->tpl->setVariable('TREE_JS', "components/ILIAS/Scorm2004/scripts/ilNestedList.js");
         foreach ($langstrings as $key => $value) {
             $this->tpl->setVariable($key, $value);
         }
@@ -473,7 +484,8 @@ class ilSCORM13PlayerGUI
         $this->tpl->setVariable('TXT_COLLAPSE', $lng->txt('scplayer_collapsetree'));
         if ($this->slm->getDebug()) {
             $this->tpl->setVariable('TXT_DEBUGGER', $lng->txt('scplayer_debugger'));
-            $this->tpl->setVariable('DEBUG_URL', "PopupCenter('ilias.php?baseClass=ilSAHSPresentationGUI&cmd=debugGUI&ref_id=" . $this->ref_id . "','Debug',800,600);");
+            $debug_url = $DIC->ctrl()->getLinkTarget($this, 'debugGUI');
+            $this->tpl->setVariable('DEBUG_URL', "PopupCenter('" . $debug_url . "','Debug',800,600);");
         } else {
             $this->tpl->setVariable('TXT_DEBUGGER', '');
             $this->tpl->setVariable('DEBUG_URL', '');
@@ -484,9 +496,10 @@ class ilSCORM13PlayerGUI
 
         //include scripts
         if ($this->slm->getCacheDeactivated()) {
-            $this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getRTEjs&ref_id=' . $this->ref_id);
+            $rtejs_url = $DIC->ctrl()->getLinkTarget($this, 'getRTEjs');
+            $this->tpl->setVariable('JS_SCRIPTS', $rtejs_url);
         } else {
-            $this->tpl->setVariable('JS_SCRIPTS', '../components/ILIAS/Scorm2004/scripts/buildrte/rte-min.js');
+            $this->tpl->setVariable('JS_SCRIPTS', 'components/ILIAS/Scorm2004/scripts/buildrte/rte-min.js');
         }
 
         //disable top menu
@@ -716,16 +729,16 @@ class ilSCORM13PlayerGUI
         }
 
         $query = 'SELECT objective_id, scope_id, satisfied, measure, user_id, 
-						 score_min, score_max, score_raw, completion_status, 
-						 progress_measure '
+                         score_min, score_max, score_raw, completion_status, 
+                         progress_measure '
                . 'FROM cmi_gobjective, cp_node, cp_mapinfo '
                . 'WHERE (cmi_gobjective.objective_id <> %s AND cmi_gobjective.status IS NULL '
                . 'AND cp_node.slm_id = %s AND cp_node.nodename = %s '
                . 'AND cp_node.cp_node_id = cp_mapinfo.cp_node_id '
                . 'AND cmi_gobjective.objective_id = cp_mapinfo.targetobjectiveid) '
                . 'GROUP BY objective_id, scope_id, satisfied, measure, user_id,
-			               score_min, score_max, score_raw, completion_status, 
-			               progress_measure';
+                           score_min, score_max, score_raw, completion_status, 
+                           progress_measure';
         $res = $ilDB->queryF(
             $query,
             array('text', 'integer', 'text'),
@@ -891,7 +904,7 @@ class ilSCORM13PlayerGUI
         $ilUser = $DIC->user();
         $g_data = json_decode(file_get_contents('php://input'));
 
-	if ($g_data == null) return;
+        if ($g_data == null) return;
 
         //Step 1: Get the writeable stores for this SCO that already have values
         $query = 'SELECT dm.target_id, sd.store '
@@ -1046,10 +1059,10 @@ class ilSCORM13PlayerGUI
             switch ($k) {
                 case "node":
                     $q = 'SELECT cmi_node.* 
-						FROM cmi_node 
-						INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id
-						WHERE cmi_node.user_id = %s
-						AND cp_node.slm_id = %s';
+                        FROM cmi_node 
+                        INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id
+                        WHERE cmi_node.user_id = %s
+                        AND cp_node.slm_id = %s';
 
                     break;
 
@@ -1058,18 +1071,18 @@ class ilSCORM13PlayerGUI
                         $i_check -= 8;
                         if ($this->slm->getComments()) {
                             $q = 'SELECT 
-							cmi_comment.cmi_comment_id, 
-							cmi_comment.cmi_node_id, 
-							cmi_comment.c_comment, 
-							cmi_comment.c_timestamp, 
-							cmi_comment.location, 
-							cmi_comment.sourceislms 
-							FROM cmi_comment 
-							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
-							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s 
-							ORDER BY cmi_comment.cmi_comment_id';
+                            cmi_comment.cmi_comment_id, 
+                            cmi_comment.cmi_node_id, 
+                            cmi_comment.c_comment, 
+                            cmi_comment.c_timestamp, 
+                            cmi_comment.location, 
+                            cmi_comment.sourceislms 
+                            FROM cmi_comment 
+                            INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
+                            INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+                            WHERE cmi_node.user_id = %s
+                            AND cp_node.slm_id = %s 
+                            ORDER BY cmi_comment.cmi_comment_id';
                         }
                     }
 
@@ -1080,14 +1093,14 @@ class ilSCORM13PlayerGUI
                         $i_check -= 4;
                         if ($this->slm->getInteractions()) {
                             $q = 'SELECT cmi_correct_response.* 
-							FROM cmi_correct_response 
-							INNER JOIN cmi_interaction 
-							ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
-							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s 
-							ORDER BY cmi_correct_response.cmi_correct_resp_id';
+                            FROM cmi_correct_response 
+                            INNER JOIN cmi_interaction 
+                            ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
+                            INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
+                            INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+                            WHERE cmi_node.user_id = %s
+                            AND cp_node.slm_id = %s 
+                            ORDER BY cmi_correct_response.cmi_correct_resp_id';
                         }
                     }
                     break;
@@ -1097,22 +1110,22 @@ class ilSCORM13PlayerGUI
                         $i_check -= 2;
                         if ($this->slm->getInteractions()) {
                             $q = 'SELECT 
-							cmi_interaction.cmi_interaction_id, 
-							cmi_interaction.cmi_node_id, 
-							cmi_interaction.description, 
-							cmi_interaction.id, 
-							cmi_interaction.latency, 
-							cmi_interaction.learner_response, 
-							cmi_interaction.result, 
-							cmi_interaction.c_timestamp, 
-							cmi_interaction.c_type, 
-							cmi_interaction.weighting
-							FROM cmi_interaction 
-							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s 
-							ORDER BY cmi_interaction.cmi_interaction_id';
+                            cmi_interaction.cmi_interaction_id, 
+                            cmi_interaction.cmi_node_id, 
+                            cmi_interaction.description, 
+                            cmi_interaction.id, 
+                            cmi_interaction.latency, 
+                            cmi_interaction.learner_response, 
+                            cmi_interaction.result, 
+                            cmi_interaction.c_timestamp, 
+                            cmi_interaction.c_type, 
+                            cmi_interaction.weighting
+                            FROM cmi_interaction 
+                            INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
+                            INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+                            WHERE cmi_node.user_id = %s
+                            AND cp_node.slm_id = %s 
+                            ORDER BY cmi_interaction.cmi_interaction_id';
                         }
                     }
                     break;
@@ -1121,37 +1134,37 @@ class ilSCORM13PlayerGUI
                     if ($i_check > 0) {
                         if ($this->slm->getObjectives()) {
                             $q = 'SELECT 
-							cmi_objective.cmi_interaction_id, 
-							cmi_objective.cmi_node_id, 
-							cmi_objective.cmi_objective_id, 
-							cmi_objective.completion_status, 
-							cmi_objective.description, 
-							cmi_objective.id, 
-							cmi_objective.c_max, 
-							cmi_objective.c_min, 
-							cmi_objective.c_raw, 
-							cmi_objective.scaled, 
-							cmi_objective.progress_measure, 
-							cmi_objective.success_status, 
-							cmi_objective.scope 
-							FROM cmi_objective 
-							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
-							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s 
-							ORDER BY cmi_objective.cmi_objective_id';
+                            cmi_objective.cmi_interaction_id, 
+                            cmi_objective.cmi_node_id, 
+                            cmi_objective.cmi_objective_id, 
+                            cmi_objective.completion_status, 
+                            cmi_objective.description, 
+                            cmi_objective.id, 
+                            cmi_objective.c_max, 
+                            cmi_objective.c_min, 
+                            cmi_objective.c_raw, 
+                            cmi_objective.scaled, 
+                            cmi_objective.progress_measure, 
+                            cmi_objective.success_status, 
+                            cmi_objective.scope 
+                            FROM cmi_objective 
+                            INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
+                            INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+                            WHERE cmi_node.user_id = %s
+                            AND cp_node.slm_id = %s 
+                            ORDER BY cmi_objective.cmi_objective_id';
                         }
                     }
                     break;
 
                 case "package"://delete because data exist except of learner_name
                     $q = 'SELECT usr_data.usr_id user_id, 
-						CONCAT(CONCAT(COALESCE(usr_data.firstname, \'\'), \' \'), COALESCE(usr_data.lastname, \'\')) learner_name, 
-						sahs_lm.id slm_id , sahs_lm.default_lesson_mode "mode", sahs_lm.credit
-						FROM usr_data, cp_package
-						INNER JOIN sahs_lm ON cp_package.obj_id = sahs_lm.id 
-						WHERE usr_data.usr_id = %s
-						AND sahs_lm.id = %s';
+                        CONCAT(CONCAT(COALESCE(usr_data.firstname, \'\'), \' \'), COALESCE(usr_data.lastname, \'\')) learner_name, 
+                        sahs_lm.id slm_id , sahs_lm.default_lesson_mode "mode", sahs_lm.credit
+                        FROM usr_data, cp_package
+                        INNER JOIN sahs_lm ON cp_package.obj_id = sahs_lm.id 
+                        WHERE usr_data.usr_id = %s
+                        AND sahs_lm.id = %s';
 
                     break;
             }
@@ -1350,13 +1363,13 @@ class ilSCORM13PlayerGUI
 
         $res = $ilDB->queryF(
             '
-					  SELECT ' . $fieldList . '
-					  FROM cmi_node,cp_node,cp_item
-					  WHERE cp_node.slm_id = %s
-					  AND cp_node.cp_node_id = cp_item.cp_node_id
-					  AND cp_item.id = %s
-					  AND cmi_node.cp_node_id = cp_item.cp_node_id
-					  AND cmi_node.user_id = %s',
+                      SELECT ' . $fieldList . '
+                      FROM cmi_node,cp_node,cp_item
+                      WHERE cp_node.slm_id = %s
+                      AND cp_node.cp_node_id = cp_item.cp_node_id
+                      AND cp_item.id = %s
+                      AND cmi_node.cp_node_id = cp_item.cp_node_id
+                      AND cmi_node.user_id = %s',
             array('integer','text','integer'),
             array($this->packageId, $sco_id, $this->userId)
         );
@@ -1607,9 +1620,11 @@ class ilSCORM13PlayerGUI
 
     /**
      * @return array<int, array<string, string>>
+     * @throws ilCtrlException
      */
     private function getLogFileList(string $s_delete, string $s_download, string $s_open): array
     {
+        global $DIC;
         $data = array();
         foreach (new DirectoryIterator($this->logDirectory()) as $fileInfo) {
             if ($fileInfo->isDot()) {
@@ -1624,8 +1639,8 @@ class ilSCORM13PlayerGUI
                 $deleteUrl = "";
             }
 
-            $urlDownload = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=downloadLog&ref_id=' . $this->ref_id . '&logFile=' . $fileInfo->getFilename();
-            $urlOpen = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=openLog&ref_id=' . $this->ref_id . '&logFile=' . $fileInfo->getFilename();
+            $urlDownload = $DIC->ctrl()->getLinkTarget($this, 'downloadLog') . '&logFile=' . $fileInfo->getFilename();
+            $urlOpen = $DIC->ctrl()->getLinkTarget($this, 'openLog') . '&logFile=' . $fileInfo->getFilename();
             $item['date'] = date('Y/m/d H:i:s', $fileInfo->getCTime());
             if ($parts['extension'] === "html") {
                 $item['action'] = $deleteUrl . "&nbsp;<a href=" . $urlDownload . ">" . $s_download . "</a>&nbsp;<a target=_new href=" . $urlOpen . ">" . $s_open . "</a>";

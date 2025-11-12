@@ -73,10 +73,14 @@ class RepositoryAndDataTest extends TestCase
     protected function assertRecordMatchesArray(RecordInterface $record, array $data): void
     {
         $this->assertRecordInfosMatchesArray($record->infos(), $data);
-        $this->assertXmlStringEqualsXmlString(
-            $data['metadata'],
-            $record->metadata()->saveXML()
-        );
+        if ($data['metadata'] !== '') {
+            $this->assertXmlStringEqualsXmlString(
+                $data['metadata'],
+                $record->metadata()?->saveXML() ?? ''
+            );
+        } else {
+            $this->assertNull($record->metadata());
+        }
     }
 
     protected function assertRecordInfosMatchesArray(RecordInfosInterface $infos, array $data): void
@@ -92,21 +96,31 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '32',
             'identifier' => 'id32',
             'datestamp' => '123456',
+            'deleted' => '0',
             'metadata' => '<content>something</content>'
         ];
         $record_2 = [
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
         ];
         $record_3 = [
             'obj_id' => '1',
             'identifier' => 'id1',
             'datestamp' => '65656565',
+            'deleted' => '0',
             'metadata' => '<content>something else</content>'
         ];
-        $repo = $this->getRepository(0, [$record_1, $record_2, $record_3]);
+        $record_4 = [
+            'obj_id' => '17',
+            'identifier' => 'id17',
+            'datestamp' => '283462843',
+            'deleted' => '1',
+            'metadata' => ''
+        ];
+        $repo = $this->getRepository(0, [$record_1, $record_2, $record_3, $record_4]);
 
         $records = iterator_to_array($repo->getRecords());
 
@@ -114,10 +128,11 @@ class RepositoryAndDataTest extends TestCase
             ['SELECT * FROM il_meta_oer_exposed ORDER BY obj_id'],
             $repo->exposed_queries
         );
-        $this->assertCount(3, $records);
+        $this->assertCount(4, $records);
         $this->assertRecordMatchesArray($records[0], $record_1);
         $this->assertRecordMatchesArray($records[1], $record_2);
         $this->assertRecordMatchesArray($records[2], $record_3);
+        $this->assertRecordMatchesArray($records[3], $record_4);
     }
 
     public function testGetRecordsWithFromDate(): void
@@ -126,12 +141,14 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '32',
             'identifier' => 'id32',
             'datestamp' => '123456',
+            'deleted' => '0',
             'metadata' => '<content>something</content>'
         ];
         $record_2 = [
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
         ];
         $repo = $this->getRepository(0, [$record_1, $record_2]);
@@ -155,12 +172,14 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
         ];
         $record_3 = [
             'obj_id' => '1',
             'identifier' => 'id1',
             'datestamp' => '65656565',
+            'deleted' => '0',
             'metadata' => '<content>something else</content>'
         ];
         $repo = $this->getRepository(0, [$record_2, $record_3]);
@@ -185,6 +204,7 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
         ];
         $repo = $this->getRepository(0, [$record_2]);
@@ -208,6 +228,7 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
         ];
         $repo = $this->getRepository(0, [$record]);
@@ -232,6 +253,7 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
         ];
         $repo = $this->getRepository(0, [$record]);
@@ -257,6 +279,7 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
         ];
         $repo = $this->getRepository(0, [$record]);
@@ -281,30 +304,40 @@ class RepositoryAndDataTest extends TestCase
         $record_1 = [
             'obj_id' => '32',
             'identifier' => 'id32',
-            'datestamp' => '123456'
+            'datestamp' => '123456',
+            'deleted' => '0'
         ];
         $record_2 = [
             'obj_id' => '456',
             'identifier' => 'id456',
-            'datestamp' => '9345653'
+            'datestamp' => '9345653',
+            'deleted' => '0'
         ];
         $record_3 = [
             'obj_id' => '1',
             'identifier' => 'id1',
-            'datestamp' => '65656565'
+            'datestamp' => '65656565',
+            'deleted' => '0'
         ];
-        $repo = $this->getRepository(0, [$record_1, $record_2, $record_3]);
+        $record_4 = [
+            'obj_id' => '17',
+            'identifier' => 'id17',
+            'datestamp' => '283462843',
+            'deleted' => '1'
+        ];
+        $repo = $this->getRepository(0, [$record_1, $record_2, $record_3, $record_4]);
 
         $records = iterator_to_array($repo->getRecordInfos());
 
         $this->assertSame(
-            ['SELECT obj_id, identifier, datestamp FROM il_meta_oer_exposed ORDER BY obj_id'],
+            ['SELECT obj_id, identifier, datestamp, deleted FROM il_meta_oer_exposed ORDER BY obj_id'],
             $repo->exposed_queries
         );
-        $this->assertCount(3, $records);
+        $this->assertCount(4, $records);
         $this->assertRecordInfosMatchesArray($records[0], $record_1);
         $this->assertRecordInfosMatchesArray($records[1], $record_2);
         $this->assertRecordInfosMatchesArray($records[2], $record_3);
+        $this->assertRecordInfosMatchesArray($records[3], $record_4);
     }
 
     public function testGetRecordInfosWithFromDate(): void
@@ -312,12 +345,14 @@ class RepositoryAndDataTest extends TestCase
         $record_1 = [
             'obj_id' => '32',
             'identifier' => 'id32',
-            'datestamp' => '123456'
+            'datestamp' => '123456',
+            'deleted' => '0'
         ];
         $record_2 = [
             'obj_id' => '456',
             'identifier' => 'id456',
-            'datestamp' => '9345653'
+            'datestamp' => '9345653',
+            'deleted' => '0'
         ];
         $repo = $this->getRepository(0, [$record_1, $record_2]);
 
@@ -326,7 +361,7 @@ class RepositoryAndDataTest extends TestCase
         ));
 
         $this->assertSame(
-            ['SELECT obj_id, identifier, datestamp' . ' FROM il_meta_oer_exposed WHERE datestamp >= ~int:1723994~ ORDER BY obj_id'],
+            ['SELECT obj_id, identifier, datestamp, deleted' . ' FROM il_meta_oer_exposed WHERE datestamp >= ~int:1723994~ ORDER BY obj_id'],
             $repo->exposed_queries
         );
         $this->assertCount(2, $records);
@@ -339,12 +374,14 @@ class RepositoryAndDataTest extends TestCase
         $record_2 = [
             'obj_id' => '456',
             'identifier' => 'id456',
-            'datestamp' => '9345653'
+            'datestamp' => '9345653',
+            'deleted' => '0'
         ];
         $record_3 = [
             'obj_id' => '1',
             'identifier' => 'id1',
-            'datestamp' => '65656565'
+            'datestamp' => '65656565',
+            'deleted' => '0'
         ];
         $repo = $this->getRepository(0, [$record_2, $record_3]);
 
@@ -354,7 +391,7 @@ class RepositoryAndDataTest extends TestCase
         ));
 
         $this->assertSame(
-            ['SELECT obj_id, identifier, datestamp' . ' FROM il_meta_oer_exposed WHERE datestamp <= ~int:1763994~ ORDER BY obj_id'],
+            ['SELECT obj_id, identifier, datestamp, deleted' . ' FROM il_meta_oer_exposed WHERE datestamp <= ~int:1763994~ ORDER BY obj_id'],
             $repo->exposed_queries
         );
         $this->assertCount(2, $records);
@@ -367,7 +404,8 @@ class RepositoryAndDataTest extends TestCase
         $record_2 = [
             'obj_id' => '456',
             'identifier' => 'id456',
-            'datestamp' => '9345653'
+            'datestamp' => '9345653',
+            'deleted' => '0'
         ];
         $repo = $this->getRepository(0, [$record_2]);
 
@@ -377,7 +415,7 @@ class RepositoryAndDataTest extends TestCase
         ));
 
         $this->assertSame(
-            ['SELECT obj_id, identifier, datestamp' . ' FROM il_meta_oer_exposed WHERE datestamp >= ~int:1723994~ AND datestamp <= ~int:1763994~ ORDER BY obj_id'],
+            ['SELECT obj_id, identifier, datestamp, deleted' . ' FROM il_meta_oer_exposed WHERE datestamp >= ~int:1723994~ AND datestamp <= ~int:1763994~ ORDER BY obj_id'],
             $repo->exposed_queries
         );
         $this->assertCount(1, $records);
@@ -389,7 +427,8 @@ class RepositoryAndDataTest extends TestCase
         $record = [
             'obj_id' => '456',
             'identifier' => 'id456',
-            'datestamp' => '9345653'
+            'datestamp' => '9345653',
+            'deleted' => '0'
         ];
         $repo = $this->getRepository(0, [$record]);
 
@@ -400,7 +439,7 @@ class RepositoryAndDataTest extends TestCase
         ));
 
         $this->assertSame(
-            ['SELECT obj_id, identifier, datestamp' . ' FROM il_meta_oer_exposed ORDER BY obj_id LIMIT ~int:5~'],
+            ['SELECT obj_id, identifier, datestamp, deleted' . ' FROM il_meta_oer_exposed ORDER BY obj_id LIMIT ~int:5~'],
             $repo->exposed_queries
         );
         $this->assertCount(1, $records);
@@ -412,7 +451,8 @@ class RepositoryAndDataTest extends TestCase
         $record = [
             'obj_id' => '456',
             'identifier' => 'id456',
-            'datestamp' => '9345653'
+            'datestamp' => '9345653',
+            'deleted' => '0'
         ];
         $repo = $this->getRepository(0, [$record]);
 
@@ -424,7 +464,7 @@ class RepositoryAndDataTest extends TestCase
         ));
 
         $this->assertSame(
-            ['SELECT obj_id, identifier, datestamp' . ' FROM il_meta_oer_exposed ORDER BY obj_id LIMIT ~int:' . PHP_INT_MAX . '~ OFFSET ~int:5~'],
+            ['SELECT obj_id, identifier, datestamp, deleted' . ' FROM il_meta_oer_exposed ORDER BY obj_id LIMIT ~int:' . PHP_INT_MAX . '~ OFFSET ~int:5~'],
             $repo->exposed_queries
         );
         $this->assertCount(1, $records);
@@ -436,7 +476,8 @@ class RepositoryAndDataTest extends TestCase
         $record = [
             'obj_id' => '456',
             'identifier' => 'id456',
-            'datestamp' => '9345653'
+            'datestamp' => '9345653',
+            'deleted' => '0'
         ];
         $repo = $this->getRepository(0, [$record]);
 
@@ -448,7 +489,7 @@ class RepositoryAndDataTest extends TestCase
         ));
 
         $this->assertSame(
-            ['SELECT obj_id, identifier, datestamp' . ' FROM il_meta_oer_exposed ORDER BY obj_id LIMIT ~int:5~ OFFSET ~int:10~'],
+            ['SELECT obj_id, identifier, datestamp, deleted' . ' FROM il_meta_oer_exposed ORDER BY obj_id LIMIT ~int:5~ OFFSET ~int:10~'],
             $repo->exposed_queries
         );
         $this->assertCount(1, $records);
@@ -534,7 +575,29 @@ class RepositoryAndDataTest extends TestCase
             'obj_id' => '456',
             'identifier' => 'id456',
             'datestamp' => '9345653',
+            'deleted' => '0',
             'metadata' => '<content><sub1>hello</sub1><sub2>world</sub2></content>'
+        ];
+        $repo = $this->getRepository(0, [$record]);
+
+        $res = $repo->getRecordByIdentifier('id456');
+
+        $this->assertSame(
+            ['SELECT * FROM il_meta_oer_exposed WHERE identifier = ~string:id456~'],
+            $repo->exposed_queries
+        );
+        $this->assertNotNull($res);
+        $this->assertRecordMatchesArray($res, $record);
+    }
+
+    public function testGetDeletedRecordByIdentifier(): void
+    {
+        $record = [
+            'obj_id' => '456',
+            'identifier' => 'id456',
+            'datestamp' => '9345653',
+            'deleted' => '1',
+            'metadata' => ''
         ];
         $repo = $this->getRepository(0, [$record]);
 
@@ -628,8 +691,8 @@ class RepositoryAndDataTest extends TestCase
 
         $this->assertSame(
             [
-                'INSERT INTO il_meta_oer_exposed (obj_id, identifier, datestamp, metadata) VALUES (' .
-                '~int:32~, ~string:id32~, ~int:17646362~, ~clob:' . $xml->saveXML() . '~)'
+                'INSERT INTO il_meta_oer_exposed (obj_id, identifier, datestamp, metadata, deleted) VALUES (' .
+                '~int:32~, ~string:id32~, ~int:17646362~, ~clob:' . $xml->saveXML() . '~, ~int:0~)'
             ],
             $repo->exposed_queries
         );
@@ -644,13 +707,52 @@ class RepositoryAndDataTest extends TestCase
 
         $repo->updateRecord(
             32,
+            false,
             $xml
         );
 
         $this->assertSame(
             [
                 'UPDATE il_meta_oer_exposed SET metadata = ~clob:' . $xml->saveXML() . '~, ' .
+                'deleted = ~int:0~, ' .
                 'datestamp = ~int:17646362~ WHERE obj_id = ~int:32~'
+            ],
+            $repo->exposed_queries
+        );
+    }
+
+    public function testUpdateRecordWithoutMetadata(): void
+    {
+        $repo = $this->getRepository(17646362, []);
+
+        $repo->updateRecord(
+            32,
+            true,
+            null
+        );
+
+        $this->assertSame(
+            [
+                'UPDATE il_meta_oer_exposed ' . 'SET metadata = ~clob:~, ' .
+                'deleted = ~int:1~, ' .
+                'datestamp = ~int:17646362~ WHERE obj_id = ~int:32~'
+            ],
+            $repo->exposed_queries
+        );
+    }
+
+    public function testDeleteRecordsMarkedAsDeletedOlderThanDate(): void
+    {
+        $current = new \DateTimeImmutable('2025-10-31');
+        $thirty_days_ago = new \DateTimeImmutable('2025-10-01');
+        $repo = $this->getRepository($current->getTimestamp(), []);
+
+        $repo->deleteRecordsMarkedAsDeletedOlderThan(new \DateInterval('P30D'));
+
+        $this->assertSame(
+            [
+                'DELETE FROM il_meta_oer_exposed WHERE deleted = 1 AND ' .
+                'datestamp <= ~int:' . $thirty_days_ago->getTimestamp() . '~'
             ],
             $repo->exposed_queries
         );

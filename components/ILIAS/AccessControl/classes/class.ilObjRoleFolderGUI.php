@@ -153,7 +153,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('view');
 
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -207,7 +207,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $this->ctrl->getLinkTarget($this, 'view')
         );
 
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -714,7 +714,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
      */
     public function getAdminTabs(): void
     {
-        if ($this->checkPermissionBool("visible,read")) {
+        if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addTarget(
                 "view",
                 $this->ctrl->getLinkTarget($this, "view"),

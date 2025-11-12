@@ -63,7 +63,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         return $this->ui_factory->table()->data(
             $this,
             $this->lng->txt('questions'),
-            $this->getColums(),
+            $this->getColumns()
         )
         ->withActions($this->getActions())
         ->withId('qpt' . $this->parent_obj_id . '_' . $this->request_ref_id);
@@ -136,7 +136,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         $active = array_fill(0, count($filter_inputs), true);
 
         $filter = $ui_service->filter()->standard(
-            'question_table_filter_id',
+            "question_table_filter_{$this->request_ref_id}",
             $action,
             $filter_inputs,
             $active,
@@ -147,7 +147,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     }
 
 
-    public function getColums(): array
+    public function getColumns(): array
     {
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();
@@ -279,10 +279,10 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
-        $no_write_access = !($this->rbac->checkAccess('write', $this->request_ref_id));
         $timezone = new \DateTimeZone($this->current_user->getTimeZone());
         foreach ($this->getData($order, $range) as $record) {
             $row_id = (string) $record['question_id'];
@@ -302,18 +302,14 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             $record['title'] = $this->ui_factory->link()->standard($title, $to_question);
             $record['taxonomies'] = $this->taxonomyRepresentation($record['taxonomies']);
 
-            yield $row_builder->buildDataRow($row_id, $record)
-                ->withDisabledAction('move', $no_write_access)
-                ->withDisabledAction('copy', $no_write_access)
-                ->withDisabledAction('delete', $no_write_access)
-                ->withDisabledAction('feedback', $no_write_access)
-            ;
+            yield $row_builder->buildDataRow($row_id, $record);
         }
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         $this->setParentObjId($this->parent_obj_id);
         $this->load();
@@ -332,19 +328,20 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
 
     protected function getActions(): array
     {
+        $write_access = $this->rbac->checkAccess('write', $this->request_ref_id);
         return array_merge(
             $this->buildAction('copy', 'standard'),
-            $this->buildAction('move', 'standard'),
-            $this->buildAction('delete', 'standard'),
+            $write_access ? $this->buildAction('move', 'standard') : [],
+            $write_access ? $this->buildAction('delete', 'standard') : [],
             $this->buildAction('export', 'multi'),
             $this->buildAction('preview', 'single'),
             $this->buildAction('statistics', 'single'),
-            $this->buildAction('edit_question', 'single'),
-            $this->buildAction('edit_page', 'single'),
-            $this->buildAction('feedback', 'single'),
-            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAUTHOR, 'multi'),
-            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITLIFECYCLE, 'multi'),
-            $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAXONOMIES, 'multi'),
+            $write_access ? $this->buildAction('edit_question', 'single') : [],
+            $write_access ? $this->buildAction('edit_page', 'single') : [],
+            $write_access ? $this->buildAction('feedback', 'single') : [],
+            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAUTHOR, 'multi') : [],
+            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITLIFECYCLE, 'multi') : [],
+            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAXONOMIES, 'multi') : [],
             $this->showCommentAction() ? $this->buildAction('comments', 'single', true) : []
         );
     }

@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
 use ILIAS\User\Profile\Data;
 use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
 use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileConfigurationRepository;
@@ -25,12 +26,12 @@ use ILIAS\User\Profile\Fields\Standard\Genders;
 use ILIAS\User\Profile\Fields\Standard\Interests;
 use ILIAS\User\Profile\Fields\Standard\HelpOffered;
 use ILIAS\User\Profile\Fields\Standard\HelpLookedFor;
+use ILIAS\User\Settings\DataRepository as SettingsDataRepository;
 use ILIAS\Language\Language;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\Data\DateFormat\DateFormat;
-use ILIAS\Data\DateFormat\Factory as DateFormatFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Authentication\Password\LocalUserPasswordManager;
 use ILIAS\Export\ExportHandler\Factory as ExportFactory;
@@ -70,23 +71,25 @@ class ilObjUser extends ilObject
     private bool $passwd_policy_reset = false;
     private int $login_attempts = 0;
     /** @var array<string, string> */
-    private array $prefs = [];
+    private array $user_settings = [];
     private static array $personal_image_cache = [];
     private ?string $inactivation_date = null;
     private bool $is_self_registered = false; // flag for self registered users
     private string $last_profile_prompt = '';	// timestamp
     private string $first_login = '';	// timestamp
     private bool $profile_incomplete = false;
+    private array $last_visited = [];
 
     private Data $profile_data;
     private ProfileDataRepository $profile_data_repository;
     private ProfileConfigurationRepository $profile_configuration_repository;
+    private SettingsDataRepository $settings_data_repository;
 
     private StreamDelivery $delivery;
-    private DateFormatFactory $date_format_factory;
+    private DataFactory $data_factory;
     private ilCronDeleteInactiveUserReminderMail $cron_delete_user_reminder_mail;
     private Services $irss;
-    private ilSetting $settings;
+    private ilSetting $ilias_settings;
     private ilAuthSession $auth_session;
     private ilCtrl $ctrl;
 
@@ -96,7 +99,7 @@ class ilObjUser extends ilObject
     ) {
         global $DIC;
         $this->irss = $DIC['resource_storage'];
-        $this->settings = $DIC['ilSetting'];
+        $this->ilias_settings = $DIC['ilSetting'];
         $this->auth_session = $DIC['ilAuthSession'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
@@ -110,8 +113,9 @@ class ilObjUser extends ilObject
         $this->profile_data_repository = $local_dic[ProfileDataRepository::class];
         $this->profile_data = $this->profile_data_repository->getDefault();
         $this->profile_configuration_repository = $local_dic[ProfileConfigurationRepository::class];
+        $this->settings_data_repository = $local_dic[SettingsDataRepository::class];
 
-        $this->date_format_factory = (new DataFactory())->dateFormat();
+        $this->data_factory = (new DataFactory());
 
         $this->type = 'usr';
         parent::__construct($a_user_id, $a_call_by_reference);
@@ -126,10 +130,10 @@ class ilObjUser extends ilObject
             return;
         }
 
-        $this->prefs = [];
-        $this->prefs['language'] = $this->ilias->ini->readVariable('language', 'default');
-        $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
-        $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
+        $this->user_settings = [];
+        $this->user_settings['language'] = $this->ilias->ini->readVariable('language', 'default');
+        $this->user_settings['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
+        $this->user_settings['style'] = $this->ilias->ini->readVariable('layout', 'style');
     }
 
     /**
@@ -143,7 +147,7 @@ class ilObjUser extends ilObject
         $this->setFullname();
         $this->assignSystemInformationFromDB($this->profile_data->getSystemInformation());
 
-        $this->readPrefs();
+        $this->readSettings();
 
         parent::read();
     }
@@ -156,7 +160,8 @@ class ilObjUser extends ilObject
         }
 
         $system_information = $this->buildSystemInformationArrayForDB();
-        $system_information['create_date'] = date('Y-m-d H:i:s');
+        $system_information['create_date'] = $this->data_factory->clock()->utc()->now()
+            ->format(self::DATABASE_DATE_FORMAT);
 
         $this->profile_data = $this->profile_data->withId($this->id);
         $this->profile_data_repository->store(
@@ -229,8 +234,9 @@ class ilObjUser extends ilObject
         $this->profile_incomplete = $data['profile_incomplete'];
 
         $this->auth_mode = $data['auth_mode'];
-        $this->ext_account = $data['ext_account'];
+        $this->ext_account = $data['ext_account'] ?? '';
         $this->is_self_registered = $data['is_self_registered'];
+        $this->last_visited = $data['last_visited'];
     }
 
     private function buildSystemInformationArrayForDB(): array
@@ -256,10 +262,11 @@ class ilObjUser extends ilObject
             'time_limit_until' => $this->time_limit_until,
             'profile_incomplete' => $this->profile_incomplete,
             'auth_mode' => $this->auth_mode,
-            'ext_account' => $this->ext_account,
+            'ext_account' => $this->ext_account ?? '',
             'is_self_registered' => $this->is_self_registered,
             'last_update' => $this->last_update,
             'create_date' => $this->create_date,
+            'last_visited' => $this->last_visited
         ];
     }
 
@@ -314,28 +321,30 @@ class ilObjUser extends ilObject
         ];
     }
 
-    public function updateLogin(string $login): bool
+    public function updateLogin(string $login, Context $context): bool
     {
-        if ($login === $this->profile_data->getAlias()) {
+        if ($login === '' || $login === $this->profile_data->getAlias()) {
             return false;
         }
 
         $last_history_entry = $this->getLastHistoryData();
 
-        $allow_change_login_name = $this->profile_configuration_repository
-            ->getByClass(Alias::class)->isChangeableByUser();
+        if (!$context->isFieldChangeable(
+            $this->profile_configuration_repository->getByClass(Alias::class),
+            $this
+        )) {
+            throw new ilUserException($this->lng->txt('permission_denied'));
+        }
 
         // throw exception if the desired loginame is already in history and it is not allowed to reuse it
-        if ($allow_change_login_name
-            && $this->settings->get('reuse_of_loginnames') === '0'
+        if ($this->ilias_settings->get('reuse_of_loginnames') === '0'
             && self::_doesLoginnameExistInHistory($login)) {
             throw new ilUserException($this->lng->txt('loginname_already_exists'));
         }
 
-        if ($allow_change_login_name
-            && (int) $this->settings->get('loginname_change_blocking_time') > 0
+        if ((int) $this->ilias_settings->get('loginname_change_blocking_time') > 0
             && is_array($last_history_entry)
-            && $last_history_entry[1] + (int) $this->settings->get('loginname_change_blocking_time') > time()) {
+            && $last_history_entry[1] + (int) $this->ilias_settings->get('loginname_change_blocking_time') > time()) {
             throw new ilUserException(
                 sprintf(
                     $this->lng->txt('changing_loginname_not_possible_info'),
@@ -343,15 +352,14 @@ class ilObjUser extends ilObject
                         new ilDateTime($last_history_entry[1], IL_CAL_UNIX)
                     ),
                     ilDatePresentation::formatDate(
-                        new ilDateTime(($last_history_entry[1] + (int) $this->settings->get('loginname_change_blocking_time')), IL_CAL_UNIX)
+                        new ilDateTime(($last_history_entry[1] + (int) $this->ilias_settings->get('loginname_change_blocking_time')), IL_CAL_UNIX)
                     )
                 )
             );
         }
 
-        if ($allow_change_login_name
-            && $this->settings->get('create_history_loginname') === '1') {
-            $this->writeHistory($this->getId(), $this->profile_data->getAlias());
+        if ($this->ilias_settings->get('create_history_loginname') === '1') {
+            $this->writeHistory($this->profile_data->getAlias());
         }
 
         $this->profile_data = $this->profile_data->withAlias($login);
@@ -381,47 +389,23 @@ class ilObjUser extends ilObject
     }
 
     public function writePref(
-        string $keyword,
+        string $key,
         string $value
     ): void {
-        $this->db->replace(
-            'usr_pref',
-            [
-                'usr_id' => [ilDBConstants::T_INTEGER, $this->id],
-                'keyword' => [ilDBConstants::T_TEXT, $keyword],
-            ],
-            [
-                'value' => [ilDBConstants::T_TEXT,$value]
-            ]
-        );
-        $this->setPref($keyword, $value);
+        $this->settings_data_repository->storeSingleFor($this->id, $key, $value);
+        $this->setPref($key, $value);
     }
 
-    public function deletePref(string $keyword): void
+    public function deletePref(string $key): void
     {
-        $this->db->manipulateF(
-            'DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s',
-            ['integer', 'text'],
-            [$this->id, $keyword]
-        );
-        unset($this->prefs[$keyword]);
-    }
-
-    private function deleteAllPrefs(): void
-    {
-        $this->db->manipulateF(
-            'DELETE FROM usr_pref WHERE usr_id = %s',
-            ['integer'],
-            [$this->id]
-        );
+        $this->settings_data_repository->deleteSingleFor($this->id, $key);
+        unset($this->user_settings[$key]);
     }
 
     public function writePrefs(): void
     {
-        $this->deleteAllPrefs();
-        foreach ($this->prefs as $keyword => $value) {
-            $this->writePref($keyword, (string) $value);
-        }
+        $this->settings_data_repository->deleteFor($this->id);
+        $this->settings_data_repository->storeFor($this->id, $this->user_settings);
     }
 
     public function getTimeZone(): string
@@ -450,31 +434,31 @@ class ilObjUser extends ilObject
         }
 
         return match ((int) $format) {
-            ilCalendarSettings::DATE_FORMAT_DMY => $this->date_format_factory->germanShort(),
-            ilCalendarSettings::DATE_FORMAT_MDY => $this->date_format_factory->americanShort(),
-            ilCalendarSettings::DATE_FORMAT_YMD => $this->date_format_factory->standard(),
-            default => $this->date_format_factory->standard()
+            ilCalendarSettings::DATE_FORMAT_DMY => $this->data_factory->dateFormat()->germanShort(),
+            ilCalendarSettings::DATE_FORMAT_MDY => $this->data_factory->dateFormat()->americanShort(),
+            ilCalendarSettings::DATE_FORMAT_YMD => $this->data_factory->dateFormat()->standard(),
+            default => $this->data_factory->dateFormat()->standard()
         };
     }
 
     public function getDateTimeFormat(): DateFormat
     {
         if ($this->getTimeFormat() === (string) \ilCalendarSettings::TIME_FORMAT_24) {
-            return $this->date_format_factory->withTime24($this->getDateFormat());
+            return $this->data_factory->dateFormat()->withTime24($this->getDateFormat());
         }
-        return $this->date_format_factory->withTime12($this->getDateFormat());
+        return $this->data_factory->dateFormat()->withTime12($this->getDateFormat());
     }
 
     public function setPref(string $a_keyword, ?string $a_value): void
     {
         if ($a_keyword !== '') {
-            $this->prefs[$a_keyword] = $a_value;
+            $this->user_settings[$a_keyword] = $a_value;
         }
     }
 
-    public function getPref(string $a_keyword): ?string
+    public function getPref(string $keyword): ?string
     {
-        return $this->prefs[$a_keyword] ?? null;
+        return $this->user_settings[$keyword] ?? null;
     }
 
     /**
@@ -482,19 +466,19 @@ class ilObjUser extends ilObject
      */
     public function getPrefs(): array
     {
-        return $this->prefs;
+        return $this->user_settings;
     }
 
-    private function readPrefs(): void
+    private function readSettings(): void
     {
-        $this->prefs = self::_getPreferences($this->id);
-        if (!isset($this->prefs['style'])
-            || $this->prefs['style'] === ''
-            || !ilStyleDefinition::styleExists($this->prefs['style'])
-            || !ilStyleDefinition::skinExists($this->prefs['skin'])
-                && ilStyleDefinition::styleExistsForSkinId($this->prefs['skin'], $this->prefs['style'])) {
-            $this->prefs['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
-            $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
+        $this->user_settings = $this->settings_data_repository->getFor($this->id);
+        if (!isset($this->user_settings['style'])
+            || $this->user_settings['style'] === ''
+            || !ilStyleDefinition::styleExists($this->user_settings['style'])
+            || !ilStyleDefinition::skinExists($this->user_settings['skin'])
+                && ilStyleDefinition::styleExistsForSkinId($this->user_settings['skin'], $this->user_settings['style'])) {
+            $this->user_settings['skin'] = $this->ilias->ini->readVariable('layout', 'skin');
+            $this->user_settings['style'] = $this->ilias->ini->readVariable('layout', 'style');
         }
     }
 
@@ -528,7 +512,7 @@ class ilObjUser extends ilObject
         ilBadgeAssignment::deleteByUserId($this->getId());
         $this->clipboardDeleteAll();
 
-        $this->deleteAllPrefs();
+        $this->settings_data_repository->deleteFor($this->id);
         $this->removeUserPicture();
         $this->profile_data_repository->deleteForUser($this->getId());
 
@@ -837,7 +821,7 @@ class ilObjUser extends ilObject
 
     public function getLanguage(): string
     {
-        return $this->prefs['language'] ?? '';
+        return $this->user_settings['language'] ?? '';
     }
 
     public function getPasswordEncodingType(): ?string
@@ -1019,6 +1003,17 @@ class ilObjUser extends ilObject
         return $this->last_update;
     }
 
+    public function getLastVisited(): array
+    {
+        return $this->last_visited;
+    }
+
+    public function updateLastVisited(array $last_visited): void
+    {
+        $this->last_visited = $last_visited;
+        $this->profile_data_repository->storeLastVisitedFor($this->id, $last_visited);
+    }
+
     /**
      * set date the user account was activated
      * null indicates that the user has not yet been activated
@@ -1076,7 +1071,7 @@ class ilObjUser extends ilObject
 
     public function getSkin(): string
     {
-        return $this->prefs['skin'];
+        return $this->user_settings['skin'];
     }
 
     public function setTimeLimitOwner(int $a_owner): void
@@ -1195,9 +1190,9 @@ class ilObjUser extends ilObject
         return false;
     }
 
-    public function getPasswordAge(): int
+    public function getPasswordAgeInDays(): int
     {
-        return (int) (time() - $this->getLastPasswordChangeTS() / 86400);
+        return (int) floor((time() - $this->getLastPasswordChangeTS()) / 86400);
     }
 
     public function setLastPasswordChangeToNow(): void
@@ -1891,35 +1886,6 @@ class ilObjUser extends ilObject
         return true;
     }
 
-    public function generateRegistrationHash(): string
-    {
-        do {
-            $hashcode = substr(md5(uniqid(mt_rand(), true)), 0, 16);
-
-            $res = $this->db->queryf(
-                'SELECT COUNT(usr_id) cnt FROM usr_data WHERE reg_hash = %s',
-                [ilDBConstants::T_TEXT],
-                [$hashcode]
-            );
-            while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                if ($row->cnt > 0) {
-                    continue 2;
-                }
-                break;
-            }
-
-            $this->db->manipulateF(
-                'UPDATE usr_data SET reg_hash = %s WHERE usr_id = %s',
-                [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
-                [$hashcode, $this->id]
-            );
-            break;
-        } while (true);
-
-        return $hashcode;
-    }
-
-
     private function buildTextFromArray(array $a_attr): string
     {
         if (count($a_attr) > 0) {
@@ -2138,26 +2104,6 @@ class ilObjUser extends ilObject
         return $data;
     }
 
-    public static function _getPreferences(int $user_id): array
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $prefs = [];
-
-        $r = $ilDB->queryF(
-            'SELECT * FROM usr_pref WHERE usr_id = %s',
-            ['integer'],
-            [$user_id]
-        );
-
-        while ($row = $ilDB->fetchAssoc($r)) {
-            $prefs[$row['keyword']] = $row['value'];
-        }
-
-        return $prefs;
-    }
-
     public static function getUserSubsetByPreferenceValue(
         array $a_user_ids,
         string $a_keyword,
@@ -2293,45 +2239,6 @@ class ilObjUser extends ilObject
         return $users;
     }
 
-    public static function _verifyRegistrationHash(
-        string $a_hash
-    ): int {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $res = $ilDB->queryf(
-            '
-			SELECT usr_id, create_date FROM usr_data
-			WHERE reg_hash = %s',
-            ['text'],
-            [$a_hash]
-        );
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $oRegSettigs = new ilRegistrationSettings();
-
-            if ($oRegSettigs->getRegistrationHashLifetime() != 0 &&
-                time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
-                throw new ilRegConfirmationLinkExpiredException(
-                    'reg_confirmation_hash_life_time_expired',
-                    (int) $row['usr_id']
-                );
-            }
-
-            $ilDB->manipulateF(
-                '
-				UPDATE usr_data
-				SET reg_hash = %s
-				WHERE usr_id = %s',
-                ['text', 'integer'],
-                ['', (int) $row['usr_id']]
-            );
-
-            return (int) $row['usr_id'];
-        }
-
-        throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
-    }
-
     public static function getUserIdsByInactivityPeriod(
         int $periodInDays
     ): array {
@@ -2385,23 +2292,24 @@ class ilObjUser extends ilObject
     public static function _getUserIdsByInactivationPeriod(
         int $period
     ): array {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $field = 'inactivation_date';
-
         if (!$period) {
             throw new ilException('no valid period given');
         }
 
-        $date = date('Y-m-d H:i:s', (time() - ($period * 24 * 60 * 60)));
+        global $DIC;
+        $db = $DIC['ilDB'];
 
-        $query = "SELECT usr_id FROM usr_data WHERE $field < %s AND active = %s";
-
-        $res = $ilDB->queryF($query, ['timestamp', 'integer'], [$date, 0]);
+        $res = $db->queryF(
+            'SELECT usr_id FROM usr_data WHERE inactivation_date < %s AND active = %s',
+            ['timestamp', 'integer'],
+            [
+                date('Y-m-d H:i:s', (time() - ($period * 24 * 60 * 60))),
+                0
+            ]
+        );
 
         $ids = [];
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $db->fetchObject($res)) {
             $ids[] = (int) $row->usr_id;
         }
 
@@ -3163,13 +3071,13 @@ class ilObjUser extends ilObject
     }
 
     public static function _getPersonalPicturePath(
-        int $a_usr_id,
-        string $a_size = 'small',
-        bool $a_force_pic = false
+        int $usr_id,
+        string $size = 'small',
+        bool $force_pic = false
     ): string {
-        $define = new ilUserAvatarResolver($a_usr_id);
-        $define->setForcePicture($a_force_pic);
-        $define->setSize($a_size);
+        $define = new ilUserAvatarResolver($usr_id);
+        $define->setForcePicture($force_pic);
+        $define->setSize($size);
         return $define->getLegacyPictureURL();
     }
 

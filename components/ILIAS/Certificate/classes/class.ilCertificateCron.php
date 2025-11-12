@@ -292,8 +292,6 @@ class ilCertificateCron extends CronJob
             ILIAS_VERSION_NUMERIC,
             true,
             $cert_id,
-            $template->getBackgroundImagePath(),
-            $template->getTileImagePath(),
             $template->getBackgroundImageIdentification(),
             $template->getTileImageIdentification(),
             null,

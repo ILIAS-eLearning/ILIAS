@@ -29,6 +29,10 @@ class ilAssClozeTestCombinationVariantsInputGUI extends ilAnswerWizardInputGUI
     public function setValue($a_value): void
     {
         foreach ($this->forms_helper->transformPoints($a_value) as $index => $value) {
+            if ($value === null) {
+                return;
+            }
+
             $this->values[$index]['points'] = $value;
         }
     }

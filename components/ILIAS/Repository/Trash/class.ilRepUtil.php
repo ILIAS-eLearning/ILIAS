@@ -305,10 +305,6 @@ class ilRepUtil
                 'undelete',
                 ilObject::_lookupObjId($tree->getParentId($id))
             );
-            ilChangeEvent::_catchupWriteEvents(
-                $cur_obj_id,
-                $ilUser->getId()
-            );
             // END PATCH ChangeEvent: Record undelete.
         }
 

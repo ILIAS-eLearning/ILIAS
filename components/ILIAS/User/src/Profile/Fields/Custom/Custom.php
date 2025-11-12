@@ -156,16 +156,16 @@ class Custom implements FieldDefinition
         return $user->withProfileData(
             $user->getProfileData()->withAdditionalFieldByIdentifier(
                 $this->getIdentifier(),
-                $this->type->prepareUserInputForStorage($input)
+                $this->type->prepareUserInputForStorage($input, $this->additional_edit_form_data)
             )
         );
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return $this->type->buildPresentationValueFromUserValue(
-            $user->getProfileData()->getAdditionalFieldByIdentifier($this->getIdentifier()) ?? [],
-            $this->additional_edit_form_data
+        return implode(
+            ', ',
+            $user->getProfileData()->getAdditionalFieldByIdentifier($this->getIdentifier()) ?? []
         );
     }
 }

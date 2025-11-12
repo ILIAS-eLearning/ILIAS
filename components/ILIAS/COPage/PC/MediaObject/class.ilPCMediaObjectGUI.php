@@ -140,7 +140,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

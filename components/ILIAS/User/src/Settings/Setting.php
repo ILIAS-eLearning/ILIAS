@@ -165,7 +165,7 @@ class Setting implements Property
         mixed $input,
         ?\ilPropertyFormGUI $form = null
     ): \ilObjUser {
-        if (!$context->isSettingAvailableInType($this)) {
+        if (!$context->isSettingAvailable($this)) {
             throw \Exception('It is not possible to Change this from here!');
         }
         return $this->definition->persistUserInput($user, $input, $form);

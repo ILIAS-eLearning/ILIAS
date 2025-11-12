@@ -1,4 +1,3 @@
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,8 +24,6 @@ il.Help = {
 	listHelp: function (e, back_clicked) {
 		// prevent the default action		
 //		e.preventDefault();
-		// hide overlays
-//		il.Overlay.hideAllOverlays(e, true);
 		// add panel
 		this.initPanel(e, true);
 	},
@@ -151,7 +148,6 @@ il.Help = {
 	// close panel
 	closePanel: function (e) {
 		if (this.panel) {
-			il.Overlay.hide(e, "ilHelpPanel");
 			il.Help.panel = false;
 			//il.Help.resetMainContentArea();
 

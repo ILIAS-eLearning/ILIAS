@@ -32,34 +32,64 @@ use ILIAS\MetaData\Copyright\NullRenderer;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Implementation\Component\Legacy\Content as ILegacy;
-use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount;
 use ILIAS\MetaData\Copyright\CopyrightData;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon as IIcon;
+use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Implementation\Component\Link\Link as ILink;
 
 class CopyrightTest extends TestCase
 {
-    protected function getLegacyComponent(): MockObject|Content
+    protected function getIcon(): Icon
     {
-        return $this->getMockBuilder(ILegacy::class)
+        return $this->getMockBuilder(IIcon::class)
                     ->disableOriginalConstructor()
                     ->getMock();
     }
 
-    protected function getRenderer(): RendererInterface
+    protected function getLink(): Link
     {
-        $legacy_component = $this->getLegacyComponent();
-        return new class ($legacy_component, $this->any()) extends NullRenderer {
+        return $this->getMockBuilder(ILink::class)
+                    ->disableOriginalConstructor()
+                    ->getMock();
+    }
+
+    protected function getRenderer(
+        ?Icon $icon = null,
+        ?Link $link = null
+    ): RendererInterface {
+        return new class ($icon, $link) extends NullRenderer {
             public ?string $exposed_copyright_data = null;
 
             public function __construct(
-                protected MockObject|Content $legacy,
-                protected AnyInvokedCount $any
+                protected ?Icon $icon,
+                protected ?Link $link
             ) {
             }
 
             public function toUIComponents(CopyrightDataInterface $copyright): array
             {
                 $this->exposed_copyright_data = $copyright->exposed_data;
-                return [$this->legacy];
+                $res = [];
+                if ($this->icon !== null) {
+                    $res[] = $this->icon;
+                }
+                if ($this->link !== null) {
+                    $res[] = $this->link;
+                }
+                return $res;
+            }
+
+            public function toImageOnly(CopyrightDataInterface $copyright): ?Icon
+            {
+                $this->exposed_copyright_data = $copyright->exposed_data;
+                return $this->icon;
+            }
+
+            public function toLinkOnly(CopyrightDataInterface $copyright): ?Link
+            {
+                $this->exposed_copyright_data = $copyright->exposed_data;
+                return $this->link;
             }
 
             public function toString(CopyrightDataInterface $copyright): string
@@ -262,7 +292,9 @@ class CopyrightTest extends TestCase
 
     public function testPresentAsUIComponents(): void
     {
-        $renderer = $this->getRenderer();
+        $icon = $this->getIcon();
+        $link = $this->getLink();
+        $renderer = $this->getRenderer($icon, $link);
         $copyright = new Copyright(
             $renderer,
             $this->getIdentifierHandler(),
@@ -278,8 +310,55 @@ class CopyrightTest extends TestCase
 
         $components = $copyright->presentAsUIComponents();
 
-        $this->assertCount(1, $components);
-        /** @noinspection PhpUndefinedMethodInspection */
+        $this->assertCount(2, $components);
+        $this->assertSame($icon, $components[0] ?? null);
+        $this->assertSame($link, $components[1] ?? null);
+        $this->assertSame('data of copyright', $renderer->exposed_copyright_data);
+    }
+
+    public function testPresentAsImageOnly(): void
+    {
+        $icon = $this->getIcon();
+        $renderer = $this->getRenderer($icon);
+        $copyright = new Copyright(
+            $renderer,
+            $this->getIdentifierHandler(),
+            $this->getEntry(
+                false,
+                false,
+                35,
+                'cp title',
+                'cp description',
+                'data of copyright'
+            )
+        );
+
+        $image = $copyright->presentAsImageOnly();
+
+        $this->assertSame($icon, $image);
+        $this->assertSame('data of copyright', $renderer->exposed_copyright_data);
+    }
+
+    public function testPresentAsLinkOnly(): void
+    {
+        $link = $this->getLink();
+        $renderer = $this->getRenderer(null, $link);
+        $copyright = new Copyright(
+            $renderer,
+            $this->getIdentifierHandler(),
+            $this->getEntry(
+                false,
+                false,
+                35,
+                'cp title',
+                'cp description',
+                'data of copyright'
+            )
+        );
+
+        $res_link = $copyright->presentAsLinkOnly();
+
+        $this->assertSame($link, $res_link);
         $this->assertSame('data of copyright', $renderer->exposed_copyright_data);
     }
 

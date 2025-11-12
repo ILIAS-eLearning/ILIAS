@@ -44,6 +44,7 @@ use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
 use ilUtil;
+use ILIAS\UI\Component\Table\DataRowBuilder;
 
 class ForumNotificationTable implements DataRetrieval
 {
@@ -76,12 +77,13 @@ class ForumNotificationTable implements DataRetrieval
      * @param array{role: string}|null $filter_data
      */
     public function getRows(
-        \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+        DataRowBuilder $row_builder,
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords($range, $order, $filter_data);
         foreach ($records as $record) {
@@ -194,8 +196,11 @@ class ForumNotificationTable implements DataRetrieval
     /**
      * @param array{role: string}|null $filter_data
      */
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->initRecords($filter_data);
 
         return \count((array) $this->records);

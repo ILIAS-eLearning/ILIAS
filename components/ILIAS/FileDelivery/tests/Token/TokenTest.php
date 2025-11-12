@@ -27,6 +27,7 @@ use ILIAS\FileDelivery\Token\Signer\Salt\Salt;
 use ILIAS\FileDelivery\Token\Signer\KeyRotatingSigner;
 use ILIAS\FileDelivery\Token\Signer\NullSigner;
 use ILIAS\FileDelivery\Token\Signer\Key\Signing\ConcatSigningKeyGenerator;
+use ILIAS\FileDelivery\Token\Signer\Algorithm\SHA1;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions.ch>
@@ -38,7 +39,8 @@ class TokenTest extends TestCase
         $data_signer = new DataSigner(
             new SecretKeyRotation(
                 new SecretKey('test_key_one')
-            )
+            ),
+            new SHA1()
         );
 
         $payload_data = [

@@ -30,15 +30,25 @@ class BundledRequestBuilder implements RequestBuilder
 {
     private LegacyRequestBuilder $legacy;
     private StaticURLRequestBuilder $static;
+    private ShortlinkRequestBuilder $shortlink;
 
     public function __construct()
     {
         $this->legacy = new LegacyRequestBuilder();
         $this->static = new StaticURLRequestBuilder();
+        $this->shortlink = new ShortlinkRequestBuilder();
     }
 
     public function buildRequest(Services $http, Factory $refinery, array $handlers): ?Request
     {
+        if (($request = $this->shortlink->buildRequest(
+            $http,
+            $refinery,
+            $handlers
+        )) instanceof Request) {
+            return $request;
+        }
+
         if (($request = $this->legacy->buildRequest(
             $http,
             $refinery,

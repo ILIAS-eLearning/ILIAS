@@ -139,7 +139,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 
             $tmp_arr['perm'] = $this->permissions->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-                (string) $definition->getFieldId(),
+                (int) $definition->getFieldId(),
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT
                     ,

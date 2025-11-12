@@ -142,7 +142,7 @@ class ilAttendanceList
             Context::buildFromObjectType($this->parent_obj->getType())
         ) as $field) {
             $this->presets['udf_' . $field->getIdentifier()] = array(
-                $field->getLabel(),
+                $field->getLabel($this->lng),
                 false
             );
         }
@@ -225,7 +225,7 @@ class ilAttendanceList
         foreach ($this->profile->getVisibleUserDefinedFields(
             Context::buildFromObjectType($this->parent_obj->getType())
         ) as $field) {
-            $profile_data = $this->profile->getDataForMultiple([$user_id]);
+            $profile_data = $this->profile->getDataForMultiple($user_ids);
             foreach ($profile_data as $user_id => $field) {
                 $a_res[$user_id]['udf_' . $field->getIdentifier()] = $profile_data->getAdditionalFieldByIdentifier(
                     $field->getIdentifier()

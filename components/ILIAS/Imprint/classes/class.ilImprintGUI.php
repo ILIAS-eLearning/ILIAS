@@ -21,52 +21,48 @@ declare(strict_types=1);
 use ILIAS\Imprint\StandardGUIRequest;
 
 /**
- * Class ilImprintGUI
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilImprintGUI: ILIAS\User\Profile\PublicProfileGUI, ilPageObjectGUI
  */
 class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {
-    protected StandardGUIRequest $imprint_request;
-    protected ilLocatorGUI $locator;
+    private StandardGUIRequest $imprint_request;
+    private \ILIAS\Http\GlobalHttpState $http;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC->ctrl();
-        $this->locator = $DIC["ilLocator"];
         $this->lng = $DIC->language();
+        $this->http = $DIC->http();
 
         $this->imprint_request = new StandardGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
 
-        if (!ilImprint::_exists("impr", 1)) {
+        if (!ilImprint::_exists('impr', 1)) {
             $page = new ilImprint();
             $page->setId(1);
             $page->create(false);
         }
 
         // there is only 1 imprint page
-        parent::__construct("impr", 1);
+        parent::__construct('impr', 1);
 
         // content style (using system defaults)
-        $this->tpl->setCurrentBlock("SyntaxStyle");
+        $this->tpl->setCurrentBlock('SyntaxStyle');
         $this->tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
+            'LOCATION_SYNTAX_STYLESHEET',
             ilObjStyleSheet::getSyntaxStylePath()
         );
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->setCurrentBlock("ContentStyle");
+        $this->tpl->setCurrentBlock('ContentStyle');
         $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
+            'LOCATION_CONTENT_STYLESHEET',
             ilObjStyleSheet::getContentStylePath(0)
         );
         $this->tpl->parseCurrentBlock();
@@ -74,20 +70,19 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 
     public function executeCommand(): string
     {
-        if (strtolower($this->imprint_request->getBaseClass()) ===
-            strtolower(ilImprintGUI::class)) {
+        if (strtolower($this->imprint_request->getBaseClass()) === strtolower(__CLASS__)) {
             $this->renderFullscreen();
         }
 
         $next_class = $this->ctrl->getNextClass($this);
 
-        $title = $this->lng->txt("adm_imprint");
+        $title = $this->lng->txt('adm_imprint');
 
         switch ($next_class) {
             default:
                 $this->setPresentationTitle($title);
                 $ret = parent::executeCommand();
-                $this->tabs_gui->activateTab("pg");
+                $this->tabs_gui->activateTab('pg');
                 return $ret;
         }
     }
@@ -96,44 +91,44 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
     {
         $lng = $this->lng;
 
-        if ($this->getOutputMode() === ilPageObjectGUI::PREVIEW) {
-            if (!$this->getPageObject()->getActive()) {
-                $this->tpl->setOnScreenMessage('info', $lng->txt("adm_imprint_inactive"));
-            }
+        if ($this->getOutputMode() === ilPageObjectGUI::PREVIEW && !$this->getPageObject()->getActive()) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt('adm_imprint_inactive'));
         }
 
         return $a_output;
     }
 
-    protected function renderFullscreen(): void
+    private function renderFullscreen(): never
     {
         if (!ilImprint::isActive()) {
-            $this->ctrl->redirectToURL("ilias.php?baseClass=ilDashboardGUI");
+            $this->ctrl->redirectToURL('ilias.php?baseClass=ilDashboardGUI');
         }
-        $this->tpl->setTitle($this->lng->txt("imprint"));
+
+        $this->tpl->setTitle($this->lng->txt('imprint'));
         $this->tpl->loadStandardTemplate();
 
         $this->setRawPageContent(true);
         $this->tpl->setContent($this->showPage());
 
-        $this->tpl->printToStdout("DEFAULT", true, false);
-        exit();
+        $this->tpl->printToStdout('DEFAULT', true, false);
+
+        $this->http->close();
     }
 
-    protected function showEditToolbar(): void
+    public function showEditToolbar(): void
     {
         $ui = $this->ui;
         $lng = $this->lng;
         if ($this->getEnableEditing()) {
             $b = $ui->factory()->button()->standard(
-                $lng->txt("edit_page"),
-                $this->ctrl->getLinkTargetByClass([ilObjLegalNoticeGUI::class, __CLASS__], "edit")
+                $lng->txt('edit_page'),
+                $this->ctrl->getLinkTargetByClass([ilObjLegalNoticeGUI::class, __CLASS__], 'edit')
             );
             $this->toolbar->addComponent($b);
         }
     }
 
-    public function getTabs(string $a_activate = ""): void
+    public function getTabs(string $a_activate = ''): void
     {
         if ($this->getOutputMode() === self::PRESENTATION) {
             $this->tabs_gui->activateTab('view');

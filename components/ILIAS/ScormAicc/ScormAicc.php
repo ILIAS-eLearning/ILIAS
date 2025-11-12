@@ -32,6 +32,16 @@ class ScormAicc implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/ScormAicc/scripts";
+            }
+            public function getTarget(): string
+            {
+                return "components/ILIAS/ScormAicc/scripts";
+            }
+        };
+
     }
 }

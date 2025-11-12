@@ -87,7 +87,7 @@ class Help implements SettingDefinition
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $lng->loadLanguageModule('help');
-        $input = new ilCheckboxInputGUI($lng->txt('help_toggle_tooltips'));
+        $input = new \ilCheckboxInputGUI($lng->txt('help_toggle_tooltips'));
         $input->setInfo($lng->txt('help_toggle_tooltips_info'));
         $input->setChecked(
             $user !== null

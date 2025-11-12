@@ -109,16 +109,15 @@ class TimeZone implements SettingDefinition
         \ilObjUser $user,
         mixed $input
     ): \ilObjUser {
-        $calendar_settings = \ilCalendarUserSettings::_getInstance($user->getId());
-        $calendar_settings->setTimeZone(
+        $user->setPref(
+            'user_tz',
             $input !== null ? $input : \ilCalendarSettings::_getInstance()->getDefaultTimeZone()
         );
-        $calendar_settings->save();
         return $user;
     }
 
     public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return $user->getTimeZone();
+        return $user->getPref('user_tz') ?? \ilCalendarSettings::_getInstance()->getDefaultTimeZone();
     }
 }

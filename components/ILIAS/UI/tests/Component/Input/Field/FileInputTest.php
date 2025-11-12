@@ -169,7 +169,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone">
-                    <button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button>
+                    <button class="btn btn-link" data-action="#" id="id_2">select_file_from_computer</button>
                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
@@ -253,7 +253,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone">
-                    <button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button>
+                    <button class="btn btn-link" data-action="#" id="id_3">select_file_from_computer</button>
                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
@@ -340,7 +340,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#"
-                        id="id_5">select_files_from_computer</button><span class="ui-input-file-input-error-msg"
+                        id="id_5">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
                         data-dz-error-msg></span></div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
@@ -435,7 +435,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#"
-                        id="id_5">select_files_from_computer</button><span class="ui-input-file-input-error-msg"
+                        id="id_5">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
                         data-dz-error-msg></span></div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>

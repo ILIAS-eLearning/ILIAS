@@ -19,11 +19,12 @@
 declare(strict_types=1);
 
 use ILIAS\ILIASObject\LocalDIC;
-use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\ILIASObject\Properties\Properties;
 use ILIAS\ILIASObject\Properties\Translations\Translations;
 use ILIAS\ILIASObject\Properties\Translations\CachedRepository as TranslationsRepository;
 use ILIAS\ILIASObject\Properties\Aggregator;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class ilObject
@@ -560,7 +561,7 @@ class ilObject
             $owner = $user->getId();
         }
 
-        $now_string = (new DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+        $now_string = (new DataFactory())->clock()->utc()->now()
             ->format(self::DATABASE_DATE_FORMAT);
 
         $this->id = $this->db->nextId(self::TABLE_OBJECT_DATA);

@@ -23,7 +23,6 @@
  */
 class ilObjTaxonomyGUI extends ilObject2GUI
 {
-    protected ?\ILIAS\Taxonomy\Settings\ModifierGUIInterface $modifier = null;
     protected \ILIAS\DI\UIServices $ui;
     protected \ILIAS\Taxonomy\InternalGUIService $gui;
     protected \ILIAS\Taxonomy\InternalDomainService $domain;
@@ -109,11 +108,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     public function getMultiple(): bool
     {
         return $this->multiple;
-    }
-
-    public function setModifier(?\ILIAS\Taxonomy\TaxonomyModifierGUI $modifier): void
-    {
-        $this->modifier = $modifier;
     }
 
     public function setListInfo(string $a_val): void

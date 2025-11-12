@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\User\LocalDIC;
+use ILIAS\User\Context;
 use ILIAS\User\UserGUIRequest;
 use ILIAS\User\Profile\Profile;
 use ILIAS\User\Profile\Data as ProfileData;
@@ -1025,7 +1026,7 @@ class ilUserImportParser extends ilSaxParser
                                 $this->user_obj->setPref('bs_allow_to_contact_me', $this->settings->get('bs_allow_to_contact_me', 'n'));
                             }
 
-                            $this->user_obj->writePrefs();
+                            $this->user_obj->update();
 
                             // update mail preferences, to be extended
                             $this->updateMailPreferences($this->user_obj->getId());
@@ -1224,7 +1225,7 @@ class ilUserImportParser extends ilSaxParser
                             // update login
                             if ($this->tagContained('Login') && $this->user_id != -1) {
                                 try {
-                                    $update_user->updateLogin($this->user_obj->getLogin());
+                                    $update_user->updateLogin($this->user_obj->getLogin(), Context::UserAdministration);
                                 } catch (ilUserException $e) {
                                 }
                             }
@@ -2103,6 +2104,7 @@ class ilUserImportParser extends ilSaxParser
             case 'public_phone_office':
             case 'public_street':
             case 'public_upload':
+            case 'public_avatar':
             case 'public_zip':
             case 'public_interests_general':
             case 'public_interests_help_offered':

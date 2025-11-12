@@ -27,7 +27,6 @@ use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Metrics\Storage;
-use ILIAS\Export\Setup\FilesToIRSSMigration as ilExportSetupFilesToIRSSMigration;
 use ILIAS\Export\Setup\BuildExportOptionsMapObjective as ilExportSetupBuildOptionsMapObjective;
 
 class Agent extends NullAgent

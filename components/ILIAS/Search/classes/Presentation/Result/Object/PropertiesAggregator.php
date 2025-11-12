@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\Search\Presentation\Result\Object;
+
+use DateTimeImmutable;
+use ILIAS\Data\URI;
+
+interface PropertiesAggregator
+{
+    public function lookupTitle(int $obj_id): string;
+
+    public function lookupDescription(int $obj_id): string;
+
+    public function lookupCreationDate(int $obj_id): DateTimeImmutable;
+
+    public function lookupType(int $obj_id): string;
+
+    public function buildLink(int $ref_id, string $type): ?URI;
+
+    public function buildRepositoryPath(int $ref_id): string;
+
+    public function makeTypePresentable(string $type): string;
+
+    public function buildIconPath(int $obj_id, string $type): string;
+}

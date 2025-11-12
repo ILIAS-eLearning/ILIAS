@@ -277,7 +277,7 @@ class ilObjMailGUI extends ilObjectGUI
             'mail_address_option_both' => $this->settings->get('mail_address_option', '') !== '' ?
                 $this->settings->get('mail_address_option') :
                 (string) ilMailOptions::FIRST_EMAIL,
-            'show_mail_settings' => (bool) $this->settings->get('show_mail_settings', '1'),
+            'show_mail_settings' => (bool) $this->settings->get('show_mail_settings', '0'),
             'mail_maxsize_attach' => $this->settings->get('mail_maxsize_attach', ''),
             'mail_notification' => $this->settings->get('mail_notification', ''),
             'mail_auto_responder_idle_time' => is_numeric($this->settings->get('mail_auto_responder_idle_time', (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME)) ?

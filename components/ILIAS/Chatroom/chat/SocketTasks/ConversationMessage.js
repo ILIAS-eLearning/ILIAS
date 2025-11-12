@@ -14,8 +14,8 @@
  *
  *********************************************************************/
 
-var Container  = require('../AppContainer');
-var UUID = require('node-uuid');
+const Container = require('../AppContainer');
+const UUID = require('uuid');
 
 module.exports = function(conversationId, userId, message) {
 	function shouldPersistMessage(conversation) {

@@ -165,9 +165,7 @@ class SettingsGUI
                             $this->buildConvertCurlyBracesTrafo()
                         )->withAdditionalTransformation(
                             $this->buildValidateMailBodyConstraint()
-                        )->withValue(
-                            $this->convertCurlyBracesForFormOutput($account_mail->getSubject())
-                        ),
+                        )->withValue($this->convertCurlyBracesForFormOutput($account_mail->getSubject())),
                     'salutation_none_specific' => $ff->text($this->lng->txt('mail_salutation_general'))
                         ->withValue($account_mail->getSalutationNoneSpecific()),
                     'salutation_female' => $ff->text($this->lng->txt('mail_salutation_female'))
@@ -179,9 +177,7 @@ class SettingsGUI
                             $this->buildConvertCurlyBracesTrafo()
                         )->withAdditionalTransformation(
                             $this->buildValidateMailBodyConstraint()
-                        )->withValue(
-                            $this->convertCurlyBracesForFormOutput($account_mail->getBody())
-                        ),
+                        )->withValue($account_mail->getBody()),
                     'attachment' => $ff->file($this->upload_handler_gui, $this->lng->txt('attachment'))
                         ->withValue(
                             $account_mail->getAttachmentRid() === null
@@ -210,7 +206,7 @@ class SettingsGUI
                 try {
                     $this->mail_mustache_factory->getBasicEngine()->render($v, []);
                     return true;
-                } catch (Exception) {
+                } catch (\Exception) {
                     return false;
                 }
             },

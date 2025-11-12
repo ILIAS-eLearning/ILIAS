@@ -18,11 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * Imprint page configuration
- *
- * @author Alex Killing <alex.killing@gmx.de>
- */
 class ilImprintConfig extends ilPageConfig
 {
     public function init(): void

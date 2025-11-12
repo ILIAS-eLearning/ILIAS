@@ -195,7 +195,7 @@ abstract class ilExcCriteria
         return $this->pos;
     }
 
-    protected function setDefinition(?array $a_value = null)
+    protected function setDefinition(?array $a_value = null): void
     {
         $this->def = $a_value;
     }
@@ -231,7 +231,7 @@ abstract class ilExcCriteria
     // CRUD
     //
 
-    protected function importFromDB(array $a_row)
+    protected function importFromDB(array $a_row): void
     {
         $this->setId((int) $a_row["id"]);
         $this->setParent((int) $a_row["parent"]);
@@ -375,7 +375,7 @@ abstract class ilExcCriteria
         int $a_giver_id,
         int $a_peer_id,
         ?ilPropertyFormGUI $a_form = null
-    ) {
+    ): void {
         $this->form = $a_form;
         $this->ass = $a_ass;
         $this->giver_id = $a_giver_id;

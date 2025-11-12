@@ -245,4 +245,15 @@ class Lost extends AbstractBaseItem implements
     {
         return false;
     }
+
+    public function getAmountOfChildren(bool $including_dropped = true): int
+    {
+        return 0;
+    }
+
+    public function calculateAmountOfChildren(): void
+    {
+        // nothing to do
+    }
+
 }

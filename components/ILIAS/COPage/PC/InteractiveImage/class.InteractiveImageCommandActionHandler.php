@@ -200,7 +200,9 @@ class InteractiveImageCommandActionHandler implements Server\CommandActionHandle
     protected function getPCInteractiveImage(string $pc_id): \ilPCInteractiveImage
     {
         $pg = $this->page_gui->getPageObject();
-        return $this->page_gui->getPageObject()->getContentObjectForPcId($pc_id);
+        /** @var \ilPCInteractiveImage $pc */
+        $pc = $this->page_gui->getPageObject()->getContentObjectForPcId($pc_id);
+        return $pc;
     }
 
     protected function getPCInteractiveImageGUI(string $pc_id): \ilPCInteractiveImageGUI

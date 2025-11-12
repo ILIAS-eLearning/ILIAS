@@ -101,7 +101,9 @@ class AllowContactRequest implements SettingDefinition
         \ilSetting $settings,
         \ilObjUser $user
     ): bool {
-        return $this->retrieveValueFromUser($user) !== $settings->get('bs_allow_to_contact_me');
+        $user_value = $this->retrieveValueFromUser($user);
+        $settings_value = $settings->get('bs_allow_to_contact_me') === 'y';
+        return $user_value !== null && $user_value !== $settings_value;
     }
 
     public function persistUserInput(
@@ -112,7 +114,7 @@ class AllowContactRequest implements SettingDefinition
             $user->deletePref('bs_allow_to_contact_me');
             return $user;
         }
-        $user->setPref('bs_allow_to_contact_me', $input);
+        $user->setPref('bs_allow_to_contact_me', $input ? 'y' : 'n');
         return $user;
     }
 

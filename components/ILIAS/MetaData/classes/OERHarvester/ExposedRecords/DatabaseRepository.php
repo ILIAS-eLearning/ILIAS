@@ -59,7 +59,7 @@ class DatabaseRepository implements RepositoryInterface
         ?int $offset = null
     ): \Generator {
         $res = $this->query(
-            'SELECT obj_id, identifier, datestamp FROM il_meta_oer_exposed' .
+            'SELECT obj_id, identifier, datestamp, deleted FROM il_meta_oer_exposed' .
             $this->getDatesWhereCondition($from, $until) .
             ' ORDER BY obj_id' . $this->getLimitAndOffset($limit, $offset)
         );
@@ -140,21 +140,33 @@ class DatabaseRepository implements RepositoryInterface
     public function createRecord(int $obj_id, string $identifier, \DOMDocument $metadata): void
     {
         $this->manipulate(
-            'INSERT INTO il_meta_oer_exposed (obj_id, identifier, datestamp, metadata) VALUES (' .
+            'INSERT INTO il_meta_oer_exposed (obj_id, identifier, datestamp, metadata, deleted) VALUES (' .
             $this->quoteInteger($obj_id) . ', ' .
             $this->quoteString($identifier) . ', ' .
             $this->quoteInteger($this->getCurrentDatestamp()) . ', ' .
-            $this->quoteClob($metadata->saveXML()) . ')'
+            $this->quoteClob($metadata->saveXML()) . ', ' .
+            $this->quoteInteger(0) . ')'
         );
     }
 
-    public function updateRecord(int $obj_id, \DOMDocument $metadata): void
+    public function updateRecord(int $obj_id, bool $is_deleted, ?\DOMDocument $metadata): void
     {
         $this->manipulate(
             'UPDATE il_meta_oer_exposed SET ' .
-            'metadata = ' . $this->quoteClob($metadata->saveXML()) . ', ' .
+            'metadata = ' . $this->quoteClob($metadata?->saveXML() ?? '') . ', ' .
+            'deleted = ' . $this->quoteInteger((int) $is_deleted) . ', ' .
             'datestamp = ' . $this->quoteInteger($this->getCurrentDatestamp()) . ' ' .
             'WHERE obj_id = ' . $this->quoteInteger($obj_id)
+        );
+    }
+
+    public function deleteRecordsMarkedAsDeletedOlderThan(\DateInterval $interval): void
+    {
+        $deadline = new \DateTimeImmutable('@' . $this->getCurrentDatestamp());
+        $deadline = $deadline->sub($interval);
+        $this->manipulate(
+            'DELETE FROM il_meta_oer_exposed WHERE deleted = 1 AND ' .
+            'datestamp <= ' . $this->quoteInteger($deadline->getTimestamp())
         );
     }
 
@@ -167,8 +179,11 @@ class DatabaseRepository implements RepositoryInterface
 
     protected function getRecordFromRow(array $row): RecordInterface
     {
-        $md_xml = new \DOMDocument();
-        $md_xml->loadXML((string) $row['metadata']);
+        $md_xml = null;
+        if (($md = (string) $row['metadata']) !== '') {
+            $md_xml = new \DOMDocument();
+            $md_xml->loadXML($md);
+        }
 
         return new Record(
             $this->getRecordInfosFromRow($row),
@@ -181,7 +196,8 @@ class DatabaseRepository implements RepositoryInterface
         return new RecordInfos(
             (int) $row['obj_id'],
             (string) $row['identifier'],
-            new \DateTimeImmutable('@' . $row['datestamp'])
+            new \DateTimeImmutable('@' . $row['datestamp']),
+            (bool) $row['deleted'],
         );
     }
 

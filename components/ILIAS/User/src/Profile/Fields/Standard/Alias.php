@@ -95,6 +95,8 @@ class Alias implements FieldDefinition
         Context $context,
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
+        $lng->loadLanguageModule('administration');
+
         $input = new \ilUserLoginInputGUI($lng->txt('login'), 'login');
         if ($user === null) {
             return $input;

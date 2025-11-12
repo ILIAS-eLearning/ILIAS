@@ -18,75 +18,144 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Order;
+use ILIAS\Data\Range;
+use ILIAS\Data\ReferenceId;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\StaticURL\Services;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Factory;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface;
+
 /**
- * Description of class class
+ * Description of class ilLTIProviderReleasedObjectsTableGUI
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLTIProviderReleasedObjectsTableGUI extends ilObjectTableGUI
+class ilLTIProviderReleasedObjectsTableGUI implements DataRetrieval
 {
-    //only because type in ilObjectTableGUI - could be erased
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd, $a_id)
+    protected ilLanguage $lng;
+    protected Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
+    private ServerRequestInterface|RequestInterface $request;
+    protected \ILIAS\Data\Factory $data_factory;
+    protected ilCtrlInterface $ctrl;
+    protected WrapperFactory $wrapper;
+    protected \ILIAS\Refinery\Factory $refinery;
+    private array $records;
+    private string $id;
+
+    public function __construct(string $a_id = '')
     {
-        $this->setId('obj_table_' . $a_id);
-        parent::__construct($a_parent_obj, $a_parent_cmd, "");
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
+        $this->data_factory = new \ILIAS\Data\Factory();
+        $this->ctrl = $DIC->ctrl();
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
+        $this->id = $a_id ?: 'lti_released_objects';
+
+        $this->records = $this->getRecords();
     }
 
-    /**
-     * init table
-     */
-    public function init(): void
+    public function getColumns(): array
     {
-        if ($this->enabledRowSelectionInput()) {
-            $this->addColumn('', 'id', '5px');
-        }
-
-        $this->addColumn($this->lng->txt('type'), 'type', '30px');
-        $this->addColumn($this->lng->txt('title'), 'title');
-        $this->addColumn($this->lng->txt('lti_consumer'), 'consumer', '30%');
-
-        $this->setOrderColumn('title');
-        $this->setRowTemplate('tpl.lti_object_table_row.html', 'components/ILIAS/LTIProvider');
+        return [
+            'type' => $this->ui_factory->table()->column()->statusIcon($this->lng->txt('type')),
+            'title' => $this->ui_factory->table()->column()->link($this->lng->txt('title')),
+            'consumer' => $this->ui_factory->table()->column()->text($this->lng->txt('lti_consumer'))
+        ];
     }
 
-    /**
-     * Fill row
-     * @param array $a_set
-     */
-    public function fillRow(array $a_set): void
-    {
-        if (!isset($a_set['type'])) {
-            $a_set['type'] = '';
-        }
-
-        parent::fillRow($a_set);
-
-        $this->tpl->setVariable('CONSUMER_TITLE', $a_set['consumer']);
-    }
-
-    public function parse(): void
+    private function getRecords(): array
     {
         $rows = ilObjLTIAdministration::readReleaseObjects();
 
-        $counter = 0;
-        $set = array();
+        $result = array();
         foreach ($rows as $row) {
             $ref_id = (int) $row['ref_id'];
-
 
             $type = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
             if ($type == 'rolf') {
                 continue;
             }
 
-            $set[$counter]['ref_id'] = $ref_id;
-            $set[$counter]['obj_id'] = ilObject::_lookupObjId($ref_id);
-            $set[$counter]['type'] = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
-            $set[$counter]['title'] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
-            $set[$counter]['consumer'] = $row['title'];
-            $counter++;
+            $result[] = array(
+                'id' => $ref_id,
+                'ref_id' => $ref_id,
+                'obj_id' => ilObject::_lookupObjId($ref_id),
+                'type' => $type,
+                'title' => ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)),
+                'consumer' => $row['title']
+            );
         }
-        $this->setData($set);
+
+        return $result;
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
+        global $DIC;
+
+        /** @var Services $static_url */
+        $static_url = $DIC["static_url"];
+
+        foreach ($this->records as $record) {
+            $link = (string) $static_url->builder()->build(
+                $record['type'],
+                new ReferenceId($record['ref_id'])
+            );
+
+            $display_record = [
+                'type' => $this->ui_factory->symbol()->icon()->standard($record['type'], $record['type'], Icon::SMALL),
+                'title' => $this->ui_factory->link()->standard($record['title'], $link),
+                'consumer' => $record['consumer']
+            ];
+
+            yield $row_builder->buildDataRow((string) $record['id'], $display_record);
+        }
+    }
+
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
+        return count($this->records);
+    }
+
+    /**
+     */
+    public function getHtml(): string
+    {
+        $table = $this->ui_factory->table()
+            ->data($this->lng->txt('lti_released_objects'), $this->getColumns(), $this)
+            ->withOrder(new Order('title', Order::ASC))
+            ->withRequest($this->request);
+
+        return $this->ui_renderer->render($table);
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 }

@@ -157,9 +157,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
                     </div>
 
                 </div>
@@ -213,10 +212,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                             </div>
                         </div>
 
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
 
                     </div>
                 
@@ -274,12 +271,11 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\" minlength=\"$min\" maxlength=\"$max\"></textarea>
                             <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining<span data-action=\"remainder\">$max</span></div>
-                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
-                    </div>
-                
+
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
             </fieldset>
@@ -332,11 +328,10 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                 </span>
                             </div>
                         </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
                         </div>
-                    </div>
-
+    
                 </div>
                 <div class=\"c-input__help-byline\">$byline</div>
             </fieldset>
@@ -389,9 +384,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
+                                <div class=\"c-field-markdown__preview hidden\"></div>
                                  <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
                     </div>
 
                 </div>
@@ -447,9 +441,8 @@ class MarkdownTest extends ILIAS_UI_TestBase
                                     </span>
                                 </div>
                             </div>
-                                 <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
-                        <div class=\"c-field-markdown__preview hidden\">
-                        </div>
+                            <div class=\"c-field-markdown__preview hidden\"></div>
+                            <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
                     </div>
 
                 </div>
@@ -548,5 +541,69 @@ class MarkdownTest extends ILIAS_UI_TestBase
         $glyph->method('withUnavailableAction')->willReturnSelf();
 
         return $glyph;
+    }
+
+    public function testRenderWithMustacheVariables(): void
+    {
+        $label = 'test_label';
+
+        $input = $this->factory->markdown($this->markdown_renderer, $label)
+            ->withNameFrom($this->name_source)
+           ->withMustacheVariables(
+               [
+                'var1' => 'Test Variable 1',
+                'var2' => 'Test Variable 2'
+                ],
+               'Also, some more info could be added here as well.'
+           )
+        ;
+
+        $expected = $this->brutallyTrimHTML(
+            "
+            <fieldset class=\"c-input\" data-il-ui-component=\"markdown-field-input\" data-il-ui-input-name=\"name_0\" id=\"id_8\" tabindex=\"0\">
+                <label>$label</label>
+                <div class=\"c-input__field\">
+
+                    <div class=\"c-field-markdown\">
+                        <div class=\"c-field-markdown__controls\">
+                            view_control_mode
+                            <div class=\"c-field-markdown__actions\">
+                                <span data-action=\"insert-heading\">
+                                    <button class=\"btn btn-default\" data-action=\"#\" id=\"id_2\">header</button>
+                                </span>
+                                <span data-action=\"insert-link\">
+                                    <button class=\"btn btn-default\" data-action=\"#\" id=\"id_3\">link</button>
+                                </span>
+                                <span data-action=\"insert-bold\">
+                                    <button class=\"btn btn-default\" data-action=\"#\" id=\"id_4\">bold</button>
+                                </span>
+                                <span data-action=\"insert-italic\">
+                                    <button class=\"btn btn-default\" data-action=\"#\" id=\"id_5\">italic</button>
+                                </span>
+                                <span data-action=\"insert-bullet-points\">
+                                    <button class=\"btn btn-default\" data-action=\"#\" id=\"id_7\">bulletpoint</button>
+                                </span>
+                                <span data-action=\"insert-enumeration\">
+                                    <button class=\"btn btn-default\" data-action=\"#\" id=\"id_6\">numberedlist</button>
+                                </span>
+                            </div>
+                        </div>
+                         <div class=\"c-field-markdown__preview hidden\"></div>
+                         <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\"></textarea>
+                         <div class=\"c-input--has-mustache-variables\">
+                            <span>Also, some more info could be added here as well.</span>
+                            <ul class=\"c-input--has-mustache-variables__definitions\">
+                                <li><a href=\"#\">&lcub;&lcub;var1&rcub;&rcub;</a> Test Variable 1</li>
+                                <li><a href=\"#\">&lcub;&lcub;var2&rcub;&rcub;</a> Test Variable 2</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+            "
+        );
+        $html = $this->brutallyTrimHTML($this->getRendererWithStubs()->render($input));
+        $this->assertEquals($expected, $html);
     }
 }

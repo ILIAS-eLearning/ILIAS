@@ -37,8 +37,5 @@ class Tracking implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[SetupAgentInterface::class] = fn() => new SetupAgent($pull[Refinery::class]);
-
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "ilObjStat.js");
     }
 }

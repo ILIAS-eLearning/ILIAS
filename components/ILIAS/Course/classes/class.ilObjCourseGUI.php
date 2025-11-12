@@ -18,9 +18,11 @@
 
 declare(strict_types=0);
 
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 use ILIAS\News\Service as News;
 use ILIAS\ILIASObject\Properties\Translations\TranslationGUI;
+use ILIAS\Data\Factory as ilDataFactory;
 use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
@@ -55,9 +57,11 @@ class ilObjCourseGUI extends ilContainerGUI
     private ?ilContainerStartObjects $start_obj = null;
 
     private ilLogger $logger;
+    protected GlobalHttpState $http;
     protected Factory $refinery;
     protected ilHelpGUI $help;
     protected ilNavigationHistory $navigation_history;
+    protected ilDataFactory $data_factory;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -73,7 +77,8 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule('obj');
-
+        $this->data_factory = new ilDataFactory();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->news = $DIC->news();
     }
@@ -475,90 +480,21 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.edit_info.html', 'components/ILIAS/Course');
         $this->tpl->setVariable('INFO_TABLE', $a_form->getHTML());
 
-        if (!count($files = ilCourseFile::_readFilesByCourse($this->object->getId()))) {
-            return;
-        }
-        $rows = array();
-        foreach ($files as $file) {
-            $table_data['id'] = $file->getFileId();
-            $table_data['filename'] = $file->getFileName();
-            $table_data['filetype'] = $file->getFileType();
-            $table_data['filesize'] = $file->getFileSize();
-
-            $rows[] = $table_data;
-        }
-        $table_gui = new ilCourseInfoFileTableGUI($this, 'editInfo');
-        $table_gui->setTitle($this->lng->txt("crs_info_download"));
-        $table_gui->setData($rows);
-        $table_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
-        $table_gui->addMultiCommand("confirmDeleteInfoFiles", $this->lng->txt("delete"));
-        $table_gui->setSelectAllCheckbox("file_id");
-        $this->tpl->setVariable('INFO_FILE_TABLE', $table_gui->getHTML());
-    }
-
-    public function confirmDeleteInfoFilesObject(): void
-    {
-        $file_ids = [];
-        if ($this->http->wrapper()->post()->has('file_id')) {
-            $file_ids = $this->http->wrapper()->post()->retrieve(
-                'file_id',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        if (count($file_ids) === 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->editInfoObject();
-            return;
-        }
-
-        $this->setSubTabs('properties');
-        $this->tabs_gui->setTabActive('settings');
-        $this->tabs_gui->setSubTabActive('crs_info_settings');
-
-        $c_gui = new ilConfirmationGUI();
-
-        // set confirm/cancel commands
-        $c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteInfoFiles"));
-        $c_gui->setHeaderText($this->lng->txt("info_delete_sure"));
-        $c_gui->setCancel($this->lng->txt("cancel"), "editInfo");
-        $c_gui->setConfirm($this->lng->txt("confirm"), "deleteInfoFiles");
-
-        // add items to delete
-        foreach ($file_ids as $file_id) {
-            $file = new ilCourseFile($file_id);
-            $c_gui->addItem("file_id[]", $file_id, $file->getFileName());
-        }
-        $this->tpl->setContent($c_gui->getHTML());
-    }
-
-    public function deleteInfoFilesObject(): void
-    {
-        $file_ids = [];
-        if ($this->http->wrapper()->post()->has('file_id')) {
-            $file_ids = $this->http->wrapper()->post()->retrieve(
-                'file_id',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-
-        if (count($file_ids) === 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->editInfoObject();
-            return;
-        }
-
-        foreach ($file_ids as $file_id) {
-            $file = new ilCourseFile($file_id);
-            if ($this->object->getId() == $file->getCourseId()) {
-                $file->delete();
-            }
-        }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        $this->editInfoObject();
+        /** @var ilObjCourse $course */
+        $course = $this->object;
+        $data_retrieval = new ilCourseInfoFileTableDataRetrieval($course);
+        $data_retrieval->init();
+        $table = new ilCourseInfoFileTableGUI(
+            $data_retrieval,
+            $this->lng,
+            $this->ui,
+            $this->http,
+            $this->refinery,
+            $this->ctrl,
+            $this->data_factory
+        );
+        $table->handleCommands();
+        $this->tpl->setVariable('INFO_FILE_TABLE', $table->getHTML());
     }
 
     public function initInfoEditor(): ilPropertyFormGUI
@@ -907,7 +843,6 @@ class ilObjCourseGUI extends ilContainerGUI
         );
 
         ilChangeEvent::_recordWriteEvent($this->object->getId(), $this->user->getId(), 'update');
-        ilChangeEvent::_catchupWriteEvents($this->object->getId(), $this->user->getId());
 
         // lp sync confirmation required
         if ($show_lp_sync_confirmation) {
@@ -1654,8 +1589,7 @@ class ilObjCourseGUI extends ilContainerGUI
             is_array($ids));
         if ($do_prtf) {
             $all_prtf = ilObjPortfolio::getAvailablePortfolioLinksForUserIds(
-                $ids,
-                $this->ctrl->getLinkTarget($this, "members")
+                $ids
             );
         }
 
@@ -1852,7 +1786,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->tabs_gui->addTab(
                     "news_timeline",
                     $this->lng->txt("cont_news_timeline_tab"),
-                    $this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "show")
+                    $this->ctrl->getLinkTargetByClass(ilNewsTimelineGUI::class, "show")
                 );
                 if ($this->object->isNewsTimelineLandingPageEffective()) {
                     $this->addContentTab();
@@ -2272,7 +2206,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
             case 'ildidactictemplategui':
                 $this->ctrl->setReturn($this, 'edit');
-                $did = new ilDidacticTemplateGUI($this);
+                $did = new ilDidacticTemplateGUI($this, $this->getDidacticTemplateIdFromQuery());
                 $this->ctrl->forwardCommand($did);
                 break;
 
@@ -2382,7 +2316,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($news_set_gui);
                 break;
 
-            case "ilnewstimelinegui":
+            case strtolower(ilNewsTimelineGUI::class):
                 if (!$this->__checkStartObjects()) {    // see #37236
                     $this->ctrl->redirectByClass(self::class, "view");
                 }
@@ -2491,7 +2425,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 }
                 // if news timeline is landing page, redirect if necessary
                 if ($cmd == "" && $this->object->isNewsTimelineLandingPageEffective()) {
-                    $this->ctrl->redirectByClass("ilnewstimelinegui");
+                    $this->ctrl->redirectByClass(ilNewsTimelineGUI::class);
                 }
 
                 if (!$cmd) {

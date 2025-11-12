@@ -46,6 +46,7 @@ class ilMailOptions
     protected int $default_incoming_type = self::INCOMING_LOCAL;
     protected int $email_address_mode = self::FIRST_EMAIL;
     protected int $default_email_address_mode = self::FIRST_EMAIL;
+    protected ?int $stored_email_address_mode = null;
     protected ilMailTransportSettings $mail_transport_settings;
     protected string $first_mail_address = '';
     protected string $second_mail_address = '';
@@ -97,6 +98,8 @@ class ilMailOptions
      */
     public function createMailOptionsEntry(): void
     {
+        $this->stored_email_address_mode = $this->default_email_address_mode;
+
         $this->db->replace(
             $this->table_mail_options,
             [
@@ -125,7 +128,7 @@ class ilMailOptions
 
     public function mayManageInvididualSettings(): bool
     {
-        return $this->settings->get('show_mail_settings') === '1';
+        return $this->settings->get('show_mail_settings', '0') === '1';
     }
 
     protected function read(): void
@@ -158,6 +161,8 @@ class ilMailOptions
 
         $this->first_mail_address = (string) $row->email;
         $this->second_mail_address = (string) $row->second_email;
+        $this->stored_email_address_mode = (int) $row->mail_address_option;
+
         if ($this->mayManageInvididualSettings()) {
             $this->is_cron_notification_enabled = (bool) $row->cronjob_notification;
             $this->signature = (string) $row->signature;
@@ -212,6 +217,8 @@ class ilMailOptions
         $data['absence_ar_subject'] = ['text', $this->getAbsenceAutoresponderSubject()];
         $data['absence_ar_body'] = ['clob', $this->getAbsenceAutoresponderBody()];
 
+        $this->stored_email_address_mode = $this->getEmailAddressMode();
+
         return $this->db->replace(
             $this->table_mail_options,
             [
@@ -254,6 +261,11 @@ class ilMailOptions
     public function getEmailAddressMode(): int
     {
         return $this->email_address_mode;
+    }
+
+    public function getStoredEmailAddressMode(): ?int
+    {
+        return $this->stored_email_address_mode;
     }
 
     public function setEmailAddressmode(int $email_address_mode): void

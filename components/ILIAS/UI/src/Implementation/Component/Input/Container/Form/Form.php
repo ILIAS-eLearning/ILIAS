@@ -26,12 +26,16 @@ use ILIAS\UI\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Input\PostDataFromServerRequest;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\Data\URI;
 
 /**
  * This implements commonalities between all forms.
  */
 abstract class Form extends Container implements C\Input\Container\Form\Form
 {
+    /** @var array<string, URI> (action => label) */
+    protected array $additional_form_actions = [];
+
     /**
      * @param C\Input\Container\Form\FormInput[] $inputs
      */
@@ -42,6 +46,19 @@ abstract class Form extends Container implements C\Input\Container\Form\Form
     ) {
         parent::__construct($name_source);
         $this->setInputGroup($field_factory->group($inputs)->withDedicatedName('form'));
+    }
+
+    public function withAdditionalFormAction(string $action, string $label): static
+    {
+        $clone = clone $this;
+        $clone->additional_form_actions[$action] = $label;
+        return $clone;
+    }
+
+    /** @return array<string, string> (action => label) */
+    public function getAdditionalFormActions(): array
+    {
+        return $this->additional_form_actions;
     }
 
     public function hasRequiredInputs(): bool

@@ -20,21 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Checkbox;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsAdditional extends TestSettings
+class SettingsAdditional extends TestSettings implements Exportable
 {
     public function __construct(
-        int $test_id,
         protected bool $skills_service_enabled = false,
         protected bool $hide_info_tab = false,
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     /**
@@ -120,5 +119,21 @@ class SettingsAdditional extends TestSettings
         $clone = clone $this;
         $clone->hide_info_tab = $hide_info_tab;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'skill_service' => $this->getSkillsServiceEnabled(),
+            'hide_info_tab' => $this->getHideInfoTab(),
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (bool) $data['skill_service'],
+            (bool) $data['hide_info_tab'],
+        );
     }
 }

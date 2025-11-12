@@ -23,8 +23,9 @@ use ILIAS\DI\UIServices as ilUIServices;
 
 class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetrievalInterface
 {
-    protected const TABLE_ACTION_CONFIRM_UNSUBSCRIBE_SUFFIX = '_confirm_unsubscribe';
-    protected const TABLE_ACTION_UNSUBSCRIBE_SUFFIX = '_unsubscribe';
+    protected const string TABLE_ACTION_CONFIRM_UNSUBSCRIBE_SUFFIX = '_confirm_unsubscribe';
+    protected const string TABLE_ACTION_UNSUBSCRIBE_SUFFIX = '_unsubscribe';
+
     protected array $data;
     protected int $obj_id;
 
@@ -43,7 +44,7 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
         ?array $filter_data
     ): array {
         if (is_null($filter_data)) {
-            return $this->data['rows'];
+            return $this->data['rows'] ?? [];
         }
         /**
          * @var \ILIAS\UI\Component\Input\Field\Select $select
@@ -55,7 +56,7 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
         $group_ids = array_diff($group_ids, [0]);
         $name = $text->getValue() ?? '';
         $rows = [];
-        foreach ($this->data['rows'] as $row) {
+        foreach ($this->data['rows'] ?? [] as $row) {
             $row_group_ids = [];
             foreach ($row['groups'] as $group) {
                 $row_group_ids[] = $group['group_id'];
@@ -104,7 +105,7 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
     {
         # TODO: Filter
         $ids = [];
-        foreach ($this->data['rows'] as $row) {
+        foreach ($this->data['rows'] ?? [] as $row) {
             $ids[] = (int) $row['usr_id'];
         }
         return $ids;
@@ -113,7 +114,7 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
     public function getSelectableGroups(): array
     {
         $selectable_group_ids = [];
-        foreach ($this->data['groups'] as $ref_id => $something) {
+        foreach ($this->data['groups'] ?? [] as $ref_id => $something) {
             if ($this->data['groups_rights'][$ref_id]['manage_members']) {
                 $selectable_group_ids[$ref_id] = $this->data['groups'][$ref_id];
             }
@@ -126,12 +127,13 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
         array $visible_column_ids,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         [$column_name, $direction] = $order->join([], fn($ret, $key, $value) => [$key, $value]);
         $rows = $this->applyFilter($filter_data);
-        $groups_rights = $this->data['groups_rights'];
+        $groups_rights = $this->data['groups_rights'] ?? [];
         $comparator = function (array $f1, array $f2) { return 0; };
         switch ($column_name) {
             case ilCourseParticipantsGroupsTableGUI::TABLE_COL_NAME:
@@ -197,8 +199,9 @@ class ilCourseParticipantsGroupsTableDataRetrieval implements ilTableDataRetriev
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->applyFilter($filter_data));
     }

@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,8 +31,8 @@ use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\components\File\Settings\General;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
-use ILIAS\components\WOPI\Embed\EmbeddedApplication;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\File\Capabilities\Capabilities;
@@ -167,7 +169,6 @@ class ilObjFileGUI extends ilObject2GUI
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
-        $ilCtrl = $DIC['ilCtrl'];
         $ilUser = $DIC['ilUser'];
         $ilTabs = $DIC['ilTabs'];
         $ilErr = $DIC['ilErr'];
@@ -178,7 +179,7 @@ class ilObjFileGUI extends ilObject2GUI
         if (
             !$this->getCreationMode()
             && (
-                $this->id_type == self::REPOSITORY_NODE_ID
+                $this->id_type === self::REPOSITORY_NODE_ID
                 && $this->capabilities->get(Capabilities::DOWNLOAD)->isUnlocked()
             )) {
             // add entry to navigation history
@@ -310,7 +311,8 @@ class ilObjFileGUI extends ilObject2GUI
                     $action,
                     $this->stakeholder,
                     new URI($goto_link),
-                    $capability->getCapability() === Capabilities::VIEW_EXTERNAL
+                    $capability->getCapability() === Capabilities::VIEW_EXTERNAL,
+                    $this->lng->getLangKey()
                 );
 
                 $this->ctrl->forwardCommand(
@@ -596,7 +598,6 @@ class ilObjFileGUI extends ilObject2GUI
             global $DIC;
             $ilUser = $DIC['ilUser'];
             ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-            ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
         }
         // END ChangeEvent: Record update event.
 
@@ -662,7 +663,7 @@ class ilObjFileGUI extends ilObject2GUI
             "title_and_description" => $title_and_description,
             "important_info" => $important_info,
             "on_click_action" => $on_click_action
-        ], static fn($input): bool => null !== $input);
+        ], static fn(FormInput $input): bool => null !== $input);
 
         $file_info_section = $this->inputs->field()->section(
             $input_groups,
@@ -713,7 +714,7 @@ class ilObjFileGUI extends ilObject2GUI
             "availability" => $availability_section,
             "presentation" => $presentation_section,
             "obj_features" => $additional_features_section
-        ], static fn($input): bool => null !== $input);
+        ], static fn(?Section $input): bool => null !== $input);
 
         return $this->inputs->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, 'update'),

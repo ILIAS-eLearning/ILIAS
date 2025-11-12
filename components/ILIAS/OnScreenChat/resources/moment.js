@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-(function ($, scope) {
+(function (scope) {
 	scope = scope || {};
 	let locale = null;
 
@@ -94,4 +94,4 @@
 	{
 		return Math.round((a.getTime() - b.getTime()) / 1000);
 	}
-})(jQuery, window.il);
+})(window.il);

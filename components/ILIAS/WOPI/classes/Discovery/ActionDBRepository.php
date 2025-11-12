@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\WOPI\Discovery;
+namespace ILIAS\WOPI\Discovery;
 
 use ILIAS\Data\URI;
 
@@ -231,7 +231,7 @@ class ActionDBRepository implements ActionRepository
             ['integer'],
             [$action->getId()]
         )->numRows() === 0) {
-            $next_id = (int) $this->db->nextId(self::TABLE_NAME);
+            $next_id = $this->db->nextId(self::TABLE_NAME);
             $this->db->insert(self::TABLE_NAME, [
                 'id' => ['integer', $next_id],
                 'name' => ['text', $action->getName()],

@@ -43,6 +43,7 @@ use Iterator;
 use Generator;
 use ILIAS\GlobalScreen\Scope\isDecorateable;
 use ILIAS\UI\Help\Topic;
+use ILIAS\UI\Implementation\Component\Legacy\Content;
 
 /**
  * Class MainMenuMainCollector
@@ -106,7 +107,15 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 return $item->isVisible();
             }
             // All other cases
-            return $item->isAvailable() && $item->isVisible() && $this->information->isItemActive($item);
+            return $item->isAvailable() && $item->isVisible();
+        });
+
+        $this->map->walk(function (isItem &$item) {
+            if (!$this->information->isItemActive($item)) {
+                $item = $item->withAvailableCallable(fn(): bool => false)
+                             ->withNonAvailableReason('-deactived_by_configuration-');
+                $this->map->add($item);
+            }
         });
     }
 
@@ -156,6 +165,13 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
             return $item;
         });
+
+        $this->map->walk(function (isItem $item): isItem {
+            if ($item instanceof isParent) {
+                $item->calculateAmountOfChildren();
+            }
+            return $item;
+        });
     }
 
     public function cleanupItemsForUIRepresentation(): void
@@ -177,15 +193,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 $i = $i->withAvailableCallable(static fn(): bool => false)->withVisibilityCallable(static fn(): bool => false);
             }
         });
-
-        // filter empty slates
-        $this->map->filter(static function (isItem $i): bool {
-            if ($i instanceof isParent) {
-                return $i->getChildren() !== [];
-            }
-
-            return true;
-        });
     }
 
     public function sortItemsForUIRepresentation(): void
@@ -202,7 +209,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     public function getItemsForUIRepresentation(): Generator
     {
         foreach ($this->map->getAllFromFilter() as $item) {
-            if ($item->isTop()) {
+            if ($item->isTop() && $item->isAvailable() && $item->isVisible()) {
                 yield $item;
             }
         }
@@ -242,8 +249,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
 
     /**
-     * @param IdentificationInterface $identification
-     * @return isItem
      * @deprecated
      */
     public function getSingleItemFromFilter(IdentificationInterface $identification): isItem
@@ -252,8 +257,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
 
     /**
-     * @param IdentificationInterface $identification
-     * @return isItem
      * @deprecated
      */
     public function getSingleItemFromRaw(IdentificationInterface $identification): isItem
@@ -261,10 +264,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         return $this->map->getSingleItemFromRaw($identification);
     }
 
-    /**
-     * @param isItem $item
-     * @return TypeHandler
-     */
     public function getTypeHandlerForItem(isItem $item): TypeHandler
     {
         $type_information = $this->getTypeInformationForItem($item);
@@ -283,18 +282,11 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         return $this->information;
     }
 
-    /**
-     * @param isItem $item
-     * @return TypeInformation
-     */
     public function getTypeInformationForItem(isItem $item): TypeInformation
     {
         return $this->getTypeInformationCollection()->get($item::class);
     }
 
-    /**
-     * @return TypeInformationCollection
-     */
     public function getTypeInformationCollection(): TypeInformationCollection
     {
         return $this->type_information_collection;

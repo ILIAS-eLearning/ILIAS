@@ -26,7 +26,7 @@ use ILIAS\DI\Container;
 
 interface ToastProvider extends Provider
 {
-    public function __construct(Container $dic);
+//    public function __construct(Container $dic);
 
     /**
      * @return isStandardItem[]

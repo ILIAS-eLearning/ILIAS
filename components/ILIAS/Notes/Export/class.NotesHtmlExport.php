@@ -28,7 +28,7 @@ use ILIAS\Notes\Note;
  */
 class NotesHtmlExport
 {
-    protected static $export_key_set = false;
+    protected static bool $export_key_set = false;
     protected \ilLanguage $lng;
     protected int $user_id;
     protected int $type;

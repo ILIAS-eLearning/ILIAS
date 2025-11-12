@@ -16,6 +16,14 @@
  *
  *********************************************************************/
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services as HTTP;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
 * Unit tests
 *
@@ -36,9 +44,11 @@ class ilQuestionPoolSkillAdministrationGUITest extends assBaseTestCase
         parent::setUp();
 
         $this->object = new ilQuestionPoolSkillAdministrationGUI(
-            $this->createMock(ILIAS::class),
             $this->createMock(ilCtrl::class),
-            $this->createMock(ILIAS\Refinery\Factory::class),
+            $this->createMock(UIFactory::class),
+            $this->createMock(UIRenderer::class),
+            $this->createMock(GlobalHttpState::class),
+            $this->createMock(Refinery::class),
             $this->createMock(ilAccessHandler::class),
             $this->createMock(ilTabsGUI::class),
             $this->createMock(ilGlobalTemplateInterface::class),
@@ -46,6 +56,10 @@ class ilQuestionPoolSkillAdministrationGUITest extends assBaseTestCase
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilComponentRepository::class),
             $this->createMock(ilObjQuestionPool::class),
+            $this->createMock(HTTP::class),
+            $this->createMock(ilToolbarGUI::class),
+            $this->createMock(SkillUsageService::class),
+            $this->createMock(RequestDataCollector::class),
             0
         );
     }

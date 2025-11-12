@@ -264,7 +264,7 @@ class ilLMNavigationRendererGUI
         return $tpl->get();
     }
 
-    protected function addDropdown()
+    protected function addDropdown(): void
     {
         $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
         //$nodes = $this->filterNonAccessibleNode($nodes);

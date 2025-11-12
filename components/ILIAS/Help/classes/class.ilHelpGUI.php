@@ -313,6 +313,13 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
         return "";
     }
 
+    public function registerTabLink(string $tab_id, \ILIAS\UI\Component\Link\Standard $link): \ILIAS\UI\Component\Link\Standard
+    {
+        $tab_id = $this->screen_id_component . "_" . $tab_id;
+        return $this->internal()->gui()->guidedTour()->guidedTourGUI()
+            ->registerTabLink($tab_id, $link);
+    }
+
     public function initHelp(
         ilGlobalTemplateInterface $a_tpl,
         string $ajax_url
@@ -326,7 +333,6 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $a_tpl->addJavaScript("assets/js/ilHelp.js");
         $a_tpl->addJavaScript("assets/js/accordion.js");
-        iljQueryUtil::initMaphilight();
         $a_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
         $this->setCtrlPar();

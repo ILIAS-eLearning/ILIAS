@@ -326,6 +326,7 @@ class TermListTable
             $this->adv_cols_order,
             $this->adv_term_mode,
             $this->ui_fac,
+            $this->ui_ren,
             $this->df,
             $this->lng,
             $this->term_perm
@@ -340,6 +341,7 @@ class TermListTable
                 protected array $adv_cols_order,
                 protected \ILIAS\AdvancedMetaData\Services\SubObjectModes\DataTable\SupplierInterface $adv_term_mode,
                 protected UI\Factory $ui_fac,
+                protected UI\Renderer $ui_ren,
                 protected Data\Factory $df,
                 protected \ilLanguage $lng,
                 protected \ilGlossaryTermPermission $term_perm
@@ -354,8 +356,9 @@ class TermListTable
                 array $visible_column_ids,
                 Data\Range $range,
                 Data\Order $order,
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): \Generator {
                 $records = $this->getRecords($range, $order, $filter_data);
                 foreach ($records as $idx => $record) {
@@ -375,8 +378,9 @@ class TermListTable
             }
 
             public function getTotalRowCount(
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): ?int {
                 return count($this->getRecords());
             }
@@ -446,8 +450,6 @@ class TermListTable
                             $short_str = \ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
                         }
 
-                        $short_str = \ilMathJax::getInstance()->insertLatexImages($short_str);
-
                         $short_str = \ilPCParagraph::xml2output(
                             $short_str,
                             false,
@@ -457,6 +459,8 @@ class TermListTable
                     } catch (\Exception $e) {
                         $short_str = "Error: Page is missing.";
                     }
+
+                    $short_str = $this->ui_ren->render($this->ui_fac->legacy()->latexContent($short_str));
 
                     $records[$i]["definition"] = $short_str;
 

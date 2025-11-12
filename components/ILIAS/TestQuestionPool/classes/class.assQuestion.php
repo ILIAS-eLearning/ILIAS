@@ -2069,7 +2069,6 @@ abstract class assQuestion implements Question
 
         if ($question_id <= 0) {
             $ilLog->warning('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)');
-            throw new InvalidArgumentException('Instantiate question called without question id. (instantiateQuestionGUI@assQuestion)');
         }
 
         $questionrepository = QuestionPoolDIC::dic()['question.general_properties.repository'];
@@ -2087,7 +2086,7 @@ abstract class assQuestion implements Question
         $question->feedbackOBJ = new $feedback_object_classname($question, $ilCtrl, $ilDB, $lng);
 
         $assSettings = new ilSetting('assessment');
-        $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
+        $processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB, ilLoggerFactory::getLogger('tst'));
         $processLockerFactory->setQuestionId($question_gui->getObject()->getId());
         $processLockerFactory->setUserId($ilUser->getId());
         $question->setProcessLocker($processLockerFactory->getLocker());

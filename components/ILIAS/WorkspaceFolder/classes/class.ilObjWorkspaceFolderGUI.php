@@ -857,7 +857,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         $tpl->setContent($cgui->getHTML());
     }
 
-    public function cancelDeletion()
+    public function cancelDeletion(): void
     {
         $this->session_repo->clearClipboard();
         parent::cancelDelete();

@@ -20,19 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Refinery\Logical;
 
-use ILIAS\Refinery\Custom\Constraint;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
 
-class Not extends Constraint
+class Not extends CustomConstraint
 {
-    public function __construct(Constraint $constraint, Data\Factory $data_factory, \ILIAS\Language\Language $lng)
-    {
+    public function __construct(
+        Constraint $constraint,
+        Data\Factory $data_factory,
+        \ILIAS\Language\Language $lng
+    ) {
         parent::__construct(
             static function ($value) use ($constraint) {
                 return !$constraint->accepts($value);
             },
             static function ($txt, $value) use ($constraint): string {
-                return (string) $txt("not_generic", $constraint->getErrorMessage($value));
+                return (string) $txt('not_generic', $constraint->getErrorMessage($value));
             },
             $data_factory,
             $lng

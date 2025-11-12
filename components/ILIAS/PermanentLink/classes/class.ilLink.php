@@ -17,12 +17,11 @@
  *********************************************************************/
 
 use ILIAS\StaticURL\Services;
-use ILIAS\Data\ReferenceId;
 
 class ilLink
 {
     /**
-     * @deprecated
+     * @deprecated Use the \ILIAS\StaticURL\Services\Builder in the future
      */
     public static function _getLink(
         ?int $a_ref_id,
@@ -32,34 +31,18 @@ class ilLink
     ): string {
         global $DIC;
         /** @var Services $static_url */
-        $static_url = $DIC["static_url"];
+        $static_url = $DIC['static_url'];
 
-        $ilObjDataCache = $DIC["ilObjDataCache"];
-
-        if ($a_type === '' && $a_ref_id) {
-            $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
-        }
-
-        $target = urlencode(CLIENT_ID) . '_' . $a_type . '_' . $a_ref_id . urlencode($append);
-
-        $a_params = array_merge($a_params, [$append]);
-        $a_params = array_filter($a_params, static function ($value): bool {
-            return $value !== "";
-        });
-
-        if (!empty($a_type)) {
-            return (string) $static_url->builder()->build(
-                $a_type,
-                $a_ref_id !== null ? new ReferenceId($a_ref_id) : null,
-                $a_params
-            );
-        }
-
-        return '';
+        return $static_url->builder()->buildLegacy(
+            $a_ref_id,
+            $a_type,
+            $a_params,
+            $append
+        );
     }
 
     /**
-     * @deprecated
+     * @deprecated Use the \ILIAS\StaticURL\Services\Builder in the future
      */
     public static function _getStaticLink(
         ?int $a_ref_id,

@@ -306,7 +306,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             ], $page);
 
             iljQueryUtil::initjQuery($page);
-            iljQueryUtil::initjQueryUI($page);
             ilLinkifyUtil::initLinkify($page);
 
             $page->addJavaScript('assets/js/modal.min.js');
@@ -319,8 +318,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $page->addJavaScript('assets/js/chat.js');
             $page->addJavaScript('assets/js/onscreenchat.js');
             $page->addOnLoadCode("il.Chat.setConfig(" . json_encode($chatConfig, JSON_THROW_ON_ERROR) . ");");
-            $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig, JSON_THROW_ON_ERROR) . ");");
-            $page->addOnLoadCode("il.OnScreenChat.init();");
+            $page->addOnLoadCode('il.OnScreenChat.init(' . json_encode($guiConfig, JSON_THROW_ON_ERROR) . ' )');
             $page->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
                 'conversationIdleTimeThreshold' => max(
                     1,

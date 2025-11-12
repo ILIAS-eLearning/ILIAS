@@ -144,6 +144,7 @@ class SessionReminder implements SettingDefinition
 
     public function retrieveValueFromUser(\ilObjUser $user): int
     {
-        return $this->session_reminder->getEffectiveLeadTime();
+        return (int) ($user->getPref('session_reminder_lead_time')
+            ?? $this->session_reminder->getGlobalSessionReminderLeadTime());
     }
 }

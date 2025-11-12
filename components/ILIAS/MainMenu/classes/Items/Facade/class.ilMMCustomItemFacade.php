@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
+use ILIAS\UI\Component\Legacy\Content;
 
 /**
  * Class ilMMCustomItemFacade
@@ -144,15 +145,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     public function getProviderNameForPresentation(): string
     {
         return "Custom";
-    }
-
-    /**
-     * @return string
-     */
-    #[\Override]
-    public function getStatus(): string
-    {
-        return "";
     }
 
     /**

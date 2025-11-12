@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\WOPI\Handler;
+namespace ILIAS\WOPI\Handler;
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;

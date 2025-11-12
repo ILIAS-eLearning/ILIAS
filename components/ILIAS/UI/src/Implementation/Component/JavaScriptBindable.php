@@ -54,7 +54,7 @@ trait JavaScriptBindable
         }
 
         $this->checkBinder($binder);
-        return $this->withOnLoadCode(fn ($id) => $current_binder($id) . "\n" . $binder($id));
+        return $this->withOnLoadCode(static fn($id) => $binder($id) . "\n" . $current_binder($id));
     }
 
     /**
@@ -66,12 +66,12 @@ trait JavaScriptBindable
     }
 
     /**
-     * @throw \InvalidArgumentException	if closure does not take one argument
+     * @throws \InvalidArgumentException if closure does not take one argument
      */
     private function checkBinder(Closure $binder): void
     {
         $refl = new ReflectionFunction($binder);
-        $args = array_map(fn ($arg) => $arg->name, $refl->getParameters());
+        $args = array_map(static fn($arg) => $arg->name, $refl->getParameters());
         if (array("id") !== $args) {
             throw new InvalidArgumentException('Expected closure "$binder" to have exactly one argument "$id".');
         }

@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use ILIAS\components\WOPI\Handler\RequestHandler;
+use ILIAS\WOPI\Handler\RequestHandler;
 
 // this is the base file for WOPI requests. It responds to the following requests:
 // - CheckFileInfo
@@ -25,8 +25,10 @@ use ILIAS\components\WOPI\Handler\RequestHandler;
 // - Lock
 // - Unlock
 // INIT ILIAS
-require_once __DIR__ . "/../../vendor/composer/vendor/autoload.php";
-ilInitialisation::initILIAS();
+require_once("../../vendor/composer/vendor/autoload.php");
+require_once("../../artifacts/bootstrap_default.php");
+
+entry_point("ILIAS Legacy Initialisation Adapter");
 
 // handle all requests behind /wopi/index.php/
 $handler = new RequestHandler();

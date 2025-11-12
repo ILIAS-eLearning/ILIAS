@@ -24,7 +24,6 @@ use ILIAS\Test\Access\AccessQuestionImage;
 use ILIAS\Test\Access\SimpleAccess;
 use ILIAS\Test\Access\Readable;
 use ILIAS\Test\Results\Data\Repository;
-use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Error;
@@ -138,7 +137,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             ilConditionHandler::OPERATOR_PASSED,
             ilConditionHandler::OPERATOR_FAILED,
             ilConditionHandler::OPERATOR_FINISHED,
-            ilConditionHandler::OPERATOR_NOT_FINISHED
+            ilConditionHandler::OPERATOR_NOT_FINISHED,
+            ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE
         ];
     }
 
@@ -166,6 +166,17 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             case ilConditionHandler::OPERATOR_NOT_FINISHED:
                 return !$test_result_repository->hasFinished($a_usr_id, $a_trigger_obj_id);
 
+            case ilConditionHandler::OPERATOR_RESULT_RANGE_PERCENTAGE:
+                $percentage_thresholds = self::deserializePercentageThresholds($a_value);
+                if ($percentage_thresholds === false) {
+                    return false;
+                }
+                return $test_result_repository->reachedPercentage(
+                    $a_usr_id,
+                    $a_trigger_obj_id,
+                    $percentage_thresholds['min_percentage'],
+                    $percentage_thresholds['max_percentage']
+                );
             default:
                 return true;
         }
@@ -180,7 +191,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             ["permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"],
             ["permission" => "write", "cmd" => "ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm", "lang_var" => "settings"],
             ["permission" => "read", "cmd" => "ILIAS\Test\Presentation\TestScreenGUI::testScreen", "lang_var" => "tst_run", "default" => true],
-            ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI::showManScoringByQuestionParticipantsTable", "lang_var" => "manscoring", "default" => true],
+            ["permission" => "score_anon", "cmd" => "ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI::view", "lang_var" => "manscoring", "default" => true],
         ];
     }
 
@@ -389,7 +400,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         if ((new ilCertificateActiveValidator())->validate()) {
             self::$certificate_preloader = new ilCertificateObjectsForUserPreloader(new ilUserCertificateRepository());
             self::$certificate_preloader->preLoad($DIC['ilUser']->getId(), $obj_ids);
-            self::$settings_result_summaries_by_obj_id = (new ScoreSettingsDatabaseRepository($DIC['ilDB']))
+            self::$settings_result_summaries_by_obj_id = TestDIC::dic()['settings.scoring.repository']
                 ->getSettingsResultSummaryByObjIds($obj_ids);
         }
     }
@@ -415,5 +426,22 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         }
 
         return false;
+    }
+
+    /**
+     * @return array{min_percentage: float, max_percentage: float}|false
+     */
+    private static function deserializePercentageThresholds(string $value): array|false
+    {
+        $value_arr = unserialize($value);
+
+        if ($value_arr === false) {
+            return false;
+        }
+
+        return [
+            'min_percentage' => (float) ($value_arr['min_percentage'] ?? 0.0) / 100,
+            'max_percentage' => (float) ($value_arr['max_percentage'] ?? 0.0) / 100
+        ];
     }
 }

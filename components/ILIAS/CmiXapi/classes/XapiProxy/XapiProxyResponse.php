@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace XapiProxy;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,7 +37,7 @@ class XapiProxyResponse
         $this->xapiproxy = $xapiproxy;
     }
 
-    public function checkResponse(array $response, string $endpoint): bool
+    public function checkResponse(\GuzzleHttp\Psr7\Response $response, string $endpoint): bool
     {
         if ($response['state'] == 'fulfilled') {
             $status = $response['value']->getStatusCode();
@@ -56,13 +57,7 @@ class XapiProxyResponse
         }
     }
 
-    /**
-     * @param Request           $request
-     * @param Response          $response
-     * @param array|string|null $fakePostBody
-     * @return void
-     */
-    public function handleResponse(Request $request, Response $response, array|string|null $fakePostBody = null): void
+    public function handleResponse(\Psr\Http\Message\RequestInterface $request, Response $response, array|string|null $fakePostBody = null): void
     {
         // check transfer encoding bug
         if ($fakePostBody !== null) {

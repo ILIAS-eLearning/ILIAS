@@ -55,8 +55,9 @@ class ilLTIDataConnector extends DataConnector
      * @param Platform $platform Platform object
      * @return boolean True if the tool consumer object was successfully loaded
      */
-    public function loadPlatform(Platform $platform): bool
+    public function loadPlatform(Platform | ilLTIPlatform $platform): bool
     {
+
         $ok = false;
         $allowMultiple = false;
         $id = $platform->getRecordId();
@@ -146,8 +147,12 @@ class ilLTIDataConnector extends DataConnector
             $platform->created = strtotime($row->created);
             $platform->updated = strtotime($row->updated);
             //ILIAS specific
-            $platform->setExtConsumerId(intval($row->ext_consumer_id));
-            $platform->setRefId((int) $row->ref_id);
+            // Fix for ILIAS: Change method param type to union type Platform | ilLTIPlatform
+            // Then check if $platform is ilLTIPlatform
+            if ($platform instanceof ilLTIPlatform) {
+                $platform->setExtConsumerId(intval($row->ext_consumer_id));
+                $platform->setRefId((int) $row->ref_id);
+            }
             // if ($platform->setTitle) $platform->setTitle($row->title);
             // if ($platform->setDescription) $platform->setDescription($row->description);
             // if ($platform->setPrefix) $platform->setPrefix($row->prefix);
@@ -158,6 +163,7 @@ class ilLTIDataConnector extends DataConnector
             $this->fixPlatformSettings($platform, false);
             $ok = true;
         }
+
         return $ok;
     }
     #######
@@ -1573,7 +1579,7 @@ class ilLTIDataConnector extends DataConnector
                 'WHERE user_pk = ' . $ilDB->quote($id, 'integer');
         } else {
             $rid = $userresult->getResourceLink()->getRecordId();
-            $uid = $userresult->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY);
+            $uid = $userresult->getId(IdScope::IdOnly);
 
             $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
                 'FROM ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
@@ -1619,7 +1625,7 @@ class ilLTIDataConnector extends DataConnector
             $userresult->setRecordId($ilDB->nextId($this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME));
             $userresult->created = $time;
             $rid = $userresult->getResourceLink()->getRecordId();
-            $uid = $userresult->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY);
+            $uid = $userresult->getId(IdScope::IdOnly);
             $query = 'INSERT INTO ' . $this->dbTableNamePrefix . DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 '(user_pk,resource_link_pk,lti_user_id, lti_result_sourcedid, created, updated) ' .
                 'VALUES( ' .

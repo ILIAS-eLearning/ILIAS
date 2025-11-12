@@ -81,7 +81,7 @@ class Token
         return $uri_builder->build(
             StaticURLHandler::NAMESPACE,
             null,
-            [StaticUrlHandler::CHANGE_EMAIL_OPERATIONS, $this->token]
+            [StaticUrlHandler::CHANGE_EMAIL_OPERATION, $this->token]
         );
     }
 

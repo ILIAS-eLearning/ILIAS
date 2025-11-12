@@ -70,7 +70,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -97,7 +97,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      */
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "show_privacy",
                 $this->ctrl->getLinkTarget($this, "showPrivacy"),

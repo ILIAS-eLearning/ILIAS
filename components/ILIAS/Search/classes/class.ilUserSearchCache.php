@@ -38,9 +38,9 @@ class ilUserSearchCache
     private int $usr_id;
     private int $search_type = self::DEFAULT_SEARCH;
 
-    private array $search_result = array();
-    private array $checked = array();
-    private array $failed = array();
+    private array $search_result = [];
+    private array $checked = [];
+    private array $failed = [];
     private int $page_number = 1;
 
     /**
@@ -48,10 +48,11 @@ class ilUserSearchCache
      */
     private $query;
     private int $root;
-    private array $item_filter = array();
+    private array $item_filter = [];
     private bool $isAnonymous = false;
-    private array $mime_filter = array();
-    private array $creation_filter = array();
+    private array $mime_filter = [];
+    private array $creation_filter = [];
+    private array $copyright_filter = [];
 
 
 
@@ -113,7 +114,7 @@ class ilUserSearchCache
      */
     public function getResults(): array
     {
-        return $this->search_result ?: array();
+        return $this->search_result ?: [];
     }
 
     /**
@@ -176,7 +177,7 @@ class ilUserSearchCache
      */
     public function getCheckedItems(): array
     {
-        return $this->checked ?: array();
+        return $this->checked ?: [];
     }
 
     /**
@@ -261,6 +262,19 @@ class ilUserSearchCache
         return $this->creation_filter;
     }
 
+    public function setCopyrightFilter(string ...$copyright_identifiers): void
+    {
+        $this->copyright_filter = $copyright_identifiers;
+    }
+
+    /**
+     * @return string[] copyright identifiers
+     */
+    public function getCopyrightFilter(): array
+    {
+        return $this->copyright_filter;
+    }
+
     public function deleteCachedEntries(): void
     {
         if ($this->isAnonymous()) {
@@ -276,43 +290,44 @@ class ilUserSearchCache
         if ($row->num > 0) {
             $this->db->update(
                 'usr_search',
-                array(
-                    'search_result' => array('clob',serialize(array(0))),
-                    'checked' => array('clob',serialize(array(0))),
-                    'failed' => array('clob',serialize(array(0))),
-                    'page' => array('integer',0)),
-                array(
-                    'usr_id' => array('integer', $this->usr_id),
-                    'search_type' => array('integer', $this->search_type)
-            )
+                [
+                    'search_result' => ['clob', serialize([0])],
+                    'checked' => ['clob', serialize([0])],
+                    'failed' => ['clob', serialize([0])],
+                    'page' => ['integer', 0]
+                ],
+                [
+                    'usr_id' => ['integer', $this->usr_id],
+                    'search_type' => ['integer', $this->search_type]
+                ]
             );
         } else {
             $this->db->insert(
                 'usr_search',
-                array(
-                    'search_result' => array('clob',serialize(array(0))),
-                    'checked' => array('clob',serialize(array(0))),
-                    'failed' => array('clob',serialize(array(0))),
-                    'page' => array('integer',0),
-                    'usr_id' => array('integer', $this->usr_id),
-                    'search_type' => array('integer', $this->search_type),
-                    'query' => array('clob',serialize(''))
-            )
+                [
+                    'search_result' => ['clob', serialize([0])],
+                    'checked' => ['clob', serialize([0])],
+                    'failed' => ['clob', serialize([0])],
+                    'page' => ['integer', 0],
+                    'usr_id' => ['integer', $this->usr_id],
+                    'search_type' => ['integer', $this->search_type],
+                    'query' => ['clob', serialize('')]
+                ]
             );
         }
 
         $this->setResultPageNumber(1);
-        $this->search_result = array();
-        $this->checked = array();
-        $this->failed = array();
+        $this->search_result = [];
+        $this->checked = [];
+        $this->failed = [];
     }
 
     public function deleteCachedEntriesAnonymous(): bool
     {
         $this->setResultPageNumber(1);
-        $this->search_result = array();
-        $this->checked = array();
-        $this->failed = array();
+        $this->search_result = [];
+        $this->checked = [];
+        $this->failed = [];
 
         return true;
     }
@@ -341,29 +356,30 @@ class ilUserSearchCache
             "OR search_type = " . $this->db->quote(self::LAST_QUERY, 'integer') . ')';
         $res = $this->db->manipulate($query);
 
-        $this->db->insert('usr_search', array(
-            'usr_id' => array('integer', $this->usr_id),
-            'search_result' => array('clob',serialize($this->search_result)),
-            'checked' => array('clob',serialize($this->checked)),
-            'failed' => array('clob',serialize($this->failed)),
-            'page' => array('integer', $this->page_number),
-            'search_type' => array('integer', $this->search_type),
-            'query' => array('clob',serialize($this->getQuery())),
-            'root' => array('integer',$this->getRoot()),
-            'item_filter' => array('text',serialize($this->getItemFilter())),
-            'mime_filter' => array('text',  serialize($this->getMimeFilter())),
-            'creation_filter' => array('text', serialize($this->getCreationFilter()))
-        ));
+        $this->db->insert('usr_search', [
+            'usr_id' => ['integer', $this->usr_id],
+            'search_result' => ['clob', serialize($this->search_result)],
+            'checked' => ['clob', serialize($this->checked)],
+            'failed' => ['clob', serialize($this->failed)],
+            'page' => ['integer', $this->page_number],
+            'search_type' => ['integer', $this->search_type],
+            'query' => ['clob', serialize($this->getQuery())],
+            'root' => ['integer', $this->getRoot()],
+            'item_filter' => ['text', serialize($this->getItemFilter())],
+            'mime_filter' => ['text', serialize($this->getMimeFilter())],
+            'creation_filter' => ['text', serialize($this->getCreationFilter())],
+            'copyright_filter' => ['text', serialize($this->getCopyrightFilter())]
+        ]);
 
 
         // Write last query information
         $this->db->insert(
             'usr_search',
-            array(
-                'usr_id' => array('integer',$this->usr_id),
-                'search_type' => array('integer',self::LAST_QUERY),
-                'query' => array('text',serialize($this->getQuery()))
-            )
+            [
+                'usr_id' => ['integer', $this->usr_id],
+                'search_type' => ['integer', self::LAST_QUERY],
+                'query' => ['text', serialize($this->getQuery())]
+            ]
         );
     }
 
@@ -380,15 +396,16 @@ class ilUserSearchCache
         $session_usr_search[$this->search_type]['item_filter'] = $this->getItemFilter();
         $session_usr_search[$this->search_type]['mime_filter'] = $this->getMimeFilter();
         $session_usr_search[$this->search_type]['creation_filter'] = $this->getCreationFilter();
+        $session_usr_search[$this->search_type]['copyright_filter'] = $this->getCopyrightFilter();
         $session_usr_search[self::LAST_QUERY]['query'] = $this->getQuery();
         ilSession::set('usr_search_cache', $session_usr_search);
     }
 
     private function read(): void
     {
-        $this->failed = array();
-        $this->checked = array();
-        $this->search_result = array();
+        $this->failed = [];
+        $this->checked = [];
+        $this->search_result = [];
         $this->page_number = 0;
 
         if ($this->isAnonymous()) {
@@ -414,6 +431,9 @@ class ilUserSearchCache
             $this->setRoot((int) $row->root);
             $this->setItemFilter((array) unserialize((string) $row->item_filter));
             $this->setCreationFilter((array) unserialize((string) $row->creation_filter));
+            if ($row->copyright_filter !== null) {
+                $this->setCopyrightFilter(...(array) unserialize((string) $row->copyright_filter));
+            }
         }
     }
 
@@ -433,5 +453,6 @@ class ilUserSearchCache
         $this->setItemFilter((array) ($usr_search_cache[$this->search_type]['item_filter'] ?? []));
         $this->setMimeFilter((array) ($usr_search_cache[$this->search_type]['mime_filter'] ?? []));
         $this->setCreationFilter((array) ($usr_search_cache[$this->search_type]['creation_filter'] ?? []));
+        $this->setCopyrightFilter(...(array) ($usr_search_cache[$this->search_type]['copyright_filter'] ?? []));
     }
 }

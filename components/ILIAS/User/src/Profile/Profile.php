@@ -27,7 +27,7 @@ interface Profile
      * @return array<\ILIAS\User\Profile\Fields\Field>
      */
     public function getFields(
-        array $groups_to_skip = [],
+        array $sections_to_skip = [],
         array $fields_to_skip = []
     ): array;
 
@@ -37,7 +37,7 @@ interface Profile
     public function getVisibleFields(
         Context $context,
         ?\ilObjUser $user = null,
-        array $groups_to_skip = [],
+        array $sections_to_skip = [],
         array $fields_to_skip = []
     ): array;
 

@@ -301,15 +301,15 @@ class ilMailTest extends ilMailBaseTestCase
                 'sender_id' => '',
                 'tpl_ctx_params' => '[]',
                 'use_placeholders' => '',
-                'user_id' => ''
+                'user_id' => 0
             ]],
             [[
                 'folder_id' => '',
                 'mail_id' => '',
                 'sender_id' => '',
                 'use_placeholders' => '',
-                'user_id' => ''
-            ]],
+                'user_id' => 0
+             ]],
         ];
     }
 
@@ -326,7 +326,7 @@ class ilMailTest extends ilMailBaseTestCase
         $filter = ['status' => 'yes'];
         $row_data = ['mail_id' => 8908];
         $one = $row_data + [
-            'attachments' => [],
+            'attachments' => null,
             'tpl_ctx_params' => [],
             'm_subject' => '',
             'm_message' => '',
@@ -434,6 +434,10 @@ class ilMailTest extends ilMailBaseTestCase
 
     public function testUpdateDraft(): void
     {
+        $send_time = '2022-01-01 00:00:00';
+        $tz = new DateTimeZone('Europe/Berlin');
+        $date_time = new DateTimeImmutable($send_time, $tz);
+
         $folder_id = 7890;
         $instance = $this->create();
         $to = 'abc';
@@ -459,17 +463,35 @@ class ilMailTest extends ilMailBaseTestCase
             'use_placeholders' => ['integer', (int) $use_placeholders],
             'tpl_ctx_id' => ['text', $context_id],
             'tpl_ctx_params' => ['blob', json_encode($params, JSON_THROW_ON_ERROR)],
+            'schedule_datetime' => ['timestamp', $date_time->format('Y-m-d H:i:s')],
+            'schedule_timezone' => ['text', $tz->getName()],
         ], [
             'mail_id' => ['integer', $draft_id],
         ]);
 
-        $this->assertSame($draft_id, $instance->updateDraft($folder_id, [], $to, $cc, $bcc, $subject, $message, $draft_id, $use_placeholders, $context_id, $params));
+        $this->assertSame(
+            $draft_id,
+            $instance->updateDraft(
+                $folder_id,
+                [],
+                $to,
+                $cc,
+                $bcc,
+                $subject,
+                $message,
+                $draft_id,
+                $date_time,
+                $use_placeholders,
+                $context_id,
+                $params,
+            )
+        );
     }
 
     public function testPersistingToStage(): void
     {
         $usr_id = 897;
-        $attachments = [];
+        $attachments = null;
         $rcp_to = 'jlh';
         $rcp_cc = 'jhkjh';
         $rcp_bcc = 'ououi';
@@ -484,7 +506,7 @@ class ilMailTest extends ilMailBaseTestCase
         $this->mock_database->expects($this->once())->method('replace')->with('mail_saved', [
             'user_id' => ['integer', $usr_id],
         ], [
-            'attachments' => ['clob', serialize($attachments)],
+            'attachments' => ['text', $attachments],
             'rcp_to' => ['clob', $rcp_to],
             'rcp_cc' => ['clob', $rcp_cc],
             'rcp_bcc' => ['clob', $rcp_bcc],
@@ -502,13 +524,13 @@ class ilMailTest extends ilMailBaseTestCase
         ]);
 
         $instance->persistToStage(
-            78_979_078,
-            $attachments,
+            $usr_id,
             $rcp_to,
             $rcp_cc,
             $rcp_bcc,
             $subject,
             $message,
+            $attachments,
             $use_placeholders,
             $context_id,
             $params,
@@ -595,13 +617,13 @@ class ilMailTest extends ilMailBaseTestCase
     public function testSaveAttachments(): void
     {
         $usr_id = 89;
-        $attachments = ['aaa', 'bb', 'cc', 'rrr'];
+        $attachments = new \ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a');
         $instance = $this->create(789, $usr_id);
 
         $this->mock_database->expects($this->once())->method('update')->with(
             'mail_saved',
             [
-                'attachments' => ['clob', serialize($attachments)],
+                'attachments' => ['text', $attachments->serialize()],
             ],
             [
                 'user_id' => ['integer', $usr_id],
@@ -634,7 +656,10 @@ class ilMailTest extends ilMailBaseTestCase
 
     private function create(int $ref_id = 234, int $usr_id = 123): ilMail
     {
-        return new ilMail(
+        $refinery = $this->getMockBuilder(\ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('refinery', $refinery);
+
+        $instance = new ilMail(
             $usr_id,
             ($this->mock_address_type_factory = $this->getMockBuilder(ilMailAddressTypeFactory::class)->disableOriginalConstructor()->getMock()),
             ($this->mock_parser_factory = $this->getMockBuilder(ilMailRfc822AddressParserFactory::class)->disableOriginalConstructor()->getMock()),
@@ -656,5 +681,7 @@ class ilMailTest extends ilMailBaseTestCase
             null,
             $this->getMockBuilder(MailSignatureService::class)->disableOriginalConstructor()->getMock(),
         );
+
+        return $instance;
     }
 }

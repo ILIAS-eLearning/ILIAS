@@ -58,6 +58,7 @@ class Email implements FieldDefinition
         $input = new \ilEMailInputGUI($this->getLabel($lng));
         $input->setMaxLength(128);
         if ($context === Context::Registration) {
+            $input->setRequired(true);
             $input->setRetype(true);
         }
         if ($user === null) {
