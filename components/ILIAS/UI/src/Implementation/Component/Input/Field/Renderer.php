@@ -216,23 +216,47 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        if (!empty($described_by_ids) && $id_for_label) {
-            $described_by_value = implode(' ', $described_by_ids);
-            $input_html = $this->addAriaDescribedByToInput($input_html, $id_for_label, $described_by_value);
-        }
-
         $tpl->setVariable("INPUT", $input_html);
 
-        if (!empty($described_by_ids) && !$id_for_label) {
-            $tpl->setCurrentBlock('described');
-            $tpl->setVariable("DESCRIBED_BY_IDS", implode(' ', $described_by_ids));
-            $tpl->parseCurrentBlock();
+        if (!empty($described_by_ids)) {
+            if ($id_for_label) {
+                $described_by_value = implode(' ', $described_by_ids);
+                $input_html = $this->addAriaDescribedByToInput($input_html, $id_for_label, $described_by_value);
+                $tpl->setVariable("INPUT", $input_html);
+            } else {
+                $input_id = $this->createId();
+                $input_html = $this->addIdToInput($input_html, $input_id);
+                $described_by_value = implode(' ', $described_by_ids);
+                $input_html = $this->addAriaDescribedByToInput($input_html, $input_id, $described_by_value);
+                $tpl->setVariable("INPUT", $input_html);
+                
+                $tpl->setCurrentBlock('for');
+                $tpl->setVariable("ID", $input_id);
+                $tpl->parseCurrentBlock();
+            }
         }
 
         if ($dependant_group_html) {
             $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
         }
         return $tpl->get();
+    }
+
+    protected function addIdToInput(string $input_html, string $input_id): string
+    {
+        $pattern = '/<(input|textarea|select)([^>]*)(\s*\/)?>/i';
+        
+        return preg_replace_callback($pattern, function ($matches) use ($input_id) {
+            $tag = $matches[1];
+            $attributes = $matches[2];
+            $slash = $matches[3] ?? '';
+            
+            if (strpos($attributes, 'id=') !== false) {
+                return $matches[0];
+            }
+            
+            return '<' . $tag . $attributes . ' id="' . htmlspecialchars($input_id, ENT_QUOTES) . '"' . $slash . '>';
+        }, $input_html);
     }
 
     protected function addAriaDescribedByToInput(string $input_html, string $input_id, string $described_by_value): string
@@ -306,14 +330,7 @@ class Renderer extends AbstractComponentRenderer
         return $described_by_ids;
     }
 
-    protected function applyAriaDescribedBy(Template $tpl, array $described_by_ids): void
-    {
-        if (!empty($described_by_ids)) {
-            $tpl->setCurrentBlock('described_by');
-            $tpl->setVariable("DESCRIBED_BY_IDS", implode(' ', $described_by_ids));
-            $tpl->parseCurrentBlock();
-        }
-    }
+
 
     protected function escapeSpecialChars(): Closure
     {
