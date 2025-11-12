@@ -1,9 +1,9 @@
-<dialog class="c-modal c-modal--lightbox il-modal-lightbox il-modal-lightbox-{COLOR_SCHEME}" tabindex="-1" id="{ID}">
+<dialog class="c-modal c-modal--lightbox il-modal-lightbox il-modal-lightbox-{COLOR_SCHEME}" tabindex="-1" id="{ID}" aria-modal="true" aria-labelledby="{ID}_title">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
 				<form><button formmethod="dialog" class="close" aria-label="{CLOSE_LABEL}"><span aria-hidden="true">&times;</span></button></form>
-				<h1 class="modal-title">{TITLE}</h1>
+				<h1 id="{ID}_title" class="modal-title">{TITLE}</h1>
 			</div>
 			<div class="modal-body">
 				<div id="{ID_CAROUSEL}" class="carousel slide" data-ride="carousel" data-interval="false">
