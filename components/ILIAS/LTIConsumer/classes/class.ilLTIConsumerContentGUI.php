@@ -65,6 +65,17 @@ class ilLTIConsumerContentGUI
         $this->{$command}();
     }
 
+    public function getJwtForContentSelection(string $redirectUri, string $clientId, int $deploymentId, string $nonce) : string
+    {
+        $jwt = "";
+        $this->initCmixUser();
+        $jwtArray = $this->getLaunchParametersLTI13($redirectUri, $clientId, $deploymentId, $nonce);
+        if(isset($jwtArray['id_token'])) {
+            $jwt = $jwtArray['id_token'];
+        }
+        return $jwt;
+    }
+
     /**
      * @throws ilCtrlException
      * @throws ilTemplateException

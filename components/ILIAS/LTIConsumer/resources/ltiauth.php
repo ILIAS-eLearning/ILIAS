@@ -14,20 +14,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+function sanitizeJson(string $string) {
+    $string = preg_replace('/(\w+):(\w+)/', '"$1":"$2"', $string);
+    $string = str_replace("'", '"', $string);
+    $string = str_replace('{', '{', $string);
+    $string = str_replace('}', '}', $string);
+    return json_decode($string, true);
+}
+
 ilInitialisation::initILIAS();
 global $DIC;
 $scope        = $data['scope']         ?? '';
 $responseType = $data['response_type'] ?? '';
 $redirectUri  = $data['redirect_uri']  ?? '';
-$clientId     = $data['client_id']     ?? '';
+$clientId     = $data['client_id']     ?? $data['id'] ?? '';
 $state        = $data['state']         ?? '';
 $nonce        = $data['nonce']         ?? '';
-$ltiHintRaw   = $data['lti_message_hint'] ?? '';
+$ltiMessageHint   = $data['lti_message_hint'] ?? '';
 $loginHint    = $data['login_hint']    ?? '';
 
 $isDlMode = false;
 $hint = null;
+$deploymentId = null;
 $provider_id = 0;
+$childRefId = 0;
 $refId = 0;
 
 if (
@@ -39,16 +49,18 @@ if (
     $provider_id = ilLTIConsumeProvider::getProviderIdFromClientId($clientId);
     $provider = ilLTIConsumeProvider::getInstance($provider_id);
 
+    $hint = sanitizeJson($ltiMessageHint);
+    if($provider->getContentItemUrl() == $redirectUri && isset($hint['deployment_id'])) {
 
-    if($provider->getContentItemUrl() == $redirectUri) {
         $isDlMode = true;
-        $hint = json_decode($ltiHintRaw ?? '', true);
+        $deploymentId = (int)$hint['deployment_id'];
         $ownerId = ilObjectFactory::getInstanceByRefId(224)->getOwner();
-        $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string)$hint['deployment_id']);
+        $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string)$deploymentId);
         $refId = $DIC->repositoryTree()->getParentId($childRefId);
     }
 
 }
+
 if ($isDlMode) {
     $now = time();
     $ctrl = $DIC->ctrl();
@@ -83,14 +95,16 @@ if ($isDlMode) {
 
     ];
 
-    if (isset($hint['deployment_id'])) {
-        $payload['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] = (string) $hint['deployment_id'];
+    if (isset($deploymentId)) {
+        $payload['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] = (string) $deploymentId;
     }
 
+    // tell Moodle where to return the selection – Moodle already gave us redirect_uri
     $payload['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'] = [
         'deep_link_return_url' => $iframe_url,
         'accept_types' => ['ltiResourceLink'],
-        'accept_presentation_document_targets' => ['iframe', 'window'],
+        'accept_presentation_document_targets' => ['iframe', 'window', 'frame'],
+        'accept_multiple' => true
     ];
 
     $payload['https://purl.imsglobal.org/spec/lti/claim/tool_platform'] = [
@@ -99,9 +113,9 @@ if ($isDlMode) {
         'product_family_code' => 'ilias',
     ];
 
-
-    $pk  = ilObjLTIConsumer::getPrivateKey();
-    $jwt = JWT::encode($payload, $pk['key'], 'RS256', $pk['kid'], ['kid' => $pk['kid']]);
+    $objLtiConsumer = new ilObjLTIConsumer($childRefId);
+    $consumerContentGui = new ilLTIConsumerContentGUI($objLtiConsumer);
+    $jwt = $consumerContentGui->getJwtForContentSelection($redirectUri, $clientId, $deploymentId, $nonce);
 
     $redirSafe = htmlspecialchars($redirectUri, ENT_QUOTES);
     $stateSafe = htmlspecialchars($state, ENT_QUOTES);
@@ -120,7 +134,6 @@ HTML;
     exit;
 }
 
-$ltiMessageHint = $ltiHintRaw;
 if (empty($ltiMessageHint)) {
     $DIC->http()->saveResponse(
         $DIC->http()->response()->withStatus(400)
@@ -137,8 +150,10 @@ $il_client_id = '';
 $redirect_uri = '';
 if (count($parts) === 2) {
     [$ref_id, $il_client_id] = $parts;
-} else if (count($parts) === 3 && !filter_var($parts[2], FILTER_VALIDATE_URL)) {
-    [$ref_id, $il_client_id, $token] = $parts;
+} else if (count($parts) === 3 ) {
+    [$first, $second, $third] = $parts;
+    $il_client_id = $third;
+    $ref_id = explode(",", $second)[0];
 } else {
     $isContentSelection = true;
     [$ref_id, $il_client_id, $redirect_uri] = $parts;

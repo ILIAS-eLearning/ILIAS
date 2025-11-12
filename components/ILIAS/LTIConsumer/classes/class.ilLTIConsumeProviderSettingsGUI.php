@@ -99,6 +99,17 @@ class ilLTIConsumeProviderSettingsGUI
         $this->showSettingsCmd($form);
     }
 
+    private function getClientIdFromProviderUrl(string $providerUrl): string
+    {
+        $res = "";
+        $first = explode(".", $providerUrl)[0];
+        $secondSplit = explode("//", $first);
+        if(count($secondSplit) > 1) {
+            $res = $secondSplit[1];
+        }
+        return $res;
+    }
+
     protected function startDeepLinkingCmd()
     {
         global $DIC;
@@ -119,14 +130,16 @@ class ilLTIConsumeProviderSettingsGUI
             'iss'             => ilObjLTIConsumer::getPlattformId(),
             'lti_message_hint'=> $lti_message_hint,
             'target_link_uri' => $provider->getContentItemUrl(),
-            'client_id'       => $platform_client_id,
-            'state'            => $state
+            'id'              => $platform_client_id, // Instead of client_id due to ILIAS redirection system
+            'state'           => $state,
         ];
+
 
         $join = (str_contains($provider->getInitiateLogin(), '?')) ? '&' : '?';
         $url = $provider->getInitiateLogin()  . $join . http_build_query($params);
-
+        //dump($params, $url);exit();
         $urlSafe = htmlspecialchars($url, ENT_QUOTES);
+        //dump($urlSafe);exit();
         echo <<<HTML
         <!doctype html>
         <html>
