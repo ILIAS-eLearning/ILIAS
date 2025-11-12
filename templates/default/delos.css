@@ -20140,7 +20140,7 @@ a.ilMediaLightboxClose:hover {
   padding: 0;
   margin: 3px 0;
   border: 0 none;
-  border-bottom: 2px solid #161616;
+  border-bottom: 1px solid #dddddd;
 }
 #ilTab > li {
   float: left;
@@ -20152,10 +20152,14 @@ a.ilMediaLightboxClose:hover {
   font-size: 0.875rem;
   line-height: 1.428571429;
   padding: 6px 15px 3px;
-  border-bottom: 2px solid transparent;
+  border-bottom: 2px solid;
+  border-color: transparent;
   border-radius: 0px 0px 0 0;
 }
 #ilTab > li > a:hover {
+  border-bottom-color: #161616;
+}
+#ilTab > li > a:focus {
   border-bottom-color: #161616;
 }
 #ilTab > li > a:focus {
@@ -20199,12 +20203,15 @@ a.ilMediaLightboxClose:hover {
   color: white;
   cursor: default;
   background-color: #161616;
-  border-bottom: 2px solid;
   border-bottom-color: #161616;
 }
 
 #ilTab a:focus-visible {
   z-index: 3;
+}
+
+#ilTab > li > a:focus {
+  border-bottom: 2px solid #161616;
 }
 
 /* Sub Tabs */
@@ -20296,7 +20303,6 @@ a.ilMediaLightboxClose:hover {
 }
 .nav > li > a:hover, .nav > li > a:focus {
   text-decoration: none;
-  background-color: #f0f0f0;
 }
 .nav > li.disabled > a {
   color: #f9f9f9;
