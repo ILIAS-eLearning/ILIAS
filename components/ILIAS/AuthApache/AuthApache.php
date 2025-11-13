@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\ApacheAuth\Setup\ApacheAuthAgent;
+use ILIAS\ApacheAuth\UsernameProvider\UsernameProvider;
+
 class AuthApache implements Component\Component
 {
     public function init(
@@ -32,6 +36,7 @@ class AuthApache implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[SetupAgent::class] =
+            static fn() => new ApacheAuthAgent($seek[UsernameProvider::class]);
     }
 }

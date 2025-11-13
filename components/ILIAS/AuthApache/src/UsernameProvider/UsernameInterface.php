@@ -14,20 +14,24 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ * *********************************************************************/
 
 declare(strict_types=1);
 
-final class ApacheCustom
+namespace ILIAS\ApacheAuth\UsernameProvider;
+
+/**
+ * Implementations may represent a resolved, concrete username or a null/empty value.
+ */
+interface UsernameInterface
 {
-    public static function getUsername(): string
-    {
-        /*
-         * enter your custom login-name resolve function here
-         *
-         * if you are using the "auto create account" feature
-         * be sure to return a valid username IN ANY CASE
-         */
-        return '';
-    }
+    /**
+     * Returns the username as string
+     */
+    public function asString(): string;
+
+    /**
+     * True if this represents an empty (non-real) username.
+     */
+    public function isEmpty(): bool;
 }
