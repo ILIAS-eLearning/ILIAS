@@ -39,7 +39,7 @@ trait TestSettingsSetup
         'fixed_participants' => [T_BOOLEAN, 'fixed_participants'],
         'suspend_test_allowed' => [T_BOOLEAN, 'ShowCancel'],
         'anonymity' => [T_BOOLEAN, 'Anonymity'],
-        'nr_of_tries' => [T_BIGINT, 'NrOfTries'],
+        'nr_of_tries' => [T_TINYINT, 'NrOfTries'],
         'use_previous_answers' => [T_BOOLEAN, 'use_previous_answers'],
         'title_output' => [T_TINYINT, 'TitleOutput'],
         'processing_time' => [['type' => \ilDBConstants::T_TEXT, 'length' => 8, 'default' => null], 'ProcessingTime'],

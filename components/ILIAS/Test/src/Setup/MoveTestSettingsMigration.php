@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Test\Setup;
 
 use ILIAS\Setup;
+use ILIAS\Setup\CLI\IOWrapper;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
 
@@ -29,6 +30,7 @@ class MoveTestSettingsMigration implements Migration
     use TestSettingsSetup;
 
     private \ilDBInterface $db;
+    private IOWrapper $io;
 
     public function getLabel(): string
     {
@@ -48,6 +50,7 @@ class MoveTestSettingsMigration implements Migration
     public function prepare(Environment $environment): void
     {
         $this->db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $this->io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
     }
 
     public function step(Environment $environment): void
@@ -66,6 +69,12 @@ class MoveTestSettingsMigration implements Migration
 
                 if ($column_name === 'reporting_date') {
                     $value = $this->convertLegacyDate($value);
+                }
+                if ($column_name === 'nr_of_tries' && $value > 127) {
+                    $this->io->inform(
+                        "ID {$settings_id}: Tried to set nr_of_tries to {$value}, which is too high. Setting it to 127 instead."
+                    );
+                    $value = 127;
                 }
 
                 // Convert legacy null values to 0
