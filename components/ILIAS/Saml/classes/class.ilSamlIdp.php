@@ -166,8 +166,8 @@ final class ilSamlIdp
     public function bindForm(StandardForm $form): void
     {
         $data = $form->getData();
-        $this->setUidClaim((string) ($data[self::PROP_UID_CLAIM] ?? ''));
-        $this->setEntityId((string) ($data[self::PROP_ENTITY_ID] ?? ''));
+        $this->setUidClaim((string) ($data[self::PROP_UID_CLAIM] ?? $this->getUidClaim()));
+        $this->setEntityId((string) ($data[self::PROP_ENTITY_ID] ?? $this->getEntityId()));
         $this->setLocalLocalAuthenticationStatus((bool) ($data[self::PROP_ALLOW_LOCAL_AUTH] ?? false));
         $this->setSynchronizationStatus(($data[self::PROP_SYNC_STATUS] ?? null) !== null);
 
