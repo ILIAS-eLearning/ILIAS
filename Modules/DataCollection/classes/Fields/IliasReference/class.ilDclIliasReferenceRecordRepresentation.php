@@ -42,7 +42,10 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
             return '';
         }
 
-        $object = ilObjectFactory::getInstanceByRefId($ref_id);
+        $object = ilObjectFactory::getInstanceByRefId($ref_id, false);
+        if (null === $object || !$this->access->checkAccess('visible', '', $ref_id)) {
+            return '';
+        }
         $html = $object->getTitle() . ' [' . $ref_id . ']';
 
         $actions = [];
