@@ -13068,6 +13068,8 @@ noti#:#noti_deactivate_notification#:#Deactivate Notification
 noti#:#noti_notification_activated#:#Notification Activated
 noti#:#noti_notification_deactivated#:#Notification Deactivated
 notifications#:#push_notification#:#Push Notifications
+notifications_adm#:#available_providers#:#Available Providers
+notifications_adm#:#client_settings#:#Client Settings
 notifications_adm#:#enable_osd#:#Enable Toasts
 notifications_adm#:#enable_osd_desc#:#If enabled, users are notified by a pop-up about new notifications.
 notifications_adm#:#enable_push#:#Enable Push Notifications
@@ -13086,6 +13088,7 @@ notifications_adm#:#push_client_ios_case#:#If you are using IOS (Iphone, Ipad, I
 notifications_adm#:#push_settings#:#Push Notifications
 notifications_adm#:#push_subscription_successfull#:#Push Notifications activation successful
 notifications_adm#:#push_subscription_successfull_desc#:#This is a dummy notification to verify the successful activation of push notifications.
+notifications_adm#:#user_settings#:#User Settings
 obj#:#activation_visible_when_disabled#:#Visibility
 obj#:#activation_visible_when_disabled_info#:#The item is visible outside of the selected availability period, but it cannot be opened.
 obj#:#availability_period_changed#:#The availability period for the selected objects has been changed successfully.

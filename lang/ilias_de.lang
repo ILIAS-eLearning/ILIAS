@@ -13067,6 +13067,8 @@ noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
 notifications#:#push_notification#:#Push-Benachrichtigungen
+notifications_adm#:#available_providers#:#Verfügbare Provider
+notifications_adm#:#client_settings#:#Browsereinstellungen
 notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
 notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
 notifications_adm#:#enable_push#:#Push-Benachrichtigungen aktivieren
@@ -13085,6 +13087,7 @@ notifications_adm#:#push_client_ios_case#:#Wenn sie IOS (IPhone, IPad, IPod) nut
 notifications_adm#:#push_settings#:#Push-Benachrichtigungen
 notifications_adm#:#push_subscription_successfull#:#Aktivierung der Push-Benachrichtigungen erfolgreich
 notifications_adm#:#push_subscription_successfull_desc#:#Dies ist eine Test Benachrichtigungen um die erfolgreiche Aktivierung der Push Benachrichtigungen zu bestätigen.
+notifications_adm#:#user_settings#:#Benutzereinstellungen
 obj#:#activation_visible_when_disabled#:#Sichtbarkeit
 obj#:#activation_visible_when_disabled_info#:#Die gewählten Objekte sind auch außerhalb des gewählten Zeitraums sichtbar, können aber nicht geöffnet werden.
 obj#:#availability_period_changed#:#Die zeitliche Verfügbarkeit wurde für die ausgewählten Objekte erfolgreich angepasst.

@@ -49,7 +49,5 @@ class Notifications implements Component\Component
             new Component\Resource\OfComponent($this, "receive.mp3", "assets/sounds");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\OfComponent($this, "receive.ogg", "assets/sounds");
-        $contribute[User\Settings\UserSettings::class] = fn() =>
-            new Notifications\UserSettings\Settings();
     }
 }
