@@ -339,7 +339,7 @@ class ilAssQuestionSkillAssignmentsGUI
             }
         }
 
-        $this->ctrl->redirect($this, self::CMD_EDIT_SKILL_QUEST_ASSIGNS);
+        $this->editSkillQuestionAssignmentCmd();
     }
 
     private function showSkillSelectionCmd(): void
@@ -528,6 +528,11 @@ class ilAssQuestionSkillAssignmentsGUI
             )
         );
 
+        $this->ctrl->setParameterByClass(
+            ilAssQuestionSkillAssignmentsGUI::class,
+            'q_id',
+            $this->request_data_collector->getQuestionId()
+        );
         $this->toolbar->addComponent(
             $this->ui_factory->button()->standard(
                 $this->lng->txt('tst_manage_competence_select_skills'),
@@ -537,6 +542,7 @@ class ilAssQuestionSkillAssignmentsGUI
                 )
             )
         );
+        $this->ctrl->setParameterByClass(ilAssQuestionSkillAssignmentsGUI::class, 'q_id', null);
 
         $components = (new EditSkillsOfQuestionTable(
             $this->request_data_collector,
@@ -552,7 +558,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->tpl->setContent($this->ui_renderer->render($components));
     }
 
-    private function isSyncOriginalPossibleAndAllowed($questionId): bool
+    private function isSyncOriginalPossibleAndAllowed(int $questionId): bool
     {
         $questionData = $this->question_list->getDataArrayForQuestionId($questionId);
 
@@ -775,11 +781,12 @@ class ilAssQuestionSkillAssignmentsGUI
         }
     }
 
-    private function getSkillSelectorHeader($questionId): string
+    private function getSkillSelectorHeader(int $questionId): string
     {
-        $questionData = $this->question_list->getDataArrayForQuestionId($questionId);
-
-        return sprintf($this->lng->txt('qpl_qst_skl_selection_for_question_header'), $questionData['title']);
+        return sprintf(
+            $this->lng->txt('qpl_qst_skl_selection_for_question_header'),
+            $this->question_list->getDataArrayForQuestionId($questionId)['title']
+        );
     }
 
     private function sortAlphabetically($array)

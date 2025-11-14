@@ -671,7 +671,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
             ->isActive();
     }
 
-    public function getDataArrayForQuestionId(int $questionId)
+    public function getDataArrayForQuestionId(int $questionId): array
     {
         return $this->questions[$questionId];
     }
