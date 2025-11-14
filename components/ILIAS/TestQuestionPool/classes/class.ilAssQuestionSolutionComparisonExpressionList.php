@@ -16,64 +16,28 @@
  *
  *********************************************************************/
 
-/**
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package components\ILIAS/Test
- */
+declare(strict_types=1);
+
 class ilAssQuestionSolutionComparisonExpressionList
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    private ?int $question_id = null;
 
-    /**
-     * @var integer
-     */
-    private $questionId;
+    private ?int $skill_base_id = null;
 
-    /**
-     * @var integer
-     */
-    private $skillBaseId;
+    private ?int $skill_tref_id = null;
 
-    /**
-     * @var integer
-     */
-    private $skillTrefId;
+    private array $expressions = [];
 
-    /**
-     * @var array
-     */
-    private $expressions;
-
-    /**
-     * @param ilDBInterface $db
-     */
-    public function __construct(ilDBInterface $db)
-    {
-        $this->db = $db;
-
-        $this->questionId = null;
-        $this->skillBaseId = null;
-        $this->skillTrefId = null;
-
-        $this->expressions = [];
+    public function __construct(
+        protected readonly ilDBInterface $db
+    ) {
     }
 
     public function load(): void
     {
-        $query = "
-			SELECT *
-			FROM qpl_qst_skl_sol_expr
-			WHERE question_fi = %s AND skill_base_fi = %s AND skill_tref_fi = %s
-		";
-
         $res = $this->db->queryF(
-            $query,
-            ['integer', 'integer', 'integer'],
+            'SELECT * FROM qpl_qst_skl_sol_expr WHERE question_fi = %s AND skill_base_fi = %s AND skill_tref_fi = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
             [$this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
 
@@ -90,9 +54,8 @@ class ilAssQuestionSolutionComparisonExpressionList
     {
         $this->delete();
 
-        foreach ($this->expressions as $orderIndex => $expression) {
-            /* @var ilAssQuestionSolutionComparisonExpression $expression */
-
+        /* @var ilAssQuestionSolutionComparisonExpression $expression */
+        foreach ($this->expressions as $expression) {
             $expression->setQuestionId($this->getQuestionId());
             $expression->save();
         }
@@ -100,14 +63,9 @@ class ilAssQuestionSolutionComparisonExpressionList
 
     public function delete(): void
     {
-        $query = "
-			DELETE FROM qpl_qst_skl_sol_expr
-			WHERE question_fi = %s AND skill_base_fi = %s AND skill_tref_fi = %s
-		";
-
         $this->db->manipulateF(
-            $query,
-            ['integer', 'integer', 'integer'],
+            'DELETE FROM qpl_qst_skl_sol_expr WHERE question_fi = %s AND skill_base_fi = %s AND skill_tref_fi = %s',
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
             [$this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId()]
         );
     }
@@ -132,51 +90,33 @@ class ilAssQuestionSolutionComparisonExpressionList
         $this->expressions = [];
     }
 
-    /**
-     * @return int
-     */
     public function getQuestionId(): ?int
     {
-        return $this->questionId;
+        return $this->question_id;
     }
 
-    /**
-     * @param int $questionId
-     */
-    public function setQuestionId($questionId): void
+    public function setQuestionId(int $question_id): void
     {
-        $this->questionId = $questionId;
+        $this->question_id = $question_id;
     }
 
-    /**
-     * @return int
-     */
     public function getSkillBaseId(): ?int
     {
-        return $this->skillBaseId;
+        return $this->skill_base_id;
     }
 
-    /**
-     * @param int $skillBaseId
-     */
-    public function setSkillBaseId($skillBaseId): void
+    public function setSkillBaseId(int $skill_base_id): void
     {
-        $this->skillBaseId = $skillBaseId;
+        $this->skill_base_id = $skill_base_id;
     }
 
-    /**
-     * @return int
-     */
     public function getSkillTrefId(): ?int
     {
-        return $this->skillTrefId;
+        return $this->skill_tref_id;
     }
 
-    /**
-     * @param int $skillTrefId
-     */
-    public function setSkillTrefId($skillTrefId): void
+    public function setSkillTrefId(int $skill_tref_id): void
     {
-        $this->skillTrefId = $skillTrefId;
+        $this->skill_tref_id = $skill_tref_id;
     }
 }
