@@ -1362,7 +1362,9 @@ class ilNoteGUI
         $query_url = $ctrl->getLinkTarget($this, "getListHtml", "", true, false);
         $comps = array();
         $c = $f->counter()->status((int) $cnt);
-        $comps[] = $f->symbol()->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
+        $comps[] = $f->button()->shy('', '#')->withSymbol(
+            $f->symbol()->glyph()->comment()->withCounter($c)
+        )->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
             $code = "$('#$id').attr('data-note-key','$hash');\n";
             $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
             $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";
@@ -1502,7 +1504,9 @@ class ilNoteGUI
         $comps = array();
         if ($cnt > 0) {
             $c = $f->counter()->status((int) $cnt);
-            $comps[] = $f->symbol()->glyph()->comment()->withCounter($c)->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
+            $comps[] = $f->button()->shy('', '#')->withSymbol(
+                $f->symbol()->glyph()->comment()->withCounter($c)
+            )->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
                 $code = "$('#$id').attr('data-note-key','$hash');\n";
                 $code .= "$('#$id').attr('data-note-ui-type','trigger');\n";
                 $code .= "$('#$id').attr('data-note-query-url','" . $query_url . "');\n";

@@ -173,8 +173,8 @@ class ilObjFilePreviewRendererGUI implements ilCtrlBaseClassInterface
                                   );
 
         if (!$as_button) {
-            $trigger = $this->ui_factory->symbol()->glyph()->preview(
-                "#"
+            $trigger = $this->ui_factory->button()->shy('', "#")->withSymbol(
+                $this->ui_factory->symbol()->glyph()->preview()
             )->withOnClick($modal->getShowSignal());
         } else {
             $trigger = $this->ui_factory->button()->standard(

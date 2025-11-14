@@ -19,6 +19,7 @@
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -59,6 +60,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     protected GlyphFactory $glyph_factory;
     protected Renderer $renderer;
     protected UploadLimitResolver $upload_limit;
+    protected ButtonFactory $button_factory;
 
     /**
      * Constructor
@@ -76,6 +78,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->renderer = $DIC->ui()->renderer();
         $this->upload_limit = $DIC['ui.upload_limit_resolver'];
+        $this->button_factory = $DIC->ui()->factory()->button();
 
         $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
         $this->setSize(25);
@@ -342,10 +345,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             if ($this->isEditElementOrderEnabled()) {
                 $tpl->setCurrentBlock('move');
                 $tpl->setVariable('UP_BUTTON', $this->renderer->render(
-                    $this->glyph_factory->up()->withAction('#')
+                    $this->button_factory->shy('', '#')->withSymbol($this->glyph_factory->up())
                 ));
                 $tpl->setVariable('DOWN_BUTTON', $this->renderer->render(
-                    $this->glyph_factory->down()->withAction('#')
+                    $this->button_factory->shy('', '#')->withSymbol($this->glyph_factory->down())
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -355,10 +358,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable('ID_ADD', $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
                 $tpl->setVariable('ID_REMOVE', $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
                 $tpl->setVariable('ADD_BUTTON', $this->renderer->render(
-                    $this->glyph_factory->add()->withAction('#')
+                    $this->button_factory->shy('', '#')->withSymbol($this->glyph_factory->add())
                 ));
                 $tpl->setVariable('REMOVE_BUTTON', $this->renderer->render(
-                    $this->glyph_factory->remove()->withAction('#')
+                    $this->button_factory->shy('', '#')->withSymbol($this->glyph_factory->remove())
                 ));
                 $tpl->parseCurrentBlock();
             }

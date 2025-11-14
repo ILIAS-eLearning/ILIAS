@@ -20,6 +20,7 @@ use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
+use ILIAS\UI\Component\Button\Factory as ButtonFactory;
 
 /**
  * This class represents a single choice wizard property in a property form.
@@ -45,6 +46,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     protected GlyphFactory $glyph_factory;
     protected Renderer $renderer;
     protected UploadLimitResolver $upload_limit;
+    protected ButtonFactory $button_factory;
 
     public function __construct($a_title = "", $a_postvar = "")
     {
@@ -56,6 +58,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
         $this->renderer = $DIC->ui()->renderer();
         $this->upload_limit = $DIC['ui.upload_limit_resolver'];
+        $this->button_factory = $DIC->ui()->factory()->button();
 
         $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
         $this->setSize('40');
@@ -331,10 +334,10 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("ROW_IDENTIFIER", $value->getIdentifier());
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("ADD_BUTTON", $this->renderer->render(
-                $this->glyph_factory->add()->withAction('#')
+                $this->button_factory->shy('', '#')->withSymbol($this->glyph_factory->add())
             ));
             $tpl->setVariable("REMOVE_BUTTON", $this->renderer->render(
-                $this->glyph_factory->remove()->withAction('#')
+                $this->button_factory->shy('', '#')->withSymbol($this->glyph_factory->remove())
             ));
             $tpl->parseCurrentBlock();
             $i++;

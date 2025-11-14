@@ -217,7 +217,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_6">
+                        <button class="btn btn-link" data-action="#" id="id_6">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -235,7 +235,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_8">
+                        <button class="btn btn-link" data-action="#" id="id_8">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -249,7 +249,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_12">
+                        <button class="btn btn-link" data-action="#" id="id_12">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -361,7 +361,7 @@ EOT;
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_6">
+                        <button class="btn btn-link" data-action="#" id="id_6">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -379,7 +379,7 @@ EOT;
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_8">
+                        <button class="btn btn-link" data-action="#" id="id_8">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -393,7 +393,7 @@ EOT;
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_12">
+                        <button class="btn btn-link" data-action="#" id="id_12">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -505,7 +505,7 @@ EOT;
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_6">
+                        <button class="btn btn-link" data-action="#" id="id_6">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -523,7 +523,7 @@ EOT;
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_8">
+                        <button class="btn btn-link" data-action="#" id="id_8">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -537,7 +537,7 @@ EOT;
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_12">
+                        <button class="btn btn-link" data-action="#" id="id_12">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -649,7 +649,7 @@ EOT;
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                    <button class="btn btn-link" data-action="" id="id_6">
+                    <button class="btn btn-link" data-action="#" id="id_6">
                         <span class="glyph" aria-label="remove" role="img">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         </span>
@@ -667,7 +667,7 @@ EOT;
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_8">
+                        <button class="btn btn-link" data-action="#" id="id_8">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>
@@ -681,7 +681,7 @@ EOT;
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <button class="btn btn-link" data-action="" id="id_12">
+                        <button class="btn btn-link" data-action="#" id="id_12">
                             <span class="glyph" aria-label="remove" role="img">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                             </span>

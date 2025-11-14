@@ -144,7 +144,7 @@ class FilterContextRenderer extends Renderer
         /**
          * @var $remove_glyph Shy
          */
-        $remove_glyph = $f->button()->shy('', '')->withSymbol(
+        $remove_glyph = $f->button()->shy('', '#')->withSymbol(
             $f->symbol()->glyph()->remove()
         )->withAdditionalOnLoadCode(
             fn($id) => "$('#$id').on('click', function(event) {

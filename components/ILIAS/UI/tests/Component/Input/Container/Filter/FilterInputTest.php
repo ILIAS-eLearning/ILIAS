@@ -132,7 +132,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
                 <input id="id_1" type="text" class="c-field-text" />
                 <span class="input-group-addon rightaddon">
-                    <button class="btn btn-link" data-action="" id="id_2">
+                    <button class="btn btn-link" data-action="#" id="id_2">
                         <span class="glyph" aria-label="remove" role="img">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         </span>
@@ -159,7 +159,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
                 <label for="id_1" class="input-group-addon leftaddon">label</label>
                 <input id="id_1" type="number" step="1" class="c-field-number" />
                 <span class="input-group-addon rightaddon">
-                    <button class="btn btn-link" data-action="" id="id_2">
+                    <button class="btn btn-link" data-action="#" id="id_2">
                         <span class="glyph" aria-label="remove" role="img">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         </span>
@@ -192,7 +192,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
                     <option value="three">Three</option>
                 </select>
                 <span class="input-group-addon rightaddon">
-                    <button class="btn btn-link" data-action="" id="id_2">
+                    <button class="btn btn-link" data-action="#" id="id_2">
                         <span class="glyph" aria-label="remove" role="img">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         </span>
@@ -221,7 +221,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
                 <span role="button" tabindex="0" class="form-control il-filter-field" id="id_3" data-placement="bottom"></span>
                 <div class="il-standard-popover-content" style="display:none;" id="id_1"></div>
                 <span class="input-group-addon rightaddon">
-                    <button class="btn btn-link" data-action="" id="id_4">
+                    <button class="btn btn-link" data-action="#" id="id_4">
                         <span class="glyph" aria-label="remove" role="img">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         </span>
@@ -251,7 +251,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
                     <input id="id_1" type="date" class="c-field-datetime" />
                 </div>
                 <span class="input-group-addon rightaddon">
-                    <button class="btn btn-link" data-action="" id="id_2">
+                    <button class="btn btn-link" data-action="#" id="id_2">
                         <span class="glyph" aria-label="remove" role="img">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         </span>
@@ -306,7 +306,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
                 <span role="button" tabindex="0" class="form-control il-filter-field" id="id_7" data-placement="bottom"></span>
                 <div class="il-standard-popover-content" style="display:none;" id="id_5"></div>
                 <span class="input-group-addon rightaddon">
-                    <button class="btn btn-link" data-action="" id="id_8">
+                    <button class="btn btn-link" data-action="#" id="id_8">
                         <span class="glyph" aria-label="remove" role="img">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         </span>

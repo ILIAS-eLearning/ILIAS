@@ -48,18 +48,18 @@ class SymbolAdapterGUI
         return $this;
     }
 
-    protected function getSymbol(): \ILIAS\UI\Component\Symbol\Symbol
+    protected function getShyButtonWithSymbol(): \ILIAS\UI\Component\Button\Button
     {
         $gl = $this->gl_type;
-        $s = $this->ui->factory()->symbol()->glyph()->$gl(
-            $this->href
+        $s = $this->ui->factory()->button()->shy('', $this->href)->withSymbol(
+            $this->ui->factory()->symbol()->glyph()->$gl()
         );
         return $s;
     }
 
     public function render(): string
     {
-        $s = $this->ui->renderer()->render($this->getSymbol());
+        $s = $this->ui->renderer()->render($this->getShyButtonWithSymbol());
         // workaround to get rid of a tags
         if ($this->href === "") {
             $s = str_replace("</a>", "", substr($s, strpos($s, "<span")));
