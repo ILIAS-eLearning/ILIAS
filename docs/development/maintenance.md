@@ -1636,13 +1636,13 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Webservices)
 
 * **Webservices**
-    * Authority to Sign off on Conceptual Changes: [Ahmed](https://docu.ilias.de/go/usr/115389)
-    * Authority to Sign off on Code Changes: [Ahmed](https://docu.ilias.de/go/usr/115389), [Sagun](https://docu.ilias.de/go/usr/112949)
-    * Authority to Curate Test Cases: [Sagun](https://docu.ilias.de/go/usr/112949)
-    * Authority to (De-)Assign Authorities: [Timo](https://docu.ilias.de/go/usr/102976)
+    * Authority to Sign off on Conceptual Changes: [githamo](https://docu.ilias.de/go/usr/115389)
+    * Authority to Sign off on Code Changes: [githamo](https://docu.ilias.de/go/usr/115389), [sKarki999](https://docu.ilias.de/go/usr/112949)
+    * Authority to Curate Test Cases: [sKarki999](https://docu.ilias.de/go/usr/112949)
+    * Authority to (De-)Assign Authorities: [TimoScheuer](https://docu.ilias.de/go/usr/102976)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Assignee for Security Reports: [Sagun](https://docu.ilias.de/go/usr/112949)
-    * Assignee for Security Issues: [Sagun](https://docu.ilias.de/go/usr/112949)
+    * Assignee for Security Reports: [sKarki999](https://docu.ilias.de/go/usr/112949)
+    * Assignee for Security Issues: [sKarki999](https://docu.ilias.de/go/usr/112949)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Webservices)
