@@ -22,7 +22,7 @@ namespace ILIAS\TestQuestionPool\Skills;
 
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
-use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\RequestDataCollectorInterface;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
@@ -33,7 +33,7 @@ class EditSkillsOfQuestionTable implements DataRetrieval
     public const string ID = 'ska';
 
     public function __construct(
-        private readonly RequestDataCollector $pool_request,
+        private readonly RequestDataCollectorInterface $pool_request,
         private readonly \ilAssQuestionSkillAssignmentList $assignment_list,
         private readonly UIFactory $ui_factory,
         private readonly \ilLanguage $lng,
