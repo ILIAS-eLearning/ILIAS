@@ -11178,6 +11178,7 @@ lti#:#conf_user_name_lastname_info#:#Asszony vagy Úr megszólítást (eltérő 
 lti#:#conf_user_name_none#:#Semmi
 lti#:#conf_user_name_none_info#:#'-'-et küldjük a név helyett
 lti#:#consumers#:#Fogyasztók
+lti#:#content_selection#:#Content selection###14 11 2025 new variable
 lti#:#description_info#:#A leírás a cím alatt jelenik meg.
 lti#:#field_provider_xml#:#XML-Fájl
 lti#:#field_provider_xml_info#:#Eszközfogyasztók és Common Cartridge támogatásához XML-fájlok a https://www.imsglobal.org/specs/lti/xml szerint.

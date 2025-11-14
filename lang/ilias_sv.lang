@@ -11178,6 +11178,7 @@ lti#:#conf_user_name_lastname_info#:#Sänder Mr eller Mrs (om inget annat anges)
 lti#:#conf_user_name_none#:#Ingen
 lti#:#conf_user_name_none_info#:#Skickar '-' istället för ett namn
 lti#:#consumers#:#konsumenter
+lti#:#content_selection#:#Content selection###14 11 2025 new variable
 lti#:#description_info#:#Beskrivningen visas under titeln.
 lti#:#field_provider_xml#:#XML-fil
 lti#:#field_provider_xml_info#:#XML-filer stöds för Tool Consumer och för Common Cartridge enligt https

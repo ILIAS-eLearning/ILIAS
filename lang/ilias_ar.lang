@@ -11178,6 +11178,7 @@ lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise s
 lti#:#conf_user_name_none#:#No one###07 02 2020 new variable
 lti#:#conf_user_name_none_info#:#Sends '-' instead of a name###07 02 2020 new variable
 lti#:#consumers#:#Consumers###31 08 2017 new variable
+lti#:#content_selection#:#Content selection###14 11 2025 new variable
 lti#:#description_info#:#The description will be shown below the title.###07 02 2020 new variable
 lti#:#field_provider_xml#:#XML-File###07 02 2020 new variable
 lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.###07 02 2020 new variable

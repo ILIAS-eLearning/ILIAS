@@ -11183,6 +11183,7 @@ lti#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders 
 lti#:#conf_user_name_none#:#Keiner
 lti#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 lti#:#consumers#:#Konsumenten
+lti#:#content_selection#:#Auswahl von Inhalten###14 11 2025 new variable
 lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 lti#:#field_provider_xml#:#XML-Datei
 lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consumer und für Common Cartridge gemäß https://www.imsglobal.org/specs/lti/xml.

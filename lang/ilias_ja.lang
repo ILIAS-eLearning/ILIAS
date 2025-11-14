@@ -11178,6 +11178,7 @@ lti#:#conf_user_name_lastname_info#:#MisterまたはMs/Mrs.を送信 (特に指�
 lti#:#conf_user_name_none#:#だれもない
 lti#:#conf_user_name_none_info#:#名前の代わりに '-' を送信
 lti#:#consumers#:#消費者
+lti#:#content_selection#:#Content selection###14 11 2025 new variable
 lti#:#description_info#:#説明はタイトルの下へ表示されます。
 lti#:#field_provider_xml#:#XML-ファイル
 lti#:#field_provider_xml_info#:#https://www.imsglobal.org/specs/lti/xml　準拠のサポートされるTool ConsumerとCommon CartridgXML-ファイル
