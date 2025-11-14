@@ -65,11 +65,11 @@ class ilLTIConsumerContentGUI
         $this->{$command}();
     }
 
-    public function getJwtForContentSelection(string $redirectUri, string $clientId, int $deploymentId, string $nonce) : string
+    public function getJwtForContentSelection(string $redirectUri, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null) : string
     {
         $jwt = "";
         $this->initCmixUser();
-        $jwtArray = $this->getLaunchParametersLTI13($redirectUri, $clientId, $deploymentId, $nonce);
+        $jwtArray = $this->getLaunchParametersLTI13($redirectUri, $clientId, $deploymentId, $nonce, $additionalArguments);
         if(isset($jwtArray['id_token'])) {
             $jwt = $jwtArray['id_token'];
         }
@@ -366,7 +366,7 @@ class ilLTIConsumerContentGUI
         );
     }
 
-    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce): ?array
+    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null): ?array
     {
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $launchContext = $ilLTIConsumerLaunch->getContext();
@@ -391,7 +391,9 @@ class ilLTIConsumerContentGUI
             $nonce,
             $launchContextType,
             $launchContextId,
-            $launchContextTitle
+            $launchContextTitle,
+            '',
+            $additionalArguments
         );
     }
 

@@ -823,7 +823,8 @@ class ilObjLTIConsumer extends ilObject2
         string $contextType,
         string $contextId,
         string $contextTitle,
-        ?string $returnUrl = ''
+        ?string $returnUrl = '',
+        ?array $additionalArguments = null
     ): ?array {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -948,7 +949,7 @@ class ilObjLTIConsumer extends ilObject2
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', 'ERROR_OPEN_SSL_CONF', true);
             return null;
         }
-        return self::LTISignJWT($launch_vars, $endpoint, $clientId, $deploymentId, $nonce);
+        return self::LTISignJWT($launch_vars, $endpoint, $clientId, $deploymentId, $nonce, $additionalArguments);
     }
 
     /**
@@ -1065,7 +1066,8 @@ class ilObjLTIConsumer extends ilObject2
         string $endpoint,
         string $oAuthConsumerKey,
         $typeId = 0,
-        string $nonce = ''
+        string $nonce = '',
+        ?array $additionalPayload = null,
     ): array {
         if (empty($typeId)) {
             $typeId = 0;
@@ -1159,11 +1161,13 @@ class ilObjLTIConsumer extends ilObject2
                 $payLoad["{$claim}/claim/ext"][substr($key, 4)] = $value;
             }
         }
-        //self::getLogger()->debug(json_encode($payLoad,JSON_PRETTY_PRINT));
         if (!empty(self::verifyPrivateKey())) {
             throw new DomainException(self::ERROR_OPEN_SSL_CONF);
         }
         $privateKey = self::getPrivateKey();
+        if (isset($additionalPayload)){
+            $payLoad = array_merge($payLoad, $additionalPayload);
+        }
         $jwt = Firebase\JWT\JWT::encode($payLoad, $privateKey['key'], 'RS256', $privateKey['kid']);
         $newParms = array();
         $newParms['id_token'] = $jwt;

@@ -91,7 +91,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
         $modal = $factory
             ->modal()
-            ->roundtrip($this->lng->txt('tab_content'), $content);
+            ->roundtrip($this->lng->txt('subtab_provider_settings'), $content);
 
         $button = $factory
             ->button()

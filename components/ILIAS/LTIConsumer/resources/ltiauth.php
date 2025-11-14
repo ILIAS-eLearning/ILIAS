@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 require_once("../vendor/composer/vendor/autoload.php");
 
-use Firebase\JWT\JWT;
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = $_POST;
 } else {
@@ -99,7 +97,6 @@ if ($isDlMode) {
         $payload['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] = (string) $deploymentId;
     }
 
-    // tell Moodle where to return the selection – Moodle already gave us redirect_uri
     $payload['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'] = [
         'deep_link_return_url' => $iframe_url,
         'accept_types' => ['ltiResourceLink'],
@@ -115,12 +112,11 @@ if ($isDlMode) {
 
     $objLtiConsumer = new ilObjLTIConsumer($childRefId);
     $consumerContentGui = new ilLTIConsumerContentGUI($objLtiConsumer);
-    $jwt = $consumerContentGui->getJwtForContentSelection($redirectUri, $clientId, $deploymentId, $nonce);
+    $jwt = $consumerContentGui->getJwtForContentSelection($redirectUri, $clientId, $deploymentId, $nonce, $payload);
 
     $redirSafe = htmlspecialchars($redirectUri, ENT_QUOTES);
     $stateSafe = htmlspecialchars($state, ENT_QUOTES);
     $jwtSafe   = htmlspecialchars($jwt, ENT_QUOTES);
-
     echo <<<HTML
 <!doctype html>
 <html><body onload="document.forms[0].submit()">

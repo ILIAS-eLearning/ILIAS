@@ -58,8 +58,6 @@ $obj = ilObjectFactory::getInstanceByRefId($ref_id);
 $target = $obj->getType() . '_' . $ref_id;
 
 $link = 'goto.php?target=' . $target;
-$tpl = $DIC->ui()->mainTemplate();
-$tpl->setOnScreenMessage('success', "Created 1 LTI resource(s).", true); // false => show now
 
 echo <<<HTML
 <!doctype html>
