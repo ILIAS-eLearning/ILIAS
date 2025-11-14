@@ -21,11 +21,13 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use ILIAS\Notifications\ilNotificationPushHandler;
 use ILIAS\Notifications\Interfaces\InternalPushProvider;
+use ILIAS\Notifications\Interfaces\PushProviderInterface;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationObject;
 use ILIAS\Notifications\Model\Push\PushSubscription;
 use ILIAS\Notifications\Provider\NotificationsPushProvider;
 use ILIAS\Notifications\Repository\PushRepository;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * @ilCtrl_IsCalledBy ilPersonalNotificationsSettingsGUI: ilNotificationGUI
@@ -34,6 +36,8 @@ readonly class ilPersonalNotificationsSettingsGUI
 {
     protected Container $dic;
     protected PushRepository $repo;
+    /** @var PushProviderInterface[] */
+    protected array $pushProvider;
 
     public function __construct(?Container $dic = null)
     {
@@ -43,28 +47,76 @@ readonly class ilPersonalNotificationsSettingsGUI
         }
         $this->dic = $dic;
         $this->repo = new PushRepository($this->dic->database(), $this->dic->user());
+        $provider = [];
+        foreach (require PushNotificationObjective::PATH() as $class) {
+            $provider[] = new $class();
+        }
+        $this->pushProvider = $provider;
     }
 
     public function executeCommand(): void
     {
-        $this->dic->language()->loadLanguageModule('notifications_adm');
+        if ((new ilSetting('notifications'))->get('enable_push') !== '1') {
+            $this->dic->ui()->mainTemplate()->setOnScreenMessage(
+                $this->dic->ui()->mainTemplate()::MESSAGE_TYPE_FAILURE,
+                $this->dic->language()->txt('permission_denied')
+            );
+            $this->dic->ui()->mainTemplate()->printToStdout();
+            return;
+        }
 
+        $this->dic->language()->loadLanguageModule('notifications_adm');
         $this->dic->ui()->mainTemplate()->setTitle($this->dic->language()->txt('push_settings'));
         $this->dic->ui()->mainTemplate()->setTitleIcon(ilUtil::getImagePath('standard/icon_nota.svg'));
+        $this->dic->tabs()->addTab('client', $this->dic->language()->txt('client_settings'), $this->dic->ctrl()->getLinkTargetByClass(self::class, 'showClientSettings'));
+        if ($this->pushProvider !== []) {
+            $this->dic->tabs()->addTab('user', $this->dic->language()->txt('user_settings'), $this->dic->ctrl()->getLinkTargetByClass(self::class, 'showUserSettings'));
+        }
 
         switch ($this->dic->ctrl()->getCmd()) {
+            case 'showUserSettings':
+                $this->dic->tabs()->activateTab('user');
+                if ($this->pushProvider !== []) {
+                    $this->dic->ui()->mainTemplate()->setContent($this->dic->ui()->renderer()->render($this->getForm()));
+                    $this->dic->ui()->mainTemplate()->printToStdout();
+                } else {
+                    $this->dic->ctrl()->redirectByClass(self::class, 'showClientSettings');
+                }
+                break;
+            case 'saveUserSettings':
+                $this->dic->tabs()->activateTab('user');
+                $form = $this->getForm()->withRequest($this->dic->http()->request());
+                $data = $form->getData();
+                if ($data !== null) {
+                    $active = [];
+                    foreach ($data['provider'] ?? [] as $key => $value) {
+                        if ($value === true) {
+                            $active[] = $key;
+                        }
+                    }
+                    $this->dic->user()->setPref('push_notification_provider', json_encode($active));
+                    $this->dic->user()->update();
+                    $this->dic->ui()->mainTemplate()->setOnScreenMessage(
+                        $this->dic->ui()->mainTemplate()::MESSAGE_TYPE_SUCCESS,
+                        $this->dic->language()->txt('saved_successfully')
+                    );
+                }
+                $this->dic->ui()->mainTemplate()->setContent($this->dic->ui()->renderer()->render($form));
+                $this->dic->ui()->mainTemplate()->printToStdout();
+                break;
             case 'addSubscription':
                 $this->addSubscription();
                 break;
             case 'removeSubscription':
                 $this->removeSubscription();
                 break;
-            case 'showSettings':
+            case 'showClientSettings':
             default:
+                $this->dic->tabs()->activateTab('client');
                 if (!($this->dic->http()->wrapper()->post()->has('auth') && $this->dic->http()->wrapper()->post()->has('perm'))) {
                     $this->fetchClientData();
                 }
-                $this->showSettings();
+                $this->showClientSettings();
         }
     }
 
@@ -113,7 +165,7 @@ readonly class ilPersonalNotificationsSettingsGUI
         }
     }
 
-    protected function showSettings(): void
+    protected function showClientSettings(): void
     {
         $this->dic->ui()->mainTemplate()->addJavaScript('assets/js/push-subscription.js');
 
@@ -163,7 +215,7 @@ readonly class ilPersonalNotificationsSettingsGUI
      */
     protected function fetchClientData(): never
     {
-        $target = ILIAS_HTTP_PATH . '/' . $this->dic->ctrl()->getLinkTargetByClass(self::class, 'showSettings');
+        $target = ILIAS_HTTP_PATH . '/' . $this->dic->ctrl()->getLinkTargetByClass(self::class, 'showClientSettings');
 
         $this->dic->ui()->mainTemplate()->setContent($this->dic->ui()->renderer()->render(
             $this->dic->ui()->factory()->legacy()->content('')->withOnLoadCode(
@@ -190,5 +242,27 @@ readonly class ilPersonalNotificationsSettingsGUI
         ));
         $this->dic->ui()->mainTemplate()->printToStdout();
         $this->dic->http()->close();
+    }
+
+    public function getForm(): Form
+    {
+        $provider = [];
+        $prefs = json_decode($this->dic->user()->getPref('push_notification_provider') ?? '[]');
+        foreach ($this->pushProvider as $p) {
+            $provider[$p->getIdentifier()] = $this->dic->ui()->factory()->input()->field()->checkbox(
+                $p->getName($this->dic->language()),
+                $p->getDescription($this->dic->language()),
+            )->withValue(in_array($p->getIdentifier(), $prefs));
+        }
+
+        return $this->dic->ui()->factory()->input()->container()->form()->standard(
+            $this->dic->ctrl()->getLinkTargetByClass(self::class, 'saveUserSettings'),
+            [
+                'provider' => $this->dic->ui()->factory()->input()->field()->section(
+                    $provider,
+                    $this->dic->language()->txt('available_providers'),
+                )
+            ]
+        );
     }
 }
