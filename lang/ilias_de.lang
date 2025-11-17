@@ -3853,6 +3853,7 @@ common#:#country_free_text#:#Land (Freitext)
 common#:#country_selection#:#Land (Selektionsliste)
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
+common#:#course_role#:#Kursrolle
 common#:#create#:#Erstellen
 common#:#create_date#:#Erstellt am
 common#:#create_export_file#:#Exportdatei erstellen
