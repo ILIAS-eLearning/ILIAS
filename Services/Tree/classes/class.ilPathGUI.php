@@ -131,6 +131,8 @@ class ilPathGUI
      */
     protected function getHTML(): string
     {
+        global $DIC;
+        
         if ($this->textOnly()) {
             $tpl = new ilTemplate('tpl.locator_text_only.html', true, true, "Services/Locator");
 
@@ -198,7 +200,9 @@ class ilPathGUI
                     $tpl->parseCurrentBlock();
                 }
 
-                if (!$this->tree->isDeleted($ref_id)) {
+                if (!$this->tree->isDeleted($ref_id) &&
+                       ($DIC['ilAccess']->checkAccess('visible','',(int) $ref_id) ||
+                       $DIC['ilAccess']->checkAccess('read','',(int) $ref_id))) {
                     $tpl->setCurrentBlock('locator_item');
                     $tpl->setVariable('LINK_ITEM', $this->buildLink($ref_id, $type));
                     $tpl->setVariable('ITEM', $title);
