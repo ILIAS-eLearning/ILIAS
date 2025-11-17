@@ -2322,7 +2322,16 @@ class ilTable2GUI extends ilTableGUI
                 }
                 $this->tpl->setVariable(
                     "SELECT_CMDS",
-                    ilLegacyFormElementsUtil::formSelect("", "selected_cmd2", $sel, false, true)
+                     ilLegacyFormElementsUtil::formSelect(
+                        "",                      // selected
+                        "selected_cmd2",         // name
+                        $sel,                    // options
+                        false,                   // use_multi
+                        true,                    // submit_after_change
+                        0,                       // size
+                        "",                      // css class
+                        array("aria-label" => $lng->txt("action")) // <-- localized aria-label
+                    )
                 );
                 $this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
                 $this->tpl->parseCurrentBlock();
