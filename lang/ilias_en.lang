@@ -3854,6 +3854,7 @@ common#:#country_free_text#:#Country (Free Text Input)
 common#:#country_selection#:#Country (Drop Down Selection)
 common#:#course#:#Course
 common#:#courses#:#Courses
+common#:#course_role#:#Course Role
 common#:#create#:#Create
 common#:#create_date#:#Created on
 common#:#create_export_file#:#Create export file
