@@ -151,7 +151,8 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             array(
                 'obj_id' => array('integer', $objId),
                 'usr_id' => array('integer', $userId),
-                'result' => array('float', $result)
+                'result' => array('float', $result),
+                'attended' => array('integer', 1)
             )
         );
 

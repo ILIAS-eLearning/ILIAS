@@ -841,6 +841,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 if ($DIC->ctrl()->getCmd() === 'save') {
                     $this->checkContentSelection();
                 } else {
+                    if (isset($this->object) && !$this->isContentTabAvailable()) {
+                        $DIC->ctrl()->redirectToURL($this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class));
+                    }
                     $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
                     $this->{$command}();
                 }
@@ -868,6 +871,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         } else {
             $this->save();
         }
+    }
+
+    public function isContentTabAvailable(): bool
+    {
+        if (!$this->object->getOfflineStatus() &&
+            $this->object->getProvider()->getAvailability() != ilLTIConsumeProvider::AVAILABILITY_NONE) {
+            return true;
+        }
+        return false;
     }
 
     protected function setTabs(): void

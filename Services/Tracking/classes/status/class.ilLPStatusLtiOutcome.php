@@ -55,7 +55,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
             if ($ltiResult->getResult() === 0 || is_null($ltiResult->getResult()) && $ltiResult->isAttended()) {
                 return self::LP_STATUS_FAILED_NUM;
             } elseif (is_null($ltiResult->getResult()) && !$ltiResult->isAttended()) {
-                return self::LP_STATUS_NOT_ATTEMPTED_NUM;
+                return self::LP_STATUS_IN_PROGRESS_NUM;
             } elseif ($ltiResult->getResult() >= $ltiMasteryScore) {
                 return self::LP_STATUS_COMPLETED_NUM;
             } else {
@@ -63,9 +63,8 @@ class ilLPStatusLtiOutcome extends ilLPStatus
             }
         } else {
             $logger->info("No LTI result for user $a_usr_id");
+            return self::LP_STATUS_NOT_ATTEMPTED_NUM;
         }
-
-        return self::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
     public function determinePercentage(
