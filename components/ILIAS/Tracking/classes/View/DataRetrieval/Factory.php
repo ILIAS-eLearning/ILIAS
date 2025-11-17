@@ -22,12 +22,10 @@ namespace ILIAS\Tracking\View\DataRetrieval;
 
 use ilDBInterface;
 use ILIAS\Tracking\View\DataRetrieval\DataRetrievalInterface as DRInterface;
-use ILIAS\Tracking\View\DataRetrieval\DataRetrieval;
 use ILIAS\Tracking\View\DataRetrieval\FactoryInterface as DRFactoryInterface;
 use ILIAS\Tracking\View\DataRetrieval\FilterInterface as DRFilterInterface;
-use ILIAS\Tracking\View\DataRetrieval\Filter;
-use ILIAS\Tracking\View\DataRetrieval\Info\FactoryInterface as InfoFactoryInterface;
 use ILIAS\Tracking\View\DataRetrieval\Info\Factory as InfoFactory;
+use ILIAS\Tracking\View\DataRetrieval\Info\FactoryInterface as InfoFactoryInterface;
 
 class Factory implements DRFactoryInterface
 {

@@ -20,8 +20,8 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\DataRetrieval\Info\Iterator;
 
-use Iterator;
 use ILIAS\Tracking\View\DataRetrieval\Info\CombinedInterface as CombinedInfoInterface;
+use Iterator;
 
 interface CombinedInterface extends Iterator
 {

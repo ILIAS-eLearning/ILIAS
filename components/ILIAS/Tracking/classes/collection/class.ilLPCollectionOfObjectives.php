@@ -18,11 +18,6 @@
 
 declare(strict_types=0);
 
-/**
- * LP collection of objectives
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
 class ilLPCollectionOfObjectives extends ilLPCollection
 {
     protected function read(int $a_obj_id): void

@@ -16,15 +16,16 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
-/**
- * @author     Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version    $Id$
- * @ingroup    ServicesTracking
- */
+use ILIAS\DI\Container;
+
 class ilLPStatusVisitedPages extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_visited_pages';
+    protected const string LNG_TEXT_INFO = 'trac_mode_visited_pages_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
@@ -37,17 +38,15 @@ class ilLPStatusVisitedPages extends ilLPStatus
 
     public static function _getCompleted(int $a_obj_id): array
     {
-        $users = array();
-
+        $users = [];
         $all_page_ids = self::getLMPages($a_obj_id);
         foreach (self::getVisitedPages(
             $a_obj_id
         ) as $user_id => $user_page_ids) {
-            if (!(bool) sizeof(array_diff($all_page_ids, $user_page_ids))) {
+            if (!sizeof(array_diff($all_page_ids, $user_page_ids))) {
                 $users[] = $user_id;
             }
         }
-
         return $users;
     }
 
@@ -57,18 +56,15 @@ class ilLPStatusVisitedPages extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-        switch (ilObject::_lookupType($a_obj_id)) {
-            case 'lm':
-                if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
-                    $status = self::LP_STATUS_IN_PROGRESS_NUM;
-
-                    if (self::hasVisitedAllPages($a_obj_id, $a_usr_id)) {
-                        $status = self::LP_STATUS_COMPLETED_NUM;
-                    }
-                }
-                break;
+        if (
+            strcmp(ilObject::_lookupType($a_obj_id), 'lm') === 0 &&
+            ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)
+        ) {
+            $status = self::LP_STATUS_IN_PROGRESS_NUM;
+            if (self::hasVisitedAllPages($a_obj_id, $a_usr_id)) {
+                $status = self::LP_STATUS_COMPLETED_NUM;
+            }
         }
-
         return $status;
     }
 
@@ -100,11 +96,8 @@ class ilLPStatusVisitedPages extends ilLPStatus
     protected static function getLMPages(int $a_obj_id): array
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-
-        $res = array();
-
+        $res = [];
         $set = $ilDB->query(
             "SELECT lm_data.obj_id" .
             " FROM lm_data" .
@@ -126,33 +119,46 @@ class ilLPStatusVisitedPages extends ilLPStatus
         ?int $a_user_id = null
     ): array {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-
-        $res = array();
-
+        $res = [];
         $all_page_ids = self::getLMPages($a_obj_id);
         if (!sizeof($all_page_ids)) {
             return $res;
         }
-
         $sql = "SELECT obj_id, usr_id" .
             " FROM lm_read_event" .
             " WHERE " . $ilDB->in("obj_id", $all_page_ids, "", "integer");
-
         if ($a_user_id) {
             $sql .= " AND usr_id = " . $ilDB->quote($a_user_id, "integer");
         }
-
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[(int) $row["usr_id"]][] = (int) $row["obj_id"];
         }
-
         if ($a_user_id) {
             $res = $res[$a_user_id] ?? [];
         }
-
         return $res;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_VISITED_PAGES;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

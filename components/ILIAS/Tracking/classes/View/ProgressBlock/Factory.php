@@ -21,8 +21,8 @@ declare(strict_types=0);
 namespace ILIAS\Tracking\View\ProgressBlock;
 
 use ilDBInterface;
-use ILIAS\Tracking\View\ProgressBlock\Settings\FactoryInterface as SettingsFactoryInterface;
 use ILIAS\Tracking\View\ProgressBlock\Settings\Factory as SettingsFactory;
+use ILIAS\Tracking\View\ProgressBlock\Settings\FactoryInterface as SettingsFactoryInterface;
 
 class Factory implements FactoryInterface
 {

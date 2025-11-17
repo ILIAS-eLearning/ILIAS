@@ -18,11 +18,11 @@
 
 declare(strict_types=0);
 
-use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 
 /**
  * Class ilObjUserTrackingGUI

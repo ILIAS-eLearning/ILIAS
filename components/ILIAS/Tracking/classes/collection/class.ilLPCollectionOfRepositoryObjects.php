@@ -18,14 +18,12 @@
 
 declare(strict_types=0);
 
-/**
- * LP collection of repository objects
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
+use ILIAS\Tracking\DB\Factory as TrackingDBFactory;
+
+
 class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 {
-    protected static array $possible_items = array();
+    protected static array $possible_items = [];
 
     protected ilTree $tree;
     protected ilObjectDefinition $objDefinition;
@@ -44,11 +42,9 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         int $a_ref_id,
         bool $a_full_data = false
     ): array {
-        global $DIC;
-
         $cache_idx = $a_ref_id . "__" . $a_full_data;
         if (!isset(self::$possible_items[$cache_idx])) {
-            $all_possible = array();
+            $all_possible = [];
 
             if (!$this->tree->isDeleted($a_ref_id)) {
                 if (!$a_full_data) {
@@ -165,14 +161,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $target_collection = new static($target_obj_id, $this->mode);
 
         // clone (active) groupings
-        foreach ($this->getGroupedItemsForLPStatus(
-        ) as $grouping_id => $group) {
-            $target_item_ids = array();
+        foreach ($this->getGroupedItemsForLPStatus() as $grouping_id => $group) {
+            $target_item_ids = [];
             foreach ($group["items"] as $item) {
                 if (!isset($mappings[$item]) or !$mappings[$item]) {
                     continue;
                 }
-
                 $target_item_ids[] = $mappings[$item];
             }
 
@@ -199,30 +193,26 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
     protected function read(int $a_obj_id): void
     {
-        $items = array();
-
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         $ref_id = end($ref_ids);
         $possible = $this->getPossibleItems($ref_id);
-
-        $res = $this->db->query(
-            "SELECT utc.item_id, obd.type" .
-            " FROM ut_lp_collections utc" .
-            " JOIN object_reference obr ON item_id = ref_id" .
-            " JOIN object_data obd ON obr.obj_id = obd.obj_id" .
-            " WHERE utc.obj_id = " . $this->db->quote($a_obj_id, "integer") .
-            " AND active = " . $this->db->quote(1, "integer") .
-            " ORDER BY title"
-        );
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (in_array($row->item_id, $possible) &&
-                $this->validateEntry((int) $row->item_id)) {
-                $items[] = $row->item_id;
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($a_obj_id);
+        $items = [];
+        if (is_null($collection)) {
+            $this->items = $items;
+            return;
+        }
+        $active_collection = $collection->getSubCollectionOfItemsByActiveStatus(true);
+        foreach ($active_collection as $element) {
+            if (
+                in_array($element->getItemId(), $possible) &&
+                $this->validateEntry($element->getItemId())
+            ) {
+                $items[] = $element->getItemId();
             } else {
-                $this->deleteEntry((int) $row->item_id);
+                $this->deleteEntry($element->getItemId());
             }
         }
-
         $this->items = $items;
     }
 
@@ -232,17 +222,15 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         if (!$this->isAssignedEntry($a_item_id)) {
             // #13278 - because of grouping inactive items may exist
             $this->deleteEntry($a_item_id);
-
-            $query = "INSERT INTO ut_lp_collections" .
-                " (obj_id, lpmode, item_id, grouping_id, num_obligatory, active)" .
-                " VALUES (" . $this->db->quote($this->obj_id, "integer") .
-                ", " . $this->db->quote($this->mode, "integer") .
-                ", " . $this->db->quote($a_item_id, "integer") .
-                ", " . $this->db->quote(0, "integer") .
-                ", " . $this->db->quote(0, "integer") .
-                ", " . $this->db->quote(1, "integer") .
-                ")";
-            $this->db->manipulate($query);
+            $element = $this->tracking_db_factory->lpCollection()->element()->lpCollectionElement()
+                ->withLPMode($this->mode)
+                ->withItemId($a_item_id)
+                ->withGroupingId(0)
+                ->withNumObligatory(0)
+                ->withIsActive(true);
+            $collection = $this->tracking_db_factory->lpCollection()->element()->lpCollection($element)
+                ->withObjectId($this->obj_id);
+            $this->tracking_db_factory->lpCollection()->repository()->writeLPCollection($collection);
             $this->items[] = $a_item_id;
         }
         return true;
@@ -250,56 +238,43 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
     protected function deleteEntry(int $a_item_id): bool
     {
-        $query = "DELETE FROM ut_lp_collections " .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND item_id = " . $this->db->quote($a_item_id, "integer") .
-            " AND grouping_id = " . $this->db->quote(0, "integer");
-        $this->db->manipulate($query);
+        $this->tracking_db_factory->lpCollection()->repository()->deleteLPCollectionEntryByGroupingId($this->obj_id, $a_item_id, 0);
         return true;
     }
 
     public static function hasGroupedItems(int $a_obj_id): bool
     {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $query = "SELECT item_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
-            " AND grouping_id > " . $ilDB->quote(0, "integer");
-        $res = $ilDB->query($query);
-        return $res->numRows() ? true : false;
+        $tracking_db_factory = new TrackingDBFactory($DIC->database());
+        $collection = $tracking_db_factory->lpCollection()->repository()->readLPCollection($a_obj_id);
+        if (is_null($collection)) {
+            return false;
+        }
+        return $collection->getGroupingIdsGreaterZero() > 0;
     }
 
     protected function getNonGroupedItems(array $a_item_ids): array
     {
-        $grouped_item_ids = [];
-
-        $query = "SELECT item_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, ilDBConstants::T_INTEGER) .
-            " AND " . $this->db->in("item_id", $a_item_ids, false, ilDBConstants::T_INTEGER) .
-            " AND grouping_id > " . $this->db->quote(0, ilDBConstants::T_INTEGER);
-        $res = $this->db->query($query);
-        while ($row = $res->fetchObject()) {
-            $grouped_item_ids[] = $row->item_id;
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
+        if (is_null($collection)) {
+            return $a_item_ids;
         }
-
+        $grouped_item_ids = $collection
+            ->getSubCollectionOfItemsByItemIds(...$a_item_ids)
+            ->getSubCollectionOfItemsByGroupingIds(...$collection->getGroupingIdsGreaterZero())
+            ->getItemIds();
         return array_diff($a_item_ids, $grouped_item_ids);
     }
 
     protected function getGroupingIds(array $a_item_ids): array
     {
-        $grouping_ids = [];
-
-        $query = "SELECT grouping_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, ilDBConstants::T_INTEGER) .
-            " AND " . $this->db->in("item_id", $a_item_ids, false, ilDBConstants::T_INTEGER) .
-            " AND grouping_id > " . $this->db->quote(0, ilDBConstants::T_INTEGER);
-        $res = $this->db->query($query);
-        while ($row = $res->fetchObject()) {
-            $grouping_ids[] = $row->grouping_id;
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
+        if (is_null($collection)) {
+            return [];
         }
-
-        return $grouping_ids;
+        return $collection
+            ->getSubCollectionOfItemsByItemIds(...$a_item_ids)
+            ->getGroupingIdsGreaterZero();
     }
 
     public function deactivateEntries(array $a_item_ids): void
@@ -307,18 +282,14 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         parent::deactivateEntries($a_item_ids);
 
         $grouping_ids = $this->getGroupingIds($a_item_ids);
-        if ($grouping_ids) {
-            $query = "UPDATE ut_lp_collections" .
-                " SET active = " . $this->db->quote(0, "integer") .
-                " WHERE " . $this->db->in(
-                    "grouping_id",
-                    $grouping_ids,
-                    false,
-                    "integer"
-                ) .
-                " AND obj_id = " . $this->db->quote($this->obj_id, "integer");
-            $this->db->manipulate($query);
+        if (count($grouping_ids) === 0) {
+            return;
         }
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
+        $adjusted_collection = $collection
+            ->getSubCollectionOfItemsByGroupingIds(...$grouping_ids)
+            ->withChangedActiveStatusOfAllElements(false);
+        $this->tracking_db_factory->lpCollection()->repository()->writeLPCollection($adjusted_collection);
     }
 
     public function activateEntries(array $a_item_ids): void
@@ -328,18 +299,14 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         parent::activateEntries($non_grouped_ids);
 
         $grouping_ids = $this->getGroupingIds($a_item_ids);
-        if ($grouping_ids) {
-            $query = "UPDATE ut_lp_collections" .
-                " SET active = " . $this->db->quote(1, "integer") .
-                " WHERE " . $this->db->in(
-                    "grouping_id",
-                    $grouping_ids,
-                    false,
-                    "integer"
-                ) .
-                " AND obj_id = " . $this->db->quote($this->obj_id, "integer");
-            $this->db->manipulate($query);
+        if (count($grouping_ids) === 0) {
+            return;
         }
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
+        $adjusted_collection = $collection
+            ->getSubCollectionOfItemsByGroupingIds(...$grouping_ids)
+            ->withChangedActiveStatusOfAllElements(true);
+        $this->tracking_db_factory->lpCollection()->repository()->writeLPCollection($adjusted_collection);
     }
 
     public function createNewGrouping(
@@ -347,114 +314,58 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         int $a_num_obligatory = 1
     ): void {
         $this->activateEntries($a_item_ids);
-
-        $all_item_ids = array();
         $grouping_ids = $this->getGroupingIds($a_item_ids);
-        $query = "SELECT item_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND " . $this->db->in(
-                "grouping_id",
-                $grouping_ids,
-                false,
-                "integer"
-            );
-        $res = $this->db->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $all_item_ids[] = $row->item_id;
-        }
-
-        $all_item_ids = array_unique(array_merge($all_item_ids, $a_item_ids));
-
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
+        $all_item_ids = array_unique(array_merge(
+            $collection->getSubCollectionOfItemsByGroupingIds(...$grouping_ids)->getItemIds(),
+            $a_item_ids)
+        );
         $this->releaseGrouping($a_item_ids);
-
-        // Create new grouping
-        $query = "SELECT MAX(grouping_id) grp FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " GROUP BY obj_id";
-        $res = $this->db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        $grp_id = $row->grp;
-        ++$grp_id;
-
-        $query = "UPDATE ut_lp_collections SET" .
-            " grouping_id = " . $this->db->quote($grp_id, "integer") .
-            ", num_obligatory = " . $this->db->quote(
-                $a_num_obligatory,
-                "integer"
-            ) .
-            ", active = " . $this->db->quote(1, "integer") .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND " . $this->db->in("item_id", $all_item_ids, false, "integer");
-        $this->db->manipulate($query);
+        $adjusted_collection = $collection->getSubCollectionOfItemsByItemIds(...$all_item_ids)
+            ->withChangedGroupingIdOfAllElements($collection->getMaxGroupingNumber() + 1)
+            ->withChangedNumObligatoryIdOfAllElements($a_num_obligatory)
+            ->withChangedActiveStatusOfAllElements(true);
+        $this->tracking_db_factory->lpCollection()->repository()->writeLPCollection($adjusted_collection);
     }
 
     public function releaseGrouping(array $a_item_ids): void
     {
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
         $grouping_ids = $this->getGroupingIds($a_item_ids);
-
-        $query = "UPDATE ut_lp_collections" .
-            " SET grouping_id = " . $this->db->quote(0, "integer") .
-            ", num_obligatory = " . $this->db->quote(0, "integer") .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND " . $this->db->in(
-                "grouping_id",
-                $grouping_ids,
-                false,
-                "integer"
-            );
-        $this->db->manipulate($query);
+        $adjusted_collection = $collection->getSubCollectionOfItemsByGroupingIds(...$grouping_ids)
+            ->withChangedGroupingIdOfAllElements(0)
+            ->withChangedNumObligatoryIdOfAllElements(0);
+        $this->tracking_db_factory->lpCollection()->repository()->writeLPCollection($adjusted_collection);
     }
 
     public function saveObligatoryMaterials(array $a_obl): void
     {
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
         foreach ($a_obl as $grouping_id => $num) {
-            $query = "SELECT count(obj_id) num FROM ut_lp_collections" .
-                " WHERE obj_id = " . $this->db->quote(
-                    $this->obj_id,
-                    "integer"
-                ) .
-                " AND grouping_id = " . $this->db->quote(
-                    $grouping_id,
-                    'integer'
-                ) .
-                " GROUP BY obj_id";
-            $res = $this->db->query($query);
-            while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                if ($num <= 0 || $num >= $row->num) {
-                    throw new UnexpectedValueException();
-                }
+            $col_num = $collection->getSubCollectionOfItemsByGroupingId($grouping_id)->count();
+            if ($num <= 0 || $num >= $col_num) {
+                throw new UnexpectedValueException();
             }
         }
         foreach ($a_obl as $grouping_id => $num) {
-            $query = "UPDATE ut_lp_collections" .
-                " SET num_obligatory = " . $this->db->quote($num, "integer") .
-                " WHERE obj_id = " . $this->db->quote(
-                    $this->obj_id,
-                    "integer"
-                ) .
-                " AND grouping_id = " . $this->db->quote(
-                    $grouping_id,
-                    "integer"
-                );
-            $this->db->manipulate($query);
+            $adjusted_collection = $collection->getSubCollectionOfItemsByGroupingId($grouping_id)
+                ->withChangedNumObligatoryIdOfAllElements($num);
+            $this->tracking_db_factory->lpCollection()->repository()->writeLPCollection($adjusted_collection);
         }
     }
 
     public function getTableGUIData(int $a_parent_ref_id): array
     {
         $items = $this->getPossibleItems($a_parent_ref_id, true);
-
-        $data = array();
-        $done = array();
+        $data = [];
+        $done = [];
         foreach ($items as $item_id => $item) {
             if (in_array($item_id, $done)) {
                 continue;
             }
-
             $table_item = $this->parseTableGUIItem($item_id, $item);
-
             // grouping
-            $table_item['grouped'] = array();
+            $table_item['grouped'] = [];
             $grouped_items = $this->getTableGUItemGroup($item_id);
             if (count((array) ($grouped_items['items'] ?? [])) > 1) {
                 foreach ($grouped_items['items'] as $grouped_item_id) {
@@ -462,14 +373,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                         !is_array($items[$grouped_item_id] ?? false)) { // #15498
                         continue;
                     }
-
                     $table_item['grouped'][] = $this->parseTableGUIItem(
                         $grouped_item_id,
                         $items[$grouped_item_id]
                     );
                     $table_item['num_obligatory'] = $grouped_items['num_obligatory'];
                     $table_item['grouping_id'] = $grouped_items['grouping_id'];
-
                     $done[] = $grouped_item_id;
                 }
             }
@@ -483,42 +392,32 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $table_item = $a_item;
         $table_item['id'] = $a_id;
         $table_item['status'] = $this->isAssignedEntry($a_id);
-
         $olp = ilObjectLP::getInstance($a_item['obj_id']);
         $table_item['mode_id'] = $olp->getCurrentMode();
         $table_item['mode'] = $olp->getModeText($table_item['mode_id']);
         $table_item['anonymized'] = $olp->isAnonymized();
-
         return $table_item;
     }
 
     protected function getTableGUItemGroup(int $item_id): array
     {
-        $items = array();
-        $query = "SELECT grouping_id FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND item_id = " . $this->db->quote($item_id, "integer");
-        $res = $this->db->query($query);
-        $grouping_id = 0;
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $grouping_id = (int) $row->grouping_id;
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
+        $items = [];
+        if (is_null($collection)) {
+            return $items;
         }
-        if ($grouping_id > 0) {
-            $query = "SELECT item_id, num_obligatory FROM ut_lp_collections" .
-                " WHERE obj_id = " . $this->db->quote(
-                    $this->obj_id,
-                    "integer"
-                ) .
-                " AND grouping_id = " . $this->db->quote(
-                    $grouping_id,
-                    "integer"
-                );
-            $res = $this->db->query($query);
-            while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $items['items'][] = (int) $row->item_id;
-                $items['num_obligatory'] = (int) $row->num_obligatory;
-                $items['grouping_id'] = (int) $grouping_id;
-            }
+        $item = $collection->getElementByItemId($item_id);
+        if (
+            is_null($item) ||
+            $item->getGroupingId() <= 0
+        ) {
+            return $items;
+        }
+        $items_with_grouping_id = $collection->getSubCollectionOfItemsByGroupingId($item->getGroupingId());
+        foreach ($items_with_grouping_id as $item_with_grouping_id) {
+            $items['items'][] = $item_with_grouping_id->getItemId();
+            $items['num_obligatory'] = $item_with_grouping_id->getNumObligatory();
+            $items['grouping_id'] = $item->getGroupingId();
         }
         return $items;
     }
@@ -526,16 +425,16 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     public function getGroupedItemsForLPStatus(): array
     {
         $items = $this->getItems();
-        $query = " SELECT * FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND active = " . $this->db->quote(1, "integer");
-        $res = $this->db->query($query);
-
-        $grouped = array();
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (in_array($row->item_id, $items)) {
-                $grouped[$row->grouping_id]['items'][] = (int) $row->item_id;
-                $grouped[$row->grouping_id]['num_obligatory'] = (int) $row->num_obligatory;
+        $collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($this->obj_id);
+        if(is_null($collection)) {
+            return [];
+        }
+        $active_items = $collection->getSubCollectionOfActiveItems();
+        $grouped = [];
+        foreach ($active_items as $item) {
+            if (in_array($item->getItemId(), $items)) {
+                $grouped[$item->getGroupingId()]['items'][] = $item->getItemId();
+                $grouped[$item->getGroupingId()]['num_obligatory'] = $item->getNumObligatory();
             }
         }
         return $grouped;

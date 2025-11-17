@@ -16,55 +16,59 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * @author  Michael Jansen <mjansen@databay.de>
- * @package ServicesTracking
- */
+declare(strict_types=1);
+
+use ILIAS\DI\Container;
+
 class ilLPStatusContentVisited extends ilLPStatus
 {
-    /**
-     * @inheritdoc
-     */
+    protected const string LNG_TEXT = 'trac_mode_content_visited';
+    protected const string LNG_TEXT_INFO = 'trac_mode_content_visited_info';
+    protected ilLanguage $lng;
+
     public static function _getCompleted(int $a_obj_id): array
     {
         $userIds = [];
-
         $allReadEvents = \ilChangeEvent::_lookupReadEvents($a_obj_id);
         foreach ($allReadEvents as $event) {
             $userIds[] = $event['usr_id'];
         }
-
         return $userIds;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function determineStatus(
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
     ): int {
-        /**
-         * @var $ilObjDataCache ilObjectDataCache
-         */
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-
-        switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
-            case 'file':
-            case 'copa':
-            case 'htlm':
-                if (\ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
-                    $status = self::LP_STATUS_COMPLETED_NUM;
-                }
-                break;
+        if (
+            in_array($this->ilObjDataCache->lookupType($a_obj_id), ['file', 'copa', 'htlm']) &&
+            \ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)
+        ) {
+            $status = self::LP_STATUS_COMPLETED_NUM;
         }
-
         return $status;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_CONTENT_VISITED;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

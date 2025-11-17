@@ -16,26 +16,25 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
-/**
- * Class ilLPStatusLtiOutcome
- * @author      Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @author      Björn Heyser <info@bjoernheyser.de>
- * @author      Stefan Schneider <info@eqsoft.de>
- */
+use ILIAS\DI\Container;
+
 class ilLPStatusLtiOutcome extends ilLPStatus
 {
-    private static array $userResultCache = array();
+    protected const string LNG_TEXT = 'trac_mode_lti_outcome';
+    protected const string LNG_TEXT_INFO = 'trac_mode_lti_outcome_info';
+    protected ilLanguage $lng;
+
+    private static array $userResultCache = [];
 
     private function getLtiUserResult(
         int $objId,
         int $usrId
     ): ?ilLTIConsumerResult {
         if (!isset(self::$userResultCache[$objId])) {
-            self::$userResultCache[$objId] = array();
+            self::$userResultCache[$objId] = [];
         }
-
         if (!isset(self::$userResultCache[$objId][$usrId])) {
             $ltiUserResult = ilLTIConsumerResult::getByKeys($objId, $usrId);
             self::$userResultCache[$objId][$usrId] = $ltiUserResult;
@@ -57,18 +56,14 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
-
         if ($ltiResult instanceof ilLTIConsumerResult) {
             $object = $this->ensureObject($a_obj_id, $a_obj);
             $ltiMasteryScore = $object->getMasteryScore();
-
             if ($ltiResult->getResult() >= $ltiMasteryScore) {
                 return self::LP_STATUS_COMPLETED_NUM;
             }
-
             return self::LP_STATUS_IN_PROGRESS_NUM;
         }
-
         return self::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
@@ -78,11 +73,30 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         ?object $a_obj = null
     ): int {
         $ltiResult = $this->getLtiUserResult($a_obj_id, $a_usr_id);
-
         if ($ltiResult instanceof ilLTIConsumerResult) {
             return (int) $ltiResult->getResult() * 100;
         }
-
         return 0;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_LTI_OUTCOME;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

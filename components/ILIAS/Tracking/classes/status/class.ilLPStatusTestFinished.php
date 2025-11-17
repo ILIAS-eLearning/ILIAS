@@ -16,20 +16,20 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
+declare(strict_types=1);
 
-/**
- * @author     Stefan Meyer <meyer@leifos.com>
- * @ingroup    ServicesTracking
- */
+use ILIAS\DI\Container;
+
 class ilLPStatusTestFinished extends ilLPStatus
 {
+    protected const string LNG_TEXT = 'trac_mode_test_finished';
+    protected const string LNG_TEXT_INFO = 'trac_mode_test_finished_info';
+    protected ilLanguage $lng;
+
     public static function _getInProgress(int $a_obj_id): array
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-
         $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
@@ -40,11 +40,8 @@ class ilLPStatusTestFinished extends ilLPStatus
 			GROUP BY active_id, user_fi
 			HAVING COUNT(tst_sequence.active_fi) > {$ilDB->quote(0, "integer")}
 		";
-
         $res = $ilDB->query($query);
-
-        $user_ids = array();
-
+        $user_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $user_ids[$row->user_fi] = (int) $row->user_fi;
         }
@@ -54,7 +51,6 @@ class ilLPStatusTestFinished extends ilLPStatus
     public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
         $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
@@ -66,11 +62,8 @@ class ilLPStatusTestFinished extends ilLPStatus
 			GROUP BY active_id, user_fi
 			HAVING COUNT(tst_sequence.active_fi) > {$ilDB->quote(0, "integer")}
 		";
-
         $res = $ilDB->query($query);
-
-        $user_ids = array();
-
+        $user_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $user_ids[$row->user_fi] = (int) $row->user_fi;
         }
@@ -80,9 +73,7 @@ class ilLPStatusTestFinished extends ilLPStatus
     public static function _getNotAttempted(int $a_obj_id): array
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-
         $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
@@ -92,32 +83,25 @@ class ilLPStatusTestFinished extends ilLPStatus
 			GROUP BY active_id, user_fi
 			HAVING COUNT(tst_sequence.active_fi) = {$ilDB->quote(0, "integer")}
 		";
-
         $res = $ilDB->query($query);
-
-        $user_ids = array();
-
+        $user_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $user_ids[$row->user_fi] = (int) $row->user_fi;
         }
-
         return array_values($user_ids);
     }
 
     public static function getParticipants($a_obj_id)
     {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
-
         $res = $ilDB->query(
             "SELECT DISTINCT user_fi FROM tst_active" .
             " WHERE test_fi = " . $ilDB->quote(
                 ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)
             )
         );
-        $user_ids = array();
-
+        $user_ids = [];
         while ($rec = $ilDB->fetchAssoc($res)) {
             $user_ids[] = (int) $rec["user_fi"];
         }
@@ -140,18 +124,37 @@ class ilLPStatusTestFinished extends ilLPStatus
 			GROUP BY active_id, user_fi, tries
 		"
         );
-
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
-
-        if ($rec = $this->db->fetchAssoc($res)) {
-            if ($rec['sequences'] > 0) {
-                $status = self::LP_STATUS_IN_PROGRESS_NUM;
-
-                if ($rec['tries'] > 0) {
-                    $status = self::LP_STATUS_COMPLETED_NUM;
-                }
+        if (
+            ($rec = $this->db->fetchAssoc($res)) &&
+            $rec['sequences'] > 0
+        ) {
+            $status = self::LP_STATUS_IN_PROGRESS_NUM;
+            if ($rec['tries'] > 0) {
+                $status = self::LP_STATUS_COMPLETED_NUM;
             }
         }
         return $status;
+    }
+
+    public function init(
+        Container $DIC
+    ): void {
+        $this->lng = $DIC->language();
+    }
+
+    public function getLPStatusId(): string
+    {
+        return (string) ilLPObjSettings::LP_MODE_TEST_FINISHED;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT);
+    }
+
+    public function getInfo(): string
+    {
+        return $this->lng->txt(self::LNG_TEXT_INFO);
     }
 }

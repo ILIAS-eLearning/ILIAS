@@ -18,18 +18,16 @@
 
 declare(strict_types=0);
 
-use ILIAS\DI\UIServices;
-use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\Tracking\View\FactoryInterface as ViewFactoryInterface;
-use ILIAS\UI\Component\Symbol\Icon\Icon as UIIconIcon;
-use ILIAS\UI\Component\Symbol\Icon\Standard as UIStandardIcon;
-use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\Tracking\View\Factory as ViewFactory;
-use ILIAS\UI\URLBuilder;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\UI\Component\Item\Standard as UIStandardItem;
-use ILIAS\StaticURL\Services as StaticURL;
 use ILIAS\Data\URI as URI;
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\StaticURL\Services as StaticURL;
+use ILIAS\Tracking\View\Factory as ViewFactory;
+use ILIAS\Tracking\View\FactoryInterface as ViewFactoryInterface;
+use ILIAS\UI\Component\Item\Standard as UIStandardItem;
+use ILIAS\UI\URLBuilder;
 
 /**
  * @ilCtrl_IsCalledBy ilLPPersonalGUI: ilDashboardGUI

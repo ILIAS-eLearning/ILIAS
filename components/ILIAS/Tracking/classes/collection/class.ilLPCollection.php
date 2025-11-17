@@ -16,34 +16,31 @@
  *
  *********************************************************************/
 
-declare(strict_types=0);
-/**
- * LP collection base class
- * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTracking
- */
+declare(strict_types=1);
+
+use ILIAS\Tracking\DB\Factory as TrackingDBFactory;
+use ILIAS\Tracking\DB\FactoryInterface as TrackingDBFactoryInterface;
+
 abstract class ilLPCollection
 {
+    protected array $items;
     protected int $obj_id;
     protected int $mode;
-    protected array $items = [];
 
     protected ilDBInterface $db;
     protected ilLogger $logger;
+    protected TrackingDBFactoryInterface $tracking_db_factory;
 
     public function __construct(int $a_obj_id, int $a_mode)
     {
         global $DIC;
-
+        $this->items = [];
         $this->db = $DIC->database();
         $this->logger = $DIC->logger()->trac();
-
+        $this->tracking_db_factory = new TrackingDBFactory($this->db);
         $this->obj_id = $a_obj_id;
         $this->mode = $a_mode;
-
-        if ($a_obj_id) {
-            $this->read($a_obj_id);
-        }
+        $this->read($a_obj_id);
     }
 
     public static function getInstanceByMode(
@@ -79,16 +76,11 @@ abstract class ilLPCollection
     public static function getCollectionModes(): array
     {
         return array(
-            ilLPObjSettings::LP_MODE_COLLECTION
-            ,
-            ilLPObjSettings::LP_MODE_COLLECTION_TLT
-            ,
-            ilLPObjSettings::LP_MODE_COLLECTION_MANUAL
-            ,
-            ilLPObjSettings::LP_MODE_SCORM
-            ,
-            ilLPObjSettings::LP_MODE_OBJECTIVES
-            ,
+            ilLPObjSettings::LP_MODE_COLLECTION,
+            ilLPObjSettings::LP_MODE_COLLECTION_TLT,
+            ilLPObjSettings::LP_MODE_COLLECTION_MANUAL,
+            ilLPObjSettings::LP_MODE_SCORM,
+            ilLPObjSettings::LP_MODE_OBJECTIVES,
             ilLPObjSettings::LP_MODE_COLLECTION_MOBS
         );
     }
@@ -123,16 +115,13 @@ abstract class ilLPCollection
 
     protected function read(int $a_obj_id): void
     {
-        $items = array();
-        $res = $this->db->query(
-            "SELECT * FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($a_obj_id, "integer")
-        );
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($this->validateEntry((int) $row->item_id)) {
-                $items[] = $row->item_id;
+        $items = [];
+        $lp_collection = $this->tracking_db_factory->lpCollection()->repository()->readLPCollection($a_obj_id);
+        foreach ($lp_collection as $lp_collection_entry) {
+            if ($this->validateEntry($lp_collection_entry->getItemId())) {
+                $items[] = $lp_collection_entry->getItemId();
             } else {
-                $this->deleteEntry($row->item_id);
+                $this->deleteEntry($lp_collection_entry->getItemId());
             }
         }
         $this->items = $items;
@@ -140,20 +129,10 @@ abstract class ilLPCollection
 
     public function delete(): void
     {
-        $query = "DELETE FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer");
-        $this->db->manipulate($query);
-
-        $query = "DELETE FROM ut_lp_coll_manual" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer");
-        $this->db->manipulate($query);
-        // #15462 - reset internal data
-        $this->items = array();
+        $this->tracking_db_factory->lpCollection()->repository()->deleteLPCollection($this->obj_id);
+        $this->tracking_db_factory->lpCollection()->repository()->deleteLPCollectionManual($this->obj_id);
+        $this->items = [];
     }
-
-    //
-    // ENTRIES
-    //
 
     protected function validateEntry(int $a_item_id): bool
     {
@@ -162,33 +141,27 @@ abstract class ilLPCollection
 
     public function isAssignedEntry(int $a_item_id): bool
     {
-        if (is_array($this->items)) {
-            return in_array($a_item_id, $this->items);
-        }
-        return false;
+        return in_array($a_item_id, $this->items);
     }
 
     protected function addEntry(int $a_item_id): bool
     {
-        if (!$this->isAssignedEntry($a_item_id)) {
-            $query = "INSERT INTO ut_lp_collections" .
-                " (obj_id, lpmode, item_id)" .
-                " VALUES (" . $this->db->quote($this->obj_id, "integer") .
-                ", " . $this->db->quote($this->mode, "integer") .
-                ", " . $this->db->quote($a_item_id, "integer") .
-                ")";
-            $this->db->manipulate($query);
-            $this->items[] = $a_item_id;
-        }
+        $element = $this->tracking_db_factory->lpCollection()->element()->lpCollectionElement()
+            ->withItemId($a_item_id)
+            ->withLPMode($this->mode)
+            ->withGroupingId(0)
+            ->withIsActive(true)
+            ->withNumObligatory(0);
+        $collection = $this->tracking_db_factory->lpCollection()->element()->lpCollection($element)
+            ->withObjectId($this->obj_id);
+        $this->tracking_db_factory->lpCollection()->repository()->writeLPCollection($collection);
+        $this->items[] = $a_item_id;
         return true;
     }
 
     protected function deleteEntry(int $a_item_id): bool
     {
-        $query = "DELETE FROM ut_lp_collections" .
-            " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
-            " AND item_id = " . $this->db->quote($a_item_id, "integer");
-        $this->db->manipulate($query);
+        $this->tracking_db_factory->lpCollection()->repository()->deleteLPCollectionEntry($this->obj_id, $a_item_id);
         return true;
     }
 

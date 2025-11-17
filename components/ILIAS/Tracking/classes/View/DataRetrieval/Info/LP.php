@@ -21,7 +21,6 @@ declare(strict_types=0);
 namespace ILIAS\Tracking\View\DataRetrieval\Info;
 
 use ilDateTime;
-use ILIAS\Tracking\View\DataRetrieval\Info\LPInterface;
 
 class LP implements LPInterface
 {

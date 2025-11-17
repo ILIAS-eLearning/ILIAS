@@ -20,10 +20,6 @@ declare(strict_types=0);
 
 namespace ILIAS\Tracking\View\PropertyList;
 
-use ILIAS\Tracking\View\PropertyList\BuilderInterface;
-use ILIAS\Tracking\View\PropertyList\PropertyListInterface;
-use ILIAS\Tracking\View\PropertyList\PropertyList;
-
 class Builder implements BuilderInterface
 {
     protected array $properties;
