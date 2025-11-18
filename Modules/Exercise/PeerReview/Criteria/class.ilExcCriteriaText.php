@@ -139,6 +139,6 @@ class ilExcCriteriaText extends ilExcCriteria
 
     public function getHTML($a_value): string
     {
-        return nl2br($this->gui->html()->escapeCurly($a_value));
+        return nl2br($this->gui->html()->escapeCurly((string) $a_value));
     }
 }
