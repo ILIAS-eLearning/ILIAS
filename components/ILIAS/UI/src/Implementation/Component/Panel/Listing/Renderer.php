@@ -33,6 +33,8 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(C\Component $component, RendererInterface $default_renderer): string
     {
+        $default_renderer = $default_renderer->withHeaderNesting($default_renderer->getHeaderNesting(1));
+
         if ($component instanceof C\Panel\Listing\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
@@ -67,6 +69,7 @@ class Renderer extends AbstractComponentRenderer
 
         if ($title !== "" || $actions || $view_controls) {
             $tpl->setVariable("TITLE", $title);
+            $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
             if ($actions) {
                 $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
             }

@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="il-table-presentation-row-header col-lg col-sm-12">
 
-				<h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('{TOGGLE_SIGNAL}');">
+				<h{HEADLINE_NESTING_LEVEL} class="il-table-presentation-row-header-headline" onClick="$(document).trigger('{TOGGLE_SIGNAL}');">
 					{SYMBOL}
 					{HEADLINE}
 					<!-- BEGIN subheadline -->
@@ -22,7 +22,7 @@
 						{SUBHEADLINE}
 					</small>
 					<!-- END subheadline -->
-				</h4>
+				</h{HEADLINE_NESTING_LEVEL}>
 
 				<div class="il-table-presentation-row-header-fields">
 					<!-- BEGIN important_field -->
@@ -54,7 +54,7 @@
 
 						<div class="il-table-presentation-fields">
 							<!-- BEGIN further_fields_headline -->
-							<h5>{FURTHER_FIELDS_HEADLINE}</h5>
+							<h{HEADLINE_NESTING_LEVEL_FURTHER}>{FURTHER_FIELDS_HEADLINE}</h{HEADLINE_NESTING_LEVEL_FURTHER}>
 							<!-- END further_fields_headline -->
 
 							<!-- BEGIN further_field -->

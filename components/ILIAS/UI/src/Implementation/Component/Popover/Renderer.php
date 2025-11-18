@@ -42,8 +42,12 @@ class Renderer extends AbstractComponentRenderer
             $this->cannotHandleComponent($component);
         }
 
+
         $tpl = $this->getTemplate('tpl.popover.html', true, true);
         $tpl->setVariable('FORCE_RENDERING', '');
+        $default_renderer = $default_renderer->withHeaderNesting(1);
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
+
 
         $replacement = array(
             '"' => '\"',

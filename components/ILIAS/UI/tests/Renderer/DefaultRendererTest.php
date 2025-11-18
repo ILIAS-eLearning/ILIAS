@@ -269,4 +269,27 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $res = $renderer->render([$component, $component], $root);
         $this->assertEquals("..", $res);
     }
+
+    public function testHeaderNestingLevels(): void
+    {
+        $renderer = $this->getDefaultRenderer();
+        $this->assertEquals(1, $renderer->getHeaderNesting());
+        $this->assertEquals(2, $renderer->getHeaderNesting(1));
+        $this->assertEquals(5, $renderer->getHeaderNesting(4));
+        $this->assertEquals(3, $renderer->withHeaderNesting(5)->getHeaderNesting(-2));
+    }
+
+    public function testGetHeaderNestingLevelsError(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->getDefaultRenderer()->getHeaderNesting(-10);
+    }
+
+    public function testSetHeaderNestingLevelsError(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->getDefaultRenderer()->withHeaderNesting(-10);
+    }
+
+
 }

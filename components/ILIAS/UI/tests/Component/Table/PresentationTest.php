@@ -146,7 +146,7 @@ class PresentationTest extends TableTestBase
 
         $expected = <<<EXP
 <div class="il-table-presentation" id="id_3">
-    <h3 class="ilHeader">title</h3>
+    <h2 class="ilHeader">title</h2>
     <div class="il-table-presentation-viewcontrols">
         <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
             <div class="l-bar__group">
@@ -177,8 +177,8 @@ class PresentationTest extends TableTestBase
             <div class="il-table-presentation-row-contents col-lg col-sm-12">
                 <div class="row">
                    <div class="il-table-presentation-row-header col-lg col-sm-12">
-                       <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
-                       </h4>
+                       <h3 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title<br /><small>some type</small>
+                       </h3>
                        <div class="il-table-presentation-row-header-fields">
                           <div class="l-bar__space-keeper">
                               <div class="l-bar__group">
@@ -208,7 +208,7 @@ class PresentationTest extends TableTestBase
                             </div>
                             <div class="il-table-presentation-details col-lg-5 col-sm-12">
                                 <div class="il-table-presentation-fields">
-                                    <h5>further fields</h5>
+                                    <h4>further fields</h4>
                                     <span class="il-item-property-name">f-1</span>
                                     <span class="il-item-property-value">further</span>
                                     <br />
@@ -247,7 +247,7 @@ EXP;
 
         $expected = <<<EXP
 <div class="il-table-presentation" id="id_3">
-    <h3 class="ilHeader">title</h3>
+    <h2 class="ilHeader">title</h2>
     <div class="il-table-presentation-viewcontrols">
 
         <div class="l-bar__space-keeper l-bar__space-keeper--space-between">
@@ -280,7 +280,7 @@ EXP;
             <div class="il-table-presentation-row-contents col-lg col-sm-12">
                 <div class="row">
                     <div class="il-table-presentation-row-header col-lg col-sm-12">
-                        <h4 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h4>
+                        <h3 class="il-table-presentation-row-header-headline" onClick="$(document).trigger('il_signal...');">some title</h3>
                         <div class="il-table-presentation-row-header-fields">                  
                             <button class="btn btn-link" id="id_7">presentation_table_more</button>
                         </div>

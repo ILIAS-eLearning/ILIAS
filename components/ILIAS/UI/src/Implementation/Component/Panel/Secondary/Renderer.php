@@ -45,7 +45,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
+        [$tpl, $default_renderer] = $this->parseHeader($component, $default_renderer, $tpl);
 
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof C\Item\Group) {
@@ -64,8 +64,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
-
+        [$tpl, $default_renderer] = $this->parseHeader($component, $default_renderer, $tpl);
         $tpl->setCurrentBlock("legacy");
         $tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
         $tpl->parseCurrentBlock();
@@ -79,13 +78,16 @@ class Renderer extends AbstractComponentRenderer
         C\Panel\Secondary\Secondary $component,
         RendererInterface $default_renderer,
         Template $tpl
-    ): Template {
+    ): array {
         $title = $component->getTitle();
         $actions = $component->getActions();
         $view_controls = $component->getViewControls();
 
         if ($title != "" || $actions || $view_controls) {
+            $default_renderer = $default_renderer->withHeaderNesting($default_renderer->getHeaderNesting(1));
             $tpl->setVariable("TITLE", $title);
+            $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
+
             if ($actions) {
                 $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
             }
@@ -99,7 +101,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock("heading");
             $tpl->parseCurrentBlock();
         }
-        return $tpl;
+        return [$tpl, $default_renderer];
     }
 
     protected function parseFooter(

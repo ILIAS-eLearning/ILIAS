@@ -44,5 +44,7 @@ function with_divider_with_label()
         $f->button()->shy("Features", "https://feature.ilias.de"),
         $f->button()->shy("Bugs", "https://mantis.ilias.de"),
     );
-    return $renderer->render($f->dropdown()->standard($items)->withLabel("Actions"));
+    return $renderer
+        ->withHeaderNesting(3)
+        ->render($f->dropdown()->standard($items)->withLabel("Actions"));
 }

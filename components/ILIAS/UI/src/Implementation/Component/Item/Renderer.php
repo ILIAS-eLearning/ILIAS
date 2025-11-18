@@ -39,6 +39,8 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component $component, RendererInterface $default_renderer): string
     {
+        $default_renderer = $default_renderer->withHeaderNesting($default_renderer->getHeaderNesting(1));
+
         if ($component instanceof Notification) {
             return $this->renderNotification($component, $default_renderer);
         } elseif ($component instanceof Group) {
@@ -57,16 +59,19 @@ class Renderer extends AbstractComponentRenderer
         $title = $component->getTitle();
         $items = $component->getItems();
 
+        if ($title != "") {
+            $tpl->setCurrentBlock("title");
+            $tpl->setVariable("TITLE", $title);
+            $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
+            $tpl->parseCurrentBlock();
+        } else {
+            $default_renderer = $default_renderer->withHeaderNesting($default_renderer->getHeaderNesting()-1);
+        }
+
         // items
         foreach ($items as $item) {
             $tpl->setCurrentBlock("item");
             $tpl->setVariable("ITEM", $default_renderer->render($item));
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($title != "") {
-            $tpl->setCurrentBlock("title");
-            $tpl->setVariable("TITLE", $title);
             $tpl->parseCurrentBlock();
         }
 
@@ -295,6 +300,7 @@ class Renderer extends AbstractComponentRenderer
             $title = htmlentities($title);
         }
         $tpl->setVariable("TITLE", $title);
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
     }
 
     protected function renderDescription(Item $component, Template $tpl): void

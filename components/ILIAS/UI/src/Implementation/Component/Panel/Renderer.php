@@ -36,6 +36,8 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        $default_renderer = $default_renderer->withHeaderNesting($default_renderer->getHeaderNesting(1));
+
         if ($component instanceof Component\Panel\Standard) {
             return $this->renderStandard($component, $default_renderer);
         } elseif ($component instanceof Component\Panel\Sub) {
@@ -71,7 +73,6 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getTitle() != "" || $actions !== null) {
             $tpl->setCurrentBlock("title");
-
             // actions
             if ($actions !== null) {
                 $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
@@ -79,6 +80,7 @@ class Renderer extends AbstractComponentRenderer
 
             // title
             $tpl->setVariable("TITLE", $component->getTitle());
+            $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
             $tpl->parseCurrentBlock();
         }
 
@@ -124,6 +126,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
 
         return $tpl;
     }

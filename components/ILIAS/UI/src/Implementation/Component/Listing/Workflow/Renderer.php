@@ -43,6 +43,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.linear.html", true, true);
         $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting(1));
 
         foreach ($component->getSteps() as $index => $step) {
             $tpl->setCurrentBlock("step");

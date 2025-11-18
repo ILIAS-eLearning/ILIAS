@@ -32,7 +32,7 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         if ($component instanceof Component\Divider\Horizontal) {
-            return $this->renderDividerHorizontal($component);
+            return $this->renderDividerHorizontal($component, $default_renderer);
         }
         if ($component instanceof Component\Divider\Vertical) {
             return $this->renderDividerVertical();
@@ -40,8 +40,10 @@ class Renderer extends AbstractComponentRenderer
         $this->cannotHandleComponent($component);
     }
 
-    protected function renderDividerHorizontal(Component\Divider\Horizontal $component): string
-    {
+    protected function renderDividerHorizontal(
+        Component\Divider\Horizontal $component,
+        RendererInterface $default_renderer
+    ): string {
         $tpl = $this->getTemplate("tpl.horizontal.html", true, true);
 
         $label = $component->getLabel();
@@ -49,6 +51,7 @@ class Renderer extends AbstractComponentRenderer
         if ($label !== null) {
             $tpl->setCurrentBlock("label");
             $tpl->setVariable("LABEL", $label);
+            $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting(1));
             $tpl->parseCurrentBlock();
             $tpl->touchBlock("with_label");
         } else {

@@ -105,18 +105,18 @@ class ItemGroupTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="il-item-group">
-  <h3>group</h3>
+  <h2>group</h2>
     <div class="il-item-group-items">
 
   <ul>
     <li class="il-std-item-container">
       <div class="il-item il-std-item ">
-        <h4 class="il-item-title">title1</h4>
+        <h3 class="il-item-title">title1</h3>
       </div>
     </li>
     <li class="il-std-item-container">
       <div class="il-item il-std-item ">
-        <h4 class="il-item-title">title2</h4>
+        <h3 class="il-item-title">title2</h3>
       </div>
     </li>
   </ul>
@@ -149,7 +149,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-item-group">
-  <h3>group</h3>
+  <h2>group</h2>
   <div class="dropdown" id="id_3">
     <button class="btn btn-default dropdown-toggle" type="button" aria-label="actions" aria-haspopup="true" aria-expanded="false" aria-controls="id_3_menu">
      <span class="caret"></span>
@@ -167,12 +167,12 @@ EOT;
     <ul>
         <li class="il-std-item-container">
           <div class="il-item il-std-item ">
-            <h4 class="il-item-title">title1</h4>
+            <h3 class="il-item-title">title1</h3>
           </div>
         </li>
         <li class="il-std-item-container">
           <div class="il-item il-std-item ">
-            <h4 class="il-item-title">title2</h4>
+            <h3 class="il-item-title">title2</h3>
           </div>
         </li>
     </ul>

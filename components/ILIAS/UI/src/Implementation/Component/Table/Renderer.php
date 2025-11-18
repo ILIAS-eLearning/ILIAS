@@ -65,7 +65,13 @@ class Renderer extends AbstractComponentRenderer
         Component\Table\Presentation $component,
         RendererInterface $default_renderer
     ): string {
+
+        $default_renderer = $default_renderer->withHeaderNesting(
+            $default_renderer->getHeaderNesting(1)
+        );
+
         $tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
         $tpl->setVariable("TITLE", $component->getTitle());
         $expcollapsebtns = [];
         if ($sig_ta = $component->getExpandCollapseAllSignal()) {
@@ -106,6 +112,9 @@ class Renderer extends AbstractComponentRenderer
             return $tpl->get();
         }
 
+        $default_renderer = $default_renderer->withHeaderNesting(
+            $default_renderer->getHeaderNesting(1)
+        );
         foreach ($data as $record) {
             $row = $row_mapping(
                 new PresentationRow($component->getSignalGenerator(), $component_id),
@@ -118,7 +127,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ROW", $default_renderer->render($row));
             $tpl->parseCurrentBlock();
         }
-
         return $tpl->get();
     }
 
@@ -147,6 +155,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("COLLAPSER", $default_renderer->render($collapser));
         $tpl->setVariable("SHY_EXPANDER", $default_renderer->render($shy_expander));
 
+
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
         if ($symbol = $component->getLeadingSymbol()) {
             $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
@@ -175,6 +185,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("has_further_fields");
 
             if ($further_fields_headline) {
+                $tpl->setVariable("HEADLINE_NESTING_LEVEL_FURTHER", $default_renderer->getHeaderNesting(1));
                 $tpl->setVariable("FURTHER_FIELDS_HEADLINE", $further_fields_headline);
             }
 
@@ -234,6 +245,7 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting(1));
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
@@ -702,6 +714,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $tableid);
         $tpl->setVariable('TARGET_URL', $component->getTargetURL() ? $component->getTargetURL()->__toString() : '#');
         $tpl->setVariable('TITLE', $component->getTitle());
+        $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting(1));
         $tpl->setVariable('COL_COUNT', (string) $component->getColumnCount() + $compensate_col_count);
         $tpl->setVariable('VIEW_CONTROLS', $default_renderer->render($view_controls));
 
