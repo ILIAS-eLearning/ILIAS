@@ -134,16 +134,36 @@ class ilObjSessionAccess extends ilObjectAccess
 
         $ilDB = $DIC->database();
 
-        if (!is_null(self::$registrations)) {
+        if (isset(self::$registrations[$a_obj_id])) {
             return (bool) self::$registrations[$a_obj_id];
         }
 
-        $query = "SELECT registration,obj_id FROM event ";
+        $query = "SELECT registration,obj_id FROM event WHERE obj_id = " .
+            $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             self::$registrations[$row->obj_id] = (bool) $row->registration;
         }
         return (bool) self::$registrations[$a_obj_id];
+    }
+
+    /**
+     * @param int[] $a_obj_ids
+     */
+    public static function preloadRegistrations(array $a_obj_ids): void
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        self::$registrations = [];
+
+        $query = "SELECT registration,obj_id FROM event WHERE " .
+            $ilDB->in('obj_id', $a_obj_ids, false, ilDBConstants::T_INTEGER);
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            self::$registrations[$row->obj_id] = (bool) $row->registration;
+        }
     }
 
     public static function _lookupRegistered(int $a_usr_id, int $a_obj_id): bool
@@ -170,13 +190,14 @@ class ilObjSessionAccess extends ilObjectAccess
     {
         global $DIC;
 
+        self::preloadRegistrations($a_obj_ids);
         self::$booking_repo = $DIC->bookingManager()
             ->internal()
             ->repo()
             ->reservationWithContextObjCache($a_obj_ids);
     }
 
-    public static function getBookingInfoRepo() : ?\ILIAS\BookingManager\Reservations\ReservationDBRepository
+    public static function getBookingInfoRepo(): ?\ILIAS\BookingManager\Reservations\ReservationDBRepository
     {
         if (self::$booking_repo instanceof \ILIAS\BookingManager\Reservations\ReservationDBRepository) {
             return self::$booking_repo;
