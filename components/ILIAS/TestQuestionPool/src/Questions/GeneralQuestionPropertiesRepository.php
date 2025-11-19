@@ -393,7 +393,7 @@ class GeneralQuestionPropertiesRepository
 
         $questions = [];
         while ($db_record = $this->db->fetchObject($query_result)) {
-            if (!$this->isQuestionTypeAvailable($db_record->plugin_name)) {
+            if (!$this->isQuestionTypeAvailable((bool) $db_record->is_plugin, $db_record->type_tag)) {
                 continue;
             }
             $questions[$db_record->question_id] = $this
@@ -402,12 +402,9 @@ class GeneralQuestionPropertiesRepository
         return $questions;
     }
 
-    /*
-     * $param array<stdClass> $question_data
-     */
-    private function isQuestionTypeAvailable(?string $plugin_name): bool
+    private function isQuestionTypeAvailable(bool $is_plugin, string $question_type): bool
     {
-        if ($plugin_name === null || strlen($plugin_name) === 0) {
+        if ($is_plugin === false) {
             return true;
         }
 
@@ -416,10 +413,10 @@ class GeneralQuestionPropertiesRepository
             'TestQuestionPool'
         )->getPluginSlotById('qst');
 
-        if (!$plugin_slot->hasPluginName($plugin_name)) {
+        if (!$plugin_slot->hasPluginName($question_type)) {
             return false;
         }
 
-        return $plugin_slot->getPluginByName($plugin_name)->isActive();
+        return $plugin_slot->getPluginByName($question_type)->isActive();
     }
 }
