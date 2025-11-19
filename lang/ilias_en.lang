@@ -2791,7 +2791,7 @@ certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Background Image
-certificate#:#certificate_card_thumbnail_image#:#Thumbnail Image
+certificate#:#certificate_card_tile_image#:#Thumbnail Image
 certificate#:#certificate_change_active_status#:#The ‘Active’ status of the certificate has been changed.
 certificate#:#certificate_confirm_deletion_text#:#Are you sure you want to delete all of the data entered for this certificate template?
 certificate#:#certificate_custom#:#Custom
