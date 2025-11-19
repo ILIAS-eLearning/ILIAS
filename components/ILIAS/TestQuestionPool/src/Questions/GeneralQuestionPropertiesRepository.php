@@ -407,7 +407,7 @@ class GeneralQuestionPropertiesRepository
      */
     private function isQuestionTypeAvailable(?string $plugin_name): bool
     {
-        if ($plugin_name === null) {
+        if ($plugin_name === null || strlen($plugin_name) === 0) {
             return true;
         }
 
