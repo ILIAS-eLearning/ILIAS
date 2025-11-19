@@ -463,7 +463,7 @@ class Tool
      * Process an incoming request
      * @param bool $strictMode True if full compliance with the LTI specification is required (optional, default is false)
      */
-    public function handleRequest(bool $strictMode = false)
+    public function handleRequest(bool $strictMode = false): void
     {
         global $DIC;
         $logger = $DIC ->logger()->root();

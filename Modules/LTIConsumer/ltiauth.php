@@ -25,21 +25,13 @@ chdir("../../");
  * There is no way to process a $_GET Request with
  * a valid third-party client_id param in regular initILIAS
  */
-if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
-    $orig = new ArrayObject($_POST);
-    $data = $orig->getArrayCopy();
-} elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
-    $orig = new ArrayObject($_GET);
-    $data = $orig->getArrayCopy();
-    // early removing client_id from $_GET
-    // otherwise the client_id is interpreted as ILIAS client_id
-    // and client.ini.php will not be found
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = $_POST;
+} else {
+    $data = $_GET;
     if (isset($_GET['client_id'])) {
         unset($_GET['client_id']);
     }
-} else {
-    header($_SERVER["SERVER_PROTOCOL"] . " 405 Method Not Allowed", true, 405);
-    exit;
 }
 
 require_once("Services/Init/classes/class.ilInitialisation.php");

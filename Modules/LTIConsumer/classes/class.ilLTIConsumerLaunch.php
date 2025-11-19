@@ -84,14 +84,14 @@ class ilLTIConsumerLaunch
     {
         switch ($a_type) {
             case "crs":
-                return "CourseOffering";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
             case "grp":
-                return "Group";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#Group";
             case "root":
-                return "urn:lti:context-type:ilias/RootNode";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
             case "cat":
             default:
-                return "urn:lti:context-type:ilias/Category";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
         }
     }
 

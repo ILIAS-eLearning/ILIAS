@@ -57,6 +57,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public int $parent_node_id = 0; //check
 
+    private ilLogger $logger;
+
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
@@ -70,6 +72,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
         $DIC->language()->loadLanguageModule("lti");
         $DIC->language()->loadLanguageModule("rep");
+        $this->logger = $DIC->logger()->root();
     }
 
     public function getType(): string
