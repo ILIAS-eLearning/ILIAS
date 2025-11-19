@@ -47,6 +47,7 @@ class ilObjBenchmarkGUI extends ilObject2GUI
     public function executeCommand(): void
     {
         $this->checkPermission('read');
+        $this->lng->loadLanguageModule('benchmark');
 
         $this->lng->loadLanguageModule($this->getType());
         $this->prepareOutput();

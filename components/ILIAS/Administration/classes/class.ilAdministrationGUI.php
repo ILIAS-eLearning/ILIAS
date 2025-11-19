@@ -98,8 +98,6 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
         $this->global_screen = $DIC->globalScreen();
 
-        $this->lng->loadLanguageModule('benchmark');
-
         $context = $this->global_screen->tool()->context();
         $context->claim()->administration();
 
@@ -135,6 +133,8 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
      */
     public function executeCommand(): void
     {
+        $this->lng->loadLanguageModule('administration');
+
         // check the basic permission
         // - admin nodes and their childs (e.g. org units) must have read permission to be called
         // - admin mode for repository and trash is only available to the global admin role
