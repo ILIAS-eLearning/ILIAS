@@ -853,7 +853,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()] ?? '',
-                $unit_id !== null ? $this->unitrepository->getUnit($unit_id) : null,
+                $unit_id !== null ? $this->unitrepository->getUnit((int) $unit_id) : null,
                 $this->unitrepository->getUnits()
             );
         }
