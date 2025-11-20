@@ -330,7 +330,7 @@ EOT;
 <div class="panel panel-secondary panel-flex">
   <div class="panel-body">
     <div class="il-item-group">
-      <h3>Subtitle 1</h3>
+      <h2>Subtitle 1</h2>
       <div class="il-item-group-items">
         <ul>
             <li class="il-std-item-container">
@@ -340,7 +340,7 @@ EOT;
             </li>
             <li class="il-std-item-container">
               <div class="il-item il-std-item ">
-                <h4 class="il-item-title">title2</h4>
+                <h3 class="il-item-title">title2</h3>
               </div>
             </li>
         </ul>

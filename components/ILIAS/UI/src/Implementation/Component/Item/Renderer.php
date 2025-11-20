@@ -65,7 +65,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("HEADLINE_NESTING_LEVEL", $default_renderer->getHeaderNesting());
             $tpl->parseCurrentBlock();
         } else {
-            $default_renderer = $default_renderer->withHeaderNesting($default_renderer->getHeaderNesting()-1);
+            $default_renderer = $default_renderer->withHeaderNesting($default_renderer->getHeaderNesting() - 1);
         }
 
         // items
