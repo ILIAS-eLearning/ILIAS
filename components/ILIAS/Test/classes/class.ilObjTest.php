@@ -6555,7 +6555,7 @@ class ilObjTest extends ilObject
             $results['overview']['tst_eval_total_passed_average_points'] = sprintf('%2.2f', $average_passed_reached)
                 . ' ' . strtolower('of') . ' ' . sprintf('%2.2f', $average_passed_max);
             $results['overview']['tst_eval_total_passed_average_time'] =
-                $this->secondsToHoursMinutesSecondsString($average_passed_time);
+                $this->secondsToHoursMinutesSecondsString((int)$average_passed_time);
         }
 
         foreach ($data->getQuestionTitles() as $question_id => $question_title) {
