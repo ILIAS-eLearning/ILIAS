@@ -93,9 +93,9 @@ class ilTestRandomQuestionSetNonAvailablePool
                     break;
                 case 'pool_ref_id': $this->setRefId($value ? (int) $value : null);
                     break;
-                case 'pool_title': $this->setTitle($value);
+                case 'pool_title': $this->setTitle($value ? (string) $value : "");
                     break;
-                case 'pool_path': $this->setPath($value);
+                case 'pool_path': $this->setPath($value ? (string) $value : "");
                     break;
             }
         }
