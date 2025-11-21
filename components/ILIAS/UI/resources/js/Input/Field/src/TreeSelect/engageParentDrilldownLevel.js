@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -13,21 +11,19 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
-namespace ILIAS\UI\Component\Input\Field\Node;
-
-use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Component\Component;
-
-/**
+ *
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Node extends Component
-{
-    /**
-     * Returns the unique identifier of this Node. A Node may be passed between
-     * components or other layers, so they need a way to identify them.
-     */
-    public function getId(): string|int;
+
+/**
+ * @param {TreeSelect} treeSelectComponent
+ */
+export default function engageParentDrilldownLevel(treeSelectComponent) {
+  const nodeSelectionSet = treeSelectComponent.getSelection();
+  if (nodeSelectionSet.size === 1) {
+    const nodeId = nodeSelectionSet.values()?.next()?.value;
+    if (treeSelectComponent.getNodes().has(nodeId)) {
+      treeSelectComponent.engageNode(nodeId);
+    }
+  }
 }

@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  */
- 
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field\Node;
@@ -29,19 +29,40 @@ abstract class Node implements C\Input\Field\Node\Node
 {
     use ComponentHelper;
 
+    protected string|int $id;
+
+    /** @var array<string|int> */
+    protected array $parent_ids;
+
+    /** @param array<string|int> $full_node_path */
     public function __construct(
-        protected string|int $id,
+        protected array $full_node_path,
         protected string $name,
         protected ?C\Symbol\Icon\Icon $icon,
     ) {
+        if (empty($full_node_path)) {
+            throw new \InvalidArgumentException("\$full_node_path MUST contain at least one node-id.");
+        }
+        $this->checkArgListElements('full_node_path', $full_node_path, ['string', 'int']);
+        $this->id = array_pop($full_node_path);
+        $this->parent_ids = $full_node_path;
     }
 
-    /**
-     * Returns the unique identifier of this node.
-     */
     public function getId(): string|int
     {
         return $this->id;
+    }
+
+    /** @return array<string|int> */
+    public function getFullPath(): array
+    {
+        return $this->full_node_path;
+    }
+
+    /** @return array<string|int> */
+    public function getParentIds(): array
+    {
+        return $this->parent_ids;
     }
 
     /**

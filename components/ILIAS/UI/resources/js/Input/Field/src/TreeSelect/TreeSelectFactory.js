@@ -14,10 +14,13 @@
  */
 
 import TreeSelect from './TreeSelect.js';
-import TreeMultiSelect from './TreeMultiSelect.js';
 import TemplateRenderer from '../../../../Core/src/TemplateRenderer.js';
 import AsyncRenderer from '../../../../Core/src/AsyncRenderer.js';
+import updateSingleSelectButtonStates from './updateSingleSelectButtonStates.js';
+import updateMultiSelectButtonStates from './updateMultiSelectButtonStates.js';
+import engageParentDrilldownLevel from './engageParentDrilldownLevel.js';
 import createTreeSelectNodes from './createTreeSelectNodes.js';
+import unselectChildNodes from './unselectChildNodes.js';
 import * as CONSTANTS from './constants.js';
 
 /**
@@ -26,6 +29,30 @@ import * as CONSTANTS from './constants.js';
  */
 function getNodeElements(element) {
   return Array.from(element.querySelectorAll(CONSTANTS.NODE));
+}
+
+/**
+ * @returns {function(TreeSelect): void}
+ */
+function getSingleSelectionHandler() {
+  return (treeSelectComponent) => {
+    updateSingleSelectButtonStates(treeSelectComponent);
+    engageParentDrilldownLevel(treeSelectComponent);
+  };
+}
+
+/**
+ * @param {boolean} canSelectSubNodes
+ * @returns {function(TreeSelect): void}
+ */
+function getMultiSelectionHandler(canSelectSubNodes) {
+  if (canSelectSubNodes) {
+    return () => {};
+  }
+  return (treeSelectComponent) => {
+    unselectChildNodes(treeSelectComponent);
+    updateMultiSelectButtonStates(treeSelectComponent);
+  };
 }
 
 /**
@@ -88,7 +115,7 @@ export default class TreeSelectFactory {
 
     const drilldownComponent = this.#getDrilldown(treeSelectElement);
 
-    const treeMultiSelect = new TreeMultiSelect(
+    const treeMultiSelect = new TreeSelect(
       createTreeSelectNodes(getNodeElements(dialogElement)),
       this.#jqueryEventListener,
       new TemplateRenderer(this.#document),
@@ -102,7 +129,7 @@ export default class TreeSelectFactory {
       dialogSelectButton,
       dialogOpenButton,
       dialogElement,
-      canSelectChildNodes,
+      getMultiSelectionHandler(canSelectChildNodes),
     );
 
     this.#instances.set(inputId, treeMultiSelect);
@@ -146,6 +173,7 @@ export default class TreeSelectFactory {
       dialogSelectButton,
       dialogOpenButton,
       dialogElement,
+      getSingleSelectionHandler(),
     );
 
     this.#instances.set(inputId, treeSelect);

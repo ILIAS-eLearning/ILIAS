@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\TreeMultiSelect;
@@ -33,16 +48,24 @@ function with_select_child_nodes(): string
         public function getNodes(
             NodeFactory $node_factory,
             IconFactory $icon_factory,
+            array $sync_node_id_whitelist = [],
             ?string $parent_id = null,
         ): \Generator {
-            yield $node_factory->branch('1', 'branch node 1', null,
-                $node_factory->branch('1.1', 'branch node 1.1', null,
-                    $node_factory->leaf('1.1.1', 'leaf node 1.1.1'),
-                    $node_factory->leaf('1.1.2', 'leaf node 1.1.2'),
+            yield $node_factory->branch(
+                ['1'],
+                'branch node 1',
+                null,
+                $node_factory->branch(
+                    ['1', '1.1'],
+                    'branch node 1.1',
+                    null,
+                    $node_factory->leaf(['1', '1.1', '1.1.1'], 'leaf node 1.1.1'),
+                    $node_factory->leaf(['1', '1.1', '1.1.2'], 'leaf node 1.1.2'),
                 ),
-                $node_factory->leaf('1.2', 'leaf node 1.2'),
+                $node_factory->leaf(['1', '1.2'], 'leaf node 1.2'),
             );
         }
+
         public function getNodesAsLeaf(
             NodeFactory $node_factory,
             IconFactory $icon_factory,

@@ -44,14 +44,14 @@ interface Factory
      *       Icons SHOULD reflect the kind of data a node represents as closely as possible.
      *       If there is only one kind of data, an icon SHOULD NOT be provided.
      * ---
-     * @param string|int                                  $id
+     * @param array<string|int>                           $full_node_path (root to node path (ASC))
      * @param string                                      $name
      * @param \ILIAS\UI\Component\Input\Field\Node\Node   $children
      * @param \ILIAS\UI\Component\Symbol\Glyph\Glyph|null $icon
      * @return \ILIAS\UI\Component\Input\Field\Node\Node
      */
     public function branch(
-        string|int $id,
+        array $full_node_path,
         string $name,
         ?Icon $icon = null,
         Node ...$children,
@@ -77,12 +77,12 @@ interface Factory
      *       If there is only one kind of data, an icon SHOULD NOT be provided.
      * ---
      * @param \ILIAS\Data\URI                             $render_url
-     * @param string|int                                  $id
+     * @param array<string|int>                           $full_node_path (root to node path (ASC))
      * @param string                                      $name
      * @param \ILIAS\UI\Component\Symbol\Glyph\Glyph|null $icon
      * @return \ILIAS\UI\Component\Input\Field\Node\Async
      */
-    public function async(URI $render_url, string|int $id, string $name, ?Icon $icon = null): Async;
+    public function async(URI $render_url, array $full_node_path, string $name, ?Icon $icon = null): Async;
 
     /**
      * ---
@@ -103,10 +103,10 @@ interface Factory
      *       Icons SHOULD reflect the kind of data a node represents as closely as possible.
      *       If there is only one kind of data, an icon SHOULD NOT be provided.
      * ---
-     * @param string|int                                  $id
+     * @param array<string|int>                           $full_node_path (root to node path (ASC))
      * @param string                                      $name
      * @param \ILIAS\UI\Component\Symbol\Glyph\Glyph|null $icon
      * @return \ILIAS\UI\Component\Input\Field\Node\Leaf
      */
-    public function leaf(string|int $id, string $name, ?Icon $icon = null): Leaf;
+    public function leaf(array $full_node_path, string $name, ?Icon $icon = null): Leaf;
 }

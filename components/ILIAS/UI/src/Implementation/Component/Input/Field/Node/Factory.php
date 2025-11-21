@@ -29,21 +29,21 @@ use ILIAS\Data\URI;
 class Factory implements Field\Node\Factory
 {
     public function branch(
-        string|int $id,
+        array $full_node_path,
         string $name,
         ?Symbol\Icon\Icon $icon = null,
         Field\Node\Node ...$children
     ): Branch {
-        return new Branch($id, $name, $icon, $children);
+        return new Branch($full_node_path, $name, $icon, $children);
     }
 
-    public function async(URI $render_url, string|int $id, string $name, ?Symbol\Icon\Icon $icon = null): Async
+    public function async(URI $render_url, array $full_node_path, string $name, ?Symbol\Icon\Icon $icon = null): Async
     {
-        return new Async($render_url, $id, $name, $icon);
+        return new Async($render_url, $full_node_path, $name, $icon);
     }
 
-    public function leaf(string|int $id, string $name, ?Symbol\Icon\Icon $icon = null): Leaf
+    public function leaf(array $full_node_path, string $name, ?Symbol\Icon\Icon $icon = null): Leaf
     {
-        return new Leaf($id, $name, $icon);
+        return new Leaf($full_node_path, $name, $icon);
     }
 }

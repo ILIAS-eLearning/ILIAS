@@ -111,6 +111,9 @@ export default class TreeSelect {
   /** @type {HTMLDialogElement} */
   #dialogElement;
 
+  /** @type {function(TreeSelect): void} */
+  #selectionHandler;
+
   /**
    * @param {Map<string, TreeSelectNode>} nodeMap (node-id => node)
    * @param {JQueryEventListener} jqueryEventListener
@@ -125,6 +128,7 @@ export default class TreeSelect {
    * @param {HTMLButtonElement} dialogSelectButton
    * @param {HTMLButtonElement} dialogOpenButton
    * @param {HTMLDialogElement} dialogElement
+   * @param {function(TreeSelect): void} selectionHandler
    */
   constructor(
     nodeMap,
@@ -140,6 +144,7 @@ export default class TreeSelect {
     dialogSelectButton,
     dialogOpenButton,
     dialogElement,
+    selectionHandler,
   ) {
     this.#nodeMap = nodeMap;
     this.#templateRenderer = templateRenderer;
@@ -153,6 +158,7 @@ export default class TreeSelect {
     this.#dialogSelectButton = dialogSelectButton;
     this.#dialogOpenButton = dialogOpenButton;
     this.#dialogElement = dialogElement;
+    this.#selectionHandler = selectionHandler;
 
     jqueryEventListener.on(
       this.#dialogElement.ownerDocument,
@@ -168,13 +174,6 @@ export default class TreeSelect {
           this.#closeDialog();
         });
       });
-    this.#nodeSelectionElement
-      .querySelectorAll('li')
-      .forEach((entry) => {
-        const nodeId = getNodeIdOrAbort(entry);
-        this.#addRemoveNodeSelectionEntryClickHandler(entry, nodeId);
-        this.#addNodeSelectionId(nodeId);
-      });
     this.#drilldownComponent.addEngageListener((drilldownLevel) => {
       this.#engageDrilldownLevelHandler(drilldownLevel);
     });
@@ -184,7 +183,16 @@ export default class TreeSelect {
     this.#nodeMap.forEach((node) => {
       this.#hydrateNode(node);
     });
+    this.#nodeSelectionElement
+      .querySelectorAll('li')
+      .forEach((entry) => {
+        const nodeId = getNodeIdOrAbort(entry);
+        this.#addRemoveNodeSelectionEntryClickHandler(entry, nodeId);
+        this.selectNode(nodeId);
+      });
 
+    // trigger drilldown engage listenerfor already engaged level once.
+    this.#engageDrilldownLevelHandler(this.#drilldownComponent.getCurrentLevel());
     this.#updateDialogSelectButton();
   }
 
@@ -195,13 +203,13 @@ export default class TreeSelect {
     this.#removeNodeSelectionId(nodeId);
     this.#updateDialogSelectButton();
     this.#removeNodeSelectionEntry(nodeId);
-    // check in case the node was not yet loaded (async).
+    // check in case the node does not exist anymore (Input::withValue()).
     if (this.#nodeMap.has(nodeId)) {
       const node = this.#nodeMap.get(nodeId);
       toggleSelectedNodeElementClass(node.element, false);
       this.#changeNodeSelectButtonToSelect(node.selectButton, node.name);
-      this.updateNodeSelectButtonStates();
     }
+    this.#selectionHandler(this);
   }
 
   /**
@@ -210,37 +218,29 @@ export default class TreeSelect {
   selectNode(nodeId) {
     this.#addNodeSelectionId(nodeId);
     this.#updateDialogSelectButton();
-    // check in case the node was not yet loaded (async).
+    // check in case the node does not exist anymore (Input::withValue()).
     if (this.#nodeMap.has(nodeId)) {
       const node = this.#nodeMap.get(nodeId);
       toggleSelectedNodeElementClass(node.element, true);
       this.#changeNodeSelectButtonToUnselect(node.selectButton, node.name);
       this.#renderNodeSelectionEntry(node);
-      this.updateNodeSelectButtonStates();
     }
+    this.#selectionHandler(this);
   }
 
   /**
-   * Updates the TreeSelectNode.selectButton state in the following manner:
-   * - if no node is selected, enable all buttons
-   * - if a node is selected, disable all other buttons
+   * @param {string} nodeId
    */
-  updateNodeSelectButtonStates() {
-    this.#nodeMap.forEach((node, nodeId) => {
-      if (this.#nodeSelectionSet.size > 0) {
-        node.selectButton.disabled = !this.#nodeSelectionSet.has(nodeId);
-        node.selectButton.querySelector(CONSTANTS.GLYPH).classList.toggle(
-          CONSTANTS.DISABLED_CLASS,
-          !this.#nodeSelectionSet.has(nodeId),
-        );
-      } else {
-        node.selectButton.disabled = false;
-        node.selectButton.querySelector(CONSTANTS.GLYPH).classList.toggle(
-          CONSTANTS.DISABLED_CLASS,
-          false,
-        );
-      }
-    });
+  engageNode(nodeId) {
+    if (!this.#nodeMap.has(nodeId)) {
+      return;
+    }
+    const parentLevel = this.#nodeMap.get(nodeId).drilldownParentLevel;
+    if (this.#drilldownComponent.getCurrentLevel() !== parentLevel
+      && this.#drilldownComponent.getParentLevel() !== parentLevel
+    ) {
+      this.#drilldownComponent.engageLevel(parentLevel);
+    }
   }
 
   /**
@@ -362,20 +362,12 @@ export default class TreeSelect {
     if (engagedNodeId === null || !this.#nodeMap.has(engagedNodeId)) {
       throw new Error(`Could not find node for drilldown-level '${drilldownLevel}'.`);
     }
+    const node = this.#nodeMap.get(engagedNodeId);
     this.#removeAllBreadcrumbs();
-    this.#renderAllBreadcrumbs(this.#nodeMap.get(engagedNodeId));
-  }
-
-  /**
-   * @param {HTMLButtonElement} button
-   * @param {TreeSelectNode} node
-   */
-  #addNodeDrilldownButtonClickHandler(button, node) {
-    button.addEventListener('click', () => {
-      if (node.renderUrl !== null) {
-        this.#renderAsyncNodeChildren(node);
-      }
-    });
+    this.#renderAllBreadcrumbs(node);
+    if (node.renderUrl !== null) {
+      this.#renderAsyncNodeChildren(node);
+    }
   }
 
   /**
@@ -436,9 +428,6 @@ export default class TreeSelect {
    */
   #hydrateNode(node) {
     this.#addNodeSelectButtonClickHandler(node.selectButton, node);
-    if (node.drilldownButton !== null) {
-      this.#addNodeDrilldownButtonClickHandler(node.drilldownButton, node);
-    }
   }
 
   /**

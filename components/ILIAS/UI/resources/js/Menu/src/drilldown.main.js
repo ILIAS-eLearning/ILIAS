@@ -116,6 +116,20 @@ export default class Drilldown {
   }
 
   /**
+   * @returns {string|number|null}
+   */
+  getParentLevel() {
+    return this.#model.getCurrent()?.parent ?? null;
+  }
+
+  /**
+   * @returns {string|number}
+   */
+  getCurrentLevel() {
+    return this.#model.getCurrent().id;
+  }
+
+  /**
    * @param {Event} e
    * @returns {void}
    */

@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
 interface NodeRetrieval
 {
     /**
-     * This method will be called by the tree select input and multi tree select input
+     * This method will be called by the tree select input and tree multi select input
      * to generate the tree which is displayed on the client.
      *
      * Parts of the tree can be rendered asynchronously, by generating an @see Async node,
@@ -36,11 +36,20 @@ interface NodeRetrieval
      * can recursively continue. Please generate child-nodes during this process by using an
      * instance of this retrieval and provide the appropriate $parent_id parameter.
      *
+     * When this method is provided with a $sync_node_id_whitelist by the UI framework, you
+     * MUST generate a complete path from the root to each node (id) in the whitelist. The
+     * whitelist is derived from selected node-ids and already contains every node-id on the
+     * path leading to a selected node. You can therefore treat it as a "max-depth-whitelist"
+     * while building the tree. At every level of these paths all sibling nodes must be included.
+     * Sibling branches that are not part of any path MAY be represented as an @see Async node.
+     *
+     * @param array<string|int> $sync_node_id_whitelist
      * @return \Generator<Node>
      */
     public function getNodes(
         NodeFactory $node_factory,
         IconFactory $icon_factory,
+        array $sync_node_id_whitelist = [],
         ?string $parent_id = null,
     ): \Generator;
 

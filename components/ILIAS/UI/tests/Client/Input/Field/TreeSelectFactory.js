@@ -18,13 +18,10 @@
 import { beforeEach, describe, it } from 'node:test';
 import { strict } from 'node:assert/strict';
 import TreeSelect from '../../../../resources/js/Input/Field/src/TreeSelect/TreeSelect.js';
-import TreeMultiSelect
-  from '../../../../resources/js/Input/Field/src/TreeSelect/TreeMultiSelect.js';
 import TreeSelectFactory
   from '../../../../resources/js/Input/Field/src/TreeSelect/TreeSelectFactory.js';
 
-describe('TreeSelectFactory', function () {
-
+describe('TreeSelectFactory', () => {
   let elementMock;
   let documentMock;
   let languageMock;
@@ -32,7 +29,7 @@ describe('TreeSelectFactory', function () {
   let drilldownFactoryMock;
   let jQueryEventListenerMock;
 
-  beforeEach(function () {
+  beforeEach(() => {
     elementMock = {
       querySelectorAll() {
         return [];
@@ -55,6 +52,8 @@ describe('TreeSelectFactory', function () {
     drilldownMock = {
       getBackSignal: () => '',
       addEngageListener: () => {},
+      getCurrentLevel: () => '0',
+      getParentLevel: () => null,
     };
     drilldownFactoryMock = {
       getInstance: () => drilldownMock,
@@ -64,7 +63,7 @@ describe('TreeSelectFactory', function () {
     };
   });
 
-  it('returns TreeSelect instances', function () {
+  it('returns TreeSelect instances', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
@@ -76,7 +75,7 @@ describe('TreeSelectFactory', function () {
     strict.equal((component instanceof TreeSelect), true);
   });
 
-  it('returns TreeMultiSelect instances', function () {
+  it('returns TreeMultiSelect instances', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
@@ -85,10 +84,10 @@ describe('TreeSelectFactory', function () {
     );
 
     const component = factory.initTreeMultiSelect('some-id', false);
-    strict.equal((component instanceof TreeMultiSelect), true);
+    strict.equal((component instanceof TreeSelect), true);
   });
 
-  it('stores TreeSelect instances', function () {
+  it('stores TreeSelect instances', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
@@ -104,7 +103,7 @@ describe('TreeSelectFactory', function () {
     strict.deepEqual(component2, component1);
   });
 
-  it('stores TreeMultiSelect instances', function () {
+  it('stores TreeMultiSelect instances', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
@@ -115,9 +114,8 @@ describe('TreeSelectFactory', function () {
     const htmlId = 'some-id';
     const component1 = factory.initTreeMultiSelect(htmlId, false);
     const component2 = factory.getInstance(htmlId);
-    strict.equal((component1 instanceof TreeMultiSelect), true);
-    strict.equal((component2 instanceof TreeMultiSelect), true);
+    strict.equal((component1 instanceof TreeSelect), true);
+    strict.equal((component2 instanceof TreeSelect), true);
     strict.deepEqual(component2, component1);
   });
-
 });

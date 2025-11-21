@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\TreeSelect;
@@ -32,9 +47,10 @@ function with_value(): string
         public function getNodes(
             NodeFactory $node_factory,
             IconFactory $icon_factory,
+            array $sync_node_id_whitelist = [],
             ?string $parent_id = null,
         ): \Generator {
-            yield from [];
+            yield from $this->getNodesAsLeaf($node_factory, $icon_factory, $sync_node_id_whitelist);
         }
         public function getNodesAsLeaf(
             NodeFactory $node_factory,
@@ -42,7 +58,7 @@ function with_value(): string
             array $node_ids,
         ): \Generator {
             foreach ($node_ids as $node_id) {
-                yield $node_factory->leaf($node_id, "dummy leaf node $node_id");
+                yield $node_factory->leaf([$node_id], "dummy leaf node $node_id");
             }
         }
     };
@@ -59,4 +75,3 @@ function with_value(): string
 
     return $renderer->render($form);
 }
-

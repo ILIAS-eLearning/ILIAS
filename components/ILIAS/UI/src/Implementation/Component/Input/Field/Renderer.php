@@ -1205,23 +1205,6 @@ class Renderer extends AbstractComponentRenderer
             $this->getUIFactory()->breadcrumbs([])
         ));
 
-        $node_factory = $this->getUIFactory()->input()->field()->node();
-        $node_generator = $component->getNodeRetrieval()->getNodes(
-            $node_factory,
-            $this->getUIFactory()->symbol()->icon(),
-        );
-
-        $nodes = [];
-        foreach ($node_generator as $node) {
-            // check against public interface, will be delegated to rendering chain.
-            $this->checkArgInstanceOf('node', $node, Component\Input\Field\Node\Node::class);
-            $nodes[] = $node;
-        }
-
-        $template->setVariable('DRILLDOWN', $default_renderer->render(
-            $this->getUIFactory()->menu()->drilldown($component->getLabel(), $nodes)
-        ));
-
         /** @var $dynamic_inputs_generator \Generator<FormInput> */
         $dynamic_inputs_generator = (static fn() => yield from $component->getGeneratedDynamicInputs())();
 
@@ -1232,6 +1215,7 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $lockstep_iterator = $this->iterateGeneratorsInLockstep($leaf_generator, $dynamic_inputs_generator);
+        $sync_node_id_whitelst = [];
 
         foreach ($lockstep_iterator as [$leaf, $dynamic_input]) {
             // check against internal interface, will not be delegated to rendering chain.
@@ -1249,7 +1233,31 @@ class Renderer extends AbstractComponentRenderer
             $template->setCurrentBlock('with_value');
             $template->setVariable('VALUE', $value_template->get('with_value_template'));
             $template->parseCurrentBlock();
+
+            foreach ($leaf->getParentIds() as $parent_id) {
+                // deduplicate overlaping parent ids by using them as offset
+                $sync_node_id_whitelst[$parent_id] = $parent_id;
+            }
         }
+
+        $node_factory = $this->getUIFactory()->input()->field()->node();
+        $node_generator = $component->getNodeRetrieval()->getNodes(
+            $node_factory,
+            $this->getUIFactory()->symbol()->icon(),
+            array_values($sync_node_id_whitelst),
+            null,
+        );
+
+        $nodes = [];
+        foreach ($node_generator as $node) {
+            // check against public interface, will be delegated to rendering chain.
+            $this->checkArgInstanceOf('node', $node, Component\Input\Field\Node\Node::class);
+            $nodes[] = $node;
+        }
+
+        $template->setVariable('DRILLDOWN', $default_renderer->render(
+            $this->getUIFactory()->menu()->drilldown($component->getLabel(), $nodes)
+        ));
 
         $this->toJS('unselect_node');
         $this->toJS('select_node');
