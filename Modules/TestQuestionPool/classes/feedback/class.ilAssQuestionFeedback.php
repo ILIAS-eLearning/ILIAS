@@ -447,33 +447,52 @@ abstract class ilAssQuestionFeedback
     /**
      * syncs the GENERIC feedback from a duplicated question back to the original question
      */
-    private function syncGenericFeedback(int $originalQuestionId, int $duplicateQuestionId): void
+    private function syncGenericFeedback(int $original_question_id, int $duplicate_question_id): void
     {
+        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+            $original_result = $this->db->queryF(
+                "SELECT feedback_id FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
+                [ilDBConstants::T_INTEGER],
+                [$original_question_id]
+            );
+            while ($original_row = $this->db->fetchAssoc($original_result)) {
+                $this->ensurePageObjectDeleted(
+                    $this->getGenericFeedbackPageObjectType(),
+                    $original_row['feedback_id']
+                );
+            }
+        }
+
         // delete generic feedback of the original question
         $this->db->manipulateF(
             "DELETE FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            ['integer'],
-            [$originalQuestionId]
+            [ilDBConstants::T_INTEGER],
+            [$original_question_id]
         );
 
         // get generic feedback of the actual (duplicated) question
         $result = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
-            ['integer'],
-            [$duplicateQuestionId]
+            [ilDBConstants::T_INTEGER],
+            [$duplicate_question_id]
         );
 
         // save generic feedback to the original question
         while ($row = $this->db->fetchAssoc($result)) {
-            $nextId = $this->db->nextId($this->getGenericFeedbackTableName());
+            $next_id = $this->db->nextId($this->getGenericFeedbackTableName());
 
             $this->db->insert($this->getGenericFeedbackTableName(), [
-                'feedback_id' => ['integer', $nextId],
-                'question_fi' => ['integer', $originalQuestionId],
-                'correctness' => ['text', $row['correctness']],
-                'feedback' => ['clob', $row['feedback']],
-                'tstamp' => ['integer', time()]
+                'feedback_id' => [ilDBConstants::T_INTEGER, $next_id],
+                'question_fi' => [ilDBConstants::T_INTEGER, $original_question_id],
+                'correctness' => [ilDBConstants::T_TEXT, $row['correctness']],
+                'feedback' => [ilDBConstants::T_CLOB, $row['feedback']],
+                'tstamp' => [ilDBConstants::T_INTEGER, time()]
             ]);
+
+            if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+                $page_object_type = $this->getGenericFeedbackPageObjectType();
+                $this->syncPageObject($page_object_type, $row['feedback_id'], $next_id, $original_question_id);
+            }
         }
     }
 
@@ -644,6 +663,28 @@ abstract class ilAssQuestionFeedback
         $pageObject->setParentId($duplicate_page_object_parent_id);
         $pageObject->setId($duplicate_page_object_id);
         $pageObject->createFromXML();
+    }
+
+    /**
+     * Syncs a page object from a duplicated question back to the original question
+     */
+    final protected function syncPageObject(
+        string $page_object_type,
+        int $duplicate_page_object_id,
+        int $original_page_object_id,
+        int $original_question_id
+    ): void {
+        $this->ensurePageObjectExists($page_object_type, $duplicate_page_object_id);
+
+        $cl = $this->getClassNameByType($page_object_type);
+
+        $this->ensurePageObjectDeleted($page_object_type, $original_page_object_id);
+
+        $original_page_object = new $cl();
+        $original_page_object->setParentId($original_question_id);
+        $original_page_object->setId($original_page_object_id);
+        $original_page_object->setXMLContent((new $cl($duplicate_page_object_id))->getXMLContent());
+        $original_page_object->createFromXML();
     }
 
     final protected function ensurePageObjectDeleted(string $page_object_type, int $page_object_id): void

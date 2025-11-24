@@ -300,10 +300,6 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
 
-        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
-            return false;
-        }
-
         if (!$this->questioninfo->questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
             return false;
         }
