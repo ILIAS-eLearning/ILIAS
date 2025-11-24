@@ -663,8 +663,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
         require_once 'Modules/Test/classes/class.ilTestParticipantList.php';
-        $accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($test_ref_id);
-        $participantList = new ilTestParticipantList($test_obj);
+        $accessFilterFactory = new ilTestParticipantAccessFilterFactory($DIC['ilAccess']);
+        $accessFilter = $accessFilterFactory->getAccessResultsUserFilter($test_ref_id);
+
+        $participantList = new ilTestParticipantList($test_obj, $DIC['ilUser'], $DIC['lng'], $DIC['ilDB']);
         $participantList->initializeFromDbRows($participants);
         $participantList = $participantList->getAccessFilteredList($accessFilter);
         $participantList = $participantList->getScoredParticipantList();
