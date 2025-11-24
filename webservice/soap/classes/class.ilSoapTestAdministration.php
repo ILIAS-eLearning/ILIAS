@@ -691,10 +691,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(1, $row["login"]);
                 $xmlRow->setValue(2, $row["firstname"]);
                 $xmlRow->setValue(3, $row["lastname"]);
-                $xmlRow->setValue(4, $row["matriculation"]);
-                $xmlRow->setValue(5, $row["max_points"]);
-                $xmlRow->setValue(6, $row["reached_points"]);
-                $xmlRow->setValue(7, $row["passed"]);
+                $xmlRow->setValue(4, $row["matriculation"] ? (string) $row["matriculation"] : "");
+                $xmlRow->setValue(5, $row["max_points"] ? (float) $row["max_points"]  : "");
+                $xmlRow->setValue(6, $row["reached_points"] ? (float) $row["reached_points"] : "");
+                $xmlRow->setValue(7, $row["passed"] ? (int) $row["passed"] : 0);
                 $xmlResultSet->addRow($xmlRow);
             }
         } else {
@@ -711,12 +711,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(1, $row["login"]);
                 $xmlRow->setValue(2, $row["firstname"]);
                 $xmlRow->setValue(3, $row["lastname"]);
-                $xmlRow->setValue(4, $row["matriculation"]);
-                $xmlRow->setValue(5, $row["question_id"]);
-                $xmlRow->setValue(6, $row["question_title"]);
-                $xmlRow->setValue(7, $row["max_points"]);
-                $xmlRow->setValue(8, $row["reached_points"]);
-                $xmlRow->setValue(9, $row["passed"]);
+                $xmlRow->setValue(4, $row["matriculation"] ? (string) $row["matriculation"] : "");
+                $xmlRow->setValue(5, $row["question_id"] ? (string) $row["question_id"] : "");
+                $xmlRow->setValue(6, $row["question_title"] ? (string) $row["question_title"] : "");
+                $xmlRow->setValue(7, $row["max_points"] ? (float) $row["max_points"]  : "");
+                $xmlRow->setValue(8, $row["reached_points"] ? (float) $row["reached_points"] : "");
+                $xmlRow->setValue(9, $row["passed"] ? (int) $row["passed"] : 0);
                 $xmlResultSet->addRow($xmlRow);
             }
         }
