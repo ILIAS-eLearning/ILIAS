@@ -63,7 +63,7 @@ class ilKioskPageRenderer
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_curriculum'),
             $f->symbol()->icon()->standard("lso", "Learning Sequence"),
-            $this->ui_factory->legacy(
+            $this->ui_factory->legacy()->content(
                 $this->ui_renderer->render($curriculum)
             )
         );
