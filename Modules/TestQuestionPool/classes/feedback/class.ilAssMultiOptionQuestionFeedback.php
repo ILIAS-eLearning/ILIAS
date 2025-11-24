@@ -266,17 +266,31 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
     protected function syncSpecificFeedback(int $original_question_id, int $duplicate_question_id): void
     {
+        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+            $original_result = $this->db->queryF(
+                "SELECT feedback_id FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+                [ilDBConstants::T_INTEGER],
+                [$original_question_id]
+            );
+            while ($original_row = $this->db->fetchAssoc($original_result)) {
+                $this->ensurePageObjectDeleted(
+                    $this->getSpecificAnswerFeedbackPageObjectType(),
+                    $original_row['feedback_id']
+                );
+            }
+        }
+
         // delete specific feedback of the original
         $this->db->manipulateF(
             "DELETE FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [$original_question_id]
         );
 
         // get specific feedback of the actual question
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [$duplicate_question_id]
         );
 
@@ -285,13 +299,18 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
             $next_id = $this->db->nextId($this->getSpecificFeedbackTableName());
 
             $this->db->insert($this->getSpecificFeedbackTableName(), [
-                'feedback_id' => ['integer', $next_id],
-                'question_fi' => ['integer', $original_question_id],
-                'question' => ['integer', $row['question']],
-                'answer' => ['integer', $row['answer']],
-                'feedback' => ['text', $row['feedback']],
-                'tstamp' => ['integer', time()]
+                'feedback_id' => [ilDBConstants::T_INTEGER, $next_id],
+                'question_fi' => [ilDBConstants::T_INTEGER, $original_question_id],
+                'question' => [ilDBConstants::T_INTEGER, $row['question']],
+                'answer' => [ilDBConstants::T_INTEGER, $row['answer']],
+                'feedback' => [ilDBConstants::T_TEXT, $row['feedback']],
+                'tstamp' => [ilDBConstants::T_INTEGER, time()]
             ]);
+
+            if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+                $page_object_type = $this->getSpecificAnswerFeedbackPageObjectType();
+                $this->syncPageObject($page_object_type, $row['feedback_id'], $next_id, $original_question_id);
+            }
         }
     }
 
