@@ -269,7 +269,6 @@ class ilLTIConsumerContentGUI
             document.getElementById("lti_launch_form").style.display = "none";
             document.getElementById("lti_launched").style.display = "inline";
         }</script>';
-        //dump($output);exit();
         return($output);
     }
 
@@ -380,6 +379,11 @@ class ilLTIConsumerContentGUI
             $this->object->getRefId(),
             $this->object->getId()
         );
+        $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
+            '&amp;',
+            '&',
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
+        );
 
         $cmixUser = $this->cmixUser;
         return $this->object->buildLaunchParametersLTI13(
@@ -392,7 +396,7 @@ class ilLTIConsumerContentGUI
             $launchContextType,
             $launchContextId,
             $launchContextTitle,
-            '',
+            $returnUrl,
             $additionalArguments
         );
     }

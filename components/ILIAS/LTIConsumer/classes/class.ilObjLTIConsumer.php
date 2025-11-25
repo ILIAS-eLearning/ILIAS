@@ -768,7 +768,6 @@ class ilObjLTIConsumer extends ilObject2
             "lis_person_name_full" => $nameFull,
             "lis_person_contact_email_primary" => $emailPrimary,
             "context_id" => $contextId,
-            "context_type" => $contextType,
             "context_title" => $contextTitle,
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
@@ -791,8 +790,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => self::getIliasHttpPath(
-                ) . "/ltiresult.php?client_id=" . CLIENT_ID,
-            "role_scope_mentor" => ""
+                ) . "/ltiresult.php?client_id=" . CLIENT_ID
         ];
 
         $OAuthParams = [
@@ -918,8 +916,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
-            "tool_consumer_info_version" => ILIAS_VERSION,
-            "role_scope_mentor" => ""
+            "tool_consumer_info_version" => ILIAS_VERSION
         ];
 
         $provider_custom_params = self::getProviderCustomParamsArray($this->getProvider());
