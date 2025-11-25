@@ -1425,7 +1425,7 @@ assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
 assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer erstellen
 assessment#:#tst_comp_eval_mode#:#Evaluierung über
-assessment#:#tst_comp_points#:#Kompetenz-Punkte
+assessment#:#tst_comp_points#:#Kompetenzpunkte
 assessment#:#tst_competence#:#Kompetenz
 assessment#:#tst_competence_tree#:#Kompetenzbaum
 assessment#:#tst_conditions_checkbox_enabled#:#Prüfungsbedingungen
@@ -1454,7 +1454,7 @@ assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
-assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
+assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungseigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_enable_questionlist#:#Fragenliste
 assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
@@ -1618,7 +1618,7 @@ assessment#:#tst_man_scoring_finalized_only#:#Nur bewertete Antworten anzeigen
 assessment#:#tst_man_scoring_only_answered#:#Nur beantwortete
 assessment#:#tst_man_scoring_questionselection#:#Fragen
 assessment#:#tst_man_scoring_userselection#:#Teilnehmer
-assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
+assessment#:#tst_manage_competence_assigns#:#Kompetenzzuordnungen verwalten
 assessment#:#tst_manage_competence_select_skills#:#Kompetenzen auswählen
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
 assessment#:#tst_manscoring_input_of_max#:#von
@@ -1636,7 +1636,7 @@ assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
 assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Möchten Sie wirklich fortfahren? Das aktuelle Notenschema wird durch ein einfaches Notenschema mit den Stufen „bestanden“ und „nicht bestanden“ ersetzt. Alle lokalen Änderungen werden gelöscht.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
-assessment#:#tst_max_comp_points#:#Maximale Kompetenz-Punkte
+assessment#:#tst_max_comp_points#:#Maximale Kompetenzpunkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
 assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten
 assessment#:#tst_median_mark_panel#:#Note des Median
@@ -1662,8 +1662,8 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für d
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfiguration des Tests mit zufälliger Fragenauswahl wurde erfolgreich synchronisiert.
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
-assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenz-Punkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenzpunkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenzpunkte wurden gespeichert.
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Regel für die Fragenauswahl wurde erfolgreich gelöscht.
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_nav_next_locks_current_answer_header#:#Aktuelle Antwort festschreiben?
@@ -1763,8 +1763,8 @@ assessment#:#tst_qbt_filter_question_title#:#Fragentitel
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_order#:#Nr.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus „%s“ müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus „%s“ müssen grundsätzlich in den zugeordneten Fragenpools vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenzzuordnung für Tests im Modus „%s“ müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#Die Fragen-Kompetenzzuordnung für Tests im Modus „%s“ müssen grundsätzlich in den zugeordneten Fragenpools vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
 assessment#:#tst_question#:#Frage
 assessment#:#tst_question_amount#:#Anzahl Fragen
 assessment#:#tst_question_answer_status#:#Welche Fragen sollen in die Wiedervorlage?
@@ -1858,7 +1858,7 @@ assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regel für die Auswahl von Fragen
 assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Regel für Fragenauswahl hinzufügen
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_save_and_proceed#:#Speichern und weiter
-assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
+assessment#:#tst_save_comp_points#:#Speichere Kompetenzpunkte
 assessment#:#tst_save_manscoring_failed#:#Die Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_saved_manscoring_by_question_successfully#:#Die Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
@@ -1885,7 +1885,7 @@ assessment#:#tst_settings_not_found_msg#:#Testeinstellungen wurden nicht gefunde
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter „Maximale Bearbeitungsdauer“ festgelegte Bearbeitungszeit an.
-assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
+assessment#:#tst_show_comp_results#:#Kompetenzergebnisse
 assessment#:#tst_show_results#:#Testergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
@@ -1980,7 +1980,7 @@ assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Übernahme der Lösungen muss vom Teilnehmer vor Beginn des Testdurchlaufs in einem Modal per Checkbox aktiviert werden.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
-assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
+assessment#:#tst_view_competence_assign#:#Zeige Zuordnungseigenschaften
 assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zum Lernziel<br />%s
 assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse zum Lernziel<br />%s
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem früheren Versuch wurde übernommen.
