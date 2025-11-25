@@ -145,8 +145,8 @@ class DatabaseHistoryRepository implements HistoryRepository
         [$filter, $join] = $this->filterAndJoin($filter);
 
         return (int) $this->database->fetchAssoc($this->database->query(
-            "SELECT COUNT(1) as count FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id INNER JOIN $documents ON $version.doc_id = $documents.id AND $version.provider = $provider " .
-            "$join WHERE $filter"
+            "SELECT COUNT(1) as count FROM $tracking INNER JOIN $version ON $tracking.tosv_id = $version.id LEFT JOIN $documents ON $version.doc_id = $documents.id " .
+            "$join WHERE $version.provider = $provider AND $filter"
         ))['count'];
     }
 
