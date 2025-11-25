@@ -122,7 +122,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                         ...$this->buildSubItems(),
                         $this->buildItem(
                             $this->lng->txt('mail_attachments'),
-                            'fils',
+                            'attach',
                             $this->buildFolderLink($current_folder_id, [ilMailGUI::class, ilMailAttachmentGUI::class])
                         )
                     ];
