@@ -99,22 +99,15 @@ class ilObjPortfolio extends ilObjPortfolioBase implements ilAdvancedMetaDataSub
     }
 
     public static function getAvailablePortfolioLinksForUserIds(
-        array $a_owner_ids,
-        ?string $a_back_url = null
+        array $a_owner_ids
     ): array {
         $res = array();
 
         $access_handler = new ilPortfolioAccessHandler();
 
-        $params = null;
-        if ($a_back_url) {
-            //$params = array("back_url" => rawurlencode($a_back_url));
-        }
-        $params = [];
-
         foreach ($access_handler->getShardObjectsDataForUserIds($a_owner_ids) as $owner_id => $items) {
             foreach ($items as $id => $title) {
-                $url = ilLink::_getLink($id, 'prtf', $params);
+                $url = ilLink::_getLink($id, 'prtf');
                 $res[$owner_id][$url] = $title;
             }
         }

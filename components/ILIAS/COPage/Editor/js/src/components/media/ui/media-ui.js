@@ -1,5 +1,5 @@
-import ACTIONS from "../actions/media-action-types.js";
-import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
+import ACTIONS from '../actions/media-action-types.js';
+import PAGE_ACTIONS from '../../page/actions/page-action-types.js';
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,56 +15,53 @@ import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * media ui
  */
 export default class MediaUI {
-
-
   /**
    * @type {boolean}
    */
-  //debug = true;
+  // debug = true;
 
   /**
    * Model
    * @type {PageModel}
    */
-  //page_model = {};
+  // page_model = {};
 
   /**
    * UI model
    * @type {Object}
    */
-  //uiModel = {};
+  // uiModel = {};
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {ToolSlate}
    */
-  //toolSlate;
+  // toolSlate;
 
   /**
    * @type {pageModifier}
    */
-//  pageModifier;
-
+  //  pageModifier;
 
   /**
    * @param {Client} client
@@ -75,7 +72,7 @@ export default class MediaUI {
    * @param {PageModifier} pageModifier
    */
   constructor(client, dispatcher, actionFactory, page_model, toolSlate, pageModifier) {
-    this.debug = true;
+    this.debug = false;
     this.client = client;
     this.dispatcher = dispatcher;
     this.actionFactory = actionFactory;
@@ -98,17 +95,16 @@ export default class MediaUI {
     }
   }
 
-
   /**
    */
   init(uiModel) {
-    this.log("media-ui.init");
+    this.log('media-ui.init');
 
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
 
     this.uiModel = uiModel;
-    let t = this;
+    const t = this;
   }
 
   /**
@@ -125,29 +121,26 @@ export default class MediaUI {
       let url;
 
       switch (actionType) {
-
         case ACTIONS.SELECT_POOL:
           url = el.dataset.copgEdParUrl;
-          el.addEventListener("click", (event) => {
+          el.addEventListener('click', (event) => {
             dispatch.dispatch(action.media().editor().selectPool(url, this.page_model.getCurrentInsertPCId()));
           });
 
         case ACTIONS.OPEN_CLIPBOARD:
           url = el.dataset.copgEdParUrl;
-          el.addEventListener("click", (event) => {
+          el.addEventListener('click', (event) => {
             dispatch.dispatch(action.media().editor().openClipboard(url, this.page_model.getCurrentInsertPCId()));
           });
-
       }
     });
   }
 
   handlePoolSelection(url, pcid) {
-    this.pageModifier.redirect(url + "&pcid=" + pcid);
+    this.pageModifier.redirect(`${url}&pcid=${pcid}`);
   }
 
   handleOpenClipboard(url, pcid) {
-    this.pageModifier.redirect(url + "&pcid=" + pcid);
+    this.pageModifier.redirect(`${url}&pcid=${pcid}`);
   }
-
 }

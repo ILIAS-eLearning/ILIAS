@@ -493,9 +493,7 @@ class ilPCMediaObject extends ilPageContent
     public function getJavascriptFiles(
         string $a_mode
     ): array {
-        //$js_files = ilPlayerUtil::getJsFilePaths();
-        $js_files[] = iljQueryUtil::getLocalMaphilightPath();
-        return $js_files;
+        return [];
     }
 
     public function getCssFiles(

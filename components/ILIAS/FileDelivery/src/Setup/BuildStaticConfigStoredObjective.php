@@ -61,7 +61,7 @@ abstract class BuildStaticConfigStoredObjective implements Objective
 
     public function getLabel(): string
     {
-        return 'Build ' . $this->getArtifactName() . ' Ststic Config';
+        return 'Build ' . $this->getArtifactName() . ' Static Config';
     }
 
     public function isNotable(): bool

@@ -653,6 +653,7 @@ assessment#:#errFormulaQuestion#:#Uma pergunta de fórmula contém informação 
 assessment#:#errRecursionInResult#:#A fórmula contém um recurso infinito.
 assessment#:#err_category_in_use#:#Pelo menos uma categoria não pode ser apagada. Uma ou mais unidades da categoria já estão a ser usadas.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Usou uma variável do resultado mais do que uma vez. Isso não é permitido no texto da pergunta.
 assessment#:#err_no_formula#:#Tem de introduzir uma fórmula
@@ -1178,7 +1179,10 @@ assessment#:#redirect_after_finishing_rule#:#Redirecionar
 assessment#:#redirect_after_finishing_tst#:#Redirecionar
 assessment#:#redirect_after_finishing_tst_desc#:#Uma vez completado o teste, cada participante será automaticamente redirecionado para uma página definida da web. Isto só é válido se os participantes não tiverem acesso aos resultados do seu teste.
 assessment#:#redirect_always#:#sempre para a página da web definida
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#apenas quando a vista de exame está ativada
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL da página web
 assessment#:#region#:#Região
 assessment#:#remaining_duration#:#Remaining Duration###28 10 2024 new variable
@@ -1230,6 +1234,7 @@ assessment#:#search_groups#:#Pesquisar grupos
 assessment#:#search_roles#:#Pesquisar funções
 assessment#:#search_term#:#Pesquisar termo
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#Selecionar espaço
 assessment#:#select_max_one_item#:#Selecione apenas um item
 assessment#:#select_one_user#:#Selecione pelo menos um utilizador.
@@ -1361,6 +1366,7 @@ assessment#:#tst_anonymity_no_anonymization#:#Resultados com nomes
 assessment#:#tst_answer_aggr_answer_header#:#Resposta
 assessment#:#tst_answer_aggr_frequency_header#:#Frequência
 assessment#:#tst_answer_details#:#Detalhes das respostas
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#Respostas dos participantes
 assessment#:#tst_answer_fixation_none#:#Não bloqueie as respostas dos participantes durante as tentativas de teste
 assessment#:#tst_answer_fixation_none_desc#:#Enquanto não concluírem uma tentativa de teste, os participantes podem mudar as suas respostas, sempre que quiserem.
@@ -3072,6 +3078,7 @@ chatroom#:#public_chat_created#:#Por
 chatroom#:#scope#:#Sala/Sala privada
 chatroom#:#select_custom_username#:#Selecionar nome de utilizador personalizado
 chatroom#:#server_further_information#:#Pode encontrar mais informação sobre a configuração do servidor no <a href="%1$s" target="_blank">ficheiro readme</a>.
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#Sessão
 chatroom#:#settings_general#:#Geral
 chatroom#:#settings_title#:#Calendário
@@ -9224,8 +9231,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###26 08 2024 new variable
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###26 08 2024 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#Completed
 etal#:#etal_status_pending#:#Pending
@@ -11099,7 +11108,6 @@ lso#:#lso_print_list#:#Nenhuns metadados disponíveis para a secção de Técnic
 lso#:#lso_read#:#Não usado
 lso#:#lso_search_users#:#Obrigatório
 lso#:#lso_settings_availability#:#Opcional
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Sistema Operativo
 lso#:#lso_settings_intro#:#Ou composto
 lso#:#lso_settings_old_extro#:#View Old Exit Page###26 08 2024 new variable
@@ -11606,7 +11614,6 @@ mail#:#mail_nacc_title#:#Título
 mail#:#mail_nacc_use_placeholder#:#Importar ficheiro
 mail#:#mail_nacc_user_fullname#:#User Full Name###26 08 2024 new variable
 mail#:#mail_nacc_user_login#:#User Login###26 08 2024 new variable
-mail#:#mail_nacc_user_name#:#User Name###26 08 2024 new variable
 mail#:#mail_new_template#:#Novo modelo de texto
 mail#:#mail_no_mail_items#:#No unread mails.###26 08 2024 new variable
 mail#:#mail_no_permissions_write_smtp#:#Posições em

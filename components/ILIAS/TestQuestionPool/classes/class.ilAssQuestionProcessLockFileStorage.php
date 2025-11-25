@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -59,6 +60,12 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
         return 'question';
     }
 
+    public function getAbsolutePath(): string
+    {
+        return rtrim($this->getLegacyAbsolutePath(), '/') . '/' . $this->sub_path;
+    }
+
+
     public function getPath(): string
     {
         return parent::getPath() . '/' . $this->sub_path;
@@ -71,7 +78,9 @@ class ilAssQuestionProcessLockFileStorage extends ilFileSystemAbstractionStorage
         });
 
         try {
-            parent::create($this->getPath());
+            if (!$this->getFileSystemService()->has($this->getPath())) {
+                $this->getFileSystemService()->createDir($this->getPath());
+            }
             restore_error_handler();
         } catch (Exception $e) {
             restore_error_handler();

@@ -12,68 +12,67 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 import IIMUI from './iim-ui.js';
 import ActionFactory from '../actions/action-factory.js';
-import IIMUIModifier from "./iim-ui-modifier.js";
+import IIMUIModifier from './iim-ui-modifier.js';
 
 /**
  * editor ui
  */
 export default class UI {
-
   /**
    * UI model
    * @type {Object}
    */
-  //uiModel = {};
+  // uiModel = {};
 
   /**
    * Model
    * @type {Model}
    */
-  //model = {};
+  // model = {};
 
   /**
    * @type {Client}
    */
-  //client;
+  // client;
 
   /**
    * @type {Dispatcher}
    */
-  //dispatcher;
+  // dispatcher;
 
   /**
    * @type {ActionFactory}
    */
-  //actionFactory;
+  // actionFactory;
 
   /**
    * @type {PageUI}
    */
-  //page;
+  // page;
 
   /**
    * @type {ParagraphUI}
    */
-  //paragraph;
+  // paragraph;
 
   /**
    * @type {MediaUI}
    */
-  //media;
+  // media;
 
   /**
    * @type {ToolSlate}
    */
-  //toolSlate;
+  // toolSlate;
 
   /**
    * @type {pageModifier}
    */
-  //pageModifier;
+  // pageModifier;
 
   /**
    * @param {Client} client
@@ -83,8 +82,14 @@ export default class UI {
    * @param {ToolSlate} toolSlate
    * @param {IIMUIModifier} IIMUIModifier
    */
-  constructor(client, dispatcher, actionFactory, iimModel, toolSlate,
-              uiModifier) {
+  constructor(
+    client,
+    dispatcher,
+    actionFactory,
+    iimModel,
+    toolSlate,
+    uiModifier,
+  ) {
     this.uiModel = {};
     this.client = client;
     this.dispatcher = dispatcher;
@@ -92,7 +97,7 @@ export default class UI {
     this.iimModel = iimModel;
     this.toolSlate = toolSlate;
     this.uiModifier = uiModifier;
-    this.debug = true;
+    this.debug = false;
 
     this.iim = new IIMUI(
       this.client,
@@ -101,7 +106,7 @@ export default class UI {
       iimModel,
       this.uiModel,
       this.toolSlate,
-      this.uiModifier
+      this.uiModifier,
     );
 
     /*
@@ -109,7 +114,7 @@ export default class UI {
     this.page.addComponentUI("Media", this.media);
     this.page.addComponentUI("Table", this.table);
     this.page.addComponentUI("PlaceHolder", this.placeholder);
-    this.pageModifer.setPageUI(this.page);*/
+    this.pageModifer.setPageUI(this.page); */
   }
 
   /**
@@ -136,10 +141,9 @@ export default class UI {
    */
   init(after_init) {
     const ui_all_action = this.actionFactory.interactiveImage().query().init();
-    this.client.sendQuery(ui_all_action).then(result => {
-
+    this.client.sendQuery(ui_all_action).then((result) => {
       const p = result.getPayload();
-      console.log("INIT PAYLOAD");
+      console.log('INIT PAYLOAD');
       console.log(p);
       this.iimModel.initModel(p.iimModel);
       this.uiModel = p.uiModel;
@@ -165,7 +169,7 @@ export default class UI {
       this.placeholder.init(this.uiModel);
       if (after_init) {
         after_init();
-      }*/
+      } */
     });
   }
 

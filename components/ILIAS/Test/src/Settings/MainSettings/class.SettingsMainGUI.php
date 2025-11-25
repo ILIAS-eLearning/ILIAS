@@ -136,7 +136,10 @@ class SettingsMainGUI extends TestSettingsGUI
         );
 
         $this->tpl->setContent(
-            $this->main_settings->getIntroductionSettings()->getIntroductionText()
+            ilRTE::_replaceMediaObjectImageSrc(
+                $this->main_settings->getIntroductionSettings()->getIntroductionText(),
+                1
+            )
         );
     }
 
@@ -150,7 +153,10 @@ class SettingsMainGUI extends TestSettingsGUI
         );
 
         $this->tpl->setContent(
-            $this->main_settings->getFinishingSettings()->getConcludingRemarksText()
+            ilRTE::_replaceMediaObjectImageSrc(
+                $this->main_settings->getFinishingSettings()->getConcludingRemarksText(),
+                1
+            )
         );
     }
 

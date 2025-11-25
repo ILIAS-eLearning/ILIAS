@@ -653,6 +653,7 @@ assessment#:#errFormulaQuestion#:#En formelfråga innehåller felaktig informati
 assessment#:#errRecursionInResult#:#Formeln innehåller en icke-lösbar rekursion.
 assessment#:#err_category_in_use#:#Kategorin kan inte raderas. En eller flera enheter i kategorin används redan.
 assessment#:#err_divider_too_big#:#Divisorn för en av variablerna i denna fråga är för stor.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#Det värde du anger gör det omöjligt att generera ett giltigt värde för variabeln.
 assessment#:#err_duplicate_results#:#Du har använt en resultatvariabel mer än en gång. Detta är inte tillåtet i uppgiftstexten!
 assessment#:#err_no_formula#:#Ange en formel för att beräkna resultatet.
@@ -1178,7 +1179,10 @@ assessment#:#redirect_after_finishing_rule#:#Forwarding
 assessment#:#redirect_after_finishing_tst#:#Forwarding
 assessment#:#redirect_after_finishing_tst_desc#:#Deltagarna omdirigeras automatiskt till en definierad webbplats efter att ha slutfört testet. Detta händer bara om testet har konfigurerats så att deltagarna inte kan se sina testresultat efter att testet har slutförts. Om du anger adressen till en exter
 assessment#:#redirect_always#:# alltid till den definierade målsidan
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Nur när granskningsvyn är aktiverad
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL målsida
 assessment#:#region#:#Region
 assessment#:#remaining_duration#:#Remaining Duration###28 10 2024 new variable
@@ -1230,6 +1234,7 @@ assessment#:#search_groups#:#efter grupper
 assessment#:#search_roles#:#Efter rullar
 assessment#:#search_term#:#Sökord
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#Selektionsgap
 assessment#:#select_max_one_item#:#Välj endast ett objekt!
 assessment#:#select_one_user#:#Välj minst en användare!
@@ -1361,6 +1366,7 @@ assessment#:#tst_anonymity_no_anonymization#:#Testresultat med namn
 assessment#:#tst_answer_aggr_answer_header#:#Svar
 assessment#:#tst_answer_aggr_frequency_header#:#Frekvens
 assessment#:#tst_answer_details#:#Svar detaljer
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#Deltagarnas svar
 assessment#:#tst_answer_fixation_none#:#Fixa inte svar under testkörningen
 assessment#:#tst_answer_fixation_none_desc#:#Så länge en testkörning inte är avslutad kan deltagarna ändra sina svar som de vill.
@@ -3072,6 +3078,7 @@ chatroom#:#public_chat_created#:#Ett nytt offentligt chattrum har skapats i tidn
 chatroom#:#scope#:#Rum/Séparée
 chatroom#:#select_custom_username#:#Visat namn i chatten
 chatroom#:#server_further_information#:# Mer information om hur du konfigurerar servern finns i <a href="%1$s" target="_blank">filen readme</a>.
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#Allmänt
 chatroom#:#settings_title#:#Chat-inställningar
@@ -9224,8 +9231,10 @@ etal#:#etal_date_series_edit#:#Talkserie
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###26 08 2024 new variable
 etal#:#etal_edit#:#Allmänt
 etal#:#etal_invalid_user#:#Detta konto existerar inte eller kan inte bjudas in.
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#Nytt samtal
 etal#:#etal_open#:#Öppen konversation
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#Alla
 etal#:#etal_status_completed#:#Fullbordad
 etal#:#etal_status_pending#:#Utgående
@@ -11099,7 +11108,6 @@ lso#:#lso_print_list#:#Skapa lista
 lso#:#lso_read#:#Läsning tillgång till Learning Sequence
 lso#:#lso_search_users#:#Sök användare
 lso#:#lso_settings_availability#:#Tillgänglighet
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###21 11 2023 new variable
 lso#:#lso_settings_extro#:#Redigera sista sidan
 lso#:#lso_settings_intro#:#Redigera introduktionssida
 lso#:#lso_settings_old_extro#:#Visa gamla avslutande sidan
@@ -11606,7 +11614,6 @@ mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_use_placeholder#:#Följande platshållare kan användas i fältet 'Innehåll'
 mail#:#mail_nacc_user_fullname#:#User Full Name###26 08 2024 new variable
 mail#:#mail_nacc_user_login#:#User Login###26 08 2024 new variable
-mail#:#mail_nacc_user_name#:#User Name###26 08 2024 new variable
 mail#:#mail_new_template#:#Ny textmall
 mail#:#mail_no_mail_items#:#No unread mails.###26 08 2024 new variable
 mail#:#mail_no_permissions_write_smtp#:#Du har inte behörighet att skicka externa e-postmeddelanden.

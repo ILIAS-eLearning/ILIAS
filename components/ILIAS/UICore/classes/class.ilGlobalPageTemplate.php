@@ -96,7 +96,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     protected function prepareBasicJS(): void
     {
         iljQueryUtil::initjQuery($this);
-        iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("assets/js/Basic.js", true, 1);
         ilBuddySystemGUI::initializeFrontend($this);
         ilOnScreenChatGUI::initializeFrontend($this);

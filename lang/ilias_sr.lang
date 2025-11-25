@@ -653,6 +653,7 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.###24 10 2013 new variable
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.###24 10 2013 new variable
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.###24 10 2013 new variable
 assessment#:#err_no_formula#:#You must enter a formula###24 10 2013 new variable
@@ -1178,7 +1179,10 @@ assessment#:#redirect_after_finishing_rule#:#Redirect###27 01 2015 new variable
 assessment#:#redirect_after_finishing_tst#:#Redirect after finishing the test###24 10 2013 new variable
 assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.###27 01 2015 new variable
 assessment#:#redirect_always#:#always to defined webpage###27 01 2015 new variable
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Redirect only in kiosk mode###24 10 2013 new variable
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Redirection target###24 10 2013 new variable
 assessment#:#region#:#Podrucje
 assessment#:#remaining_duration#:#Remaining Duration###28 10 2024 new variable
@@ -1230,6 +1234,7 @@ assessment#:#search_groups#:#Search Groups ### 2006-8-11 --- Add new translation
 assessment#:#search_roles#:#Search Roles ### 2006-8-11 --- Add new translation here.
 assessment#:#search_term#:#Search Term ### 2006-8-11 --- Add new translation here.
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#Odaberite razmak
 assessment#:#select_max_one_item#:#Molimo odaberite samo jedno polje
 assessment#:#select_one_user#:#Please select at least one user###23 Dec 2005 new variable
@@ -1361,6 +1366,7 @@ assessment#:#tst_anonymity_no_anonymization#:#No Anonymization###12 06 2011 new 
 assessment#:#tst_answer_aggr_answer_header#:#Answer###10 11 2018 new variable
 assessment#:#tst_answer_aggr_frequency_header#:#Frequency###10 11 2018 new variable
 assessment#:#tst_answer_details#:#Answer Details###26 09 2014 new variable
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#Participant Answers###10 11 2018 new variable
 assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes###10 11 2018 new variable
 assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.###10 11 2018 new variable
@@ -3072,6 +3078,7 @@ chatroom#:#public_chat_created#:#The public chat room has been added to the repo
 chatroom#:#scope#:#Room/Private Room###01 10 2011 new variable
 chatroom#:#select_custom_username#:#Select custom username###06 08 2011 new variable
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.###02 09 2011 new variable
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#Session###06 08 2011 new variable
 chatroom#:#settings_general#:#General###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
@@ -9224,8 +9231,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###26 08 2024 new variable
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###26 08 2024 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#Completed
 etal#:#etal_status_pending#:#Pending
@@ -11099,7 +11108,6 @@ lso#:#lso_print_list#:#Print list###10 11 2018 new variable
 lso#:#lso_read#:#User has read access to Learning Sequence###10 11 2018 new variable
 lso#:#lso_search_users#:#Search user###10 11 2018 new variable
 lso#:#lso_settings_availability#:#availability###10 11 2018 new variable
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings###10 11 2018 new variable
 lso#:#lso_settings_intro#:#Intropage Settings###10 11 2018 new variable
 lso#:#lso_settings_old_extro#:#View Old Exit Page###26 08 2024 new variable
@@ -11606,7 +11614,6 @@ mail#:#mail_nacc_title#:#Title###31 08 2017 new variable
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used###10 Jul 2006 new variable
 mail#:#mail_nacc_user_fullname#:#User Full Name###26 08 2024 new variable
 mail#:#mail_nacc_user_login#:#User Login###26 08 2024 new variable
-mail#:#mail_nacc_user_name#:#User Name###26 08 2024 new variable
 mail#:#mail_new_template#:#New Text Template###30 08 2015 new variable
 mail#:#mail_no_mail_items#:#No unread mails.###26 08 2024 new variable
 mail#:#mail_no_permissions_write_smtp#:#Nemate dozvolu da pišete eksternu poštu

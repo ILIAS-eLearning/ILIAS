@@ -139,4 +139,9 @@ class ilCertificateUtilHelper
             $offline
         );
     }
+
+    public function renameExecutables(string $absolute_server_path): void
+    {
+        ilFileUtils::renameExecutables($absolute_server_path);
+    }
 }

@@ -71,7 +71,7 @@ class OrderingRendererTest extends TableRendererTestBase
 
         $actual = $renderer->renderOrderingTable($table, $this->getDefaultRenderer());
         $expected = <<<EOT
-<div class="c-table-ordering" id="id_1"><h2 class="ilHeader" id="id_1_label"></h2>
+<div class="c-table-ordering" id="id_1"><h2 id="id_1_label"></h2>
     <div class="viewcontrols">
         <form class="il-viewcontrols-form l-bar__space-keeper" method="get" id="id_2"></form>
     </div>

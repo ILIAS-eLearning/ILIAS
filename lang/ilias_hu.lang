@@ -653,6 +653,7 @@ assessment#:#errFormulaQuestion#:#A képlet-kérdés hibás információt tartal
 assessment#:#errRecursionInResult#:#A képlet végtelen rekurziót tartalmaz.
 assessment#:#err_category_in_use#:#Legalább egy kategória nem törölhető. A kategória egy vagy több mértékegysége még használatban van.
 assessment#:#err_divider_too_big#:#Ebben a kérdésben az egyik változó oszója túl nagy.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#Ennek az értéknek a maximumnál kisebbnek kell lennie.
 assessment#:#err_duplicate_results#:#Többször használtál egy végeredményt. Ez tesztkérdésben nem megengedett
 assessment#:#err_no_formula#:#Képletet írjon
@@ -1178,7 +1179,10 @@ assessment#:#redirect_after_finishing_rule#:#Átirányítás
 assessment#:#redirect_after_finishing_tst#:#Átirányítás
 assessment#:#redirect_after_finishing_tst_desc#:#A teszt befejezése után az összes kitöltő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez. Külső weboldal megadásakor használjon teljes URL-t (beleértve a 'https://'-t is). ILIAS-objektumra irányításhoz használja annak láblécében levő állandó linket.
 assessment#:#redirect_always#:#mindig a megadott URL-re
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#csak akkor, ha a 'Vizsganézet' be van kapcsolva
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL
 assessment#:#region#:#Régió
 assessment#:#remaining_duration#:#Fennmaradó idő
@@ -1230,6 +1234,7 @@ assessment#:#search_groups#:#Talált csoportok
 assessment#:#search_roles#:#Talált szerepkörök
 assessment#:#search_term#:#Fogalom keresése
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Kérjük, válasszon legalább egy visszajelzéstípust és egy triggert.
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#Szöveghely választása
 assessment#:#select_max_one_item#:#Csak egy elemet válasszon!
 assessment#:#select_one_user#:#Válasszon legalább egy felhasználót!
@@ -1361,6 +1366,7 @@ assessment#:#tst_anonymity_no_anonymization#:#Eredmények nevekkel
 assessment#:#tst_answer_aggr_answer_header#:#Válasz
 assessment#:#tst_answer_aggr_frequency_header#:#Gyakoriság
 assessment#:#tst_answer_details#:#Válasz részletei
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#Válaszok véglegesítése
 assessment#:#tst_answer_fixation_none#:#A válaszokat nem véglegesítjük a tesztkitöltés alatt
 assessment#:#tst_answer_fixation_none_desc#:#A kitöltők a válaszaikat a teszt befejezésig bármikor módosíthatják.
@@ -3072,6 +3078,7 @@ chatroom#:#public_chat_created#:#A nyilvános csevegést sikeresen létrehozta a
 chatroom#:#scope#:#Szoba
 chatroom#:#select_custom_username#:#Egyéni felhasználónév kiválasztása
 chatroom#:#server_further_information#:#További információkat a szerver-konfigurációról a <a href="%1$s" target="_blank">readme file</a>-ban talál.
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#Munkamenet
 chatroom#:#settings_general#:#Általános
 chatroom#:#settings_title#:#Beállítások
@@ -9224,8 +9231,10 @@ etal#:#etal_date_series_edit#:#Megbeszéléssorozat dátuma
 etal#:#etal_delete_confirmation_msg#:#Biztos, hogy törli az alábbi megbeszélést?
 etal#:#etal_edit#:#Általános
 etal#:#etal_invalid_user#:#A felhasználó nem létezik vagy nem hívható meg.
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#Új Talk
 etal#:#etal_open#:#Munkavállalói megbeszélés megnyitása
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#Összes
 etal#:#etal_status_completed#:#Befejezve
 etal#:#etal_status_pending#:#Függőben
@@ -11099,7 +11108,6 @@ lso#:#lso_print_list#:#Lista nyomtatása
 lso#:#lso_read#:#A felhasználónak hozzáférés van a tanulási sorhoz
 lso#:#lso_search_users#:#Felhasználók keresése
 lso#:#lso_settings_availability#:#Elérhetőség
-lso#:#lso_settings_availability_error#:#A záró dátum nem lehet korábbi, mint a kezdő dátum.
 lso#:#lso_settings_extro#:#Kilépőoldal beállításai
 lso#:#lso_settings_intro#:#Bemutatkozó-oldal beállításai
 lso#:#lso_settings_old_extro#:#Korábbi Kilépőoldal megjelenítése
@@ -11606,7 +11614,6 @@ mail#:#mail_nacc_title#:#Cím
 mail#:#mail_nacc_use_placeholder#:#Az alábbi helyőrzők használhatók
 mail#:#mail_nacc_user_fullname#:#A felhasználó teljes neve
 mail#:#mail_nacc_user_login#:#Felhasználónév
-mail#:#mail_nacc_user_name#:#A felhasználó neve
 mail#:#mail_new_template#:#Új szövegminta
 mail#:#mail_no_mail_items#:#Nincs olvasatlan üzenete
 mail#:#mail_no_permissions_write_smtp#:#Nincs jogosultsága külső levelet írni

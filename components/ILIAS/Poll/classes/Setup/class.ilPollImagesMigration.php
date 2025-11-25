@@ -21,10 +21,12 @@ declare(strict_types=1);
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
 use ILIAS\Poll\Image\Repository\Stakeholder\Handler as ilPollImageRepositoryStakeholder;
+use ILIAS\Setup\CLI\IOWrapper;
 
 class ilPollImagesMigration implements Migration
 {
     protected ilDBInterface $db;
+    protected ?IOWrapper $io = null;
 
     public function getLabel(): string
     {
@@ -50,6 +52,10 @@ class ilPollImagesMigration implements Migration
         Environment $environment
     ): void {
         $this->db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
+        if ($io instanceof IOWrapper) {
+            $this->io = $io;
+        }
     }
 
     public function step(
@@ -69,6 +75,7 @@ class ilPollImagesMigration implements Migration
         $thumbnail_path = $this->getThumbnailImagePath($image, $id);
         $org_path = $this->getOrgImagePath($image, $id);
         $stakeholder = (new ilPollImageRepositoryStakeholder())->withUserId(6);
+
         $irss_helper = new ilResourceStorageMigrationHelper($stakeholder, $environment);
         $rid = $irss_helper->movePathToStorage($file_path, 6, null, null, false);
         $rid_thumbnail = $irss_helper->movePathToStorage($thumbnail_path, 6, null, null, false);
@@ -76,19 +83,26 @@ class ilPollImagesMigration implements Migration
 
         $res_existing = $this->db->query("SELECT * FROM il_poll_image WHERE object_id = " . $this->db->quote($id, ilDBConstants::T_INTEGER));
         $row_existing = $res_existing->fetchAssoc();
-        if (is_null($row_existing)) {
-            $this->db->manipulate(
-                "INSERT INTO il_poll_image (object_id, rid) VALUES "
-                . " (" . $this->db->quote($id, ilDBConstants::T_INTEGER)
-                . ", " . $this->db->quote($rid->serialize(), ilDBConstants::T_TEXT) . ")"
-            );
+        if (!is_null($rid)) {
+            if (is_null($row_existing)) {
+                $this->db->manipulate(
+                    "INSERT INTO il_poll_image (object_id, rid) VALUES "
+                    . " (" . $this->db->quote($id, ilDBConstants::T_INTEGER)
+                    . ", " . $this->db->quote($rid->serialize(), ilDBConstants::T_TEXT) . ")"
+                );
+            } else {
+                $irss_helper->getResourceBuilder()->remove($irss_helper->getResourceBuilder()->get($rid), $stakeholder);
+            }
+        } else {
+            $this->logError('Image ' . $file_path . ' of poll with object ID ' . $id . ' could not be moved to storage.');
         }
 
-        if (!is_null($row_existing)) {
-            $irss_helper->getResourceBuilder()->remove($irss_helper->getResourceBuilder()->get($rid), $stakeholder);
+        if (!is_null($rid_thumbnail)) {
+            $irss_helper->getResourceBuilder()->remove($irss_helper->getResourceBuilder()->get($rid_thumbnail), $stakeholder);
         }
-        $irss_helper->getResourceBuilder()->remove($irss_helper->getResourceBuilder()->get($rid_thumbnail), $stakeholder);
-        $irss_helper->getResourceBuilder()->remove($irss_helper->getResourceBuilder()->get($org_thumbnail), $stakeholder);
+        if (!is_null($org_thumbnail)) {
+            $irss_helper->getResourceBuilder()->remove($irss_helper->getResourceBuilder()->get($org_thumbnail), $stakeholder);
+        }
 
         $this->db->manipulate("UPDATE il_poll SET migrated = 1 WHERE id = " . $this->db->quote($id, ilDBConstants::T_INTEGER));
     }
@@ -121,5 +135,14 @@ class ilPollImagesMigration implements Migration
     {
         $path = 'sec/ilPoll/' . ilFileSystemAbstractionStorage::createPathFromId($a_id, 'poll');
         return rtrim(CLIENT_WEB_DIR, '/') . '/' . rtrim($path, '/');
+    }
+
+    protected function logError(string $text): void
+    {
+        if ($this->io === null) {
+            return;
+        }
+
+        $this->io->error($text);
     }
 }

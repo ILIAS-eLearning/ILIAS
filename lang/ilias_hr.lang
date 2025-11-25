@@ -653,6 +653,7 @@ assessment#:#errFormulaQuestion#:#Pitanje u obliku formule sadrži netočne info
 assessment#:#errRecursionInResult#:#Formula sadrži beskonačnu rekurziju.
 assessment#:#err_category_in_use#:#Najmanje jedna kategorija se ne može izbrisati. Jedna ili više jedinica ove kategorije se već koriste.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Jednu ste varijablu rezultata koristili više puta. Ovo nije dopušteno u tekstu pitanja.
 assessment#:#err_no_formula#:#Morate unijeti formulu
@@ -1178,7 +1179,10 @@ assessment#:#redirect_after_finishing_rule#:#Preusmjeravanje
 assessment#:#redirect_after_finishing_tst#:#Preusmjeravanje
 assessment#:#redirect_after_finishing_tst_desc#:#Nakon završetka testa svaki se sudionik automatski preusmjerava na definiranu internetsku stranicu. To vrijedi samo ako sudionici nakon završetka testa nemaju pristup svojim rezultatima testa.
 assessment#:#redirect_always#:#uvijek na definiranu internetsku stranicu
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#samo kada je aktiviran prikaz testa
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL internetske stranice
 assessment#:#region#:#Regija
 assessment#:#remaining_duration#:#Remaining Duration###28 10 2024 new variable
@@ -1230,6 +1234,7 @@ assessment#:#search_groups#:#Pretraži po grupama
 assessment#:#search_roles#:#Pretraži po ulogama
 assessment#:#search_term#:#Pojam za pretraživanje
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#Odaberi prazninu
 assessment#:#select_max_one_item#:#Molimo odaberite samo jedan objekt
 assessment#:#select_one_user#:#Molimo odaberite najmanje jednog korisnika.
@@ -1361,6 +1366,7 @@ assessment#:#tst_anonymity_no_anonymization#:#Rezultati s imenima
 assessment#:#tst_answer_aggr_answer_header#:#Odgovor
 assessment#:#tst_answer_aggr_frequency_header#:#Učestalost
 assessment#:#tst_answer_details#:#Detalji odgovora
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#Odgovori sudionika
 assessment#:#tst_answer_fixation_none#:#Ne zaključavaj odgovore sudionika tijekom prolaza testa
 assessment#:#tst_answer_fixation_none_desc#:#Sve dok prolaz testa nije završen, sudionici u bilo kojem trenutku mogu promijeniti svoje odgovore.
@@ -3072,6 +3078,7 @@ chatroom#:#public_chat_created#:#The public chat room has been added to the repo
 chatroom#:#scope#:#Room/Private Room
 chatroom#:#select_custom_username#:#Select Custom Username
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#Session
 chatroom#:#settings_general#:#General
 chatroom#:#settings_title#:#Settings
@@ -9224,8 +9231,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###26 08 2024 new variable
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###26 08 2024 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#Completed
 etal#:#etal_status_pending#:#Pending
@@ -11099,7 +11108,6 @@ lso#:#lso_print_list#:#Generiraj popis
 lso#:#lso_read#:#Korisnik ima pristup za čitanje sekvence učenja
 lso#:#lso_search_users#:#Pretraži korisnike
 lso#:#lso_settings_availability#:#dostupnost
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Postavke izlazne stranice
 lso#:#lso_settings_intro#:#Postavke uvodne stranice
 lso#:#lso_settings_old_extro#:#View Old Exit Page###26 08 2024 new variable
@@ -11606,7 +11614,6 @@ mail#:#mail_nacc_title#:#Naslov
 mail#:#mail_nacc_use_placeholder#:#Sljedeća rezervirana mjesta mogu se koristiti (samo u sadržaju poruke)
 mail#:#mail_nacc_user_fullname#:#User Full Name###26 08 2024 new variable
 mail#:#mail_nacc_user_login#:#User Login###26 08 2024 new variable
-mail#:#mail_nacc_user_name#:#User Name###26 08 2024 new variable
 mail#:#mail_new_template#:#Novi predložak teksta
 mail#:#mail_no_mail_items#:#No unread mails.###26 08 2024 new variable
 mail#:#mail_no_permissions_write_smtp#:#Nemate dopuštenje za pisanje vanjske e-pošte

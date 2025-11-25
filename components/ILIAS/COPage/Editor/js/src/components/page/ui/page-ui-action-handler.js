@@ -48,7 +48,7 @@ export default class PageUIActionHandler {
    * @param {Client} client
    */
   constructor(actionFactory, client) {
-    this.debug = true;
+    this.debug = false;
     this.actionFactory = actionFactory;
     this.client = client;
     this.dispatcher = null;
@@ -464,7 +464,7 @@ export default class PageUIActionHandler {
     update_action = af.page().command().update(
       params.pcid,
       params.component,
-      params.data
+      params.data,
     );
 
     this.client.sendCommand(update_action).then((result) => {

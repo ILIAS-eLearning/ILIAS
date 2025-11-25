@@ -43,8 +43,9 @@ class ilEditClipboardGUI
     protected int $requested_clip_item_id = 0;
     protected string $requested_pcid = "";
 
-    public function __construct()
-    {
+    public function __construct(
+        string $return_cmd = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -65,7 +66,7 @@ class ilEditClipboardGUI
 
         $this->multiple = false;
         $this->page_back_title = $lng->txt("cont_back");
-        $this->requested_return_cmd = $this->request->getReturnCmd();
+        $this->requested_return_cmd = $return_cmd;
         $this->requested_clip_item_id = $this->request->getItemId();
         $this->requested_pcid = $this->request->getPCId();
         $this->clipboard_manager = $DIC->mediaPool()
@@ -78,12 +79,6 @@ class ilEditClipboardGUI
         } else {
             $this->mode = "";
         }
-
-        $ilCtrl->setParameter(
-            $this,
-            "returnCommand",
-            rawurlencode($this->requested_return_cmd)
-        );
 
         $ilCtrl->saveParameter($this, array("clip_item_id", "pcid"));
         $this->gui = $DIC->mediaPool()->internal()->gui();

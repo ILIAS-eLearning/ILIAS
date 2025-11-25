@@ -655,6 +655,7 @@ assessment#:#errFormulaQuestion#:#¡Una fórmula de pregunta  contiene informaci
 assessment#:#errRecursionInResult#:#La fórmula contiene una recursividad infinita.
 assessment#:#err_category_in_use#:#Al menos una categoría no se puede eliminar. Una o más unidades de la categoría ya están en uso.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Ha utilizado una variable de resultado más de una vez. Esto no está permitido en el texto de la pregunta.
 assessment#:#err_no_formula#:#Debe introducir introducir una formula
@@ -1180,7 +1181,10 @@ assessment#:#redirect_after_finishing_rule#:#Redirigir
 assessment#:#redirect_after_finishing_tst#:#Redirigir después de finalizar el test (sólo si no se muestran los resultados del test)
 assessment#:#redirect_after_finishing_tst_desc#:#Los participantes serán redirigidos al terminar la prueba de forma automática a un sitio web determinado. Esto sólo ocurre cuando la prueba se ha configurado para que los participantes no puedan ver los resultados de la prueba después de completarla.
 assessment#:#redirect_always#:#siempre hacia la página definida
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Redirigir solo en el modo kiosko
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Destino de redirección
 assessment#:#region#:#Región
 assessment#:#remaining_duration#:#Remaining Duration###28 10 2024 new variable
@@ -1232,6 +1236,7 @@ assessment#:#search_groups#:#Buscar Grupos
 assessment#:#search_roles#:#Buscar Roles
 assessment#:#search_term#:#Buscar término
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#Hueco de selección
 assessment#:#select_max_one_item#:#Por favor seleccione un único item
 assessment#:#select_one_user#:#Por favor seleccione al menos un usuario
@@ -1363,6 +1368,7 @@ assessment#:#tst_anonymity_no_anonymization#:#Los accesos no son anónimos
 assessment#:#tst_answer_aggr_answer_header#:#Answer
 assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#tst_answer_details#:#Detalles de respueta
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#Participant Answers
 assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
 assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
@@ -3074,6 +3080,7 @@ chatroom#:#public_chat_created#:#La sala pública ha sido añadida al repositori
 chatroom#:#scope#:#Sala/Sala privada
 chatroom#:#select_custom_username#:#Seleccionar nombre de usuario personalizado
 chatroom#:#server_further_information#:#Puedes encontrar más información sobre la configuración del servidor en el <a href="%1$s" target="_blank">archivo leeme</a>
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#Sesión
 chatroom#:#settings_general#:#General
 chatroom#:#settings_title#:#Configuraciones
@@ -9226,8 +9233,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###26 08 2024 new variable
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###26 08 2024 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#Completed
 etal#:#etal_status_pending#:#Pending
@@ -11101,7 +11110,6 @@ lso#:#lso_print_list#:#Print list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search user
 lso#:#lso_settings_availability#:#availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_old_extro#:#View Old Exit Page###26 08 2024 new variable
@@ -11608,7 +11616,6 @@ mail#:#mail_nacc_title#:#Título
 mail#:#mail_nacc_use_placeholder#:#Las siguientes etiquetes pueden ser usadas
 mail#:#mail_nacc_user_fullname#:#User Full Name###26 08 2024 new variable
 mail#:#mail_nacc_user_login#:#User Login###26 08 2024 new variable
-mail#:#mail_nacc_user_name#:#User Name###26 08 2024 new variable
 mail#:#mail_new_template#:#Nueva plantilla de texto
 mail#:#mail_no_mail_items#:#No unread mails.###26 08 2024 new variable
 mail#:#mail_no_permissions_write_smtp#:#No tienes permiso para mandar correos fuera de ILIAS

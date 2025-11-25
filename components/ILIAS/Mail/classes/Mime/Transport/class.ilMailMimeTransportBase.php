@@ -124,6 +124,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             $this->getMailer()->AltBody = '';
         }
         $this->getMailer()->Body = $mail->getFinalBody();
+        $this->getMailer()->AllowEmpty = true;
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             "Trying to delegate external email delivery:" .

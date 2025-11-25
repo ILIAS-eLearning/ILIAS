@@ -427,9 +427,11 @@ class ilDclFieldEditGUI
                 try {
                     $this->field_obj->checkValidity($value, $record->getId());
                 } catch (ilDclInputException $e) {
-                    $item = $this->form->getItemByPostVar('unique');
-                    $item->setAlert($txt);
-                    return false;
+                    if ($e->getExceptionType() === ilDclInputException::UNIQUE_EXCEPTION) {
+                        $item = $this->form->getItemByPostVar('unique');
+                        $item->setAlert($txt);
+                        return false;
+                    }
                 }
             }
         }
