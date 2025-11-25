@@ -850,7 +850,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 }
                 $a_excel->setCell($a_row, ++$col, $val);
             } else {
-                $a_excel->setCell($a_row, ++$col, $a_set[$colid]);
+                $a_excel->setCell($a_row, ++$col, $a_set[$colid] ?? "");
             }
         }
     }
@@ -913,7 +913,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 }
                 $a_csv->addColumn($val);
             } else {
-                $a_csv->addColumn($a_set[$colid]);
+                $a_csv->addColumn($a_set[$colid] ?? "");
             }
         }
 
