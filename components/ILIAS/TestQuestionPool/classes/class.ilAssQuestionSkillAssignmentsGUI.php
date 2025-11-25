@@ -276,6 +276,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function updateSkillQuestionAssignmentsCmd(): void
     {
+        $this->keepAssignmentParameters();
         $question_id = $this->request_data_collector->getQuestionId();
 
         if ($this->isTestQuestion($question_id)) {
@@ -344,7 +345,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function showSkillSelectionCmd(): void
     {
-        $this->ctrl->saveParameter($this, 'q_id');
+        $this->keepAssignmentParameters();
         $question_id = $this->request_data_collector->getQuestionId();
 
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
@@ -520,6 +521,8 @@ class ilAssQuestionSkillAssignmentsGUI
         $assignment_list = $this->buildSkillQuestionAssignmentList();
         $assignment_list->loadFromDb();
         $assignment_list->loadAdditionalSkillData();
+
+        $this->keepAssignmentParameters();
 
         $edit_uri = $this->data_factory->uri(
             ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
