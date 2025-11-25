@@ -850,7 +850,12 @@ class ilPageObjectGUI
 
             case "ileditclipboardgui":
                 $this->setBackToEditTabs();
-                $clip_gui = new ilEditClipboardGUI();
+
+                $return_cmd = $this->ctrl->getLinkTargetByClass(
+                    ilPageEditorGUI::class,
+                    "insertFromClipboard"
+                );
+                $clip_gui = new ilEditClipboardGUI($return_cmd);
                 $clip_gui->setPageBackTitle($this->page_back_title);
                 $ret = $this->ctrl->forwardCommand($clip_gui);
                 break;

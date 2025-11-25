@@ -698,6 +698,7 @@ export default class TinyWrapper {
   copyInputToGhost(add_final_spacer) {
     this.log('tiny-wrapper.copyInputToGhost');
     let tag;
+    let characteristic;
     const ed = this.tiny;
     const html = this.htmlTransform;
 
@@ -707,12 +708,13 @@ export default class TinyWrapper {
 
       if (this.getDataTableMode()) {
         cl = 'ilc_Paragraph ilc_text_block_TableContent';
+        characteristic = 'TableContent';
+      } else {
+        characteristic = this.getCharacteristicFromClass(cl);
       }
 
       cl = `copg-input-ghost ${cl}`;
       this.log(cl);
-      const cl_arr = cl.split('_');
-      const characteristic = cl_arr[cl_arr.length - 1];
       switch (characteristic) {
         case 'Headline1':
           tag = 'h1';
@@ -765,6 +767,21 @@ export default class TinyWrapper {
       // we replace the second div (content) with c
       this.ghost.innerHTML = c;
     }
+  }
+
+  /**
+   * E.g. "ilc_text_block_Classname" -> "Classname"
+   */
+  getCharacteristicFromClass(cl) {
+    let characteristic;
+    const prefix = 'ilc_text_block_';
+    if (cl.startsWith(prefix)) {
+      characteristic = cl.slice(prefix.length);
+    } else {
+      const cl_arr = cl.split('_');
+      characteristic = cl_arr[cl_arr.length - 1];
+    }
+    return characteristic;
   }
 
   stopEditing() {
@@ -959,9 +976,7 @@ export default class TinyWrapper {
 
   getCharacteristic() {
     const ed = this.tiny;
-    const parts = ed.dom.getRoot().className.split('_');
-    // console.log("---");
-    return parts[parts.length - 1];
+    return this.getCharacteristicFromClass(ed.dom.getRoot().className);
   }
 
   setParagraphClass(i) {

@@ -1195,7 +1195,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             /*
             ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));
             ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));
-            */	// see #20339
+            */    // see #20339
 
             $this->object->update();
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
@@ -1577,7 +1577,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
 
         iljQueryUtil::initjQuery($a_tpl);
-        $a_tpl->addJavaScript(iljQueryUtil::getLocalMaphilightPath());
         $a_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
         //ilPlayerUtil::initMediaElementJs($a_tpl);
@@ -1691,7 +1690,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteSrtFiles");
             foreach ($srts as $i) {
                 $p = explode(":", $i);
-                $cgui->addItem("srt[]", $i, "subtitle_" . $p[0] . ".".$p[1]." (" . $lng->txt("meta_l_" . $p[0]) . ")");
+                $cgui->addItem("srt[]", $i, "subtitle_" . $p[0] . "." . $p[1] . " (" . $lng->txt("meta_l_" . $p[0]) . ")");
             }
 
             $tpl->setContent($cgui->getHTML());

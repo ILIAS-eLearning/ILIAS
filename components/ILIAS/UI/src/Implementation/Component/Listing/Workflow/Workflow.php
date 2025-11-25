@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,11 +16,14 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use InvalidArgumentException;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Class Workflow
@@ -31,6 +32,7 @@ use InvalidArgumentException;
 abstract class Workflow implements C\Listing\Workflow\Workflow
 {
     use ComponentHelper;
+    use JavaScriptBindable;
 
     private string $title;
     private array $steps;

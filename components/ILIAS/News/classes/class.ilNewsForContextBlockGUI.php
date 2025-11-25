@@ -175,7 +175,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $ilCtrl = $DIC->ctrl();
 
-        if (strtolower($ilCtrl->getCmdClass()) === "ilnewsitemgui") {
+        if (strcasecmp($ilCtrl->getCmdClass(), ilNewsItemGUI::class) === 0) {
             return IL_SCREEN_FULL;
         }
 
@@ -195,21 +195,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
     public function executeCommand()
     {
-        $ilCtrl = $this->ctrl;
-
-        $next_class = $ilCtrl->getNextClass();
-        $cmd = $ilCtrl->getCmd("getHTML");
-
-        switch ($next_class) {
-            case "ilnewsitemgui":
-                $news_item_gui = new ilNewsItemGUI();
-                $news_item_gui->setEnableEdit($this->getEnableEdit());
-                $html = $ilCtrl->forwardCommand($news_item_gui);
-                return $html;
-
-            default:
-                return $this->$cmd();
+        if (strcasecmp($this->ctrl->getNextClass(), ilNewsItemGUI::class) === 0) {
+            $news_item_gui = new ilNewsItemGUI();
+            $news_item_gui->setEnableEdit($this->getEnableEdit());
+            return $this->ctrl->forwardCommand($news_item_gui);
         }
+
+        $cmd = $this->ctrl->getCmd("getHTML");
+        return $this->$cmd();
     }
 
     public function getHTML(): string
@@ -252,13 +245,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         // add edit commands
         if ($this->news_access->canAdd()) {
             $this->addBlockCommand(
-                $ilCtrl->getLinkTargetByClass("ilnewsitemgui", "editNews"),
+                $ilCtrl->getLinkTargetByClass(ilNewsItemGUI::class, "editNews"),
                 $lng->txt("edit")
             );
 
             $ilCtrl->setParameter($this, "add_mode", "block");
             $this->addBlockCommand(
-                $ilCtrl->getLinkTargetByClass("ilnewsitemgui", "createNewsItem"),
+                $ilCtrl->getLinkTargetByClass(ilNewsItemGUI::class, "createNewsItem"),
                 $lng->txt("add")
             );
             $ilCtrl->setParameter($this, "add_mode", "");
@@ -272,11 +265,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $obj_class = strtolower($obj_def->getClassName($obj_type));
             $parent_gui = "ilobj" . $obj_class . "gui";
 
-            $ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
+            $ilCtrl->setParameterByClass(ilContainerNewsSettingsGUI::class, "ref_id", $ref_id);
 
             if (in_array($obj_class, self::OBJECTS_WITH_NEWS_SUBTAB)) {
                 $this->addBlockCommand(
-                    $ilCtrl->getLinkTargetByClass(["ilrepositorygui", $parent_gui, "ilcontainernewssettingsgui"], "show"),
+                    $ilCtrl->getLinkTargetByClass([ilRepositoryGUI::class, $parent_gui, ilContainerNewsSettingsGUI::class], "show"),
                     $lng->txt("settings")
                 );
             } else {
@@ -673,9 +666,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
                 // file hack, not nice
                 if ($obj_type === "file") {
-                    $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $item["ref_id"]);
-                    $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile");
-                    $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->std_request->getRefId());
+                    $ilCtrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $item["ref_id"]);
+                    $url = $ilCtrl->getLinkTargetByClass(ilRepositoryGUI::class, "sendfile");
+                    $ilCtrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $this->std_request->getRefId());
 
                     $button = $this->gui->button(
                         $this->lng->txt("download"),
@@ -1202,7 +1195,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $lng = $this->lng;
 
         $ilCtrl->setParameterByClass(
-            "ilcolumngui",
+            ilColumnGUI::class,
             "block_id",
             "block_" . $this->getBlockType() . "_" . $this->getBlockId()
         );
@@ -1212,14 +1205,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $rel_tpl->setVariable("BLOCK_ID", "block_" . $this->getBlockType() . "_" . $this->getBlockId());
         $rel_tpl->setVariable(
             "TARGET",
-            $ilCtrl->getLinkTargetByClass("ilcolumngui", "updateBlock", "", true)
+            $ilCtrl->getLinkTargetByClass(ilColumnGUI::class, "updateBlock", "", true)
         );
 
         // no JS
         $rel_tpl->setVariable("TXT_NEWS_CLICK_HERE", $lng->txt("news_no_js_click_here"));
         $rel_tpl->setVariable(
             "TARGET_NO_JS",
-            $ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "disableJS")
+            $ilCtrl->getLinkTarget($this, "disableJS")
         );
 
         return $rel_tpl->get();
@@ -1230,7 +1223,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameterByClass(
-            "ilcolumngui",
+            ilColumnGUI::class,
             "block_id",
             "block_" . $this->getBlockType() . "_" . $this->getBlockId()
         );
@@ -1239,7 +1232,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $rel_tpl->setVariable("BLOCK_ID", "block_" . $this->getBlockType() . "_" . $this->getBlockId());
         $rel_tpl->setVariable(
             "TARGET",
-            $ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", "", true, false)
+            $ilCtrl->getLinkTarget($this, "enableJS", "", true, false)
         );
 
         return $rel_tpl->get();

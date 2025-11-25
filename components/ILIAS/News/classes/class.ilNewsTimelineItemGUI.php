@@ -134,7 +134,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
                     $i->getUpdateUserId(),
                     false,
                     true,
-                    $this->ctrl->getLinkTargetByClass("ilnewstimelinegui")
+                    $this->ctrl->getLinkTargetByClass(ilNewsTimelineGUI::class)
                 ) . " - ");
             }
             $tpl->setVariable("TIME_EDITED", ilDatePresentation::formatDate($update_date));
@@ -173,7 +173,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $tpl->setVariable("TXT_USR", $p->getNamePresentation(
             $i->getUserId(),
             true,
-            $this->ctrl->getLinkTargetByClass("ilnewstimelinegui")
+            $this->ctrl->getLinkTargetByClass(ilNewsTimelineGUI::class)
         ));
 
         $tpl->setVariable("TIME", ilDatePresentation::formatDate($this->getDateTime()));
@@ -234,13 +234,13 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $audio = $ui_factory->player()->audio($media_path);
             $html = $ui_renderer->render($audio);
         } elseif (in_array($mime, ["application/pdf"])) {
-            $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $i->getId());
+            $this->ctrl->setParameterByClass(ilNewsTimelineGUI::class, "news_id", $i->getId());
             $link = $ui_factory->link()->standard(
                 basename($media_path),
-                $this->ctrl->getLinkTargetByClass("ilnewstimelinegui", "downloadMob")
+                $this->ctrl->getLinkTargetByClass(ilNewsTimelineGUI::class, "downloadMob")
             );
             $html = $ui_renderer->render($link);
-            $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", null);
+            $this->ctrl->setParameterByClass(ilNewsTimelineGUI::class, "news_id", null);
         } else {
             $html = "";
         }
@@ -280,7 +280,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $i = $this->getNewsItem();
 
         // like
-        $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $i->getId());
+        $this->ctrl->setParameterByClass(ilNewsTimelineGUI::class, "news_id", $i->getId());
         $this->like_gui->setObject(
             $i->getContextObjId(),
             $i->getContextObjType(),
@@ -306,7 +306,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $html .= $comments_gui->getWidget();
         //$html .= $this->ctrl->getHTML($comments_gui);
 
-        $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());
+        $this->ctrl->setParameterByClass(ilNewsTimelineGUI::class, "news_id", $this->std_request->getNewsId());
+
         return $html . $this->renderMediaModal($i);
     }
 

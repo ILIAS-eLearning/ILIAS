@@ -225,7 +225,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
 
             case 'ildidactictemplategui':
                 $this->ctrl->setReturn($this, 'edit');
-                $did = new ilDidacticTemplateGUI($this);
+                $did = new ilDidacticTemplateGUI($this, $this->getDidacticTemplateIdFromQuery());
                 $this->ctrl->forwardCommand($did);
                 break;
 

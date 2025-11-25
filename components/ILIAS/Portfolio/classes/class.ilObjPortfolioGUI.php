@@ -316,7 +316,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         return $message;
     }
 
-    protected function getCreationForm() : FormAdapterGUI
+    protected function getCreationForm(): FormAdapterGUI
     {
         $ilSetting = $this->settings;
         $this->ctrl->setParameter($this, "new_type", $this->getType());
@@ -728,11 +728,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         $id = explode("_", $a_target);
 
-        $ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $id[0]);
-        if (count($id) === 2) {
-            $ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $id[1]);
+        $ctrl->setParameterByClass(self::class, 'prt_id', $id[0]);
+        if (count($id) === 2 && is_numeric($id[1])) {
+            $ctrl->setParameterByClass(self::class, 'user_page', $id[1]);
         }
-        $ctrl->redirectByClass(["ilsharedresourceGUI", "ilobjportfoliogui"], "preview");
+        $ctrl->redirectByClass([ilSharedResourceGUI::class, self::class], 'preview');
     }
 
     public function createPortfolioFromAssignment(): void

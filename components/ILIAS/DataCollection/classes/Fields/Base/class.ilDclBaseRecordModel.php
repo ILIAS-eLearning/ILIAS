@@ -404,7 +404,7 @@ class ilDclBaseRecordModel
              * @var $field ilDclBaseRecordFieldModel
              */
 
-            $html = $field->getRecordRepresentation()->getSingleHTML($options, false);
+            $html = $field->getRecordRepresentation()->getSingleHTML($options);
         }
 
         return $html;

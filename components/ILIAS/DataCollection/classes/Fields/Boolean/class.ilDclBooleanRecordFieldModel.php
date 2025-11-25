@@ -36,4 +36,9 @@ class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return $value ? 1 : 0;
     }
+
+    public function getPlainText(): string
+    {
+        return $this->getValue() ? $this->lng->txt('yes') : $this->lng->txt('no');
+    }
 }

@@ -230,8 +230,6 @@ class ilAccordionGUI
 
         ilYuiUtil::initConnection($tpl);
 
-        iljQueryUtil::initjQueryUI($tpl);
-
         foreach (self::getLocalJavascriptFiles() as $f) {
             $tpl->addJavaScript($f, true, 3);
         }

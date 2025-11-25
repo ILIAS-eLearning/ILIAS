@@ -61,8 +61,8 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     $options[$record->getId()] = $media_obj->getTitle();
                     break;
                 case ilDclDatatype::INPUTFORMAT_DATE:
-                    $options[$record->getId()] = strtotime($record->getRecordFieldSingleHTML($fieldref));
-                    $options2[$record->getId()] = $record->getRecordFieldSingleHTML($fieldref);
+                    $options[$record->getId()] = strtotime($record->getRecordField($fieldref)->getPlainText());
+                    $options2[$record->getId()] = $record->getRecordField($fieldref)->getPlainText();
                     break;
                 case ilDclDatatype::INPUTFORMAT_TEXT:
                     $value = $record_field->getValue();
