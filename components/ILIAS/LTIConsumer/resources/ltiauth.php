@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 require_once("../vendor/composer/vendor/autoload.php");
@@ -12,7 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-function sanitizeJson(string $string) {
+function sanitizeJson(string $string)
+{
     $string = preg_replace('/(\w+):(\w+)/', '"$1":"$2"', $string);
     $string = str_replace("'", '"', $string);
     $string = str_replace('{', '{', $string);
@@ -22,14 +24,14 @@ function sanitizeJson(string $string) {
 
 ilInitialisation::initILIAS();
 global $DIC;
-$scope        = $data['scope']         ?? '';
+$scope = $data['scope'] ?? '';
 $responseType = $data['response_type'] ?? '';
-$redirectUri  = $data['redirect_uri']  ?? '';
-$clientId     = $data['client_id']     ?? $data['id'] ?? '';
-$state        = $data['state']         ?? '';
-$nonce        = $data['nonce']         ?? '';
-$ltiMessageHint   = $data['lti_message_hint'] ?? '';
-$loginHint    = $data['login_hint']    ?? '';
+$redirectUri = $data['redirect_uri'] ?? '';
+$clientId = $data['client_id'] ?? $data['id'] ?? '';
+$state = $data['state'] ?? '';
+$nonce = $data['nonce'] ?? '';
+$ltiMessageHint = $data['lti_message_hint'] ?? '';
+$loginHint = $data['login_hint'] ?? '';
 
 $isDlMode = false;
 $hint = null;
@@ -48,12 +50,12 @@ if (
     $provider = ilLTIConsumeProvider::getInstance($provider_id);
 
     $hint = sanitizeJson($ltiMessageHint);
-    if($provider->getContentItemUrl() == $redirectUri && isset($hint['deployment_id'])) {
+    if ($provider->getContentItemUrl() == $redirectUri && isset($hint['deployment_id'])) {
 
         $isDlMode = true;
-        $deploymentId = (int)$hint['deployment_id'];
+        $deploymentId = (int) $hint['deployment_id'];
         $ownerId = ilObjectFactory::getInstanceByRefId(224)->getOwner();
-        $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string)$deploymentId);
+        $childRefId = ilObjLTIConsumer::getRefIdOfConsumerByDeploymentId((string) $deploymentId);
         $refId = $DIC->repositoryTree()->getParentId($childRefId);
     }
 
@@ -70,12 +72,12 @@ if ($isDlMode) {
     $iss = ilObjLTIConsumer::getPlattformId();
     $sub = $loginHint !== '' ? $loginHint : ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
     $payload = [
-        'iss'   => $iss,
-        'aud'   => $clientId,
-        'iat'   => $now,
-        'exp'   => $now + 600,
+        'iss' => $iss,
+        'aud' => $clientId,
+        'iat' => $now,
+        'exp' => $now + 600,
         'nonce' => $nonce ?: bin2hex(random_bytes(8)),
-        'sub'   => $sub,
+        'sub' => $sub,
 
         'https://purl.imsglobal.org/spec/lti/claim/roles' => [
             'http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator',
@@ -89,7 +91,7 @@ if ($isDlMode) {
             'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
         ],
         'https://purl.imsglobal.org/spec/lti/claim/message_type' => 'LtiDeepLinkingRequest',
-        'https://purl.imsglobal.org/spec/lti/claim/version'      => '1.3.0',
+        'https://purl.imsglobal.org/spec/lti/claim/version' => '1.3.0',
 
     ];
 
@@ -116,7 +118,7 @@ if ($isDlMode) {
 
     $redirSafe = htmlspecialchars($redirectUri, ENT_QUOTES);
     $stateSafe = htmlspecialchars($state, ENT_QUOTES);
-    $jwtSafe   = htmlspecialchars($jwt, ENT_QUOTES);
+    $jwtSafe = htmlspecialchars($jwt, ENT_QUOTES);
     echo <<<HTML
 <!doctype html>
 <html><body onload="document.forms[0].submit()">
@@ -146,7 +148,7 @@ $il_client_id = '';
 $redirect_uri = '';
 if (count($parts) === 2) {
     [$ref_id, $il_client_id] = $parts;
-} else if (count($parts) === 3 ) {
+} elseif (count($parts) === 3) {
     [$first, $second, $third] = $parts;
     $il_client_id = $third;
     $ref_id = explode(",", $second)[0];

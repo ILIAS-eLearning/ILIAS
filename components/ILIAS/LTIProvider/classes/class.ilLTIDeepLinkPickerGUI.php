@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use Firebase\JWT\JWT;
@@ -67,7 +68,7 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
 
         foreach ($path as $row) {
             if ($this->checkToShowInDeepLink($row['child'], $proccesedIds)) {
-                $context[(string)$row['child']] = $row['title'];
+                $context[(string) $row['child']] = $row['title'];
                 $proccesedIds[] = $row['child'];
                 $children = $tree->getChilds($row['child']);
 
@@ -83,7 +84,7 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
         }
         if (!in_array($ref_id, $proccesedIds)) {
             $obj = ilObjectFactory::getInstanceByRefId($ref_id);
-            $context[(string)$ref_id] = $obj->getTitle();
+            $context[(string) $ref_id] = $obj->getTitle();
         }
 
         return $context;
@@ -135,7 +136,7 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
         $content_items = [];
 
         foreach ($ref_ids as $ref_id) {
-            $obj = ilObjectFactory::getInstanceByRefId((int)$ref_id);
+            $obj = ilObjectFactory::getInstanceByRefId((int) $ref_id);
             $title = trim($_POST['title'] ?? '') ?: $obj->getTitle();
             $description = trim($_POST['description'] ?? '') ?: $obj->getDescription();
             $content_items[] = [
@@ -144,8 +145,8 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
                 "description" => $description,
                 "url" => $launchUrl,
                 "custom" => [
-                    "ilias_ref_id" => (string)$ref_id,
-                    "id" => (string)$ref_id
+                    "ilias_ref_id" => (string) $ref_id,
+                    "id" => (string) $ref_id
                 ],
             ];
         }
@@ -160,7 +161,7 @@ class ilLTIDeepLinkPickerGUI implements ilCtrlBaseClassInterface
 
             "https://purl.imsglobal.org/spec/lti/claim/message_type" => "LtiDeepLinkingResponse",
             "https://purl.imsglobal.org/spec/lti/claim/version" => "1.3.0",
-            "https://purl.imsglobal.org/spec/lti/claim/deployment_id" => (string)$dl['deployment_id'],
+            "https://purl.imsglobal.org/spec/lti/claim/deployment_id" => (string) $dl['deployment_id'],
             "https://purl.imsglobal.org/spec/lti-dl/claim/content_items" => $content_items,
         ];
 

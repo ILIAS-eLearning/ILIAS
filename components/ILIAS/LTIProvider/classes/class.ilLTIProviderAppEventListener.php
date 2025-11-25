@@ -7,7 +7,6 @@ use ceLTIc\LTI\UserResult;
 
 class ilLTIProviderAppEventListener
 {
-
     private ?ilLogger $logger = null;
     private ?ilLTIDataConnector $connector = null;
 

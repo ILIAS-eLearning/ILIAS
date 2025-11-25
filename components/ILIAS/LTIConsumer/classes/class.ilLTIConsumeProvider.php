@@ -265,7 +265,7 @@ class ilLTIConsumeProvider
 
     public function setProviderUrl(string $provider_url): void
     {
-    $this->provider_url = $this->preventClientIdInUrl($provider_url);
+        $this->provider_url = $this->preventClientIdInUrl($provider_url);
     }
 
     public function getProviderKey(): string
@@ -995,7 +995,7 @@ class ilLTIConsumeProvider
      */
     protected function getInsertUpdateFields(): array
     {
-       // dump($this->getProviderUrl());exit();
+        // dump($this->getProviderUrl());exit();
         return array(
             'id' => array('integer', $this->getId()),
             'title' => array('text', $this->getTitle()),

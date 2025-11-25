@@ -165,9 +165,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         $query = /** @lang text */
             'SELECT consumer_pk from lti2_consumer where consumer_key = ' . $ilDB->quote(
-            $a_oauth_consumer_key,
-            'text'
-        );
+                $a_oauth_consumer_key,
+                'text'
+            );
         // $query = 'SELECT id from lti_ext_consumer where consumer_key = '.$ilDB->quote($a_oauth_consumer_key,'text');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
@@ -295,9 +295,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $dl = $this->messageParameters['https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings'] ?? [];
 
             ilSession::set('lti_dl_ctx', [
-                'iss' => (string)($this->messageParameters['iss'] ?? ''), // platform issuer
-                'deployment_id' => (string)($this->messageParameters['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] ?? ''),
-                'deep_link_return_url' => (string)($dl['deep_link_return_url'] ?? ''),
+                'iss' => (string) ($this->messageParameters['iss'] ?? ''), // platform issuer
+                'deployment_id' => (string) ($this->messageParameters['https://purl.imsglobal.org/spec/lti/claim/deployment_id'] ?? ''),
+                'deep_link_return_url' => (string) ($dl['deep_link_return_url'] ?? ''),
                 'data' => $dl['data'] ?? null,
                 'nonce' => $this->messageParameters['nonce'] ?? null
             ]);
@@ -306,7 +306,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 $connector = new ilLTIDataConnector();
                 $extConsumerId = $platform->getExtConsumerId();
                 $active_consumer = ilLTIPlatform::fromGlobalSettingsAndRefId($extConsumerId, $this->ref_id, $connector);
-                $chosenRefId = (string)$active_consumer->getSetting('resource_dl_id', '');
+                $chosenRefId = (string) $active_consumer->getSetting('resource_dl_id', '');
                 if ($chosenRefId !== '') {
                     ilSession::set('lti_dl_ref_id', $chosenRefId);
                 }

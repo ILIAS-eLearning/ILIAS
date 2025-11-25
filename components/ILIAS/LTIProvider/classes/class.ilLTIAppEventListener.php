@@ -186,10 +186,10 @@ class ilLTIAppEventListener
         $priv = \ilObjLTIConsumer::getPrivateKey();
 
         $tool = new Tool();
-        $tool->rsaKey          = $priv['key'];                             // PEM private key
-        $tool->kid             = $priv['kid'];                             // kid for JWT header
-        $tool->jku             = \ilObjLTIConsumer::getPublicKeysetUrl();  // optional but recommended
-        $tool->requiredScopes  = [
+        $tool->rsaKey = $priv['key'];                             // PEM private key
+        $tool->kid = $priv['kid'];                             // kid for JWT header
+        $tool->jku = \ilObjLTIConsumer::getPublicKeysetUrl();  // optional but recommended
+        $tool->requiredScopes = [
             "https://purl.imsglobal.org/spec/lti-ags/scope/score",     // https://purl.imsglobal.org/spec/lti-ags/scope/score
             "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",    // https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly
         ];

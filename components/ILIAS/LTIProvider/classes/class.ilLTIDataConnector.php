@@ -517,7 +517,7 @@ class ilLTIDataConnector extends DataConnector
     {
         $ilDB = $this->database;
 
-        $signatureMethod = \ceLTIc\LTI\Enum\LtiVersion::V1P3 === $platform->ltiVersion? "RS256": "HMAC-SHA1";
+        $signatureMethod = \ceLTIc\LTI\Enum\LtiVersion::V1P3 === $platform->ltiVersion ? "RS256" : "HMAC-SHA1";
         $id = $platform->getRecordId();
         $key = $platform->getKey();
         $protected = ($platform->protected) ? 1 : 0;

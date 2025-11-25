@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/composer/vendor/autoload.php';
@@ -11,29 +12,30 @@ ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
 global $DIC;
 $jwt_raw = $_POST['JWT'] ?? $_POST['id_token'] ?? null;
-$provider_id = (int)($_GET['provider_id'] ?? 0);
-$ref_id      = (int)($_GET['ref_id'] ?? 0);
+$provider_id = (int) ($_GET['provider_id'] ?? 0);
+$ref_id = (int) ($_GET['ref_id'] ?? 0);
 
 if (!$jwt_raw || !$provider_id) {
-    echo "missing data"; exit;
+    echo "missing data";
+    exit;
 }
 
 $provider = ilLTIConsumeProvider::getInstance($provider_id);
 
 if ($provider->getKeyType() === 'RSA_KEY') {
-    $key  = $provider->getPublicKey();
+    $key = $provider->getPublicKey();
     $keys = new Key($key, 'RS256');
     $data = JWT::decode($jwt_raw, $keys);
 } else {
-    $jwks  = file_get_contents($provider->getPublicKeyset());
-    $keyset= json_decode($jwks, true);
-    $keys  = JWK::parseKeySet($keyset);
-    $data  = JWT::decode($jwt_raw, $keys);
+    $jwks = file_get_contents($provider->getPublicKeyset());
+    $keyset = json_decode($jwks, true);
+    $keys = JWK::parseKeySet($keyset);
+    $data = JWT::decode($jwt_raw, $keys);
 }
 
 foreach ($data->{'https://purl.imsglobal.org/spec/lti-dl/claim/content_items'} as $item) {
     $title = $item->title ?? 'LTI resource';
-    $desc  = $item->description ?? '';
+    $desc = $item->description ?? '';
 
     $gui = new ilObjLTIConsumerGUI(0, ilObject2GUI::REPOSITORY_NODE_ID, $ref_id);
     $newObj = $gui->createNewObject('lti', $title, $desc);

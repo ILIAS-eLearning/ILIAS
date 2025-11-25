@@ -790,7 +790,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => self::getIliasHttpPath(
-                ) . "/ltiresult.php?client_id=" . CLIENT_ID
+            ) . "/ltiresult.php?client_id=" . CLIENT_ID
         ];
 
         $OAuthParams = [
@@ -931,7 +931,7 @@ class ilObjLTIConsumer extends ilObject2
             //include_once("components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath(
-                ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
+            ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
 
             // ! Moodle as tool provider requires a custom_lineitems_url even though this should be optional in launch request, especially if only posting score scope is permitted by platform
             // http://www.imsglobal.org/spec/lti-ags/v2p0#example-link-has-a-single-line-item-tool-can-only-post-score
@@ -1162,7 +1162,7 @@ class ilObjLTIConsumer extends ilObject2
             throw new DomainException(self::ERROR_OPEN_SSL_CONF);
         }
         $privateKey = self::getPrivateKey();
-        if (isset($additionalPayload)){
+        if (isset($additionalPayload)) {
             $payLoad = array_merge($payLoad, $additionalPayload);
         }
         $jwt = Firebase\JWT\JWT::encode($payLoad, $privateKey['key'], 'RS256', $privateKey['kid']);
@@ -1363,9 +1363,10 @@ class ilObjLTIConsumer extends ilObject2
         $reponseData = $data;
         $provider = new ilLTIConsumeProvider();
         $toolConfig = $data['https://purl.imsglobal.org/spec/lti-tool-configuration'];
-        $provider->setTitle($DIC->refinery()->encode()->htmlSpecialCharsAsEntities()->transform(
-            $data['client_name']
-        )
+        $provider->setTitle(
+            $DIC->refinery()->encode()->htmlSpecialCharsAsEntities()->transform(
+                $data['client_name']
+            )
         );
         $provider->setProviderUrl($toolConfig['target_link_uri']);
         $provider->setInitiateLogin($data['initiate_login_uri']);
@@ -1466,7 +1467,7 @@ class ilObjLTIConsumer extends ilObject2
             self::sendResponseError(405, "missing Authorization header");
         }
         $logger = $DIC->logger()->root();
-        $logger->info("Verifying token: " . json_encode($auth) . " HEADER: " . json_encode($DIC->http()->request()->getHeaders()) .  " REQUEST getParsedBody: " . json_encode($DIC->http()->request()->getParsedBody()) . " REQUEST getParsedBody" . json_encode($DIC->http()->request()->getQueryParams()));
+        $logger->info("Verifying token: " . json_encode($auth) . " HEADER: " . json_encode($DIC->http()->request()->getHeaders()) . " REQUEST getParsedBody: " . json_encode($DIC->http()->request()->getParsedBody()) . " REQUEST getParsedBody" . json_encode($DIC->http()->request()->getQueryParams()));
         preg_match('/Bearer\s+(.+)$/i', $auth[0], $matches);
         if (count($matches) != 2) {
             self::sendResponseError(405, "missing required Authorization Baerer token");
