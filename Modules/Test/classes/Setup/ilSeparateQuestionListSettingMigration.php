@@ -66,13 +66,15 @@ class ilSeparateQuestionListSettingMigration implements Setup\Migration
      */
     public function step(Environment $environment): void
     {
-        $this->db->manipulate(
-            'UPDATE tst_tests SET show_questionlist = 1 WHERE usr_pass_overview_mode > 0'
+        $result = $this->db->manipulate(
+            'UPDATE tst_tests SET show_questionlist = 1 WHERE usr_pass_overview_mode > 0 AND show_questionlist IS NULL LIMIT 1'
         );
 
-        $this->db->manipulate(
-            'UPDATE tst_tests SET show_questionlist = 0 WHERE usr_pass_overview_mode = 0'
-        );
+        if ($result === 0) {
+            $this->db->manipulate(
+                'UPDATE tst_tests SET show_questionlist = 0 WHERE usr_pass_overview_mode = 0 AND show_questionlist IS NULL LIMIT 1'
+            );
+        }
     }
 
     public function getRemainingAmountOfSteps(): int

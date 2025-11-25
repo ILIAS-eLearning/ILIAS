@@ -80,7 +80,7 @@ class ilAssQuestionUserSolutionAdopter
         $this->targetPass = null;
         $this->questionIds = array();
 
-        $this->processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $db);
+        $this->processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $db, ilLoggerFactory::getLogger('tst'));
         $this->processLockerFactory->setAssessmentLogEnabled($isAssessmentLogEnabled);
     }
 

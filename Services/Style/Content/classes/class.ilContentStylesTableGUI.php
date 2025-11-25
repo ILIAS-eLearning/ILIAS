@@ -59,7 +59,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
 
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"));
-        $this->addColumn($this->lng->txt("sty_nr_learning_modules"));
+        $this->addColumn($this->lng->txt("sty_nr_objects"));
         $this->addColumn($this->lng->txt("purpose"));
         $this->addColumn($this->lng->txt("sty_scope"));
         $this->addColumn($this->lng->txt("active"));

@@ -12,20 +12,19 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * Dom utilities
  */
 export default class DomUtil {
-
   /**
    * @type {boolean}
    */
-  //debug = true;
+  // debug = true;
 
   constructor() {
-    this.debug = true;
+    this.debug = false;
   }
 
   /**
@@ -42,9 +41,9 @@ export default class DomUtil {
     return Math.max(document.documentElement.scrollTop, document.body.scrollTop);
   }
 
-  getXY (node) {
-    let scrollLeft, scrollTop, box,
-      xy = false;
+  getXY(node) {
+    let scrollLeft; let scrollTop; let box;
+    let xy = false;
 
     if (node.style.display !== 'none') {
       box = node.getBoundingClientRect();
@@ -64,17 +63,17 @@ export default class DomUtil {
   }
 
   getRegion(node) {
-    const p = this.getXY(node),
-      t = p[1],
-      r = p[0] + node.offsetWidth,
-      b = p[1] + node.offsetHeight,
-      l = p[0];
-    const reg = this.region(t,r,b,l);
-    console.log(reg);
+    const p = this.getXY(node);
+    const t = p[1];
+    const r = p[0] + node.offsetWidth;
+    const b = p[1] + node.offsetHeight;
+    const l = p[0];
+    const reg = this.region(t, r, b, l);
+    // console.log(reg);
     return reg;
-  };
+  }
 
-  region(t,r,b,l) {
+  region(t, r, b, l) {
     return {
       top: t,
       y: t,
@@ -83,9 +82,10 @@ export default class DomUtil {
       right: r,
       bottom: b,
       width: r - l,
-      height: b - t
+      height: b - t,
     };
   }
+
   getViewportWidth() {
     return document.documentElement.clientWidth;
   }
@@ -95,15 +95,15 @@ export default class DomUtil {
   }
 
   getClientRegion() {
-    const t = this.getDocumentScrollTop(),
-      l = this.getDocumentScrollLeft(),
-      r = this.getViewportWidth() + l,
-      b = this.getViewportHeight() + t;
+    const t = this.getDocumentScrollTop();
+    const l = this.getDocumentScrollLeft();
+    const r = this.getViewportWidth() + l;
+    const b = this.getViewportHeight() + t;
     return this.region(t, r, b, l);
   }
 
   getComputedStyle(node, property) {
-    return node.ownerDocument.defaultView.getComputedStyle(node,null)[property];
+    return node.ownerDocument.defaultView.getComputedStyle(node, null)[property];
   }
 
   setX(node, x) {
@@ -115,13 +115,13 @@ export default class DomUtil {
   }
 
   setXY(node, xy, retry = false) {
-    let pos = node.style.position,
-      delta = [ // assuming pixels; if not we will have to retry
-        parseInt( this.getComputedStyle(node, 'left'), 10 ),
-        parseInt( this.getComputedStyle(node, 'top'), 10 )
-      ],
-      currentXY,
-      newXY;
+    const pos = node.style.position;
+    const delta = [ // assuming pixels; if not we will have to retry
+      parseInt(this.getComputedStyle(node, 'left'), 10),
+      parseInt(this.getComputedStyle(node, 'top'), 10),
+    ];
+    let currentXY;
+    let newXY;
 
     currentXY = this.getXY(node);
 
@@ -133,26 +133,26 @@ export default class DomUtil {
       node.style.position = relative;
     }
 
-    if (isNaN(delta[0]) ) {     // 'auto'
+    if (isNaN(delta[0])) { // 'auto'
       delta[0] = (pos === 'relative') ? 0 : node.offsetLeft;
     }
-    if (isNaN(delta[1]) ) {     // 'auto'
+    if (isNaN(delta[1])) { // 'auto'
       delta[1] = (pos === 'relative') ? 0 : node.offsetTop;
     }
 
     if (xy[0] !== null) { // from setX
-      node.style.left = (xy[0] - currentXY[0] + delta[0] + 'px');
+      node.style.left = (`${xy[0] - currentXY[0] + delta[0]}px`);
     }
 
     if (xy[1] !== null) { // from setY
-      node.style.top = (xy[1] - currentXY[1] + delta[1] + 'px');
+      node.style.top = (`${xy[1] - currentXY[1] + delta[1]}px`);
     }
 
     if (!retry) {
       newXY = this.getXY(node);
 
-      if ((xy[0] !== null && newXY[0] !== xy[0]) ||
-        (xy[1] !== null && newXY[1] !== xy[1]) ) {
+      if ((xy[0] !== null && newXY[0] !== xy[0])
+        || (xy[1] !== null && newXY[1] !== xy[1])) {
         this.setXY(node, xy, true);
       }
     }

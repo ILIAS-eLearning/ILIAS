@@ -126,6 +126,7 @@ class ilLDAPRoleAssignmentRule
     {
         $pattern = str_replace('*', '.*?', $a_str1);
 
+        $exception = [];
         foreach (ilAuthUtils::REGEX_DELIMITERS as $delimiter) {
             $this->logger->debug('Trying pattern to match attribute value:' . $pattern . ' => ' . $a_str2);
 
@@ -133,13 +134,18 @@ class ilLDAPRoleAssignmentRule
                 throw new ErrorException($message, $severity, $severity, $file, $line);
             });
 
+            $regex = $delimiter . "^" . $pattern . '$' . $delimiter . 'i';
             try {
-                return preg_match($delimiter . "^" . $pattern . '$' . $delimiter . 'i', $a_str2) === 1;
-            } catch (Exception $ex) {
-                $this->logger->warning('Error occurred in preg_match Ex.: ' . $ex->getMessage());
+                return preg_match($regex, $a_str2) === 1;
+            } catch (Exception $e) {
+                $exception[] = 'RegEx: ' . $regex . ' -> Message: ' . $e->getMessage();
             } finally {
                 restore_error_handler();
             }
+        }
+
+        if ($exception !== []) {
+            $this->logger->warning('Trying the RegEx delimiter chain results in the following problems: ' . implode(', ', $exception));
         }
 
         return false;

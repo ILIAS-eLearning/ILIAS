@@ -96,4 +96,15 @@ class BlogAccess
         return false;
     }
 
+    public function canReadPosting(int $posting_id): bool
+    {
+        return ($this->mayContribute() ||
+            \ilBlogPosting::_lookupActive($posting_id, "blp"));
+    }
+
+    public function isActive(int $posting_id): bool
+    {
+        return (\ilBlogPosting::_lookupActive($posting_id, "blp"));
+    }
+
 }

@@ -241,7 +241,7 @@ class Renderer extends AbstractComponentRenderer
             // with declare(strict_types=1) in place,
             // htmlspecialchars will not silently convert to string anymore;
             // therefore, the typecast must be explicit
-            return htmlspecialchars((string) $v, ENT_QUOTES);
+            return htmlspecialchars((string) $v, ENT_QUOTES, 'utf-8', false);
         };
     }
 
@@ -251,7 +251,7 @@ class Renderer extends AbstractComponentRenderer
             // with declare(strict_types=1) in place,
             // htmlentities will not silently convert to string anymore;
             // therefore, the typecast must be explicit
-            return htmlentities((string) $v);
+            return htmlentities((string) $v, ENT_QUOTES, 'utf-8', false);
         };
     }
 
@@ -797,7 +797,9 @@ class Renderer extends AbstractComponentRenderer
         // display the action button (to choose files).
         $template->setVariable('ACTION_BUTTON', $default_renderer->render(
             $this->getUIFactory()->button()->shy(
-                $this->txt('select_files_from_computer'),
+                $input->getMaxFiles() <= 1
+                    ? $this->txt('select_file_from_computer')
+                    : $this->txt('select_files_from_computer'),
                 '#'
             )
         ));

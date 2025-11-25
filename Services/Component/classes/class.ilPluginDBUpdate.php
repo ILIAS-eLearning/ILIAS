@@ -37,6 +37,8 @@ class ilPluginDBUpdate extends ilDBUpdate
     private ?int $current_version;
     private ?int $file_version = null;
 
+    protected string $error = '';
+
     /**
      * constructor
      * @noinspection MagicMethodsValidityInspection

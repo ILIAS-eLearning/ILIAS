@@ -18,13 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Handler;
+namespace ILIAS\WOPI\Handler;
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 class WOPIUnknownStakeholder extends AbstractResourceStakeholder
 {
-    public function __construct(protected int $owner = 6)
+    protected ?int $default_owner = null;
+
+    public function __construct()
     {
     }
 
@@ -35,7 +37,7 @@ class WOPIUnknownStakeholder extends AbstractResourceStakeholder
 
     public function getOwnerOfNewResources(): int
     {
-        return $this->owner;
+        return $this->default_owner ?? 6;
     }
 
 }

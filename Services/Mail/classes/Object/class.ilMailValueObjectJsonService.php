@@ -18,13 +18,10 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMailValueObjectJsonService
 {
     /**
-     * @param ilMailValueObject[] $mailValueObjects
+     * @param list<ilMailValueObject> $mailValueObjects
      */
     public function convertToJson(array $mailValueObjects): string
     {
@@ -49,7 +46,7 @@ class ilMailValueObjectJsonService
     }
 
     /**
-     * @return ilMailValueObject[]
+     * @return list<ilMailValueObject>
      */
     public function convertFromJson(string $json): array
     {

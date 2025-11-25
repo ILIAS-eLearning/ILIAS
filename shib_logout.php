@@ -14,7 +14,10 @@
  *****************************************************************************/
 /** @noRector */
 require_once("libs/composer/vendor/autoload.php");
+ilContext::init(ilContext::CONTEXT_SHIBBOLETH);
+ilInitialisation::initILIAS();
 global $DIC;
+
 $q = $DIC->http()->wrapper()->query();
 if (
     $q->has('return')

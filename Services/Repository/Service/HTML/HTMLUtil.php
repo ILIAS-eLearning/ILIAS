@@ -39,6 +39,11 @@ class HTMLUtil
         );
     }
 
+    public function escapeCurly(string $input): string
+    {
+        return str_replace(["{", "}"], ["&#123;", "&#125;"], $input);
+    }
+
     public function strip(string $input): string
     {
         // see https://www.ilias.de/mantis/view.php?id=19727

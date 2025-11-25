@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Discovery;
+namespace ILIAS\WOPI\Discovery;
 
 use ILIAS\Data\URI;
 
@@ -27,6 +27,9 @@ use ILIAS\Data\URI;
  */
 class ActionDBRepository implements ActionRepository
 {
+    /**
+     * @var string
+     */
     private const TABLE_NAME = 'wopi_action';
     private array $edit_actions = [ActionTarget::EDIT, ActionTarget::EMBED_EDIT];
     private array $view_actions = [ActionTarget::VIEW, ActionTarget::EMBED_VIEW];
@@ -45,15 +48,6 @@ class ActionDBRepository implements ActionRepository
                 $targets
             )
         );
-    }
-
-    /**
-     * @description this is only for cases where you need an action (for compatibility), this action cannot be used
-     * for any WOPI capability
-     */
-    public function null(): NullAction
-    {
-        return new NullAction();
     }
 
     public function hasActionForSuffix(
@@ -237,7 +231,7 @@ class ActionDBRepository implements ActionRepository
             ['integer'],
             [$action->getId()]
         )->numRows() === 0) {
-            $next_id = (int) $this->db->nextId(self::TABLE_NAME);
+            $next_id = $this->db->nextId(self::TABLE_NAME);
             $this->db->insert(self::TABLE_NAME, [
                 'id' => ['integer', $next_id],
                 'name' => ['text', $action->getName()],

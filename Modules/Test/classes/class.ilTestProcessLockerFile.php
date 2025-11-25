@@ -31,6 +31,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
     public const PROCESS_NAME_TEST_FINISH = 'testFinish';
 
     protected ilTestProcessLockFileStorage $lockFileStorage;
+    protected ilLogger $logger;
 
     /**
      * @var resource
@@ -41,10 +42,13 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
      * ilTestProcessLockerFile constructor.
      * @param ilTestProcessLockFileStorage $lockFileStorage
      */
-    public function __construct(ilTestProcessLockFileStorage $lockFileStorage)
-    {
+    public function __construct(
+        ilTestProcessLockFileStorage $lockFileStorage,
+        ilLogger $logger
+    ) {
         $this->lockFileStorage = $lockFileStorage;
         $this->lockFileHandles = array();
+        $this->logger = $logger;
     }
 
     /**
@@ -117,7 +121,9 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
     {
         $lockFilePath = $this->getLockFilePath($processName);
         $this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
-        flock($this->lockFileHandles[$processName], LOCK_EX);
+        if (!flock($this->lockFileHandles[$processName], LOCK_EX)) {
+            $this->logger->error("Flock failed for {$lockFilePath}.");
+        }
     }
 
     private function getLockFilePath($processName): string

@@ -150,13 +150,13 @@ class ilDclTableListGUI
                 break;
 
             default:
+                $this->ctrl->clearParameterByClass(ilObjDataCollectionGUI::class, 'table_id');
                 $this->$cmd();
         }
     }
 
     public function listTables(): void
     {
-
         $add_new = $this->ui_factory->button()->primary(
             $this->lng->txt("dcl_add_new_table"),
             $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'create')

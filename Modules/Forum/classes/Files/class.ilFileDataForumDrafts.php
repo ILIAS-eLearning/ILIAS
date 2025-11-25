@@ -103,7 +103,7 @@ class ilFileDataForumDrafts implements ilFileDataForumInterface
 
     public function storeUploadedFiles(): bool
     {
-        return $this->getImplementation()->storeUploadedFiles();
+        return $this->rc_implementation->storeUploadedFiles();
     }
 
     public function unlinkFile(string $filename): bool

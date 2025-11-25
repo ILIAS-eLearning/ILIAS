@@ -116,7 +116,8 @@ class DomainService
     public function itemSetFlat(
         int $ref_id,
         ?\ilContainerUserFilter $user_filter,
-        bool $force_session_order_by_date = true
+        bool $force_session_order_by_date = true,
+        bool $include_objective_items = false
     ): ItemSetManager {
         if (!isset(self::$flat_item_set_managers[$ref_id])) {
             self::$flat_item_set_managers[$ref_id] = new ItemSetManager(
@@ -126,7 +127,8 @@ class DomainService
                 $user_filter,
                 0,
                 false,
-                $force_session_order_by_date
+                $force_session_order_by_date,
+                $include_objective_items
             );
         }
         return self::$flat_item_set_managers[$ref_id];

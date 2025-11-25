@@ -73,6 +73,32 @@ il.WOPI.save = function () {
   });
 };
 
+il.WOPI.fillParent = function () {
+  const variant = 'default';
+  if (variant === 'default') {
+    this.windowResize();
+  } else {
+    const parent = document.getElementById('mainspacekeeper');
+
+    // get the width and height of the parent container
+    const rect = parent.getBoundingClientRect();
+    // get the padding of the parent container
+    const computed = window.getComputedStyle(parent, null);
+    // calculate the available width inside the parent container
+
+    const parentWidth = rect.width
+        - parseInt(computed.getPropertyValue('padding-left'), 10)
+        - parseInt(computed.getPropertyValue('padding-right'), 10);
+    // calculate the available height inside the parent container
+    const parentHeight = rect.height
+        - parseInt(computed.getPropertyValue('padding-top'), 10)
+        - parseInt(computed.getPropertyValue('padding-bottom'), 10);
+
+    this.editorFrame.setAttribute('width', parentWidth);
+    this.editorFrame.setAttribute('height', parentHeight);
+  }
+};
+
 il.WOPI.windowResize = function () {
   const iframeHeight = document.getElementById('mainspacekeeper').clientHeight - this.offset;
   const iframeWidth = this.editorFrame.parentElement.offsetWidth - 0;
@@ -115,7 +141,8 @@ il.WOPI.init = function () {
   this.editorFrame = editorFrame;
   // eslint-disable-next-line max-len
   this.editorFrameWindow = editorFrame.contentWindow || (editorFrame.contentDocument.document || editorFrame.contentDocument);
-  this.windowResize();
+  this.inline = inline;
+  this.fillParent();
 
   // BUILD FORM
   const form = document.createElement('form');
@@ -173,13 +200,13 @@ il.WOPI.init = function () {
 
   // Add event listener to resize the editor iframe
   document.defaultView.addEventListener('resize', () => {
-    il.WOPI.windowResize(editorFrame);
+    il.WOPI.fillParent();
   });
 
   // resize after some time to make sure the editor is loaded and mainmenu has been collapsed
   setTimeout(
     () => {
-      il.WOPI.windowResize(editorFrame);
+      il.WOPI.fillParent();
     },
     200,
   );

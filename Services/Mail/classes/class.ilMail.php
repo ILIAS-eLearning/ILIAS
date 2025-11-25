@@ -22,6 +22,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\Mail\Recipient;
+use ILIAS\Mail\Transformation\Utf8Mb4Sanitizer;
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -978,6 +979,10 @@ class ilMail
         bool $a_use_placeholders = false
     ): array {
         global $DIC;
+
+        $sanitizeMb4Encoding = new Utf8Mb4Sanitizer();
+        $a_m_subject = $sanitizeMb4Encoding->transform($a_m_subject);
+        $a_m_message = $sanitizeMb4Encoding->transform($a_m_message);
 
         $this->logger->info(
             "New mail system task:" .

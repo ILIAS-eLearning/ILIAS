@@ -34,6 +34,9 @@ class ilObjUser extends ilObject
     public const NO_AVATAR_RID = '-';
     public const PASSWD_PLAIN = "plain";
     public const PASSWD_CRYPTED = "crypted";
+
+    public const DATABASE_DATE_FORMAT = 'Y-m-d H:i:s';
+
     protected string $ext_account = "";
     protected string $time_limit_message = "";
     protected bool $time_limit_unlimited = false;
@@ -373,6 +376,9 @@ class ilObjUser extends ilObject
             $this->setInactivationDate(null);
         }
 
+        $now_string = (new DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+            ->format(self::DATABASE_DATE_FORMAT);
+
         $insert_array = [
             "usr_id" => ["integer", $this->id],
             "login" => ["text", $this->login],
@@ -401,8 +407,8 @@ class ilObjUser extends ilObject
             "last_login" => ["timestamp", null],
             "first_login" => ["timestamp", null],
             "last_profile_prompt" => ["timestamp", null],
-            "last_update" => ["timestamp", ilUtil::now()],
-            "create_date" => ["timestamp", ilUtil::now()],
+            "last_update" => ["timestamp", $now_string],
+            "create_date" => ["timestamp", $now_string],
             "referral_comment" => ["text", $this->referral_comment],
             "matriculation" => ["text", $this->matriculation],
             "client_ip" => ["text", $this->client_ip],
@@ -498,7 +504,11 @@ class ilObjUser extends ilObject
             'login_attempts' => ['integer', $this->login_attempts],
             "last_password_change" => ["integer", $this->last_password_change_ts],
             "passwd_policy_reset" => ["integer", $this->passwd_policy_reset],
-            "last_update" => ["timestamp", ilUtil::now()],
+            "last_update" => [
+                "timestamp",
+                (new DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+                    ->format(self::DATABASE_DATE_FORMAT)
+            ],
             'inactivation_date' => ['timestamp', $this->inactivation_date],
             'reg_hash' => ['text', null],
             'rid' => [
@@ -3163,29 +3173,29 @@ class ilObjUser extends ilObject
     /**
      * Lookup news feed hash for user. If hash does not exist, create one.
      */
-    public static function _lookupFeedHash(
-        int $a_user_id,
-        bool $a_create = false
-    ): ?string {
+    public static function _lookupFeedHash(int $a_user_id, bool $a_create = false): ?string
+    {
         global $DIC;
-
         $ilDB = $DIC['ilDB'];
 
         if ($a_user_id > 0) {
             $set = $ilDB->queryF(
-                "SELECT feed_hash from usr_data WHERE usr_id = %s",
-                ["integer"],
+                'SELECT feed_hash from usr_data WHERE usr_id = %s',
+                [ilDBConstants::T_INTEGER],
                 [$a_user_id]
             );
             if ($rec = $ilDB->fetchAssoc($set)) {
-                if (strlen($rec["feed_hash"]) == 32) {
-                    return $rec["feed_hash"];
-                } elseif ($a_create) {
-                    $hash = md5(random_int(1, 9999999) + str_replace(" ", "", microtime()));
+                $feed_hash = $rec['feed_hash'];
+                if (is_string($feed_hash) && strlen($feed_hash) === 32) {
+                    return $feed_hash;
+                }
+
+                if ($a_create) {
+                    $hash = md5(random_int(1, 9999999) + str_replace(' ', '', microtime()));
                     $ilDB->manipulateF(
-                        "UPDATE usr_data SET feed_hash = %s" .
-                        " WHERE usr_id = %s",
-                        ["text", "integer"],
+                        'UPDATE usr_data SET feed_hash = %s' .
+                        ' WHERE usr_id = %s',
+                        [ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER],
                         [$hash, $a_user_id]
                     );
                     return $hash;
@@ -3749,39 +3759,46 @@ class ilObjUser extends ilObject
     ): int {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $db = $DIC['ilDB'];
 
-        $res = $ilDB->queryf(
-            '
-			SELECT usr_id, create_date FROM usr_data
-			WHERE reg_hash = %s',
-            ['text'],
+        $utc_clock = (new DataFactory())->clock()->utc();
+        $lifetime = (new ilRegistrationSettings())->getRegistrationHashLifetime();
+
+        $res = $db->queryf(
+            'SELECT usr_id, create_date FROM usr_data WHERE reg_hash = %s',
+            [ilDBConstants::T_TEXT],
             [$a_hash]
         );
-        while ($row = $ilDB->fetchAssoc($res)) {
-            $oRegSettigs = new ilRegistrationSettings();
 
-            if ($oRegSettigs->getRegistrationHashLifetime() != 0 &&
-                time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
+        $row = $db->fetchAssoc($res);
+        if (!$row) {
+            throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
+        }
+
+        if ($lifetime > 0) {
+            $cutoff = $utc_clock->now()->sub(new DateInterval('PT' . $lifetime . 'S'));
+
+            $created = DateTimeImmutable::createFromFormat(
+                self::DATABASE_DATE_FORMAT,
+                (string) $row['create_date'],
+                new DateTimeZone('UTC')
+            );
+
+            if ($created === false || $created < $cutoff) {
                 throw new ilRegConfirmationLinkExpiredException(
                     'reg_confirmation_hash_life_time_expired',
                     (int) $row['usr_id']
                 );
             }
-
-            $ilDB->manipulateF(
-                '
-				UPDATE usr_data
-				SET reg_hash = %s
-				WHERE usr_id = %s',
-                ['text', 'integer'],
-                ['', (int) $row['usr_id']]
-            );
-
-            return (int) $row['usr_id'];
         }
 
-        throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
+        $db->manipulateF(
+            'UPDATE usr_data SET reg_hash = NULL WHERE usr_id = %s',
+            [ilDBConstants::T_INTEGER],
+            [(int) $row['usr_id']]
+        );
+
+        return (int) $row['usr_id'];
     }
 
     public function setBirthday(?string $a_birthday): void

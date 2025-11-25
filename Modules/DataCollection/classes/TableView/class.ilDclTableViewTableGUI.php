@@ -58,7 +58,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setData($this->table->getTableViews());
         } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {
             $this->setRowTemplate('tpl.detailview_list_row.html', 'Modules/DataCollection');
-            $this->setData($this->table->getVisibleTableViews($ref_id, true));
+            $this->setData($this->table->getVisibleTableViews(0, true));
         }
 
         $this->addColumn($this->lng->txt('title'), '', 'auto');

@@ -102,7 +102,7 @@ class ilDclBaseRecordModel
         if (!$omit_notification) {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $objDataCollection = new ilObjDataCollection($ref_id);
-            $objDataCollection->sendNotification("update_record", $this->getTableId(), $this->id);
+            $objDataCollection->sendRecordNotification(ilDataCollectionMailNotification::TYPE_RECORD_UPDATE, $this);
         }
     }
 
@@ -404,7 +404,7 @@ class ilDclBaseRecordModel
              * @var $field ilDclBaseRecordFieldModel
              */
 
-            $html = $field->getRecordRepresentation()->getSingleHTML($options, false);
+            $html = $field->getRecordRepresentation()->getSingleHTML($options);
         }
 
         return $html;
@@ -567,10 +567,6 @@ class ilDclBaseRecordModel
     {
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
-            if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB) {
-                $this->deleteMob((int) $recordfield->getValue());
-            }
-
             $recordfield->delete();
         }
 
@@ -582,7 +578,7 @@ class ilDclBaseRecordModel
         if (!$omit_notification) {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $objDataCollection = new ilObjDataCollection($ref_id);
-            $objDataCollection->sendNotification("delete_record", $this->getTableId(), $this->getId());
+            $objDataCollection->sendRecordNotification(ilDataCollectionMailNotification::TYPE_RECORD_DELETE, $this);
 
             $this->event->raise(
                 'Modules/DataCollection',
@@ -622,14 +618,6 @@ class ilDclBaseRecordModel
         if (ilObject2::_exists($obj_id, false)) {
             $file = new ilObjFile($obj_id, false);
             $file->delete();
-        }
-    }
-
-    public function deleteMob(int $obj_id): void
-    {
-        if (ilObject2::_lookupObjId($obj_id)) {
-            $mob = new ilObjMediaObject($obj_id);
-            $mob->delete();
         }
     }
 

@@ -34,6 +34,7 @@ class ilObject
     public const DESC_LENGTH = 128; // (short) description column max length in db
     public const LONG_DESC_LENGTH = 4000; // long description column max length in db
     public const TABLE_OBJECT_DATA = "object_data";
+    private const DATABASE_DATE_FORMAT = 'Y-m-d H:i:s';
 
     private ?ilObjectProperties $object_properties = null;
 
@@ -549,6 +550,9 @@ class ilObject
             $owner = $user->getId();
         }
 
+        $now_string = (new DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+            ->format(self::DATABASE_DATE_FORMAT);
+
         $this->id = $this->db->nextId(self::TABLE_OBJECT_DATA);
         $values = [
             "obj_id" => ["integer", $this->getId()],
@@ -556,8 +560,8 @@ class ilObject
             "title" => ["text", $this->getTitle()],
             "description" => ["text", $this->getDescription()],
             "owner" => ["integer", $owner],
-            "create_date" => ["date", $this->db->now()],
-            "last_update" => ["date", $this->db->now()],
+            "create_date" => ["date", $now_string],
+            "last_update" => ["date", $now_string],
             "import_id" => ["text", $this->getImportId()],
         ];
 
@@ -771,7 +775,11 @@ class ilObject
     {
         $values = [
             "owner" => ["integer", $this->getOwner()],
-            "last_update" => ["date", $this->db->now()]
+            "last_update" => [
+                "date",
+                (new DateTimeImmutable('@' . time(), new DateTimeZone('UTC')))
+                    ->format(self::DATABASE_DATE_FORMAT)
+            ]
         ];
 
         $where = [
@@ -2180,4 +2188,4 @@ class ilObject
         $row = $ilDB->fetchAssoc($res);
         return (int) $row['obj_id'] ?? null;
     }
-} // END class.ilObject
+}

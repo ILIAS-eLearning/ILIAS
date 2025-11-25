@@ -238,6 +238,12 @@ class ilTestScreenGUI
             ;
         }
 
+        if (!$this->hasAvailablePasses()) {
+            return $launcher_factory
+                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
+                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
+        }
+
         if ($this->blockUserAfterHavingPassed()) {
             return $launcher_factory
                 ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
@@ -257,12 +263,6 @@ class ilTestScreenGUI
                     false
                 )
             ;
-        }
-
-        if (!$this->hasAvailablePasses()) {
-            return $launcher_factory
-                ->inline($this->data_factory->link('', $this->data_factory->uri($this->http->request()->getUri()->__toString())))
-                ->withButtonLabel($this->lng->txt('tst_launcher_button_label_passes_limit_reached'), false);
         }
 
         if ($this->lastPassSuspended()) {

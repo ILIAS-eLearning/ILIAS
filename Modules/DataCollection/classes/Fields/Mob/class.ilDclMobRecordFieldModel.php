@@ -18,95 +18,52 @@
 
 declare(strict_types=1);
 
+use ILIAS\FileUpload\Location;
+
 class ilDclMobRecordFieldModel extends ilDclFileRecordFieldModel
 {
-    public function parseValue($value)
+    protected function handleFileUpload(array $value, bool $has_save_confirmation): int
     {
-        if ($value === -1) {
-            return null;
-        }
+        $mob = new ilObjMediaObject();
+        $mob->setTitle($value[self::FILE_NAME]);
+        $mob->create();
+        $mob->createDirectory();
+        $target_file_path = ilObjMediaObject::_getRelativeDirectory($mob->getId());
 
-        $media = $value;
-
-        $has_record_id = $this->http->wrapper()->query()->has('record_id');
-        $is_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
-        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !$has_record_id);
-
-        if (($media['tmp_name'] ?? '') !== '' && (!$has_save_confirmation || $is_confirmed)) {
-            $mob = new ilObjMediaObject();
-            $mob->setTitle($media['name']);
-            $mob->create();
-            $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
-            if (!is_dir($mob_dir)) {
-                $mob->createDirectory();
-            }
-            $media_item = new ilMediaItem();
-            $mob->addMediaItem($media_item);
-            $media_item->setPurpose('Standard');
-            $file_name = ilFileUtils::getASCIIFilename($media['name']);
-            $file_name = str_replace(' ', '_', $file_name);
-            $target_file_path = $mob_dir . '/' . $file_name;
-            $location = $file_name;
-
-            if ($has_save_confirmation) {
-                $ilfilehash = $this->http->wrapper()->post()->retrieve(
-                    'ilfilehash',
-                    $this->refinery->kindlyTo()->string()
-                );
-
-                $move_file = ilDclPropertyFormGUI::getTempFilename(
-                    $ilfilehash,
-                    'field_' . $this->getField()->getId(),
-                    $media['name'],
-                    $media['type']
-                );
-            } else {
-                if (!$this->upload->hasBeenProcessed()) {
-                    $this->upload->process();
-                }
-
-                if (!$this->upload->hasUploads()) {
-                    throw new ilException($this->lng->txt('upload_error_file_not_found'));
-                }
-                $move_file = $media['tmp_name'];
-            }
-
-            ilFileUtils::rename($move_file, $target_file_path);
-            chmod($target_file_path, 0640);
-            ilFileUtils::renameExecutables($mob_dir);
-
-            $format = ilObjMediaObject::getMimeType($target_file_path);
-
-            ilObjMediaObject::_saveUsage(
-                $mob->getId(),
-                'dcl:html',
-                $this->getRecord()->getTable()->getCollectionObject()->getId()
+        if ($has_save_confirmation) {
+            $move_file = ilDclPropertyFormGUI::getTempFilename(
+                $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string()),
+                'field_' . $this->getField()->getId(),
+                $value[self::FILE_NAME],
+                $value[self::FILE_TYPE]
             );
-            $media_item->setFormat($format);
-            $media_item->setLocation($location);
-            $media_item->setLocationType('LocalFile');
-
-            if (ilFFmpeg::enabled() && ilFFmpeg::supportsImageExtraction($format)) {
-                $med = $mob->getMediaItem('Standard');
-                $mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . '/' . $med->getLocation();
-                $a_target_dir = ilObjMediaObject::_getDirectory($mob->getId());
-                ilFFmpeg::extractImage($mob_file, 'mob_vpreview.png', $a_target_dir);
-            }
-
-            $mob->update();
-            $return = $mob->getId();
-            if ($this->value !== null) {
-                $this->removeData();
-            }
+            $this->getField()->getFileSystem()->write($target_file_path . '/' . str_replace(' ', '_', $value[self::FILE_NAME]), file_get_contents($move_file));
         } else {
-            if (($media['tmp_name'] ?? '') !== '') {
-                $return = $media;
-            } else {
-                $return = $this->getValue();
-            }
+            $this->upload->moveFilesTo(ilObjMediaObject::_getRelativeDirectory($mob->getId()), Location::WEB);
         }
 
-        return $return;
+        $file = $this->getField()->getFileSystem()->listContents(ilObjMediaObject::_getRelativeDirectory($mob->getId()))[0];
+        $format = $this->getField()->getFileSystem()->getMimeType($file->getPath());
+
+        ilObjMediaObject::_saveUsage(
+            $mob->getId(),
+            'dcl:html',
+            $this->getRecord()->getTable()->getCollectionObject()->getId()
+        );
+        $media_item = new ilMediaItem();
+        $media_item->setPurpose('Standard');
+        $media_item->setFormat($format);
+        $media_item->setLocation(basename($file->getPath()));
+        $media_item->setLocationType('LocalFile');
+        $mob->addMediaItem($media_item);
+
+        if (ilFFmpeg::enabled() && ilFFmpeg::supportsImageExtraction($format)) {
+            $dir = ilObjMediaObject::_getDirectory($mob->getId());
+            ilFFmpeg::extractImage($dir . '/' . basename($file->getPath()), 'mob_vpreview.png', $dir);
+        }
+
+        $mob->update();
+        return $mob->getId();
     }
 
     /**
@@ -138,29 +95,27 @@ class ilDclMobRecordFieldModel extends ilDclFileRecordFieldModel
 
     protected function removeData(): void
     {
-        $mob = new ilObjMediaObject($this->value);
-        ilObjMediaObject::_removeUsage(
-            $mob->getId(),
-            'dcl:html',
-            $this->getRecord()->getTable()->getCollectionObject()->getId()
-        );
-        $mob->delete();
+        if (ilObjMediaObject::_exists($this->value)) {
+            $mob = new ilObjMediaObject($this->value);
+            $this->getField()->getFileSystem()->deleteDir(ilObjMediaObject::_getRelativeDirectory($mob->getId()));
+            $mob->delete();
+        }
     }
 
     public function afterClone(): void
     {
-        $field = ilDclCache::getCloneOf((int) $this->getField()->getId(), ilDclCache::TYPE_FIELD);
-        $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
-        $record_field = ilDclCache::getRecordFieldCache($record, $field);
-
-        if (!$record_field->getValue()) {
-            return;
+        if ($this->value !== null) {
+            $value = null;
+            if (ilObjMediaObject::_exists($this->value)) {
+                $origin = new ilObjMediaObject($this->value);
+                $path = $origin::_getRelativeDirectory($origin->getId()) . '/' . $origin->getTitle();
+                if ($this->getField()->getFileSystem()->has($path)) {
+                    $new = $origin->duplicate();
+                    $value = $new->getId();
+                }
+            }
+            $this->setValue($value, true);
+            $this->doUpdate();
         }
-
-        $mob_old = new ilObjMediaObject($record_field->getValue());
-        $mob_new = $mob_old->duplicate();
-
-        $this->setValue($mob_new->getId(), true);
-        $this->doUpdate();
     }
 }

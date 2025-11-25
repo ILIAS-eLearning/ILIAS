@@ -563,7 +563,6 @@ class ilPortfolioRepositoryGUI
 
     protected function getWorkspaceAccess(): ilPortfolioAccessHandler
     {
-        /** @var ilWorkspaceAccessHandler $wsp_access */
         $wsp_access = $this->access_handler;
         return $wsp_access;
     }

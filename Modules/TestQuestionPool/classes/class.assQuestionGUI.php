@@ -2127,4 +2127,16 @@ abstract class assQuestionGUI
         );
     }
 
+    protected function resetSavedPreviewSession(): void
+    {
+        global $DIC;
+        $ilUser = $DIC['ilUser'];
+        $user_id = $ilUser->getId();
+        $question_id = $this->object->getId();
+        $ilAssQuestionPreviewSession = new ilAssQuestionPreviewSession($user_id, $question_id);
+        $ilAssQuestionPreviewSession->setRandomizerSeed(null);
+        $ilAssQuestionPreviewSession->setParticipantsSolution(null);
+        $ilAssQuestionPreviewSession->resetRequestedHints();
+        $ilAssQuestionPreviewSession->setInstantResponseActive(false);
+    }
 }

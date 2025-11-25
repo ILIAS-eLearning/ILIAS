@@ -25,7 +25,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assTextSubsetGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assSingleChoiceGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assTextQuestionGUI, assFormulaQuestionGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilRatingGUI, ilPublicUserProfileGUI, ilAssQuestionPageGUI, ilNoteGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilObjQuestionPoolGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI

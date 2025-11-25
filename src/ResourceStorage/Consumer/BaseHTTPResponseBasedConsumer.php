@@ -48,6 +48,12 @@ abstract class BaseHTTPResponseBasedConsumer extends BaseConsumer implements Del
 
     abstract protected function getDisposition(): string;
 
+    public function disableCaching(): DeliveryConsumer
+    {
+        $this->delivery->disableCachingHeaders();
+        return $this;
+    }
+
     public function run(): void
     {
         $revision = $this->getRevision();

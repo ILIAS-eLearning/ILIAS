@@ -1277,7 +1277,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($orderingGUI->getElementList($this->getId()) as $submittedElement) {
             $solutionElement = $storedElementList->getElementByRandomIdentifier(
                 $submittedElement->getRandomIdentifier()
-            )->getClone();
+            )?->getClone();
+
+            if ($solutionElement === null) {
+                continue;
+            }
 
             $solutionElement->setPosition($submittedElement->getPosition());
 

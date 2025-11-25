@@ -169,12 +169,18 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     public function mapTaxonomyFilter(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomies_keys_map): void
     {
         $this->mapped_taxonomy_filter = [];
-        foreach ($this->original_taxonomy_filter as $taxId => $nodeIds) {
-            $mappedNodeIds = [];
-            foreach ($nodeIds as $nodeId) {
-                $mappedNodeIds[] = $taxonomies_keys_map->getMappedTaxNodeId($nodeId);
+        foreach ($this->original_taxonomy_filter as $tax_id => $node_ids) {
+            $mapped_taxonomy_id = $taxonomies_keys_map->getMappedTaxonomyId($tax_id);
+            if ($mapped_taxonomy_id === null) {
+                continue;
             }
-            $this->mapped_taxonomy_filter[$taxonomies_keys_map->getMappedTaxonomyId($taxId)] = $mappedNodeIds;
+
+            foreach ($node_ids as $node_id) {
+                $mapped_node_id = $taxonomies_keys_map->getMappedTaxNodeId((int) $node_id);
+                if ($mapped_node_id !== null) {
+                    $this->mapped_taxonomy_filter[$mapped_taxonomy_id][] = $mapped_node_id;
+                }
+            }
         }
     }
 
@@ -300,7 +306,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
                     $this->setPoolRefId($value ? (int) $value : null);
                     break;
                 case 'pool_title':
-                    $this->setPoolTitle($value);
+                    $this->setPoolTitle($value ?? '');
                     break;
                 case 'pool_path':
                     $this->setPoolPath($value);

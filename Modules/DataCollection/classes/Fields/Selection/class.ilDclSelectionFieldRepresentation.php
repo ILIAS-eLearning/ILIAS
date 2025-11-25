@@ -68,6 +68,9 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
                     $this->getField()->getTitle(),
                     'field_' . $this->getField()->getId()
                 );
+                $input->setWidth(100);
+                $input->setWidthUnit('%');
+                $input->setHeight(32 * min(5, max(1, count($options))));
 
                 $input->setOptions($options);
                 break;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
@@ -71,6 +71,14 @@ class Renderer extends AbstractComponentRenderer
 
             if ($index === $component->getActive()) {
                 $tpl->touchBlock('active');
+                $component = $component->withAdditionalOnLoadCode(
+                    fn($id) => "
+                        window.requestAnimationFrame(() => {
+                            document.querySelectorAll('#{$id} li.il-workflow-step')
+                                    .item({$index}).scrollIntoView();
+                            }
+                        );"
+                );
             } else {
                 switch ($step->getAvailability()) {
                     case Component\Listing\Workflow\Step::AVAILABLE:
@@ -84,8 +92,8 @@ class Renderer extends AbstractComponentRenderer
                         break;
                 }
             }
-            $tpl->setCurrentBlock("step");
 
+            $tpl->setCurrentBlock("step");
             switch ($step->getStatus()) {
                 case Component\Listing\Workflow\Step::NOT_STARTED:
                     $tpl->touchBlock('status_notstarted');
@@ -103,6 +111,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setCurrentBlock("step");
             $tpl->parseCurrentBlock();
         }
+        $tpl->setVariable('ID', $this->bindJavaScript($component));
         return $tpl->get();
     }
 

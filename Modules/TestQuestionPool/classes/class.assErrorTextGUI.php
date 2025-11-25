@@ -387,7 +387,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             '',
             $is_postponed,
             $active_id,
-            $this->generateQuestionOutput($selections, false)
+            $this->generateQuestionOutput($selections, true)
         );
     }
 

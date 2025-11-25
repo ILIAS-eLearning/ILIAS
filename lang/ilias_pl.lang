@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Jedno pytanie formuły zawiera błędne dane
 assessment#:#errRecursionInResult#:#Formuła zawiera nie możliwą do rozwiązania rekursję.
 assessment#:#err_category_in_use#:#Nie można usunąć kategorii. Jedna lub kilka jednostek tej kategorii są już używane.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#Kilkakrotnie użyłeś jednej zmiennej wyniku. Poza tekstem zadania jest to niedozwolone!
 assessment#:#err_no_formula#:#Podaj formułę do obliczenia wyniku.
@@ -925,7 +926,7 @@ assessment#:#option_label_plus#:#+
 assessment#:#option_label_plus_minus#:#+ / -
 assessment#:#option_label_right#:#prawidłowe
 assessment#:#option_label_right_wrong#:#prawidłowe / nieprawidłowe
-assessment#:#option_label_wrong#:#FALSCH
+assessment#:#option_label_wrong#:#nieprawidłowe
 assessment#:#oq_btn_define_pictures#:#Do wglądu: wysyłanie obrazów
 assessment#:#oq_btn_define_terms#:#Do wglądu: tworzenie pojęć
 assessment#:#oq_btn_nest_pictures#:#Do wglądu: podział obrazów
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Przekierowanie
 assessment#:#redirect_after_finishing_tst#:#Przekierowanie
 assessment#:#redirect_after_finishing_tst_desc#:#Po zakończeniu testu uczestnicy zostaną automatycznie przekierowani do określonej strony internetowej. Taka sytuacja ma miejsce tylko wtedy, gdy test został skonfigurowany tak, że po zakończeniu testu uczestnicy nie mają wglądu do swoich wyników.
 assessment#:#redirect_always#:#zawsze na określoną stronę docelową
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#tylko w przypadku aktywnego widoku egzaminacyjnym
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Strona docelowa URL
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Usuń stałego uczestnika
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Pokaż właściwą do odpowi
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Po kliknięciu opcji 'Zażądaj komunikatu zwrotnego' ILIAS wyświetli każdej udzielonej odpowiedzi odpowiedni, zapisany komunikat zwrotny. Nie wszystkie typy pytań obsługują ten rodzaj komunikatów zwrotnych. Komunikaty zwrotne należy zapisać przy odpowiedzi w zakładce 'Komunikat zwrotny'.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_forced#:#Wyświetl komunikat zwrotny zawsze przy udzieleniu odpowiedzi
 assessment#:#tst_instant_feedback_results#:#Pokaż wyniki (tylko punkty)
 assessment#:#tst_instant_feedback_results_desc#:#Jeśli uczestnicy klikną przy odpowiadaniu na pytanie na opcję  'Zażądaj komunikatu zwrotnego', ILIAS wyświetli liczbę punktów otrzymanych za tę odpowiedź.
 assessment#:#tst_instant_feedback_solution#:#Pokaż rozwiązania
@@ -1839,6 +1842,7 @@ assessment#:#tst_setting_offer_hints_label#:#Podpowiedzi
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###30 04 2024 new variable
 assessment#:#tst_settings_header_execution#:#Przeprowadzenie: dostęp
 assessment#:#tst_settings_header_intro#:#Informacje dotyczące rozpoczęcia
@@ -2533,6 +2537,7 @@ book#:#book_new#:#Dodaj nową pulę rejestracji
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###07 02 2020 new variable
 book#:#book_no_objects#:#No Assignment###07 02 2020 new variable
 book#:#book_no_of_objects#:#Liczba obiektów
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###07 02 2020 new variable
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#Nie
@@ -4746,6 +4751,7 @@ common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
 common#:#msg_no_perm_read#:#Nie masz uprawnień do dostępu do tej pozycji.
 common#:#msg_no_perm_read_item#:#Nie masz uprawnień do dostępu do pozycji '%s'.
 common#:#msg_no_perm_read_lm#:#Nie masz uprawnień do czytania tego modułu nauczania.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
@@ -7369,6 +7375,7 @@ copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new va
 copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
 copg#:#copg_questions_not_supported_here#:#W tym kontekście nie obsługiwane są żadne pytania.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
@@ -8542,7 +8549,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Utworzono następujący wpis
 dcl#:#dcl_change_notification_dcl_update_record#:#Aktualizowano następujący wpis
 dcl#:#dcl_change_notification_link#:#Idź do zbioru danych
 dcl#:#dcl_change_notification_subject#:#Edytowano zbiór rekordów danych "%s".
-dcl#:#dcl_change_why_you_receive_this_email#:#Otrzymałeś tę wiadomość, ponieważ aktywowałeś funkcję powiadomień dla powyżej wymienionego zbioru rekordów danych.
 dcl#:#dcl_changed_by#:#Ostatnio zmieniono przez
 dcl#:#dcl_checked#:#Wybrane
 dcl#:#dcl_comments#:#Komentarze
@@ -8622,7 +8628,6 @@ dcl#:#dcl_formula#:#Formuła
 dcl#:#dcl_formula_desc#:#Podobnie jak w przypadku arkuszy kalkulacyjnych można łączyć lub liczyć wpisy za pomocą formuł.
 dcl#:#dcl_formula_detail_desc#:#Wpisy w tym polu generowane są automatycznie. Nie możesz dokonać tutaj wpisu.
 dcl#:#dcl_height#:#Wysokość
-dcl#:#dcl_hello#:#Witaj
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Wewnętrzny nr ID
 dcl#:#dcl_ilias_reference#:#Obiekt w dostępnych zasobach
@@ -8680,7 +8685,6 @@ dcl#:#dcl_new#:#Utwórz nowy zbiór danych
 dcl#:#dcl_new_field#:#Nowe pole
 dcl#:#dcl_new_table#:#Nowa tabela
 dcl#:#dcl_next_record#:#Kolejny wpis
-dcl#:#dcl_no_content_warning#:#Uwaga, zbiór danych jest już w trybie online, nie posiada jednak jeszcze treści!
 dcl#:#dcl_no_entry#:#No entry###07 02 2020 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Brak danych lub pól dostępnych dla eksportu.
@@ -8701,6 +8705,8 @@ dcl#:#dcl_noturl_exception#:#Podaj link (na początku wpisz http:// lub www.) lu
 dcl#:#dcl_number#:#Liczby całkowite
 dcl#:#dcl_number_desc#:#Pole do wprowadzania liczb całkowitych (maks. 9 cyfr). Ułamki i liczby dziesiętne nie są dozwolone.
 dcl#:#dcl_online_info#:#Użytkownicy mogą obejrzeć zbiór danych i korzystać z niego tylko wtedy, gdy zbiór jest w trybie online.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Sortowanie
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Tylko własne wpisy
@@ -8755,8 +8761,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Tutaj możesz wpisać końcówki plików pr
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabela
-dcl#:#dcl_table_create#:#Utwórz tabelę
-dcl#:#dcl_table_edit#:#Zapisz
 dcl#:#dcl_table_id#:#Numer ID tabelki
 dcl#:#dcl_table_info#:#Poniżej ustalasz, co użytkownicy, którzy dla zbioru danych posiadają prawo "Wprowadzania", mogą robić w tabeli.
 dcl#:#dcl_table_info_title#:#Informacja
@@ -9161,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10949,7 +10955,6 @@ lso#:#lso_print_list#:#Print list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search user
 lso#:#lso_settings_availability#:#availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable
@@ -13699,6 +13704,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###30 04 2021 new variable
@@ -15841,6 +15847,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Dla każdego zapytania mediów wstawiany jest arkusz CSS wg arkuszu domyślnego (bez zapytania mediów).
 style#:#sty_min_height#:#Minimalna wysokość
 style#:#sty_move_lm_styles#:#Zmień styl modułów nauczania
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Zmień styl
 style#:#sty_move_user_styles#:#Zmień arkusz stylów użytkowników
 style#:#sty_msg_characteristic_must_only_include#:#Tytuł stylu może zawierać tylko poniższe znaki
@@ -15848,6 +15855,7 @@ style#:#sty_msg_color_must_only_include#:#Nazwa koloru może zawierać tylko pon
 style#:#sty_msg_input_must_be_numeric#:#Konieczne jest wprowadzenie numeryczne.
 style#:#sty_name#:#Nazwa
 style#:#sty_nr_learning_modules#:#Liczba modułów nauczania
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Kolumny nieparzyste
 style#:#sty_odd_row_class#:#Wiersze nieparzyste
 style#:#sty_ol#:#Ordered List###30 04 2024 new variable

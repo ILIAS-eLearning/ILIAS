@@ -33,6 +33,7 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
 
         switch ($a_component) {
             case 'Modules/Course':
+            case 'Modules/Group':
             case 'Modules/Category':
             case 'Modules/StudyProgramme':
                 switch ($a_event) {

@@ -177,13 +177,10 @@ class ilTestPassResultsTable
             $env = $environment[self::ENV];
             $lng = $environment[self::LNG];
 
-            $title = sprintf(
-                '%s [ID: %s]',
-                htmlspecialchars($question_result->getTitle()),
-                (string) $question_result->getId()
-            );
+            $title = htmlspecialchars($question_result->getTitle());
 
             $important_fields = [
+                $lng->txt('position') => (string) ($question_result->getPosition() + 1),
                 $lng->txt('question_id') => (string) $question_result->getId(),
                 $lng->txt('question_type') => $lng->txt($question_result->getType()),
                 $lng->txt('points') => sprintf(
@@ -198,17 +195,9 @@ class ilTestPassResultsTable
             $stats_fields[$lng->txt('tst_question_hints_requested_hint_count_header')] = (string) $question_result->getNumberOfRequestedHints();
             $stats = $ui_factory->listing()->characteristicValue()->text($stats_fields);
 
-
-            $feedback = $ui_factory->listing()->descriptive([
-                $lng->txt('tst_feedback') => $question_result->getFeedback()
-            ]);
-
-            $contents = [];
-
-            $contents[] = $stats;
-            if ($env->getShowFeedback()) {
-                $contents[] = $feedback;
-            }
+            $contents = [
+                $stats
+            ];
 
             if ($recap = $question_result->getContentForRecapitulation()) {
                 $contents[] = $ui_factory->listing()->descriptive([

@@ -129,7 +129,10 @@ public class DirectoryDataSource extends FileDataSource {
 							}
 						}
 					});
-			
+			if (entries == null) {
+                logger.warn("Directory content is not readable: {}", dir.getAbsolutePath());
+                return;
+            }
 			for(int i = 0; i < entries.length; i++) {
 				// there are only directories
 				traverse(entries[i]);

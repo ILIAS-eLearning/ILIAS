@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use Pimple\Container;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
@@ -34,10 +34,6 @@ class ilLSDI extends Container
                 $dic["ilDB"],
                 $c["db.filesystem"]
             );
-        };
-
-        $this["db.activation"] = function ($c) use ($dic): ilLearningSequenceActivationDB {
-            return new ilLearningSequenceActivationDB($dic["ilDB"]);
         };
 
         $this["db.states"] = function ($c) use ($dic): ilLSStateDB {

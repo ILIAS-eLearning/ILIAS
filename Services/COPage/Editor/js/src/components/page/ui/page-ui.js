@@ -14,8 +14,8 @@
  *
  ******************************************************************** */
 
-import ACTIONS from "../actions/page-action-types.js";
-import Util from "../../../ui/util.js";
+import ACTIONS from '../actions/page-action-types.js';
+import Util from '../../../ui/util.js';
 
 /**
  * page ui
@@ -316,7 +316,7 @@ export default class PageUI {
       const originalHTML = area.innerHTML;
       area.innerHTML = uiModel.dropdown;
 
-      console.log(uiModel.dropdown);
+      this.log(uiModel.dropdown);
 
       const { model } = this;
 
@@ -538,6 +538,12 @@ export default class PageUI {
     });
 
     $(droppableSelector).droppable({
+      over(event, ui) {
+        $(this).addClass('il-copg-cell-selected');
+      },
+      out(event, ui) {
+        $(this).removeClass('il-copg-cell-selected');
+      },
       drop: (event, ui) => {
         ui.draggable.draggable('option', 'revert', false);
 
@@ -738,8 +744,8 @@ export default class PageUI {
       .style.display = 'none';
     document.querySelector('#il-copg-format-media')
       .style.display = 'none';
-    console.log('***INIT FORMAT');
-    console.log(selected);
+    this.log('***INIT FORMAT');
+    this.log(selected);
     selected.forEach((id) => {
       cname = this.getCnameForPCID(id.split(':')[1]);
       switch (cname) {
@@ -1001,7 +1007,7 @@ export default class PageUI {
 
     this.util.showModal(
       this.uiModel.modal,
-      il.Language.txt("cont_delete_content"),
+      il.Language.txt('cont_delete_content'),
       content,
       il.Language.txt('delete'),
       () => {
@@ -1036,7 +1042,7 @@ export default class PageUI {
       content,
       this.model.getCurrentPCName(),
     );
-    this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), "creation_form");
+    this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), 'creation_form');
     document.querySelectorAll('#copg-editor-slate-content form .dropdown-menu').forEach((dd) => {
       dd.style.right = 'auto';
     });
@@ -1056,8 +1062,8 @@ export default class PageUI {
   /// /
 
   loadGenericEditingForm(cname, pcid, hierid) {
-    const dispatcher = this.dispatcher;
-    const actionFactory = this.actionFactory;
+    const { dispatcher } = this;
+    const { actionFactory } = this;
 
     const loadEditingFormAction = this.actionFactory.page().query().loadEditingForm(cname, pcid, hierid);
     this.client.sendQuery(loadEditingFormAction).then((result) => {

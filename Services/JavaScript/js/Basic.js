@@ -348,7 +348,12 @@ il.Object = {
   },
 
   saveRating(mark) {
-    il.Util.sendAjaxGetRequestToUrl(`${this.url_rating}&rating=${mark}`, {}, { url_redraw: this.url_redraw_ah }, this.redrawAfterRating);
+      il.Util.sendAsyncAjaxPostRequestToUrl(
+          `${this.url_rating}`,
+          'rating=' + mark,
+          {url_redraw: this.url_redraw_ah},
+          this.redrawAfterRating
+      );
   },
 
   redrawAfterRating(o) {
@@ -362,7 +367,11 @@ il.Object = {
   },
 
   saveRatingFromListGUI(ref_id, hash, mark) {
-    il.Util.sendAjaxGetRequestToUrl(`${this.url_rating}&rating=${mark}&child_ref_id=${ref_id}&cadh= ${hash}`, {}, { url_redraw: this.url_redraw_li, ref_id }, this.redrawAfterRatingFromListGUI);
+    il.Util.sendAsyncAjaxPostRequestToUrl(
+        `${this.url_rating}&child_ref_id=${ref_id}&cadh= ${hash}`,
+        'rating=' + mark,
+        { url_redraw: this.url_redraw_li, ref_id },
+        this.redrawAfterRatingFromListGUI);
   },
 
   redrawAfterRatingFromListGUI(o) {

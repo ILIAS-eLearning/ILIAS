@@ -482,12 +482,8 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
 
         // portfolios
-        $back = ($this->getBackUrl() != '')
-            ? $this->getBackUrl()
-            : ilLink::_getStaticLink($this->getUserId(), 'usr', true);
         $port = ilObjPortfolio::getAvailablePortfolioLinksForUserIds(
-            [$this->getUserId()],
-            $back
+            [$this->getUserId()]
         );
         $cnt = 0;
         if (count($port) > 0) {
@@ -517,7 +513,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable('TXT_LOCATION', $this->lng->txt('location'));
 
             $map_gui = ilMapUtil::getMapGUI();
-            $map_gui->setMapId('user_map')
+            $map_gui->setMapId('user_map_' . md5($user->login))
                     ->setWidth('350px')
                     ->setHeight('230px')
                     ->setLatitude($user->getLatitude())

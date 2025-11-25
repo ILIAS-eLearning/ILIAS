@@ -24,45 +24,32 @@
  */
 class ilQuestionPoolDuplicatedTaxonomiesKeysMap
 {
-    private array $taxonomyKeyMap = array();
-    private array $taxNodeKeyMap = array();
-    private array $taxRootNodeKeyMap = array();
+    /**
+     * @var array<int, int>
+     */
+    private array $taxonomy_key_map = [];
 
-    public function addDuplicatedTaxonomy(ilObjTaxonomy $originalTaxonomy, ilObjTaxonomy $mappedTaxonomy): void
+    /**
+     * @var array<int, int>
+     */
+    private array $tax_node_key_map = [];
+
+    public function addDuplicatedTaxonomy(ilObjTaxonomy $original_taxonomy, ilObjTaxonomy $mapped_taxonomy): void
     {
-        $this->taxonomyKeyMap[ $originalTaxonomy->getId() ] = $mappedTaxonomy->getId();
+        $this->taxonomy_key_map[$original_taxonomy->getId()] = $mapped_taxonomy->getId();
 
-        foreach ($originalTaxonomy->getNodeMapping() as $originalNodeId => $mappedNodeId) {
-            $this->taxNodeKeyMap[$originalNodeId] = $mappedNodeId;
+        foreach ($original_taxonomy->getNodeMapping() as $original_node_id => $mapped_node_id) {
+            $this->tax_node_key_map[$original_node_id] = $mapped_node_id;
         }
     }
 
-    /**
-     * @param integer $originalTaxonomyId
-     * @return integer
-     */
-    public function getMappedTaxonomyId($originalTaxonomyId): int
+    public function getMappedTaxonomyId(int $original_taxonomy_id): ?int
     {
-        if (isset($this->taxonomyKeyMap[$originalTaxonomyId])) {
-            return $this->taxonomyKeyMap[$originalTaxonomyId];
-        }
-        return 0;
+        return $this->taxonomy_key_map[$original_taxonomy_id] ?? null;
     }
 
-    /**
-     * @param integer $originalTaxNodeId
-     * @return integer
-     */
-    public function getMappedTaxNodeId($originalTaxNodeId): int
+    public function getMappedTaxNodeId(int $original_tax_node_id): ?int
     {
-        return $this->taxNodeKeyMap[$originalTaxNodeId];
-    }
-
-    /**
-     * @return array
-     */
-    public function getTaxonomyRootNodeMap(): array
-    {
-        return $this->taxRootNodeKeyMap;
+        return $this->tax_node_key_map[$original_tax_node_id] ?? null;
     }
 }

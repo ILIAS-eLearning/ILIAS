@@ -184,6 +184,7 @@ class ilBookingScheduleGUI
         $deadline->setMinValue(1);
         $deadline->setSize(3);
         $deadline->setMaxLength(3);
+        $deadline->setRequired(true);
         $deadline_time->addSubItem($deadline);
 
         $deadline_start = new ilRadioOption($lng->txt("book_deadline_slot_start"), "slot_start");

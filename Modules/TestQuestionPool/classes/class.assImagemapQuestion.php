@@ -822,7 +822,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function syncWithOriginal(): void
     {
-        if ($this->questioninfo->getOriginalId()) {
+        if ($this->questioninfo->getOriginalId($this->getId())) {
             parent::syncWithOriginal();
         }
     }

@@ -34,12 +34,15 @@ use Whoops\Handler\HandlerInterface;
  */
 final class ilDelegatingHandler extends Handler
 {
-    private ilErrorHandling $error_handling;
     private ?HandlerInterface $current_handler = null;
 
-    public function __construct(ilErrorHandling $error_handling)
-    {
-        $this->error_handling = $error_handling;
+    /**
+     * @param list<string> $sensitive_data
+     */
+    public function __construct(
+        private readonly ilErrorHandling $error_handling,
+        private readonly array $sensitive_data = []
+    ) {
     }
 
     private function hideSensitiveData(array $key_value_pairs): array
@@ -49,7 +52,7 @@ final class ilDelegatingHandler extends Handler
                 $value = $this->hideSensitiveData($value);
             }
 
-            if ($key === 'password' && is_string($value)) {
+            if (is_string($value) && in_array($key, $this->sensitive_data, true)) {
                 $value = 'REMOVED FOR SECURITY';
             }
 

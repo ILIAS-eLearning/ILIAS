@@ -163,6 +163,7 @@ class ilForumNotificationTest extends TestCase
         $forumId = 970;
         $userId = 530;
         $objUserId = 3627;
+        $interested_in_events = 15;
         $nextId = 3737;
 
         $this->user->expects(self::once())->method('getId')->willReturn($objUserId);
@@ -171,15 +172,16 @@ class ilForumNotificationTest extends TestCase
         $this->database->expects(self::once())->method('manipulateF')->with(
             '
 			INSERT INTO frm_notification
-				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, user_id_noti)
-			VALUES(%s, %s, %s, %s, %s, %s)',
-            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, interested_events, user_id_noti)
+			VALUES(%s, %s, %s, %s, %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
             [
                 $nextId,
                 $userId,
                 $forumId,
                 $adminForce,
                 $userToggle,
+                $interested_in_events,
                 $objUserId
             ]
         );
@@ -189,6 +191,7 @@ class ilForumNotificationTest extends TestCase
         $instance->setForumId($forumId);
         $instance->setAdminForce($adminForce);
         $instance->setUserToggle($userToggle);
+        $instance->setInterestedEvents($interested_in_events);
 
         $instance->insertAdminForce();
     }

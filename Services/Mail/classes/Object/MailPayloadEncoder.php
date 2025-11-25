@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
-class ilDclNoTableviewException extends ilException
+namespace ILIAS\Mail\Object;
+
+interface MailPayloadEncoder
 {
+    /** @param list<\ilMailValueObject> $mails */
+    public function encode(array $mails): string;
 }

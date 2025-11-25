@@ -426,7 +426,18 @@ class ilTestServiceGUI
                             $compare_template->setVariable('SOLUTION', $best_output);
                             $template->setVariable('SOLUTION_OUTPUT', $compare_template->get());
                         } else {
-                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_graphical_output, false, $show_question_only, $show_feedback);
+                            $result_output = $question_gui->getSolutionOutput(
+                                $active_id,
+                                $pass,
+                                $show_graphical_output,
+                                false,
+                                $show_question_only,
+                                $show_feedback,
+                                false,
+                                false,
+                                true,
+                                $show_feedback
+                            );
                             $template->setVariable('SOLUTION_OUTPUT', $result_output);
                         }
 

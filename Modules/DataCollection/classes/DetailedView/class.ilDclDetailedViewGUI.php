@@ -117,7 +117,7 @@ class ilDclDetailedViewGUI
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
-            if ($this->table->getVisibleTableViews($this->dcl_gui_object->getRefId(), true)) {
+            if ($this->table->getVisibleTableViews(0, true)) {
                 $this->offerAlternativeViews();
             } else {
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -126,7 +126,7 @@ class ilDclDetailedViewGUI
             return;
         }
 
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd('renderRecord');
         $cmdClass = $this->ctrl->getCmdClass();
         switch (strtolower($cmdClass)) {
             case 'ilcommentgui':
@@ -173,29 +173,6 @@ class ilDclDetailedViewGUI
         $rctpl->fillCssFiles();
         $table = ilDclCache::getTableCache($this->record_obj->getTableId());
         foreach ($table->getRecordFields() as $field) {
-            //ILIAS_Ref_Links
-            $pattern = '/\[dcliln field="' . preg_quote($field->getTitle(), "/") . '"\](.*?)\[\/dcliln\]/';
-            if (preg_match($pattern, $html)) {
-                $html = preg_replace(
-                    $pattern,
-                    $this->record_obj->getRecordFieldSingleHTML($field->getId(), $this->setOptions("$1")),
-                    $html
-                );
-            }
-
-            //DataCollection Ref Links
-            $pattern = '/\[dclrefln field="' . preg_quote($field->getTitle(), "/") . '"\](.*?)\[\/dclrefln\]/';
-            if (preg_match($pattern, $html)) {
-                $this->currentField = $field;
-                $html = preg_replace_callback($pattern, [$this, "doReplace"], $html);
-            }
-
-            $pattern = '/\[ext tableOf="' . preg_quote($field->getTitle(), "/") . '" field="(.*?)"\]/';
-            if (preg_match($pattern, $html)) {
-                $this->currentField = $field;
-                $html = preg_replace_callback($pattern, [$this, "doExtReplace"], $html);
-            }
-
             $html = str_ireplace(
                 "[" . $field->getTitle() . "]",
                 $this->record_obj->getRecordFieldSingleHTML($field->getId(), ['tableview_id' => $this->tableview_id]),

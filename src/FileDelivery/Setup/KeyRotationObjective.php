@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Setup;
 
-use ILIAS\Setup\Artifact\BuildArtifactObjective;
-use ILIAS\Setup;
+use ILIAS\Setup\Artifact;
+use ILIAS\Setup\Artifact\ArrayArtifact;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class KeyRotationObjective extends BuildArtifactObjective
+class KeyRotationObjective extends BuildStaticConfigStoredObjective
 {
-    public const KEY_ROTATION = './src/FileDelivery/artifacts/key_rotation.php';
+    public const KEY_ROTATION = './data/key_rotation.php';
     public const KEY_LENGTH = 32;
     private const NUMBER_OF_KEYS = 5;
 
@@ -37,29 +37,29 @@ class KeyRotationObjective extends BuildArtifactObjective
         return self::KEY_ROTATION;
     }
 
-    public function build(): Setup\Artifact
+    public function forceBuild(): bool
     {
-        $current_keys = null;
+        return file_put_contents($this->getArtifactPath(), $this->build()->serialize()) > 0;
+    }
+
+    public function build(): Artifact
+    {
+        $current_keys = [];
         if (is_readable(self::KEY_ROTATION)) {
             /** @var array $current_keys */
             $current_keys = require self::KEY_ROTATION;
         }
 
         $new_keys = [];
-
-        if (is_array($current_keys)) {
-            // drop the first key
-            $current_keys = array_slice($current_keys, 1);
-            $new_keys = $current_keys;
+        // push one new key to the beginning, drop the oldest key until we have 5 keys
+        for($i = 0; $i < self::NUMBER_OF_KEYS - 1; $i++) {
+            if($i === 0) {
+                $new_keys[] = $this->generateRandomString(self::KEY_LENGTH);
+            }
+            $new_keys[] = $current_keys[$i] ?? $this->generateRandomString(self::KEY_LENGTH);
         }
-        // $push a new key to the array at first position
-        while (count($new_keys) < self::NUMBER_OF_KEYS) {
-            $new_keys[] = $this->generateRandomString(self::KEY_LENGTH);
-        }
-        // keep only the first 5 keys
-        $new_keys = array_slice($new_keys, 0, self::NUMBER_OF_KEYS);
 
-        return new Setup\Artifact\ArrayArtifact($new_keys);
+        return new ArrayArtifact($new_keys);
     }
 
     private function generateRandomString(int $length): string

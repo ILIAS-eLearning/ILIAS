@@ -72,7 +72,7 @@ export default class PlaceholderUI {
      * @param {PageModifier} pageModifier
      */
   constructor(client, dispatcher, actionFactory, page_model, toolSlate, pageModifier) {
-    this.debug = true;
+    this.debug = false;
     this.client = client;
     this.dispatcher = dispatcher;
     this.actionFactory = actionFactory;

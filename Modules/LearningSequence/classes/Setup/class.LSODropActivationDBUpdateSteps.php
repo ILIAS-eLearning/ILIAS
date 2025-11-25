@@ -16,18 +16,19 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
-
-/**
- * @noinspection AutoloadingIssuesInspection
- */
-class ilDclFileRecordQueryObject extends ilDclRecordQueryObject
+class LSODropActivationDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
-    public function applyCustomSorting(
-        ilDclBaseFieldModel $field,
-        array $all_records,
-        string $direction = 'asc'
-    ): array {
-        return $all_records;
+    private const TABLE_NAME = "lso_activation";
+
+    protected \ilDBInterface $db;
+
+    public function prepare(\ilDBInterface $db): void
+    {
+        $this->db = $db;
+    }
+
+    public function step_1(): void
+    {
+        $this->db->dropTable(self::TABLE_NAME);
     }
 }

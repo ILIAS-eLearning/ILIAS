@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Services\WOPI\Embed;
+namespace ILIAS\WOPI\Embed;
 
 use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
@@ -34,13 +34,21 @@ use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\Layout\Page\Standard;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class EmbeddedApplicationGSProvider extends AbstractModificationProvider
+class EmbeddedApplicationGSProvider extends AbstractModificationProvider implements ModificationProvider
 {
+    /**
+     * @var int
+     */
     private const USE_METABAR = 1;
+    /**
+     * @var int
+     */
     private const USE_MODE_INFO = 2;
     private int $display_mode = self::USE_MODE_INFO;
     public const EMBEDDED_APPLICATION = 'embedded_application';
@@ -50,7 +58,7 @@ class EmbeddedApplicationGSProvider extends AbstractModificationProvider
     {
         parent::__construct($dic);
         global $DIC;
-        $this->signal_generator = $DIC["ui.signal_generator"];
+        $this->signal_generator = new SignalGenerator();
     }
 
     public function isInterestedInContexts(): ContextCollection

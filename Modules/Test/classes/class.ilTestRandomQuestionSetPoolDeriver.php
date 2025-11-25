@@ -202,21 +202,27 @@ class ilTestRandomQuestionSetPoolDeriver
         return $taxDuplicator->getDuplicatedTaxonomiesKeysMap();
     }
 
-    protected function buildOriginalTaxonomyFilterForDerivedPool(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $mappedTaxonomyFilter): array
-    {
-        $originalTaxonomyFilter = array();
+    protected function buildOriginalTaxonomyFilterForDerivedPool(
+        ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap,
+        array $mapped_taxonomy_filter
+    ): array {
+        $original_taxonomy_filter = [];
+        foreach ($mapped_taxonomy_filter as $test_taxonomy_id => $test_tax_nodes) {
+            $pool_taxonomy_id = $taxKeysMap->getMappedTaxonomyId($test_taxonomy_id);
+            if ($pool_taxonomy_id === null) {
+                continue;
+            }
+            $original_taxonomy_filter[$pool_taxonomy_id] = [];
 
-        foreach ($mappedTaxonomyFilter as $testTaxonomyId => $testTaxNodes) {
-            $poolTaxonomyId = $taxKeysMap->getMappedTaxonomyId($testTaxonomyId);
-            $originalTaxonomyFilter[$poolTaxonomyId] = array();
-
-            foreach ($testTaxNodes as $testTaxNode) {
-                $poolTaxNode = $taxKeysMap->getMappedTaxNodeId($testTaxNode);
-                $originalTaxonomyFilter[$poolTaxonomyId][] = $poolTaxNode;
+            foreach ($test_tax_nodes as $test_tax_node) {
+                $pool_tax_node = $taxKeysMap->getMappedTaxNodeId((int) $test_tax_node);
+                if ($pool_tax_node !== null) {
+                    $original_taxonomy_filter[$pool_taxonomy_id][] = $pool_tax_node;
+                }
             }
         }
 
-        return $originalTaxonomyFilter;
+        return $original_taxonomy_filter;
     }
 
     protected function updateRelatedSourcePoolDefinitions(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $derivedPoolId, $nonAvailablePoolId)

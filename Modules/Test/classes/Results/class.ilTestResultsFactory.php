@@ -27,9 +27,6 @@ use ILIAS\UI\Renderer as UIRenderer;
  */
 class ilTestResultsFactory
 {
-    /**
-     * @param ilQuestionResult[] $question_results
-     */
     public function __construct(
         protected ilTestShuffler $shuffler,
         protected UIFactory $ui_factory,
@@ -174,7 +171,8 @@ class ilTestResultsFactory
                 $answered,
                 $requested_hints,
                 $recapitulation,
-                $autosave_output
+                $autosave_output,
+                $idx
             );
         }
 
