@@ -311,16 +311,15 @@ class ilDclBaseRecordModel
      * Get Field Value
      * @return int|string|array|null
      */
-    public function getRecordFieldValue(?string $field_id)
+    public function getRecordFieldValue(?string $field_id): mixed
     {
         if ($field_id === null) {
             return null;
         }
-        $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
             return $this->getStandardField($field_id);
         } else {
-            return $this->recordfields[$field_id]->getValue();
+            return ilDclCache::getRecordFieldCache($this, ilDclCache::getFieldCache((int) $field_id))->getValue();
         }
     }
 
