@@ -24,7 +24,7 @@ class ilBadgePictureDefinition implements FlavourDefinition
 {
     private const ID = 'badge_image_resize_flavor';
 
-    private int $quality = 50;
+    private int $quality = 90;
     /** @var array{"xl": int, "l": int, "m": int, "s": int, "xs": int} */
     private array $widths = [
         'xl' => 1920,

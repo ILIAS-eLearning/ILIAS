@@ -22,32 +22,25 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Flavour\Definition\CropToSquare;
 use ILIAS\ResourceStorage\Flavour\Definition\FlavourDefinition;
 use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\AbstractMachine;
-use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\CropSquare;
-use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\GdImageToStreamTrait;
 use ILIAS\ResourceStorage\Flavour\Machine\Result;
 use ILIAS\ResourceStorage\Information\FileInformation;
-use ILIAS\ResourceStorage\Flavour\Machine\DefaultMachines\ExtractPages;
-use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
 use ILIAS\Filesystem\Stream\Stream;
+use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 
 class ilBadgePictureMachine extends AbstractMachine
 {
-    use GdImageToStreamTrait;
-
     public const ID = 'badge_image_resize_machine';
     private const FULL_QUALITY_SIZE_THRESHOLD = 100;
 
-    private CropSquare $crop;
     private ?ilBadgePictureDefinition $definition = null;
     private ?FileInformation $information = null;
-    private ExtractPages $extract_pages;
+    private BadgeCropSquare $crop_square;
 
     public function __construct()
     {
         parent::__construct();
-        $this->extract_pages = new ExtractPages();
-        $this->crop = new CropSquare();
+        $this->crop_square = new BadgeCropSquare();
     }
 
     public function getId(): string
@@ -74,27 +67,11 @@ class ilBadgePictureMachine extends AbstractMachine
         $this->definition = $for_definition;
         $this->information = $information;
 
-        $page_stream = $this->extract_pages->processStream(
-            $this->information,
-            $stream,
-            new PagesToExtract(
-                false,
-                $this->definition->getWidths()['xl'],
-                1,
-                false,
-                100
-            )
-        )->current()?->getStream();
-
-        if ($page_stream === null) {
-            return;
-        }
-
         $i = 0;
         foreach ($for_definition->getWidths() as $width) {
             yield new Result(
                 $for_definition,
-                $this->cropImage($page_stream, $width),
+                $this->cropImage($stream, $width),
                 $i,
                 true
             );
@@ -111,14 +88,14 @@ class ilBadgePictureMachine extends AbstractMachine
             : $this->definition->getQuality();
 
 
-        return $this->crop->processStream(
+        return $this->crop_square->processStream(
             $this->information,
             $stream,
             new CropToSquare(
                 false,
-                $size,
-                $quality
+                $this->definition->getWidths()['xs'],
+                1
             )
-        )->current()->getStream();
+        )->current()?->getStream();
     }
 }
