@@ -568,7 +568,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             $this->initMetadata($newObject);
 
-            $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class);
+            $DIC->ctrl()->redirectByClass([ilLTIConsumerSettingsGUI::class, ilLTIConsumeProviderSettingsGUI::class]);
         }
 
         throw new ilLtiConsumerException(
