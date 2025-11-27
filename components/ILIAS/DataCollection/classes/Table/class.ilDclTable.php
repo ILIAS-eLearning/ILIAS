@@ -421,31 +421,6 @@ class ilDclTable
     }
 
     /**
-     * @return int
-     */
-    public function getNewTableviewOrder(): int
-    {
-        return (ilDclTableView::getCountForTableId($this->getId()) + 1) * 10;
-    }
-
-    /**
-     * @param ilDclTableView[] $tableviews
-     */
-    public function sortTableViews(?array $tableviews = null): void
-    {
-        if ($tableviews == null) {
-            $tableviews = $this->getTableViews();
-        }
-
-        $order = 10;
-        foreach ($tableviews as $tableview) {
-            $tableview->setTableviewOrder($order);
-            $tableview->update();
-            $order += 10;
-        }
-    }
-
-    /**
      * Returns all fields of this table including the standard fields
      * @param bool $force_include_comments by default false, so comments will only load when enabled in tablesettings
      * @return ilDclBaseFieldModel[]
@@ -471,7 +446,7 @@ class ilDclTable
     }
 
     /**
-     * @return ilDclTableView[] all tableviews ordered by tableview_order
+     * @return ilDclTableView[]
      */
     public function getTableViews(): array
     {
