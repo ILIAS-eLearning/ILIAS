@@ -32,33 +32,20 @@ class SubtreeAggregationStrategy implements NewsAggregationStrategy
     }
 
     /**
-     * @param NewsContext[] $contexts
-     * @return NewsContext[]
+     * @ineritDoc
      */
-    public function aggregate(array $contexts): array
+    public function aggregate(NewsContext $base_context): array
     {
         $aggregated = [];
 
-        foreach ($contexts as $context) {
-            if ($this->shouldSkip($context)) {
-                continue;
-            }
-
-            $context_node = $this->tree->getNodeData($context->getRefId());
-            if ($context_node === []) {
-                continue;
-            }
-
-            $nodes = $this->tree->getSubTree($context_node);
-            foreach ($nodes as $node) {
-                $aggregated[] = new NewsContext(
-                    $node['child'],
-                    $node['obj_id'],
-                    $node['type'],
-                    $context->getRefId(),
-                    $context->getLevel() + ($node['depth'] - $context_node['depth'])
-                );
-            }
+        foreach ($this->tree->getChilds($base_context->getRefId()) as $node) {
+            $aggregated[] = new NewsContext(
+                $node['child'],
+                $node['obj_id'],
+                $node['type'],
+                $base_context->getRefId(),
+                $base_context->getLevel() + 1
+            );
         }
 
         return $aggregated;
@@ -66,10 +53,10 @@ class SubtreeAggregationStrategy implements NewsAggregationStrategy
 
     public function isRecursive(): bool
     {
-        return true;
+        return false;
     }
 
-    private function shouldSkip(NewsContext $context): bool
+    public function shouldSkip(NewsContext $context): bool
     {
         // see #31471, #30687, and ilMembershipNotification
         return !\ilContainer::_lookupContainerSetting($context->getObjId(), 'cont_use_news', '1')

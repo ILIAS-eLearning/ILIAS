@@ -49,51 +49,41 @@ class NewsAggregator
     {
         /** @var SplQueue<NewsContext> $frontier */
         $frontier = new SplQueue();
-        $visited = [];
-        $aggregated = [];
+        $result = [];
 
-        // Prepare queue and visited set
+        // Prepare queue
         foreach ($contexts as $context) {
             $frontier->enqueue($context);
-            $visited[$context->getRefId()] = true;
         }
 
         while (!$frontier->isEmpty()) {
-            // 1. Aggregate current layer and group by type
-            $batches = [];
-            $layer_size = $frontier->count();
+            $current = $frontier->dequeue();
 
-            for ($i = 0; $i < $layer_size; $i++) {
-                $current = $frontier->dequeue();
-                $aggregated[] = $current;
-                $batches[$current->getObjType() ?? 'default'][] = $current;
+            // Ensure each context is only visited once
+            if (array_key_exists($current->getRefId(), $result)) {
+                continue;
+            }
+            $result[$current->getRefId()] = $current;
+
+            // Skip if no processing necessary
+            $strategy = $this->getStrategy($current->getObjType());
+            if ($strategy === null || $strategy->shouldSkip($current)) {
+                continue;
             }
 
-            // 2. Collect children for each type using the appropriate strategy
-            foreach ($batches as $type => $batch) {
-                $strategy = $this->getStrategy($type);
-                if ($strategy === null) {
-                    continue;
-                }
-
-                foreach ($strategy->aggregate($batch) as $child) {
-                    // Ensure each context is only visited once
-                    if (isset($visited[$child->getRefId()])) {
-                        continue;
-                    }
-                    $visited[$child->getRefId()] = true;
-
-                    // 3. Enqueue new children for the next layer (iterative) or store directly (recursive strategy)
-                    if (!$strategy->isRecursive()) {
-                        $frontier->enqueue($child);
-                    } else {
-                        $aggregated[] = $child;
-                    }
+            $children = $strategy->aggregate($current);
+            foreach ($children as $child) {
+                if ($strategy->isRecursive()) {
+                    // Recursive items will be added directly
+                    $result[$child->getRefId()] = $child;
+                } else {
+                    // Iterative items will be queued for further processing
+                    $frontier->enqueue($child);
                 }
             }
         }
 
-        return $aggregated;
+        return array_values($result);
     }
 
     protected function getStrategy(string $object_type): ?NewsAggregationStrategy

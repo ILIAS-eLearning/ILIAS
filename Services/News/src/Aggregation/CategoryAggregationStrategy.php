@@ -25,36 +25,10 @@ use ILIAS\News\Data\NewsContext;
 /**
  * Category Aggregation Strategy aggregates related contexts for a category context
  */
-class CategoryAggregationStrategy implements NewsAggregationStrategy
+class CategoryAggregationStrategy extends SubtreeAggregationStrategy implements NewsAggregationStrategy
 {
-    public function __construct(protected readonly \ilTree $tree)
+    public function shouldSkip(NewsContext $context): bool
     {
-    }
-
-    /**
-     * @param NewsContext[] $contexts
-     * @return NewsContext[]
-     */
-    public function aggregate(array $contexts): array
-    {
-        $aggregated = [];
-
-        foreach ($contexts as $context) {
-            foreach ($this->tree->getChilds($context->getRefId()) as $node) {
-                $aggregated[] = new NewsContext(
-                    $node['child'],
-                    $node['obj_id'],
-                    $node['type'],
-                    $context->getRefId(),
-                    $context->getLevel() + 1
-                );
-            }
-        }
-        return $aggregated;
-    }
-
-    public function isRecursive(): bool
-    {
-        return true;
+        return false;
     }
 }

@@ -29,10 +29,15 @@ use ILIAS\News\Data\NewsContext;
 interface NewsAggregationStrategy
 {
     /**
-     * @param NewsContext[] $contexts
      * @return NewsContext[]
      */
-    public function aggregate(array $contexts): array;
+    public function aggregate(NewsContext $base_context): array;
+
+    /**
+     * Returns true if the provided context should not be aggregated. This method may check criteria or external
+     * conditions.
+     */
+    public function shouldSkip(NewsContext $context): bool;
 
     /**
      * Returns true if the strategy already resolves contexts recursively (which is more performant in some cases).
