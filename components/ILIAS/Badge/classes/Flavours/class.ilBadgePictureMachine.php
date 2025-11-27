@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Flavour\Machine\Result;
 use ILIAS\ResourceStorage\Information\FileInformation;
 use ILIAS\ResourceStorage\Flavour\Engine\ImagickEngine;
 use ILIAS\Filesystem\Stream\Stream;
-use ILIAS\ResourceStorage\Flavour\Definition\PagesToExtract;
 
 class ilBadgePictureMachine extends AbstractMachine
 {
@@ -79,6 +78,9 @@ class ilBadgePictureMachine extends AbstractMachine
         }
     }
 
+    /**
+     * @throws ImagickException
+     */
     protected function cropImage(
         FileStream $stream,
         int $size
@@ -93,7 +95,7 @@ class ilBadgePictureMachine extends AbstractMachine
             $stream,
             new CropToSquare(
                 false,
-                $this->definition->getWidths()['xs'],
+                $this->definition->getWidths()['s'],
                 1
             )
         )->current()?->getStream();

@@ -44,21 +44,16 @@ class BadgeCropSquare extends AbstractMachine
               return;
         }
 
-        if (!is_resource($image) && !$image instanceof \Imagick) {
-            return;
-        }
-
         $size = $for_definition->getMaxSize();
 
         $image->resizeImage($size, $size, Imagick::FILTER_LANCZOS,1);
         $image->setImageBackgroundColor(new \ImagickPixel('transparent'));
-        $image->setImageAlphaChannel(11);
-        $image->mergeImageLayers(imagick::LAYERMETHOD_FLATTEN);
+        $image->setImageAlphaChannel(Imagick::ALPHACHANNEL_BACKGROUND);
+        $image->mergeImageLayers(Imagick::LAYERMETHOD_REMOVEZERO);
         $image->setFormat("png");
 
         $img_target = Streams::ofString($image->getImageBlob());
         $image->clear();
-        $image->destroy();
 
         yield new Result(
             $for_definition,
