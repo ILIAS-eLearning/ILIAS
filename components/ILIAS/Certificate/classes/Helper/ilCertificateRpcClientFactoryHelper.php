@@ -18,11 +18,11 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificateRpcClientFactoryHelper
 {
+    /**
+     * @return stdClass{"scalar": string}
+     */
     public function ilFO2PDF(string $package, string $certificateContent): stdClass
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
