@@ -20,49 +20,33 @@ declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\Filesystem\Filesystem;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilPdfGenerator
 {
-    private readonly ilCertificateRpcClientFactoryHelper $rpcHelper;
-    private readonly ilCertificatePdfFileNameFactory $pdfFilenameFactory;
+    private ?ilLogger $logger = null;
 
     public function __construct(
-        private readonly ilUserCertificateRepository $certificateRepository,
+        private readonly ilUserCertificateRepository $repository,
         private ?IRSS $irss = null,
-        private ?Filesystem $filesystem = null,
-        ?ilCertificateRpcClientFactoryHelper $rpcHelper = null,
-        ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
-        ?ilLanguage $lng = null,
+        private ?ilCertificateRpcClientFactoryHelper $rpc = null,
+        private ?ilCertificatePdfFileNameFactory $filename_factory = null,
+        ?ilLanguage $lng = null
     ) {
         global $DIC;
 
-        if (null === $irss) {
-            $irss = $DIC->resourceStorage();
-        }
-        $this->irss = $irss;
+        $this->irss = $irss ?? $DIC->resourceStorage();
+        $this->rpc = $rpc ?? new ilCertificateRpcClientFactoryHelper();
+        $this->filename_factory = $filename_factory ?? new ilCertificatePdfFileNameFactory(
+            $lng ?? $DIC->language()
+        );
+    }
 
-        if (null === $this->filesystem) {
-            $filesystem = $DIC->filesystem()->web();
-        }
-        $this->filesystem = $filesystem;
+    public function withLogger(ilLogger $logger): self
+    {
+        $clone = clone $this;
+        $clone->logger = $logger;
 
-        if (null === $rpcHelper) {
-            $rpcHelper = new ilCertificateRpcClientFactoryHelper();
-        }
-        $this->rpcHelper = $rpcHelper;
-
-        if (null === $lng) {
-            $lng = $DIC->language();
-        }
-
-        if (null === $pdfFileNameFactory) {
-            $pdfFileNameFactory = new ilCertificatePdfFileNameFactory($lng);
-        }
-        $this->pdfFilenameFactory = $pdfFileNameFactory;
+        return $clone;
     }
 
     /**
@@ -70,7 +54,7 @@ class ilPdfGenerator
      */
     public function generate(int $userCertificateId): string
     {
-        $certificate = $this->certificateRepository->fetchCertificate($userCertificateId);
+        $certificate = $this->repository->fetchCertificate($userCertificateId);
 
         return $this->createPDFScalar($certificate);
     }
@@ -80,7 +64,7 @@ class ilPdfGenerator
      */
     public function generateCurrentActiveCertificate(int $userId, int $objId): string
     {
-        $certificate = $this->certificateRepository->fetchActiveCertificate($userId, $objId);
+        $certificate = $this->repository->fetchActiveCertificate($userId, $objId);
 
         return $this->createPDFScalar($certificate);
     }
@@ -92,33 +76,54 @@ class ilPdfGenerator
      */
     public function generateFileName(int $userId, int $objId): string
     {
-        $certificate = $this->certificateRepository->fetchActiveCertificateForPresentation($userId, $objId);
+        $certificate = $this->repository->fetchActiveCertificateForPresentation($userId, $objId);
 
         $user = ilObjectFactory::getInstanceByObjId($userId);
         if (!$user instanceof ilObjUser) {
             throw new ilException(sprintf('The usr_id "%s" does NOT reference a user', $userId));
         }
 
-        return $this->pdfFilenameFactory->create($certificate);
+        return $this->filename_factory->create($certificate);
     }
 
     private function createPDFScalar(ilUserCertificate $certificate): string
     {
-        $certificateContent = $certificate->getCertificateContent();
+        $content = $certificate->getCertificateContent();
+
+        $this->logger?->debug(
+            'Delegating certificate PDF generation for certificate id {certificate_id} (user {user_id} and object {object_id}) to ilServer',
+            [
+                'certificate_id' => $certificate->getCertificateId()->asString(),
+                'user_id' => $certificate->getUserId(),
+                'object_id' => $certificate->getObjId()
+            ]
+        );
+
 
         $background_rid = $this->irss->manage()->find($certificate->getBackgroundImageIdentification());
-        $background_src = '';
         if ($background_rid instanceof ResourceIdentification) {
             $background_src = $this->irss->consume()->src($background_rid)->getSrc(true);
 
-            $certificateContent = str_replace(
+            $content = str_replace(
                 ['[BACKGROUND_IMAGE]'],
                 [$background_src],
-                $certificateContent
+                $content
             );
         }
 
-        $pdf_base64 = $this->rpcHelper->ilFO2PDF('RPCTransformationHandler', $certificateContent);
+        $pdf_base64 = $this->rpc->ilFO2PDF('RPCTransformationHandler', $content);
+
+        $size = strlen(base64_decode($pdf_base64->scalar, true));
+        $this->logger?->debug(
+            'Received generated PDF with size {size} bytes for certificate id {certificate_id} (user {user_id} and object {object_id}) from ilServer',
+            [
+                'size' => $size,
+                'certificate_id' => $certificate->getCertificateId()->asString(),
+                'user_id' => $certificate->getUserId(),
+                'object_id' => $certificate->getObjId()
+            ]
+        );
+
 
         return $pdf_base64->scalar;
     }
