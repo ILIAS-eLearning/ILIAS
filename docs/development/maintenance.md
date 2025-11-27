@@ -493,12 +493,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Data)
 
 * **Data**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
+    * Authority to Sign off on Conceptual Changes: [lscharmer](https://docu.ilias.de/go/usr/87863), [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Code Changes: [lscharmer](https://docu.ilias.de/go/usr/87863), [mjansen](https://docu.ilias.de/go/usr/8784)
     * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Security Reports: [MISSING]
-    * Assignee for Security Issues: [MISSING]
+    * Authority to (De-)Assign Authorities: [lscharmer](https://docu.ilias.de/go/usr/87863), [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Reports: [lscharmer](https://docu.ilias.de/go/usr/87863), [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Issues: [lscharmer](https://docu.ilias.de/go/usr/87863), [mjansen](https://docu.ilias.de/go/usr/8784)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Data)
