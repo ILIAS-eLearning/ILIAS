@@ -18,6 +18,7 @@
 
 use ILIAS\FileDelivery\Delivery\Disposition;
 use ILIAS\FileUpload\Exception\IllegalStateException;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -686,6 +687,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             $upload_handling_required = $this->current_cmd !== 'submitSolution'
                 && $this->current_cmd !== 'showInstantResponse'
                 && !$this->isFileDeletionAction()
+                && !$this->isFileReuseAction()
                 && $this->isFileUploadAvailable()
                 && $this->checkUpload();
         } catch (IllegalStateException $e) {
@@ -728,46 +730,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                     $this->forceExistingIntermediateSolution($active_id, $pass, true);
                 }
 
-                if ($this->isFileDeletionAction()) {
-                    if ($this->isFileDeletionSubmitAvailable()) {
-                        foreach ($_POST[self::DELETE_FILES_TBL_POSTVAR] as $solution_id) {
-                            $this->removeSolutionRecordById($solution_id);
-                        }
-                    } else {
-                        $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
-                    }
-                } else {
-                    if ($this->isFileReuseHandlingRequired()) {
-                        foreach ($_POST[self::REUSE_FILES_TBL_POSTVAR] as $solutionId) {
-                            $solution = $this->getSolutionRecordById($solutionId);
-
-                            $this->saveCurrentSolution(
-                                $active_id,
-                                $pass,
-                                $solution['value1'],
-                                $solution['value2'],
-                                false,
-                                $solution['tstamp']
-                            );
-                        }
-                    }
-
-                    if ($upload_handling_required && $rid !== null) {
-
-                        $revision = $this->irss->manage()->getCurrentRevision($rid);
-
-                        $this->saveCurrentSolution(
-                            $active_id,
-                            $pass,
-                            $rid->serialize(),
-                            'rid',
-                            false,
-                            time()
-                        );
-
-                        $entered_values = true;
-                    }
-                }
+                $entered_values = $this->processFileAction(
+                    $active_id,
+                    $pass,
+                    $upload_handling_required,
+                    $rid
+                ) || $entered_values;
 
                 if ($authorized === true && $this->intermediateSolutionExists($active_id, $pass)) {
                     // remove the dummy record of the intermediate solution
@@ -813,10 +781,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         $rids_to_delete = [];
         if ($this->isFileDeletionAction() && $this->isFileDeletionSubmitAvailable()) {
+            $solution_ids = $this->getSolutionIdsFromPost(self::DELETE_FILES_TBL_POSTVAR);
+
             $res = $this->db->query(
                 "SELECT value1 FROM tst_solutions WHERE value2 = 'rid' AND " . $this->db->in(
                     'solution_id',
-                    $_POST[self::DELETE_FILES_TBL_POSTVAR],
+                    $solution_ids,
                     false,
                     'integer'
                 )
@@ -1119,17 +1089,17 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     protected function isFileDeletionAction(): bool
     {
-        return $this->getQuestionAction() == assFileUploadGUI::DELETE_FILES_ACTION;
+        return $this->getQuestionAction() === assFileUploadGUI::DELETE_FILES_ACTION;
+    }
+
+    protected function isFileReuseAction(): bool
+    {
+        return $this->getQuestionAction() === assFileUploadGUI::REUSE_FILES_ACTION;
     }
 
     protected function isFileDeletionSubmitAvailable(): bool
     {
         return $this->isNonEmptyItemListPostSubmission(self::DELETE_FILES_TBL_POSTVAR);
-    }
-
-    protected function isFileReuseSubmitAvailable(): bool
-    {
-        return $this->isNonEmptyItemListPostSubmission(self::REUSE_FILES_TBL_POSTVAR);
     }
 
     protected function isFileReuseHandlingRequired(): bool
@@ -1138,11 +1108,82 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
             return false;
         }
 
-        if (!$this->isFileReuseSubmitAvailable()) {
+        if (!$this->isFileReuseAction()) {
             return false;
         }
 
         return true;
+    }
+
+    protected function getSolutionIdsFromPost(string $post_var): array
+    {
+        return $this->http->wrapper()->post()->retrieve(
+            $post_var,
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()),
+                $this->refinery->always([])
+            ])
+        );
+    }
+
+    protected function reuseSelectedFilesFromPreviousSolution(int $active_id, int $pass): void
+    {
+        $solution_ids = $this->getSolutionIdsFromPost(self::REUSE_FILES_TBL_POSTVAR);
+
+        if ($solution_ids === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
+            return;
+        }
+
+        foreach ($solution_ids as $solution_id) {
+            $solution = $this->getSolutionRecordById($solution_id);
+
+            $this->saveCurrentSolution(
+                $active_id,
+                $pass,
+                $solution['value1'],
+                $solution['value2'],
+                false,
+                $solution['tstamp']
+            );
+        }
+    }
+
+    protected function processFileAction(int $active_id, int $pass, bool $upload_handling_required, ?ResourceIdentification $rid): bool
+    {
+        if ($this->isFileDeletionAction()) {
+            if (!$this->isFileDeletionSubmitAvailable()) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'), true);
+                return false;
+            }
+
+            $solution_ids = $this->getSolutionIdsFromPost(self::DELETE_FILES_TBL_POSTVAR);
+
+            foreach ($solution_ids as $solution_id) {
+                $this->removeSolutionRecordById($solution_id);
+            }
+            return false;
+        }
+
+        if ($this->isFileReuseHandlingRequired()) {
+            $this->reuseSelectedFilesFromPreviousSolution($active_id, $pass);
+            return true;
+        }
+
+        if ($upload_handling_required && $rid !== null) {
+            $this->saveCurrentSolution(
+                $active_id,
+                $pass,
+                $rid->serialize(),
+                'rid',
+                false,
+                time()
+            );
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

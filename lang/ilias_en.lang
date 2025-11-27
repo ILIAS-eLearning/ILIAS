@@ -510,6 +510,7 @@ assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_question#:#Create Question
+assessment#:#ass_file_upload_reuse_btn#:#Reuse Selected Files
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.
@@ -1989,6 +1990,7 @@ assessment#:#unlock#:#Unlock
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#use_previous_solution#:#Use Previous Solution
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change.
+assessment#:#use_previous_solution_advice_file_upload#:#The shown files for the question are your previously uploaded ones. Select the files you want to reuse and click the button to confirm.
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.
 assessment#:#user_not_invited#:#You are not supposed to take this test.
 assessment#:#user_wrong_clientip#:#You don't have the right IP address to access this test.
