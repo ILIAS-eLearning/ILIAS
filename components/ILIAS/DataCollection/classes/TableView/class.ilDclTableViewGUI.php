@@ -201,23 +201,4 @@ class ilDclTableViewGUI
             $this->ctrl->redirect($this, 'show');
         }
     }
-
-    /**
-     * invoked by ilDclTableViewTableGUI
-     */
-    public function saveTableViewOrder(): void
-    {
-        $orders = $this->http->wrapper()->post()->retrieve(
-            'order',
-            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-        );
-        asort($orders);
-        $tableviews = [];
-        foreach (array_keys($orders) as $tableview_id) {
-            $tableviews[] = ilDclTableView::find($tableview_id);
-        }
-        $this->table->sortTableViews($tableviews);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_order_updated'));
-        $this->ctrl->redirect($this);
-    }
 }
