@@ -28,9 +28,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer\ToolItemRenderer;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer\TreeToolItemRenderer;
+use ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer\DrilldownToolItemRenderer;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\DrilldownTool;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use Generator;
@@ -62,6 +64,10 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         $this->type_information_collection->add($tool);
 
         $tool = new TypeInformation(TreeTool::class, TreeTool::class, new TreeToolItemRenderer());
+        $tool->setCreationPrevented(true);
+        $this->type_information_collection->add($tool);
+
+        $tool = new TypeInformation(DrilldownTool::class, DrilldownTool::class, new DrilldownToolItemRenderer());
         $tool->setCreationPrevented(true);
         $this->type_information_collection->add($tool);
     }
