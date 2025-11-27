@@ -11,7 +11,6 @@
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnSkippedTests="true"
          backupGlobals="false"
-         bootstrap="./tests/bootstrap.php"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
     <coverage>
         <report>
