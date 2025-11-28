@@ -3,6 +3,7 @@
   "description": "ILIAS CHAT",
   "version": "12.0.0",
   "dependencies": {
+    "uuid": "^13.0.0"
   },
   "extra": {
   }
