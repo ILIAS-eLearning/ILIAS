@@ -39,7 +39,8 @@
 		]
 	},
 	"require": {
-	},
+      "jumbojett/openid-connect-php": "dev-master#bc719cc9930990a4a9916cc127b839b4ed1c89ad"
+    },
 	"require-dev": {
 	},
 	"autoload": {
