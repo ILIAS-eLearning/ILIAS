@@ -39,7 +39,8 @@
 		]
 	},
 	"require": {
-	},
+      "simplesamlphp/simplesamlphp": "^2.4.3"
+    },
 	"require-dev": {
 	},
 	"autoload": {
