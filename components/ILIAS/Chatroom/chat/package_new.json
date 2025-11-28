@@ -3,7 +3,11 @@
   "description": "ILIAS CHAT",
   "version": "12.0.0",
   "dependencies": {
+    "mariadb": "^3.4.0"
   },
   "extra": {
+    "mariadb": {
+      "purpose": "Mysql driver for nodejs",
+    }
   }
 }
