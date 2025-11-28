@@ -11,6 +11,7 @@
     "npm": "^10.9.3 || ^11.3"
   },
   "dependencies": {
+    "linkify-element": "^4.3.2"
   },
   "devDependencies": {
   },
@@ -29,5 +30,9 @@
   },
   "homepage": "https://github.com/ILIAS-eLearning/ILIAS#readme",
   "extra": {
+    "linkify-element": {
+      "introduction-date": null,
+      "purpose": "components/ILIAS/Link: Autolinking of external links"
+    }
   }
 }
