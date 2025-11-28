@@ -3,7 +3,12 @@
   "description": "ILIAS CHAT",
   "version": "12.0.0",
   "dependencies": {
+    "winston": "^3.18.0"
   },
   "extra": {
+    "winston": {
+      "introduction-date": null,
+      "purpose": "Logging library for nodejs",
+    }
   }
 }
