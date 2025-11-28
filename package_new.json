@@ -8,9 +8,10 @@
   },
   "engines": {
     "node": "^22.18 || ^24.0",
-    "npm": "^10.9.3 || ^11.3"
+    "npm": "^10.9.3 || ^11.3",
   },
   "dependencies": {
+    "jquery": "^3.7.1"
   },
   "devDependencies": {
   },
@@ -29,5 +30,9 @@
   },
   "homepage": "https://github.com/ILIAS-eLearning/ILIAS#readme",
   "extra": {
+    "jquery": {
+      "introduction-date": null,
+      "purpose": "We still use jQuery for many JS-related actions in ILIAS, unfortunately.",
+    }
   }
 }
