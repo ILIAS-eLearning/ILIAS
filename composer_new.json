@@ -39,7 +39,8 @@
 		]
 	},
 	"require": {
-	},
+      "ramsey/uuid": "^4.9"
+    },
 	"require-dev": {
 	},
 	"autoload": {
