@@ -11,6 +11,7 @@
     "npm": "^10.9.3 || ^11.3"
   },
   "dependencies": {
+    "linkifyjs": "^4.3.2",
     "linkify-element": "^4.3.2"
   },
   "devDependencies": {
@@ -34,5 +35,9 @@
       "introduction-date": null,
       "purpose": "components/ILIAS/Link: Autolinking of external links"
     }
+  },
+  "linkifyjs": {
+    "introduction-date": null,
+    "purpose": "components/ILIAS/Link: Autolinking of external links",
   }
 }
