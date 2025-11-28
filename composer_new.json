@@ -41,7 +41,8 @@
 	"require": {
 	},
 	"require-dev": {
-	},
+      "mikey179/vfsstream": "^1.6"
+    },
 	"autoload": {
 		"psr-4" : {
 			"ILIAS\\Scripts\\" : "./scripts"
