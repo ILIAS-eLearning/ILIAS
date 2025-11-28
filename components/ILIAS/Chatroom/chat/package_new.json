@@ -5,5 +5,17 @@
   "dependencies": {
   },
   "extra": {
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  },
+  "extra": {
+    "socket.io": {
+      "introduction-date": null,
+      "purpose": "WebSocket library, Server part",
+    },
+    "socket.io-client": {
+      "introduction-date": null,
+      "purpose": "WebSocket library, Client part",
+    }
   }
 }
