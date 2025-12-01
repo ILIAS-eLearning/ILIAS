@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ******************************************************************** */
+
 var ilFileWizardInputTemplate = {
 
 	tag_container: 'div.wzdcnt',
@@ -45,6 +61,7 @@ var ilFileWizardInputTemplate = {
 			$(this).find('input:file').each(function () {
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'name', rowindex);
+				that.handleId(this, 'aria-describedby', rowindex);
 			});
 
 			// hidden
@@ -56,6 +73,11 @@ var ilFileWizardInputTemplate = {
 			$(this).find('> span').each(function () {
 				that.handleId(this, 'id', rowindex);
 				that.handleId(this, 'data-name', rowindex);
+			});
+
+			// help text
+			$(this).find('> div.help-blocks').each(function () {
+				that.handleId(this, 'id', rowindex);
 			});
 
 			rowindex++;
