@@ -136,6 +136,47 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
+    public function testRenderStandardTwoBarWithZeroComparison(): void
+    {
+        $r = $this->getDefaultRenderer();
+        $f = $this->getFactory();
+        $standard = $f->standard(100, 75, null, 0);
+
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ProgressMeter\\Standard", $standard);
+
+        $html = $r->render($standard);
+
+        $expected_html =
+            '<div class="il-chart-progressmeter-box ">' .
+            '<div class="il-chart-progressmeter-container">' .
+            '<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
+            '<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
+            'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
+            '<g class="il-chart-progressmeter-multicircle">' .
+            '<path class="il-chart-progressmeter-circle no-success" ' .
+            'd="M9.6514,37.8486 q-6.1948,-6.1948 -6.1948,-14.9552 a1,1 0 1,1 42.30,0 q0,8.7604 -6.1948,14.9552" ' .
+            'stroke-dasharray="75, 100"></path>' .
+            '<path class="il-chart-progressmeter-circle active" ' .
+            'd="M11.2778,36.2222 q-5.5212,-5.5212 -5.5212,-13.3288 a1,1 0 1,1 37.70,0 q0,7.8076 -5.5212,13.3288" ' .
+            'stroke-dasharray="0, 100"></path>' .
+            '</g>' .
+            '<g class="il-chart-progressmeter-text">' .
+            '<text class="text-score-info" x="25" y="16"></text>' .
+            '<text class="text-score" x="25" y="25">75 %</text>' .
+            '<text class="text-comparision" x="25" y="31"></text>' .
+            '<text class="text-comparision-info" x="25" y="34"></text>' .
+            '</g>' .
+            '<g class="il-chart-progressmeter-needle no-needle" style="transform: rotate(deg)">' .
+            '<polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>' .
+            '<polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>' .
+            '</g>' .
+            '</svg>' .
+            '</div>' .
+            '</div>';
+
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
     public function testRenderFixedSizeOneBar(): void
     {
         $r = $this->getDefaultRenderer();

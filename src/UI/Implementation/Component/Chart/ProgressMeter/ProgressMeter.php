@@ -35,6 +35,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     private int $required;
     protected int $main;
     protected int $comparison;
+    protected bool $has_comparison;
 
     public function __construct(int $maximum, int $main, int $required = null, int $comparison = null)
     {
@@ -46,9 +47,11 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
         } else {
             $this->required = $this->getSafe($maximum);
         }
-        if ($comparison != null) {
+        if ($comparison !== null) {
+            $this->has_comparison = true;
             $this->comparison = $this->getSafe($comparison);
         } else {
+            $this->has_comparison = false;
             $this->comparison = 0;
         }
     }

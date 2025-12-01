@@ -30,10 +30,13 @@ interface Standard extends ProgressMeter
      * Get comparison value
      *
      * This value is represented as the second progress meter bar.
-     *
-     * @return int|float|null
      */
-    public function getComparison();
+    public function getComparison(): int;
+
+    /**
+     * Should a second progress meter bar be shown?
+     */
+    public function hasComparison(): bool;
 
     /**
      * Get clone of Progress Meter with main text

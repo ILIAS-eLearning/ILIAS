@@ -64,10 +64,9 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderStandard(Component\Chart\ProgressMeter\Standard $component): string
     {
-        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
-        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
+        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $component->hasComparison());
 
         return $tpl->get();
     }
@@ -77,14 +76,13 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component): string
     {
-        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
         $tpl->setCurrentBlock('fixed');
         $tpl->setVariable('FIXED_CLASS', 'fixed-size');
         $tpl->parseCurrentBlock();
 
-        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
+        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $component->hasComparison());
 
         return $tpl->get();
     }

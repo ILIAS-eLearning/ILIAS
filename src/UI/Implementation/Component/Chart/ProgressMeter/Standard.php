@@ -34,9 +34,14 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard
     /**
      * @inheritdoc
      */
-    public function getComparison()
+    public function getComparison(): int
     {
         return $this->getSafe($this->comparison);
+    }
+
+    public function hasComparison(): bool
+    {
+        return $this->has_comparison;
     }
 
     /**
