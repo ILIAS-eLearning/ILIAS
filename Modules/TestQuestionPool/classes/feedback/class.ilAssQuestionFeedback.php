@@ -491,7 +491,7 @@ abstract class ilAssQuestionFeedback
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $page_object_type = $this->getGenericFeedbackPageObjectType();
-                $this->syncPageObject($page_object_type, $row['feedback_id'], $next_id, $original_question_id);
+                $this->copyPageObject($page_object_type, $row['feedback_id'], $next_id, $original_question_id);
             }
         }
     }
@@ -666,25 +666,25 @@ abstract class ilAssQuestionFeedback
     }
 
     /**
-     * Syncs a page object from a duplicated question back to the original question
+     * Copies a page object from source to target
      */
-    final protected function syncPageObject(
+    final protected function copyPageObject(
         string $page_object_type,
-        int $duplicate_page_object_id,
-        int $original_page_object_id,
-        int $original_question_id
+        int $source_page_object_id,
+        int $target_page_object_id,
+        int $target_question_id
     ): void {
-        $this->ensurePageObjectExists($page_object_type, $duplicate_page_object_id);
+        $this->ensurePageObjectExists($page_object_type, $source_page_object_id);
 
         $cl = $this->getClassNameByType($page_object_type);
 
-        $this->ensurePageObjectDeleted($page_object_type, $original_page_object_id);
+        $this->ensurePageObjectDeleted($page_object_type, $target_page_object_id);
 
-        $original_page_object = new $cl();
-        $original_page_object->setParentId($original_question_id);
-        $original_page_object->setId($original_page_object_id);
-        $original_page_object->setXMLContent((new $cl($duplicate_page_object_id))->getXMLContent());
-        $original_page_object->createFromXML();
+        $target_page_object = new $cl();
+        $target_page_object->setParentId($target_question_id);
+        $target_page_object->setId($target_page_object_id);
+        $target_page_object->setXMLContent((new $cl($source_page_object_id))->getXMLContent());
+        $target_page_object->createFromXML();
     }
 
     final protected function ensurePageObjectDeleted(string $page_object_type, int $page_object_id): void
