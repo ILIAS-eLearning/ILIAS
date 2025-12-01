@@ -885,6 +885,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question->setObjId($this->getTestObject()->getId());
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
+                $question_gui->setContextAllowsSyncToPool(true);
 
                 $this->addQuestionTitleToObjectTitle($question->getTitle());
 
