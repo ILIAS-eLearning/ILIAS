@@ -61,7 +61,7 @@ class ilAssQuestionSolutionComparisonExpression
         return $this->question_id;
     }
 
-    public function setQuestionId(int $question_id): void
+    public function setQuestionId(?int $question_id): void
     {
         $this->question_id = $question_id;
     }
@@ -71,7 +71,7 @@ class ilAssQuestionSolutionComparisonExpression
         return $this->skill_base_id;
     }
 
-    public function setSkillBaseId(int $skill_base_id): void
+    public function setSkillBaseId(?int $skill_base_id): void
     {
         $this->skill_base_id = $skill_base_id;
     }
@@ -81,7 +81,7 @@ class ilAssQuestionSolutionComparisonExpression
         return $this->skill_tref_id;
     }
 
-    public function setSkillTrefId(int $skill_tref_id): void
+    public function setSkillTrefId(?int $skill_tref_id): void
     {
         $this->skill_tref_id = $skill_tref_id;
     }
@@ -91,7 +91,7 @@ class ilAssQuestionSolutionComparisonExpression
         return $this->order_index;
     }
 
-    public function setOrderIndex(int $order_index): void
+    public function setOrderIndex(?int $order_index): void
     {
         $this->order_index = $order_index;
     }
@@ -101,7 +101,7 @@ class ilAssQuestionSolutionComparisonExpression
         return $this->expression;
     }
 
-    public function setExpression(string $expression): void
+    public function setExpression(?string $expression): void
     {
         $this->expression = $expression;
     }
@@ -111,7 +111,7 @@ class ilAssQuestionSolutionComparisonExpression
         return $this->points;
     }
 
-    public function setPoints(int $points): void
+    public function setPoints(?int $points): void
     {
         $this->points = $points;
     }

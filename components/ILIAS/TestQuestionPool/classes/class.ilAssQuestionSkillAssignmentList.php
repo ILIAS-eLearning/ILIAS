@@ -35,7 +35,7 @@ class ilAssQuestionSkillAssignmentList
     ) {
     }
 
-    public function setParentObjId(int $parent_obj_id): void
+    public function setParentObjId(?int $parent_obj_id): void
     {
         $this->parent_obj_id = $parent_obj_id;
     }
@@ -50,7 +50,7 @@ class ilAssQuestionSkillAssignmentList
         return $this->question_id_filter;
     }
 
-    public function setQuestionIdFilter(int $question_id_filter): void
+    public function setQuestionIdFilter(?int $question_id_filter): void
     {
         $this->question_id_filter = $question_id_filter;
     }

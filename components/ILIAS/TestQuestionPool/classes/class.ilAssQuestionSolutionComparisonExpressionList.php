@@ -95,7 +95,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         return $this->question_id;
     }
 
-    public function setQuestionId(int $question_id): void
+    public function setQuestionId(?int $question_id): void
     {
         $this->question_id = $question_id;
     }
@@ -105,7 +105,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         return $this->skill_base_id;
     }
 
-    public function setSkillBaseId(int $skill_base_id): void
+    public function setSkillBaseId(?int $skill_base_id): void
     {
         $this->skill_base_id = $skill_base_id;
     }
@@ -115,7 +115,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         return $this->skill_tref_id;
     }
 
-    public function setSkillTrefId(int $skill_tref_id): void
+    public function setSkillTrefId(?int $skill_tref_id): void
     {
         $this->skill_tref_id = $skill_tref_id;
     }
