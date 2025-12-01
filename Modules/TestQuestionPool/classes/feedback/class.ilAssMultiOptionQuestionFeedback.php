@@ -309,7 +309,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
             if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
                 $page_object_type = $this->getSpecificAnswerFeedbackPageObjectType();
-                $this->syncPageObject($page_object_type, $row['feedback_id'], $next_id, $original_question_id);
+                $this->copyPageObject($page_object_type, $row['feedback_id'], $next_id, $original_question_id);
             }
         }
     }
