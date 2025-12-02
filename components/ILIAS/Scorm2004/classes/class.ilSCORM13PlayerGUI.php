@@ -464,8 +464,6 @@ class ilSCORM13PlayerGUI
 
 
         $this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
-        // include_once("../components/ILIAS/YUI/classes/class.ilYuiUtil.php");
-        // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
         // $this->tpl->setVariable('TREE_JS', "../components/ILIAS/UIComponent/NestedList/js/ilNestedList.js");
         $this->tpl->setVariable('TREE_JS', "components/ILIAS/Scorm2004/scripts/ilNestedList.js");
         foreach ($langstrings as $key => $value) {
