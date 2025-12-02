@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\Legacy;
 
-use ilYuiUtil;
 use iljQueryUtil;
 use Closure;
 use ILIAS\LegalDocuments\Table as TableInterface;
@@ -60,8 +59,6 @@ class Table extends ilTable2GUI implements TableSelection
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         iljQueryUtil::initjQuery($DIC->ui()->mainTemplate());
-        ilYuiUtil::initPanel(false, $DIC->ui()->mainTemplate());
-        ilYuiUtil::initOverlay($DIC->ui()->mainTemplate());
         $DIC->ui()->mainTemplate()->addJavaScript('assets/js/Form.js');
         $this->determineOffsetAndOrder();
         $this->setData($table->rows($this));

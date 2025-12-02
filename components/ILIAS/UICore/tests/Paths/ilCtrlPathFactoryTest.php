@@ -62,7 +62,7 @@ class ilCtrlPathFactoryTest extends ilCtrlPathTestBase
             ilCtrlCommandClass1TestGUI::class,
         ]);
 
-        $this->assertEquals('0:2', $path->getCidPath());
+        $this->assertEquals('0.2', $path->getCidPath());
         $this->assertInstanceOf(
             ilCtrlArrayClassPath::class,
             $path

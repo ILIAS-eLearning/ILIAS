@@ -268,15 +268,6 @@ class LMHtmlExport
     protected function getSupplyingExportFiles(string $a_target_dir = "."): array
     {
         $scripts = array(
-            array("source" => \ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
-                "target" => $a_target_dir . '/js/yahoo/yahoo-min.js',
-                "type" => "js"),
-            array("source" => \ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'),
-                "target" => $a_target_dir . '/js/yahoo/yahoo-dom-event.js',
-                "type" => "js"),
-            array("source" => \ilYuiUtil::getLocalPath('animation/animation-min.js'),
-                "target" => $a_target_dir . '/js/yahoo/animation-min.js',
-                "type" => "js"),
             array("source" => './components/ILIAS/Accordion/js/accordion.js',
                 "target" => $a_target_dir . '/js/accordion.js',
                 "type" => "js"),

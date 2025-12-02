@@ -17502,6 +17502,7 @@ ui#:#ui_transcription#:#Abschrift
 ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
 ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
+user#:#account_not_flagged_for_deletion#:#Das Konto ist nicht zum Löschen markiert.
 user#:#activate_in_profile_fields#:#Das Ändern des Anmeldenamens muss unter Profil > Profile aktiviert werden, bevor diese Einstellung angepasst werden kann.
 user#:#administrative_settings#:#Administrative Einstellungen
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite

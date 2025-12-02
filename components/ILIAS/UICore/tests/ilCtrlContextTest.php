@@ -300,7 +300,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertEquals(ilCtrlBaseClass1TestGUI::class, $context->getCmdClass());
 
         $context->setCmdClass(ilCtrlCommandClass1TestGUI::class);
-        $this->assertEquals('0:2', $context->getPath()->getCidPath());
+        $this->assertEquals('0.2', $context->getPath()->getCidPath());
         $this->assertEquals(ilCtrlBaseClass1TestGUI::class, $context->getBaseClass());
         $this->assertEquals(ilCtrlCommandClass1TestGUI::class, $context->getCmdClass());
     }

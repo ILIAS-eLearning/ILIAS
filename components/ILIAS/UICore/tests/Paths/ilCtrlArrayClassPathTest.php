@@ -110,7 +110,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
             [$base_class, $first_target_class, $second_target_class]
         );
 
-        $this->assertEquals('1:2:3', $path->getCidPath());
+        $this->assertEquals('1.2.3', $path->getCidPath());
     }
 
     public function testArrayPathWithContextBaseClass(): void
@@ -119,7 +119,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath('1:4'));
+            ->willReturn($this->getPath('1.4'));
 
         $first_target_class = ilCtrlCommandClass1TestGUI::class;
         $second_target_class = ilCtrlCommandClass2TestGUI::class;
@@ -129,7 +129,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
             [$first_target_class, $second_target_class]
         );
 
-        $this->assertEquals('1:2:3', $path->getCidPath());
+        $this->assertEquals('1.2.3', $path->getCidPath());
     }
 
     public function testArrayPathWithContextAndProvidedBaseClass(): void
@@ -139,7 +139,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath('0:2'));
+            ->willReturn($this->getPath('0.2'));
 
         $new_base_class = ilCtrlBaseClass2TestGUI::class;
         $first_target_class = ilCtrlCommandClass1TestGUI::class;
@@ -150,6 +150,6 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
             [$new_base_class, $first_target_class, $second_target_class]
         );
 
-        $this->assertEquals('1:2:3', $path->getCidPath());
+        $this->assertEquals('1.2.3', $path->getCidPath());
     }
 }

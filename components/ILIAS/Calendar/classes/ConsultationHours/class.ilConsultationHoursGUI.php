@@ -462,8 +462,6 @@ class ilConsultationHoursGUI
      */
     protected function initFormSequence(int $a_mode): ilPropertyFormGUI
     {
-        ilYuiUtil::initDomEvent();
-
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
 

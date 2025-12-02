@@ -2,18 +2,20 @@
 <!-- BEGIN row -->
 	<div class="wzdrow form-inline">
 	<!-- BEGIN image -->	<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT}  /><input type="hidden" name="picture_{ID}" value="{PICTURE_FILE}" /><br /><!-- END image -->
-		<input type="file" class="form-control" id="{ID}" name="{POST_VAR}" size="30" />
+		<input type="file" class="form-control" id="{ID}" name="{POST_VAR}" size="30" aria-describedby="upload_helptext_{ID}" />
 		<span id="add_{ID}" class="imagewizard_add btn btn-link" data-name="{CMD_ADD}" data-val="{MAX_UPLOAD_VALUE}">{ADD_BUTTON}</span>
 		<span id="remove_{ID}" class="imagewizard_remove btn btn-link" data-name="{CMD_REMOVE}" data-val="{MAX_UPLOAD_VALUE}">{REMOVE_BUTTON}</span>
 	<!-- BEGIN move -->
 		<span id="up_{ID}" class="imagewizard_up btn btn-link" data-name="{CMD_UP}">{UP_BUTTON}</span>
 		<span id="down_{ID}" class="imagewizard_down btn btn-link" data-name="{CMD_DOWN}">{DOWN_BUTTON}</span>
 	<!-- END move -->
-		<div class="help-block">{TXT_MAX_SIZE}</div>
-		<div class="help-block">{TXT_MAX_UPLOADS}</div>
-	<!-- BEGIN allowed_image_suffixes -->
-		<div class="help-block">{TXT_ALLOWED_SUFFIXES}</div>
-	<!-- END allowed_image_suffixes -->
+		<div id="upload_helptext_{ID}" class="help-blocks">
+			<div class="help-block">{TXT_MAX_SIZE}</div>
+			<div class="help-block">{TXT_MAX_UPLOADS}</div>
+			<!-- BEGIN allowed_image_suffixes -->
+			<div class="help-block">{TXT_ALLOWED_SUFFIXES}</div>
+			<!-- END allowed_image_suffixes -->
+		</div>
 	</div>
 <!-- END row -->
 </div>
