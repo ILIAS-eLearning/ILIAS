@@ -1,5 +1,29 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 (function($, $scope, $chat, dateTimeFormatter){
 	'use strict';
+
+	// Ensure historyRequested is always set when calling getHistory, but
+	// don't pollute external prototype chain of $chat, keep it inside a local object.
+	$chat = Object.create($chat);
+	$chat.getHistory = (original => (conversationId, oldestMessageTimestamp, reverseSorting = false) => {
+		getModule().historyRequested = {conversationId, oldestMessageTimestamp, reverseSorting};
+		return original.call($chat, conversationId, oldestMessageTimestamp, reverseSorting);
+	})($chat.getHistory);
 
 	var TYPE_CONSTANT	= 'osc';
 	var PREFIX_CONSTANT	= TYPE_CONSTANT + '_';
@@ -77,6 +101,7 @@
 		storage: undefined,
 		user: undefined,
 		historyBlocked: false,
+		historyRequested: null,
 		inputHeight: undefined,
 		historyTimestamps: {},
 		printedMessages: {},
@@ -818,6 +843,7 @@
 		},
 
 		onHistory: function (conversation) {
+			getModule().historyRequested = null;
 			let container = $('[data-onscreenchat-window=' + conversation.id + ']'),
 				messages = Object.values(conversation.messages),
 				messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
@@ -994,6 +1020,10 @@
 				username = findUsernameInConversationByMessage(messageObject);
 
 			if (username === "") {
+				return false;
+			}
+
+			if((getModule().historyRequested || {}).oldestMessageTimestamp === null){
 				return false;
 			}
 
