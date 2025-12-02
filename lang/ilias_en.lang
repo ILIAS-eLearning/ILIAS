@@ -10564,8 +10564,8 @@ help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the scre
 help#:#gdtr_toolbar#:#Toolbar
 help#:#gdtr_toolbar_info#:#The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar.
 help#:#gdtr_tour_has_been_reset#:#Tour has been reset.
-help#:#gdtr_tour_steps#:#Tour Steps
 help#:#gdtr_tour_settings#:#Edit Settings
+help#:#gdtr_tour_steps#:#Tour Steps
 help#:#gdtr_tours#:#Tours
 help#:#gdtr_type#:#Type
 help#:#guided_tour#:#Guided Tour

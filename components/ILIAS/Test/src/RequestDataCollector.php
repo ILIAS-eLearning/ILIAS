@@ -204,4 +204,28 @@ class RequestDataCollector implements RequestDataCollectorInterface
             )
         );
     }
+
+    /**
+     * @return array<string|array>
+     */
+    public function strArray(string $key, int $depth = 1): array
+    {
+        return $this->retrieveArray($key, $depth, $this->refinery->kindlyTo()->string());
+    }
+
+    private function retrieveArray(string $key, int $depth, Transformation $transformation): array
+    {
+        $chain = $this->refinery->kindlyTo()->dictOf($transformation);
+        for ($i = 1; $i < $depth; $i++) {
+            $chain = $this->refinery->kindlyTo()->dictOf($chain);
+        }
+
+        return $this->get(
+            $key,
+            $this->refinery->byTrying([
+                $chain,
+                $this->refinery->always([])
+            ])
+        ) ?? [];
+    }
 }
