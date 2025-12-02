@@ -93,7 +93,6 @@ abstract class ilExplorerBaseGUI
         $this->requested_searchterm = ($params["searchterm"] ?? "");
 
         $this->nodeOnclickEnabled = true;
-        ilYuiUtil::initConnection();
     }
 
     public function setChildLimit(int $a_val): void
@@ -601,7 +600,6 @@ abstract class ilExplorerBaseGUI
 
         $tpl = $a_main_tpl ?? $DIC["tpl"];
 
-        ilYuiUtil::initConnection();
         iljQueryUtil::initjQuery($tpl);
 
         $tpl->addJavaScript(self::getLocalExplorerJsPath());

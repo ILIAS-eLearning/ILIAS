@@ -97,8 +97,6 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
         $this->tpl = new ilTemplate('tpl.day_view.html', true, true, 'components/ILIAS/Calendar');
 
-        ilYuiUtil::initDragDrop();
-
         $bkid = $this->initBookingUserFromQuery();
         if ($bkid) {
             $user_id = $bkid;

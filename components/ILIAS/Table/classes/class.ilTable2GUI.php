@@ -1496,8 +1496,6 @@ class ilTable2GUI extends ilTableGUI
             return;
         }
 
-        ilYuiUtil::initConnection();
-
         $ccnt = 0;
 
         // render standard filter
