@@ -58,6 +58,7 @@ class ilBookingParticipantGUI
         $this->pool_id = $a_parent_obj->getObject()->getId();
 
         $this->lng->loadLanguageModule("book");
+        $this->lng->loadLanguageModule("exc");
     }
 
     public function executeCommand(): void
