@@ -817,7 +817,7 @@ of ILIAS. The file contains the following fields:
 
 * **Language Handling**
     * Authority to Sign off on Conceptual Changes: [mkunkel](https://docu.ilias.de/go/usr/115)
-    * Authority to Sign off on Code Changes: [mkunkel](https://docu.ilias.de/go/usr/115), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [ChrisPotter](https://docu.ilias.de/go/usr/90855)
+    * Authority to Sign off on Code Changes: [mkunkel](https://docu.ilias.de/go/usr/115), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [ChrisPotter](https://docu.ilias.de/go/usr/90855), [keven.clausen](https://docu.ilias.de/go/usr/100316), [cknof](https://docu.ilias.de/go/usr/90890) 
     * Authority to Curate Test Cases: [ChrisPotter](https://docu.ilias.de/go/usr/90855)
     * Authority to (De-)Assign Authorities: [mkunkel](https://docu.ilias.de/go/usr/115)
     * Assignee for Security Reports: [mkunkel](https://docu.ilias.de/go/usr/115)
@@ -881,12 +881,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LearningSequence)
 
 * **Learning Sequence**
-    * Authority to Sign off on Conceptual Changes:[MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
-    * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Security Reports: [MISSING]
-    * Assignee for Security Issues: [MISSING]
+    * Authority to Sign off on Conceptual Changes: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
+    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Authority to Curate Test Cases: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Authority to (De-)Assign Authorities: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
+    * Assignee for Security Reports: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
+    * Assignee for Security Issues: [keven.clausen](https://docu.ilias.de/go/usr/100316)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LearningSequence)
@@ -1001,12 +1001,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Maps)
 
 * **Maps**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
-    * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Security Reports: [MISSING]
-    * Assignee for Security Issues: [MISSING]
+    * Authority to Sign off on Conceptual Changes: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Authority to Curate Test Cases: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Authority to (De-)Assign Authorities: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Assignee for Security Reports: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Assignee for Security Issues: [keven.clausen](https://docu.ilias.de/go/usr/100316)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Maps)
