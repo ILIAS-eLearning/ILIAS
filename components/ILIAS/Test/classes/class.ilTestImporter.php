@@ -64,7 +64,6 @@ class ilTestImporter extends ilXmlImporter
             $new_obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             $new_obj->saveToDb();
 
-            ilSession::set('path_to_container_import_file', $this->getImportDirectory());
             [$importdir, $xmlfile, $qtifile] = $this->buildImportDirectoriesFromContainerImport(
                 $this->getImportDirectory()
             );

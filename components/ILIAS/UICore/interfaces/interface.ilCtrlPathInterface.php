@@ -29,7 +29,7 @@ interface ilCtrlPathInterface
     /**
      * @var string separator used for CID paths.
      */
-    public const CID_PATH_SEPARATOR = ':';
+    public const CID_PATH_SEPARATOR = '.';
 
     /**
      * Returns the CID path for the target class of the

@@ -61,7 +61,6 @@ class Init
             $main_tpl->addJavaScript("node_modules/tinymce/tinymce.min.js");
         }
 
-        \ilYuiUtil::initConnection();
         $main_tpl->addJavaScript("assets/js/ilExplorer.js");
 
         // ensure that form.js is loaded which is needed for file input (js that shows file names)

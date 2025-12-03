@@ -70,7 +70,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath('0:4'))
+            ->willReturn($this->getPath('0.4'))
         ;
 
         $path = new ilCtrlSingleClassPath(
@@ -79,7 +79,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
             ilCtrlCommandClass1TestGUI::class
         );
 
-        $this->assertEquals('0:2', $path->getCidPath());
+        $this->assertEquals('0.2', $path->getCidPath());
     }
 
     public function testSinglePathWithProvidedBaseClass(): void
@@ -107,7 +107,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath('1:2:3'))
+            ->willReturn($this->getPath('1.2.3'))
         ;
 
         $path = new ilCtrlSingleClassPath(
@@ -116,7 +116,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
             ilCtrlCommandClass2TestGUI::class
         );
 
-        $this->assertEquals('1:2:3', $path->getCidPath());
+        $this->assertEquals('1.2.3', $path->getCidPath());
     }
 
     public function testSinglePathWithEmptyTargetClassString(): void
@@ -139,7 +139,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $context = $this->createMock(ilCtrlContextInterface::class);
         $context
             ->method('getPath')
-            ->willReturn($this->getPath('0:2')) // ilCtrlBaseClass1TestGUI -> ilCtrlCommandClass1TestGUI
+            ->willReturn($this->getPath('0.2')) // ilCtrlBaseClass1TestGUI -> ilCtrlCommandClass1TestGUI
         ;
 
         $path = new ilCtrlSingleClassPath(
@@ -151,6 +151,6 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         // baseclasses should have the least priority, therefore the new cid-path
         // must not be '1' (the cid of ilCtrlBaseClass2TestGUI) but as described,
         // because the baseclass can also be called by ilCtrlCommandClass1TestGUI.
-        $this->assertEquals('0:2:1', $path->getCidPath());
+        $this->assertEquals('0.2.1', $path->getCidPath());
     }
 }

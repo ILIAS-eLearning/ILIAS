@@ -436,12 +436,15 @@ class Administration
      */
     public function documentForm(Closure $link, string $title, Closure $document_content, bool $may_be_new): Form
     {
+        $field = $this->ui->create()->input()->field();
         $edit_link = $link('editDocument');
         $content_title = $may_be_new ? 'form_document' : 'form_document_new';
 
-        $section = $this->ui->create()->input()->field()->section([
-            'title' => $this->ui->create()->input()->field()->text($this->ui->txt('title'))->withRequired(true)->withValue($title),
-            'content' => $this->ui->create()->input()->field()->file(new UploadHandler($link, $document_content, $this->ui->txt(...)), $this->ui->txt($content_title))->withAcceptedMimeTypes([
+        $require = $this->container->refinery()->custom()->constraint(fn($x) => (bool) $x, $this->ui->txt('title_required'));
+
+        $section = $field->section([
+            'title' => $field->text($this->ui->txt('title'))->withRequired(true, $require)->withValue($title),
+            'content' => $field->file(new UploadHandler($link, $document_content, $this->ui->txt(...)), $this->ui->txt($content_title))->withAcceptedMimeTypes([
                 'text/html',
                 'text/plain',
             ])->withRequired($may_be_new),

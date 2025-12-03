@@ -277,10 +277,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
     public function downloadCertificate(): void
     {
-        if (
-            !$this->certificate_active_validator->validate() ||
-            !$this->rbac_system->checkAccess('read', $this->object->getRefId())
-        ) {
+        if (!$this->certificate_active_validator->validate() ||
+            !$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
 
@@ -300,26 +298,23 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $certificate_id = $certificate_id[array_key_first($certificate_id)];
 
         try {
-            $user_certificate = $this->user_certificate_repo->fetchCertificate($certificate_id);
-            if (!$user_certificate->isCurrentlyActive()) {
+            $certificate = $this->user_certificate_repo->fetchCertificate($certificate_id);
+            if (!$certificate->isCurrentlyActive()) {
                 throw new Exception('Certificate is not active');
             }
+
+            $pdf_action = (new ilCertificatePdfAction(
+                (new ilPdfGenerator($this->user_certificate_repo))->withLogger($this->logger),
+                new ilCertificateUtilHelper(),
+                $this->lng->txt('error_creating_certificate_pdf')
+            ))->withLogger($this->logger);
+            $pdf_action->downloadPdf($certificate->getUserId(), $certificate->getObjId());
+            $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
         } catch (Exception $ex) {
             $this->logger->error('Fetching user certificate for download failed. Ex.: ' . $ex->getMessage());
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'), true);
             $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
         }
-
-        $pdf_generator = new ilPdfGenerator($this->user_certificate_repo);
-
-        $pdf_action = new ilCertificatePdfAction(
-            $pdf_generator,
-            new ilCertificateUtilHelper(),
-            $this->lng->txt('error_creating_certificate_pdf')
-        );
-
-        $pdf_action->downloadPdf($user_certificate->getUserId(), $user_certificate->getObjId());
-        $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
     }
 
     public function save(): void

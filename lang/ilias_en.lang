@@ -8740,7 +8740,6 @@ dcl#:#dcl_msg_tableview_created#:#Views created
 dcl#:#dcl_msg_tableview_deleted#:#View deleted
 dcl#:#dcl_msg_tableview_updated#:#View updated
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
-dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_entries#:#New Entries
@@ -8766,7 +8765,6 @@ dcl#:#dcl_notification_deactivate#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
 dcl#:#dcl_notification_settings#:#Notification Settings
-dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
@@ -9808,7 +9806,7 @@ export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
 export#:#export_export_date#:#Export Date
-export#:#export_info_public_access#:#Public Access Export
+export#:#export_info_public_access#:#Public Export
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Last Export
 export#:#export_last_export_file#:#Use Last Export File
@@ -10550,6 +10548,7 @@ help#:#gdtr_metabar_info#:#The metabar is the menu on the top, right. If element
 help#:#gdtr_next_step#:#Next Step
 help#:#gdtr_permission#:#Permission
 help#:#gdtr_permission_info#:#Activates a guided tour only for users with a certain permission on the current repository object, e.g. only for users with "edit settings" permission for a course. If you "Create" is selected, the tour is active, if the user has any creation permission.
+help#:#gdtr_presentation_limitation#:#Presentation Limitation
 help#:#gdtr_primary_button#:#Primary Button
 help#:#gdtr_primary_button_info#:#The first primary button of the main content area. Primary buttons are presented emphasised compared to standard buttons. Usually views should only contain one primary button.
 help#:#gdtr_reset_tour#:#Reset Tour
@@ -10565,6 +10564,7 @@ help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the scre
 help#:#gdtr_toolbar#:#Toolbar
 help#:#gdtr_toolbar_info#:#The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar.
 help#:#gdtr_tour_has_been_reset#:#Tour has been reset.
+help#:#gdtr_tour_settings#:#Edit Settings
 help#:#gdtr_tour_steps#:#Tour Steps
 help#:#gdtr_tours#:#Tours
 help#:#gdtr_type#:#Type
@@ -12062,12 +12062,12 @@ meta#:#md_import_file_vocab#:#Import File
 meta#:#md_import_vocab#:#Import
 meta#:#md_import_vocab_modal#:#Import From File
 meta#:#md_months#:#Months:
-meta#:#md_oai_contact_mail#:#Contact E-Mail
+meta#:#md_oai_contact_mail#:#Contact e-mail of this organisation
 meta#:#md_oai_identifier_prefix#:#OAI Prefix
 meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.
 meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface
 meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER repositories.
-meta#:#md_oai_repository_name#:#Repository Name
+meta#:#md_oai_repository_name#:#Installation Name
 meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files
@@ -17508,6 +17508,7 @@ ui#:#ui_transcription#:#Transcript
 ui#:#unselect_node#:#Remove node %s from selection
 ui#:#vc_sort#:#Sort by:
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.
+user#:#account_not_flagged_for_deletion#:#The account is not flagged for deletion.
 user#:#activate_in_profile_fields#:#To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields
 user#:#administrative_settings#:#Administrative Settings
 user#:#all_roles_has_starting_point#:#All the roles have starting points

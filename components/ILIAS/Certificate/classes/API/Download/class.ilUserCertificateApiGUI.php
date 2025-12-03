@@ -20,15 +20,11 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * @ingroup ServicesCertificate
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilUserCertificateApiGUI
 {
-    final public const CMD_DOWNLOAD = 'download';
+    final public const string CMD_DOWNLOAD = 'download';
 
-    private readonly ilLogger $certificateLogger;
+    private readonly ilLogger $logger;
     private readonly ServerRequestInterface $request;
     private readonly ilLanguage $language;
     private readonly ilCtrlInterface $ctrl;
@@ -36,30 +32,15 @@ class ilUserCertificateApiGUI
     public function __construct(
         ?ilLanguage $language = null,
         ?ServerRequestInterface $request = null,
-        ?ilLogger $certificateLogger = null,
+        ?ilLogger $logger = null,
         ?ilCtrlInterface $ctrl = null
     ) {
         global $DIC;
 
-        if ($language === null) {
-            $language = $DIC->language();
-        }
-        $this->language = $language;
-
-        if ($request === null) {
-            $request = $DIC->http()->request();
-        }
-        $this->request = $request;
-
-        if ($certificateLogger === null) {
-            $certificateLogger = $DIC->logger()->cert();
-        }
-        $this->certificateLogger = $certificateLogger;
-
-        if ($ctrl === null) {
-            $ctrl = $DIC->ctrl();
-        }
-        $this->ctrl = $ctrl;
+        $this->language = $language ?? $DIC->language();
+        $this->request = $request ?? $DIC->http()->request();
+        $this->logger = $logger ?? $DIC->logger()->cert();
+        $this->ctrl = $ctrl ?? $DIC->ctrl();
 
         $this->language->loadLanguageModule('cert');
     }
@@ -80,19 +61,20 @@ class ilUserCertificateApiGUI
 
     public function download(): void
     {
-        $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
-        $pdfGenerator = new ilPdfGenerator($userCertificateRepository);
+        $repo = new ilUserCertificateRepository(null, $this->logger);
 
-        $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
+        $certificate_id = (int) $this->request->getQueryParams()['certificate_id'];
 
-        $userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
+        $certificate = $repo->fetchCertificate($certificate_id);
 
-        $pdfAction = new ilCertificatePdfAction(
-            $pdfGenerator,
+        $action = (new ilCertificatePdfAction(
+            (new ilPdfGenerator($repo))->withLogger($this->logger),
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')
+        ))->withLogger($this->logger);
+        $action->downloadPdf(
+            $certificate->getUserId(),
+            $certificate->getObjId()
         );
-
-        $pdfAction->downloadPdf($userCertificate->getUserId(), $userCertificate->getObjId());
     }
 }

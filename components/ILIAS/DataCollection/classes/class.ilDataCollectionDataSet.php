@@ -176,7 +176,6 @@ class ilDataCollectionDataSet extends ilDataSet
                     $tableview->setTitle($a_rec['title']);
                     $tableview->setTableId((int) $new_table_id);
                     $tableview->setDescription($a_rec['description']);
-                    $tableview->setTableviewOrder((int) $a_rec['tableview_order']);
                     if (!is_array($a_rec['roles'])) {
                         $a_rec['roles'] = json_decode($a_rec['roles']);
                     }
@@ -612,7 +611,6 @@ class ilDataCollectionDataSet extends ilDataSet
                     'title' => 'text',
                     'roles' => 'text',
                     'description' => 'text',
-                    'tableview_order' => 'integer',
                 ];
             case 'il_dcl_field':
                 return [

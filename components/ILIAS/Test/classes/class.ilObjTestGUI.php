@@ -366,10 +366,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                     $this->export_repository,
                     $this->temp_file_system,
                     $this->participant_access_filter_factory,
-                    new ilTestHTMLGenerator(),
-                    $selected_files,
-                    $this->questionrepository,
-                    $this->testrequest
+                    $this->test_pass_result_repository,
+                    new ilTestHTMLGenerator()
                 );
                 $this->ctrl->forwardCommand($export_gui);
                 break;

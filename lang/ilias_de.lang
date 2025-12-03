@@ -496,7 +496,7 @@ assessment#:#ass_cloze_gap_fb_txt_match_label#:#Lücke %s - Angegebene Antwort: 
 assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Lücke %s - Falsche Eingabe
 assessment#:#ass_commented_questions_only#:#Nur kommentierte Fragen
 assessment#:#ass_comments#:#Kommentare
-assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenzstufen in aufsteigender Reihenfolge definiert werden müssen.
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenzschwellenwerte gemäß der Reihenfolge der Kompetenzstufen in aufsteigender Reihenfolge definiert werden müssen.
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file_with_results#:#inkl. Teilnehmerergebnisse
@@ -1661,9 +1661,9 @@ assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert. Sie können nun eine neue Regel hinzufügen.
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfiguration des Tests mit zufälliger Fragenauswahl wurde erfolgreich synchronisiert.
-assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
-assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenz-Punkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
+assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenzschwellenwerte wurden gespeichert.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenzpunkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenzpunkte wurden gespeichert.
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Regel für die Fragenauswahl wurde erfolgreich gelöscht.
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_nav_next_locks_current_answer_header#:#Aktuelle Antwort festschreiben?
@@ -1914,10 +1914,10 @@ assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenzstufe beitragen.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
-assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurieren
+assessment#:#tst_skl_level_thresholds_link#:#Kompetenzschwellenwerte konfigurieren
 assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
-assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
+assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenzschwellenwerte
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
 assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
 assessment#:#tst_source_question_pool#:#Fragenpool
@@ -8736,7 +8736,6 @@ dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt.
 dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht.
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert.
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren.
-dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_entries#:#Neue Einträge
@@ -8762,7 +8761,6 @@ dcl#:#dcl_notification_deactivate#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
 dcl#:#dcl_notification_settings#:#Benachrichtigungseinstellungen
-dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
@@ -9804,7 +9802,7 @@ export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
 export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Öffentlich zugängliche Exportdatei
+export#:#export_info_public_access#:#Öffentliche Exportdatei
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Letzter Export
 export#:#export_last_export_file#:#Letzte Exportdatei benutzen
@@ -10515,7 +10513,7 @@ gsfo#:#translate#:#Übersetzen
 gsfo#:#translations#:#Übersetzungen
 help#:#gdtr_active#:#Aktiv
 help#:#gdtr_add_step#:#Schritt hinzufügen
-help#:#gdtr_add_tour#:#Add Tour
+help#:#gdtr_add_tour#:#Tour hinzufügen
 help#:#gdtr_close#:#Tour beenden
 help#:#gdtr_delete_step#:#Schritt löschen
 help#:#gdtr_delete_step_mess#:#Sind Sie sicher, dass dieser Schritt gelöscht werden soll?
@@ -10527,44 +10525,46 @@ help#:#gdtr_edit_content#:#Inhalt bearbeiten
 help#:#gdtr_edit_page_info#:#Bearbeiten Sie den Inhalt, der erscheinen soll um das ausgewählte Bedienelement zu beschreiben.
 help#:#gdtr_edit_properties#:#Eigenschaften bearbeiten
 help#:#gdtr_edit_step_info#:#In diesem Formular spezifizieren Sie das Bedienelement auf dem Bildschirm, welches einen Erklärungstext in diesem Schritt der Tour erhalten soll. In der Präsentation wird dann ein Popover mit dem definierten Erklärungstext neben dem angegebenen Element dargestellt.
-help#:#gdtr_edit_steps#:#Edit Steps
+help#:#gdtr_edit_steps#:#Schritte bearbeiten
 help#:#gdtr_element_id#:#Element ID
 help#:#gdtr_form#:#Formular
 help#:#gdtr_form_info#:#Das erste Formular im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. ein Formular enthalten.
-help#:#gdtr_guided_tours#:#Guided Tours
-help#:#gdtr_id_pres_users#:#IDs anzeigen für ILIAS-Konten
-help#:#gdtr_id_pres_users_info#:#ILIAS-Konten, denen die Element IDs angezeigt werden. Mehrere Einträge müssen durch Kommas separiert werden.
-help#:#gdtr_id_settings#:#ID Einstellungen
+help#:#gdtr_guided_tours#:#Touren
+help#:#gdtr_id_pres_users#:#IDs anzeigen für
+help#:#gdtr_id_pres_users_info#:#Tragen Sie einen oder mehrere Anmeldenamen ein. Diesen Personen werden auf der Bedienoberfläche Tooltipps mit den IDs der einzelnen Elemente angezeigt. Fahren Sie mit der Maus über die Elemente, um die Tooltipps zu sehen.
+help#:#gdtr_id_settings#:#Einstellungen
 help#:#gdtr_import_tour#:#Tour importieren
-help#:#gdtr_language#:#Sprache
-help#:#gdtr_language_info#:#Aktiviert eine Guided-Tour nur für Personen mit der eingestellten Sprache.
-help#:#gdtr_list_tours_mess#:#Um die Anzeige von Screen- und Element-IDs als Tooltips zu aktivieren, müssen Sie ihren Accountnamen in den ID Einstellungen eintragen.
+help#:#gdtr_language#:#Nach Sprache
+help#:#gdtr_language_info#:#Nur Personen mit der ausgewählten Sprache sehen die Tour.
+help#:#gdtr_list_tours_mess#:#Um Touren auszuarbeiten, müssen Sie zunächst Ihren Anmeldenamen im Unterreiter „Einstellungen“ eintragen.
 help#:#gdtr_mainbar#:#Mainbar
-help#:#gdtr_mainbar_info#:#Die Mainbar ist das Hauptmenü auf der linken Seite. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_mainbar_info#:#Die Mainbar ist das Hauptmenü auf der linken Seite. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
 help#:#gdtr_metabar#:#Metabar
-help#:#gdtr_metabar_info#:#Die Metabar ist das Menü im rechten, oberen Bildrand. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_metabar_info#:#Die Metabar ist das Menü im rechten, oberen Bildrand. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
 help#:#gdtr_next_step#:#Nächster Schritt
-help#:#gdtr_permission#:#Berechtigung
-help#:#gdtr_permission_info#:#Aktiviert eine Guided-Tour für Personen mit gegebener Berechtigung, z.B. nur wenn das "Einstellungen bearbeiten" Recht vorhanden ist. Bei der Auswahl von "Erstellen" muss der Nutzende im aktuellen Bereich irgendein Objekt erstellen können.
+help#:#gdtr_permission#:#Nach Rechten
+help#:#gdtr_permission_info#:#Nur Personen mit den ausgewählten Rechten sehen die Tour. Diese Einstellung sollte nur zusammen mit der Einstellung „Nach Screen-ID“ genutzt werden.
+help#:#gdtr_presentation_limitation#:#Anzeige einschränken
 help#:#gdtr_primary_button#:#Primary Button
 help#:#gdtr_primary_button_info#:#Der erste Primary-Button im Hauptbereich der Ansicht. Dieser wird um Gegensatz zu anderen Aktionsknöpfen betont dargestellt. Normalerweise sollen Ansichten nur max. eine Primary-Button enthalten.
 help#:#gdtr_reset_tour#:#Tour zurücksetzen
 help#:#gdtr_reset_tour_mess#:#Wenn Sie die Tour zurücksetzen, werden alle diejenigen, die zuvor die Tour abgeschlossen haben, die Tour erneut präsentiert bekommen. Möchten Sie fortfahren?
-help#:#gdtr_screen_ids#:#Screen IDs
-help#:#gdtr_screen_ids_info#:#Ermöglicht es, eine Guided-Tour für einzelne Ansichten des Systems zu aktivieren. Wenn die ID-Anzeige aktiviert ist, wird die Screen-ID einer Ansicht ganz oben im Kopfbereich angezeigt. Mehrere IDs müssen durch Kommas separiert werden.
+help#:#gdtr_screen_ids#:#Nach Screen-IDs
+help#:#gdtr_screen_ids_info#:#Tragen Sie hier die Screen-IDs der Seiten ein, auf denen die Tour angezeigt wird – falls diese nicht überall gezeigt werden soll. Mehrere Screen-IDs müssen durch Kommas getrennt werden.
 help#:#gdtr_step#:#Schritt
 help#:#gdtr_step_type#:#Bedienelement
 help#:#gdtr_table#:#Tabelle
 help#:#gdtr_table_info#:#Die erste Tabelle im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. eine Tabelle enthalten.
 help#:#gdtr_tabs#:#Reiter
-help#:#gdtr_tabs_info#:#Die Reiter werden in der Mitte unter dem Haupttitel einer Ansicht dargestellt. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_tabs_info#:#Die Reiter werden in der Mitte unter dem Haupttitel einer Ansicht dargestellt. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
 help#:#gdtr_toolbar#:#Toolbar
 help#:#gdtr_toolbar_info#:#Die erste Toolbar im Hauptbereich der Ansicht. Diese wird normalerweise unterhalb der Reiter dargestellt und kann mehrere Bedienelemente enthalten. Normalerweise sollen Ansichten nur max. eine Toolbar enthalten.
 help#:#gdtr_tour_has_been_reset#:#Die Tour wurde zurückgesetzt.
+help#:#gdtr_tour_settings#:#Einstellungen bearbeiten
 help#:#gdtr_tour_steps#:#Schritte
-help#:#gdtr_tours#:#Tours
+help#:#gdtr_tours#:#Touren
 help#:#gdtr_type#:#Typ
-help#:#guided_tour#:#Guided Tour
+help#:#guided_tour#:#Interaktive Touren
 help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
@@ -12058,7 +12058,7 @@ meta#:#md_import_file_vocab#:#Importdatei
 meta#:#md_import_vocab#:#Vokabular importieren
 meta#:#md_import_vocab_modal#:#Aus Datei importieren
 meta#:#md_months#:#Monate:
-meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
+meta#:#md_oai_contact_mail#:#E-Mail-Kontakt dieser Organisation
 meta#:#md_oai_identifier_prefix#:#OAI Präfix
 meta#:#md_oai_identifier_prefix_info#:#Dieser Präfix wird als Namespace in den Bezeichnern von abgefragten OER-Datensätzen benutzt.
 meta#:#md_oai_pmh_enabled#:#Abfragen über OAI-PMH Schnittstelle erlauben
@@ -17504,6 +17504,7 @@ ui#:#ui_transcription#:#Abschrift
 ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
 ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
+user#:#account_not_flagged_for_deletion#:#Das Konto ist nicht zum Löschen markiert.
 user#:#activate_in_profile_fields#:#Das Ändern des Anmeldenamens muss unter Profil > Profile aktiviert werden, bevor diese Einstellung angepasst werden kann.
 user#:#administrative_settings#:#Administrative Einstellungen
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite

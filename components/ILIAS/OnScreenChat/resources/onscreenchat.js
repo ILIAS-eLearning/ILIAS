@@ -17,6 +17,14 @@
 (function(triggerSignal, $scope, $chat, dateTimeFormatter){
 	'use strict';
 
+	// Ensure historyRequested is always set when calling getHistory, but
+	// don't pollute external prototype chain of $chat, keep it inside a local object.
+	$chat = Object.create($chat);
+	$chat.getHistory = (original => (conversationId, oldestMessageTimestamp, reverseSorting = false) => {
+		getModule().historyRequested = {conversationId, oldestMessageTimestamp, reverseSorting};
+		return original.call($chat, conversationId, oldestMessageTimestamp, reverseSorting);
+	})($chat.getHistory);
+
 	const TYPE_CONSTANT = 'osc';
 	const PREFIX_CONSTANT = TYPE_CONSTANT + '_';
 	const ACTION_SHOW_CONV = 'show';
@@ -101,6 +109,7 @@
 		storage: undefined,
 		user: undefined,
 		historyBlocked: false,
+		historyRequested: null,
 		inputHeight: undefined,
 		historyTimestamps: {},
 		printedMessages: {},
@@ -301,7 +310,7 @@
 			if (conversation == null) {
 				let participant = {
 					id: this.getAttribute('data-onscreenchat-userid'),
-					name: link.getAttribute('data-onscreenchat-username')
+					name: this.getAttribute('data-onscreenchat-username')
 				};
 
 				if (typeof participant.id !== "undefined" && participant.id.length > 0) {
@@ -758,7 +767,8 @@
 						const img = new Image();
 						img.src = item.profile_image;
 						getModule().participantsImages[id] = img;
-						document.querySelector('[data-onscreenchat-avatar="'+id+'"]').setAttribute('src', img.src);
+						const node = document.querySelector('[data-onscreenchat-avatar="'+id+'"]');
+						node && node.setAttribute('src', img.src);
 				});
 
 				dfd.resolve();
@@ -874,6 +884,7 @@
 		},
 
 		onHistory: function (conversation) {
+			getModule().historyRequested = null;
 			const container = document.querySelector('[data-onscreenchat-window="' + conversation.id + '"]');
 			const messages = Object.values(conversation.messages);
 			const messagesHeight = container.querySelector('[data-onscreenchat-body]').getBoundingClientRect().height;
@@ -975,6 +986,10 @@
 			const username = findUsernameInConversationByMessage(messageObject);
 
 			if (username === '') {
+				return false;
+			}
+
+			if((getModule().historyRequested || {}).oldestMessageTimestamp === null){
 				return false;
 			}
 

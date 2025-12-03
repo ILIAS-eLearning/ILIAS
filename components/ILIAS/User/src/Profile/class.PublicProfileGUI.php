@@ -530,14 +530,14 @@ class PublicProfileGUI
         }
 
         foreach ($this->profile->getVisibleUserDefinedFields(Context::User) as $field) {
-            // public setting
-            if ($this->getPublicPref($user, 'public_udf_' . $field->getIdentifier()) === 'y'
-                && !empty(($value = $field->retrieveValueFromUser($user)))) {
-                $tpl->setCurrentBlock('udf_data');
-                $tpl->setVariable('TXT_UDF_DATA', $field->getLabel($this->lng));
-                $tpl->setVariable('UDF_DATA', $value);
-                $tpl->parseCurrentBlock();
+            $value = $field->retrieveValueFromUser($user);
+            if ($value === '' || $value === '-' || $value === null) {
+                continue;
             }
+            $tpl->setCurrentBlock('udf_data');
+            $tpl->setVariable('TXT_UDF_DATA', $field->getLabel($this->lng));
+            $tpl->setVariable('UDF_DATA', $value);
+            $tpl->parseCurrentBlock();
         }
 
         foreach ($this->getAdditional() as $key => $val) {

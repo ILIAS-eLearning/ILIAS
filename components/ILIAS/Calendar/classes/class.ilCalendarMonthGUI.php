@@ -97,8 +97,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     {
         $this->tpl = new ilTemplate('tpl.month_view.html', true, true, 'components/ILIAS/Calendar');
 
-        ilYuiUtil::initDragDrop();
-
         $navigation = new ilCalendarHeaderNavigationGUI($this, $this->seed, ilDateTime::MONTH);
         $this->tpl->setVariable('NAVIGATION', $navigation->getHTML());
 

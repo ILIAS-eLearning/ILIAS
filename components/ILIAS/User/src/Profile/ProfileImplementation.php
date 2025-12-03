@@ -81,6 +81,11 @@ class ProfileImplementation implements Profile
         return $this->profile_fields_repository->getByIdentifier($identifier);
     }
 
+    public function getFieldByClass(string $class): ?ProfileField
+    {
+        return $this->profile_fields_repository->getByClass($class);
+    }
+
     public function addFieldsToForm(
         \ilPropertyFormGUI $form,
         Context $context,

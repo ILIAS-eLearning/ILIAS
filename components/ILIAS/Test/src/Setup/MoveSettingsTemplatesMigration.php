@@ -83,7 +83,7 @@ class MoveSettingsTemplatesMigration implements Migration
         );
 
         // Migrate the legacy json decoded to a row in 'tst_mark'
-        $raw_marks = json_decode($row['marks'], true);
+        $raw_marks = json_decode($row['marks'] ?? '[]', true) ?? [];
         foreach ($raw_marks as $mark_data) {
             $mark_id = $this->db->nextId('tst_mark');
             $this->db->insert(

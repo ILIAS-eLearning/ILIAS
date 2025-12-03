@@ -51,6 +51,7 @@ class SkillUsagesTable implements DataRetrieval
 
         return [
             'skill_title' => $column_factory->text($this->lng->txt('qpl_qst_skl_usg_skill_col')),
+            'skill_path' => $column_factory->text($this->lng->txt('tst_competence_tree')),
             'num_assigns' => $column_factory->number($this->lng->txt('qpl_qst_skl_usg_numq_col')),
             'max_points' => $column_factory->number($this->lng->txt('qpl_qst_skl_usg_sklpnt_col'))
         ];

@@ -9,6 +9,7 @@
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnTestsThatTriggerDeprecations="true"
          displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnPhpunitDeprecations="true"
          displayDetailsOnSkippedTests="true"
          backupGlobals="false"
          bootstrap="./tests/bootstrap.php"

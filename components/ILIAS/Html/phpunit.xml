@@ -10,6 +10,7 @@
          displayDetailsOnTestsThatTriggerDeprecations="true"
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnSkippedTests="true"
+         displayDetailsOnPhpunitDeprecations="true"
          backupGlobals="false"
          bootstrap="./tests/bootstrap.php"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">

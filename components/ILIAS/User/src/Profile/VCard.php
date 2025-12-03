@@ -221,25 +221,25 @@ class VCard
                                 $adr = 'ADR';
                                 $adr_types = [];
                                 if ($address['TYPE'] > 0) {
-                                    if (($address['TYPE'] & ADR_TYPE_DOM) > 0) {
+                                    if (($address['TYPE'] & self::ADR_TYPE_DOM) > 0) {
                                         $adr_types[] = 'dom';
                                     }
-                                    if (($address['TYPE'] & ADR_TYPE_INTL) > 0) {
+                                    if (($address['TYPE'] & self::ADR_TYPE_INTL) > 0) {
                                         $adr_types[] = 'intl';
                                     }
-                                    if (($address['TYPE'] & ADR_TYPE_POSTAL) > 0) {
+                                    if (($address['TYPE'] & self::ADR_TYPE_POSTAL) > 0) {
                                         $adr_types[] = 'postal';
                                     }
-                                    if (($address['TYPE'] & ADR_TYPE_PARCEL) > 0) {
+                                    if (($address['TYPE'] & self::ADR_TYPE_PARCEL) > 0) {
                                         $adr_types[] = 'parcel';
                                     }
-                                    if (($address['TYPE'] & ADR_TYPE_HOME) > 0) {
+                                    if (($address['TYPE'] & self::ADR_TYPE_HOME) > 0) {
                                         $adr_types[] = 'home';
                                     }
-                                    if (($address['TYPE'] & ADR_TYPE_WORK) > 0) {
+                                    if (($address['TYPE'] & self::ADR_TYPE_WORK) > 0) {
                                         $adr_types[] = 'work';
                                     }
-                                    if (($address['TYPE'] & ADR_TYPE_PREF) > 0) {
+                                    if (($address['TYPE'] & self::ADR_TYPE_PREF) > 0) {
                                         $adr_types[] = 'pref';
                                     }
                                     $adr .= ';TYPE=' . implode(',', $adr_types);
