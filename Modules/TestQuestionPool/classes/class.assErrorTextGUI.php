@@ -260,7 +260,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $show_manual_scoring = false,
         $show_question_text = true
     ): string {
-        $user_solutions = $this->getUsersSolutionFromPreviewOrDatabase((int) $active_id, $pass);
+        $user_solutions = $this->getUsersSolutionFromPreviewOrDatabase((int) $active_id, $pass, true);
         $show_inline_feedback = false;
         return $this->renderSolutionOutput(
             $user_solutions,
@@ -298,7 +298,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $selections = [
             'user' => $user_solutions ?
                 $user_solutions :
-                $this->getUsersSolutionFromPreviewOrDatabase((int) $active_id, $pass)
+                $this->getUsersSolutionFromPreviewOrDatabase((int) $active_id, $pass, true)
         ];
 
 
@@ -380,7 +380,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $show_feedback = false
     ): string {
         $selections = [
-            'user' => $this->getUsersSolutionFromPreviewOrDatabase($active_id, $pass)
+            'user' => $this->getUsersSolutionFromPreviewOrDatabase($active_id, $pass, false)
          ];
 
         return $this->outQuestionPage(
@@ -418,15 +418,20 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $this->getILIASPage($questionoutput);
     }
 
-    private function getUsersSolutionFromPreviewOrDatabase(int $active_id = 0, ?int $pass = null): array
-    {
+    private function getUsersSolutionFromPreviewOrDatabase(
+        int $active_id = 0,
+        ?int $pass = null,
+        bool $only_authorized = false
+    ): array {
         if (is_object($this->getPreviewSession())) {
             return (array) $this->getPreviewSession()->getParticipantsSolution();
         }
 
         if ($active_id > 0) {
             $selections = [];
-            $solutions = $this->object->getSolutionValues($active_id, $pass ?? 0, true);
+            $solutions = $only_authorized
+                ? $this->object->getSolutionValues($active_id, $pass ?? 0, true)
+                : $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
             foreach ($solutions as $solution) {
                 $selections[] = $solution['value1'];
             }
