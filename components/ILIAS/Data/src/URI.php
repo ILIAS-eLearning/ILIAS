@@ -61,8 +61,7 @@ class URI
     private const UNRESERVED = self::ALPHA_DIGIT . '|[\\-\\._~]';
     private const UNRESERVED_NO_DOT = self::ALPHA_DIGIT . '|[\\-_~]';
 
-    private const PCHAR = self::UNRESERVED . '|' . self::SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
-    private const BASEURI_PCHAR = self::UNRESERVED . '|' . self::BASEURI_SUBDELIMS . '|' . self::PCTENCODED . '|:|@';
+    private const PCHAR = self::UNRESERVED . '|' . self::SUBDELIMS . '|' . self::PCTENCODED;
 
     private const SCHEMA = '#^' . self::ALPHA . '(' . self::ALPHA_DIGIT . '|' . self::PIMP . ')*$#';
     private const DOMAIN_LABEL = self::ALPHA_DIGIT . '((' . self::UNRESERVED_NO_DOT . '|' . self::PCTENCODED . '|' . self::BASEURI_SUBDELIMS . ')*' . self::ALPHA_DIGIT . ')*';
