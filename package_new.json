@@ -11,6 +11,7 @@
     "npm": "^10.9.3 || ^11.3"
   },
   "dependencies": {
+    "mathjax": "^3.2.2"
   },
   "devDependencies": {
   },
@@ -29,5 +30,7 @@
   },
   "homepage": "https://github.com/ILIAS-eLearning/ILIAS#readme",
   "extra": {
+    "introduction-date": null,
+    "purpose": "Mathematical formular formatting"
   }
 }
