@@ -4835,7 +4835,7 @@ var LinearRing = /** @class */ (function (_super) {
          */
         _this.maxDeltaRevision_ = -1;
         if (opt_layout !== undefined && !Array.isArray(coordinates[0])) {
-            _this.setFlatCoordinates(opt_layout, 
+            _this.setFlatCoordinates(opt_layout,
             /** @type {Array<number>} */ (coordinates));
         }
         else {
@@ -5052,7 +5052,7 @@ var Point = /** @class */ (function (_super) {
  * @return {boolean} Contains extent.
  */
 function linearRingContainsExtent(flatCoordinates, offset, end, stride, extent) {
-    var outside = forEachCorner(extent, 
+    var outside = forEachCorner(extent,
     /**
      * @param {import("../../coordinate.js").Coordinate} coordinate Coordinate.
      * @return {boolean} Contains (x, y).
@@ -5249,7 +5249,7 @@ function intersectsLineString(flatCoordinates, offset, end, stride, extent) {
     if (coordinatesExtent[1] >= extent[1] && coordinatesExtent[3] <= extent[3]) {
         return true;
     }
-    return forEach(flatCoordinates, offset, end, stride, 
+    return forEach(flatCoordinates, offset, end, stride,
     /**
      * @param {import("../../coordinate.js").Coordinate} point1 Start point.
      * @param {import("../../coordinate.js").Coordinate} point2 End point.
@@ -5491,7 +5491,7 @@ var Polygon = /** @class */ (function (_super) {
          */
         _this.orientedFlatCoordinates_ = null;
         if (opt_layout !== undefined && opt_ends) {
-            _this.setFlatCoordinates(opt_layout, 
+            _this.setFlatCoordinates(opt_layout,
             /** @type {Array<number>} */ (coordinates));
             _this.ends_ = opt_ends;
         }
@@ -9898,7 +9898,7 @@ var MapBrowserEventHandler = /** @class */ (function (_super) {
         this.down_ = pointerEvent;
         if (this.dragListenerKeys_.length === 0) {
             var doc = this.map_.getOwnerDocument();
-            this.dragListenerKeys_.push(listen(doc, MapBrowserEventType.POINTERMOVE, this.handlePointerMove_, this), listen(doc, MapBrowserEventType.POINTERUP, this.handlePointerUp_, this), 
+            this.dragListenerKeys_.push(listen(doc, MapBrowserEventType.POINTERMOVE, this.handlePointerMove_, this), listen(doc, MapBrowserEventType.POINTERUP, this.handlePointerUp_, this),
             /* Note that the listener for `pointercancel is set up on
              * `pointerEventHandler_` and not `documentPointerEventHandler_` like
              * the `pointerup` and `pointermove` listeners.
@@ -10312,14 +10312,14 @@ var TileQueue = /** @class */ (function (_super) {
      * @param {function(): ?} tileChangeCallback Function called on each tile change event.
      */
     function TileQueue(tilePriorityFunction, tileChangeCallback) {
-        var _this = _super.call(this, 
+        var _this = _super.call(this,
         /**
          * @param {Array} element Element.
          * @return {number} Priority.
          */
         function (element) {
             return tilePriorityFunction.apply(null, element);
-        }, 
+        },
         /**
          * @param {Array} element Element.
          * @return {string} Key.
@@ -10785,14 +10785,14 @@ var PluggableMap = /** @class */ (function (_super) {
         function (control) {
             control.setMap(this);
         }.bind(_this));
-        _this.controls.addEventListener(CollectionEventType.ADD, 
+        _this.controls.addEventListener(CollectionEventType.ADD,
         /**
          * @param {import("./Collection.js").CollectionEvent} event CollectionEvent.
          */
         function (event) {
             event.element.setMap(this);
         }.bind(_this));
-        _this.controls.addEventListener(CollectionEventType.REMOVE, 
+        _this.controls.addEventListener(CollectionEventType.REMOVE,
         /**
          * @param {import("./Collection.js").CollectionEvent} event CollectionEvent.
          */
@@ -10807,14 +10807,14 @@ var PluggableMap = /** @class */ (function (_super) {
         function (interaction) {
             interaction.setMap(this);
         }.bind(_this));
-        _this.interactions.addEventListener(CollectionEventType.ADD, 
+        _this.interactions.addEventListener(CollectionEventType.ADD,
         /**
          * @param {import("./Collection.js").CollectionEvent} event CollectionEvent.
          */
         function (event) {
             event.element.setMap(this);
         }.bind(_this));
-        _this.interactions.addEventListener(CollectionEventType.REMOVE, 
+        _this.interactions.addEventListener(CollectionEventType.REMOVE,
         /**
          * @param {import("./Collection.js").CollectionEvent} event CollectionEvent.
          */
@@ -10822,7 +10822,7 @@ var PluggableMap = /** @class */ (function (_super) {
             event.element.setMap(null);
         }.bind(_this));
         _this.overlays_.forEach(_this.addOverlayInternal_.bind(_this));
-        _this.overlays_.addEventListener(CollectionEventType.ADD, 
+        _this.overlays_.addEventListener(CollectionEventType.ADD,
         /**
          * @param {import("./Collection.js").CollectionEvent} event CollectionEvent.
          */
@@ -10830,7 +10830,7 @@ var PluggableMap = /** @class */ (function (_super) {
             this.addOverlayInternal_(
             /** @type {import("./Overlay.js").default} */ (event.element));
         }.bind(_this));
-        _this.overlays_.addEventListener(CollectionEventType.REMOVE, 
+        _this.overlays_.addEventListener(CollectionEventType.REMOVE,
         /**
          * @param {import("./Collection.js").CollectionEvent} event CollectionEvent.
          */
@@ -11028,7 +11028,7 @@ var PluggableMap = /** @class */ (function (_super) {
      */
     PluggableMap.prototype.getEventPixel = function (event) {
         var viewportPosition = this.viewport_.getBoundingClientRect();
-        var eventPosition = 
+        var eventPosition =
         //FIXME Are we really calling this with a TouchEvent anywhere?
         'changedTouches' in event
             ? /** @type {TouchEvent} */ (event).changedTouches[0]
@@ -13725,7 +13725,7 @@ var PointerInteraction = /** @class */ (function (_super) {
     function PointerInteraction(opt_options) {
         var _this = this;
         var options = opt_options ? opt_options : {};
-        _this = _super.call(this, 
+        _this = _super.call(this,
         /** @type {import("./Interaction.js").InteractionOptions} */ (options)) || this;
         if (options.handleDownEvent) {
             _this.handleDownEvent = options.handleDownEvent;
@@ -15169,7 +15169,7 @@ var MouseWheelZoom = /** @class */ (function (_super) {
     function MouseWheelZoom(opt_options) {
         var _this = this;
         var options = opt_options ? opt_options : {};
-        _this = _super.call(this, 
+        _this = _super.call(this,
         /** @type {import("./Interaction.js").InteractionOptions} */ (options)) || this;
         /**
          * @private
@@ -16733,12 +16733,12 @@ var __extends$M = (undefined && undefined.__extends) || (function () {
  *
  * @api
  */
-var Map = /** @class */ (function (_super) {
-    __extends$M(Map, _super);
+var OLMap = /** @class */ (function (_super) {
+    __extends$M(OLMap, _super);
     /**
      * @param {import("./PluggableMap.js").MapOptions} options Map options.
      */
-    function Map(options) {
+    function OLMap(options) {
         var _this = this;
         options = assign({}, options);
         if (!options.controls) {
@@ -16752,10 +16752,10 @@ var Map = /** @class */ (function (_super) {
         _this = _super.call(this, options) || this;
         return _this;
     }
-    Map.prototype.createRenderer = function () {
+    OLMap.prototype.createRenderer = function () {
         return new CompositeMapRenderer(this);
     };
-    return Map;
+    return OLMap;
 }(PluggableMap));
 
 /**
@@ -21277,7 +21277,7 @@ class ServiceOpenLayers {
      * @return 	{void}
      */
     initMap(id, replace_marker) {
-        this.map = new Map({
+        this.map = new OLMap({
             layers: [
                 new TileLayer({
                     preload: 4,
