@@ -165,6 +165,8 @@ class ilAssQuestionSkillAssignmentsGUI
             $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
         }
 
+        $this->keepAssignmentParameters();
+
         if (in_array($command, [self::CMD_EDIT_SKILL_QUEST_ASSIGNS])) {
             $this->modifyTabs();
         }
