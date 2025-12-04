@@ -92,7 +92,10 @@ class ilPluginLanguage
     {
         // get the keys of all installed languages if keys are not provided
         if (!isset($a_lang_keys)) {
-            $a_lang_keys = ilObjLanguage::getInstalledLanguages();
+            $a_lang_keys = [];
+            foreach (ilObjLanguage::getInstalledLanguages() as $language) {
+                $a_lang_keys[] = $language['title'];
+            }
         }
 
         $langs = $this->getAvailableLangFiles();
