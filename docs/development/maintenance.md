@@ -299,7 +299,7 @@ of ILIAS. The file contains the following fields:
     * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
     * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
         , [akill](https://docu.ilias.de/go/usr/149)
-    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to Curate Test Cases: [MISSING]
     * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
@@ -433,7 +433,7 @@ of ILIAS. The file contains the following fields:
     * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
     * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
         , [akill](https://docu.ilias.de/go/usr/149)
-    * Authority to Curate Test Cases: [lauener](https://docu.ilias.de/go/usr/8474)
+    * Authority to Curate Test Cases: [MISSING]
     * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
@@ -457,11 +457,10 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN CSSAndTemplates)
 
 * **CSS / Templates**
-    * Authority to Sign off on Conceptual Changes: [yvseiler](https://docu.ilias.de/go/usr/17694)
-    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
-    * Authority to Curate Test Cases: [amstutz](https://docu.ilias.de/go/usr/26468)
-      , [yvseiler](https://docu.ilias.de/go/usr/17694)
-    * Authority to (De-)Assign Authorities: [yvseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to Sign off on Conceptual Changes: [MISSING]
+    * Authority to Sign off on Code Changes: [MISSING]
+    * Authority to Curate Test Cases: [MISSING]
+    * Authority to (De-)Assign Authorities: [MISSING]
     * Assignee for Security Reports: [MISSING]
     * Assignee for Security Issues: [MISSING]
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
@@ -726,7 +725,7 @@ of ILIAS. The file contains the following fields:
     * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
     * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
         , [akill](https://docu.ilias.de/go/usr/149)
-    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to Curate Test Cases: [MISSING]
     * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
@@ -1320,7 +1319,7 @@ of ILIAS. The file contains the following fields:
 * **Session**
     * Authority to Sign off on Conceptual Changes: [smeyer](https://docu.ilias.de/go/usr/191)
     * Authority to Sign off on Code Changes: [smeyer](https://docu.ilias.de/go/usr/191)
-    * Authority to Curate Test Cases: [yseiler](https://docu.ilias.de/go/usr/17694)
+    * Authority to Curate Test Cases: [MISSING]
     * Authority to (De-)Assign Authorities: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Reports: [smeyer](https://docu.ilias.de/go/usr/191)
     * Assignee for Security Issues: [smeyer](https://docu.ilias.de/go/usr/191)
@@ -1531,12 +1530,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN UI-Service)
 
 * **UI-Service**
-    * Authority to Sign off on Conceptual Changes: [amstutz](https://docu.ilias.de/go/usr/26468), [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
-    * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468), [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Authority to Sign off on Conceptual Changes: [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Authority to Sign off on Code Changes: [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
     * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631)
-    * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/go/usr/26468), [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
-    * Assignee for Security Reports: [amstutz](https://docu.ilias.de/go/usr/26468), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
-    * Assignee for Security Issues: [amstutz](https://docu.ilias.de/go/usr/26468), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Authority to (De-)Assign Authorities: [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Assignee for Security Reports: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
+    * Assignee for Security Issues: [oliver.samoila](https://docu.ilias.de/go/usr/26160)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END UI-Service)
