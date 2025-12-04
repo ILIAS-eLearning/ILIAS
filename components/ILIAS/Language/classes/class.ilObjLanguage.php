@@ -72,17 +72,11 @@ class ilObjLanguage extends ilObject
      */
     public static function getInstalledLanguages(): array
     {
-        $objects = array();
         $languages = ilObject::_getObjectsByType("lng");
-        foreach ($languages as $lang) {
-            $langObj = new ilObjLanguage((int) $lang["obj_id"], false);
-            if ($langObj->isInstalled()) {
-                $objects[] = $langObj;
-            } else {
-                unset($langObj);
-            }
-        }
-        return $objects;
+
+        return array_filter($languages, function ($language_object) {
+            return $language_object['desc'] === 'installed';
+        });
     }
 
 
