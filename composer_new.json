@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"guzzlehttp/psr7": "2.7.0"
 	},
 	"require-dev": {
 	},
