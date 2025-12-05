@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"pimple/pimple": "v3.6.0",
 	},
 	"require-dev": {
 	},
