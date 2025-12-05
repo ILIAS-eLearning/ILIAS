@@ -13,6 +13,7 @@
   "dependencies": {
   },
   "devDependencies": {
+	"eslint-config-airbnb-base": "15.0.0",
   },
   "scripts": {
     "test": "node --test \"./components/ILIAS/**/tests/**/*.js\""
