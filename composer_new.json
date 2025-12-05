@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"symfony/console": "v6.4.23"
 	},
 	"require-dev": {
 	},
