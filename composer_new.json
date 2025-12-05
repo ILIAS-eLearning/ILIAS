@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"dflydev/fig-cookies": "v3.1.0"
 	},
 	"require-dev": {
 	},
