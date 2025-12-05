@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"psr/http-message": "2.0",
 	},
 	"require-dev": {
 	},
