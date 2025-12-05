@@ -13,6 +13,7 @@
   "dependencies": {
   },
   "devDependencies": {
+	"sass": "1.94.2",
   },
   "scripts": {
     "test": "node --test \"./components/ILIAS/**/tests/**/*.js\""
