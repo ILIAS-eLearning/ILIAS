@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * OAuth based lti authentication
@@ -107,7 +107,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         $connector = new ilLTIDataConnector();
         $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
-        return $consumer->getTitle();
+        $object = ilObjectFactory::getInstanceByRefId($consumer->getRefId());
+        return $consumer->getTitle() . " - " . $object->getTitle();
     }
 
     /**
@@ -427,12 +428,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
         $newUser["login"] = $local_user;
-        if(isset($this->messageParameters['lis_person_name_given'])) {
+        if (isset($this->messageParameters['lis_person_name_given'])) {
             $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
         } else {
             $newUser["firstname"] = '-';
         }
-        if(isset($this->messageParameters['lis_person_name_family'])) {
+        if (isset($this->messageParameters['lis_person_name_family'])) {
             $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
         } else {
             $newUser["lastname"] = '-';
