@@ -428,12 +428,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
         $newUser["login"] = $local_user;
-        if(isset($this->messageParameters['lis_person_name_given'])) {
+        if (isset($this->messageParameters['lis_person_name_given'])) {
             $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
         } else {
             $newUser["firstname"] = '-';
         }
-        if(isset($this->messageParameters['lis_person_name_family'])) {
+        if (isset($this->messageParameters['lis_person_name_family'])) {
             $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
         } else {
             $newUser["lastname"] = '-';
