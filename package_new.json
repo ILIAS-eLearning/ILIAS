@@ -11,6 +11,7 @@
     "npm": "^10.9.3 || ^11.3"
   },
   "dependencies": {
+	"@yaireo/tagify": "4.35.6",
   },
   "devDependencies": {
   },
