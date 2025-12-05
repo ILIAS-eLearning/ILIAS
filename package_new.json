@@ -13,6 +13,7 @@
   "dependencies": {
   },
   "devDependencies": {
+	"@rollup/plugin-terser": "0.4.4",
   },
   "scripts": {
     "test": "node --test \"./components/ILIAS/**/tests/**/*.js\""
