@@ -283,7 +283,7 @@ class HttpMessage
                 $links = explode(',', $matches[2][$i]);
                 foreach ($links as $link) {
                     if (preg_match('/^\<([^\>]+)\>; *rel=([^ ]+)$/', trim($link), $match)) {
-                        $rel = strtolower(utf8_decode($match[2]));
+                        $rel = strtolower(mb_convert_encoding($match[2], 'ISO-8859-1', 'UTF-8'));
                         if ((strpos($rel, '"') === 0) || (strpos($rel, '?') === 0)) {
                             $rel = substr($rel, 1, strlen($rel) - 2);
                         }
