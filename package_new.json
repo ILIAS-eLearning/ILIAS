@@ -13,6 +13,7 @@
   "dependencies": {
   },
   "devDependencies": {
+	"eslint": "9.39.1",
   },
   "scripts": {
     "test": "node --test \"./components/ILIAS/**/tests/**/*.js\""
