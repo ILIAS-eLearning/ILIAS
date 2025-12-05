@@ -396,6 +396,7 @@ class ilLTIConsumerResultService
     private function checkSignature(string $a_key, string $a_secret): void
     {
         global $DIC;
+        $parameters = array();
         $logger = $DIC->logger()->root();
         $platform = new ilLTIPlatform();
 
@@ -415,8 +416,8 @@ class ilLTIConsumerResultService
         if (isset($request_headers['Authorization']) && str_starts_with($request_headers['Authorization'], 'OAuth ')) {
             $parameters = OAuthUtil::split_header($request_headers['Authorization']);
         }
-        $request = OAuthRequest::from_request(null, null, $parameters ?? []);
-        $logger->info("Request: " . json_encode($request));
+        $request = OAuthRequest::from_request(null, null, $parameters);
+        $logger->debug("Request: " . json_encode($request) . " parameters: " . json_encode($parameters));
         $server->verify_request($request);
     }
 
