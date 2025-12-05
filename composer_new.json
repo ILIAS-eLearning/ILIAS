@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"league/flysystem": "3.28.0"
 	},
 	"require-dev": {
 	},
