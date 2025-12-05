@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"sabre/dav": "4.6.0"
 	},
 	"require-dev": {
 	},
