@@ -13,6 +13,7 @@
   "dependencies": {
   },
   "devDependencies": {
+	"@rollup/plugin-node-resolve": "16.0.3",
   },
   "scripts": {
     "test": "node --test \"./components/ILIAS/**/tests/**/*.js\""
