@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"ramsey/uuid": "4.9.0"
 	},
 	"require-dev": {
 	},
