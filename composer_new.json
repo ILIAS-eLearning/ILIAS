@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"league/commonmark": "2.7.0"
 	},
 	"require-dev": {
 	},
