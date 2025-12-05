@@ -13,6 +13,7 @@
   "dependencies": {
   },
   "devDependencies": {
+	"rollup": "4.53.3",
   },
   "scripts": {
     "test": "node --test \"./components/ILIAS/**/tests/**/*.js\""
