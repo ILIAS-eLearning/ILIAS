@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"ifsnop/mysqldump-php": "v2.11"
 	},
 	"require-dev": {
 	},
