@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"firebase/php-jwt": "6.11.1"
 	},
 	"require-dev": {
 	},
