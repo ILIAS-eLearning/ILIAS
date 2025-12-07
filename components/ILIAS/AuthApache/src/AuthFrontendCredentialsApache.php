@@ -18,17 +18,28 @@
 
 declare(strict_types=1);
 
-use Psr\Http\Message\ServerRequestInterface;
+namespace ILIAS\AuthApache;
 
-class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
+use Psr\Http\Message\ServerRequestInterface;
+use ilAuthFrontendCredentials;
+use ilUtil;
+use ilSetting;
+use ilContext;
+use ilLogLevel;
+use ilCtrlInterface;
+use ILIAS\ApacheAuth\UsernameProvider\CollectUsernameProvidersObjective;
+use ILIAS\ApacheAuth\UsernameProvider\UsernameProviderFactory;
+use ILIAS\ApacheAuth\UsernameProvider\UsernameResolver;
+
+class AuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 {
-    private ServerRequestInterface $httpRequest;
+    private ServerRequestInterface $http_request;
     private ilCtrlInterface $ctrl;
     private ilSetting $settings;
 
-    public function __construct(ServerRequestInterface $httpRequest, ilCtrlInterface $ctrl)
+    public function __construct(ServerRequestInterface $http_request, ilCtrlInterface $ctrl)
     {
-        $this->httpRequest = $httpRequest;
+        $this->http_request = $http_request;
         $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');
         parent::__construct();
@@ -40,9 +51,9 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
      */
     public function tryAuthenticationOnLoginPage(): void
     {
-        $cmd = (string) ($this->httpRequest->getQueryParams()['cmd'] ?? '');
+        $cmd = (string) ($this->http_request->getQueryParams()['cmd'] ?? '');
         if ($cmd === '') {
-            $cmd = (string) ($this->httpRequest->getParsedBody()['cmd'] ?? '');
+            $cmd = (string) ($this->http_request->getParsedBody()['cmd'] ?? '');
         }
 
         if ($cmd === 'force_login') {
@@ -57,15 +68,13 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
             return;
         }
 
-        if (
-            (defined('IL_CERT_SSO') && (int) IL_CERT_SSO === 1) ||
+        if ((\defined('IL_CERT_SSO') && \IL_CERT_SSO === true) ||
             !ilContext::supportsRedirects() ||
-            isset($this->httpRequest->getQueryParams()['passed_sso'])
-        ) {
+            isset($this->http_request->getQueryParams()['passed_sso'])) {
             return;
         }
 
-        $path = (string) ($this->httpRequest->getServerParams()['REQUEST_URI'] ?? '');
+        $path = (string) ($this->http_request->getServerParams()['REQUEST_URI'] ?? '');
         if (str_starts_with($path, '/')) {
             $path = substr($path, 1);
         }
@@ -94,46 +103,51 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 
     public function initFromRequest(): void
     {
-        $mappingFieldName = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
+        $mapping_field_name = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
 
-        $this->logger->dump($this->httpRequest->getServerParams(), ilLogLevel::DEBUG);
-        $this->logger->debug($mappingFieldName);
+        $this->logger->dump($this->http_request->getServerParams(), ilLogLevel::DEBUG);
+        $this->logger->debug($mapping_field_name);
 
         switch ($this->getSettings()->get('apache_auth_username_config_type')) {
-            case ilAuthProviderApache::APACHE_AUTH_TYPE_DIRECT_MAPPING:
-                if (isset($this->httpRequest->getServerParams()[$mappingFieldName])) {
-                    $this->setUsername($this->httpRequest->getServerParams()[$mappingFieldName]);
+            case AuthProviderApache::APACHE_AUTH_TYPE_DIRECT_MAPPING:
+                if (isset($this->http_request->getServerParams()[$mapping_field_name])) {
+                    $this->setUsername($this->http_request->getServerParams()[$mapping_field_name]);
                 }
                 break;
 
-            case ilAuthProviderApache::APACHE_AUTH_TYPE_BY_FUNCTION:
-                $this->setUsername(ApacheCustom::getUsername());
+            case AuthProviderApache::APACHE_AUTH_TYPE_BY_FUNCTION:
+                $factory = new UsernameProviderFactory();
+                $resolver = new UsernameResolver($factory->fromClassNames(
+                    require CollectUsernameProvidersObjective::PATH()
+                ), $this->logger);
+
+                $this->setUsername($resolver->resolve($this->http_request)->asString());
                 break;
         }
     }
 
     public function hasValidTargetUrl(): bool
     {
-        $targetUrl = trim((string) ($this->httpRequest->getQueryParams()['r'] ?? ''));
-        if ($targetUrl === '') {
+        $target_url = trim((string) ($this->http_request->getQueryParams()['r'] ?? ''));
+        if ($target_url === '') {
             return false;
         }
 
-        $validDomains = [];
+        $valid_hosts = [];
         $path = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
         if (file_exists($path) && is_readable($path)) {
             foreach (file($path) as $line) {
                 if (trim($line)) {
-                    $validDomains[] = trim($line);
+                    $valid_hosts[] = trim($line);
                 }
             }
         }
 
-        return (new ilWhiteListUrlValidator($targetUrl, $validDomains))->isValid();
+        return (new WhiteListUrlValidator($target_url, $valid_hosts))->isValid();
     }
 
     public function getTargetUrl(): string
     {
-        return ilUtil::appendUrlParameterString(trim($this->httpRequest->getQueryParams()['r']), 'passed_sso=1');
+        return ilUtil::appendUrlParameterString(trim($this->http_request->getQueryParams()['r']), 'passed_sso=1');
     }
 }

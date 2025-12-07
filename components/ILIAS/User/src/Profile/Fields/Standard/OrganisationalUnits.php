@@ -70,11 +70,6 @@ class OrganisationalUnits implements FieldDefinition
         return false;
     }
 
-    public function searchableForcedTo(): ?bool
-    {
-        return false;
-    }
-
     public function availableInCertificatesForcedTo(): ?bool
     {
         return false;

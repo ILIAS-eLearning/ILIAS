@@ -17513,7 +17513,7 @@ user#:#activate_in_profile_fields#:#To change this setting, the user must first 
 user#:#administrative_settings#:#Administrative Settings
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
-user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.
+user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s . The link is valid for %s minutes.
 user#:#change_email_email_confirmation_subject#:#Confirm Email Address
 user#:#change_email_email_information_body#:#The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes.
 user#:#change_email_email_information_subject#:#Information about Change of Email Address

@@ -38,12 +38,12 @@ class URITest extends TestCase
     private const URI_NO_QUERY_1 = 'git://one-letter-top-level.a:8080/someaccount/somerepo/somerepo.git/#fragment';
     private const URI_NO_QUERY_2 = 'git://github.com:8080/someaccount/somerepo/somerepo.git#fragment';
 
-    private const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
-    private const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
+    private const URI_AUTHORITY_AND_QUERY_1 = 'git://github.com?query_p$,;A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
+    private const URI_AUTHORITY_AND_QUERY_2 = 'git://github.com/?qu/ery_p$,;A!\'*+()ar_1=val_1&quer?y_par_2=val_2';
 
-    private const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;:A!\'*+()ar_1=val_1&';
+    private const URI_AUTHORITY_AND_FRAGMENT = 'git://github.com:8080/#fragment$,;A!\'*+()ar_1=val_1&';
 
-    private const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#frag:A!\'*+()arment';
+    private const URI_AUTHORITY_PATH_FRAGMENT = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git#fragA!\'*+()arment';
 
     private const URI_PATH = 'git://git$,;hub.com:8080/someacc$,;ount/somerepo/somerepo.git/';
 
@@ -58,8 +58,9 @@ class URITest extends TestCase
     private const URI_WRONG_AUTHORITY_1 = 'git://git$,;hu<b.com:8080/someacc$,;ount/somerepo/somerepo.git/';
     private const URI_WRONG_AUTHORITY_2 = 'git://git$,;hu=b.com/someacc$,;ount/somerepo/somerepo.git/';
 
-
     private const URI_INVALID = 'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
+
+    private const URI_INVALID_CHARACTERS_IN_QUERY = 'git://github.com?query_p=:&query_p2=ilias@ilias.de';
 
     private const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
@@ -250,7 +251,7 @@ class URITest extends TestCase
         $this->assertEquals('github.com', $uri->getHost());
         $this->assertNull($uri->getPort());
         $this->assertNull($uri->getPath());
-        $this->assertEquals('query_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('query_p$,;A!\'*+()ar_1=val_1&quer?y_par_2=val_2', $uri->getQuery());
         $this->assertNull($uri->getFragment());
 
         $uri = new ILIAS\Data\URI(self::URI_AUTHORITY_AND_QUERY_2);
@@ -259,7 +260,7 @@ class URITest extends TestCase
         $this->assertEquals('github.com', $uri->getHost());
         $this->assertNull($uri->getPort());
         $this->assertNull($uri->getPath());
-        $this->assertEquals('qu/ery_p$,;:A!\'*+()ar_1=val_1&quer?y_par_2=val_2', $uri->getQuery());
+        $this->assertEquals('qu/ery_p$,;A!\'*+()ar_1=val_1&quer?y_par_2=val_2', $uri->getQuery());
         $this->assertNull($uri->getFragment());
     }
 
@@ -273,7 +274,7 @@ class URITest extends TestCase
         $this->assertEquals('8080', $uri->getPort());
         $this->assertNull($uri->getPath());
         $this->assertNull($uri->getQuery());
-        $this->assertEquals('fragment$,;:A!\'*+()ar_1=val_1&', $uri->getFragment());
+        $this->assertEquals('fragment$,;A!\'*+()ar_1=val_1&', $uri->getFragment());
     }
 
     #[\PHPUnit\Framework\Attributes\Depends('test_init')]
@@ -286,7 +287,7 @@ class URITest extends TestCase
         $this->assertEquals('8080', $uri->getPort());
         $this->assertEquals('someacc$,;ount/somerepo/somerepo.git', $uri->getPath());
         $this->assertNull($uri->getQuery());
-        $this->assertEquals('frag:A!\'*+()arment', $uri->getFragment());
+        $this->assertEquals('fragA!\'*+()arment', $uri->getFragment());
     }
 
     #[\PHPUnit\Framework\Attributes\Depends('test_init')]
@@ -357,6 +358,13 @@ class URITest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_INVALID);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Depends('test_init')]
+    public function test_invalid_characters_in_query(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new ILIAS\Data\URI(self::URI_INVALID_CHARACTERS_IN_QUERY);
     }
 
     #[\PHPUnit\Framework\Attributes\Depends('test_init')]

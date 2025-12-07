@@ -165,6 +165,8 @@ class ilAssQuestionSkillAssignmentsGUI
             $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
         }
 
+        $this->keepAssignmentParameters();
+
         if (in_array($command, [self::CMD_EDIT_SKILL_QUEST_ASSIGNS])) {
             $this->modifyTabs();
         }
@@ -391,8 +393,8 @@ class ilAssQuestionSkillAssignmentsGUI
         $question_id = $this->request_data_collector->getQuestionId();
         $question_gui ??= assQuestionGUI::_getQuestionGUI('', $question_id);
 
-        $row_id_parameter = $this->request_data_collector->strArray(EditSkillsOfQuestionTableActions::FULL_ROW_ID_PARAMETER);
-        [1 => $skill_base_id, 2 => $skill_tref_id] = explode('_', $row_id_parameter[0]);
+        $row_id_parameter = $this->request_data_collector->getRowIdParameter(EditSkillsOfQuestionTableActions::FULL_ROW_ID_PARAMETER);
+        [1 => $skill_base_id, 2 => $skill_tref_id] = explode('_', $row_id_parameter);
         $assignment ??= $this->buildQuestionSkillAssignment($question_id, (int) $skill_base_id, (int) $skill_tref_id);
 
         $form ??= $this->buildSkillQuestionAssignmentPropertiesForm($question_gui->getObject(), $assignment);
@@ -407,7 +409,7 @@ class ilAssQuestionSkillAssignmentsGUI
         if ($this->isTestQuestion($question_id)) {
             $question_gui = assQuestionGUI::_getQuestionGUI('', $question_id);
 
-            $row_id_parameter = $this->request_data_collector->string(EditSkillsOfQuestionTableActions::FULL_ROW_ID_PARAMETER);
+            $row_id_parameter = $this->request_data_collector->getRowIdParameter(EditSkillsOfQuestionTableActions::FULL_ROW_ID_PARAMETER);
             [1 => $skill_base_id, 2 => $skill_tref_id] = explode('_', $row_id_parameter);
             $assignment = $this->buildQuestionSkillAssignment($question_id, (int) $skill_base_id, (int) $skill_tref_id);
 
@@ -462,7 +464,7 @@ class ilAssQuestionSkillAssignmentsGUI
             }
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+        $this->ctrl->redirect($this, self::CMD_EDIT_SKILL_QUEST_ASSIGNS);
     }
 
     private function buildSkillQuestionAssignmentPropertiesForm(
@@ -592,7 +594,7 @@ class ilAssQuestionSkillAssignmentsGUI
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $confirmation->addHiddenItem('q_id', $this->request_data_collector->getQuestionId());
         $confirmation->setConfirm($this->lng->txt('yes'), self::CMD_SYNC_ORIGINAL);
-        $confirmation->setCancel($this->lng->txt('no'), self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+        $confirmation->setCancel($this->lng->txt('no'), self::CMD_EDIT_SKILL_QUEST_ASSIGNS);
 
         $this->tpl->setContent($this->ctrl->getHTML($confirmation));
     }
@@ -613,7 +615,7 @@ class ilAssQuestionSkillAssignmentsGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('qpl_qst_skl_assign_synced_to_orig'), true);
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
+        $this->ctrl->redirect($this, self::CMD_EDIT_SKILL_QUEST_ASSIGNS);
     }
 
     private function buildSkillQuestionAssignmentList(): ilAssQuestionSkillAssignmentList

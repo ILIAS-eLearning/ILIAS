@@ -18,13 +18,30 @@
 
 declare(strict_types=1);
 
-final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
+namespace ILIAS\AuthApache;
+
+use ilUtil;
+use ilAuthCredentials;
+use ilLDAPSynchronisationFailedException;
+use ilSetting;
+use ilAuthUtils;
+use ilObjUser;
+use ilAuthProvider;
+use ilLDAPServer;
+use ilLDAPSynchronisationForbiddenException;
+use ilAuthStatus;
+use ilAuthProviderAccountMigrationInterface;
+use ilLDAPAccountMigrationRequiredException;
+use ilLDAPUserSynchronisation;
+
+final class AuthProviderApache extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
     public const int APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
     public const int APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
     public const int APACHE_AUTH_TYPE_BY_FUNCTION = 3;
 
     private const string ENV_APACHE_AUTH_INDICATOR_NAME = 'apache_auth_indicator_name';
+    private const string ENV_APACHE_AUTH_INDICATOR_VALUE = 'apache_auth_indicator_value';
 
     private const string ERR_WRONG_LOGIN = 'err_wrong_login';
 
@@ -49,24 +66,27 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
             return false;
         }
 
-        if (
-            !$this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_NAME, '') ||
-            !$this->settings->get('apache_auth_indicator_value', '')
-        ) {
+        if (!$this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_NAME, '') ||
+            !$this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_VALUE, '')) {
             $this->getLogger()->warning('Apache auth indicator match failure.');
             $this->handleAuthenticationFail($status, 'apache_auth_err_indicator_match_failure');
             return false;
         }
 
-        $validIndicatorValues = array_filter(array_map(
-            'trim',
-            str_getcsv($this->settings->get('apache_auth_indicator_value', ''), ',', '"', '\\')
-        ));
+        $validIndicatorValues = array_filter(
+            array_map(
+                'trim',
+                str_getcsv($this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_VALUE, ''), ',', '"', '\\')
+            )
+        );
+
         //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['apache_auth_indicator_name']
-        if (
-            !isset($_SERVER[$this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_NAME, '')]) ||
-            !in_array($_SERVER[$this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_NAME, '')], $validIndicatorValues, true)
-        ) {
+        if (!isset($_SERVER[$this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_NAME, '')]) ||
+            !\in_array(
+                $_SERVER[$this->settings->get(self::ENV_APACHE_AUTH_INDICATOR_NAME, '')],
+                $validIndicatorValues,
+                true
+            )) {
             $this->getLogger()->warning('Apache authentication failed (indicator name <-> value');
             $this->handleAuthenticationFail($status, self::ERR_WRONG_LOGIN);
             return false;
@@ -92,7 +112,9 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
         $login = ilObjUser::_checkExternalAuthAccount('apache', $this->getCredentials()->getUsername());
         $usr_id = ilObjUser::_lookupId($login);
         if (!$usr_id) {
-            $this->getLogger()->info('Cannot find user id for external account: ' . $this->getCredentials()->getUsername());
+            $this->getLogger()->info(
+                'Cannot find user id for external account: ' . $this->getCredentials()->getUsername()
+            );
             $this->handleAuthenticationFail($status, self::ERR_WRONG_LOGIN);
             return false;
         }
@@ -159,7 +181,7 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
         try {
             $internal_account = $sync->sync();
             $this->getLogger()->debug('Internal account: ' . $internal_account);
-        } catch (UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             $this->getLogger()->info('Login failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, self::ERR_WRONG_LOGIN);
             return false;
@@ -172,7 +194,10 @@ final class ilAuthProviderApache extends ilAuthProvider implements ilAuthProvide
             return false;
         } catch (ilLDAPAccountMigrationRequiredException) {
             $this->setExternalAccountName($this->getCredentials()->getUsername());
-            $this->getLogger()->info('Authentication failed: account migration required for external account: ' . $this->getCredentials()->getUsername());
+            $this->getLogger()->info(\sprintf(
+                'Authentication failed: account migration required for external account: %s',
+                $this->getCredentials()->getUsername()
+            ));
             $status->setStatus(ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED);
             return false;
         }

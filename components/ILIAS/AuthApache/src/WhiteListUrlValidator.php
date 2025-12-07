@@ -18,7 +18,9 @@
 
 declare(strict_types=1);
 
-final readonly class ilWhiteListUrlValidator
+namespace ILIAS\AuthApache;
+
+final readonly class WhiteListUrlValidator
 {
     /** @var list<string> */
     private array $whitelist;
@@ -29,26 +31,25 @@ final readonly class ilWhiteListUrlValidator
     public function __construct(private string $url, array $whitelist)
     {
         $this->whitelist = array_filter(array_map(static function (string $domain): string {
-            return trim($domain); // Used for trimming and type validation (strict primitive type hint)
+            return trim($domain);
         }, $whitelist));
     }
 
-    private function isValidDomain(string $domain): bool
+    private function isValidHost(string $host): bool
     {
-        foreach ($this->whitelist as $validDomain) {
-            if ($domain === $validDomain) {
+        foreach ($this->whitelist as $valid_host) {
+            if ($host === $valid_host) {
                 return true;
             }
 
-            $firstChar = $validDomain[0];
-            if ('.' !== $firstChar) {
-                $validDomain = '.' . $validDomain;
+            if (!str_starts_with($valid_host, '.')) {
+                $valid_host = '.' . $valid_host;
             }
 
-            if ((strlen($domain) > strlen($validDomain)) && substr(
-                $domain,
-                (0 - strlen($validDomain))
-            ) === $validDomain) {
+            if ((\strlen($host) > \strlen($valid_host)) && substr(
+                $host,
+                (0 - \strlen($valid_host))
+            ) === $valid_host) {
                 return true;
             }
         }
@@ -58,11 +59,11 @@ final readonly class ilWhiteListUrlValidator
 
     public function isValid(): bool
     {
-        $redirectDomain = parse_url($this->url, PHP_URL_HOST);
-        if (null === $redirectDomain) {
+        $host = parse_url($this->url, PHP_URL_HOST);
+        if ($host === null) {
             return false;
         }
 
-        return $this->isValidDomain($redirectDomain);
+        return $this->isValidHost($host);
     }
 }

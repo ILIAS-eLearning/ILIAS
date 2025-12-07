@@ -78,8 +78,9 @@ class VEvent
         $end = $end->setTimezone(new \DateTimeZone('Europe/Paris'));
 
         if ($this->all_day) {
+            // end date is exclusive, so has to be one day later!
             return  'DTSTART;TZID=Europe/Paris;VALUE=DATE:' . $start->format('Ymd') . "\r\n" .
-                    'DTEND;TZID=Europe/Paris;VALUE=DATE:' . $end->format('Ymd') . "\r\n" .
+                    'DTEND;TZID=Europe/Paris;VALUE=DATE:' . $end->add(new \DateInterval('P1D'))->format('Ymd') . "\r\n" .
                     "X-MICROSOFT-CDO-ALLDAYEVENT: TRUE\r\n";
         } else {
             return  'DTSTART;TZID=Europe/Paris:' . $start->format('Ymd\THis') . "\r\n" .

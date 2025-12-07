@@ -461,7 +461,7 @@ class PersonalProfileGUI
             $this->showPersonalData(true);
             return;
         }
-        $this->addDataFromFormToUser();
+        $this->addDataFromFormToUser([Email::class]);
         $this->user->update();
 
         \ilSession::setClosingContext(\ilSession::SESSION_CLOSE_USER);
@@ -469,7 +469,9 @@ class PersonalProfileGUI
         session_unset();
         $token = $this->change_mail_token_repo->getNewTokenForUser(
             $this->user,
-            $this->form->getInput('usr_email'),
+            $this->form->getInput(
+                $this->profile->getFieldByClass(Email::class)->getIdentifier()
+            ),
             time()
         );
         $this->ctrl->redirectToURL(
@@ -477,9 +479,10 @@ class PersonalProfileGUI
         );
     }
 
-    private function addDataFromFormToUser(): void
-    {
-        $this->user = $this->profile->addFormValuesToUser($this->form, Context::User, $this->user);
+    private function addDataFromFormToUser(
+        array $skip_fields = []
+    ): void {
+        $this->user = $this->profile->addFormValuesToUser($this->form, Context::User, $this->user, $skip_fields);
         $this->user->setProfileIncomplete(false);
 
         $this->user->setTitle($this->user->getFullname());

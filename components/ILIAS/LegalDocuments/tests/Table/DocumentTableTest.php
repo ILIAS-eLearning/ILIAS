@@ -52,7 +52,7 @@ class DocumentTableTest extends TestCase
     public function testConstruct(): void
     {
         $uri = $this->mock(UriInterface::class);
-        $uri->method('__toString')->willReturn('http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50');
+        $uri->method('__toString')->willReturn('http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50');
 
         $request = $this->mock(ServerRequestInterface::class);
         $request->method("getUri")->willReturn($uri);
@@ -75,7 +75,7 @@ class DocumentTableTest extends TestCase
     public function testCriterionName(): void
     {
         $uri = $this->mock(UriInterface::class);
-        $uri->method('__toString')->willReturn('http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50');
+        $uri->method('__toString')->willReturn('http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50');
 
         $request = $this->mock(ServerRequestInterface::class);
         $request->method("getUri")->willReturn($uri);

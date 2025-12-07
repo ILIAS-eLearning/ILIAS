@@ -72,7 +72,7 @@ class ProvideDocumentTest extends TestCase
     {
         $dummy_gui = new stdClass();
 
-        $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
+        $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
 
         $container = $this->mockTree(Container::class, [
             'ui' => [
@@ -97,7 +97,7 @@ class ProvideDocumentTest extends TestCase
 
         $dummy_gui = new stdClass();
 
-        $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g:qo:gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
+        $uri = 'http://myIlias/ilias.php?baseClass=iladministrationgui&cmdNode=2g.qo.gq&cmdClass=ilLegalDocumentsAdministrationGUI&cmd=documents&ref_id=50';
 
         $container = $this->mockTree(Container::class, [
             'ui' => [

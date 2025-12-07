@@ -502,7 +502,7 @@ assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abg
 assessment#:#ass_create_export_file_with_results#:#inkl. Teilnehmerergebnisse
 assessment#:#ass_create_export_test_archive#:#als Archivdatei
 assessment#:#ass_create_question#:#Frage erstellen
-assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
+assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltipp)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
 assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden.
 assessment#:#ass_lac_expression#:#Ausdruck
@@ -6573,7 +6573,7 @@ content#:#cont_hacc_needs_width#:#Bitte geben Sie für horizontale Akkordeons ei
 content#:#cont_has_row_header#:#Kopfzeile
 content#:#cont_header#:#Kopfzeile
 content#:#cont_height#:#Höhe in Pixel
-content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
+content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltipp-ID ist nicht gültig.
 content#:#cont_hide_adv#:#Vertiefungswissen verbergen
 content#:#cont_hide_head_foot_print#:#Kopf- und Fußzeile im Ausdruck ausblenden.
 content#:#cont_hidenavig#:#Linken Navigationsbaum ausblenden
@@ -10580,12 +10580,12 @@ help#:#help_search_label#:#Suche in Hilfe
 help#:#help_select_a_file#:#Bitte wählen Sie eine Datei.
 help#:#help_set_mode#:#Hilfemodus setzen
 help#:#help_sure_delete_help_modules#:#Wollen Sie diese Pakete wirklich löschen?
-help#:#help_toggle_tooltips#:#Hilfe-Tooltips
-help#:#help_toggle_tooltips_info#:#Hilfe-Tooltips zu Menüs und Reitern anzeigen.
-help#:#help_tooltip_id#:#Tooltip-ID
-help#:#help_tooltips#:#Hilfe-Tooltips
-help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
-help#:#help_tooltips_only#:#Nur Tooltips
+help#:#help_toggle_tooltips#:#Hilfe-Tooltipps
+help#:#help_toggle_tooltips_info#:#Hilfe-Tooltipps zu Menüs und Reitern anzeigen.
+help#:#help_tooltip_id#:#Tooltipp-ID
+help#:#help_tooltips#:#Hilfe-Tooltipps
+help#:#help_tooltips_and_help#:#Tooltipps und Handlungsanweisungen
+help#:#help_tooltips_only#:#Nur Tooltipps
 help#:#help_topcis#:#Themen
 help#:#help_tt_text#:#Text
 htlm#:#file_import_from_upload_dir_failed#:#Datei aus Uploadverzeichnis nicht importiert

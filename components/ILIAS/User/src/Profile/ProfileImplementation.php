@@ -108,10 +108,11 @@ class ProfileImplementation implements Profile
     public function addFormValuesToUser(
         \ilPropertyFormGUI $form,
         Context $context,
-        \ilObjUser $user
+        \ilObjUser $user,
+        array $skip_fields = []
     ): \ilObjUser {
         return array_reduce(
-            $this->getVisibleFields($context, $user),
+            $this->getVisibleFields($context, $user, [], $skip_fields),
             static function (\ilObjUser $c, ProfileField $v) use ($form, $context, $user): \ilObjUser {
                 if ($form->getItemByPostVar($v->getIdentifier())->getDisabled()) {
                     return $c;

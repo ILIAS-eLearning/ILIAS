@@ -18,13 +18,10 @@
 
 declare(strict_types=1);
 
-use ILIAS\Mail\UserSettings\IncomingMail;
-
 class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 {
-    protected bool $free_option_choice = true;
-    protected bool $options_initialized = false;
-
+    private bool $free_option_choice = true;
+    private bool $options_initialized = false;
     private ?ilObjUser $user = null;
 
     public function __construct(string $title = '', string $post_var = '', bool $free_option_choice = true)
@@ -87,7 +84,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         $this->free_option_choice = $free_option_choice;
     }
 
-    public function setUser(ilObjUser $user): void
+    public function setUser(?ilObjUser $user): void
     {
         $this->user = $user;
     }
