@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"celtic/lti": "^5.2.0"
 	},
 	"require-dev": {
 	},
