@@ -458,12 +458,14 @@ of ILIAS. The file contains the following fields:
 
 * **CSS / Templates**
     * Authority to Sign off on Conceptual Changes: [yvseiler](https://docu.ilias.de/go/usr/17694)
+      , [BettyFromHH](https://docu.ilias.de/go/usr/9657)
     * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468)
       , [BettyFromHH](https://docu.ilias.de/go/usr/9657)
     * Authority to Curate Test Cases: [amstutz](https://docu.ilias.de/go/usr/26468)
       , [yvseiler](https://docu.ilias.de/go/usr/17694)
       , [BettyFromHH](https://docu.ilias.de/go/usr/9657)
     * Authority to (De-)Assign Authorities: [yvseiler](https://docu.ilias.de/go/usr/17694)
+      , [BettyFromHH](https://docu.ilias.de/go/usr/9657)
     * Assignee for Security Reports: [BettyFromHH](https://docu.ilias.de/go/usr/9657)
     * Assignee for Security Issues: [BettyFromHH](https://docu.ilias.de/go/usr/9657)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
