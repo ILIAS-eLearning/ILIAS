@@ -31,7 +31,8 @@ class EditSkillsOfQuestionTableEditAction implements EditSkillsOfQuestionTableAc
 
     public function __construct(
         private readonly UIFactory $ui_factory,
-        private readonly \ilLanguage $lng
+        private readonly \ilLanguage $lng,
+        private readonly bool $assignment_editing_enabled
     ) {
     }
 
@@ -52,7 +53,7 @@ class EditSkillsOfQuestionTableEditAction implements EditSkillsOfQuestionTableAc
         URLBuilderToken $action_type_token
     ): Action {
         return $this->ui_factory->table()->action()->single(
-            $this->lng->txt('tst_edit_competence_assign'),
+            $this->lng->txt($this->assignment_editing_enabled ? 'tst_edit_competence_assign' : 'tst_view_competence_assign'),
             $url_builder
                 ->withParameter($action_token, self::ACTION_ID)
                 ->withParameter($action_type_token, EditSkillsOfQuestionTableActions::SHOW_ACTION),

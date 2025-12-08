@@ -556,7 +556,13 @@ class ilAssQuestionSkillAssignmentsGUI
             $this->lng,
             (new EditSkillsOfQuestionTableActions(
                 $this->tpl,
-                [EditSkillsOfQuestionTableEditAction::ACTION_ID => new EditSkillsOfQuestionTableEditAction($this->ui_factory, $this->lng)]
+                [
+                    EditSkillsOfQuestionTableEditAction::ACTION_ID => new EditSkillsOfQuestionTableEditAction(
+                        $this->ui_factory,
+                        $this->lng,
+                        $this->isAssignmentEditingEnabled()
+                    )
+                ]
             ))
         ))->getComponents(new URLBuilder($edit_uri));
 
