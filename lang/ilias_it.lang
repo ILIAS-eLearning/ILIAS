@@ -683,12 +683,10 @@ assessment#:#examid_in_test_res#:#Mostra numero identificativo esame (ID)
 assessment#:#examid_in_test_res_desc#:#L'ID dell'esame ILIAS verrà incluso nei risultati del test.
 assessment#:#exp_all_test_runs#:#All test attempts###30 04 2024 new variable
 assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni in formato
-assessment#:#exp_file_created#:#Creato file da esportare.
 assessment#:#exp_grammar_as#:#as###30 04 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 11 2025 new variable
 assessment#:#exp_type_certificate#:#Certificato (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Valori separati da una virgola (CSV)
 assessment#:#expected_result_type#:#Tipo di risultato previsto
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###30 04 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###30 04 2024 new variable
@@ -1452,7 +1450,6 @@ assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto da elim
 assessment#:#tst_derive_new_pool#:#Ricava nuova raccolta di domande
 assessment#:#tst_derive_new_pools#:#Ricava nuova raccolta di domande
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Non mostrare più questo messaggio nella mia sessione corrente.
-assessment#:#tst_dont_use_previous_answers#:#La tua risposta precedente non verrà usata come risposta di default per test successivi
 assessment#:#tst_edit_competence_assign#:#Modifica delle proprietà di assegnazione
 assessment#:#tst_edit_scoring#:#Modifica il punteggio
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###30 04 2024 new variable
@@ -1508,7 +1505,6 @@ assessment#:#tst_finish_confirm_button#:#Sì, voglio finire il test
 assessment#:#tst_finish_confirm_cancel_button#:#No, torna alla risposta precedente
 assessment#:#tst_finish_confirmation_question#:#Stai per finire il test e stai raggiungendo il numero massimo di tentativi disponibili. Non potrai rifare il test e cambaire le tue risposte. Sei sicuro di voler finire il test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###30 04 2024 new variable
-assessment#:#tst_finish_notification_no#:#Nessun email
 assessment#:#tst_finished#:#Finito
 assessment#:#tst_form_dynamic_question_set_config#:#Selezione continua di domande
 assessment#:#tst_gap_analysis#:#Analisi gap
@@ -1520,7 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###30 04 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###30 04 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###31 03 2023 new variable
-assessment#:#tst_hide_side_list#:#Nascondi la lista di domande
 assessment#:#tst_highscore_achieved_ts#:#Mostra data del test
 assessment#:#tst_highscore_achieved_ts_description#:#Viene visualizzata una colonna aggiuntiva con l'ora del test.
 assessment#:#tst_highscore_all_tables#:#Proprio grado e classifica
@@ -1538,7 +1533,6 @@ assessment#:#tst_highscore_score#:#Mostra punteggio
 assessment#:#tst_highscore_score_description#:#Viene visualizzata una colonna aggiuntiva con il dettaglio dei punti ottenuti.
 assessment#:#tst_highscore_top_num#:#Lunghezza della classifica
 assessment#:#tst_highscore_top_num_description#:#Determina il numero di voci visualizzate nella classifica.
-assessment#:#tst_highscore_top_num_unit#:#Posizionamenti
 assessment#:#tst_highscore_top_table#:#Classifica dei migliori
 assessment#:#tst_highscore_top_table_description#:#I partecipanti vedranno una tabella con le prime classifiche.
 assessment#:#tst_highscore_wtime#:#Tempo di elaborazione
@@ -1889,10 +1883,6 @@ assessment#:#tst_show_results#:#Mostra i risultati del test
 assessment#:#tst_show_side_list#:#Mostra la lista delle domande a lato
 assessment#:#tst_show_solution_answers_only#:#Stampa dei risultati (solo le risposte)
 assessment#:#tst_show_solution_answers_only_desc#:#Se è selezionato, il contenuto ILIAS inserito in una domanda utilizzando la scheda "Modifica contenuto" non sarà visibile in una stampa. Se si desidera risparmiare spazio carta, selezionare questa opzione.
-assessment#:#tst_show_solution_compare#:#Confronta la risposta con la soluzione nell'elenco delle risposte
-assessment#:#tst_show_solution_compare_desc#:#Ai partecipanti viene presentata una panoramica che confronta le proprie risposte con le migliori soluzioni. Si noti che questa vista verrà visualizzata nei "Risultati dettagliati" a cui è possibile accedere tramite il pulsante "Mostra risultati del test" nella scheda "Informazioni". Non verrà visualizzato nell '"Elenco di risposte" stampabile anche se l'impostazione viene effettuata qui.
-assessment#:#tst_show_solution_details#:#Mostra le soluzioni al momento dei risultati
-assessment#:#tst_show_solution_details_desc#:#Se selezionata, la soluzione dettagliata della domanda è disponibile per i partecipanti alla presentazione dei risultati del test. Ciò include il punteggio esatto di ogni risposta, altrimenti viene mostrata solo una panoramica con i titoli delle domande e i punti raggiunti.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###31 03 2023 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###31 03 2023 new variable
 assessment#:#tst_show_solution_feedback#:#Mostra il feedback delle specifiche delle risposte nei risultati del test
@@ -1915,7 +1905,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Le competenze non veng
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Almeno una delle competenze affrontate da questo test non è attivata dalla quantità minima richiesta di domande. La quantità richiesta di domande: %s
 assessment#:#tst_skl_level_thresholds_link#:#Configurare le soglie di competenze
 assessment#:#tst_skl_level_thresholds_missing#:#Ci sono livelli mancanti per le competenze pertinenti!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Si prega di considerare che i risultati di competenze da un singolo test hanno rilevanza limitata. Più informazioni vengono raccolte per competenze, più sarà valido il significa. Nel caso in cui esistano singole competenze senza alcuna entrata, ci saranno meno informazioni raccolte.
 assessment#:#tst_skl_sub_tab_thresholds#:#Limiti di competenze
 assessment#:#tst_sol_comp_expressions#:#Espressioni di confronto
 assessment#:#tst_solution_compare_cfg#:#Configurazione per confronto soluzioni
@@ -1977,7 +1966,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#La risposta predefinita è corret
 assessment#:#tst_unchanged_order_is_correct#:#L’ordine predefinito è corretto
 assessment#:#tst_use_previous_answers#:#Usa la risposta precedente
 assessment#:#tst_use_previous_answers_description#:#Se selezionato, la precedente risposta di un utente verrà utilizzata come valore di default per i test futuri, altrimenti le risposte date in precedenza, non verranno mostrate nelle future esecuzioni dei test.
-assessment#:#tst_use_previous_answers_user#:#Usa la mia risposta ad un test precedente come risposta di default
 assessment#:#tst_user_finished_test#:#L'utente ha finito il test (%s)
 assessment#:#tst_view_competence_assign#:#Visualizza proprietà di assegnazione
 assessment#:#tst_virtual_pass_header_lo_initial#:#Risultati dei test iniziali per gli obiettivi di apprendimento %s

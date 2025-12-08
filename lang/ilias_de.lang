@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ILIAS-Test-ID anzeigen
 assessment#:#examid_in_test_res_desc#:#Die ILIAS-Test-ID wird in den Ansichten „Detaillierte Ergebnisse“ und   „Druckbare Liste der Antworten“ angezeigt sowie in den über den Reiter „Teilnehmer“ exportierten Tabellenkalkulationsdateien.
 assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_eval_data#:#Daten exportieren
-assessment#:#exp_file_created#:#Exportdatei erzeugt.
 assessment#:#exp_grammar_as#:#als
 assessment#:#exp_scored_test_attempt#:#Bewerteter Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
 assessment#:#export_cert_failed_for_users_p#:#Für die folgenden %s Konten konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
 assessment#:#export_cert_failed_for_users_s#:#Für das folgende Konto konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenst
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
-assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungseigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_enable_questionlist#:#Fragenliste
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
-assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_gap_analysis#:#Gap-Analyse
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
 assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
 assessment#:#tst_hide_pagecontents_desc#:#Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
-assessment#:#tst_hide_side_list#:#Fragenliste aus
 assessment#:#tst_highscore_achieved_ts#:#Datum / Uhrzeit
 assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte eingeblendet, die anzeigt, wann der Test beendet wurde.
 assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Punkte
 assessment#:#tst_highscore_score_description#:#Es wird einen zusätzliche Spalte mit der Angabe der erreichten Punkte eingeblendet.
 assessment#:#tst_highscore_top_num#:#Länge der Bestenliste
 assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
-assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 assessment#:#tst_highscore_top_table#:#Bestenliste
 assessment#:#tst_highscore_top_table_description#:#Teilnehmerinnen und Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 assessment#:#tst_highscore_wtime#:#Bearbeitungsdauer
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#Testergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn „Druckausgabe der Ergebnisse (nur Antworten)“ ausgewählt ist, werden ILIAS-Inhalte, die Sie über den „Inhalt bearbeiten“-Reiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
-assessment#:#tst_show_solution_compare#:#Zeige bestmögliche Lösung in „Tabelle mit detaillierten Testergebnissen“
-assessment#:#tst_show_solution_compare_desc#:#Teilnehmern wird als Teil der Tabelle „Detallierte Testergebnisse“ eine Ansicht präsentiert, welche ihre eigenen Antworten und die bestmögliche Lösung gegenüberstellt. <br> Diese Ansicht wird nicht im Unterreiter „Bewertete Antworten“ des „Meine Ergebnisse“-Reiters angezeigt, auch wenn diese Einstellung hier vorgenommen wird.
-assessment#:#tst_show_solution_details#:#Bewertete Antworten als Liste
-assessment#:#tst_show_solution_details_desc#:#Die Tabelle „Detallierte Testergebnisse“ wird um eine Liste der eigenen Antworten ergänzt.
 assessment#:#tst_show_solution_details_singlepage#:#Bewertete Antworten auf Einzelseiten
 assessment#:#tst_show_solution_details_singlepage_desc#:#Teilnehmerinnen und Teilnehmer können jede Frage einzeln aufrufen und sehen, ob ihre Antworten richtig waren und wie viele Punkte sie damit erreicht haben.
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden ers
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#tst_skl_level_thresholds_link#:#Kompetenzschwellenwerte konfigurieren
 assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenzschwellenwerte
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
 assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korre
 assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt.
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Übernahme der Lösungen muss vom Teilnehmer vor Beginn des Testdurchlaufs in einem Modal per Checkbox aktiviert werden.
-assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 assessment#:#tst_view_competence_assign#:#Zeige Zuordnungseigenschaften
 assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zum Lernziel<br />%s
