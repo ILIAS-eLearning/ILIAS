@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -37,6 +36,8 @@ class ConsecutiveScoring
         private TestManScoringDoneHelper $scoring_done_helper,
         private \ilObjUser $current_user,
         private readonly \ilTestAccess $test_access,
+        private readonly \ilDBInterface $db,
+        private readonly \ilLanguage $lng,
     ) {
     }
 
@@ -94,7 +95,20 @@ class ConsecutiveScoring
         ) {
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
-        $user_id = (string) $this->object->_getUserIdFromActiveId($usr_active_id);
+
+        $statement = $this->db->queryF(
+            'SELECT importname FROM tst_active WHERE importname IS NOT NULL AND importname != "" AND user_fi = %s AND active_id = %s',
+            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
+            [ANONYMOUS_USER_ID, $usr_active_id]
+        );
+        $results = $this->db->fetchAll($statement);
+        $importname = $results[0]['importname'] ?? null;
+
+        if ($importname !== null && $importname !== '') {
+            return "{$importname} ({$this->lng->txt('imported')})";
+        }
+
+        $user_id = (string) $this->object::_getUserIdFromActiveId($usr_active_id);
         $user_data = $this->object->getUserData([$user_id]);
         $user = $user_data[$user_id];
         return sprintf(
