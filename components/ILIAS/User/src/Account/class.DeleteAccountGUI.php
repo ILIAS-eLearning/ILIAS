@@ -24,6 +24,7 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\User\StaticURLHandler;
 
 class DeleteAccountGUI
 {
