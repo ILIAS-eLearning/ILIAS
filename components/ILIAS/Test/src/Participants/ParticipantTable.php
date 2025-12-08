@@ -107,8 +107,13 @@ class ParticipantTable implements DataRetrieval
         foreach ($this->getViewControlledRecords($filter_data, $range, $order) as $record) {
             $total_duration = $record->getTotalDuration($processing_time);
             $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
+            $unmatched = $record->getUserId() === ANONYMOUS_USER_ID && $record->getImportname();
             $row = [
-                'name' => $this->test_object->buildName($record->getUserId(), $record->getFirstname(), $record->getLastname()),
+                'name' => $this->test_object->buildName(
+                    $record->getUserId(),
+                    !$unmatched ? $record->getFirstname() : '',
+                    !$unmatched ? $record->getLastname() : "{$record->getImportname()} ({$this->lng->txt('imported')})",
+                ),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
                 'total_time_on_task' => $record->getAttemptOverviewInformation()?->getHumanReadableTotalTimeOnTask() ?? '',

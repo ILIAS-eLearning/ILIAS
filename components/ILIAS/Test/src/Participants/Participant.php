@@ -35,6 +35,7 @@ class Participant
         private readonly string $firstname = '',
         private readonly string $lastname = '',
         private readonly string $login = '',
+        private readonly ?string $importname = null,
         private readonly string $matriculation = '',
         private int $extra_time = 0,
         private readonly int $attempts = 0,
@@ -84,6 +85,11 @@ class Participant
     public function getLogin(): string
     {
         return $this->login;
+    }
+
+    public function getImportname(): ?string
+    {
+        return $this->importname;
     }
 
     public function getMatriculation(): string
