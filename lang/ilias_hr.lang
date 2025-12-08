@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ID prolaza ILIAS testa
 assessment#:#examid_in_test_res_desc#:#ID prolaza ILIAS testa bit će uključen u rezultate testa.
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#Izvezi evaluacijske podatke kao
-assessment#:#exp_file_created#:#Datoteka za izvoz je kreirana.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#Certifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Vrijednost odvojena zarezom (CSV)
 assessment#:#expected_result_type#:#Očekivana vrsta rezultata
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Molimo odaberite najmanje jednu ocjenu za
 assessment#:#tst_derive_new_pool#:#Izvedi novi bazen pitanja
 assessment#:#tst_derive_new_pools#:#Izvedi nove bazene pitanja
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Ne prikazuj više ovu poruku tijekom moje aktualne sesije.
-assessment#:#tst_dont_use_previous_answers#:#Vaši prethodni odgovori neće se koristiti kao zadane vrijednosti u budućim prolazima testa
 assessment#:#tst_edit_competence_assign#:#Obradi karakteristike dodjele
 assessment#:#tst_edit_scoring#:#Uredi ocjenjivanje
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Da, želim završiti test
 assessment#:#tst_finish_confirm_cancel_button#:#Ne, želim se vratiti na prethodno pitanje
 assessment#:#tst_finish_confirmation_question#:#Završavate ovaj test i dolazite do maksimalnog broja dozvoljenih prolaza testa. Nakon toga nećete moći ponovno ući u ovaj test kako biste promijenili svoje odgovore. Želite li zaista završiti test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification_no#:#Nema e-pošte
 assessment#:#tst_finished#:#Završeno
 assessment#:#tst_form_dynamic_question_set_config#:#Kontinuirani izbor pitanja
 assessment#:#tst_gap_analysis#:#Analiza praznine
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#Sakrij popis pitanja
 assessment#:#tst_highscore_achieved_ts#:#Datum
 assessment#:#tst_highscore_achieved_ts_description#:#Prikazat će se dodatni stupac koji sadrži datum testa.
 assessment#:#tst_highscore_all_tables#:#Vlastiti rang sudionika i Popis najboljih (Top Ranking)
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Broj bodova
 assessment#:#tst_highscore_score_description#:#Prikazat će se dodatni stupac koji sadrži podatak o postignutom bodovima.
 assessment#:#tst_highscore_top_num#:#Duljina popisa najboljih (Top Ranking)
 assessment#:#tst_highscore_top_num_description#:#Odredite koliko mjesta se treba prikazati na popisu najboljih.
-assessment#:#tst_highscore_top_num_unit#:#Unosi
 assessment#:#tst_highscore_top_table#:#Popis najboljih
 assessment#:#tst_highscore_top_table_description#:#Sudionicima se prikazuje tablica s top ljestvicom.
 assessment#:#tst_highscore_wtime#:#Trajanje testa
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#Rezultati testa
 assessment#:#tst_show_side_list#:#Pokaži popis pitanja
 assessment#:#tst_show_solution_answers_only#:#Prikaz ispisa rezultata (samo odgovori)
 assessment#:#tst_show_solution_answers_only_desc#:#Ako je odabrana ova opcija, sadržaj ILIAS-a koji s pomoću kartice ‘Uredi sadržaj’ možete postaviti ispred i iza samog teksta pitanja neće biti vidljiv na ispisu. Ako želite uštedjeti malo prostora na papiru, odaberite ovu opciju.
-assessment#:#tst_show_solution_compare#:#Prikaži najbolje rješenje u ‘Detaljnim rezultatima’
-assessment#:#tst_show_solution_compare_desc#:#Sudionicima se daje pregled u kojem se njihovi odgovori uspoređuju s najboljim mogućim rješenjima. Imajte na umu da će se ovaj prikaz prikazati u ‘Detaljnim rezultatima’ kojima se može pristupiti putem gumba ‘Prikaži rezultate testa’ na kartici ‘Informacije’. Taj pregled neće biti prikazan na ‘Popisu odgovora’ koji se može ispisati, iako je ovdje postavljen.
-assessment#:#tst_show_solution_details#:#Bodovani odgovori sudionika
-assessment#:#tst_show_solution_details_desc#:#Sudionik uz ‘Tablicu detaljnih rezultata testa’ dobiva za svako pitanje poveznicu na novu stranicu. Ova povezana stranica sadrži pitanje, odgovor sudionika, informaciju je li odgovor bio točan odgovor te koliko je bodova dobio za svoje odgovore.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#Povratne informacije
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetencije se procje
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Barem za jednu kompetenciju obrađenu u testu nije dodijeljen dovoljan broj pitanja. Za ove kompetencije ne evidentiraju se unosi kompetencija za sudionike. <br />Minimalni broj dodijeljenih pitanja: %s
 assessment#:#tst_skl_level_thresholds_link#:#Kofiguriraj pragove za kompetencije
 assessment#:#tst_skl_level_thresholds_missing#:#Nisu definirani pragovi za sve relevantne kompetencije!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Molimo uzmite u obzir da rezultati kompetencija iz jednog testa imaju ograničeno značenje. Što se više informacija prikupi o pojedinim kompetencijama, to će izjava biti valjanija. Ako postoje pojedinačne kompetencije bez ikakvog unosa, za te je komptenecije prikupljeno premalo podataka.
 assessment#:#tst_skl_sub_tab_thresholds#:#Pragovi za kompetencije
 assessment#:#tst_sol_comp_expressions#:#Komparativni izrazi
 assessment#:#tst_solution_compare_cfg#:#Konfiguracija za usporedbu odgovora
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#Unaprijed zadani odgovor je toča
 assessment#:#tst_unchanged_order_is_correct#:#Unaprijed zadani redoslijed je točan
 assessment#:#tst_use_previous_answers#:#Koristi prethodne odgovore
 assessment#:#tst_use_previous_answers_description#:#Sudionicima se prikazuju njihovi odgovori iz prijašnih prolaza testa. Ovu opciju mora aktivirati sudionik na kartici ‘Info’ prije početka prolaza testa.
-assessment#:#tst_use_previous_answers_user#:#Koristi moje prethodne odgovore kao zadane vrijednosti u budućim prolazima testa.
 assessment#:#tst_user_finished_test#:#Sudionik je završio test (%s)
 assessment#:#tst_view_competence_assign#:#Prikaži karakteristike dodjele
 assessment#:#tst_virtual_pass_header_lo_initial#:#Početni rezultati testa za cilj učenja<br />%s

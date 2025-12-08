@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ID de tentativa de teste ILIAS
 assessment#:#examid_in_test_res_desc#:#O ID de tentativa de teste ILIAS será incluído nos resultados do teste.
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#Exportar dados de avaliação como
-assessment#:#exp_file_created#:#Exportar ficheiro criado.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#Certificado (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Comma Separated Value (CSV)
 assessment#:#expected_result_type#:#Tipo de resultado esperado
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Selecione pelo menos um avanço de nota p
 assessment#:#tst_derive_new_pool#:#Derivar novo banco de perguntas
 assessment#:#tst_derive_new_pools#:#Derivar novo banco de perguntas
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Não mostrar esta mensagem novamente durante a minha sessão atual.
-assessment#:#tst_dont_use_previous_answers#:#As suas respostas anteriores não serão usadas como valores predefinidos em futuras tentativas de teste
 assessment#:#tst_edit_competence_assign#:#Editar propriedades de atribuição
 assessment#:#tst_edit_scoring#:#Editar pontuação
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Sim, quero terminar o teste
 assessment#:#tst_finish_confirm_cancel_button#:#Notificação
 assessment#:#tst_finish_confirmation_question#:#Não, voltar à resposta anterior
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification_no#:#Nenhum e-mail
 assessment#:#tst_finished#:#Terminado
 assessment#:#tst_form_dynamic_question_set_config#:#Continuar seleção de perguntas
 assessment#:#tst_gap_analysis#:#Análise de intervalo
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#Data
 assessment#:#tst_highscore_achieved_ts#:#Será incluída na classificação uma coluna que contém a data do teste.
 assessment#:#tst_highscore_achieved_ts_description#:#Classificação própria do participante e Top da classificação
 assessment#:#tst_highscore_all_tables#:#Os participantes recebem informação sobre o Top da classificação e a respetiva posição própria na classificação.
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Será incluída na classificação uma coluna
 assessment#:#tst_highscore_score_description#:#Comprimento do Top de classificação
 assessment#:#tst_highscore_top_num#:#Especifica quantas classificações devem ser incluídas na lista de classificação.
 assessment#:#tst_highscore_top_num_description#:#Top de classificação
-assessment#:#tst_highscore_top_num_unit#:#entradas
 assessment#:#tst_highscore_top_table#:#Aos participantes é apresentada uma tabela com o top das classificações.
 assessment#:#tst_highscore_top_table_description#:#Duração do teste
 assessment#:#tst_highscore_wtime#:#Será incluída na classificação uma coluna que contém a duração do teste.
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#Tempo médio para analisar
 assessment#:#tst_show_side_list#:#Primeira visita
 assessment#:#tst_show_solution_answers_only#:#Última visita
 assessment#:#tst_show_solution_answers_only_desc#:#Percentagem do trabalho total já feito
-assessment#:#tst_show_solution_compare#:#Perguntas já processadas
-assessment#:#tst_show_solution_compare_desc#:#Resultados de testes em anotações
-assessment#:#tst_show_solution_details#:#Resultados de testes em pontos
-assessment#:#tst_show_solution_details_desc#:#Tempo para trabalhar
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#Para terminar este teste, tem de responder a todas as perguntas obrigatórias (*).
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#As competências não 
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Pelo menos uma das competências abordadas por este teste não é ativada pela quantidade mínima exigida de perguntas.<br />A quantidade de perguntas exigida: %s
 assessment#:#tst_skl_level_thresholds_link#:#Resultados de teste iniciais para o objetivo de aprendizagem<br />%s
 assessment#:#tst_skl_level_thresholds_missing#:#Faltam limites para as competências relevantes!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Note que os resultados de competência a partir de um único teste tem uma importância limitada. Quanto mais informação é recolhida por competência, mais importância terá. Se houver competências únicas sem qualquer entrada, foi recolhida informação a menos.
 assessment#:#tst_skl_sub_tab_thresholds#:#Limites de competência
 assessment#:#tst_sol_comp_expressions#:#Expressões de comparação
 assessment#:#tst_solution_compare_cfg#:#Configuração para comparação de soluções
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#A resposta predefinida está corr
 assessment#:#tst_unchanged_order_is_correct#:#A ordem predefinida está correta
 assessment#:#tst_use_previous_answers#:#Cria automaticamente contas de utilizador ILIAS, para utilizadores autenticados com sucesso contra CAS, sem ter ainda uma conta ILIAS.
 assessment#:#tst_use_previous_answers_description#:#Ativar editor para idiomas selecionados
-assessment#:#tst_use_previous_answers_user#:#O editor de páginas ativo foi modificado
 assessment#:#tst_user_finished_test#:#Utilizador terminou o teste (%s)
 assessment#:#tst_view_competence_assign#:#Ver propriedades de atribuição
 assessment#:#tst_virtual_pass_header_lo_initial#:#Usar o editor de páginas ILIAS

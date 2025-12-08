@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#Display ILIAS Test ID
 assessment#:#examid_in_test_res_desc#:#Show the ILIAS Test ID in the ‘Detailed Results’ and ‘Printable List of Answers’ views as well as in spreadsheet files exported via the ‘Participants’ tab.
 assessment#:#exp_all_test_runs#:#All test attempts
 assessment#:#exp_eval_data#:#Export data
-assessment#:#exp_file_created#:#Export file created.
 assessment#:#exp_grammar_as#:#as
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
 assessment#:#expected_result_type#:#Expected result type
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to r
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test attempts
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_enable_questionlist#:#Show List of Questions
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
-assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab
 assessment#:#tst_hide_info_tab_desc#:#Hide the test’s ‘Info’ tab.
 assessment#:#tst_hide_pagecontents#:#Hide Page Content
 assessment#:#tst_hide_pagecontents_desc#:#Content placed before and after the actual question text via the ‘Edit Page’ button will not be displayed in results views or print output.
-assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date / Time
 assessment#:#tst_highscore_achieved_ts_description#:#Show an additional column in the rankings table showing when the test was finished.
 assessment#:#tst_highscore_all_tables#:#Own performance and top ranks
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Point Score
 assessment#:#tst_highscore_score_description#:#Show an additional column in the ranking table showing points scored.
 assessment#:#tst_highscore_top_num#:#Number of Top Ranks
 assessment#:#tst_highscore_top_num_description#:#Specify how many positions are to be included in the top ranks list.
-assessment#:#tst_highscore_top_num_unit#:#entries
 assessment#:#tst_highscore_top_table#:#Top ranks
 assessment#:#tst_highscore_top_table_description#:#Participants will be shown the top positions in the rankings.
 assessment#:#tst_highscore_wtime#:#Time Spent
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#Test Results
 assessment#:#tst_show_side_list#:#Show List of Questions
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
-assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
-assessment#:#tst_show_solution_details#:#Scored Answers of Participant
-assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't tri
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions. No competence records will be written for these competences.<br />The required amount of questions: %s
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fa
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants in a modal that pops up when starting a test attempt.
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test attempts
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s
