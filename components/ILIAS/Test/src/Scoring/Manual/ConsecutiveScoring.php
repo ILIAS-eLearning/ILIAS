@@ -23,6 +23,7 @@ namespace ILIAS\Test\Scoring\Manual;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\Participants\Participant;
 use ILIAS\Test\TestManScoringDoneHelper;
 
 class ConsecutiveScoring
@@ -96,16 +97,9 @@ class ConsecutiveScoring
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
 
-        $statement = $this->db->queryF(
-            'SELECT importname FROM tst_active WHERE importname IS NOT NULL AND importname != "" AND user_fi = %s AND active_id = %s',
-            [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
-            [ANONYMOUS_USER_ID, $usr_active_id]
-        );
-        $results = $this->db->fetchAll($statement);
-        $importname = $results[0]['importname'] ?? null;
-
-        if ($importname !== null && $importname !== '') {
-            return "{$importname} ({$this->lng->txt('imported')})";
+        $participant_name = Participant::getParticipantName($usr_active_id);
+        if (str_ends_with($participant_name, ' (imported)')) {
+            return $participant_name;
         }
 
         $user_id = (string) $this->object::_getUserIdFromActiveId($usr_active_id);
