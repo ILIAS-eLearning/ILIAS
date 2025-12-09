@@ -79,7 +79,8 @@ class ilAssQuestionSkillAssignmentsGUI
         private readonly Refinery $refinery,
         private readonly HTTP $http,
         private readonly ilToolbarGUI $toolbar,
-        private readonly ilTabsGUI $tabs
+        private readonly ilTabsGUI $tabs,
+        private readonly ?ilObjTest $test_object = null
     ) {
         $this->data_factory = new DataFactory();
     }
@@ -516,6 +517,38 @@ class ilAssQuestionSkillAssignmentsGUI
                 SkillAssignmentViewControlMode::tryFrom($mode) ?? SkillAssignmentViewControlMode::ALL
             )
         ));
+
+        if (
+            $this->test_object instanceof ilObjTest
+            && $this->test_object->isSkillServiceToBeConsidered()
+            && $this->hasFixedQuestionSetSkillAssignsLowerThanBarrier()
+        ) {
+            $this->tpl->setOnScreenMessage('info', $this->getSkillAssignBarrierInfo());
+        }
+    }
+
+    private function hasFixedQuestionSetSkillAssignsLowerThanBarrier(): bool
+    {
+        if (!$this->test_object?->isFixedTest()) {
+            return false;
+        }
+
+        $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
+        $assignmentList->setParentObjId($this->test_object->getId());
+        $assignmentList->loadFromDb();
+
+        return $assignmentList->hasSkillsAssignedLowerThanBarrier();
+    }
+
+    private function getSkillAssignBarrierInfo(): string
+    {
+        return !$this->test_object instanceof ilObjTest
+            ? ''
+            : sprintf(
+                $this->lng->txt('tst_skill_triggerings_num_req_answers_not_reached_warn'),
+                $this->test_object->getGlobalSettings()->getSkillTriggeringNumberOfAnswers()
+            );
+
     }
 
     private function editSkillQuestionAssignmentCmd(): void
