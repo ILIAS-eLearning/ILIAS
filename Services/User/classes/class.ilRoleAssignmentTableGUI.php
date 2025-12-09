@@ -137,7 +137,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         // Add link to objector local Rores
         $context = $a_set['context'];
-        if ($a_set['role_type'] === 'local' && 
+        if ($a_set['role_type'] === 'local' &&
             ($DIC['ilAccess']->checkAccess('visible', '', (int) $a_set['ref_id']) ||
              $DIC['ilAccess']->checkAccess('read', '', (int) $a_set['ref_id']))) {
             $context = $this->renderer->render(
