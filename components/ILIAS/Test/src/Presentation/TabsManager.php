@@ -97,6 +97,9 @@ class TabsManager
             case self::TAB_ID_TEST:
             case self::TAB_ID_EXPORT:
             case self::TAB_ID_LEARNING_PROGRESS:
+            case self::TAB_ID_META_DATA:
+            case self::TAB_ID_HISTORY:
+            case self::TAB_ID_INFOSCREEN:
                 $this->tabs->activateTab($tab_id);
         }
     }
