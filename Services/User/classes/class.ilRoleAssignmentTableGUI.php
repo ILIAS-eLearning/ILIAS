@@ -42,7 +42,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->objectDefinition = $DIC['objDefinition'];
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
-
+        $this->access = $DIC['ilAccess'];
 
         $lng->loadLanguageModule('rbac');
         $this->setId("usrroleass");
@@ -124,39 +124,31 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $a_set['ref_id']);
         $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $a_set["obj_id"]);
 
-        if ($DIC['ilAccess']->checkAccess('edit_permission', '', (int) $a_set['ref_id'])) {
-            $this->tpl->setVariable(
-                'ROLE',
-                $this->renderer->render(
-                    $this->factory->link()->standard(
-                        ilObjRole::_getTranslation($a_set['title']),
-                        $this->ctrl->getLinkTargetByClass(ilObjRoleGUI::class, 'perm')
-                    )
+        $role = ilObjRole::_getTranslation($a_set['title']);
+        if ($this->access->checkAccess('edit_permission', '', (int) $a_set['ref_id'])) {
+            $role = $this->renderer->render(
+                $this->factory->link()->standard(
+                    ilObjRole::_getTranslation($a_set['title']),
+                    $this->ctrl->getLinkTargetByClass(ilObjRoleGUI::class, 'perm')
                 )
             );
-        } else {
-            $this->tpl->setVariable(
-                'ROLE',
-                ilObjRole::_getTranslation($a_set['title'])
-            );
         }
-
+        $this->tpl->setVariable('ROLE', $role);
         $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         // Add link to objector local Rores
         $context = $a_set['context'];
-        if ($a_set['role_type'] === 'local') {
-            if ($DIC['ilAccess']->checkAccess('visible', '', (int) $a_set['ref_id']) ||
-                $DIC['ilAccess']->checkAccess('read', '', (int) $a_set['ref_id'])) {
-                $context = $this->renderer->render(
-                    $this->factory->link()->standard(
-                        $context,
-                        ilLink::_getLink(
-                            $a_set['ref_id'],
-                            ilObject::_lookupType(ilObject::_lookupObjId($a_set['ref_id']))
-                        )
+        if ($a_set['role_type'] === 'local' && 
+            ($DIC['ilAccess']->checkAccess('visible', '', (int) $a_set['ref_id']) || 
+             $DIC['ilAccess']->checkAccess('read', '', (int) $a_set['ref_id']))) {
+            $context = $this->renderer->render(
+                $this->factory->link()->standard(
+                    $context,
+                    ilLink::_getLink(
+                        $a_set['ref_id'],
+                        ilObject::_lookupType(ilObject::_lookupObjId($a_set['ref_id']))
                     )
-                );
-            }
+                )
+            );
         }
         $this->tpl->setVariable('CONTEXT', $context);
         $this->tpl->setVariable('PATH', $a_set['path']);
