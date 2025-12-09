@@ -545,7 +545,7 @@ class ilAssQuestionSkillAssignmentsGUI
                     [ilAssQuestionSkillAssignmentsGUI::class],
                     self::CMD_SHOW_SKILL_SELECT
                 )
-            )
+            )->withUnavailableAction(!$this->isAssignmentEditingEnabled())
         );
         $this->ctrl->setParameterByClass(ilAssQuestionSkillAssignmentsGUI::class, 'q_id', null);
 
