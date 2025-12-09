@@ -1630,16 +1630,19 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
     */
     public function executeCreateQuestionObject(): void
     {
-        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->redirectAfterMissingWrite();
-        }
-        $qpl_ref_id = $this->testrequest->raw("sel_qpl");
-
         try {
             $qpl_mode = $this->testrequest->int('usage');
         } catch (ConstraintViolationException $e) {
             $qpl_mode = 1;
         }
+
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())
+            || $qpl_mode === 2 && !$this->userCanCreatePoolAtCurrentLocation()
+        ) {
+            $this->redirectAfterMissingWrite();
+        }
+
+        $qpl_ref_id = $this->testrequest->raw("sel_qpl");
 
         if ($this->testrequest->isset('qtype')) {
             $sel_question_types = ilObjQuestionPool::getQuestionTypeByTypeId($this->testrequest->raw("qtype"));
@@ -2142,8 +2145,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $usage->addOption($no_pool);
         $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), '3');
         $usage->addOption($existing_pool);
-        $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), '2');
-        $usage->addOption($new_pool);
+        if ($this->userCanCreatePoolAtCurrentLocation()) {
+            $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), '2');
+            $usage->addOption($new_pool);
+            $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
+            $name->setSize(50);
+            $name->setMaxLength(50);
+            $new_pool->addSubItem($name);
+        }
         $form->addItem($usage);
 
         $usage->setValue('1');
@@ -2156,11 +2165,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
         $pools->setOptions($pools_data);
         $existing_pool->addSubItem($pools);
-
-        $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
-        $name->setSize(50);
-        $name->setMaxLength(50);
-        $new_pool->addSubItem($name);
 
         $form->addCommandButton("executeCreateQuestion", $this->lng->txt("create"));
         $form->addCommandButton("questions", $this->lng->txt("cancel"));
@@ -3578,5 +3582,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->db,
             $this->rbac_system
         );
+    }
+
+    private function userCanCreatePoolAtCurrentLocation(): bool
+    {
+        return $this->settings->get('obj_dis_creation_qpl') !== '1'
+            && $this->checkPermissionBool('create', '', 'qpl', $this->tree->getParentId($this->ref_id));
     }
 }
