@@ -14,12 +14,12 @@ class BadgeCropSquare extends AbstractMachine
 {
     public const string ID = 'badge_crop_square';
 
-    public function getId(): string
+    public function getId() : string
     {
         return self::ID;
     }
 
-    public function dependsOnEngine(): ?string
+    public function dependsOnEngine() : ?string
     {
         return ImagickEngineWithOptionalFFMpeg::class;
     }
@@ -31,7 +31,7 @@ class BadgeCropSquare extends AbstractMachine
         FileInformation $information,
         FileStream $stream,
         FlavourDefinition $for_definition
-    ): \Generator {
+    ) : \Generator {
         if (!$for_definition instanceof CropToSquare) {
             throw new \InvalidArgumentException('Invalid definition');
         }
@@ -41,12 +41,12 @@ class BadgeCropSquare extends AbstractMachine
         try {
             $image = new \Imagick($stream_path);
         } catch (\ImagickException) {
-              return;
+            return;
         }
 
         $size = $for_definition->getMaxSize();
 
-        $image->resizeImage($size, $size, Imagick::FILTER_LANCZOS,1);
+        $image->resizeImage($size, $size, Imagick::FILTER_LANCZOS, 1);
         $image->setImageBackgroundColor(new \ImagickPixel('transparent'));
         $image->setImageAlphaChannel(Imagick::ALPHACHANNEL_BACKGROUND);
         $image->mergeImageLayers(Imagick::LAYERMETHOD_REMOVEZERO);
