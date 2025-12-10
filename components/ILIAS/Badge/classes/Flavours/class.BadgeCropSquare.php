@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Information\FileInformation;
@@ -14,12 +15,12 @@ class BadgeCropSquare extends AbstractMachine
 {
     public const string ID = 'badge_crop_square';
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function dependsOnEngine() : ?string
+    public function dependsOnEngine(): ?string
     {
         return ImagickEngineWithOptionalFFMpeg::class;
     }
@@ -31,7 +32,7 @@ class BadgeCropSquare extends AbstractMachine
         FileInformation $information,
         FileStream $stream,
         FlavourDefinition $for_definition
-    ) : \Generator {
+    ): \Generator {
         if (!$for_definition instanceof CropToSquare) {
             throw new \InvalidArgumentException('Invalid definition');
         }
@@ -63,7 +64,7 @@ class BadgeCropSquare extends AbstractMachine
         );
     }
 
-    public function canHandleDefinition(FlavourDefinition $definition) : bool
+    public function canHandleDefinition(FlavourDefinition $definition): bool
     {
         return $definition instanceof CropToSquare;
     }
