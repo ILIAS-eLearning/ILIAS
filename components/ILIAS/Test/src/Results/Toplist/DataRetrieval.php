@@ -23,7 +23,7 @@ namespace ILIAS\Test\Results\Toplist;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\Test\Participants\Participant;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\UI\Component\Symbol\Icon\Standard as Icon;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
@@ -35,6 +35,7 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         protected readonly \ilObjTest $test_obj,
         protected readonly TestTopListRepository $repository,
         protected readonly \ilLanguage $lng,
+        protected readonly \ilDBInterface $db,
         protected readonly \ilObjUser $user,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
@@ -152,7 +153,7 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
             'rank' => "{$row['rank']}.",
             'participant' => $this->test_obj->isHighscoreAnon() && (int) $row['usr_id'] !== $this->user->getId()
                 ? '-, -'
-                : Participant::getParticipantName($row['active_id']),
+                : (new ParticipantRepository($this->db))->getParticipantByActiveId($this->test_obj->getId(), $row['active_id'])->getDisplayName(),
             'is_actor' => isset($row['usr_id']) && ((int) $row['usr_id'] === $this->user->getId())
         ];
     }

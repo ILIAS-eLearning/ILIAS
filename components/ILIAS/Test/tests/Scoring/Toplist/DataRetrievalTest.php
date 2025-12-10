@@ -51,6 +51,7 @@ class DataRetrievalTest extends \ilTestBaseTestCase
             $this->testObjMock,
             $this->createMock(TestTopListRepository::class),
             $DIC['lng'],
+            $DIC['ilDB'],
             $DIC['ilUser'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],

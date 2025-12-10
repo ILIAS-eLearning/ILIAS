@@ -131,6 +131,7 @@ class ilTestResultsGUI
                     $this->ctrl,
                     $this->main_tpl,
                     $this->lng,
+                    $this->db,
                     $this->user,
                     $this->ui_factory,
                     $this->ui_renderer,

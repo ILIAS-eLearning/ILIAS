@@ -23,7 +23,7 @@ namespace ILIAS\Test\Scoring\Manual;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-use ILIAS\Test\Participants\Participant;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\TestManScoringDoneHelper;
 
 class ConsecutiveScoring
@@ -97,7 +97,9 @@ class ConsecutiveScoring
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
 
-        $participant_name = Participant::getParticipantName($usr_active_id);
+        $participant_name = (new ParticipantRepository($this->db))
+            ->getParticipantByActiveId($this->object->getId(), $usr_active_id)
+            ->getDisplayName();
         if (str_ends_with($participant_name, ' (imported)')) {
             return $participant_name;
         }

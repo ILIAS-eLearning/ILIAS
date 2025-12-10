@@ -40,6 +40,7 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
             $DIC['ilCtrl'],
             $DIC['tpl'],
             $DIC['lng'],
+            $DIC['ilDB'],
             $DIC['ilUser'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],

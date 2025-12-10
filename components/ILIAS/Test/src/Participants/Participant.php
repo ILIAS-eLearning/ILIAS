@@ -26,6 +26,7 @@ class Participant
 {
     private ?AttemptOverview $attempt_overview = null;
     private ?\DateTimeImmutable $running_attempt_start = null;
+    private readonly \ilLanguage $lng;
 
     public function __construct(
         private readonly int $user_id,
@@ -50,6 +51,8 @@ class Participant
         private readonly ?\DateTimeImmutable $last_access = null,
         private readonly bool $scoring_finalized = false
     ) {
+        global $DIC;
+        $this->lng = $DIC->language();
     }
 
     public function getUserId(): int
@@ -242,29 +245,19 @@ class Participant
         return $this->scoring_finalized;
     }
 
-    public static function getParticipantName(int $active_id): string
+    public function getDisplayName(): string
     {
-        global $DIC;
-        $db = $DIC->database();
-        $lng = $DIC->language();
+        $display_name = '';
 
-        $user_id = \ilObjTest::_getUserIdFromActiveId($active_id);
-        $name = \ilObjUser::_lookupFullname($user_id);
-
-        if ($user_id === ANONYMOUS_USER_ID) {
-            $statement = $db->queryF(
-                'SELECT importname FROM tst_active WHERE importname IS NOT NULL AND importname != "" AND user_fi = %s AND active_id = %s',
-                [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
-                [ANONYMOUS_USER_ID, $active_id]
-            );
-            $results = $db->fetchAll($statement);
-            $importname = $results[0]['importname'] ?? null;
-
-            if ($importname !== null && $importname !== '') {
-                $name = "{$importname} ({$lng->txt('imported')})";
-            }
+        if ($this->firstname) {
+            $display_name .= $this->firstname . ' ';
+        }
+        if ($this->lastname) {
+            $display_name .= $this->lastname;
         }
 
-        return $name;
+        return $this->user_id === ANONYMOUS_USER_ID && $this->importname !== null && $this->importname !== ''
+            ? "{$this->importname} ({$this->lng->txt('imported')})"
+            : $display_name;
     }
 }
