@@ -496,13 +496,13 @@ assessment#:#ass_cloze_gap_fb_txt_match_label#:#Lücke %s - Angegebene Antwort: 
 assessment#:#ass_cloze_gap_fb_txt_nomatch_label#:#Lücke %s - Falsche Eingabe
 assessment#:#ass_commented_questions_only#:#Nur kommentierte Fragen
 assessment#:#ass_comments#:#Kommentare
-assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenz-Schwellenwerte gemäß der Reihenfolge der Kompetenzstufen in aufsteigender Reihenfolge definiert werden müssen.
+assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass die Kompetenzschwellenwerte gemäß der Reihenfolge der Kompetenzstufen in aufsteigender Reihenfolge definiert werden müssen.
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file_with_results#:#inkl. Teilnehmerergebnisse
 assessment#:#ass_create_export_test_archive#:#als Archivdatei
 assessment#:#ass_create_question#:#Frage erstellen
-assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltip)
+assessment#:#ass_imap_hint#:#Hinweis (angezeigt als Tooltipp)
 assessment#:#ass_imap_map_file_not_readable#:#Die hochgeladene Imagemap kann nicht gelesen werden.
 assessment#:#ass_imap_no_map_found#:#In der hochgeladenen Imagemap konnte keine unterstützte Form gefunden werden.
 assessment#:#ass_lac_expression#:#Ausdruck
@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ILIAS-Test-ID anzeigen
 assessment#:#examid_in_test_res_desc#:#Die ILIAS-Test-ID wird in den Ansichten „Detaillierte Ergebnisse“ und   „Druckbare Liste der Antworten“ angezeigt sowie in den über den Reiter „Teilnehmer“ exportierten Tabellenkalkulationsdateien.
 assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_eval_data#:#Daten exportieren
-assessment#:#exp_file_created#:#Exportdatei erzeugt.
 assessment#:#exp_grammar_as#:#als
 assessment#:#exp_scored_test_attempt#:#Bewerteter Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
 assessment#:#export_cert_failed_for_users_p#:#Für die folgenden %s Konten konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
 assessment#:#export_cert_failed_for_users_s#:#Für das folgende Konto konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
@@ -1425,7 +1423,7 @@ assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
 assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer erstellen
 assessment#:#tst_comp_eval_mode#:#Evaluierung über
-assessment#:#tst_comp_points#:#Kompetenz-Punkte
+assessment#:#tst_comp_points#:#Kompetenzpunkte
 assessment#:#tst_competence#:#Kompetenz
 assessment#:#tst_competence_tree#:#Kompetenzbaum
 assessment#:#tst_conditions_checkbox_enabled#:#Prüfungsbedingungen
@@ -1453,8 +1451,7 @@ assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenst
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
-assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
-assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
+assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungseigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_enable_questionlist#:#Fragenliste
 assessment#:#tst_enable_questionlist_description#:#Teilnehmer können sich links neben den Testfragen eine Fragenliste anzeigen lassen.
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
-assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_gap_analysis#:#Gap-Analyse
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
 assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
 assessment#:#tst_hide_pagecontents_desc#:#Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
-assessment#:#tst_hide_side_list#:#Fragenliste aus
 assessment#:#tst_highscore_achieved_ts#:#Datum / Uhrzeit
 assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte eingeblendet, die anzeigt, wann der Test beendet wurde.
 assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Punkte
 assessment#:#tst_highscore_score_description#:#Es wird einen zusätzliche Spalte mit der Angabe der erreichten Punkte eingeblendet.
 assessment#:#tst_highscore_top_num#:#Länge der Bestenliste
 assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
-assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 assessment#:#tst_highscore_top_table#:#Bestenliste
 assessment#:#tst_highscore_top_table_description#:#Teilnehmerinnen und Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 assessment#:#tst_highscore_wtime#:#Bearbeitungsdauer
@@ -1618,7 +1612,7 @@ assessment#:#tst_man_scoring_finalized_only#:#Nur bewertete Antworten anzeigen
 assessment#:#tst_man_scoring_only_answered#:#Nur beantwortete
 assessment#:#tst_man_scoring_questionselection#:#Fragen
 assessment#:#tst_man_scoring_userselection#:#Teilnehmer
-assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
+assessment#:#tst_manage_competence_assigns#:#Kompetenzzuordnungen verwalten
 assessment#:#tst_manage_competence_select_skills#:#Kompetenzen auswählen
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
 assessment#:#tst_manscoring_input_of_max#:#von
@@ -1636,7 +1630,7 @@ assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_reset_to_simple_mark_schema#:#Auf Einfaches Notenschema zurücksetzen
 assessment#:#tst_mark_reset_to_simple_mark_schema_confirmation#:#Möchten Sie wirklich fortfahren? Das aktuelle Notenschema wird durch ein einfaches Notenschema mit den Stufen „bestanden“ und „nicht bestanden“ ersetzt. Alle lokalen Änderungen werden gelöscht.
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
-assessment#:#tst_max_comp_points#:#Maximale Kompetenz-Punkte
+assessment#:#tst_max_comp_points#:#Maximale Kompetenzpunkte
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
 assessment#:#tst_mc_label_none_above#:#Keine der obigen Antworten
 assessment#:#tst_median_mark_panel#:#Note des Median
@@ -1661,9 +1655,9 @@ assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Zeitpunkt der letzten
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert. Sie können nun eine neue Regel hinzufügen.
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_random_question_set_synced#:#Die Fragen zur aktuellen Konfiguration des Tests mit zufälliger Fragenauswahl wurde erfolgreich synchronisiert.
-assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
-assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenz-Punkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenz-Punkte wurden gespeichert.
+assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenzschwellenwerte wurden gespeichert.
+assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Die Kompetenzpunkte wurden nicht gespeichert. Bitte überprüfen Sie Ihre Eingabe.
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#Die Kompetenzpunkte wurden gespeichert.
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Regel für die Fragenauswahl wurde erfolgreich gelöscht.
 assessment#:#tst_nav_next_locks_current_answer_confirm#:#Wenn Sie zur nächsten Frage navigieren wird die Antwort zur aktuellen Frage festgeschrieben und kann nicht nochmals verändert werden.
 assessment#:#tst_nav_next_locks_current_answer_header#:#Aktuelle Antwort festschreiben?
@@ -1763,8 +1757,8 @@ assessment#:#tst_qbt_filter_question_title#:#Fragentitel
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_order#:#Nr.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus „%s“ müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
-assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#Die Fragen-Kompetenz-Zuordnung für Tests im Modus „%s“ müssen grundsätzlich in den zugeordneten Fragenpools vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#Die Fragen-Kompetenzzuordnung für Tests im Modus „%s“ müssen grundsätzlich im zugeordneten Fragenpool vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#Die Fragen-Kompetenzzuordnung für Tests im Modus „%s“ müssen grundsätzlich in den zugeordneten Fragenpools vorgenommen werden:<br />%s<br /><br />Die Vergabe der Kompetenz-Schwellwerte erfolgt hier im Test.
 assessment#:#tst_question#:#Frage
 assessment#:#tst_question_amount#:#Anzahl Fragen
 assessment#:#tst_question_answer_status#:#Welche Fragen sollen in die Wiedervorlage?
@@ -1858,7 +1852,7 @@ assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regel für die Auswahl von Fragen
 assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Regel für Fragenauswahl hinzufügen
 assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
 assessment#:#tst_save_and_proceed#:#Speichern und weiter
-assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
+assessment#:#tst_save_comp_points#:#Speichere Kompetenzpunkte
 assessment#:#tst_save_manscoring_failed#:#Die Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
 assessment#:#tst_saved_manscoring_by_question_successfully#:#Die Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
@@ -1885,15 +1879,11 @@ assessment#:#tst_settings_not_found_msg#:#Testeinstellungen wurden nicht gefunde
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#"Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Durchführung des Tests einen Button an, mit der der Test unterbrochen werden kann. Achtung: Das Unterbrechen des Tests hält nicht die unter „Maximale Bearbeitungsdauer“ festgelegte Bearbeitungszeit an.
-assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
+assessment#:#tst_show_comp_results#:#Kompetenzergebnisse
 assessment#:#tst_show_results#:#Testergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn „Druckausgabe der Ergebnisse (nur Antworten)“ ausgewählt ist, werden ILIAS-Inhalte, die Sie über den „Inhalt bearbeiten“-Reiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
-assessment#:#tst_show_solution_compare#:#Zeige bestmögliche Lösung in „Tabelle mit detaillierten Testergebnissen“
-assessment#:#tst_show_solution_compare_desc#:#Teilnehmern wird als Teil der Tabelle „Detallierte Testergebnisse“ eine Ansicht präsentiert, welche ihre eigenen Antworten und die bestmögliche Lösung gegenüberstellt. <br> Diese Ansicht wird nicht im Unterreiter „Bewertete Antworten“ des „Meine Ergebnisse“-Reiters angezeigt, auch wenn diese Einstellung hier vorgenommen wird.
-assessment#:#tst_show_solution_details#:#Bewertete Antworten als Liste
-assessment#:#tst_show_solution_details_desc#:#Die Tabelle „Detallierte Testergebnisse“ wird um eine Liste der eigenen Antworten ergänzt.
 assessment#:#tst_show_solution_details_singlepage#:#Bewertete Antworten auf Einzelseiten
 assessment#:#tst_show_solution_details_singlepage_desc#:#Teilnehmerinnen und Teilnehmer können jede Frage einzeln aufrufen und sehen, ob ihre Antworten richtig waren und wie viele Punkte sie damit erreicht haben.
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
@@ -1914,10 +1904,9 @@ assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
 assessment#:#tst_skill_triggerings_num_req_answers#:#Benötigte Anzahl Antworten für Kompetenzerhebungen
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden erst erhoben, wenn mindestens diese Anzahl Antworten zur Berechnung der Kompetenzstufe beitragen.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
-assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurieren
+assessment#:#tst_skl_level_thresholds_link#:#Kompetenzschwellenwerte konfigurieren
 assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
-assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
+assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenzschwellenwerte
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
 assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
 assessment#:#tst_source_question_pool#:#Fragenpool
@@ -1978,9 +1967,8 @@ assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korre
 assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt.
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Übernahme der Lösungen muss vom Teilnehmer vor Beginn des Testdurchlaufs in einem Modal per Checkbox aktiviert werden.
-assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
-assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
+assessment#:#tst_view_competence_assign#:#Zeige Zuordnungseigenschaften
 assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zum Lernziel<br />%s
 assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse zum Lernziel<br />%s
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Ihre Antwort aus einem früheren Versuch wurde übernommen.
@@ -6576,7 +6564,7 @@ content#:#cont_hacc_needs_width#:#Bitte geben Sie für horizontale Akkordeons ei
 content#:#cont_has_row_header#:#Kopfzeile
 content#:#cont_header#:#Kopfzeile
 content#:#cont_height#:#Höhe in Pixel
-content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltip-ID ist nicht gültig.
+content#:#cont_help_no_valid_tooltip_id#:#Die eingegebene Tooltipp-ID ist nicht gültig.
 content#:#cont_hide_adv#:#Vertiefungswissen verbergen
 content#:#cont_hide_head_foot_print#:#Kopf- und Fußzeile im Ausdruck ausblenden.
 content#:#cont_hidenavig#:#Linken Navigationsbaum ausblenden
@@ -6739,7 +6727,7 @@ content#:#cont_lpe_openid_login_form#:#OpenID-Login-Maske
 content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
 content#:#cont_lpe_saml_login#:#SAML-Login
 content#:#cont_lpe_shib_login_form#:#Shibboleth-Login-Maske
-content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
+content#:#cont_lpe_user_agreement_link#:#Link zur Nutzungsvereinbarung
 content#:#cont_lrs_settings#:#Einstellungen
 content#:#cont_lvalue#:#Datenelement
 content#:#cont_maintenance#:#Wartung
@@ -8739,7 +8727,6 @@ dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt.
 dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht.
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert.
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren.
-dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_entries#:#Neue Einträge
@@ -8765,7 +8752,6 @@ dcl#:#dcl_notification_deactivate#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
 dcl#:#dcl_notification_settings#:#Benachrichtigungseinstellungen
-dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
@@ -9807,7 +9793,7 @@ export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
 export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Öffentlich zugängliche Exportdatei
+export#:#export_info_public_access#:#Öffentliche Exportdatei
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Letzter Export
 export#:#export_last_export_file#:#Letzte Exportdatei benutzen
@@ -9976,7 +9962,7 @@ form#:#form_msg_max_upload#:#Maximale Anzahl von gleichzeitig hochladbaren Datei
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
 form#:#form_msg_value_too_high#:#Wert ist zu hoch. Bitte geben Sie einen niedrigeren Wert ein.
 form#:#form_msg_value_too_low#:#Wert ist zu niedrig. Bitte geben Sie einen höheren Wert ein.
-form#:#form_msg_wrong_date#:#Falsches Datum. Bitte geben Sie ein gültiges Datum an.
+form#:#form_msg_wrong_date#:#Bitte überprüfen Sie Ihre Datumseingabe. Sowohl ein Startdatum als auch ein Enddatum sind erforderlich und das Startdatum darf nicht später liegen als das Enddatum.
 form#:#form_no_link#:#Kein Link
 form#:#form_open_answer#:#Freitext
 form#:#form_password_not_allowed_for_auth#:#Für die gewählte Authentifizierungmethode können Sie das Passwort nicht ändern
@@ -10518,7 +10504,7 @@ gsfo#:#translate#:#Übersetzen
 gsfo#:#translations#:#Übersetzungen
 help#:#gdtr_active#:#Aktiv
 help#:#gdtr_add_step#:#Schritt hinzufügen
-help#:#gdtr_add_tour#:#Add Tour
+help#:#gdtr_add_tour#:#Tour hinzufügen
 help#:#gdtr_close#:#Tour beenden
 help#:#gdtr_delete_step#:#Schritt löschen
 help#:#gdtr_delete_step_mess#:#Sind Sie sicher, dass dieser Schritt gelöscht werden soll?
@@ -10530,44 +10516,46 @@ help#:#gdtr_edit_content#:#Inhalt bearbeiten
 help#:#gdtr_edit_page_info#:#Bearbeiten Sie den Inhalt, der erscheinen soll um das ausgewählte Bedienelement zu beschreiben.
 help#:#gdtr_edit_properties#:#Eigenschaften bearbeiten
 help#:#gdtr_edit_step_info#:#In diesem Formular spezifizieren Sie das Bedienelement auf dem Bildschirm, welches einen Erklärungstext in diesem Schritt der Tour erhalten soll. In der Präsentation wird dann ein Popover mit dem definierten Erklärungstext neben dem angegebenen Element dargestellt.
-help#:#gdtr_edit_steps#:#Edit Steps
+help#:#gdtr_edit_steps#:#Schritte bearbeiten
 help#:#gdtr_element_id#:#Element ID
 help#:#gdtr_form#:#Formular
 help#:#gdtr_form_info#:#Das erste Formular im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. ein Formular enthalten.
-help#:#gdtr_guided_tours#:#Guided Tours
-help#:#gdtr_id_pres_users#:#IDs anzeigen für ILIAS-Konten
-help#:#gdtr_id_pres_users_info#:#ILIAS-Konten, denen die Element IDs angezeigt werden. Mehrere Einträge müssen durch Kommas separiert werden.
-help#:#gdtr_id_settings#:#ID Einstellungen
+help#:#gdtr_guided_tours#:#Touren
+help#:#gdtr_id_pres_users#:#IDs anzeigen für
+help#:#gdtr_id_pres_users_info#:#Tragen Sie einen oder mehrere Anmeldenamen ein. Diesen Personen werden auf der Bedienoberfläche Tooltipps mit den IDs der einzelnen Elemente angezeigt. Fahren Sie mit der Maus über die Elemente, um die Tooltipps zu sehen.
+help#:#gdtr_id_settings#:#Einstellungen
 help#:#gdtr_import_tour#:#Tour importieren
-help#:#gdtr_language#:#Sprache
-help#:#gdtr_language_info#:#Aktiviert eine Guided-Tour nur für Personen mit der eingestellten Sprache.
-help#:#gdtr_list_tours_mess#:#Um die Anzeige von Screen- und Element-IDs als Tooltips zu aktivieren, müssen Sie ihren Accountnamen in den ID Einstellungen eintragen.
+help#:#gdtr_language#:#Nach Sprache
+help#:#gdtr_language_info#:#Nur Personen mit der ausgewählten Sprache sehen die Tour.
+help#:#gdtr_list_tours_mess#:#Um Touren auszuarbeiten, müssen Sie zunächst Ihren Anmeldenamen im Unterreiter „Einstellungen“ eintragen.
 help#:#gdtr_mainbar#:#Mainbar
-help#:#gdtr_mainbar_info#:#Die Mainbar ist das Hauptmenü auf der linken Seite. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_mainbar_info#:#Die Mainbar ist das Hauptmenü auf der linken Seite. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
 help#:#gdtr_metabar#:#Metabar
-help#:#gdtr_metabar_info#:#Die Metabar ist das Menü im rechten, oberen Bildrand. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_metabar_info#:#Die Metabar ist das Menü im rechten, oberen Bildrand. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
 help#:#gdtr_next_step#:#Nächster Schritt
-help#:#gdtr_permission#:#Berechtigung
-help#:#gdtr_permission_info#:#Aktiviert eine Guided-Tour für Personen mit gegebener Berechtigung, z.B. nur wenn das "Einstellungen bearbeiten" Recht vorhanden ist. Bei der Auswahl von "Erstellen" muss der Nutzende im aktuellen Bereich irgendein Objekt erstellen können.
+help#:#gdtr_permission#:#Nach Rechten
+help#:#gdtr_permission_info#:#Nur Personen mit den ausgewählten Rechten sehen die Tour. Diese Einstellung sollte nur zusammen mit der Einstellung „Nach Screen-ID“ genutzt werden.
+help#:#gdtr_presentation_limitation#:#Anzeige einschränken
 help#:#gdtr_primary_button#:#Primary Button
 help#:#gdtr_primary_button_info#:#Der erste Primary-Button im Hauptbereich der Ansicht. Dieser wird um Gegensatz zu anderen Aktionsknöpfen betont dargestellt. Normalerweise sollen Ansichten nur max. eine Primary-Button enthalten.
 help#:#gdtr_reset_tour#:#Tour zurücksetzen
 help#:#gdtr_reset_tour_mess#:#Wenn Sie die Tour zurücksetzen, werden alle diejenigen, die zuvor die Tour abgeschlossen haben, die Tour erneut präsentiert bekommen. Möchten Sie fortfahren?
-help#:#gdtr_screen_ids#:#Screen IDs
-help#:#gdtr_screen_ids_info#:#Ermöglicht es, eine Guided-Tour für einzelne Ansichten des Systems zu aktivieren. Wenn die ID-Anzeige aktiviert ist, wird die Screen-ID einer Ansicht ganz oben im Kopfbereich angezeigt. Mehrere IDs müssen durch Kommas separiert werden.
+help#:#gdtr_screen_ids#:#Nach Screen-IDs
+help#:#gdtr_screen_ids_info#:#Tragen Sie hier die Screen-IDs der Seiten ein, auf denen die Tour angezeigt wird – falls diese nicht überall gezeigt werden soll. Mehrere Screen-IDs müssen durch Kommas getrennt werden.
 help#:#gdtr_step#:#Schritt
 help#:#gdtr_step_type#:#Bedienelement
 help#:#gdtr_table#:#Tabelle
 help#:#gdtr_table_info#:#Die erste Tabelle im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. eine Tabelle enthalten.
 help#:#gdtr_tabs#:#Reiter
-help#:#gdtr_tabs_info#:#Die Reiter werden in der Mitte unter dem Haupttitel einer Ansicht dargestellt. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltip dargestellt.
+help#:#gdtr_tabs_info#:#Die Reiter werden in der Mitte unter dem Haupttitel einer Ansicht dargestellt. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
 help#:#gdtr_toolbar#:#Toolbar
 help#:#gdtr_toolbar_info#:#Die erste Toolbar im Hauptbereich der Ansicht. Diese wird normalerweise unterhalb der Reiter dargestellt und kann mehrere Bedienelemente enthalten. Normalerweise sollen Ansichten nur max. eine Toolbar enthalten.
 help#:#gdtr_tour_has_been_reset#:#Die Tour wurde zurückgesetzt.
+help#:#gdtr_tour_settings#:#Einstellungen bearbeiten
 help#:#gdtr_tour_steps#:#Schritte
-help#:#gdtr_tours#:#Tours
+help#:#gdtr_tours#:#Touren
 help#:#gdtr_type#:#Typ
-help#:#guided_tour#:#Guided Tour
+help#:#guided_tour#:#Interaktive Touren
 help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
@@ -10583,12 +10571,12 @@ help#:#help_search_label#:#Suche in Hilfe
 help#:#help_select_a_file#:#Bitte wählen Sie eine Datei.
 help#:#help_set_mode#:#Hilfemodus setzen
 help#:#help_sure_delete_help_modules#:#Wollen Sie diese Pakete wirklich löschen?
-help#:#help_toggle_tooltips#:#Hilfe-Tooltips
-help#:#help_toggle_tooltips_info#:#Hilfe-Tooltips zu Menüs und Reitern anzeigen.
-help#:#help_tooltip_id#:#Tooltip-ID
-help#:#help_tooltips#:#Hilfe-Tooltips
-help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
-help#:#help_tooltips_only#:#Nur Tooltips
+help#:#help_toggle_tooltips#:#Hilfe-Tooltipps
+help#:#help_toggle_tooltips_info#:#Hilfe-Tooltipps zu Menüs und Reitern anzeigen.
+help#:#help_tooltip_id#:#Tooltipp-ID
+help#:#help_tooltips#:#Hilfe-Tooltipps
+help#:#help_tooltips_and_help#:#Tooltipps und Handlungsanweisungen
+help#:#help_tooltips_only#:#Nur Tooltipps
 help#:#help_topcis#:#Themen
 help#:#help_tt_text#:#Text
 htlm#:#file_import_from_upload_dir_failed#:#Datei aus Uploadverzeichnis nicht importiert
@@ -11212,6 +11200,12 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#Die externe Konten-ID wird kombin
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Die Identifikation ist identisch bei jedem Aufruf und lässt direkte Rückschlüsse auf das ILIAS-Konto und die zugehörige Person zu.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Anmeldename kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID@ILIAS-Plattform-ID.ilias###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Konto wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Die E-Mail-Adresse setzt sich zusammen aus der Zufalls-ID und einer eigens###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash@ILIAS-Plattform-ID.ilias###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer eigens generierten Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option keine direkten Rückschlüsse auf ein ILIAS-Konto.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash@ILIAS-Domain###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Die E-Mail-Adresse setzt sich zusammen aus einem Hash-Wert und einer ILIAS-Domain. Diese Option ist mit maximal 80 Zeichen deutlich kürzer als die mit ILIAS-Plattform-ID. Ohne Zugriff auf die ILIAS-Datenbank ermöglicht diese Option sind nur sehr eingeschränkte Rückschlüsse auf ein ILIAS-Konto.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ID des ILIAS-Kontos kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Die interne numerische ID ist bei jedem Aufruf identisch und ermöglicht Rückschlüsse auf das ILIAS-Konto.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
@@ -11297,13 +11291,16 @@ lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
 lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
 lti#:#lti13_hints#:#Hinweise
+lti#:#lti_13_authentication_url#:#URL für die Authentifizierungsanfrage###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#URL für den öffentlichen Schlüsselsatz###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Plattform-ID
 lti#:#lti_13_step1#:#Schritt 1
 lti#:#lti_13_step1_info#:#Tragen Sie bei der initiierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
 lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_13_step2_info#:#Von der initiierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
+lti#:#lti_13_token_url#:#URL für den Zugriffstoken###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
 lti#:#lti_action_delete_providers#:#Provider löschen
@@ -11317,6 +11314,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht ge
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
+lti#:#lti_con_grade_synchronization#:#Erweiterte Benotungsdienste###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#Das LTI-Tool muss 'Assignment and Grade Services' anbieten.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Typ des öffentlichen Schlüssels
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11336,6 +11335,10 @@ lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein 
 lti#:#lti_con_prov_custom_params#:#Definition der Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
+lti#:#lti_con_prov_dyn_reg_params#:#Optionale Parameter###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Hier können z.B. Verweise auf Zielobjekte im Tool angegeben werden.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registrierungs-URL des Tools###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Hinweis: Nicht jedes Tool unterstützt die dynamische Registrierung.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#Externer Provider
 lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider bzw. Tool wird ein Hinweis angezeigt. Die Rechte zum Löschen persönlicher Daten durch die ILIAS-Administration sind bei externen Providern in der Regel nicht gegeben.
 lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern
@@ -11404,6 +11407,7 @@ lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
 lti#:#lti_delete_consume_provider#:#Provider löschen
 lti#:#lti_delete_consume_providers#:#Provider löschen
 lti#:#lti_delete_provider#:#Provider löschen
+lti#:#lti_dynamic_registration#:#Eigene Tool-Einstellungen mit dynamischer Registrierung anlegen (LTI 1.3)###04 12 2025 new variable
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
@@ -12061,12 +12065,12 @@ meta#:#md_import_file_vocab#:#Importdatei
 meta#:#md_import_vocab#:#Vokabular importieren
 meta#:#md_import_vocab_modal#:#Aus Datei importieren
 meta#:#md_months#:#Monate:
-meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
+meta#:#md_oai_contact_mail#:#E-Mail-Kontakt dieser Organisation
 meta#:#md_oai_identifier_prefix#:#OAI Präfix
 meta#:#md_oai_identifier_prefix_info#:#Dieser Präfix wird als Namespace in den Bezeichnern von abgefragten OER-Datensätzen benutzt.
 meta#:#md_oai_pmh_enabled#:#Abfragen über OAI-PMH Schnittstelle erlauben
 meta#:#md_oai_pmh_enabled_info#:#Wenn aktiviert, können vom OER-Harvester gefundene Resourcen von externen Parteien wie OER Repositorien abgefragt werden.
-meta#:#md_oai_repository_name#:#Name des Repositoriums
+meta#:#md_oai_repository_name#:#Name der Installation
 meta#:#md_oai_repository_name_info#:#Bei Anfragen über die Schnittstelle wird dies als Name dieser ILIAS-Installation angegeben.
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
@@ -13526,7 +13530,7 @@ prg#:#prg_auto_member_select_grp#:#Gruppen
 prg#:#prg_auto_member_select_role#:#Rollen
 prg#:#prg_autoassignment#:#(automatisch)
 prg#:#prg_availability_action_not_allowed#:#Studienprogramme haben keine zeitliche Verfügbarkeit.
-prg#:#prg_belongs_to#:#Gehört Zu
+prg#:#prg_belongs_to#:#Gehört zu
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 prg#:#prg_cancel#:#Abbrechen
 prg#:#prg_cancel_acknowledge_completed_courses#:#Keine Kurse anerkennen
@@ -13580,7 +13584,7 @@ prg#:#prg_manage#:#Verwalten
 prg#:#prg_manage_members#:#Zuweisungen eines Studienprogramms bearbeiten
 prg#:#prg_manage_members_short#:#Zuweisungen verwalten
 prg#:#prg_manual_status#:#Manueller Status
-prg#:#prg_mark_accredited#:#akkreditieren
+prg#:#prg_mark_accredited#:#Akkreditieren
 prg#:#prg_mark_accredited_multi_success#:#Ausgewählte Benutzer akkreditiert.
 prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
 prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
@@ -17507,6 +17511,7 @@ ui#:#ui_transcription#:#Abschrift
 ui#:#unselect_node#:#Knoten %s von der Auswahl entfernen
 ui#:#vc_sort#:#Sortiert nach:
 ui#:#warning_url_too_long_msg#:#Die Anzahl der ausgewählten Zeilen führt zu einer zu großen Datenmenge, die nicht übertragen werden kann. Wählen Sie weniger Zeilen aus oder führen Sie die Aktion für die gesamte Tabelle durch (Sammelaktionen).
+user#:#account_not_flagged_for_deletion#:#Das Konto ist nicht zum Löschen markiert.
 user#:#activate_in_profile_fields#:#Das Ändern des Anmeldenamens muss unter Profil > Profile aktiviert werden, bevor diese Einstellung angepasst werden kann.
 user#:#administrative_settings#:#Administrative Einstellungen
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite

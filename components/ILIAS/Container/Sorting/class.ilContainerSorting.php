@@ -494,7 +494,7 @@ class ilContainerSorting
                     $no_position,
                     'title',
                     ($this->getSortingSettings()->getSortDirection() === ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
-                    true
+                    false
                 );
                 break;
             case ilContainer::SORT_NEW_ITEMS_ORDER_CREATION:

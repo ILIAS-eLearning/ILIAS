@@ -1238,9 +1238,9 @@ class Renderer extends AbstractComponentRenderer
             $template->setVariable('VALUE', $value_template->get('with_value_template'));
             $template->parseCurrentBlock();
 
-            foreach ($leaf->getParentIds() as $parent_id) {
-                // deduplicate overlaping parent ids by using them as offset
-                $sync_node_id_whitelst[$parent_id] = $parent_id;
+            foreach ($leaf->getFullPath() as $node_id) {
+                // deduplicate overlaping node ids by using them as offset
+                $sync_node_id_whitelst[$node_id] = $node_id;
             }
         }
 

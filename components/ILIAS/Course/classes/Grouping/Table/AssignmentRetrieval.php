@@ -137,7 +137,7 @@ class AssignmentRetrieval implements DataRetrieval
 
         $ordering_callable_without_direction = match ($order_field) {
             AssignmentHandler::COL_TITLE, AssignmentHandler::COL_PATH =>
-                fn($a, $b) => $a[$order_field] ?? '' <=> $b[$order_field] ?? '',
+                fn($a, $b) => ($a[$order_field] ?? '') <=> ($b[$order_field] ?? ''),
             AssignmentHandler::COL_ASSIGNED =>
                 fn($a, $b) => isset($a[$order_field]) <=> isset($b[$order_field])
         };

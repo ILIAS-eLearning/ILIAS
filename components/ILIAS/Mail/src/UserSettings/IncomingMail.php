@@ -109,6 +109,7 @@ class IncomingMail implements SettingDefinition
 
         $input = new \ilIncomingMailInputGUI($lng->txt('mail_incoming'), 'incoming_mail');
         $input->setFreeOptionChoice(false);
+        $input->setUser($user);
         $input->setValueByArray(
             $user !== null
                 ? $this->retrieveValueFromUser($user)

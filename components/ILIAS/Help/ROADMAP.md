@@ -1,4 +1,6 @@
-# Roadmap
+# Roadmap Help
+
+There is a separated roadmap file for the guided tour: [ROADMAP-guided-tour.md](./ROADMAP-guided-tour.md)
 
 ## Short Term
 

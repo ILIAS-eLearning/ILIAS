@@ -204,7 +204,6 @@ class Renderer extends AbstractComponentRenderer
         $component = $this->registerActions($component);
 
         [$component, $view_controls] = $component->applyViewControls(
-            $component->getAdditionalViewControlData(),
             $component->getFilter(),
             $component->getAdditionalParameters()
         );

@@ -476,10 +476,10 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
         /*
          * Update positions and value
-         * If an entry is is moved down, shift new position to reflect entry not
+         * If an entry is moved down, shift new position to reflect entry not
          * being in its old position anymore.
          */
-        if ($new_position > $edited_option->getPosition()) {
+        if ($edited_id !== self::ADD_NEW_ENTRY_ID && $new_position > $edited_option->getPosition()) {
             $new_position -= 1;
         }
 

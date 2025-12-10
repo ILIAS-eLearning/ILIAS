@@ -880,9 +880,8 @@ class ilTrQuery
         }
 
         if ($valid) {
-            $result["country"] = self::getSummaryPercentages("country", $query);
-            $result["sel_country"] = self::getSummaryPercentages(
-                "sel_country",
+            $result["country"] = self::getSummaryPercentages(
+                "country",
                 $query
             );
             $result["city"] = self::getSummaryPercentages("city", $query);
@@ -1131,7 +1130,6 @@ class ilTrQuery
                     case "street":
                     case "email":
                     case "matriculation":
-                    case "country":
                     case "city":
                     case "title":
                         $where[] = $ilDB->like(
@@ -1143,7 +1141,7 @@ class ilTrQuery
 
                     case "gender":
                     case "zipcode":
-                    case "sel_country":
+                    case "country":
                         $where[] = "usr_data." . $id . " = " . $ilDB->quote(
                             $value,
                             "text"

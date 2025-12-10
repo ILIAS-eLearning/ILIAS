@@ -311,7 +311,7 @@ class SettingsQuestionBehaviour extends TestSettings implements Exportable
         return $refinery->custom()->constraint(
             function ($vs): bool {
                 if ($vs['shuffle_questions'] === true
-                    && $vs['lock_answers']['lock_answer_on_next_question']) {
+                    && ($vs['lock_answers']['lock_answer_on_next_question'] ?? $this->getLockAnswerOnNextQuestionEnabled())) {
                     return false;
                 }
                 return true;

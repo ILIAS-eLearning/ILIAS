@@ -185,7 +185,7 @@ class Setting implements SettingDefinition
         if ($default_starting_point !== Repository::START_REPOSITORY_OBJ
             || ($ref_id = $this->starting_point_repository->getSystemDefaultStartingObject()) === null
             || ($obj_id = \ilObject::_lookupObjId($ref_id)) === 0) {
-            return $starting_point;
+            return $lng->txt($starting_point);
         }
         return $lng->txt('obj_' . \ilObject::_lookupType($obj_id)) . ' - ' . \ilObject::_lookupTitle($obj_id);
     }

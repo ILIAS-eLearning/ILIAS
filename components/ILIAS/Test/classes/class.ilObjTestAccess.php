@@ -328,7 +328,8 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
         $row_test = $ilDB->fetchAssoc($result_test);
         $obj_id = $row_test['obj_fi'];
 
-        if (ilObjTest::_lookupAnonymity($obj_id)) {
+        $test_obj = new ilObjTest($obj_id, false);
+        if ($test_obj->getAnonymity()) {
             return $lng->txt('anonymous');
         }
 

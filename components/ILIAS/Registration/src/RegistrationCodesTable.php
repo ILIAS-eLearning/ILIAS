@@ -212,11 +212,15 @@ class RegistrationCodesTable implements DataRetrieval
                         break;
 
                     case 'absolute':
-                        $result[$k]['alimit'] = $this->lng->txt('reg_access_limitation_mode_absolute_target') .
-                            ': ' .
-                            $date_format->applyTo(
-                                (new DateTimeImmutable('@' . $code['alimitdt']))->setTimezone(
-                                    new DateTimeZone($this->actor->getTimeZone())
+                        $result[$k]['alimit'] = $this->lng->txt('reg_access_limitation_mode_absolute_target')
+                            . ': '
+                            . (
+                                $code['alimitdt'] === null
+                                ? '-'
+                                : $this->actor->getDateFormat()->applyTo(
+                                    (new DateTimeImmutable($code['alimitdt']))->setTimezone(
+                                        new DateTimeZone($this->actor->getTimeZone())
+                                    )
                                 )
                             );
                         break;

@@ -96,12 +96,12 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
             );
 
             $this->addCommandButton(
-                ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS,
+                ilAssQuestionSkillAssignmentsGUI::CMD_EDIT_SKILL_QUEST_ASSIGNS,
                 $this->lng->txt('cancel')
             );
         } else {
             $this->addCommandButton(
-                ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS,
+                ilAssQuestionSkillAssignmentsGUI::CMD_EDIT_SKILL_QUEST_ASSIGNS,
                 $this->lng->txt('back')
             );
         }
@@ -208,6 +208,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         $questResultSkillPoints->setMinValue(1);
         $questResultSkillPoints->allowDecimals(false);
         $questResultSkillPoints->setValue((string) $this->assignment->getSkillPoints());
+
         if (!$this->isManipulationEnabled()) {
             $questResultSkillPoints->setDisabled(true);
         }

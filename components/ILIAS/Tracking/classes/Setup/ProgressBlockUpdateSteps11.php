@@ -57,4 +57,27 @@ class ProgressBlockUpdateSteps11 implements ilDatabaseUpdateSteps
         ]);
         $this->db->addPrimaryKey('ut_progress_block', ['obj_id']);
     }
+
+    /**
+     * Fix column types in progress block table
+     */
+    public function step_2(): void
+    {
+        if (
+            !$this->db->tableExists('ut_progress_block') ||
+            !$this->db->tableColumnExists('ut_progress_block', 'obj_id')
+        ) {
+            return;
+        }
+        $this->db->modifyTableColumn(
+            'ut_progress_block',
+            'obj_id',
+            [
+                'type' => ilDBConstants::T_INTEGER,
+                'length' => 4,
+                'default' => 0,
+                'notnull' => true
+            ]
+        );
+    }
 }

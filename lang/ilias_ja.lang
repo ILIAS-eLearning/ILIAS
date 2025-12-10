@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ILIAS テスト実施 ID
 assessment#:#examid_in_test_res_desc#:#ILIASテスト実施ＩDはテスト結果内に含まれます。
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#評価データ用にエクスポート
-assessment#:#exp_file_created#:#エクスポートファイルを作成しました。
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#証明書 (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#カンマ区切り (CSV)
 assessment#:#expected_result_type#:#予想結果タイプ
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#削除を進むには一つはマーク�
 assessment#:#tst_derive_new_pool#:#新規問題集を得る
 assessment#:#tst_derive_new_pools#:#新規問題集を得る
 assessment#:#tst_dont_show_msg_again_in_current_session#:#現在のセッションへこのメッセージを再表示しません。
-assessment#:#tst_dont_use_previous_answers#:#前回の解答が今後の試験の初期設定値として使用されることはありません
 assessment#:#tst_edit_competence_assign#:#割り当てのプロパティを編集
 assessment#:#tst_edit_scoring#:#点数を編集
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#はい、テストを終了します
 assessment#:#tst_finish_confirm_cancel_button#:#いいえ、前の問題へ戻ります
 assessment#:#tst_finish_confirmation_question#:#このテストを終了すると最大受験可能回数に達します。解答を変更しようとしても再度入力する事はできなくなります。本当にこのテストを終了しますか?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification_no#:#e-mailしない
 assessment#:#tst_finished#:#終了
 assessment#:#tst_form_dynamic_question_set_config#:#問題選択の継続
 assessment#:#tst_gap_analysis#:#ギャップ分析
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#問題一覧を表示しない
 assessment#:#tst_highscore_achieved_ts#:#日付
 assessment#:#tst_highscore_achieved_ts_description#:#テストデータの含まれる列は順位に含まれます。
 assessment#:#tst_highscore_all_tables#:#受験者の自身ランクとトップランキング
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#点数
 assessment#:#tst_highscore_score_description#:#点数入りの列はランキングへ含まれます。
 assessment#:#tst_highscore_top_num#:#トップランキングの長さ
 assessment#:#tst_highscore_top_num_description#:#何位をトップ順位リスト内に含めるかを決める
-assessment#:#tst_highscore_top_num_unit#:#エントリー
 assessment#:#tst_highscore_top_table#:#トップ順位
 assessment#:#tst_highscore_top_table_description#:#受験者はトップランクに含まれるテーブルで表示されます。
 assessment#:#tst_highscore_wtime#:#テスト受験時間
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#テスト結果を表示
 assessment#:#tst_show_side_list#:#脇に問題一覧を表示
 assessment#:#tst_show_solution_answers_only#:#結果印刷表示(解答のみ)
 assessment#:#tst_show_solution_answers_only_desc#:#選択すると"コンテンツ編集"タブを使って問題の周りに配置したILIASコンテンツのページは印刷には表示されません。少し紙面スペースを保存したい場合はこのオプションを選択します。
-assessment#:#tst_show_solution_compare#:#解答一覧の正解と解答を比較
-assessment#:#tst_show_solution_compare_desc#:#受験者は模範解答の回答と自身の全体回答を比較して表示されます。このビューは、''Info'タブの'テスト結果表示ボタン'を通してアクセス可能な'詳細結果'内へ表示されます。ここに設定しても印刷領域の'回答のリスト'には表示されません。
-assessment#:#tst_show_solution_details#:#受験者の得点回答
-assessment#:#tst_show_solution_details_desc#:#詳細テスト結果表'へadd-onとして追加し、受験者は各問題のページのリンクを得ます。このリンクページには問題、受験者の回答、この回答が正しいかどうかの情報、この問題による得点等が含まれます。
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#フィードバック
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#この前に能力は�
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#これにより処理される能力の一つはこのテストは、必須問題最小数でトリガーされません。<br />必須問題数は: %sです。
 assessment#:#tst_skl_level_thresholds_link#:#能力-スレッショールドを構成
 assessment#:#tst_skl_level_thresholds_missing#:#関連する能力のスレッショールドがありません!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#単一テストの能力結果は限定的な意味であることを考慮してください。詳細は能力別に収集されます。何もエントリーのない単一能力は価値のない情報収集になります。
 assessment#:#tst_skl_sub_tab_thresholds#:#能力しきい値
 assessment#:#tst_sol_comp_expressions#:#能力しきい値
 assessment#:#tst_solution_compare_cfg#:#正解比較用の構成
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#プリセット回答は正しい
 assessment#:#tst_unchanged_order_is_correct#:#プリセット順番は正しい
 assessment#:#tst_use_previous_answers#:#前回の回答を使用
 assessment#:#tst_use_previous_answers_description#:#参加者には前回使用の回答が表示されます。このオプションは登録開始前にInfoタブ上に参加者個々で有効する必要があります。
-assessment#:#tst_use_previous_answers_user#:#回答を続ける際の初期値に前の回答を使用
 assessment#:#tst_user_finished_test#:#終了したテスト(%s) を使用
 assessment#:#tst_view_competence_assign#:#割り当てプロパティを表示
 assessment#:#tst_virtual_pass_header_lo_initial#:#学習目標に対する最初のテスト結果<br />%s
@@ -11206,6 +11194,12 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてユ
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許可する可能性があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合されたILIAS Login
 lti#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許可する可能性があります。
+lti#:#conf_privacy_ident_il_uuid_random#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたランダムID###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#それぞれILIASオブジェクトとILIASユーザランダムIDは、コール毎に同一のままのランダムIDを生成します。オブジェクトを超えたユーザプロファイル生成がほぼ不可能でる事によりユーザに関する結論は、極めて限定的です。###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256#:#EメールアドレスでユニークなILIASプラットフォームでフォーマットされて組み合されたハッシュ###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#これはコール毎に同じですが、ILIASユーザに関してはダイレクトに終結は許可されません。###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#EメールアドレスのILIASドメインでフォーマットされたハッシュ###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#これはコール毎に同じILIASプラットホームIDで可変の最高80文字よりかなり短く、ILIASユーザーに関して非常に限定された結果のみを許容。###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#メールアドレスとしてユニークなILIASプラットフォームでフォーマットされて結合されたILIASユーザID
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論は許可しません。
 lti#:#conf_privacy_ident_info#:#標準はメールアドレスが使用されます。ユニークなILIASプラットフォームid:
@@ -11291,13 +11285,16 @@ lti#:#launched#:#リソースは既に起動しています。
 lti#:#learning_progress_options#:#学習進捗オプション
 lti#:#lm_only_one_download_per_type#:#パブリックアクセス可能なタイプ(XML, HTML, SCORM)当たり1ファイルしか作成できない事に注意願います。
 lti#:#lti13_hints#:#Hints###19 08 2022 new variable
+lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID###19 08 2022 new variable
 lti#:#lti_13_deployment_id#:#Deployment-ID###19 08 2022 new variable
+lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID###19 08 2022 new variable
 lti#:#lti_13_step1#:#Step 1###19 08 2022 new variable
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:###19 08 2022 new variable
 lti#:#lti_13_step2#:#Step 2###19 08 2022 new variable
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.###19 08 2022 new variable
+lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#全ユーザ用のグローバルプロバイダーとしてプロバイダを承認
 lti#:#lti_action_accept_providers_as_global#:#グローバルとしてプロバイダーを承認
 lti#:#lti_action_delete_providers#:#プロバイダーを削除
@@ -11311,6 +11308,8 @@ lti#:#lti_at_least_one_prov_has_usages#:# 一つ以上にこのプロバイダ�
 lti#:#lti_auth_failed_invalid_key#:#有効なconsumer keyがないので認証を失敗しました。
 lti#:#lti_con_content_item#:#Support for Deep Linking###19 08 2022 new variable
 lti#:#lti_con_content_item_url#:#Content URL###19 08 2022 new variable
+lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL###19 08 2022 new variable
 lti#:#lti_con_key_type#:#Public Key Type###19 08 2022 new variable
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)###19 08 2022 new variable
@@ -11330,6 +11329,10 @@ lti#:#lti_con_prov_category_info#:#LTI Consumerオブジェクトが作成され
 lti#:#lti_con_prov_custom_params#:#この特定のプロバイダー用のカスタムパラメータ
 lti#:#lti_con_prov_custom_params_info#:#フォームへ入力してください。 param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#説明
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#External Providerと通信中ユーザへヒントが表示されます。External ProviderはILIASシステムのオペレータによりプロバイダに対しては不十分な影響として特徴づけられます。これは削除する権利がない時の場合です。
 lti#:#lti_con_prov_group_options#:#グループオプションとプロバイダフィルター
@@ -11398,6 +11401,7 @@ lti#:#lti_custom_new#:#自身のプロバイダー設定を作成
 lti#:#lti_delete_consume_provider#:#プロバイダーを削除
 lti#:#lti_delete_consume_providers#:#プロバイダーを削除
 lti#:#lti_delete_provider#:#プロバイダーを削除
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#LTI Consumerを編集
 lti#:#lti_exit#:#LTI Sessionをクローズ
 lti#:#lti_exited#:#LTI セッションをクローズしました

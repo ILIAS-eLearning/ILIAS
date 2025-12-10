@@ -186,7 +186,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                             $href = "";
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
-                                    [PublicProfileGUI::class],
+                                    [ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class],
                                     "getHTML",
                                     "",
                                     false,

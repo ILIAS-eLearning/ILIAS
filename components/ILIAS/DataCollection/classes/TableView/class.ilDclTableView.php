@@ -69,13 +69,6 @@ class ilDclTableView extends ActiveRecord
      */
     protected string $description = '';
     /**
-     * @var int
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           8
-     */
-    protected int $tableview_order = 0;
-    /**
      * @var ilDclBaseFieldModel[]
      */
     protected array $visible_fields_cache = [];
@@ -119,16 +112,6 @@ class ilDclTableView extends ActiveRecord
         $this->title = $title;
     }
 
-    public function getOrder(): int
-    {
-        return $this->tableview_order;
-    }
-
-    public function setOrder(int $order): void
-    {
-        $this->tableview_order = $order;
-    }
-
     public function getDescription(): string
     {
         return $this->description;
@@ -137,16 +120,6 @@ class ilDclTableView extends ActiveRecord
     public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-
-    public function getTableviewOrder(): int
-    {
-        return $this->tableview_order;
-    }
-
-    public function setTableviewOrder(int $tableview_order): void
-    {
-        $this->tableview_order = $tableview_order;
     }
 
     public function getRoles(): array
@@ -362,7 +335,6 @@ class ilDclTableView extends ActiveRecord
         global $DIC;
         //clone structure
         $this->setTitle($orig->getTitle() . ' ' . $DIC->language()->txt('copy_of_suffix'));
-        $this->setOrder($orig->getOrder());
         $this->setDescription($orig->getDescription());
         $this->setRoles($orig->getRoles());
         $this->setRoleLimitation($orig->getRoleLimitation());
@@ -415,18 +387,13 @@ class ilDclTableView extends ActiveRecord
         return self::where(['table_id' => $table_id])->orderBy('title')->get();
     }
 
-    public static function getCountForTableId(int $table_id): int
-    {
-        return self::where(['table_id' => $table_id])->orderBy('tableview_order')->count();
-    }
-
     /**
      * @param      $table_id
      * @return ilDclTableView|ActiveRecord
      */
     public static function createOrGetStandardView(int $table_id): ActiveRecord
     {
-        if ($standardview = self::where(['table_id' => $table_id])->orderBy('tableview_order')->first()) {
+        if ($standardview = self::where(['table_id' => $table_id])->first()) {
             return $standardview;
         }
 
@@ -462,7 +429,6 @@ class ilDclTableView extends ActiveRecord
         // bugfix mantis 0023307
         $lng = $DIC['lng'];
         $view->setTitle($lng->txt('dcl_title_standardview'));
-        $view->setTableviewOrder(10);
         $view->create();
 
         return $view;

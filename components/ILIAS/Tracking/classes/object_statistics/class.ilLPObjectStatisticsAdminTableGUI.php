@@ -77,6 +77,11 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
         $this->setData($data);
     }
 
+    public function numericOrdering(string $a_field): bool
+    {
+        return $a_field === "count";
+    }
+
     /**
      * Fill table row
      */

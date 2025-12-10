@@ -235,7 +235,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', is_array($a_set[$field] ?? '') ? implode(', ', $a_set[$field]) : (string) $a_set[$field]);
+                    $this->tpl->setVariable('VAL_CUST', is_array($a_set[$field] ?? '') ? implode(', ', $a_set[$field]) : (string) ($a_set[$field] ?? ''));
                     $this->tpl->parseCurrentBlock();
                     break;
             }

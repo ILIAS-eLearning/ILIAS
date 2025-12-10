@@ -355,14 +355,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return false;
         }
 
-        if ($this->canSaveResult() || $force) {
-            $saved = $this->save($question_obj, $authorized);
-        }
+        $saved = ($force || $this->canSaveResult()) && $this->save($question_obj, $authorized);
 
-        if (!$saved
-            || ($question_obj instanceof QuestionPartiallySaveable
-                && !$question_obj->validateSolutionSubmit())) {
-
+        if (!$saved || ($question_obj instanceof QuestionPartiallySaveable && !$question_obj->validateSolutionSubmit())) {
             $this->ctrl->setParameter($this, 'save_error', '1');
             ilSession::set('previouspost', $this->testrequest->getParsedBody());
         }
@@ -392,7 +387,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->isParticipantsAnswerFixed($q_id)) {
             // should only be reached by firebugging the disabled form in ui
-            throw new ilTestException('not allowed request');
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_player_answer_saved_and_locked'), true);
+            $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
         }
 
         if ($q_id === null) {

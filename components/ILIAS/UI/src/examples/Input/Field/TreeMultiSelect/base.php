@@ -164,7 +164,7 @@ class TreeMultiSelectExampleNodeRetrieval implements NodeRetrieval
         array $node_ids,
     ): \Generator {
         foreach ($node_ids as $node_id) {
-            yield $node_factory->leaf($node_id, "dummy leaf node $node_id");
+            yield $node_factory->leaf([$node_id], "dummy leaf node $node_id");
         }
     }
 

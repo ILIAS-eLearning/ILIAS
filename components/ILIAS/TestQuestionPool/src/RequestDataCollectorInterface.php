@@ -54,4 +54,6 @@ interface RequestDataCollectorInterface
      * @return array|string<int>
      */
     public function getMultiSelectionIds(string $key): array|string;
+
+    public function getRowIdParameter(string $key): string|int;
 }

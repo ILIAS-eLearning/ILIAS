@@ -46,7 +46,7 @@ class EditSkillsOfQuestionTable implements DataRetrieval
      */
     public function getComponents(URLBuilder $url_builder): array
     {
-        $question = \assQuestionGUI::_getQuestionGUI('', $this->pool_request->getQuestionId())->getObject();
+        $question = \assQuestion::instantiateQuestion($this->pool_request->getQuestionId());
         return [
             $this->ui_factory->table()->data(
                 $this,
@@ -80,7 +80,7 @@ class EditSkillsOfQuestionTable implements DataRetrieval
                         'eval_mode' => $this->lng->txt($record->hasEvalModeBySolution()
                             ? 'qpl_skill_point_eval_mode_solution_compare'
                             : 'qpl_skill_point_eval_mode_quest_result'),
-                        'points' => $record->getSkillPoints(),
+                        'points' => $record->getMaxSkillPoints(),
                     ]
                 ),
                 $record

@@ -23,10 +23,11 @@ use ILIAS\Filesystem\Exception\IOException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
 
-require_once("../vendor/composer/vendor/autoload.php");
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_SCORM);
-ilInitialisation::initILIAS();
 
 global $DIC;
 

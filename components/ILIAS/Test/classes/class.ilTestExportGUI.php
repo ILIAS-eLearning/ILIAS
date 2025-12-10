@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\ExportImport\DBRepository;
 use ILIAS\Test\ExportImport\ResultsExportStakeholder;
+use ILIAS\Test\Results\Data\Repository as TestResultsRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\ResourceStorage\Services as IRSS;
@@ -49,6 +50,7 @@ class ilTestExportGUI extends ilExportGUI
         private readonly DBRepository $export_repository,
         private readonly Filesystem $temp_file_system,
         private readonly ilTestParticipantAccessFilterFactory $participant_access_filter_factory,
+        private readonly TestResultsRepository $test_results_repository,
         private readonly ilTestHTMLGenerator $html_generator
     ) {
         parent::__construct($parent_gui, null);
@@ -153,7 +155,12 @@ class ilTestExportGUI extends ilExportGUI
                 $test_ref
             );
 
-            $scoring = new TestScoring($this->obj, $this->user, $this->db, $this->lng);
+            $scoring = new TestScoring(
+                $this->obj,
+                $this->user,
+                $this->db,
+                $this->test_results_repository
+            );
             $best_solution = $scoring->calculateBestSolutionForTest();
 
             $tmpFileName = ilFileUtils::ilTempnam();

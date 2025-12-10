@@ -81,6 +81,11 @@ class ProfileImplementation implements Profile
         return $this->profile_fields_repository->getByIdentifier($identifier);
     }
 
+    public function getFieldByClass(string $class): ?ProfileField
+    {
+        return $this->profile_fields_repository->getByClass($class);
+    }
+
     public function addFieldsToForm(
         \ilPropertyFormGUI $form,
         Context $context,
@@ -103,10 +108,11 @@ class ProfileImplementation implements Profile
     public function addFormValuesToUser(
         \ilPropertyFormGUI $form,
         Context $context,
-        \ilObjUser $user
+        \ilObjUser $user,
+        array $skip_fields = []
     ): \ilObjUser {
         return array_reduce(
-            $this->getVisibleFields($context, $user),
+            $this->getVisibleFields($context, $user, [], $skip_fields),
             static function (\ilObjUser $c, ProfileField $v) use ($form, $context, $user): \ilObjUser {
                 if ($form->getItemByPostVar($v->getIdentifier())->getDisabled()) {
                     return $c;

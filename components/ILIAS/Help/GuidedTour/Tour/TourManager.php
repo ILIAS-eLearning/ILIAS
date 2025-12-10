@@ -50,7 +50,8 @@ class TourManager
             $tour_obj->getId(),
             false,
             "",
-            PermissionType::None
+            PermissionType::None,
+            "de"
         ));
         return $tour_obj->getId();
     }

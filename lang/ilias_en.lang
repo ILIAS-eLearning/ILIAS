@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#Display ILIAS Test ID
 assessment#:#examid_in_test_res_desc#:#Show the ILIAS Test ID in the ‘Detailed Results’ and ‘Printable List of Answers’ views as well as in spreadsheet files exported via the ‘Participants’ tab.
 assessment#:#exp_all_test_runs#:#All test attempts
 assessment#:#exp_eval_data#:#Export data
-assessment#:#exp_file_created#:#Export file created.
 assessment#:#exp_grammar_as#:#as
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
 assessment#:#expected_result_type#:#Expected result type
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to r
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test attempts
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_enable_questionlist#:#Show List of Questions
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
-assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab
 assessment#:#tst_hide_info_tab_desc#:#Hide the test’s ‘Info’ tab.
 assessment#:#tst_hide_pagecontents#:#Hide Page Content
 assessment#:#tst_hide_pagecontents_desc#:#Content placed before and after the actual question text via the ‘Edit Page’ button will not be displayed in results views or print output.
-assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date / Time
 assessment#:#tst_highscore_achieved_ts_description#:#Show an additional column in the rankings table showing when the test was finished.
 assessment#:#tst_highscore_all_tables#:#Own performance and top ranks
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Point Score
 assessment#:#tst_highscore_score_description#:#Show an additional column in the ranking table showing points scored.
 assessment#:#tst_highscore_top_num#:#Number of Top Ranks
 assessment#:#tst_highscore_top_num_description#:#Specify how many positions are to be included in the top ranks list.
-assessment#:#tst_highscore_top_num_unit#:#entries
 assessment#:#tst_highscore_top_table#:#Top ranks
 assessment#:#tst_highscore_top_table_description#:#Participants will be shown the top positions in the rankings.
 assessment#:#tst_highscore_wtime#:#Time Spent
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#Test Results
 assessment#:#tst_show_side_list#:#Show List of Questions
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
-assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
-assessment#:#tst_show_solution_details#:#Scored Answers of Participant
-assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't tri
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions. No competence records will be written for these competences.<br />The required amount of questions: %s
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fa
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants in a modal that pops up when starting a test attempt.
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test attempts
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s
@@ -8740,7 +8728,6 @@ dcl#:#dcl_msg_tableview_created#:#Views created
 dcl#:#dcl_msg_tableview_deleted#:#View deleted
 dcl#:#dcl_msg_tableview_updated#:#View updated
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
-dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_entries#:#New Entries
@@ -8766,7 +8753,6 @@ dcl#:#dcl_notification_deactivate#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
 dcl#:#dcl_notification_settings#:#Notification Settings
-dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
@@ -9808,7 +9794,7 @@ export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
 export#:#export_export_date#:#Export Date
-export#:#export_info_public_access#:#Public Access Export
+export#:#export_info_public_access#:#Public Export
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Last Export
 export#:#export_last_export_file#:#Use Last Export File
@@ -9977,7 +9963,7 @@ form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
 form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.
 form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.
-form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.
+form#:#form_msg_wrong_date#:#Please check your date entry. Both a start date and an end date are required and the start date cannot be later than the end date.
 form#:#form_no_link#:#No Link
 form#:#form_open_answer#:#Open Answer
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.
@@ -10550,6 +10536,7 @@ help#:#gdtr_metabar_info#:#The metabar is the menu on the top, right. If element
 help#:#gdtr_next_step#:#Next Step
 help#:#gdtr_permission#:#Permission
 help#:#gdtr_permission_info#:#Activates a guided tour only for users with a certain permission on the current repository object, e.g. only for users with "edit settings" permission for a course. If you "Create" is selected, the tour is active, if the user has any creation permission.
+help#:#gdtr_presentation_limitation#:#Presentation Limitation
 help#:#gdtr_primary_button#:#Primary Button
 help#:#gdtr_primary_button_info#:#The first primary button of the main content area. Primary buttons are presented emphasised compared to standard buttons. Usually views should only contain one primary button.
 help#:#gdtr_reset_tour#:#Reset Tour
@@ -10565,6 +10552,7 @@ help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the scre
 help#:#gdtr_toolbar#:#Toolbar
 help#:#gdtr_toolbar_info#:#The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar.
 help#:#gdtr_tour_has_been_reset#:#Tour has been reset.
+help#:#gdtr_tour_settings#:#Edit Settings
 help#:#gdtr_tour_steps#:#Tour Steps
 help#:#gdtr_tours#:#Tours
 help#:#gdtr_type#:#Type
@@ -11213,6 +11201,12 @@ lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User ID combined with a 
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Sends the login name. This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+lti#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address.###04 12 2025 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###04 12 2025 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail address
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sends the internal numeric user id. This is identical to each call, but may allow conclusions about the ILIAS user.
 lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
@@ -11298,13 +11292,16 @@ lti#:#launched#:#Resource was already launched.
 lti#:#learning_progress_options#:#Options for Learning Progress
 lti#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML, SCORM) can be released publicly.
 lti#:#lti13_hints#:#If the tool was created without dynamic registration, the following data must be entered for the tool to run.
+lti#:#lti_13_authentication_url#:#Authentication Request URL###04 12 2025 new variable
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
+lti#:#lti_13_keyset_url#:#Public Keyset URL###04 12 2025 new variable
 lti#:#lti_13_platform_id#:#Platform-ID
 lti#:#lti_13_step1#:#Step 1
 lti#:#lti_13_step1_info#:#For the initiating platform (consumer), enter the following address for Launch URL, Initiate Login URL, Redirection URI, and Registration URL:
 lti#:#lti_13_step2#:#Step 2
 lti#:#lti_13_step2_info#:#You will receive information from the initiating platform (Consumer), which you must enter in the following fields. After saving, the LTI 1.3 functionalities are available.
+lti#:#lti_13_token_url#:#Access Token URL###04 12 2025 new variable
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
@@ -11318,6 +11315,8 @@ lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be dele
 lti#:#lti_auth_failed_invalid_key#:#Authentication failed, no valid consumer key given.
 lti#:#lti_con_content_item#:#Support for Deep Linking
 lti#:#lti_con_content_item_url#:#Content URL
+lti#:#lti_con_grade_synchronization#:#Advanced Grading Services###04 12 2025 new variable
+lti#:#lti_con_grade_synchronization_info#:#The LTI tool must offer 'Assignment and Grade Services'.###04 12 2025 new variable
 lti#:#lti_con_initiate_login_url#:#Initiate Login URL
 lti#:#lti_con_key_type#:#Public Key Type
 lti#:#lti_con_key_type_jwk#:#URL (Json Web Token)
@@ -11337,6 +11336,10 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Description
+lti#:#lti_con_prov_dyn_reg_params#:#Optional Parameters###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_params_info#:#Here, for example, references to target objects in the tool can be specified.###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool###04 12 2025 new variable
+lti#:#lti_con_prov_dyn_reg_url_info#:#Note: Not every tool supports dynamic registration.###04 12 2025 new variable
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
@@ -11405,6 +11408,7 @@ lti#:#lti_custom_new#:#Create Own Provider Settings
 lti#:#lti_delete_consume_provider#:#Delete Provider
 lti#:#lti_delete_consume_providers#:#Delete Providers
 lti#:#lti_delete_provider#:#Delete Provider
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)###04 12 2025
 lti#:#lti_edit_consumer#:#Edit LTI Consumer
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
@@ -12062,12 +12066,12 @@ meta#:#md_import_file_vocab#:#Import File
 meta#:#md_import_vocab#:#Import
 meta#:#md_import_vocab_modal#:#Import From File
 meta#:#md_months#:#Months:
-meta#:#md_oai_contact_mail#:#Contact E-Mail
+meta#:#md_oai_contact_mail#:#Contact e-mail of this organisation
 meta#:#md_oai_identifier_prefix#:#OAI Prefix
 meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.
 meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface
 meta#:#md_oai_pmh_enabled_info#:#If enabled, harvested OER can be queried by external interested parties, e.g. OER repositories.
-meta#:#md_oai_repository_name#:#Repository Name
+meta#:#md_oai_repository_name#:#Installation Name
 meta#:#md_oai_repository_name_info#:#This is returned as the name of this ILIAS installation when queried.
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files
@@ -17508,11 +17512,12 @@ ui#:#ui_transcription#:#Transcript
 ui#:#unselect_node#:#Remove node %s from selection
 ui#:#vc_sort#:#Sort by:
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.
+user#:#account_not_flagged_for_deletion#:#The account is not flagged for deletion.
 user#:#activate_in_profile_fields#:#To change this setting, the user must first be allowed to change their login name under Profile > Profile Fields
 user#:#administrative_settings#:#Administrative Settings
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
-user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.
+user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s . The link is valid for %s minutes.
 user#:#change_email_email_confirmation_subject#:#Confirm Email Address
 user#:#change_email_email_information_body#:#The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes.
 user#:#change_email_email_information_subject#:#Information about Change of Email Address

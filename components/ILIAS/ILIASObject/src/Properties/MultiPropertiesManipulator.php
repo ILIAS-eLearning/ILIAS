@@ -41,6 +41,7 @@ class MultiPropertiesManipulator
         private readonly \ilGlobalTemplateInterface $tpl,
         private readonly Refinery $refinery
     ) {
+        $this->language->loadLanguageModule('rep');
     }
 
     public function getAvailabilityPeriodButton(): StandardButton

@@ -64,7 +64,11 @@ class ilCalendarRemoteAccessHandler
     public function handleRequest(): bool
     {
         session_name('ILCALSESSID');
+
+        require_once(__DIR__ . "/../../../../artifacts/bootstrap_default.php");
+        entry_point('ILIAS Legacy Initialisation Adapter');
         $this->initIlias();
+
         $logger = $GLOBALS['DIC']->logger()->cal();
         $this->initTokenHandler();
         $this->initLimitEnabled();

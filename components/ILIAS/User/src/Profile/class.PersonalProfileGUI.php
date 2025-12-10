@@ -34,6 +34,7 @@ use ILIAS\User\Profile\Fields\Standard\LastName;
 use ILIAS\User\Profile\Fields\Standard\Alias;
 use ILIAS\User\Profile\Fields\Standard\OrganisationalUnits;
 use ILIAS\User\Profile\Fields\Standard\Roles;
+use ILIAS\User\Profile\Fields\Standard\Email;
 use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Language\Language;
 use ILIAS\FileUpload\FileUpload;
@@ -80,7 +81,7 @@ class PersonalProfileGUI
     private ChangeMailRepository $change_mail_token_repo;
     private PromptRepository $prompt_repository;
     private GUIRequest $profile_request;
-    private Profile $profile;
+    private ProfileImplementation $profile;
     private UserSettings $user_settings;
 
     private \ilLogger $logger;
@@ -365,9 +366,10 @@ class PersonalProfileGUI
 
     private function emailChanged(): bool
     {
-        $email_input = $this->form->getItemByPostVar('usr_email');
+        $identifier_email = $this->profile->getFieldByClass(Email::class)->getIdentifier();
+        $email_input = $this->form->getItemByPostVar($identifier_email);
         if ($email_input !== null && !$email_input->getDisabled()
-            && $this->form->getInput('usr_email') !== $this->user->getEmail()) {
+            && $this->form->getInput($identifier_email) !== $this->user->getEmail()) {
             return true;
         }
 
@@ -379,7 +381,7 @@ class PersonalProfileGUI
         $current_email = $this->user->getEmail();
         if (
             $this->user->getProfileIncomplete()
-            && $this->settings->get('require_email') === '1'
+            && $this->profile->getFieldByClass(Email::class)->isRequired()
             && ($current_email === null || $current_email === '')
         ) {
             return true;
@@ -459,7 +461,7 @@ class PersonalProfileGUI
             $this->showPersonalData(true);
             return;
         }
-        $this->addDataFromFormToUser();
+        $this->addDataFromFormToUser([Email::class]);
         $this->user->update();
 
         \ilSession::setClosingContext(\ilSession::SESSION_CLOSE_USER);
@@ -467,7 +469,9 @@ class PersonalProfileGUI
         session_unset();
         $token = $this->change_mail_token_repo->getNewTokenForUser(
             $this->user,
-            $this->form->getInput('usr_email'),
+            $this->form->getInput(
+                $this->profile->getFieldByClass(Email::class)->getIdentifier()
+            ),
             time()
         );
         $this->ctrl->redirectToURL(
@@ -475,9 +479,10 @@ class PersonalProfileGUI
         );
     }
 
-    private function addDataFromFormToUser(): void
-    {
-        $this->user = $this->profile->addFormValuesToUser($this->form, Context::User, $this->user);
+    private function addDataFromFormToUser(
+        array $skip_fields = []
+    ): void {
+        $this->user = $this->profile->addFormValuesToUser($this->form, Context::User, $this->user, $skip_fields);
         $this->user->setProfileIncomplete(false);
 
         $this->user->setTitle($this->user->getFullname());
@@ -623,7 +628,7 @@ class PersonalProfileGUI
             [FirstName::class, LastName::class, Alias::class, OrganisationalUnits::class, Roles::class]
         ) as $field) {
             $value = $field->retrieveValueFromUser($this->user);
-            if (!$anonymized && ($value === '' || $value === '-')) {
+            if (!$anonymized && ($value === '' || $value === '-' || $value === null)) {
                 continue;
             }
             if ($anonymized) {

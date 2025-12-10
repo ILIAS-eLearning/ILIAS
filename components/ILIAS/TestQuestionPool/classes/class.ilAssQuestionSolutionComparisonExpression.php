@@ -16,195 +16,107 @@
  *
  *********************************************************************/
 
-/**
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package components\ILIAS/TestQuestionPool
- */
+declare(strict_types=1);
+
 class ilAssQuestionSolutionComparisonExpression
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * @var integer
-     */
-    private $questionId;
+    private ?int $question_id = null;
 
-    /**
-     * @var integer
-     */
-    private $skillBaseId;
+    private ?int $skill_base_id = null;
 
-    /**
-     * @var integer
-     */
-    private $skillTrefId;
+    private ?int $skill_tref_id = null;
 
-    /**
-     * @var integer
-     */
-    private $orderIndex;
+    private ?int $order_index = null;
 
-    /**
-     * @var string
-     */
-    private $expression;
+    private ?string $expression = null;
 
-    /**
-     * @var integer
-     */
-    private $points;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->questionId = null;
-        $this->skillBaseId = null;
-        $this->skillTrefId = null;
-        $this->orderIndex = null;
-        $this->expression = null;
-        $this->points = null;
-    }
+    private ?int $points = null;
 
     public function save(): void
     {
         $this->db->replace(
             'qpl_qst_skl_sol_expr',
             [
-                'question_fi' => ['integer', $this->getQuestionId()],
-                'skill_base_fi' => ['integer', $this->getSkillBaseId()],
-                'skill_tref_fi' => ['integer', $this->getSkillTrefId()],
-                'order_index' => ['integer', $this->getOrderIndex()]
+                'question_fi' => [ilDBConstants::T_INTEGER, $this->getQuestionId()],
+                'skill_base_fi' => [ilDBConstants::T_INTEGER, $this->getSkillBaseId()],
+                'skill_tref_fi' => [ilDBConstants::T_INTEGER, $this->getSkillTrefId()],
+                'order_index' => [ilDBConstants::T_INTEGER, $this->getOrderIndex()]
             ],
             [
-                'expression' => ['text', $this->getExpression()],
-                'points' => ['integer', $this->getPoints()]
+                'expression' => [ilDBConstants::T_TEXT, $this->getExpression()],
+                'points' => [ilDBConstants::T_INTEGER, $this->getPoints()]
             ]
         );
     }
 
-    /**
-     * @return ilDBInterface
-     */
-    public function getDb(): ilDBInterface
-    {
-        return $this->db;
-    }
-
-    /**
-     * @param ilDBInterface $db
-     */
-    public function setDb($db): void
+    public function setDb(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    /**
-     * @return int
-     */
     public function getQuestionId(): ?int
     {
-        return $this->questionId;
+        return $this->question_id;
     }
 
-    /**
-     * @param int $questionId
-     */
-    public function setQuestionId($questionId): void
+    public function setQuestionId(?int $question_id): void
     {
-        $this->questionId = $questionId;
+        $this->question_id = $question_id;
     }
 
-    /**
-     * @return int
-     */
     public function getSkillBaseId(): ?int
     {
-        return $this->skillBaseId;
+        return $this->skill_base_id;
     }
 
-    /**
-     * @param int $skillBaseId
-     */
-    public function setSkillBaseId($skillBaseId): void
+    public function setSkillBaseId(?int $skill_base_id): void
     {
-        $this->skillBaseId = $skillBaseId;
+        $this->skill_base_id = $skill_base_id;
     }
 
-    /**
-     * @return int
-     */
     public function getSkillTrefId(): ?int
     {
-        return $this->skillTrefId;
+        return $this->skill_tref_id;
     }
 
-    /**
-     * @param int $skillTrefId
-     */
-    public function setSkillTrefId($skillTrefId): void
+    public function setSkillTrefId(?int $skill_tref_id): void
     {
-        $this->skillTrefId = $skillTrefId;
+        $this->skill_tref_id = $skill_tref_id;
     }
 
-    /**
-     * @return int
-     */
     public function getOrderIndex(): ?int
     {
-        return $this->orderIndex;
+        return $this->order_index;
     }
 
-    /**
-     * @param int $orderIndex
-     */
-    public function setOrderIndex($orderIndex): void
+    public function setOrderIndex(?int $order_index): void
     {
-        $this->orderIndex = $orderIndex;
+        $this->order_index = $order_index;
     }
 
-    /**
-     * @return string
-     */
     public function getExpression(): ?string
     {
         return $this->expression;
     }
 
-    /**
-     * @param string $expression
-     */
-    public function setExpression($expression): void
+    public function setExpression(?string $expression): void
     {
         $this->expression = $expression;
     }
 
-    /**
-     * @return int
-     */
     public function getPoints(): ?int
     {
         return $this->points;
     }
 
-    /**
-     * @param int $points
-     */
-    public function setPoints($points): void
+    public function setPoints(?int $points): void
     {
         $this->points = $points;
     }
 
-    /**
-     * @param array $data
-     */
-    public function initInstanceFromArray($data): void
+    public function initInstanceFromArray(array $data): void
     {
         $this->setQuestionId($data['question_fi']);
         $this->setSkillBaseId($data['skill_base_fi']);

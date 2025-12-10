@@ -83,7 +83,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         global $ilDB;
 
         // move to connector
-        $query = 'SELECT consumer_pk from lti2_consumer where enabled = ' . $ilDB->quote(1, 'integer');
+        $query = /** @lang text */
+            'SELECT consumer_pk from lti2_consumer where enabled = ' . $ilDB->quote(1, 'integer');
         $res = $ilDB->query($query);
 
         $sids = array();
@@ -101,7 +102,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         global $ilDB;
 
         // move to connector
-        $query = 'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
+        $query = /** @lang text */
+            'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
         $res = $ilDB->query($query);
 
         $sids = array();
@@ -161,10 +163,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT consumer_pk from lti2_consumer where consumer_key = ' . $ilDB->quote(
-            $a_oauth_consumer_key,
-            'text'
-        );
+        $query = /** @lang text */
+            'SELECT consumer_pk from lti2_consumer where consumer_key = ' . $ilDB->quote(
+                $a_oauth_consumer_key,
+                'text'
+            );
         // $query = 'SELECT id from lti_ext_consumer where consumer_key = '.$ilDB->quote($a_oauth_consumer_key,'text');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
@@ -187,7 +190,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT prefix from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
+        $query = /** @lang text */
+            'SELECT prefix from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
 
@@ -209,7 +213,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT role from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
+        $query = /** @lang text */
+            'SELECT role from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
 
@@ -240,6 +245,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             setcookie("launch_presentation_return_url", $this->launchReturnUrl, time() + 86400, "/", "", true, true);
             $this->logger->info("Setting launch_presentation_return_url in cookie storage " . $this->launchReturnUrl);
         }
+        $pk = ilObjLTIConsumer::getPrivateKey();
+
+        $lti_provider->rsaKey = $pk['key'];
+        $lti_provider->kid = $pk['kid'];
+        $lti_provider->signatureMethod = 'RS256';
         $lti_provider->handleRequest();
         $this->provider = $lti_provider;
         $this->messageParameters = $this->provider->getMessageParameters();
@@ -403,8 +413,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $user_obj->setTimeLimitFrom(time() - 60);
             $user_obj->setTimeLimitUntil(time() + (int) $ilClientIniFile->readVariable("session", "expire"));
         }
-        $user_obj->refreshLogin();
         $user_obj->update();
+        $user_obj->refreshLogin();
 
         $GLOBALS['DIC']->rbac()->admin()->assignUser($consumer->getRole(), $user_obj->getId());
         $this->getLogger()->debug('Assigned user to: ' . $consumer->getRole());
@@ -431,76 +441,31 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         //        }
         $userObj = new ilObjUser();
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
-
-        $newUser["login"] = $local_user;
+        $userObj->setLogin($local_user);
         if (isset($this->messageParameters['lis_person_name_given'])) {
-            $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
+            $userObj->setFirstname($this->messageParameters['lis_person_name_given']);
         } else {
-            $newUser["firstname"] = '-';
+            $userObj->setFirstname('-');
         }
         if (isset($this->messageParameters['lis_person_name_family'])) {
-            $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
+            $userObj->setLastname($this->messageParameters['lis_person_name_family']);
         } else {
-            $newUser["lastname"] = '-';
+            $userObj->setLastname('-');
         }
-        $newUser['email'] = $this->messageParameters['lis_person_contact_email_primary'];
+        $userObj->setEmail($this->messageParameters['lis_person_contact_email_primary']);
 
         // set "plain md5" password (= no valid password)
         //        $newUser["passwd"] = "";
-        $newUser["passwd_type"] = ilObjUser::PASSWD_CRYPTED;
+        $userObj->setPasswd(ilObjUser::PASSWD_CRYPTED);
 
-        $newUser["auth_mode"] = 'lti_' . $consumer->getExtConsumerId();
-        $newUser['ext_account'] = $this->getCredentials()->getUsername();
-        $newUser["profile_incomplete"] = 0;
+        $userObj->setAuthMode('lti_' . $consumer->getExtConsumerId());
+        $userObj->setExternalAccount($this->getCredentials()->getUsername());
+        $userObj->setProfileIncomplete(false);
 
         // ILIAS 8
         //check
-        $newUser["gender"] = 'n';
-        $newUser["title"] = null;
-        $newUser["birthday"] = null;
-        $newUser["institution"] = null;
-        $newUser["department"] = null;
-        $newUser["street"] = null;
-        $newUser["city"] = null;
-        $newUser["zipcode"] = null;
-        $newUser["country"] = null;
-        $newUser["sel_country"] = null;
-        $newUser["phone_office"] = null;
-        $newUser["phone_home"] = null;
-        $newUser["phone_mobile"] = null;
-        $newUser["fax"] = null;
-        $newUser["matriculation"] = null;
-        $newUser["second_email"] = null;
-        $newUser["hobby"] = null;
-        $newUser["client_ip"] = null;
-        $newUser["passwd_salt"] = null;//$newUser->getPasswordSalt();
-        $newUser["latitude"] = null;
-        $newUser["longitude"] = null;
-        $newUser["loc_zoom"] = null;
-        $newUser["last_login"] = null;
-        $newUser["first_login"] = null;
-        $newUser["last_profile_prompt"] = null;
-        $newUser["last_update"] = ilUtil::now();
-        $newUser["create_date"] = ilUtil::now();
-        $newUser["referral_comment"] = null;
-        $newUser["approve_date"] = null;
-        $newUser["agree_date"] = null;
-        $newUser["inactivation_date"] = null;
-        $newUser["time_limit_from"] = null;
-        $newUser["time_limit_until"] = null;
-        $newUser["is_self_registered"] = null;
-        //end to check
+        $userObj->setGender('n');
 
-        $newUser["passwd_enc_type"] = "";
-        $newUser["active"] = true;
-        $newUser["time_limit_owner"] = 7;
-        $newUser["time_limit_unlimited"] = 0;
-        $newUser["time_limit_message"] = 0;
-        $newUser["passwd"] = " ";
-        //        $newUser["last_update"]
-
-        // system data
-        $userObj->assignData($newUser);
         $userObj->setTitle($userObj->getFullname());
         $userObj->setDescription($userObj->getEmail());
 
@@ -511,11 +476,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $userObj->setTimeLimitOwner(7);
         $userObj->setTimeLimitUnlimited(false);
         $userObj->setTimeLimitFrom(time() - 5);
-        //        todo ?
         $userObj->setTimeLimitUntil(time() + (int) $ilClientIniFile->readVariable("session", "expire"));
 
         // Create user in DB
         $userObj->setOwner(6);
+        $tmp_date = new ilDateTime(time(), IL_CAL_UNIX);
+        $userObj->setAgreeDate($tmp_date->get(IL_CAL_DATETIME));
         $userObj->create();
         $userObj->setActive(true);
         //        $userObj->updateOwner();

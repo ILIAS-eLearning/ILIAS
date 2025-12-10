@@ -298,7 +298,7 @@ class ilCtrlContext implements ilCtrlContextInterface
         // if an existing path is provided use it by default.
         $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
         if (null !== $existing_path) {
-            $this->path = $this->path_factory->existing($existing_path);
+            $this->path = $this->path_factory->existing(rawurldecode($existing_path));
         }
 
         // set the provided baseclass, which might override the

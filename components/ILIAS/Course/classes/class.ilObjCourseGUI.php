@@ -2126,7 +2126,6 @@ class ilObjCourseGUI extends ilContainerGUI
                 break;
 
             case strtolower(PublicProfileGUI::class):
-                $this->tpl->enableDragDropFileUpload(null);
                 $this->setSubTabs('members');
                 $this->tabs_gui->setTabActive('members');
 

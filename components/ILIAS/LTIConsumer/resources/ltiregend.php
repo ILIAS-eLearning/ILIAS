@@ -19,10 +19,10 @@
 declare(strict_types=1);
 
 /** @noRector */
-require_once("../vendor/composer/vendor/autoload.php");
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
-
-ilInitialisation::initILIAS();
 $clientId = (ilSession::has('lti_dynamic_registration_client_id')) ? (string) ilSession::get('lti_dynamic_registration_client_id') : '';
 $response = [];
 if (empty($clientId)) {

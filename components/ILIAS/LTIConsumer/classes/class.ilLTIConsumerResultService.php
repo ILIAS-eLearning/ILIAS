@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthServer;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use ceLTIc\LTI\OAuth\OAuthUtil;
 use ceLTIc\LTI\OAuthDataStore;
 
 /**
@@ -137,10 +138,12 @@ class ilLTIConsumerResultService
 
             // Verify the signature
             $this->readFields($this->result->obj_id);
-            $result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
-            if ($result instanceof Exception) {
-                $logger->error('LTI Consumer Result Service: Incoming request');
-                $this->respondUnauthorized($result->getMessage());
+            try {
+                $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
+            } catch (Exception $e) {
+                $logger->error('LTI Consumer Result Service: Incoming request failed: ' . $e->getMessage());
+                $logger->debug('Incoming request failed: ' . $e->getTraceAsString());
+                $this->respondUnauthorized();
                 return;
             }
 
@@ -206,12 +209,13 @@ class ilLTIConsumerResultService
             $description = "The result is out of range from 0 to 1.";
         } else {
             $this->result->result = (float) $result;
+            $this->result->setAttended(true);
             $this->result->save();
 
             if ($result >= $this->getMasteryScore()) {
                 $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } else {
-                $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
             }
             $lp_percentage = (int) round(100 * $result);
 
@@ -241,9 +245,10 @@ class ilLTIConsumerResultService
     protected function deleteResult(\SimpleXMLElement $request): void
     {
         $this->result->result = null;
+        $this->result->setAttended(false);
         $this->result->save();
 
-        $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+        $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         $lp_percentage = 0;
         ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
 
@@ -363,7 +368,7 @@ class ilLTIConsumerResultService
 
         $query = "
 			SELECT lti_ext_provider.provider_key, lti_ext_provider.provider_secret, lti_consumer_settings.launch_key, lti_consumer_settings.launch_secret
-			FROM lti_ext_provider, lti_consumer_settings
+                FROM lti_ext_provider, lti_consumer_settings
 			WHERE lti_ext_provider.id = lti_consumer_settings.provider_id
 			AND lti_consumer_settings.obj_id = %s
 		";
@@ -385,30 +390,34 @@ class ilLTIConsumerResultService
     }
 
     /**
-     * Check the reqest signature
-     * @return bool    Exception or true
+     * Check the request signature
+     * @throws Exception in case of failure
      */
-    private function checkSignature(string $a_key, string $a_secret): bool
+    private function checkSignature(string $a_key, string $a_secret): void
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $platform = new ilLTIPlatform();
 
         $platform->setKey($a_key);
         $platform->setSecret($a_secret);
+        $platform->setRecordId($this->result->obj_id);
 
         $store = new OAuthDataStore($platform);
 
         $server = new OAuthServer($store);
         $method = new OAuthSignatureMethod_HMAC_SHA1();
+
         $server->add_signature_method($method);
+        $logger->info("s_key: " . $a_key . " s_secret: " . $a_secret . " platform key: " . $platform->getKey());
 
-        $request = OAuthRequest::from_request();
-
-        try {
-            $server->verify_request($request);
-        } catch (Exception $e) {
-            return false;
+        $request_headers = OAuthUtil::get_headers();
+        if (isset($request_headers['Authorization']) && str_starts_with($request_headers['Authorization'], 'OAuth ')) {
+            $parameters = OAuthUtil::split_header($request_headers['Authorization']);
         }
-        return true;
+        $request = OAuthRequest::from_request(null, null, $parameters ?? []);
+        $logger->info("Request: " . json_encode($request));
+        $server->verify_request($request);
     }
 
     protected function updateLP(): void
