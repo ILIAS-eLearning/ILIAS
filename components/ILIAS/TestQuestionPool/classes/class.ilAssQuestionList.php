@@ -374,10 +374,10 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		';
 
         if ($this->join_obj_data) {
-            $tableJoin .= '
-				INNER JOIN	object_data
-				ON			object_data.obj_id = qpl_questions.obj_fi
-			';
+            $tableJoin .= ' 
+                INNER JOIN object_data ON object_data.obj_id = qpl_questions.obj_fi 
+                INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id 
+            ';
         }
 
         if (
@@ -435,7 +435,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         ];
 
         if ($this->join_obj_data) {
-            $select_fields[] = 'object_data.title parent_title';
+            $select_fields[] = 'object_data.title parent_title, object_data.type parent_type, object_reference.ref_id parent_ref_id';
         }
 
         if ($this->answerStatusActiveId) {
