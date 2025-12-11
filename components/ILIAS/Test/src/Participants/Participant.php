@@ -26,7 +26,6 @@ class Participant
 {
     private ?AttemptOverview $attempt_overview = null;
     private ?\DateTimeImmutable $running_attempt_start = null;
-    private readonly \ilLanguage $lng;
 
     public function __construct(
         private readonly int $user_id,
@@ -49,10 +48,9 @@ class Participant
         private readonly bool $unfinished_attempts = false,
         private readonly ?\DateTimeImmutable $first_access = null,
         private readonly ?\DateTimeImmutable $last_access = null,
-        private readonly bool $scoring_finalized = false
+        private readonly bool $scoring_finalized = false,
+        private readonly \ilLanguage $lng
     ) {
-        global $DIC;
-        $this->lng = $DIC->language();
     }
 
     public function getUserId(): int

@@ -37,8 +37,7 @@ class ConsecutiveScoring
         private TestManScoringDoneHelper $scoring_done_helper,
         private \ilObjUser $current_user,
         private readonly \ilTestAccess $test_access,
-        private readonly \ilDBInterface $db,
-        private readonly \ilLanguage $lng,
+        private readonly ParticipantRepository $participant_repository,
     ) {
     }
 
@@ -97,16 +96,15 @@ class ConsecutiveScoring
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
 
-        $participant_name = (new ParticipantRepository($this->db))
-            ->getParticipantByActiveId($this->object->getId(), $usr_active_id)
-            ->getDisplayName();
-        if (str_ends_with($participant_name, ' (imported)')) {
-            return $participant_name;
+        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $usr_active_id);
+        $importname = $participant->getImportname();
+        $user_id = $participant->getUserId();
+        if ($user_id === ANONYMOUS_USER_ID && $importname !== null && $importname !== '') {
+            return $participant->getDisplayName();
         }
 
-        $user_id = (string) $this->object::_getUserIdFromActiveId($usr_active_id);
-        $user_data = $this->object->getUserData([$user_id]);
-        $user = $user_data[$user_id];
+        $user_id = (string) $user_id;
+        $user = $this->object->getUserData([$user_id])[$user_id];
         return sprintf(
             "%s %s [%s]",
             $user["firstname"],

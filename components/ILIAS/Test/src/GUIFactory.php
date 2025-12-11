@@ -77,8 +77,7 @@ class GUIFactory
                     $this->test_dic['scoring.manual.done_helper'],
                     $this->global_dic['ilUser'],
                     $this->internal['test.access']($test_obj),
-                    $this->global_dic['ilDB'],
-                    $this->global_dic['lng'],
+                    $this->test_dic['participant.repository'],
                 );
 
         $this->internal['manscoring.positionsfactory'] = fn(\ilObjTest $test_obj): PositionsFactory =>

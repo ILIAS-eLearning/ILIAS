@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\Test\Presentation\PrintLayoutProvider;
+use ILIAS\Test\TestDIC;
 use ILIAS\UI\Component\ViewControl\Mode as ViewControlMode;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Panel\Sub as SubPanel;
@@ -789,7 +789,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
-            (new ParticipantRepository($this->db))->getParticipantByActiveId($this->object->getId(), $active_id)->getDisplayName()
+            TestDIC::dic()['participant.repository']->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName()
         );
     }
 

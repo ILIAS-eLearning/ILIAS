@@ -35,13 +35,13 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         protected readonly \ilObjTest $test_obj,
         protected readonly TestTopListRepository $repository,
         protected readonly \ilLanguage $lng,
-        protected readonly \ilDBInterface $db,
         protected readonly \ilObjUser $user,
         protected readonly UIFactory $ui_factory,
         protected readonly UIRenderer $ui_renderer,
         protected readonly DataFactory $data_factory,
         protected readonly TopListType $list_type,
-        protected readonly TopListOrder $order_by
+        protected readonly TopListOrder $order_by,
+        protected readonly ParticipantRepository $participant_repository
     ) {
     }
 
@@ -153,7 +153,7 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
             'rank' => "{$row['rank']}.",
             'participant' => $this->test_obj->isHighscoreAnon() && (int) $row['usr_id'] !== $this->user->getId()
                 ? '-, -'
-                : (new ParticipantRepository($this->db))->getParticipantByActiveId($this->test_obj->getId(), $row['active_id'])->getDisplayName(),
+                : $this->participant_repository->getParticipantByActiveId($this->test_obj->getTestId(), $row['active_id'])->getDisplayName(),
             'is_actor' => isset($row['usr_id']) && ((int) $row['usr_id'] === $this->user->getId())
         ];
     }

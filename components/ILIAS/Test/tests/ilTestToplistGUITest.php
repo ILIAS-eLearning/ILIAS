@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data\Factory;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
 
 /**
@@ -40,12 +41,12 @@ class ilTestToplistGUITest extends ilTestBaseTestCase
             $DIC['ilCtrl'],
             $DIC['tpl'],
             $DIC['lng'],
-            $DIC['ilDB'],
             $DIC['ilUser'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $this->createMock(Factory::class),
-            $DIC['http']
+            $DIC['http'],
+            $this->createMock(ParticipantRepository::class)
         );
     }
 
