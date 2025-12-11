@@ -2565,6 +2565,9 @@ book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please enter the n
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following booking(s)?
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
 book#:#book_confirm_delete#:#Are you sure you want to delete the following items?
+book#:#book_confirm_delete_participant#:#Are you sure you want to delete the following participant? This will also delete all related bookings.
+book#:#book_confirm_delete_participants#:#Are you sure you want to delete the following participants? This will also delete all related bookings.
+book#:#book_confirm_remove_participant#:#Are you sure you want to remove the following Participant(s)? This will delete all related Bookings.
 book#:#book_copy#:#Copy Booking Pool
 book#:#book_create_objects#:#Create Items
 book#:#book_deadline#:#Deadline
@@ -2617,8 +2620,11 @@ book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
 book#:#book_overall_limit#:#Limit Total Number of Bookings per User
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
+book#:#book_participant#:#Participant
 book#:#book_participant_already_assigned#:#One or more participants have already been added.
 book#:#book_participant_assigned#:#Participant(s) added.
+book#:#book_participant_deleted#:#The selected participant and all related bookings have been deleted successfully.
+book#:#book_participant_removed#:#The selected participant has been removed from the booking pool.
 book#:#book_period#:#Period
 book#:#book_pool_added#:#Booking pool successfully created.
 book#:#book_pool_selection#:#Booking Pool Selection
@@ -2644,6 +2650,8 @@ book#:#book_reminder_day#:#Send Reminder
 book#:#book_reminder_day_info#:#Send list of own bookings to users and full list of all upcoming bookings to admins. Please note: in order to receive reminders, users need to have activated notifications via the ‘Actions’ menu at the top right-hand corner of the booking pool.
 book#:#book_reminder_days#:#day(s) before time-slot of booking
 book#:#book_reminder_setting#:#Reminder
+book#:#book_remove_participant#:#Remove Participant
+book#:#book_remove_participants#:#Remove Participant(s)
 book#:#book_rerun_assignments#:#Run Allocation Process
 book#:#book_rerun_confirmation#:#Attention. The process of allocating bookings according to preferences has already taken place. You may restart the process if any errors have occurred, e.g. no bookings have been saved. To prevent multiple allocations, please delete all existing bookings before restarting the process.
 book#:#book_reservation_available#:#%s available

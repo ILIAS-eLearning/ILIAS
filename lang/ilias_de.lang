@@ -2564,6 +2564,9 @@ book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie 
 book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Buchungen stornieren möchten?
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 book#:#book_confirm_delete#:#Sind Sie sicher, dass Sie die folgenden Angebote löschen wollen?
+book#:#book_confirm_delete_participant#:#Sind Sie sicher, dass Sie den folgenden Teilnehmer löschen möchten? Dies wird auch alle zugehörigen Buchungen löschen.
+book#:#book_confirm_delete_participants#:#Sind Sie sicher, dass Sie die folgenden Teilnehmer löschen möchten? Dies wird auch alle zugehörigen Buchungen löschen.
+book#:#book_confirm_remove_participant#:#Sind Sie sicher, dass Sie die folgende(n) Teilnehmer entfernen wollen? Dabei werden alle zugehörigen Buchungen gelöscht.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#book_create_objects#:#Angebote erstellen
 book#:#book_deadline#:#Deadline
@@ -2616,8 +2619,11 @@ book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
+book#:#book_participant#:#Teilnehmer
 book#:#book_participant_already_assigned#:#Mindestens eine Person war bereits zugewiesen.
 book#:#book_participant_assigned#:#Die Personen wurden hinzugefügt.
+book#:#book_participant_deleted#:#Der ausgewählte Teilnehmer und alle zugehörigen Buchungen wurden erfolgreich gelöscht.
+book#:#book_participant_removed#:#Der ausgewählte Teilnehmer wurde aus dem Buchungspool entfernt.
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_pool_selection#:#Auswahl Buchungspool
@@ -2643,6 +2649,8 @@ book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehender Buchungen und zusätzlich eine Gesamtliste an Personen mit dem Recht „Einstellungen bearbeiten“. Bitte beachten Sie: Um Benachrichtigungen zu erhalten, müssen die Personen diese über das Menü „Aktionen“ oben rechts im Buchungspool „Benachrichtigungen“ aktiviert haben.
 book#:#book_reminder_days#:#Tage vor der Buchung
 book#:#book_reminder_setting#:#Per Mail an eigene Buchung erinnern
+book#:#book_remove_participant#:#Teilnehmer entfernen
+book#:#book_remove_participants#:#Teilnehmer entfernen
 book#:#book_rerun_assignments#:#Zuweisungen erneut durchführen
 book#:#book_rerun_confirmation#:#Achtung. Die Zuweisung nach Präferenzen ist bereits erfolgt. In seltenen Fällen kann ein Abbruch des Prozesses zu keinen oder unvollständigen Buchungen führen und ein erneutes Starten des Prozesses notwendig machen. Bevor sie den automatischen Prozess erneut starten, müssen sie alle bestehenden Buchungen entfernen, um Mehrfachzuweisungen zu verhindern.
 book#:#book_reservation_available#:#%s verfügbar

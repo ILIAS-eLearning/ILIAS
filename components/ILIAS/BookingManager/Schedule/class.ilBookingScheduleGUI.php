@@ -16,6 +16,19 @@
  *
  *********************************************************************/
 
+use ILIAS\BookingManager\HttpService;
+use ILIAS\BookingManager\Schedule\ScheduleManager;
+use ILIAS\BookingManager\Schedule\ScheduleTable;
+use ILIAS\BookingManager\Common\Table\TableActions;
+use ILIAS\BookingManager\Schedule\ScheduleTableDeleteAction;
+use ILIAS\BookingManager\Schedule\ScheduleTableEditAction;
+use ILIAS\BookingManager\Service as BookingManager;
+use ILIAS\Data\Factory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\URLBuilder;
+
 /**
  * Class ilBookingScheduleGUI
  *
@@ -35,6 +48,14 @@ class ilBookingScheduleGUI
     protected int $schedule_id;
     protected int $ref_id;
 
+    private readonly Refinery $refinery;
+    private readonly UIFactory $ui_factory;
+    private readonly UIRenderer $ui_renderer;
+    private readonly HttpService $http_service;
+    private readonly BookingManager $booking_manager;
+    private readonly ilToolbarGUI $toolbar;
+    private readonly Factory $data_factory;
+
     public function __construct(
         ilObjBookingPoolGUI $a_parent_obj
     ) {
@@ -47,6 +68,14 @@ class ilBookingScheduleGUI
         $this->access = $DIC->bookingManager()->internal()->domain()->access();
         $this->help = $DIC["ilHelp"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
+        $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->http_service = new HttpService($DIC->http(), $this->refinery);
+        $this->booking_manager = $DIC->bookingManager();
+        $this->toolbar = $DIC->toolbar();
+        $this->data_factory = new Factory();
+
         $this->ref_id = $a_parent_obj->getRefId();
         $this->book_request = $DIC->bookingManager()
                                   ->internal()
@@ -71,37 +100,55 @@ class ilBookingScheduleGUI
         switch ($next_class) {
             default:
                 $cmd = $ilCtrl->getCmd("render");
-                $this->$cmd();
+                if (method_exists($this, $cmd)) {
+                    $this->$cmd();
+                }
                 break;
         }
     }
 
-    /**
-     * Render list of booking schedules
-     * uses ilBookingSchedulesTableGUI
-     */
+    public function executeTableAction(): void
+    {
+        $pool_id = $this->obj_data_cache->lookupObjId($this->ref_id);
+        $schedule_manager = $this->booking_manager
+            ->internal()
+            ->domain()
+            ->schedules($pool_id);
+
+        $this
+            ->configureScheduleTable($schedule_manager)
+            ->execute($this->getTableActionUrlBuilder());
+
+        $this->ctrl->redirectByClass(
+            ilBookingScheduleGUI::class,
+            'render'
+        );
+    }
+
     public function render(): void
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
+        $pool_id = $this->obj_data_cache->lookupObjId($this->ref_id);
+        $schedule_manager = $this->booking_manager
+            ->internal()
+            ->domain()
+            ->schedules($pool_id);
 
-        $bar = "";
+        $this->checkForInfoMessageAboutMissingBookableItems($schedule_manager, $pool_id);
+
         if ($this->access->canManageSettings($this->ref_id)) {
-            // if we have schedules but no objects - show info
-            if (count($table->getData())) {
-                if (!count(ilBookingObject::getList(ilObject::_lookupObjId($this->ref_id)))) {
-                    $this->tpl->setOnScreenMessage('info', $lng->txt("book_type_warning"));
-                }
-            }
-
-            $bar = new ilToolbarGUI();
-            $bar->addButton($lng->txt('book_add_schedule'), $ilCtrl->getLinkTarget($this, 'create'));
-            $bar = $bar->getHTML();
+            $this->toolbar->addComponent(
+                $this->ui_factory->button()->standard(
+                    $this->lng->txt('book_add_schedule'),
+                    $this->ctrl->getLinkTarget($this, 'create')
+                )
+            );
         }
 
-        $tpl->setContent($bar . $table->getHTML());
+        $this->tpl->setContent(
+            $this->ui_renderer->render(
+                $this->configureScheduleTable($schedule_manager)->getComponents($this->getTableActionUrlBuilder())
+            )
+        );
     }
 
     /**
@@ -258,8 +305,8 @@ class ilBookingScheduleGUI
             $this->formToObject($form, $obj);
             $obj->save();
 
-            $this->tpl->setOnScreenMessage('success', $lng->txt("book_schedule_added"));
-            $this->render();
+            $this->tpl->setOnScreenMessage('success', $lng->txt("book_schedule_added"), true);
+            $this->ctrl->redirect($this, 'render');
         } else {
             $form->setValuesByPost();
             $tpl->setContent($form->getHTML());
@@ -277,8 +324,8 @@ class ilBookingScheduleGUI
             $this->formToObject($form, $obj);
             $obj->update();
 
-            $this->tpl->setOnScreenMessage('success', $lng->txt("book_schedule_updated"));
-            $this->render();
+            $this->tpl->setOnScreenMessage('success', $lng->txt("book_schedule_updated"), true);
+            $this->ctrl->redirect($this, 'render');
         } else {
             $form->setValuesByPost();
             $tpl->setContent($form->getHTML());
@@ -342,43 +389,69 @@ class ilBookingScheduleGUI
         $schedule->setDefinitionBySlots($days);
     }
 
-    /**
-     * Confirm delete
-     */
-    public function confirmDelete(): void
+    private function configureScheduleTable(ScheduleManager $schedule_manager): ScheduleTable
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        $ilHelp = $this->help;
-
-        $ilHelp->setSubScreenId("delete");
-
-
-        $conf = new ilConfirmationGUI();
-        $conf->setFormAction($ilCtrl->getFormAction($this));
-        $conf->setHeaderText($lng->txt('book_confirm_delete'));
-
-        $type = new ilBookingSchedule($this->schedule_id);
-        $conf->addItem('schedule_id', $this->schedule_id, $type->getTitle());
-        $conf->setConfirm($lng->txt('delete'), 'delete');
-        $conf->setCancel($lng->txt('cancel'), 'render');
-
-        $tpl->setContent($conf->getHTML());
+        return new ScheduleTable(
+            $this->ui_factory,
+            $this->lng,
+            new TableActions(
+                $this->ctrl,
+                $this->lng,
+                $this->tpl,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $this->refinery,
+                $this->http_service,
+                [
+                    ScheduleTableEditAction::ACTION_ID => new ScheduleTableEditAction(
+                        $this->ui_factory,
+                        $this->lng,
+                        $this->access,
+                        $this->ctrl,
+                        $this->http_service,
+                        $this->ref_id
+                    ),
+                    ScheduleTableDeleteAction::ACTION_ID => new ScheduleTableDeleteAction(
+                        $this->ui_factory,
+                        $this->lng,
+                        $this->access,
+                        $this->tpl,
+                        $this->http_service,
+                        $schedule_manager,
+                        $this->ref_id
+                    ),
+                ]
+            ),
+            $schedule_manager,
+            $this->http_service
+        );
     }
 
     /**
-     * Delete schedule
+     * @param ScheduleManager $schedule_manager
+     * @param int             $pool_id
+     *
+     * @return void
      */
-    public function delete(): void
+    private function checkForInfoMessageAboutMissingBookableItems(ScheduleManager $schedule_manager, int $pool_id): void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $schedule_data = $schedule_manager->getScheduleData();
+        if (count($schedule_data) > 0) {
+            if (!count(ilBookingObject::getList($pool_id))) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("book_type_warning"));
+            }
+        }
+    }
 
-        $obj = new ilBookingSchedule($this->schedule_id);
-        $obj->delete();
-
-        $this->tpl->setOnScreenMessage('success', $lng->txt('book_schedule_deleted'), true);
-        $ilCtrl->redirect($this, 'render');
+    private function getTableActionUrlBuilder(): URLBuilder
+    {
+        // Use current request URI so it can read existing parameters
+        // This ensures tokens work correctly when actions are rendered
+        return new URLBuilder($this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                self::class,
+                'executeTableAction'
+            )
+        ));
     }
 }

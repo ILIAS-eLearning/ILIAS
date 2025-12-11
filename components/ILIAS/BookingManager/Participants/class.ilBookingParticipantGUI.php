@@ -16,6 +16,19 @@
  *
  *********************************************************************/
 
+use ILIAS\BookingManager\HttpService;
+use ILIAS\BookingManager\Participant\ParticipantRepository;
+use ILIAS\BookingManager\Participant\ParticipantTable;
+use ILIAS\BookingManager\Participant\ParticipantTableBookForParticipantAction;
+use ILIAS\BookingManager\Participant\ParticipantTableDeleteAction;
+use ILIAS\BookingManager\Participant\ParticipantTableEditBookingAction;
+use ILIAS\BookingManager\Common\Table\TableActions;
+use ILIAS\Data\Factory;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\URLBuilder;
+
 /**
  * Class ilBookingParticipantGUI
  * @author Jesús López <lopez@leifos.com>
@@ -23,8 +36,6 @@
  */
 class ilBookingParticipantGUI
 {
-    public const FILTER_ACTION_APPLY = 1;
-    public const FILTER_ACTION_RESET = 2;
     public const PARTICIPANT_VIEW = 1;
     protected \ILIAS\BookingManager\Access\AccessManager $access;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
@@ -37,12 +48,20 @@ class ilBookingParticipantGUI
     protected int $ref_id;
     protected int $pool_id;
 
+    private readonly Refinery $refinery;
+    private readonly UIFactory $ui_factory;
+    private readonly UIRenderer $ui_renderer;
+    private readonly HttpService $http_service;
+    private readonly ilUIService $ui_service;
+    private readonly Factory $data_factory;
+    private readonly ParticipantRepository $participant_repository;
+
     public function __construct(
         ilObjBookingPoolGUI $a_parent_obj
     ) {
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -52,7 +71,15 @@ class ilBookingParticipantGUI
                                   ->internal()
                                   ->gui()
                                   ->standardRequest();
-
+        $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->http_service = new HttpService($DIC->http(), $this->refinery);
+        $this->ui_service = $DIC->uiService();
+        $this->data_factory = new Factory();
+        $this->participant_repository = new ParticipantRepository(
+            $DIC->database()
+        );
 
         $this->ref_id = $a_parent_obj->getRefId();
         $this->pool_id = $a_parent_obj->getObject()->getId();
@@ -90,28 +117,39 @@ class ilBookingParticipantGUI
         }
     }
 
+    public function executeTableAction(): void
+    {
+        $this
+            ->configureParticipantTable()
+            ->execute($this->getTableActionUrlBuilder());
+
+        $this->render();
+    }
+
     /**
      * Render list of booking participants.
-     * uses ilBookingParticipantsTableGUI
      */
     public function render(): void
     {
-        if ($this->access->canManageParticipants($this->ref_id)) {
-            ilRepositorySearchGUI::fillAutoCompleteToolbar(
-                $this,
-                $this->toolbar,
-                array(
-                    'auto_complete_name' => $this->lng->txt('user'),
-                    'submit_name' => $this->lng->txt('add'),
-                    'add_search' => true,
-                    'add_from_container' => $this->ref_id
-                )
-            );
-
-            $table = new ilBookingParticipantsTableGUI($this, 'render', $this->ref_id, $this->pool_id);
-
-            $this->tpl->setContent($table->getHTML());
+        if (!$this->access->canManageParticipants($this->ref_id)) {
+            return;
         }
+        ilRepositorySearchGUI::fillAutoCompleteToolbar(
+            $this,
+            $this->toolbar,
+            array(
+                'auto_complete_name' => $this->lng->txt('user'),
+                'submit_name' => $this->lng->txt('add'),
+                'add_search' => true,
+                'add_from_container' => $this->ref_id
+            )
+        );
+
+        $this->tpl->setContent(
+            $this->ui_renderer->render(
+                $this->configureParticipantTable()->getComponents($this->getTableActionUrlBuilder())
+            )
+        );
     }
 
     public function addUserFromAutoCompleteObject(): bool
@@ -164,30 +202,6 @@ class ilBookingParticipantGUI
         return true;
     }
 
-    public function applyParticipantsFilter(): void
-    {
-        $this->applyFilterAction(self::FILTER_ACTION_APPLY);
-    }
-
-    public function resetParticipantsFilter(): void
-    {
-        $this->applyFilterAction(self::FILTER_ACTION_RESET);
-    }
-
-    protected function applyFilterAction(
-        int $a_filter_action
-    ): void {
-        $table = new ilBookingParticipantsTableGUI($this, 'render', $this->ref_id, $this->pool_id);
-        $table->resetOffset();
-        if ($a_filter_action === self::FILTER_ACTION_RESET) {
-            $table->resetFilter();
-        } else {
-            $table->writeFilterToSession();
-        }
-
-        $this->render();
-    }
-
     public function assignObjects(): void
     {
         $this->tabs->clearTargets();
@@ -196,5 +210,66 @@ class ilBookingParticipantGUI
         $table = new ilBookingAssignObjectsTableGUI($this, 'assignObjects', $this->ref_id, $this->pool_id);
 
         $this->tpl->setContent($table->getHTML());
+    }
+
+    private function configureParticipantTable(): ParticipantTable
+    {
+        return new ParticipantTable(
+            $this->ui_factory,
+            $this->lng,
+            new TableActions(
+                $this->ctrl,
+                $this->lng,
+                $this->tpl,
+                $this->ui_factory,
+                $this->ui_renderer,
+                $this->refinery,
+                $this->http_service,
+                [
+                    ParticipantTableBookForParticipantAction::ACTION_ID => new ParticipantTableBookForParticipantAction(
+                        $this->ui_factory,
+                        $this->lng,
+                        $this->access,
+                        $this->ctrl,
+                        $this->http_service,
+                        $this->ref_id,
+                        $this->pool_id
+                    ),
+                    ParticipantTableEditBookingAction::ACTION_ID => new ParticipantTableEditBookingAction(
+                        $this->ui_factory,
+                        $this->lng,
+                        $this->access,
+                        $this->ctrl,
+                        $this->http_service,
+                        $this->ref_id,
+                        $this->pool_id
+                    ),
+                    ParticipantTableDeleteAction::ACTION_ID => new ParticipantTableDeleteAction(
+                        $this->ui_factory,
+                        $this->lng,
+                        $this->access,
+                        $this->tpl,
+                        $this->http_service,
+                        $this->participant_repository,
+                        $this->ref_id,
+                        $this->pool_id
+                    ),
+                ]
+            ),
+            $this->http_service,
+            $this->ui_service,
+            $this->pool_id,
+            $this->http_service->getRequest()
+        );
+    }
+
+    private function getTableActionUrlBuilder(): URLBuilder
+    {
+        return new URLBuilder($this->data_factory->uri(
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                self::class,
+                'executeTableAction'
+            )
+        ));
     }
 }
