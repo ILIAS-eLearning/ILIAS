@@ -231,12 +231,11 @@ class ilUserAutoComplete
         }
 
         $max = $this->getLimit() ?: ilSearchSettings::getInstance()->getAutoCompleteLength();
-        $cnt = 0;
         $more_results = false;
         $result = [];
         $recs = [];
         $usrIds = [];
-        while (($rec = $ilDB->fetchAssoc($res)) && $cnt < ($max + 1)) {
+        for ($cnt = 0; ($rec = $ilDB->fetchAssoc($res)) && $cnt < ($max + 1); $cnt++) {
             if ($cnt >= $max && $this->isMoreLinkAvailable()) {
                 $more_results = true;
                 break;
@@ -266,10 +265,11 @@ class ilUserAutoComplete
                 $label .= ', ' . $rec['second_email'];
             }
 
-            $result[$cnt]['value'] = (string) $rec[$this->result_field];
-            $result[$cnt]['label'] = $label;
-            $result[$cnt]['id'] = $rec['usr_id'];
-            $cnt++;
+            $result[] = [
+                'value' => (string) $rec[$this->result_field],
+                'label' => $label,
+                'id' => $rec['usr_id'],
+            ];
         }
 
         $result_json['items'] = $result;
