@@ -155,4 +155,14 @@ class Test11DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->modifyTableColumn('tst_test_settings', $column, ['length' => 8]);
         }
     }
+
+    public function step_4(): void
+    {
+        $table = 'qpl_a_cloze';
+        $column = 'answertext';
+        if ($this->db->tableExists($table) && $this->db->tableColumnExists($table, $column)) {
+            $this->db->manipulate("UPDATE {$table} SET {$column} = '' WHERE {$column} IS NULL");
+            $this->db->modifyTableColumn($table, $column, ['default' => '', 'notnull' => true]);
+        }
+    }
 }
