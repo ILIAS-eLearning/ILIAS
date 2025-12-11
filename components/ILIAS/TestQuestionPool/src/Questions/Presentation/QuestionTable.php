@@ -157,7 +157,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         return [
             'title' => $f->link($this->lng->txt('title')),
             'description' => $f->text($this->lng->txt('description'))->withIsOptional(true, true),
-            'ttype' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
+            'question_type' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
             'points' => $f->number($this->lng->txt('points'))->withDecimals(2)->withIsOptional(true, true),
             'author' => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle'))->withIsOptional(true, true),
