@@ -205,6 +205,10 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $this->removeAllImageFiles($image_target_path);
         }
 
+        if (!file_exists($image_source_path) || !is_readable($image_source_path)) {
+            return;
+        }
+
         $src = opendir($image_source_path);
         while ($src_file = readdir($src)) {
             if ($src_file === '.' || $src_file === '..') {
