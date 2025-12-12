@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
- declare(strict_types=1);
+declare(strict_types=1);
 
 /**
  * Soap object administration methods
