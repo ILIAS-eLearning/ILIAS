@@ -606,12 +606,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 $newObj->setImportId($object_data['import_id']);
             }
 
-            if ($objDefinition->supportsOfflineHandling($newObj->getType())) {
-                $newObj->setOfflineStatus((bool) $object_data['offline']);
-            }
             $newObj->setTitle($object_data['title']);
             $newObj->setDescription($object_data['description']);
             $newObj->create(); // true for upload
+            if ($objDefinition->supportsOfflineHandling($newObj->getType()) && isset($object_data['offline'])) {
+                $newObj->setOfflineStatus((bool) $object_data['offline']);
+                $newObj->update();
+            }
             $newObj->createReference();
             $newObj->putInTree($a_target_id);
             $newObj->setPermissions($a_target_id);
