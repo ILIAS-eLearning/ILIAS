@@ -63,6 +63,14 @@ function getNodeElements(element) {
 }
 
 /**
+ * @param {HTMLUListElement}
+ * @param {string} nodeId
+ */
+function removeNodeListEntry(listElement, nodeId) {
+  listElement.querySelector(`li[${CONSTANTS.NODE_ID}="${nodeId}"]`)?.remove();
+}
+
+/**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 export default class TreeSelect {
@@ -96,11 +104,14 @@ export default class TreeSelect {
   /** @type {HTMLTemplateElement} */
   #breadcrumbTemplate;
 
-  /** @type {HTMLUListElement} */
+  /**
+   * The node selection element contains node entries inside the surrounding form.
+   * @type {HTMLUListElement}
+   */
   #nodeSelectionElement;
 
   /** @type {HTMLTemplateElement} */
-  #nodeSelectionTemplate;
+  #nodeSelectionEntryTemplate;
 
   /** @type {HTMLButtonElement} */
   #dialogSelectButton;
@@ -115,6 +126,21 @@ export default class TreeSelect {
   #selectionHandler;
 
   /**
+   * The node dropdown element MAY contain node entries inside the dialog.
+   * @type {HTMLUListElement|null}
+   */
+  #nodeDropdownMenuElement;
+
+  /** @type {counterObject|null} */
+  #nodeDropdownCounter;
+
+  /** @type {HTMLTemplateElement|null} */
+  #nodeDropdownMenuEntryTemplate;
+
+  /** @type {HTMLLIElement|null} */
+  #nodeDropdownMenuEntryPlaceholder;
+
+  /**
    * @param {Map<string, TreeSelectNode>} nodeMap (node-id => node)
    * @param {JQueryEventListener} jqueryEventListener
    * @param {TemplateRenderer} templateRenderer
@@ -124,11 +150,15 @@ export default class TreeSelect {
    * @param {HTMLElement} breadcrumbsElement
    * @param {HTMLTemplateElement} breadcrumbTemplate
    * @param {HTMLUListElement} nodeSelectionElement
-   * @param {HTMLTemplateElement} nodeSelectionTemplate
+   * @param {HTMLTemplateElement} nodeSelectionEntryTemplate
    * @param {HTMLButtonElement} dialogSelectButton
    * @param {HTMLButtonElement} dialogOpenButton
    * @param {HTMLDialogElement} dialogElement
    * @param {function(TreeSelect): void} selectionHandler
+   * @param {HTMLUListElement|null} nodeDropdownElement
+   * @param {counterObject|null} nodeDropdownCounter
+   * @param {HTMLTemplateElement|null} nodeDropdownEntryTemplate
+   * @param {HTMLLIElement|null} nodeDropdownEntryPlaceholder
    */
   constructor(
     nodeMap,
@@ -140,11 +170,15 @@ export default class TreeSelect {
     breadcrumbsElement,
     breadcrumbTemplate,
     nodeSelectionElement,
-    nodeSelectionTemplate,
+    nodeSelectionEntryTemplate,
     dialogSelectButton,
     dialogOpenButton,
     dialogElement,
     selectionHandler,
+    nodeDropdownMenuElement = null,
+    nodeDropdownCounter = null,
+    nodeDropdownMenuEntryTemplate = null,
+    nodeDropdownMenuEntryPlaceholder = null,
   ) {
     this.#nodeMap = nodeMap;
     this.#templateRenderer = templateRenderer;
@@ -154,11 +188,15 @@ export default class TreeSelect {
     this.#breadcrumbsElement = breadcrumbsElement;
     this.#breadcrumbTemplate = breadcrumbTemplate;
     this.#nodeSelectionElement = nodeSelectionElement;
-    this.#nodeSelectionTemplate = nodeSelectionTemplate;
+    this.#nodeSelectionEntryTemplate = nodeSelectionEntryTemplate;
     this.#dialogSelectButton = dialogSelectButton;
     this.#dialogOpenButton = dialogOpenButton;
     this.#dialogElement = dialogElement;
     this.#selectionHandler = selectionHandler;
+    this.#nodeDropdownMenuElement = nodeDropdownMenuElement;
+    this.#nodeDropdownCounter = nodeDropdownCounter;
+    this.#nodeDropdownMenuEntryTemplate = nodeDropdownMenuEntryTemplate;
+    this.#nodeDropdownMenuEntryPlaceholder = nodeDropdownMenuEntryPlaceholder;
 
     jqueryEventListener.on(
       this.#dialogElement.ownerDocument,
@@ -187,13 +225,19 @@ export default class TreeSelect {
       .querySelectorAll('li')
       .forEach((entry) => {
         const nodeId = getNodeIdOrAbort(entry);
-        this.#addRemoveNodeSelectionEntryClickHandler(entry, nodeId);
+        this.#addRemoveNodeListEntryClickHandler(entry, nodeId);
         this.selectNode(nodeId);
       });
+    this.#nodeDropdownMenuElement
+      ?.querySelectorAll(CONSTANTS.TREE_SELECT_DROPDOWN_ENTRIES)
+      ?.forEach((entry) => {
+        const nodeId = getNodeIdOrAbort(entry);
+        this.#addRemoveNodeListEntryClickHandler(entry, nodeId);
+        this.#addEngageNodeDropdownEntryClickHandler(entry, nodeId);
+      });
 
-    // trigger drilldown engage listenerfor already engaged level once.
+    // trigger drilldown engage listener for already engaged level once.
     this.#engageDrilldownLevelHandler(this.#drilldownComponent.getCurrentLevel());
-    this.#updateDialogSelectButton();
   }
 
   /**
@@ -202,7 +246,10 @@ export default class TreeSelect {
   unselectNode(nodeId) {
     this.#removeNodeSelectionId(nodeId);
     this.#updateDialogSelectButton();
-    this.#removeNodeSelectionEntry(nodeId);
+    this.#removeNodeSelectionListEntry(nodeId);
+    this.#removeNodeDropdownMenuEntry(nodeId);
+    this.#updateNodeDropdownCounter();
+    this.#updateNodeDropdownMenuEntryPlaceholder();
     // check in case the node does not exist anymore (Input::withValue()).
     if (this.#nodeMap.has(nodeId)) {
       const node = this.#nodeMap.get(nodeId);
@@ -223,7 +270,10 @@ export default class TreeSelect {
       const node = this.#nodeMap.get(nodeId);
       toggleSelectedNodeElementClass(node.element, true);
       this.#changeNodeSelectButtonToUnselect(node.selectButton, node.name);
-      this.#renderNodeSelectionEntry(node);
+      this.#renderNodeSelectionListEntry(node);
+      this.#renderNodeDropdownMenuEntry(node);
+      this.#updateNodeDropdownCounter();
+      this.#updateNodeDropdownMenuEntryPlaceholder();
     }
     this.#selectionHandler(this);
   }
@@ -371,16 +421,26 @@ export default class TreeSelect {
   }
 
   /**
-   * @param {HTMLLIElement} nodeSelectionEntry
+   * @param {HTMLLIElement} listEntry
    * @param {string} nodeId
    */
-  #addRemoveNodeSelectionEntryClickHandler(nodeSelectionEntry, nodeId) {
-    nodeSelectionEntry
+  #addRemoveNodeListEntryClickHandler(listEntry, nodeId) {
+    listEntry
       .querySelector(CONSTANTS.REMOVE_ACTION)
       ?.addEventListener('click', () => {
         this.unselectNode(nodeId);
-        nodeSelectionEntry.remove();
+        listEntry.remove();
       });
+  }
+
+  /**
+   * @param {HTMLLIElement} nodeDropdownEntry
+   * @param {string} nodeId
+   */
+  #addEngageNodeDropdownEntryClickHandler(nodeDropdownEntry, nodeId) {
+    nodeDropdownEntry.querySelector(CONSTANTS.ENGAGE_ACTION)?.addEventListener('click', () => {
+      this.engageNode(nodeId);
+    });
   }
 
   /**
@@ -400,27 +460,79 @@ export default class TreeSelect {
   /**
    * @param {TreeSelectNode} node
    */
-  #renderNodeSelectionEntry(node) {
-    if (this.#nodeSelectionElement.querySelector(`li[${CONSTANTS.NODE_ID}="${node.id}"]`) !== null) {
+  #renderNodeSelectionListEntry(node) {
+    this.#renderNodeListEntry(
+      node,
+      this.#nodeSelectionElement,
+      this.#nodeSelectionEntryTemplate,
+      (newEntry) => {
+        this.#addRemoveNodeListEntryClickHandler(newEntry, node.id);
+      },
+    );
+  }
+
+  /**
+   * @param {TreeSelectNode} node
+   */
+  #renderNodeDropdownMenuEntry(node) {
+    if (this.#nodeDropdownMenuElement === null || this.#nodeDropdownMenuEntryTemplate === null) {
       return;
     }
-    const nodeSelectionEntry = this.#templateRenderer.createContent(this.#nodeSelectionTemplate);
-    const listElement = nodeSelectionEntry.querySelector('[data-node-id]');
+    this.#renderNodeListEntry(
+      node,
+      this.#nodeDropdownMenuElement,
+      this.#nodeDropdownMenuEntryTemplate,
+      (newEntry) => {
+        this.#addRemoveNodeListEntryClickHandler(newEntry, node.id);
+        this.#addEngageNodeDropdownEntryClickHandler(newEntry, node.id);
+      },
+    );
+  }
 
-    listElement.setAttribute(CONSTANTS.NODE_ID, node.id);
-    listElement.querySelector(`[${CONSTANTS.NODE_NAME}]`).textContent = node.name;
-    listElement.querySelector('input').value = node.id;
+  /**
+   * @param {TreeSelectNode} node
+   * @param {HTMLTemplateElement} template
+   * @param {HTMLUListElement} list
+   * @param {function(HTMLLIElement)} hydrator
+   */
+  #renderNodeListEntry(node, list, template, hydrator) {
+    if (list.querySelector(`li[${CONSTANTS.NODE_ID}="${node.id}"]`) !== null) {
+      return;
+    }
+    const newEntryFragment = this.#templateRenderer.createContent(template);
+    const newEntryElement = newEntryFragment.querySelector(`[${CONSTANTS.NODE_ID}]`);
 
-    this.#addRemoveNodeSelectionEntryClickHandler(listElement, node.id);
+    newEntryElement.setAttribute(CONSTANTS.NODE_ID, node.id);
+    newEntryElement.querySelector(`[${CONSTANTS.NODE_NAME}]`).textContent = node.name;
 
-    this.#nodeSelectionElement.append(...nodeSelectionEntry.children);
+    // set input value if present
+    const newEntryInput = newEntryElement.querySelector('input');
+    if (newEntryInput) {
+      newEntryInput.value = node.id;
+    }
+
+    // set action aria-labels if present
+    newEntryElement.querySelector(CONSTANTS.REMOVE_ACTION)?.setAttribute('aria-label', this.#translate('select_node', node.name));
+    newEntryElement.querySelector(CONSTANTS.ENGAGE_ACTION)?.setAttribute('aria-label', this.#translate('engage_node', node.name));
+
+    list.append(newEntryElement);
+    hydrator(newEntryElement);
   }
 
   /**
    * @param {string} nodeId
    */
-  #removeNodeSelectionEntry(nodeId) {
-    this.#nodeSelectionElement.querySelector(`li[${CONSTANTS.NODE_ID}="${nodeId}"]`)?.remove();
+  #removeNodeSelectionListEntry(nodeId) {
+    removeNodeListEntry(this.#nodeSelectionElement, nodeId);
+  }
+
+  /**
+   * @param {string} nodeId
+   */
+  #removeNodeDropdownMenuEntry(nodeId) {
+    if (this.#nodeDropdownMenuElement !== null) {
+      removeNodeListEntry(this.#nodeDropdownMenuElement, nodeId);
+    }
   }
 
   /**
@@ -448,6 +560,20 @@ export default class TreeSelect {
     button.querySelector(CONSTANTS.SELECT_ACTION)?.classList.add(CONSTANTS.HIDDEN_CLASS);
     button.querySelector(CONSTANTS.REMOVE_ACTION)?.classList.remove(CONSTANTS.HIDDEN_CLASS);
     button.setAttribute('aria-label', this.#translate('unselect_node', nodeName));
+  }
+
+  #updateNodeDropdownMenuEntryPlaceholder() {
+    if (this.#nodeSelectionSet.size <= 0) {
+      this.#nodeDropdownMenuEntryPlaceholder?.classList.remove(CONSTANTS.HIDDEN_CLASS);
+    } else {
+      this.#nodeDropdownMenuEntryPlaceholder?.classList.add(CONSTANTS.HIDDEN_CLASS);
+    }
+  }
+
+  #updateNodeDropdownCounter() {
+    if (this.#nodeDropdownCounter !== null) {
+      this.#nodeDropdownCounter.setStatusTo(this.#nodeSelectionSet.size);
+    }
   }
 
   #updateDialogSelectButton() {

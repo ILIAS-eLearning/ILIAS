@@ -216,7 +216,7 @@ describe('TreeSelect', () => {
         return this;
       },
     };
-    const templateRendererMock = {
+    templateRendererMock = {
       createContent: () => newBreadcrumbElementMock,
     };
     const nodeElementMock = {

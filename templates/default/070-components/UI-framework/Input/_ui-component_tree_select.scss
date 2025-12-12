@@ -5,6 +5,7 @@
 @use "../../../030-tools/_tool_focus-outline" as focus-tool;
 @use "../Menu/_ui-component_drilldown" as *;
 @use "../Button/_ui-component_button" as button;
+@use "../Symbol/_ui-component_glyph" as glyph;
 
 //== Tree (Multi) Select
 
@@ -44,6 +45,28 @@
     height: auto;
     padding: 0;
     margin: 0;
+  }
+
+  & .dropdown {
+    float: left;
+
+    & li {
+      align-items: center;
+      display: flex;
+      @include focus-tool.il-focus-border-only();
+      &:focus-visible {
+        z-index: 100;
+      }
+
+      // @todo: this deserves some CSS-expert-love =).
+      & button[data-action="remove"] {
+        flex: 0 0 auto;
+      }
+      & button[data-action="engage"] {
+        flex: 1 1 auto;
+        text-align: fill;
+      }
+    }
   }
 
   & .c-drilldown {

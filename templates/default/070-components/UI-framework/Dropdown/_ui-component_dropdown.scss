@@ -249,6 +249,7 @@ $cursor-disabled: not-allowed !default;
 	// Menu items within the dropdown menu
 	// TO DO: this would be better as a reusable menu pattern tool
 	li a,
+    li span,
 	li .btn-link {
 		display: flex;
 		align-items: center;

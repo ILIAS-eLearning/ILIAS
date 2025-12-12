@@ -34,6 +34,9 @@ use ILIAS\UI\Component\Symbol\Icon\Factory as IconFactory;
  *   ILIAS shows the Tree Multi Select Field inside a Standard Form. Above the "Select" Shy
  *   Button multiple "dummy leaf node <X>" Nodes are initially visible. Clicking the Glyph
  *   next to their name will remove the corresponding Node.
+ *   The Dropdown Menu inside the Modal Footer displays a Counter that represents the correct
+ *   amount of selected Nodes. The Dropdown also contains a corresponding entry for each of
+ *   these Nodes.
  * ---
  */
 function with_value(): string

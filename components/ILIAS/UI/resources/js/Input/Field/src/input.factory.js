@@ -24,6 +24,7 @@
  * other and are bundled into separate files.
  */
 
+import Tagify from '@yaireo/tagify';
 import $ from 'jquery';
 import il from 'ilias';
 import document from 'document';
@@ -32,12 +33,18 @@ import createMustacheVariables from './Textarea/createMustacheVariables.js';
 import MarkdownFactory from './Markdown/markdown.factory.js';
 import TreeSelectFactory from './TreeSelect/TreeSelectFactory.js';
 import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
-import Tagify from '@yaireo/tagify';
 import tag from './Tag/tag.js';
 import OptionFilterFactory from './OptionFilter/OptionFilterFactory.js';
 
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
+
+// workaround to stop jQuery polluting this module.
+const noJQueryCounterFactoryAdapter = {
+  getCounterObject(counterElement) {
+    return il.UI.counter.getCounterObject($(counterElement));
+  },
+};
 
 (function (Input) {
   Input.textarea = new TextareaFactory();
@@ -52,11 +59,18 @@ il.UI.Input = il.UI.Input || {};
   Input.treeSelect = new TreeSelectFactory(
     new JQueryEventListener($),
     il.UI.menu.drilldown,
+    noJQueryCounterFactoryAdapter,
     // workaround for language being initialised after UI
     { txt: (s) => il.Language.txt(s) },
     document,
   );
   Input.tagInput = Input.tag || {};
   Input.tagInput.init = (input, config, value, autocompleteEndpoint, autocompleteToken) => tag(
-    Tagify, input, config, value, autocompleteEndpoint, autocompleteToken);
+    Tagify,
+    input,
+    config,
+    value,
+    autocompleteEndpoint,
+    autocompleteToken,
+  );
 }(il.UI.Input));

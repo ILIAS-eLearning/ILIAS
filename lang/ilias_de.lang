@@ -17438,6 +17438,7 @@ ui#:#drilldown_no_items#:#Keine passenden Elemente
 ui#:#duration_default_label_end#:#Ende
 ui#:#duration_default_label_start#:#Beginn
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
+ui#:#engage_node#:#Knoten %s im Menu anzeigen
 ui#:#filter_nodes_in#:#Einträge in %s filtern
 ui#:#footer_icons#:#Footer Icons
 ui#:#footer_link_groups#:#Footer Link-Gruppen
@@ -17454,6 +17455,7 @@ ui#:#label_modeviewcontrol#:#Anzeigemodus
 ui#:#label_pagination_limit#:#Pagination - Anzahl der Zeilen
 ui#:#label_pagination_offset#:#Pagination - Start
 ui#:#label_sortation#:#Sortierung
+ui#:#no_nodes_selected#:#Keine Knoten ausgewählt
 ui#:#order_option_alphabetical_ascending#:#A bis Z
 ui#:#order_option_alphabetical_descending#:#Z bis A
 ui#:#order_option_chronological_ascending#:#Älteste zuerst

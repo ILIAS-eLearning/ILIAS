@@ -62,6 +62,18 @@ export const REMOVE_ACTION = '[data-action="remove"]';
 /** @type {string} query selector */
 export const SELECT_ACTION = '[data-action="select"]';
 /** @type {string} query selector */
+export const ENGAGE_ACTION = '[data-action="engage"]';
+/** @type {string} query selector */
 export const NODE_SELECT_BUTTON = `.${NODE_CLASS}__select`;
 /** @type {string} query selector */
 export const DRILLDOWN_BUTTON = '.c-drilldown__menulevel--trigger';
+/** @type {string} query selector */
+export const TREE_OPEN_DIALOG_BUTTON = `${TREE_SELECT} > input[type=button]`;
+/** @type {string} query selector */
+export const TREE_SELECT_DROPDOWN = '.dropdown';
+/** @type {string} query selector */
+export const TREE_SELECT_DROPDOWN_MENU = '.dropdown-menu';
+/** @type {string} query selector */
+export const TREE_SELECT_DROPDOWN_ENTRIES = 'li[data-node-id]';
+/** @type {string} query selector */
+export const TREE_SELECT_DROPDOWN_ENTRY_PLACEHODLER = `.${TREE_SELECT_CLASS}__dropdown-placeholder`;

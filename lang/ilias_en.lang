@@ -17442,6 +17442,7 @@ ui#:#drilldown_no_items#:#No Matching Elements
 ui#:#duration_default_label_end#:#end
 ui#:#duration_default_label_start#:#start
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+ui#:#engage_node#:#Engage node %s inside menu
 ui#:#filter_nodes_in#:#Filter Nodes in %s
 ui#:#footer_icons#:#Footer Icons
 ui#:#footer_link_groups#:#Footer Link-Groups
@@ -17458,6 +17459,7 @@ ui#:#label_modeviewcontrol#:#view mode
 ui#:#label_pagination_limit#:#Pagination Number of Rows
 ui#:#label_pagination_offset#:#Pagination Offset
 ui#:#label_sortation#:#Sortation
+ui#:#no_nodes_selected#:#No nodes selected
 ui#:#order_option_alphabetical_ascending#:#A to Z
 ui#:#order_option_alphabetical_descending#:#Z to A
 ui#:#order_option_chronological_ascending#:#Earliest First

@@ -51,7 +51,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->renderAction($component, $tpl);
 
-        if ($component->isTabbable() && !$this instanceof ButtonContextRenderer) { // Buttons are already tabbable itself
+        if ($component->isTabbable() && !$this instanceof PalpableContentContextRenderer) { // Buttons are already tabbable itself
             $tpl->touchBlock("tabbable");
         }
 

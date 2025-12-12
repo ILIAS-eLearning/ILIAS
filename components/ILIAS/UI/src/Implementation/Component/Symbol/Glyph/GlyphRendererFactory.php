@@ -31,7 +31,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
      * palpable content is allowed.
      * @see https://html.spec.whatwg.org/#palpable-content
      */
-    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR = [
+    protected const array USE_PALPABLE_CONTENT_CONTEXT_RENDERER_FOR = [
+        'TreeMultiSelectFieldInput',
         'BranchNodeFieldInput',
         'LeafNodeFieldInput',
         'AsyncNodeFieldInput',
@@ -47,8 +48,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer
     {
-        if (count(array_intersect(self::USE_BUTTON_CONTEXT_RENDERER_FOR, $contexts)) > 0) {
-            return new ButtonContextRenderer(
+        if (count(array_intersect(self::USE_PALPABLE_CONTENT_CONTEXT_RENDERER_FOR, $contexts)) > 0) {
+            return new PalpableContentContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
                 $this->lng,

@@ -39,9 +39,14 @@ use ILIAS\Filesystem\Stream\Streams;
  *   correctly rendered next to and underneath the actual input, which is displayed as a Shy
  *   Button that states "Select". Clicking the label or the Shy Button will open a Modal dialog.
  *   The Modal title is the same as the Fields label inside the Form. The Modal footer features
- *   one "Close" Standard Button and one (initially) disabled "Select" Primary Button. Inside
- *   the Modal appears a two-column Drilldown Menu, which lists different kinds of Nodes. Nodes
- *   titled "branch <X>" feature a Glyph, indicating that it can be expanded/opened. Clicking
+ *   one "Close" Standard Button and one (initially) disabled "Select" Primary Button. It also
+ *   features a Dropdown Menu with a Glyph and Counter, representing the list-view and amount of
+ *   selected Nodes. If there are no selected Nodes, the Counter will be hidden and an according
+ *   placeholder entry will be shown instead. Each entry of the Drilldown consists two Buttons.
+ *   Clicking the one featuring the Node-name will engage the Node inside the Drilldown Menu
+ *   described below. Clicking the one next to it, featuring a Glyph, will unselect the Node.
+ *   Inside the Modal appears a two-column Drilldown Menu, which lists different kinds of Nodes.
+ *   Nodes titled "branch <X>" feature a Glyph, indicating that it can be expanded/opened. Clicking
  *   these Nodes will engage a different Drilldown Menu level. Nodes titled "leaf <X>" cannot be
  *   expanded/openend and do not feature a Glyph. Nodes titled "async branch <X>", similar to
  *   "branch <X>" Nodes, can be expanded/opened and feature a Glyph and are loaded asynchronously.
