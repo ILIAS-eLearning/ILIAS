@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class ilParserQuestionProvider
  *
@@ -25,36 +27,24 @@
  */
 class ilAssLacQuestionProvider
 {
-    /*
-     * @var iQuestionCondition
-     */
-    protected $question;
+    protected ?assQuestion $question = null;
 
-    /**
-     * @var integer
-     */
-    protected $questionId;
+    protected ?int $question_id = null;
 
-    /**
-     * @param integer $questionId
-     */
-    public function setQuestionId($questionId): void
+    public function setQuestionId(int $question_id): void
     {
-        $this->questionId = $questionId;
+        $this->question_id = $question_id;
     }
 
-    /**
-     * @param iQuestionCondition $question
-     */
-    public function setQuestion(iQuestionCondition $question): void
+    public function setQuestion(assQuestion $question): void
     {
         $this->question = $question;
     }
 
-    public function getQuestion(): assQuestion
+    public function getQuestion(): ?assQuestion
     {
-        if ($this->question === null && $this->questionId) {
-            $this->question = assQuestion::instantiateQuestion($this->questionId);
+        if ($this->question === null && $this->question_id !== null) {
+            $this->question = assQuestion::instantiateQuestion($this->question_id);
         }
 
         return $this->question;

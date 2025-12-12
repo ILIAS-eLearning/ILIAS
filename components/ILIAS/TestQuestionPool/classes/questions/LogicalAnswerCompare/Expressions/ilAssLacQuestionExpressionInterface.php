@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 /**
  * Class QuestionExpressionInterface
  *
@@ -25,5 +27,5 @@
  */
 interface ilAssLacQuestionExpressionInterface
 {
-    public function getQuestionIndex();
+    public function getQuestionIndex(): ?int;
 }
