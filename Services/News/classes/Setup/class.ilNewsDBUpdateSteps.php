@@ -18,18 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\News;
-
-use ILIAS\News\Data\Factory;
-
-/**
- * Repository internal data service
- * @author Alexander Killing <killing@leifos.de>
- */
-class InternalDataService
+class ilNewsDBUpdateSteps implements ilDatabaseUpdateSteps
 {
-    public function factory(): Factory
+    protected ilDBInterface $db;
+
+    public function prepare(ilDBInterface $db): void
     {
-        return new Factory();
+        $this->db = $db;
+    }
+
+    public function step_1(): void
+    {
+        if (!$this->db->indexExistsByFields('il_news_item', ['context_obj_type'])) {
+            $this->db->addIndex('il_news_item', ['context_obj_type'], 'i3');
+        }
     }
 }

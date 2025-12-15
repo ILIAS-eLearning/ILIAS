@@ -18,18 +18,16 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\News;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Objective;
 
-use ILIAS\News\Data\Factory;
-
-/**
- * Repository internal data service
- * @author Alexander Killing <killing@leifos.de>
- */
-class InternalDataService
+class ilNewsSetupAgent extends NullAgent
 {
-    public function factory(): Factory
+    use HasNoNamedObjective;
+
+    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
     {
-        return new Factory();
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilNewsDBUpdateSteps());
     }
 }

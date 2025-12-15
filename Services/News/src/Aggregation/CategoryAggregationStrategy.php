@@ -18,18 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\News;
+namespace ILIAS\News\Aggregation;
 
-use ILIAS\News\Data\Factory;
+use ILIAS\News\Data\NewsContext;
 
 /**
- * Repository internal data service
- * @author Alexander Killing <killing@leifos.de>
+ * Category Aggregation Strategy aggregates related contexts for a category context
  */
-class InternalDataService
+class CategoryAggregationStrategy extends SubtreeAggregationStrategy implements NewsAggregationStrategy
 {
-    public function factory(): Factory
+    public function shouldSkip(NewsContext $context): bool
     {
-        return new Factory();
+        return false;
     }
 }
