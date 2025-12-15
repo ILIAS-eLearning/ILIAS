@@ -648,6 +648,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $frontend->authenticate();
 
+        setcookie(session_name(), session_id(), [
+            'expires' => 0,
+            'path' => rtrim(IL_COOKIE_PATH, '/'),
+            'domain' => IL_COOKIE_DOMAIN,
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'None'
+        ]);
+
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
