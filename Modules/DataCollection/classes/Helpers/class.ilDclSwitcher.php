@@ -64,13 +64,17 @@ class ilDclSwitcher
      * @return void
      * @throws ilCtrlException
      */
-    public function addViewSwitcherToToolbar(array $views, int $table_id, string $target_class, string $target_cmd): void
+    public function addViewSwitcherToToolbar(array $views, int $table_id, string $target_class, string $target_cmd, int $tableview_id = 0): void
     {
         $links = [];
         $this->ctrl->setParameterByClass($target_class, "table_id", $table_id);
         foreach ($views as $view) {
             $this->ctrl->setParameterByClass($target_class, "tableview_id", $view->getId());
-            $links[] = $this->ui_factory->link()->standard($view->getTitle(), $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
+            $title = $view->getTitle();
+            if ($view->getId() === $tableview_id) {
+                $title .= ' (' . $this->lng->txt('selected') . ')';
+            }
+            $links[] = $this->ui_factory->link()->standard($title, $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
         }
         $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_switch_view'));
     }

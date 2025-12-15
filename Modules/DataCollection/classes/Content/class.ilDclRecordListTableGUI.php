@@ -94,7 +94,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setTitle($table->getTitle());
-        $this->setDescription($this->tableview->getTitle());
         $this->setDefaultOrderDirection($this->table->getDefaultSortFieldOrder());
         // Set a default sorting?
         $default_sort_title = 'id';
