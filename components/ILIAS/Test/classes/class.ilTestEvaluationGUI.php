@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\Test\Presentation\PrintLayoutProvider;
 use ILIAS\Test\TestDIC;
@@ -49,11 +50,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     private const DEFAULT_CMD = 'outUserListOfAnswerPasses';
     protected ilTestAccess $testAccess;
     protected ilTestProcessLockerFactory $processLockerFactory;
+    private readonly ParticipantRepository $participant_repository;
 
     public function __construct(ilObjTest $object)
     {
         parent::__construct($object);
         $this->participant_access_filter = new ilTestParticipantAccessFilterFactory($this->access);
+        $this->participant_repository = TestDIC::dic()['participant.repository'];
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
@@ -789,7 +792,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
-            TestDIC::dic()['participant.repository']->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName($this->lng)
+            $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName($this->lng)
         );
     }
 
