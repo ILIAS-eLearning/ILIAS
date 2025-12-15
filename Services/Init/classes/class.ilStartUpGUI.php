@@ -631,7 +631,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->getLogger()->debug('Trying lti authentication');
 
         $credentials = new ilAuthFrontendCredentialsLTI();
-
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
