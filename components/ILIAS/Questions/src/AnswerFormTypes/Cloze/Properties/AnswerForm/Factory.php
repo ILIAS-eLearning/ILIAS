@@ -25,14 +25,10 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeT
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text as ClozeText;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
-use ILIAS\Data\UUID\Factory as UuidFactory;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\Refinery\Factory as Refinery;
 
 class Factory
 {
     public function __construct(
-        private readonly UuidFactory $uuid_factory,
         private readonly ClozeTextFactory $cloze_text_factory,
         private readonly GapsFactory $gaps_factory
     ) {
@@ -42,11 +38,28 @@ class Factory
         TypeGenericProperties $type_generic_properties,
         array $type_specific_data
     ): Properties {
+        if ($type_specific_data === []) {
+            return new Properties(
+                $type_generic_properties->getAnswerFormId(),
+                $type_generic_properties->getQuestionId(),
+                $this->cloze_text_factory->buildFromTextString(
+                    $type_generic_properties->getAdditionalText()
+                ),
+                $type_generic_properties->getAdditionalTextLegacy(),
+                $this->gaps_factory->getEmptyGapsObject()
+            );
+        }
+
         return new Properties(
             $type_generic_properties->getAnswerFormId(),
             $type_generic_properties->getQuestionId(),
-            $this->cloze_text_factory->buildFromTextString($type_generic_properties->getAdditionalText()),
-            $type_generic_properties->getAdditionalTextLegacy()
+            $this->cloze_text_factory->buildFromTextString(
+                $type_generic_properties->getAdditionalText()
+            ),
+            $type_generic_properties->getAdditionalTextLegacy(),
+            $type_specific_data['gaps'],
+            $type_specific_data['identical_scoring'],
+            $type_specific_data['combinations_enabled']
         );
     }
 
@@ -63,14 +76,5 @@ class Factory
             )->withGaps($updated_gaps)
             ->withScoringOfIdenticalResponses($scoring_of_identical_responses)
             ->withCombinationsEnabled($combinations_enabled);
-    }
-
-    public function buildDefault(): Properties
-    {
-        return new Properties(
-            null,
-            $this->cloze_text_factory->buildFromTextString(''),
-            $this->gaps_factory->getEmptyGapsObject()
-        );
     }
 }

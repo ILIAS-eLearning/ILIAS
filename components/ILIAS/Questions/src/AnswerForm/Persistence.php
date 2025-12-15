@@ -21,16 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm;
 
 use ILIAS\Questions\Question\Persistence\Column;
-use ILIAS\Questions\Question\Persistence\SelectQuery;
+use ILIAS\Questions\Question\Persistence\Query;
 use ILIAS\Questions\Question\Persistence\TableNameBuilder;
 use ILIAS\Questions\Question\Persistence\TableNameSpace;
 
 interface Persistence
 {
     public function getPublicNameSpace(): TableNameSpace;
-    public function completeSelectQuery(
+    public function completeQuery(
         TableNameBuilder $table_name_builder,
-        SelectQuery $select_query,
+        Query $query,
         Column $base_table_id_column,
-    ): SelectQuery;
+    ): Query;
 }

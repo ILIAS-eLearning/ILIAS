@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText;
 
 use ILIAS\Data\Text\Factory as TextFactory;
-use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use Mustache\Engine;
 
@@ -30,7 +29,6 @@ class Factory
     public function __construct(
         private readonly Refinery $refinery,
         private readonly Engine $mustache_engine,
-        private readonly UuidFactory $uuid_factory,
         private readonly TextFactory $text_factory
     ) {
     }
@@ -52,6 +50,6 @@ class Factory
 
     private function unmaskTextFromOutputInHiddenInput(string $text): string
     {
-        return str_replace(['&#123;&#123;', '&#125;&#125;'], ['{{', '}}'], $text);
+        return str_replace(['\{\{', '\}\}'], ['{{', '}}'], $text);
     }
 }

@@ -21,7 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze;
 
 use ILIAS\Questions\AnswerForm\Persistence as PersistenceInterface;
-use ILIAS\Questions\Question\Persistence\SelectQuery;
+use ILIAS\Questions\Question\Persistence\TableTypes;
+use ILIAS\Questions\Question\Persistence\Query;
 use ILIAS\Questions\Question\Persistence\Join;
 use ILIAS\Questions\Question\Persistence\Column;
 use ILIAS\Questions\Question\Persistence\JoinType;
@@ -34,26 +35,30 @@ class Persistence implements PersistenceInterface
 {
     private const string ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN = 'answer_form_id';
     private const array ANSWER_FORM_TABLE_COLUMNS = [
-        'case_sensitive',
-        'identical_responses_valid',
-        'max_chars',
-        'min_auto_complete'
+        'scoring_identical_responses',
+        'combinations_activated'
     ];
 
     private const string ANSWER_INPUTS_TABLE_ID_COLUMN = 'id';
     private const string ANSWER_INPUTS_TABLE_FOREIGN_KEY_COLUMN = 'answer_form_id';
     private const array ANSWER_INPUTS_TABLE_COLUMNS = [
         'id AS answer_input_id',
+        'position',
         'gap_type',
-        'max_chars'
+        'max_chars',
+        'step_size',
+        'text_matching_method',
+        'shuffle_answer_options'
     ];
 
     private const string ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN = 'answer_input_id';
     private const array ANSWER_OPTIONS_TABLE_COLUMNS = [
         'id AS answer_option_id',
         'position',
-        'value',
-        'points'
+        'text_value',
+        'points',
+        'lower_limit',
+        'upper_limit'
     ];
 
     private const string COMBINATIONS_TABLE_FOREIGN_KEY_COLUMN = 'answer_form_id';
@@ -73,67 +78,77 @@ class Persistence implements PersistenceInterface
         return $this->table_namespace;
     }
 
-    public function completeSelectQuery(
+    public function completeQuery(
         TableNameBuilder $table_name_builder,
-        SelectQuery $select_query,
+        Query $query,
         Column $base_table_id_column
-    ): SelectQuery {
-        return $select_query->withAdditionalJoin(
+    ): Query {
+        $answer_form_specific_table = TableTypes::TypeSpecificAnswerForms
+            ->getTable($table_name_builder);
+        $answer_input_table = TableTypes::AnswerInputs
+            ->getTable($table_name_builder);
+        $answer_options_table = TableTypes::AnswerOptions
+            ->getTable($table_name_builder);
+        $combinations_table = TableTypes::Additional
+            ->getTable($table_name_builder, 'combinations');
+
+        return $query->withAdditionalJoin(
             new Join(
                 $base_table_id_column,
                 new Column(
-                    $table_name_builder->getTypeSpecificAnswerFormsTableName(),
+                    $answer_form_specific_table,
                     self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
-                )
+                ),
+                JoinType::Left
             )
         )->withAdditionalSelect(
             new Select(
-                $table_name_builder->getTypeSpecificAnswerFormsTableName(),
+                $answer_form_specific_table,
                 self::ANSWER_FORM_TABLE_COLUMNS
             )
         )->withAdditionalJoin(
             new Join(
                 $base_table_id_column,
                 new Column(
-                    $table_name_builder->getAnswerInputsTableName(),
+                    $answer_input_table,
                     self::ANSWER_INPUTS_TABLE_FOREIGN_KEY_COLUMN
                 ),
                 JoinType::Left
             )
         )->withAdditionalSelect(
             new Select(
-                $table_name_builder->getAnswerInputsTableName(),
+                $answer_input_table,
                 self::ANSWER_INPUTS_TABLE_COLUMNS
             )
         )->withAdditionalJoin(
             new Join(
                 new Column(
-                    $table_name_builder->getAnswerInputsTableName(),
+                    $answer_input_table,
                     self::ANSWER_INPUTS_TABLE_ID_COLUMN
                 ),
                 new Column(
-                    $table_name_builder->getAnswerOptionsTableName(),
+                    $answer_options_table,
                     self::ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN
                 ),
                 JoinType::Left
             )
         )->withAdditionalSelect(
             new Select(
-                $table_name_builder->getAnswerOptionsTableName(),
+                $answer_options_table,
                 self::ANSWER_OPTIONS_TABLE_COLUMNS
             )
         )->withAdditionalJoin(
             new Join(
                 $base_table_id_column,
                 new Column(
-                    $table_name_builder->getAdditionalTableName('combinations'),
+                    $combinations_table,
                     self::COMBINATIONS_TABLE_FOREIGN_KEY_COLUMN
                 ),
                 JoinType::Left
             )
         )->withAdditionalSelect(
             new Select(
-                $table_name_builder->getAdditionalTableName('combinations'),
+                $combinations_table,
                 self::COMBINATIONS_TABLE_COLUMNS
             )
         );

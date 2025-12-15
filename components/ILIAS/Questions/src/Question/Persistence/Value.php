@@ -38,6 +38,11 @@ class Value
         return $this->value;
     }
 
+    public function getQuotedValue(\ilDBInterface $db): string
+    {
+        return $db->quote($this->value, $this->type);
+    }
+
     public function getNumberOfElements(): int
     {
         if (is_array($this->value)) {

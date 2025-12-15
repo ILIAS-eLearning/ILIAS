@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Data;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -46,7 +46,7 @@ class Select extends Type
         return 'select';
     }
 
-    public function getEditAnswerOptionsInputs(Data $data): array
+    public function getEditAnswerOptionsInputs(Properties $properties): array
     {
         $ff = $this->ui_factory->input()->field();
         return [
@@ -54,10 +54,10 @@ class Select extends Type
                 $this->lng->txt('answer_options'),
                 []
             )->withRequired(true)
-            ->withValue($data->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
+            ->withValue($properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'shuffle_answer_options' => $ff->checkbox(
                 $this->lng->txt('shuffle_answers')
-            )->withValue($data?->getShuffleAnswerOptions() ?? self::DEFAULT_SHUFFLE_ANSWER_OPTIONS)
+            )->withValue($properties?->getShuffleAnswerOptions() ?? self::DEFAULT_SHUFFLE_ANSWER_OPTIONS)
         ];
     }
 
@@ -91,11 +91,11 @@ class Select extends Type
 
     public function getBuildGapTransformation(Gap $gap): Transformation
     {
-        $data = $gap->getData();
+        $properties = $gap->getProperties();
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withData(
-                $data->withAnswerOptions(
-                    $data->getAnswerOptions()->withAnswerOptionsFromTags($vs['answer_options'])
+            fn(array $vs): Gap => $gap->withProperties(
+                $properties->withAnswerOptions(
+                    $properties->getAnswerOptions()->withAnswerOptionsFromTags($vs['answer_options'])
                 )
             )
         );

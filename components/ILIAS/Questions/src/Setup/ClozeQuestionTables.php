@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\Question\Persistence\TableNameBuilder;
+use ILIAS\Questions\Question\Persistence\TableTypes;
 
 class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 {
@@ -38,7 +39,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $table_name = $this->table_name_builder->getTypeSpecificAnswerFormsTableName();
+        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::TypeSpecificAnswerForms);
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'answer_form_id' => [
@@ -66,7 +67,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        $table_name = $this->table_name_builder->getAnswerInputsTableName();
+        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::AnswerInputs);
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -127,7 +128,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_3(): void
     {
-        $table_name = $this->table_name_builder->getAnswerOptionsTableName();
+        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::AnswerOptions);
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -176,7 +177,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $table_name = $this->table_name_builder->getAdditionalTableName('combinations');
+        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::Additional, 'combinations');
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -212,7 +213,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_5(): void
     {
-        $table_name = $this->table_name_builder->getResponsesTableName();
+        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::Responses);
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [

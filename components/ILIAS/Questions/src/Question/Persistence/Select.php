@@ -23,7 +23,7 @@ namespace ILIAS\Questions\Question\Persistence;
 class Select
 {
     public function __construct(
-        private readonly string $table,
+        private readonly Table $table,
         private readonly array $columns
     ) {
     }
@@ -31,7 +31,7 @@ class Select
     public function toColumnsArray(): array
     {
         return array_map(
-            fn(string $v): string => "{$this->table}.{$v}",
+            fn(string $v): string => "{$this->table->getName()}.{$v}",
             $this->columns
         );
     }

@@ -22,6 +22,8 @@ namespace ILIAS\Questions\AnswerForm;
 
 use ILIAS\Questions\AnswerForm\Definition;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
+use ILIAS\Language\Language;
 
 class Factory
 {
@@ -39,7 +41,7 @@ class Factory
     ) {
         $this->available_answer_form_types = array_reduce(
             $available_answer_form_types,
-            function (array $c, Type $v) {
+            function (array $c, Definition $v) {
                 $c[$this->getHashedClass($v::class)] = $v;
                 return $c;
             },
@@ -47,15 +49,20 @@ class Factory
         );
     }
 
+    public function getAvailableDefinitions(): array
+    {
+        return array_values($this->available_answer_form_types);
+    }
+
     /**
      * @return array<string, \ILIAS\Questions\AnswerForm\Definition>
      */
-    public function getAnswerFormTypesArrayForSelect(): array
+    public function getAnswerFormTypesArrayForSelect(Language $lng): array
     {
         return array_reduce(
             $this->available_answer_form_types,
-            function (array $c, Definition $v): array {
-                $c[$this->getHashedClass($v::class)] = $v->getLabel($this->lng);
+            function (array $c, Definition $v) use ($lng): array {
+                $c[$this->getHashedClass($v::class)] = $v->getLabel($lng);
                 return $c;
             },
             []

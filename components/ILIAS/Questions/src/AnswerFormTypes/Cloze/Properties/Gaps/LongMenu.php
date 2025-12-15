@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Data;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -48,14 +48,14 @@ class LongMenu extends Type
         return 'long_menu';
     }
 
-    public function getEditAnswerOptionsInputs(Data $data): array
+    public function getEditAnswerOptionsInputs(Properties $properties): array
     {
         $ff = $this->ui_factory->input()->field();
         return [
             'answer_options' => $ff->tag(
                 $this->lng->txt('answer_options'),
                 []
-            )->withValue($data->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
+            )->withValue($properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'upload_answer_options' => $ff->file(
                 new UploadAnswerOptionsGUI(),
                 $this->lng->txt('upload_answer_options'),
@@ -64,16 +64,16 @@ class LongMenu extends Type
             'min_autocomplete' => $ff->numeric(
                 $this->lng->txt('min_autocomplete')
             )->withRequired(true)
-            ->withValue($data->getMinAutocomplete() ?? self::DEFAULT_MIN_AUTOCOMPLETE),
+            ->withValue($properties->getMinAutocomplete() ?? self::DEFAULT_MIN_AUTOCOMPLETE),
             'options_awarding_points' => $ff->tag(
                 $this->lng->txt('answer_options'),
-                $data->getAnswerOptions()->getTagsArrayFromAnswerOptions()
+                $properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()
             )
             ->withRequired(true)
             ->withValue(
                 array_map(
                     fn(AnswerOption $v): string => $v->getTextValue(),
-                    $data->getAnswerOptions()->getAnswerOptionsAwardingPoints()
+                    $properties->getAnswerOptions()->getAnswerOptionsAwardingPoints()
                 )
             )
         ];
@@ -124,11 +124,11 @@ class LongMenu extends Type
     public function getBuildGapTransformation(Gap $gap): Transformation
     {
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withData(
-                $gap->getData()
+            fn(array $vs): Gap => $gap->withProperties(
+                $gap->getProperties()
                     ->withMinAutocomplete($vs['min_autocomplete'])
                     ->withAnswerOptions(
-                        $gap->getData()->getAnswerOptions()->withAnswerOptionsFromTags(
+                        $gap->getProperties()->getAnswerOptions()->withAnswerOptionsFromTags(
                             array_merge(
                                 $vs['answer_options'],
                                 $this->retrieveAnswerOptionsArrayFromUpload($vs['upload_answer_options'])
