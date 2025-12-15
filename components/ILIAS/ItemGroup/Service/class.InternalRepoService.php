@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,33 +16,23 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\ItemGroup;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
+use ilDBInterface;
+use ILIAS\ItemGroup\Repository\ItemGroupRepository;
+
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
-
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
-    {
-        $this->data = $data;
-        $this->db = $db;
+    public function __construct(
+        protected readonly InternalDataService $data,
+        protected readonly ilDBInterface $db,
+    ) {
     }
 
-    /*
-    public function ...() : ...\RepoService
+    public function itemGroup(): ItemGroupRepository
     {
-        return new ...\RepoService(
-            $this->data,
-            $this->db
-        );
-    }*/
-
-    /*public function accessSession() : AccessSessionRepository
-    {
-        return new AccessSessionRepository();
-    }*/
+        return new ItemGroupRepository($this->db);
+    }
 }
