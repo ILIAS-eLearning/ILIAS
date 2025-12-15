@@ -30,28 +30,21 @@ class TableNameBuilder
         $this->type_specific_part = $table_name_space->getTypeSpecificTableNamePart();
     }
 
-    public function getTypeSpecificAnswerFormsTableName(): string
-    {
-        return "qsts_answer_forms_{$this->type_specific_part}";
-    }
-
-    public function getAnswerInputsTableName(): string
-    {
-        return "qsts_answer_inputs_{$this->type_specific_part}";
-    }
-
-    public function getAnswerOptionsTableName(): string
-    {
-        return "qsts_answer_options_{$this->type_specific_part}";
-    }
-
-    public function getResponsesTableName(): string
-    {
-        return "qsts_responses_{$this->type_specific_part}";
-    }
-
-    public function getAdditionalTableName(string $table_identifier): string
-    {
-        return "qsts_{$this->type_specific_part}_{$table_identifier}";
+    public function getTableNameFor(
+        TableTypes $type,
+        string $identifier = ''
+    ): string {
+        if ($type === TableTypes::Additional && $identifier === '') {
+            throw \InvalidArgumentException(
+                'Identifier cannot be empty for type ' . TableTypes::Additional->name . '.'
+            );
+        }
+        return match ($type) {
+            TableTypes::TypeSpecificAnswerForms => "qsts_answer_forms_{$this->type_specific_part}",
+            TableTypes::AnswerInputs => "qsts_answer_inputs_{$this->type_specific_part}",
+            TableTypes::AnswerOptions => "qsts_answer_options_{$this->type_specific_part}",
+            TableTypes::Responses => "qsts_responses_{$this->type_specific_part}",
+            TableTypes::Additional => "qsts_{$this->type_specific_part}_{$identifier}"
+        };
     }
 }

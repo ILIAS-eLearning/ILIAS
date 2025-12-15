@@ -32,7 +32,7 @@ class TableNameSpace
     ) {
         if (mb_strlen($vendor) > 4 || mb_strlen($answer_form_id) > 8) {
             throw new \InvalidArgumentException(
-                'Neither $vendor nor $answer_form_id can be longer then 4 characters.'
+                '$vendor cannot be longer than 4, $answer_form_id can be longer then 8 characters.'
             );
         }
     }

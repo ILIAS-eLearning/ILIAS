@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\Presentation\Layout\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
@@ -197,13 +198,13 @@ class Gaps
         );
     }
 
-    public function getHiddenInput(FieldFactory $ff): Group
+    public function getCarryInputs(FieldFactory $ff): Group
     {
         return $ff->group(
             array_reduce(
                 $this->gaps,
                 function (array $c, Gap $v) use ($ff): array {
-                    $c[$v->getAnswerInputId()->toString()] = $v->getHiddenInput($ff)
+                    $c[$v->getAnswerInputId()->toString()] = $v->getCarryInputs($ff)
                         ->withDedicatedName($v->getAnswerInputId()->toString());
                     return $c;
                 },
@@ -212,23 +213,29 @@ class Gaps
         );
     }
 
-    public function withValuesFromPost(
+    public function getFromCarryTransformation(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        Factory $gaps_factory,
-        string $form_input_path
-    ): self {
-        $clone = clone $this;
-        $clone->gaps = array_map(
-            fn(Gap $v): Gap => $v->withValuesFromPost(
-                $refinery,
-                $post_wrapper,
-                $gaps_factory,
-                $form_input_path . '/' . $v->getAnswerInputId()->toString()
-            ),
-            $this->gaps
+        Factory $gaps_factory
+    ): Transformation {
+        return $refinery->custom()->transformation(
+            function (?CarryWrapper $v) use ($refinery, $gaps_factory): self {
+                if ($v === null) {
+                    return $this;
+                }
+                $clone = clone $this;
+                $clone->gaps = array_map(
+                    fn(Gap $gap): Gap => $v->retrieve(
+                        $gap->getAnswerInputId()->toString(),
+                        $gap->getFromCarryTransformation(
+                            $refinery,
+                            $gaps_factory
+                        )
+                    ),
+                    $this->gaps
+                );
+                return $clone;
+            }
         );
-        return $clone;
     }
 
     private function extractIdFromTagName(string $tag_name): string

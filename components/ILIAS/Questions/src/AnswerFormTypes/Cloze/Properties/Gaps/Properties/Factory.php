@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties;
 
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
@@ -32,10 +32,10 @@ class Factory
     ) {
     }
 
-    public function getDefaultDataObject(
+    public function getDefaultProperties(
         Uuid $answer_input_id
-    ): Data {
-        return new Data(
+    ): Properties {
+        return new Properties(
             $answer_input_id,
             new AnswerOptions(
                 $this,

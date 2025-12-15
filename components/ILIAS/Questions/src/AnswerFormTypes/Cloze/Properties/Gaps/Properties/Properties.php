@@ -18,16 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties;
 
 use ILIAS\Questions\Question\Definitions\TextMatchingOptions;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Questions\Presentation\Layout\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
 
-class Data
+class Properties
 {
     private const string FORM_KEY_MAX_CHARS = 'max_chars';
     private const string FORM_KEY_STEP_SIZE = 'step_size';
@@ -37,7 +38,7 @@ class Data
     private const string FORM_KEY_ANSWER_OPTIONS = 'answer_options';
 
     /**
-     * @param array<ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOption> $answer_options
+     * @param array<ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties    \AnswerOption> $answer_options
      */
     public function __construct(
         private readonly Uuid $answer_input_id,
@@ -127,7 +128,7 @@ class Data
         return $clone;
     }
 
-    public function getHiddenInput(FieldFactory $ff): Group
+    public function getCarryInputs(FieldFactory $ff): Group
     {
         $inputs = [];
         if ($this->max_chars !== null) {
@@ -161,28 +162,29 @@ class Data
         return $ff->group($inputs);
     }
 
-    public function withValuesFromPost(
-        Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        string $form_input_path
-    ): Data {
-        $clone = clone $this;
-        $clone->max_chars = $this->retrieveMaxCharsFromPost($refinery, $post_wrapper, $form_input_path);
-        $clone->step_size = $this->retrieveStepSizeFromPost($refinery, $post_wrapper, $form_input_path);
-        $clone->text_matching_method = $this->retrieveTextMatchingMethodFromPost($refinery, $post_wrapper, $form_input_path);
-        $clone->min_autocomplete = $this->retrieveMinAutocompleteFromPost($refinery, $post_wrapper, $form_input_path);
-        $clone->shuffle_answer_options = $this->retrieveShuffleAnswerOptionsFromPost($refinery, $post_wrapper, $form_input_path);
-        $clone->answer_options = $this->retrieveAnswerOptionsFromPost($refinery, $post_wrapper, $form_input_path);
-        return $clone;
+    public function getFromCarryTransformation(
+        Refinery $refinery
+    ): Transformation {
+        return $refinery->custom()->transformation(
+            function (CarryWrapper $v) use ($refinery): self {
+                $clone = clone $this;
+                $clone->max_chars = $this->retrieveMaxCharsFromCarry($refinery, $v);
+                $clone->step_size = $this->retrieveStepSizeFromCarry($refinery, $v);
+                $clone->text_matching_method = $this->retrieveTextMatchingMethodFromCarry($refinery, $v);
+                $clone->min_autocomplete = $this->retrieveMinAutocompleteFromCarry($refinery, $v);
+                $clone->shuffle_answer_options = $this->retrieveShuffleAnswerOptionsFromCarry($refinery, $v);
+                $clone->answer_options = $this->retrieveAnswerOptionsFromCarry($refinery, $v);
+                return $clone;
+            }
+        );
     }
 
-    private function retrieveMaxCharsFromPost(
+    private function retrieveMaxCharsFromCarry(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        string $form_input_path
+        CarryWrapper $carry
     ): ?int {
-        return $post_wrapper->retrieve(
-            $form_input_path . '/' . self::FORM_KEY_MAX_CHARS . $this->getShortenedAnswerInputId(),
+        return $carry->retrieve(
+            self::FORM_KEY_MAX_CHARS . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->int(),
                 $refinery->always($this->getMaxChars())
@@ -190,13 +192,12 @@ class Data
         );
     }
 
-    private function retrieveStepSizeFromPost(
+    private function retrieveStepSizeFromCarry(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        string $form_input_path
+        CarryWrapper $carry
     ): ?float {
-        return $post_wrapper->retrieve(
-            $form_input_path . '/' . self::FORM_KEY_STEP_SIZE . $this->getShortenedAnswerInputId(),
+        return $carry->retrieve(
+            self::FORM_KEY_STEP_SIZE . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->float(),
                 $refinery->always($this->getStepSize())
@@ -204,13 +205,12 @@ class Data
         );
     }
 
-    private function retrieveTextMatchingMethodFromPost(
+    private function retrieveTextMatchingMethodFromCarry(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        string $form_input_path
+        CarryWrapper $carry
     ): ?TextMatchingOptions {
-        return $post_wrapper->retrieve(
-            $form_input_path . '/' . self::FORM_KEY_TEXT_MATCHING_METHOD . $this->getShortenedAnswerInputId(),
+        return $carry->retrieve(
+            self::FORM_KEY_TEXT_MATCHING_METHOD . $this->getShortenedAnswerInputId(),
             $refinery->custom()->transformation(
                 fn(?string $v): ?TextMatchingOptions => $v !== null
                     ? TextMatchingOptions::tryFrom($v)
@@ -219,13 +219,12 @@ class Data
         );
     }
 
-    private function retrieveMinAutocompleteFromPost(
+    private function retrieveMinAutocompleteFromCarry(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        string $form_input_path
+        CarryWrapper $carry
     ): ?int {
-        return $post_wrapper->retrieve(
-            $form_input_path . '/' . self::FORM_KEY_MIN_AUTOCOMPLETE . $this->getShortenedAnswerInputId(),
+        return $carry->retrieve(
+            self::FORM_KEY_MIN_AUTOCOMPLETE . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->int(),
                 $refinery->always($this->getMinAutocomplete())
@@ -233,13 +232,12 @@ class Data
         );
     }
 
-    private function retrieveShuffleAnswerOptionsFromPost(
+    private function retrieveShuffleAnswerOptionsFromCarry(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        string $form_input_path
+        CarryWrapper $carry
     ): ?bool {
-        return $post_wrapper->retrieve(
-            $form_input_path . '/' . self::FORM_KEY_SHUFFLE_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
+        return $carry->retrieve(
+            self::FORM_KEY_SHUFFLE_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->bool(),
                 $refinery->always($this->getShuffleAnswerOptions())
@@ -247,13 +245,12 @@ class Data
         );
     }
 
-    private function retrieveAnswerOptionsFromPost(
+    private function retrieveAnswerOptionsFromCarry(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        string $form_input_path
+        CarryWrapper $carry
     ): AnswerOptions {
-        return $post_wrapper->retrieve(
-            $form_input_path . '/' . self::FORM_KEY_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
+        return $carry->retrieve(
+            self::FORM_KEY_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
             $refinery->custom()->transformation(
                 fn(?string $v): AnswerOptions => $this->answer_options->withValuesFromHiddenInputValue($v)
             )
