@@ -1662,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#Nezodpovězené otázky budou odloženy na k
 assessment#:#tst_presentation_properties#:#Nastavení prezentace
 assessment#:#tst_presentation_settings_section#:#Prezentace
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###30 04 2024 new variable
-assessment#:#tst_print#:#Zobrazit přehled testu a hodnocení
 assessment#:#tst_proceed#:#Pokračovat
 assessment#:#tst_processing_time#:#Max. čas zpracování
 assessment#:#tst_processing_time_desc#:#Maximum času na zpracování testu začíná okamžikem prvního startu uživatele a končí po vypršení vložené periody času. Je-li použita tato volba, možnost přerušit test by měla být deaktivována (viz "Nastavení sekvence") protože přerušení testu nezastavuje počitadlo maximální doby zpracování.

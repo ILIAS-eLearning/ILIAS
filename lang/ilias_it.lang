@@ -1661,7 +1661,6 @@ assessment#:#tst_postpone_on_desc#:#Le domande senza risposta verranno posticipa
 assessment#:#tst_presentation_properties#:#Impostazioni della presentazione
 assessment#:#tst_presentation_settings_section#:#Presentazione
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###30 04 2024 new variable
-assessment#:#tst_print#:#Test e valutazione - Anteprima di stampa
 assessment#:#tst_proceed#:#Procedere
 assessment#:#tst_processing_time#:#Tempo massimo di esecuzione
 assessment#:#tst_processing_time_desc#:#Il conteggio del tempo massimo di elaborazione inizia nel momento in cui un utente avvia un test per la prima volta e termina dopo la scadenza del periodo di tempo immesso. Se si utilizza questa opzione, la possibilità di sospendere il test deve essere disattivato (vedere "Impostazioni di sequenza"), in quanto la sospensione della prova non ferma il conto alla rovescia del tempo di elaborazione massimo.

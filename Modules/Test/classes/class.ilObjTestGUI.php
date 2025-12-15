@@ -23,6 +23,7 @@ use ILIAS\TestQuestionPool\QuestionInfoService;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\DI\LoggingServices;
 use ILIAS\Skill\Service\SkillService;
 use ILIAS\Test\InternalRequestService;
@@ -2439,12 +2440,18 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", strip_tags($this->object->getTitle(), ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
-        $template->setVariable("PRINT_TEST", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_print")));
+        $template->setVariable(
+            "PRINT_TEST",
+            ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("print_view"))
+        );
         $template->setVariable("TXT_PRINT_DATE", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("date")));
+        $date_format = $this->user->getDateFormat();
+        $format = $this->user->getTimeFormat() === (string) ilCalendarSettings::TIME_FORMAT_12
+            ? (new DataFactory())->dateFormat()->withTime12($date_format)->toString()
+            : (new DataFactory())->dateFormat()->withTime24($date_format)->toString();
         $template->setVariable(
             "VALUE_PRINT_DATE",
-            ilDatePresentation::formatDate(new ilDateTime($print_date, IL_CAL_UNIX))
+            (new \DateTimeImmutable('now', new DateTimeZone($this->user->getTimeZone())))->format($format)
         );
         $template->setVariable(
             "TXT_MAXIMUM_POINTS",
@@ -2494,19 +2501,19 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-        $template->setVariable("TITLE", strip_tags($this->object->getTitle(), ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION));
         $template->setVariable(
             "PRINT_TEST",
             ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("review_view"))
         );
         $template->setVariable("TXT_PRINT_DATE", ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("date")));
-        $usedRelativeDates = ilDatePresentation::useRelativeDates();
-        ilDatePresentation::setUseRelativeDates(false);
+        $date_format = $this->user->getDateFormat();
+        $format = $this->user->getTimeFormat() === (string) ilCalendarSettings::TIME_FORMAT_12
+            ? (new DataFactory())->dateFormat()->withTime12($date_format)->toString()
+            : (new DataFactory())->dateFormat()->withTime24($date_format)->toString();
         $template->setVariable(
             "VALUE_PRINT_DATE",
-            ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
+            (new \DateTimeImmutable('now', new DateTimeZone($this->user->getTimeZone())))->format($format)
         );
-        ilDatePresentation::setUseRelativeDates($usedRelativeDates);
         $template->setVariable(
             "TXT_MAXIMUM_POINTS",
             ilLegacyFormElementsUtil::prepareFormOutput($this->lng->txt("tst_maximum_points"))

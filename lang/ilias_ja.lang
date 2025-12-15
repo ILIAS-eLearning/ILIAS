@@ -1662,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#ユーザが見ただけで回答しない�
 assessment#:#tst_presentation_properties#:#テスト管理:問題の振る舞い
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#以前のコードは見当たりません!
-assessment#:#tst_print#:#テストとアセスメント - 印刷表示
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#制限時間
 assessment#:#tst_processing_time_desc#:#受験者は決められた時間内でテスト受験ができます。時間はユーザが最初にテスト開始した時間からカウントされます。テスト保留時間のカウント停止はしません。

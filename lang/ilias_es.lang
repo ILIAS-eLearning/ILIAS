@@ -1664,7 +1664,6 @@ assessment#:#tst_postpone_on_desc#:#Las preguntas no contestadas se pospondrán 
 assessment#:#tst_presentation_properties#:#Configuración de presentación
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###30 04 2024 new variable
-assessment#:#tst_print#:#Vista de impresión de test y encuestas
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso
 assessment#:#tst_processing_time_desc#:#El máximo tiempo de proceso comienza cuando un usuario empieza a hacer un test y termina cuando ha pasado el período de tiempo introducido (horas, minutos, segundos)

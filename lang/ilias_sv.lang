@@ -1662,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#Frågor vars svar deltagarna ignorerar eller
 assessment#:#tst_presentation_properties#:#Utförande
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###30 04 2024 new variable
-assessment#:#tst_print#:#Test och bedömning - utskriftsvy
 assessment#:#tst_proceed#:#Fortsättning
 assessment#:#tst_processing_time#:#Begränsad bearbetningstid
 assessment#:#tst_processing_time_desc#:#Använd denna inställning för e-tester/distanstester för att ge deltagarna en fast tidsperiod för att slutföra testet. Tiden löper för varje deltagare från det ögonblick då den första testkörningen startades. "Avbryt test" stoppar inte testets varaktighet

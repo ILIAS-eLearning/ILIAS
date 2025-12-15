@@ -1662,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#Les questions sans réponse seront reportée
 assessment#:#tst_presentation_properties#:#Paramètres de Présentation
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###30 04 2024 new variable
-assessment#:#tst_print#:#Test et Evaluation - Vue imprimable
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Temps maximum
 assessment#:#tst_processing_time_desc#:#Le décompte du temps débute lorsque l'utilisateur commence le test pour la première fois et se termine après expiration du temps précisé ici. Lorsque cette option est utilisée, la possibilité de suspendre le test doit être désactivée.

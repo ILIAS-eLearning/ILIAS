@@ -1662,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#Seleção das perguntas do teste
 assessment#:#tst_presentation_properties#:#Lista de perguntas - Todas as perguntas de um banco de perguntas
 assessment#:#tst_presentation_settings_section#:#Os participantes revêm as perguntas de um banco de perguntas. As perguntas respondidas erradamente serão novamente apresentadas. As perguntas podem ser adicionadas e editadas num teste de funcionamento.
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###30 04 2024 new variable
-assessment#:#tst_print#:#Conjunto fixo de perguntas
 assessment#:#tst_proceed#:#Todos os participantes recebem o mesmo conjunto de perguntas.
 assessment#:#tst_processing_time#:#Conjunto aleatório de perguntas
 assessment#:#tst_processing_time_desc#:#Cada participante obtém um conjunto diferente de perguntas. As perguntas são selecionadas à sorte de um ou mais bancos de perguntas.
