@@ -208,6 +208,13 @@ trait System
     private bool $settingsChanged = false;
 
     /**
+     * Signature base string from last OAuth signature generated.
+     *
+     * @var bool $baseString
+     */
+    private ?string $baseString = null;
+
+    /**
      * Get the system record ID.
      *
      * @return int|null  System record ID value
