@@ -138,20 +138,15 @@ function LogoutNotification($SessionID)
     $q = "SELECT session_id, data FROM usr_session WHERE expires > 'NOW()'";
     $r = $ilDB->query($q);
 
-    while ($session_entry = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-        $user_session = unserializesession($session_entry['data']);
-
-        // Look for session with matching Shibboleth session id
-        // and then delete this ilias session
-        foreach ($user_session as $user_session_entry) {
-            if (is_array($user_session_entry)
-                && array_key_exists('shibboleth_session_id', $user_session_entry)
-                && $user_session_entry['shibboleth_session_id'] == $SessionID
-            ) {
-                // Delete this session entry
-                if (ilSession::_destroy($session_entry['session_id']) !== true) {
-                    return new SoapFault('LogoutError', 'Could not delete session entry in database.');
-                }
+    while ($session = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $session_data = unserializesession($session['data']);
+        if (is_array($session_data)
+            && array_key_exists('shibboleth_session_id', $session_data)
+            && $session_data['shibboleth_session_id'] == $SessionID
+        ) {
+            // Delete this session entry
+            if (ilSession::_destroy($session['session_id']) !== true) {
+                return new SoapFault('LogoutError', 'Could not delete session entry in database.');
             }
         }
     }
