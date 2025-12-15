@@ -32,15 +32,19 @@ class ilDclExportGUI extends ilExportGUI
     public function createExportFile(): void
     {
         $format = "";
-        if ($this->http->wrapper()->post()->has('format')) {
-            $format = $this->http->wrapper()->post()->retrieve('format', $this->refinery->kindlyTo()->string());
-        }
+        $format = $this->initFormatFromPost();
         if ($format === 'xlsx') {
             $this->checkForExportableFields();
             $this->checkForAsyncEnabled();
+            (new ilDclContentExporter($this->obj->getRefId(), null))->exportAsync();
+        } elseif ($format === 'xml') {
+            $exp = new ilExport();
+            $exp->exportObject($this->obj->getType(), $this->obj->getId());
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("exp_file_created"), true);
         }
 
-        parent::createExportFile();
+        $this->ctrl->redirect($this, "listExportFiles");
+
     }
 
     /**
