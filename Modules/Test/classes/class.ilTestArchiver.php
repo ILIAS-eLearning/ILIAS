@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\Test\InternalRequestService;
@@ -258,52 +259,46 @@ class ilTestArchiver
      * @param $pass
      * @return void
      */
-    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj){
+    public function handInParticipantUploadedResults($active_fi, $pass, $tst_obj)
+    {
         $questions = $tst_obj->getQuestionsOfPass($active_fi, $pass);
         foreach ($questions as $question) {
             $question = $tst_obj->getQuestionDataset($question['question_fi']);
-            if ($question->type_tag === 'assFileUpload') {
-                $this->ensureTestArchiveIsAvailable();
-                $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-                $this->ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass);
-                $pass_material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
-                $archive_folder = $pass_material_directory . self::DIR_SEP . $question->question_id . self::DIR_SEP;
-                if (!file_exists($archive_folder)) {
-                    mkdir($archive_folder, 0777, true);
-                }
-                // TODO old Filesystem remove on ILIAS 10
-                $local_folder = CLIENT_WEB_DIR . '/assessment/tst_' . $tst_obj->test_id . self::DIR_SEP . $active_fi . self::DIR_SEP . $question->question_id . '/files/';
-                if (file_exists($local_folder)) {
-                    $folder_content = scandir($local_folder);
-                    $folder_content = array_diff($folder_content, array('.', '..'));
-                    foreach ($folder_content as $file_name) {
-                        if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)){
-                            if ($active_fi == intval($matches[1]) && $pass == $matches[2]){
-                                $local_file= $local_folder . $file_name;
-                                $target_destination = $archive_folder . $file_name;
-                                copy($local_file, $target_destination);
-                                $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $target_destination);
-                            }
+            if ($question->type_tag !== 'assFileUpload') {
+                continue;
+            }
+
+            $this->ensureTestArchiveIsAvailable();
+            $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
+            $this->ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass);
+            $pass_material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
+            $archive_folder = $pass_material_directory . self::DIR_SEP . $question->question_id . self::DIR_SEP;
+            if (!file_exists($archive_folder)) {
+                mkdir($archive_folder, 0777, true);
+            }
+            // TODO old Filesystem remove on ILIAS 10
+            $local_folder = CLIENT_WEB_DIR . '/assessment/tst_' . $tst_obj->test_id . self::DIR_SEP . $active_fi . self::DIR_SEP . $question->question_id . '/files/';
+            if (file_exists($local_folder)) {
+                $folder_content = scandir($local_folder);
+                $folder_content = array_diff($folder_content, array('.', '..'));
+                foreach ($folder_content as $file_name) {
+                    if (preg_match('/file_(\d+)_(\d+)_(\d+)/', $file_name, $matches)) {
+                        if ($active_fi == intval($matches[1]) && $pass == $matches[2]) {
+                            $local_file = $local_folder . $file_name;
+                            $target_destination = $archive_folder . $file_name;
+                            copy($local_file, $target_destination);
+                            $this->logArchivingProcess(date(self::LOG_DTSGROUP_FORMAT) . self::LOG_ADDITION_STRING . $target_destination);
                         }
                     }
                 }
-                // IRSS
-                $resource_id = $tst_obj->getTextAnswer($active_fi, $question->question_id, $pass);
-                if ($resource_id == ''){
-                    continue;
-                }
-                $irss_unique_id = $this->irss->manage()->find($resource_id);
-                if ($irss_unique_id != null){
-                    $resource = $this->irss->manage()->getResource($irss_unique_id);
-                    $information = $resource->getCurrentRevision()->getInformation();
-                    $stream = $this->irss->consume()->stream($irss_unique_id);
-                    // this feels unnecessary..
-                    $file_stream = fopen($stream->getStream()->getMetadata('uri'), 'r');
-                    $file_content = stream_get_contents($file_stream);
-                    fclose($file_stream);
-                    $target_destination = $archive_folder . $information->getTitle();
-                    file_put_contents($target_destination, $file_content);
-                }
+            }
+            // IRSS
+            $uploaded_files = assQuestion::instantiateQuestion($question->question_id)->getUploadedFiles($active_fi, $pass);
+            foreach ($uploaded_files as $uploaded_file) {
+                $this->addUploadedFilesToExport(
+                    $this->irss->manage()->find($uploaded_file['value1']),
+                    $archive_folder
+                );
             }
         }
     }
@@ -857,5 +852,23 @@ class ilTestArchiver
             }
         }
         return $filecount;
+    }
+
+    private function addUploadedFilesToExport(
+        ?ResourceIdentification $resource_id,
+        string $archive_folder
+    ): void {
+        if ($resource_id === null) {
+            return;
+        }
+
+        $information = $this->irss->manage()->getResource($resource_id)
+            ->getCurrentRevision()->getInformation();
+        $stream = $this->irss->consume()->stream($resource_id)->getStream();
+        file_put_contents(
+            $archive_folder . $information->getTitle(),
+            $stream->getContents()
+        );
+        $stream->close();
     }
 }
