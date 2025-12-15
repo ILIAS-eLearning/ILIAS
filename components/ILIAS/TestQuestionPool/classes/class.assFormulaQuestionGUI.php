@@ -614,11 +614,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
                 $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
                 $int_precision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
-                if ($decimal_spots instanceof ilFormPropertyGUI && $decimal_spots->getValue() === 0) {
-                    $txt = !$variable->isIntPrecisionValid($int_precision?->getValue(), $min_range_value, $max_range_value)
-                        ? 'err_divider_too_big_specific'
-                        : 'err_division';
-                    $int_precision?->setAlert($this->lng->txt($txt));
+                if (
+                    $decimal_spots instanceof ilFormPropertyGUI
+                    && $decimal_spots->getValue() === 0.0
+                    && !$variable->isIntPrecisionValid($int_precision?->getValue(), $min_range_value, $max_range_value)
+                ) {
+                    $int_precision?->setAlert($this->lng->txt('err_division'));
                     $custom_errors = true;
                 }
             }
