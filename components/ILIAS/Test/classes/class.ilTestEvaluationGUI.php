@@ -789,7 +789,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
-            TestDIC::dic()['participant.repository']->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName()
+            TestDIC::dic()['participant.repository']->getParticipantByActiveId($this->object->getTestId(), $active_id)->getDisplayName($this->lng)
         );
     }
 

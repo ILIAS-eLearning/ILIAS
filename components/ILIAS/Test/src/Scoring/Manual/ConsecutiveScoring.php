@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Language\Language;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -38,6 +39,7 @@ class ConsecutiveScoring
         private \ilObjUser $current_user,
         private readonly \ilTestAccess $test_access,
         private readonly ParticipantRepository $participant_repository,
+        private readonly Language $lng,
     ) {
     }
 
@@ -100,7 +102,7 @@ class ConsecutiveScoring
         $importname = $participant->getImportname();
         $user_id = $participant->getUserId();
         if ($user_id === ANONYMOUS_USER_ID && $importname !== null && $importname !== '') {
-            return $participant->getDisplayName();
+            return $participant->getDisplayName($this->lng);
         }
 
         $user_id = (string) $user_id;

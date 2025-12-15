@@ -153,7 +153,7 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
             'rank' => "{$row['rank']}.",
             'participant' => $this->test_obj->isHighscoreAnon() && (int) $row['usr_id'] !== $this->user->getId()
                 ? '-, -'
-                : $this->participant_repository->getParticipantByActiveId($this->test_obj->getTestId(), $row['active_id'])->getDisplayName(),
+                : $this->participant_repository->getParticipantByActiveId($this->test_obj->getTestId(), $row['active_id'])->getDisplayName($this->lng),
             'is_actor' => isset($row['usr_id']) && ((int) $row['usr_id'] === $this->user->getId())
         ];
     }

@@ -26,8 +26,7 @@ use ILIAS\Data\Range;
 class ParticipantRepository
 {
     public function __construct(
-        private readonly \ilDBInterface $database,
-        private readonly \ilLanguage $lng
+        private readonly \ilDBInterface $database
     ) {
     }
 
@@ -343,8 +342,7 @@ class ParticipantRepository
             $row['unfinished_attempts'] === 1,
             $row['first_access'] === null ? null : new \DateTimeImmutable($row['first_access']),
             $row['last_access'] === null ? null : new \DateTimeImmutable($row['last_access']),
-            (bool) $row['scoring_finalized'],
-            $this->lng
+            (bool) $row['scoring_finalized']
         );
     }
 

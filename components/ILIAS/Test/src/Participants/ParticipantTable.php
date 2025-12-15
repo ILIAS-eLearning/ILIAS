@@ -108,7 +108,7 @@ class ParticipantTable implements DataRetrieval
             $total_duration = $record->getTotalDuration($processing_time);
             $status_of_attempt = $record->getAttemptOverviewInformation()?->getStatusOfAttempt() ?? StatusOfAttempt::NOT_YET_STARTED;
             $row = [
-                'name' => $record->getDisplayName(),
+                'name' => $record->getDisplayName($this->lng),
                 'login' => $record->getLogin(),
                 'matriculation' => $record->getMatriculation(),
                 'total_time_on_task' => $record->getAttemptOverviewInformation()?->getHumanReadableTotalTimeOnTask() ?? '',
