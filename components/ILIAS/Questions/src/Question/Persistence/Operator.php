@@ -25,7 +25,7 @@ enum Operator: string
     case Equal = '=';
     case Unequal = '<>';
     case Greater = '>';
-    case Less = '>';
+    case Less = '<';
     case GreaterOrEqual = '>=';
     case LessOrEqual = '<=';
     case In = 'IN';
@@ -42,9 +42,9 @@ enum Operator: string
         }
 
         return match($this) {
-            self::In => "{$left->toColumnString()} {$this->value} ({$placeholders})",
-            self::Between => "{$left->toColumnString()} {$this->value} %s AND %s",
-            default => "{$left->toColumnString()} {$this->value} %s"
+            self::In => "{$left->getColumnString()} {$this->value} ({$placeholders})",
+            self::Between => "{$left->getColumnString()} {$this->value} %s AND %s",
+            default => "{$left->getColumnString()} {$this->value} %s"
         };
     }
 }

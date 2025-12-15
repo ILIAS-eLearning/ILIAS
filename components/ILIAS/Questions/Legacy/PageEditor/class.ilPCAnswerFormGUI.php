@@ -18,8 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Questions\Legacy\LocalDIC;
-use ILIAS\Questions\Presentation\Edit;
+use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
@@ -34,18 +33,18 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
     private readonly Edit $edit_view;
 
     public function __construct(
-        ilPageObject $a_pg_obj,
-        ?ilPageContent $a_content_obj,
-        string $a_hier_id,
-        string $a_pc_id = ""
+        ilPageObject $pg_obj,
+        ?ilPageContent $content_obj,
+        string $hier_id,
+        string $pc_id = ''
     ) {
         global $DIC;
         $this->tabs = $DIC['ilTabs'];
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->data_factory = new DataFactory();
-        $this->edit_view = LocalDIC::dic()[Edit::class];
 
-        parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+        parent::__construct($pg_obj, $content_obj, $hier_id, $pc_id);
+        $this->edit_view = $this->pg_obj->getEditView();
     }
 
     public function executeCommand()
@@ -57,28 +56,32 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
     public function insertCmd(): void
     {
         $this->setInsertTabs();
+        $content_obj = new ilPCAnswerForm($this->pg_obj);
+        $content_obj->setHierId($this->hier_id);
         $this->tpl->setContent(
-            $this->ui_renderer->render(
-                $this->edit_view->createAnswerForm(
-                    $this->data_factory->uri(
-                        ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'insert')
-                    )
-                )
-            )
+            $this->edit_view->createAnswerForm(
+                $this->data_factory->uri(
+                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'insert')
+                ),
+                $this->pg_obj->getQuestion(),
+                $content_obj
+            )->render($this->ui_renderer)
         );
     }
 
     public function editCmd(): void
     {
         $this->setInsertTabs();
+        $content_obj = new ilPCAnswerForm($this->pg_obj);
+        $content_obj->setHierId($this->hier_id);
         $this->tpl->setContent(
-            $this->ui_renderer->render(
-                $this->edit_view->editAnswerForm(
-                    $this->data_factory->uri(
-                        ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'insert')
-                    )
-                )
-            )
+            $this->edit_view->editAnswerForm(
+                $this->data_factory->uri(
+                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'insert')
+                ),
+                $this->pg_obj->getQuestion(),
+                $content_obj
+            )->render($this->ui_renderer)
         );
     }
 

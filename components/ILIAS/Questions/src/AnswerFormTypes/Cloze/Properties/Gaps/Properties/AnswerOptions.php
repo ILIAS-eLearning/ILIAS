@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties;
 
 use ILIAS\Questions\Question\Persistence\ManipulateQuery;
 use ILIAS\Refinery\Factory as Refinery;

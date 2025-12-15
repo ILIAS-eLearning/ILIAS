@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Data;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -47,22 +47,22 @@ class Numeric extends Type
         return 'numeric';
     }
 
-    public function getEditAnswerOptionsInputs(Data $data): array
+    public function getEditAnswerOptionsInputs(Properties $properties): array
     {
-        $answer_option = $data->getAnswerOptions()->getAnswerOptionForPositionOrNew(0);
+        $answer_option = $properties->getAnswerOptions()->getAnswerOptionForPositionOrNew(0);
         $ff = $this->ui_factory->input()->field();
         return [
             'lower_limit' => $ff->numeric($this->lng->txt('lower_limit'))
-                ->withStepSize($data->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withStepSize($properties->getStepSize() ?? self::DEFAULT_STEP_SIZE)
                 ->withRequired(true)
                 ->withValue($answer_option->getLowerLimit()),
             'upper_limit' => $ff->numeric($this->lng->txt('upper_limit'))
-                ->withStepSize($data->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withStepSize($properties->getStepSize() ?? self::DEFAULT_STEP_SIZE)
                 ->withValue($answer_option->getUpperLimit()),
             'step_size' => $ff->numeric($this->lng->txt('step_size'))
                 ->withStepSize(0.000001)
                 ->withRequired(true)
-                ->withValue($data->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withValue($properties->getStepSize() ?? self::DEFAULT_STEP_SIZE)
         ];
     }
 
@@ -108,12 +108,12 @@ class Numeric extends Type
 
     public function getBuildGapTransformation(Gap $gap): Transformation
     {
-        $data = $gap->getData();
+        $properties = $gap->getProperties();
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withData(
-                $data->withAnswerOptions(
-                    $data->getAnswerOptions()->withAnswerOptions([
-                        $data->getAnswerOptions()->getAnswerOptionForPositionOrNew(0)
+            fn(array $vs): Gap => $gap->withProperties(
+                $properties->withAnswerOptions(
+                    $properties->getAnswerOptions()->withAnswerOptions([
+                        $properties->getAnswerOptions()->getAnswerOptionForPositionOrNew(0)
                             ->withLowerLimit($vs['lower_limit'])
                             ->withUpperLimit($vs['upper_limit'])
                         ])

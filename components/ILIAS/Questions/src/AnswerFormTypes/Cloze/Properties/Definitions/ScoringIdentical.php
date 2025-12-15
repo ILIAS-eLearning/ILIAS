@@ -30,6 +30,12 @@ enum ScoringIdentical: string
     case ScoreAll = 'score_all';
     case OnlyScoreDistinct = 'score_distinct';
 
+    public function getTranslatedOptionName(
+        Language $lng
+    ): string {
+        return $lng->txt($this->value);
+    }
+
     public static function buildInput(
         Language $lng,
         FieldFactory $ff,

@@ -30,6 +30,6 @@ class Order
 
     public function toSql(): string
     {
-        return "{$this->column->toColumnString()} {$this->direction->value}";
+        return "{$this->column->getColumnString()} {$this->direction->value}";
     }
 }

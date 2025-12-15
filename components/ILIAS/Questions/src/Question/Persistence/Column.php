@@ -23,18 +23,18 @@ namespace ILIAS\Questions\Question\Persistence;
 class Column
 {
     public function __construct(
-        private readonly string $table,
+        private readonly Table $table,
         private readonly string $column
     ) {
     }
 
-    public function getTable(): string
+    public function getTableName(): string
     {
-        return $this->table;
+        return $this->table->getName();
     }
 
-    public function toColumnString(): string
+    public function getColumnString(): string
     {
-        return "{$this->table}.{$this->column}";
+        return "{$this->table->getName()}.{$this->column}";
     }
 }

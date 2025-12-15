@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Data;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
@@ -34,7 +34,7 @@ abstract class Type
     }
 
     abstract public function getIdentifier(): string;
-    abstract public function getEditAnswerOptionsInputs(Data $data): array;
+    abstract public function getEditAnswerOptionsInputs(Properties $data): array;
     abstract public function getEditAnswerOptionsSectionConstraint(): ?Constraint;
     abstract public function getEditPointsInputs(AnswerOptions $answer_options): array;
     abstract public function getEditPointsSectionConstraint(): ?Constraint;
@@ -43,11 +43,11 @@ abstract class Type
 
     public function getAddPointsTransformation(Gap $gap): Transformation
     {
-        $data = $gap->getData();
+        $properties = $gap->getProperties();
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withData(
-                $data->withAnswerOptions(
-                    $data->getAnswerOptions()
+            fn(array $vs): Gap => $gap->withProperties(
+                $properties->withAnswerOptions(
+                    $properties->getAnswerOptions()
                         ->withAnswerOptionsWithAddedPointsFromForm($this->refinery, $vs)
                 )
             )

@@ -18,19 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties;
 
 use ILIAS\Questions\Question\Persistence\ManipulateQuery;
 use ILIAS\Data\UUID\Uuid;
 
 class AnswerOption
 {
-    public const string KEY_ID = 'id';
-    public const string KEY_POSITION = 'position';
-    public const string KEY_TEXT_VALUE = 'text_value';
-    public const string KEY_LOWER_LIMIT = 'lower_limit';
-    public const string KEY_UPPER_LIMIT = 'upper_limit';
-    public const string KEY_AVAILABLE_POINTS = 'points';
+    public const string FORM_KEY_ID = 'id';
+    public const string FORM_KEY_POSITION = 'position';
+    public const string FORM_KEY_TEXT_VALUE = 'text_value';
+    public const string FORM_KEY_LOWER_LIMIT = 'lower_limit';
+    public const string FORM_KEY_UPPER_LIMIT = 'upper_limit';
+    public const string FORM_KEY_AVAILABLE_POINTS = 'points';
 
     public function __construct(
         private readonly Uuid $answer_option_id,
