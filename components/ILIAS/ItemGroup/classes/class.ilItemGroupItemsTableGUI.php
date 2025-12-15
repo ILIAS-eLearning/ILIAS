@@ -26,7 +26,7 @@ use ILIAS\ItemGroup\InternalGUIService;
 class ilItemGroupItemsTableGUI extends ilTable2GUI
 {
     protected InternalGUIService $gui;
-    protected array $items;
+    protected array $valid_items;
     protected ilItemGroupItems $item_group_items;
     protected ilTree $tree;
     protected ilObjectDefinition $obj_def;
@@ -50,7 +50,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $this->obj_def = $objDefinition;
 
         $this->item_group_items = new ilItemGroupItems($a_parent_obj->getObject()->getRefId());
-        $this->items = $this->item_group_items->getItems();
+        $this->valid_items = $this->item_group_items->getValidItems();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setLimit(9999);
@@ -75,7 +75,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $items = $this->item_group_items->getAssignableItems();
 
         foreach ($items as $item) {
-            $item["sorthash"] = (int) (!in_array($item['ref_id'], $this->items)) . $item["title"];
+            $item["sorthash"] = (int) (!in_array($item['ref_id'], $this->valid_items)) . $item["title"];
             $materials[] = $item;
         }
 
@@ -101,7 +101,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
             "ilIcon"
         ));
 
-        if (in_array($a_set["child"], $this->items)) {
+        if (in_array($a_set["child"], $this->valid_items)) {
             $i = $f->symbol()->icon()->custom(
                 ilUtil::getImagePath("standard/icon_ok.svg"),
                 $this->lng->txt("yes")
