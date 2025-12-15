@@ -169,7 +169,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="il-filter enabled" id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
+    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get"  data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
 		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">
@@ -305,7 +305,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-filter disabled" id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
+    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get"  data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
 		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">
@@ -441,7 +441,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-filter enabled" id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
+    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get"  data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
 		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">
@@ -577,7 +577,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-filter disabled" id="id_1">
-    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get" novalidate="novalidate" data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
+    <form class="il-standard-form form-horizontal" enctype="multipart/form-data" method="get"  data-cmd-expand="#" data-cmd-collapse="#" data-cmd-apply="#" data-cmd-toggleOn="#" data-cmd-toggleOff="#">
         <div class="il-filter-bar">
 		<div class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section">
 			<button class="btn btn-bulky" data-action="" id="id_2">

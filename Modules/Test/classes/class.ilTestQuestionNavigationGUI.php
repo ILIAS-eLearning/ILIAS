@@ -410,7 +410,11 @@ class ilTestQuestionNavigationGUI
         $actions[] = $this->ui_factory->button()->shy(
             $this->lng->txt('tst_revert_changes'),
             $this->getRevertChangesLinkTarget()
-        )->withUnavailableAction(!$this->getRevertChangesLinkTarget());
+        )
+        ->withUnavailableAction(!$this->getRevertChangesLinkTarget())
+        ->withAdditionalOnLoadCode(
+            static fn(string $id): string => "document.getElementById('{$id}').classList.add('ilTestRevertChangesAction')"
+        );
 
         $actions[] = $this->ui_factory->button()->shy(
             $this->lng->txt('discard_answer'),

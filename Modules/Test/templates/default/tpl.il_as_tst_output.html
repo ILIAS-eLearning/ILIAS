@@ -10,10 +10,7 @@
 			style="clear: both;" {ENCTYPE} action="{FORMACTION}" <!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"
 			<!-- END onsubmit -->>
 			<!-- BEGIN enableprocessingtime -->
-			<div class="ilTstWorkingFormBlock_WorkingTime alert alert-info">
-				<span class="ilTstWorkingFormInfo_UserWorkingTime">{USER_WORKING_TIME}</span>
-				<span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">{USER_REMAINING_TIME}</span>
-			</div>
+            {USER_WORKING_TIME_MESSAGE_BOX}
 			<!-- END enableprocessingtime -->
 			<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 			<!-- BEGIN test_nav_toolbar -->{TEST_NAV_TOOLBAR}<!-- END test_nav_toolbar -->

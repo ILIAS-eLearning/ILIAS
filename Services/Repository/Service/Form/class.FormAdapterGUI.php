@@ -450,8 +450,9 @@ class FormAdapterGUI
             $this->upload_handler[$key],
             $title,
             $description
-        )
-            ->withMaxFileSize((int) \ilFileUtils::getPhpUploadSizeLimitInBytes());
+        );
+        // not necessary, see https://github.com/ILIAS-eLearning/ILIAS/pull/9314
+        //->withMaxFileSize((int) \ilFileUtils::getPhpUploadSizeLimitInBytes());
         if (!is_null($max_files)) {
             $field = $field->withMaxFiles($max_files);
         }

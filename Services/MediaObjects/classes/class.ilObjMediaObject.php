@@ -23,6 +23,10 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
 use ILIAS\MediaObjects\InternalDomainService;
+use ILIAS\Filesystem\Util\Convert\Images;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\Filesystem\Util\Convert\ImageConverter;
+use ILIAS\Filesystem\Util\Convert\ImageConversionOptions;
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
@@ -33,7 +37,8 @@ define("IL_MODE_FULL", 3);
  */
 class ilObjMediaObject extends ilObject
 {
-    private const DEFAULT_PREVIEW_SIZE = 80;
+    private const DEFAULT_PREVIEW_SIZE = 400;
+    private const DEFAULT_THUMB_SIZE = 80;
     protected InternalDomainService $domain;
     protected ilObjUser $user;
     public bool $is_alias;
@@ -568,7 +573,7 @@ class ilObjMediaObject extends ilObject
                         $location = ilWACSignedPath::signFile($this->getDataDirectory() . "/" . $item->getLocation());
                         $location = substr($location, strrpos($location, "/") + 1);
                     } else {
-                        $location = $item->getLocation();
+                        $location = trim($item->getLocation());
                         if ($item->getLocationType() != "LocalFile") {  //#25941
                             $location = ilUtil::secureUrl($location); //#23518
                         }
@@ -641,7 +646,6 @@ class ilObjMediaObject extends ilObject
 
                 // full xml for export
             case IL_MODE_FULL:
-
                 //				$meta = $this->getMetaData();
                 $xml = "<MediaObject>";
 
@@ -829,7 +833,7 @@ class ilObjMediaObject extends ilObject
     public static function _getMobsOfObject(
         string $a_type,
         int $a_id,
-        int $a_usage_hist_nr = 0,
+        int|false $a_usage_hist_nr = 0,
         string $a_lang = "-"
     ): array {
         global $DIC;
@@ -841,7 +845,7 @@ class ilObjMediaObject extends ilObject
             $lstr = " AND usage_lang = " . $ilDB->quote($a_lang, "text");
         }
         $hist_str = "";
-        if ($a_usage_hist_nr > 0) {
+        if ($a_usage_hist_nr !== false) {   // see #45933, restore ILIAS 7 behaviour
             $hist_str = " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         }
 
@@ -1228,15 +1232,13 @@ class ilObjMediaObject extends ilObject
         $target_file = $file_path["dirname"] . "/" .
             $location;
 
-        $returned_target_file = $DIC->fileConverters()
-            ->legacyImages()
-            ->resizeToFixedSize(
-                $a_file,
-                $target_file,
-                $a_width,
-                $a_height,
-                $a_constrain_prop
-            );
+        $returned_target_file = self::resizeToFixedSize(
+            $a_file,
+            $target_file,
+            $a_width,
+            $a_height,
+            $a_constrain_prop
+        );
 
         if ($returned_target_file !== $target_file) {
             throw new RuntimeException('Could not resize image');
@@ -1487,7 +1489,7 @@ class ilObjMediaObject extends ilObject
         string $a_file,
         string $a_thumbname,
     ): void {
-        $size = self::DEFAULT_PREVIEW_SIZE;
+        $size = self::DEFAULT_THUMB_SIZE;
         $m_dir = ilObjMediaObject::_getDirectory($this->getId());
         $t_dir = ilObjMediaObject::_getThumbnailDirectory($this->getId());
         $file = $m_dir . "/" . $a_file;
@@ -1643,7 +1645,7 @@ class ilObjMediaObject extends ilObject
                     $item->getLocation();
                 if (is_file($file)) {
                     $logger->debug("Calling image converter.");
-                    $this->image_converter->resizeToFixedSize(
+                    self::resizeToFixedSize(
                         $file,
                         $dir . "/mob_vpreview.png",
                         $a_width,
@@ -1693,6 +1695,53 @@ class ilObjMediaObject extends ilObject
             }
         }
     }
+
+    public static function resizeToFixedSize(
+        string $path_to_original,
+        string $path_to_output,
+        int $width,
+        int $height,
+        bool $crop_if_true_and_resize_if_false = true,
+        string $output_format = ImageOutputOptions::FORMAT_KEEP,
+        int $image_quality = 60
+    ): string {
+        $output_options = (new ImageOutputOptions())
+            ->withQuality($image_quality)
+            ->withFormat($output_format);
+        $conversion_options = (new ImageConversionOptions())
+            ->withMakeTemporaryFiles(false)
+            ->withThrowOnError(false)
+            ->withBackgroundColor('#FFFFFF');
+
+        $converter = new ImageConverter(
+            $conversion_options
+                ->withWidth($width)
+                ->withHeight($height)
+                ->withCrop($crop_if_true_and_resize_if_false)
+                ->withKeepAspectRatio(true),
+            $output_options,
+            Streams::ofResource(fopen($path_to_original, 'rb'))
+        );
+
+        return self::storeStream($converter, $path_to_output);
+    }
+
+    private static function storeStream(ImageConverter $converter, string $path): string
+    {
+        if (!$converter->isOK()) {
+            throw $converter->getThrowableIfAny() ?? new \RuntimeException('Could not create requested image');
+        }
+
+        $stream = $converter->getStream();
+
+        $stream->rewind();
+        if (file_put_contents($path, $stream->getContents()) === false) {
+            throw new \RuntimeException('Could not store image');
+        }
+        return $path;
+    }
+
+
 
     public function getVideoPreviewPic(
         bool $a_filename_only = false
@@ -1851,12 +1900,58 @@ class ilObjMediaObject extends ilObject
                 $thumbnail_url = $meta["thumbnail_url"] ?? "";
                 $url = parse_url($thumbnail_url);
                 if ($thumbnail_url !== "") {
+                    $mob_logger = ilLoggerFactory::getLogger('mob');
                     $file = basename($url["path"]);
-                    copy(
-                        $meta["thumbnail_url"],
-                        ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
-                        pathinfo($file, PATHINFO_EXTENSION)
-                    );
+
+                    try {
+                        $mob_logger->debug('Trying to fetch thumbnail from YouTube: {thumbnail_url}', [
+                            'thumbnail_url' => $thumbnail_url,
+                        ]);
+
+                        $curl = new ilCurlConnection($thumbnail_url);
+                        $curl->init(true);
+                        $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+                        $curl->setOpt(CURLOPT_VERBOSE, true);
+                        $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+                        $curl->setOpt(CURLOPT_TIMEOUT_MS, 5000);
+                        $curl->setOpt(CURLOPT_TIMEOUT, 5);
+                        $curl->setOpt(CURLOPT_FAILONERROR, true);
+                        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, 1);
+                        $curl->setOpt(CURLOPT_SSL_VERIFYHOST, 2);
+
+                        $response = $curl->exec();
+                        $info = $curl->getInfo();
+
+                        $mob_logger->debug('cURL Info: {info}', [
+                            'info' => print_r($info, true)
+                        ]);
+
+                        $status = $info['http_code'] ?? '';
+                        if ((int) $status === 200) {
+                            $mob_logger->debug('Successfully fetched preview file from YouTube: Received {bytes} bytes', [
+                                'bytes' => (string) strlen($response),
+                            ]);
+
+                            file_put_contents(
+                                self::_getDirectory(
+                                    $this->getId()
+                                ) . '/mob_vpreview.' . pathinfo(
+                                    $file,
+                                    PATHINFO_EXTENSION
+                                ),
+                                $response
+                            );
+                        } else {
+                            $mob_logger->error('Could not fetch thumbnail from YouTube: {thumbnail_url}', [
+                                'thumbnail_url' => $thumbnail_url,
+                            ]);
+                        }
+                    } catch (Exception $e) {
+                        $mob_logger->error('Could not fetch thumbnail from YouTube: {message}', [
+                            'message' => $e->getMessage(),
+                        ]);
+                        $mob_logger->error($e->getTraceAsString());
+                    }
                 }
             }
         }

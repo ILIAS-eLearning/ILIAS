@@ -18,11 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\Objective;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Config;
+use ILIAS\Setup\ObjectiveCollection;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -39,22 +41,26 @@ class ilWOPISetupAgent implements Agent
         throw new \BadMethodCallException('Not implemented');
     }
 
-    public function getInstallObjective(Config $config = null): Objective
+    public function getInstallObjective(?Config $config = null): Objective
     {
         return new \ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB90());
     }
 
-    public function getUpdateObjective(Config $config = null): Objective
+    public function getUpdateObjective(?Config $config = null): Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB90());
+        return new ObjectiveCollection(
+            "WOPI Updates",
+            true,
+            new ilDatabaseUpdateStepsExecutedObjective(new ilWOPIDB90()),
+        );
     }
 
     public function getBuildArtifactObjective(): Objective
     {
-        return new Objective\NullObjective();
+        return new NullObjective();
     }
 
-    public function getStatusObjective(Metrics\Storage $storage): Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilWOPIDB90());
     }

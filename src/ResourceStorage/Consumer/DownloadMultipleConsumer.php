@@ -121,4 +121,10 @@ class DownloadMultipleConsumer implements DeliveryConsumer
         $this->zip_file_name = $file_name;
         return $this;
     }
+
+    public function disableCaching(): DeliveryConsumer
+    {
+        return $this;
+    }
+
 }

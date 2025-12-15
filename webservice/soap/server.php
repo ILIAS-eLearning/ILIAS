@@ -18,10 +18,11 @@ const IL_SOAPMODE_INTERNAL = 1;
 
 // php7 only SOAPMODE_INTERNAL
 const IL_SOAPMODE = IL_SOAPMODE_INTERNAL;
-include_once "Services/Context/classes/class.ilContext.php";
+
+require_once 'libs/composer/vendor/autoload.php';
+
 ilContext::init(ilContext::CONTEXT_SOAP);
 
-require_once("./Services/Init/classes/class.ilIniFile.php");
 $ilIliasIniFile = new ilIniFile("./ilias.ini.php");
 $ilIliasIniFile->read();
 
@@ -37,7 +38,6 @@ if ($ilIliasIniFile->readVariable('https', 'auto_https_detect_enabled')) {
 
 if (IL_SOAPMODE === IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") === 0) {
     // This is a SOAP request
-    include_once('webservice/soap/include/inc.soap_functions.php');
     $uri = ilSoapFunctions::buildHTTPPath() . '/webservice/soap/server.php';
     if (isset($_GET['client_id'])) {
         $uri .= '?client_id=' . $_GET['client_id'];

@@ -286,7 +286,7 @@ class VideoViewGUI
 
             $item_tpl = new \ilTemplate("tpl.playlist_item.html", true, true, "Modules/MediaCast/Video");
             $item_tpl->setVariable("TITLE", " ");
-            $item_content = str_replace("\n", "", $item_tpl->get());
+            $item_content = str_replace(["\n", "\r"], "", $item_tpl->get());
 
             $item = $factory->item()->standard("#video-title#")
                     ->withLeadImage(
@@ -294,7 +294,7 @@ class VideoViewGUI
                     );
 
             $item_content = $renderer->render($item);
-            $item_content = str_replace("\n", "", $item_content);
+            $item_content = str_replace(["\n", "\r"], "", $item_content);
 
             $init_videos = $this->media_cast->getNumberInitialVideos() > 0
                 ? $this->media_cast->getNumberInitialVideos()

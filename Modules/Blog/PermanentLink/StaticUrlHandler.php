@@ -45,7 +45,6 @@ class StaticURLHandler extends BaseHandler implements Handler
 
         $id = $request->getReferenceId()?->toInt() ?? 0;
         $additional_params = $request->getAdditionalParameters() ?? [];
-
         $wsp = count($additional_params) > 0 &&
             $additional_params[count($additional_params) - 1] === "wsp";
         $posting_id = 0;
@@ -53,13 +52,12 @@ class StaticURLHandler extends BaseHandler implements Handler
             $posting_id = (int) $additional_params[0];
         }
         $edit = false;
-        if ($posting_id > 0 && ($additional_params[1] ?? "" === "edit")) {
+        if ($posting_id > 0 && (($additional_params[1] ?? "") === "edit")) {
             $edit = true;
         }
         if ($posting_id > 0) {
             $ctrl->setParameterByClass(\ilBlogPostingGUI::class, "blpg", $posting_id);
         }
-
         if ($wsp) {
             $ctrl->setParameterByClass(\ilObjBlogGUI::class, "wsp_id", $id);
             if ($posting_id > 0) {

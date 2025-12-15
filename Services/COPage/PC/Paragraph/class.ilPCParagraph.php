@@ -1719,7 +1719,7 @@ class ilPCParagraph extends ilPageContent
                                     ? ilStr::subStr($node_val, $pos - 1, 1)
                                     : "";
                                 $a = ilStr::subStr($node_val, $pos + ilStr::strLen($t["term"]), 1);
-                                if ((in_array($b, $valid_limiters) || htmlentities($b, null, 'utf-8') == "&nbsp;") && in_array($a, $valid_limiters)) {
+                                if ((in_array($b, $valid_limiters) || htmlentities($b, 0, 'utf-8') == "&nbsp;") && in_array($a, $valid_limiters)) {
                                     $mid = '[iln term="' . $t["id"] . '"]' .
                                         ilStr::subStr($node_val, $pos, ilStr::strLen($t["term"])) .
                                         "[/iln]";

@@ -134,13 +134,13 @@ class ilLanguageTableGUI extends ilTable2GUI
         if ($a_set["desc"] !== "not_installed") {
             $this->tpl->setVariable(
                 "LAST_REFRESH",
-                ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"], IL_CAL_DATETIME))
+                ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"], IL_CAL_DATETIME, 'UTC'))
             );
 
             $last_change = ilObjLanguage::_getLastLocalChange($a_set["key"]);
             $this->tpl->setVariable(
                 "LAST_CHANGE",
-                ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME))
+                ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME, 'UTC'))
             );
         }
 

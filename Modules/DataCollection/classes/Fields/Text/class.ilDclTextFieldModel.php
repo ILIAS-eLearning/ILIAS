@@ -38,18 +38,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    public function getRecordQuerySortObject(
-        string $direction = "asc",
-        bool $sort_by_status = false
-    ): ilDclRecordQueryObject {
-        // use custom record sorting for url-fields
-        if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-            return new ilDclTextRecordQueryObject();
-        } else {
-            return parent::getRecordQuerySortObject($direction, $sort_by_status);
-        }
-    }
-
     public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
     {
         if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -84,7 +72,6 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
         $return = true;
-        // Additional check for text fields: The length property should be max 200 if the textarea option is not set
         if ((int) $form->getInput('prop_' . ilDclBaseFieldModel::PROP_LENGTH) > 200 && !$form->getInput('prop_' . ilDclBaseFieldModel::PROP_TEXTAREA)) {
             $inputObj = $form->getItemByPostVar('prop_' . ilDclBaseFieldModel::PROP_LENGTH);
             $inputObj->setAlert($this->lng->txt("form_msg_value_too_high"));
@@ -131,7 +118,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 throw new ilDclInputException(ilDclInputException::REGEX_CONFIG_EXCEPTION);
             }
 
-            if ($preg_match == false) {
+            if ($preg_match === false) {
                 throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
             }
         }

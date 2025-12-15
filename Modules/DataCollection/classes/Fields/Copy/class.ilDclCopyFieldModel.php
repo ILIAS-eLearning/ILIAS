@@ -42,6 +42,21 @@ class ilDclCopyFieldModel extends ilDclBaseFieldModel
         ];
     }
 
+    public function afterClone(array $records): void
+    {
+        /** @var ilDclCopyFieldModel $clone */
+        $clone = ilDclCache::getCloneOf((int) $this->getId(), ilDclCache::TYPE_FIELD);
+        $copy_clone = ilDclCache::getCloneOf(
+            (int) $clone->getProperty(ilDclBaseFieldModel::PROP_REFERENCE),
+            ilDclCache::TYPE_FIELD
+        );
+        if ($copy_clone) {
+            $this->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $copy_clone->getId());
+            $this->updateProperties();
+        }
+        parent::afterClone($records);
+    }
+
     public function getPresentationTitle(): string
     {
         return $this->lng->txt('dcl_copy_field');

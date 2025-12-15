@@ -334,6 +334,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->writeAnswerSpecificPostData($form);
         $this->writeQuestionSpecificPostData($form);
 
+        $this->resetSavedPreviewSession();
+
         return 0; // return 0 = all fine, was saved either forced or validated
     }
 

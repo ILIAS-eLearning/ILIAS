@@ -16,11 +16,17 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\ResourceStorage\Services;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\Refinery\Factory;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\Services\ResourceStorage\Resources\DataSource\AllResourcesDataSource;
-use ILIAS\Services\ResourceStorage\Resources\DataSource\TableDataSource;
 use ILIAS\Services\ResourceStorage\Resources\Listing\ViewDefinition;
 use ILIAS\Services\ResourceStorage\Resources\UI\Actions\OverviewActionGenerator;
 use ILIAS\Services\ResourceStorage\Resources\UI\ResourceListingUI;
@@ -43,21 +49,21 @@ class ilResourceOverviewGUI
     public const CMD_GOTO_RESOURCE = 'gotoResource';
 
 
-    public const P_RESOURCE_ID = 'resource_id';
+    public const P_RESOURCE_ID = 'irss_resource_id';
 
 
     protected ilCtrlInterface $ctrl;
     protected ilLanguage $language;
-    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected Renderer $ui_renderer;
     protected ilGlobalTemplateInterface $main_tpl;
-    protected \ILIAS\ResourceStorage\Services $irss;
-    protected \ILIAS\FileUpload\FileUpload $upload;
+    protected Services $irss;
+    protected FileUpload $upload;
     protected \ILIAS\HTTP\Services $http;
-    protected \ILIAS\Refinery\Factory $refinery;
-    protected \ILIAS\ResourceStorage\Collection\ResourceCollection $collection;
-    protected \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder $stakeholder;
-    protected \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query;
-    private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    protected Factory $refinery;
+    protected ResourceCollection $collection;
+    protected ResourceStakeholder $stakeholder;
+    protected ArrayBasedRequestWrapper $query;
+    private WrapperFactory $wrapper;
     private ilTabsGUI $tabs;
 
     final public function __construct()
@@ -77,7 +83,6 @@ class ilResourceOverviewGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function initBackTab(): void
@@ -174,7 +179,7 @@ class ilResourceOverviewGUI
     private function download(): void
     {
         $rid = $this->getResourceIdFromRequest();
-        if (!$rid instanceof \ILIAS\ResourceStorage\Identification\ResourceIdentification) {
+        if (!$rid instanceof ResourceIdentification) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt('msg_no_perm_read'), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
             return;

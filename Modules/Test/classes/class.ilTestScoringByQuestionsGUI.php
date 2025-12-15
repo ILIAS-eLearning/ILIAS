@@ -86,14 +86,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $data = $this->object->getCompleteEvaluationData(false);
             $participants = $data->getParticipants();
             $participantData = new ilTestParticipantData($this->db, $this->lng);
-            $participantData->setActiveIdsFilter(array_keys($data->getParticipants()));
+            $participantData->setActiveIdsFilter(array_keys($participants));
             $participantData->setParticipantAccessFilter(
                 $this->participant_access_filter->getScoreParticipantsUserFilter($this->ref_id)
             );
             $participantData->load($this->object->getTestId());
 
+            $test_participant_list = new ilTestParticipantList($this->object, $this->user, $this->lng, $this->db);
+            $test_participant_list->initializeFromDbRows($this->getObject()->getTestParticipants());
             foreach ($participantData->getActiveIds() as $active_id) {
-                $participant = $participants[$active_id];
+                $participant = $test_participant_list->getParticipantByActiveId($active_id);
                 $testResultData = $this->object->getTestResult($active_id, $passNr - 1);
 
                 foreach ($testResultData as $questionData) {
@@ -123,7 +125,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             $passNr - 1
                         ),
                         'maximum_points' => $this->questioninfo->getMaximumPoints((int) $questionData['qid']),
-                        'name' => $participant->getName()
+                        'name' => $participant ? $test_participant_list->buildFullname($participant) : '',
+                        'login' => $participant ? $participant->getLogin() : ''
                     ] + $feedback;
                 }
             }
@@ -474,8 +477,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             true
         );
         $max_points = $question_gui->object->getMaximumPoints();
-
-        $this->appendUserNameToModal($tmp_tpl, $participant);
         $this->appendQuestionTitleToModal($tmp_tpl, $question_id, $max_points, $question_gui->object->getTitleForHTMLOutput());
         $this->appendSolutionAndPointsToModal(
             $tmp_tpl,
@@ -484,7 +485,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $max_points
         );
         $this->appendFormToModal($tmp_tpl, $pass, $active_id, $question_id, $max_points);
-        $tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') . ' ' . $participant->getName());
         $suggested_solution = assQuestion::_getSuggestedSolutionOutput($question_id);
         if ($this->object->getShowSolutionSuggested() && strlen($suggested_solution) > 0) {
             $tmp_tpl->setVariable('TEXT_SOLUTION_HINT', $this->lng->txt("solution_hint"));
@@ -527,24 +527,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     public function checkConstraintsBeforeSaving(): void
     {
         $this->saveManScoringByQuestion(true);
-    }
-
-    private function appendUserNameToModal(ilTemplate $tmp_tpl, ilTestEvaluationUserData $participant_data): void
-    {
-        $tmp_tpl->setVariable(
-            'TEXT_YOUR_SOLUTION',
-            $this->lng->txt('answers_of') . ' ' . $participant_data->getName()
-        );
-
-        if (
-            $this->object->getAnonymity() == 1 ||
-            ($this->object->getAnonymity() == 2 && !$this->access->checkAccess('write', '', $this->object->getRefId()))
-        ) {
-            $tmp_tpl->setVariable(
-                'TEXT_YOUR_SOLUTION',
-                $this->lng->txt('answers_of') . ' ' . $this->lng->txt('anonymous')
-            );
-        }
     }
 
     private function appendQuestionTitleToModal(ilTemplate $tmp_tpl, int $question_id, float $max_points, string $title): void

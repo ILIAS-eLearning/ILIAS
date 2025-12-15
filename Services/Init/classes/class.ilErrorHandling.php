@@ -100,7 +100,7 @@ class ilErrorHandling
         }
         $ilRuntime = $this->getIlRuntime();
         $this->whoops = $this->getWhoops();
-        $this->whoops->pushHandler(new ilDelegatingHandler($this));
+        $this->whoops->pushHandler(new ilDelegatingHandler($this, self::SENSTIVE_PARAMETER_NAMES));
         if ($ilRuntime->shouldLogErrors()) {
             $this->whoops->pushHandler($this->loggingHandler());
         }
@@ -130,7 +130,7 @@ class ilErrorHandling
 
     public function raiseError(
         string $message,
-        ?int $code
+        ?int $code = null
     ): void {
         $backtrace = debug_backtrace();
         if (isset($backtrace[0], $backtrace[0]['object'])) {

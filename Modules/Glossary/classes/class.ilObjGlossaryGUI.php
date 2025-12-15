@@ -279,7 +279,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
 
             default:
                 $cmd = $this->ctrl->getCmd("listTerms");
-
                 if (($cmd == "create") && ($this->edit_request->getNewType() == "term")) {
                     $this->ctrl->setCmd("create");
                     $this->ctrl->setCmdClass("ilGlossaryTermGUI");
@@ -312,7 +311,11 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                         $this->checkPermission("visible");
                     } else {
                         if (!$this->getCreationMode()) {
-                            $this->checkPermission("write");
+                            if (!$this->access->checkAccess("write", "", $this->requested_ref_id) &&
+                                !$this->access->checkAccess("edit_content", "", $this->requested_ref_id)
+                            ) {
+                                $this->checkPermission("write");
+                            }
                         }
                     }
                     $this->$cmd();
@@ -767,7 +770,6 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
     public function listTerms(): void
     {
         $this->showTaxonomy();
-
         $panel_html = "";
         $modals = "";
         $tab_html = "";

@@ -27,11 +27,12 @@ class ilTestResultsToXML extends ilXmlWriter
     protected bool $include_random_test_questions_enabled = false;
 
     public function __construct(
-        private int $test_id,
-        private ilDBInterface $db,
-        private ResourceStorage $irss,
-        private string $objects_export_directory,
-        private bool $anonymized = false,
+        private readonly ilObjTest $test_obj,
+        private readonly ilDBInterface $db,
+        private readonly ResourceStorage $irss,
+        private readonly ilObjUser $user,
+        private readonly ilLanguage $lng,
+        private string $objects_export_directory
     ) {
         parent::__construct();
     }
@@ -48,30 +49,25 @@ class ilTestResultsToXML extends ilXmlWriter
 
     protected function exportActiveIDs(): void
     {
-        $assessment_setting = new ilSetting('assessment');
-        $user_criteria = $assessment_setting->get('user_criteria');
-        if ($user_criteria === null || $user_criteria === '') {
-            $user_criteria = 'usr_id';
-        }
+        $user_criteria = (new ilSetting('assessment'))->get('user_criteria', 'usr_id');
 
-        if ($this->anonymized) {
-            $result = $this->db->queryF(
-                'SELECT * FROM tst_active WHERE test_fi = %s',
-                ['integer'],
-                [$this->test_id]
-            );
-        } else {
-            $result = $this->db->queryF(
-                'SELECT tst_active.*, usr_data.' . $user_criteria . ' FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id',
-                ['integer'],
-                [$this->test_id]
-            );
-        }
+        $query = $this->test_obj->getAnonymity()
+            ? 'SELECT * FROM tst_active WHERE test_fi = %s'
+            : "SELECT tst_active.*, usr_data.{$user_criteria} FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id";
+        $result = $this->db->queryF($query, [ilDBConstants::T_INTEGER], [$this->test_obj->getTestId()]);
+
+        $test_participant_list = new ilTestParticipantList($this->test_obj, $this->user, $this->lng, $this->db);
+        $test_participant_list->initializeFromDbRows($this->test_obj->getTestParticipants());
+
         $this->xmlStartTag('tst_active', null);
         while ($row = $this->db->fetchAssoc($result)) {
+            $this->active_ids[] = $row['active_id'];
+            $participant = $test_participant_list->getParticipantByActiveId($row['active_id']);
+
             $attrs = [
                 'active_id' => $row['active_id'],
-                'user_fi' => $row['user_fi'] ?? '',
+                'user_fi' => $this->test_obj->getAnonymity() ? '' : ($row['user_fi'] ?? ''),
+                'fullname' => $participant ? $test_participant_list->buildFullname($participant) : '',
                 'anonymous_id' => $row['anonymous_id'] ?? '',
                 'test_fi' => $row['test_fi'],
                 'lastindex' => $row['lastindex'] ?? '',
@@ -82,12 +78,12 @@ class ilTestResultsToXML extends ilXmlWriter
                 'submittimestamp' => $row['submittimestamp'] ?? '',
                 'tstamp' => $row['tstamp'] ?? ''
             ];
-            $attrs['fullname'] = ilObjTestAccess::_getParticipantData($row['active_id']);
-            if (!$this->anonymized) {
+
+            if (!$this->test_obj->getAnonymity()) {
                 $attrs['user_criteria'] = $user_criteria;
                 $attrs[$user_criteria] = $row[$user_criteria];
             }
-            array_push($this->active_ids, $row['active_id']);
+
             $this->xmlElement('row', $attrs);
         }
         $this->xmlEndTag('tst_active');

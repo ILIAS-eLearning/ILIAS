@@ -68,4 +68,9 @@ abstract class BaseConsumer implements DeliveryConsumer
         $this->file_name = $file_name;
         return $this;
     }
+
+    public function disableCaching(): DeliveryConsumer
+    {
+        return $this;
+    }
 }

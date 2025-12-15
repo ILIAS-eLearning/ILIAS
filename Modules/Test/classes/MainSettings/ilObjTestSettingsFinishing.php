@@ -81,28 +81,57 @@ class ilObjTestSettingsFinishing extends TestSettings
         );
 
         $sub_inputs_redirect = [
-            'redirect_mode' => $f->radio(
-                $lng->txt('redirect_after_finishing_rule')
-            )->withOption(
-                (string) ilObjTest::REDIRECT_ALWAYS,
-                $lng->txt('redirect_always')
-            )->withOption(
-                (string) ilObjTest::REDIRECT_KIOSK,
-                $lng->txt('redirect_in_kiosk_mode')
-            )->withRequired(true)
-            ->withAdditionalTransformation($refinery->kindlyTo()->int()),
-            'redirect_url' => $f->text(
-                $lng->txt('redirection_url')
-            )->withRequired(true)
-            ->withAdditionalTransformation($refinery->string()->hasMaxLength(4000))
+            'redirect_mode' => $f
+                ->radio($lng->txt('redirect_after_finishing_rule'))
+                ->withOption((string) ilObjTest::REDIRECT_ALWAYS, $lng->txt('redirect_always'))
+                ->withOption((string) ilObjTest::REDIRECT_ALWAYS_TO_LOGOUT, $lng->txt('redirect_always_to_logout'))
+                ->withOption((string) ilObjTest::REDIRECT_KIOSK, $lng->txt('redirect_in_kiosk_mode'))
+                ->withRequired(true)
+                ->withAdditionalTransformation($refinery->kindlyTo()->int()),
+            'redirect_url' => $f
+                ->text($lng->txt('redirection_url'))
+                ->withAdditionalTransformation($refinery->string()->hasMaxLength(4000))
+                ->withAdditionalTransformation(
+                    $refinery->custom()->constraint(
+                        static function ($v) use ($refinery): bool {
+                            try {
+                                return $v === '' || $refinery->to()->data('uri')->transform($v);
+                            } catch (Throwable) {
+                                return false;
+                            }
+                        },
+                        $lng->txt('redirect_url_invalid')
+                    )
+                )
         ];
 
-        $redirection_input = $f->optionalGroup(
-            $sub_inputs_redirect,
-            $lng->txt('redirect_after_finishing_tst'),
-            $lng->txt('redirect_after_finishing_tst_desc')
-        )->withValue(null)
-            ->withAdditionalTransformation($redirection_trafo);
+        $redirection_input = $f
+            ->optionalGroup(
+                $sub_inputs_redirect,
+                $lng->txt('redirect_after_finishing_tst'),
+                $lng->txt('redirect_after_finishing_tst_desc')
+            )
+            ->withValue(null)
+            ->withAdditionalTransformation($redirection_trafo)
+            ->withAdditionalTransformation(
+                $refinery->custom()->constraint(
+                    static function (array $v): bool {
+                        return in_array(
+                            $v['redirect_mode'],
+                            [ilObjTest::REDIRECT_NONE, ilObjTest::REDIRECT_ALWAYS_TO_LOGOUT],
+                            true
+                        ) || $v['redirect_url'] !== '';
+                    },
+                    static function(Closure $txt, array $value): string {
+                        return sprintf(
+                            $txt('redirect_url_required_for_rule'),
+                            $value['redirect_mode'] === ilObjTest::REDIRECT_ALWAYS
+                                ? $txt('redirect_always')
+                                : $txt('redirect_in_kiosk_mode')
+                        );
+                    }
+                )
+            );
 
         if ($this->getRedirectionMode() === ilObjTest::REDIRECT_NONE) {
             return $redirection_input;

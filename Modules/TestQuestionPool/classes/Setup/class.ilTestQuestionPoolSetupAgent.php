@@ -20,6 +20,7 @@ use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Metrics;
+use ILIAS\TestQuestionPool\Setup\RebuildMissingThumbnailMigration;
 
 class ilTestQuestionPoolSetupAgent extends NullAgent
 {
@@ -56,7 +57,8 @@ class ilTestQuestionPoolSetupAgent extends NullAgent
     public function getMigrations(): array
     {
         return [
-            new ilTestQuestionPoolFileUploadQuestionMigration()
+            new ilTestQuestionPoolFileUploadQuestionMigration(),
+            new RebuildMissingThumbnailMigration()
         ];
     }
 

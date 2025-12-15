@@ -127,12 +127,12 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
     {
         $filter_object = (int) ($filter["object"] ?? 0);
         if ($filter_object > 0) {
-            $data = ilBookingParticipant::getList($this->pool_id, $filter, $filter["object"]);
-        } elseif ($filter_object == -1) {
-            $data = ilBookingParticipant::getList($this->pool_id, $filter);
-            $data = array_filter($data, static function ($item) {
-                return ($item["obj_count"] ?? 0) == 0;
-            });
+            $data = ilBookingParticipant::getList($this->pool_id, $filter, $filter_object);
+        } elseif ($filter_object === -1) {
+            $data = array_filter(
+                ilBookingParticipant::getList($this->pool_id, $filter),
+                static fn(array $item): bool => ($item["obj_count"] ?? 0) === 0
+            );
         } else {
             $data = ilBookingParticipant::getList($this->pool_id, $filter);
         }

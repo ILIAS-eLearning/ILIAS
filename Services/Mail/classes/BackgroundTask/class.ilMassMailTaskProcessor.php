@@ -23,16 +23,13 @@ use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
 use ILIAS\DI\Container;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilMassMailTaskProcessor
 {
     private readonly TaskManager $taskManager;
     private readonly TaskFactory $taskFactory;
     private readonly ilLanguage $language;
     private readonly ilLogger $logger;
-    private readonly ilMailValueObjectJsonService $objectJsonService;
+    private readonly \ILIAS\Mail\Object\MailPayloadEncoder $payload_encoder;
 
     public function __construct(
         private readonly int $anonymousUserId = ANONYMOUS_USER_ID,
@@ -41,7 +38,7 @@ class ilMassMailTaskProcessor
         ilLanguage $language = null,
         ilLogger $logger = null,
         Container $dic = null,
-        ilMailValueObjectJsonService $objectJsonService = null
+        \ILIAS\Mail\Object\MailPayloadEncoder $payload_encoder = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -68,10 +65,15 @@ class ilMassMailTaskProcessor
         }
         $this->logger = $logger;
 
-        if (null === $objectJsonService) {
-            $objectJsonService = new ilMailValueObjectJsonService();
+        if ($payload_encoder === null) {
+            $payload_encoder = new ILIAS\Mail\Object\Mb3SafeMailEncoder(
+                new ILIAS\Mail\Object\PureJsonMailEncoder(
+                    new ilMailValueObjectJsonService()
+                ),
+                new ILIAS\Mail\Transformation\Utf8Mb4Sanitizer()
+            );
         }
-        $this->objectJsonService = $objectJsonService;
+        $this->payload_encoder = $payload_encoder;
     }
 
     /**
@@ -151,7 +153,7 @@ class ilMassMailTaskProcessor
         array $contextParameters,
         $remainingObjects
     ): ILIAS\BackgroundTasks\Task {
-        $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
+        $jsonString = $this->payload_encoder->encode($remainingObjects);
 
         $task = $this->taskFactory->createTask(ilMassMailDeliveryJob::class, [
             $userId,

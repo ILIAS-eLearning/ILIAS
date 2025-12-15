@@ -185,18 +185,13 @@ class HttpMessage
             $logger->info("httpClient set to null");
             if (function_exists('curl_init')) {
                 self::$httpClient = new CurlClient();
-                $logger->info("init httpClient curl_init");
             } elseif (ini_get('allow_url_fopen')) {
                 self::$httpClient = new StreamClient();
-                $logger->info("init httpClient StreamClient");
             }
             if (self::$httpClient) {
                 Util::logDebug('HttpClient set to \'' . get_class(self::$httpClient) . '\'');
-                $logger->info('HttpClient set to \'' . get_class(self::$httpClient) . '\'');
             }
         }
-
-        $logger->info("httpClient was already there");
 
         return self::$httpClient;
     }

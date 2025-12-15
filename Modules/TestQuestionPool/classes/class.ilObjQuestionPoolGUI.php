@@ -36,7 +36,7 @@ use ILIAS\HTTP\Services as HTTPServices;
  *
  * @version        $Id$
  *
- * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI, ilObjTestGUI
+ * @ilCtrl_Calls   ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls   ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
@@ -500,7 +500,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                         $this->ctrl->redirect($this, 'questions');
                     }
                     if ($ids[0] === 'ALL_OBJECTS') {
-                        $ids = $this->object->getAllQuestionIds();
+                        $ids = $this->object->getAllQuestions();
                     }
                     if (!is_array($ids)) {
                         $ids = explode(',', $ids);
@@ -594,7 +594,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     $this->redirectAfterMissingWrite();
                 }
 
-                if ($cmd === 'assessment' &&
+                if (in_array($cmd, ['assessment', 'questions']) &&
                     $this->object->getType() === 'tst' &&
                     !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
                     $this->redirectAfterMissingWrite();
@@ -646,7 +646,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
         $target_class = get_class($this->object) . 'GUI';
         $this->ctrl->setParameterByClass($target_class, 'ref_id', $this->ref_id);
-        $this->ctrl->redirectByClass($target_class);
+        $this->ctrl->redirectByClass([ilRepositoryGUI::class, $target_class]);
     }
 
     /**
@@ -992,6 +992,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $newObj->saveToDb();
         }
         ilFileUtils::delDir(dirname(ilObjQuestionPool::_getImportDirectory()));
+
+        if ($newObj->getId() > 0) {
+            $this->callCreationCallback($newObj, $this->obj_definition, $this->requested_crtcb);
+        }
 
         if ($_POST['questions_only'] == 1) {
             $this->ctrl->redirect($this, 'questions');
@@ -1438,14 +1442,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function moveQuestions(array $ids): void
     {
-        if ($ids) {
-            foreach ($ids as $id) {
-                $this->object->moveToClipboard($id);
-            }
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
+        if ($this->checkPermission('write')) {
+            $this->tpl->setOnScreenMessage('failure', 'permission_denied');
+            return;
         }
+
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
+            return;
+        }
+
+        foreach ($ids as $id) {
+            $this->object->moveToClipboard($id);
+        }
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
     }
 
     public function createExportExcel(): void

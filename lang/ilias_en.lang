@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#A Formula Question contains incorrect informat
 assessment#:#errRecursionInResult#:#The formula contains an infinite recursion.
 assessment#:#err_category_in_use#:#At least one category cannot be deleted. One or more units of the category are already in use.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.
 assessment#:#err_duplicate_results#:#You used a result variable more than once. This is not allowed in the question text.
 assessment#:#err_no_formula#:#You must enter a formula
@@ -1115,8 +1116,11 @@ assessment#:#redirectAfterSave#:#The maximum working time has been reached. In a
 assessment#:#redirect_after_finishing_rule#:#Redirect
 assessment#:#redirect_after_finishing_tst#:#Redirect
 assessment#:#redirect_after_finishing_tst_desc#:#After completing the test, each participant is automatically redirected to a specific webpage of your choosing. This will only happen if participants do not have direct access to their test results. When entering the address of an external webpage, use the complete URL (including ‘https://’). When redirecting to an Object in ILIAS, use the permalink that can be found in the footer of the Object in question.
-assessment#:#redirect_always#:#always to the webpage specified below
-assessment#:#redirect_in_kiosk_mode#:#only when ‘Exam View’ is activated
+assessment#:#redirect_always#:#Always to the specified webpage
+assessment#:#redirect_always_to_logout#:#Always to the logout screen
+assessment#:#redirect_in_kiosk_mode#:#When ‘Exam View’ is activated to the specified webpage
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.
 assessment#:#redirection_url#:#URL of webpage
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Remove as Fixed Participant
@@ -1186,8 +1190,8 @@ assessment#:#show_all_test_properties_on_info_page_byline#:#Users will be presen
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
-assessment#:#show_old_concluding_remarks#:#Show old concluding remarks
-assessment#:#show_old_introduction#:#Show old introduction
+assessment#:#show_old_concluding_remarks#:#Show Old Concluding Remarks
+assessment#:#show_old_introduction#:#Show Old Introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_user_answers#:#Show User’s Marked Answers
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each A
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test attempt.
-assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
 assessment#:#tst_instant_feedback_results#:#Points Attained
 assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’ button ILIAS will display how many points were attained by answering this question.
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
@@ -1659,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip ov
 assessment#:#tst_presentation_properties#:#Administering the Test: Behavior of the Question
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!
-assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test attempts is limited an additional feature for granting extra time to participants appears in the tab 'Participants'.
@@ -1839,6 +1841,7 @@ assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.
 assessment#:#tst_settings_header_additional#:#Additional Features
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
@@ -2017,7 +2020,7 @@ auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
-auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
+auth#:#auth_err_invalid_user_account#:#Login failed. Please check that you have entered your username and password correctly. If this issue persists, your account may be inactive or have expired. In this case, please contact your ILIAS platform's technical support via the link at the bottom of the screen.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
@@ -2533,8 +2536,9 @@ book#:#book_new#:#New Booking Pool
 book#:#book_no_bookings_for_you#:#No bookings have been made for you.
 book#:#book_no_objects#:#No Bookings
 book#:#book_no_of_objects#:#No. of Units
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.
 book#:#book_no_preferences_for_you#:#No preferences have been recorded for you.
-book#:#book_no_recurrence#:#Book only this date
+book#:#book_no_recurrence#:#Book only this dateDer Java-Server wird durch Angabe von Netzwerk-Host und -Port über das ILIAS-Setup konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
 book#:#book_not#:#Not
 book#:#book_not_enough_preferences#:#You have not selected enough preferences. Your preferences have not been saved.
 book#:#book_notification#:#Send Booking Notifications
@@ -2786,7 +2790,7 @@ certificate#:#certificate_short_name_description#:#Please enter a short title fo
 certificate#:#certificate_text#:#Certificate Text
 certificate#:#certificate_text_info#:#Please enter the certificate text. If the WYSIWYG editor is disabled in the ILIAS administration, you can still use valid XHTML to format the text.<br><br>
 certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available in Administration » General Settings » Server, sub-tab Java-Server.
+certificate#:#certificate_usage#:#Please note that the use and creation of certificates is only possible if you use the ILIAS Java server. The Java server is configured by specifying the network host and port via the ILIAS Setup and is required, among other things, for generating PDF files.
 certificate#:#certificate_var_max_points#:#Maximum number of points in the test used
 certificate#:#certificate_var_result_mark_long#:#Achieved mark presented in 'official form'
 certificate#:#certificate_var_result_mark_short#:#Achieved mark presented in 'short form'
@@ -3192,7 +3196,7 @@ cmix#:#content_privacy_name#:#User name for resource
 cmix#:#create_lrs_type_form#:#New LRS type
 cmix#:#create_registration#:#Register your E-Mail address
 cmix#:#cron_xapi_del#:#Delete xAPI/cmi5 data in the Learning Record Store
-cmix#:#cron_xapi_del_desc#:#Data are deleted according to the settings of the xAPI/cmi5 objects.
+cmix#:#cron_xapi_del_desc#:#Data is deleted according to the settings of the xAPI/cmi5 objects.
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#description_info#:#The description will be shown below the title.
@@ -4724,7 +4728,7 @@ common#:#msg_link_clipboard_p#:#Now, please select the desired location, where t
 common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
-common#:#msg_min_one_role#:#Each user must have at least one global role!
+common#:#msg_min_one_role#:#Each user must have at least one global role.
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
@@ -4746,6 +4750,7 @@ common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_read#:#You have no permission to access this item.
 common#:#msg_no_perm_read_item#:#You have no permission to access item '%s’.
 common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user
 common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
@@ -4904,8 +4909,6 @@ common#:#obj_etal#:#Employee Talk
 common#:#obj_exc#:#Exercise
 common#:#obj_exc_duplicate#:#Copy Exercise
 common#:#obj_excv#:#Exercise Certificate
-common#:#obj_extt#:#Third Party Software
-common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 common#:#obj_facs#:#Files
 common#:#obj_facs_desc#:#Settings for files and file handling
 common#:#obj_file#:#File
@@ -5524,6 +5527,7 @@ common#:#select#:#Select
 common#:#select_all#:#Select All
 common#:#select_at_least_one_object#:#Please choose at least one object.
 common#:#select_file#:#Select File
+common#:#select_file_from_computer#:#Select File
 common#:#select_files_from_computer#:#Select Files
 common#:#select_max_one_item#:#Please select one item only
 common#:#select_object_to_link#:#Please select the object which you want to link
@@ -6448,7 +6452,7 @@ content#:#cont_ed_split_page_next#:#Split to Next Page
 content#:#cont_ed_textitem#:# Text Item
 content#:#cont_ed_width#:#Width
 content#:#cont_edit_base_image#:#Edit Background Image
-content#:#cont_edit_comp#:#Editing
+content#:#cont_edit_comp#:#Edit
 content#:#cont_edit_definition#:#Edit Definition
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_language_version#:#Edit Version
@@ -6457,7 +6461,7 @@ content#:#cont_edit_marker_position#:#Edit Marker Position
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mode#:#Edit Mode
-content#:#cont_edit_multi#:#Selection
+content#:#cont_edit_multi#:#Select
 content#:#cont_edit_overlay_position#:#Edit Overlay Position
 content#:#cont_edit_par#:#Edit Text
 content#:#cont_edit_personal_data#:#Edit Personal Data
@@ -6719,7 +6723,7 @@ content#:#cont_lrs_settings#:#Settings
 content#:#cont_lvalue#:#Data element
 content#:#cont_maintenance#:#Maintenance
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Manually Create Item Group
+content#:#cont_manual_item_group#:#Manually Created Item Group
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#cont_marker#:#Marker
 content#:#cont_master_language_only#:#Master Language for Translation
@@ -7369,6 +7373,7 @@ copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_par_format_selection#:#Paragraph Format Selection
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.
+copg#:#copg_plugin#:#Plugin
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_reload_page#:#Reload Page
@@ -8542,7 +8547,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#The following data record has bee
 dcl#:#dcl_change_notification_dcl_update_record#:#The following data record has been updated
 dcl#:#dcl_change_notification_link#:#Link to the Data Collection
 dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this data collection.
 dcl#:#dcl_changed_by#:#Changed by
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_comments#:#Comments
@@ -8622,7 +8626,6 @@ dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_height#:#Height
-dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_ilias_reference#:#Link to an ILIAS module
@@ -8656,7 +8659,7 @@ dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not includ
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
-dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_max_text_length#:#Maximum Length: %s
 dcl#:#dcl_mob#:#Media Object
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
@@ -8680,7 +8683,6 @@ dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_next_record#:#Next Entry
-dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
@@ -8688,6 +8690,7 @@ dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you ca
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
+dcl#:#dcl_no_table_found#:#No visible table found!
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
@@ -8696,11 +8699,12 @@ dcl#:#dcl_notification_activated#:#Notification Activated
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_notification_info#:#Each user decides about notification
-dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.
 dcl#:#dcl_online_info#:#Only if the Data Collection is online, users are able to use the Data Collection.
+dcl#:#dcl_open_detail_view#:#Open detail view
+dcl#:#dcl_open_url#:#Open link
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_origin_not_found#:#Origin field was not found!
 dcl#:#dcl_own_entries#:#Only own entries
@@ -8755,8 +8759,6 @@ dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma se
 dcl#:#dcl_switch_table#:#Switch Table
 dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
-dcl#:#dcl_table_create#:#Create Table
-dcl#:#dcl_table_edit#:#Update Table
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_table_info#:#Users with the permission ‘edit settings’ (see tab ‘Permission’) always have permission to add/edit/delete entries. Users with permission ‘edit entry’ (see tab ‘Permissions’) only have permissions according to the settings specified in the form below.
 dcl#:#dcl_table_info_title#:#Info
@@ -8816,6 +8818,8 @@ dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification fo
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)
 dcl#:#fieldtitle_allow_chars#:#Not allowed chars: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.
+dcl#:#table_not_found#:#Table not found!
+dcl#:#tableview_not_found#:#Tableview not found!
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -9161,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.
+etal#:#etal_location#:#Location
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
+etal#:#etal_recurrence#:#Recurrence
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#Completed
 etal#:#etal_status_pending#:#Pending
@@ -9876,7 +9882,7 @@ form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
 form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.
 form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.
-form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.
+form#:#form_msg_wrong_date#:#Please check your date entry. Both a start date and an end date are required and the start date cannot be later than the end date.
 form#:#form_no_link#:#No Link
 form#:#form_open_answer#:#Open Answer
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.
@@ -10949,7 +10955,6 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_settings_availability#:#Availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date
 lso#:#lso_settings_extro#:#Edit Exit Page
 lso#:#lso_settings_intro#:#Edit Intro Page
 lso#:#lso_settings_old_extro#:#View Old Exit Page
@@ -11045,6 +11050,7 @@ lti#:#highscore_top_table#:#Top Ranking
 lti#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.
 lti#:#highscore_wtime#:#Duration
 lti#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.
+lti#:#launch_custom_params#:#Custom launch parameters###27 11 2025 new variable
 lti#:#launch_method#:#Options for Launch
 lti#:#launch_method_embedded#:#Embedded Content
 lti#:#launch_method_embedded_info#:#The content is opened within the ILIAS context. It is presented as embedded content within the content tab.
@@ -11548,7 +11554,7 @@ mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#Enable individual users to alter their mail settings, thereby overriding the global mail settings that would otherwise apply to them. ‘Mail Settings’ are accessible via their ‘Personal Settings’ or ‘Communication > Mail’. Note: In order for users to be allowed to change their individual mail settings and thereby override the global settings, this needs to be set in the 'Standard Fields' section of the global user account administration settings. If users do not have the permission to change these profile settings, the global default is applied even if users were able to and did change their personal mail settings in the past.
 mail#:#system_notification_installation_changed_by#:#Changed by
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
-maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Extending ILIAS > Maps" administration menu to enable address search.
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search?q=[QUERY]&format=json
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
 maps#:#maps_enable_maps#:#Enable Maps
@@ -12831,8 +12837,8 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_fallback_lang#:#Default Language
 obj#:#obj_features#:#Additional Features
 obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type.
-obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
-obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
+obj#:#obj_insert_into_clipboard#:#Add to Clipboard
+obj#:#obj_inserted_clipboard#:#Selected object(s) successfully added to the clipboard.
 obj#:#obj_master_lang#:#Master Language
 obj#:#obj_more_translations#:#More Translations
 obj#:#obj_multilang_deactivated#:#Multilingualism has been deactivated.
@@ -13051,7 +13057,7 @@ pdesk#:#bookmark_select_target#:#Please select target.
 poll#:#poll_absolute#:#Current Votes
 poll#:#poll_activation_online_info#:#Activate this setting to make the poll accessible to users.
 poll#:#poll_add#:#Add Poll
-poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.
+poll#:#poll_anonymous_warning#:#Individual votes are recorded, but your name will not be shown in the poll results.
 poll#:#poll_answer#:#Answer
 poll#:#poll_answer_selected_alt_text#:#Selected
 poll#:#poll_answers#:#Possible Answers
@@ -13074,7 +13080,7 @@ poll#:#poll_max_number_of_answers#:#Max. Answers
 poll#:#poll_max_number_of_answers_info#:#You may choose up to %s answers.
 poll#:#poll_mode#:#Mode
 poll#:#poll_mode_anonymous#:#Without Names / Anonymous
-poll#:#poll_mode_anonymous_info#:#In the tab ‘Results’ the names of participants are omitted.
+poll#:#poll_mode_anonymous_info#:#The names of poll participants are not shown in the 'Results' tab. Please note: participant user IDs are, however, recorded in the database.
 poll#:#poll_mode_personal#:#With Names
 poll#:#poll_mode_personal_info#:#In the tab ‘Results’ the names of participants and their respective answers are listed. Users with access to this tab can inspect who has given which answer.
 poll#:#poll_new#:#Add New Poll
@@ -13699,6 +13705,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments
 qpl#:#qpl_filter_commented_only#:#Questions with comments
 qpl#:#qpl_page_type_qfbg#:#General Feedback
@@ -13956,10 +13963,6 @@ rbac#:#excs_read#:#User has read access to Exercise administration
 rbac#:#excs_visible#:#Exercise administration is visible
 rbac#:#excs_write#:#Edit settings in Exercise administration
 rbac#:#export_member_data#:#Access User Data
-rbac#:#extt_edit_permission#:#User can change permission settings of Third Party Software administration
-rbac#:#extt_read#:#User has read access to administration of Third Party Software
-rbac#:#extt_visible#:#Administration of Third Party Software is visible
-rbac#:#extt_write#:#User can edit settings of Third Party Software
 rbac#:#facs_edit_permission#:#User can change permission settings of Files and Folders administration
 rbac#:#facs_read#:#User has read access to administration of Files and Folders
 rbac#:#facs_upload_blacklisted_files#:#Upload indexed file types despite blacklist
@@ -15841,6 +15844,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
+style#:#sty_move_obj_styles#:#Change Style of Objects
 style#:#sty_move_style#:#Change Style
 style#:#sty_move_user_styles#:#Change Style of Users
 style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter, does not use spaces and only include the following characters:
@@ -15848,6 +15852,7 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_nr_objects#:#Number of Objects
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Ordered List
@@ -16768,7 +16773,7 @@ svy#:#svy_all_questions#:#All Questions
 svy#:#svy_codes#:#Access Codes
 svy#:#svy_current_page#:#Current Page
 svy#:#svy_finish_survey#:#Finish survey '%1'
-svy#:#svy_invite_participants#:#Invite Participants
+svy#:#svy_invite_participants#:#Add to Task List of Users
 svy#:#svy_link_to_svy#:#Link to Survey
 svy#:#svy_part_overview#:#Overview
 svy#:#svy_placeholders_label#:#Available Placeholders
@@ -16781,7 +16786,7 @@ svy#:#svy_selection#:#Selection
 svy#:#svy_status#:#Status
 svy#:#svy_status_finished#:#Finished
 svy#:#svy_status_in_progress#:#In Progress
-svy#:#svy_status_invited#:#Invited
+svy#:#svy_status_invited#:#Added to tasks
 svy#:#svy_user_added_appraisee#:#Survey '%1'
 svy#:#svy_user_added_appraisee_close_mail#:#The survey has been closed for your raters.
 svy#:#svy_user_added_appraisee_mail#:#You have been added to the survey as an appraisee.
@@ -16789,7 +16794,7 @@ svy#:#svy_user_added_rater#:#Survey '%1'
 svy#:#svy_user_added_rater_mail#:#You have been added as a rater to the survey.
 svy#:#svy_user_added_rater_reminder_mail#:#Please finish to rate the following appraisees:
 svy#:#svy_user_not_found#:#User not found.
-svy#:#svy_users_invited#:#Users have been invited.
+svy#:#svy_users_invited#:#A ‘to do’, notifying users that they can take part in this survey, has been added to the ‘Tasks’ section of their dashboard(s).
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
 sysc#:#sysc_action_repair#:#Repair
 sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump

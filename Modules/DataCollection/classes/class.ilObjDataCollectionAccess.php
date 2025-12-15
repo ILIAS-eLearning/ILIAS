@@ -50,7 +50,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $ilAccess = $DIC['ilAccess'];
 
         $t_arr = explode("_", $target);
-        $ref_id = (int) $t_arr[1];
+        $ref_id = (int) ($t_arr[1] ?? 0);
 
         if ($t_arr[0] != "dcl" || $ref_id <= 0) {
             return false;
@@ -205,16 +205,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("write", "", $ref);
     }
 
-    public static function hasEditAccess(int $ref, ?int $user_id = 0): bool
+    public static function hasEditAccess(int $ref, ?int $user_id = null): bool
     {
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-
-        if ($user_id) {
-            return $ilAccess->checkAccessOfUser($user_id, "write", "", $ref);
-        }
-
-        return $ilAccess->checkAccess("edit_content", "", $ref);
+        return $DIC->access()->checkAccessOfUser($user_id ?? $DIC->user()->getId(), "edit_content", "", $ref);
     }
 
     /**
@@ -261,10 +255,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return !empty(array_intersect($assigned_roles, $allowed_roles));
     }
 
-    /**
-     * returns true if either the table is visible for all users, or no tables are visible and this is
-     * the table with the lowest order (getFirstVisibleTableId())
-     */
     protected static function hasAccessToTable(int $table_id, int $ref_id): bool
     {
         $table = ilDclCache::getTableCache($table_id);

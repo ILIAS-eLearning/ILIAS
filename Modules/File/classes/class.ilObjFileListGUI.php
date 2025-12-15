@@ -19,7 +19,7 @@
 use ILIAS\File\Capabilities\CapabilityCollection;
 use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\ResourceStorage\Services;
-use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
 use ILIAS\File\Capabilities\Capabilities;
 use ILIAS\File\Capabilities\CapabilityBuilder;
 use ILIAS\File\Capabilities\Context;
@@ -111,11 +111,29 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $best = $this->capabilities->getBest();
 
+        $default_key = null;
+
         foreach ($this->commands as $key => $command) {
             if ($command['cmd'] === $best->getCapability()->value) {
-                $default_set = true;
+                $default_key = $key;
                 $this->commands[$key]['default'] = true;
             }
+        }
+
+        // we put a copy of the default command to the array, since otherwise its not rendered in the dropdown
+        if ($default_key !== null) {
+            $command_copy = $this->commands[$default_key];
+            $command_copy['default'] = false;
+
+            $commands = [];
+
+            foreach ($this->commands as $key => $command) {
+                if ($key === $default_key) {
+                    $commands[] = $command_copy;
+                }
+                $commands[] = $command;
+            }
+            $this->commands = $commands;
         }
 
         return parent::getCommands();

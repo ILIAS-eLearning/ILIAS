@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Eine Formelfrage enthält fehlerhafte Angaben
 assessment#:#errRecursionInResult#:#Die Formel enthält eine nicht auflösbare Rekursion.
 assessment#:#err_category_in_use#:#Die Kategorie kann nicht gelöscht werden. Eine oder mehrere Einheiten der Kategorie sind bereits in Benutzung.
 assessment#:#err_divider_too_big#:#Der Teiler einer der Variablen in dieser Frage ist zu gross.
+assessment#:#err_divider_too_big_specific#:#Der Teiler dieser Variable ist zu gross.
 assessment#:#err_division#:#Der von Ihnen gesetzte Wert macht es unmöglich einen gültigen Wert für die Variable zu generieren.
 assessment#:#err_duplicate_results#:#Sie haben eine Ergebnisvariable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
 assessment#:#err_no_formula#:#Bitte geben Sie eine Formel zur Berechnung des Ergebnisses an.
@@ -1115,8 +1116,11 @@ assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit für diesen Test 
 assessment#:#redirect_after_finishing_rule#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung
 assessment#:#redirect_after_finishing_tst_desc#:#Teilnehmer werden nach Beenden des Tests automatisch zu einer definierten Webseite weitergeleitet. Dies geschieht nur, wenn der Test so konfiguriert wurde, dass die Teilnehmer ihre Testergebnisse nach Beenden des Tests nicht einsehen können. Wenn Sie die Adresse einer externen Webseite eingeben, verwenden Sie die vollständige URL (einschließlich "https://"). Wenn Sie zu einem Objekt in ILIAS weiterleiten, verwenden Sie den Permalink, der in der Fußzeile des betreffenden Objekts zu finden ist.
-assessment#:#redirect_always#:#immer zur definierten Zielseite
-assessment#:#redirect_in_kiosk_mode#:#nur bei aktivierter Prüfungsansicht
+assessment#:#redirect_always#:#Immer zur definierten Zielseite
+assessment#:#redirect_always_to_logout#:#Immer zum Abmeldebildschirm
+assessment#:#redirect_in_kiosk_mode#:#Bei aktivierten Prüfungsansicht zur definierten Zielseite
+assessment#:#redirect_url_invalid#:#Bitte geben Sie eine gültige URL zur Zielseite an.
+assessment#:#redirect_url_required_for_rule#:#Die URL der Zielseite muss angegeben werden, wenn "%s" ausgewählt ist.
 assessment#:#redirection_url#:#URL Zielseite
 assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Unterschiedliche Rückmeldun
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rückmeldung anfordern'-Buttons zeigt ILIAS zu jeder abgegebenen Antwort die jeweils hinterlegte  Rückmeldung an. Nicht alle Fragetypen unterstützen diese Art von Rückmeldungen. Die Rückmeldungen müssen bei der Frage im Reiter 'Rückmeldung' hinterlegt werden.
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
-assessment#:#tst_instant_feedback_forced#:#Rückmeldung immer beim Einreichen einer Antwort anzeigen
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
 assessment#:#tst_instant_feedback_results_desc#:#Klicken Teilnehmer beim Beantworten einer Frage auf den Button 'Rückmeldung anfordern' zeigt ILIAS an, wie viele Punkte für die gegebene Antwort erreichen wurden.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
@@ -1659,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#Fragen, deren Antworten die Teilnehmer verwe
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verfügbar!
-assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
 assessment#:#tst_processing_time_desc#:#Teilnehmer dürfen den Test nur während eines vorgegebenen Zeitraums bearbeiten. Die Zeit läuft für jede Person ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Teilnehmer“ eine Funktion, um einzelnen Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
@@ -1839,6 +1841,7 @@ assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Verpflichtende Fragen" kann nicht zusammen mit "Antworten festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Nicht beantwortete Fragen werden ans Testende geschoben" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Fragen mischen" kann nicht zusammen mit "Antworten bei Anzeige der Folgefrage festschreiben" verwendet werden.
+assessment#:#tst_settings_form_reload_needed#:#Das Formular musste neu geladen werden, da sich die verfügbaren Einstellungen durch das Löschen aller Ergebnisse geändert haben.
 assessment#:#tst_settings_header_additional#:#Zusätzliche Funktionen
 assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_settings_header_intro#:#Informationen zum Einstieg
@@ -2017,7 +2020,7 @@ auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutz
 auth#:#auth_cron_destroy_expired_sessions#:#Löschen abgelaufener Benutzer-Sitzungen
 auth#:#auth_cron_destroy_expired_sessions_desc#:#Dieser Cron-Job löscht bereits abgelaufene Benutzer-Sitzungen
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
-auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
+auth#:#auth_err_invalid_user_account#:#Die Anmeldung ist fehlgeschlagen. Bitte überprüfen Sie, ob Sie Ihren Benutzernamen und Ihr Passwort korrekt eingegeben haben. Wenn das Problem weiterhin besteht, ist Ihr Konto möglicherweise inaktiv oder abgelaufen. Wenden Sie sich in diesem Fall bitte über den Link am unteren Seitenrand an den technischen Support Ihrer ILIAS-Plattform.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
@@ -2533,6 +2536,7 @@ book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_bookings_for_you#:#Es wurden keine Buchungen für Sie durchgeführt.
 book#:#book_no_objects#:#Keine Buchungen
 book#:#book_no_of_objects#:#Anzahl Angebote
+book#:#book_no_pools_selected#:#Diesem Kurs ist kein Buchungspool zugewiesen. Buchungspools können über den Reiter „Ressourcen“ des Kurses zugewiesen werden.
 book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
 book#:#book_no_recurrence#:#Nur diesen Termin buchen
 book#:#book_not#:#Nicht
@@ -2786,7 +2790,7 @@ certificate#:#certificate_short_name_description#:#Bitte geben Sie einen Kurztit
 certificate#:#certificate_text#:#Text des Zertifikats
 certificate#:#certificate_text_info#:#Bitte geben Sie hier den Text des Zertifikats ein. Falls der WYSIWYG-Edtior in der ILIAS-Administration deaktiviert wurde, können Sie hier dennoch gültiges XHTML zur Formatierung nutzen.<br><br>
 certificate#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
-certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird in der Hauptseite der Administration in der Kategorie Web-Services konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
+certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird durch Angabe von Netzwerk-Host und -Port über das ILIAS-Setup konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
 certificate#:#certificate_var_max_points#:#Maximale Punktzahl im verwendeten Test
 certificate#:#certificate_var_result_mark_long#:#Erreichte Note in der Form 'Offizielle Bezeichnung'
 certificate#:#certificate_var_result_mark_short#:#Erreichte Note in der Form 'Kurzbezeichnung'
@@ -3161,9 +3165,9 @@ cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzei
 cmix#:#conf_remarks#:#Interne Kommentare
 cmix#:#conf_title#:#Titel
 cmix#:#conf_use_proxy#:#xAPI-Proxy
-cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
+cmix#:#conf_use_proxy_info#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5-Ergebnisse holen“. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich und wird automatisch aktiviert.
 cmix#:#conf_use_proxy_info_cmi5#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Für cmi5-Objekte ist der xAPI-Proxy zwingend erforderlich.
-cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5 Ergebnisse holen“.
+cmix#:#conf_use_proxy_info_xapi#:#Der xAPI-Proxy liefert in Echtzeit Daten zur Bestimmung des Lernfortschritts in ILIAS. Entsprechend der gewählten Optionen zum Datenschutz reduziert der Proxy personenbezogene Daten. Bei deaktiviertem xAPI-Proxy schreibt der Lerninhalt den Lernfortschritt direkt in den LRS. Dann müssen diese Daten auch direkt aus dem LRS herausgeholt werden. Für die Bestimmung des Lernfortschritts benötigt man dafür den Cronjob „xAPI/cmi5-Ergebnisse holen“.
 cmix#:#conf_user_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#conf_user_ident_il_uuid_ext_account#:#ID-externes-Konto@ILIAS-Plattform-ID.ilias
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Die E-Mail-Adresse setzt sich zusammen aus der ID eines externen Kontos und einer eigens generierten Plattform-ID. Diese Option ermöglicht Rückschlüsse auf die Person.zulassen.
@@ -3191,9 +3195,9 @@ cmix#:#content_privacy_ident#:#Schlüssel zur Identifikation einer Person
 cmix#:#content_privacy_name#:#Name
 cmix#:#create_lrs_type_form#:#Neuer Learning Record Store Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
-cmix#:#cron_xapi_del#:#xAPI/cmi5 Daten im Learning Record Store löschen
+cmix#:#cron_xapi_del#:#xAPI/cmi5-Daten im Learning Record Store löschen
 cmix#:#cron_xapi_del_desc#:#Daten werden gemäß den Einstellungen der xAPI/cmi5-Objekte gelöscht.
-cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
+cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5-Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
 cmix#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 cmix#:#download_certificate#:#Zertifikat herunterladen
@@ -4724,15 +4728,15 @@ common#:#msg_link_clipboard_p#:#Wählen Sie nun den gewünschten Ort, in den die
 common#:#msg_link_clipboard_s#:#Wählen Sie nun den gewünschten Ort, in den das ausgewählte Objekt verknüpft werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
-common#:#msg_min_one_role#:#Jedes ILIAS-Konto muss mindestens einer globalen Rolle zugewiesen sein!
+common#:#msg_min_one_role#:#Jedes ILIAS-Konto muss mindestens einer globalen Rolle zugewiesen sein.
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Anmeldekonto löschen.
 common#:#msg_no_file#:#Sie haben keine Datei ausgewählt oder die ausgewählte Datei war zu groß.
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
-common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
-common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Benutzerzuweisung zu ändern
+common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Kontos zu ändern
+common#:#msg_no_perm_assign_user_to_role#:#Sie habe keine Berechtigung, um die Kontenzuweisung zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung um neue Rollenvorlagen anzulegen!
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
@@ -4746,6 +4750,7 @@ common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf
 common#:#msg_no_perm_read#:#Sie besitzen keine ausreichende Berechtigung, um auf dieses Objekt zuzugreifen.
 common#:#msg_no_perm_read_item#:#Sie haben keine Berechtigung, auf das Objekt „%s“ zuzugreifen.
 common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
+common#:#msg_no_perm_view_roles_of_user#:#Sie haben keine Berechtigung, auf die Rollenzuweisung des Kontos zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
@@ -4904,8 +4909,6 @@ common#:#obj_etal#:#Mitarbeiter-Gespräch
 common#:#obj_exc#:#Übung
 common#:#obj_exc_duplicate#:#Übung kopieren
 common#:#obj_excv#:#Übungszertifikat
-common#:#obj_extt#:#Software von Drittanbietern
-common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
 common#:#obj_facs#:#Dateien
 common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
 common#:#obj_file#:#Datei
@@ -5524,6 +5527,7 @@ common#:#select#:#Auswählen
 common#:#select_all#:#Alle auswählen
 common#:#select_at_least_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 common#:#select_file#:#Datei wählen
+common#:#select_file_from_computer#:#Datei wählen
 common#:#select_files_from_computer#:#Dateien wählen
 common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus.
@@ -6448,7 +6452,7 @@ content#:#cont_ed_split_page_next#:#Auf nächste Seite schieben
 content#:#cont_ed_textitem#:#Testelement
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_base_image#:#Ausgangsbild bearbeiten
-content#:#cont_edit_comp#:#Bearbeitungsmodus
+content#:#cont_edit_comp#:#Bearbeiten
 content#:#cont_edit_definition#:#Definition bearbeiten
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_language_version#:#Version bearbeiten
@@ -6457,7 +6461,7 @@ content#:#cont_edit_marker_position#:#Markierungspunkt bearbeiten
 content#:#cont_edit_mob#:#Medienobjekt bearbeiten
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mode#:#Bearbeitungsmodus
-content#:#cont_edit_multi#:#Mehrfachauswahl
+content#:#cont_edit_multi#:#Auswählen
 content#:#cont_edit_overlay_position#:#Position des Overlays bearbeiten
 content#:#cont_edit_par#:#Text bearbeiten
 content#:#cont_edit_personal_data#:#Persönliche Daten editieren
@@ -7369,6 +7373,7 @@ copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_par_format_selection#:#Absatzformatauswahl
 copg#:#copg_pc_mob_does_not_exist#:#Das Medienobjekt wurde nicht gefunden.
+copg#:#copg_plugin#:#Plugin
 copg#:#copg_plugin_not_avail#:#Plugin %s nicht verfügbar.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_reload_page#:#Seite neu laden
@@ -8542,7 +8547,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeug
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_subject#:#Die Datensammlung „%s“ wurde bearbeitet.
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_comments#:#Kommentare
@@ -8622,7 +8626,6 @@ dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_formula_detail_desc#:#Einträge in diesem Feld generieren sich automatisch. Sie können hier keinen Eintrag vornehmen.
 dcl#:#dcl_height#:#Höhe
-dcl#:#dcl_hello#:#Hallo
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_ilias_reference#:#Objekt im Magazin
@@ -8656,7 +8659,7 @@ dcl#:#dcl_locked_tooltip#:#Ein gesperrtes Feld lässt sich von Benutzern nicht m
 dcl#:#dcl_manage#:#Verwalten
 dcl#:#dcl_max_digits#:#Maximale Anzahl Ziffern
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
-dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_max_text_length#:#Maximale Länge: %s
 dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert.
@@ -8680,7 +8683,6 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_next_record#:#Nächster Eintrag
-dcl#:#dcl_no_content_warning#:#Achtung: die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_no_entry#:#Kein Eintrag
 dcl#:#dcl_no_export_async_config#:#Keine SOAP Konfiguration für asyncrone Exporte verfügbar.
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar.
@@ -8688,6 +8690,7 @@ dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstell
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
+dcl#:#dcl_no_table_found#:#Keine sichbare Tabelle verfügbar!
 dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
@@ -8696,11 +8699,12 @@ dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
-dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_online_info#:#Nur wenn die Datensammlung online geschaltet ist, können Benutzer die Datensammlung sehen und benutzen.
+dcl#:#dcl_open_detail_view#:#Detailansicht öffnen
+dcl#:#dcl_open_url#:#Link öffen
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_origin_not_found#:#Urprungsfeld konnte nicht gefunden werden!
 dcl#:#dcl_own_entries#:#Nur eigene Einträge
@@ -8755,8 +8759,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendunge
 dcl#:#dcl_switch_table#:#Tabelle wechseln
 dcl#:#dcl_switch_view#:#Ansicht ändern
 dcl#:#dcl_table#:#Tabelle
-dcl#:#dcl_table_create#:#Erstelle Tabelle
-dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht „Eintragen“ besitzen.
 dcl#:#dcl_table_info_title#:#Info
@@ -8816,6 +8818,8 @@ dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation diese
 dcl#:#dcl_xls_async_export#:#als XLSX (asynchron)
 dcl#:#fieldtitle_allow_chars#:#Nicht Erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
+dcl#:#table_not_found#:#Tabelle nicht gefunden!
+dcl#:#tableview_not_found#:#Tabellenansicht nicht gefunden!
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -9161,8 +9165,10 @@ etal#:#etal_date_series_edit#:#Gesprächsserie
 etal#:#etal_delete_confirmation_msg#:#Sind Sie sicher, dass das folgende Gespräch gelöscht werden soll?
 etal#:#etal_edit#:#Allgemein
 etal#:#etal_invalid_user#:#Dieses Konto existiert nicht, oder kann nicht eingeladen werden.
+etal#:#etal_location#:#Ort
 etal#:#etal_new#:#Neues Gespräch
 etal#:#etal_open#:#Gespräch öffnen
+etal#:#etal_recurrence#:#Wiederholung
 etal#:#etal_status_all#:#Alle
 etal#:#etal_status_completed#:#Abgeschlossen
 etal#:#etal_status_pending#:#Ausstehend
@@ -9876,7 +9882,7 @@ form#:#form_msg_max_upload#:#Maximale Anzahl von gleichzeitig hochladbaren Datei
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
 form#:#form_msg_value_too_high#:#Wert ist zu hoch. Bitte geben Sie einen niedrigeren Wert ein.
 form#:#form_msg_value_too_low#:#Wert ist zu niedrig. Bitte geben Sie einen höheren Wert ein.
-form#:#form_msg_wrong_date#:#Falsches Datum. Bitte geben Sie ein gültiges Datum an.
+form#:#form_msg_wrong_date#:#Bitte überprüfen Sie Ihre Datumseingabe. Sowohl ein Startdatum als auch ein Enddatum sind erforderlich und das Startdatum darf nicht später liegen als das Enddatum.
 form#:#form_no_link#:#Kein Link
 form#:#form_open_answer#:#Freitext
 form#:#form_password_not_allowed_for_auth#:#Für die gewählte Authentifizierungmethode können Sie das Passwort nicht ändern
@@ -10949,7 +10955,6 @@ lso#:#lso_print_list#:#Liste erstellen
 lso#:#lso_read#:#Lesezugriff auf Learning Sequence
 lso#:#lso_search_users#:#Benutzer suchen
 lso#:#lso_settings_availability#:#Verfügbarkeit
-lso#:#lso_settings_availability_error#:#Das Enddatum darf nicht vor dem Startdatum liegen
 lso#:#lso_settings_extro#:#Abschlussseite bearbeiten
 lso#:#lso_settings_intro#:#Einleitungsseite bearbeiten
 lso#:#lso_settings_old_extro#:#Alte Abschlussseite ansehen
@@ -11045,6 +11050,7 @@ lti#:#highscore_top_table#:#Bestenliste
 lti#:#highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 lti#:#highscore_wtime#:#Dauer
 lti#:#highscore_wtime_description#:#Eine Spalte mit der Dauer wird in die Platzierungen aufgenommen.
+lti#:#launch_custom_params#:#Benutzerdefinierte Startparameter###27 11 2025 new variable
 lti#:#launch_method#:#Optionen für den Start
 lti#:#launch_method_embedded#:#Eingebettete Inhalte
 lti#:#launch_method_embedded_info#:#Der Inhalt wird innerhalb des ILIAS-Kontextes geöffnet. Es wird als eingebetteter Inhalt in der Registerkarte Inhalt angezeigt.
@@ -11548,7 +11554,7 @@ mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Einstellungen' oder 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut „%s“ im Feld „%s“ verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
-maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
+maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „ILIAS erweitern > Karten“ ab.
 maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: https://nominatim.example.com/search?q=[QUERY]&format=json
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist „%s“.
 maps#:#maps_enable_maps#:#Karten aktivieren
@@ -12831,8 +12837,8 @@ obj#:#obj_deactivate_multilang_conf#:# Wollen Sie die Unterstützung für mehrsp
 obj#:#obj_fallback_lang#:#Standardsprache
 obj#:#obj_features#:#Zusätzliche Funktionen
 obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
-obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
-obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
+obj#:#obj_insert_into_clipboard#:#In Zwischenablage übernehmen
+obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage übernommen.
 obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_more_translations#:#Weitere Übersetzungen
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
@@ -13051,7 +13057,7 @@ pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
 poll#:#poll_absolute#:#Aktuelle Stimmen
 poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
 poll#:#poll_add#:#Abstimmung anlegen
-poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
+poll#:#poll_anonymous_warning#:#Ihre Stimme wurde einzeln erfasst, aber Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
 poll#:#poll_answer#:#Antwort
 poll#:#poll_answer_selected_alt_text#:#Ausgewählt
 poll#:#poll_answers#:#Mögliche Antworten
@@ -13074,7 +13080,7 @@ poll#:#poll_max_number_of_answers#:#Max. Antworten
 poll#:#poll_max_number_of_answers_info#:#Sie dürfen bis zu %s Antworten auswählen.
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Ohne Namen / Anonym
-poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen der Teilnehmenden nicht aufgeführt.
+poll#:#poll_mode_anonymous_info#:#Im Tab "Abstimmungsergebnisse" werden Namen der Teilnehmenden nicht aufgeführt. Systeminterne IDs der Teilnehmenden werden allerding in der Datenbank gespeichert.
 poll#:#poll_mode_personal#:#Mit Namen
 poll#:#poll_mode_personal_info#:#Im Tab "Abstimmungsergebnisse" werden die Namen der Teilnehmenden mit ihren Antworten aufgeführt. Wer Zugriff auf diesen Tab hat, kann prüfen, wer welche Antwort gegeben hat.
 poll#:#poll_new#:#Neue Abstimmung anlegen
@@ -13699,6 +13705,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
 pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.
 qpl#:#qpl_filter_commented_exclude#:#Nur Fragen ohne Kommentare
 qpl#:#qpl_filter_commented_only#:#Nur Fragen mit Kommentaren
 qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
@@ -13851,14 +13858,14 @@ rbac#:#cmis_edit_permission#:#Rechteeinstellungen der Administration für xAPI/c
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
 rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
-rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5 Objekt kopieren
+rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5-Objekt kopieren
 rbac#:#cmix_delete#:#Benutzer kann xAPI/cmi5-Objekt verschieben oder löschen
 rbac#:#cmix_edit_learning_progress#:#Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten
 rbac#:#cmix_edit_permission#:#Benutzer kann Berechtigungseinstellungen ändern
-rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5 Objekt sehen
+rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5-Objekt sehen
 rbac#:#cmix_read_learning_progress#:#Benutzer kann den Lernfortschritt anderer Benutzer einsehen
 rbac#:#cmix_read_outcomes#:#Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen
-rbac#:#cmix_visible#:#xAPI/cmi5 Objekt ist sichtbar
+rbac#:#cmix_visible#:#xAPI/cmi5-Objekt ist sichtbar
 rbac#:#cmix_write#:#Benutzer kann die Einstellungen des xAPI/cmi5-Objekts bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
@@ -13956,10 +13963,6 @@ rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
 rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
 rbac#:#excs_write#:#Einstellungen in Übungs-Administration bearbeiten
 rbac#:#export_member_data#:#Export von Mitgliederdaten
-rbac#:#extt_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#extt_read#:#Lesezugriff auf Administration der Software von Drittanbietern
-rbac#:#extt_visible#:#Administration der Software von Drittanbietern ist sichtbar
-rbac#:#extt_write#:#Software von Drittanbietern konfigurieren
 rbac#:#facs_edit_permission#:#Rechteeinstellung für die Administration ändern
 rbac#:#facs_read#:#Lesezugriff auf Administration für Dateien und Ordner
 rbac#:#facs_upload_blacklisted_files#:#Dateien mit indexierten Endungen hochladen
@@ -15841,6 +15844,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#Für jeden Media Query wird ein eigener CSS-Abschnitt nach dem Standard-Abschnitt (ohne Media Query) eingefügt.
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
+style#:#sty_move_obj_styles#:#Stylesheets der Objekte ändern
 style#:#sty_move_style#:#Stylesheet ändern
 style#:#sty_move_user_styles#:#Stylesheet der Benutzer ändern
 style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf keine Leerzeichen sondern nur die folgenden Zeichen enthalten:
@@ -15848,6 +15852,7 @@ style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchsta
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Anzahl der Lernmodule
+style#:#sty_nr_objects#:#Number of Objects
 style#:#sty_odd_col_class#:#Ungerade Spalten
 style#:#sty_odd_row_class#:#Ungerade Zeilen
 style#:#sty_ol#:#Geordnete Liste
@@ -17637,7 +17642,7 @@ wsp#:#share_content#:#Ressource freigeben
 wsp#:#share_with#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#wsp_copy_to_repository#:#Ins Magazin kopieren
 wsp#:#wsp_invalid_password#:#Das Passwort ist ungültig.
-wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5 Objekts
+wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5-Objekts
 wsp#:#wsp_list_crsv#:#Kurszertifikat
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_ltiv#:#Zertifikat des LTI-Konsument-Objekts

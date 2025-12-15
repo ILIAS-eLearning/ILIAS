@@ -477,7 +477,7 @@ class ilInfoScreenGUI
             $ilAccess->checkAccess("edit_permissions", "", $ref_id)) {
             $this->addProperty(
                 $lng->txt("create_date"),
-                ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(), IL_CAL_DATETIME))
+                ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(), IL_CAL_DATETIME, 'UTC'))
             );
 
             // owner

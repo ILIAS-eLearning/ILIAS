@@ -36,7 +36,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true);
-        $commands[] = array("permission" => "write", "cmd" => "render", "lang_var" => "edit_content");
+        $commands[] = array("permission" => "write", "cmd" => "render", "lang_var" => "book_booking_objects");
         $commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "settings");
 
         return $commands;

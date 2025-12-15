@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Data\NewsItem;
+
 const NEWS_NOTICE = 0;
 const NEWS_MESSAGE = 1;
 const NEWS_WARNING = 2;
@@ -491,119 +493,14 @@ class ilNewsItem
         ]);
     }
 
-
-    /**
-     * Get all news items for a user.
-     * @deprecated (will migrate to ilNewsData)
-     */
-    public static function _getNewsItemsOfUser(
-        int $a_user_id,
-        bool $a_only_public = false,
-        bool $a_prevent_aggregation = false,
-        int $a_per = 0,
-        array &$a_cnt = [],
-        bool $no_auto_generated = false,
-        array $excluded = [],
-        int $a_limit = 0
-    ): array {
-        global $DIC;
-
-        $ilAccess = $DIC->access();
-        $fav_rep = new ilFavouritesDBRepository();
-
-        $news_item = new ilNewsItem();
-
-        $per = $a_per;
-
-        // this is currently not used
-        $ref_ids = [];
-
-        if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") !== "n") {
-            // get all items of the personal desktop
-            $pd_items = $fav_rep->getFavouritesOfUser($a_user_id);
-            foreach ($pd_items as $item) {
-                if (!in_array($item["ref_id"], $ref_ids)) {
-                    $ref_ids[] = (int) $item["ref_id"];
-                }
-            }
-
-            // get all memberships
-            $crs_mbs = ilParticipants::_getMembershipByType($a_user_id, ['crs']);
-            $grp_mbs = ilParticipants::_getMembershipByType($a_user_id, ['grp']);
-            $items = array_merge($crs_mbs, $grp_mbs);
-            foreach ($items as $i) {
-                $item_references = ilObject::_getAllReferences($i);
-                if (is_array($item_references) && count($item_references)) {
-                    foreach ($item_references as $ref_id) {
-                        if (!in_array($ref_id, $ref_ids)) {
-                            $ref_ids[] = $ref_id;
-                        }
-                    }
-                }
-            }
-        }
-
-        $data = [];
-
-        foreach ($ref_ids as $ref_id) {
-            if (!$a_only_public) {
-                // this loop should not cost too much performance
-                $acc = $ilAccess->checkAccessOfUser($a_user_id, "read", "", $ref_id);
-
-                if (!$acc) {
-                    continue;
-                }
-            }
-            if (self::getPrivateFeedId() > 0) {
-                global $DIC;
-
-                $rbacsystem = $DIC->rbac()->system();
-                $acc = $rbacsystem->checkAccessOfUser(self::getPrivateFeedId(), "read", $ref_id);
-
-                if (!$acc) {
-                    continue;
-                }
-            }
-
-            $obj_id = ilObject::_lookupObjId($ref_id);
-            $obj_type = ilObject::_lookupType($obj_id);
-            $news = $news_item->getNewsForRefId(
-                $ref_id,
-                $a_only_public,
-                false,
-                $per,
-                $a_prevent_aggregation,
-                false,
-                $no_auto_generated,
-                false,
-                $a_user_id,
-                0,
-                $excluded
-            );
-
-            // counter
-            if (!is_null($a_cnt)) {
-                $a_cnt[$ref_id] = count($news);
-            }
-
-            $data = self::mergeNews($data, $news);
-        }
-
-        $data = ilArrayUtil::sortArray($data, "creation_date", "desc", false, true);
-
-        if ($a_limit > 0) {
-            array_splice($data, $a_limit);
-        }
-        return $data;
-    }
-
     /**
      * Get News For Ref Id.
      *
-     * @deprecated (will migrate to ilNewsData)
      * @param string|int $a_time_period
      * @param int $a_limit currently only supported for groups and courses
      * @param int[] $a_excluded currently only supported for groups and courses (news ids)
+     *
+     * @deprecated Use \ILIAS\News\Domain\NewsCollectionService::getNewsForContext instead
      */
     public function getNewsForRefId(
         int $a_ref_id,
@@ -725,10 +622,11 @@ class ilNewsItem
 
     /**
      * Get news aggregation (e.g. for courses, groups)
-     * @deprecated (will migrate to ilNewsData)
      * @param string|int $a_time_period
+     *
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
-    public function getAggregatedNewsData(
+    protected function getAggregatedNewsData(
         int $a_ref_id,
         bool $a_only_public = false,
         $a_time_period = 0,
@@ -833,7 +731,7 @@ class ilNewsItem
     }
 
     /**
-     * @deprecated will move to ilNewsData
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     protected function aggregateForums(
         array $news,
@@ -881,7 +779,7 @@ class ilNewsItem
     }
 
     /**
-     * @deprecated will move to ilNewsData
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     protected function aggregateFiles(
         array $news,
@@ -913,7 +811,8 @@ class ilNewsItem
 
     /**
      * Get news aggregation for child objects (e.g. for categories)
-     * @deprecated will move to ilNewsData
+     *
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     protected function getAggregatedChildNewsData(
         int $a_ref_id,
@@ -1035,8 +934,9 @@ class ilNewsItem
 
     /**
      * Query news for a context
-     * @deprecated will move to ilNewsData
      * @param string|int $a_time_period
+     *
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
     public function queryNewsForContext(
         bool $a_for_rss_use = false,
@@ -1206,10 +1106,11 @@ class ilNewsItem
     }
 
     /**
-     * @deprecated will move to ilNewsData
      * @param string|int $a_time_period
+     *
+     * @deprecated will be removed after migrating `getNewsForRefId`
      */
-    public function queryNewsForMultipleContexts(
+    private function queryNewsForMultipleContexts(
         array $a_contexts,
         bool $a_for_rss_use = false,
         $a_time_period = 0,
@@ -1655,7 +1556,8 @@ class ilNewsItem
             // files
             $up_cnt = $cr_cnt = 0;
             foreach ($a_aggregation as $item) {
-                if ($item["title"] === "file_updated") {
+                $title = $item instanceof NewsItem ? $item->getTitle() : $item['title'];
+                if ($title === 'file_updated') {
                     $up_cnt++;
                 } else {
                     $cr_cnt++;
@@ -1976,34 +1878,5 @@ class ilNewsItem
             " mob_cnt_play = " . $ilDB->quote($cnt, "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
         );
-    }
-
-    /**
-     * Prepare news data from cache
-     * @deprecated will move to data
-     */
-    public static function prepareNewsDataFromCache(array $a_cres): array
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $data = $a_cres;
-        $news_ids = array_keys($data);
-        $set = $ilDB->query("SELECT id FROM il_news_item " .
-            " WHERE " . $ilDB->in("id", $news_ids, false, "integer"));
-        $existing_ids = [];
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $existing_ids[] = (int) $rec["id"];
-        }
-        //var_dump($existing_ids);
-        $existing_news = [];
-        foreach ($data as $k => $v) {
-            if (in_array($k, $existing_ids)) {
-                $existing_news[$k] = $v;
-            }
-        }
-
-        return $existing_news;
     }
 }

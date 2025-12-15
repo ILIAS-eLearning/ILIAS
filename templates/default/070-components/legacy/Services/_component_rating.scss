@@ -10,8 +10,12 @@ img.ilRatingMarker {
 	height: 7px;
 }
 
-a.ilRating {
+a.ilRating, button.ilRating {
 	text-decoration: none;
+
+	&:hover {
+		text-decoration: none;
+	}
 }
 
 div.ilRatingOverlay {

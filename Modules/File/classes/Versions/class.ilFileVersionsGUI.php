@@ -23,9 +23,9 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Modal\Interruptive;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
-use ILIAS\Services\WOPI\Discovery\ActionDBRepository;
-use ILIAS\Services\WOPI\Discovery\ActionRepository;
-use ILIAS\Services\WOPI\Embed\EmbeddedApplication;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionRepository;
+use ILIAS\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\FileUpload\MimeType;
 

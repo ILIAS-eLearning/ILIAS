@@ -34,6 +34,8 @@ class ilAssQuestionProcessLockerFactory
      */
     protected $db;
 
+    protected ilLogger $logger;
+
     /**
      * @var integer
      */
@@ -53,10 +55,14 @@ class ilAssQuestionProcessLockerFactory
      * @param ilSetting $settings
      * @param ilDBInterface $db
      */
-    public function __construct(ilSetting $settings, ilDBInterface $db)
-    {
+    public function __construct(
+        ilSetting $settings,
+        ilDBInterface $db,
+        ilLogger $logger
+    ) {
         $this->settings = $settings;
         $this->db = $db;
+        $this->logger = $logger;
 
         $this->questionId = null;
         $this->userId = null;
@@ -131,7 +137,7 @@ class ilAssQuestionProcessLockerFactory
                 $storage = new ilAssQuestionProcessLockFileStorage($this->getQuestionId(), $this->getUserId());
                 $storage->create();
 
-                $locker = new ilAssQuestionProcessLockerFile($storage);
+                $locker = new ilAssQuestionProcessLockerFile($storage, $this->logger);
                 break;
 
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_DB:

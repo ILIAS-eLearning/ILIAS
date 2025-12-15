@@ -235,7 +235,7 @@ class ilObjectActivation
 
         $item['timing_type'] = $item_array['timing_type'] ?? 0;
 
-        if ($item_array['timing_type'] == self::TIMINGS_PRESETTING &&
+        if ($item['timing_type'] == self::TIMINGS_PRESETTING &&
             (
                 ($item_array['changeable'] ?? false) ||
                 ilObjCourse::lookupTimingMode(ilObject::_lookupObjId($item['parent'])) === ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE

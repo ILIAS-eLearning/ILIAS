@@ -118,6 +118,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
         }
     }
 
+    /**
+     * @return assFormulaQuestionUnit[]
+     */
     public function getResultUnits(assFormulaQuestionResult $result): array
     {
         if (!isset($this->resultunits[$result->getResult()])) {
@@ -368,13 +371,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                         if (is_array($userdata)) {
                             foreach ($result_units as $unit) {
                                 if (isset($userdata[$result]["unit"]) && $userdata[$result]["unit"] == $unit->getId()) {
-                                    $units = $unit->getUnit();
+                                    $units = $unit->getSanitizedUnit();
                                 }
                             }
-                        } else {
-                            if ($resObj->getUnit()) {
-                                $units = $resObj->getUnit()->getUnit();
-                            }
+                        } elseif ($resObj->getUnit()) {
+                            $units = $resObj->getUnit()->getSanitizedUnit();
                         }
                     } else {
                         $units = '<select name="result_' . $result . '_unit">';
@@ -388,7 +389,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, ilAs
                                     $units .= ' selected="selected"';
                                 }
                             }
-                            $units .= '>' . $unit->getUnit() . '</option>';
+                            $units .= '>' . $unit->getSanitizedUnit() . '</option>';
                         }
                         $units .= '</select>';
                     }

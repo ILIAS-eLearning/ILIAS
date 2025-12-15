@@ -1,4 +1,4 @@
-// Build: 2023416234957 
+// Build: 20251002094555 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11922,6 +11922,10 @@ function addClass (elm, name)
 	if (elm && !hasClass(elm, name)) 
 	{
 		elm.className = trim(elm.className + " " + name);
+		if (name == ilRTEDisabledClass)
+		{
+			elm.setAttribute('tabindex', '-1');
+		}
 	}
 }
 
@@ -11937,6 +11941,10 @@ function removeClass(elm, name)
 	if (elm) 
 	{
 		elm.className = trim((" " + elm.className + " ").replace(name, " "));
+		if (name == ilRTEDisabledClass)
+		{
+			elm.removeAttribute('tabindex');
+		}
 	}
 }
 
@@ -14885,8 +14893,9 @@ function sendLogEntry(timespan,action,key,value,result,errorCode)
 		setTimeout("refreshDebugger()",2000);
 	} else {
 //		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
-		refreshDebugger(true);
-	}	
+		setTimeout("refreshDebugger()",1000);
+		setTimeout("refreshDebugger(true)",2000);
+	}
 }
 
 function removeByElement(arrayName,arrayElement)

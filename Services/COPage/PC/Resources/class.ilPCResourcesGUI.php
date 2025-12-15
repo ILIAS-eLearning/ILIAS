@@ -169,6 +169,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         if ($this->supportsItemGroups() && count($item_groups) > 0) {
             // item groups
             $options = $item_groups;
+            sort($options);
             $si = new ilSelectInputGUI($this->lng->txt("obj_itgr"), "itgr");
             $si->setOptions($options);
             $selected = ($a_insert)
@@ -360,6 +361,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
     ): string {
         global $DIC;
 
+        $obj_definition = $DIC["objDefinition"];
         $item_ref_ids = [];
 
         $lng = $DIC->language();
@@ -469,7 +471,15 @@ class ilPCResourcesGUI extends ilPageContentGUI
             }
             if ($block->getBlock() instanceof \ILIAS\Container\Content\TypeBlock) {
                 $type = $block->getId();
-                $tpl->setVariable("HEADER", $lng->txt("objs_" . $type));
+
+                if (!$obj_definition->isPlugin($type)) {
+                    $title = $lng->txt("objs_" . $type);
+                } else {
+                    $pl = ilObjectPlugin::getPluginObjectByType($type);
+                    $title = $pl->txt("objs_" . $type);
+                }
+
+                $tpl->setVariable("HEADER", $title);
                 $a_content = str_replace("[list-" . $type . "]", $tpl->get(), $a_content);
             } elseif ($block->getBlock() instanceof \ILIAS\Container\Content\SessionBlock) {
                 $type = $block->getId();

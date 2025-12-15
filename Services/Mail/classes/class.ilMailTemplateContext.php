@@ -58,7 +58,7 @@ abstract class ilMailTemplateContext
     abstract public function getDescription(): string;
 
     /**
-     * @return array{mail_salutation: array{placeholder: string, label: string}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_lastname_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
+     * @return array{mail_salutation: array{placeholder: string, label: string, supportsNestedPlaceholders?: true}, first_name: array{placeholder: string, label: string}, last_name: array{placeholder: string, label: string}, login: array{placeholder: string, label: string}, title: array{placeholder: string, label: string, supportsCondition: true}, firstname_lastname_superior: array{placeholder: string, label: string}, ilias_url: array{placeholder: string, label: string}, installation_name: array{placeholder: string, label: string}}
      */
     private function getGenericPlaceholders(): array
     {
@@ -66,6 +66,7 @@ abstract class ilMailTemplateContext
             'mail_salutation' => [
                 'placeholder' => 'MAIL_SALUTATION',
                 'label' => $this->getLanguage()->txt('mail_nacc_salutation'),
+                'supportsNestedPlaceholders' => true,
             ],
             'first_name' => [
                 'placeholder' => 'FIRST_NAME',
@@ -97,6 +98,21 @@ abstract class ilMailTemplateContext
                 'label' => $this->getLanguage()->txt('mail_nacc_installation_name'),
             ],
         ];
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getNestedPlaceholders(): array
+    {
+        $nested_placeholders = [];
+        foreach ($this->getPlaceholders() as $key => $ph) {
+            if (isset($ph['supportsNestedPlaceholders']) && $ph['supportsNestedPlaceholders']) {
+                $nested_placeholders[] = $ph['placeholder'];
+            }
+        }
+
+        return $nested_placeholders;
     }
 
     final public function getPlaceholders(): array

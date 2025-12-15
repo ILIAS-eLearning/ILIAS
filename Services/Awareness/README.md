@@ -4,6 +4,7 @@ The awareness service basically implements the Who-Is-Online tool.
 
 The tool lists different sets of users (e.g. users sharing the same memberships or system contacts) and their online status.
 
+
 ## Who-Is-Online tool: Implementing a User Provider
 
 The set of users appearing in the who-is-online tool is easily extensible. To add a new set of users to the tool simply provide a class implementing `ILIAS\Awareness\User\Provider` and add the class to `ILIAS\Awareness\User\ProviderFactory`. The second step should be replaced by the artefact reader in the future, see ROADMAP.md.

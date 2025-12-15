@@ -225,6 +225,7 @@ return [
     'vivo',   // VIDEO__VIVO,
     'vrml',   // APPLICATION__X_VRML,
     'vsdx',   // viseo
+    'vtt',   // TEXT__VTT,
     'wav',        // wav
     'webm',   // VIDEO__WEBM,
     'wmv',   // VIDEO__X_MS_WMV,

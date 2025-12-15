@@ -36,6 +36,8 @@ class ilTestProcessLockerFactory
      */
     protected $db;
 
+    protected ilLogger $logger;
+
     /**
      * @var null|int
      */
@@ -45,10 +47,14 @@ class ilTestProcessLockerFactory
      * @param ilSetting $settings
      * @param ilDBInterface $db
      */
-    public function __construct(ilSetting $settings, ilDBInterface $db)
-    {
+    public function __construct(
+        ilSetting $settings,
+        ilDBInterface $db,
+        ilLogger $logger
+    ) {
         $this->settings = $settings;
         $this->db = $db;
+        $this->logger = $logger;
     }
 
     public function getContextId(): ?int
@@ -85,7 +91,7 @@ class ilTestProcessLockerFactory
                 $storage = new ilTestProcessLockFileStorage((int) $this->getContextId());
                 $storage->create();
 
-                $locker = new ilTestProcessLockerFile($storage);
+                $locker = new ilTestProcessLockerFile($storage, $this->logger);
                 break;
 
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_DB:

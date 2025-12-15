@@ -52,7 +52,7 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
         $mob = new ilObjMediaObject($value);
         $med = $mob->getMediaItem('Standard');
 
-        if (!$med || $med->getLocation() === "") {
+        if (!$med || $med->getLocation() === "" || !$this->getField()->getFileSystem()->has(ilObjMediaObject::_getRelativeDirectory($mob->getId()) . '/' . $med->getLocation())) {
             return "";
         }
 
@@ -70,7 +70,7 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
 
         $components = [];
 
-        if (in_array($med->getSuffix(), ['jpg', 'jpeg', 'png', 'gif'])) {
+        if (in_array(strtolower($med->getSuffix()), ['jpg', 'jpeg', 'png', 'gif'])) {
             // Image
             $dir = ilObjMediaObject::_getDirectory($mob->getId());
 
@@ -87,7 +87,7 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
             $components[] = $image;
         } else {
             $location = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-            if ($med->getSuffix() == 'mp3') {
+            if (strtolower($med->getSuffix()) == 'mp3') {
                 $components[] = $this->factory->player()->audio($location);
             } else {
                 $components[] = $this->factory->player()->video($location);

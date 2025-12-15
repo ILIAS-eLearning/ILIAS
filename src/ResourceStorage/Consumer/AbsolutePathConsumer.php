@@ -40,6 +40,12 @@ class AbsolutePathConsumer extends BaseConsumer
 
         $stream = $revision->maybeStreamResolver()?->getStream();
 
-        $this->absolute_path = (string)($stream->getMetadata('uri') ?? '');
+        $this->absolute_path = (string) ($stream->getMetadata('uri') ?? '');
     }
+
+    public function disableCaching(): DeliveryConsumer
+    {
+        return $this;
+    }
+
 }

@@ -649,6 +649,7 @@ assessment#:#errFormulaQuestion#:#Pitanje u obliku formule sadrži netočne info
 assessment#:#errRecursionInResult#:#Formula sadrži beskonačnu rekurziju.
 assessment#:#err_category_in_use#:#Najmanje jedna kategorija se ne može izbrisati. Jedna ili više jedinica ove kategorije se već koriste.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#Jednu ste varijablu rezultata koristili više puta. Ovo nije dopušteno u tekstu pitanja.
 assessment#:#err_no_formula#:#Morate unijeti formulu
@@ -1116,7 +1117,10 @@ assessment#:#redirect_after_finishing_rule#:#Preusmjeravanje
 assessment#:#redirect_after_finishing_tst#:#Preusmjeravanje
 assessment#:#redirect_after_finishing_tst_desc#:#Nakon završetka testa svaki se sudionik automatski preusmjerava na definiranu internetsku stranicu. To vrijedi samo ako sudionici nakon završetka testa nemaju pristup svojim rezultatima testa.
 assessment#:#redirect_always#:#uvijek na definiranu internetsku stranicu
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#samo kada je aktiviran prikaz testa
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#URL internetske stranice
 assessment#:#region#:#Regija
 assessment#:#remove_as_participant#:#Ukloni kao fiksnog sudionika
@@ -1495,7 +1499,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Različite povratne informac
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Klikom na tipku ‘Provjeri'ILIAS će pokazati određenu povratnu informaciju za svaki mogući odgovor koji je odabrao sudionik. Povratna informacija mora se pohraniti uz pitanje. Ovu vrstu povratne informacije ne podržavaju sve vrste pitanja.
 assessment#:#tst_instant_feedback_contents#:#Sadržaji povratne informacije
 assessment#:#tst_instant_feedback_desc#:#Kada su pitanja konfigurirana s povratnim informacijama, te informacije sudionicima stoje na raspolaganju tijekom testa.
-assessment#:#tst_instant_feedback_forced#:#Prikaži povratne informacije uvijek prilikom predaje odgovora
 assessment#:#tst_instant_feedback_results#:#Ostvareni bodovi
 assessment#:#tst_instant_feedback_results_desc#:#Klikom na tipku ‘Provjeri’ ILIAS će prikazati koliko je bodova postignuto danim odgovorom.
 assessment#:#tst_instant_feedback_solution#:#Prikaži najbolji mogući odgovor
@@ -1659,7 +1662,6 @@ assessment#:#tst_postpone_on_desc#:#Pitanje koja korisnici samo pogledaju i prel
 assessment#:#tst_presentation_properties#:#Provedba testa: ponašanje pitanja
 assessment#:#tst_presentation_settings_section#:#Prezentacija
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###30 04 2024 new variable
-assessment#:#tst_print#:#Test i ocjenjivanje - pregled za ispis
 assessment#:#tst_proceed#:#Nastavi
 assessment#:#tst_processing_time#:#Ograniči trajanje testa
 assessment#:#tst_processing_time_desc#:#Sudionici test mogu rješavati samo tijekom određenog vremenskog razdoblja. Vrijeme teče od trenutka kada korisnik po prvi put pokrene test. Prekid testa ne zaustavlja vrijeme obrade. Ako je broj mogućih prolaza testa ograničen, na kartici ‘Nadzorna ploča’ prikazuje se dodatna značajka kako bi se sudionicima odobrilo dodatno vrijeme.
@@ -1839,6 +1841,7 @@ assessment#:#tst_setting_offer_hints_label#:#Savjeti (hints)
 assessment#:#tst_settings_conflict_compulsory_and_lock#:#"Compulsory Questions" cannot be used together with "Answer Lock".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_postpone_and_lock#:#"Unanswered questions will be enqueued" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#"Shuffle Questions" cannot be used together with "Lock Answers After Moving to Next Question".###30 04 2024 new variable
+assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
 assessment#:#tst_settings_header_additional#:#Additional Features###30 04 2024 new variable
 assessment#:#tst_settings_header_execution#:#Provedba testa: pristup
 assessment#:#tst_settings_header_intro#:#Informacije prije pokretanja testa
@@ -2533,6 +2536,7 @@ book#:#book_new#:#Kreiraj novi bazen za rezervacije
 book#:#book_no_bookings_for_you#:#No reservations have been performed for you.###04 06 2021 new variable
 book#:#book_no_objects#:#No Assignment###04 06 2021 new variable
 book#:#book_no_of_objects#:#Broj objekata
+book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.###04 06 2021 new variable
 book#:#book_no_recurrence#:#Book only this date###30 04 2024 new variable
 book#:#book_not#:#Ne
@@ -4746,6 +4750,7 @@ common#:#msg_no_perm_perm#:#Nemate dopuštenje za pristup postavkama prava
 common#:#msg_no_perm_read#:#Nemate dozvolu za pristup ovom objektu.
 common#:#msg_no_perm_read_item#:#Nemate dozvolu za pristup objektu '%s'.
 common#:#msg_no_perm_read_lm#:#Nemate dopuštenje za čitanje ovog modula za učenje.
+common#:#msg_no_perm_view_roles_of_user#:#You have no permission to view the role assignment of this user###26 08 2025 new variable
 common#:#msg_no_perm_write#:#Nemate dopuštenje za pisanje
 common#:#msg_no_search_result#:#Nije pronađen nijedan unos
 common#:#msg_no_search_string#:#Unesite upit
@@ -7369,6 +7374,7 @@ copg#:#copg_page_element_not_found#:#Page element not found.###04 06 2021 new va
 copg#:#copg_page_type_stys#:#Layout Page###04 06 2021 new variable
 copg#:#copg_par_format_selection#:#Paragraph Format Selection###17 01 2024 new variable
 copg#:#copg_pc_mob_does_not_exist#:#This media object does not exist.###28 11 2023 new variable
+copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
 copg#:#copg_plugin_not_avail#:#Plugin %s not available.###10 12 2024 new variable
 copg#:#copg_questions_not_supported_here#:#Pitanja nisu podržana u ovom kontekstu.
 copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable
@@ -8542,7 +8548,6 @@ dcl#:#dcl_change_notification_dcl_new_record#:#Stvoren je sljedeći zapis podata
 dcl#:#dcl_change_notification_dcl_update_record#:#Ažuriran je sljedeći zapis podataka
 dcl#:#dcl_change_notification_link#:#Poveznica na zbirku podataka
 dcl#:#dcl_change_notification_subject#:#Izmijenjeno je prikupljanje podataka "%s"
-dcl#:#dcl_change_why_you_receive_this_email#:#Ovu poruku primate jer ste aktivirali obavijest o ovom prikupljanju podataka.
 dcl#:#dcl_changed_by#:#Promijenio
 dcl#:#dcl_checked#:#Provjereno.
 dcl#:#dcl_comments#:#Komentari
@@ -8622,7 +8627,6 @@ dcl#:#dcl_formula#:#Formula
 dcl#:#dcl_formula_desc#:#Možete agregirati nekoliko unosa u zapisu s pomoću formule.
 dcl#:#dcl_formula_detail_desc#:#Unosi se generiraju automatski, unos ne možete urediti.
 dcl#:#dcl_height#:#Visina
-dcl#:#dcl_hello#:#Poštovani
 dcl#:#dcl_id#:#ID br.
 dcl#:#dcl_id_description#:#Interni ID.
 dcl#:#dcl_ilias_reference#:#Poveznica na modul ILIAS
@@ -8680,7 +8684,6 @@ dcl#:#dcl_new#:#Stvori novu zbirku podataka
 dcl#:#dcl_new_field#:#Novo polje
 dcl#:#dcl_new_table#:#Nova tablica
 dcl#:#dcl_next_record#:#Sljedeći unos
-dcl#:#dcl_no_content_warning#:#Pozor, zbirka podataka je online, ali još nema sadržaja!
 dcl#:#dcl_no_entry#:#No entry###04 06 2021 new variable
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.###20 05 2025 new variable
 dcl#:#dcl_no_export_data_available#:#Nema podataka ili polja dostupnih za izvoz.
@@ -8701,6 +8704,8 @@ dcl#:#dcl_noturl_exception#:#Morate unijeti poveznicu (koja počinje s http:// i
 dcl#:#dcl_number#:#Cijeli broj
 dcl#:#dcl_number_desc#:#Polje za cijele brojeve (najviše 9 znamenki). Bez decimala ili razlomaka.
 dcl#:#dcl_online_info#:#Korisnici mogu koristiti zbirku podataka samo ako je zbirka podataka online.
+dcl#:#dcl_open_detail_view#:#Open detail view###26 08 2025 new variable
+dcl#:#dcl_open_url#:#Open link###26 08 2025 new variable
 dcl#:#dcl_order#:#Redoslijed
 dcl#:#dcl_origin_not_found#:#Origin field was not found!###10 12 2024 new variable
 dcl#:#dcl_own_entries#:#Samo vlastiti unosi
@@ -8755,8 +8760,6 @@ dcl#:#dcl_supported_filetypes_desc#:#Dopuštene ekstenije možete postaviti odvo
 dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
 dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tablica
-dcl#:#dcl_table_create#:#Kreiraj tablicu
-dcl#:#dcl_table_edit#:#Ažuriraj tablicu
 dcl#:#dcl_table_id#:#ID tablice
 dcl#:#dcl_table_info#:#Korisnici s dopuštenjem 'uređivanje postavki' (vidi karticu 'Dopuštenje') uvijek imaju dopuštenje za dodavanje/uređivanje/brisanje unosa. Korisnici s dopuštenjem za 'uređivanje unosa' (vidi karticu 'Dopuštenja') imaju dozvole samo u skladu s postavkama navedenim u donjem obrascu.
 dcl#:#dcl_table_info_title#:#Informacije
@@ -9161,8 +9164,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series###31 03 2023 new variable
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###30 04 2024 new variable
 etal#:#etal_edit#:#General###31 03 2023 new variable
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###31 03 2023 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk###31 03 2023 new variable
 etal#:#etal_open#:#Open Employee Talk###31 03 2023 new variable
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All###31 03 2023 new variable
 etal#:#etal_status_completed#:#Completed###31 03 2023 new variable
 etal#:#etal_status_pending#:#Pending###31 03 2023 new variable
@@ -10949,7 +10954,6 @@ lso#:#lso_print_list#:#Generiraj popis
 lso#:#lso_read#:#Korisnik ima pristup za čitanje sekvence učenja
 lso#:#lso_search_users#:#Pretraži korisnike
 lso#:#lso_settings_availability#:#dostupnost
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###30 04 2024 new variable
 lso#:#lso_settings_extro#:#Postavke izlazne stranice
 lso#:#lso_settings_intro#:#Postavke uvodne stranice
 lso#:#lso_settings_old_extro#:#View Old Exit Page###31 03 2023 new variable
@@ -11045,6 +11049,7 @@ lti#:#highscore_top_table#:#Top Ranking###04 06 2021 new variable
 lti#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.###04 06 2021 new variable
 lti#:#highscore_wtime#:#Duration###04 06 2021 new variable
 lti#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.###04 06 2021 new variable
+lti#:#launch_custom_params#:#Custom launch parameters###27 11 2025 new variable
 lti#:#launch_method#:#Options for Launch###04 06 2021 new variable
 lti#:#launch_method_embedded#:#Embedded Content###04 06 2021 new variable
 lti#:#launch_method_embedded_info#:#The content is opened within the ILIAS context. It is presented as embedded content within the content tab.###04 06 2021 new variable
@@ -13699,6 +13704,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###04 06 2021 n
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###04 06 2021 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###04 06 2021 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###04 06 2021 new variable
+pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
 qpl#:#qpl_filter_commented_exclude#:#Questions without comments###30 04 2024 new variable
 qpl#:#qpl_filter_commented_only#:#Questions with comments###30 04 2024 new variable
 qpl#:#qpl_page_type_qfbg#:#General Feedback###04 06 2021 new variable
@@ -15841,6 +15847,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
+style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
 style#:#sty_move_style#:#Change Style
 style#:#sty_move_user_styles#:#Change Style of Users
 style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
@@ -15848,6 +15855,7 @@ style#:#sty_msg_color_must_only_include#:#The color name may only include the fo
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
 style#:#sty_nr_learning_modules#:#Number of Learning Modules
+style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
 style#:#sty_odd_col_class#:#Odd Columns
 style#:#sty_odd_row_class#:#Odd Rows
 style#:#sty_ol#:#Ordered List###30 04 2024 new variable

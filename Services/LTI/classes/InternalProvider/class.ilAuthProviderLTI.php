@@ -120,7 +120,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         $connector = new ilLTIDataConnector();
         $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
-        return $consumer->getTitle();
+        $object = ilObjectFactory::getInstanceByRefId($consumer->getRefId());
+        return $consumer->getTitle() . " - " . $object->getTitle();
     }
 
     /**
@@ -264,6 +265,21 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         } else {
             $this->getLogger()->debug('LTI authentication success');
         }
+
+        /**
+         * @var ilLTIPlatform
+         */
+        //LTI 1.1
+        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
+        // schneider: not required. platform is already initialized by authenticate function in Tool lib
+        /*
+        $consumer = ilLTIPlatform::fromConsumerKey(
+            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
+            $this->dataConnector
+        );
+        */
+        $this->provider = $lti_provider;
+        $this->messageParameters = $this->provider->getMessageParameters();
 
         if (empty($this->messageParameters)) {
             $status->setReason('empty_lti_message_parameters');
@@ -443,12 +459,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
         $newUser["login"] = $local_user;
-        if(isset($this->messageParameters['lis_person_name_given'])) {
+        if (isset($this->messageParameters['lis_person_name_given'])) {
             $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
         } else {
             $newUser["firstname"] = '-';
         }
-        if(isset($this->messageParameters['lis_person_name_family'])) {
+        if (isset($this->messageParameters['lis_person_name_family'])) {
             $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
         } else {
             $newUser["lastname"] = '-';

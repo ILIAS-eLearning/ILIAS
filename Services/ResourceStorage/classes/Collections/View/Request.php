@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\ResourceStorage\Collections\View;
 
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 /**
@@ -31,27 +33,24 @@ final class Request
     public const MODE_AS_PRESENTATION_TABLE = 2;
     public const MODE_AS_ITEMS = 3;
     public const MODE_AS_DECK = 4;
-    public const P_PAGE = 'page';
-    public const P_SORTATION = 'sort';
+    public const P_PAGE = 'irss_page';
+    public const P_SORTATION = 'irss_sort';
     public const BY_CREATION_DATE_DESC = 'by_creation_date_desc';
     public const BY_CREATION_DATE_ASC = 'by_creation_date_asc';
     public const BY_TITLE_DESC = 'by_title_desc';
     public const BY_TITLE_ASC = 'by_title_asc';
     public const BY_SIZE_DESC = 'by_size_desc';
     public const BY_SIZE_ASC = 'by_size_asc';
-    public const P_MODE = 'mode';
+    public const P_MODE = 'irss_view_mode';
     private Mode $mode;
     private int $page;
     private string $sortation;
-    private \ILIAS\UI\Factory $ui_factory;
-    private array $actions = [];
-    private \ilLanguage $language;
-    private \ILIAS\Refinery\Factory $refinery;
+    private Factory $refinery;
     private int $items_per_page = 20;
 
     public function __construct(
         private \ilCtrlInterface $ctrl,
-        private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $query,
+        private ArrayBasedRequestWrapper $query,
         private Configuration $view_configuration,
     ) {
         global $DIC;

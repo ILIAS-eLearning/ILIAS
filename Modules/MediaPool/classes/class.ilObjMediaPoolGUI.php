@@ -349,7 +349,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $this->ctrl->setReturn($this, $this->mode);
-                $clip_gui = new ilEditClipboardGUI();
+
+                $return_cmd = $ilCtrl->getLinkTarget(
+                    $this,
+                    "insertFromClipboard"
+                );
+
+                $clip_gui = new ilEditClipboardGUI($return_cmd);
                 $clip_gui->setMultipleSelections(true);
                 $clip_gui->setInsertButtonTitle($lng->txt("mep_copy_to_mep"));
                 $ilTabs->setTabActive("clipboard");
@@ -987,17 +993,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         $this->checkPermission("write");
 
-        $ilCtrl->setParameterByClass(
-            "ileditclipboardgui",
-            "returnCommand",
-            rawurlencode($ilCtrl->getLinkTarget(
-                $this,
-                "insertFromClipboard",
-                "",
-                false,
-                false
-            ))
-        );
         $ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
     }
 

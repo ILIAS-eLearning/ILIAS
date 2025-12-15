@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-/**
- * @noinspection AutoloadingIssuesInspection
- */
-class ilDclFileRecordQueryObject extends ilDclRecordQueryObject
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Objective;
+
+class ilNewsSetupAgent extends NullAgent
 {
-    public function applyCustomSorting(
-        ilDclBaseFieldModel $field,
-        array $all_records,
-        string $direction = 'asc'
-    ): array {
-        return $all_records;
+    use HasNoNamedObjective;
+
+    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
+    {
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilNewsDBUpdateSteps());
     }
 }

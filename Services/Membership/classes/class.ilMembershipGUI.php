@@ -943,10 +943,15 @@ class ilMembershipGUI
             }
 
             $toolbar->addButton(
-                $this->lng->txt("mail_members"),
+                $this->getMailButtonLabel(),
                 $this->ctrl->getLinkTargetByClass('ilMailMemberSearchGUI', '')
             );
         }
+    }
+
+    protected function getMailButtonLabel(): string
+    {
+        return $this->lng->txt("mail_members");
     }
 
     /**

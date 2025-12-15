@@ -18,20 +18,52 @@
 
 namespace ILIAS\StaticURL\Response;
 
+use ILIAS\StaticURL\Context;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Factory
 {
-    public function cannot(): CannotHandle
+    public function __construct(
+        private Context $context
+    ) {
+    }
+
+    /**
+     * @description The current Handler cannot redirect the user to the target (e.g. due to missing permissions).
+     */
+    public function cannot(): CannotReach
+    {
+        return new CannotReach();
+    }
+
+    /**
+     * @description The current Handler cannot handle the request (e.g. due to missing resource).
+     */
+    public function notFound(): CannotHandle
     {
         return new CannotHandle();
     }
-    public function loginFirst(): MaybeCanHandlerAfterLogin
+
+    /**
+     * @description The user needs to login first before the target may can be reached.
+     */
+    public function loginFirst(): MaybeCanHandlerAfterLogin|CannotReach
     {
+        if ($this->context->isUserLoggedIn()) {
+            return new CannotReach();
+        }
+        if (!$this->context->isUserLoggedIn() && !$this->context->isPublicSectionActive()) {
+            return new CannotReach();
+        }
+
         return new MaybeCanHandlerAfterLogin();
     }
 
+    /**
+     * @description Everything is fine, the target can be reached. Provide the URI path to it.
+     */
     public function can(string $uri_path): CanHandleWithURIPath
     {
         return new CanHandleWithURIPath($uri_path);
