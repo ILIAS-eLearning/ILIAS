@@ -289,7 +289,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     protected function buildMarkString(array $data): string
     {
         if ($data['has_unfinished_passes'] && $this->is_score_last_pass) {
-            return '';
+            return '-';
         }
         return $data['final_mark'];
     }
