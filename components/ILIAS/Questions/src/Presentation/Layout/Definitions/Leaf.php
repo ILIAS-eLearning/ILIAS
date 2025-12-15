@@ -18,17 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerForm;
+namespace ILIAS\Questions\Presentation\Layout\Definitions;
 
-use ILIAS\Data\UUID\Uuid;
-use ILIAS\Language\Language;
-
-interface Properties
+class Leaf
 {
-    public function getAnswerFormId(): ?Uuid;
-    public function getQuestionId(): ?Uuid;
-    public function getTypeGenericProperties(): TypeGenericProperties;
-    public function getBasicPropertiesForListing(
-        Language $lng
-    ): array;
+    public function __construct(
+        private readonly mixed $value
+    ) {
+    }
+
+    public function get(): mixed
+    {
+        return $this->value;
+    }
 }

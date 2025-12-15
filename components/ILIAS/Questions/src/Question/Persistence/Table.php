@@ -20,19 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Persistence;
 
-class Select
+class Table
 {
     public function __construct(
-        private readonly Table $table,
-        private readonly array $columns
+        private readonly CoreTables|TableTypes $table_definition,
+        private readonly ?TableNameBuilder $table_name_builder = null,
+        private readonly string $table_identifier = ''
     ) {
     }
 
-    public function toColumnsArray(): array
+    public function getName(): string
     {
-        return array_map(
-            fn(string $v): string => "{$this->table->getName()}.{$v}",
-            $this->columns
+        if ($this->table_definition instanceof CoreTables) {
+            return $this->table_definition->value;
+        }
+
+        return $this->table_name_builder->getTableNameFor(
+            $this->table_definition,
+            $this->table_identifier
         );
     }
 }

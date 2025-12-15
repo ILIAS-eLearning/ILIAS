@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Views;
 
+use ILIAS\Questions\Presentation\Layout\Definitions\EditForm;
+use ILIAS\Questions\Presentation\Layout\Definitions\Factory as DefinitionsFactory;
+use ILIAS\Questions\Presentation\Layout\Definitions\Environment;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
@@ -28,8 +31,8 @@ use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
-use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\RequestInterface;
@@ -52,57 +55,49 @@ class Edit
     }
 
     public function create(
-        URLBuilder $url_builder,
-        URLBuilderToken $step_token,
-        string $step
-    ): array|Question {
-        return match ($step) {
-            self::CMD_SAVE_QUESTION => $this->onBasicPropertiesFormSubmission($url_builder, $step_token),
-            default => [$this->buildBasicPropertiesForm($url_builder, $step_token)]
+        Environment $environment
+    ): EditForm|Question {
+        return match ($environment->getStep()) {
+            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm($environment),
+            default => $this->buildBasicPropertiesForm($environment)
         };
     }
 
     public function edit(
-        URLBuilder $url_builder,
-        URLBuilderToken $step_token,
-        URLBuilderToken $page_id_token,
-        string $step
-    ): array|Question {
-        return match ($step) {
-            self::CMD_SAVE_QUESTION => $this->onBasicPropertiesFormSubmission($url_builder, $step_token),
-            default => [
-                $this->buildBasicPropertiesForm($url_builder, $step_token),
-                $this->buildPreviewPanel($url_builder, $page_id_token)
-            ]
+        Environment $environment
+    ): EditForm|Question {
+        return match ($environment->getStep()) {
+            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm($environment),
+            default => $this->buildBasicPropertiesForm($environment)->withContentAfterForm(
+                $this->buildPreviewPanel($environment)
+            )
         };
     }
 
     private function buildBasicPropertiesForm(
-        URLBuilder $url_builder,
-        URLBuilderToken $step_token
-    ): StandardForm {
-        return $this->ui_factory->input()->container()->form()->standard(
-            $url_builder->withParameter($step_token, self::CMD_SAVE_QUESTION)
-                ->buildURI()->__toString(),
-            $this->buildBasicPropertiesInputs()
+        Environment $environment
+    ): EditForm {
+        return $environment->getDefinitionsFactory()->getEditForm(
+            $environment->getUrlBuilderWithStepParameter(self::CMD_SAVE_QUESTION),
+            $this->buildBasicPropertiesInputs(),
+            true
         );
     }
 
-    private function onBasicPropertiesFormSubmission(
-        URLBuilder $url_builder,
-        URLBuilderToken $step_token
-    ): array|Question {
-        $form = $this->buildBasicPropertiesForm($url_builder, $step_token)
-            ->withRequest($this->request);
-        $data = $form->getData();
-        if ($data === null) {
-            return [$form];
-        }
+    private function processBasicPropertiesForm(
+        Environment $environment
+    ): EditForm|Question {
+        $form = $this->buildBasicPropertiesForm(
+            $environment
+        )->withRequest($this->request);
 
-        return $data['question'];
+        $data = $form->getData();
+        return $data === null
+            ? $form
+            : $data;
     }
 
-    private function buildBasicPropertiesInputs(): array
+    private function buildBasicPropertiesInputs(): Section
     {
         $ff = $this->ui_factory->input()->field();
         $section = $ff->section(
@@ -127,38 +122,35 @@ class Edit
             $this->lng->txt('edit_basic_form_properties')
         )->withAdditionalTransformation($this->buildAddBasicPropertiesToQuestionTrafo());
 
-        return [
-            'question' => $section->withValue([
-                'title' => $this->question->getTitle(),
-                'author' => $this->question->getAuthor(),
-                'lifecycle' => $this->question->getLifecycle()->value,
-                'remarks' => $this->question->getRemarks()
-            ])
-        ];
+        return $section->withValue([
+            'title' => $this->question->getTitle(),
+            'author' => $this->question->getAuthor(),
+            'lifecycle' => $this->question->getLifecycle()->value,
+            'remarks' => $this->question->getRemarks()
+        ]);
     }
 
     private function buildAddBasicPropertiesToQuestionTrafo(): Transformation
     {
         return $this->refinery->custom()->transformation(
-            fn(array $vs): QuestionImplementation => new QuestionImplementation(
-                $this->question?->getId(),
-                $this->question?->getPageId(),
-                $vs['title'],
-                $vs['author'],
-                Lifecycle::tryFrom($vs['lifecycle']) ?? Lifecycle::Draft,
-                $vs['remarks'],
-                $this->question?->getOriginalId(),
-                $this->question?->getLastUpdate(),
-                $this->question?->getCreated(),
-                $this->question?->getAnswerForms() ?? []
-            )
+            function (array $vs): QuestionImplementation {
+                $question = $this->question
+                    ->withTitle($vs['title'])
+                    ->withAuthor($vs['author'])
+                    ->withRemarks($vs['remarks']);
+
+                $lifecycle = Lifecycle::tryFrom($vs['lifecycle']);
+                if ($lifecycle !== null) {
+                    return $question->withLifecycle($lifecycle);
+                }
+
+                return $question;
+            }
         );
     }
 
-    private function buildPreviewPanel(
-        URLBuilder $url_builder,
-        URLBuilderToken $page_id_token
-    ): StandardPanel {
+    private function buildPreviewPanel(): StandardPanel
+    {
         return $this->ui_factory->panel()->standard(
             $this->lng->txt('preview'),
             $this->ui_factory->legacy()->content($this->question->getTitle())
@@ -166,13 +158,7 @@ class Edit
             $this->ui_factory->dropdown()->standard([
                 $this->ui_factory->link()->standard(
                     $this->lng->txt('edit'),
-                    $url_builder
-                        ->withURI(
-                            $this->data_factory->uri(
-                                ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(\QstsQuestionPageGUI::class, 'edit')
-                            )
-                        )->withParameter($page_id_token, (string) $this->question->getPageId())
-                        ->buildURI()->__toString()
+                    $this->ctrl->getLinkTargetByClass(\QstsQuestionPageGUI::class, 'edit')
                 )
             ])
         );

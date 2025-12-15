@@ -20,11 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Data;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
+use ILIAS\Questions\Presentation\Layout\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
@@ -39,7 +40,7 @@ class Gap
     public function __construct(
         private Uuid $answer_input_id,
         private int $position,
-        private Data $data,
+        private Properties $properties,
         private ?Type $type = null
     ) {
     }
@@ -75,15 +76,15 @@ class Gap
         return $clone;
     }
 
-    public function getData(): Data
+    public function getProperties(): Properties
     {
-        return $this->data;
+        return $this->properties;
     }
 
-    public function withData(Data $data): self
+    public function withProperties(Properties $properties): self
     {
         $clone = clone $this;
-        $clone->data = $data;
+        $clone->properties = $properties;
         return $clone;
     }
 
@@ -117,7 +118,7 @@ class Gap
         FieldFactory $ff
     ): Section {
         $section = $ff->section(
-            $this->type->getEditAnswerOptionsInputs($this->data),
+            $this->type->getEditAnswerOptionsInputs($this->properties),
             "{$this->buildShortenedGapName()} ({$lng->txt("{$this->type->getIdentifier()}_gap")})"
         );
 
@@ -137,7 +138,7 @@ class Gap
         FieldFactory $ff
     ): Section {
         $section = $ff->section(
-            $this->type->getEditPointsInputs($this->data->getAnswerOptions()),
+            $this->type->getEditPointsInputs($this->properties->getAnswerOptions()),
             "{$this->buildShortenedGapName()} ({$lng->txt("{$this->type->getIdentifier()}_gap")})"
         );
 
@@ -152,40 +153,44 @@ class Gap
         );
     }
 
-    public function getHiddenInput(
+    public function getCarryInputs(
         FieldFactory $ff
     ): Group {
         return $ff->group([
             self::FORM_KEY_TYPE => $ff->hidden()->withValue($this->type?->getIdentifier() ?? '')
                 ->withDedicatedName(self::FORM_KEY_TYPE . $this->getShortenedAnswerInputId()),
-            self::FORM_KEY_DATA => $this->data->getHiddenInput($ff)
+            self::FORM_KEY_DATA => $this->properties->getCarryInputs($ff)
             ->withDedicatedName(self::FORM_KEY_DATA . $this->getShortenedAnswerInputId())
         ]);
     }
 
-    public function withValuesFromPost(
+    public function getFromCarryTransformation(
         Refinery $refinery,
-        ArrayBasedRequestWrapper $post_wrapper,
-        Factory $gaps_factory,
-        string $form_input_path
-    ): self {
-        $available_gap_types = $gaps_factory->getAvailableGapTypes();
-        return $post_wrapper->retrieve(
-            $form_input_path . '/' . self::FORM_KEY_TYPE . $this->getShortenedAnswerInputId(),
-            $refinery->byTrying([
-                $refinery->custom()->transformation(
-                    fn(?string $v): self => $available_gap_types[$v]
-                        ? $this->withType($available_gap_types[$v])
-                        : $this
-                ),
-                $refinery->always($this)
-            ])
-        )->withData(
-            $this->data->withValuesFromPost(
-                $refinery,
-                $post_wrapper,
-                $form_input_path . '/' . self::FORM_KEY_DATA . $this->getShortenedAnswerInputId()
-            )
+        Factory $gaps_factory
+    ): Transformation {
+        return $refinery->custom()->transformation(
+            function (?CarryWrapper $v) use ($refinery, $gaps_factory): self {
+                if ($v === null) {
+                    return $this;
+                }
+                $available_gap_types = $gaps_factory->getAvailableGapTypes();
+                return $v->retrieve(
+                    self::FORM_KEY_TYPE . $this->getShortenedAnswerInputId(),
+                    $refinery->byTrying([
+                        $refinery->custom()->transformation(
+                            fn(?string $v): self => $available_gap_types[$v]
+                                ? $this->withType($available_gap_types[$v])
+                                : $this
+                        ),
+                        $refinery->always($this)
+                    ])
+                )->withProperties(
+                    $v->retrieve(
+                        self::FORM_KEY_DATA . $this->getShortenedAnswerInputId(),
+                        $this->properties->getFromCarryTransformation($refinery)
+                    )
+                );
+            }
         );
     }
 

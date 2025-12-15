@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Data;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
 use ILIAS\Questions\Question\Definitions\TextMatchingOptions;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -47,7 +47,7 @@ class Text extends Type
         return 'text';
     }
 
-    public function getEditAnswerOptionsInputs(Data $data): array
+    public function getEditAnswerOptionsInputs(Properties $properties): array
     {
         $ff = $this->ui_factory->input()->field();
         return [
@@ -55,15 +55,15 @@ class Text extends Type
                 $this->lng->txt('answer_options'),
                 []
             )->withRequired(true)
-            ->withValue($data->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
+            ->withValue($properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'matching_method' => $ff->select(
                 $this->lng->txt('matching_method'),
                 TextMatchingOptions::buildOptionsList($this->lng)
             )->withRequired(true)
-            ->withValue($data->getTextMatchingMethod()?->value ?? self::DEFAULT_TECT_MATCHING_METHOD->value),
+            ->withValue($properties->getTextMatchingMethod()?->value ?? self::DEFAULT_TECT_MATCHING_METHOD->value),
             'max_chars' => $ff->numeric(
                 $this->lng->txt('max_chars'),
-            )->withValue($data->getMaxChars())
+            )->withValue($properties->getMaxChars())
         ];
     }
 
@@ -103,13 +103,13 @@ class Text extends Type
 
     public function getBuildGapTransformation(Gap $gap): Transformation
     {
-        $data = $gap->getData();
+        $properties = $gap->getProperties();
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withData(
-                $data->withMaxChars($vs['max_chars'])
+            fn(array $vs): Gap => $gap->withProperties(
+                $properties->withMaxChars($vs['max_chars'])
                     ->withTextMatchingMethod(TextMatchingOptions::tryFrom($vs['matching_method']) ?? self::DEFAULT_TECT_MATCHING_METHOD)
                     ->withAnswerOptions(
-                        $data->getAnswerOptions()->withAnswerOptionsFromTags($vs['answer_options'])
+                        $properties->getAnswerOptions()->withAnswerOptionsFromTags($vs['answer_options'])
                     )
             )
         );

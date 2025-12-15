@@ -18,24 +18,20 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerForm\Views;
+namespace ILIAS\Questions\Presentation\Layout\Definitions;
 
 use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\Presentation\Layout\Definitions\EditForm;
-use ILIAS\Questions\Presentation\Layout\Definitions\EditOverview;
-use ILIAS\Questions\Presentation\Layout\Definitions\Environment;
+use ILIAS\Questions\Presentation\Definitions\Editability;
+use ILIAS\UI\URLBuilder;
 
-interface Edit
+interface Environment
 {
-    public function create(
-        Environment $environment
-    ): EditForm|Properties;
-
-    public function edit(
-        Environment $environment
-    ): EditOverview|EditForm|Properties;
-
-    public function other(
-        Environment $environment
-    ): EditForm|Properties;
+    public function getDefinitionsFactory(): Factory;
+    public function getUrlBuilder(): URLBuilder;
+    public function getUrlBuilderWithStepParameter(string $step): URLBuilder;
+    public function getStep(): string;
+    public function withDefaultStep(): self;
+    public function getEditability(): Editability;
+    public function getProperties(): ?Properties;
+    public function withProperties(Properties $properties): self;
 }

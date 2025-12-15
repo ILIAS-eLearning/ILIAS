@@ -22,7 +22,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze;
 
 use ILIAS\Questions\AnswerForm\Definition as DefinitionInterface;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability;
-use ILIAS\Questions\AnswerForm\TypeGenericData;
+use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm\Factory as PropertiesFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Edit;
@@ -49,15 +49,10 @@ class Definition implements DefinitionInterface
     }
 
     public function buildProperties(
-        TypeGenericData $type_generic_data,
+        TypeGenericProperties $type_generic_data,
         array $type_specific_data
     ): Properties {
         return $this->properties_factory->fromData($type_generic_data, $type_specific_data);
-    }
-
-    public function getProperties(): Properties
-    {
-        return $this->properties;
     }
 
     public function getPersistence(): Persistence

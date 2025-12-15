@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question;
 
-interface Question
+interface Question extends Persistence\Storable
 {
     public function getParticipantView(): Views\Participant;
 }

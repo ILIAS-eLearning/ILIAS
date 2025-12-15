@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation;
+namespace ILIAS\Questions\Presentation\Definitions;
 
 enum Editability
 {

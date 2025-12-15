@@ -64,7 +64,7 @@ class Text
         ->withValue($this->cloze_text->getRawRepresentation());
     }
 
-    public function getHiddenInput(FieldFactory $ff): HiddenInput
+    public function getCarryInputs(FieldFactory $ff): HiddenInput
     {
         return $ff->hidden()->withValue($this->getTextForOutputInHiddenInput());
     }
@@ -74,7 +74,7 @@ class Text
         return $this->cloze_text->getRawRepresentation();
     }
 
-    public function getRenderedMarkdown(
+    public function getRenderedMarkdownForEditingPresentation(
         Gaps $gaps
     ): string {
         return $this->mustache_engine->render(
@@ -152,6 +152,10 @@ class Text
 
     private function getTextForOutputInHiddenInput(): string
     {
-        return str_replace(['{{', '}}'], ['&#123;&#123;', '&#125;&#125;'], $this->cloze_text->getRawRepresentation());
+        return str_replace(
+            ['{{', '}}'],
+            ['\{\{', '\}\}'],
+            $this->cloze_text->getRawRepresentation()
+        );
     }
 }

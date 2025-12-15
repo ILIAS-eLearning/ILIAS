@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Data\Factory as DataFactory;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Factory as PropertiesFactory;
 use ILIAS\Language\Language;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 
@@ -30,7 +30,7 @@ class Factory
 
     public function __construct(
         private readonly UuidFactory $uuid_factory,
-        private readonly DataFactory $data_factory,
+        private readonly PropertiesFactory $data_factory,
         array $available_gap_types
     ) {
         foreach ($available_gap_types as $type) {
@@ -62,7 +62,7 @@ class Factory
         return new Gap(
             $answer_input_id,
             $position,
-            $this->data_factory->getDefaultDataObject($answer_input_id)
+            $this->data_factory->getDefaultProperties($answer_input_id)
         );
     }
 

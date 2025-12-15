@@ -40,7 +40,7 @@ class Where
             );
     }
 
-    public function getRight(): int|string
+    public function getRight(): Value
     {
         return $this->right;
     }

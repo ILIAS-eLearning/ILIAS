@@ -29,7 +29,7 @@ interface Definition
 {
     public function getLabel(Language $lng): string;
     public function buildProperties(
-        TypeGenericData $type_generic_properties,
+        TypeGenericProperties $type_generic_properties,
         array $type_specific_data
     ): Properties;
     public function getPersistence(): Persistence;

@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question;
 
-use ILIAS\Questions\AnswerForm\Form;
+use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
+use ILIAS\Questions\Question\Persistence\Manipulate;
+use ILIAS\Questions\Presentation\Layout\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Uuid;
@@ -30,18 +32,19 @@ use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\RequestInterface;
 
 class QuestionImplementation implements Question
 {
+    public bool $self_updated = false;
+    public array $updated_answer_forms = [];
+
     /**
      * @param array{string, \ILIAS\Questions\AnswerForm\Form} $answer_forms
      */
     public function __construct(
-        private ?Uuid $id = null,
+        private readonly Uuid $id,
         private ?int $page_id = null,
         private string $title = '',
         private string $author = '',
@@ -49,7 +52,7 @@ class QuestionImplementation implements Question
         private string $remarks = '',
         private ?Uuid $original_id = null,
         private ?\DateTimeImmutable $last_update = null,
-        private ?\DateTimeImmutable $created = null,
+        private readonly ?\DateTimeImmutable $created = null,
         private array $answer_forms = [],
         private ?Taxonomies $taxonomies = null,
         private ?ContentForRecapitulation $content_for_recapitulation = null
@@ -61,13 +64,6 @@ class QuestionImplementation implements Question
         return $this->id;
     }
 
-    public function withQuestionId(Uuid $question_id): self
-    {
-        $clone = clone $this;
-        $clone->id = $question_id;
-        return $clone;
-    }
-
     public function getPageId(): ?int
     {
         return $this->page_id;
@@ -77,6 +73,7 @@ class QuestionImplementation implements Question
     {
         $clone = clone $this;
         $clone->page_id = $page_id;
+        $clone->self_updated = true;
         return $clone;
     }
 
@@ -89,6 +86,7 @@ class QuestionImplementation implements Question
     {
         $clone = clone $this;
         $clone->title = $title;
+        $clone->self_updated = true;
         return $clone;
     }
 
@@ -101,6 +99,7 @@ class QuestionImplementation implements Question
     {
         $clone = clone $this;
         $clone->author = $author;
+        $clone->self_updated = true;
         return $clone;
     }
 
@@ -113,6 +112,7 @@ class QuestionImplementation implements Question
     {
         $clone = clone $this;
         $clone->lifecycle = $lifecycle;
+        $clone->self_updated = true;
         return $clone;
     }
 
@@ -125,6 +125,7 @@ class QuestionImplementation implements Question
     {
         $clone = clone $this;
         $clone->remarks = $remarks;
+        $clone->self_updated = true;
         return $clone;
     }
 
@@ -137,6 +138,7 @@ class QuestionImplementation implements Question
     {
         $clone = clone $this;
         $clone->original_id = $original_id;
+        $clone->self_updated = true;
         return $clone;
     }
 
@@ -150,26 +152,22 @@ class QuestionImplementation implements Question
         return $this->created;
     }
 
-    public function withCreated(\DateTimeImmutable $created): self
-    {
-        $clone = clone $this;
-        $clone->created = $created;
-        return $clone;
-    }
-
     public function getAnswerForms(): array
     {
         return $this->answer_forms;
     }
 
-    public function getAnswerForm(Uuid $form_id): ?Form
+    public function getAnswerFormByIdString(string $form_id): ?AnswerFormProperties
     {
-        return $this->answer_forms[$form_id->toString()] ?? null;
+        return $this->answer_forms[$form_id] ?? null;
     }
 
-    public function withAnswerForm(Form $answer_form): self
+    public function withAnswerForm(AnswerFormProperties $answer_form): self
     {
-        $this->answer_forms[$answer_from->getId()->toString()] = $answer_form;
+        $clone = clone $this;
+        $clone->answer_forms[$answer_form->getAnswerFormId()->toString()] = $answer_form;
+        $clone->updated_answer_forms[] = $answer_form->getAnswerFormId();
+        return $clone;
     }
 
     /**
@@ -202,43 +200,40 @@ class QuestionImplementation implements Question
 
     public function toEditLink(
         LinkFactory $link_factory,
-        URLBuilder $url_builder,
-        URLBuilderToken $row_id_token
+        EnvironmentImplementation $environment
     ): StandardLink {
         return $link_factory->standard(
             $this->title,
-            $url_builder->withParameter(
-                $row_id_token,
-                $this->id->toString()
-            )->buildURI()->__toString()
+            $environment->withQuestionIdParameter($this->id)
+                ->getUrlBuilder()
+                ->buildURI()
+                ->__toString()
         );
     }
 
     public function toTableRow(
         DataRowBuilder $row_builder,
         UIFactory $ui_factory,
-        URLBuilder $url_builder,
-        URLBuilderToken $row_id_token
+        EnvironmentImplementation $environment
     ): DataRow {
         return $row_builder->buildDataRow(
             $this->id->toString(),
             [
                 'title' => $ui_factory->link()->standard(
                     $this->title,
-                    $url_builder->withParameter(
-                        $row_id_token,
-                        $this->id->toString()
-                    )->buildURI()->__toString()
+                    $environment->withQuestionIdParameter(
+                        $this->id
+                    )->getUrlBuilder()
+                    ->buildURI()
+                    ->__toString()
                 )
             ]
         );
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function toStorage(): array
-    {
+    public function toStorage(
+        Manipulate $manipulate
+    ): Manipulate {
         return [
             'id' => [\ilDBConstants::T_TEXT, $this->id->toString()],
             'page_id' => [\ilDBConstants::T_INTEGER, $this->page_id],

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Persistence;
 
-class SelectQuery
+class Query
 {
     private array $select = [];
     private array $where = [];
@@ -32,47 +32,35 @@ class SelectQuery
     private array $binding_values = [];
 
     public function __construct(
-        private readonly \ilDBInterface $db,
-        array $answer_form_ids
+        private readonly \ilDBInterface $db
     ) {
+
+        $questions_table_definition = CoreTables::Questions;
+        $answer_form_table_definition = CoreTables::AnswerForms;
+        $questions_id_column = $questions_table_definition->getIdColumn();
+
         $this->select[] = new Select(
-            Repository::QUESTION_TABLE,
-            Repository::QUESTION_TABLE_COLUMNS
+            $questions_table_definition->getTable(),
+            $questions_table_definition->getColumnsForSelect()
         );
 
         $this->select[] = new Select(
-            Repository::ANSWER_FORM_TABLE,
-            Repository::ANSWER_FORM_TABLE_COLUMNS
-        );
-
-        $left = new Column(
-            Repository::QUESTION_TABLE,
-            Repository::QUESTION_TABLE_ID_COLUMN
+            $answer_form_table_definition->getTable(),
+            $answer_form_table_definition->getColumnsForSelect()
         );
 
         $this->joins[] = new Join(
-            $left,
-            new Column(
-                Repository::ANSWER_FORM_TABLE,
-                Repository::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
-            )
-        );
-
-        $this->where[] = new Where(
-            $left,
-            new Value(
-                \ilDBConstants::T_INTEGER,
-                $answer_form_ids
-            ),
-            Operator::In
+            $questions_id_column,
+            $answer_form_table_definition->getForeignKeyColumn(),
+            JoinType::Left
         );
 
         $this->order[] = new Order(
-            Repository::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
+            $questions_id_column
         );
 
         $this->order[] = new Order(
-            Repository::ANSWER_FORM_TABLE_ID_COLUMN
+            $answer_form_table_definition->getIdColumn()
         );
     }
 
@@ -111,7 +99,7 @@ class SelectQuery
         return $clone;
     }
 
-    public function toSql(): string
+    public function toSql(): \ilDBStatement
     {
         return $this->db->queryF(
             'SELECT ' . implode(
@@ -121,14 +109,14 @@ class SelectQuery
                     static fn(array $c, Select $v): array => [...$c, ...$v->toColumnsArray()],
                     []
                 )
-            ) . ' FROM ' . self::QUESTION_TABLE
+            ) . ' FROM ' . CoreTables::Questions->value
             . array_reduce(
                 $this->joins,
                 static fn(string $c, Join $v): string => $c . PHP_EOL . $v->toSql(),
                 ''
             ) . PHP_EOL
             . $this->buildWhereString()
-            . $this->limit !== null ? "LIMIT = {$this->limit}" : '',
+            . ($this->limit !== null ? "LIMIT = {$this->limit}" : ''),
             $this->binding_types,
             $this->binding_values
         );
@@ -146,7 +134,7 @@ class SelectQuery
 
                 return "{$c}{$v->getLogicalOperator()} {$v->toSql()}" . PHP_EOL;
             }
-        );
+        ) ?? '';
     }
 
     private function addValueToBinding(Value $value): void

@@ -20,19 +20,28 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Persistence;
 
-class Select
+enum TableTypes
 {
-    public function __construct(
-        private readonly Table $table,
-        private readonly array $columns
-    ) {
-    }
+    case TypeSpecificAnswerForms;
+    case AnswerInputs;
+    case AnswerOptions;
+    case Responses;
+    case Additional;
 
-    public function toColumnsArray(): array
-    {
-        return array_map(
-            fn(string $v): string => "{$this->table->getName()}.{$v}",
-            $this->columns
-        );
+    public function getTable(
+        TableNameBuilder $table_name_builder,
+        ?string $table_identifier = null
+    ): Table {
+        return match($this) {
+            self::Additional => new Table(
+                $this,
+                $table_name_builder,
+                $table_identifier
+            ),
+            default => new Table(
+                $this,
+                $table_name_builder
+            )
+        };
     }
 }

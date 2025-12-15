@@ -18,17 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation;
+namespace ILIAS\Questions\Presentation\Layout\Definitions;
 
-use ILIAS\Questions\AnswerFormTypes\Factory as AnswerFormTypesFactory;
+use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\Presentation\Views\Edit;
+use ILIAS\Questions\Presentation\Layout\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Table;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
+use Psr\Http\Message\ServerRequestInterface;
 
 class QuestionsTable implements Table\DataRetrieval
 {
@@ -36,53 +38,19 @@ class QuestionsTable implements Table\DataRetrieval
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
         private readonly \ilLanguage $lng,
-        private readonly AnswerFormTypesFactory $answer_form_type_factory,
+        private readonly ServerRequestInterface $request,
+        private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
-        private readonly URLBuilder $url_builder,
-        private readonly URLBuilderToken $action_token,
-        private readonly URLBuilderToken $row_id_token
+        private readonly EnvironmentImplementation $environment
     ) {
         $lng->loadLanguageModule('qpl');
     }
 
-    public function getTable(): Table\Data
-    {
-        return $this->ui_factory->table()->data(
-            $this,
-            $this->lng->txt('questions'),
-            $this->getColums(),
-        );
+    public function render(
+        UIRenderer $ui_renderer
+    ): string {
+        return $ui_renderer->render($this->buildContent());
     }
-
-    public function getFilter(string $action): Filter
-    {
-        $question_type_options = [
-            '' => $this->lng->txt('filter_all_question_types')
-        ];
-
-        foreach ($this->answer_form_type_factory->getAvailableAnswerFormTypes() as $class => $type) {
-            $question_type_options[$class] = $type->getLabel($this->lng);
-        }
-
-        $field_factory = $this->ui_factory->input()->field();
-        $filter_inputs = [
-            'title' => $field_factory->text($this->lng->txt('title')),
-            'contains_type' => $field_factory->select($this->lng->txt('contains_type'), $question_type_options),
-        ];
-
-        $active = array_fill(0, count($filter_inputs), true);
-
-        $filter = $this->ui_service->filter()->standard(
-            'question_table_filter_id',
-            $action,
-            $filter_inputs,
-            $active,
-            true,
-            true
-        );
-        return $filter;
-    }
-
 
     public function getColums(): array
     {
@@ -103,12 +71,14 @@ class QuestionsTable implements Table\DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): \Generator {
+        $environment_with_action = $this->environment->withActionParameter(
+            Edit::CMD_EDIT_QUESTION
+        );
         foreach ($this->questions_repository->getAllQuestions() as $question) {
             yield $question->toTableRow(
                 $row_builder,
                 $this->ui_factory,
-                $this->url_builder,
-                $this->row_id_token
+                $environment_with_action
             );
         }
     }
@@ -119,5 +89,45 @@ class QuestionsTable implements Table\DataRetrieval
         mixed $additional_parameters
     ): ?int {
         return 0;
+    }
+
+    private function buildContent(): array
+    {
+        return [
+            $this->buildFilter($this->environment->getUrlBuilder()->buildURI()->__toString()),
+            $this->ui_factory->table()->data(
+                $this,
+                $this->lng->txt('questions'),
+                $this->getColums(),
+            )->withRequest($this->request)
+        ];
+    }
+
+    private function buildFilter(string $action): Filter
+    {
+        $question_type_options = [
+            '' => $this->lng->txt('filter_all_question_types')
+        ];
+
+        $field_factory = $this->ui_factory->input()->field();
+        $filter_inputs = [
+            'title' => $field_factory->text($this->lng->txt('title')),
+            'contains_type' => $field_factory->select(
+                $this->lng->txt('contains_type'),
+                $question_type_options + $this->answer_form_factory->getAnswerFormTypesArrayForSelect($this->lng)
+            ),
+        ];
+
+        $active = array_fill(0, count($filter_inputs), true);
+
+        $filter = $this->ui_service->filter()->standard(
+            'question_table_filter_id',
+            $action,
+            $filter_inputs,
+            $active,
+            true,
+            true
+        );
+        return $filter;
     }
 }

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions;
 
-use ILIAS\Questions\Presentation\Edit;
+use ILIAS\Questions\Presentation\Views\Edit;
 
 class PublicInterface
 {

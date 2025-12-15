@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Persistence;
 
+use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Definition;
-use ILIAS\Questions\AnswerFormTypes\Factory as FormTypesFactory;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -29,39 +29,18 @@ use ILIAS\Data\UUID\Uuid;
 
 class Repository
 {
-    public const string QUESTION_TABLE = 'qsts_questions';
-    public const string QUESTION_TABLE_ID_COLUMN = 'id';
-    public const array QUESTION_TABLE_COLUMNS = [
-        'id',
-        'page_id',
-        'title',
-        'author',
-        'lifecycle',
-        'remarks',
-        'original_id',
-        'last_update',
-        'created'
-    ];
-
-    public const string ANSWER_FORM_TABLE = 'qsts_answer_forms';
-    public const string ANSWER_FORM_TABLE_ID_COLUMN = 'id';
-    public const string ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN = 'question_id';
-    public const array ANSWER_FORM_TABLE_COLUMNS = [
-        'id AS answer_form_id',
-        'type',
-        'available_points',
-        'image_size',
-        'shuffle_answer_options',
-        'additional_text',
-        'additional_text_legacy'
-    ];
-
-    private const string PAGE_EDITOR_TABLE = 'page_object';
-
     public function __construct(
         private readonly \ilDBInterface $db,
-        private readonly UuidFactory $uuid_factory
+        private readonly UuidFactory $uuid_factory,
+        private readonly AnswerFormFactory $answer_form_factory
     ) {
+    }
+
+    public function getNew(): QuestionImplementation
+    {
+        return new QuestionImplementation(
+            $this->buildAvailableUuid()
+        );
     }
 
     /**
@@ -69,13 +48,22 @@ class Repository
      */
     public function getAllQuestions(): \Generator
     {
-        yield from $this->getForWhereClause('');
+        yield from $this->getForBaseQuery(new Query($this->db));
     }
 
     public function getForQuestionId(Uuid $question_id): ?QuestionImplementation
     {
-        return $this->getForWhereClause(
-            "q.id={$this->db->quote($question_id->toString(), \ilDBConstants::T_TEXT)}"
+        return $this->getForBaseQuery(
+            (new Query($this->db))->withAdditionalWhere(
+                new Where(
+                    CoreTables::Questions->getIdColumn(),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $question_id->toString()
+                    ),
+                    Operator::Equal
+                )
+            )
         )->current();
     }
 
@@ -86,91 +74,84 @@ class Repository
      */
     public function getForQuestionIds(array $question_ids): \Generator
     {
-        yield from $this->getForWhereClause(
-            $this->db->in(
-                'q.question_id',
-                $question_ids,
-                false,
-                \ilDBConstants::T_INTEGER
+        yield from $this->getForBaseQuery(
+            (new Query($this->db))->withAdditionalWhere(
+                new Where(
+                    CoreTables::Questions->getIdColumn(),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        array_map(
+                            fn(Uuid $v): string => $v->toString(),
+                            $question_ids
+                        )
+                    ),
+                    Operator::In
+                )
             )
         );
     }
 
-    private function buildQuestionFromDBRecords(\stdClass $db_record): QuestionImplementation
+    /**
+     * @return \Generator<\ILIAS\Questions\Question\QuestionImplementation>
+     */
+    private function getForBaseQuery(Query $query): \Generator
     {
-        return new QuestionImplementation(
-            $this->uuid_factory->fromString($db_record->id),
-            $db_record->page_id,
-            $db_record->title,
-            $db_record->author,
-            Lifecycle::from($db_record->lifecycle),
-            $db_record->remarks,
-            $db_record->original_id === null ? null : $this->uuid_factory->fromString($db_record->original_id),
-            new \DateTimeImmutable('@' . $db_record->last_update, new \DateTimeZone('UTC')),
-            new \DateTimeImmutable('@' . $db_record->created, new \DateTimeZone('UTC'))
-        );
+        $result = array_reduce(
+            $this->answer_form_factory->getAvailableDefinitions(),
+            fn(Query $c, Definition $v) => $v->getPersistence()->completeQuery(
+                new TableNameBuilder($v->getPersistence()->getPublicNameSpace()),
+                $c,
+                CoreTables::Questions->getIdColumn()
+            ),
+            $query
+        )->toSql();
+
+        $question_records = [$this->db->fetchObject($result)];
+        if ($question_records[0] === null) {
+            return null;
+        }
+        while (($db_record = $this->db->fetchObject($result)) !== null) {
+            if ($db_record->id === $question_records[0]->id) {
+                $question_records[] = $db_record;
+                continue;
+            }
+            yield $this->buildQuestionFromDBRecords($question_records);
+            $question_records = [$db_record];
+        }
+        yield $this->buildQuestionFromDBRecords($question_records);
     }
 
-    /**
-     * @return \Generator<ILIAS\Questions\Question\Question>
-     */
-    private function getForWhereClause(string $where): \Generator
+    private function buildQuestionFromDBRecords(array $db_record): QuestionImplementation
     {
-        $query_result = $this->db->query(
-            'SELECT q.id, q.page_id, q.title, q.author, q.lifecycle, q.remarks,' . PHP_EOL
-            . 'q.original_id, q.last_update, q.created' . PHP_EOL
-            . 'FROM ' . self::QUESTION_TABLE . ' q' . PHP_EOL
-            . ($where === '' ? '' : 'WHERE ' . $where)
+        $basic_properties = $db_record[0];
+        return new QuestionImplementation(
+            $this->uuid_factory->fromString($basic_properties->id),
+            $basic_properties->page_id,
+            $basic_properties->title,
+            $basic_properties->author,
+            Lifecycle::from($basic_properties->lifecycle),
+            $basic_properties->remarks,
+            $basic_properties->original_id === null
+                ? null
+                : $this->uuid_factory->fromString($basic_properties->original_id),
+            new \DateTimeImmutable('@' . $basic_properties->last_update, new \DateTimeZone('UTC')),
+            new \DateTimeImmutable('@' . $basic_properties->created, new \DateTimeZone('UTC'))
         );
-
-        while (($db_record = $this->db->fetchObject($query_result)) !== null) {
-            yield $this->buildQuestionFromDBRecords($db_record);
-        }
     }
 
     /**
      *
-     * @param ILIAS\Questions\Question\Question|array<ILIAS\Questions\Question\QuestionImplementation> $questions
+     * @param array<\ILIAS\Questions\Question\Persistence\Storable> $storable
      * @return array<ILIAS\Data\UUID\Uuid>
      */
     public function store(
-        QuestionImplementation|array $questions
-    ): array {
-        if ($questions instanceof QuestionImplementation) {
-            return [$this->storeQuestion($questions)];
-        }
-
-        return array_map(
-            fn(QuestionImplementation $v) => $this->storeQuestion($v),
-            $questions
-        );
-    }
-
-    private function storeQuestion(QuestionImplementation $question): Uuid
-    {
-        if ($question->getPageId() === null) {
-            $question = $question->withPageId($this->buildQuestionPage());
-        }
-
-        if ($question->getId() === null) {
-            $question = $question->withQuestionId($this->buildAvailableUuid());
-            $this->db->insert(
-                self::QUESTION_TABLE,
-                $question->toStorage()
-            );
-            return $question->getId();
-        }
-        $this->db->update(
-            self::QUESTION_TABLE,
-            $question->toStorage(),
-            [
-                'id' => [
-                    \ilDBConstants::T_TEXT,
-                    $question->getId()->toString()
-                ]
-            ]
-        );
-        return $question->getId();
+        array $storable
+    ): void {
+        array_reduce(
+            $storable,
+            fn(Manipulate $c, Storable $v): Manipulate => $v->toStorage($c),
+            new Manipulate($this->db)
+        )->run();
     }
 
     private function buildAvailableUuid(): Uuid
@@ -206,7 +187,7 @@ class Repository
 
         $last_id = $this->db->fetchObject(
             $this->db->query(
-                'SELECT MAX(page_id) AS last FROM ' . self::PAGE_EDITOR_TABLE
+                'SELECT MAX(page_id) AS last FROM ' . CoreTables::PageEditor->value
                     . ' WHERE parent_type = "qsts"'
             )
         )->last;
