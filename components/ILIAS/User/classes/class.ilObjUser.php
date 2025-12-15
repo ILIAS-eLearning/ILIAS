@@ -3123,7 +3123,7 @@ class ilObjUser extends ilObject
                 [$a_user_id]
             );
             if ($rec = $ilDB->fetchAssoc($set)) {
-                if (strlen($rec['feed_hash']) == 32) {
+                if (strlen($rec['feed_hash'] ?? '') == 32) {
                     return $rec['feed_hash'];
                 } elseif ($a_create) {
                     $hash = md5(random_int(1, 9999999) + str_replace(' ', '', microtime()));
