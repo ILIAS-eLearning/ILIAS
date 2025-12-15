@@ -23,10 +23,7 @@ use ILIAS\News\Dashboard\DashboardNewsManager;
 use ILIAS\News\InternalGUIService;
 
 /**
- * News on PD
- *
- * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilPDNewsGUI: ilNewsTimelineGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilPDNewsGUI: ilNewsTimelineGUI, ilCommonActionDispatcherGUI, ILIAS\User\Profile\PublicProfileGUI
  */
 class ilPDNewsGUI
 {
