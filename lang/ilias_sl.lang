@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#Vprašanje v obliki formule vsebuje napačne p
 assessment#:#errRecursionInResult#:#Formula vsebuje nerešljivo rekurzijo.
 assessment#:#err_category_in_use#:#Kategorije ni mogoče izbrisati. Ena ali več enot te kategorije je že v uporabi.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.
 assessment#:#err_duplicate_results#:#Večkrat ste uporabili eno spremenljivko rezultata. To v besedilu naloge ni dovoljeno!
 assessment#:#err_no_formula#:#Vnesite formulo za izračun rezultata.

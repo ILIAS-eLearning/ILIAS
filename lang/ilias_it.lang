@@ -642,7 +642,6 @@ assessment#:#errFormulaQuestion#:#Una formula di domanda contiene informazioni e
 assessment#:#errRecursionInResult#:#La formula contiene una ricorsione infinita.
 assessment#:#err_category_in_use#:#Non è possibile eliminare alcuna categoria. Una o più unità di categoria sono ancora in uso.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
 assessment#:#err_duplicate_results#:#È stata utilizzata una variabile di risultato più di una volta. Questo non è consentito nel testo della domanda.
 assessment#:#err_no_formula#:#Devi digitare una formula
