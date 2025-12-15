@@ -177,14 +177,28 @@ class ilItemGroupItems
 
     public function getValidItems(): array
     {
-        $items = $this->getItems();
-        $ass_items = $this->getAssignableItems();
-        $valid_items = array();
-        foreach ($ass_items as $aitem) {
-            if (in_array($aitem["ref_id"], $items)) {
-                $valid_items[] = $aitem["ref_id"];
-            }
+        if ($this->getItemGroupRefId() <= 0) {
+            return $this->items;
         }
+
+        return $this->filterValidRefIds($this->items);
+    }
+
+    /**
+     * @param int[] $items
+     * @return int[]
+     */
+    protected function filterValidRefIds(array $items): array
+    {
+        $valid_items = [];
+        foreach ($this->getAssignableItems() as $assignable_item) {
+            if (!in_array($assignable_item['ref_id'], $items, true)) {
+                continue;
+            }
+
+            $valid_items[] = $assignable_item['ref_id'];
+        }
+
         return $valid_items;
     }
 
@@ -202,7 +216,7 @@ class ilItemGroupItems
         $new_items = array();
         // check: is this a ref id!?
         $source_ig = new ilItemGroupItems($a_source_id);
-        foreach ($source_ig->getItems() as $item_ref_id) {
+        foreach ($source_ig->getValidItems() as $item_ref_id) {
             if (isset($mappings[$item_ref_id]) and $mappings[$item_ref_id]) {
                 $ilLog->write(__METHOD__ . ': Clone item group item nr. ' . $item_ref_id);
                 $new_items[] = $mappings[$item_ref_id];
@@ -236,6 +250,12 @@ class ilItemGroupItems
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $items[] = $row->item_ref_id;
         }
-        return $items;
+
+        $container_child_ref_ids = [];
+        foreach ($tree->getChilds($a_ref_id) as $node) {
+            $container_child_ref_ids[] = (int) ($node['ref_id'] ?? $node['child']);
+        }
+
+        return array_values(array_intersect($items, $container_child_ref_ids));
     }
 }
