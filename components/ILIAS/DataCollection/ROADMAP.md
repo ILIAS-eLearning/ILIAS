@@ -12,4 +12,7 @@ As soon as we look at the topic of formula parsers again, we would like to check
 With the refactoring of the formula parser, we would like to create unit tests for the parser (which is now possible to test).
 
 ### Stack
-we do not know if we really need the `\ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Stack` or what is really the needed difference to a regular php-array.
+We do not know if we really need the `\ILIAS\Modules\DataCollection\Fields\Formula\FormulaParser\Stack` or what is really the needed difference to a regular php-array.
+
+### Toast Notification on XLSX export
+Since the export success message was removed on the asycn XLSX export a toast should inform the user about the finish of it.
