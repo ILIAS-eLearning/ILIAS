@@ -67,16 +67,15 @@ else {
 
     echo <<<WSDL
 <?xml version ="1.0" encoding ="UTF-8" ?>
-<definitions name="LogoutNotification"
-  targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
-  xmlns:notify="urn:mace:shibboleth:2.0:sp:notify"
-  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns="http://schemas.xmlsoap.org/wsdl/">
+<definitions name="LogoutNotification" targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
+	xmlns:notify="urn:mace:shibboleth:2.0:sp:notify"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
 
 	<types>
-	   <schema targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
-		   xmlns="http://www.w3.org/2000/10/XMLSchema"
-		   xmlns:notify="urn:mace:shibboleth:2.0:sp:notify">
+		<schema targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
+			xmlns="http://www.w3.org/2000/10/XMLSchema"
+			xmlns:notify="urn:mace:shibboleth:2.0:sp:notify">
 
 			<simpleType name="string">
 				<restriction base="string">
@@ -96,7 +95,7 @@ else {
 		<part name="SessionID" type="notify:string" />
 	</message>
 
-	<message name="getLogoutNotificationResponse" >
+	<message name="getLogoutNotificationResponse">
 		<part name="OK"/>
 	</message>
 
@@ -115,9 +114,9 @@ else {
 	</binding>
 
 	<service name="LogoutNotificationService">
-		  <port name="LogoutNotificationPort" binding="notify:LogoutNotificationBinding">
+		<port name="LogoutNotificationPort" binding="notify:LogoutNotificationBinding">
 			<soap:address location="{$url}"/>
-		  </port>
+		</port>
 	</service>
 </definitions>
 WSDL;
