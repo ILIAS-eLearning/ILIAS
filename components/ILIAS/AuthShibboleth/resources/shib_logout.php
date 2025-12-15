@@ -41,7 +41,7 @@ if (
 //       stored in the application's session data.
 //       See function LogoutNotification below
 
-elseif (!empty($HTTP_RAW_POST_DATA)) {
+elseif (!empty(file_get_contents('php://input'))) {
     ilContext::init(ilContext::CONTEXT_SOAP);
 
     // Load ILIAS libraries and initialise ILIAS in non-web context
