@@ -96,7 +96,6 @@ class ilLTIConsumerContentGUI
                 if (ilSession::get('lti13_login_data') != null) {
                     $form = $this->getLoginLTI13Form();
                     if ($form == null) {
-                        //                        $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'initialLogin Error: ' . $err, true);
                         $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'initialLogin Error: ', true);
                     } else {
                         $response = $this->dic->http()->response()->withBody(ILIAS\Filesystem\Stream\Streams::ofString($form));

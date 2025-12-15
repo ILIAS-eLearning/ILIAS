@@ -746,10 +746,6 @@ class ilObjLTIConsumer extends ilObject2
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
             "launch_presentation_document_target" => $documentTarget,
-            //"launch_presentation_width" => "",
-            //recommended
-            //"launch_presentation_height" => "",
-            //recommended
             "launch_presentation_return_url" => $returnUrl,
             "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
@@ -763,8 +759,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
-            "lis_outcome_service_url" => self::getIliasHttpPath(
-                ) . "/ltiresult.php?client_id=" . CLIENT_ID
+            "lis_outcome_service_url" => self::getIliasHttpPath() . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
         ];
 
         $OAuthParams = [

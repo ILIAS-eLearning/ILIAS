@@ -266,21 +266,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $this->getLogger()->debug('LTI authentication success');
         }
 
-        /**
-         * @var ilLTIPlatform
-         */
-        //LTI 1.1
-        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
-        // schneider: not required. platform is already initialized by authenticate function in Tool lib
-        /*
-        $consumer = ilLTIPlatform::fromConsumerKey(
-            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
-            $this->dataConnector
-        );
-        */
-        $this->provider = $lti_provider;
-        $this->messageParameters = $this->provider->getMessageParameters();
-
         if (empty($this->messageParameters)) {
             $status->setReason('empty_lti_message_parameters');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
