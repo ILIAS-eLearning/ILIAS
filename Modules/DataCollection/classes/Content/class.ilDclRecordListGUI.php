@@ -554,7 +554,8 @@ class ilDclRecordListGUI
             $this->table_obj->getVisibleTableViews(),
             $this->getTableId(),
             self::class,
-            self::CMD_SHOW
+            self::CMD_SHOW,
+            $this->getTableviewId()
         );
         $this->ctrl->setParameterByClass(self::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
 
