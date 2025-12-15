@@ -135,9 +135,8 @@ class AttemptOverview
     ): DescriptiveListing {
         $is_finished = $this->getStatusOfAttempt()->isFinished();
         $items = [
-            $lng->txt('tst_stat_result_resultspoints') => $is_finished
-                ? "{$this->getReachedPoints()} " . strtolower($lng->txt('of')) . " {$this->getAvailablePoints()} (" . sprintf('%2.2f', $this->getReachedPointsInPercent()) . ' %)'
-                : '-',
+            $lng->txt('tst_stat_result_resultspoints') =>
+                "{$this->getReachedPoints()} " . strtolower($lng->txt('of')) . " {$this->getAvailablePoints()} (" . sprintf('%2.2f', $this->getReachedPointsInPercent()) . ' %)',
             $lng->txt('tst_stat_result_resultsmarks') => $is_finished
                 ? $this->mark?->getShortName() ?? '-'
                 : '-'
