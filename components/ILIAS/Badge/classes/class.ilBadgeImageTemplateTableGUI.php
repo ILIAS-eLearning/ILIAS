@@ -86,9 +86,7 @@ class ilBadgeImageTemplateTableGUI implements DataRetrieval
                 );
                 $image_html = $this->renderer->render($image_component);
 
-                $image_src_large = $template->getImageFromResourceId(
-                    ilBadgeImage::IMAGE_SIZE_XL
-                );
+                $image_src_large = $template->getImageFromResourceId();
                 $large_image_component = $this->factory->image()->responsive(
                     $image_src_large,
                     $template->getTitle()

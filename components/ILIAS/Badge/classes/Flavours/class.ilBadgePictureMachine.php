@@ -30,16 +30,10 @@ use ILIAS\Filesystem\Stream\Stream;
 class ilBadgePictureMachine extends AbstractMachine
 {
     public const ID = 'badge_image_resize_machine';
-    private const FULL_QUALITY_SIZE_THRESHOLD = 100;
-
-    private ?ilBadgePictureDefinition $definition = null;
-    private ?FileInformation $information = null;
-    private BadgeCropSquare $crop_square;
 
     public function __construct()
     {
         parent::__construct();
-        $this->crop_square = new BadgeCropSquare();
     }
 
     public function getId(): string
@@ -63,14 +57,11 @@ class ilBadgePictureMachine extends AbstractMachine
         FlavourDefinition $for_definition
     ): Generator {
         /** @var ilBadgePictureDefinition $for_definition */
-        $this->definition = $for_definition;
-        $this->information = $information;
-
         $i = 0;
         foreach ($for_definition->getWidths() as $width) {
             yield new Result(
                 $for_definition,
-                $this->cropImage($stream, $width),
+                $stream,
                 $i,
                 true
             );
@@ -78,26 +69,4 @@ class ilBadgePictureMachine extends AbstractMachine
         }
     }
 
-    /**
-     * @throws ImagickException
-     */
-    protected function cropImage(
-        FileStream $stream,
-        int $size
-    ): ?Stream {
-        $quality = $size <= self::FULL_QUALITY_SIZE_THRESHOLD
-            ? 100
-            : $this->definition->getQuality();
-
-
-        return $this->crop_square->processStream(
-            $this->information,
-            $stream,
-            new CropToSquare(
-                false,
-                $this->definition->getWidths()['s'],
-                1
-            )
-        )->current()?->getStream();
-    }
 }

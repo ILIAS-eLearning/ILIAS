@@ -67,11 +67,7 @@ class ilBadgeImage
         if ($badge->getImageRid() !== '' && $badge->getImageRid() !== null) {
             $identification = $this->resource_storage->manage()->find($badge->getImageRid());
             if ($identification !== null) {
-                $flavour = $this->resource_storage->flavours()->get($identification, new \ilBadgePictureDefinition());
-                $urls = $this->resource_storage->consume()->flavourUrls($flavour)->getURLsAsArray();
-                if (\count($urls) === self::IMAGE_URL_COUNT && isset($urls[$size])) {
-                    $image_src = $urls[$size];
-                }
+                $image_src = $this->resource_storage->consume()->src($identification)->getSrc();
             }
         } elseif ($badge->getImage()) {
             $image_src = ilWACSignedPath::signFile($badge->getImagePath());
@@ -88,7 +84,6 @@ class ilBadgeImage
             $array_result = array_pop($array_result);
             $stakeholder = new ilBadgeFileStakeholder();
             $identification = $this->resource_storage->manage()->upload($array_result, $stakeholder);
-            $this->resource_storage->flavours()->ensure($identification, new \ilBadgePictureDefinition());
             $badge->setImageRid($identification->serialize());
             $badge->update();
         } catch (IllegalStateException $e) {
