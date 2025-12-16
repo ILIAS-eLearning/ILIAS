@@ -210,7 +210,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             if (isset($this->item_image[$i->getId()]) && isset($this->item_modal[$i->getId()])) {
                 $image = $this->item_image[$i->getId()];
             } else {
-                $title = basename($media_path);
+                $title = $this->getMediaObject($i)->getTitle();
                 $image = $ui_factory->image()->responsive($media_path, $title);
                 $modal_page = $ui_factory->modal()->lightboxImagePage($image, $title);
                 $modal = $ui_factory->modal()->lightbox($modal_page);
@@ -255,7 +255,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $modal_html = "";
 
         if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
-            $title = basename($media_path);
+            $title = $this->getMediaObject($i)->getTitle();
             $image = $ui_factory->image()->responsive($media_path, $title);
             $modal_page = $ui_factory->modal()->lightboxImagePage($image, $title);
             $modal = $ui_factory->modal()->lightbox($modal_page);
@@ -303,11 +303,11 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     protected function getMediaPath(NewsItem $i): string
     {
-        $media_path = "";
-        if ($i->getMobId() > 0) {
-            $mob = new ilObjMediaObject($i->getMobId());
-            $media_path = $mob->getStandardSrc();
-        }
-        return $media_path;
+        return $i->getMobId() > 0 ? $this->getMediaObject($i)->getStandardSrc() : "";
+    }
+
+    protected function getMediaObject(NewsItem $i): ilObjMediaObject
+    {
+        return new ilObjMediaObject($i->getMobId());
     }
 }
