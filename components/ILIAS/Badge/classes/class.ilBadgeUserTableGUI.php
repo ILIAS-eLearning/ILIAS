@@ -41,7 +41,6 @@ use DateTimeImmutable;
 use ILIAS\UI\URLBuilderToken;
 use ilObjectDataDeletionLog;
 use ilTree;
-use ilCalendarSettings;
 use ilObjUser;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Table\Column\Column;

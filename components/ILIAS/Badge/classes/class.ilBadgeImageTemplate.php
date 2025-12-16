@@ -19,7 +19,6 @@
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Badge\ilBadgeImage;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilBadgeImageTemplate

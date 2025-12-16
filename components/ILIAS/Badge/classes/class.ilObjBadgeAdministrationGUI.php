@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\Badge\ilBadgeImageTemplateTableGUI;
-use ILIAS\HTTP\Services;
 use ILIAS\Badge\ilBadgeTypesTableGUI;
 use ILIAS\Badge\ilObjectBadgeTableGUI;
 use ILIAS\Badge\ilBadgeUserTableGUI;

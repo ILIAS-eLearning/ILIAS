@@ -28,7 +28,6 @@ use ilDateTime;
 use ilDatePresentation;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
-use ILIAS\UI\Implementation\Component\Card\Card;
 
 class ModalBuilder
 {
@@ -61,7 +60,7 @@ class ModalBuilder
         bool $enclose_in_div = false
     ): Modal {
         if ($badge_image !== null) {
-            if($enclose_in_div) {
+            if ($enclose_in_div) {
                 $modal_content[] = $this->ui_factory->legacy()->content('<div class="ilBadgeImage">');
                 $modal_content[] = $badge_image;
                 $modal_content[] = $this->ui_factory->legacy()->content('</div>');
