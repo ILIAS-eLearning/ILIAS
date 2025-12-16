@@ -299,7 +299,8 @@ class ilObjectBadgeTableGUI implements DataRetrieval
                 'active' => $badge_item['active'] ? $this->lng->txt('yes') : $this->lng->txt('no'),
                 'type' => $record['type'],
                 'container' => implode(' ', \array_slice($container_title_parts, 1, null, true)),
-            ]
+            ],
+            true
         );
 
         return [

@@ -179,7 +179,8 @@ class ilBadgeTableGUI implements DataRetrieval
             [
                 'description' => $badge->getDescription(),
                 'badge_criteria' => $badge->getCriteria(),
-            ]
+            ],
+            true
         );
 
         $record['image'] = $images['rendered']

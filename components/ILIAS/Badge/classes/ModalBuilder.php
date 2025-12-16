@@ -57,10 +57,17 @@ class ModalBuilder
     public function constructModal(
         ?Image $badge_image,
         string $badge_title,
-        array $badge_properties = []
+        array $badge_properties = [],
+        bool $enclose_in_div = false
     ): Modal {
         if ($badge_image !== null) {
-            $modal_content[] = $badge_image;
+            if($enclose_in_div) {
+                $modal_content[] = $this->ui_factory->legacy()->content('<div class="ilBadgeImage">');
+                $modal_content[] = $badge_image;
+                $modal_content[] = $this->ui_factory->legacy()->content('</div>');
+            } else {
+                $modal_content[] = $badge_image;
+            }
         }
 
         if ($this->assignment) {

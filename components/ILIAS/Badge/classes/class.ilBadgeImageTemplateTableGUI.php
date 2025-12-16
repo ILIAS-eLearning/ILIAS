@@ -86,13 +86,12 @@ class ilBadgeImageTemplateTableGUI implements DataRetrieval
                 );
                 $image_html = $this->renderer->render($image_component);
 
-                $image_src_large = $template->getImageFromResourceId();
                 $large_image_component = $this->factory->image()->responsive(
-                    $image_src_large,
+                    $image_src,
                     $template->getTitle()
                 );
 
-                $modal = $modal_container->constructModal($large_image_component, $template->getTitle());
+                $modal = $modal_container->constructModal($large_image_component, $template->getTitle(), [], true);
 
                 $image = implode('', [
                     $modal_container->renderShyButton($image_html, $modal),
