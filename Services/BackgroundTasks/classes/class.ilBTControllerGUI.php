@@ -184,7 +184,7 @@ class ilBTControllerGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInter
         return base64_encode($url);
     }
 
-    public static function unhash(string $url): string|false
+    public static function unhash(string $url): mixed
     {
         return base64_decode($url);
     }
