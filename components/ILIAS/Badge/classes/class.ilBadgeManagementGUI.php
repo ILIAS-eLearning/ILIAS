@@ -24,8 +24,6 @@ use ILIAS\Badge\ilBadgeTableGUI;
 use ILIAS\Badge\ilBadgeUserTableGUI;
 use ILIAS\Refinery\Factory;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Collection\ResourceCollection;
-use ILIAS\Setup\ArrayEnvironment;
 
 /**
  * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
@@ -50,7 +48,6 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
     private ?ilBadgeImage $badge_image_service = null;
     private ?Services $resource_storage;
     private ?FileUpload $upload_service;
-    private ?ilBadgePictureDefinition $flavour_definition = null;
     private \ILIAS\HTTP\Services $http;
     private Factory $refinery;
 
@@ -96,7 +93,6 @@ class ilBadgeManagementGUI implements ilCtrlSecurityInterface
             $DIC->upload(),
             $DIC->ui()->mainTemplate()
         );
-        $this->flavour_definition = new ilBadgePictureDefinition();
     }
 
     /**
