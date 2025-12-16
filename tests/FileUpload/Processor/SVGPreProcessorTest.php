@@ -39,7 +39,7 @@ class SVGPreProcessorTest extends TestCase
             'The SVG file contains malicious code.',
             '(script)',
             '(base64)',
-            ''
+            '(foreignObject)',
         );
     }
 
@@ -60,7 +60,7 @@ class SVGPreProcessorTest extends TestCase
         
     </foreignObject>
 </svg>',
-                'onclick'
+                'foreignObject'
             ],
             [
                 '<svg version="1.1" baseProfile="full"
