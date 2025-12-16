@@ -830,12 +830,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN GeneralKiosk-Mode)
 
 * **KioskMode (aka General Kiosk Mode)**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
-    * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Security Reports: [MISSING]
-    * Assignee for Security Issues: [MISSING]
+    * Authority to Sign off on Conceptual Changes: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
+    * Authority to Sign off on Code Changes: [keven.clausen](https://docu.ilias.de/go/usr/100316), [katrin.grosskopf](https://docu.ilias.de/go/usr/68340), [jeanine.auerbach](https://docu.ilias.de/go/usr/101332),[cknof](https://docu.ilias.de/go/usr/90890)
+    * Authority to Curate Test Cases: [jeanine.auerbach](https://docu.ilias.de/go/usr/101332)
+    * Authority to (De-)Assign Authorities: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
+    * Assignee for Security Reports: [katrin.grosskopf](https://docu.ilias.de/go/usr/68340)
+    * Assignee for Security Issues: [keven.clausen](https://docu.ilias.de/go/usr/100316)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END GeneralKiosk-Mode)
