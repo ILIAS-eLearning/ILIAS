@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Http;
  */
 class CurlClient implements ClientInterface
 {
-
     /**
      * The HTTP version to be used.
      *
