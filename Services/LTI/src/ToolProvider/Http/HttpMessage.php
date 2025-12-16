@@ -120,7 +120,7 @@ class HttpMessage
      * @param mixed $params Associative array of parameter values to be passed or message body (optional, default is none)
      * @param array|string|null $header Values to include in the request header (optional, default is none)
      */
-    function __construct(string $url, string $method = 'GET', array|string|null $params = null, array|string|null $header = null)
+    public function __construct(string $url, string $method = 'GET', array|string|null $params = null, array|string|null $header = null)
     {
         global $DIC;
         $logger = $DIC->logger()->root();
@@ -135,7 +135,7 @@ class HttpMessage
             if (is_array($header)) {
                 $this->requestHeaders = $header;
             } else {
-                $this->requestHeaders = (array)explode("\n", $header);
+                $this->requestHeaders = (array) explode("\n", $header);
             }
         }
     }
