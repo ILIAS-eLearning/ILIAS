@@ -48,6 +48,7 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
     protected ilObjUser $user;
     protected int $book_obj_id;
     protected array $rsv_ids = [];
+    protected ?string $origin_cmd = null;
 
     public function __construct(
         ilObjBookingPool $pool,
@@ -295,7 +296,8 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
             ->number("nr", $period, "", 1, 1, $counter)
             ->radio("recurrence", $this->lng->txt("book_recurrence"), "", "0")
             ->radioOption("0", $this->lng->txt("book_no_recurrence"))
-            ->radioOption("1", $this->lng->txt("book_book_recurrence"));
+            ->radioOption("1", $this->lng->txt("book_book_recurrence"))
+            ->hidden("origin_cmd", $this->book_request->getOriginCmd());
         if ($this->pool->usesMessages()) {
             $form = $form->textarea(
                 "message",
@@ -329,6 +331,11 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
             $this->gui->modal($this->getBookgingObjectTitle())
                       ->form($form)
                       ->send();
+        }
+
+        $origin_cmd = $form->getData("origin_cmd");
+        if (is_string($origin_cmd) && $origin_cmd !== "") {
+            $this->origin_cmd = $origin_cmd;
         }
 
         $message = $this->pool->usesMessages()
@@ -526,6 +533,9 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
         $this->ctrl->setParameter($this, "recurrence", $recurrence);
         $this->ctrl->setParameter($this, "nr", $nr);
         $this->ctrl->setParameter($this, "until", $until);
+        if (is_string($this->origin_cmd) && $this->origin_cmd !== "") {
+            $this->ctrl->setParameter($this, "origin_cmd", $this->origin_cmd);
+        }
         return $this->ctrl->getLinkTarget($this, "bookAvailableItems");
     }
 

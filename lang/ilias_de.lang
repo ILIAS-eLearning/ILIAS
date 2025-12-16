@@ -2654,7 +2654,7 @@ book#:#book_object_selection#:#Angebotsauswahl
 book#:#book_object_updated#:#Das Angebot wurde geändert.
 book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
-book#:#book_overall_limit#:#Begrenzung
+book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 book#:#book_participant#:#Buchen
 book#:#book_participant_already_assigned#:#Ein oder mehrere Teilnehmer waren bereits zugewiesen.
@@ -2708,7 +2708,7 @@ book#:#book_schedule_type_fixed#:#Buchung nach festem Zeitplan
 book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none#:#Ohne Zeitplan
 book#:#book_schedule_type_none_direct#:#Buchung ohne Termine
-book#:#book_schedule_type_none_direct_info#:#Teilnehmer können direkt buchen. Der Modus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
+book#:#book_schedule_type_none_direct_info#:#Dieser Buchungsmodus ist ideal für Präsentationsthemen oder Plätze in Seminaren, die keine festen Zeiten erfordern. Teilnehmende können Elemente direkt nach dem Prinzip „wer zuerst kommt, mahlt zuerst“ buchen. Jedes Element kann nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_schedule_type_none_info#:#Dieser Buchungsmodus ist geeignet für die Vergabe von Referatsthemen, Seminarplätzen oder vergleichbaren Angeboten.
 book#:#book_schedule_type_none_preference#:#Automatisch nach Präferenzen verteilen
 book#:#book_schedule_type_none_preference_info#:#Teilnehmer benennen zunächst Präferenzen. Zu einem gewählten Enddatum werden dann die Buchungen automatisch vorgenommen. Der Buchungsmodus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
@@ -2722,6 +2722,7 @@ book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
 book#:#book_week#:#Wochenansicht
 book#:#book_your_bookings#:#Ihre Buchungen
