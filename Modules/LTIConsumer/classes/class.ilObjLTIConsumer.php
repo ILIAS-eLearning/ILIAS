@@ -861,8 +861,6 @@ class ilObjLTIConsumer extends ilObject2
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
             "launch_presentation_document_target" => $documentTarget,
-            "launch_presentation_width" => "",//recommended
-            "launch_presentation_height" => "",//recommended
             "launch_presentation_return_url" => $returnUrl,
             "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get("short_inst_name") : CLIENT_ID,
