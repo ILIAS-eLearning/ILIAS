@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#Prikaži ILIAS številko preizkusa:
 assessment#:#examid_in_test_res_desc#:#V rezultatih testa je prikazana ILIAS številka preizkusa:
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#Izvozi ocenjevalne podatke kot
-assessment#:#exp_file_created#:#Datoteka za izvoz je ustvarjena.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#Certifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Z vejico ločene vrednosti (CSV)
 assessment#:#expected_result_type#:#Pričakovani tip rezultata
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Izberite vsaj eno oceno, ki jo želite od
 assessment#:#tst_derive_new_pool#:#Izpelji novo skupino vprašanj
 assessment#:#tst_derive_new_pools#:#Ustvarite nove skupine vprašanj
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Ne prikaži več tega sporočila med mojo trenutno sejo.
-assessment#:#tst_dont_use_previous_answers#:#Vaši prejšnji odgovori ne bodo uporabljeni kot privzete vrednosti pri prihodnjih opravljanjih testa
 assessment#:#tst_edit_competence_assign#:#Obdelaj značilnosti dodelitve
 assessment#:#tst_edit_scoring#:#Drugo ocenjevanje
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Da, želim končati test
 assessment#:#tst_finish_confirm_cancel_button#:#Ne, rad bi se vrnil na prejšnji odgovor
 assessment#:#tst_finish_confirmation_question#:#Kmalu boste zaključili ta test in dosegli maksimalno število dovoljenih opravljanj testa. Po tem se ne boste mogli znova prijaviti na ta test, da bi spremenili svoje odgovore. Ali res želite dokončati test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification_no#:#Ni obvestila
 assessment#:#tst_finished#:#Zaključeno
 assessment#:#tst_form_dynamic_question_set_config#:#Zaporedni izbor vprašanj
 assessment#:#tst_gap_analysis#:#Analiza praznine
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#Seznam vprašanj iz
 assessment#:#tst_highscore_achieved_ts#:#Date
 assessment#:#tst_highscore_achieved_ts_description#:#Prikaže se dodaten stolpec z datumom testiranja.
 assessment#:#tst_highscore_all_tables#:#Lastna razvrstitev in seznam najboljših
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Točke
 assessment#:#tst_highscore_score_description#:#Prikaže se dodaten stolpec z informacijo o doseženih točkah.
 assessment#:#tst_highscore_top_num#:#Dolžina seznama najboljših
 assessment#:#tst_highscore_top_num_description#:#Določi število prikazanih vnosov s seznama najboljših
-assessment#:#tst_highscore_top_num_unit#:#Razvrstitev
 assessment#:#tst_highscore_top_table#:#Seznam najboljših
 assessment#:#tst_highscore_top_table_description#:#Udeležencem se prikaže tabela z najboljšimi razvrstitvami.
 assessment#:#tst_highscore_wtime#:#Trajanje obdelave
@@ -1753,7 +1747,6 @@ assessment#:#tst_postpone_on_desc#:#Vprašanja, pri katerih udeleženci odgovore
 assessment#:#tst_presentation_properties#:#Izvedba: Lastnosti vprašanj
 assessment#:#tst_presentation_settings_section#:#Prikaz
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Test in ocena - prikaz za tiskanje
 assessment#:#tst_proceed#:#Nadaljuj
 assessment#:#tst_processing_time#:#Omeji trajanje obdelave
 assessment#:#tst_processing_time_desc#:#Udeleženci imajo omejen čas opravljanja testa. Čas teče od trenutka, ko udeleženec prvič začne s testom. "Prekini test" ne ustavi časa obdelave. Če je število možnih opravljanj testa omejeno, se na zavihku »Nadzorna plošča« prikaže dodatna funkcija, ki udeležencem omogoči dodatni čas.
@@ -1890,10 +1883,6 @@ assessment#:#tst_show_results#:#Rezultati testa
 assessment#:#tst_show_side_list#:#Seznam vprašanj za
 assessment#:#tst_show_solution_answers_only#:#Tiskana različica rezultatov (samo odgovori)
 assessment#:#tst_show_solution_answers_only_desc#:#Če je izbrana "Tiskana različica rezultatov (samo odgovori)", vsebine v ILIAS, ki jih prek zavihka "Uredi vsebino" lahko uvrstite pred in za besedilom vprašanja z zavihkom 'Uredi vsebino', ne bodo vidne na izpisu.
-assessment#:#tst_show_solution_compare#:#Pokaži najboljšo rešitev v ‚Tabela s podrobnimi rezultati testa'
-assessment#:#tst_show_solution_compare_desc#:#Udeležencem se kot del ‚Tabele s podrobnimi rezultati testa' prikaže pregled z vzporednim prikazom njihovih odgovorov in najboljših možnih rešitev. <br> Ta pregled ni prikazan v podzavihku  ‚Oceni odgovore' zavihka ‚Rezultati‘, čeprav je tukaj izbrana ta rešitev.
-assessment#:#tst_show_solution_details#:#Ocenjeni odgovori udeležencev
-assessment#:#tst_show_solution_details_desc#:#Poleg ‚Tabele s podrobnimi rezultati testa' udeleženci za vsako vprašanje na posebni strani prejmejo prikaz lastnega odgovora, informacijo o tem, ali je bil odgovor pravilen in koliko točk so prejeli zanj.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#Povratne informacije
@@ -1916,7 +1905,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetence se ugotavlj
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Najmanj ena od kompetenc, ki jih vključuje test, ni bila dodeljena zadostnemu številu vprašanj. Za te kompetence niso zabeleženi nobeni vnosi kompetenc za udeležence.<br />Minimalno število za dodeljena vprašanja: %s
 assessment#:#tst_skl_level_thresholds_link#:#Konfiguriraj mejne vrednosti kompetenc
 assessment#:#tst_skl_level_thresholds_missing#:#Za vse relevantne kompetence še ni opredeljenih mejnih vrednosti!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Upoštevajte, da je pomen rezultatov kompetenc iz enega testa omejen. Čim več je zbranih informacij o posameznih kompetencah, bolj verodostojno je sporočilo. Če za posamezne kompetence ni nobenega vnosa, je bilo zanje na voljo premalo podatkov.
 assessment#:#tst_skl_sub_tab_thresholds#:#Mejne vrednosti kompetenc
 assessment#:#tst_sol_comp_expressions#:#Primerjalni izrazi
 assessment#:#tst_solution_compare_cfg#:#Konfiguracija za primerjavo odgovorov
@@ -1978,7 +1966,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#Privzeti odgovor je pravilen.
 assessment#:#tst_unchanged_order_is_correct#:#Privzeti vrstni red je pravilen.
 assessment#:#tst_use_previous_answers#:#Uporaba prejšnjih rešitev
 assessment#:#tst_use_previous_answers_description#:#Udeležencem prikaže odgovore iz prejšnjega opravljanja testa. To možnost mora udeleženec aktivirati v zavihku 'Informacije' pred začetkom testa.
-assessment#:#tst_use_previous_answers_user#:#Uporabi moje rešitve iz prejšnjega opravljanja testa kot privzete vrednosti
 assessment#:#tst_user_finished_test#:#Udeleženec je zaključil test (%s)
 assessment#:#tst_view_competence_assign#:#Pokaži lastnosti dodeljevanja
 assessment#:#tst_virtual_pass_header_lo_initial#:#Vstopni rezultati za učni cilj <br/>%s
@@ -2563,7 +2550,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informacija
 book#:#book_booking_objects#:#Booking Objects###19 08 2022 new variable
 book#:#book_booking_reminders#:#Rezervacije na čakanju
-book#:#book_bookings_per_user#:#Bookings per User###19 08 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable

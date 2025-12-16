@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Data\NewsCollection;
+use ILIAS\News\Data\NewsItem;
 use ILIAS\News\StandardGUIRequest;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
@@ -47,7 +49,7 @@ class ilNewsTimelineGUI
     protected bool $user_edit_all = false;
     protected StandardGUIRequest $std_request;
     protected bool $enable_add_news = true;
-    protected ?array $news_data = null;
+    protected NewsCollection $news_collection;
 
     protected function __construct(
         int $a_ref_id,
@@ -136,31 +138,31 @@ class ilNewsTimelineGUI
 
         switch ($next_class) {
             case "illikegui":
-                $i = new ilNewsItem($this->news_id);
+                $item = $this->manager->getNewsItem($this->news_id);
                 $likef = new ilLikeFactoryGUI();
-                $like_gui = $likef->widget([$i->getContextObjId()]);
+                $like_gui = $likef->widget([$item->getContextObjId()]);
                 $ctrl->saveParameter($this, "news_id");
                 $like_gui->setObject(
-                    $i->getContextObjId(),
-                    $i->getContextObjType(),
-                    $i->getContextSubObjId(),
-                    $i->getContextSubObjType(),
+                    $item->getContextObjId(),
+                    $item->getContextObjType(),
+                    $item->getContextSubObjId(),
+                    (string) $item->getContextSubObjType(),
                     $this->news_id
                 );
                 $ret = $ctrl->forwardCommand($like_gui);
                 break;
 
             case strtolower(ilCommentGUI::class):
-                $i = new ilNewsItem($this->news_id);
+                $item = $this->manager->getNewsItem($this->news_id);
                 $ctrl->saveParameter($this, "news_id");
-                $notes_obj_type = ($i->getContextSubObjType() == "")
-                    ? $i->getContextObjType()
-                    : $i->getContextSubObjType();
+                $notes_obj_type = ($item->getContextSubObjType() === null)
+                    ? $item->getContextObjType()
+                    : $item->getContextSubObjType();
                 $comment_gui = $this->notes->gui()->getCommentsGUI(
-                    $i->getContextObjId(),
-                    $i->getContextSubObjId(),
+                    $item->getContextObjId(),
+                    $item->getContextSubObjId(),
                     $notes_obj_type,
-                    $i->getId()
+                    $item->getId()
                 );
                 $comment_gui->setShowHeader(false);
                 $ret = $ctrl->forwardCommand($comment_gui);
@@ -180,7 +182,7 @@ class ilNewsTimelineGUI
 
     protected function readNewsData($excluded = []): void
     {
-        $this->news_data = $this->manager->getNewsData(
+        $this->news_collection = $this->manager->getNewsData(
             $this->ref_id,
             $this->ctrl->getContextObjId(),
             $this->ctrl->getContextObjType(),
@@ -207,35 +209,34 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(static function (array $a): int {
-            return (int) $a["context_obj_id"];
-        }, $this->news_data));
+        $obj_ids = array_unique($this->news_collection->pluck('context_obj_id'));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
         $js_items = [];
-        foreach ($this->news_data as $d) {
-            $news_item = new ilNewsItem((int) $d["id"]);
-            $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
+
+        /** @var NewsItem $news_item */
+        foreach ($this->news_collection as $news_item) {
+            $item = ilNewsTimelineItemGUI::getInstance($news_item, $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
-            $js_items[$d["id"]] = [
-                "id" => $d["id"],
-                "user_id" => $d["user_id"],
-                "title" => $d["title"],
-                "content" => $d["content"] . $d["content_long"],
-                "content_long" => "",
-                "priority" => $d["priority"],
-                "visibility" => $d["visibility"],
-                "content_type" => $d["content_type"],
-                "mob_id" => $d["mob_id"]
+            $js_items[$news_item->getId()] = [
+                "id" => $news_item->getId(),
+                "user_id" => $news_item->getUserId(),
+                "title" => $news_item->getTitle(),
+                "content" => $news_item->getContent() . $news_item->getContentLong(),
+                "content_long" => '',
+                "priority" => $news_item->getPriority(),
+                "visibility" => $news_item->getVisibility(),
+                "content_type" => $news_item->getContentType(),
+                "mob_id" => $news_item->getMobId()
             ];
         }
 
         $this->tpl->addOnLoadCode("il.News.setItems(" . json_encode($js_items, JSON_THROW_ON_ERROR) . ");");
         $this->tpl->addOnLoadCode("il.News.setAjaxUrl('" . $this->ctrl->getLinkTarget($this, "", "", true) . "');");
 
-        if (count($this->news_data) > 0) {
+        if (!$this->news_collection->isEmpty()) {
             $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "components/ILIAS/News");
             $ttpl->setVariable("NEWS", $timeline->render());
             $this->renderDeleteModal($ttpl);
@@ -286,28 +287,27 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(static function ($a): int {
-            return (int) $a["context_obj_id"];
-        }, $this->news_data));
+        $obj_ids = array_unique($this->news_collection->pluck('context_obj_id'));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
         $js_items = [];
-        foreach ($this->news_data as $d) {
-            $news_item = new ilNewsItem((int) $d["id"]);
-            $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
+
+        /** @var NewsItem $news_item */
+        foreach ($this->news_collection as $news_item) {
+            $item = ilNewsTimelineItemGUI::getInstance($news_item, $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
-            $js_items[$d["id"]] = [
-                "id" => $d["id"],
-                "user_id" => $d["user_id"],
-                "title" => $d["title"],
-                "content" => $d["content"] . $d["content_long"],
-                "content_long" => "",
-                "priority" => $d["priority"],
-                "visibility" => $d["visibility"],
-                "content_type" => $d["content_type"],
-                "mob_id" => $d["mob_id"]
+            $js_items[$news_item->getId()] = [
+                "id" => $news_item->getId(),
+                "user_id" => $news_item->getUserId(),
+                "title" => $news_item->getTitle(),
+                "content" => $news_item->getContent() . $news_item->getContentLong(),
+                "content_long" => '',
+                "priority" => $news_item->getPriority(),
+                "visibility" => $news_item->getVisibility(),
+                "content_type" => $news_item->getContentType(),
+                "mob_id" => $news_item->getMobId()
             ];
         }
 

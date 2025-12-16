@@ -1116,7 +1116,7 @@ class ilUserImportParser extends ilSaxParser
                             if ($this->tagContained('PostalCode')) {
                                 $update_user->setZipcode($this->user_obj->getZipcode());
                             }
-                            if ($this->tagContained('SelCountry')) {
+                            if ($this->tagContained('SelCountry') && mb_strlen($this->cdata) === 2) {
                                 $update_user->setCountry($this->user_obj->getCountry());
                             }
                             if ($this->tagContained('PhoneOffice')) {
@@ -1337,11 +1337,11 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'Country':
-                $this->user_obj->setCountry($this->getCDataWithoutTags($this->cdata));
-                break;
-
             case 'SelCountry':
-                $this->user_obj->setSelectedCountry($this->getCDataWithoutTags($this->cdata));
+                if (mb_strlen($this->cdata) !== 2) {
+                    break;
+                }
+                $this->user_obj->setCountry($this->getCDataWithoutTags($this->cdata));
                 break;
 
             case 'PhoneOffice':
@@ -1688,17 +1688,11 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case 'Country':
-                $this->user_obj->setCountry($this->cdata);
-                break;
-
             case 'SelCountry':
                 if (mb_strlen($this->cdata) !== 2) {
-                    $this->logFailure(
-                        $this->user_obj->getLogin(),
-                        sprintf($this->lng->txt('usrimport_xml_element_content_illegal'), 'SelCountry', $this->stripTags($this->cdata))
-                    );
+                    break;
                 }
-                $this->user_obj->setSelectedCountry($this->cdata);
+                $this->user_obj->setCountry($this->cdata);
                 break;
 
             case 'PhoneOffice':

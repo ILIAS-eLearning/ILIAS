@@ -22,6 +22,7 @@ use ILIAS\User\Profile\PublicProfileGUI;
  * System support contacts
  *
  * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilSystemSupportContactsGUI: ILIAS\User\Profile\PublicProfileGUI
  */
 class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
 {
@@ -61,9 +62,20 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
      */
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd("showContacts");
-        if (in_array($cmd, array("showContacts"))) {
-            $this->$cmd();
+        $next_class = $this->ctrl->getNextClass($this);
+
+        switch ($next_class) {
+            case strtolower(PublicProfileGUI::class):
+                $gui = new PublicProfileGUI();
+                $this->ctrl->setReturn($this, 'showContacts');
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            default:
+                $cmd = $this->ctrl->getCmd("showContacts");
+                if (in_array($cmd, array("showContacts"))) {
+                    $this->$cmd();
+                }
         }
     }
 
@@ -116,7 +128,7 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
                     ilSystemSupportContacts::getMailsToAddress()
                 );
             } else {
-                return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
+                return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "");
             }
         }
 

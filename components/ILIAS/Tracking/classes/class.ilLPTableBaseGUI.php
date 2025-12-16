@@ -642,7 +642,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
             $item = $this->getFilterItemByPostVar($id);
             switch ($id) {
                 case "title":
-                case "country":
                 case "gender":
                 case "city":
                 case "language":
@@ -657,7 +656,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 case "zipcode":
                 case "email":
                 case "matriculation":
-                case "sel_country":
+                case "country":
                 case "query":
                 case "type":
                 case "area":

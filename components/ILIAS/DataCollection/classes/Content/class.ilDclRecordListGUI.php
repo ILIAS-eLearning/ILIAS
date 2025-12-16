@@ -550,7 +550,8 @@ class ilDclRecordListGUI
             $this->table_obj->getVisibleTableViews(),
             $this->getTableId(),
             self::class,
-            self::CMD_SHOW
+            self::CMD_SHOW,
+            $this->getTableviewId()
         );
     }
 

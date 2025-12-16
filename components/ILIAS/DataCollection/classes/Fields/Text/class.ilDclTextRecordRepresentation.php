@@ -67,11 +67,12 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
             case 0:
                 return $value;
             case 1:
+                $key = array_keys($links)[0];
                 return $this->renderer->render(
                     $this->factory->link()->standard(
                         $value,
                         reset($links)
-                    )->withOpenInNewViewport(true)
+                    )->withOpenInNewViewport($key === 'dcl_open_url')
                 );
             case 2:
             default:
@@ -80,7 +81,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                     $ui_links[] = $this->factory->link()->standard(
                         $this->lng->txt($key),
                         $link
-                    )->withOpenInNewViewport(true);
+                    )->withOpenInNewViewport($key === 'dcl_open_url');
                 }
                 return $this->renderer->render(
                     $this->factory->dropdown()->standard(

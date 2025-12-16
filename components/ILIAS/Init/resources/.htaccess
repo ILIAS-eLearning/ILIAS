@@ -26,6 +26,13 @@
 	XSendFile On
 </IfModule>
 
+<IfModule mod_setenvif.c>
+	# Allow Authorization header in request (WebDAV and LTI specific)
+	SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+	# WebDAV specific
+	SetEnvIfNoCase Transfer-Encoding "chunked" proxy-sendcl=1
+</IfModule>
+
 AddType video/ogg .ogv
 AddType video/mp4 .mp4
 AddType video/webm .webm

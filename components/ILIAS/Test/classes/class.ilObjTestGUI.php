@@ -885,6 +885,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 $question->setObjId($this->getTestObject()->getId());
                 $question_gui->setObject($question);
                 $question_gui->setQuestionTabs();
+                $question_gui->setContextAllowsSyncToPool(true);
 
                 $this->addQuestionTitleToObjectTitle($question->getTitleForHTMLOutput());
 
@@ -1627,6 +1628,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         $data = $data_with_section[0];
 
         $qpl_mode = $data['pool_selection']['qpl_type'];
+
+        if ($qpl_mode === self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL
+            && ! $this->userCanCreatePoolAtCurrentLocation()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->showQuestionsObject();
+            return;
+        }
+
         if ($qpl_mode === self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL && $data['pool_selection']['title'] === ''
             || $qpl_mode === self::QUESTION_CREATION_POOL_SELECTION_EXISTING_POOL && $data['pool_selection']['pool_ref_id'] === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("questionpool_not_entered"));
@@ -1807,12 +1816,15 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             self::QUESTION_CREATION_POOL_SELECTION_EXISTING_POOL => $f->group(
                 [$f->select($this->lng->txt('select_questionpool'), $pools_data)],
                 $this->lng->txt('assessment_existing_pool')
-            ),
-            self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL => $f->group(
-                [$f->text($this->lng->txt('name'))],
-                $this->lng->txt('assessment_new_pool')
             )
         ];
+
+        if ($this->userCanCreatePoolAtCurrentLocation()) {
+            $inputs[self::QUESTION_CREATION_POOL_SELECTION_NEW_POOL] = $f->group(
+                [$f->text($this->lng->txt('name'))],
+                $this->lng->txt('assessment_new_pool')
+            );
+        }
 
         return $f->switchableGroup(
             $inputs,
@@ -2758,5 +2770,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->test_questions_repository,
             $this->title_builder
         );
+    }
+
+    private function userCanCreatePoolAtCurrentLocation(): bool
+    {
+        return $this->settings->get('obj_dis_creation_qpl') !== '1'
+            && $this->checkPermissionBool('create', '', 'qpl', $this->tree->getParentId($this->ref_id));
     }
 }

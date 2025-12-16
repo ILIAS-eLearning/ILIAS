@@ -172,10 +172,12 @@ class ilAccountRegistrationGUI
 
         // add information to role selection (if not hidden)
         $role = $this->buildRolesInput();
-        if ($this->code_enabled) {
-            $role->setInfo($this->lng->txt('registration_code_role_info'));
+        if ($role !== null) {
+            if ($this->code_enabled) {
+                $role->setInfo($this->lng->txt('registration_code_role_info'));
+            }
+            $this->form->addItem($role);
         }
-        $this->form->addItem($role);
 
         // #11407
         $domains = [];

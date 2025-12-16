@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#Tonen Examennummer
 assessment#:#examid_in_test_res_desc#:#Tonen Examennummer
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#Evaluatiegegevens exporteren als
-assessment#:#exp_file_created#:#Export bestand aangemaakt.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#Certificaat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Door komma's gescheiden waarde(CVS)
 assessment#:#expected_result_type#:#Verwacht resultaat-type
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Selecteer op zijn minst één markerings-
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool###25 10 2016 new variable
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools###25 10 2016 new variable
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.###10 11 2018 new variable
-assessment#:#tst_dont_use_previous_answers#:#Je vorige antwoorden zullen niet gebruikt worden als standaardwaarden in toekomstige toetspogingen
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###30 08 2015 new variable
 assessment#:#tst_edit_scoring#:#Wijzig Scores
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Ja, Ik wil de toets beeïndigen
 assessment#:#tst_finish_confirm_cancel_button#:#Nee, ga terug naar de vorige vraag
 assessment#:#tst_finish_confirmation_question#:#Je wilt de toets beeïndigen en het maximum aantal toegelaten pogingen overschrijden. Je zult niet meer in staat zijn om deze toets aan te passen. Ben je zeker dat je deze toets wilt beeïndigen
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification_no#:#Verzend geen mailbericht als een gebruiker een toets afmaakt
 assessment#:#tst_finished#:#Klaar
 assessment#:#tst_form_dynamic_question_set_config#:#Doorgaan met vragenselectie
 assessment#:#tst_gap_analysis#:#Gap Analyse
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#Verberg vragen bestand
 assessment#:#tst_highscore_achieved_ts#:#Toon toetsdatum
 assessment#:#tst_highscore_achieved_ts_description#:#Bepaalt of een kolom met de datum van de toets wordt getoond.
 assessment#:#tst_highscore_all_tables#:#Alle beoordelingen
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Toon score
 assessment#:#tst_highscore_score_description#:#Bepaalt of een kolom met de score wordt getoond.
 assessment#:#tst_highscore_top_num#:#Aantal scores
 assessment#:#tst_highscore_top_num_description#:#Bepaalt hoeveel items worden getoond in de top-score lijst.
-assessment#:#tst_highscore_top_num_unit#:#bezoeken aan objecten
 assessment#:#tst_highscore_top_table#:#Toon tabel met top scores
 assessment#:#tst_highscore_top_table_description#:#Bepaalt of de tabel "top scores" wordt getoond.
 assessment#:#tst_highscore_wtime#:#Toon werktijd
@@ -1753,7 +1747,6 @@ assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to 
 assessment#:#tst_presentation_properties#:#Presentatie instellingen
 assessment#:#tst_presentation_settings_section#:#Presentation###10 11 2018 new variable
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Toets & Beoordeling Print View
 assessment#:#tst_proceed#:#Proceed###10 11 2018 new variable
 assessment#:#tst_processing_time#:#Max. toetsduur
 assessment#:#tst_processing_time_desc#:#De maximale toetsduur, deze begint op het moment dat een deelnemer een toets begint en eindigt na afloop van de opgegeven tijdsduur. Als deze optie wordt gebruikt moet ook de mogelijkheid om een toetst uit te schakelen worden uitgezet.
@@ -1890,10 +1883,6 @@ assessment#:#tst_show_results#:#Laat toetsresultaten zien
 assessment#:#tst_show_side_list#:#Tonen vragenlijst aan zijkant
 assessment#:#tst_show_solution_answers_only#:#Resultaten overzicht (alleen de antwoorden)
 assessment#:#tst_show_solution_answers_only_desc#:#Als geselecteerd zal de ILIAS inhoud die je rond een vraag hebt aangemaakt met behulp van de pagina editor niet worden getoond bij het afdrukken. Als je bezuinigt op papier, selecteer dan deze optie.
-assessment#:#tst_show_solution_compare#:#Vergelijk antwoord met oplossing in antwoordenlijst
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the ‘Detailed Results’ that can be accessed via the ‘Show Test Results‘-button on the ‘Info’-tab. It will not be displayed in the printable ‘List of Answers’ even though the setting is made here.###06 02 2015 new variable
-assessment#:#tst_show_solution_details#:#Score details
-assessment#:#tst_show_solution_details_desc#:#Als geselecteerd is de gedetailleerde oplossing beschikbaar voor deelnemers in de toetsresultaten. Dit is inclusief de exacte score voor ieder antwoord. Anders wordt alleen een overzicht met de vragentitles en de behaalde punten getoond.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#Toon antwoord feedback in toetsresultaten.
@@ -1916,7 +1905,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't tri
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions.<br />The required amount of questions: %s###10 11 2018 new variable
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds###30 08 2015 new variable
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!###30 08 2015 new variable
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.###30 08 2015 new variable
 assessment#:#tst_skl_sub_tab_thresholds#:#Competentiedrempel
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions###30 08 2015 new variable
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare###30 08 2015 new variable
@@ -1978,7 +1966,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fa
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Gebruik vorige antwoorden
 assessment#:#tst_use_previous_answers_description#:#Indien aangevinkt, kan een deelnemer verkiezen om de vorige antwoorden te gebruiken aangezien de standaardwaarden passen toetsen, anders worden de vorige antwoorden voortaan getoond toets geen passen
-assessment#:#tst_use_previous_answers_user#:#Vul bij toekomstige toetspogingen mijn eerder gegeven antwoorden alvast in.
 assessment#:#tst_user_finished_test#:#Gebruiker beëindigde toets (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties###30 08 2015 new variable
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s###30 08 2015 new variable
@@ -2563,7 +2550,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Information###31 08 2017 new variable
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Upcoming reservations###10 11 2018 new variable
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable

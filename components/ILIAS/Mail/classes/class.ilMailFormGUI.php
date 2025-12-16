@@ -1054,13 +1054,14 @@ class ilMailFormGUI
                     }
                     asort($options);
 
-                    $template_chb = $ff->select(
-                        $this->lng->txt('mail_template_client'),
-                        $options,
-                        $this->lng->txt('mail_template_client_info')
-                    )
-                                       ->withValue($tmpl_value)
-                                       ->withOnUpdate($signal);
+                    $template_chb = $ff
+                        ->select(
+                            $this->lng->txt('mail_template_client'),
+                            $options,
+                            $this->lng->txt('mail_template_client_info')
+                        )
+                        ->withValue($tmpl_value)
+                        ->withOnUpdate($signal);
                 }
             } catch (Exception $e) {
                 ilLoggerFactory::getLogger('mail')->error(sprintf(

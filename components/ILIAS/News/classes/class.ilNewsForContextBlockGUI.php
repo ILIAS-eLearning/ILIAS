@@ -16,6 +16,12 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Data\NewsCollection;
+use ILIAS\News\Data\NewsContext;
+use ILIAS\News\Data\NewsCriteria;
+use ILIAS\News\Data\NewsItem;
+use ILIAS\News\InternalDomainService;
+use ILIAS\News\InternalGUIService;
 use ILIAS\News\StandardGUIRequest;
 use ILIAS\News\Access\NewsAccess;
 
@@ -32,11 +38,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
      * object type names with settings->news settings subtab
      */
     public const OBJECTS_WITH_NEWS_SUBTAB = ["category", "course", "group", "forum"];
-    protected \ILIAS\News\InternalGUIService $gui;
+    public static string $block_type = "news";
     protected NewsAccess $news_access;
-    protected bool $cache_hit = false;
     protected bool $dynamic = false;
-    protected ilNewsCache $acache;
     protected bool $show_view_selection;
 
     /**
@@ -47,117 +51,153 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     protected ilHelpGUI $help;
     protected ilSetting $settings;
     protected ilTabsGUI $tabs;
-    public static string $block_type = "news";
-    public static array $st_data;
-    protected ilObjectDefinition $obj_definition;
+
     protected StandardGUIRequest $std_request;
+    protected InternalDomainService $domain;
+    protected InternalGUIService $gui;
+
+    protected bool $prevent_initial_loading = false;
+    protected NewsCollection $collection;
 
     public function __construct()
     {
         global $DIC;
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
-        $this->help = $DIC["ilHelp"];
-        $this->access = $DIC->access();
-        $this->settings = $DIC->settings();
-        $this->tabs = $DIC->tabs();
-        $this->obj_definition = $DIC["objDefinition"];
-        $this->std_request = $DIC->news()
-            ->internal()
-            ->gui()
-            ->standardRequest();
-
-        $this->news_access = new NewsAccess($this->std_request->getRefId());
-
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilUser = $DIC->user();
-        $ilHelp = $DIC["ilHelp"];
 
         parent::__construct();
 
-        $lng->loadLanguageModule("news");
-        $ilHelp->addHelpSection("news_block");
+        $this->help = $DIC["ilHelp"];
+        $this->settings = $DIC->settings();
+        $this->tabs = $DIC->tabs();
 
-        $this->setBlockId((string) $ilCtrl->getContextObjId());
+        $locator = $DIC->news()->internal();
+        $this->std_request = $locator->gui()->standardRequest();
+        $this->domain = $locator->domain();
+        $this->gui = $locator->gui();
+        $this->news_access = new NewsAccess($this->std_request->getRefId());
+
+        $this->lng->loadLanguageModule("news");
+        $DIC->help()->addHelpSection("news_block");
+
+        $this->setBlockId((string) $this->ctrl->getContextObjId());
         $this->setLimit(5);
         $this->setEnableNumInfo(true);
 
-        $this->dynamic = false;
-        $this->acache = new ilNewsCache();
-        $cres = unserialize(
-            (string) $this->acache->getEntry($ilUser->getId() . ":" . $this->std_request->getRefId()),
-            ["allowed_classes" => false]
-        );
-        $this->cache_hit = false;
-
-        if ($this->acache->getLastAccessStatus() === "hit" && is_array($cres)) {
-            self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
-            $this->cache_hit = true;
-        }
-        if (!empty(self::$st_data)) {
-            $data = self::$st_data;
-        } else {
-            $data = $this->getNewsData();
-            self::$st_data = $data;
+        if (!$this->prevent_initial_loading) {
+            $this->loadNewsData();
         }
 
-        $this->setTitle($lng->txt("news_internal_news"));
+        $this->setTitle($this->lng->txt("news_internal_news"));
         $this->setRowTemplate("tpl.block_row_news_for_context.html", "components/ILIAS/News");
-        $this->setData($data);
         $this->allow_moving = false;
         $this->handleView();
 
         $this->setPresentation(self::PRES_SEC_LIST);
-        $this->gui = $DIC->news()->internal()->gui();
     }
 
-    public function getNewsData(): array
+    private function loadNewsData(): void
     {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        $this->acache = new ilNewsCache();
-        /*		$cres = $this->acache->getEntry($ilUser->getId().":".$_GET["ref_id"]);
-                if ($this->acache->getLastAccessStatus() == "hit" && false)
-                {
-                    $news_data = unserialize($cres);
-                }
-                else
-                {*/
-        $news_item = new ilNewsItem();
-        $news_item->setContextObjId($ilCtrl->getContextObjId());
-        $news_item->setContextObjType($ilCtrl->getContextObjType());
-
-        // workaround, better: reduce constructor and introduce
-        //$prevent_aggregation = $this->getProperty("prevent_aggregation");
-        $prevent_aggregation = true;
-        if ($ilCtrl->getContextObjType() !== "frm") {
-            $forum_grouping = true;
-        } else {
-            $forum_grouping = false;
+        if ($this->std_request->getRefId() === 0) {
+            $this->initData(new NewsCollection());
+            return;
         }
 
-
-        $news_data = $news_item->getNewsForRefId(
-            $this->std_request->getRefId(),
-            false,
-            false,
-            0,
-            $prevent_aggregation,
-            $forum_grouping
+        $collection = $this->domain->collection()->getNewsForContext(
+            new NewsContext($this->std_request->getRefId()),
+            new NewsCriteria(read_user_id: $this->user->getId()),
+            true
         );
 
-        $this->acache->storeEntry(
-            $ilUser->getId() . ":" . $this->std_request->getRefId(),
-            serialize($news_data)
-        );
-
-        //		}
-        //var_dump($news_data);
-        return $news_data;
+        $forum_grouping = $this->ctrl->getContextObjType() !== 'frm';
+        $this->initData($collection->groupFiles()->groupForums($forum_grouping));
     }
+
+    protected function initData(NewsCollection $collection): void
+    {
+        $this->collection = $collection;
+        $this->data = $collection->pluck('id', true);
+    }
+
+    /**
+     * Method will be called before rendering the block. It lazily loads the required news items.
+     */
+    protected function preloadData(array $data): void
+    {
+        parent::preloadData($data);
+        $this->collection->load(array_column($data, 0));
+    }
+
+    protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
+    {
+        $info = $this->getNewsForId($data[0]);
+
+        $props = [
+            $this->lng->txt('date') => $info['creation_date'] ?? ''
+        ];
+
+        $item = $this->ui->factory()->item()->standard(
+            $this->ui->factory()->link()->standard($info['news_title'] ?? '', $info['url'] ?? '')
+        )->withProperties($props);
+
+        if ($info['ref_id'] > 0) {
+            $item = $item->withDescription($info['type_txt'] . ': ' . $info['obj_title']);
+        }
+        return $item;
+    }
+
+    private function getNewsForId(int $news_id): array
+    {
+        $item = $this->collection->getById($news_id);
+        if ($item === null) {
+            throw new \InvalidArgumentException("News item with id {$news_id} not found.");
+        }
+
+        $grouping = $this->collection->getGroupingFor($item);
+
+        $creation_date = new ilDateTime($item->getCreationDate()->format('c'), IL_CAL_DATETIME);
+        $title = ilStr::shortenWords(
+            ilNewsItem::determineNewsTitle(
+                $item->getContextObjType(),
+                $item->getTitle(),
+                $item->isContentIsLangVar(),
+                $grouping ? $grouping['agg_ref_id'] : 0,
+                $grouping ? $grouping['aggregation'] : [],
+            )
+        );
+
+        $info = [
+            'ref_id' => $item->getContextRefId(),
+            'creation_date' => ilDatePresentation::formatDate($creation_date),
+            'news_title' => $title,
+        ];
+
+        // title image type
+        if ($item->getContextRefId() > 0) {
+            $obj_id = $item->getContextObjId();
+            $type = $item->getContextObjType();
+
+            $lang_type = in_array($type, ['sahs', 'lm', 'htlm']) ? 'lres' : 'obj_' . $type;
+
+            $type_txt = ($this->obj_def->isPlugin($item->getContextObjType()))
+                ? ilObjectPlugin::lookupTxtById($item->getContextObjType(), $lang_type)
+                : $this->lng->txt($lang_type);
+
+            $info['type_txt'] = $type_txt;
+            $info['type_icon'] = ilObject::_getIcon($obj_id, 'tiny', $type);
+            $info['obj_title'] = ilStr::shortenWords(ilObject::_lookupTitle($obj_id));
+            $info['user_read'] = $this->collection->isReadByUser($this->user->getId(), $news_id);
+
+            $this->ctrl->setParameter($this, 'news_context', $item->getContextRefId());
+        } else {
+            $this->ctrl->setParameter($this, 'news_context', '');
+        }
+
+        $this->ctrl->setParameter($this, 'news_id', $item->getId());
+        $info['url'] = $this->ctrl->getLinkTarget($this, 'showNews');
+        $this->ctrl->clearParameters($this);
+
+        return $info;
+    }
+
 
     public function getBlockType(): string
     {
@@ -322,7 +362,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
      */
     public function handleView(): void
     {
-        $ilUser = $this->user;
+        // it seems like this method does not change any state, so it may be removed in the future
+
+        /*$ilUser = $this->user;
 
         $this->view = (string) ilBlockSetting::_lookup(
             $this->getBlockType(),
@@ -347,71 +389,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $this->show_view_selection = true;
         } elseif ($got_notices) {
             $this->view = "";
-        }
-    }
-
-    public function getInfoForData(array $news): array
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $obj_definition = $this->obj_definition;
-
-        $info = [];
-
-        $info["ref_id"] = $news["ref_id"] ?? 0;
-        $info["creation_date"] =
-            ilDatePresentation::formatDate(new ilDateTime($news["creation_date"], IL_CAL_DATETIME));
-
-        // title image type
-        if (($news["ref_id"] ?? 0) > 0) {
-            if (isset($news["agg_ref_id"]) && $news["agg_ref_id"] > 0) {
-                $obj_id = ilObject::_lookupObjId($news["agg_ref_id"]);
-                $type = ilObject::_lookupType($obj_id);
-                $context_ref = $news["agg_ref_id"];
-            } else {
-                $obj_id = $news["context_obj_id"];
-                $type = $news["context_obj_type"];
-                $context_ref = $news["ref_id"];
-            }
-
-            $lang_type = in_array($type, ["sahs", "lm", "htlm"])
-                ? "lres"
-                : "obj_" . $type;
-
-            $type_txt = ($obj_definition->isPlugin($news["context_obj_type"]))
-                ? ilObjectPlugin::lookupTxtById($news["context_obj_type"], $lang_type)
-                : $lng->txt($lang_type);
-
-
-            $info["type_txt"] = $type_txt;
-            $info["type_icon"] = ilObject::_getIcon($obj_id, "tiny", $type);
-            $info["obj_title"] = ilStr::shortenWords(ilObject::_lookupTitle($obj_id));
-            $info["user_read"] = $news["user_read"];
-
-            $ilCtrl->setParameter($this, "news_context", $context_ref);
-        } else {
-            $ilCtrl->setParameter($this, "news_context", "");
-        }
-
-        // title
-        $info["news_title"] =
-            ilStr::shortenWords(
-                ilNewsItem::determineNewsTitle(
-                    $news["context_obj_type"] ?? "",
-                    $news["title"] ?? "",
-                    $news["content_is_lang_var"] ?? false,
-                    $news["agg_ref_id"] ?? 0,
-                    $news["aggregation"] ?? []
-                )
-            );
-
-
-        $ilCtrl->setParameter($this, "news_id", $news["id"]);
-        $info["url"] =
-            $ilCtrl->getLinkTarget($this, "showNews");
-        $ilCtrl->clearParameters($this);
-
-        return $info;
+        }*/
     }
 
     public function getOverview(): string
@@ -423,157 +401,58 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
     public function showNews(): string
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        $ilAccess = $this->access;
-
-        // workaround for dynamic mode (if cache is disabled, showNews has no data)
-        if (empty(self::$st_data)) {
-            $this->setData($this->getNewsData());
-        }
-
-        $news_set = new ilSetting("news");
-        $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-
+        $ui_renderer = $this->ui->renderer();
+        $ui_factory = $this->ui->factory();
 
         $tpl = new ilTemplate("tpl.show_news.html", true, true, "components/ILIAS/News");
-
-        // get current item in data set
-        $previous = "";
-        reset($this->data);
-        $c = current($this->data);
-        $curr_cnt = 1;
+        $setting = new ilSetting("news");
+        $enable_internal_rss = $setting->get("enable_rss_for_internal");
 
         if ($this->std_request->getNewsId() > 0) {
-            $news = new ilNewsItem($this->std_request->getNewsId());
-            $news_context = $this->std_request->getNewsContext();
-            while ($c["id"] > 0 && (int) $c["id"] !== $this->std_request->getNewsId()) {
-                $previous = $c;
-                $c = next($this->data);
-                $curr_cnt++;
-            }
+            $current_item = $this->collection->getById($this->std_request->getNewsId());
+            $news_context = (int) $this->std_request->getNewsContext();
         } else {
-            $news_page = $this->std_request->getNewsPage();
-            $news_context = 0;
-            while ($curr_cnt - 1 < $news_page) {
-                $previous = $c;
-                $c = next($this->data);
-                if ($curr_cnt - 1 === $news_page) {
-                }
-                $curr_cnt++;
-            }
-            $news = new ilNewsItem($c["id"] ?? 0);
-            if (($c["ref_id"] ?? 0) > 0) {
-                $news_context = (int) $c["ref_id"];
-            }
+            $current_item = $this->collection->pick($this->std_request->getNewsPage());
+            $news_context = $current_item->getContextRefId();
         }
 
-
-        if (!is_array($c) && is_object($news) && $news->getId() > 0
-            && ilNewsItem::_lookupContextObjId($news->getId()) !== $ilCtrl->getContextObjId()) {
-            throw new ilException("News ID does not match object context.");
+        if ($current_item === null) {
+            return '';
         }
 
-
-        // collect news items to show
-        $news_list = [];
-        if (isset($c["aggregation"]) && is_array($c["aggregation"])) {	// we have an aggregation
-            $news_list[] = [
-                "ref_id" => $c["agg_ref_id"],
-                "agg_ref_id" => $c["agg_ref_id"],
-                "aggregation" => $c["aggregation"],
-                "user_id" => "",
-                "content_type" => "text",
-                "mob_id" => 0,
-                "visibility" => "",
-                "content" => "",
-                "content_long" => "",
-                "update_date" => $news->getUpdateDate(),
-                "creation_date" => "",
-                "content_is_lang_var" => false,
-                "loc_context" => $news_context,
-                "context_obj_type" => $news->getContextObjType(),
-                "title" => ""
-            ];
-
-            foreach ($c["aggregation"] as $c_item) {
-                ilNewsItem::_setRead($ilUser->getId(), $c_item["id"]);
-                $c_item["loc_context"] = $c_item["ref_id"];
-                $c_item["loc_stop"] = $news_context;
-                $news_list[] = $c_item;
-            }
-        } else {								// no aggregation, simple news item
-            $news_list[] = [
-                "id" => $news->getId(),
-                "ref_id" => $news_context,
-                "user_id" => $news->getUserId(),
-                "content_type" => $news->getContentType(),
-                "mob_id" => $news->getMobId(),
-                "visibility" => $news->getVisibility(),
-                "priority" => $news->getPriority(),
-                "content" => $news->getContent(),
-                "content_long" => $news->getContentLong(),
-                "update_date" => $news->getUpdateDate(),
-                "creation_date" => $news->getCreationDate(),
-                "context_sub_obj_type" => $news->getContextSubObjType(),
-                "context_obj_type" => $news->getContextObjType(),
-                "context_sub_obj_id" => $news->getContextSubObjId(),
-                "content_is_lang_var" => $news->getContentIsLangVar(),
-                "content_text_is_lang_var" => $news->getContentTextIsLangVar(),
-                "loc_context" => $news_context,
-                "title" => $news->getTitle()
-            ];
-            ilNewsItem::_setRead($ilUser->getId(), $this->std_request->getNewsId());
+        if ($grouping = $this->collection->getGroupingFor($current_item)) {
+            $news_list = $grouping['aggregation'];
+        } else {
+            $news_list = [$current_item];
         }
 
-        $row_css = "";
-        $cache_deleted = false;
-        foreach ($news_list as $item) {
-            $row_css = ($row_css !== "tblrow1")
-                    ? "tblrow1"
-                    : "tblrow2";
+        for ($i = 0; $i < count($news_list); $i++) {
+            /** @var NewsItem $item */
+            $item = $news_list[$i];
+            $item = $item->withContextRefId($news_context);
 
-            if ($item["ref_id"] > 0 && !$ilAccess->checkAccess("read", "", $item["ref_id"])) {
-                $tpl->setCurrentBlock("content");
-                $tpl->setVariable("VAL_CONTENT", $lng->txt("news_sorry_not_accessible_anymore"));
-                $tpl->parseCurrentBlock();
-                $tpl->setCurrentBlock("item");
-                $tpl->setVariable("ITEM_ROW_CSS", $row_css);
-                $tpl->parseCurrentBlock();
-                if (!$cache_deleted) {
-                    $this->acache->deleteEntry($ilUser->getId() . ":" . $this->std_request->getRefId());
-                    $cache_deleted = true;
-                }
-                continue;
+            ilNewsItem::_setRead($this->user->getId(), $this->std_request->getNewsId());
+
+            $is_grouped_item = $i > 0;
+            $legacy_news = $item->toLegacy();
+
+            // author
+            if (\ilObjUser::userExists([$item->getUserId()])) {
+                $user = new ilObjUser($item->getUserId());
+                $display_name = $user->getLogin();
+            } else {
+                // this should actually not happen, since news entries
+                // should be deleted when the user is going to be removed
+                $display_name = "&lt;" . strtolower($this->lng->txt("deleted")) . "&gt;";
             }
-
-            // user
-            if ($item["user_id"] > 0 &&
-                \ilObjUser::userExists([$item["user_id"]])
-            ) {
-                // get login
-                if (ilObjUser::_exists($item["user_id"])) {
-                    $user = new ilObjUser($item["user_id"]);
-                    $displayname = $user->getLogin();
-                } else {
-                    // this should actually not happen, since news entries
-                    // should be deleted when the user is going to be removed
-                    $displayname = "&lt;" . strtolower($lng->txt("deleted")) . "&gt;";
-                }
-
-                $tpl->setCurrentBlock("user_info");
-                $tpl->setVariable("VAL_AUTHOR", $displayname);
-                $tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
-                $tpl->parseCurrentBlock();
-            }
+            $tpl->setCurrentBlock("user_info");
+            $tpl->setVariable("VAL_AUTHOR", $display_name);
+            $tpl->setVariable("TXT_AUTHOR", $this->lng->txt("author"));
+            $tpl->parseCurrentBlock();
 
             // media player
-            $ui_renderer = $this->ui->renderer();
-            $ui_factory = $this->ui->factory();
-
-            if ($item["mob_id"] > 0 && ilObject::_exists((int) $item["mob_id"])) {
-                $media_path = $this->getMediaPath((int) $item["mob_id"]);
+            if ($item->getMobId() > 0 && ilObject::_exists($item->getMobId())) {
+                $media_path = $this->getMediaPath($item->getMobId());
                 $mime = ilObjMediaObject::getMimeType($media_path);
                 if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
                     $title = basename($media_path);
@@ -585,7 +464,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $audio = $ui_factory->player()->audio($media_path);
                     $html = $ui_renderer->render($audio);
                 } elseif (in_array($mime, ["application/pdf"])) {
-                    $this->ctrl->setParameter($this, "news_id", $item["id"]);
+                    $this->ctrl->setParameter($this, "news_id", $item->getId());
                     $link = $ui_factory->link()->standard(
                         basename($media_path),
                         $this->ctrl->getLinkTarget($this, "downloadMob")
@@ -597,78 +476,70 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $html = $mime;
                 }
 
-
                 $tpl->setCurrentBlock("player");
-                $tpl->setVariable(
-                    "PLAYER",
-                    $html
-                );
+                $tpl->setVariable("PLAYER", $html);
                 $tpl->parseCurrentBlock();
             }
 
             // access
-            if ($enable_internal_rss && $item["visibility"] != "") {
-                $obj_id = ilObject::_lookupObjId($item["ref_id"]);
+            if ($enable_internal_rss && $item->getVisibility() !== '') {
                 $tpl->setCurrentBlock("access");
-                $tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-                if ($item["visibility"] === NEWS_PUBLIC ||
-                    ((int) $item["priority"] === 0 &&
-                    ilBlockSetting::_lookup(
-                        "news",
-                        "public_notifications",
-                        0,
-                        $obj_id
-                    ))) {
-                    $tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_public"));
+                $tpl->setVariable("TXT_ACCESS", $this->lng->txt("news_news_item_visibility"));
+                if ($item->getVisibility() === NEWS_PUBLIC ||
+                    ($item->getPriority() === 0 &&
+                        ilBlockSetting::_lookup(
+                            "news",
+                            "public_notifications",
+                            0,
+                            $item->getContextObjId()
+                        ))) {
+                    $tpl->setVariable("VAL_ACCESS", $this->lng->txt("news_visibility_public"));
                 } else {
-                    $tpl->setVariable("VAL_ACCESS", $lng->txt("news_visibility_users"));
+                    $tpl->setVariable("VAL_ACCESS", $this->lng->txt("news_visibility_users"));
                 }
                 $tpl->parseCurrentBlock();
             }
 
             // content
-            $renderer = ilNewsRendererFactory::getRenderer($item["context_obj_type"]);
-            if (trim($item["content"]) != "") {		// content
-                $it = new ilNewsItem($item["id"]);
-                $renderer->setNewsItem($it, $item["ref_id"]);
+            $renderer = ilNewsRendererFactory::getRenderer($item->getContextObjType());
+            if (trim($item->getContent()) !== '') {
+                $renderer->setNewsItem($legacy_news, $item->getContextRefId());
                 $tpl->setCurrentBlock("content");
                 $tpl->setVariable("VAL_CONTENT", $renderer->getDetailContent());
                 $tpl->parseCurrentBlock();
             }
-            if ($item["update_date"] != $item["creation_date"]) {		// update date
+
+            // update date
+            if ($item->getUpdateDate() !== $item->getCreationDate()) {
                 $tpl->setCurrentBlock("ni_update");
-                $tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
+                $tpl->setVariable("TXT_LAST_UPDATE", $this->lng->txt("last_update"));
                 $tpl->setVariable(
                     "VAL_LAST_UPDATE",
-                    ilDatePresentation::formatDate(new ilDateTime($item["update_date"], IL_CAL_DATETIME))
+                    ilDatePresentation::formatDate(new ilDateTime($legacy_news->getUpdateDate(), IL_CAL_DATETIME))
                 );
                 $tpl->parseCurrentBlock();
             }
 
             // creation date
-            if ($item["creation_date"] != "") {
+            if ($item->getCreationDate()->getTimestamp() !== 0) {
                 $tpl->setCurrentBlock("ni_update");
                 $tpl->setVariable(
                     "VAL_CREATION_DATE",
-                    ilDatePresentation::formatDate(new ilDateTime($item["creation_date"], IL_CAL_DATETIME))
+                    ilDatePresentation::formatDate(new ilDateTime($legacy_news->getCreationDate(), IL_CAL_DATETIME))
                 );
-                $tpl->setVariable("TXT_CREATED", $lng->txt("created"));
+                $tpl->setVariable("TXT_CREATED", $this->lng->txt("created"));
                 $tpl->parseCurrentBlock();
             }
 
-
             // context / title
             if ($news_context > 0) {
-                //$obj_id = ilObject::_lookupObjId($_GET["news_context"]);
-                $obj_id = ilObject::_lookupObjId($item["ref_id"]);
-                $obj_type = ilObject::_lookupType($obj_id);
-                $obj_title = ilObject::_lookupTitle($obj_id);
+                $obj_title = ilObject::_lookupTitle($item->getContextObjId());
 
                 // file hack, not nice
-                if ($obj_type === "file") {
-                    $ilCtrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $item["ref_id"]);
-                    $url = $ilCtrl->getLinkTargetByClass(ilRepositoryGUI::class, "sendfile");
-                    $ilCtrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $this->std_request->getRefId());
+                if ($item->getContextObjType() === "file") {
+                    $this->ctrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $item->getContextRefId());
+                    $url = $this->ctrl->getLinkTargetByClass(ilRepositoryGUI::class, "sendfile");
+                    $this->ctrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $this->std_request->getRefId());
 
                     $button = $this->gui->button(
                         $this->lng->txt("download"),
@@ -682,9 +553,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
                 // forum hack, not nice
                 $add = "";
-                if ($obj_type === "frm" && ($item["context_sub_obj_type"] ?? "") === "pos"
-                    && $item["context_sub_obj_id"] > 0) {
-                    $pos = $item["context_sub_obj_id"];
+                if ($item->getContextObjType() === "frm" &&
+                    $item->getContextSubObjType() === "pos" &&
+                    $item->getContextSubObjId() > 0
+                ) {
+                    $pos = $item->getContextSubObjId();
                     $thread = ilObjForumAccess::_getThreadForPosting($pos);
                     if ($thread > 0) {
                         $add = "_" . $thread . "_" . $pos;
@@ -692,54 +565,59 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
 
                 // wiki hack, not nice
-                if ($obj_type === "wiki" && $item["context_sub_obj_type"] === "wpg"
-                    && $item["context_sub_obj_id"] > 0) {
-                    $wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
+                if ($item->getContextObjType() === "wiki" &&
+                    $item->getContextSubObjType() === "wpg" &&
+                    $item->getContextSubObjId() > 0
+                ) {
+                    $wptitle = ilWikiPage::lookupTitle($item->getContextSubObjId());
                     if ($wptitle != "") {
                         $add = "_" . ilWikiUtil::makeUrlTitle($wptitle);
                     }
                 }
 
                 $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
-                    $obj_type . "_" . $item["ref_id"] . $add;
+                    $item->getContextObjType() . "_" . $item->getContextRefId() . $add;
 
                 // lm page hack, not nice
-                if (
-                    ($item["context_sub_obj_type"] ?? "") === "pg" &&
-                    $item["context_sub_obj_id"] > 0 &&
-                    in_array($obj_type, ["lm"], true)) {
+                if ($item->getContextObjType() === "lm" &&
+                    $item->getContextSubObjType() === "pg" &&
+                    $item->getContextSubObjId() > 0
+                ) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
-                        "pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"];
+                        "pg_" . $item->getContextSubObjId() . "_" . $item->getContextRefId();
                 }
 
                 // blog posting hack, not nice
-                if ($obj_type === "blog" && ($item["context_sub_obj_type"] ?? "") === "blp"
-                    && $item["context_sub_obj_id"] > 0) {
+                if ($item->getContextObjType() === "blog" &&
+                    $item->getContextSubObjType() === "blp" &&
+                    $item->getContextSubObjId() > 0
+                ) {
                     $url_target = "./goto.php?client_id=" . rawurlencode(CLIENT_ID) . "&target=" .
-                        "blog_" . $item["ref_id"] . "_" . $item["context_sub_obj_id"];
+                        "blog_" . $item->getContextRefId() . "_" . $item->getContextSubObjId();
                 }
 
                 $context_opened = false;
-                $loc_stop = $item["loc_stop"] ?? "";
-                if ($item["loc_context"] != null &&
-                    $item["loc_context"] != $loc_stop
-                ) {
+                $loc_context = $is_grouped_item ? $current_item->getContextRefId() : $news_context;
+                $loc_stop = $is_grouped_item ? $news_context : null;
+                if ($loc_context !== 0 && $loc_context !== $loc_stop) {
                     $tpl->setCurrentBlock("context");
                     $context_opened = true;
                     $cont_loc = new ilLocatorGUI();
-                    $cont_loc->addContextItems($item["loc_context"], true, (int) $loc_stop);
+                    $cont_loc->addContextItems($loc_context, true, (int) $loc_stop);
                     $tpl->setVariable("CONTEXT_LOCATOR", $cont_loc->getHTML());
                 }
 
-                //var_dump($item);
-                $no_context_title = $item["no_context_title"] ?? false;
+                $no_context_title = $grouping['no_context_title'] ?? false;
                 if ($no_context_title !== true) {
                     if (!$context_opened) {
                         $tpl->setCurrentBlock("context");
                     }
                     $tpl->setVariable("HREF_CONTEXT_TITLE", $url_target);
                     $tpl->setVariable("CONTEXT_TITLE", $obj_title);
-                    $tpl->setVariable("IMG_CONTEXT_TITLE", ilObject::_getIcon($obj_id, "big", $obj_type));
+                    $tpl->setVariable(
+                        "IMG_CONTEXT_TITLE",
+                        ilObject::_getIcon($item->getContextObjId(), "big", $item->getContextObjType())
+                    );
                 }
                 if ($context_opened) {
                     $tpl->parseCurrentBlock();
@@ -752,39 +630,32 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $tpl->setVariable(
                 "VAL_TITLE",
                 ilNewsItem::determineNewsTitle(
-                    $item["context_obj_type"] ?? "",
-                    $item["title"] ?? "",
-                    $item["content_is_lang_var"] ?? false,
-                    $item["agg_ref_id"] ?? 0,
-                    $item["aggregation"] ?? []
+                    $item->getContextObjType(),
+                    $item->getTitle(),
+                    $item->isContentIsLangVar(),
+                    (!$is_grouped_item && $grouping) ? $grouping['agg_ref_id'] : 0,
+                    (!$is_grouped_item && $grouping) ? $grouping['aggregation'] : [],
                 )
             );
 
-
             $tpl->setCurrentBlock("item");
-            $tpl->setVariable("ITEM_ROW_CSS", $row_css);
+            $tpl->setVariable("ITEM_ROW_CSS", $i % 2 === 0 ? "tblrow1" : "tblrow2");
             $tpl->parseCurrentBlock();
         }
 
         $content = $tpl->get();
-        if ($this->getProperty("title") != "") {
-            $title = $this->getProperty("title");
-        } else {
-            $title = $lng->txt("news_internal_news");
-        }
-        $panel = $this->ui->factory()->panel()->standard($title, $this->ui->factory()->legacy()->content($content));
+        $title = $this->getProperty('title') ?? $this->lng->txt("news_internal_news");
+        $panel = $ui_factory->panel()->standard($title, $ui_factory->legacy()->content($content));
 
-        $parameter_name = 'news_page';
-
-        $pagination = $this->ui->factory()->viewControl()->pagination()
-                              ->withTargetURL($ilCtrl->getLinkTarget($this, "showNews"), "news_page")
+        $pagination = $ui_factory->viewControl()->pagination()
+                              ->withTargetURL($this->ctrl->getLinkTarget($this, "showNews"), "news_page")
                               ->withTotalEntries(count($this->getData()))
                               ->withPageSize(1)
                               ->withMaxPaginationButtons(10)
-                              ->withCurrentPage($curr_cnt - 1);
+                              ->withCurrentPage($this->collection->getPageFor($current_item->getId()));
         $panel = $panel->withViewControls([$pagination]);
 
-        return $this->ui->renderer()->render($panel);
+        return $ui_renderer->render($panel);
     }
 
     protected function getMediaPath(int $mob_id): string
@@ -822,8 +693,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         );
 
         // reload data
-        $data = $this->getNewsData();
-        $this->setData($data);
+        $this->loadNewsData();
         $this->handleView();
 
         if ($ilCtrl->isAsynch()) {
@@ -847,8 +717,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         );
 
         // reload data
-        $data = $this->getNewsData();
-        $this->setData($data);
+        $this->loadNewsData();
         $this->handleView();
 
         if ($ilCtrl->isAsynch()) {
@@ -1073,7 +942,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     public function saveSettings(): string
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
 
         $this->initSettingsForm();
         $form = $this->settings_form;
@@ -1143,8 +1011,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
             }
 
-            $cache = new ilNewsCache();
-            $cache->deleteEntry($ilUser->getId() . ":" . $this->std_request->getRefId());
+            $this->domain->collection()->invalidateCache($this->user->getId());
 
             $ilCtrl->returnToParent($this);
         } else {
@@ -1255,26 +1122,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         ilSession::set("il_feed_js", "y");
         $ilUser->writePref("il_feed_js", "y");
         $this->send($this->getHTML());
-    }
-
-    protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
-    {
-        if ((int) ($data["id"] ?? 0) === 0) {
-            return null;
-        }
-        $info = $this->getInfoForData($data);
-
-        $props = [
-            $this->lng->txt("date") => $info["creation_date"] ?? ""
-        ];
-
-        $factory = $this->ui->factory();
-        $item = $factory->item()->standard($factory->link()->standard($info["news_title"] ?? "", $info["url"] ?? ""))
-            ->withProperties($props);
-        if (($info["ref_id"] ?? 0) > 0) {
-            $item = $item->withDescription($info["type_txt"] . ": " . $info["obj_title"]);
-        }
-        return $item;
     }
 
     public function getNoItemFoundContent(): string

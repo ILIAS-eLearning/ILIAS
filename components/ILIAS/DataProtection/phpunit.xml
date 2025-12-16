@@ -18,8 +18,8 @@
             <html outputDirectory="build/coverage" highLowerBound="80"/>
         </report>
     </coverage>
-    <testsuite name="ilServicesDataProtectionSuite">
-        <file>./tests/Suite.php</file>
+    <testsuite name="unit">
+        <directory>./tests</directory>
     </testsuite>
     <logging>
         <testdoxHtml outputFile="build/dox.html"/>

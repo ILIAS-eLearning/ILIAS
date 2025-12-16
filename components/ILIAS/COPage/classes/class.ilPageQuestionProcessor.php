@@ -287,9 +287,9 @@ class ilPageQuestionProcessor
 
         $ilDB = $DIC->database();
 
-        $qst = (is_array($a_q_id))
-            ? $ilDB->in("qst_id", $a_q_id, false, "integer")
-            : " qst_id = " . $ilDB->quote($a_q_id, "integer");
+        $a_q_id = is_array($a_q_id) ? $a_q_id : [(int) $a_q_id];
+
+        $qst = $ilDB->in("qst_id", $a_q_id, false, "integer");
 
         $and = ($a_user_id > 0)
             ? " AND user_id = " . $ilDB->quote($a_user_id, "integer")
@@ -301,12 +301,10 @@ class ilPageQuestionProcessor
             $and
         );
 
-        if (is_array($a_q_id) || $a_user_id == 0) {
+        if ($a_user_id === 0) {
             $recs = array();
             while ($rec = $ilDB->fetchAssoc($set)) {
-                $key = ($a_user_id == 0)
-                    ? $rec["qst_id"] . ":" . $rec["user_id"]
-                    : $rec["qst_id"];
+                $key = "{$rec["qst_id"]}:{$rec["user_id"]}";
                 $recs[$key] = $rec;
             }
             return $recs;
@@ -317,7 +315,8 @@ class ilPageQuestionProcessor
         }
         return [
             "try" => 0,
-            "passed" => false
+            "passed" => false,
+            "points" => null
         ];
     }
 

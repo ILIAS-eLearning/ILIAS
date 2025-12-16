@@ -387,7 +387,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->isParticipantsAnswerFixed($q_id)) {
             // should only be reached by firebugging the disabled form in ui
-            throw new ilTestException('not allowed request');
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_player_answer_saved_and_locked'), true);
+            $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
         }
 
         if ($q_id === null) {

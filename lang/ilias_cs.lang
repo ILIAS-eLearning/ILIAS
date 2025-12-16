@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ILIAS ID průchodu testem
 assessment#:#examid_in_test_res_desc#:#ILIAS ID průchodu testem bude zahrnuto do výsledků testu.
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#Exportovat data hodnocení jako
-assessment#:#exp_file_created#:#Exportní soubor vytvořen
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#Certifikát (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Desetinnou čárkou oddělená hodnota (CSV)
 assessment#:#expected_result_type#:#Očekávaný typ výsledku
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Vyberte alespoň jednu známku kroku ke s
 assessment#:#tst_derive_new_pool#:#Odvodit nový zásobník otázek
 assessment#:#tst_derive_new_pools#:#Odvodit nové zásobníky otázek
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Znovu nezobrazovat tuto zprávu v mé aktuální relaci.
-assessment#:#tst_dont_use_previous_answers#:#Vaše předchozí odpovědi nebudou použity jako výchozí hodnoty v budoucích průchodech testem
 assessment#:#tst_edit_competence_assign#:#Upravit vlastnosti přiřazení
 assessment#:#tst_edit_scoring#:#Upravit hodnocení
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Ano, chci tento test ukončit
 assessment#:#tst_finish_confirm_cancel_button#:#Ne, jít zpět na předchozí otázku
 assessment#:#tst_finish_confirmation_question#:#Hodláte ukončit tento test a dosáhl(a) jste maximálního počtu povolených průchodů testem. Nebudete již moci do tohoto testu vstoupit znovu a změnit své odpovědi. Upravdu chcete tento test ukončit?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification_no#:#Žádný e-mail
 assessment#:#tst_finished#:#Ukončeno
 assessment#:#tst_form_dynamic_question_set_config#:#Pokračuje výběr otázek
 assessment#:#tst_gap_analysis#:#Analýza mezer
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#Skrýt seznam otázek
 assessment#:#tst_highscore_achieved_ts#:#Zobrazit datum testu
 assessment#:#tst_highscore_achieved_ts_description#:#Kontroluje, zda sloupec s datem testu má být zobrazen.
 assessment#:#tst_highscore_all_tables#:#Všechna hodnocení
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Zobrazit hodnocení
 assessment#:#tst_highscore_score_description#:#Řídí, zda sloupec s hodnocením má být zobrazen.
 assessment#:#tst_highscore_top_num#:#Číslo umístění
 assessment#:#tst_highscore_top_num_description#:#Řídí, kolik pořadí má být zahrnuto v tabulce nejlepších umístění.
-assessment#:#tst_highscore_top_num_unit#:#vstupy
 assessment#:#tst_highscore_top_table#:#Zobrazit tabulku 'nejlepší umístění'
 assessment#:#tst_highscore_top_table_description#:#Řídí, zda tabulka 'nejlepší umístění' má být zobrazena.
 assessment#:#tst_highscore_wtime#:#Zobrazit pracovní čas
@@ -1753,7 +1747,6 @@ assessment#:#tst_postpone_on_desc#:#Nezodpovězené otázky budou odloženy na k
 assessment#:#tst_presentation_properties#:#Nastavení prezentace
 assessment#:#tst_presentation_settings_section#:#Prezentace
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Zobrazit přehled testu a hodnocení
 assessment#:#tst_proceed#:#Pokračovat
 assessment#:#tst_processing_time#:#Max. čas zpracování
 assessment#:#tst_processing_time_desc#:#Maximum času na zpracování testu začíná okamžikem prvního startu uživatele a končí po vypršení vložené periody času. Je-li použita tato volba, možnost přerušit test by měla být deaktivována (viz "Nastavení sekvence") protože přerušení testu nezastavuje počitadlo maximální doby zpracování.
@@ -1890,10 +1883,6 @@ assessment#:#tst_show_results#:#Zobrazit výsledky testu
 assessment#:#tst_show_side_list#:#Zobrazit boční seznam otázek
 assessment#:#tst_show_solution_answers_only#:#Přehled výsledků (jen odpovědi)
 assessment#:#tst_show_solution_answers_only_desc#:#Je-li vybráno, obsah ILIAS, který umístíte kolem otázky pomocí stránky záložky „Upravit obsah“, nebude viditelný ve výtisku. Pokud chcete ušetřit místo na papíru, vyberte tuto možnost.
-assessment#:#tst_show_solution_compare#:#Porovnat odpovědi s řešením v seznamu odpovědí.
-assessment#:#tst_show_solution_compare_desc#:#Účastníkům je představen přehled srovnávající jejich vlastní odpovědi s nejlepšími řešeními. Povšimněte si, že toto zobrazení se zobrazí v „Podrobných výsledcích“, ke kterým lze přistupovat pomocí tlačítka „Zobrazit výsledky testu“ v záložce „Informace“. Nebude zobrazen v tisknutelném „seznamu odpovědí“, i když je zde provedeno nastavení.
-assessment#:#tst_show_solution_details#:#Zobrazit řešení ve výsledcích testu
-assessment#:#tst_show_solution_details_desc#:#Je-li vybráno, je účastníkům v prezentaci výsledků testů k dispozici podrobné řešení otázek. To zahrnuje přesné bodování každé odpovědi, jinak je zobrazen pouze přehled s nadpisy otázek a dosažené body.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#Zobrazit odpovědi-specifický ohlas ve výsledcích testu
@@ -1916,7 +1905,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Způsobilosti nejsou s
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Nejméně jedna ze způsobilostí, kterou se zabývá tento test, není aktivována minimálním požadovaným počtem otázek.<br />Požadovaný počet otázek: %s
 assessment#:#tst_skl_level_thresholds_link#:#Konfigurace prahových hodnot způsobilosti
 assessment#:#tst_skl_level_thresholds_missing#:#Chybí prahové hodnoty pro příslušné způsobilosti!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Mějte na paměti, že výsledky způsobilosti z jednoho testu mají omezený význam. Čím více informací je shromážděno ke způsobilosti, tím platnější bude význam. Pokud existují jednotlivé způsobilosti bez jakéhokoli vstupu, je možné shromáždit méně informací.
 assessment#:#tst_skl_sub_tab_thresholds#:#Prahové hodnoty způsobilosti
 assessment#:#tst_sol_comp_expressions#:#Srovnávací výrazy
 assessment#:#tst_solution_compare_cfg#:#Konfigurace pro porovnání řešení
@@ -1978,7 +1966,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#Předem nastavená odpověď je s
 assessment#:#tst_unchanged_order_is_correct#:#Předem nastavené uspořádání je správné
 assessment#:#tst_use_previous_answers#:#Použít předchozí odpovědi
 assessment#:#tst_use_previous_answers_description#:#Pokud je vybráno, účastník může zvolit použití předchozích odpovědí jako výchozích hodnot v dalších průchodech testem, jinak předchozí odpovědi nebudou v dalších průchodech testem zobrazeny.
-assessment#:#tst_use_previous_answers_user#:#Použít mé předchozí odpovědi jako výchozí hodnoty v budoucích průchodech testem
 assessment#:#tst_user_finished_test#:#Uživatel ukončil test (%s)
 assessment#:#tst_view_competence_assign#:#Zobrazit vlastnosti přiřazení
 assessment#:#tst_virtual_pass_header_lo_initial#:#Výsledky počátečního testu pro cíle učení<br />%s
@@ -2563,7 +2550,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informace
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Nadcházející rezervace
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
