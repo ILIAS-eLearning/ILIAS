@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\LTI\ToolProvider;
 
-
 enum OutcomeType: string
 {
-
     /**
      * Decimal outcome type.
      */
