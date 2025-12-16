@@ -4912,6 +4912,8 @@ common#:#obj_etal#:#Mitarbeiter-Gespräch
 common#:#obj_exc#:#Übung
 common#:#obj_exc_duplicate#:#Übung kopieren
 common#:#obj_excv#:#Übungszertifikat
+common#:#obj_extt#:#Software von Drittanbietern
+common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
 common#:#obj_facs#:#Dateien
 common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
 common#:#obj_file#:#Datei
@@ -11557,7 +11559,7 @@ mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Einstellungen' oder 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut „%s“ im Feld „%s“ verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
-maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „ILIAS erweitern > Karten“ ab.
+maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
 maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: https://nominatim.example.com/search?q=[QUERY]&format=json
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist „%s“.
 maps#:#maps_enable_maps#:#Karten aktivieren
@@ -13966,6 +13968,10 @@ rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
 rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
 rbac#:#excs_write#:#Einstellungen in Übungs-Administration bearbeiten
 rbac#:#export_member_data#:#Export von Mitgliederdaten
+rbac#:#extt_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#extt_read#:#Lesezugriff auf Administration der Software von Drittanbietern
+rbac#:#extt_visible#:#Administration der Software von Drittanbietern ist sichtbar
+rbac#:#extt_write#:#Software von Drittanbietern konfigurieren
 rbac#:#facs_edit_permission#:#Rechteeinstellung für die Administration ändern
 rbac#:#facs_read#:#Lesezugriff auf Administration für Dateien und Ordner
 rbac#:#facs_upload_blacklisted_files#:#Dateien mit indexierten Endungen hochladen
