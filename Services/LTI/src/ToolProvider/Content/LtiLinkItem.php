@@ -141,12 +141,12 @@ class LtiLinkItem extends Item
             $item->noUpdate = $this->noUpdate;
         }
         //ToDo: Check
-//        if (!is_null($this->available)) {
-//            $item->available = $this->available->toJsonldObject();
-//        }
-//        if (!is_null($this->submission)) {
-//            $item->submission = $this->submission->toJsonldObject();
-//        }
+        //        if (!is_null($this->available)) {
+        //            $item->available = $this->available->toJsonldObject();
+        //        }
+        //        if (!is_null($this->submission)) {
+        //            $item->submission = $this->submission->toJsonldObject();
+        //        }
         if (!empty($this->custom)) {
             $item->custom = $this->custom;
         }
@@ -169,12 +169,12 @@ class LtiLinkItem extends Item
             $item->noUpdate = $this->noUpdate;
         }
         //ToDo: Check
-//        if (!is_null($this->available)) {
-//            $item->available = $this->available->toJsonObject();
-//        }
-//        if (!is_null($this->submission)) {
-//            $item->submission = $this->submission->toJsonObject();
-//        }
+        //        if (!is_null($this->available)) {
+        //            $item->available = $this->available->toJsonObject();
+        //        }
+        //        if (!is_null($this->submission)) {
+        //            $item->submission = $this->submission->toJsonObject();
+        //        }
         if (!empty($this->custom)) {
             $item->custom = $this->custom;
         }

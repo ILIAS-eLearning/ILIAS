@@ -188,17 +188,17 @@ class Membership extends Service
         $this->endpoint = $endpoint;
         if ($userResults !== false) {
             if ($isLink) {
-//                $oldUsers = $this->source->getUserResultSourcedIDs(true, LTI\Tool::ID_SCOPE_RESOURCE);
+                //                $oldUsers = $this->source->getUserResultSourcedIDs(true, LTI\Tool::ID_SCOPE_RESOURCE);
                 $oldUsers = $this->source->getUserResultSourcedIDs(true, \ILIAS\LTI\ToolProvider\Tool::ID_SCOPE_RESOURCE);
             }
             foreach ($memberships as $membership) {
                 if ($isjsonld) {
                     $member = $membership->member;
                     if ($isLink) {
-//                        $userresult = LTI\UserResult::fromResourceLink($this->source, $member->userId);
+                        //                        $userresult = LTI\UserResult::fromResourceLink($this->source, $member->userId);
                         $userresult = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($this->source, $member->userId);
                     } else {
-//                        $userresult = new LTI\UserResult();
+                        //                        $userresult = new LTI\UserResult();
                         $userresult = new \ILIAS\LTI\ToolProvider\UserResult();
                         $userresult->ltiUserId = $member->userId;
                     }
@@ -232,7 +232,7 @@ class Membership extends Service
                     // Set the user roles
                     if (isset($membership->role)) {
                         $roles = $this->parseContextsInArray($http->responseJson->{'@context'}, $membership->role);
-//                        $userresult->roles = LTI\Tool::parseRoles($roles, LTI\Util::LTI_VERSION2);
+                        //                        $userresult->roles = LTI\Tool::parseRoles($roles, LTI\Util::LTI_VERSION2);
                         $userresult->roles = \ILIAS\LTI\ToolProvider\Tool::parseRoles($roles, \ILIAS\LTI\ToolProvider\Util::LTI_VERSION2);
                     }
 
@@ -281,16 +281,16 @@ class Membership extends Service
 
                     // Remove old user (if it exists)
                     if ($isLink) {
-//                        unset($oldUsers[$userresult->getId(LTI\Tool::ID_SCOPE_RESOURCE)]);
+                        //                        unset($oldUsers[$userresult->getId(LTI\Tool::ID_SCOPE_RESOURCE)]);
                         unset($oldUsers[$userresult->getId(\ILIAS\LTI\ToolProvider\Tool::ID_SCOPE_RESOURCE)]);
                     }
                 } else {  // Version 2
                     $member = $membership;
                     if ($isLink) {
-//                        $userresult = LTI\UserResult::fromResourceLink($this->source, $member->user_id);
+                        //                        $userresult = LTI\UserResult::fromResourceLink($this->source, $member->user_id);
                         $userresult = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($this->source, $member->user_id);
                     } else {
-//                        $userresult = new LTI\UserResult();
+                        //                        $userresult = new LTI\UserResult();
                         $userresult = new \ILIAS\LTI\ToolProvider\UserResult();
                         $userresult->ltiUserId = $member->user_id;
                     }
@@ -312,7 +312,7 @@ class Membership extends Service
 
                     // Set the user roles
                     if (isset($member->roles)) {
-//                        $userresult->roles = LTI\Tool::parseRoles($member->roles, LTI\Util::LTI_VERSION2);
+                        //                        $userresult->roles = LTI\Tool::parseRoles($member->roles, LTI\Util::LTI_VERSION2);
                         $userresult->roles = \ILIAS\LTI\ToolProvider\Tool::parseRoles($member->roles, \ILIAS\LTI\ToolProvider\Util::LTI_VERSION2);
                     }
 
@@ -376,7 +376,7 @@ class Membership extends Service
 
                     // Remove old user (if it exists)
                     if ($isLink) {
-//                        unset($oldUsers[$userresult->getId(LTI\Tool::ID_SCOPE_RESOURCE)]);
+                        //                        unset($oldUsers[$userresult->getId(LTI\Tool::ID_SCOPE_RESOURCE)]);
                         unset($oldUsers[$userresult->getId(\ILIAS\LTI\ToolProvider\Tool::ID_SCOPE_RESOURCE)]);
                     }
                 }

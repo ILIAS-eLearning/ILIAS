@@ -351,7 +351,7 @@ trait System
     {
         if (is_null($this->rawParameters)) {
             $this->rawParameters = LTIOAuth\OAuthUtil::parse_parameters(file_get_contents(LTIOAuth\OAuthRequest::$POST_INPUT));
-//            $this->rawParameters = OAuth\OAuthUtil::parse_parameters(file_get_contents(OAuth\OAuthRequest::$POST_INPUT));
+            //            $this->rawParameters = OAuth\OAuthUtil::parse_parameters(file_get_contents(OAuth\OAuthRequest::$POST_INPUT));
         }
 
         return $this->rawParameters;
@@ -828,29 +828,29 @@ trait System
         if (empty($this->jwt) || empty($this->jwt->hasJwt())) {  // OAuth-signed message
             try {
                 $store = new OAuthDataStore($this);
-//                $server = new OAuth\OAuthServer($store);
+                //                $server = new OAuth\OAuthServer($store);
                 $server = new LTIOAuth\OAuthServer($store);
                 //ToDo OAuthSignatureMethod
-//                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA224();
-//                $server->add_signature_method($method);
-//                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA256();
-//                $server->add_signature_method($method);
-//                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA384();
-//                $server->add_signature_method($method);
-//                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA512();
-//                $server->add_signature_method($method);
-//                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA1();
+                //                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA224();
+                //                $server->add_signature_method($method);
+                //                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA256();
+                //                $server->add_signature_method($method);
+                //                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA384();
+                //                $server->add_signature_method($method);
+                //                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA512();
+                //                $server->add_signature_method($method);
+                //                $method = new OAuth\OAuthSignatureMethod_HMAC_SHA1();
                 $method = new LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
                 $server->add_signature_method($method);
-//                $request = OAuth\OAuthRequest::from_request();
+                //                $request = OAuth\OAuthRequest::from_request();
                 $request = LTIOAuth\OAuthRequest::from_request();
                 $server->verify_request($request);
                 $ok = true;
             } catch (\Exception $e) {
                 if (empty($this->reason)) {
-//                    $oauthConsumer = new OAuth\OAuthConsumer($key, $secret);
+                    //                    $oauthConsumer = new OAuth\OAuthConsumer($key, $secret);
                     $oauthConsumer = new LTIOAuth\OAuthConsumer($key, $secret);
-//                    $signature = $request->build_signature($method, $oauthConsumer, false);
+                    //                    $signature = $request->build_signature($method, $oauthConsumer, false);
                     $signature = $request->build_signature($method, $oauthConsumer, null);
                     if ($this->debugMode) {
                         $this->reason = $e->getMessage();
@@ -1001,7 +1001,7 @@ trait System
             } else {  // OAuth
                 if (isset($this->rawParameters['oauth_consumer_key']) && ($this instanceof Tool)) {
                     //changed UK temporary
-//                    $this->platform = Platform::fromConsumerKey($this->rawParameters['oauth_consumer_key'], $this->dataConnector);
+                    //                    $this->platform = Platform::fromConsumerKey($this->rawParameters['oauth_consumer_key'], $this->dataConnector);
                     $this->platform = \ilLTIPlatform::fromConsumerKey($this->rawParameters['oauth_consumer_key'], $this->dataConnector);
                 }
                 $this->messageParameters = $this->rawParameters;
@@ -1182,17 +1182,25 @@ trait System
      * @return string[]|string Array of signed message parameters or header string
      * @throws OAuthException
      */
-    private function addOAuth1Signature(string $endpoint, array|string|null $data, string $method, ?string $type, ?string $hash,
-                                        ?int $timestamp): array|string
-    {
+    private function addOAuth1Signature(
+        string $endpoint,
+        array|string|null $data,
+        string $method,
+        ?string $type,
+        ?string $hash,
+        ?int $timestamp
+    ): array|string {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $params = [];
         if (is_array($data)) {
             $params = $data;
             $params['oauth_callback'] = 'about:blank';
         }
-// Check for query parameters which need to be included in the signature
+        // Check for query parameters which need to be included in the signature
         $queryString = parse_url($endpoint, PHP_URL_QUERY);
         $queryParams = LTIOAuth\OAuthUtil::parse_parameters($queryString);
+        $logger->info("Adding OAuth1 signature to {$endpoint} --- {$this->signatureMethod} -- ");
         if (!is_array($data)) {
             if (empty($hash)) {  // Calculate body hash
                 if (is_null($data)) {
@@ -1211,12 +1219,13 @@ trait System
                 $params['oauth_body_hash'] = $hash;
             }
 
+            $logger->info("Adding OAuth1  --- 2 --- signature to {$endpoint} --- {$this->signatureMethod} --- {$hash} -- ");
         }
         if (!empty($timestamp)) {
             $params['oauth_timestamp'] = strval($timestamp);
         }
 
-// Add OAuth signature
+        // Add OAuth signature
         $hmacMethod = match ($this->signatureMethod) {
             'HMAC-SHA1' => new LTIOAuth\OAuthSignatureMethod_HMAC_SHA1(),
             //'HMAC-SHA224' => new LTIOAuth\OAuthSignatureMethod_HMAC_SHA224(),
@@ -1225,6 +1234,7 @@ trait System
             //'HMAC-SHA512' => new LTIOAuth\OAuthSignatureMethod_HMAC_SHA512(),
             default => null
         };
+        $logger->info("Adding OAuth1  --- 3 --- signature to {$endpoint} --- {$this->signatureMethod} --- " . isset($hmacMethod) . " -- ");
         $key = $this->key;
         $secret = $this->secret;
         if (empty($key)) {
@@ -1242,6 +1252,7 @@ trait System
         if (is_null($secret)) {
             $secret = '';
         }
+        $logger->info("Adding OAuth1  --- 4 --- signature to {$endpoint} --- {$this->signatureMethod} --- " . isset($hmacMethod) . " -- key: " . $key . " -- secret: " . $secret);
         $oauthConsumer = new LTIOAuth\OAuthConsumer($key, $secret, null);
         $oauthReq = LTIOAuth\OAuthRequest::from_consumer_and_token($oauthConsumer, null, $method, $endpoint, $params);
         if (isset($hmacMethod)) {
@@ -1261,10 +1272,12 @@ trait System
                 $header .= "\nContent-Type: {$type}; charset=UTF-8";
                 $header .= "\nContent-Length: " . strlen($data);
             }
+            $logger->info("Adding OAuth1  --- 5 --- header " . $header . " -- ");
             return $header;
         } else {
             // Remove parameters from query string
             $params = $oauthReq->get_parameters();
+            $logger->info("Adding OAuth1  --- 5 --- params " . json_encode($params) . " -- ");
             foreach ($queryParams as $key => $value) {
                 if (!is_array($value)) {
                     if (!is_array($params[$key])) {
@@ -1280,7 +1293,7 @@ trait System
                     }
                 }
             }
-// Remove any parameters comprising an empty array of values
+            // Remove any parameters comprising an empty array of values
             foreach ($params as $key => $value) {
                 if (is_array($value)) {
                     if (count($value) <= 0) {

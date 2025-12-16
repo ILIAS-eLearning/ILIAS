@@ -201,35 +201,35 @@ class Context
         return $this->getDataConnector()->deleteContext($this);
     }
 
-//    /**
-//     * Get tool consumer.
-//     *
-//     * @deprecated Use getPlatform() instead
-//     * @see Context::getPlatform()
-//     *
-//     * @return ToolConsumer Tool consumer object for this context.
-//     */
-//    public function getConsumer()
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\Context::getConsumer() has been deprecated; please use ceLTIc\LTI\Context::getPlatform() instead.',
-//            true);
-//        return $this->getPlatform();
-//    }
+    //    /**
+    //     * Get tool consumer.
+    //     *
+    //     * @deprecated Use getPlatform() instead
+    //     * @see Context::getPlatform()
+    //     *
+    //     * @return ToolConsumer Tool consumer object for this context.
+    //     */
+    //    public function getConsumer()
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\Context::getConsumer() has been deprecated; please use ceLTIc\LTI\Context::getPlatform() instead.',
+    //            true);
+    //        return $this->getPlatform();
+    //    }
 
-//    /**
-//     * Set tool consumer ID.
-//     *
-//     * @deprecated Use setPlatformId() instead
-//     * @see Context::setPlatformId()
-//     *
-//     * @param int $consumerId  Tool Consumer ID for this context.
-//     */
-//    public function setConsumerId($consumerId)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\Context::setConsumerId() has been deprecated; please use ceLTIc\LTI\Context::setPlatformId() instead.',
-//            true);
-//        $this->setPlatformId($consumerId);
-//    }
+    //    /**
+    //     * Set tool consumer ID.
+    //     *
+    //     * @deprecated Use setPlatformId() instead
+    //     * @see Context::setPlatformId()
+    //     *
+    //     * @param int $consumerId  Tool Consumer ID for this context.
+    //     */
+    //    public function setConsumerId($consumerId)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\Context::setConsumerId() has been deprecated; please use ceLTIc\LTI\Context::setPlatformId() instead.',
+    //            true);
+    //        $this->setPlatformId($consumerId);
+    //    }
 
     /**
      * Get platform.
@@ -670,21 +670,21 @@ class Context
         return $context;
     }
 
-//    /**
-//     * Class constructor from consumer.
-//     *
-//     * @deprecated Use fromPlatform() instead
-//     * @see Context::fromPlatform()
-//     *
-//     * @param ToolConsumer    $consumer       Consumer instance
-//     * @param string          $ltiContextId   LTI Context ID value
-//     *
-//     * @return Context
-//     */
-//    public static function fromConsumer($consumer, $ltiContextId)
-//    {
-//        return self::fromPlatform($consumer, $ltiContextId);
-//    }
+    //    /**
+    //     * Class constructor from consumer.
+    //     *
+    //     * @deprecated Use fromPlatform() instead
+    //     * @see Context::fromPlatform()
+    //     *
+    //     * @param ToolConsumer    $consumer       Consumer instance
+    //     * @param string          $ltiContextId   LTI Context ID value
+    //     *
+    //     * @return Context
+    //     */
+    //    public static function fromConsumer($consumer, $ltiContextId)
+    //    {
+    //        return self::fromPlatform($consumer, $ltiContextId);
+    //    }
 
     /**
      * Class constructor from platform.

@@ -36,7 +36,7 @@ class StreamClient implements ClientInterface
      *
      * @return bool True if the request was successful
      */
-//    public function send(HttpMessage $message)
+    //    public function send(HttpMessage $message)
     public function send(\ILIAS\LTI\ToolProvider\Http\HttpMessage $message): bool
     {
         if (empty($message->requestHeaders)) {
