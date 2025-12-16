@@ -49,8 +49,6 @@ class ilLPStatusLtiOutcome extends ilLPStatus
         if ($ltiResult instanceof ilLTIConsumerResult) {
             $object = $this->ensureObject($a_obj_id, $a_obj);
             $ltiMasteryScore = $object->getMasteryScore();
-            //dump($ltiResult);exit();
-            $logger->info("Getting LTI result for user $a_usr_id: " . $ltiResult->getResult());
 
             if ($ltiResult->getResult() === 0 || is_null($ltiResult->getResult()) && $ltiResult->isAttended()) {
                 return self::LP_STATUS_FAILED_NUM;

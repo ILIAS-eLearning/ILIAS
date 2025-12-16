@@ -1185,8 +1185,6 @@ trait System
     private function addOAuth1Signature(string $endpoint, array|string|null $data, string $method, ?string $type, ?string $hash,
                                         ?int $timestamp): array|string
     {
-        global $DIC;
-        $logger = $DIC->logger()->root();
         $params = [];
         if (is_array($data)) {
             $params = $data;
@@ -1195,7 +1193,6 @@ trait System
 // Check for query parameters which need to be included in the signature
         $queryString = parse_url($endpoint, PHP_URL_QUERY);
         $queryParams = LTIOAuth\OAuthUtil::parse_parameters($queryString);
-        $logger->info("Adding OAuth1 signature to {$endpoint} --- {$this->signatureMethod} -- ");
         if (!is_array($data)) {
             if (empty($hash)) {  // Calculate body hash
                 if (is_null($data)) {
@@ -1214,7 +1211,6 @@ trait System
                 $params['oauth_body_hash'] = $hash;
             }
 
-            $logger->info("Adding OAuth1  --- 2 --- signature to {$endpoint} --- {$this->signatureMethod} --- {$hash} -- ");
         }
         if (!empty($timestamp)) {
             $params['oauth_timestamp'] = strval($timestamp);
@@ -1229,7 +1225,6 @@ trait System
             //'HMAC-SHA512' => new LTIOAuth\OAuthSignatureMethod_HMAC_SHA512(),
             default => null
         };
-        $logger->info("Adding OAuth1  --- 3 --- signature to {$endpoint} --- {$this->signatureMethod} --- " . isset($hmacMethod) ." -- ");
         $key = $this->key;
         $secret = $this->secret;
         if (empty($key)) {
@@ -1247,7 +1242,6 @@ trait System
         if (is_null($secret)) {
             $secret = '';
         }
-        $logger->info("Adding OAuth1  --- 4 --- signature to {$endpoint} --- {$this->signatureMethod} --- " . isset($hmacMethod) ." -- key: " . $key . " -- secret: " . $secret);
         $oauthConsumer = new LTIOAuth\OAuthConsumer($key, $secret, null);
         $oauthReq = LTIOAuth\OAuthRequest::from_consumer_and_token($oauthConsumer, null, $method, $endpoint, $params);
         if (isset($hmacMethod)) {
@@ -1267,12 +1261,10 @@ trait System
                 $header .= "\nContent-Type: {$type}; charset=UTF-8";
                 $header .= "\nContent-Length: " . strlen($data);
             }
-            $logger->info("Adding OAuth1  --- 5 --- header " . $header . " -- " );
             return $header;
         } else {
-// Remove parameters from query string
+            // Remove parameters from query string
             $params = $oauthReq->get_parameters();
-            $logger->info("Adding OAuth1  --- 5 --- params " . json_encode($params) . " -- " );
             foreach ($queryParams as $key => $value) {
                 if (!is_array($value)) {
                     if (!is_array($params[$key])) {
