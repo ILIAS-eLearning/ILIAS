@@ -379,9 +379,9 @@ if (!class_exists(OAuthRequest::class)) {
          * @param array|null $parameters
          * @return void
          */
-        function __construct(string $http_method, string $http_url, ?array $parameters = null)
+        public function __construct(string $http_method, string $http_url, ?array $parameters = null)
         {
-            $parameters = isset($parameters) ? $parameters: [];
+            $parameters = isset($parameters) ? $parameters : [];
             $parameters = array_merge(OAuthUtil::parse_parameters((string) parse_url($http_url, PHP_URL_QUERY)), $parameters);
             $this->parameters = $parameters;
             $this->http_method = $http_method;
@@ -441,8 +441,10 @@ if (!class_exists(OAuthRequest::class)) {
                 $request_headers = OAuthUtil::get_headers();
 
                 $parameters = [];
-                if (($http_method === 'POST' && isset($request_headers['Content-Type']) && stristr($request_headers['Content-Type'],
-                            'application/x-www-form-urlencoded')) || !empty($_POST)) {
+                if (($http_method === 'POST' && isset($request_headers['Content-Type']) && stristr(
+                    $request_headers['Content-Type'],
+                    'application/x-www-form-urlencoded'
+                )) || !empty($_POST)) {
                     // It's a POST request of the proper content-type, so parse POST
                     // parameters and add those overriding any duplicates from GET
                     $parameters = OAuthUtil::parse_parameters(file_get_contents(self::$POST_INPUT));
@@ -470,9 +472,13 @@ if (!class_exists(OAuthRequest::class)) {
          *
          * @return OAuthRequest
          */
-        public static function from_consumer_and_token(OAuthConsumer $consumer, ?OAuthToken $token, string $http_method,
-                                                       string $http_url, ?array $parameters = null): OAuthRequest
-        {
+        public static function from_consumer_and_token(
+            OAuthConsumer $consumer,
+            ?OAuthToken $token,
+            string $http_method,
+            string $http_url,
+            ?array $parameters = null
+        ): OAuthRequest {
             $parameters = ($parameters) ? $parameters : [];
             $defaults = [
                 'oauth_version' => OAuthRequest::$version,
@@ -637,8 +643,9 @@ if (!class_exists(OAuthRequest::class)) {
             if ($realm) {
                 $out = 'Authorization: OAuth realm="' . OAuthUtil::urlencode_rfc3986($realm) . '"';
                 $first = false;
-            } else
+            } else {
                 $out = 'Authorization: OAuth';
+            }
 
             foreach ($this->parameters as $k => $v) {
                 if (!str_starts_with($k, 'oauth')) {
@@ -1184,8 +1191,9 @@ if (!class_exists(OAuthUtil::class)) {
          */
         public static function parse_parameters(?string $input): array
         {
-            if (!isset($input) || !$input)
+            if (!isset($input) || !$input) {
                 return [];
+            }
 
             $pairs = explode('&', $input);
 
