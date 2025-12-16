@@ -144,6 +144,25 @@ class ilCOPageExporter extends ilXmlExporter
         }
 
         if (!empty($this->plugin_dependencies)) {
+            if ($a_entity == "pg") {
+                foreach ($a_ids as $id) {
+                    $id = explode(":", $id);
+                    $langs = ["-"];
+                    if (!$this->config->getMasterLanguageOnly()) {
+                        foreach (ilPageObject::lookupTranslations($id[0], $id[1]) as $t) {
+                            if ($t != "-") {
+                                $langs[] = $t;
+                            }
+                        }
+                    }
+                    foreach ($langs as $l) {
+                        $page_object = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $l);
+                        $this->extractPluginProperties($page_object);
+                        $page_object->freeDom();
+                    }
+                }
+            }
+
             // use numeric keys instead plugin names
             return array_values($this->plugin_dependencies);
         }
@@ -174,7 +193,6 @@ class ilCOPageExporter extends ilXmlExporter
                 $page_object = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $l);
                 $page_object->buildDom();
                 $page_object->insertInstIntoIDs(IL_INST_ID);
-                $this->extractPluginProperties($page_object);
                 $pxml = $page_object->getXMLFromDom(false, false, false, "", true);
                 $pxml = str_replace("&", "&amp;", $pxml);
                 $a_media = ($this->config->getIncludeMedia())
@@ -241,6 +259,7 @@ class ilCOPageExporter extends ilXmlExporter
         }
 
         $a_page->buildDom();
+        $a_page->insertInstIntoIDs(IL_INST_ID);
         $domdoc = $a_page->getDomDoc();
         $xpath = new DOMXPath($domdoc);
         $nodes = $xpath->query("//PageContent[child::Plugged]");
