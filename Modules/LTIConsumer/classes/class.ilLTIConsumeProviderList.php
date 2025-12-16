@@ -470,7 +470,7 @@ class ilLTIConsumeProviderList implements Iterator
         return $retArr;
     }
 
-    public function current(): ilLTIConsumeProvider //mixed?
+    public function current(): mixed
     {
         return current($this->providers);
     }
