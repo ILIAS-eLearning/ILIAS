@@ -155,15 +155,15 @@ class Tool
                                                                 'LtiLink.acs.url' => 'custom_ap_acs_url'
     );
 
-//    /**
-//     * Tool consumer object.
-//     *
-//     * @deprecated Use Tool::$platform instead
-//     * @see platform
-//     *
-//     * @var ToolConsumer|null $consumer
-//     */
-//    public ?ToolConsumer $consumer = null;
+    //    /**
+    //     * Tool consumer object.
+    //     *
+    //     * @deprecated Use Tool::$platform instead
+    //     * @see platform
+    //     *
+    //     * @var ToolConsumer|null $consumer
+    //     */
+    //    public ?ToolConsumer $consumer = null;
 
     /**
      * Platform object.
@@ -367,7 +367,7 @@ class Tool
      */
     public function __construct(DataConnector $dataConnector = null)
     {
-//        $this->consumer = &$this->platform; //UK: deprecated
+        //        $this->consumer = &$this->platform; //UK: deprecated
         $this->initialize();
         if (empty($dataConnector)) {
             $dataConnector = DataConnector::getDataConnector();
@@ -399,9 +399,9 @@ class Tool
         $this->created = null;
         $this->updated = null;
         $this->constraints = array();
-//        $this->vendor = new Profile\Item(); //Changed UK
+        //        $this->vendor = new Profile\Item(); //Changed UK
         $this->vendor = new \ILIAS\LTI\ToolProvider\Content\Item(null);
-//        $this->product = new Profile\Item();
+        //        $this->product = new Profile\Item();
         $this->product = new \ILIAS\LTI\ToolProvider\Content\Item(null);
         $this->requiredServices = array();
         $this->optionalServices = array();
@@ -463,8 +463,10 @@ class Tool
      * Process an incoming request
      * @param bool $strictMode True if full compliance with the LTI specification is required (optional, default is false)
      */
-    public function handleRequest(bool $strictMode = false)
+    public function handleRequest(bool $strictMode = false): void
     {
+        global $DIC;
+        $logger = $DIC ->logger()->root();
         $parameters = Util::getRequestParameters();
         if ($this->debugMode) {
             Util::$logLevel = Util::LOGLEVEL_DEBUG;
@@ -507,7 +509,6 @@ class Tool
             }
             Util::logError($errorMessage);
         }
-
         $this->result();
     }
 
@@ -526,22 +527,22 @@ class Tool
         }
     }
 
-//    /**
-//     * Get an array of defined tool consumers
-//     *
-//     * @deprecated Use getPlatforms() instead
-//     * @see Tool::getPlatforms()
-//     *
-//     * @return array Array of ToolConsumer objects
-//     */
-//    public function getConsumers() : array
-//    {
-//        Util::logDebug(
-//            'Method ceLTIc\LTI\Tool::getConsumers() has been deprecated; please use ceLTIc\LTI\Tool::getPlatforms() instead.',
-//            true
-//        );
-//        return $this->getPlatforms();
-//    }
+    //    /**
+    //     * Get an array of defined tool consumers
+    //     *
+    //     * @deprecated Use getPlatforms() instead
+    //     * @see Tool::getPlatforms()
+    //     *
+    //     * @return array Array of ToolConsumer objects
+    //     */
+    //    public function getConsumers() : array
+    //    {
+    //        Util::logDebug(
+    //            'Method ceLTIc\LTI\Tool::getConsumers() has been deprecated; please use ceLTIc\LTI\Tool::getPlatforms() instead.',
+    //            true
+    //        );
+    //        return $this->getPlatforms();
+    //    }
 
     /**
      * Get an array of defined platforms
@@ -588,45 +589,45 @@ class Tool
     }
 
     //not necessary because LTI V 2
-//    /**
-//     * Send the tool proxy to the platform
-//     *
-//     * @return bool    True if the tool proxy was accepted
-//     */
-//    public function doToolProxyService() : bool
-//    {
-//        // Create tool proxy
-//        $toolProxyService = $this->findService('application/vnd.ims.lti.v2.toolproxy+json', array('POST'));
-//        $secret = Util::getRandomString(12);
-//        $toolProxy = new MediaType\ToolProxy($this, $toolProxyService, $secret);
-//        $http = $this->platform->doServiceRequest($toolProxyService, 'POST', 'application/vnd.ims.lti.v2.toolproxy+json',
-//            json_encode($toolProxy));
-//        $ok = $http->ok && ($http->status === 201) && !empty($http->responseJson->tool_proxy_guid);
-//        if ($ok) {
-//            $this->platform->setKey($http->responseJson->tool_proxy_guid);
-//            $this->platform->secret = $toolProxy->security_contract->shared_secret;
-//            $this->platform->toolProxy = $toolProxy; //UK: changed from json_encode($toolProxy);
-//            $this->platform->save();
-//        }
-//
-//        return $ok;
-//    }
+    //    /**
+    //     * Send the tool proxy to the platform
+    //     *
+    //     * @return bool    True if the tool proxy was accepted
+    //     */
+    //    public function doToolProxyService() : bool
+    //    {
+    //        // Create tool proxy
+    //        $toolProxyService = $this->findService('application/vnd.ims.lti.v2.toolproxy+json', array('POST'));
+    //        $secret = Util::getRandomString(12);
+    //        $toolProxy = new MediaType\ToolProxy($this, $toolProxyService, $secret);
+    //        $http = $this->platform->doServiceRequest($toolProxyService, 'POST', 'application/vnd.ims.lti.v2.toolproxy+json',
+    //            json_encode($toolProxy));
+    //        $ok = $http->ok && ($http->status === 201) && !empty($http->responseJson->tool_proxy_guid);
+    //        if ($ok) {
+    //            $this->platform->setKey($http->responseJson->tool_proxy_guid);
+    //            $this->platform->secret = $toolProxy->security_contract->shared_secret;
+    //            $this->platform->toolProxy = $toolProxy; //UK: changed from json_encode($toolProxy);
+    //            $this->platform->save();
+    //        }
+    //
+    //        return $ok;
+    //    }
 
-//    /**
-//     * Generate a web page containing an auto-submitted form of parameters.
-//     * @param string $url    URL to which the form should be submitted
-//     * @param array  $params Array of form parameters
-//     * @param string $target Name of target (optional)
-//     * @return string
-//     *@deprecated Use Util::sendForm() instead
-//     * @see Util::sendForm()
-//     */
-//    public static function sendForm(string $url, array $params, string $target = '') : string
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\Tool::sendForm() has been deprecated; please use ceLTIc\LTI\Util::sendForm() instead.',
-//            true);
-//        Util::sendForm($url, $params, $target);
-//    }
+    //    /**
+    //     * Generate a web page containing an auto-submitted form of parameters.
+    //     * @param string $url    URL to which the form should be submitted
+    //     * @param array  $params Array of form parameters
+    //     * @param string $target Name of target (optional)
+    //     * @return string
+    //     *@deprecated Use Util::sendForm() instead
+    //     * @see Util::sendForm()
+    //     */
+    //    public static function sendForm(string $url, array $params, string $target = '') : string
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\Tool::sendForm() has been deprecated; please use ceLTIc\LTI\Util::sendForm() instead.',
+    //            true);
+    //        Util::sendForm($url, $params, $target);
+    //    }
 
     ###
     ###    PROTECTED METHODS
@@ -812,7 +813,7 @@ class Tool
         );
         $toolName = (!empty($this->product->name)) ? $this->product->name : 'Unnamed tool';
         $toolDescription = (!empty($this->product->description)) ? $this->product->description : '';
-//        $oauthRequest = OAuth\OAuthRequest::from_request();
+        //        $oauthRequest = OAuth\OAuthRequest::from_request();
         $oauthRequest = LTIOAuth\OAuthRequest::from_request();
         $toolUrl = $oauthRequest->get_normalized_http_url();
         $pos = strpos($toolUrl, '//');
@@ -1148,8 +1149,11 @@ EOD;
      */
     private function result(): void
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         if (!$this->ok) {
             $this->message = self::CONNECTION_ERROR_MESSAGE . ' ' . $this->reason;
+            $logger->error($this->message);
             $this->onError();
         }
         if (!$this->ok) {
@@ -2039,7 +2043,7 @@ EOD;
             $nonce->expires = time() + 10;  // Expire after 10 seconds
             $ok = $nonce->save();
             if ($ok) {
-//                $oauthRequest = OAuth\OAuthRequest::from_request();
+                //                $oauthRequest = OAuth\OAuthRequest::from_request();
                 $oauthRequest = LTIOAuth\OAuthRequest::from_request();
                 $redirectUri = $oauthRequest->get_normalized_http_url();
                 if (!empty($_SERVER['QUERY_STRING'])) {
@@ -2094,7 +2098,6 @@ EOD;
                 $this->reason = 'Unable to generate a state value.';
             }
         }
-
         return $ok;
     }
 

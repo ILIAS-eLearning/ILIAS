@@ -132,71 +132,71 @@ class DataConnector
     ###  Platform methods
     ###
 
-//    /**
-//     * Load tool consumer object.
-//     *
-//     * @deprecated Use loadPlatform() instead
-//     * @see DataConnector::loadPlatform()
-//     *
-//     * @param ToolConsumer $consumer  Tool consumer object
-//     *
-//     * @return bool    True if the tool consumer object was successfully loaded
-//     */
-//    public function loadToolConsumer($consumer)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::loadToolConsumer() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::loadPlatform() instead.',
-//            true);
-//        return $this->loadPlatform($consumer);
-//    }
+    //    /**
+    //     * Load tool consumer object.
+    //     *
+    //     * @deprecated Use loadPlatform() instead
+    //     * @see DataConnector::loadPlatform()
+    //     *
+    //     * @param ToolConsumer $consumer  Tool consumer object
+    //     *
+    //     * @return bool    True if the tool consumer object was successfully loaded
+    //     */
+    //    public function loadToolConsumer($consumer)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::loadToolConsumer() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::loadPlatform() instead.',
+    //            true);
+    //        return $this->loadPlatform($consumer);
+    //    }
 
-//    /**
-//     * Save tool consumer object.
-//     *
-//     * @deprecated Use savePlatform() instead
-//     * @see DataConnector::savePlatform()
-//     *
-//     * @param ToolConsumer $consumer  Tool consumer object
-//     *
-//     * @return bool    True if the tool consumer object was successfully saved
-//     */
-//    public function saveToolConsumer($consumer)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::saveToolConsumer() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::savePlatform() instead.',
-//            true);
-//        return $this->savePlatform($consumer);
-//    }
+    //    /**
+    //     * Save tool consumer object.
+    //     *
+    //     * @deprecated Use savePlatform() instead
+    //     * @see DataConnector::savePlatform()
+    //     *
+    //     * @param ToolConsumer $consumer  Tool consumer object
+    //     *
+    //     * @return bool    True if the tool consumer object was successfully saved
+    //     */
+    //    public function saveToolConsumer($consumer)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::saveToolConsumer() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::savePlatform() instead.',
+    //            true);
+    //        return $this->savePlatform($consumer);
+    //    }
 
-//    /**
-//     * Delete tool consumer object.
-//     *
-//     * @deprecated Use deletePlatform() instead
-//     * @see DataConnector::deletePlatform()
-//     *
-//     * @param ToolConsumer $consumer  Tool consumer object
-//     *
-//     * @return bool    True if the tool consumer object was successfully deleted
-//     */
-//    public function deleteToolConsumer($consumer)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::deleteToolConsumer() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::deletePlatform() instead.',
-//            true);
-//        return $this->deletePlatform($consumer);
-//    }
+    //    /**
+    //     * Delete tool consumer object.
+    //     *
+    //     * @deprecated Use deletePlatform() instead
+    //     * @see DataConnector::deletePlatform()
+    //     *
+    //     * @param ToolConsumer $consumer  Tool consumer object
+    //     *
+    //     * @return bool    True if the tool consumer object was successfully deleted
+    //     */
+    //    public function deleteToolConsumer($consumer)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::deleteToolConsumer() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::deletePlatform() instead.',
+    //            true);
+    //        return $this->deletePlatform($consumer);
+    //    }
 
-//    /**
-//     * Load tool consumer objects.
-//     *
-//     * @deprecated Use getPlatforms() instead
-//     * @see DataConnector::getPlatforms()
-//     *
-//     * @return ToolConsumer[] Array of all defined tool consumer objects
-//     */
-//    public function getToolConsumers()
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::getToolConsumers() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::getPlatforms() instead.',
-//            true);
-//        return $this->getPlatforms();
-//    }
+    //    /**
+    //     * Load tool consumer objects.
+    //     *
+    //     * @deprecated Use getPlatforms() instead
+    //     * @see DataConnector::getPlatforms()
+    //     *
+    //     * @return ToolConsumer[] Array of all defined tool consumer objects
+    //     */
+    //    public function getToolConsumers()
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::getToolConsumers() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::getPlatforms() instead.',
+    //            true);
+    //        return $this->getPlatforms();
+    //    }
 
     /**
      * Load platform object.
@@ -360,56 +360,56 @@ class DataConnector
     ###  PlatformNonce methods
     ###
 
-//    /**
-//     * Load nonce object.
-//     *
-//     * @deprecated Use loadPlatformNonce() instead
-//     * @see DataConnector::loadPlatformNonce()
-//     *
-//     * @param ConsumerNonce $nonce Nonce object
-//     *
-//     * @return bool    True if the nonce object was successfully loaded
-//     */
-//    public function loadConsumerNonce($nonce)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::loadConsumerNonce() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::loadPlatformNonce() instead.',
-//            true);
-//        return $this->loadPlatformNonce($nonce);
-//    }
+    //    /**
+    //     * Load nonce object.
+    //     *
+    //     * @deprecated Use loadPlatformNonce() instead
+    //     * @see DataConnector::loadPlatformNonce()
+    //     *
+    //     * @param ConsumerNonce $nonce Nonce object
+    //     *
+    //     * @return bool    True if the nonce object was successfully loaded
+    //     */
+    //    public function loadConsumerNonce($nonce)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::loadConsumerNonce() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::loadPlatformNonce() instead.',
+    //            true);
+    //        return $this->loadPlatformNonce($nonce);
+    //    }
 
-//    /**
-//     * Save nonce object.
-//     *
-//     * @deprecated Use savePlatformNonce() instead
-//     * @see DataConnector::savePlatformNonce()
-//     *
-//     * @param ConsumerNonce $nonce Nonce object
-//     *
-//     * @return bool    True if the nonce object was successfully saved
-//     */
-//    public function saveConsumerNonce($nonce)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::saveConsumerNonce() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::savePlatformNonce() instead.',
-//            true);
-//        return $this->savePlatformNonce($nonce);
-//    }
+    //    /**
+    //     * Save nonce object.
+    //     *
+    //     * @deprecated Use savePlatformNonce() instead
+    //     * @see DataConnector::savePlatformNonce()
+    //     *
+    //     * @param ConsumerNonce $nonce Nonce object
+    //     *
+    //     * @return bool    True if the nonce object was successfully saved
+    //     */
+    //    public function saveConsumerNonce($nonce)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::saveConsumerNonce() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::savePlatformNonce() instead.',
+    //            true);
+    //        return $this->savePlatformNonce($nonce);
+    //    }
 
-//    /**
-//     * Delete nonce object.
-//     *
-//     * @deprecated Use deletePlatformNonce() instead
-//     * @see DataConnector::deletePlatformNonce()
-//     *
-//     * @param ConsumerNonce $nonce Nonce object
-//     *
-//     * @return bool    True if the nonce object was successfully deleted
-//     */
-//    public function deleteConsumerNonce($nonce)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::deleteConsumerNonce() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::deletePlatformNonce() instead.',
-//            true);
-//        return $this->deletePlatformNonce($nonce);
-//    }
+    //    /**
+    //     * Delete nonce object.
+    //     *
+    //     * @deprecated Use deletePlatformNonce() instead
+    //     * @see DataConnector::deletePlatformNonce()
+    //     *
+    //     * @param ConsumerNonce $nonce Nonce object
+    //     *
+    //     * @return bool    True if the nonce object was successfully deleted
+    //     */
+    //    public function deleteConsumerNonce($nonce)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector\DataConnector::deleteConsumerNonce() has been deprecated; please use ceLTIc\LTI\DataConnector\DataConnector::deletePlatformNonce() instead.',
+    //            true);
+    //        return $this->deletePlatformNonce($nonce);
+    //    }
 
     /**
      * Load nonce object.
@@ -642,24 +642,24 @@ class DataConnector
         return $dataConnector;
     }
 
-//    /**
-//     * Generate a random string.
-//     *
-//     * The generated string will only comprise letters (upper- and lower-case) and digits.
-//     *
-//     * @deprecated Use Util::getRandomString() instead
-//     * @see Util::getRandomString()
-//     *
-//     * @param int $length Length of string to be generated (optional, default is 8 characters)
-//     *
-//     * @return string Random string
-//     */
-//    public static function getRandomString($length = 8)
-//    {
-//        Util::logDebug('Method ceLTIc\LTI\DataConnector::getRandomString() has been deprecated; please use ceLTIc\LTI\Util::getRandomString() instead.',
-//            true);
-//        return Util::getRandomString($length);
-//    }
+    //    /**
+    //     * Generate a random string.
+    //     *
+    //     * The generated string will only comprise letters (upper- and lower-case) and digits.
+    //     *
+    //     * @deprecated Use Util::getRandomString() instead
+    //     * @see Util::getRandomString()
+    //     *
+    //     * @param int $length Length of string to be generated (optional, default is 8 characters)
+    //     *
+    //     * @return string Random string
+    //     */
+    //    public static function getRandomString($length = 8)
+    //    {
+    //        Util::logDebug('Method ceLTIc\LTI\DataConnector::getRandomString() has been deprecated; please use ceLTIc\LTI\Util::getRandomString() instead.',
+    //            true);
+    //        return Util::getRandomString($length);
+    //    }
 
     /**
      * Escape a string for use in a database query.

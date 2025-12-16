@@ -163,25 +163,6 @@ class ilLTIViewGUI
         }
 
         $this->findEffectiveRefId();
-        // ???
-        if (
-            (
-                $this->wrapper->query()->has('baseClass') &&
-                $this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()) === 'ilDashboardGUI'
-            )
-            &&
-            (
-                $this->wrapper->query()->has('cmd') &&
-                $this->wrapper->query()->retrieve('cmd', $this->kindlyTo->string()) === 'jumpToSelectedItems'
-            )
-        ) {
-            $this->log->debug("jumpToSelectedItems");
-            if (ilSession::get('lti_ref_id_at_init') != "") {
-                $this->effectiveRefId = (int) ilSession::get('lti_ref_id_at_init');
-                ilSession::set('lti_ref_id_at_init', "");
-            }
-        }
-
         $ref_id = $this->effectiveRefId;
         if (empty($ref_id)) {
             $this->log->debug("empty ref_id");
@@ -212,7 +193,6 @@ class ilLTIViewGUI
         $this->log->warning("no valid context_id found for ref_id request: " . $ref_id);
 
         if (ilLTIViewGUI::CHECK_HTTP_REFERER) {
-            $ref_id = $this->effectiveRefId;
             $obj_type = ilObject::_lookupType($ref_id, true);
             $context_id = 0;
             $referer = 0;

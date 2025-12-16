@@ -660,6 +660,7 @@ class ilObjLTIConsumer extends ilObject2
     public function buildLaunchParameters(ilCmiXapiUser $cmixUser, string $token, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = ''): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $DIC->user()->setExternalAccount($cmixUser->getUsrIdent());
 
         $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
         //todo if object is in course or group, roles would have to be taken from there s. Mantis 35435 - if necessary Jour Fixe topic
@@ -741,25 +742,24 @@ class ilObjLTIConsumer extends ilObject2
             "lis_person_name_full" => $nameFull,
             "lis_person_contact_email_primary" => $emailPrimary,
             "context_id" => $contextId,
-            "context_type" => $contextType,
             "context_title" => $contextTitle,
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
             "launch_presentation_document_target" => $documentTarget,
-            "launch_presentation_width" => "",//recommended
-            "launch_presentation_height" => "",//recommended
             "launch_presentation_return_url" => $returnUrl,
             "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
-            "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get("short_inst_name") : CLIENT_ID,
+            "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get(
+                "short_inst_name"
+            ) : CLIENT_ID,
             "tool_consumer_instance_description" => ilObjSystemFolder::_getHeaderTitle(),
-            "tool_consumer_instance_url" => ilLink::_getLink(ROOT_FOLDER_ID, "root"),//ToDo? "https://vb52p70.example.com/release_5-3/goto.php?target=root_1&client_id=inno",
+            "tool_consumer_instance_url" => ilLink::_getLink(ROOT_FOLDER_ID, "root"),
+            //ToDo? "https://vb52p70.example.com/release_5-3/goto.php?target=root_1&client_id=inno",
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => self::getIliasHttpPath() . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
-            "role_scope_mentor" => ""
         ];
 
         $OAuthParams = [
@@ -861,8 +861,6 @@ class ilObjLTIConsumer extends ilObject2
             "context_label" => $contextType . " " . $contextId,
             "launch_presentation_locale" => $this->lng->getLangKey(),
             "launch_presentation_document_target" => $documentTarget,
-            "launch_presentation_width" => "",//recommended
-            "launch_presentation_height" => "",//recommended
             "launch_presentation_return_url" => $returnUrl,
             "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get("short_inst_name") : CLIENT_ID,

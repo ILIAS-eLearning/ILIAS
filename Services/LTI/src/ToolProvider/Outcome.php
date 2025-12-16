@@ -187,4 +187,11 @@ class Outcome
     {
         $this->pointsPossible = $pointsPossible;
     }
+
+    public function assign($outcome): void
+    {
+        foreach (get_object_vars($outcome) as $name => $value) {
+            $this->$name = $value;
+        }
+    }
 }

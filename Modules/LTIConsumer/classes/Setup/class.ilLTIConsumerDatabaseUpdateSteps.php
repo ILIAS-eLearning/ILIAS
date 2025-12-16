@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 class ilLTIConsumerDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
@@ -234,6 +234,25 @@ class ilLTIConsumerDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->addPrimaryKey("lti_consumer_grades", array("id"));
             $this->db->createSequence("lti_consumer_grades");
             $this->db->addIndex("lti_consumer_grades", array("obj_id","usr_id"), 'i1');
+        }
+    }
+    public function step_16(): void
+    {
+        if (!$this->db->tableColumnExists('lti_consumer_results', 'attended')) {
+            $this->db->addTableColumn('lti_consumer_results', 'attended', [
+                'type' => 'integer',
+                'notnull' => true,
+                'length' => 1,
+                'default' => 0
+            ]);
+
+            $query = /** @lang sql */
+                "
+                UPDATE lti_consumer_results
+                SET attended = 1
+                WHERE result IS NOT NULL AND result > 0
+            ";
+            $this->db->manipulate($query);
         }
     }
 }

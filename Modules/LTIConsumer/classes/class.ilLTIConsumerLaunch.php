@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\LTIOAuth;
 
@@ -84,14 +84,14 @@ class ilLTIConsumerLaunch
     {
         switch ($a_type) {
             case "crs":
-                return "CourseOffering";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
             case "grp":
-                return "Group";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#Group";
             case "root":
-                return "urn:lti:context-type:ilias/RootNode";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
             case "cat":
             default:
-                return "urn:lti:context-type:ilias/Category";
+                return "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering";
         }
     }
 
@@ -110,22 +110,16 @@ class ilLTIConsumerLaunch
      *
      * @return array|string	signed data
      */
-    public static function signOAuth(array $a_params)
+    public static function signOAuth(array $a_params): array
     {
         switch ($a_params['sign_method']) {
             case "HMAC_SHA1":
                 $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
                 break;
-            case "PLAINTEXT":
-                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_PLAINTEXT();
-                break;
-                //            case "RSA_SHA1":
-                //                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_RSA_SHA1();
-                //                break;
-
             default:
-                return "ERROR: unsupported signature method!";
+                throw new Exception("Unknown signature method: " . $a_params['sign_method']);
         }
+
         $consumer = new ILIAS\LTIOAuth\OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
         $request = ILIAS\LTIOAuth\OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
         $request->sign_request($method, $consumer, $a_params["token"]);

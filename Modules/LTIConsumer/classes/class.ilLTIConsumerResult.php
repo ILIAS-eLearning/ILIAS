@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilObjLTIConsumerResult
@@ -47,6 +47,11 @@ class ilLTIConsumerResult
      * @var float|null
      */
     public ?float $result = null;
+
+    /**
+     * @var bool
+     */
+    public bool $attended = false;
 
     /**
      * Get a result by id
@@ -106,7 +111,8 @@ class ilLTIConsumerResult
         $this->id = (int) $data['id'];
         $this->obj_id = (int) $data['obj_id'];
         $this->usr_id = (int) $data['usr_id'];
-        $this->result = (float) $data['result'];
+        $this->result = $data['result'] == null ? null : (float) $data['result'];
+        $this->attended = (bool) $data['attended'];
     }
 
     /**
@@ -130,7 +136,8 @@ class ilLTIConsumerResult
             array(
                 'obj_id' => array('integer', $this->obj_id),
                 'usr_id' => array('integer', $this->usr_id),
-                'result' => array('float', $this->result)
+                'result' => array('float', $this->result),
+                'attended' => array('integer', $this->attended)
             )
         );
         return true;
@@ -154,6 +161,16 @@ class ilLTIConsumerResult
     public function getResult(): ?float
     {
         return $this->result;
+    }
+
+    public function isAttended(): bool
+    {
+        return $this->attended;
+    }
+
+    public function setAttended(bool $attended): void
+    {
+        $this->attended = $attended;
     }
 
     /**

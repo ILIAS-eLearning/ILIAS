@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Class ilLTIConsumerGradeServiceScores
@@ -151,7 +151,8 @@ class ilLTIConsumerGradeServiceScores extends ilLTIConsumerResourceBase
             array(
                 'obj_id' => array('integer', $objId),
                 'usr_id' => array('integer', $userId),
-                'result' => array('float', $result)
+                'result' => array('float', $result),
+                'attended' => array('integer', 1)
             )
         );
 

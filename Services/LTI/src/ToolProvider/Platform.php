@@ -533,20 +533,20 @@ class Platform
     // }
 
     //changed; to be erased because of php strict standards
-//    /**
-//     * Load the platform from the database by its record ID.
-//     * @param int        $id            The platform record ID //UK: changed to int
-//     * @param DataConnector $dataConnector A data connector object
-//     * @return Platform       The platform object
-//     */
-//    public static function fromRecordId(int $id, DataConnector $dataConnector) : Platform
-//    {
-//        $platform = new static($dataConnector);
-//        $platform->setRecordId($id);
-//        $dataConnector->loadPlatform($platform);
-//
-//        return $platform;
-//    }
+    //    /**
+    //     * Load the platform from the database by its record ID.
+    //     * @param int        $id            The platform record ID //UK: changed to int
+    //     * @param DataConnector $dataConnector A data connector object
+    //     * @return Platform       The platform object
+    //     */
+    //    public static function fromRecordId(int $id, DataConnector $dataConnector) : Platform
+    //    {
+    //        $platform = new static($dataConnector);
+    //        $platform->setRecordId($id);
+    //        $dataConnector->loadPlatform($platform);
+    //
+    //        return $platform;
+    //    }
 
     ###
     ###    PROTECTED METHODS

@@ -195,12 +195,12 @@ final class Util
      */
     public static function isLtiMessage(): bool
     {
-//        $isLti = ($_SERVER['REQUEST_METHOD'] === 'POST') &&
-//            (!empty($_POST['lti_message_type']) || !empty($_POST['id_token']) || !empty($_POST['JWT']) ||
-//                !empty($_POST['iss']));
-//        if (!$isLti) {
-//            $isLti = ($_SERVER['REQUEST_METHOD'] === 'GET') && (!empty($_GET['iss']) || !empty($_GET['openid_configuration']));
-//        }
+        //        $isLti = ($_SERVER['REQUEST_METHOD'] === 'POST') &&
+        //            (!empty($_POST['lti_message_type']) || !empty($_POST['id_token']) || !empty($_POST['JWT']) ||
+        //                !empty($_POST['iss']));
+        //        if (!$isLti) {
+        //            $isLti = ($_SERVER['REQUEST_METHOD'] === 'GET') && (!empty($_GET['iss']) || !empty($_GET['openid_configuration']));
+        //        }
         global $DIC;
         $wrapper = $DIC->http()->wrapper()->post();
         $refString = $DIC->refinery()->kindlyTo()->string();
@@ -224,15 +224,15 @@ final class Util
     public static function getRequestParameters(): ?array
     {
         if (is_null(self::$requestParameters)) {
-//            special for ILIAS instead of
-//            self::$requestParameters = array_merge($_GET, $_POST);
-//            also not possible
-//            self::$requestParameters = array_merge(
-//                //Argument 1 passed to Symfony\Component\HttpFoundation\Request::createRequestFromFactory() must be of the type array, object given
-//                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->query->all(),
-//                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->request->all()
-//                (array) $_GET, (array) $_POST
-//            );
+            //            special for ILIAS instead of
+            //            self::$requestParameters = array_merge($_GET, $_POST);
+            //            also not possible
+            //            self::$requestParameters = array_merge(
+            //                //Argument 1 passed to Symfony\Component\HttpFoundation\Request::createRequestFromFactory() must be of the type array, object given
+            //                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->query->all(),
+            //                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->request->all()
+            //                (array) $_GET, (array) $_POST
+            //            );
             global $DIC;
             $post = $DIC->http()->wrapper()->post();
             $query = $DIC->http()->wrapper()->query();
@@ -381,10 +381,10 @@ final class Util
         }
         if (self::$logLevel >= $logLevel) {
             $message = "{$_SERVER['REQUEST_METHOD']} request received for '{$_SERVER['REQUEST_URI']}'";
-//            $body = file_get_contents(OAuth\OAuthRequest::$POST_INPUT);
+            //            $body = file_get_contents(OAuth\OAuthRequest::$POST_INPUT);
             $body = file_get_contents(LTIOAuth\OAuthRequest::$POST_INPUT);
             if (!empty($body)) {
-//                $params = OAuth\OAuthUtil::parse_parameters($body);
+                //                $params = OAuth\OAuthUtil::parse_parameters($body);
                 $params = LTIOAuth\OAuthUtil::parse_parameters($body);
                 if (!empty($params)) {
                     $message .= " with body parameters of:\n" . var_export($params, true);
@@ -465,7 +465,7 @@ final class Util
      */
     public static function sendForm(string $url, array $params, string $target = ''): string
     {
-        self::logForm($url, $params, 'POST');
+        self::logForm($url, $params, 'GET');
         $page = <<< EOD
 <html>
 <head>

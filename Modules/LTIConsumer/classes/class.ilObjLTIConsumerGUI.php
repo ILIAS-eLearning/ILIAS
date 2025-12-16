@@ -57,6 +57,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     public int $parent_node_id = 0; //check
 
+    private ilLogger $logger;
+
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
@@ -70,6 +72,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
         $DIC->language()->loadLanguageModule("lti");
         $DIC->language()->loadLanguageModule("rep");
+        $this->logger = $DIC->logger()->root();
     }
 
     public function getType(): string
@@ -565,7 +568,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
             $this->initMetadata($newObject);
 
-            $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class);
+            $DIC->ctrl()->redirectByClass([ilLTIConsumerSettingsGUI::class, ilLTIConsumeProviderSettingsGUI::class]);
         }
 
         throw new ilLtiConsumerException(
@@ -841,6 +844,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
                 if ($DIC->ctrl()->getCmd() === 'save') {
                     $this->checkContentSelection();
                 } else {
+                    if (isset($this->object) && !$this->isContentTabAvailable()) {
+                        $DIC->ctrl()->redirectToURL($this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class));
+                    }
                     $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD);
                     $this->{$command}();
                 }
@@ -868,6 +874,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         } else {
             $this->save();
         }
+    }
+
+    public function isContentTabAvailable(): bool
+    {
+        if (!$this->object->getOfflineStatus() &&
+            $this->object->getProvider()->getAvailability() != ilLTIConsumeProvider::AVAILABILITY_NONE) {
+            return true;
+        }
+        return false;
     }
 
     protected function setTabs(): void
