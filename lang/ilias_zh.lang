@@ -509,6 +509,7 @@ assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File###24 10 2013 new variable
 assessment#:#ass_create_export_test_results#:#导出测试结果
 assessment#:#ass_create_question#:#Create Question###24 10 2013 new variable
+assessment#:#ass_file_upload_reuse_btn#:#Reuse Selected Files###16 12 2025 new variable
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###25 10 2016 new variable
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.###25 10 2016 new variable
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.###25 10 2016 new variable
@@ -1988,6 +1989,7 @@ assessment#:#unlock#:#未锁定
 assessment#:#uploaded_material#:#已上传的资料
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
+assessment#:#use_previous_solution_advice_file_upload#:#The shown files for the question are your previously uploaded ones. Select the files you want to reuse and click the button to confirm.###16 12 2025 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_not_invited#:#您不应该参加这项考试
 assessment#:#user_wrong_clientip#:#您没有一个正确的IP来完成这次考试
@@ -2473,6 +2475,7 @@ blog#:#blog_whole_blog#:#Whole Blog###31 03 2023 new variable
 book#:#X_reservations_of#:#%s reservations of###30 04 2021 new variable
 book#:#book_add#:#添加预订池
 book#:#book_add_object#:#添加对象
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#添加计划
 book#:#book_additional_info_file#:#附加描述
 book#:#book_all#:#显示所有
@@ -2619,6 +2622,7 @@ book#:#book_show_message#:#Show Message###30 04 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###30 04 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###30 04 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#当前，没有预订对象可用。使用预订池您需要创建预订对象。
 book#:#book_week#:#Week###30 04 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -4830,6 +4834,7 @@ common#:#not_available#:#没有可用的
 common#:#not_implemented_yet#:#尚未实现
 common#:#not_installed#:#未安装
 common#:#not_logged_in#:#您未登录
+common#:#not_ok#:#Not OK###16 12 2025 new variable
 common#:#note#:#笔记
 common#:#notes#:#笔记与评论
 common#:#notes_and_comments#:#笔记与评论
@@ -5527,6 +5532,7 @@ common#:#select#:#选择
 common#:#select_all#:#全部选择
 common#:#select_at_least_one_object#:#请选择至少一个对象。
 common#:#select_file#:#选择文件
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Select the files from your computer###24 10 2013 new variable
 common#:#select_max_one_item#:#请只选择一项
 common#:#select_object_to_link#:#请选择您想链接的对象
@@ -8689,6 +8695,7 @@ dcl#:#dcl_no_fields_yet#:#这个表没有定义字段，因此您还不能创建
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###10 11 2018 new variable
 dcl#:#dcl_no_search_results_found_for#:#没有模块发现
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:###24 10 2013 new variable
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###08 07 2025 new variable
 dcl#:#dcl_not_checked#:#未勾选的
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import###24 10 2013 new variable
@@ -8697,7 +8704,6 @@ dcl#:#dcl_notification_activated#:#通知已激活
 dcl#:#dcl_notification_deactivate_dcl#:#为数据收集停用通知
 dcl#:#dcl_notification_deactivated#:#通知已停用
 dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
-dcl#:#dcl_notimage_exception#:#该文件必须是一个图片。
 dcl#:#dcl_noturl_exception#:#您必须输入一个链接(以http://开始)
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
@@ -8817,6 +8823,8 @@ dcl#:#dcl_wrong_regex#:#您输入的文本与这个字段的模式(正则表达�
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)###20 05 2025 new variable
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###30 04 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
 didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable

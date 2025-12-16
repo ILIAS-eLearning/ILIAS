@@ -510,6 +510,7 @@ assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File###16 09 2013 new variable
 assessment#:#ass_create_export_test_results#:#Eksport testresultater
 assessment#:#ass_create_question#:#Create Question###16 09 2013 new variable
+assessment#:#ass_file_upload_reuse_btn#:#Reuse Selected Files###16 12 2025 new variable
 assessment#:#ass_imap_hint#:#Hint to be shown as Tooltip###25 10 2016 new variable
 assessment#:#ass_imap_map_file_not_readable#:#The uploaded image map could not be read.###25 10 2016 new variable
 assessment#:#ass_imap_no_map_found#:#Could not find any form in the uploaded image map.###25 10 2016 new variable
@@ -1989,6 +1990,7 @@ assessment#:#unlock#:#Ulås
 assessment#:#uploaded_material#:#Uploadet Materialle
 assessment#:#use_previous_solution#:#Use Previous Solution###31 08 2017 new variable
 assessment#:#use_previous_solution_advice#:#The shown solution for the question is your previously given one. You have to confirm the adoption of the solution, if you like to use it without any change. ###31 08 2017 new variable
+assessment#:#use_previous_solution_advice_file_upload#:#The shown files for the question are your previously uploaded ones. Select the files you want to reuse and click the button to confirm.###16 12 2025 new variable
 assessment#:#user_has_finished_a_test#:#A participant has finished a test.###27 01 2015 new variable
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###17 Aug 2005 new variable
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###17 Aug 2005 new variable
@@ -2474,6 +2476,7 @@ blog#:#blog_whole_blog#:#Whole Blog###31 03 2023 new variable
 book#:#X_reservations_of#:#%s reservations of###30 04 2021 new variable
 book#:#book_add#:#Add Booking Pool###01 04 2011 new variable
 book#:#book_add_object#:#Add Object###16 07 2010 new variable
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Add Schedule###16 07 2010 new variable
 book#:#book_additional_info_file#:#Additional Description###02 09 2012 new variable
 book#:#book_all#:#Vis alle
@@ -2620,6 +2623,7 @@ book#:#book_show_message#:#Show Message###30 04 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###30 04 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###30 04 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.###12 06 2011 new variable
 book#:#book_week#:#Week###30 04 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -4831,6 +4835,7 @@ common#:#not_available#:#Ikke tilgængelig
 common#:#not_implemented_yet#:#Ikke implementeret endnu
 common#:#not_installed#:#Ikke installeret
 common#:#not_logged_in#:#Du er ikke logget ind
+common#:#not_ok#:#Not OK###16 12 2025 new variable
 common#:#note#:#Note
 common#:#notes#:#Noter
 common#:#notes_and_comments#:#Noter og kommentarer
@@ -5528,6 +5533,7 @@ common#:#select#:#vælg
 common#:#select_all#:#Vælg alle
 common#:#select_at_least_one_object#:#Please choose at least one object.###24 02 2009 new variable
 common#:#select_file#:#Vælg fil
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Select the files from your computer###16 09 2013 new variable
 common#:#select_max_one_item#:#Vælg venligst kun en
 common#:#select_object_to_link#:#vælg venligst det objekt du vil linke til
@@ -8690,6 +8696,7 @@ dcl#:#dcl_no_fields_yet#:#Der er endnu ikke lavet kolonner i tabellen, så du ka
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###10 11 2018 new variable
 dcl#:#dcl_no_search_results_found_for#:#Der kunne ikke findes moduler til
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:###16 09 2013 new variable
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###08 07 2025 new variable
 dcl#:#dcl_not_checked#:#Fravalgt.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import###16 09 2013 new variable
@@ -8698,7 +8705,6 @@ dcl#:#dcl_notification_activated#:#Advisering slået til
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection###28 08 2012 new variable
 dcl#:#dcl_notification_deactivated#:#Advisering slået fra
 dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
-dcl#:#dcl_notimage_exception#:#Filen skal være en billedfil
 dcl#:#dcl_noturl_exception#:#Du skal indtaste et link (begyndende med http://)
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
@@ -8818,6 +8824,8 @@ dcl#:#dcl_wrong_regex#:#Den indtastede tekst passer ikke til specifikationen for
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)###20 05 2025 new variable
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###30 04 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
 didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable

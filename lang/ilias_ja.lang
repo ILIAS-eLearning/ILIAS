@@ -510,6 +510,7 @@ assessment#:#ass_create_export_file_with_results#:#テストエクスポート�
 assessment#:#ass_create_export_test_archive#:#テストアーカイブファイルを作成
 assessment#:#ass_create_export_test_results#:#テスト結果エクスポートファイルを作成
 assessment#:#ass_create_question#:#問題を作成
+assessment#:#ass_file_upload_reuse_btn#:#Reuse Selected Files###16 12 2025 new variable
 assessment#:#ass_imap_hint#:#ツールチップとしてヒントを表示
 assessment#:#ass_imap_map_file_not_readable#:#アップロードされたイメージマップを読み込む事ができませんでした。
 assessment#:#ass_imap_no_map_found#:#アップロードされたイメージマップ内に書式が見つかりませんでした。
@@ -1989,6 +1990,7 @@ assessment#:#unlock#:#解除
 assessment#:#uploaded_material#:#アップロードされた教材
 assessment#:#use_previous_solution#:#前回の解答を使用する
 assessment#:#use_previous_solution_advice#:#表示されている回答は前回のものです。何も変更しないでそのまま利用したい場合は、その解答の採用を必ず確認する必要があります。
+assessment#:#use_previous_solution_advice_file_upload#:#The shown files for the question are your previously uploaded ones. Select the files you want to reuse and click the button to confirm.###16 12 2025 new variable
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
 assessment#:#user_not_invited#:#あなたはこのテストの受験対象者ではありません。
 assessment#:#user_wrong_clientip#:#テストに使用する正しいIPがありません。
@@ -2474,6 +2476,7 @@ blog#:#blog_whole_blog#:#全Blog
 book#:#X_reservations_of#:#%s reservations of
 book#:#book_add#:#予約集を追加
 book#:#book_add_object#:#オブジェクトを追加
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#スケジュールを追加
 book#:#book_additional_info_file#:#追加説明
 book#:#book_all#:#全表示
@@ -2620,6 +2623,7 @@ book#:#book_show_message#:#メッセージを表示
 book#:#book_title_description_nr#:#タイトル; 説明; ユニット数
 book#:#book_title_description_nr_info#:#セミコロンまたはタブ文字で区切られたタイトル, 説明とユニット数 (スプレッドシートソフトウエアからインポートした場合). アイテム別に1ライン使用。
 book#:#book_too_many_preferences#:#Preference選択が多すぎます。Preferenceは保存されませんでした。
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#現在利用できるオブジェクトはありませんブッキング集を使用するにはブッキングオブジェクトを作成する必要があります
 book#:#book_week#:#Week
 book#:#book_your_bookings#:#予約
@@ -4831,6 +4835,7 @@ common#:#not_available#:#利用不可
 common#:#not_implemented_yet#:#未適用
 common#:#not_installed#:#未インストール
 common#:#not_logged_in#:#ログインしていません
+common#:#not_ok#:#Not OK###16 12 2025 new variable
 common#:#note#:#注意
 common#:#notes#:#注意
 common#:#notes_and_comments#:#メモとコメント
@@ -5528,6 +5533,7 @@ common#:#select#:#選択
 common#:#select_all#:#全て選択
 common#:#select_at_least_one_object#:#オブジェクトを最低一つ選択してください。
 common#:#select_file#:#ファイルを選択
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#コンピュータのファイルを選択
 common#:#select_max_one_item#:#アイテムを一つだけ選択してください
 common#:#select_object_to_link#:#リンクしたいオブジェクトを選択してください
@@ -8690,6 +8696,7 @@ dcl#:#dcl_no_fields_yet#:#このテーブルに定義されるフィールドが
 dcl#:#dcl_no_read_access_on_any_standard_view#:#表のどのスタンダードビューへも読込みアクセス権がありません。
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
 dcl#:#dcl_no_such_reference#:#レファレンステーブル中に次の値はありません:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#表示可能なテーブルビューがありません!
 dcl#:#dcl_not_checked#:#未チェック
 dcl#:#dcl_not_supported_in_import#:#このタイプのフィールドはインポートではサポートされません。
@@ -8698,7 +8705,6 @@ dcl#:#dcl_notification_activated#:#通知が有効化されました
 dcl#:#dcl_notification_deactivate_dcl#:#データ収集用の通知を解除する
 dcl#:#dcl_notification_deactivated#:#通知が解除されました
 dcl#:#dcl_notification_info#:#ユーザ個々に通知を確定
-dcl#:#dcl_notimage_exception#:#ファイルは画像である必要があります。
 dcl#:#dcl_noturl_exception#:#リンク(http://で始まる)を入力する必要があります。
 dcl#:#dcl_number#:#整数
 dcl#:#dcl_number_desc#:#整数値(最大9桁)用のフィールドです。小数や分数ではありません。
@@ -8818,6 +8824,8 @@ dcl#:#dcl_wrong_regex#:#入力したテキストはこのフィールドの定�
 dcl#:#dcl_xls_async_export#:#XLSX (asynchronous)用
 dcl#:#fieldtitle_allow_chars#:#使用できない文字: %s
 dcl#:#fileupload_not_migrated#:#ファイルの統合がまだ完了していないので表示できません。システム管理者へコンタクトしてください。
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#グレイアウトの既定値
 didactic#:#activate_exclusive_template_info#:#標準テンプレートはこのテンプレートを有効にしていると利用できません。
 didactic#:#activate_local_didactic_template#:#アプリケーションの範囲

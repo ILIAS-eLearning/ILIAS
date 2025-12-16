@@ -512,6 +512,7 @@ assessment#:#ass_create_export_file_with_results#:#Crear fichero de exportación
 assessment#:#ass_create_export_test_archive#:#Archivos de impresión de respuestas de alumnos
 assessment#:#ass_create_export_test_results#:#Exportar Resultados del Test
 assessment#:#ass_create_question#:#Crear pregunta
+assessment#:#ass_file_upload_reuse_btn#:#Reuse Selected Files###16 12 2025 new variable
 assessment#:#ass_imap_hint#:#Sugerencia que se mostrará como ayuda
 assessment#:#ass_imap_map_file_not_readable#:#No se pudo leer el mapa de imágenes subidas.
 assessment#:#ass_imap_no_map_found#:#No se pudo encontrar ninguna forma en el mapa de imágenes subido.
@@ -1991,6 +1992,7 @@ assessment#:#unlock#:#Desbloquear
 assessment#:#uploaded_material#:#Material Enviado
 assessment#:#use_previous_solution#:#Usar solución anterior
 assessment#:#use_previous_solution_advice#:#La solución mostrada para la pregunta es la que proporcionó con anterioridad. Debe confirmar la adopción de la solución si desea usarla sin ningún cambio.
+assessment#:#use_previous_solution_advice_file_upload#:#The shown files for the question are your previously uploaded ones. Select the files you want to reuse and click the button to confirm.###16 12 2025 new variable
 assessment#:#user_has_finished_a_test#:#Un participante ha finalizado el test
 assessment#:#user_not_invited#:#Usted no debe hacer este examen
 assessment#:#user_wrong_clientip#:#No tiene una dirección IP correcta para usar este test
@@ -2476,6 +2478,7 @@ blog#:#blog_whole_blog#:#Whole Blog###31 03 2023 new variable
 book#:#X_reservations_of#:#%s reservations of###30 04 2021 new variable
 book#:#book_add#:#Añadir banco de reservas
 book#:#book_add_object#:#Añadir recurso
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Añadir planificación
 book#:#book_additional_info_file#:#Descripción adicional
 book#:#book_all#:#Mostrar todo
@@ -2622,6 +2625,7 @@ book#:#book_show_message#:#Show Message###30 04 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###30 04 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###30 04 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Actualmente, no hay objetos del tipo reserva disponibles. Para usar el banco de reservas necesitas crear objetos del tipo reserva
 book#:#book_week#:#Week###30 04 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -4833,6 +4837,7 @@ common#:#not_available#:#No Disponible
 common#:#not_implemented_yet#:#No implementado aun
 common#:#not_installed#:#no instalado
 common#:#not_logged_in#:#No está identificado
+common#:#not_ok#:#Not OK###16 12 2025 new variable
 common#:#note#:#Comentario privado para el tutor
 common#:#notes#:#Anotaciones
 common#:#notes_and_comments#:#Notas y comentarios
@@ -5530,6 +5535,7 @@ common#:#select#:#Seleccionar
 common#:#select_all#:#Seleccionar todo
 common#:#select_at_least_one_object#:#Por favor seleccione al menos un objeto.
 common#:#select_file#:#Seleccionar archivo
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Seleccione los archivos de su equipo
 common#:#select_max_one_item#:#Por favor seleccione únicamente un item
 common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar
@@ -8692,6 +8698,7 @@ dcl#:#dcl_no_fields_yet#:#No puedes crear entradas todavía puesto que hay campo
 dcl#:#dcl_no_read_access_on_any_standard_view#:#No tiene acceso de lectura en ninguna vista estándar de una tabla.
 dcl#:#dcl_no_search_results_found_for#:#No se han encontrado módulos
 dcl#:#dcl_no_such_reference#:#El siguiente valor no está disponible en la tabla de referencia:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###08 07 2025 new variable
 dcl#:#dcl_not_checked#:#No comprobado.
 dcl#:#dcl_not_supported_in_import#:#Este tipo de campo no se admite en la importación.
@@ -8700,7 +8707,6 @@ dcl#:#dcl_notification_activated#:#Notificación activada
 dcl#:#dcl_notification_deactivate_dcl#:#Desactivar notificación para colecciones de datos
 dcl#:#dcl_notification_deactivated#:#Notificación desactivada
 dcl#:#dcl_notification_info#:#Activa la notificación individual a usuarios.
-dcl#:#dcl_notimage_exception#:#El fichero debe ser una imagen.
 dcl#:#dcl_noturl_exception#:#Usted tiene que introducir una dirección web (comenzando por http://)
 dcl#:#dcl_number#:#Entero
 dcl#:#dcl_number_desc#:#Campo para valores enteros (máximo de 9 dígitos) Sin decimales ni fracciones.
@@ -8820,6 +8826,8 @@ dcl#:#dcl_wrong_regex#:#El texto introducido no tiene el formato adecuado para e
 dcl#:#dcl_xls_async_export#:#as XLSX (asynchronous)###20 05 2025 new variable
 dcl#:#fieldtitle_allow_chars#:#Caracteres permitidos
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###30 04 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Opción no habilitada de manera predeterminada
 didactic#:#activate_exclusive_template_info#:#La plantilla estándar no estará disponible cuando esté activa esta plantilla.
 didactic#:#activate_local_didactic_template#:#Ámbito de aplicación
