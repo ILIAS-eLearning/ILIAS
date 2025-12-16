@@ -22,6 +22,7 @@ use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
 use ILIAS\LTI\ToolProvider\Service;
 use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
 use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
+
 require_once __DIR__ . '/../ToolProvider/ServiceAction.php';
 require_once __DIR__ . '/../ToolProvider/Outcome.php';
 require_once __DIR__ . '/../ToolProvider/OutcomeType.php';
@@ -728,11 +729,11 @@ class ResourceLink
         $logger = $DIC->logger()->root();
         $ok = false;
         $this->extResponse = '';
-// Lookup service details from the source resource link appropriate to the user (in case the destination is being shared)
+        // Lookup service details from the source resource link appropriate to the user (in case the destination is being shared)
         $sourceResourceLink = $userResult->getResourceLink();
         $sourcedId = $userResult->ltiResultSourcedId;
 
-// Use LTI 1.1 service in preference to extension service if it is available
+        // Use LTI 1.1 service in preference to extension service if it is available
         $urlAGS = $sourceResourceLink->getSetting('custom_lineitem_url');
         $urlLTI11 = $sourceResourceLink->getSetting('lis_outcome_service_url');
         $urlExt = $sourceResourceLink->getSetting('ext_ims_lis_basic_outcome_url');
@@ -828,6 +829,7 @@ EOD;
                             } else {
                                 $ltiOutcome->setValue(null);
                             }
+                            // no break
                         case ServiceAction::Write:
                         case ServiceAction::Delete:
                             $ok = true;
@@ -882,6 +884,7 @@ EOD;
                                 }
                                 $ltiOutcome->setValue($value);
                             }
+                            // no break
                         case ServiceAction::Write:
                         case ServiceAction::Delete:
                             $ok = true;
@@ -1501,7 +1504,7 @@ EOD;
 
         // Check whether the type is supported or there is no value
         $ok = in_array($type, $supportedTypes) || empty($value);
-        $logger->info(" -> checkValueType -- type  $type  --- value:  $value -- supportedTypes: " . json_encode($supportedTypes) . " -- ok  " .($ok === true ? 'true' : 'false') . ".." . var_export($supportedTypes, true));
+        $logger->info(" -> checkValueType -- type  $type  --- value:  $value -- supportedTypes: " . json_encode($supportedTypes) . " -- ok  " . ($ok === true ? 'true' : 'false') . ".." . var_export($supportedTypes, true));
         if (!$ok) {
             // Convert numeric values to decimal
             if ($type === self::EXT_TYPE_PERCENTAGE) {
@@ -1558,7 +1561,7 @@ EOD;
             }
         }
 
-        $logger->info(" -> checkValueType -- type  $type  --- value:  $value -- supportedTypes:  " . json_encode($supportedTypes) . " -- ok  " .($ok === true ? 'true' : 'false') . "-- ltiOutcome: " . json_encode($ltiOutcome));
+        $logger->info(" -> checkValueType -- type  $type  --- value:  $value -- supportedTypes:  " . json_encode($supportedTypes) . " -- ok  " . ($ok === true ? 'true' : 'false') . "-- ltiOutcome: " . json_encode($ltiOutcome));
 
         return $ok;
     }
@@ -1753,8 +1756,10 @@ EOD;
                     $accessToken = new AccessToken($this->platform);
                     $this->platform->setAccessToken($accessToken);
                 }
-                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array($scope,
-                            Tool::$defaultTool->requiredScopes))) {
+                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array(
+                    $scope,
+                    Tool::$defaultTool->requiredScopes
+                ))) {
                     $accessToken->expires = time();
                     $accessToken->get($scope, true);
                     $this->platform->setAccessToken($accessToken);
@@ -1762,23 +1767,23 @@ EOD;
                 }
             }
             do {
-// Add message signature
+                // Add message signature
                 $header = $this->getPlatform()->addSignature($url, $xmlRequest, 'POST', 'application/xml');
                 $header .= "\nAccept: application/xml";
-// Connect to platform
+                // Connect to platform
                 $http = new \ILIAS\LTI\ToolProvider\Http\HttpMessage($url, 'POST', $xmlRequest, $header);
-                $logger->info("sending http value: ". json_encode($http));
+                $logger->info("sending http value: " . json_encode($http));
                 if ($http->send()) {
-// Parse XML response
+                    // Parse XML response
                     $logger->info("HTTP status: " . $http->status . " headers: " . var_export($http->responseHeaders, true));
-                    $logger->info("Raw body: " . substr((string)$http->response, 0, 500));
+                    $logger->info("Raw body: " . substr((string) $http->response, 0, 500));
                     $this->extResponse = $http->response;
                     $this->extResponseHeaders = $http->responseHeaders;
                     try {
                         $this->extDoc = new DOMDocument();
                         @$this->extDoc->loadXML($http->response);
                         $logger->info("HTTP status: " . $http->status . " headers: " . var_export($http->responseHeaders, true));
-                        $logger->info("Raw body: " . substr((string)$http->response, 0, 500));
+                        $logger->info("Raw body: " . substr((string) $http->response, 0, 500));
 
                         $logger->info("doLTI11Service (this->extDoc->loadXML)-> " . json_encode($this->extDoc) . " extDoc->documentElement " . json_encode($this->extDoc->documentElement));
 
