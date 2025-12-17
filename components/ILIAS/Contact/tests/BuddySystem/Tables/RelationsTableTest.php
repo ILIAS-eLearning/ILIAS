@@ -53,9 +53,9 @@ class RelationsTableTest extends TestCase
 
     public function testConstruct(): void
     {
-        $this->assertInstanceOf(RelationsTable::class, new RelationsTable(
-            ...array_map($this->mock(...), [UIFactory::class, ilLanguage::class, ilUIService::class, Http::class])
-        ));
+        $args = array_map($this->mock(...), [UIFactory::class, ilLanguage::class, ilUIService::class, Http::class]);
+        $args[] = $this->fail(...);
+        $this->assertInstanceOf(RelationsTable::class, new RelationsTable(...$args));
     }
 
     public function testData(): void
@@ -127,7 +127,8 @@ class RelationsTableTest extends TestCase
             $this->mockTree(UIFactory::class, ['table' => ['data' => $data_table]]),
             $this->mock(ilLanguage::class),
             $this->mockTree(ilUIService::class, ['filter' => ['standard' => $filter]]),
-            $this->mockTree(Http::class, ['request' => $request])
+            $this->mockTree(Http::class, ['request' => $request]),
+            fn($label) => $label,
         ) extends RelationsTable {
             public static Closure $data;
             public static function data(array $filter = []): array
