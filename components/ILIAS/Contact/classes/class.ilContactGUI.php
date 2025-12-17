@@ -86,7 +86,8 @@ class ilContactGUI implements ilCtrlSecurityInterface
             $this->ui_factory,
             $this->lng,
             $DIC->uiService(),
-            $this->http
+            $this->http,
+            $this->linkToProfile(...)
         );
         $this->lng->loadLanguageModule('buddysystem');
     }
@@ -637,5 +638,21 @@ class ilContactGUI implements ilCtrlSecurityInterface
             $url->withParameter($p, $param),
             $token
         );
+    }
+
+    private function linkToProfile(int $user, string $label): string
+    {
+        $public_profile = ilObjUser::_lookupPref($user, 'public_profile');
+        if (($this->user->isAnonymous() || $public_profile !== 'y') && $public_profile !== 'g') {
+            return $label;
+        }
+
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'user', (string) $user);
+        $profile_target = $this->ctrl->getLinkTargetByClass(
+            PublicProfileGUI::class,
+            'getHTML'
+        );
+
+        return $this->ui_renderer->render($this->ui_factory->link()->standard($label, $profile_target));
     }
 }
