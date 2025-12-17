@@ -31,4 +31,9 @@ class CategoryAggregationStrategy extends SubtreeAggregationStrategy implements 
     {
         return false;
     }
+
+    public function isRecursive(): bool
+    {
+        return true;
+    }
 }
