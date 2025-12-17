@@ -254,7 +254,6 @@ class ilDclTableViewEditGUI
             $this->tableview->setRoles($data['settings']['role_limitation']['roles'] ?? []);
             if ($create) {
                 $this->tableview->setTableId($this->table->getId());
-                $this->tableview->setOrder($this->table->getNewTableviewOrder());
                 $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('dcl_msg_tableview_created'), true);
                 $this->tableview->create();
             } else {
