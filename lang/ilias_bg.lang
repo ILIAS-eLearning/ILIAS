@@ -650,7 +650,6 @@ assessment#:#errFormulaQuestion#:#Въпрос за формула съдърж�
 assessment#:#errRecursionInResult#:#Формулата съдържа безкрайна рекурсия.
 assessment#:#err_category_in_use#:#Най-малко една категория не може да бъде изтрита. Една или повече единици от категорията вече се използват.
 assessment#:#err_divider_too_big#:# Делителят на една от променливите в този въпрос е твърде голям.###16 03 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#Тази стойност трябва да е по-малка от максималния диапазон.###16 03 2022 new variable
 assessment#:#err_duplicate_results#:#Използвали сте променлива за резултат повече от веднъж. Това не е разрешено в текста на въпроса.
 assessment#:#err_no_formula#:# Трябва да въведете формула
