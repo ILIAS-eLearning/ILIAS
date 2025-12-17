@@ -21,6 +21,7 @@ if (isset($_GET["client_id"])) {
     $_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
+define('IL_CERT_SSO', true);
 define('IL_COOKIE_PATH', $cookie_path);
 
 include_once './Services/Context/classes/class.ilContext.php';
