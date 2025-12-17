@@ -5707,20 +5707,20 @@
         },
         {
             "name": "simplesamlphp/composer-module-installer",
-            "version": "v1.5.1",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/composer-module-installer.git",
-                "reference": "75f204f9f2bb370f76952947f5b35bf2c855cc0b"
+                "reference": "9543c32a0711fb63b637fe75fc08f0309d1c0b32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/composer-module-installer/zipball/75f204f9f2bb370f76952947f5b35bf2c855cc0b",
-                "reference": "75f204f9f2bb370f76952947f5b35bf2c855cc0b",
+                "url": "https://api.github.com/repos/simplesamlphp/composer-module-installer/zipball/9543c32a0711fb63b637fe75fc08f0309d1c0b32",
+                "reference": "9543c32a0711fb63b637fe75fc08f0309d1c0b32",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "~2.6.0",
+                "composer-plugin-api": "~2.9.0",
                 "ext-mbstring": "*",
                 "php": "^8.2",
                 "simplesamlphp/assert": "~1.9.1"
@@ -5745,9 +5745,9 @@
             "description": "A Composer plugin that allows installing SimpleSAMLphp modules through Composer.",
             "support": {
                 "issues": "https://github.com/simplesamlphp/composer-module-installer/issues",
-                "source": "https://github.com/simplesamlphp/composer-module-installer/tree/v1.5.1"
+                "source": "https://github.com/simplesamlphp/composer-module-installer/tree/v1.6.0"
             },
-            "time": "2025-10-27T08:35:21+00:00"
+            "time": "2025-11-13T11:11:03+00:00"
         },
         {
             "name": "simplesamlphp/composer-xmlprovider-installer",
@@ -9800,16 +9800,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.92.1",
+            "version": "v3.92.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "ed33ad03313a019533ba065eba6c86af0a382873"
+                "reference": "64fab3553dce507ce247f7d1a7d65f74ef658c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/ed33ad03313a019533ba065eba6c86af0a382873",
-                "reference": "ed33ad03313a019533ba065eba6c86af0a382873",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/64fab3553dce507ce247f7d1a7d65f74ef658c3f",
+                "reference": "64fab3553dce507ce247f7d1a7d65f74ef658c3f",
                 "shasum": ""
             },
             "require": {
@@ -9892,7 +9892,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.2"
             },
             "funding": [
                 {
@@ -9900,7 +9900,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-12-15T23:09:01+00:00"
+            "time": "2025-12-17T00:04:16+00:00"
         },
         {
             "name": "mikey179/vfsstream",
@@ -11074,7 +11074,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -11091,6 +11091,6 @@
         "ext-imagick": "*",
         "ext-mbstring": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }
