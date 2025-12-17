@@ -37,6 +37,7 @@ use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\Badge\Table\TableContentWrapper;
 
 class ilBadgeImageTemplateTableGUI implements DataRetrieval
 {
@@ -219,7 +220,6 @@ class ilBadgeImageTemplateTableGUI implements DataRetrieval
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 
-        $out = [$table];
         $query = $this->http->wrapper()->query();
         if ($query->has('tid')) {
             $query_values = $query->retrieve(
@@ -277,6 +277,11 @@ class ilBadgeImageTemplateTableGUI implements DataRetrieval
             }
         }
 
-        $this->tpl->setContent($this->renderer->render($out));
+        $content_wrapper = new TableContentWrapper($this->renderer, $this->factory);
+        $this->tpl->setContent($this->renderer->render(
+            $content_wrapper->wrap(
+                $table
+            )
+        ));
     }
 }

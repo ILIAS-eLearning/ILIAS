@@ -17183,16 +17183,10 @@ img.ilBadgeImage {
   max-height: 150px;
 }
 
-.ilBadgeImageThumbnail a .img-responsive {
-  max-width: 50px;
-  max-height: 50px;
+.badge_table-wrapper button > img.img-responsive, .badge_table-wrapper a > img.img-responsive {
+  max-width: 150px;
+  max-height: 150px;
   display: inline-block;
-}
-
-.ilBadgeImageThumbnail .modal .img-responsive {
-  margin: auto;
-  width: 50%;
-  height: auto;
 }
 
 div.ilBadgeBackpackPanelContent {

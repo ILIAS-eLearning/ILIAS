@@ -35,6 +35,7 @@ use ILIAS\Badge\ilBadgeImage;
 use ILIAS\Badge\PresentationHeader;
 use ILIAS\Badge\Tile;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\Badge\Table\TableContentWrapper;
 
 class ilBadgePersonalTableGUI implements DataRetrieval
 {
@@ -384,6 +385,11 @@ class ilBadgePersonalTableGUI implements DataRetrieval
         $pres = new PresentationHeader($this->dic, ilBadgeProfileGUI::class);
         $pres->show($this->lng->txt('table_view'));
 
-        $this->tpl->setContent($this->renderer->render($table));
+        $content_wrapper = new TableContentWrapper($this->renderer, $this->factory);
+        $this->tpl->setContent($this->renderer->render(
+            $content_wrapper->wrap(
+                $table
+            )
+        ));
     }
 }

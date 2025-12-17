@@ -45,6 +45,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Component\Table\Action\Action;
 use ilAccessHandler;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\Badge\Table\TableContentWrapper;
 
 class ilObjectBadgeTableGUI implements DataRetrieval
 {
@@ -457,8 +458,6 @@ class ilObjectBadgeTableGUI implements DataRetrieval
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 
-        $out = [$table];
-
         $query = $this->http->wrapper()->query();
         if ($query->has($action_parameter_token->getName())) {
             $action = $query->retrieve($action_parameter_token->getName(), $this->refinery->kindlyTo()->string());
@@ -507,6 +506,11 @@ class ilObjectBadgeTableGUI implements DataRetrieval
             }
         }
 
-        $this->tpl->setContent($this->renderer->render($out));
+        $content_wrapper = new TableContentWrapper($this->renderer, $this->factory);
+        $this->tpl->setContent($this->renderer->render(
+            $content_wrapper->wrap(
+                $table
+            )
+        ));
     }
 }

@@ -61,9 +61,9 @@ class ModalBuilder
     ): Modal {
         if ($badge_image !== null) {
             if ($enclose_in_div) {
-                $modal_content[] = $this->ui_factory->legacy()->content('<div class="ilBadgeImage">');
-                $modal_content[] = $badge_image;
-                $modal_content[] = $this->ui_factory->legacy()->content('</div>');
+                $modal_content[] = $this->ui_factory->legacy()->content(
+                    '<div class="ilBadgeImage">' . $this->ui_renderer->render($badge_image) . '</div>'
+                );
             } else {
                 $modal_content[] = $badge_image;
             }
