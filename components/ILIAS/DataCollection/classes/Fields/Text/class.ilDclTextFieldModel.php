@@ -114,7 +114,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 throw new ilDclInputException(ilDclInputException::REGEX_CONFIG_EXCEPTION);
             }
 
-            if ($preg_match === false) {
+            if ($preg_match !== 1) {
                 throw new ilDclInputException(ilDclInputException::REGEX_EXCEPTION);
             }
         }
