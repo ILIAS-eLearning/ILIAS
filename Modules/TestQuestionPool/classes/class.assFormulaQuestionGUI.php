@@ -168,8 +168,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $this->object->addResultUnits($resObj, $_POST["units_{$result}"] ?? []);
                 }
             }
-            if ($checked == false) {
-                $this->editQuestion();
+            if ($checked === false) {
+                $this->editQuestion(false, '', true);
                 return 1;
             } else {
                 $this->saveTaxonomyAssignments();
@@ -186,13 +186,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return in_array($this->ctrl->getCmd(), array('save', 'saveEdit', 'saveReturn'));
     }
 
-    /**
-     * @param bool $checkonly
-     */
-    public function editQuestion($checkonly = false, string $suggest_range_for_result = ''): bool
-    {
+    public function editQuestion(
+        bool $checkonly = false,
+        string $suggest_range_for_result = '',
+        bool $skip_write_post_data = false
+    ): bool {
         $save = $this->isSaveCommand();
-        if ($save) {
+        if ($save && !$skip_write_post_data) {
             $this->writePostData(true);
         }
 
