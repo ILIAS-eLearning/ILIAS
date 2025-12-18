@@ -58,9 +58,13 @@ class SubtreeAggregationStrategy implements NewsAggregationStrategy
 
     public function shouldSkip(NewsContext $context): bool
     {
-        // see #31471, #30687, and ilMembershipNotification
-        return !\ilContainer::_lookupContainerSetting($context->getObjId(), 'cont_use_news', '1')
-            || (!\ilContainer::_lookupContainerSetting($context->getObjId(), 'cont_show_news', '1')
-                && !\ilContainer::_lookupContainerSetting($context->getObjId(), 'news_timeline'));
+        if (in_array($context->getObjType(), ['crs', 'grp', 'cat'])) {
+            // see #31471, #30687, and ilMembershipNotification
+            return !\ilContainer::_lookupContainerSetting($context->getObjId(), 'cont_use_news', '1')
+                || (!\ilContainer::_lookupContainerSetting($context->getObjId(), 'cont_show_news', '1')
+                    && !\ilContainer::_lookupContainerSetting($context->getObjId(), 'news_timeline'));
+        }
+
+        return false;
     }
 }

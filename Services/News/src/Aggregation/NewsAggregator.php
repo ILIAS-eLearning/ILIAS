@@ -98,5 +98,6 @@ class NewsAggregator
         $this->strategies['cat'] = new CategoryAggregationStrategy($this->tree);
         $this->strategies['crs'] = $subtree_strategy;
         $this->strategies['grp'] = $subtree_strategy;
+        $this->strategies['fold'] = $subtree_strategy;
     }
 }
