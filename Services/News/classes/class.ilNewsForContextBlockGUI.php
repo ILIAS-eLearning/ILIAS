@@ -108,8 +108,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             true
         );
 
-        $forum_grouping = $this->ctrl->getContextObjType() !== 'frm';
-        $this->initData($collection->groupFiles()->groupForums($forum_grouping));
+        if ($this->ctrl->getContextObjType() !== 'frm') {
+            $collection = $collection->groupForums(true);
+        }
+        $this->initData($collection->groupFiles());
     }
 
     protected function initData(NewsCollection $collection): void
