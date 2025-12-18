@@ -161,6 +161,14 @@ class Services
         $this->preloader->preload($identification_strings);
     }
 
+    /**
+     * @param string[] $collection_identification_strings
+     */
+    public function preloadCollections(array $collection_identification_strings): void
+    {
+        $this->preloader->preloadCollections($collection_identification_strings);
+    }
+
     public function events(): Subject
     {
         return $this->events;
