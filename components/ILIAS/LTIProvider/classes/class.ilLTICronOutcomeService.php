@@ -91,7 +91,7 @@ class ilLTICronOutcomeService extends ilCronJob
 
         $result = new \ilCronJobResult();
         $result->setStatus($status);
-        ilLTIAppEventListener::handleCronUpdate($since);
+        ilLTIProviderAppEventListener::handleCronUpdate($since);
         $result->setStatus(ilCronJobResult::STATUS_OK);
 
         return $result;

@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Frågor vars svar deltagarna ignorerar eller
 assessment#:#tst_presentation_properties#:#Utförande
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###21 11 2023 new variable
-assessment#:#tst_print#:#Test och bedömning - utskriftsvy
 assessment#:#tst_proceed#:#Fortsättning
 assessment#:#tst_processing_time#:#Begränsad bearbetningstid
 assessment#:#tst_processing_time_desc#:#Använd denna inställning för e-tester/distanstester för att ge deltagarna en fast tidsperiod för att slutföra testet. Tiden löper för varje deltagare från det ögonblick då den första testkörningen startades. "Avbryt test" stoppar inte testets varaktighet
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#Övergripande blogg
 book#:#X_reservations_of#:#%s reservationer från
 book#:#book_add#:#Skapa bokningspool
 book#:#book_add_object#:#Lägg till objekt
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Lägg till tidsraster
 book#:#book_additional_info_file#:#Tilläggsbeskrivning
 book#:#book_all#:#Visa alla
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Booking###21 11 2023 new variable
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bokningsobjekt
 book#:#book_booking_reminders#:#Väntande reservationer
-book#:#book_bookings_per_user#:#Bokningar per användare
 book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.###21 11 2023 new variable
 book#:#book_bulk_creation#:#Bulk Creation###21 11 2023 new variable
 book#:#book_bulk_data#:#Object Data###21 11 2023 new variable
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#Show Message###21 11 2023 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Objects###21 11 2023 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.###21 11 2023 new variable
 book#:#book_too_many_preferences#:#Du har valt för många inställningar. Inställningarna har inte sparats.
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Det finns för närvarande inga bokningsobjekt tillgängliga. För att kunna använda poolen måste bokningsobjekt först skapas.
 book#:#book_week#:#Week###21 11 2023 new variable
 book#:#book_your_bookings#:#Dina bokningar
@@ -5599,6 +5599,7 @@ common#:#select#:#Välj
 common#:#select_all#:#Välj alla
 common#:#select_at_least_one_object#:#Välj minst ett objekt.
 common#:#select_file#:#Välj fil
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Välj filer
 common#:#select_max_one_item#:#Välj endast ett objekt.
 common#:#select_object_to_link#:#Välj objektet som ska länkas.
@@ -8737,7 +8738,6 @@ dcl#:#dcl_msg_tableview_created#:#Visa tillagd
 dcl#:#dcl_msg_tableview_deleted#:#Visa raderade
 dcl#:#dcl_msg_tableview_updated#:#Visa uppdaterad
 dcl#:#dcl_msg_tableviews_delete_all#:#Delete inte möjligt
-dcl#:#dcl_msg_tableviews_order_updated#:#Avvikande åsikter uppdaterade
 dcl#:#dcl_multiple_selection#:#Multipelt urval
 dcl#:#dcl_new#:#Skapa ny datainsamling
 dcl#:#dcl_new_field#:#Nytt fält
@@ -8751,6 +8751,7 @@ dcl#:#dcl_no_fields_yet#:#Inga fält har skapats för denna tabell ännu, så in
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Du har inte läsbehörighet till någon standardtabellvy.
 dcl#:#dcl_no_search_results_found_for#:#Inga moduler hittades med
 dcl#:#dcl_no_such_reference#:#Följande värde finns inte i referenstabellen
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Inte vald
 dcl#:#dcl_not_supported_in_import#:#Den här fälttypen stöds inte under import.
@@ -8759,7 +8760,6 @@ dcl#:#dcl_notification_activated#:#Notifiering aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Avaktivera avisering
 dcl#:#dcl_notification_deactivated#:#Notifiering inaktiv
 dcl#:#dcl_notification_info#:#Aktiverar den individuella meddelandefunktionen för användare.
-dcl#:#dcl_notimage_exception#:#Filen måste vara en bild.
 dcl#:#dcl_noturl_exception#:#Ange en länk (som börjar med http
 dcl#:#dcl_number#:#Integers
 dcl#:#dcl_number_desc#:#Inmatningsfält för hela tal (högst 9 siffror). Bråk och decimaltal är inte tillåtna.
@@ -8886,6 +8886,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Inte tillåtna tecken
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###21 11 2023 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Grå ut standard
 didactic#:#activate_exclusive_template_info#:#Standardmallen är gråmarkerad när denna didaktiska mall är aktiv.
 didactic#:#activate_local_didactic_template#:#Validitetsintervall

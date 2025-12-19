@@ -50,7 +50,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $ilAccess = $DIC['ilAccess'];
 
         $t_arr = explode("_", $target);
-        $ref_id = (int) $t_arr[1];
+        $ref_id = (int) ($t_arr[1] ?? 0);
 
         if ($t_arr[0] != "dcl" || $ref_id <= 0) {
             return false;

@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#A megtekintett, de meg nem válaszolt kérd�
 assessment#:#tst_presentation_properties#:#Teszt kezelése: A kérdés viselkedése
 assessment#:#tst_presentation_settings_section#:#Megjelenítés
 assessment#:#tst_previous_access_code_not_available#:#Egy korábbi kód sem érhető el!
-assessment#:#tst_print#:#Teszt és értékelés nyomtatási nézete
 assessment#:#tst_proceed#:#Folytatás
 assessment#:#tst_processing_time#:#Elhasználható idő korlátja
 assessment#:#tst_processing_time_desc#:#E-vizsgákhoz/távvizsgákhoz hasznos beálltás. A kitöltők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát. Ha a lehetséges kitöltések száma korlátozott, megjelenik az extra idő biztosítása a kitöltőknek lehetőség a 'Résztvevők' lapon.
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#Teljes blog
 book#:#X_reservations_of#:#%s foglalás /
 book#:#book_add#:#Foglalásgyűjtemény létrehozása
 book#:#book_add_object#:#Objektum létrehozása
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Időterv létrehozása
 book#:#book_additional_info_file#:#További leírás
 book#:#book_all#:#Összes megjelenítése
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Foglalás
 book#:#book_booking_information#:#Információ
 book#:#book_booking_objects#:#Foglalható objektumok
 book#:#book_booking_reminders#:#Jövőbeni foglalások
-book#:#book_bookings_per_user#:#Felhsználónkénti foglalások
 book#:#book_bulk_confirmation#:#Kérem, ellenőrizze, hogy az összes érték helyesen jelenik-e meg.
 book#:#book_bulk_creation#:#Üres létrehozása
 book#:#book_bulk_data#:#Objektum adata
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#Üzenet megjelenítése
 book#:#book_title_description_nr#:#Cím; Leírás; Objektumok száma
 book#:#book_title_description_nr_info#:#Adja meg a címet, a leírást és az objektumok számát pontosvesszővel vagy TAB karakterrel elválasztva (ha táblázatkezelőből importálja). Minden objektum új sorba kerüljön.
 book#:#book_too_many_preferences#:#Az előzetes választása túl sok, azokat nem mentettük.
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Jelenleg nem érhető el foglalható objektum. A foglalásgyűjtemény használatához foglalható objektumot is létre kell hoznia.
 book#:#book_week#:#hét
 book#:#book_your_bookings#:#Foglalásaim
@@ -5599,6 +5599,7 @@ common#:#select#:#Kiválasztás
 common#:#select_all#:#Összes kijelölése
 common#:#select_at_least_one_object#:#Legalább egy objektumot jelöljön ki!
 common#:#select_file#:#Fájl kijelölése
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Válassza ki a fájlokat a számítógépéről
 common#:#select_max_one_item#:#Kérem, csak egy elemet válasszon ki
 common#:#select_object_to_link#:#Kérem, válassza ki a linkelni kívánt objektumot.
@@ -8737,7 +8738,6 @@ dcl#:#dcl_msg_tableview_created#:#Nézetet sikeresen létrehozta
 dcl#:#dcl_msg_tableview_deleted#:#Nézetet sikeresen törölte
 dcl#:#dcl_msg_tableview_updated#:#Nézetet sikeresen módosította
 dcl#:#dcl_msg_tableviews_delete_all#:#Nem törölhető: legalább egy nézetnek maradni kell
-dcl#:#dcl_msg_tableviews_order_updated#:#Nézetek sorrendjét sikeresen mentette
 dcl#:#dcl_multiple_selection#:#Többszörös kiválasztás
 dcl#:#dcl_new#:#Új adatgyűjtés létrehozása
 dcl#:#dcl_new_field#:#Új mező
@@ -8751,6 +8751,7 @@ dcl#:#dcl_no_fields_yet#:#Ez az adatkészlet még nem tartalmaz mezőket. A meta
 dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen tananyagot sem sikerült találni ez alapján:
 dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#Egy látható táblanézet se található!
 dcl#:#dcl_not_checked#:#Nem kipipált
 dcl#:#dcl_not_supported_in_import#:#Ez a mezőtípus nem támogatott az importban.
@@ -8759,7 +8760,6 @@ dcl#:#dcl_notification_activated#:#Értesítés bekapcsolva
 dcl#:#dcl_notification_deactivate_dcl#:#Értesítés kikapcsolása adatgyűjtésre
 dcl#:#dcl_notification_deactivated#:#Értesítés kikapcsolva
 dcl#:#dcl_notification_info#:#Minden felhasználó maga dönt az értesítésről
-dcl#:#dcl_notimage_exception#:#A fájl kép kell legyen.
 dcl#:#dcl_noturl_exception#:#Linket adjon meg (http://-rel vagy www.-tal kezdődőt) vagy e-mail címet.
 dcl#:#dcl_number#:#Egész szám
 dcl#:#dcl_number_desc#:#Egész szám típusú beviteli mező (max. 9 számjegy). Közönséges és tizedes törtek nem engedélyezettek.
@@ -8886,6 +8886,8 @@ dcl#:#entry_of#:#%1$d / %2$d bejegyzés
 dcl#:#fieldtitle_allow_chars#:#Nem engedélyezett karakterek: %s
 dcl#:#fileupload_not_migrated#:#Ezt fájlt még nem migrálták, ezért nem jeleníthető meg. Kérem, keresse a rendszerüzemeltetőt.
 dcl#:#set_as_default#:#Beállításnak alapértelmezettnek
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Alapértelmezetten őszülő
 didactic#:#activate_exclusive_template_info#:#A standard sablon nem lesz elérhető ahol ez a sablon aktív.
 didactic#:#activate_local_didactic_template#:#Alkalmazás hatásköre

@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Fragen, die verworfen oder übersprungen wer
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verfügbar!
-assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
 assessment#:#tst_processing_time_desc#:#Teilnehmer dürfen den Test nur während eines vorgegebenen Zeitraums bearbeiten. Die Zeit läuft für jede Person ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Teilnehmer“ eine Funktion, um einzelnen Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
@@ -2099,7 +2098,7 @@ auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutz
 auth#:#auth_cron_destroy_expired_sessions#:#Löschen abgelaufener Benutzer-Sitzungen
 auth#:#auth_cron_destroy_expired_sessions_desc#:#Dieser Cron-Job löscht bereits abgelaufene Benutzer-Sitzungen
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
-auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
+auth#:#auth_err_invalid_user_account#:#Die Anmeldung ist fehlgeschlagen. Bitte überprüfen Sie, ob Sie Ihren Anmeldenamen und Ihr Passwort korrekt eingegeben haben. Wenn das Problem weiterhin besteht, ist Ihr Konto möglicherweise inaktiv oder abgelaufen. Wenden Sie sich in diesem Fall bitte über den Link am unteren Seitenrand an den technischen Support Ihrer ILIAS-Plattform.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#Gesamtes Blog
 book#:#X_reservations_of#:#%s Buchungen von
 book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Angebot hinzufügen
+book#:#book_add_participant#:#Teilnehmer hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Angebote
 book#:#book_booking_reminders#:#Anstehende Buchungen
-book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
 book#:#book_bulk_data#:#Daten zu Angeboten
@@ -2656,7 +2655,7 @@ book#:#book_object_selection#:#Angebotsauswahl
 book#:#book_object_updated#:#Das Angebot wurde geändert.
 book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
-book#:#book_overall_limit#:#Begrenzung
+book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 book#:#book_participant#:#Buchen
 book#:#book_participant_already_assigned#:#Ein oder mehrere Teilnehmer waren bereits zugewiesen.
@@ -2710,7 +2709,7 @@ book#:#book_schedule_type_fixed#:#Buchung nach festem Zeitplan
 book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none#:#Ohne Zeitplan
 book#:#book_schedule_type_none_direct#:#Buchung ohne Termine
-book#:#book_schedule_type_none_direct_info#:#Teilnehmer können direkt buchen. Der Modus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
+book#:#book_schedule_type_none_direct_info#:#Dieser Buchungsmodus ist ideal für Präsentationsthemen oder Plätze in Seminaren, die keine festen Zeiten erfordern. Teilnehmende können Elemente direkt nach dem Prinzip „wer zuerst kommt, mahlt zuerst“ buchen. Jedes Element kann nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_schedule_type_none_info#:#Dieser Buchungsmodus ist geeignet für die Vergabe von Referatsthemen, Seminarplätzen oder vergleichbaren Angeboten.
 book#:#book_schedule_type_none_preference#:#Automatisch nach Präferenzen verteilen
 book#:#book_schedule_type_none_preference_info#:#Teilnehmer benennen zunächst Präferenzen. Zu einem gewählten Enddatum werden dann die Buchungen automatisch vorgenommen. Der Buchungsmodus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
 book#:#book_week#:#Wochenansicht
 book#:#book_your_bookings#:#Ihre Buchungen
@@ -5896,6 +5896,7 @@ common#:#upload_settings#:#Upload-Einstellungen
 common#:#upload_svg_rejection_message#:#Eine hochgeladene SVG-Datei enthält möglicherweise bösartigen Code und kann nicht verarbeitet werden.
 common#:#upload_svg_rejection_message_base64#:#Die Datei enthält base64 kodierten Inhalt.
 common#:#upload_svg_rejection_message_elements#:#Die Datei enthält Elemente oder Attribute, die nicht erlaubt oder bekannt sind.
+common#:#upload_svg_rejection_message_foreign_object#:#Die Datei bindet externe Objekte ein.
 common#:#upload_svg_rejection_message_script#:#Die Datei enthält Skript-Elemente.
 common#:#uploaded_and_checked#:#Die Datei wurde hochgeladen und überprüft, Sie können sie nun importieren.
 common#:#uploading#:#Hochladen...
@@ -8738,7 +8739,6 @@ dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt.
 dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht.
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert.
 dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Ansicht existieren.
-dcl#:#dcl_msg_tableviews_order_updated#:#Anordnung der Ansichten aktualisiert.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_new_field#:#Neues Feld
@@ -8752,6 +8752,7 @@ dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstell
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
+dcl#:#dcl_no_table_found#:#Keine sichbare Tabelle verfügbar!
 dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
@@ -8760,7 +8761,6 @@ dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_notification_info#:#Jede Person kann Benachrichtigungen für sich aktivieren.
-dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_number_desc#:#Eingabe ganzer Zahlen mit bis zu 9 Ziffern. Nicht erlaubt sind Brüche und Dezimalzahlen.
@@ -8887,6 +8887,8 @@ dcl#:#entry_of#:#Eintrag %1$d von %2$d
 dcl#:#fieldtitle_allow_chars#:#Nicht erlaubte Zeichen: %s
 dcl#:#fileupload_not_migrated#:#Die Datei wurde noch nicht migriert und kann deshalb nicht angezeigt werden. Bitte wenden Sie sich an Ihre Systemadministration.
 dcl#:#set_as_default#:#Als Standard setzen
+dcl#:#table_not_found#:#Tabelle nicht gefunden!
+dcl#:#tableview_not_found#:#Tabellenansicht nicht gefunden!
 didactic#:#activate_exclusive_template#:#Standard ausgrauen
 didactic#:#activate_exclusive_template_info#:#Die Standard-Vorlage wird überall dort ausgegraut, wo diese didaktische Vorlage aktiv ist.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
@@ -9787,7 +9789,7 @@ exp#:#export_files_deleted#:#Die ausgewählten Exportdateien wurden gelöscht.
 exp#:#export_options#:#Export Optionen
 exp#:#export_type#:#Export Typ
 export#:#exp_file#:#Dateiname
-export#:#exp_public_access#:#Öffentlicher Zugriff aktiv
+export#:#exp_public_access#:#Im Reiter „Info“ verfügbar
 export#:#exp_size#:#Dateigröße (MB)
 export#:#exp_timestamp#:#Erstellungsdatum
 export#:#exp_toggle_public_access#:#Öffentlichen Zugriff (de-)aktivieren
@@ -9796,7 +9798,7 @@ export#:#export_create#:#Neu erstellen
 export#:#export_create_new_file#:#Neue Exportdatei erstellen
 export#:#export_existing#:#Wiederverwenden
 export#:#export_export_date#:#Exportdatum
-export#:#export_info_public_access#:#Öffentlich zugängliche Exportdatei
+export#:#export_info_public_access#:#Öffentliche Exportdatei
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Letzter Export
 export#:#export_last_export_file#:#Letzte Exportdatei benutzen
@@ -9965,7 +9967,7 @@ form#:#form_msg_max_upload#:#Maximale Anzahl von gleichzeitig hochladbaren Datei
 form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
 form#:#form_msg_value_too_high#:#Wert ist zu hoch. Bitte geben Sie einen niedrigeren Wert ein.
 form#:#form_msg_value_too_low#:#Wert ist zu niedrig. Bitte geben Sie einen höheren Wert ein.
-form#:#form_msg_wrong_date#:#Falsches Datum. Bitte geben Sie ein gültiges Datum an.
+form#:#form_msg_wrong_date#:#Bitte überprüfen Sie Ihre Datumseingabe. Sowohl ein Startdatum als auch ein Enddatum sind erforderlich und das Startdatum darf nicht später liegen als das Enddatum.
 form#:#form_no_link#:#Kein Link
 form#:#form_open_answer#:#Freitext
 form#:#form_password_not_allowed_for_auth#:#Für die gewählte Authentifizierungmethode können Sie das Passwort nicht ändern
@@ -12042,12 +12044,12 @@ meta#:#md_import_file_vocab#:#Importdatei
 meta#:#md_import_vocab#:#Vokabular importieren
 meta#:#md_import_vocab_modal#:#Aus Datei importieren
 meta#:#md_months#:#Monate:
-meta#:#md_oai_contact_mail#:#E-Mail-Kontaktadresse
+meta#:#md_oai_contact_mail#:#E-Mail-Kontakt dieser Organisation
 meta#:#md_oai_identifier_prefix#:#OAI Präfix
 meta#:#md_oai_identifier_prefix_info#:#Dieser Präfix wird als Namespace in den Bezeichnern von abgefragten OER-Datensätzen benutzt.
 meta#:#md_oai_pmh_enabled#:#Abfragen über OAI-PMH Schnittstelle erlauben
 meta#:#md_oai_pmh_enabled_info#:#Wenn aktiviert, können vom OER-Harvester gefundene Resourcen von externen Parteien wie OER Repositorien abgefragt werden.
-meta#:#md_oai_repository_name#:#Name des Repositoriums
+meta#:#md_oai_repository_name#:#Name der Installation
 meta#:#md_oai_repository_name_info#:#Bei Anfragen über die Schnittstelle wird dies als Name dieser ILIAS-Installation angegeben.
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien

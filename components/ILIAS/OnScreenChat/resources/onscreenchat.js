@@ -17,6 +17,14 @@
 (function($, $scope, $chat, dateTimeFormatter){
 	'use strict';
 
+	// Ensure historyRequested is always set when calling getHistory, but
+	// don't pollute external prototype chain of $chat, keep it inside a local object.
+	$chat = Object.create($chat);
+	$chat.getHistory = (original => (conversationId, oldestMessageTimestamp, reverseSorting = false) => {
+		getModule().historyRequested = {conversationId, oldestMessageTimestamp, reverseSorting};
+		return original.call($chat, conversationId, oldestMessageTimestamp, reverseSorting);
+	})($chat.getHistory);
+
 	var TYPE_CONSTANT	= 'osc';
 	var PREFIX_CONSTANT	= TYPE_CONSTANT + '_';
 	var ACTION_SHOW_CONV = "show";
@@ -84,6 +92,7 @@
 		storage: undefined,
 		user: undefined,
 		historyBlocked: false,
+		historyRequested: null,
 		inputHeight: undefined,
 		historyTimestamps: {},
 		printedMessages: {},
@@ -853,6 +862,7 @@
 		},
 
 		onHistory: function (conversation) {
+			getModule().historyRequested = null;
 			let container = $('[data-onscreenchat-window=' + conversation.id + ']'),
 				messages = Object.values(conversation.messages),
 				messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
@@ -954,6 +964,10 @@
 				username = findUsernameInConversationByMessage(messageObject);
 
 			if (username === "") {
+				return false;
+			}
+
+			if((getModule().historyRequested || {}).oldestMessageTimestamp === null){
 				return false;
 			}
 

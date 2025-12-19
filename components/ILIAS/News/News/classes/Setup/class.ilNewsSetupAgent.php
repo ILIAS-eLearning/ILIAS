@@ -16,28 +16,18 @@
  *
  *********************************************************************/
 
-use PHPUnit\Framework\TestCase;
+declare(strict_types=1);
 
-/**
- * Test session repository
- *
- * @author Alexander Killing <killing@leifos.de>
- */
-class YUITest extends TestCase
+use ILIAS\Setup\Agent\HasNoNamedObjective;
+use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Objective;
+
+class ilNewsSetupAgent extends NullAgent
 {
-    protected function tearDown(): void
-    {
-    }
+    use HasNoNamedObjective;
 
-    /**
-     * Test sort
-     */
-    public function testPath(): void
+    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
     {
-        $path = ilYuiUtil::getLocalPath("test.js");
-        $this->assertEquals(
-            "./node_modules/yui2/build/test.js",
-            $path
-        );
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilNewsDBUpdateSteps());
     }
 }

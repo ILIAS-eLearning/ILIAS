@@ -18,14 +18,22 @@
 
 declare(strict_types=1);
 
+namespace ILIAS\News\Aggregation;
+
+use ILIAS\News\Data\NewsContext;
+
 /**
- * Class TestScoringByQuestionGUITest
- * @author Marvin Beym <mbeym@databay.de>
+ * Category Aggregation Strategy aggregates related contexts for a category context
  */
-class TestScoringByQuestionsGUITest extends ilTestBaseTestCase
+class CategoryAggregationStrategy extends SubtreeAggregationStrategy implements NewsAggregationStrategy
 {
-    public function testSuppressWarning(): void
+    public function shouldSkip(NewsContext $context): bool
     {
-        $this->assertTrue(true);
+        return false;
+    }
+
+    public function isRecursive(): bool
+    {
+        return true;
     }
 }

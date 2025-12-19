@@ -162,11 +162,16 @@ class ScoringByQuestionTableBinder implements DataRetrieval
 
                 $current_participant = $filtered_participants[$active_id];
 
+                $current_pass = current(array_filter(
+                    $current_participant->getPasses(),
+                    static fn(\ilTestEvaluationPassData $p): bool => $p->getPass() === $pd->getPass()
+                )) ?: null;
+
                 $row = [
                     "{$active_id}_{$pd->getPass()}",
                     ScoringByQuestionTable::COLUMN_NAME => $this->buildParticipantName($current_participant),
                     ScoringByQuestionTable::COLUMN_ATTEMPT => $pd->getPass() + 1,
-                    ScoringByQuestionTable::COLUMN_POINTS_REACHED => $question_result['reached'] ?? 0.0,
+                    ScoringByQuestionTable::COLUMN_POINTS_REACHED => $current_pass->getStatusOfAttempt()->isFinished() ? ($question_result['reached'] ?? 0.0) : 0.0,
                     ScoringByQuestionTable::COLUMN_POINTS_AVAILABLE => $current_participant->getQuestionByAttemptAndId($pd->getPass(), $question_id)['points'] ?? 0.0,
                     ScoringByQuestionTable::COLUMN_FEEDBACK => $feedback_data['feedback'] ?? '',
                     ScoringByQuestionTable::COLUMN_FINALIZED => isset($feedback_data['finalized_evaluation']) && $feedback_data['finalized_evaluation'] === 1,

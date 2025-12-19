@@ -224,21 +224,6 @@ class ilForumTopic
         return 0;
     }
 
-    public function getFirstVisiblePostId(): int
-    {
-        $this->db->setLimit(1);
-        $res = $this->db->queryF(
-            'SELECT pos_fk FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos != %s AND depth = %s ORDER BY rgt DESC',
-            ['integer', 'integer', 'integer'],
-            [$this->id, 0, 2]
-        );
-
-        if (($row = $this->db->fetchObject($res)) !== null) {
-            return (int) $row->pos_fk ?: 0;
-        }
-        return 0;
-    }
-
     public function updateVisits(): void
     {
         $checkTime = time() - (60 * 60);
@@ -1024,7 +1009,7 @@ class ilForumTopic
         );
 
         try {
-            $first_node = $this->getFirstVisiblePostNode();
+            $first_node = $this->getPostRootNode();
             $first_node->setSubject($this->getSubject());
             $first_node->update();
         } catch (OutOfBoundsException) {

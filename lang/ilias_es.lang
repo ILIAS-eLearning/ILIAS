@@ -1742,7 +1742,6 @@ assessment#:#tst_postpone_on_desc#:#Las preguntas no contestadas se pospondrán 
 assessment#:#tst_presentation_properties#:#Configuración de presentación
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Vista de impresión de test y encuestas
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso
 assessment#:#tst_processing_time_desc#:#El máximo tiempo de proceso comienza cuando un usuario empieza a hacer un test y termina cuando ha pasado el período de tiempo introducido (horas, minutos, segundos)
@@ -2577,6 +2576,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#Añadir banco de reservas
 book#:#book_add_object#:#Añadir recurso
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Añadir planificación
 book#:#book_additional_info_file#:#Descripción adicional
 book#:#book_all#:#Mostrar todo
@@ -2595,7 +2595,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Información
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Upcoming reservations
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2726,6 +2725,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Actualmente, no hay objetos del tipo reserva disponibles. Para usar el banco de reservas necesitas crear objetos del tipo reserva
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -5601,6 +5601,7 @@ common#:#select#:#Seleccionar
 common#:#select_all#:#Seleccionar todo
 common#:#select_at_least_one_object#:#Por favor seleccione al menos un objeto.
 common#:#select_file#:#Seleccionar archivo
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Seleccione los archivos de su equipo
 common#:#select_max_one_item#:#Por favor seleccione únicamente un item
 common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar
@@ -8739,7 +8740,6 @@ dcl#:#dcl_msg_tableview_created#:#Vistas creadas
 dcl#:#dcl_msg_tableview_deleted#:#Vista eliminada
 dcl#:#dcl_msg_tableview_updated#:#Vista actualizada
 dcl#:#dcl_msg_tableviews_delete_all#:#No se pudo eliminar: debe existir al menos una vista
-dcl#:#dcl_msg_tableviews_order_updated#:#Orden de vistas actualizado
 dcl#:#dcl_multiple_selection#:#Selección múltiple.
 dcl#:#dcl_new#:#Crear nueva colección de datos
 dcl#:#dcl_new_field#:#Nuevo Campo
@@ -8753,6 +8753,7 @@ dcl#:#dcl_no_fields_yet#:#No puedes crear entradas todavía puesto que hay campo
 dcl#:#dcl_no_read_access_on_any_standard_view#:#No tiene acceso de lectura en ninguna vista estándar de una tabla.
 dcl#:#dcl_no_search_results_found_for#:#No se han encontrado módulos
 dcl#:#dcl_no_such_reference#:#El siguiente valor no está disponible en la tabla de referencia:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#No comprobado.
 dcl#:#dcl_not_supported_in_import#:#Este tipo de campo no se admite en la importación.
@@ -8761,7 +8762,6 @@ dcl#:#dcl_notification_activated#:#Notificación activada
 dcl#:#dcl_notification_deactivate_dcl#:#Desactivar notificación para colecciones de datos
 dcl#:#dcl_notification_deactivated#:#Notificación desactivada
 dcl#:#dcl_notification_info#:#Activa la notificación individual a usuarios.
-dcl#:#dcl_notimage_exception#:#El fichero debe ser una imagen.
 dcl#:#dcl_noturl_exception#:#Usted tiene que introducir una dirección web (comenzando por http://)
 dcl#:#dcl_number#:#Entero
 dcl#:#dcl_number_desc#:#Campo para valores enteros (máximo de 9 dígitos) Sin decimales ni fracciones.
@@ -8888,6 +8888,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Caracteres permitidos
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Opción no habilitada de manera predeterminada
 didactic#:#activate_exclusive_template_info#:#La plantilla estándar no estará disponible cuando esté activa esta plantilla.
 didactic#:#activate_local_didactic_template#:#Ámbito de aplicación

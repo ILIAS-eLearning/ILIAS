@@ -46,7 +46,6 @@ class ilBadgePictureMachine extends AbstractMachine
     public function __construct()
     {
         parent::__construct();
-        $this->extract_pages = new ExtractPages();
         $this->crop = new CropSquare();
     }
 
@@ -74,27 +73,11 @@ class ilBadgePictureMachine extends AbstractMachine
         $this->definition = $for_definition;
         $this->information = $information;
 
-        $page_stream = $this->extract_pages->processStream(
-            $this->information,
-            $stream,
-            new PagesToExtract(
-                false,
-                $this->definition->getWidths()['xl'],
-                1,
-                false,
-                100
-            )
-        )->current()?->getStream();
-
-        if ($page_stream === null) {
-            return;
-        }
-
         $i = 0;
         foreach ($for_definition->getWidths() as $width) {
             yield new Result(
                 $for_definition,
-                $this->cropImage($page_stream, $width),
+                $this->cropImage($stream, $width),
                 $i,
                 true
             );
@@ -109,7 +92,6 @@ class ilBadgePictureMachine extends AbstractMachine
         $quality = $size <= self::FULL_QUALITY_SIZE_THRESHOLD
             ? 100
             : $this->definition->getQuality();
-
 
         return $this->crop->processStream(
             $this->information,

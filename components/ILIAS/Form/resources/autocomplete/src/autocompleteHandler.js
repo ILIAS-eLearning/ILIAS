@@ -137,11 +137,12 @@ async function fetchListItemsAndBuildSelector(fullUrl, inputField, config) {
     list.addEventListener('click', (e) => { onSelectHandler(e, config); });
     const activeElementValue = document.activeElement.dataset.value;
     removeList(inputField);
-    inputField.parentNode.appendChild(list);
+    inputField.parentNode.insertBefore(list, inputField.nextElementSibling);
     if (typeof activeElementValue !== 'undefined') {
       inputField.parentNode.querySelector(`[data-value="${activeElementValue}"]`).focus();
     }
   } catch (e) {
+    // nothing to do
   }
 }
 

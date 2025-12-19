@@ -4836,6 +4836,9 @@ hr.il-divider-with-label {
   grid-area: label;
   padding-right: 12px;
 }
+.c-input[data-il-ui-component] > label > .asterisk:first-child {
+  padding-left: 3px;
+}
 .c-input[data-il-ui-component] > .c-input__field {
   grid-area: field;
 }
@@ -14380,6 +14383,11 @@ div.ilc_Question {
   padding-right: 15px;
 }
 
+img.ilc_solution_image {
+  min-width: 0.875rem;
+  min-height: 0.875rem;
+}
+
 .solutionbox {
   color: black;
   background-color: white;
@@ -17426,6 +17434,9 @@ fieldset[disabled] .checkbox label {
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
   width: 100%;
+}
+.form-horizontal .control-label > .asterisk {
+  padding-left: 3px;
 }
 
 .ilFormHeader {

@@ -6169,7 +6169,6 @@ CREATE TABLE `help_map` (
   `perm` varchar(20) NOT NULL DEFAULT '',
   `module_id` int(11) NOT NULL DEFAULT 0,
   `full_id` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`component`,`screen_id`,`screen_sub_id`,`chap`,`perm`,`module_id`),
   KEY `sc_idx` (`screen_id`),
   KEY `ch_idx` (`chap`)
 ) ;
@@ -7287,6 +7286,7 @@ INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',1,'2
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',2,'2023-12-12 16:39:38.880668','2023-12-12 16:39:38.886115');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',3,'2023-12-12 16:39:38.886720','2023-12-12 16:39:38.887276');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',4,'2025-07-18 06:53:06.874623','2025-07-18 06:53:06.876635');
+INSERT INTO `il_db_steps` VALUES ('ILIAS\\Help\\Setup\\ilHelpDBUpdateSteps',5,'2025-12-16 16:31:28.054187','2025-12-16 16:31:28.058926');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',1,'2023-12-12 16:39:38.894598','2023-12-12 16:39:38.900233');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\ItemGroup\\Setup\\ilItemGroupDBUpdateSteps',2,'2023-12-12 16:39:38.900874','2023-12-12 16:39:38.906340');
 INSERT INTO `il_db_steps` VALUES ('ILIAS\\LDAP\\Setup\\LDAPBindPasswordFieldMigration',1,'2025-07-18 06:53:07.061046','2025-07-18 06:53:07.065188');
@@ -13884,7 +13884,7 @@ INSERT INTO `object_data` VALUES (34,'typ','lm','Learning module Object',-1,'200
 INSERT INTO `object_data` VALUES (35,'typ','notf','Note Folder Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (36,'typ','note','Note Object',-1,'2002-12-21 00:04:00','2002-12-21 00:04:00','',NULL,NULL);
 INSERT INTO `object_data` VALUES (37,'typ','frm','Forum object',-1,'2002-07-15 15:54:22','2003-08-15 12:36:40','',NULL,NULL);
-INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2025-11-04 16:18:51','',NULL,NULL);
+INSERT INTO `object_data` VALUES (70,'lng','en','installed',-1,NULL,'2025-12-16 16:31:28','',NULL,NULL);
 INSERT INTO `object_data` VALUES (71,'lng','de','not_installed',6,'2003-08-15 10:25:19','2015-12-22 16:29:24','',NULL,NULL);
 INSERT INTO `object_data` VALUES (72,'lng','es','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
 INSERT INTO `object_data` VALUES (73,'lng','it','not_installed',6,'2003-08-15 10:25:19','2003-08-15 10:25:19','',NULL,NULL);
@@ -20786,7 +20786,7 @@ INSERT INTO `settings` VALUES ('common','ilfrmnoti1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmreadidx1','1');
 INSERT INTO `settings` VALUES ('common','ilfrmthri2','1');
 INSERT INTO `settings` VALUES ('common','ilGlobalTstPoolUsageSettingInitilisation','1');
-INSERT INTO `settings` VALUES ('common','ilias_version','10.3.0');
+INSERT INTO `settings` VALUES ('common','ilias_version','10.4.0');
 INSERT INTO `settings` VALUES ('common','ilinc_akclassvalues_required','1');
 INSERT INTO `settings` VALUES ('common','ilmpathix','1');
 INSERT INTO `settings` VALUES ('common','iloscmsgidx1','1');
@@ -25730,4 +25730,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2025-11-04 16:18:52
+-- Dump completed on 2025-12-16 16:31:28

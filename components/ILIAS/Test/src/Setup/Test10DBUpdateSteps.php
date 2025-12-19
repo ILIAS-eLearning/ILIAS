@@ -342,7 +342,9 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->manipulate(
                 '
                 UPDATE tst_addtime INNER JOIN tst_active ON tst_active.active_id = tst_addtime.active_fi
-                SET tst_addtime.test_fi = tst_active.test_fi, tst_addtime.user_fi = tst_active.user_fi'
+                SET tst_addtime.test_fi = tst_active.test_fi, tst_addtime.user_fi = tst_active.user_fi
+                WHERE tst_active.test_fi <> 0 AND tst_active.user_fi <> 0
+                '
             );
 
             $this->db->dropTableColumn('tst_addtime', 'active_fi');

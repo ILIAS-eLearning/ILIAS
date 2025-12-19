@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#ユーザが見ただけで回答しない�
 assessment#:#tst_presentation_properties#:#テスト管理:問題の振る舞い
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#以前のコードは見当たりません!
-assessment#:#tst_print#:#テストとアセスメント - 印刷表示
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#制限時間
 assessment#:#tst_processing_time_desc#:#受験者は決められた時間内でテスト受験ができます。時間はユーザが最初にテスト開始した時間からカウントされます。テスト保留時間のカウント停止はしません。
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#全Blog
 book#:#X_reservations_of#:#%s reservations of
 book#:#book_add#:#予約集を追加
 book#:#book_add_object#:#オブジェクトを追加
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#スケジュールを追加
 book#:#book_additional_info_file#:#追加説明
 book#:#book_all#:#全表示
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#予約する
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#予約オブジェクト
 book#:#book_booking_reminders#:#今後の予約
-book#:#book_bookings_per_user#:#ユーザ別予約
 book#:#book_bulk_confirmation#:#全ての項目が正しいことを確認してください。
 book#:#book_bulk_creation#:#大量作成
 book#:#book_bulk_data#:#項目データ
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#メッセージを表示
 book#:#book_title_description_nr#:#タイトル; 説明; ユニット数
 book#:#book_title_description_nr_info#:#セミコロンまたはタブ文字で区切られたタイトル, 説明とユニット数 (スプレッドシートソフトウエアからインポートした場合). アイテム別に1ライン使用。
 book#:#book_too_many_preferences#:#Preference選択が多すぎます。Preferenceは保存されませんでした。
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#現在利用できるオブジェクトはありませんブッキング集を使用するにはブッキングオブジェクトを作成する必要があります
 book#:#book_week#:#Week
 book#:#book_your_bookings#:#予約
@@ -5599,6 +5599,7 @@ common#:#select#:#選択
 common#:#select_all#:#全て選択
 common#:#select_at_least_one_object#:#オブジェクトを最低一つ選択してください。
 common#:#select_file#:#ファイルを選択
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#コンピュータのファイルを選択
 common#:#select_max_one_item#:#アイテムを一つだけ選択してください
 common#:#select_object_to_link#:#リンクしたいオブジェクトを選択してください
@@ -8737,7 +8738,6 @@ dcl#:#dcl_msg_tableview_created#:#ビューを作成しました。
 dcl#:#dcl_msg_tableview_deleted#:#ビューを削除しました。
 dcl#:#dcl_msg_tableview_updated#:#ビューを更新しました。
 dcl#:#dcl_msg_tableviews_delete_all#:#削除できませんでした: ビューが一つは存在する必要があります
-dcl#:#dcl_msg_tableviews_order_updated#:#更新されたビューの順番
 dcl#:#dcl_multiple_selection#:#複数選択
 dcl#:#dcl_new#:#新規データ収集を作成
 dcl#:#dcl_new_field#:#新規フィールド
@@ -8751,6 +8751,7 @@ dcl#:#dcl_no_fields_yet#:#このテーブルに定義されるフィールドが
 dcl#:#dcl_no_read_access_on_any_standard_view#:#表のどのスタンダードビューへも読込みアクセス権がありません。
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
 dcl#:#dcl_no_such_reference#:#レファレンステーブル中に次の値はありません:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#表示可能なテーブルビューがありません!
 dcl#:#dcl_not_checked#:#未チェック
 dcl#:#dcl_not_supported_in_import#:#このタイプのフィールドはインポートではサポートされません。
@@ -8759,7 +8760,6 @@ dcl#:#dcl_notification_activated#:#通知が有効化されました
 dcl#:#dcl_notification_deactivate_dcl#:#データ収集用の通知を解除する
 dcl#:#dcl_notification_deactivated#:#通知が解除されました
 dcl#:#dcl_notification_info#:#ユーザ個々に通知を確定
-dcl#:#dcl_notimage_exception#:#ファイルは画像である必要があります。
 dcl#:#dcl_noturl_exception#:#リンク(http://で始まる)を入力する必要があります。
 dcl#:#dcl_number#:#整数
 dcl#:#dcl_number_desc#:#整数値(最大9桁)用のフィールドです。小数や分数ではありません。
@@ -8886,6 +8886,8 @@ dcl#:#entry_of#:# エントリー %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#使用できない文字: %s
 dcl#:#fileupload_not_migrated#:#ファイルの統合がまだ完了していないので表示できません。システム管理者へコンタクトしてください。
 dcl#:#set_as_default#:#デフォルトに設定
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#グレイアウトの既定値
 didactic#:#activate_exclusive_template_info#:#標準テンプレートはこのテンプレートを有効にしていると利用できません。
 didactic#:#activate_local_didactic_template#:#アプリケーションの範囲

@@ -57,8 +57,13 @@ class ilForumXMLParser extends ilSaxParser
     ];
     private array $user_id_mapping = [];
     private array $mediaObjects = [];
-
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
+    /**
+     * Holds per-thread already-inserted posts with their nested set positions for in-memory parent lookup
+     * @var array<int, array{id: int, lft: int, rgt: int, new_id: int}>
+     */
+    private array $post_tree_structure = [];
+
 
     public function __construct(
         private readonly ilObjForum $forum,
@@ -126,6 +131,7 @@ class ilForumXMLParser extends ilSaxParser
 
             case 'Thread':
                 $this->entity = 'thread';
+                $this->post_tree_structure = [];
                 $this->threadArray = [];
                 break;
 
@@ -405,7 +411,7 @@ class ilForumXMLParser extends ilSaxParser
 
                 if ($this->entity === 'thread' && $this->lastHandledForumId && $this->threadArray !== []) {
                     $this->forumThread = new ilForumTopic();
-                    $this->forumThread->setId((int) ($this->threadArray['Id'] ?? 0));
+                    $this->forumThread->setId((int) $this->threadArray['Id']);
                     $this->forumThread->setForumId($this->lastHandledForumId);
                     $this->forumThread->setSubject(
                         ilUtil::stripSlashes((string) ($this->threadArray['Subject'] ?? ''))
@@ -551,9 +557,16 @@ class ilForumXMLParser extends ilSaxParser
                     $this->forumPost->insert();
 
                     if (isset($this->postArray['ParentId'], $this->mapping['pos'][$this->postArray['ParentId']])) {
-                        $parentId = (int) $this->mapping['pos'][$this->postArray['ParentId']];
+                        $parent_id = (int) $this->mapping['pos'][$this->postArray['ParentId']];
                     } else {
-                        $parentId = 0;
+                        $parent_id = 0;
+                    }
+
+                    if ($parent_id === 0 && (int) $this->postArray['Lft'] > 1) {
+                        $parent_id = $this->determineParentFromNestedSet(
+                            (int) $this->postArray['Lft'],
+                            (int) $this->postArray['Rgt']
+                        );
                     }
 
                     $postTreeNodeId = $this->db->nextId('frm_posts_tree');
@@ -561,14 +574,20 @@ class ilForumXMLParser extends ilSaxParser
                         'fpt_pk' => ['integer', $postTreeNodeId],
                         'thr_fk' => ['integer', $this->lastHandledThreadId],
                         'pos_fk' => ['integer', $this->forumPost->getId()],
-                        'parent_pos' => ['integer', $parentId],
+                        'parent_pos' => ['integer', $parent_id],
                         'lft' => ['integer', $this->postArray['Lft']],
                         'rgt' => ['integer', $this->postArray['Rgt']],
                         'depth' => ['integer', $this->postArray['Depth']],
                         'fpt_date' => ['timestamp', date('Y-m-d H:i:s')]
                     ]);
 
-                    $this->mapping['pos'][($this->postArray['Id'] ?? 0)] = $this->forumPost->getId();
+                    $this->mapping['pos'][$this->postArray['Id']] = $this->forumPost->getId();
+                    $this->post_tree_structure[] = [
+                        'id' => (int) $this->postArray['Id'],
+                        'lft' => (int) $this->postArray['Lft'],
+                        'rgt' => (int) $this->postArray['Rgt'],
+                        'new_id' => $this->forumPost->getId()
+                    ];
                     $this->lastHandledPostId = $this->forumPost->getId();
 
                     $media_objects_found = false;
@@ -777,5 +796,28 @@ class ilForumXMLParser extends ilSaxParser
 
             $this->cdata .= $a_data;
         }
+    }
+
+    /**
+     * Find the closest parent using Nested Set values in memory.
+     * Returns the new DB id of the parent or 0 if none found.
+     */
+    private function determineParentFromNestedSet(int $lft, int $rgt): int
+    {
+        $parent_id = 0;
+        $closest_span = PHP_INT_MAX;
+
+        foreach ($this->post_tree_structure as $node) {
+            if ($node['lft'] < $lft && $node['rgt'] > $rgt) {
+                // Prefer the nearest ancestor: smallest span while still containing current node
+                $span = $node['rgt'] - $node['lft'];
+                if ($span < $closest_span) {
+                    $closest_span = $span;
+                    $parent_id = (int) $node['new_id'];
+                }
+            }
+        }
+
+        return $parent_id;
     }
 }

@@ -16,67 +16,54 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 use ceLTIc\LTI\Enum\ServiceAction;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
 use ceLTIc\LTI\UserResult;
 
-class ilLTIProviderAppEventListener
+/**
+ * Class ilLTIProviderAppEventListener
+ */
+class ilLTIProviderAppEventListener implements \ilAppEventListener
 {
-    private ?ilLogger $logger = null;
-    private ?ilLTIDataConnector $connector = null;
+    private static ?\ilLTIProviderAppEventListener $instance = null;
+
+    private ?\ilLogger $logger = null;
+
+    private ?\ilLTIDataConnector $connector = null;
 
 
+    /**
+     * ilLTIProviderAppEventListener constructor.
+     */
     protected function __construct()
     {
         global $DIC;
-        $this->logger = $DIC->logger()->root();
+
+        $this->logger = ilLoggerFactory::getLogger('ltis');
         $this->connector = new ilLTIDataConnector();
     }
-    private static ?ilLTIProviderAppEventListener $instance = null;
 
-
-    protected static function getInstance(): ilLTIProviderAppEventListener
+    protected static function getInstance(): \ilLTIProviderAppEventListener
     {
-        if (!self::$instance instanceof ilLTIProviderAppEventListener) {
+        if (!self::$instance instanceof \ilLTIProviderAppEventListener) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
 
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
-    {
-        global $DIC;
-        $logger = $DIC->logger()->root();
-        $logger->info('Handling event: ' . $a_event . ' from ' . $a_component);
-        $logger->info("public static function handleEvent --- ilLTIProviderAppEventListener " . $a_event . ' from ' . $a_component);
-        if ($a_component == 'components/ILIAS/Tracking') {
-            if ($a_event == 'updateStatus') {
-                $listener = self::getInstance();
-                $listener->handleUpdateStatus(
-                    $a_parameter['obj_id'],
-                    $a_parameter['usr_id'],
-                    $a_parameter['status'],
-                    $a_parameter['percentage']
-                );
-            }
-        }
-    }
-
-    protected function isLTIAuthMode(string $auth_mode): bool
-    {
-        return strpos($auth_mode, 'lti_') === 0;
-    }
-
+    /**
+     * Handle update status
+     */
     protected function handleUpdateStatus(int $a_obj_id, int $a_usr_id, int $a_status, int $a_percentage): void
     {
-        global $DIC;
-        $logger = $DIC->logger()->root();
-        $logger->info('Handle update status');
+        $this->logger->debug('Handle update status');
         $auth_mode = ilObjUser::_lookupAuthMode($a_usr_id);
         if (!$this->isLTIAuthMode($auth_mode)) {
-            $this->logger->info('Ignoring update for non-LTI-user.');
+            $this->logger->debug('Ignoring update for non-LTI-user.');
             return;
         }
         $ext_account = ilObjUser::_lookupExternalAccount($a_usr_id);
@@ -84,7 +71,7 @@ class ilLTIProviderAppEventListener
 
         // iterate through all references
         $refs = ilObject::_getAllReferences($a_obj_id);
-        $this->logger->info('Refs for : ' . $a_obj_id . ': ' . count($refs));
+        $this->logger->debug('Refs for : ' . $a_obj_id . ': ' . count($refs));
         foreach ((array) $refs as $ref_id) {
             $resources = $this->connector->lookupResourcesForUserObjectRelation(
                 $ref_id,
@@ -92,8 +79,8 @@ class ilLTIProviderAppEventListener
                 (int) $consumer
             );
 
-            $this->logger->info('Resources for update:');
-            $this->logger->info("resources: " . json_encode($resources));
+            $this->logger->debug('Resources for update:');
+            $this->logger->dump($resources, ilLogLevel::DEBUG);
 
             foreach ($resources as $resource) {
                 $this->tryOutcomeService((int) $resource, $ext_account, $a_status, $a_percentage);
@@ -101,6 +88,72 @@ class ilLTIProviderAppEventListener
         }
     }
 
+
+    /**
+     * @param ilDateTime $since
+     * @throws ilDateTimeException
+     */
+    protected function doCronUpdate(ilDateTime $since): void
+    {
+        $this->logger->info('Starting cron update for lti outcome service');
+
+        $resources = $this->connector->lookupResourcesForAllUsersSinceDate($since);
+        foreach ($resources as $consumer_ext_account => $user_resources) {
+            list($consumer, $ext_account) = explode('__', $consumer_ext_account, 2);
+
+            $login = ilObjUser::_checkExternalAuthAccount('lti_' . $consumer, $ext_account);
+            if (!$login) {
+                $this->logger->info('No user found for lti_' . $consumer . ' -> ' . $ext_account);
+                continue;
+            }
+            $usr_id = ilObjUser::_lookupId($login);
+            foreach ($user_resources as $resource_info) {
+                list($resource_id, $resource_ref_id) = explode('__', $resource_info);
+                $this->logger->info('Found resource: ' . $resource_info . " for user: " . $usr_id . " resource_id: " . $resource_id . " resource_ref_id: " . $resource_ref_id);
+
+                // lookup lp status
+                $status = ilLPStatus::_lookupStatus(
+                    ilObject::_lookupObjId((int) $resource_ref_id),
+                    $usr_id
+                );
+                $percentage = ilLPStatus::_lookupPercentage(
+                    ilObject::_lookupObjId((int) $resource_ref_id),
+                    $usr_id
+                );
+                $percentage = $this->definePercentageByObjectId($status, $resource_ref_id, $percentage);
+                $this->tryOutcomeService((int) $resource_id, $ext_account, $status, $percentage);
+            }
+        }
+    }
+
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilDatabaseException
+     */
+    protected function definePercentageByObjectId(int|null $status, string $obj_id, int|null $percentage): int
+    {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+        $logger->debug('definePercentageByObjectId');
+        $indentifier = ilObjectFactory::getInstanceByRefId((int) $obj_id)->getType();
+        $logger->info('Object type: ' . $indentifier . " for object id: " . $obj_id);
+        if (in_array($indentifier, ['crs', 'grp'])) {
+            if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM || $status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+                $percentage = 100;
+            }
+        }
+        return $percentage;
+    }
+
+    protected function isLTIAuthMode(string $auth_mode): bool
+    {
+        return strpos($auth_mode, 'lti_') === 0;
+    }
+
+
+    /**
+     * try outcome service
+     */
     protected function tryOutcomeService(int $resource, string $ext_account, int $a_status, int $a_percentage): void
     {
         $resource_link = ResourceLink::fromRecordId($resource, $this->connector);
@@ -135,5 +188,95 @@ class ilLTIProviderAppEventListener
             $user
         );
         $this->logger->info('Outcome service request status: ' . $status);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
+    {
+        $logger = ilLoggerFactory::getLogger('ltis');
+        $logger->info('Handling event: ' . $a_event . ' from ' . $a_component);
+
+        if ($a_component == 'components/ILIAS/Tracking') {
+            if ($a_event == 'updateStatus') {
+                $listener = self::getInstance();
+                $listener->handleUpdateStatus(
+                    $a_parameter['obj_id'],
+                    $a_parameter['usr_id'],
+                    $a_parameter['status'],
+                    $a_parameter['percentage']
+                );
+            }
+        }
+    }
+
+    /**
+     * @param ilDateTime $since
+     * @return bool
+     * @throws ilDateTimeException
+     */
+    public static function handleCronUpdate(ilDateTime $since): bool
+    {
+        $listener = self::getInstance();
+        $listener->doCronUpdate($since);
+        return true;
+    }
+
+
+    public static function handleOutcomeWithoutLP(int $a_obj_id, int $a_usr_id, ?float $a_percentage): void
+    {
+        global $DIC;
+        $score = 0;
+        $logger = ilLoggerFactory::getLogger('ltis');
+
+        $auth_mode = ilObjUser::_lookupAuthMode($a_usr_id);
+        if (strpos($auth_mode, 'lti_') === false) {
+            $logger->debug('Ignoring outcome for non-LTI-user.');
+            return;
+        }
+        //check if LearningPress enabled
+        $olp = ilObjectLP::getInstance($a_obj_id);
+        if (ilLPObjSettings::LP_MODE_DEACTIVATED != $olp->getCurrentMode()) {
+            $logger->debug('Ignoring outcome if LP is activated.');
+            return;
+        }
+
+        if ($a_percentage && $a_percentage > 0) {
+            $score = round($a_percentage / 100, 4);
+        }
+
+        $connector = new ilLTIDataConnector();
+        $ext_account = ilObjUser::_lookupExternalAccount($a_usr_id);
+        list($lti, $consumer) = explode('_', $auth_mode);
+
+        // iterate through all references
+        $refs = ilObject::_getAllReferences($a_obj_id);
+        foreach ((array) $refs as $ref_id) {
+            $resources = $connector->lookupResourcesForUserObjectRelation(
+                $ref_id,
+                $ext_account,
+                (int) $consumer
+            );
+
+            $logger->debug('Resources for update: ' . dump($resources));
+
+            foreach ($resources as $resource) {
+                // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
+                $resource_link = ResourceLink::fromRecordId($resource, $connector);
+                if ($resource_link->hasOutcomesService()) {
+                    $user = UserResult::fromResourceLink($resource_link, $ext_account);
+                    $logger->debug('Sending score: ' . (string) $score);
+                    $outcome = new Outcome((string) $score);
+
+                    $resource_link->doOutcomesService(
+                        ServiceAction::Write,
+                        $outcome,
+                        $user
+                    );
+                }
+            }
+        }
     }
 }

@@ -169,10 +169,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         // user columns
         foreach ($this->getSelectedColumns() as $col) {
-            if (array_key_exists($col, $cols)) {
-                if (isset($user_cols[$col])) {
-                    $this->addColumn($cols[$col]["txt"], $col);
-                }
+            if (isset($cols[$col]["txt"], $user_cols[$col])) {
+                $this->addColumn($cols[$col]["txt"], $col);
             }
         }
 
@@ -200,38 +198,25 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
     protected function showMessages(): bool
     {
-        return $this->pool->usesMessages() &&
-            $this->access->canManageAllReservations($this->ref_id);
+        return $this->pool->usesMessages() && $this->access->canManageAllReservations($this->ref_id);
     }
 
     public function getSelectableColumns(): array
     {
-        $cols = array();
+        $cols = [];
 
         if ($this->has_schedule) {
-            $this->lng->loadLanguageModule("dateplaner");
+            $this->lng->loadLanguageModule('dateplaner');
 
-            $cols["week"] = array(
-                "txt" => $this->lng->txt("wk_short"),
-                "default" => true
-            );
-
-            $cols["weekday"] = array(
-                "txt" => $this->lng->txt("cal_weekday"),
-                "default" => true
-            );
+            $cols['week'] = ['txt' => $this->lng->txt('wk_short'), 'default' => true];
+            $cols['weekday'] = ['txt' => $this->lng->txt('cal_weekday'), 'default' => true];
         }
 
         foreach ($this->advmd as $field) {
-            $cols["advmd" . $field["id"]] = array(
-                "txt" => $field["title"],
-                "default" => false
-            );
+            $cols["advmd{$field['id']}"] = ['txt' => $field['title'], 'default' => false];
         }
 
-        $cols = array_merge($cols, $this->getSelectableUserColumns());
-
-        return $cols;
+        return array_merge($cols, $this->getSelectableUserColumns());
     }
 
     /**
@@ -517,11 +502,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $user_columns = [];
             $odf_ids = [];
             foreach ($this->getSelectedUserColumns() as $field) {
-                if (strpos($field, 'odf') === 0) {
-                    $odf_ids[] = substr($field, 4);
-                } else {
-                    $user_columns[] = $field;
+                if (str_starts_with($field, 'odf')) {
+                    $odf_ids[] = (int) substr($field, 4);
+                    continue;
                 }
+
+                $user_columns[] = $field;
             }
 
             // see ilCourseParticipantsTableGUI
@@ -549,34 +535,33 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
 
             // object specific user data fields of parent course or group
-            if ($odf_ids) {
+            if ($odf_ids !== []) {
                 $parent = $this->access->getParentGroupCourse($this->ref_id);
                 $parent_obj_id = ilObject::_lookupObjectId($parent['ref_id']);
                 $parent_obj_type = ilObject::_lookupType($parent_obj_id);
 
-                $confirmation_required = ($parent_obj_type === 'crs')
-                    ? ilPrivacySettings::getInstance()->courseConfirmationRequired()
-                    : ilPrivacySettings::getInstance()->groupConfirmationRequired();
+                $privacy_settings = ilPrivacySettings::getInstance();
+                $confirmation_required = $parent_obj_type === 'crs'
+                    ? $privacy_settings->courseConfirmationRequired()
+                    : $privacy_settings->groupConfirmationRequired();
                 if ($confirmation_required) {
                     $user_ids = array_diff($user_ids, ilMemberAgreement::lookupAcceptedAgreements($parent_obj_id));
                 }
                 $odf_data = ilCourseUserData::_getValuesByObjId($parent_obj_id);
                 $usr_data = [];
                 foreach ($odf_data as $usr_id => $fields) {
-                    // this currently does not with strict mode, since
-                    // $user_ids holds strings
-                    if (in_array($usr_id, $user_ids)) {
+                    if (in_array($usr_id, $user_ids, true)) {
                         foreach ($fields as $field_id => $value) {
                             if (in_array($field_id, $odf_ids, true)) {
-                                $usr_data[$usr_id]['odf_' . $field_id] = $value;
+                                $usr_data[$usr_id]["odf_{$field_id}"] = $value;
                             }
                         }
                     }
                 }
 
                 foreach ($data as $key => $v) {
-                    if (isset($usr_data[$v["user_id"]])) {
-                        $data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+                    if (isset($usr_data[$v['user_id']])) {
+                        $data[$key] = array_merge($v, $usr_data[$v['user_id']]);
                     }
                 }
             }
@@ -787,10 +772,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
         // user columns
         foreach ($this->getSelectedColumns() as $col) {
-            if (array_key_exists($col, $cols)) {
-                if (isset($user_cols[$col])) {
-                    $add_cols[$col] = $cols[$col]["txt"];
-                }
+            if (isset($cols[$col]["txt"], $user_cols[$col])) {
+                $add_cols[$col] = $cols[$col]["txt"];
             }
         }
 
@@ -862,7 +845,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 }
                 $a_excel->setCell($a_row, ++$col, $val);
             } else {
-                $a_excel->setCell($a_row, ++$col, $a_set[$colid]);
+                $a_excel->setCell($a_row, ++$col, $a_set[$colid] ?? "");
             }
         }
     }
@@ -928,7 +911,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 }
                 $a_csv->addColumn($val);
             } else {
-                $a_csv->addColumn($a_set[$colid]);
+                $a_csv->addColumn($a_set[$colid] ?? "");
             }
         }
 

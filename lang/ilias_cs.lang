@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Nezodpovězené otázky budou odloženy na k
 assessment#:#tst_presentation_properties#:#Nastavení prezentace
 assessment#:#tst_presentation_settings_section#:#Prezentace
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Zobrazit přehled testu a hodnocení
 assessment#:#tst_proceed#:#Pokračovat
 assessment#:#tst_processing_time#:#Max. čas zpracování
 assessment#:#tst_processing_time_desc#:#Maximum času na zpracování testu začíná okamžikem prvního startu uživatele a končí po vypršení vložené periody času. Je-li použita tato volba, možnost přerušit test by měla být deaktivována (viz "Nastavení sekvence") protože přerušení testu nezastavuje počitadlo maximální doby zpracování.
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#Přidat zásobník objednávek
 book#:#book_add_object#:#Přidat objekt
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Přidat harmonogram
 book#:#book_additional_info_file#:#Doplňkový popis
 book#:#book_all#:#Zobrazit vše
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informace
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Nadcházející rezervace
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Žádné objekty k objednání nejsou aktuálně dostupné. K použití zásobníku objednávek musíte vytvořit objekty pro objednání.
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -5599,6 +5599,7 @@ common#:#select#:#Vybrat
 common#:#select_all#:#Vybrat vše
 common#:#select_at_least_one_object#:#Vyberte prosím alespoň jeden objekt.
 common#:#select_file#:#Vybrat soubor
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Vyberte soubory z Vyšeho počítače
 common#:#select_max_one_item#:#Vyberte prosím pouze jednu položku
 common#:#select_object_to_link#:#Vyberte prosím objekt, který chcete připojit
@@ -8737,7 +8738,6 @@ dcl#:#dcl_msg_tableview_created#:#Vytvořená zobrazení
 dcl#:#dcl_msg_tableview_deleted#:#Vymazané zobrazení
 dcl#:#dcl_msg_tableview_updated#:#Aktualizované zobrazení
 dcl#:#dcl_msg_tableviews_delete_all#:#Nelze vymazat: Musí existovat alespoň jedno zobrazení
-dcl#:#dcl_msg_tableviews_order_updated#:#Pořadí zobrazení bylo aktualizováno
 dcl#:#dcl_multiple_selection#:#Mnohonásobný výběr
 dcl#:#dcl_new#:#Vytvořit novou sbírku údajů
 dcl#:#dcl_new_field#:#Nové pole
@@ -8751,6 +8751,7 @@ dcl#:#dcl_no_fields_yet#:#Zde není žádné pole definované pro tuto tabulku, 
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nemáte přístup pro čtení v žádném standardním zobrazení tabulky.
 dcl#:#dcl_no_search_results_found_for#:#Žádné moduly nenalezeny pro
 dcl#:#dcl_no_such_reference#:#Následující hodnoty nejsou dostupné tabulce odkazů:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Nevybráno
 dcl#:#dcl_not_supported_in_import#:#Tento typ pole není v importu podporováno
@@ -8759,7 +8760,6 @@ dcl#:#dcl_notification_activated#:#Upozorňování aktivní
 dcl#:#dcl_notification_deactivate_dcl#:#Deaktivovat upozornění pro sběr dat
 dcl#:#dcl_notification_deactivated#:#Upozorňování deaktiváno
 dcl#:#dcl_notification_info#:#O upozornění rozhoduje každý uživatel
-dcl#:#dcl_notimage_exception#:#Tento soubor musí být obrázek.
 dcl#:#dcl_noturl_exception#:#Musíte vložit odkaz (začínající s http://)
 dcl#:#dcl_number#:#Celé číslo
 dcl#:#dcl_number_desc#:#Pole pro celočíselné hodnoty (max. 9 číslic). Žádná desetinná místa nebo zlomky.
@@ -8886,6 +8886,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Povolené znaky: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Výchozí šedá
 didactic#:#activate_exclusive_template_info#:#Standardní šablona nebude k dispozici, pokud je tato šablona aktivní.
 didactic#:#activate_local_didactic_template#:#Rozsah použití

@@ -18,6 +18,19 @@
 
 declare(strict_types=1);
 
-class ilDclNoTableviewException extends ilException
+class ilNewsDBUpdateSteps implements ilDatabaseUpdateSteps
 {
+    protected ilDBInterface $db;
+
+    public function prepare(ilDBInterface $db): void
+    {
+        $this->db = $db;
+    }
+
+    public function step_1(): void
+    {
+        if (!$this->db->indexExistsByFields('il_news_item', ['context_obj_type'])) {
+            $this->db->addIndex('il_news_item', ['context_obj_type'], 'i3');
+        }
+    }
 }

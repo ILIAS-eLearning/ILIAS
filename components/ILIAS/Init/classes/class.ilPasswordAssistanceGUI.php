@@ -307,7 +307,7 @@ class ilPasswordAssistanceGUI implements ilCtrlSecurityInterface
             }
 
             $user = new ilObjUser($usr_id);
-            $email_addresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
+            $email_addresses = array_map('strtolower', array_filter([$user->getEmail(), $user->getSecondEmail()]));
 
             if (!in_array(strtolower($email), $email_addresses, true)) {
                 if (implode('', $email_addresses) === '') {

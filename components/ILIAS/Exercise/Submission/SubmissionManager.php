@@ -434,6 +434,9 @@ class SubmissionManager
                 continue;
             }
             $s = $this->repo->getById($id);
+            if (is_null($s)) {  // #45974
+                continue;
+            }
             $this->repo->delete(
                 $id,
                 $this->stakeholder

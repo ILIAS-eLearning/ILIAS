@@ -179,7 +179,9 @@ class ilBadgeImageTemplate
                 $array_result = $this->upload_service->getResults();
                 $array_result = array_pop($array_result);
                 if ($array_result->getName() !== '') {
-                    $this->resource_storage->manage()->remove(new ResourceIdentification($badge->getImageRid()), new ilBadgeFileStakeholder());
+                    if ($badge->getImageRid()) {
+                        $this->resource_storage->manage()->remove(new ResourceIdentification($badge->getImageRid()), new ilBadgeFileStakeholder());
+                    }
                     $stakeholder = new ilBadgeFileStakeholder();
                     $identification = $this->resource_storage->manage()->upload($array_result, $stakeholder);
                     $this->resource_storage->flavours()->ensure($identification, new \ilBadgePictureDefinition());

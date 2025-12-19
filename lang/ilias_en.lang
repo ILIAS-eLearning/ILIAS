@@ -1256,8 +1256,8 @@ assessment#:#show_best_solution#:#Show best solution
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
 assessment#:#show_hide_best_solution#:#Show or hide best solution
-assessment#:#show_old_concluding_remarks#:#Show old conlcuding remarks
-assessment#:#show_old_introduction#:#Show old introduction
+assessment#:#show_old_concluding_remarks#:#Show Old Concluding Remarks
+assessment#:#show_old_introduction#:#Show Old Introduction
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_requested_question_hints#:#Show Requested Hints
 assessment#:#show_results#:#Show Results
@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip ov
 assessment#:#tst_presentation_properties#:#Administering the Test: Behavior of the Question
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!
-assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Limit Duration of Test
 assessment#:#tst_processing_time_desc#:#Participants can work through the test only for a specified period of time. Time is clocking away from the moment a user starts a test for the first time. Suspending the test does not stop the clock. If the number of possible test attempts is limited an additional feature for granting extra time to participants appears in the tab 'Participants'.
@@ -2099,7 +2098,7 @@ auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and
 auth#:#auth_cron_destroy_expired_sessions#:#Deletion of Expired Sessions
 auth#:#auth_cron_destroy_expired_sessions_desc#:#This job deletes expires sessions.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
-auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
+auth#:#auth_err_invalid_user_account#:#Login failed. Please check that you have entered your username and password correctly. If this issue persists, your account may be inactive or have expired. In this case, please contact your ILIAS platform's technical support via the link at the bottom of the screen.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
@@ -2297,7 +2296,7 @@ badge#:#badge_notification_badges_goto#:#To your badges
 badge#:#badge_notification_body#:#You have just received one or more new badges.
 badge#:#badge_notification_osd#:#You have received one or more new badges: [BADGE_LIST]
 badge#:#badge_notification_parent_goto#:#To the repository
-badge#:#badge_notification_reason#:#You are receiving this message to be able to add the badges to your profile.
+badge#:#badge_notification_reason#:#If you go to the ‘Badges’ section of your ‘Achievements’ in your ILIAS installation (see link above), you will be able to add any new or existing badges to your profile.
 badge#:#badge_notification_subject#:#New Badge(s)
 badge#:#badge_object_badges#:#Object Badges
 badge#:#badge_personal_badges#:#My Badges
@@ -2576,6 +2575,7 @@ blog#:#blog_whole_blog#:#Whole blog
 book#:#X_reservations_of#:#%s booking(s) of
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Item
+book#:#book_add_participant#:#Add Participant
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
@@ -2594,7 +2594,6 @@ book#:#book_booking#:#Booking
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bookable Items
 book#:#book_booking_reminders#:#Upcoming Bookings
-book#:#book_bookings_per_user#:#Bookings per User
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.
 book#:#book_bulk_creation#:#Bulk Creation
 book#:#book_bulk_data#:#Item Data
@@ -2657,7 +2656,7 @@ book#:#book_object_selection#:#Item Selection
 book#:#book_object_updated#:#Bookable item updated.
 book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
-book#:#book_overall_limit#:#Limit Number of Bookings
+book#:#book_overall_limit#:#Limit Total Number of Bookings per User
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
 book#:#book_participant#:#Book for Participants
 book#:#book_participant_already_assigned#:#One or more participants have already been added.
@@ -2711,7 +2710,7 @@ book#:#book_schedule_type_fixed#:#Fixed Schedule
 book#:#book_schedule_type_fixed_info#:#This booking mode can be used for things that can be booked for specific periods of time, such as rooms, services and equipment.
 book#:#book_schedule_type_none#:#No Schedule
 book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking
-book#:#book_schedule_type_none_direct_info#:#This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis.
+book#:#book_schedule_type_none_direct_info#:#This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis. Each item can only be booked once per participant.
 book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such.
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
 book#:#book_schedule_type_none_preference_info#:#This booking mode is ideal for presentation topics, places in seminars or similar. Participants get to indicate their preferences in terms of which items they are most interested in. Items will then be allocated automatically after the preferences deadline has passed.
@@ -2725,6 +2724,7 @@ book#:#book_show_message#:#Show Message
 book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.
 book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.
 book#:#book_type_warning#:#There are currently no bookable items available. Please create some bookable items to be able to use this booking pool.
 book#:#book_week#:#Week
 book#:#book_your_bookings#:#Your Bookings
@@ -5897,6 +5897,7 @@ common#:#upload_settings#:#Upload Settings
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#uploading#:#Uploading...
@@ -8739,7 +8740,6 @@ dcl#:#dcl_msg_tableview_created#:#Views created
 dcl#:#dcl_msg_tableview_deleted#:#View deleted
 dcl#:#dcl_msg_tableview_updated#:#View updated
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
-dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
@@ -8753,6 +8753,7 @@ dcl#:#dcl_no_fields_yet#:#You cannot add any entries to this table as it does no
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
+dcl#:#dcl_no_table_found#:#No visible table found!
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
@@ -8761,7 +8762,6 @@ dcl#:#dcl_notification_activated#:#Notification Activated
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_notification_info#:#Users can choose for themselves if they wish to activate notifications for their accounts.
-dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_noturl_exception#:#Please enter a link (beginning with http:// or www.) or an e-mail address.
 dcl#:#dcl_number#:#Integer
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). Decimals and fractions are not allowed.
@@ -8888,6 +8888,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d
 dcl#:#fieldtitle_allow_chars#:#Characters not permitted: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migrated and cannot be displayed. Please contact your system administrator.
 dcl#:#set_as_default#:#Set as default
+dcl#:#table_not_found#:#Table not found!
+dcl#:#tableview_not_found#:#Tableview not found!
 didactic#:#activate_exclusive_template#:#Grey Out Default
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.
 didactic#:#activate_local_didactic_template#:#Scope of Application
@@ -9788,7 +9790,7 @@ exp#:#export_files_deleted#:#The selected export files have been deleted.
 exp#:#export_options#:#Export Options
 exp#:#export_type#:#Export Type
 export#:#exp_file#:#File Name
-export#:#exp_public_access#:#Public Access
+export#:#exp_public_access#:#Available in ‘Info’-tab
 export#:#exp_size#:#File Size (MB)
 export#:#exp_timestamp#:#Creation Date
 export#:#exp_toggle_public_access#:#Toggle Public Access
@@ -9797,7 +9799,7 @@ export#:#export_create#:#Create
 export#:#export_create_new_file#:#Create New Export File
 export#:#export_existing#:#Reuse
 export#:#export_export_date#:#Export Date
-export#:#export_info_public_access#:#Public Access Export
+export#:#export_info_public_access#:#Public Export
 export#:#export_info_public_access_download#:#Download
 export#:#export_last_export#:#Last Export
 export#:#export_last_export_file#:#Use Last Export File
@@ -9966,7 +9968,7 @@ form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
 form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.
 form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.
-form#:#form_msg_wrong_date#:#Wrong date. Please enter a valid date.
+form#:#form_msg_wrong_date#:#Please check your date entry. Both a start date and an end date are required and the start date cannot be later than the end date.
 form#:#form_no_link#:#No Link
 form#:#form_open_answer#:#Open Answer
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.
@@ -12043,7 +12045,7 @@ meta#:#md_import_file_vocab#:#Import File
 meta#:#md_import_vocab#:#Import
 meta#:#md_import_vocab_modal#:#Import From File
 meta#:#md_months#:#Months:
-meta#:#md_oai_contact_mail#:#Contact E-Mail
+meta#:#md_oai_contact_mail#:#Contact e-mail of this organisation
 meta#:#md_oai_identifier_prefix#:#OAI Prefix
 meta#:#md_oai_identifier_prefix_info#:#This prefix is used as a namespace in the identifiers of returned OER records.
 meta#:#md_oai_pmh_enabled#:#Allow Querying via OAI-PMH Interface
@@ -17137,7 +17139,7 @@ trac#:#trac_current_system_load#:#Current System Load
 trac#:#trac_data_deleted#:#Data has been deleted.
 trac#:#trac_defaults#:#Completion Status
 trac#:#trac_defaults_inactive#:#Inactive
-trac#:#trac_defaults_info#:#Set how the completion status is determined for the following object types when being used as a component of a course. Used by certain badge types and certificates.
+trac#:#trac_defaults_info#:#Set how the completion status is determined for the following object types when being used as a component of a course or group. Used by certain badge types and certificates.
 trac#:#trac_delete_data#:#Delete Data
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
 trac#:#trac_edit_collection#:#Please assign materials. If the status of all assigned items is ‘Completed’ the overall status is completed by the user.
@@ -17412,7 +17414,7 @@ ui#:#vc_sort#:#Sort by:
 ui#:#warning_url_too_long_msg#:#The amount of selected rows will result in a very large URL; the Server will probably block this request.<br>Please select less rows or perform the action on all entries.
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
-user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s. The link is valid for %s minutes.
+user#:#change_email_email_confirmation_body#:#The email address for the account %s was changed. To confirm this change, please click on this link %s . The link is valid for %s minutes.
 user#:#change_email_email_confirmation_subject#:#Confirm Email Address
 user#:#change_email_email_information_body#:#The process to change the email address for the account %s to %s was started. An email with a link to confirm the change was sent to the new address. The link is valid for %s minutes.
 user#:#change_email_email_information_subject#:#Information about Change of Email Address

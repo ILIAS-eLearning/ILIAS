@@ -20,14 +20,6 @@ declare(strict_types=1);
 
 class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    /**
-     * @param int|string|null $value
-     */
-    public function parseValue($value): string
-    {
-        return (string) $value;
-    }
-
     public function getValueFromExcel(ilExcel $excel, int $row, int $col): ?string
     {
         $value = parent::getValueFromExcel($excel, $row, $col);

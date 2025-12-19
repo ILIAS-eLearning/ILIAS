@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Pytania, których odpowiedzi uczestnicy anul
 assessment#:#tst_presentation_properties#:#Ustawienia prezentacji
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Test i ocena - Podgląd wydruku
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Maks. czas wykonania
 assessment#:#tst_processing_time_desc#:#Maksymalny czas wykonania startuje od chwili, gdy użytkownik rozpocznie test i kończy się po podanym dopuszczalnym czasie (godzin, minut, i sekund).
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#Dodaj pulę rejestracji
 book#:#book_add_object#:#Dodaj obiekt
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Dodaj siatkę czasową
 book#:#book_additional_info_file#:#Dodatkowy opis
 book#:#book_all#:#Pokaż wszystkie
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informacja
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Upcoming reservations
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Aktualnie nie ma obiektów podlegających rejestracji. Aby móc korzystać z puli, należy najpierw dodać obiekty podlegające rejestracji.
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -5599,6 +5599,7 @@ common#:#select#:#Wybierz
 common#:#select_all#:#Wybierz wszystkie
 common#:#select_at_least_one_object#:#Proszę wybierz przynajmniej jeden obiekt.
 common#:#select_file#:#Wybierz plik
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Wybierz pliki
 common#:#select_max_one_item#:#Wybierz tylko jedną pozycję.
 common#:#select_object_to_link#:#Wybierz obiekt, który chcesz połączyć.
@@ -8737,7 +8738,6 @@ dcl#:#dcl_msg_tableview_created#:#Dodano widok
 dcl#:#dcl_msg_tableview_deleted#:#Usunięto widok
 dcl#:#dcl_msg_tableview_updated#:#Zaktualizowano widok
 dcl#:#dcl_msg_tableviews_delete_all#:#Usunięcie nie jest możliwe: Musi istnieć co najmniej jeden widok
-dcl#:#dcl_msg_tableviews_order_updated#:#Zaktualizowano układ widoków
 dcl#:#dcl_multiple_selection#:#Wybór wielokrotny
 dcl#:#dcl_new#:#Utwórz nowy zbiór danych
 dcl#:#dcl_new_field#:#Nowe pole
@@ -8751,6 +8751,7 @@ dcl#:#dcl_no_fields_yet#:#Brak pola zdefiniowanego dla tej tabeli, w związku z 
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nie masz prawa czytania dla standardowych widoków tabel.
 dcl#:#dcl_no_search_results_found_for#:#Nie znaleziono żadnych modułów z:
 dcl#:#dcl_no_such_reference#:#Poniższa wartość nie istnieje w tabeli rekomendacji:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Niewybrane
 dcl#:#dcl_not_supported_in_import#:#Ten typ pola nie jest obsługiwany na potrzeby importu.
@@ -8759,7 +8760,6 @@ dcl#:#dcl_notification_activated#:#Powiadomienia włączone
 dcl#:#dcl_notification_deactivate_dcl#:#Deaktywowanie powiadamiania
 dcl#:#dcl_notification_deactivated#:#Powiadomienia wyłączone
 dcl#:#dcl_notification_info#:#Aktywuje funkcję indywidualnego powiadamiania użytkowników.
-dcl#:#dcl_notimage_exception#:#Plik musi być obrazem.
 dcl#:#dcl_noturl_exception#:#Podaj link (na początku wpisz http:// lub www.) lub adres mailowy.
 dcl#:#dcl_number#:#Liczby całkowite
 dcl#:#dcl_number_desc#:#Pole do wprowadzania liczb całkowitych (maks. 9 cyfr). Ułamki i liczby dziesiętne nie są dozwolone.
@@ -8886,6 +8886,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Niedozwolone znaki: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Wyłącz standard
 didactic#:#activate_exclusive_template_info#:#Szablon standardowy wyłączany jest wszędzie tam, gdzie szablon dydaktyczny jest aktywny.
 didactic#:#activate_local_didactic_template#:#Obszar obowiązywania

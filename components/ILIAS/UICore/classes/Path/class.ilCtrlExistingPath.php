@@ -40,7 +40,7 @@ class ilCtrlExistingPath extends ilCtrlAbstractPath
             $parent_cid = $cid_array[$current];
             $child_cid = $cid_array[$current + 1];
             $child_class = $this->structure->getClassNameByCid($child_cid);
-            $allowed_children = $this->structure->getChildrenByCid($parent_cid);
+            $allowed_children = $this->structure->getChildrenByCid($parent_cid) ?? [];
             if (null === $child_class || !in_array($child_class, $allowed_children, true)) {
                 throw new RuntimeException('ilCtrl: invalid ' . ilCtrlInterface::PARAM_CID_PATH . ' parameter requested.');
             }

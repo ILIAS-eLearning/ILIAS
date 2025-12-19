@@ -180,6 +180,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $attempt_id = $this->testrequest->int('attempt');
         } else {
             $attempt_id = ilObjTest::_getResultPass($current_active_id);
+            if ($attempt_id > 0) {
+                $attempt_overview = $this->results_data_factory->getAttemptOverviewFor(
+                    $this->results_presentation_factory->getAttemptResultsSettings($this->object, false),
+                    $this->object,
+                    $current_active_id,
+                    $attempt_id
+                );
+
+                if ($attempt_overview?->getStatusOfAttempt()->isFinished() === false) {
+                    $attempt_id--;
+                }
+            }
         }
 
         $results_panel = $this->ui_factory->panel()->report(
@@ -289,8 +301,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             }
         }
 
-        if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
-            $this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1) {
+        if (
+            $this->isGradingMessageRequired()
+            && $this->object->getNrOfTries() === 1
+            && !$this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()
+        ) {
             $grading_message_builder = $this->getGradingMessageBuilder($active_id);
             $grading_message_builder->buildMessage();
             $grading_message_builder->sendMessage();
@@ -403,7 +418,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $template->setVariable('PASS_OVERVIEW', $overview);
         $template->parseCurrentBlock();
 
-        if ($this->isGradingMessageRequired()) {
+        if (
+            $this->isGradingMessageRequired()
+            && $this->object->getNrOfTries() === 1
+            && !$this->getObjectiveOrientedContainer()?->isObjectiveOrientedPresentationRequired()
+        ) {
             $grading_message_builder = $this->getGradingMessageBuilder($active_id);
             $grading_message_builder->buildMessage();
             $grading_message_builder->sendMessage();

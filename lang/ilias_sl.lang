@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Vprašanja, pri katerih udeleženci odgovore
 assessment#:#tst_presentation_properties#:#Izvedba: Lastnosti vprašanj
 assessment#:#tst_presentation_settings_section#:#Prikaz
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Test in ocena - prikaz za tiskanje
 assessment#:#tst_proceed#:#Nadaljuj
 assessment#:#tst_processing_time#:#Omeji trajanje obdelave
 assessment#:#tst_processing_time_desc#:#Udeleženci imajo omejen čas opravljanja testa. Čas teče od trenutka, ko udeleženec prvič začne s testom. "Prekini test" ne ustavi časa obdelave. Če je število možnih opravljanj testa omejeno, se na zavihku »Nadzorna plošča« prikaže dodatna funkcija, ki udeležencem omogoči dodatni čas.
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#Whole Blog###19 08 2022 new variable
 book#:#X_reservations_of#:#%s reservations of
 book#:#book_add#:#Ustvari skupino rezervacij
 book#:#book_add_object#:#Dodaj objekt
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Dodaj časovni raster
 book#:#book_additional_info_file#:#Dodaten opis
 book#:#book_all#:#Prikaži vse
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informacija
 book#:#book_booking_objects#:#Booking Objects###19 08 2022 new variable
 book#:#book_booking_reminders#:#Rezervacije na čakanju
-book#:#book_bookings_per_user#:#Bookings per User###19 08 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Trenutno ni na voljo nobenih objektov rezervacije. Če želite uporabiti skupino, morate najprej ustvariti objekte rezervacije.
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations
@@ -5599,6 +5599,7 @@ common#:#select#:#Izberi
 common#:#select_all#:#Izberi vse
 common#:#select_at_least_one_object#:#Izberite vsaj en objekt.
 common#:#select_file#:#Izberi datoteko
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Izberi datoteke
 common#:#select_max_one_item#:#Izberite samo en objekt.
 common#:#select_object_to_link#:#Izberite objekt, ki ga želite povezati.
@@ -8737,7 +8738,6 @@ dcl#:#dcl_msg_tableview_created#:#Pogled je dodan
 dcl#:#dcl_msg_tableview_deleted#:#Pogled je izbrisan
 dcl#:#dcl_msg_tableview_updated#:#Pogled je posodobljen
 dcl#:#dcl_msg_tableviews_delete_all#:#Brisanje ni mogoče: Obstajati mora vsaj en pogled
-dcl#:#dcl_msg_tableviews_order_updated#:#Razvrstitev pogledov je posodobljena
 dcl#:#dcl_multiple_selection#:#Večkratna izbira
 dcl#:#dcl_new#:#Ustvari novo zbirko podatkov
 dcl#:#dcl_new_field#:#Novo polje
@@ -8751,6 +8751,7 @@ dcl#:#dcl_no_fields_yet#:#Za to tabelo še niso bila ustvarjena polja, zato ne m
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Nimate bralnega dostopa do nobenega od privzetih pogledov tabele.
 dcl#:#dcl_no_search_results_found_for#:#Najden ni bil noben modul z:
 dcl#:#dcl_no_such_reference#:#Naslednja vrednost ni na voljo v referenčni tabeli:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Ni izbrano
 dcl#:#dcl_not_supported_in_import#:#Ta tip polja ni podprt za uvoz.
@@ -8759,7 +8760,6 @@ dcl#:#dcl_notification_activated#:#Obveščanje je aktivirano
 dcl#:#dcl_notification_deactivate_dcl#:#Onemogoči obveščanje
 dcl#:#dcl_notification_deactivated#:#Obveščanje je onemogočeno
 dcl#:#dcl_notification_info#:#Aktivira individualno funkcijo obveščanja za uporabnike.
-dcl#:#dcl_notimage_exception#:#Datoteka mora biti slika.
 dcl#:#dcl_noturl_exception#:#Vnesite povezavo (začenši s http:// ali www.) ali e-poštni naslov.
 dcl#:#dcl_number#:#Cela števila
 dcl#:#dcl_number_desc#:#Vnosno polje za cela števila (maksimalno 9 števk). Ulomki in decimalna števila niso dovoljeni.
@@ -8886,6 +8886,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Nedovoljeni znaki: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Privzeto sivo
 didactic#:#activate_exclusive_template_info#:#Privzeta predloga bo siva povsod, kjer je ta didaktična predloga aktivirana.
 didactic#:#activate_local_didactic_template#:#Področje veljave

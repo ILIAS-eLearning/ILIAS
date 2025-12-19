@@ -86,4 +86,8 @@ class ilHelpDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_5(): void
+    {
+        $this->db->dropPrimaryKey('help_map');
+    }
 }

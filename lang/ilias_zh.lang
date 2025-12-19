@@ -1739,7 +1739,6 @@ assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to 
 assessment#:#tst_presentation_properties#:#展示设置
 assessment#:#tst_presentation_settings_section#:#Presentation###10 11 2018 new variable
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Test & Assessment Print View测试和评估打印视图
 assessment#:#tst_proceed#:#Proceed###10 11 2018 new variable
 assessment#:#tst_processing_time#:#最大处理时间
 assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.
@@ -2574,6 +2573,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#添加预订池
 book#:#book_add_object#:#添加对象
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#添加计划
 book#:#book_additional_info_file#:#附加描述
 book#:#book_all#:#显示所有
@@ -2592,7 +2592,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Information###31 08 2017 new variable
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Upcoming reservations###10 11 2018 new variable
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2723,6 +2722,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#当前，没有预订对象可用。使用预订池您需要创建预订对象。
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -5598,6 +5598,7 @@ common#:#select#:#选择
 common#:#select_all#:#全部选择
 common#:#select_at_least_one_object#:#请选择至少一个对象。
 common#:#select_file#:#选择文件
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Select the files from your computer###24 10 2013 new variable
 common#:#select_max_one_item#:#请只选择一项
 common#:#select_object_to_link#:#请选择您想链接的对象
@@ -8736,7 +8737,6 @@ dcl#:#dcl_msg_tableview_created#:#Views created###25 10 2016 new variable
 dcl#:#dcl_msg_tableview_deleted#:#View deleted###25 10 2016 new variable
 dcl#:#dcl_msg_tableview_updated#:#View updated###25 10 2016 new variable
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist###25 10 2016 new variable
-dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated###25 10 2016 new variable
 dcl#:#dcl_multiple_selection#:#Multiple Selection###24 10 2013 new variable
 dcl#:#dcl_new#:#创建新的数据采集
 dcl#:#dcl_new_field#:#新字段
@@ -8750,6 +8750,7 @@ dcl#:#dcl_no_fields_yet#:#这个表没有定义字段，因此您还不能创建
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###10 11 2018 new variable
 dcl#:#dcl_no_search_results_found_for#:#没有模块发现
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:###24 10 2013 new variable
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#未勾选的
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import###24 10 2013 new variable
@@ -8758,7 +8759,6 @@ dcl#:#dcl_notification_activated#:#通知已激活
 dcl#:#dcl_notification_deactivate_dcl#:#为数据收集停用通知
 dcl#:#dcl_notification_deactivated#:#通知已停用
 dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
-dcl#:#dcl_notimage_exception#:#该文件必须是一个图片。
 dcl#:#dcl_noturl_exception#:#您必须输入一个链接(以http://开始)
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
@@ -8885,6 +8885,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
 didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable

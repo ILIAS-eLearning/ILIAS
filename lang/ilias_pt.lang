@@ -1740,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Seleção das perguntas do teste
 assessment#:#tst_presentation_properties#:#Lista de perguntas - Todas as perguntas de um banco de perguntas
 assessment#:#tst_presentation_settings_section#:#Os participantes revêm as perguntas de um banco de perguntas. As perguntas respondidas erradamente serão novamente apresentadas. As perguntas podem ser adicionadas e editadas num teste de funcionamento.
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Conjunto fixo de perguntas
 assessment#:#tst_proceed#:#Todos os participantes recebem o mesmo conjunto de perguntas.
 assessment#:#tst_processing_time#:#Conjunto aleatório de perguntas
 assessment#:#tst_processing_time_desc#:#Cada participante obtém um conjunto diferente de perguntas. As perguntas são selecionadas à sorte de um ou mais bancos de perguntas.
@@ -2575,6 +2574,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#Adicionar banco de reservas
 book#:#book_add_object#:#Adicionar objeto
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Adicionar marcação
 book#:#book_additional_info_file#:#Descrição adicional
 book#:#book_all#:#Mostrar tudo
@@ -2593,7 +2593,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Informação
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Todas as entradas relacionadas com o idioma e a base de dados foram apagadas e o plugin foi inativado. Agora pode remover o diretório do plugin e o código da fonte no diretório ‘Personalizar’ para desinstalar o plugin definitivamente.
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2724,6 +2723,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Atualmente não há objetos de reserva disponíveis. Para usar o bancos de reservas, tem de criar objetos de reserva.
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -5599,6 +5599,7 @@ common#:#select#:#Código Postal
 common#:#select_all#:#O arquivo contém os mesmos nomes de ficheiro. Carregamento cancelado.
 common#:#select_at_least_one_object#:#Selecione pelo menos um objeto.
 common#:#select_file#:#Adicionar entrada de menu
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Todos
 common#:#select_max_one_item#:#Selecione apenas um item
 common#:#select_object_to_link#:#Selecione o objeto que quer associar
@@ -8737,7 +8738,6 @@ dcl#:#dcl_msg_tableview_created#:#Vistas criadas
 dcl#:#dcl_msg_tableview_deleted#:#Vista apagada
 dcl#:#dcl_msg_tableview_updated#:#Vista atualizada
 dcl#:#dcl_msg_tableviews_delete_all#:#Não conseguiu apagar: Tem de existir pelo menos uma vista
-dcl#:#dcl_msg_tableviews_order_updated#:#Ordem de vistas atualizada
 dcl#:#dcl_multiple_selection#:#Seleção múltipla
 dcl#:#dcl_new#:#Criar nova coleção de dados
 dcl#:#dcl_new_field#:#Novo campo
@@ -8751,6 +8751,7 @@ dcl#:#dcl_no_fields_yet#:#Não há campos definidos para esta tabela e, por cons
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Não tem acesso de leitura em nenhuma vista padrão de uma tabela.
 dcl#:#dcl_no_search_results_found_for#:#Não foram encontrados módulos para
 dcl#:#dcl_no_such_reference#:#O seguinte valor não está disponível na tabela de referência:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Não selecionado.
 dcl#:#dcl_not_supported_in_import#:#Este tipo de campo não é suportado na importação
@@ -8759,7 +8760,6 @@ dcl#:#dcl_notification_activated#:#Notificação ativada
 dcl#:#dcl_notification_deactivate_dcl#:#Desativar notificação para coleção de dados
 dcl#:#dcl_notification_deactivated#:#Notificação desativada
 dcl#:#dcl_notification_info#:#Cada utilizador decide sobre a notificação
-dcl#:#dcl_notimage_exception#:#No ficheiro tem de haver uma fotografia.
 dcl#:#dcl_noturl_exception#:#Novembro
 dcl#:#dcl_number#:#Inteiro
 dcl#:#dcl_number_desc#:#Campo para valores inteiros (máx. 9 dígitos). Nada de decimais ou frações.
@@ -8886,6 +8886,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Dom
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Predefinição a cinzento
 didactic#:#activate_exclusive_template_info#:#O modelo padrão não estará disponível quando este modelo estiver ativo.
 didactic#:#activate_local_didactic_template#:#Âmbito de aplicação
