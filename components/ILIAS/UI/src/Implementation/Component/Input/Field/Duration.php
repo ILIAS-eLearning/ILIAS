@@ -301,7 +301,19 @@ class Duration extends Group implements C\Input\Field\Duration
         return fn($id) => "var combinedDuration = function() {
 				var options = [];
 				$('#$id').find('input').each(function() {
-					options.push($(this).val());
+				    const value = $(this).val();
+				    if (value == '') {
+				        options.push('');
+				        return;
+				    }
+				    const date = new Date(value);
+				    var readable_value = '';
+				    if (value.includes('T')) {
+				        readable_value = date.toLocaleString([], { dateStyle: 'short', timeStyle: 'short' });
+				    } else {
+				    	readable_value = date.toLocaleDateString();
+				    }
+					options.push(readable_value);
 				});
 				return options.join(' - ');
 			}
