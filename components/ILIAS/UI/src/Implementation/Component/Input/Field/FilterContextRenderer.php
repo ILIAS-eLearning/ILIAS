@@ -158,7 +158,7 @@ class FilterContextRenderer extends Renderer
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("filter_field");
         if ($component->isComplex()) {
-            $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($input_html, $default_renderer));
+            $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($component, $input_html, $default_renderer));
         } else {
             $tpl->setVariable("FILTER_FIELD", $input_html);
         }
@@ -176,6 +176,7 @@ class FilterContextRenderer extends Renderer
     }
 
     protected function renderProxyField(
+        FormInput $component,
         string $input_html,
         RendererInterface $default_renderer
     ): string {
@@ -183,6 +184,9 @@ class FilterContextRenderer extends Renderer
         $tpl = $this->getTemplate("tpl.filter_field.html", true, true);
 
         $popover = $f->popover()->standard($f->legacy($input_html))->withVerticalPosition();
+        if ($component->getOnLoadCode() !== null) {
+            $popover = $popover->withAdditionalOnLoadCode($component->getOnLoadCode());
+        }
         $tpl->setVariable("POPOVER", $default_renderer->render($popover));
 
         $prox = new ProxyFilterField();
