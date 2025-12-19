@@ -208,7 +208,7 @@ class ilLTIViewGUI
                 if (ilSession::has('lti_context_ids') && isset(ilSession::get('lti_context_ids')[0])) {
                     $context_id = (int) ilSession::get('lti_context_ids')[0];
                     $this->effectiveRefId = $context_id;
-                }    
+                }
             }
 
             $referer = (int) $this->effectiveRefId;
