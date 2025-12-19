@@ -34,8 +34,6 @@ class ilDclMobFieldModel extends ilDclFileFieldModel
     public function getValidFieldProperties(): array
     {
         return [
-            ilDclBaseFieldModel::PROP_WIDTH,
-            ilDclBaseFieldModel::PROP_HEIGHT,
             ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB
         ];
     }
