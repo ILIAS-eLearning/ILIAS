@@ -1052,9 +1052,13 @@ class ilExerciseManagementGUI
             $this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
             $this->ctrl->setParameter($this, "part_id", $current_participant);
 
-            $ilToolbar->addSeparator();
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-            $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
+            $ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
+
+            if (count($ass) > 0) {
+                $ilToolbar->addSeparator();
+                $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+                $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
+            }
 
             $part_tab = new ilAssignmentsPerParticipantTableGUI(
                 $this,
