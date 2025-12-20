@@ -103,35 +103,6 @@ class VideoWidgetGUI
         );
         $tpl->setVariable("ITEM", $item_html);
 
-
-        /*
-        $back = $f->button()->standard("<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>", "")
-            ->withOnLoadCode(function ($id) {
-                return
-                    "$(\"#$id\").click(function() { il.VideoWidget.previous(\"".$this->dom_wrapper_id."\"); return false;});";
-        });
-        $next = $f->button()->standard("<span class=\"glyphicon glyphicon-chevron-right \" aria-hidden=\"true\"></span>", "")
-              ->withOnLoadCode(function ($id) {
-                  return
-                      "$(\"#$id\").click(function() { il.VideoWidget.next(\"".$this->dom_wrapper_id."\"); return false;});";
-        });*/
-
-
-        /*
-        $description_link = $f->button()->shy($this->lng->txt("mcst_show_description"), "")->withOnLoadCode(function ($id) {
-            return
-                "$(\"#$id\").click(function() { $(document).find(\"[data-elementtype='description']\").removeClass('ilNoDisplay'); $(document).find(\"[data-elementtype='description-trigger']\").addClass('ilNoDisplay'); return false;});";
-        });
-        $tpl->setVariable("DESCRIPTION_LINK", $ui->renderer()->render($description_link));*/
-
-        //$tpl->setVariable("VIEWCONTROL", $ui->renderer()->render([$back,$next]));
-
-        /*
-        $tpl->setCurrentBlock("autoplay");
-        $tpl->setVariable("TXT_AUTOPLAY",
-            $this->lng->txt("mcst_autoplay"));
-        $tpl->parseCurrentBlock();*/
-
         return $tpl->get();
     }
 }

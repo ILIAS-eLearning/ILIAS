@@ -1239,18 +1239,6 @@ EOT;
         $si->setValue($this->object->getViewMode());
         $this->form_gui->addItem($si);
 
-        // autoplay
-        $options = array(
-            ilObjMediaCast::AUTOPLAY_NO => $lng->txt("mcst_no_autoplay"),
-            ilObjMediaCast::AUTOPLAY_ACT => $lng->txt("mcst_autoplay_active"),
-            ilObjMediaCast::AUTOPLAY_INACT => $lng->txt("mcst_autoplay_inactive")
-        );
-        $si = new ilSelectInputGUI($lng->txt("mcst_autoplay"), "autoplaymode");
-        $si->setInfo($lng->txt("mcst_autoplay_info"));
-        $si->setOptions($options);
-        $si->setValue($this->object->getAutoplayMode());
-        $vc_opt->addSubItem($si);
-
         // number of initial videos
         $ti = new ilNumberInputGUI($lng->txt("mcst_nr_videos"), "nr_videos");
         $ti->setValue(max(1, $this->object->getNumberInitialVideos()));
@@ -1361,7 +1349,6 @@ EOT;
             $this->object->setDownloadable($this->form_gui->getInput("downloadable"));
             $this->object->setOrder($this->form_gui->getInput("order"));
             $this->object->setViewMode($this->form_gui->getInput("viewmode"));
-            $this->object->setAutoplayMode((int) $this->form_gui->getInput("autoplaymode"));
             $this->object->setNumberInitialVideos((int) $this->form_gui->getInput("nr_videos"));
             $this->object->setNewItemsInLearningProgress((int) $this->form_gui->getInput("auto_det_lp"));
 
@@ -1584,13 +1571,6 @@ EOT;
                 true,
                 false
             ));
-            $view->setAutoplayCallback($this->ctrl->getLinkTarget(
-                $this,
-                "handleAutoplayTrigger",
-                "",
-                true,
-                false
-            ));
             $view->show();
         } else {
             $this->listItemsObject(true);
@@ -1682,15 +1662,6 @@ EOT;
     protected function afterPoolInsert(array $mob_ids): void
     {
         $this->addMobsToCast($mob_ids, "", true, true);
-    }
-
-    protected function handleAutoplayTriggerObject(): void
-    {
-        $this->user->writePref(
-            "mcst_autoplay",
-            $this->mc_request->getAutoplay()
-        );
-        exit;
     }
 
     protected function getCommentGUI(): ilCommentGUI
