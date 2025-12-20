@@ -32,6 +32,8 @@ class VideoItem
     protected string $description = "";
     protected string $playing_time = "";
     protected int $duration = 0;
+    protected int $news_id = 0;
+    protected bool $is_local = false;
 
     public function __construct(
         string $id,
@@ -42,12 +44,16 @@ class VideoItem
         string $preview_pic,
         string $description = "",
         string $playing_time = "",
-        int $duration = 0
+        int $duration = 0,
+        bool $is_local = false,
+        int $news_id = 0,
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->time = $time;
         $this->mime = $mime;
+        $this->is_local = $is_local;
+        $this->news_id = $news_id;
         $this->resource = $resource;
         $this->preview_pic = $preview_pic;
         if ($this->preview_pic == "") {
@@ -101,5 +107,15 @@ class VideoItem
     public function getDuration(): int
     {
         return $this->duration;
+    }
+
+    public function isLocal(): bool
+    {
+        return $this->is_local;
+    }
+
+    public function getNewsId(): int
+    {
+        return $this->news_id;
     }
 }

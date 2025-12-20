@@ -53,13 +53,14 @@ class VideoSequence
 
             $mime = '';
             $resource = '';
-
+            $local = false;
             if (is_object($med)) {
                 if (strcasecmp("Reference", $med->getLocationType()) == 0) {
                     $resource = $med->getLocation();
                 } else {
                     $path_to_file = \ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
                     $resource = $path_to_file;
+                    $local = true;
                 }
                 $mime = $med->getFormat();
             }
@@ -80,7 +81,9 @@ class VideoSequence
                     $preview_pic,
                     (string) $item["content"],
                     (string) $item["playtime"],
-                    $med->getDuration()
+                    $med->getDuration(),
+                    $local,
+                    $item["id"]
                 );
             }
         }

@@ -1814,7 +1814,6 @@ class ilNewsItem
         $mob = $this->getMobId();
         $mob = new ilObjMediaObject($mob);
         $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
-
         // check purpose
         if (!$mob->hasPurposeItem($a_purpose)) {
             return false;

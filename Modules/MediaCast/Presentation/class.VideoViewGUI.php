@@ -232,6 +232,14 @@ class VideoViewGUI
                     "$(\"#$id\").click(function() { il.VideoPlaylist.toggleItem('mcst_playlist', '" . $video->getId() . "'); return false;});";
             });
 
+            $download_url = "";
+            if ($video->isLocal() && $this->media_cast->getDownloadable()) {
+                $this->ctrl->setParameterByClass("ilobjmediacastgui", "purpose", "Standard");
+                $this->ctrl->setParameterByClass("ilobjmediacastgui", "item_id", $video->getNewsId());
+                $download_url = $this->ctrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem");
+            }
+
+
             $items[] = [
                 "id" => $video->getId(),
                 "resource" => $video->getResource(),
@@ -243,7 +251,8 @@ class VideoViewGUI
                 "poster" => $video->getPreviewPic(),
                 "description" => nl2br($video->getDescription()),
                 "completed" => $completed,
-                "duration" => $video->getDuration()
+                "duration" => $video->getDuration(),
+                "download_url" => $download_url
             ];
         }
 

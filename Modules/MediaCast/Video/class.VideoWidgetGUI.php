@@ -79,11 +79,21 @@ class VideoWidgetGUI
         }
 
         $item = $f->item()->standard('#title#')
+            ->withMainAction(
+                $f->link()->standard('#download#', "#")
+            )
                   ->withDescription('#description#');
         $item_html = $ui->renderer()->render($item);
         $item_html = str_replace(
             "#title#",
             '<span data-elementtype="title"></span>',
+            $item_html
+        );
+        $item_html = str_replace(
+            "#download#",
+            '<span data-elementtype="download">' .
+            $this->lng->txt("download") .
+            '</span>',
             $item_html
         );
         $item_html = str_replace(
