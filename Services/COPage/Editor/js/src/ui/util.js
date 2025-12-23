@@ -12,43 +12,44 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * General ui utilities
  */
 export default class Util {
-
   constructor() {
   }
 
   setInnerHTML(el, html) {
     el.innerHTML = html;
 
-    Array.from(el.querySelectorAll("script"))
-    .forEach( oldScriptEl => {
-      const newScriptEl = document.createElement("script");
+    Array.from(el.querySelectorAll('script'))
+      .forEach((oldScriptEl) => {
+        const newScriptEl = document.createElement('script');
 
-      Array.from(oldScriptEl.attributes).forEach( attr => {
-        newScriptEl.setAttribute(attr.name, attr.value)
+        Array.from(oldScriptEl.attributes).forEach((attr) => {
+          newScriptEl.setAttribute(attr.name, attr.value);
+        });
+
+        const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+        newScriptEl.appendChild(scriptText);
+
+        oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
       });
-
-      const scriptText = document.createTextNode(oldScriptEl.innerHTML);
-      newScriptEl.appendChild(scriptText);
-
-      oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
-    });
   }
 
   sendFiles(form) {
-    let input_id, dropzone, cnt = 0;
+    let input_id; let dropzone; let
+      cnt = 0;
     return new Promise((resolve, reject) => {
-      if (typeof Dropzone !== "undefined" && typeof Dropzone.instances !== "undefined" && Array.isArray(Dropzone.instances)) {
+      if (typeof Dropzone !== 'undefined' && typeof Dropzone.instances !== 'undefined' && Array.isArray(Dropzone.instances)) {
         for (let i = 0; i < Dropzone.instances.length; i++) {
           const el = Dropzone.instances[i].element;
           // process only dropzones in our form with file data
           if (form.contains(el) && Dropzone.instances[i].getQueuedFiles().length > 0) {
             cnt++;
+            Dropzone.instances[i].options.form.should_submit = false;
             Dropzone.instances[i].on('queuecomplete', () => {
               cnt--;
               if (cnt === 0) {
@@ -65,42 +66,40 @@ export default class Util {
     });
   }
 
-  showModal(modalUiModel, title, content, button_txt = null, onclick= null) {
-
-    $("#il-copg-ed-modal").remove();
+  showModal(modalUiModel, title, content, button_txt = null, onclick = null) {
+    $('#il-copg-ed-modal').remove();
     let modal_template = modalUiModel.template;
-    modal_template = modal_template.replace("#title#", title);
-    modal_template = modal_template.replace("#content#", content);
-    modal_template = modal_template.replace("#button_title#", button_txt);
+    modal_template = modal_template.replace('#title#', title);
+    modal_template = modal_template.replace('#content#', content);
+    modal_template = modal_template.replace('#button_title#', button_txt);
 
-    $("body").append("<div id='il-copg-ed-modal'>" + modal_template + "</div>");
+    $('body').append(`<div id='il-copg-ed-modal'>${modal_template}</div>`);
 
     $(document).trigger(
       modalUiModel.signal,
       {
-        'id': modalUiModel.signal,
-        'triggerer': $(this),
-        'options': JSON.parse('[]')
-      }
+        id: modalUiModel.signal,
+        triggerer: $(this),
+        options: JSON.parse('[]'),
+      },
     );
 
     if (button_txt) {
       // use modal button, remove form buttons
-      const b = document.querySelector("#il-copg-ed-modal .modal-footer button");
-      b.addEventListener("click", onclick);
-      document.querySelectorAll("#il-copg-ed-modal .il-standard-form-cmd").forEach((fc) => {
+      const b = document.querySelector('#il-copg-ed-modal .modal-footer button');
+      b.addEventListener('click', onclick);
+      document.querySelectorAll('#il-copg-ed-modal .il-standard-form-cmd').forEach((fc) => {
         fc.remove();
       });
     } else {
       // remove modal buttons
-      document.querySelectorAll("#il-copg-ed-modal .modal-footer").forEach((b) => {
+      document.querySelectorAll('#il-copg-ed-modal .modal-footer').forEach((b) => {
         b.remove();
       });
     }
   }
 
   hideCurrentModal() {
-    $("#il-copg-ed-modal .modal").modal("hide");
+    $('#il-copg-ed-modal .modal').modal('hide');
   }
-
 }
