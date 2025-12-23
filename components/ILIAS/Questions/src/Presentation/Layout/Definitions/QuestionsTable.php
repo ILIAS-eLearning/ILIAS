@@ -23,7 +23,7 @@ namespace ILIAS\Questions\Presentation\Layout\Definitions;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Layout\Definitions\EnvironmentImplementation;
-use ILIAS\Questions\Question\Persistence\Repository;
+use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\UI\Component\Table;

@@ -18,35 +18,34 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-class Where
+class Join
 {
     public function __construct(
         private readonly Column $left,
-        private readonly Value $right,
-        private readonly Operator $comparison = Operator::Equal,
-        private readonly Junctor $junctor = Junctor::Conjunction,
-        private readonly bool $negate = false
+        private readonly Column $right,
+        private readonly JoinType $type = JoinType::Inner
     ) {
     }
 
     public function toSql(): string
     {
-        return $this->negate ? 'NOT ' : ''
-            . $this->comparison->toSql(
-                $this->left,
-                $this->right->getNumberOfElements()
-            );
+        return "{$this->type->value} JOIN {$this->right->getTableName()} ON {$this->left->getColumnString()} = {$this->right->getColumnString()}";
     }
 
-    public function getRight(): Value
+    public function getLeft(): Column
+    {
+        return $this->left;
+    }
+
+    public function getRight(): Column
     {
         return $this->right;
     }
 
-    public function getLogicalOperator(): Junctor
+    public function getType(): JoinType
     {
-        return $this->junctor;
+        return $this->type;
     }
 }

@@ -20,6 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\Persistence\Junctor;
+use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\Operator;
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Persistence\Value;
+use ILIAS\Questions\Persistence\Where;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\Presentation\Layout\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
@@ -37,13 +46,15 @@ class Gaps
     ) {
     }
 
-    public function getGapById(Uuid $gap_id): ?Gap
-    {
+    public function getGapById(
+        Uuid $gap_id
+    ): ?Gap {
         return $this->gaps[$gap_id->toString()] ?? null;
     }
 
-    public function getGapByTagName(string $tag_name): ?Gap
-    {
+    public function getGapByTagName(
+        string $tag_name
+    ): ?Gap {
         return $this->gaps[$this->extractIdFromTagName($tag_name)] ?? null;
     }
 
@@ -52,26 +63,36 @@ class Gaps
         return $this->gaps !== [];
     }
 
-    public function withGap(Gap $gap): self
-    {
+    public function withGap(
+        Gap $gap
+    ): self {
         $clone = clone $this;
         $clone->gaps[$gap->getAnswerInputId()->toString()] = $gap;
         return $clone;
     }
 
-    public function withNewGap(int $position): self
-    {
-        $new_gap = $this->factory->getNewGap($position);
+    public function withNewGap(
+        Uuid $answer_form_id,
+        int $position
+    ): self {
+        $new_gap = $this->factory->getNewGap($answer_form_id, $position);
         $clone = clone $this;
         $clone->gaps[$new_gap->getAnswerInputId()->toString()] = $new_gap;
         return $clone;
     }
 
-    public function withAdditionalGapFromTagName(string $tag_name, $position): self
-    {
-        $id = $this->extractIdFromTagName($tag_name);
+    public function withAdditionalGapFromTagName(
+        Uuid $answer_form_id,
+        string $tag_name,
+        int $position
+    ): self {
+        $answer_input_id = $this->extractIdFromTagName($tag_name);
         $clone = clone $this;
-        $clone->gaps[$id] = $this->factory->getNewGap($position, $id);
+        $clone->gaps[$answer_input_id] = $this->factory->getNewGap(
+            $answer_form_id,
+            $position,
+            $answer_input_id
+        );
         return $clone;
     }
 
@@ -236,6 +257,60 @@ class Gaps
                 return $clone;
             }
         );
+    }
+
+    public function toStorage(
+        Manipulate $manipulate,
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Manipulate {
+        $table_definition = TableTypes::AnswerInputs;
+        $manipulate->withAdditionalStatement(
+            new Delete(
+                $table_definition->getTable($table_name_builder),
+                [
+                    new Where(
+                        $persistence->getIdColumn($table_name_builder, $table_definition),
+                        new Value(
+                            \ilDBConstants::T_TEXT,
+                            array_map(
+                                fn(Gap $v): string => $v->getAnswerInputId()->toString(),
+                                $this->gaps
+                            )
+                        ),
+                        Operator::In,
+                        Junctor::Conjunction,
+                        true
+                    )
+                ]
+            )
+        );
+
+        [
+            'gaps' => $replace_for_gaps,
+            'answer_options' => $replace_for_answer_options
+        ] = array_reduce(
+            $this->gaps,
+            fn(array $c, Gap $v): array => [
+                'gaps' => $v->buildReplace(
+                    $c['gaps'],
+                    $persistence,
+                    $table_name_builder
+                ),
+                'answer_options' => $v->getAnswerOptions()->buildReplace(
+                    $c['answer_options'],
+                    $persistence,
+                    $table_name_builder
+                )
+            ],
+            [
+                'gaps' => null,
+                'answer_options' => null
+            ]
+        );
+
+        return $manipulate->withAdditionalStatement($replace_for_gaps)
+            ->withAdditionalStatement($replace_for_answer_options);
     }
 
     private function extractIdFromTagName(string $tag_name): string

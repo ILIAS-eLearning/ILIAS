@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
-use ILIAS\Questions\Question\Persistence\TableNameBuilder;
-use ILIAS\Questions\Question\Persistence\TableNameSpaceCore;
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
