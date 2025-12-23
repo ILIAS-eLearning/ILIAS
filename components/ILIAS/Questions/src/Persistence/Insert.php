@@ -15,62 +15,73 @@
  * https://github.com/ILIAS-eLearning
  *
  * ******************************************************************* */
+
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
 class Insert
 {
-    private array $values_to_insert = [];
+    protected array $value_sets = [];
 
     /**
-     * @param array<\ILIAS\Questions\Question\Persistence\Column> $columns
+     * @param array<\ILIAS\Questions\Persistence\Column> $columns
+     * @param array<\ILIAS\Questions\Persistence\Value> $values
      */
     public function __construct(
-        private readonly Table $table,
-        private readonly array $columns
+        protected readonly array $columns,
+        array $values
     ) {
+        if ($columns === [] || count($columns) !== count($values)) {
+            throw new \InvalidArgumentException(
+                "There MUST be at least one Column and the same amount of Values as there are Columns."
+            );
+        }
+
+        $table_name = $columns[0]->getTableName();
         foreach ($columns as $column) {
-            if ($column->getTableName() !== $this->table->getName()) {
+            if ($column->getTableName() !== $table_name) {
                 throw new \InvalidArgumentException(
-                    "You can only add Columns of the table {$this->table->getName()} to this Insert."
+                    "All Columns MUST belong to the same Table."
                 );
             }
         }
-    }
 
-    public function getTableName(): string
-    {
-        return $this->table->getName();
+        $this->value_sets[] = $values;
     }
 
     /**
-     *
-     * @param array<\ILIAS\Questions\Question\Persistence\Value> $values
-     * @return self
+     * @param array<\ILIAS\Questions\Persistence\Value> $values
      */
-    public function withAdditionalDataSet(
+    public function withAdditionalValues(
         array $values
     ): self {
-        if (count($this->columns) !== count($values)) {
+        if (count($values) !== count($this->columns)) {
             throw new \InvalidArgumentException(
                 "There MUST be the same amount of Values as there are Columns."
             );
         }
 
         $clone = clone $this;
-        $clone->values_to_insert[] = $values;
+        $clone->value_sets[] = $values;
         return $clone;
     }
 
-    public function toManipulateString(\ilDBInterface $db): string
-    {
-        return "INSERT INTO {$this->table->getName()} "
+    public function lockTable(
+        \ilAtomQuery $atom_query
+    ): void {
+        $atom_query->addTableLock($this->columns[0]->getTableName());
+    }
+
+    public function toManipulateString(
+        \ilDBInterface $db
+    ): string {
+        return "INSERT INTO {$this->columns[0]->getTableName()}" . PHP_EOL
             . $this->buildColumnsString() . PHP_EOL
             . $this->buildValuesString($db);
     }
 
-    private function buildColumnsString(): string
+    protected function buildColumnsString(): string
     {
         return '('
             . implode(
@@ -82,10 +93,10 @@ class Insert
             ) . ')';
     }
 
-    private function buildValuesString(\ilDBInterface $db): string
+    protected function buildValuesString(\ilDBInterface $db): string
     {
         $return = [];
-        foreach ($this->values_to_insert as $values) {
+        foreach ($this->value_sets as $values) {
             $return[] = '(' . implode(
                 ', ',
                 array_map(

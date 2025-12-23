@@ -18,9 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
-use ILIAS\Questions\Question\Persistence\ManipulateQuery;
+use ILIAS\Questions\Persistence\Replace;
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Persistence\Value;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Data\UUID\Uuid;
 
 class AnswerOption
@@ -34,6 +38,7 @@ class AnswerOption
 
     public function __construct(
         private readonly Uuid $answer_option_id,
+        private readonly Uuid $answer_input_id,
         private int $position,
         private string $text_value = '',
         private ?float $lower_limit = null,
@@ -130,8 +135,36 @@ class AnswerOption
         return $values;
     }
 
-    public function toPersistence(ManipulateQuery $query): ManipulateQuery
-    {
+    public function buildReplace(
+        ?Replace $replace,
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Replace {
+        $table_definition = TableTypes::AnswerOptions;
 
+        if ($replace === null) {
+            return new Replace(
+                $persistence->getColumns($table_name_builder, $table_definition),
+                $this->buildValuesForGapReplace()
+            );
+        }
+
+        return $replace->withAdditionalValues(
+            $this->buildValuesForGapReplace()
+        );
+    }
+
+    private function buildValuesForGapReplace(): array
+    {
+        return [
+            new Value(\ilDBConstants::T_TEXT, $this->answer_option_id->toString()),
+            new Value(\ilDBConstants::T_TEXT, $this->answer_input_id->toString()),
+            new Value(\ilDBConstants::T_INTEGER, $this->position),
+            new Value(\ilDBConstants::T_TEXT, $this->text_value),
+            new Value(\ilDBConstants::T_FLOAT, $this->available_points),
+            new Value(\ilDBConstants::T_FLOAT, $this->lower_limit),
+            new Value(\ilDBConstants::T_FLOAT, $this->upper_limit)
+
+        ];
     }
 }

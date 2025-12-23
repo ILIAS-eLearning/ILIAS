@@ -18,23 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-class Column
+enum ManipulationType
 {
-    public function __construct(
-        private readonly Table $table,
-        private readonly string $column
-    ) {
-    }
-
-    public function getTableName(): string
-    {
-        return $this->table->getName();
-    }
-
-    public function getColumnString(): string
-    {
-        return "{$this->table->getName()}.{$this->column}";
-    }
+    case Create;
+    case Update;
 }

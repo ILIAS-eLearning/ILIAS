@@ -18,21 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-class Select
+enum Junctor: string
 {
-    public function __construct(
-        private readonly Table $table,
-        private readonly array $columns
-    ) {
-    }
-
-    public function toColumnsArray(): array
-    {
-        return array_map(
-            fn(string $v): string => "{$this->table->getName()}.{$v}",
-            $this->columns
-        );
-    }
+    case Conjunction = 'AND';
+    case Disjunction = 'OR';
 }

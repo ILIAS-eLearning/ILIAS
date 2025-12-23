@@ -18,9 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-interface Storable
+class TableNameSpaceCore extends TableNameSpace
 {
-    public function toStorage(Manipulate $manipulate): Manipulate;
+    public function __construct(
+        private readonly string $answer_form_id
+    ) {
+    }
+
+    public function getTypeSpecificTableNamePart(): string
+    {
+        return $this->answer_form_id;
+    }
 }

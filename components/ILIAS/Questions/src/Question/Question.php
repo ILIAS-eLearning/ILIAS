@@ -20,7 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question;
 
-interface Question extends Persistence\Storable
+use ILIAS\Questions\Question\Views\Participant;
+use ILIAS\Questions\Persistence\Storable;
+
+interface Question
 {
-    public function getParticipantView(): Views\Participant;
+    public function getParticipantView(): Participant;
 }

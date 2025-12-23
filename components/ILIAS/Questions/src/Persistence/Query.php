@@ -18,7 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
+
+use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\AnswerForm\Persistence;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 
 class Query
 {
@@ -31,8 +36,12 @@ class Query
     private array $binding_types = [];
     private array $binding_values = [];
 
+    private ?array $current_record = null;
+
     public function __construct(
-        private readonly \ilDBInterface $db
+        private readonly \ilDBInterface $db,
+        private readonly AnswerFormFactory $answer_form_factory,
+        private readonly Refinery $refinery
     ) {
 
         $questions_table_definition = CoreTables::Questions;
@@ -40,13 +49,11 @@ class Query
         $questions_id_column = $questions_table_definition->getIdColumn();
 
         $this->select[] = new Select(
-            $questions_table_definition->getTable(),
-            $questions_table_definition->getColumnsForSelect()
+            $questions_table_definition->getColumns()
         );
 
         $this->select[] = new Select(
-            $answer_form_table_definition->getTable(),
-            $answer_form_table_definition->getColumnsForSelect()
+            $answer_form_table_definition->getColumns()
         );
 
         $this->joins[] = new Join(
@@ -62,6 +69,30 @@ class Query
         $this->order[] = new Order(
             $answer_form_table_definition->getIdColumn()
         );
+    }
+
+    public function getPersistenceForDefinitionClass(
+        string $definition_class
+    ): Persistence {
+        return $this->answer_form_factory
+            ->getDefinitionForClass($definition_class)
+            ->getPersistence();
+    }
+
+    public function getTableNameBuilder(
+        string $definition_class
+    ): TableNameBuilder {
+        return new TableNameBuilder(
+            $this->answer_form_factory
+                ->getDefinitionForClass($definition_class)
+                ->getPersistence()
+                ->getPublicNameSpace()
+        );
+    }
+
+    public function getRefinery(): Refinery
+    {
+        return $this->refinery;
     }
 
     public function withAdditionalSelect(Select $select): self
@@ -99,7 +130,42 @@ class Query
         return $clone;
     }
 
-    public function toSql(): \ilDBStatement
+    public function loadNextRecord(): \Generator
+    {
+        $alias = CoreTables::Questions->getIdColumn()->getColumnAlias();
+
+        $result = $this->toSql();
+
+        $this->current_record = [$this->db->fetchAssoc($result)];
+        if ($this->current_record[0] === null) {
+            return null;
+        }
+
+        while (($db_record = $this->db->fetchAssoc($result)) !== null) {
+            if ($db_record[$alias] === $this->current_record[0][$alias]) {
+                $this->current_record[] = $db_record;
+                continue;
+            }
+            yield $this;
+            $this->current_record = [$db_record];
+        }
+        yield $this;
+    }
+
+    public function retrieveCurrentRecord(
+        Table $table,
+        Transformation $transformation
+    ): mixed {
+        $table_name = $table->getName();
+        $filtered_record = [];
+        foreach ($this->current_record as $data_set) {
+            $filtered_record[] = $this->filterDataSetByTable($table_name, $data_set);
+        }
+
+        return $transformation->transform($filtered_record);
+    }
+
+    private function toSql(): \ilDBStatement
     {
         return $this->db->queryF(
             'SELECT ' . implode(
@@ -149,5 +215,21 @@ class Query
             $this->binding_types[] = $value->getType();
             $this->binding_values[] = $v;
         }
+    }
+
+    public function filterDataSetByTable(
+        string $table_name,
+        array $data_set
+    ): array {
+        return array_reduce(
+            array_keys($data_set),
+            function (array $c, string $v) use ($table_name, $data_set): array {
+                if (str_starts_with($v, $table_name)) {
+                    $c[mb_substr($v, mb_strlen($table_name) + 1)] = $data_set[$v];
+                }
+                return $c;
+            },
+            []
+        );
     }
 }

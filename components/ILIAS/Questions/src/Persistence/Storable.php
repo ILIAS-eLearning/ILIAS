@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-enum JoinType: string
+interface Storable
 {
-    case Inner = 'INNER';
-    case Left = 'left';
+    public function toStorage(Manipulate $manipulate): Manipulate;
+    public function toDelete(Manipulate $manipulate): Manipulate;
 }

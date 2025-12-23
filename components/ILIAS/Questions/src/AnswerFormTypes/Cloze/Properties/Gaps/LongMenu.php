@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Properties;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -48,14 +48,15 @@ class LongMenu extends Type
         return 'long_menu';
     }
 
-    public function getEditAnswerOptionsInputs(Properties $properties): array
-    {
+    public function getEditAnswerOptionsInputs(
+        Gap $gap
+    ): array {
         $ff = $this->ui_factory->input()->field();
         return [
             'answer_options' => $ff->tag(
                 $this->lng->txt('answer_options'),
                 []
-            )->withValue($properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
+            )->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'upload_answer_options' => $ff->file(
                 new UploadAnswerOptionsGUI(),
                 $this->lng->txt('upload_answer_options'),
@@ -64,16 +65,16 @@ class LongMenu extends Type
             'min_autocomplete' => $ff->numeric(
                 $this->lng->txt('min_autocomplete')
             )->withRequired(true)
-            ->withValue($properties->getMinAutocomplete() ?? self::DEFAULT_MIN_AUTOCOMPLETE),
+            ->withValue($gap->getMinAutocomplete() ?? self::DEFAULT_MIN_AUTOCOMPLETE),
             'options_awarding_points' => $ff->tag(
                 $this->lng->txt('answer_options'),
-                $properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()
+                $gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()
             )
             ->withRequired(true)
             ->withValue(
                 array_map(
                     fn(AnswerOption $v): string => $v->getTextValue(),
-                    $properties->getAnswerOptions()->getAnswerOptionsAwardingPoints()
+                    $gap->getAnswerOptions()->getAnswerOptionsAwardingPoints()
                 )
             )
         ];
@@ -97,8 +98,9 @@ class LongMenu extends Type
         );
     }
 
-    public function getEditPointsInputs(AnswerOptions $answer_options): array
-    {
+    public function getEditPointsInputs(
+        AnswerOptions $answer_options
+    ): array {
         return $answer_options->getEditPointsInputs(
             $this->ui_factory->input()->field(),
             fn(AnswerOption $v): string => $v->getTextValue(),
@@ -121,21 +123,21 @@ class LongMenu extends Type
         );
     }
 
-    public function getBuildGapTransformation(Gap $gap): Transformation
-    {
+    public function getBuildGapTransformation(
+        Gap $gap
+    ): Transformation {
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withProperties(
-                $gap->getProperties()
-                    ->withMinAutocomplete($vs['min_autocomplete'])
-                    ->withAnswerOptions(
-                        $gap->getProperties()->getAnswerOptions()->withAnswerOptionsFromTags(
-                            array_merge(
-                                $vs['answer_options'],
-                                $this->retrieveAnswerOptionsArrayFromUpload($vs['upload_answer_options'])
-                            )
-                        )->withAnswerOptionsAwardingPoints($vs['options_awarding_points'])
-                    )
-            )
+            fn(array $vs): Gap => $gap
+                ->withMinAutocomplete($vs['min_autocomplete'])
+                ->withAnswerOptions(
+                    $gap->getAnswerOptions()->withAnswerOptionsFromTags(
+                        $gap->getAnswerInputId(),
+                        array_merge(
+                            $vs['answer_options'],
+                            $this->retrieveAnswerOptionsArrayFromUpload($vs['upload_answer_options'])
+                        )
+                    )->withAnswerOptionsAwardingPoints($vs['options_awarding_points'])
+                )
         );
     }
 
@@ -144,8 +146,9 @@ class LongMenu extends Type
         ;
     }
 
-    private function retrieveAnswerOptionsArrayFromUpload(?array $upload_value): array
-    {
+    private function retrieveAnswerOptionsArrayFromUpload(
+        ?array $upload_value
+    ): array {
         if ($upload_value === null
             || ($decoded_value = base64_decode($upload_value[0] ?? '')) === '') {
             return [];

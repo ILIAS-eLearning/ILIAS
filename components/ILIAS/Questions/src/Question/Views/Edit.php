@@ -21,16 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Question\Views;
 
 use ILIAS\Questions\Presentation\Layout\Definitions\EditForm;
-use ILIAS\Questions\Presentation\Layout\Definitions\Factory as DefinitionsFactory;
-use ILIAS\Questions\Presentation\Layout\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\URLBuilder;
-use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\Refinery\Factory as Refinery;
@@ -55,7 +52,7 @@ class Edit
     }
 
     public function create(
-        Environment $environment
+        EnvironmentImplementation $environment
     ): EditForm|Question {
         return match ($environment->getStep()) {
             self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm($environment),
@@ -64,7 +61,7 @@ class Edit
     }
 
     public function edit(
-        Environment $environment
+        EnvironmentImplementation $environment
     ): EditForm|Question {
         return match ($environment->getStep()) {
             self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm($environment),
@@ -75,7 +72,7 @@ class Edit
     }
 
     private function buildBasicPropertiesForm(
-        Environment $environment
+        EnvironmentImplementation $environment
     ): EditForm {
         return $environment->getDefinitionsFactory()->getEditForm(
             $environment->getUrlBuilderWithStepParameter(self::CMD_SAVE_QUESTION),
@@ -85,7 +82,7 @@ class Edit
     }
 
     private function processBasicPropertiesForm(
-        Environment $environment
+        EnvironmentImplementation $environment
     ): EditForm|Question {
         $form = $this->buildBasicPropertiesForm(
             $environment
@@ -149,8 +146,10 @@ class Edit
         );
     }
 
-    private function buildPreviewPanel(): StandardPanel
-    {
+    private function buildPreviewPanel(
+        EnvironmentImplementation $environment
+    ): StandardPanel {
+        $environment->setParametersForQuestionCmds();
         return $this->ui_factory->panel()->standard(
             $this->lng->txt('preview'),
             $this->ui_factory->legacy()->content($this->question->getTitle())
