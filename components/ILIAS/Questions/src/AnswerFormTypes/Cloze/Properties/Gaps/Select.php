@@ -20,9 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -46,18 +45,19 @@ class Select extends Type
         return 'select';
     }
 
-    public function getEditAnswerOptionsInputs(Properties $properties): array
-    {
+    public function getEditAnswerOptionsInputs(
+        Gap $gap
+    ): array {
         $ff = $this->ui_factory->input()->field();
         return [
             'answer_options' => $ff->tag(
                 $this->lng->txt('answer_options'),
                 []
             )->withRequired(true)
-            ->withValue($properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
+            ->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'shuffle_answer_options' => $ff->checkbox(
                 $this->lng->txt('shuffle_answers')
-            )->withValue($properties?->getShuffleAnswerOptions() ?? self::DEFAULT_SHUFFLE_ANSWER_OPTIONS)
+            )->withValue($gap?->getShuffleAnswerOptions() ?? self::DEFAULT_SHUFFLE_ANSWER_OPTIONS)
         ];
     }
 
@@ -66,8 +66,9 @@ class Select extends Type
         return null;
     }
 
-    public function getEditPointsInputs(AnswerOptions $answer_options): array
-    {
+    public function getEditPointsInputs(
+        AnswerOptions $answer_options
+    ): array {
         return $answer_options->getEditPointsInputs(
             $this->ui_factory->input()->field(),
             fn(AnswerOption $v): string => $v->getTextValue()
@@ -89,13 +90,16 @@ class Select extends Type
         );
     }
 
-    public function getBuildGapTransformation(Gap $gap): Transformation
-    {
-        $properties = $gap->getProperties();
+    public function getBuildGapTransformation(
+        Gap $gap
+    ): Transformation {
         return $this->refinery->custom()->transformation(
             fn(array $vs): Gap => $gap->withProperties(
-                $properties->withAnswerOptions(
-                    $properties->getAnswerOptions()->withAnswerOptionsFromTags($vs['answer_options'])
+                $gap->withAnswerOptions(
+                    $gap->getAnswerOptions()->withAnswerOptionsFromTags(
+                        $gap->getAnswerInputId(),
+                        $vs['answer_options']
+                    )
                 )
             )
         );

@@ -14,14 +14,19 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ * ******************************************************************* */
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-enum Junctor: string
+class Replace extends Insert
 {
-    case Conjunction = 'AND';
-    case Disjunction = 'OR';
+    public function toManipulateString(
+        \ilDBInterface $db
+    ): string {
+        return "REPLACE INTO {$this->columns[0]->getTableName()}" . PHP_EOL
+            . $this->buildColumnsString() . PHP_EOL
+            . $this->buildValuesString($db);
+    }
 }

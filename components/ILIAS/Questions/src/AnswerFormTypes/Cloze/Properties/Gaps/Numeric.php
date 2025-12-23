@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Properties;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -47,22 +47,27 @@ class Numeric extends Type
         return 'numeric';
     }
 
-    public function getEditAnswerOptionsInputs(Properties $properties): array
-    {
-        $answer_option = $properties->getAnswerOptions()->getAnswerOptionForPositionOrNew(0);
+    public function getEditAnswerOptionsInputs(
+        Gap $gap
+    ): array {
+        $answer_option = $gap->getAnswerOptions()->getAnswerOptionForPositionOrNew(
+            $gap->getAnswerInputId(),
+            0
+        );
+
         $ff = $this->ui_factory->input()->field();
         return [
             'lower_limit' => $ff->numeric($this->lng->txt('lower_limit'))
-                ->withStepSize($properties->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withStepSize($gap->getStepSize() ?? self::DEFAULT_STEP_SIZE)
                 ->withRequired(true)
                 ->withValue($answer_option->getLowerLimit()),
             'upper_limit' => $ff->numeric($this->lng->txt('upper_limit'))
-                ->withStepSize($properties->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withStepSize($gap->getStepSize() ?? self::DEFAULT_STEP_SIZE)
                 ->withValue($answer_option->getUpperLimit()),
             'step_size' => $ff->numeric($this->lng->txt('step_size'))
                 ->withStepSize(0.000001)
                 ->withRequired(true)
-                ->withValue($properties->getStepSize() ?? self::DEFAULT_STEP_SIZE)
+                ->withValue($gap->getStepSize() ?? self::DEFAULT_STEP_SIZE)
         ];
     }
 
@@ -76,8 +81,9 @@ class Numeric extends Type
         );
     }
 
-    public function getEditPointsInputs(AnswerOptions $answer_options): array
-    {
+    public function getEditPointsInputs(
+        AnswerOptions $answer_options
+    ): array {
         $inputs = $answer_options->getEditPointsInputs(
             $this->ui_factory->input()->field(),
             function (AnswerOption $v): string {
@@ -106,19 +112,19 @@ class Numeric extends Type
         return null;
     }
 
-    public function getBuildGapTransformation(Gap $gap): Transformation
-    {
-        $properties = $gap->getProperties();
+    public function getBuildGapTransformation(
+        Gap $gap
+    ): Transformation {
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withProperties(
-                $properties->withAnswerOptions(
-                    $properties->getAnswerOptions()->withAnswerOptions([
-                        $properties->getAnswerOptions()->getAnswerOptionForPositionOrNew(0)
-                            ->withLowerLimit($vs['lower_limit'])
-                            ->withUpperLimit($vs['upper_limit'])
-                        ])
-                )->withStepSize($vs['step_size'])
-            )
+            fn(array $vs): Gap => $gap->withAnswerOptions(
+                $gap->getAnswerOptions()->withAnswerOptions([
+                    $gap->getAnswerOptions()->getAnswerOptionForPositionOrNew(
+                        $gap->getAnswerInputId(),
+                        0
+                    )->withLowerLimit($vs['lower_limit'])
+                    ->withUpperLimit($vs['upper_limit'])
+                ])
+            )->withStepSize($vs['step_size'])
         );
     }
 

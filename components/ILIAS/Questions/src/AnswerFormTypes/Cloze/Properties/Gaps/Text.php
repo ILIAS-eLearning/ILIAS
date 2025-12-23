@@ -20,9 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOptions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\Question\Definitions\TextMatchingOptions;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -47,23 +46,24 @@ class Text extends Type
         return 'text';
     }
 
-    public function getEditAnswerOptionsInputs(Properties $properties): array
-    {
+    public function getEditAnswerOptionsInputs(
+        Gap $gap
+    ): array {
         $ff = $this->ui_factory->input()->field();
         return [
             'answer_options' => $ff->tag(
                 $this->lng->txt('answer_options'),
                 []
             )->withRequired(true)
-            ->withValue($properties->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
+            ->withValue($gap->getAnswerOptions()->getTagsArrayFromAnswerOptions()),
             'matching_method' => $ff->select(
                 $this->lng->txt('matching_method'),
                 TextMatchingOptions::buildOptionsList($this->lng)
             )->withRequired(true)
-            ->withValue($properties->getTextMatchingMethod()?->value ?? self::DEFAULT_TECT_MATCHING_METHOD->value),
+            ->withValue($gap->getTextMatchingMethod()?->value ?? self::DEFAULT_TECT_MATCHING_METHOD->value),
             'max_chars' => $ff->numeric(
                 $this->lng->txt('max_chars'),
-            )->withValue($properties->getMaxChars())
+            )->withValue($gap->getMaxChars())
         ];
     }
 
@@ -78,8 +78,9 @@ class Text extends Type
         );
     }
 
-    public function getEditPointsInputs(AnswerOptions $answer_options): array
-    {
+    public function getEditPointsInputs(
+        AnswerOptions $answer_options
+    ): array {
         return $answer_options->getEditPointsInputs(
             $this->ui_factory->input()->field(),
             fn(AnswerOption $v): string => $v->getTextValue()
@@ -101,17 +102,20 @@ class Text extends Type
         );
     }
 
-    public function getBuildGapTransformation(Gap $gap): Transformation
-    {
-        $properties = $gap->getProperties();
+    public function getBuildGapTransformation(
+        Gap $gap
+    ): Transformation {
         return $this->refinery->custom()->transformation(
-            fn(array $vs): Gap => $gap->withProperties(
-                $properties->withMaxChars($vs['max_chars'])
-                    ->withTextMatchingMethod(TextMatchingOptions::tryFrom($vs['matching_method']) ?? self::DEFAULT_TECT_MATCHING_METHOD)
-                    ->withAnswerOptions(
-                        $properties->getAnswerOptions()->withAnswerOptionsFromTags($vs['answer_options'])
+            fn(array $vs): Gap => $gap->withMaxChars($vs['max_chars'])
+                ->withTextMatchingMethod(
+                    TextMatchingOptions::tryFrom($vs['matching_method'])
+                        ?? self::DEFAULT_TECT_MATCHING_METHOD
+                )->withAnswerOptions(
+                    $gap->getAnswerOptions()->withAnswerOptionsFromTags(
+                        $gap->getAnswerInputId(),
+                        $vs['answer_options']
                     )
-            )
+                )
         );
     }
 

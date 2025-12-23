@@ -20,10 +20,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm;
 
+use ILIAS\Questions\Persistence\Storable;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 
-interface Properties
+interface Properties extends Storable
 {
     public function getAnswerFormId(): ?Uuid;
     public function getQuestionId(): ?Uuid;

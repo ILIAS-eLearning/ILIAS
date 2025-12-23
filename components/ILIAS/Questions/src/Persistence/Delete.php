@@ -14,58 +14,26 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
-
+ * ******************************************************************* */
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-class Update
+class Delete
 {
+    /**
+     * @param array<\ILIAS\Questions\Persistence\Where> $where
+     */
     public function __construct(
         private readonly Table $table,
-        private readonly array $columns,
-        private readonly array $values,
         private readonly array $where
     ) {
-        foreach ($columns as $column) {
-            if ($column->getTableName() !== $this->table->getName()) {
-                throw new \InvalidArgumentException(
-                    "You can only add Columns of the table {$this->table->getName()} to this Insert."
-                );
-            }
-        }
-
-        if (count(columns) !== count($values)) {
-            throw new \InvalidArgumentException(
-                "There MUST be the same amount of Values as there are Columns."
-            );
-        }
-    }
-
-    public function getTableName(): string
-    {
-        return $this->table->getName();
     }
 
     public function toManipulateString(\ilDBInterface $db): string
     {
-        return "UPDATE {$this->table->getName()}" . PHP_EOL
-            . $this->buildSetterString($db) . PHP_EOL
+        return "DELETE FROM {$this->table->getName()}" . PHP_EOL
             . $this->buildWhereString($db);
-    }
-
-    private function buildSetterString(\ilDBInterface $db): string
-    {
-        return trim(
-            array_reduce(
-                array_keys($this->columns),
-                fn(string $c, int $v): string => $c
-                    . "{$this->columns[$v]->getColumnString()} = {$this->values[$v]->getQuotedValue()},",
-                'SET '
-            ),
-            ','
-        );
     }
 
     private function buildWhereString(\ilDBInterface $db): string

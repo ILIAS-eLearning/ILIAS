@@ -18,9 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
-use ILIAS\Questions\Question\Persistence\ManipulateQuery;
+use ILIAS\Questions\Persistence\Replace;
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
@@ -35,10 +38,12 @@ class AnswerOptions
         $this->answer_options_awarding_points = $this->buildAnswerOptionsAwardingPointsFromAnswerOptions($answer_options);
     }
 
-    public function getAnswerOptionForPositionOrNew(int $position): AnswerOption
-    {
+    public function getAnswerOptionForPositionOrNew(
+        Uuid $answer_input_id,
+        int $position
+    ): AnswerOption {
         return $this->answer_options[$position]
-            ?? $this->factory->getDefaultAnswerOptionForPosition($position);
+            ?? $this->factory->getDefaultAnswerOptionForPosition($answer_input_id, $position);
     }
 
     public function getTagsArrayFromAnswerOptions(): array
@@ -54,8 +59,9 @@ class AnswerOptions
         return $this->answer_options_awarding_points;
     }
 
-    public function withAnswerOptionsAwardingPoints(array $options): self
-    {
+    public function withAnswerOptionsAwardingPoints(
+        array $options
+    ): self {
         $clone = clone $this;
         $clone->answer_options_awarding_points = array_reduce(
             $options,
@@ -71,14 +77,16 @@ class AnswerOptions
         return $clone;
     }
 
-    public function withAnswerOptions(array $answer_options): self
-    {
+    public function withAnswerOptions(
+        array $answer_options
+    ): self {
         $clone = clone $this;
         $clone->answer_options = $answer_options;
         return $clone;
     }
 
     public function withValuesFromHiddenInputValue(
+        Uuid $answer_input_id,
         ?string $value
     ): self {
         if ($value === null
@@ -93,6 +101,7 @@ class AnswerOptions
         $clone->answer_options = array_map(
             fn(array $vs): AnswerOption => $this->factory->buildAnswerOption(
                 $vs[AnswerOption::FORM_KEY_ID],
+                $answer_input_id,
                 $vs[AnswerOption::FORM_KEY_POSITION],
                 $vs[AnswerOption::FORM_KEY_TEXT_VALUE],
                 $vs[AnswerOption::FORM_KEY_LOWER_LIMIT] ?? null,
@@ -114,13 +123,15 @@ class AnswerOptions
     }
 
     public function withAnswerOptionsFromTags(
+        Uuid $answer_input_id,
         array $tags
     ): self {
         $clone = clone $this;
         $position = 0;
         $clone->answer_options = array_map(
-            function (string $v) use (&$position): AnswerOption {
+            function (string $v) use ($answer_input_id, &$position): AnswerOption {
                 return $this->buildAnswerOptionFromTag(
+                    $answer_input_id,
                     $position++,
                     $v
                 );
@@ -186,9 +197,20 @@ class AnswerOptions
         );
     }
 
-    public function toPersistence(ManipulateQuery $query): ManipulateQuery
-    {
-
+    public function buildReplace(
+        ?Replace $replace,
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Replace {
+        return array_reduce(
+            $this->answer_options,
+            fn(?Replace $c, AnswerOption $v): Replace => $v->buildReplace(
+                $c,
+                $persistence,
+                $table_name_builder
+            ),
+            $replace
+        );
     }
 
     private function buildAnswerOptionsAwardingPointsFromAnswerOptions(
@@ -201,11 +223,12 @@ class AnswerOptions
     }
 
     private function buildAnswerOptionFromTag(
+        Uuid $answer_input_id,
         int $position,
         string $text_value
     ): AnswerOption {
         $answer_option = $this->retrieveAnswerOptionByTextValue($text_value)
-            ?? $this->factory->getDefaultAnswerOptionForPosition($position);
+            ?? $this->factory->getDefaultAnswerOptionForPosition($answer_input_id, $position);
         return $answer_option
             ->withPosition($position)
             ->withTextValue($text_value);

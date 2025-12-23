@@ -18,19 +18,48 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
+
+use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\AnswerForm\Persistence;
 
 class Manipulate
 {
     private array $statements;
 
     public function __construct(
-        private readonly \ilDBInterface $db
+        private readonly \ilDBInterface $db,
+        private readonly AnswerFormFactory $answer_form_factory,
+        private readonly ManipulationType $type
     ) {
     }
 
+    public function getManipulationType(): ManipulationType
+    {
+        return $this->type;
+    }
+
+    public function getPersistenceForDefinitionClass(
+        string $definition_class
+    ): Persistence {
+        return $this->answer_form_factory
+            ->getDefinitionForClass($definition_class)
+            ->getPersistence();
+    }
+
+    public function getTableNameBuilder(
+        string $definition_class
+    ): TableNameBuilder {
+        return new TableNameBuilder(
+            $this->answer_form_factory
+                ->getDefinitionForClass($definition_class)
+                ->getPersistence()
+                ->getPublicNameSpace()
+        );
+    }
+
     public function withAdditionalStatement(
-        Insert|Update $statement
+        Insert|Update|Replace|Delete $statement
     ): self {
         $clone = clone $this;
         $clone->statements[] = $statement;
@@ -43,13 +72,13 @@ class Manipulate
 
         $manipulates = [];
         foreach ($this->statements as $statement) {
-            $atom_query->addTableLock($statement->getTableName());
+            $statement->lockTable($atom_query);
             $manipulates[] = $statement->toManipulateString($this->db);
         }
         $atom_query->addQueryCallable(
-            function () use ($manipulates): void {
+            function (\ilDBInterface $db) use ($manipulates): void {
                 foreach ($manipulates as $manipulate) {
-                    $this->db->manipulate($manipulate);
+                    $db->manipulate($manipulate);
                 }
             }
         );

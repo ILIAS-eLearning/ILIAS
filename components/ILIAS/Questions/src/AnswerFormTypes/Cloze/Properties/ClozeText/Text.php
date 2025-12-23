@@ -24,6 +24,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Data\Text\Markdown;
 use ILIAS\Data\Text\Factory as TextFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
@@ -84,6 +85,7 @@ class Text
     }
 
     public function updateGapsFromMarkdown(
+        Uuid $answer_form_id,
         Gaps $pre_existing_gaps
     ): Gaps {
         if ($this->cloze_text->getRawRepresentation() === '') {
@@ -93,22 +95,33 @@ class Text
         $position = 0;
         return array_reduce(
             $this->mustache_engine->getTokenizer()->scan($this->cloze_text->getRawRepresentation()),
-            function (Gaps $c, array $v) use (&$position): Gaps {
+            function (Gaps $c, array $v) use ($answer_form_id, &$position): Gaps {
                 if ($v['type'] !== '_v'
                     || !str_starts_with($v['name'], Gap::GAP_PLACEHOLDER_NAME)) {
                     return $c;
                 }
 
                 if ($v['name'] === Gap::GAP_PLACEHOLDER_NAME) {
-                    return $c->withNewGap($position++);
+                    return $c->withNewGap($answer_form_id, $position++);
                 }
 
                 $gap = $c->getGapByTagName($v['name']);
                 if ($gap !== null) {
-                    return $c->withPosition($position++);
+                    return $c->withGap(
+                        $gap->withProperties(
+                            $gap->getProperties()->withPosition(
+                                $answer_form_id,
+                                $position++
+                            )
+                        )
+                    );
                 }
 
-                return $c->withAdditionalGapFromTagName($v['name'], $position++);
+                return $c->withAdditionalGapFromTagName(
+                    $answer_form_id,
+                    $v['name'],
+                    $position++
+                );
             },
             $pre_existing_gaps
         );

@@ -23,8 +23,8 @@ use ILIAS\Data\UUID\Uuid;
 class ilPCAnswerForm extends ilPageContent
 {
     private const string ANSWER_FORM_ELEMENT_TAG = 'AnswerForm';
-    private const string ANSWER_FORM_ID_ATTRIBUT = 'Uuid';
-    private const string ANSWER_FORM_PLACEHOLDER = '\[\[\[ANSWER_FORM_(.*)\]\]\]';
+    private const string ANSWER_FORM_ID_ATTRIBUTE = 'Uuid';
+    private const string ANSWER_FORM_PLACEHOLDER = '\[\[\[ANSWER_FORM_([0-9a-f\-]+)\]\]\]';
 
     public function init(): void
     {
@@ -73,22 +73,30 @@ class ilPCAnswerForm extends ilPageContent
             $this->hier_id,
             '',
             self::ANSWER_FORM_ELEMENT_TAG,
-            [self::ANSWER_FORM_ID_ATTRIBUT => $answer_form_id->toString()]
+            [self::ANSWER_FORM_ID_ATTRIBUTE => $answer_form_id->toString()]
         );
     }
 
-    private function getAnswerFormIds(): array
-    {
-        return array_reduce(
-            $this->dom_util->path(
-                $this->getPage()->getDomDoc(),
-                '//' . self::ANSWER_FORM_ELEMENT_TAG
-            ),
-            function (array $c, \DomNode $node): Uuid {
-                $node->getAttribute(self::ANSWER_FORM_ID_ATTRIBUT);
-            },
-            []
-        );
+    public static function afterPageUpdate(
+        ilPageObject $page,
+        DOMDocument $domdoc,
+        string $xml,
+        bool $creation
+    ): void {
+        if ($page::class !== QstsQuestionPage::class) {
+            return;
+        }
+
+        global $DIC;
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+
+        /** @var \ILIAS\Questions\Question\QuestionImplementation $question */
+        $question = $page->getQuestion();
+
+        $answer_forms = [];
+        foreach ($dom_util->path($domdoc, '//AnswerForm') as $node) {
+            $answer_forms[] = $node->getAttribute(self::ANSWER_FORM_ID_ATTRIBUTE);
+        }
     }
 
     public static function handleCopiedContent(

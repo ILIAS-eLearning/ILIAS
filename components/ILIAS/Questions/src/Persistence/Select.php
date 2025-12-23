@@ -18,12 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question;
+namespace ILIAS\Questions\Persistence;
 
-use ILIAS\Questions\Question\Views\Participant;
-use ILIAS\Questions\Persistence\Storable;
-
-interface Question
+/**
+ * @param array<\ILIAS\Questions\Persistence\Column> $columns
+ */
+class Select
 {
-    public function getParticipantView(): Participant;
+    public function __construct(
+        private readonly array $columns
+    ) {
+    }
+
+    public function toColumnsArray(): array
+    {
+        return array_map(
+            fn(Column $v): string => $v->getAliasedColumnString(),
+            $this->columns
+        );
+    }
 }

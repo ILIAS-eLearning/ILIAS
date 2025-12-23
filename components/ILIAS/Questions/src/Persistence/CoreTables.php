@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
 enum CoreTables: string
 {
@@ -35,11 +35,12 @@ enum CoreTables: string
         'created'
     ];
 
-    private const string ANSWER_FORM_TABLE_ID_COLUMN = 'id';
+    public const string ANSWER_FORM_TABLE_ID_COLUMN = 'id';
     private const string ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN = 'question_id';
     private const array ANSWER_FORM_TABLE_COLUMNS = [
-        'id AS answer_form_id',
+        'id',
         'type',
+        'question_id',
         'available_points',
         'image_size',
         'shuffle_answer_options',
@@ -58,12 +59,21 @@ enum CoreTables: string
         return new Table($this);
     }
 
-    public function getColumnsForSelect(): array
-    {
-        return match($this) {
+    public function getColumns(
+        array $columns_to_skip = []
+    ): array {
+        $table = $this->getTable();
+        $column_identifiers = match($this) {
             self::Questions => self::QUESTION_TABLE_COLUMNS,
             self::AnswerForms => self::ANSWER_FORM_TABLE_COLUMNS
         };
+        return array_map(
+            fn(string $v): Column => new Column($table, $v),
+            array_filter(
+                $column_identifiers,
+                fn(string $v) => !in_array($v, $columns_to_skip)
+            )
+        );
     }
 
     public function getIdColumn(): Column

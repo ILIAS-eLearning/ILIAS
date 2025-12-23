@@ -21,7 +21,14 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Question;
 
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
-use ILIAS\Questions\Question\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\CoreTables;
+use ILIAS\Questions\Persistence\Insert;
+use ILIAS\Questions\Persistence\Update;
+use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\ManipulationType;
+use ILIAS\Questions\Persistence\Storable;
+use ILIAS\Questions\Persistence\Value;
+use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\Presentation\Layout\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Data\Factory as DataFactory;
@@ -35,13 +42,16 @@ use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\RequestInterface;
 
-class QuestionImplementation implements Question
+class QuestionImplementation implements Question, Storable
 {
-    public bool $self_updated = false;
-    public array $updated_answer_forms = [];
+    private bool $self_updated = false;
+    private array $updated_answer_forms = [];
+    private array $deleted_answer_forms = [];
+
+    private array $answer_forms;
 
     /**
-     * @param array{string, \ILIAS\Questions\AnswerForm\Form} $answer_forms
+     * @param array{string, \ILIAS\Questions\AnswerForm\Properties} $answer_forms
      */
     public function __construct(
         private readonly Uuid $id,
@@ -53,10 +63,18 @@ class QuestionImplementation implements Question
         private ?Uuid $original_id = null,
         private ?\DateTimeImmutable $last_update = null,
         private readonly ?\DateTimeImmutable $created = null,
-        private array $answer_forms = [],
+        array $answer_forms = [],
         private ?Taxonomies $taxonomies = null,
         private ?ContentForRecapitulation $content_for_recapitulation = null
     ) {
+        $this->answer_forms = array_reduce(
+            $answer_forms,
+            function (array $c, AnswerFormProperties $v): array {
+                $c[$v->getAnswerFormId()->toString()] = $v;
+                return $c;
+            },
+            []
+        );
     }
 
     public function getId(): ?Uuid
@@ -69,8 +87,9 @@ class QuestionImplementation implements Question
         return $this->page_id;
     }
 
-    public function withPageId(int $page_id): self
-    {
+    public function withPageId(
+        int $page_id
+    ): self {
         $clone = clone $this;
         $clone->page_id = $page_id;
         $clone->self_updated = true;
@@ -82,8 +101,9 @@ class QuestionImplementation implements Question
         return $this->title;
     }
 
-    public function withTitle(string $title): self
-    {
+    public function withTitle(
+        string $title
+    ): self {
         $clone = clone $this;
         $clone->title = $title;
         $clone->self_updated = true;
@@ -95,8 +115,9 @@ class QuestionImplementation implements Question
         return $this->author;
     }
 
-    public function withAuthor(string $author): self
-    {
+    public function withAuthor(
+        string $author
+    ): self {
         $clone = clone $this;
         $clone->author = $author;
         $clone->self_updated = true;
@@ -108,8 +129,9 @@ class QuestionImplementation implements Question
         return $this->lifecycle;
     }
 
-    public function withLifecycle(Lifecycle $lifecycle): self
-    {
+    public function withLifecycle(
+        Lifecycle $lifecycle
+    ): self {
         $clone = clone $this;
         $clone->lifecycle = $lifecycle;
         $clone->self_updated = true;
@@ -121,8 +143,9 @@ class QuestionImplementation implements Question
         return $this->remarks;
     }
 
-    public function withRemarks(string $remarks): self
-    {
+    public function withRemarks(
+        string $remarks
+    ): self {
         $clone = clone $this;
         $clone->remarks = $remarks;
         $clone->self_updated = true;
@@ -134,8 +157,9 @@ class QuestionImplementation implements Question
         return $this->original_id;
     }
 
-    public function withOriginalId(Uuid $original_id): self
-    {
+    public function withOriginalId(
+        Uuid $original_id
+    ): self {
         $clone = clone $this;
         $clone->original_id = $original_id;
         $clone->self_updated = true;
@@ -157,16 +181,32 @@ class QuestionImplementation implements Question
         return $this->answer_forms;
     }
 
-    public function getAnswerFormByIdString(string $form_id): ?AnswerFormProperties
-    {
+    public function getAnswerFormByIdString(
+        string $form_id
+    ): ?AnswerFormProperties {
         return $this->answer_forms[$form_id] ?? null;
     }
 
-    public function withAnswerForm(AnswerFormProperties $answer_form): self
-    {
+    public function withAnswerForm(
+        AnswerFormProperties $answer_form
+    ): self {
         $clone = clone $this;
         $clone->answer_forms[$answer_form->getAnswerFormId()->toString()] = $answer_form;
-        $clone->updated_answer_forms[] = $answer_form->getAnswerFormId();
+        $clone->updated_answer_forms[] = $answer_form;
+        return $clone;
+    }
+
+    public function withoutDeletedAnswerForms(
+        array $found_answer_form_ids
+    ): self {
+        $clone = clone $this;
+        foreach (array_keys($this->answer_forms) as $answer_form_id) {
+            if (!in_array($answer_form_id, $found_answer_form_ids)) {
+                $this->deleted_answer_forms = $clone->answer_forms[$answer_form_id];
+                unset($clone->answer_forms[$answer_form_id]);
+            }
+        }
+
         return $clone;
     }
 
@@ -234,17 +274,132 @@ class QuestionImplementation implements Question
     public function toStorage(
         Manipulate $manipulate
     ): Manipulate {
-        return [
-            'id' => [\ilDBConstants::T_TEXT, $this->id->toString()],
-            'page_id' => [\ilDBConstants::T_INTEGER, $this->page_id],
-            'title' => [\ilDBConstants::T_TEXT, $this->title],
-            'author' => [\ilDBConstants::T_TEXT, $this->author],
-            'lifecycle' => [\ilDBConstants::T_TEXT, $this->lifecycle->value],
-            'remarks' => [\ilDBConstants::T_TEXT, $this->remarks],
-            'original_id' => [\ilDBConstants::T_TEXT, $this->original_id?->toString()],
-            'last_update' => [\ilDBConstants::T_INTEGER, time()],
-            'created' => [\ilDBConstants::T_INTEGER, $this->created?->getTimestamp() ?? time()]
-        ];
+        return $manipulate->getManipulationType() === ManipulationType::Create
+            ? $this->addInsertStatementsToManipulation($manipulate)
+            : $this->addUpdateStatementsToManipulation($manipulate);
     }
 
+    public function toDelete(
+        Manipulate $manipulate
+    ): Manipulate {
+        ;
+    }
+
+    private function addInsertStatementsToManipulation(
+        Manipulate $manipulate
+    ): Manipulate {
+        if ($this->created === null) {
+            $manipulate = $manipulate->withAdditionalStatement(
+                $this->buildInsertQuestionStatement()
+            );
+        }
+
+        if ($this->updated_answer_forms !== []) {
+            return $this->addAnswerFormStatementsToManipulate(
+                $manipulate,
+                $this->updated_answer_forms
+            );
+        }
+
+        if ($this->answer_forms !== []) {
+            return $this->addAnswerFormStatementsToManipulate(
+                $manipulate,
+                $this->answer_forms
+            );
+        }
+
+        return $manipulate;
+    }
+
+    private function addUpdateStatementsToManipulation(
+        Manipulate $manipulate
+    ): Manipulate {
+        if ($this->self_updated) {
+            $manipulate = $manipulate->withAdditionalStatement(
+                $this->buildUpdateQuestionStatement()
+            );
+        }
+
+        if ($this->deleted_answer_forms !== []) {
+            $manipulate = $this->addDeleteAnswerFormStatementsToManipulate(
+                $manipulate,
+                $this->deleted_answer_forms
+            );
+        }
+
+        return $this->addAnswerFormStatementsToManipulate(
+            $manipulate,
+            $this->updated_answer_forms
+        );
+    }
+
+    private function buildInsertQuestionStatement(): Insert
+    {
+        return new Insert(
+            CoreTables::Questions->getColumns(),
+            [
+                new Value(\ilDBConstants::T_TEXT, $this->id->toString()),
+                new Value(\ilDBConstants::T_INTEGER, $this->page_id),
+                new Value(\ilDBConstants::T_TEXT, $this->title),
+                new Value(\ilDBConstants::T_TEXT, $this->author),
+                new Value(\ilDBConstants::T_TEXT, $this->lifecycle->value),
+                new Value(\ilDBConstants::T_TEXT, $this->remarks),
+                new Value(\ilDBConstants::T_TEXT, $this->original_id?->toString()),
+                new Value(\ilDBConstants::T_INTEGER, time()),
+                new Value(\ilDBConstants::T_INTEGER, time())
+            ]
+        );
+    }
+
+    private function addAnswerFormStatementsToManipulate(
+        Manipulate $manipulate,
+        array $answer_forms
+    ): Manipulate {
+        return array_reduce(
+            $answer_forms,
+            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toStorage(
+                $v->getTypeGenericProperties()->toStorage($c)
+            ),
+            $manipulate
+        );
+    }
+
+    private function addDeleteAnswerFormStatementsToManipulate(
+        Manipulate $manipulate,
+        array $answer_forms_to_delete
+    ): Manipulate {
+        return array_reduce(
+            $answer_forms_to_delete,
+            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toDelete(
+                $v->getTypeGenericProperties()->toDelete($c)
+            ),
+            $manipulate
+        );
+    }
+
+    private function buildUpdateQuestionStatement(): Update
+    {
+        $questions_table_definition = CoreTables::Questions;
+        return new Update(
+            $questions_table_definition->getColumns([
+                CoreTables::ANSWER_FORM_TABLE_ID_COLUMN,
+                'page_id',
+                'created'
+            ]),
+            [
+                new Value(\ilDBConstants::T_TEXT, $this->title),
+                new Value(\ilDBConstants::T_TEXT, $this->author),
+                new Value(\ilDBConstants::T_TEXT, $this->lifecycle->value),
+                new Value(\ilDBConstants::T_TEXT, $this->remarks),
+                new Value(\ilDBConstants::T_TEXT, $this->original_id?->toString()),
+                new Value(\ilDBConstants::T_INTEGER, time())
+            ],
+            [
+                new Where(
+                    $questions_table_definition->getIdColumn(),
+                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
+                )
+            ]
+        );
+    }
 }

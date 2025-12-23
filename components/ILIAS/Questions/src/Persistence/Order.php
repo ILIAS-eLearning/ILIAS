@@ -18,12 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question;
+namespace ILIAS\Questions\Persistence;
 
-use ILIAS\Questions\Question\Views\Participant;
-use ILIAS\Questions\Persistence\Storable;
-
-interface Question
+class Order
 {
-    public function getParticipantView(): Participant;
+    public function __construct(
+        private readonly Column $column,
+        private readonly OrderDirection $direction = OrderDirection::Asc
+    ) {
+    }
+
+    public function toSql(): string
+    {
+        return "{$this->column->getColumnString()} {$this->direction->value}";
+    }
 }

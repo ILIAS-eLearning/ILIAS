@@ -18,12 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question;
+namespace ILIAS\Questions\Persistence;
 
-use ILIAS\Questions\Question\Views\Participant;
-use ILIAS\Questions\Persistence\Storable;
-
-interface Question
+enum JoinType: string
 {
-    public function getParticipantView(): Participant;
+    case Inner = 'INNER';
+    case Left = 'left';
 }

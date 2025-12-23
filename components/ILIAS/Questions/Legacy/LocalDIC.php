@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Legacy;
 
-use ILIAS\Questions\Question\Persistence\Repository as QuestionsRepository;
+use ILIAS\Questions\Persistence\Repository as QuestionsRepository;
 use ILIAS\Questions\AnswerFormTypes\Cloze;
-use ILIAS\Questions\Question\Persistence\TableNameSpaceCore;
+use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Layout\Definitions\Factory as DefinitionsFactory;
@@ -60,6 +60,7 @@ class LocalDIC extends PimpleContainer
         $dic[QuestionsRepository::class] = static fn($c): QuestionsRepository =>
             new QuestionsRepository(
                 $DIC['ilDB'],
+                $DIC['refinery'],
                 new UuidFactory(),
                 $c[AnswerFormFactory::class]
             );
@@ -91,15 +92,15 @@ class LocalDIC extends PimpleContainer
                 (new \ilMustacheFactory())->getBasicEngine(),
                 $c[DataFactory::class]->text()
             );
-        $dic[Cloze\Properties\Gaps\Properties\Factory::class] = static fn($c): Cloze\Properties\Gaps\Properties\Factory
-            => new Cloze\Properties\Gaps\Properties\Factory(
+        $dic[Cloze\Properties\Gaps\AnswerOptions\Factory::class] = static fn($c): Cloze\Properties\Gaps\AnswerOptions\Factory
+            => new Cloze\Properties\Gaps\AnswerOptions\Factory(
                 $c[UuidFactory::class],
                 $DIC['refinery']
             );
         $dic[Cloze\Properties\Gaps\Factory::class] = static fn($c): Cloze\Properties\Gaps\Factory
             => new Cloze\Properties\Gaps\Factory(
                 $c[UuidFactory::class],
-                $c[Cloze\Properties\Gaps\Properties\Factory::class],
+                $c[Cloze\Properties\Gaps\AnswerOptions\Factory::class],
                 [
                     new Cloze\Properties\Gaps\Text(
                         $DIC['refinery'],

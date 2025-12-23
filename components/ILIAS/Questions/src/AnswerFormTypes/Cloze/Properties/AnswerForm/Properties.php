@@ -20,13 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm;
 
+use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\AnswerForm\Properties as PropertiesInterface;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
+use ILIAS\Questions\Persistence\Insert;
+use ILIAS\Questions\Persistence\Update;
+use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\ManipulationType;
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Persistence\Value;
+use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\Presentation\Layout\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
@@ -72,6 +82,7 @@ class Properties implements PropertiesInterface
         return new TypeGenericProperties(
             $this->answer_form_id,
             $this->question_id,
+            Definition::class,
             null,
             null,
             null,
@@ -85,8 +96,9 @@ class Properties implements PropertiesInterface
         return $this->cloze_text;
     }
 
-    public function withClozeText(Text $cloze_text): self
-    {
+    public function withClozeText(
+        Text $cloze_text
+    ): self {
         $clone = clone $this;
         $clone->cloze_text = $cloze_text;
         return $clone;
@@ -102,8 +114,9 @@ class Properties implements PropertiesInterface
         return $this->scoring_identical;
     }
 
-    public function withScoringOfIdenticalResponses(ScoringIdentical $scoring_identical): self
-    {
+    public function withScoringOfIdenticalResponses(
+        ScoringIdentical $scoring_identical
+    ): self {
         $clone = clone $this;
         $clone->scoring_identical = $scoring_identical;
         return $clone;
@@ -114,8 +127,9 @@ class Properties implements PropertiesInterface
         return $this->combinations_enabled;
     }
 
-    public function withCombinationsEnabled(bool $combinations_enabled): self
-    {
+    public function withCombinationsEnabled(
+        bool $combinations_enabled
+    ): self {
         $clone = clone $this;
         $clone->combinations_enabled = $combinations_enabled;
         return $clone;
@@ -126,15 +140,17 @@ class Properties implements PropertiesInterface
         return $this->gaps;
     }
 
-    public function withGaps(Gaps $gaps): self
-    {
+    public function withGaps(
+        Gaps $gaps
+    ): self {
         $clone = clone $this;
         $clone->gaps = $gaps;
         return $clone;
     }
 
-    public function getBasicPropertiesForListing(Language $lng): array
-    {
+    public function getBasicPropertiesForListing(
+        Language $lng
+    ): array {
         return [
             $lng->txt('cloze_text') => $this->cloze_text
                 ->getRenderedMarkdownForEditingPresentation($this->gaps),
@@ -240,13 +256,83 @@ class Properties implements PropertiesInterface
 
         $clone->gaps = $carry->retrieve(
             self::FORM_KEY_GAPS_TO_EDIT,
-            $clone->cloze_text->updateGapsFromMarkdown($this->getGaps())
-                ->getFromCarryTransformation(
-                    $refinery,
-                    $gaps_factory
-                )
+            $clone->cloze_text->updateGapsFromMarkdown(
+                $this->getAnswerFormId(),
+                $this->getGaps()
+            )->getFromCarryTransformation(
+                $refinery,
+                $gaps_factory
+            )
         );
 
         return $clone;
+    }
+
+    public function toStorage(
+        Manipulate $manipulate
+    ): Manipulate {
+        $persistence = $manipulate->getPersistenceForDefinitionClass(Definition::class);
+        $table_name_builder = $manipulate->getTableNameBuilder(Definition::class);
+
+        $answer_form_statement = $manipulate->getManipulationType() === ManipulationType::Create
+            ? $this->buildInsertAnswerFormStatement(
+                $persistence,
+                $table_name_builder
+            ) : $this->buildUpdateAnswerFormStatement(
+                $persistence,
+                $table_name_builder
+            );
+
+        return $this->gaps->toStorage(
+            $manipulate->withAdditionalStatement(
+                $answer_form_statement
+            ),
+            $persistence,
+            $table_name_builder
+        );
+    }
+
+    private function buildInsertAnswerFormStatement(
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Insert {
+        $table_definition = TableTypes::TypeSpecificAnswerForms;
+        return new Insert(
+            $persistence->getColumns(
+                $table_name_builder,
+                $table_definition
+            ),
+            [
+                new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
+                new Value(\ilDBConstants::T_TEXT, $this->scoring_identical->value),
+                new Value(\ilDBConstants::T_INTEGER, $this->combinations_enabled ? 1 : 0)
+            ]
+        );
+    }
+
+    private function buildUpdateAnswerFormStatement(
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Update {
+        $table_definition = TableTypes::TypeSpecificAnswerForms;
+        return new Update(
+            $persistence->getColumns(
+                $table_name_builder,
+                $table_definition
+            ),
+            [
+                new Value(\ilDBConstants::T_TEXT, $this->scoring_identical->value),
+                new Value(\ilDBConstants::T_INTEGER, $this->combinations_enabled ? 1 : 0)
+            ],
+            [
+                new Where(
+                    $persistence->getIdColumn(
+                        $table_name_builder,
+                        $table_definition
+                    ),
+                    new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString())
+                )
+            ]
+        );
     }
 }

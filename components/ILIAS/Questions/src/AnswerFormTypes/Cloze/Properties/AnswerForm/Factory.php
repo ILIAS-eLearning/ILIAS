@@ -21,10 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm;
 
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text as ClozeText;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
+use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\TableTypes;
 
 class Factory
 {
@@ -36,9 +39,9 @@ class Factory
 
     public function fromData(
         TypeGenericProperties $type_generic_properties,
-        array $type_specific_data
+        ?Query $query
     ): Properties {
-        if ($type_specific_data === []) {
+        if ($query === null) {
             return new Properties(
                 $type_generic_properties->getAnswerFormId(),
                 $type_generic_properties->getQuestionId(),
@@ -50,6 +53,21 @@ class Factory
             );
         }
 
+        [
+            'scoring_identical_responses' => $scoring_identical_responses,
+            'combinations_activated' => $combinations_activated
+        ] = $query->retrieveCurrentRecord(
+            TableTypes::TypeSpecificAnswerForms->getTable(
+                $query->getTableNameBuilder(Definition::class)
+            ),
+            $query->getRefinery()->custom()->transformation(
+                fn(array $vs): array => [
+                    'scoring_identical_responses' => ScoringIdentical::tryFrom($vs[0]['scoring_identical_responses']),
+                    'combinations_activated' => $vs[0]['combinations_activated'] === 1
+                ]
+            )
+        );
+
         return new Properties(
             $type_generic_properties->getAnswerFormId(),
             $type_generic_properties->getQuestionId(),
@@ -57,9 +75,9 @@ class Factory
                 $type_generic_properties->getAdditionalText()
             ),
             $type_generic_properties->getAdditionalTextLegacy(),
-            $type_specific_data['gaps'],
-            $type_specific_data['identical_scoring'],
-            $type_specific_data['combinations_enabled']
+            $this->gaps_factory->fromDatabase($query),
+            $scoring_identical_responses,
+            $combinations_activated
         );
     }
 
@@ -69,7 +87,11 @@ class Factory
         ScoringIdentical $scoring_of_identical_responses,
         bool $combinations_enabled
     ): Properties {
-        $updated_gaps = $cloze_text->updateGapsFromMarkdown($properties->getGaps());
+        $updated_gaps = $cloze_text->updateGapsFromMarkdown(
+            $properties->getAnswerFormId(),
+            $properties->getGaps()
+        );
+
         return $properties
             ->withClozeText(
                 $cloze_text->withIdsOfNewGapsInClozeText($updated_gaps->getUndefinedGaps())

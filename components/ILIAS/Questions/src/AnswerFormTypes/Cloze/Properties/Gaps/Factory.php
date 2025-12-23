@@ -20,8 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Properties\Factory as PropertiesFactory;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Factory as AnswerOptionsFactory;
+use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Question\Definitions\TextMatchingOptions;
 use ILIAS\Language\Language;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 
 class Factory
@@ -30,7 +35,7 @@ class Factory
 
     public function __construct(
         private readonly UuidFactory $uuid_factory,
-        private readonly PropertiesFactory $data_factory,
+        private readonly AnswerOptionsFactory $answer_options_factory,
         array $available_gap_types
     ) {
         foreach ($available_gap_types as $type) {
@@ -53,16 +58,19 @@ class Factory
     }
 
     public function getNewGap(
+        Uuid $answer_form_id,
         int $position,
         string $id = ''
     ): Gap {
         $answer_input_id = $id !== ''
             ? $this->uuid_factory->fromString($id)
             : $this->uuid_factory->uuid4();
+
         return new Gap(
             $answer_input_id,
+            $answer_form_id,
             $position,
-            $this->data_factory->getDefaultProperties($answer_input_id)
+            $this->answer_options_factory->getDefaultAnswerOptions()
         );
     }
 
@@ -83,8 +91,42 @@ class Factory
     }
 
     public function fromDatabase(
-        array $data
+        Query $query
     ): Gaps {
+        $answer_options = $this->answer_options_factory->fromDatabase($query);
 
+        return $query->retrieveCurrentRecord(
+            TableTypes::AnswerInputs->getTable($query->getTableNameBuilder(Definition::class)),
+            $query->getRefinery()->custom()->transformation(
+                function (array $vs) use ($answer_options): Gaps {
+                    $previous_answer_input_id = null;
+                    $gaps = [];
+                    foreach ($vs as $v) {
+                        if ($previous_answer_input_id === $v['id']) {
+                            continue;
+                        }
+                        $previous_answer_input_id = $v['id'];
+                        $gaps[] = new Gap(
+                            $this->uuid_factory->fromString($v['id']),
+                            $this->uuid_factory->fromString($v['answer_form_id']),
+                            $v['position'],
+                            $answer_options[$v['id']],
+                            $this->getGapTypeByIdentifier($v['gap_type']),
+                            $v['max_chars'],
+                            $v['step_size'],
+                            $v['text_matching_method'] === null
+                                ? null
+                                : TextMatchingOptions::tryFrom($v['text_matching_method']),
+                            $v['min_autocomplete'],
+                            $v['shuffle_answer_options'] === 1
+                        );
+                    }
+                    return new Gaps(
+                        $this,
+                        $gaps
+                    );
+                }
+            )
+        );
     }
 }

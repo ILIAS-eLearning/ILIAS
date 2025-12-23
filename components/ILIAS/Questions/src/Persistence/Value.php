@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
 class Value
 {
     public function __construct(
         private readonly string $type,
-        private readonly string|int|array $value
+        private readonly null|string|int|float|array $value
     ) {
     }
 
