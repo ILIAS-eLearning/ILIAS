@@ -872,8 +872,8 @@ class ilMediaItem
                 $this->getDirectory() . "/" . $this->getLocation(),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),
-                $this->getWidth() === '' ? null : $this->getWidth(),
-                $this->getHeight() === '' ? null : $this->getHeight()
+                $this->getWidth() === '' ? null : (int) $this->getWidth(),
+                $this->getHeight() === '' ? null : (int) $this->getHeight()
             );
         } else {
             // first copy the external file, if necessary
@@ -895,8 +895,8 @@ class ilMediaItem
                 $this->getMapWorkCopyName(true),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),
-                $this->getWidth() === '' ? null : $this->getWidth(),
-                $this->getHeight() === '' ? null : $this->getHeight()
+                $this->getWidth() === '' ? null : (int) $this->getWidth(),
+                $this->getHeight() === '' ? null : (int) $this->getHeight()
             );
         }
         if (!is_file($this->getMapWorkCopyName())) {
