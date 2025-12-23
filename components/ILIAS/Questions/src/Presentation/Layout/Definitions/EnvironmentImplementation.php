@@ -128,7 +128,7 @@ class EnvironmentImplementation implements Environment
         return $clone;
     }
 
-    public function withAnswerFormTypeHashParameter(string $type_hash): URLBuilder
+    public function withAnswerFormTypeHashParameter(string $type_hash): self
     {
         $clone = clone $this;
         $clone->url_builder = $this->url_builder

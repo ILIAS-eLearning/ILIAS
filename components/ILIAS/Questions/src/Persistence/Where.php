@@ -18,18 +18,35 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-class Order
+class Where
 {
     public function __construct(
-        private readonly Column $column,
-        private readonly OrderDirection $direction = OrderDirection::Asc
+        private readonly Column $left,
+        private readonly Value $right,
+        private readonly Operator $comparison = Operator::Equal,
+        private readonly Junctor $junctor = Junctor::Conjunction,
+        private readonly bool $negate = false
     ) {
     }
 
     public function toSql(): string
     {
-        return "{$this->column->getColumnString()} {$this->direction->value}";
+        return $this->negate ? 'NOT ' : ''
+            . $this->comparison->toSql(
+                $this->left,
+                $this->right->getNumberOfElements()
+            );
+    }
+
+    public function getRight(): Value
+    {
+        return $this->right;
+    }
+
+    public function getLogicalOperator(): Junctor
+    {
+        return $this->junctor;
     }
 }

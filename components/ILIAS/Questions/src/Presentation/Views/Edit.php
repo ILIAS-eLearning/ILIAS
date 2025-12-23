@@ -29,7 +29,7 @@ use ILIAS\Questions\Presentation\Layout\GlobalScreen\LayoutProvider;
 use ILIAS\Questions\AnswerForm\Definition;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
-use ILIAS\Questions\Question\Persistence\Repository;
+use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\URI;
@@ -143,15 +143,19 @@ class Edit
         if ($answer_form_type_class_hash !== '') {
             return $this->forwardCreateAnswerFormCmd(
                 $environment->withAnswerFormTypeHashParameter($answer_form_type_class_hash),
+                $question,
                 $content_object,
                 $this->answer_form_factory->buildTypeDefinitionFromSelectValue($answer_form_type_class_hash),
-                $this->answer_form_factory->getDefaultTypeGenericProperties($question->getId())
+                $this->answer_form_factory->getDefaultTypeGenericProperties(
+                    $question->getId()
+                )
             );
         }
 
         return match($environment->getAction()) {
             self::CMD_CREATE_ANSWER_FORM => $this->processCreateAnswerForm(
                 $environment,
+                $question,
                 $content_object,
                 $this->answer_form_factory->getDefaultTypeGenericProperties($question->getId())
             ),
@@ -162,14 +166,14 @@ class Edit
     public function editAnswerForm(
         URI $base_uri,
         QuestionImplementation $question,
-        \ilPCAnswerForm $content_obj
+        \ilPCAnswerForm $content_object
     ): EditForm|EditOverview {
         $environment = $this->buildEnvironment($base_uri)
             ->withActionParameter(self::CMD_EDIT_ANSWER_FORM)
             ->withQuestionIdParameter($question->getId());
 
         return match($environment->getAction()) {
-            self::CMD_EDIT_ANSWER_FORM => $this->processCreateAnswerForm($url_builder),
+            self::CMD_EDIT_ANSWER_FORM => $this->processCreateAnswerForm($environment->getUrlBuilder()),
             default => $this->forwardEditAnswerFormCmd($environment)
         };
     }
@@ -195,7 +199,7 @@ class Edit
             return $create;
         }
 
-        $this->questions_repository->store($create);
+        $this->questions_repository->create([$create]);
         return $this->buildEditStartView(
             $environment
                 ->withDefaultStep()
@@ -231,7 +235,7 @@ class Edit
             return $edit;
         }
 
-        $this->questions_repository->store($edit);
+        $this->questions_repository->update([$edit]);
         return $this->buildEditStartView(
             $environment->withQuestionIdParameter($question_id),
             $edit
@@ -265,6 +269,7 @@ class Edit
 
     private function processCreateAnswerForm(
         EnvironmentImplementation $environment,
+        QuestionImplementation $question,
         \ilPCAnswerForm $content_obj,
         TypeGenericProperties $generic_answer_form_properties
     ): EditForm {
@@ -274,9 +279,10 @@ class Edit
         return $data === null
             ? $form
             : $this->forwardCreateAnswerFormCmd(
-                $environment->withAnswerFormTypeHashParameterParameter(
+                $environment->withAnswerFormTypeHashParameter(
                     $this->answer_form_factory->getHashedClass($data::class)
                 ),
+                $question,
                 $content_obj,
                 $data,
                 $generic_answer_form_properties
@@ -285,13 +291,14 @@ class Edit
 
     private function forwardCreateAnswerFormCmd(
         EnvironmentImplementation $environment,
+        QuestionImplementation $question,
         \ilPCAnswerForm $content_obj,
         Definition $type,
         TypeGenericProperties $type_generic_properties,
     ): ?EditForm {
         $create = $type->getEditView()->create(
             $environment->withProperties(
-                $type->buildProperties($type_generic_properties, [])
+                $type->buildProperties($type_generic_properties, null)
             )
         );
 
@@ -299,7 +306,10 @@ class Edit
             return $create;
         }
 
-        $this->questions_repository->store($create);
+        $this->questions_repository->create(
+            [$question->withAnswerForm($create)]
+        );
+
         $content_obj->create($create->getAnswerFormId());
         $content_obj->getPage()->update();
 
@@ -385,7 +395,7 @@ class Edit
         EnvironmentImplementation $environemt
     ): EditForm {
         $if = $this->ui_factory->input();
-        return $this->edit_form_factory->getEditForm(
+        return $environemt->getDefinitionsFactory()->getEditForm(
             $environemt->getUrlBuilder(),
             $if->field()->section(
                 [

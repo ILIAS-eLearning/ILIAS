@@ -18,17 +18,27 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Persistence;
+namespace ILIAS\Questions\Persistence;
 
-class TableNameSpaceCore extends TableNameSpace
+class TableNameSpace
 {
+    /**
+     * @param string $vendor Maximum four characters used to create the tables for the question type
+     * @param string $answer_form_id Maximum eight characters used to create the tables for the question type
+     */
     public function __construct(
+        private readonly string $vendor,
         private readonly string $answer_form_id
     ) {
+        if (mb_strlen($vendor) > 4 || mb_strlen($answer_form_id) > 8) {
+            throw new \InvalidArgumentException(
+                '$vendor cannot be longer than 4, $answer_form_id can be longer then 8 characters.'
+            );
+        }
     }
 
     public function getTypeSpecificTableNamePart(): string
     {
-        return $this->answer_form_id;
+        return "{$this->vendor}_{$this->answer_form_id}";
     }
 }
