@@ -1141,6 +1141,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             }
         }
 
+        foreach ($ids as $ref_id) {
+            if (!in_array(ilObject::_lookupType($ref_id, true), ["crs", "grp", "fold", "file"])) {
+                $this->lng->loadLanguageModule("cont");
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_only_crs_grp_fold_download"), true);
+                $this->ctrl->redirect($this, "");
+            }
+        }
+
         $download_job = new ilDownloadContainerFilesBackgroundTask(
             $GLOBALS['DIC']->user()->getId(),
             $ids,
