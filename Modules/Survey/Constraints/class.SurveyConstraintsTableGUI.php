@@ -108,7 +108,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
                         foreach ($constraints as $constraint) {
                             $parsed[] = array(
                                 "id" => $constraint["id"],
-                                "title" => $survey_questions[$constraint["question"]]["title"] . " " .
+                                "title" => ($survey_questions[$constraint["question"]]["title"] ?? "") . " " .
                                     $constraint["short"] . " " .
                                     $constraint["valueoutput"]
                             );
