@@ -6,7 +6,7 @@ Being a new member in a community is exciting! You're probably wondering how the
 Please use English for code comments and documentation to ensure accessibility to a broader audience.
 
 ## Informal "Du"
-If you're communicating in German oustide of code and documentation, you might wonder how the community members address each other. It's common to use the informal "Du" within the community.
+If you're communicating in German outside of code and documentation, you might wonder how the community members address each other. It's common to use the informal "Du" within the community.
 
 ## Contributing Constructively
 Community members aim to provide constructive feedback when reviewing code or participating in discussions. Please check [these guidelines](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/review.md) to learn how to write a constructive review. 
