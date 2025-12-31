@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-declare(strict_types=1);
+// declare(strict_types=1);
+// TODO: Fix types in this file before enabling strict types
 
 /**
  * Soap object administration methods
