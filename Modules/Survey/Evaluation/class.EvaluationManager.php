@@ -74,7 +74,7 @@ class EvaluationManager
             case \ilObjSurvey::MODE_360:
                 return ($access->canEditSettings() ||
                     $survey->get360Results() === \ilObjSurvey::RESULTS_360_ALL);
-            // tutors can switch appraisees on detailed evaluation screen
+                // tutors can switch appraisees on detailed evaluation screen
             case \ilObjSurvey::MODE_IND_FEEDB:
                 return ($access->canEditSettings());
             case \ilObjSurvey::MODE_SELF_EVAL:
@@ -133,7 +133,6 @@ class EvaluationManager
     public function getCurrentAppraisee(): int
     {
         $req_appr_id = $this->requested_appr_id;
-
         // if no user is requested, request current user
         $user_id = $this->user_id;
         if ($req_appr_id === 0) {
@@ -214,7 +213,6 @@ class EvaluationManager
     {
         $appr_id = $this->getCurrentAppraisee();
         $finished_ids = null;
-
         $filter = false;
         if ($appr_id > 0) {
             $filter = true;
@@ -226,10 +224,11 @@ class EvaluationManager
             // see #36336, #36378
             if ($this->survey->getMode() !== \ilObjSurvey::MODE_IND_FEEDB &&
                 $this->access->canEditSettings()) {
-                $filter = false;
+                if ($appr_id === 0) {   // #44755
+                    $filter = false;
+                }
             }
         }
-
         if ($filter) {
             $finished_ids = $this->survey->getFinishedIdsForAppraiseeId($appr_id);
             if (!count($finished_ids)) {

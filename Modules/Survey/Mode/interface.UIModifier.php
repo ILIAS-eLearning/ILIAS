@@ -73,6 +73,12 @@ interface UIModifier
         int $user_id
     ): void;
 
+    public function setResultsParticipantToolbar(
+        \ilObjSurvey $survey,
+        \ilToolbarGUI $toolbar,
+        int $user_id
+    ): void;
+
     public function setResultsCompetenceToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
