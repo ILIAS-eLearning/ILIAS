@@ -505,11 +505,11 @@ class ilLMObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
+        $ilLog = $DIC->logger()->root();
 
         if (empty($a_node_id)) {
             $message = 'ilLMObject::_isPagePublic(): Invalid parameter! $a_node_id is empty';
-            $ilLog->write($message, $ilLog->WARNING);
+            $ilLog->warning($message);
             return false;
         }
 

@@ -90,7 +90,7 @@ class ilLMNavigationRendererGUI
     protected function render(bool $top = true): string
     {
         $this->toolbar->setStickyItems([]);
-        
+
         $page_id = $this->current_page;
 
         $tpl = new ilTemplate("tpl.lm_navigation.html", true, true, "Modules/LearningModule/Presentation");
@@ -373,10 +373,14 @@ class ilLMNavigationRendererGUI
                     }
                 }
                 $text = str_pad("", ($node["depth"] - 1) * 12, "&nbsp;") . $text;
-                $actions[] = $this->ui->factory()->button()->shy(
+                $button = $this->ui->factory()->button()->shy(
                     $text,
                     $href
                 );
+                if ($disabled) {
+                    $button = $button->withUnavailableAction();
+                }
+                $actions[] = $button;
             }
         }
 

@@ -171,7 +171,7 @@ class ilLMNavigationStatus
 
                 while ($public === false && $page_id > 0) {
                     $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, 'pg');
-                    $page_id = $succ_node['obj_id'];
+                    $page_id = $succ_node['obj_id'] ?? 0;
                     $public = ilLMObject::_isPagePublic($page_id);
                 }
             }
