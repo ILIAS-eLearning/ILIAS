@@ -524,7 +524,7 @@ class ilBadgeHandler
 
                 $ntf->addAdditionalInfo('badge_notification_badges', implode("\n", $user_badges), true);
 
-                $url = ilLink::_getLink($user_id, 'usr', [], '_bdg');
+                $url = ilLink::_getLink(null, 'badge', ['profile']);
                 $ntf->addAdditionalInfo('badge_notification_badges_goto', $url);
 
                 $ntf->setReasonLangId('badge_notification_reason');
