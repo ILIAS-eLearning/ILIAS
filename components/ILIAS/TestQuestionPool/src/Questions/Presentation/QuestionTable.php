@@ -162,7 +162,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             'author' => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle'))->withIsOptional(true, true),
             'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))->withIsOptional(true, true),
-            'feedback' => $f->boolean($this->lng->txt('feedback'), $icon_yes, $icon_no)->withIsOptional(true, true),
+            'feedback' => $f->boolean($this->lng->txt('tst_feedback'), $icon_yes, $icon_no)->withIsOptional(true, true),
             'hints' => $f->boolean($this->lng->txt('hints'), $icon_yes, $icon_no)->withIsOptional(true, true),
             'created' => $f->date(
                 $this->lng->txt('create_date'),
