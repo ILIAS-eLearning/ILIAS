@@ -157,7 +157,7 @@ class StaticURLHandler extends BaseHandler implements Handler
         ?ReferenceId $target_user_id,
         string $cmd
     ): string {
-        if (substr($cmd, -4) == '_bdg') {
+        if (str_starts_with($cmd, '_bdg')) {
             return $ctrl->getLinkTargetByClass(\ilDashboardGUI::class, 'jumpToBadges');
         }
 
