@@ -1222,7 +1222,7 @@ assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#save_and_next#:#Speichern und weiter
 assessment#:#save_on_navigation#:#Navigieren mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert.
-assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
+assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Rückmeldung zu Ihrer Antwort.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert und festgeschrieben.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#score_partsol_enabled#:#Halbpunktebewertung aktivieren
@@ -1577,9 +1577,9 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rüc
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
-assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
+assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie die Rückmeldung ausgelöst werden soll.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
-assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
+assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie die Rückmeldung ausgelöst werden soll.
 assessment#:#tst_instant_feedback_trigger#:#Auslöser der Rückmeldung
 assessment#:#tst_instant_feedback_trigger_forced#:#Eine Frage beantworten
 assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer Frage wird die Rückmeldung automatisch ausgelöst.
