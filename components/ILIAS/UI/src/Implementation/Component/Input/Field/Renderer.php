@@ -973,12 +973,12 @@ class Renderer extends AbstractComponentRenderer
         if ($signals !== null) {
             $signals = json_encode($signals);
 
-            $input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
+            $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
+
+            $input = $input->withAdditionalOnLoadCode(static function ($id) use ($signals) {
                 $code = "il.UI.input.setSignalsForId('$id', $signals);";
                 return $code;
             });
-
-            $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
         }
         return $input;
     }
