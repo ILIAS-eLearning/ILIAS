@@ -569,7 +569,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         switch ($context) {
             case ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW:
 
-                $this->ctrl->redirect($this, 'outUserResultsOverview');
+                $this->ctrl->redirect($this);
 
                 // no break
             case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
