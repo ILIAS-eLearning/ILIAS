@@ -848,12 +848,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
         $points = 0;
         foreach ($this->getResults() as $result) {
-            $unit_id = $user_solution[$result->getResult() . '_unit'] ?? null;
+            $unit_id = $user_solution["{$result->getResult()}_unit"] ?? null;
             $points += $result->getReachedPoints(
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()] ?? '',
-                $unit_id !== null ? $this->unitrepository->getUnit($unit_id) : null,
+                $unit_id !== null ? $this->unitrepository->getUnit((int) $unit_id) : null,
                 $this->unitrepository->getUnits()
             );
         }
@@ -1096,30 +1096,27 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 if (!array_key_exists($matches[1], $user_solution)) {
                     $user_solution[$matches[1]] = [];
                 }
-                $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
+                $user_solution[$matches[1]]['unit'] = (int) $solution_value['value2'];
             }
         }
         foreach ($this->getResults() as $result) {
             $resVal = $result->calculateFormula($this->getVariables(), $this->getResults(), $this->getId(), false);
 
-            if (is_object($result->getUnit())) {
-                $user_solution[$result->getResult()]['unit'] = $result->getUnit()->getId();
+            $unit = $result->getUnit();
+            if ($unit instanceof assFormulaQuestionUnit) {
+                $user_solution[$result->getResult()]['unit'] = $unit->getId();
                 $user_solution[$result->getResult()]['value'] = $resVal;
-            } elseif ($result->getUnit() === null) {
+            } elseif ($unit === null) {
                 $unit_factor = 1;
                 // there is no fix result_unit, any "available unit" is accepted
 
-                $available_units = $result->getAvailableResultUnits(parent::getId());
+                $available_units = $result->getAvailableResultUnits($this->getId());
                 $result_name = $result->getResult();
 
-                $check_unit = false;
-                if (array_key_exists($result_name, $available_units) &&
-                    $available_units[$result_name] !== null) {
-                    $check_unit = in_array($user_solution[$result_name]['unit'] ?? null, $available_units[$result_name]);
-                }
-
-                if ($check_unit == true) {
-                    //get unit-factor
+                if (
+                    isset($available_units[$result_name])
+                    && in_array($user_solution[$result_name]['unit'] ?? null, $available_units[$result_name])
+                ) {
                     $unit_factor = assFormulaQuestionUnit::lookupUnitFactor($user_solution[$result_name]['unit']);
                 }
 
