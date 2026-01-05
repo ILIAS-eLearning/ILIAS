@@ -655,7 +655,6 @@ assessment#:#errFormulaQuestion#:#¡Una fórmula de pregunta  contiene informaci
 assessment#:#errRecursionInResult#:#La fórmula contiene una recursividad infinita.
 assessment#:#err_category_in_use#:#Al menos una categoría no se puede eliminar. Una o más unidades de la categoría ya están en uso.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Ha utilizado una variable de resultado más de una vez. Esto no está permitido en el texto de la pregunta.
 assessment#:#err_no_formula#:#Debe introducir introducir una formula

@@ -653,7 +653,6 @@ assessment#:#errFormulaQuestion#:#Een Formula-vraag bavt incorrect informatie!!
 assessment#:#errRecursionInResult#:#De formule bevat een oneindige recursie.
 assessment#:#err_category_in_use#:#Tenminste een categorie kon niet worden verwijderd. Een of meer eenheden van de categorie zijn in gebruikt.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Je gebruikt een resultaatvariabele meerdere malen. Dit is niet toegestaan in de vraagtekst.
 assessment#:#err_no_formula#:#Je moet een formule invoeren

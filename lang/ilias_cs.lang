@@ -653,7 +653,6 @@ assessment#:#errFormulaQuestion#:#Otázka se vzorcem obsahuje nekorektní inform
 assessment#:#errRecursionInResult#:#Vzorec obsahuje neurčitou rekurzi.
 assessment#:#err_category_in_use#:#Nejméně jedna kategorie nemůže být smazána. Jedna nebo více jednotek je již v použití.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Použil(a) jste více než jednu proměnnou výsledku. To textu otázky není povoleno.
 assessment#:#err_no_formula#:#Musíte vložit vzorec
