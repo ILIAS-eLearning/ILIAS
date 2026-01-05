@@ -384,6 +384,7 @@ class ilLMNavigationRendererGUI
             }
         }
 
+        $title = "";
         if ($this->lm->getTOCMode() === "pages") {
             $title = ilLMPageObject::_getPresentationTitle(
                 $this->current_page,
