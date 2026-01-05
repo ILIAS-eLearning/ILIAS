@@ -37,7 +37,8 @@ class ImportResolver
     {
         foreach ($this->page_repo->getPageIdsForImportId($import_id) as $wpage_id) {
             $wiki_id = \ilWikiPage::lookupWikiId($wpage_id);
-            if (\ilObject::_hasUntrashedReference($wiki_id)) {
+            $ref_ids = \ilObject::_getAllReferences($wiki_id);	// will be 0 if import of lm is in progress (new import)
+            if (count($ref_ids) === 0 || \ilObject::_hasUntrashedReference($wiki_id)) {
                 return $wpage_id;
             }
         }
