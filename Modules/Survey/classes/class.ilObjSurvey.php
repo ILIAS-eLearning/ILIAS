@@ -553,7 +553,6 @@ class ilObjSurvey extends ilObject
         $ilDB = $this->db;
 
         $this->svy_log->debug("insert question, id:" . $question_id);
-
         if (!SurveyQuestion::_isComplete($question_id)) {
             $this->svy_log->debug("question is not complete");
             return false;
