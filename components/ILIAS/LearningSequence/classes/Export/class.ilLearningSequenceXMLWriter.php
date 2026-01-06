@@ -115,7 +115,6 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
     protected function writeLSItems(): void
     {
         $this->xmlStartTag(self::TAG_LSITEMS);
-
         $ls_items = $this->ls_object->getLSItems();
         foreach ($ls_items as $ls_item) {
             $post_condition = $ls_item->getPostCondition();
@@ -124,7 +123,8 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
                 self::TAG_LSITEM,
                 [
                     'obj_id' => \ilObject::_lookupObjectId($ls_item->getRefId()),
-                    'ref_id' => $ls_item->getRefId()
+                    'ref_id' => $ls_item->getRefId(),
+                    'position' => $ls_item->getOrderNumber()
                 ]
             );
 
