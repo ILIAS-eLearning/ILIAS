@@ -200,19 +200,19 @@ class ilPageLayoutGUI extends ilPageObjectGUI
             return null;
         }
         $radio = $f->input()->field()->radio($lng->txt("cont_page_template"), "");
-        $first = 0;
+        $first = "0";
         if ($include_none) {
             $radio = $radio->withOption("0", $lng->txt("none"));
         }
         /** @var ilPageLayout $templ */
         foreach ($arr_templates as $templ) {
-            if ($first == 0) {
+            if ($first == "0" && !$include_none) {
                 $first = $templ->getId();
             }
             $templ->readObject();
             $radio = $radio->withOption($templ->getId(), $templ->getPreview(), $templ->getTitle());
         }
-        $radio = $radio->withValue("0");
+        $radio = $radio->withValue($first);
         return $radio;
     }
 
