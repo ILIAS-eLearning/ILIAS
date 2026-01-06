@@ -189,7 +189,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
     /**
      * Get template selection radio
      */
-    public static function getTemplateSelection(string $module): ?Radio
+    public static function getTemplateSelection(string $module, bool $include_none = false): ?Radio
     {
         global $DIC;
         $ui = $DIC->ui();
@@ -201,6 +201,9 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         }
         $radio = $f->input()->field()->radio($lng->txt("cont_page_template"), "");
         $first = 0;
+        if ($include_none) {
+            $radio = $radio->withOption("0", $lng->txt("none"));
+        }
         /** @var ilPageLayout $templ */
         foreach ($arr_templates as $templ) {
             if ($first == 0) {
@@ -209,7 +212,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
             $templ->readObject();
             $radio = $radio->withOption($templ->getId(), $templ->getPreview(), $templ->getTitle());
         }
-        $radio = $radio->withValue($first);
+        $radio = $radio->withValue("0");
         return $radio;
     }
 
