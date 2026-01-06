@@ -1014,7 +1014,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
             $this->populateExamId($template, $active_id, (int) $pass);
-            $last_finished_pass = $testSession->getLastFinishedPass() ?? -1;
+            $last_finished_pass = $this->testSessionFactory->getSession($active_id)->getLastFinishedPass() ?? -1;
             if ($last_finished_pass >= $pass) {
                 $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
             }
