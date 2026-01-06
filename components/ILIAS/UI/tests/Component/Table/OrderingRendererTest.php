@@ -89,7 +89,7 @@ class OrderingRendererTest extends TableRendererTestBase
             </tr>
             </thead>
             <tbody class="c-table-data__body">
-                <tr class="c-table-data__row even">
+                <tr class="c-table-data__row even" draggable="true">
                     <td class="c-table-data__cell c-table-data__cell--full-width " colspan="3" tabindex="-1"><span class="c-table-data__cell__col-title">:</span>ui_table_no_records</td>
                 </tr>
             </tbody>
