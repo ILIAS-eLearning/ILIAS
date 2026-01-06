@@ -732,25 +732,25 @@ class Renderer extends AbstractComponentRenderer
 
             $this->renderActionsHeader($default_renderer, $component, $tpl, $compensate_col_count);
             $this->appendTableRows($tpl, $r, $default_renderer);
-        }
 
-        if ($component->hasMultiActions()) {
-            $multi_actions = $component->getMultiActions();
-            $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $tableid);
-            $multi_actions_dropdown = $this->buildMultiActionsDropdown(
-                $multi_actions,
-                $component->getMultiActionSignal(),
-                $modal->getShowSignal()
-            );
+            if ($component->hasMultiActions()) {
+                $multi_actions = $component->getMultiActions();
+                $modal = $this->buildMultiActionsAllObjectsModal($multi_actions, $tableid);
+                $multi_actions_dropdown = $this->buildMultiActionsDropdown(
+                    $multi_actions,
+                    $component->getMultiActionSignal(),
+                    $modal->getShowSignal()
+                );
 
-            $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
-            $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
-            $tpl->setVariable('MULTI_ACTION_WARNING', $default_renderer->render($this->getUrlTooLongWarning()));
-            $tpl->setVariable('MULTI_ACTION_WARNING_BUTTON_CLOSE_LABEL', $this->txt('datatable_close_warning'));
-        }
-        if ($component->hasMultiActions() || (!$component->isOrderingDisabled() && $ordering_table_has_rows)) {
-            $multi_action_col_span = count($component->getVisibleColumns()) + $compensate_col_count;
-            $tpl->setVariable('MULTI_ACTION_SPAN', (string) $multi_action_col_span);
+                $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
+                $tpl->setVariable('MULTI_ACTION_ALL_MODAL', $default_renderer->render($modal));
+                $tpl->setVariable('MULTI_ACTION_WARNING', $default_renderer->render($this->getUrlTooLongWarning()));
+                $tpl->setVariable('MULTI_ACTION_WARNING_BUTTON_CLOSE_LABEL', $this->txt('datatable_close_warning'));
+            }
+            if ($component->hasMultiActions() || (!$component->isOrderingDisabled())) {
+                $multi_action_col_span = count($component->getVisibleColumns()) + $compensate_col_count;
+                $tpl->setVariable('MULTI_ACTION_SPAN', (string) $multi_action_col_span);
+            }
         }
 
         return $tpl->get();
