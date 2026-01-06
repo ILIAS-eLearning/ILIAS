@@ -74,14 +74,8 @@ class Tag extends FormInput implements C\Input\Field\Tag
 
     protected function addAdditionalTransformations(): void
     {
-        $this->setAdditionalTransformation($this->refinery->string()->splitString(','));
-        $this->setAdditionalTransformation($this->refinery->custom()->transformation(function (array $v) {
-            if (count($v) == 1 && $v[0] === '') {
-                return [];
-            }
-            $array = array_map('rawurldecode', $v);
-            return array_map('strip_tags', $array);
-        }));
+        $map = static fn(string $s): array => array_filter(array_map('rawurldecode', explode(',', $s)));
+        $this->setAdditionalTransformation($this->refinery->custom()->transformation($map));
     }
 
     public function getConfiguration(): stdClass
