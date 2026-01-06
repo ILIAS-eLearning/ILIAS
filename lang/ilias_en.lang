@@ -11721,6 +11721,7 @@ mep#:#mep_all_mobs#:#All Media Objects
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_choose_from_folder#:#Choose from Folder
 mep#:#mep_choose_from_mep#:#Choose from Pool
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.
 mep#:#mep_content#:#Content
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.

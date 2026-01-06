@@ -11721,6 +11721,7 @@ mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_bulk_upload#:#Massen-Upload
 mep#:#mep_choose_from_folder#:#Aus Ordner auswählen
 mep#:#mep_choose_from_mep#:#Aus Pool auswählen
+mep#:#mep_clipboard_info#:#Hier können Sie Mediendateien hochladen, auf die Sie anschließend von jeder Seite, auf der Sie Zugriff auf den Seiteneditor haben, zugreifen können. Ebenfalls können Sie das Clipboard in Medienpools nutzen. Dieser Speicher ist nur für Sie und kann nicht von anderen Benutzern eingesehen werden.
 mep#:#mep_content#:#Medienobjekte
 mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein „%s“ wird verwendet und kann daher nicht gelöscht werden.
 mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen.
