@@ -23,6 +23,7 @@ namespace ILIAS\MediaPool;
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
 use ILIAS\MediaPool\Clipboard\GUIService;
+use ILIAS\MediaPool\PermanentLink\PermanentLinkManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -59,4 +60,15 @@ class InternalGUIService
             $this
         );
     }
+
+    public function permanentLink(
+        int $ref_id = 0
+    ): PermanentLinkManager {
+        return new PermanentLinkManager(
+            $this->domain_service->staticUrl(),
+            $this,
+            $ref_id
+        );
+    }
+
 }
