@@ -1312,7 +1312,6 @@ class ilExAssignment
             $data["mark"] = $rec["mark"];
             $data["comment"] = $rec["u_comment"];
         }
-
         return $data;
     }
 

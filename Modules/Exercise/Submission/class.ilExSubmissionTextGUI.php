@@ -277,7 +277,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
                 $text = $a_form->getItemByPostVar("atxt");
                 // mob id to mob src
-                $val = nl2br(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1));
+                $val = $this->gui->getUIUtil()->formatTextInput($files["atext"]);
                 $val = $this->gui->html()->escapeCurly($val);
                 $text->setValue($val);
             }

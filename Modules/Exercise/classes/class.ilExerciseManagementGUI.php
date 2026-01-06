@@ -627,7 +627,6 @@ class ilExerciseManagementGUI
             if (trim($file["atext"]) && ilObjUser::_exists($file["user_id"])) {
                 $feedback_data = $this->collectFeedbackDataFromPeer($file);
                 $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $file["user_id"], $this->filter["status"] ?? "");
-
                 if (is_array($submission_data)) {
                     $data = array_merge($feedback_data, $submission_data);
                     $report_html .= $this->getReportPanel($data);
@@ -757,7 +756,6 @@ class ilExerciseManagementGUI
             $card_tpl->setVariable("ROW_VALUE", $value);
             $card_tpl->parseCurrentBlock();
         }
-
         $main_panel = $this->ui_factory->panel()->sub(
             $a_data['uname'],
             $this->ui_factory->legacy(
@@ -2410,7 +2408,7 @@ class ilExerciseManagementGUI
             "uid" => $a_data["user_id"],
             "uname" => $uname,
             "udate" => $a_data["ts"],
-            "utext" => ilRTE::_replaceMediaObjectImageSrc($a_data["atext"], 1) // mob id to mob src
+            "utext" => $this->gui->getUIUtil()->formatTextInput($a_data["atext"]) // mob id to mob src
         );
 
         //get data peer and assign it

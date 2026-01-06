@@ -160,4 +160,9 @@ class InternalGUIService
     ): \ilExSubmissionTeamGUI {
         return new \ilExSubmissionTeamGUI($exc, $submission);
     }
+
+    public function getUIUtil(): UIUtil
+    {
+        return new UIUtil();
+    }
 }
