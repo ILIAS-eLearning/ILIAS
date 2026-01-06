@@ -291,8 +291,11 @@ class TestScreenGUI
 
     private function getResumeLauncherLink(): Link
     {
-        $url = $this->ctrl->getLinkTarget(
-            (new \ilTestPlayerFactory($this->object))->getPlayerGUI(),
+        $class = $this->object->isFixedTest()
+            ? \ilTestPlayerFixedQuestionSetGUI::class
+            : \ilTestPlayerRandomQuestionSetGUI::class;
+        $url = $this->ctrl->getLinkTargetByClass(
+            [\ilRepositoryGUI::class, \ilObjTestGUI::class, $class],
             \ilTestPlayerCommands::RESUME_PLAYER
         );
         return $this->data_factory->link($this->lng->txt('tst_resume_test'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));
@@ -391,8 +394,11 @@ class TestScreenGUI
 
     private function getStartLauncherLink(): Link
     {
-        $url = $this->ctrl->getLinkTarget(
-            (new \ilTestPlayerFactory($this->object))->getPlayerGUI(),
+        $class = $this->object->isFixedTest()
+            ? \ilTestPlayerFixedQuestionSetGUI::class
+            : \ilTestPlayerRandomQuestionSetGUI::class;
+        $url = $this->ctrl->getLinkTargetByClass(
+            [\ilRepositoryGUI::class, \ilObjTestGUI::class, $class],
             \ilTestPlayerCommands::INIT_TEST
         );
         return $this->data_factory->link($this->lng->txt('tst_exam_start'), $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $url));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -155,10 +156,12 @@ class ilLOTestQuestionAdapter
 
         $this->updateQuestions($a_test_session, $a_test_sequence);
 
-        if ($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::MARK_PASSED_OBJECTIVE_QST) {
-            $this->setQuestionsOptional($a_test_sequence);
-        } elseif ($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::HIDE_PASSED_OBJECTIVE_QST) {
-            $this->hideQuestions($a_test_sequence);
+        if ($this->getSettings()->getQualifiedTest() === $a_test_session->getRefId()) {
+            if ($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::MARK_PASSED_OBJECTIVE_QST) {
+                $this->setQuestionsOptional($a_test_sequence);
+            } elseif ($this->getSettings()->getPassedObjectiveMode() == ilLOSettings::HIDE_PASSED_OBJECTIVE_QST) {
+                $this->hideQuestions($a_test_sequence);
+            }
         }
 
         $this->storeTestRun();
