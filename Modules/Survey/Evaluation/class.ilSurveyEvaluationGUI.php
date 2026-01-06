@@ -712,6 +712,13 @@ class ilSurveyEvaluationGUI
 
         $this->log->debug("check access");
 
+        if ($details == 0) {
+            $this->tabs->activateSubTab("svy_eval_cumulated");
+        } else {
+            $this->tabs->activateSubTab("svy_eval_detail");
+        }
+
+
         // auth
         if (!$this->hasResultsAccess()) {
             if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
