@@ -375,7 +375,8 @@ class ilBadgeImageTemplate
         $this->image_rid = $image_rid;
     }
 
-    public function getImageFromResourceId(): string {
+    public function getImageFromResourceId(): string
+    {
         $image_src = '';
 
         if ($this->getImageRid()) {
