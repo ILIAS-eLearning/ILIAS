@@ -59,9 +59,9 @@ class ilConditionsImporter extends ilXmlImporter
     protected function determineRootIdOfImportTree(
         ilImportMapping $mapping
     ): int {
-        // $root_id relies on the fact that the smallest obj_id belongs to the first imported
+        // $root_id relies on the fact that the first obj_id belongs to the first imported
         // object, wich is the root of the imported object tree
-        return (int) min(array_keys($mapping->getAllMappings()['components/ILIAS/Container']['objs']));
+        return array_keys($mapping->getAllMappings()['components/ILIAS/Container']['objs'])[0];
     }
 
     protected function updateInfosWithMapping(
