@@ -21,10 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\Test\Questions\Presentation;
 
 use ILIAS\Test\Questions\Properties\Repository as TestQuestionsRepository;
+use ILIAS\Test\ResponseHandler;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Table\OrderingRow;
 use ILIAS\UI\Component\Table\Action\Action as TableAction;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Modal\Interruptive;
 use ILIAS\Data\URI;
 use ILIAS\Language\Language;
@@ -66,7 +68,8 @@ class QuestionsTableActions
         private readonly bool $is_adjusting_questions_with_results_allowed,
         private readonly bool $is_in_test_with_results,
         private readonly bool $is_in_test_with_random_question_set,
-        private readonly \ilTestQuestionSetConfigFactory $test_question_set_config_factory
+        private readonly \ilTestQuestionSetConfigFactory $test_question_set_config_factory,
+        private readonly ResponseHandler $test_response
     ) {
         $this->table_id = (string) $test_obj->getId();
     }
@@ -220,10 +223,12 @@ class QuestionsTableActions
                 return false;
 
             case self::ACTION_DELETE:
-                echo $this->ui_renderer->renderAsync(
-                    $this->getDeleteConfirmation(array_filter($row_ids))
+                $this->test_response->sendAsync(
+                    $this->ui_renderer->renderAsync(
+                        $this->getDeleteConfirmation(array_filter($row_ids))
+                    )
                 );
-                exit();
+                return false;
 
             case self::ACTION_DELETE_CONFIRMED:
                 $row_ids = $this->request->getParsedBody()['interruptive_items'] ?? [];
@@ -320,8 +325,12 @@ class QuestionsTableActions
         }
     }
 
-    private function getDeleteConfirmation(array $row_ids): Interruptive
+    private function getDeleteConfirmation(array $row_ids): Interruptive|MessageBox
     {
+        if ($row_ids === []) {
+            return $this->ui_factory->messageBox()->failure($this->lng->txt('msg_no_questions_selected'));
+        }
+
         $modal_factory = fn(string $msg): Interruptive =>
             $this->ui_factory->modal()->interruptive(
                 $this->lng->txt('remove'),
