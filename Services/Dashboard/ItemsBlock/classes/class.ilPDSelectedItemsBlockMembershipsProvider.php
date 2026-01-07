@@ -23,7 +23,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
     protected ilObjUser $actor;
     protected ilTree $tree;
     protected ilAccessHandler $access;
-    protected ilSetting  $settings;
+    protected ilSetting $settings;
     private ilPDSelectedItemsBlockMembershipsObjectRepository $repository;
 
     public function __construct(ilObjUser $actor)
@@ -89,7 +89,6 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
                 'end' => $periodEnd
             ];
         }
-        ksort($references);
 
         return $references;
     }
