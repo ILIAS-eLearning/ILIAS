@@ -37,4 +37,14 @@ interface Standard extends FormWithPostURL, IsPromptContent
      * Gets the submit label of the form.
      */
     public function getSubmitLabel(): ?string;
+
+    /**
+     * Sets whether the additional button on the top of the form should be rendered
+     */
+    public function withForcedTopButton(bool $forced_top_button): Standard;
+
+    /**
+     * Gets whether the additional button on the top of the form should be rendered
+     */
+    public function isForcedTopButton(): bool;
 }
