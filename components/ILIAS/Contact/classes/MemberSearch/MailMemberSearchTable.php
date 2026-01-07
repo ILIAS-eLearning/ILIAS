@@ -62,6 +62,7 @@ class MailMemberSearchTable implements UI\Component\Table\DataRetrieval
             )
             ->withId(str_replace('\\', '', self::class) . '_' . $this->ref_id)
             ->withOrder(new \ILIAS\Data\Order('login', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 50))
             ->withActions($actions)
             ->withRequest($this->request);
     }

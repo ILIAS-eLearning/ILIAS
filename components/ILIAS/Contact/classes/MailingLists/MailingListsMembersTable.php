@@ -28,6 +28,7 @@ use ilUserUtil;
 use ilMailingListsGUI;
 use ilLanguage;
 use ilMailingList;
+use ILIAS\Data\Range;
 
 class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
 {
@@ -64,6 +65,7 @@ class MailingListsMembersTable implements UI\Component\Table\DataRetrieval
             )
             ->withId(str_replace('\\', '', self::class) . '_' . $this->mailing_list->getId())
             ->withOrder(new \ILIAS\Data\Order('login', \ILIAS\Data\Order::ASC))
+            ->withRange(new Range(0, 50))
             ->withActions($actions)
             ->withRequest($this->request);
     }

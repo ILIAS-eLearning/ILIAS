@@ -24,17 +24,24 @@ use ILIAS\Data\Order;
 use ILIAS\Data\Range;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRetrieval;
-use ILIAS\UI\Implementation\Component\Input\ViewControl\Pagination;
 use Generator;
 use Closure;
 
+/**
+ * @phpstan-import-type RelationRecord from \ILIAS\Contact\BuddySystem\Tables\RelationsTable
+ */
 class TableRows implements DataRetrieval
 {
     /**
-     * @param Closure(DataRowBuilder, string[], Range, Order, ?array, ?array): Generator $rows
+     * @param list<RelationRecord> $records
+     * @param list<string> $sigle_actions
+     * @param Closure(int, string): string $link_to_profile
      */
-    public function __construct(private readonly Closure $rows)
-    {
+    public function __construct(
+        private readonly array $records,
+        private readonly array $sigle_actions,
+        private readonly Closure $link_to_profile
+    ) {
     }
 
     public function getRows(
@@ -46,7 +53,44 @@ class TableRows implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): Generator {
-        return ($this->rows)(...func_get_args());
+        [$order_field, $order_direction] = $order->join(
+            [],
+            fn($ret, $key, $value) => [$key, $value]
+        );
+
+        $records = $this->records;
+
+        $times = $order_direction === 'ASC' ? 1 : -1;
+        usort(
+            $records,
+            static fn(array $a, array $b): int => $times * strcasecmp(
+                $a[$order_field],
+                $b[$order_field]
+            )
+        );
+
+        if ($range) {
+            $records = \array_slice($records, $range->getStart(), $range->getLength());
+        }
+
+        foreach ($records as $row) {
+            $row['public_name'] = ($this->link_to_profile)($row['user_id'], $row['public_name']);
+            $row['login'] = ($this->link_to_profile)($row['user_id'], $row['login']);
+
+            $transitions = array_map(
+                static fn($s): string => $row['state'] . '->' . $s,
+                $row['target_states']
+            );
+
+            $data_row = $row_builder->buildDataRow((string) $row['user_id'], $row);
+            foreach ($this->sigle_actions as $action) {
+                if (!\in_array($action, $transitions, true)) {
+                    $data_row = $data_row->withDisabledAction($action);
+                }
+            }
+
+            yield $data_row;
+        }
     }
 
     public function getTotalRowCount(
@@ -54,6 +98,6 @@ class TableRows implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return current(Pagination::DEFAULT_LIMITS) - 1; // Disable pagination controls.
+        return \count($this->records);
     }
 }

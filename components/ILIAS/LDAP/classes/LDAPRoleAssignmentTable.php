@@ -121,6 +121,7 @@ class LDAPRoleAssignmentTable implements DataRetrieval
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withId('ldap_role_assignment_table')
             ->withOrder(new Order('type', Order::DESC))
+            ->withRange(new Range(0, 100))
             ->withRequest($this->http_request);
     }
 

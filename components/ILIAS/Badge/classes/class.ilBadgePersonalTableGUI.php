@@ -379,6 +379,7 @@ class ilBadgePersonalTableGUI implements DataRetrieval
             )
             ->withId(str_replace('\\', '', self::class))
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 50))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 
