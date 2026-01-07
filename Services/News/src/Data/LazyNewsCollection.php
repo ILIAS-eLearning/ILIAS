@@ -46,9 +46,9 @@ class LazyNewsCollection extends NewsCollection
     }
 
     /**
-     * @param \Closure(int[], string[]): NewsItem[] $callback
+     * @param null|\Closure(int[], string[]): NewsItem[] $callback
      */
-    public function withFetchCallback(\Closure $callback): static
+    public function withFetchCallback(?\Closure $callback): static
     {
         $clone = clone $this;
         $clone->fetch_callback = $callback;
