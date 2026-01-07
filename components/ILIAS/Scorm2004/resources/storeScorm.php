@@ -19,11 +19,11 @@
 declare(strict_types=1);
 
 require_once __DIR__ . "/../vendor/composer/vendor/autoload.php";
-require_once __DIR__ . '/../artifacts/bootstrap_default.php';
-entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_SCORM);
-ilInitialisation::initILIAS();
+
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 global $DIC;
 $packageId = $DIC->http()->wrapper()->query()->retrieve('package_id', $DIC->refinery()->kindlyTo()->int());
