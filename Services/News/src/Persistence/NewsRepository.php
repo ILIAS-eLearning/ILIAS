@@ -154,10 +154,10 @@ class NewsRepository
     /**
      * @param NewsContext[] $contexts
      */
-    public function findByContextsBatchLazy(array $contexts, NewsCriteria $criteria): LazyNewsCollection
+    public function findByContextsBatchLazy(array $contexts, NewsCriteria $criteria): NewsCollection
     {
         if (empty($contexts)) {
-            return new LazyNewsCollection();
+            return new NewsCollection();
         }
 
         $obj_ids = array_map(fn($context) => $context->getObjId(), $contexts);
