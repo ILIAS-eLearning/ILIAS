@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#A képlet-kérdés hibás információt tartal
 assessment#:#errRecursionInResult#:#A képlet végtelen rekurziót tartalmaz.
 assessment#:#err_category_in_use#:#Legalább egy kategória nem törölhető. A kategória egy vagy több mértékegysége még használatban van.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Többször használtál egy végeredményt. Ez tesztkérdésben nem megengedett
 assessment#:#err_no_formula#:#Képletet írj

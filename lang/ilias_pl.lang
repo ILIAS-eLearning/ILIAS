@@ -643,7 +643,6 @@ assessment#:#errFormulaQuestion#:#Jedno pytanie formuły zawiera błędne dane
 assessment#:#errRecursionInResult#:#Formuła zawiera nie możliwą do rozwiązania rekursję.
 assessment#:#err_category_in_use#:#Nie można usunąć kategorii. Jedna lub kilka jednostek tej kategorii są już używane.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###29 10 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Kilkakrotnie użyłeś jednej zmiennej wyniku. Poza tekstem zadania jest to niedozwolone!
 assessment#:#err_no_formula#:#Podaj formułę do obliczenia wyniku.
