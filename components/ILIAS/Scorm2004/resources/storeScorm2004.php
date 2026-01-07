@@ -23,9 +23,7 @@ require_once __DIR__ . '/../artifacts/bootstrap_default.php';
 entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilContext::init(ilContext::CONTEXT_SCORM);
-
-require_once __DIR__ . '/../artifacts/bootstrap_default.php';
-entry_point('ILIAS Legacy Initialisation Adapter');
+ilInitialisation::initILIAS();
 
 //conditions for storing data
 global $DIC;
