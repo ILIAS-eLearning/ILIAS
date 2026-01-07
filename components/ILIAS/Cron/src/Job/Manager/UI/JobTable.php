@@ -443,6 +443,7 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
             ->withActions($this->getActions())
             ->withId(str_replace('\\', '', self::class))
             ->withRequest($this->request)
-            ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC));
+            ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 100));
     }
 }

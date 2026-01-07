@@ -111,6 +111,7 @@ class LDAPRoleMappingTable implements DataRetrieval
                 'ldap_role_mapping_table'
             )
             ->withOrder(new Order('title', Order::DESC))
+            ->withRange(new Range(0, 100))
             ->withRequest($this->http_request);
     }
 

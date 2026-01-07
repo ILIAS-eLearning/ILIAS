@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\LDAP\Server\UI;
 
+use ILIAS\Data\Range;
+
 readonly class ServerTable implements \ILIAS\UI\Component\Table\DataRetrieval
 {
     private \ILIAS\UI\URLBuilder $url_builder;
@@ -218,6 +220,7 @@ readonly class ServerTable implements \ILIAS\UI\Component\Table\DataRetrieval
             )
             ->withId(str_replace('\\', '', self::class))
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }

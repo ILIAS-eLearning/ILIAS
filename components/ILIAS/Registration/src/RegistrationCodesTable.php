@@ -97,6 +97,7 @@ class RegistrationCodesTable implements DataRetrieval
             )
             ->withFilter($filter->getFilterData()->getData())
             ->withOrder(new Order('generated', Order::DESC))
+            ->withRange(new Range(0, 100))
             ->withRequest($this->http_request)
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token));
     }

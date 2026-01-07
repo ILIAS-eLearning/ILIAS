@@ -384,6 +384,7 @@ class ilBadgeUserTableGUI implements DataRetrieval
             ->data($this, $title, $this->getColumns())
             ->withId(str_replace('\\', '', self::class) . '_' . $this->parent_ref_id)
             ->withOrder(new Order('name', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 

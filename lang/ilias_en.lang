@@ -3824,7 +3824,7 @@ common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
 common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
 common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
 common#:#cron_users_without_login_del_role_whitelist_info#:#Only users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
-common#:#cronjob_last_start#:#Last Start of the Cron Job
+common#:#cronjob_last_start#:#Last Automatic Execution of Cron Job Script
 common#:#cronjob_last_start_unknown#:#Indeterminate
 common#:#crs#:#Course
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.

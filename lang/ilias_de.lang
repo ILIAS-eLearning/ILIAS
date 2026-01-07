@@ -3823,7 +3823,7 @@ common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
 common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Anmeldekonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rollen
 common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
-common#:#cronjob_last_start#:#Letzter Start des Cron-Jobs
+common#:#cronjob_last_start#:#Letzte automatische Ausführung des Cron-Jobs-Scripts
 common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
 common#:#crs#:#Kurs
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
