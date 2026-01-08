@@ -162,6 +162,9 @@ class NewsCollectionService
             return $contexts;
         }
 
+        // Remove contexts without news items or outside the criteria
+        $contexts = $this->repository->filterContext($contexts, $criteria);
+
         // Preload activation cache which is used in access handler
         \ilObjectActivation::preloadData(array_map(fn($context) => $context->getRefId(), $contexts));
 
