@@ -73,8 +73,9 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval,
                 $this->getColumnDefinition(),
                 $this
             )
-            ->withId(self::class . '_' . $this->mode->name)
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->mode->name)
             ->withOrder(new \ILIAS\Data\Order('filename', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 50))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }

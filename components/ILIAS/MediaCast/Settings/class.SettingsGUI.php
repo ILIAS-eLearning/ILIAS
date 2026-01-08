@@ -93,17 +93,6 @@ class SettingsGUI
             ->group(\ilObjMediaCast::VIEW_IMG_GALLERY, $lng->txt("mcst_img_gallery"))
             ->group(\ilObjMediaCast::VIEW_PODCAST, $lng->txt("mcst_podcast"))
             ->group(\ilObjMediaCast::VIEW_VCAST, $lng->txt("mcst_video_cast"))
-            ->select(
-                "autoplaymode",
-                $lng->txt("mcst_autoplay"),
-                [
-                    \ilObjMediaCast::AUTOPLAY_NO => $lng->txt("mcst_no_autoplay"),
-                    \ilObjMediaCast::AUTOPLAY_ACT => $lng->txt("mcst_autoplay_active"),
-                    \ilObjMediaCast::AUTOPLAY_INACT => $lng->txt("mcst_autoplay_inactive")
-                ],
-                "",
-                (string) $settings->getAutoplayMode()
-            )
             ->number(
                 "nr_videos",
                 $lng->txt("mcst_nr_videos"),
@@ -221,7 +210,6 @@ class SettingsGUI
                 (int) $form->getData("defaultaccess"),
                 (int) $form->getData("order"),
                 (string) $form->getData("viewmode"),
-                (bool) $form->getData("autoplaymode"),
                 (int) $form->getData("nr_videos"),
                 \ilLearningProgressAccess::checkAccess($this->ref_id) && (bool) $form->getData("auto_det_lp")
             );

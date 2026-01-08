@@ -671,8 +671,13 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             }
             $glossary = new ilObjGlossary($glo_id, false);
             $glo_ref_id = current(ilObject::_getAllReferences($glossary->getId()));
+            $props = [];
+            if (!ilObjGlossaryAccess::_lookupOnline($glo_id)) {
+                $props[$this->lng->txt("status")] =
+                    $this->lng->txt("offline");
+            }
             $glo_link = $this->ui_fac->link()->standard($glossary->getTitle(), ilLink::_getLink($glo_ref_id));
-            $glo_item = $this->ui_fac->item()->standard($glo_link);
+            $glo_item = $this->ui_fac->item()->standard($glo_link)->withProperties($props);
             $glo_item = $glo_item->withDescription($glossary->getDescription());
             $form_action = $this->ctrl->getFormActionByClass(ilObjGlossaryGUI::class, "removeGlossaryFromCollection");
             $delete_modal = $this->ui_fac->modal()->interruptive(

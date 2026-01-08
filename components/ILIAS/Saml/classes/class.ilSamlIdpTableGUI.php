@@ -64,8 +64,9 @@ final class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 $this->getColumnDefinition(),
                 $this
             )
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 100))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }

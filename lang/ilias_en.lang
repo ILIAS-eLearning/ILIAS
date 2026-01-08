@@ -6118,6 +6118,7 @@ cont#:#cont_news_timeline_landing_page#:#Landing Page
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_no_title#:#Empty Title
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Path
@@ -9486,6 +9487,7 @@ exc#:#exc_passed_status_determination#:#Determination of Status ‘Passed’
 exc#:#exc_passing_exc#:#Passing the Exercise
 exc#:#exc_past#:#Past
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
+exc#:#exc_peer_feedback_status#:#Feedback Status
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and if granted the grace period lapsed. Specific settings on peer-feedback are made in the respective tab. After activation this option and saving it, the tab 'Peer-Feedback' will be displayed.
 exc#:#exc_peer_review_chars_invalid#:#Your feedback does not have the required minimum length of %s characters.
@@ -11902,6 +11904,7 @@ mep#:#mep_all_mobs#:#All Media Objects
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_choose_from_folder#:#Choose from Folder
 mep#:#mep_choose_from_mep#:#Choose from Pool
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.
 mep#:#mep_content#:#Content
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
@@ -17344,6 +17347,7 @@ trac#:#trac_view_mode_all#:#All Objects
 trac#:#trac_view_mode_collection#:#Only objects that determine the overall status
 trac#:#trac_visits#:#Required Number of Visits
 trac#:#trac_visits_info#:#A click counts as new visit only after %s seconds.
+trac#:#trac_visits_nr#:#Number of Visits
 trac#:#user_total#:#User Total
 trac#:#view_mode#:#View Mode
 tstv#:#tstv_create#:#Create Test Certificate

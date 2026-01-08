@@ -1222,7 +1222,7 @@ assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#save_and_next#:#Speichern und weiter
 assessment#:#save_on_navigation#:#Navigieren mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert.
-assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
+assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Rückmeldung zu Ihrer Antwort.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert und festgeschrieben.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#score_partsol_enabled#:#Halbpunktebewertung aktivieren
@@ -1577,9 +1577,9 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rüc
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
-assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
+assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie die Rückmeldung ausgelöst werden soll.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
-assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
+assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie die Rückmeldung ausgelöst werden soll.
 assessment#:#tst_instant_feedback_trigger#:#Auslöser der Rückmeldung
 assessment#:#tst_instant_feedback_trigger_forced#:#Eine Frage beantworten
 assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer Frage wird die Rückmeldung automatisch ausgelöst.
@@ -6117,6 +6117,7 @@ cont#:#cont_news_timeline_landing_page#:#Startseite
 cont#:#cont_news_timeline_landing_page_info#:#Timeline als Startseite
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_no_title#:#Leerer Titel
+cont#:#cont_only_crs_grp_fold_download#:#Es können nur Dateien, Kurse, Gruppen oder Ordner heruntergeladen werden.
 cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
 cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
 cont#:#cont_path#:#Pfad
@@ -9485,6 +9486,7 @@ exc#:#exc_passed_status_determination#:#Bewertung als „Bestanden“
 exc#:#exc_passing_exc#:#Bestehen der Übung
 exc#:#exc_past#:#Vergangene
 exc#:#exc_peer_deadline_mismatch#:#Da das Feedback erst nach dem Abgabetermin der Übungseinheit gegeben werden kann, darf die Deadline für das Feedback nicht vor dem Abgabedatum liegen.
+exc#:#exc_peer_feedback_status#:#Status
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Nachfrist verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gespeichert wurde.
 exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen erreicht.
@@ -11901,6 +11903,7 @@ mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_bulk_upload#:#Massen-Upload
 mep#:#mep_choose_from_folder#:#Aus Ordner auswählen
 mep#:#mep_choose_from_mep#:#Aus Pool auswählen
+mep#:#mep_clipboard_info#:#Hier können Sie Mediendateien hochladen, auf die Sie anschließend von jeder Seite, auf der Sie Zugriff auf den Seiteneditor haben, zugreifen können. Ebenfalls können Sie das Clipboard in Medienpools nutzen. Dieser Speicher ist nur für Sie und kann nicht von anderen Benutzern eingesehen werden.
 mep#:#mep_content#:#Medienobjekte
 mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein „%s“ wird verwendet und kann daher nicht gelöscht werden.
 mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen.
@@ -17020,7 +17023,7 @@ tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
+tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, in dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
@@ -17343,6 +17346,7 @@ trac#:#trac_view_mode_all#:#Alle Objekte
 trac#:#trac_view_mode_collection#:#Nur Objekte, die Gesamtstatus bestimmen
 trac#:#trac_visits#:#Mindestanzahl Aufrufe
 trac#:#trac_visits_info#:#Ein Aufruf wird erst nach %s Sekunden als neuer Aufruf gezählt.
+trac#:#trac_visits_nr#:#Anzahl Aufrufe
 trac#:#user_total#:#Anzahl Benutzer
 trac#:#view_mode#:#Anzeigemodus
 tstv#:#tstv_create#:#Testzertifikat erstellen
