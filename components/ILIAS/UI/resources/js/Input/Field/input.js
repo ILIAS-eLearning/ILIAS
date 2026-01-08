@@ -18,6 +18,9 @@ il.UI.input = (function ($) {
 	var onFieldUpdate = function (event, id, val) {
 		var input = $("#" + id);
 		var signals = signals_per_id[id];
+		if (!signals || !signals.length) {
+			return;
+		}
 		for (var i = 0; i < signals.length; i++) {
 			var s = signals[i];
 			var options = s.options;

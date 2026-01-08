@@ -298,12 +298,36 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderNumericField(F\Numeric $component, RendererInterface $default_renderer): string
     {
+        $component = $component->withAdditionalOnLoadCode($component->getUpdateOnLoadCode());
+
         $tpl = $this->getTemplate("tpl.numeric.html", true, true);
         $this->applyName($component, $tpl);
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
 
         $label_id = $this->createId();
         $tpl->setVariable('ID', $label_id);
+
+        if ($component->isIntegerOnly()) {
+            $tpl->setCurrentBlock('data_integer_only');
+            $tpl->setVariable('DATA_INTEGER_ONLY', 'data-integer-only="true"');
+            $tpl->parseCurrentBlock();
+        }
+        if ($component->isScientificNotationPrevented()) {
+            $tpl->setCurrentBlock('data_prevent_e');
+            $tpl->setVariable('DATA_PREVENT_E', 'data-prevent-scientific="true"');
+            $tpl->parseCurrentBlock();
+        }
+        if ($component->areSignsPrevented()) {
+            $tpl->setCurrentBlock('data_prevent_signs');
+            $tpl->setVariable('DATA_PREVENT_SIGNS', 'data-prevent-signs="true"');
+            $tpl->parseCurrentBlock();
+        }
+        if ($component->areDecimalsPrevented()) {
+            $tpl->setCurrentBlock('data_prevent_decimals');
+            $tpl->setVariable('DATA_PREVENT_DECIMALS', 'data-prevent-decimals="true"');
+            $tpl->parseCurrentBlock();
+        }
+
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
     }
 

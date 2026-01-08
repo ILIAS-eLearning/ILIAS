@@ -32,6 +32,11 @@ use ILIAS\Refinery\ConstraintViolationException;
  */
 class Numeric extends FormInput implements C\Input\Field\Numeric
 {
+    private bool $integer_only = false;
+    private bool $prevent_scientific_notation = false;
+    private bool $prevent_signs = false;
+    private bool $prevent_decimals = false;
+
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
@@ -60,9 +65,6 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
         return is_numeric($value) || $value === "" || $value === null;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getConstraintForRequirement(): ?Constraint
     {
         if ($this->requirement_constraint !== null) {
@@ -72,20 +74,209 @@ class Numeric extends FormInput implements C\Input\Field\Numeric
         return $this->refinery->numeric()->isNumeric();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUpdateOnLoadCode(): Closure
+    public function withIntegerOnly(): self
     {
-        return fn($id) => "$('#$id').on('input', function(event) {
-				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
-			});
-			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+        $clone = clone $this;
+        $clone->integer_only = true;
+        $clone->prevent_scientific_notation = true;
+        $clone->prevent_signs = true;
+        $clone->prevent_decimals = true;
+
+        return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
+    public function withPreventScientificNotation(bool $prevent = true): self
+    {
+        $clone = clone $this;
+        $clone->prevent_scientific_notation = $prevent;
+
+        return $clone;
+    }
+
+    public function withPreventSigns(bool $prevent = true): self
+    {
+        $clone = clone $this;
+        $clone->prevent_signs = $prevent;
+
+        return $clone;
+    }
+
+    public function withPreventDecimals(bool $prevent = true): self
+    {
+        $clone = clone $this;
+        $clone->prevent_decimals = $prevent;
+
+        return $clone;
+    }
+
+    public function isIntegerOnly(): bool
+    {
+        return $this->integer_only;
+    }
+
+    public function isScientificNotationPrevented(): bool
+    {
+        return $this->prevent_scientific_notation;
+    }
+
+    public function areSignsPrevented(): bool
+    {
+        return $this->prevent_signs;
+    }
+
+    public function areDecimalsPrevented(): bool
+    {
+        return $this->prevent_decimals;
+    }
+
+    public function getUpdateOnLoadCode(): Closure
+    {
+        $prevent_e = $this->prevent_scientific_notation ? 'true' : 'false';
+        $prevent_signs = $this->prevent_signs ? 'true' : 'false';
+        $prevent_decimals = $this->prevent_decimals ? 'true' : 'false';
+        $integer_only = $this->integer_only ? 'true' : 'false';
+
+        return static fn($id) => "(function() {
+				const input = document.getElementById('$id');
+				if (!input) return;
+				
+				const preventE = $prevent_e;
+				const preventSigns = $prevent_signs;
+				const preventDecimals = $prevent_decimals;
+				const integerOnly = $integer_only;
+				
+				const blockedChars = [];
+				const blockedKeyCodes = [];
+				
+				if (integerOnly || preventE) {
+					blockedChars.push('e', 'E');
+				}
+				if (integerOnly || preventSigns) {
+					blockedChars.push('+', '-');
+					blockedKeyCodes.push(187, 189, 173, 107, 109);
+				}
+				if (integerOnly || preventDecimals) {
+					blockedChars.push('.', ',');
+					blockedKeyCodes.push(190, 188);
+				}
+				
+				// Define allowed keycodes
+				const allowedKeyCodes = [
+					8,   // backspace
+					9,   // tab
+					13,  // enter
+					27,  // escape
+					35,  // end
+					36,  // home
+					37,  // left arrow
+					38,  // up arrow
+					39,  // right arrow
+					46   // delete
+				];
+				
+				const ctrlKeyCodes = [65, 67, 86, 88]; // Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+				
+				const charsToRemove = [];
+				if (integerOnly || preventE) {
+					charsToRemove.push('e', 'E');
+				}
+				if (integerOnly || preventSigns) {
+					charsToRemove.push('+', '-');
+				}
+				if (integerOnly || preventDecimals) {
+					charsToRemove.push('.', ',');
+				}
+				
+				const escapeChar = function(c) {
+					var special = ['.', '*', '+', '?', '^', '$', '(', ')', '|', '[', ']', '\\\\'];
+					if (special.indexOf(c) !== -1) {
+						return '\\\\' + c;
+					}
+					return c;
+				};
+				const escapedChars = charsToRemove.length > 0 ? charsToRemove.map(escapeChar).join('') : '';
+				const cleanRegex = escapedChars ? new RegExp('[' + escapedChars + ']', 'g') : null;
+				
+				input.addEventListener('input', function(event) {
+					let value = input.value;
+					if (value === null || value === undefined) {
+						value = '';
+					}
+					
+					if (cleanRegex) {
+						let cleaned = String(value).replace(cleanRegex, '');
+						if (value !== cleaned) {
+							input.value = cleaned;
+							value = cleaned;
+						}
+					}
+					
+					il.UI.input.onFieldUpdate(event, '$id', value);
+				});
+				
+				il.UI.input.onFieldUpdate(null, '$id', input.value);
+				
+				input.addEventListener('keydown', function(event) {
+					const key = event.key;
+					const keyCode = event.which || event.keyCode;
+					const isCtrl = event.ctrlKey || event.metaKey;
+					
+					if (blockedChars.includes(key)) {
+						event.preventDefault();
+						return false;
+					}
+					
+					if (blockedKeyCodes.includes(keyCode)) {
+						event.preventDefault();
+						return false;
+					}
+					
+					if (allowedKeyCodes.includes(keyCode)) {
+						return true;
+					}
+					
+					if (isCtrl && ctrlKeyCodes.includes(keyCode)) {
+						return true;
+					}
+					
+					if ((keyCode >= 48 && keyCode <= 57) || (keyCode >= 96 && keyCode <= 105)) {
+						return true;
+					}
+					
+					if (integerOnly) {
+						event.preventDefault();
+						return false;
+					}
+				});
+				
+				input.addEventListener('paste', function(event) {
+					const paste = (event.clipboardData || window.clipboardData).getData('text');
+					let testPattern = '^[0-9';
+					
+					if (integerOnly) {
+						testPattern = '^[0-9]*$';
+					} else {
+						if (!preventSigns) {
+							testPattern += '+-';
+						}
+						if (!preventDecimals) {
+							testPattern += '.,';
+						}
+						if (!preventE) {
+							testPattern += 'eE';
+						}
+						testPattern += ']*$';
+					}
+					
+					const regex = new RegExp(testPattern);
+					if (!regex.test(paste)) {
+						event.preventDefault();
+						return false;
+					}
+				});
+			})();";
+    }
+
     public function isComplex(): bool
     {
         return false;

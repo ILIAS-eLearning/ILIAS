@@ -578,7 +578,8 @@ class Renderer extends AbstractComponentRenderer
         $input = $this->getUIFactory()->input()->field()->numeric($numeric_label)
             ->withDedicatedName($component->getId())
             ->withNameFrom($namesource)
-            ->withValue($component->getPosition() * 10);
+            ->withValue($component->getPosition() * 10)
+            ->withIntegerOnly();
         $cell_tpl->setVariable('ORDER_INPUT', $default_renderer->render($input));
 
         return $cell_tpl->get();

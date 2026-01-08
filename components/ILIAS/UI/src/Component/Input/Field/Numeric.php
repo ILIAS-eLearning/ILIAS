@@ -27,4 +27,44 @@ use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
  */
 interface Numeric extends FilterInput
 {
+    /**
+     * Restrict input to integers only (no decimals, no scientific notation, no signs).
+     * This is a convenience method that sets all restriction flags.
+     */
+    public function withIntegerOnly(): self;
+
+    /**
+     * Prevent scientific notation (e, E).
+     */
+    public function withPreventScientificNotation(bool $prevent = true): self;
+
+    /**
+     * Prevent positive/negative signs (+ and -).
+     */
+    public function withPreventSigns(bool $prevent = true): self;
+
+    /**
+     * Prevent decimal separators (. and ,).
+     */
+    public function withPreventDecimals(bool $prevent = true): self;
+
+    /**
+     * Check if integer-only mode is enabled.
+     */
+    public function isIntegerOnly(): bool;
+
+    /**
+     * Check if scientific notation is prevented.
+     */
+    public function isScientificNotationPrevented(): bool;
+
+    /**
+     * Check if signs are prevented.
+     */
+    public function areSignsPrevented(): bool;
+
+    /**
+     * Check if decimals are prevented.
+     */
+    public function areDecimalsPrevented(): bool;
 }
