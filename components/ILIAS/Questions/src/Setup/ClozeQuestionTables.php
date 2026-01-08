@@ -32,8 +32,10 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
     ) {
     }
 
-    public function prepare(\ilDBInterface $db): void
-    {
+    #[\Override]
+    public function prepare(
+        \ilDBInterface $db
+    ): void {
         $this->db = $db;
     }
 

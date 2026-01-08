@@ -77,7 +77,9 @@ class ilObjQuestionsGUI extends ilObjectGUI
             case strtolower(QstsQuestionPageGUI::class):
                 $this->edit_view->forwardPageCmds(
                     $this->tpl,
-                    $this->buildEditQuestionsBaseUri()
+                    $this->buildEditQuestionsBaseUri(),
+                    $this->obj_id,
+                    $this->ref_id
                 );
                 break;
 
@@ -98,7 +100,9 @@ class ilObjQuestionsGUI extends ilObjectGUI
         $this->tpl->setContent(
             $this->edit_view->view(
                 $this->toolbar,
-                $this->buildEditQuestionsBaseUri()
+                $this->buildEditQuestionsBaseUri(),
+                $this->object->getId(),
+                $this->object->getRefId()
             )->render($this->ui_renderer)
         );
     }

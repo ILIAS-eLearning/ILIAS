@@ -32,13 +32,13 @@ enum Operator: string
     case Like = 'LIKE';
     case Between = 'BETWEEN';
 
-    public function toSql(Column $left, int $nr_of_values): string
-    {
-        if ($nr_of_values > 1) {
-            $placeholders = '%s';
-            for ($i = 1; $i < $nr_of_values; $i++) {
-                $placeholders .= ', %s';
-            }
+    public function toSql(
+        Column $left,
+        int $nr_of_values
+    ): string {
+        $placeholders = '%s';
+        for ($i = 1; $i < $nr_of_values; $i++) {
+            $placeholders .= ', %s';
         }
 
         return match($this) {

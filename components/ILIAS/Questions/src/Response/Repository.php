@@ -22,7 +22,16 @@ namespace ILIAS\Questions\Response;
 
 interface Repository
 {
-    public function getForUser(int $question_id, int $user_id): Result;
-    public function getAllForQuestion(int $question_id): Result;
-    public function storeResult(Result $result): void;
+    public function getForUser(
+        int $question_id,
+        int $user_id
+    ): Result;
+
+    public function getAllForQuestion(
+        int $question_id
+    ): Result;
+
+    public function storeResult(
+        Result $result
+    ): void;
 }

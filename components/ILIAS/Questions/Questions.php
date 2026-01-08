@@ -21,8 +21,11 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
+use ILIAS\Questions\AnswerForm\Migration as AnswerFormMigration;
+use ILIAS\Questions\AnswerFormTypes\Cloze\MigrationCloze;
+use ILIAS\Questions\AnswerFormTypes\Cloze\MigrationLongMenu;
+use ILIAS\Questions\AnswerFormTypes\Cloze\MigrationNumeric;
 use ILIAS\Questions\Setup\Agent;
-use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Setup\Agent as AgentInterface;
 
 class Questions implements Component\Component
@@ -40,7 +43,12 @@ class Questions implements Component\Component
         $define[] = AnswerFormDefinition::class;
         $contribute[AgentInterface::class] = static fn() =>
             new Agent(
-                $pull[Refinery::class]
+                $seek[AnswerFormMigration::class]
             );
+        $contribute[AnswerFormMigration::class] = static fn() => new MigrationCloze();
+        $contribute[AnswerFormMigration::class] = static fn() => new MigrationLongMenu();
+        $contribute[AnswerFormMigration::class] = static fn() => new MigrationNumeric();
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+            new Component\Resource\ComponentJS($this, 'js/dist/ParticipantViewLongMenu.js');
     }
 }

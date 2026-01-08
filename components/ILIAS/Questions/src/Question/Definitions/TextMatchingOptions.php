@@ -32,16 +32,18 @@ enum TextMatchingOptions: string
     case Levenstein4 = '4';
     case Levenstein5 = '5';
 
-    public function getLabel(Language $lng): string
-    {
+    public function getLabel(
+        Language $lng
+    ): string {
         return match ($this) {
             self::CaseInsensitive, self::CaseSensitive => $lng->txt($this->value),
             default => sprintf($lng->txt('cloze_textgap_levenshtein_of'), $this->value)
         };
     }
 
-    public static function buildOptionsList(Language $lng): array
-    {
+    public static function buildOptionsList(
+        Language $lng
+    ): array {
         return array_reduce(
             self::cases(),
             function (array $c, self $v) use ($lng): array {
