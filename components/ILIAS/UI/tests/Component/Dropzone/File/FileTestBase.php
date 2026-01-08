@@ -27,12 +27,15 @@ use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\UI\Implementation as I;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory;
+use NameSourceStubs;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
 abstract class FileTestBase extends \ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected C\Dropzone\File\Factory $factory;
     protected I\Component\Input\Field\File $input;
     private I\Component\Button\Factory $button_factory;
@@ -44,6 +47,7 @@ abstract class FileTestBase extends \ILIAS_UI_TestBase
         $signal_generator = new I\Component\SignalGenerator();
         $field_factory = new I\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(I\Component\Input\UploadLimitResolver::class),
             $signal_generator,
             $this->getDataFactory(),
@@ -54,6 +58,7 @@ abstract class FileTestBase extends \ILIAS_UI_TestBase
         $this->factory = new I\Component\Dropzone\File\Factory(
             $signal_generator,
             $field_factory,
+            $this->createFixedNameSourceStub(''),
         );
 
         $this->input = $field_factory->file($this->createMock(C\Input\Field\UploadHandler::class), '');

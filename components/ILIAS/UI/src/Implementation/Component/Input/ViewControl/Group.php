@@ -54,11 +54,11 @@ class Group extends ViewControlInput implements ViewControlGroupInterface, Group
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
+    public function withNameFrom(NameSource $source): static
     {
         /** @var $clone self */
-        $clone = parent::withNameFrom($source, $parent_name);
-        $clone->setInputs($this->nameInputs($source, $clone->getName()));
+        $clone = parent::withNameFrom($source);
+        $clone->setInputs($this->nameInputs($source->withParentName($clone->getName())));
         return $clone;
     }
 

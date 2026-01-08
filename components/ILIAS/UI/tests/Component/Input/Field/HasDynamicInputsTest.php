@@ -28,12 +28,20 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Language\Language;
 use Closure;
+use NameSourceStubs;
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 class HasDynamicInputsTest extends TestCase
 {
+    use NameSourceStubs;
+
+    protected HasDynamicInputsNameSource & MockObject $has_dynamic_inputs_name_source_stub;
+    protected string $dynamic_input_name = 'dynamic_input_name';
+
     protected HasDynamicInputs $input;
     protected DataFactory $data_factory;
     protected Language $language;
@@ -41,10 +49,19 @@ class HasDynamicInputsTest extends TestCase
 
     public function setUp(): void
     {
+        $this->has_dynamic_inputs_name_source_stub = $this->createFixedHasDynamicInputsNameSourceStub($this->dynamic_input_name);
         $this->data_factory = $this->createMock(DataFactory::class);
         $this->language = $this->createMock(Language::class);
         $this->refinery = $this->createMock(Refinery::class);
-        $this->input = new class ($this->language, $this->data_factory, $this->refinery, $this->getTestInputTemplate(), 'test_input_name', 'test_byline') extends HasDynamicInputs {
+        $this->input = new class (
+            $this->language,
+            $this->data_factory,
+            $this->refinery,
+            $this->has_dynamic_inputs_name_source_stub,
+            $this->getTestInputTemplate(),
+            'test_input_name',
+            'test_byline'
+        ) extends HasDynamicInputs {
             public function getUpdateOnLoadCode(): Closure
             {
                 return static function () {
@@ -121,43 +138,41 @@ class HasDynamicInputsTest extends TestCase
         $this->assertTrue($dynamic_input->isDisabled());
     }
 
-    /**
-     * the input names are always the same, because the names generated from
-     * DynamicInputsNameSource are stackable.
-     */
-    public function testDynamicInputNameGeneration(): void
+    public function testWithNameFrom(): void
     {
-        $input_name = 'test_name[input_0][]';
-        $dynamic_input = $this->input->withValue(['', '']);
-        $dynamic_input = $dynamic_input->withNameFrom(
-            $this->getTestNameSource()
-        );
+        $default_input_name = 'default_input_name';
+        $default_name_source = $this->createFixedNameSourceStub($default_input_name);
 
-        $this->assertEquals(
-            $input_name,
-            $dynamic_input->getTemplateForDynamicInputs()->getName()
-        );
+        $this->has_dynamic_inputs_name_source_stub->expects($this->atLeast(1))->method('withReset');
+        $this->has_dynamic_inputs_name_source_stub->expects($this->atLeast(1))->method('withParentName')->with($default_input_name);
+        $this->has_dynamic_inputs_name_source_stub->method('withIndices')->willReturnCallback(function($arg) {
+            static $count = 0;
+            $expected = [false, true];
+            $this->assertEquals($expected[$count], $arg);
+            $count++;
+            return $this->has_dynamic_inputs_name_source_stub;
+        });
 
-        $generated_inputs = $dynamic_input->getGeneratedDynamicInputs();
-        $this->assertEquals(
-            $input_name,
-            $generated_inputs[0]->getName()
-        );
-
-        $this->assertEquals(
-            $input_name,
-            $generated_inputs[1]->getName()
-        );
+        $dynamic_input = $this->input->withNameFrom($default_name_source);
     }
 
-    protected function getTestNameSource(): NameSource
+    public function testWithNameFromWithDedicatedName(): void
     {
-        return new class () implements NameSource {
-            public function getNewName(): string
-            {
-                return 'test_name';
-            }
-        };
+        $dedicated_name = 'dedicated_input_name';
+        $default_name_source = $this->createRelayArgumentNameSourceStub();
+
+        $this->has_dynamic_inputs_name_source_stub->expects($this->exactly(2))->method('withReset');
+        $this->has_dynamic_inputs_name_source_stub->expects($this->exactly(2))->method('withParentName')->with($dedicated_name);
+        $this->has_dynamic_inputs_name_source_stub->expects($this->exactly(2))->method('withResetDefaultNameSource');
+        $this->has_dynamic_inputs_name_source_stub->method('withIndices')->willReturnCallback(function($arg) {
+            static $count = 0;
+            $expected = [false, true];
+            $this->assertEquals($expected[$count], $arg);
+            $count++;
+            return $this->has_dynamic_inputs_name_source_stub;
+        });
+
+        $dynamic_input = $this->input->withDedicatedName($dedicated_name)->withValue(['', ''])->withNameFrom($default_name_source);
     }
 
     protected function getTestInputTemplate()

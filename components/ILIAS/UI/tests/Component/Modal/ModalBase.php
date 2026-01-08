@@ -33,6 +33,8 @@ use ILIAS\UI\Implementation\Component\Input\Field\Group;
  */
 abstract class ModalBase extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     public function getUIFactory(): NoUIFactory
     {
         return new class () extends NoUIFactory {
@@ -58,7 +60,8 @@ abstract class ModalBase extends ILIAS_UI_TestBase
         return new I\Component\Modal\Factory(
             new SignalGeneratorMock(),
             $this->createMock(I\Component\Modal\InterruptiveItem\Factory::class),
-            $factory_mock
+            $factory_mock,
+            $this->createFixedNameSourceStub(''),
         );
     }
 

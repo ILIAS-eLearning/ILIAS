@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Modal as M;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Factory as ItemFactory;
-use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Card\Card;
 
@@ -35,6 +35,7 @@ class Factory implements M\Factory
         protected SignalGeneratorInterface $signal_generator,
         protected InterruptiveItem\Factory $item_factory,
         protected FieldFactory $field_factory,
+        protected NameSource $name_source,
     ) {
     }
 
@@ -53,7 +54,7 @@ class Factory implements M\Factory
         return new RoundTrip(
             $this->signal_generator,
             $this->field_factory,
-            new FormInputNameSource(),
+            $this->name_source,
             $title,
             $content,
             $inputs,

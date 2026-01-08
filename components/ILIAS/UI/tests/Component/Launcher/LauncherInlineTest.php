@@ -25,15 +25,21 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component as I;
 use ILIAS\Data\URI;
 use ILIAS\Refinery\Factory as Refinery;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class LauncherInlineTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected ILIAS\Data\Factory $df;
     protected ILIAS\Language\Language $language;
+    protected I\Input\NameSource & MockObject $name_source;
+    protected string $input_name = 'input_name';
 
     public function setUp(): void
     {
         $this->df = new \ILIAS\Data\Factory();
+        $this->name_source = $this->createFixedNameSourceStub($this->input_name);
     }
 
     protected function getInputFactory(): I\Input\Field\Factory
@@ -41,6 +47,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $this->language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(I\Input\UploadLimitResolver::class),
             new I\SignalGenerator(),
             $this->df,
@@ -54,7 +61,8 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         return new I\Modal\Factory(
             new I\SignalGenerator(),
             new I\Modal\InterruptiveItem\Factory(),
-            $this->getInputFactory()
+            $this->getInputFactory(),
+            $this->name_source,
         );
     }
 
@@ -68,6 +76,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
         $factory = new class () extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
             public I\Input\Field\Factory $input_factory;
+            public I\Input\NameSource $name_source;
 
             public function button(): I\Button\Factory
             {
@@ -86,12 +95,14 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                 return new I\Modal\Factory(
                     $this->sig_gen,
                     new I\Modal\InterruptiveItem\Factory(),
-                    $this->input_factory
+                    $this->input_factory,
+                    $this->name_source,
                 );
             }
         };
         $factory->sig_gen = new I\SignalGenerator();
         $factory->input_factory = $this->getInputFactory();
+        $factory->name_source = $this->name_source;
         return $factory;
     }
 
@@ -178,14 +189,8 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
             $l->getModal()->getContent()[0]
         );
 
-        $ns = new class () extends I\Input\FormInputNameSource {
-            public function getNewName(): string
-            {
-                return 'form/input_0';
-            }
-        };
         $this->assertEquals(
-            [$field->withNameFrom($ns)],
+            [$field->withNameFrom($this->name_source)],
             $l->getModal()->getInputs()
         );
     }
@@ -229,10 +234,10 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
                     </div>
                     <div class="modal-body">$msg_html
                         <form id="id_3" class="c-form c-form--horizontal" enctype="multipart/form-data" action="http://localhost/ilias.php" method="post">
-                            <fieldset class="c-input" data-il-ui-component="checkbox-field-input" data-il-ui-input-name="form/input_0">
+                            <fieldset class="c-input" data-il-ui-component="checkbox-field-input" data-il-ui-input-name="$this->input_name">
                                 <label for="id_2">Understood</label>
                                 <div class="c-input__field">
-                                    <input type="checkbox" id="id_2" value="checked" name="form/input_0" class="c-field-checkbox" />
+                                    <input type="checkbox" id="id_2" value="checked" name="$this->input_name" class="c-field-checkbox" />
                                 </div>
                                 <div class="c-input__help-byline">ok</div>
                             </fieldset>

@@ -33,13 +33,6 @@ class TextareaTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    private DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();
@@ -119,12 +112,13 @@ class TextareaTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $textarea = $f->textarea($label, $byline)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'textarea-field-input',
             $label,
             '
-            <textarea id="id_1" class="c-field-textarea" name="name_0"></textarea>
+            <textarea id="id_1" class="c-field-textarea" name="' . $name. '"></textarea>
             ',
             $byline,
             'id_1',
@@ -137,7 +131,8 @@ class TextareaTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $textarea = $f->textarea($label)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $textarea = $f->textarea($label)->withNameFrom($name_source);
 
         $this->testWithError($textarea);
         $this->testWithNoByline($textarea);
@@ -152,12 +147,13 @@ class TextareaTest extends ILIAS_UI_TestBase
         $label = "label";
         $min = 5;
         $byline = "This is just a byline Min: " . $min;
-        $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'textarea-field-input',
             $label,
             '
-            <textarea id="id_1" class="c-field-textarea" name="name_0" minlength="5"></textarea>
+            <textarea id="id_1" class="c-field-textarea" name="' . $name . '" minlength="5"></textarea>
             ',
             $byline,
             'id_1',
@@ -172,12 +168,13 @@ class TextareaTest extends ILIAS_UI_TestBase
         $label = "label";
         $max = 20;
         $byline = "This is just a byline Max: " . $max;
-        $textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'textarea-field-input',
             $label,
             '
-                <textarea id="id_1" class="c-field-textarea" name="name_0" maxlength="20"></textarea>
+                <textarea id="id_1" class="c-field-textarea" name="' . $name . '" maxlength="20"></textarea>
                 <div class="ui-input-textarea-remainder"> ui_chars_remaining<span data-action="remainder">20</span></div>
             ',
             $byline,
@@ -191,14 +188,14 @@ class TextareaTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $r = $this->getDefaultRenderer();
-        $name = "name_0";
         $id = "id_1";
         $label = "label";
         $min = 5;
         $max = 20;
         $byline = "This is just a byline Min: " . $min . " Max: " . $max;
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withMaxLimit($max)->withNameFrom(
-            $this->name_source
+            $name_source
         );
 
         $expected = $this->brutallyTrimHTML("
@@ -214,9 +211,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $id = 'id_1';
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
         $value = "Lorem ipsum dolor sit";
-        $textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($name_source);
 
         $expected = $this->brutallyTrimHTML("
             <div class=\"c-input__field\">
@@ -229,9 +226,9 @@ class TextareaTest extends ILIAS_UI_TestBase
     public function testStripsTags(): void
     {
         $f = $this->getFieldFactory();
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $text = $f->textarea("")
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 
         $content = $text->getContent();
@@ -241,9 +238,9 @@ class TextareaTest extends ILIAS_UI_TestBase
     public function testWithoutStripsTags(): void
     {
         $f = $this->getFieldFactory();
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $text = $f->textarea("")
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withoutStripTags()
             ->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 
@@ -257,12 +254,11 @@ class TextareaTest extends ILIAS_UI_TestBase
         $id = 'id_1';
         $label = "label";
         $byline = "byline";
-        $name = "name_1";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $value = "Lorem ipsum dolor sit";
         $textarea = $f->textarea($label, $byline)
             ->withValue($value)
-            ->withNameFrom($this->name_source)
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withMustacheVariables(
                 [
                 'var1' => 'Test Variable 1',

@@ -39,6 +39,7 @@ abstract class Input12 extends FormInput
 
 class OptionalGroupInputTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
     use CommonFieldRendering;
 
     /**
@@ -84,12 +85,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             [$this->child1, $this->child2],
             "LABEL",
             "BYLINE"
-        ))->withNameFrom(new class () implements NameSource {
-            public function getNewName(): string
-            {
-                return "name0";
-            }
-        });
+        ))->withNameFrom($this->createFixedNameSourceStub('name0'));
     }
 
     public function testWithDisabledDisablesChildren(): void
@@ -392,13 +388,14 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
+        [$name_source] = $this->getDefaultNameSourceStub();
         $og = $f->optionalGroup(
             [
                 "field_1" => $f->text("f"),
                 "field_2" => $f->text("f2")
             ],
             $label
-        )->withNameFrom((new DefNamesource()));
+        )->withNameFrom($name_source);
 
         $this->testWithError($og);
         $this->testWithNoByline($og);

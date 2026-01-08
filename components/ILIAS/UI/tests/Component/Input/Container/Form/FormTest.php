@@ -34,16 +34,6 @@ use ILIAS\Refinery\Custom\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class FixedNameSource implements NameSource
-{
-    public string $name = "name";
-
-    public function getNewName(): string
-    {
-        return $this->name;
-    }
-}
-
 class ConcreteForm extends Form
 {
     public ?InputData $input_data = null;
@@ -84,6 +74,8 @@ class ConcreteForm extends Form
  */
 class FormTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     /**
      * @var ILIAS\Language\Language|mixed|MockObject
      */
@@ -94,7 +86,8 @@ class FormTest extends ILIAS_UI_TestBase
     {
         return new Input\Container\Form\Factory(
             $this->buildInputFactory(),
-            new SignalGenerator()
+            new SignalGenerator(),
+            $this->createFixedNameSourceStub('name'),
         );
     }
 
@@ -104,6 +97,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->language = $this->createMock(ILIAS\Language\Language::class);
         return new Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
@@ -136,39 +130,9 @@ class FormTest extends ILIAS_UI_TestBase
         return new Data\Factory();
     }
 
-    public function testGetInputs(): void
-    {
-        $this->buildFactory();
-        $if = $this->buildInputFactory();
-        $name_source = new FixedNameSource();
-
-        $inputs = [$if->text(""), $if->text("")];
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
-
-        $seen_names = [];
-        $form_inputs = $form->getInputs();
-        $this->assertSameSize($inputs, $form_inputs);
-
-        foreach ($form_inputs as $input) {
-            $name = $input->getName();
-            $name_source->name = $name;
-
-            // name is a string
-            $this->assertIsString($name);
-
-            // only name is attached
-            $input = array_shift($form_inputs);
-            $this->assertEquals($input->withNameFrom($name_source), $input);
-
-            // every name can only be contained once.
-            $this->assertNotContains($name, $seen_names);
-            $seen_names[] = $name;
-        }
-    }
-
     public function testExtractPostData(): void
     {
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $request = $this->createMock(ServerRequestInterface::class);
         $request
             ->expects($this->once())
@@ -206,7 +170,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("getContent")
             ->willReturn($df->ok(0));
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $form->setInputs([$input_1, $input_2]);
         $form->input_data = $input_data;
 
@@ -245,7 +209,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("getContent")
             ->willReturn($df->ok(0));
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $form->setInputs(["foo" => $input_1, "bar" => $input_2]);
         $form->input_data = $input_data;
 
@@ -285,7 +249,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $form->setInputs([$input_1, $input_2]);
         $form = $form->withRequest($request);
         $this->assertEquals([1, 2], $form->getData());
@@ -320,7 +284,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $form->setInputs(["foo" => $input_1, "bar" => $input_2]);
         $form = $form->withRequest($request);
         $this->assertEquals(["foo" => 1, "bar" => 2], $form->getData());
@@ -355,7 +319,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $form->setInputs(["foo" => $input_1, "bar" => $input_2]);
 
         $i18n = "THERE IS SOME ERROR IN THIS GROUP";
@@ -399,7 +363,7 @@ class FormTest extends ILIAS_UI_TestBase
             ->method("withInput")
             ->willReturn($input_2);
 
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $form->setInputs([$input_1, $input_2]);
 
         $form2 = $form->withAdditionalTransformation($this->buildTransformation(function () {
@@ -421,7 +385,7 @@ class FormTest extends ILIAS_UI_TestBase
             1 => $if->text(""),
             $if->text(""),
         ];
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), []);
         $form->setInputs($inputs);
         $named_inputs = $form->getInputs();
         $this->assertEquals(array_keys($inputs), array_keys($named_inputs));
@@ -474,7 +438,7 @@ class FormTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
         $inputs = [$if->text(""), $if->text("")];
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), $inputs);
 
         $this->assertFalse($form->hasRequiredInputs());
     }
@@ -487,7 +451,7 @@ class FormTest extends ILIAS_UI_TestBase
             $if->text("")->withRequired(true),
             $if->text("")
         ];
-        $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), $inputs);
+        $form = new ConcreteForm($this->buildInputFactory(), $this->createFixedNameSourceStub('name'), $inputs);
         $this->assertTrue($form->hasRequiredInputs());
     }
 }

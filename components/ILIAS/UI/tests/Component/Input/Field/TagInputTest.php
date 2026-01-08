@@ -37,13 +37,6 @@ class TagInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testImplementsFactoryInterface(): void
     {
@@ -62,13 +55,14 @@ class TagInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $tags = ["lorem", "ipsum", "dolor",];
-        $tag = $f->tag($label, $tags, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $tag = $f->tag($label, $tags, $byline)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'tag-field-input',
             $label,
             '
             <div class="c-field-tag__wrapper">
-                <input id="id_1" name="name_0" class="c-field-tag" value=""/>
+                <input id="id_1" name="' . $name . '" class="c-field-tag" value=""/>
             </div>
             ',
             $byline,
@@ -81,7 +75,8 @@ class TagInputTest extends ILIAS_UI_TestBase
     public function testCommonRendering(): void
     {
         $f = $this->getFieldFactory();
-        $tag = $f->tag('label', [], null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $tag = $f->tag('label', [], null)->withNameFrom($name_source);
 
         $this->testWithError($tag);
         $this->testWithNoByline($tag);
@@ -94,10 +89,10 @@ class TagInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $tags = ["lorem", "ipsum", "dolor",];
         /** @var I\Input\Field\Tag $tag */
-        $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
+        $tag = $f->tag($label, $tags)->withNameFrom($name_source)->withRequired(true);
 
         $raw_value1 = "lorem,ipsum";
         $expected_result = ['lorem', 'ipsum'];
@@ -112,10 +107,10 @@ class TagInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $tags = ["lorem", "ipsum", "dolor",];
         /** @var I\Input\Field\Tag $tag */
-        $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
+        $tag = $f->tag($label, $tags)->withNameFrom($name_source)->withRequired(true);
 
         $tag2 = $tag->withInput(new DefInputData([$name => '']));
         $result = $tag2->getContent();
@@ -132,10 +127,10 @@ class TagInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $tags = ["lorem", "ipsum", "dolor",];
         /** @var I\Input\Field\Tag $tag */
-        $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
+        $tag = $f->tag($label, $tags)->withNameFrom($name_source)->withRequired(true);
 
         $tag2 = $tag->withInput(new DefInputData([$name => 'test']));
         $result = $tag2->getContent();
@@ -147,10 +142,10 @@ class TagInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $tags = ["lorem", "ipsum", "dolor",];
 
-        $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
+        $tag = $f->tag($label, $tags)->withNameFrom($name_source)->withRequired(true);
         $tag2 = $tag->withInput(new DefInputData([$name => null]));
         $value2 = $tag2->getContent();
         $this->assertTrue($value2->isError());
@@ -162,11 +157,12 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $f = $this->getFieldFactory();
         $tags = ["lorem", "ipsum", "dolor",];
-        $tag = $f->tag("label", $tags)->withUserCreatedTagsAllowed(false)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $tag = $f->tag("label", $tags)->withUserCreatedTagsAllowed(false)->withNameFrom($name_source);
 
         $tag1 = $tag->withInput(
             new DefInputData(
-                ["name_0" => "lorem,ipsum"]
+                [$name => "lorem,ipsum"]
             )
         );
         $value1 = $tag1->getContent();
@@ -179,7 +175,7 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $tag1 = $tag->withInput(
             new DefInputData(
-                ["name_0" => "conseptetuer,ipsum"]
+                [$name => "conseptetuer,ipsum"]
             )
         );
         $value1 = $tag1->getContent();
@@ -190,8 +186,9 @@ class TagInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
 
-        $tag = $f->tag("label", [])->withMaxTags(3)->withNameFrom($this->name_source)->withInput(
-            new DefInputData(["name_0" => "lorem,ipsum"])
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $tag = $f->tag("label", [])->withMaxTags(3)->withNameFrom($name_source)->withInput(
+            new DefInputData([$name => "lorem,ipsum"])
         );
         $value = $tag->getContent();
         $this->assertTrue($value->isOk());
@@ -202,9 +199,10 @@ class TagInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
 
         $this->expectException(InvalidArgumentException::class);
-        $f->tag("label", [])->withMaxTags(2)->withNameFrom($this->name_source)->withInput(
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $f->tag("label", [])->withMaxTags(2)->withNameFrom($name_source)->withInput(
             new DefInputData(
-                ["name_0" => "lorem,ipsum,dolor"]
+                [$name => "lorem,ipsum,dolor"]
             )
         );
     }
@@ -213,8 +211,9 @@ class TagInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
 
-        $tag = $f->tag("label", [])->withTagMaxLength(10)->withNameFrom($this->name_source)->withInput(
-            new DefInputData(["name_0" => "lorem,ipsum"])
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $tag = $f->tag("label", [])->withTagMaxLength(10)->withNameFrom($name_source)->withInput(
+            new DefInputData([$name => "lorem,ipsum"])
         );
         $value = $tag->getContent();
         $this->assertTrue($value->isOk());
@@ -224,10 +223,11 @@ class TagInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
 
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $this->expectException(InvalidArgumentException::class);
-        $f->tag("label", [])->withTagMaxLength(2)->withNameFrom($this->name_source)->withInput(
+        $f->tag("label", [])->withTagMaxLength(2)->withNameFrom($name_source)->withInput(
             new DefInputData(
-                ["name_0" => "lorem,ipsum,dolor"]
+                [$name => "lorem,ipsum,dolor"]
             )
         );
     }
@@ -246,8 +246,8 @@ class TagInputTest extends ILIAS_UI_TestBase
     public function testUITagInputSpecialChars(string ...$tags): void
     {
         $f = $this->getFieldFactory();
-        $name = "name_0";
-        $tag = $f->tag('', $tags)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $tag = $f->tag('', $tags)->withNameFrom($name_source);
 
         $encoded_tags = array_map('rawurlencode', $tags);
 

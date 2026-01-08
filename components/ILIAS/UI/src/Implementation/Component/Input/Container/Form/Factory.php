@@ -30,6 +30,7 @@ class Factory implements F\Factory
     public function __construct(
         protected Input\Field\Factory $field_factory,
         protected SignalGeneratorInterface $signal_generator,
+        protected Input\NameSource $name_source,
     ) {
     }
 
@@ -38,7 +39,7 @@ class Factory implements F\Factory
         return new Standard(
             $this->signal_generator,
             $this->field_factory,
-            new Input\FormInputNameSource(),
+            $this->name_source,
             $post_url,
             $inputs
         );

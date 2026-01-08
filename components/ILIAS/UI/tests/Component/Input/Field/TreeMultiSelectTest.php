@@ -32,6 +32,8 @@ require_once(__DIR__ . "/InputTest.php");
  */
 class TreeMultiSelectTest extends \ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected Component\Button\Bulky & MockObject $bulky_stub;
     protected string $bulky_html;
     protected Component\Link\Standard & MockObject $link_stub;
@@ -40,6 +42,8 @@ class TreeMultiSelectTest extends \ILIAS_UI_TestBase
     protected string $drilldown_html;
     protected Component\Breadcrumbs\Breadcrumbs & MockObject $breadcrumbs_stub;
     protected string $breadcrumbs_html;
+    protected Component\Input\HasDynamicInputsNameSource & MockObject $has_dynamic_inputs_name_source_stub;
+    protected string $dynamic_input_name;
 
     protected Component\SignalGeneratorInterface $signal_generator;
     protected Component\Menu\Factory $menu_factory;
@@ -50,6 +54,9 @@ class TreeMultiSelectTest extends \ILIAS_UI_TestBase
         [$this->link_stub, $this->link_html] = $this->getLinkStub();
         [$this->drilldown_stub, $this->drilldown_html] = $this->getDrilldownStub();
         [$this->breadcrumbs_stub, $this->breadcrumbs_html] = $this->getBreadcrumbsStub();
+
+        $this->dynamic_input_name = 'dynamic_input_name';
+        $this->has_dynamic_inputs_name_source_stub = $this->createFixedHasDynamicInputsNameSourceStub($this->dynamic_input_name);
 
         $this->signal_generator = new IncrementalSignalGenerator();
 
@@ -243,17 +250,18 @@ HTML;
         [$leaf_stub, $leaf_html] = $this->getLeafStub();
 
         $tree_select_label = 'some tree select label';
+        $fixed_input_name = 'fixed_input_name';
 
         $node_retrieval = $this->getNodeRetrieval([$leaf_stub]);
 
         $component = $this->getFieldFactory()->treeMultiSelect($node_retrieval, $tree_select_label);
-        $component = $component->withNameFrom(new DefNamesource());
+        $component = $component->withNameFrom($this->createFixedNameSourceStub($fixed_input_name));
 
         $renderer = $this->getDefaultRenderer(null, [$leaf_stub]);
 
         $expected_html = <<<HTML
-<fieldset class="c-input" data-il-ui-component="tree-multi-select-field-input" data-il-ui-input-name="name_0">
-    <label for="id_3">some tree select label</label>
+<fieldset class="c-input" data-il-ui-component="tree-multi-select-field-input" data-il-ui-input-name="$fixed_input_name">
+    <label for="id_3">$tree_select_label</label>
     <div class="c-input__field">
         <div class="c-input-tree_select">
             <dialog class="c-modal">
@@ -296,7 +304,7 @@ HTML;
                     <button data-action="remove" type="button" class="close" aria-label="">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <input id="id_1" type="hidden" name="name_0[input_0][]" value="" /></li>
+                    <input id="id_1" type="hidden" name="$this->dynamic_input_name" value="" /></li>
                 </template>
             </ul>
             <input id="id_3" type="button" aria-label="select" value="select">
@@ -346,6 +354,7 @@ HTML;
     {
         return new Field\Factory(
             ($node_factory) ?: $this->createMock(Field\Node\Factory::class),
+            $this->has_dynamic_inputs_name_source_stub,
             $this->createMock(Component\Input\UploadLimitResolver::class),
             $this->signal_generator,
             $this->getDataFactory(),

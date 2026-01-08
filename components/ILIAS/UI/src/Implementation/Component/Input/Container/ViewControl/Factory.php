@@ -30,15 +30,15 @@ class Factory implements V\Factory
     public function __construct(
         protected SignalGeneratorInterface $signal_generator,
         protected Input\ViewControl\Factory $view_control_factory,
+        protected Input\NameSource $name_source,
     ) {
-        $this->signal_generator = $signal_generator;
     }
 
     public function standard(array $controls): Standard
     {
         return new Standard(
             $this->signal_generator,
-            new Input\FormInputNameSource(),
+            $this->name_source,
             $this->view_control_factory,
             $controls
         );

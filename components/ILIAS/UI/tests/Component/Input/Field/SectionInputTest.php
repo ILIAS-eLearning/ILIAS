@@ -24,17 +24,11 @@ require_once(__DIR__ . "/CommonFieldRendering.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 class SectionInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
-
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
 
     public function testSectionRendering(): void
     {
@@ -45,24 +39,23 @@ class SectionInputTest extends ILIAS_UI_TestBase
         ];
         $label = 'section label';
         $byline = 'section byline';
-        $section = $f->section($inputs, $label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $section = $f->section($inputs, $label, $byline)->withNameFrom($name_source);
         $f1 = $this->getFormWrappedHtml(
             'text-field-input',
             'input1',
-            '<input id="id_1" type="text"  name="name_0/name_1" class="c-field-text" />',
+            '<input id="id_1" type="text"  name="' . $name . '" class="c-field-text" />',
             'in 1',
             'id_1',
             null,
-            'name_0/name_1'
         );
         $f2 = $this->getFormWrappedHtml(
             'text-field-input',
             'input2',
-            '<input id="id_2" type="text"  name="name_0/name_2" class="c-field-text" />',
+            '<input id="id_2" type="text"  name="' . $name . '" class="c-field-text" />',
             'in 2',
             'id_2',
             null,
-            'name_0/name_2'
         );
         $expected = $this->getFormWrappedHtml(
             'section-field-input',
@@ -82,7 +75,8 @@ class SectionInputTest extends ILIAS_UI_TestBase
             $f->text("input1")
         ];
         $label = 'section label';
-        $section = $f->section($inputs, $label)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $section = $f->section($inputs, $label)->withNameFrom($name_source);
 
         $this->testWithError($section);
         $this->testWithNoByline($section);

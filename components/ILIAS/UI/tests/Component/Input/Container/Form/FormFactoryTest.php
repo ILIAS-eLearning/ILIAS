@@ -28,6 +28,8 @@ use ILIAS\Refinery\Factory;
 
 class FormFactoryTest extends AbstractFactoryTestCase
 {
+    use NameSourceStubs;
+
     public static array $kitchensink_info_settings = [
         "standard" => [
             "context" => false,
@@ -44,13 +46,15 @@ class FormFactoryTest extends AbstractFactoryTestCase
         return new I\Container\Form\Factory(
             new I\Field\Factory(
                 $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+                $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
                 $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
                 $signal_generator,
                 $df,
                 new Factory($df, $language),
                 $language
             ),
-            $signal_generator
+            $signal_generator,
+            $this->createCountingNameSourceStub('input_'),
         );
     }
 

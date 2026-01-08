@@ -33,10 +33,15 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
  */
 abstract class TableTestBase extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
+    protected string $inpupt_name = 'input_name';
+
     protected function buildFieldFactory(): FieldFactory
     {
         return new FieldFactory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(UploadLimitResolver::class),
             new C\SignalGenerator(),
             new \ILIAS\Data\Factory(),
@@ -69,6 +74,8 @@ abstract class TableTestBase extends ILIAS_UI_TestBase
         return new ViewControlContainer\Factory(
             new C\SignalGenerator(),
             $this->getViewControlFactory(),
+            // @todo: get rid of this real instance here, please.
+            new C\Input\DefaultNameSource(),
         );
     }
 

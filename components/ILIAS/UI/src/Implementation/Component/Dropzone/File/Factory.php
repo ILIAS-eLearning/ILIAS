@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Dropzone\File\Factory as FileDropzoneFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
@@ -32,13 +32,11 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  */
 class Factory implements FileDropzoneFactory
 {
-    protected SignalGeneratorInterface $signal_generator;
-    protected FieldFactory $field_factory;
-
-    public function __construct(SignalGeneratorInterface $signal_generator, FieldFactory $field_factory)
-    {
-        $this->signal_generator = $signal_generator;
-        $this->field_factory = $field_factory;
+    public function __construct(
+        protected SignalGeneratorInterface $signal_generator,
+        protected FieldFactory $field_factory,
+        protected NameSource $name_source,
+    ) {
     }
 
     public function standard(
@@ -51,7 +49,7 @@ class Factory implements FileDropzoneFactory
         return new Standard(
             $this->signal_generator,
             $this->field_factory,
-            new FormInputNameSource(),
+            $this->name_source,
             $title,
             $message,
             $post_url,
@@ -70,7 +68,7 @@ class Factory implements FileDropzoneFactory
         return new Wrapper(
             $this->signal_generator,
             $this->field_factory,
-            new FormInputNameSource(),
+            $this->name_source,
             $title,
             $content,
             $post_url,

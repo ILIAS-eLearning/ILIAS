@@ -27,6 +27,8 @@ use ILIAS\UI\Component\Input\InputData;
 
 class ViewControlGroupTest extends ViewControlTestBase
 {
+    use NameSourceStubs;
+
     public function testViewControlGroupCreation(): void
     {
         $f = $this->buildVCFactory();
@@ -41,7 +43,7 @@ class ViewControlGroupTest extends ViewControlTestBase
     {
         $f = $this->buildVCFactory();
         $input = $this->createMock(InputData::class);
-        $namesource = new DefNamesource();
+        $namesource = $this->createCountingNameSourceStub('input_');
 
         $group = $f->group(
             [

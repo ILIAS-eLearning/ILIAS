@@ -53,6 +53,21 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
                 $this->upload_limit_resolver
             );
         }
+        if (in_array('OrderingTable', $contexts, true)
+            && in_array('OrderingRowTable', $contexts, true)
+            && in_array('NumericFieldInput', $contexts, true)
+        ) {
+            return new OrderingTableContextRenderer(
+                $this->ui_factory,
+                $this->tpl_factory,
+                $this->lng,
+                $this->js_binding,
+                $this->image_path_resolver,
+                $this->data_factory,
+                $this->help_text_retriever,
+                $this->upload_limit_resolver
+            );
+        }
         return new Renderer(
             $this->ui_factory,
             $this->tpl_factory,

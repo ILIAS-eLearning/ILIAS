@@ -33,13 +33,6 @@ class TextInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();
@@ -55,11 +48,12 @@ class TextInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $text = $f->text($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $text = $f->text($label, $byline)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'text-field-input',
             $label,
-            '<input id="id_1" type="text" name="name_0" class="c-field-text" />',
+            '<input id="id_1" type="text" name="' . $name . '" class="c-field-text" />',
             $byline,
             'id_1'
         );
@@ -70,7 +64,8 @@ class TextInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $text = $f->text($label)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $text = $f->text($label)->withNameFrom($name_source);
 
         $this->testWithError($text);
         $this->testWithNoByline($text);
@@ -84,11 +79,12 @@ class TextInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $value = "value";
-        $text = $f->text($label)->withValue($value)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $text = $f->text($label)->withValue($value)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'text-field-input',
             $label,
-            '<input id="id_1" type="text" value="value" name="name_0" class="c-field-text" />',
+            '<input id="id_1" type="text" value="value" name="' . $name . '" class="c-field-text" />',
             null,
             'id_1'
         );
@@ -116,11 +112,12 @@ class TextInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $text = $f->text($label)->withNameFrom($this->name_source)->withMaxLength(8);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $text = $f->text($label)->withNameFrom($name_source)->withMaxLength(8);
         $expected = $this->getFormWrappedHtml(
             'text-field-input',
             $label,
-            '<input id="id_1" type="text" name="name_0" maxlength="8" class="c-field-text" />',
+            '<input id="id_1" type="text" name="' . $name . '" maxlength="8" class="c-field-text" />',
             null,
             'id_1'
         );
@@ -131,8 +128,8 @@ class TextInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $name = "name_0";
-        $text = $f->text($label)->withNameFrom($this->name_source)->withRequired(true);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $text = $f->text($label)->withNameFrom($name_source)->withRequired(true);
 
         $text1 = $text->withInput(new DefInputData([$name => "0"]));
         $value1 = $text1->getContent();
@@ -147,9 +144,9 @@ class TextInputTest extends ILIAS_UI_TestBase
     public function testStripsTags(): void
     {
         $f = $this->getFieldFactory();
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $text = $f->text("")
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 
         $content = $text->getContent();
@@ -159,9 +156,9 @@ class TextInputTest extends ILIAS_UI_TestBase
     public function testWithoutStripsTags(): void
     {
         $f = $this->getFieldFactory();
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $text = $f->text("")
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withoutStripTags()
             ->withInput(new DefInputData([$name => "<script>alert()</script>"]));
 

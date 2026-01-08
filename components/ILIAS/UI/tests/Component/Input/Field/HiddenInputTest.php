@@ -30,13 +30,14 @@ use ILIAS\Data;
 class HiddenInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
+    use NameSourceStubs;
 
-    protected DefNamesource $name_source;
+    protected I\Input\NameSource $name_source;
     protected I\Input\Field\Hidden $input;
 
     public function setUp(): void
     {
-        $this->name_source = new DefNamesource();
+        $this->name_source = $this->createCountingNameSourceStub('name_');
         $this->input = new I\Input\Field\Hidden(
             new Data\Factory(),
             new Refinery(

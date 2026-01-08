@@ -36,13 +36,6 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
     use CommonFieldRendering;
     use HasOptionFilterTestHelper;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();
@@ -75,12 +68,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "2" => "Pick 2"
         );
         $ms = $f->multiSelect("label", $options, "byline")
-            ->withNameFrom(new class () implements NameSource {
-                public function getNewName(): string
-                {
-                    return "name";
-                }
-            });
+            ->withNameFrom($this->createFixedNameSourceStub('name'));
         $ms = $ms->withInput(new class () implements InputData {
             /**
              * @return string[]
@@ -107,10 +95,9 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "1" => "Pick 1",
             "2" => "Pick 2"
         );
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $ms = $f->multiSelect("label", $options, "byline")
-            ->withNameFrom($this->name_source);
-
-        $name = $ms->getName();
+            ->withNameFrom($name_source);
         $label = $ms->getLabel();
         $byline = $ms->getByline();
         $expected_options = "";
@@ -143,11 +130,10 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "2" => "Pick 2"
         );
         $value = array_keys($options)[1];
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $ms = $f->multiSelect("label", $options, "byline")
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withValue([$value]);
-
-        $name = $ms->getName();
         $label = $ms->getLabel();
         $byline = $ms->getByline();
         $expected_options = "";
@@ -197,7 +183,8 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $multi_select = $f->multiSelect($label, [], null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $multi_select = $f->multiSelect($label, [], null)->withNameFrom($name_source);
 
         $this->testWithError($multi_select);
         $this->testWithNoByline($multi_select);
@@ -211,14 +198,13 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $f = $this->getFieldFactory();
         $options = [];
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $ms = $f->multiSelect("label", $options, "byline")
-            ->withNameFrom($this->name_source)->withDisabled(true);
-
-        $name = $ms->getName();
+            ->withNameFrom($name_source)->withDisabled(true);
         $label = $ms->getLabel();
         $byline = $ms->getByline();
         $expected = '
-        <fieldset class="c-input" data-il-ui-component="multi-select-field-input" data-il-ui-input-name="name_0" disabled="disabled" tabindex="0">
+        <fieldset class="c-input" data-il-ui-component="multi-select-field-input" data-il-ui-input-name="' . $name . '" disabled="disabled" tabindex="0">
             <label>label</label>
             <div class="c-input__field">
                 <ul class="c-field-multiselect">

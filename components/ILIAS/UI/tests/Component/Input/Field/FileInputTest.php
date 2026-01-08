@@ -58,13 +58,6 @@ class FileInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     protected function brutallyTrimHTML(string $html): string
     {
         $html = str_replace(" />", "/>", $html);
@@ -145,7 +138,9 @@ class FileInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $file_input = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $default_name] = $this->getDefaultNameSourceStub();
+        [,$dynamic_name] = $this->getDefaultHasDynamicInputNameSourceStub();
+        $file_input = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($name_source);
 
         $expected = $this->getFormWrappedHtml(
             'file-field-input',
@@ -161,7 +156,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                             class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span><span
                                     class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;"><input id="id_1" type="hidden"
-                                    name="name_0[input_0][]" value="" /></div>
+                                    name="' . $dynamic_name . '" value="" /></div>
                             <div class="ui-input-file-input-progress-container">
                                 <div class="ui-input-file-input-progress-indicator"></div>
                             </div>
@@ -185,8 +180,9 @@ class FileInputTest extends ILIAS_UI_TestBase
     public function testCommonRendering(): void
     {
         $f = $this->getFieldFactory();
+        [$name_source] = $this->getDefaultNameSourceStub();
         $file_input = $f->file($this->getUploadHandler(), 'label', null)
-            ->withNameFrom($this->name_source);
+            ->withNameFrom($name_source);
         $this->testWithError($file_input);
         $this->testWithNoByline($file_input);
         $this->testWithRequired($file_input);
@@ -204,12 +200,14 @@ class FileInputTest extends ILIAS_UI_TestBase
         $test_file_info->method('getName')->willReturn("test file name 1");
         $test_file_info->method('getSize')->willReturn(1001);
 
+        [$name_source, $default_name] = $this->getDefaultNameSourceStub();
+        [,$dynamic_name] = $this->getDefaultHasDynamicInputNameSourceStub();
         $file_input = $this->getFieldFactory()->file(
             $this->getUploadHandler($test_file_info),
             "",
         )->withValue([
             $test_file_id,
-        ])->withNameFrom($this->name_source);
+        ])->withNameFrom($name_source);
 
         $expected = $this->getFormWrappedHtml(
             'file-field-input',
@@ -231,7 +229,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                         </div>
                         <div class="ui-input-file-metadata" style="display: none;">
-                            <input id="id_1" type="hidden" name="name_0[input_0][]" value="test_file_id_1"/>
+                            <input id="id_1" type="hidden" name="' . $dynamic_name . '" value="test_file_id_1"/>
                         </div>
                         <div class="ui-input-file-input-progress-container">
                             <div class="ui-input-file-input-progress-indicator"></div>
@@ -245,7 +243,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                             class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span><span
                                     class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;"><input id="id_2" type="hidden"
-                                    name="name_0[input_0][]" value="" /></div>
+                                    name="' . $dynamic_name . '" value="" /></div>
                             <div class="ui-input-file-input-progress-container">
                                 <div class="ui-input-file-input-progress-indicator"></div>
                             </div>
@@ -272,6 +270,9 @@ class FileInputTest extends ILIAS_UI_TestBase
         $factory = $this->getFieldFactory();
         $label = 'file_input';
         $metadata_input = $factory->text("text_input");
+        [$name_source, $default_name] = $this->getDefaultNameSourceStub();
+        [,$dynamic_name] = $this->getDefaultHasDynamicInputNameSourceStub();
+
         $file_input = $factory->file(
             ($u = $this->getUploadHandler()),
             $label,
@@ -282,7 +283,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                 "file_id",
                 ""
             ]
-        ])->withNameFrom($this->name_source);
+        ])->withNameFrom($name_source);
 
         $expected = $this->getFormWrappedHtml(
             'file-field-input',
@@ -302,10 +303,10 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         aria-hidden="true"></span></a></span><span class="ui-input-file-input-error-msg"
                                 data-dz-error-msg></span></div>
                         <div class="ui-input-file-metadata" style="display: none;"><input id="id_1" type="hidden"
-                                name="name_0[input_1][]" value="file_id" />
+                                name="' . $dynamic_name . '" value="file_id" />
                             <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                data-il-ui-input-name="name_0[input_2][]"><label for="id_2">text_input</label>
-                                <div class="c-input__field"><input id="id_2" type="text" name="name_0[input_2][]"
+                                data-il-ui-input-name="' . $dynamic_name . '"><label for="id_2">text_input</label>
+                                <div class="c-input__field"><input id="id_2" type="text" name="' . $dynamic_name . '"
                                         class="c-field-text" /></div>
                             </fieldset>
                         </div>
@@ -326,10 +327,10 @@ class FileInputTest extends ILIAS_UI_TestBase
                                             aria-hidden="true"></span></a></span><span class="ui-input-file-input-error-msg"
                                     data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;"><input id="id_3" type="hidden"
-                                    name="name_0[input_1][]" value="" />
+                                    name="' . $dynamic_name. '" value="" />
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                    data-il-ui-input-name="name_0[input_2][]"><label for="id_4">text_input</label>
-                                    <div class="c-input__field"><input id="id_4" type="text" name="name_0[input_2][]"
+                                    data-il-ui-input-name="dynamic_input_name"><label for="id_4">text_input</label>
+                                    <div class="c-input__field"><input id="id_4" type="text" name="' . $dynamic_name. '"
                                             class="c-field-text" /></div>
                                 </fieldset>
                             </div>
@@ -365,6 +366,8 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $factory = $this->getFieldFactory();
         $label = 'file_input';
+        [$name_source, $default_name] = $this->getDefaultNameSourceStub();
+        [,$dynamic_name] = $this->getDefaultHasDynamicInputNameSourceStub();
         $metadata_input = $factory->text("text_input");
         $file_input = $factory->file(
             $u = $this->getUploadHandler($test_file_info),
@@ -376,7 +379,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                 $test_file_id,
                 "test",
             ]
-        ])->withNameFrom($this->name_source);
+        ])->withNameFrom($name_source);
 
 
         $expected = $this->getFormWrappedHtml(
@@ -397,11 +400,11 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         aria-hidden="true"></span></a></span><span class="ui-input-file-input-error-msg"
                                 data-dz-error-msg></span></div>
                         <div class="ui-input-file-metadata" style="display: none;"><input id="id_1" type="hidden"
-                                name="name_0[input_1][]" value="test_file_id_1" />
+                                name="' . $dynamic_name. '" value="test_file_id_1" />
                             <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                data-il-ui-input-name="name_0[input_2][]"><label for="id_2">text_input</label>
+                                data-il-ui-input-name="' . $dynamic_name. '"><label for="id_2">text_input</label>
                                 <div class="c-input__field"><input id="id_2" type="text" value="test"
-                                        name="name_0[input_2][]" class="c-field-text" /></div>
+                                        name="' . $dynamic_name. '" class="c-field-text" /></div>
                             </fieldset>
                         </div>
                         <div class="ui-input-file-input-progress-container">
@@ -421,10 +424,10 @@ class FileInputTest extends ILIAS_UI_TestBase
                                             aria-hidden="true"></span></a></span><span class="ui-input-file-input-error-msg"
                                     data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;"><input id="id_3" type="hidden"
-                                    name="name_0[input_1][]" value="" />
+                                    name="' . $dynamic_name. '" value="" />
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                    data-il-ui-input-name="name_0[input_2][]"><label for="id_4">text_input</label>
-                                    <div class="c-input__field"><input id="id_4" type="text" name="name_0[input_2][]"
+                                    data-il-ui-input-name="' . $dynamic_name. '"><label for="id_4">text_input</label>
+                                    <div class="c-input__field"><input id="id_4" type="text" name="' . $dynamic_name. '"
                                             class="c-field-text" /></div>
                                 </fieldset>
                             </div>
@@ -442,7 +445,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             ',
             null,
             null,
-            'id_6'
+            'id_6',
         );
         $this->assertEquals($expected, $this->render($file_input));
     }

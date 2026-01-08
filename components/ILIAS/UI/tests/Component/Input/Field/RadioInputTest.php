@@ -34,23 +34,17 @@ class RadioInputTest extends ILIAS_UI_TestBase
     use CommonFieldRendering;
     use HasOptionFilterTestHelper;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     protected function buildRadio(bool $with_has_option_filter = false): \ILIAS\UI\Component\Input\Container\Form\FormInput
     {
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
+        [$name_source] = $this->getDefaultNameSourceStub();
         $return = $f
                 ->radio($label, $byline)
                 ->withOption('value0', 'label0', 'byline0')
                 ->withOption('1', 'label1', 'byline1')
-                ->withNameFrom($this->name_source);
+                ->withNameFrom($name_source);
         if ($with_has_option_filter) {
             $return = $return->withHasOptionFilter();
         }
@@ -136,7 +130,8 @@ class RadioInputTest extends ILIAS_UI_TestBase
     public function testCommonRendering(): void
     {
         $f = $this->getFieldFactory();
-        $radio = $f->radio('label', null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $radio = $f->radio('label', null)->withNameFrom($name_source);
 
         $this->testWithError($radio);
         $this->testWithNoByline($radio);

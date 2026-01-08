@@ -46,40 +46,21 @@ class WithButtonNoUIFactory extends NoUIFactory
     }
 }
 
-class InputNameSource implements NameSource
-{
-    public int $count = 0;
-
-    public function getNewName(): string
-    {
-        $name = "input_{$this->count}";
-        $this->count++;
-
-        return $name;
-    }
-
-    public function getNewDedicatedName(string $dedicated_name): string
-    {
-        $name = $dedicated_name . "_{$this->count}";
-        $this->count++;
-
-        return $name;
-    }
-}
-
 /**
  * Test on standard form implementation.
  */
 class StandardFormTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
+    use NameSourceStubs;
 
     protected function buildFactory(): I\Input\Container\Form\Factory
     {
-
+        [$name_source] = $this->getDefaultNameSourceStub();
         return new I\Input\Container\Form\Factory(
             $this->getFieldFactory(),
-            new SignalGenerator()
+            new SignalGenerator(),
+            $name_source,
         );
     }
 
@@ -104,14 +85,14 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
     protected function getTextFieldHtml(): string
     {
+        [,$name] = $this->getDefaultNameSourceStub();
         return $this->getFormWrappedHtml(
             'text-field-input',
             'label',
-            '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
+            '<input id="id_1" type="text" name="' . $name . '" class="c-field-text" />',
             'byline',
             'id_1',
             null,
-            'form/input_0'
         );
     }
 
@@ -233,6 +214,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $if = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
@@ -247,21 +229,22 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $input = $input->withAdditionalTransformation($fail);
 
-        $form = new Form\Standard(new SignalGenerator(), $if, new InputNameSource(), '', [$input]);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $form = new Form\Standard(new SignalGenerator(), $if,$name_source, '', [$input]);
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([
-                'form_0/input_1' => ''
+                $name => ''
             ]);
 
         $form = $form->withRequest($request);
         $this->assertNull($form->getData());
 
         $html = $this->brutallyTrimHTML($r->render($form));
-        $expected = $this->brutallyTrimHTML('
+        $expected = <<<HTML
 <form class="c-form c-form--horizontal" enctype="multipart/form-data" method="post">
     <div class="c-form__header">
         <div class="c-form__actions">
@@ -271,9 +254,9 @@ class StandardFormTest extends ILIAS_UI_TestBase
     <div class="c-form__error-msg alert alert-danger"><span class="sr-only">ui_error:</span>testing error
         message
     </div>
-    <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="form_0/input_1"
+    <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="$name"
               aria-describedby="id_2"><label for="id_1">label</label>
-        <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="c-field-text" /></div>
+        <div class="c-input__field"><input id="id_1" type="text" name="$name" class="c-field-text" /></div>
         <div class="c-input__error-msg alert alert-danger" id="id_2"><span class="sr-only">ui_error:</span>This is
             invalid...
         </div>
@@ -285,7 +268,8 @@ class StandardFormTest extends ILIAS_UI_TestBase
         </div>
     </div>
 </form>
-');
+HTML;
+        $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $html);
         $this->assertHTMLEquals($expected, $html);
     }
@@ -300,6 +284,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $if = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
@@ -312,7 +297,8 @@ class StandardFormTest extends ILIAS_UI_TestBase
         }, "This is a fail on form.");
         $input = $if->text("label", "byline");
 
-        $form = new Form\Standard(new SignalGenerator(), $if, new InputNameSource(), '', [$input]);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $form = new Form\Standard(new SignalGenerator(), $if, $name_source, '', [$input]);
         $form = $form->withAdditionalTransformation($fail);
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -320,7 +306,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getParsedBody")
             ->willReturn([
-                'form_0/input_1' => ''
+                $name => ''
             ]);
 
         $form = $form->withRequest($request);
@@ -330,11 +316,10 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $field_html = $this->getFormWrappedHtml(
             'text-field-input',
             'label',
-            '<input id="id_1" type="text" name="form_0/input_1" class="c-field-text"/>',
+            '<input id="id_1" type="text" name="' . $name . '" class="c-field-text"/>',
             'byline',
             'id_1',
             null,
-            'form_0/input_1'
         );
 
         $html = $this->brutallyTrimHTML($r->render($form));
@@ -363,15 +348,14 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($form));
-
+        [,$name] = $this->getDefaultNameSourceStub();
         $field_html = $this->getFormWrappedHtml(
             'text-field-input',
             'label<span class="asterisk" aria-label="required_field">*</span>',
-            '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
+            '<input id="id_1" type="text" name="' . $name . '" class="c-field-text" />',
             'byline',
             'id_1',
             null,
-            'form/input_0'
         );
 
         $expected = $this->brutallyTrimHTML('

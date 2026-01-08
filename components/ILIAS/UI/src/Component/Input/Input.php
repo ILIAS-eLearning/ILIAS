@@ -71,8 +71,6 @@ interface Input extends Component
     /**
      * Sets an optional dedicated name for this input which is used in the NAME
      * attribute of the rendered input (instead of the auto-generated 'input_x').
-     * If the same dedicated name is used more than once, a counter will be
-     * added to the name.
      *
      * The dedicated name is inherited by all child inputs (e.g. for groups
      * or sections) and added to their name in a path-like format.

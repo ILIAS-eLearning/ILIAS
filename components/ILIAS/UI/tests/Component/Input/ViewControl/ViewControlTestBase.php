@@ -29,19 +29,7 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 abstract class ViewControlTestBase extends ILIAS_UI_TestBase
 {
-    protected function getNamesource()
-    {
-        return new class () implements NameSource {
-            public int $count = 0;
-            public function getNewName(): string
-            {
-                $name = "name_{$this->count}";
-                $this->count++;
-
-                return $name;
-            }
-        };
-    }
+    use NameSourceStubs;
 
     protected function buildDataFactory(): Data\Factory
     {
@@ -60,6 +48,7 @@ abstract class ViewControlTestBase extends ILIAS_UI_TestBase
     {
         return new FieldFactory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(UploadLimitResolver::class),
             new SignalGenerator(),
             $this->buildDataFactory(),

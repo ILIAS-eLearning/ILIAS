@@ -69,7 +69,7 @@ class ViewControlFieldSelectionTest extends ViewControlTestBase
             ->willReturn($v);
 
         $vc = $this->buildVCFactory()->fieldSelection($options)
-            ->withNameFrom($this->getNamesource())
+            ->withNameFrom($this->createCountingNameSourceStub('name_'))
             ->withInput($input);
 
         $df = $this->buildDataFactory();

@@ -230,11 +230,11 @@ class DataViewControlsTest extends TableTestBase
             ->withId($table_id)
             ->withRequest(
                 $this->getRequestMock([
-                    'vctesting_data_table/input_7/input_8' => 0,
-                    'vctesting_data_table/input_7/input_9' => 10,
-                    'vctesting_data_table/input_10/input_11' => 'f2',
-                    'vctesting_data_table/input_10/input_12' => 'DESC',
-                    'vctesting_data_table/input_13' => ['f2']
+                    'vctesting_data_table/input_0/input_0' => 0,
+                    'vctesting_data_table/input_0/input_1' => 10,
+                    'vctesting_data_table/input_1/input_0' => 'f2',
+                    'vctesting_data_table/input_1/input_1' => 'DESC',
+                    'vctesting_data_table/input_2' => ['f2']
                 ])
             );
         list($table, $view_controls) = $table->applyViewControls([], []);
@@ -281,7 +281,7 @@ class DataViewControlsTest extends TableTestBase
             ->withId('testing_data_table_id')
             ->withRequest(
                 $this->getRequestMock([
-                    'vctesting_data_table_id/additional_12' => 'mode2'
+                    'vctesting_data_table_id/additional' => 'mode2'
                 ])
             );
         list($table, $view_controls) = $table->applyViewControls([], []);

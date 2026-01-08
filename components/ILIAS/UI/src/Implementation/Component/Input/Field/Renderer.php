@@ -234,7 +234,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function applyName(FormInput $component, Template $tpl): ?string
+    protected function applyName(F\FormInput $component, Template $tpl): ?string
     {
         $name = $component->getName();
         $tpl->setVariable("NAME", $name);
@@ -950,10 +950,10 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('assets/js/dropzone.js');
         $registry->register('assets/js/input.js');
         $registry->register('assets/js/core.js');
-        $registry->register('assets/js/file.js');
         // workaround to manipulate the order of scripts
         $registry->register('assets/js/drilldown.min.js');
         $registry->register('assets/js/input.factory.min.js');
+        $registry->register('assets/js/file.js');
     }
 
     /**

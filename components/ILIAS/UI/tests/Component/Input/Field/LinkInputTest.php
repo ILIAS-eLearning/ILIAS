@@ -34,13 +34,6 @@ class LinkInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    private DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $factory = $this->getFieldFactory();
@@ -54,25 +47,24 @@ class LinkInputTest extends ILIAS_UI_TestBase
         $factory = $this->getFieldFactory();
         $label = "Test Label";
         $byline = "Test Byline";
-        $link = $factory->link($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $link = $factory->link($label, $byline)->withNameFrom($name_source);
 
         $f1 = $this->getFormWrappedHtml(
             'text-field-input',
             'ui_link_label',
-            '<input id="id_1" type="text" name="name_0/label_1" class="c-field-text" />',
+            '<input id="id_1" type="text" name="' . $name . '" class="c-field-text" />',
             null,
             'id_1',
             null,
-            'name_0/label_1'
         );
         $f2 = $this->getFormWrappedHtml(
             'url-field-input',
             'ui_link_url',
-            '<input id="id_2" type="url" name="name_0/url_2" class="c-field-url" />',
+            '<input id="id_2" type="url" name="' . $name . '" class="c-field-url" />',
             null,
             'id_2',
             null,
-            'name_0/url_2'
         );
 
         $expected = $this->getFormWrappedHtml(
@@ -88,7 +80,8 @@ class LinkInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $link = $f->link($label, null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $link = $f->link($label, null)->withNameFrom($name_source);
 
         $this->testWithError($link);
         $this->testWithNoByline($link);
@@ -101,16 +94,7 @@ class LinkInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $input = $f->link("", "")
-            ->withNameFrom(new class () implements NameSource {
-                public function getNewName(): string
-                {
-                    return "name";
-                }
-                public function getNewDedicatedName(): string
-                {
-                    return "dedicated_name";
-                }
-            });
+            ->withNameFrom($this->createFixedNameSourceStub('name'));
         $input = $input->withInput(new class () implements InputData {
             public function getOr($_, $default): string
             {

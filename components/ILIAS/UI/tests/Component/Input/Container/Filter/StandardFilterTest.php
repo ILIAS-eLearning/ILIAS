@@ -79,11 +79,16 @@ class WithNoUIFactories extends NoUIFactory
 
 class StandardFilterTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
+    protected string $filter_input_name = 'filter_input_name';
+
     protected function buildFactory(): I\Input\Container\Filter\Factory
     {
         return new I\Input\Container\Filter\Factory(
             new I\SignalGenerator(),
-            $this->buildInputFactory()
+            $this->buildInputFactory(),
+            $this->createFixedNameSourceStub($this->filter_input_name),
         );
     }
 
@@ -93,6 +98,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         $language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new I\SignalGenerator(),
             $df,
@@ -215,7 +221,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
-                    <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
+                    <input id="id_5" type="text" name="$this->filter_input_name" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
                         <a class="glyph" href="" aria-label="remove" id="id_6">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -226,7 +232,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_7" class="input-group-addon leftaddon">Selection</label>
-                    <select id="id_7" name="filter_input_0/filter_input_2">
+                    <select id="id_7" name="$this->filter_input_name">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -353,7 +359,7 @@ EOT;
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
-                    <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
+                    <input id="id_5" type="text" name="$this->filter_input_name" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
                         <a class="glyph" href="" aria-label="remove" id="id_6">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -364,7 +370,7 @@ EOT;
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_7" class="input-group-addon leftaddon">Selection</label>
-                    <select id="id_7" name="filter_input_0/filter_input_2">
+                    <select id="id_7" name="$this->filter_input_name">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -491,7 +497,7 @@ EOT;
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
-                    <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
+                    <input id="id_5" type="text" name="$this->filter_input_name" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
                         <a class="glyph" href="" aria-label="remove" id="id_6">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -502,7 +508,7 @@ EOT;
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_7" class="input-group-addon leftaddon">Selection</label>
-                    <select id="id_7" name="filter_input_0/filter_input_2">
+                    <select id="id_7" name="$this->filter_input_name">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -629,7 +635,7 @@ EOT;
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
-                    <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
+                    <input id="id_5" type="text" name="$this->filter_input_name" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
                     <a class="glyph" href="" aria-label="remove" id="id_6">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -640,7 +646,7 @@ EOT;
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_7" class="input-group-addon leftaddon">Selection</label>
-                    <select id="id_7" name="filter_input_0/filter_input_2">
+                    <select id="id_7" name="$this->filter_input_name">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
                         <option value="two">Two</option>
@@ -699,33 +705,5 @@ EOT;
 EOT;
 
         $this->assertHTMLEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
-    }
-
-    public function testDedicatedNames(): void
-    {
-        $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
-        $inputs = [
-            $if->text("Title")->withDedicatedName('title'),
-            $if->select("Selection", ["one" => "One", "two" => "Two", "three" => "Three"])->withDedicatedName('selection'),
-            $if->multiSelect("Multi Selection", ["one" => "Num One", "two" => "Num Two", "three" => "Num Three"])
-        ];
-        $filter = $f->standard(
-            "#",
-            "#",
-            "#",
-            "#",
-            "#",
-            "#",
-            $inputs,
-            [true, true, true],
-            true,
-            true
-        );
-
-        $inputs = $filter->getInputs();
-        $this->assertEquals('filter_input_0/title', $inputs[0]->getName());
-        $this->assertEquals('filter_input_0/selection', $inputs[1]->getName());
-        $this->assertEquals('filter_input_0/filter_input_1', $inputs[2]->getName());
     }
 }

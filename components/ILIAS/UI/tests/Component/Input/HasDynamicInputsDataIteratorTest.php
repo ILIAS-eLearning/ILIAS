@@ -20,20 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\Tests\UI\Component\Input;
 
-use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsDataIterator;
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
 use ILIAS\UI\Component\Input\InputData;
 use PHPUnit\Framework\TestCase;
 use LogicException;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 
 /**
  * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class DynamicInputDataIteratorTest extends TestCase
+class HasDynamicInputsDataIteratorTest extends TestCase
 {
     public function testValidityWithEmptyData(): void
     {
-        $iterator = new DynamicInputDataIterator(
+        $iterator = new HasDynamicInputsDataIterator(
             $this->getTestInputData([]),
             'test_name_1'
         );
@@ -45,7 +45,7 @@ class DynamicInputDataIteratorTest extends TestCase
 
     public function testValidityWithData(): void
     {
-        $iterator = new DynamicInputDataIterator(
+        $iterator = new HasDynamicInputsDataIterator(
             $this->getTestInputData([
                 'test_input_1' => [
                     [
@@ -80,7 +80,7 @@ class DynamicInputDataIteratorTest extends TestCase
             ]
         ];
 
-        $iterator = new DynamicInputDataIterator(
+        $iterator = new HasDynamicInputsDataIterator(
             $this->getTestInputData($fake_post_array),
             $parent_input_name
         );

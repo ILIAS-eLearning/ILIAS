@@ -63,11 +63,14 @@ class FilterInputsTestNoUIFactories extends NoUIFactory
 
 class FilterInputTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected function buildFactory(): I\Input\Container\Filter\Factory
     {
         return new I\Input\Container\Filter\Factory(
             new I\SignalGenerator(),
-            $this->buildInputFactory()
+            $this->buildInputFactory(),
+            $this->createFixedNameSourceStub('name'),
         );
     }
 
@@ -77,6 +80,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $language = $this->createMock(ILIAS\Language\Language::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new I\SignalGenerator(),
             $df,
