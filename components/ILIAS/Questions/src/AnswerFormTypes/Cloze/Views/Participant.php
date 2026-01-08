@@ -20,20 +20,35 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Views;
 
+use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\AnswerForm\Views\Participant as ParticipantViewInterface;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Type;
 use ILIAS\Questions\Response\Response;
+use ILIAS\UICore\GlobalTemplate;
+use Mustache\Engine as MustacheEngine;
 
 class Participant implements ParticipantViewInterface
 {
+    public function __construct(
+        private readonly GlobalTemplate $global_tpl,
+        private readonly MustacheEngine $mustache_engine
+    ) {
+    }
+
+    #[\Override]
     public function isAsyncPresentationAvailable(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function get(
+        Properties $properties,
         ?Response $response
-    ): array {
-
+    ): string {
+        $this->global_tpl->addJavaScript('assets/js/ParticipantViewLongMenu.js');
+        return $this->mustache_engine->render(
+            $properties->getClozeTextForPresentation(),
+            $properties->getGaps()->getPlaceholderArrayForParticipantView()
+        );
     }
 }

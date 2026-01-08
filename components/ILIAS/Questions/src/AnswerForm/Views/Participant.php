@@ -20,12 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Views;
 
+use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Response\Response;
 
 interface Participant
 {
     public function isAsyncPresentationAvailable(): bool;
+
     public function get(
+        Properties $properties,
         ?Response $response
-    ): array;
+    ): string;
 }

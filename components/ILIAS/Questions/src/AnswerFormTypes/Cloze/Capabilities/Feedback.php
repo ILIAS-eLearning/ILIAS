@@ -25,18 +25,24 @@ use ILIAS\Questions\Question\Response;
 
 class Feedback implements FeedbackInterface
 {
+    #[\Override]
     public function isConfigured(): bool
     {
         return false;
     }
 
-    public function getGeneralFeedback(Response $response): array
-    {
+    #[\Override]
+    public function getGeneralFeedback(
+        Response $response
+    ): array {
 
     }
 
-    public function getSpecificFeedback(Response $response, string $answer_id): array
-    {
+    #[\Override]
+    public function getSpecificFeedback(
+        Response $response,
+        string $answer_id
+    ): array {
 
     }
 }

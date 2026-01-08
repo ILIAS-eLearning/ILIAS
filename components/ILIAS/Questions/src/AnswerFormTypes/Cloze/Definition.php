@@ -24,8 +24,8 @@ use ILIAS\Questions\AnswerForm\Definition as DefinitionInterface;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm\Factory as PropertiesFactory;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm\Properties;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactory;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Edit;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Participant;
 use ILIAS\Questions\Persistence\Query;
@@ -45,11 +45,14 @@ class Definition implements DefinitionInterface
     ) {
     }
 
-    public function getLabel(Language $lng): string
-    {
+    #[\Override]
+    public function getLabel(
+        Language $lng
+    ): string {
         return $lng->txt('assClozeTest');
     }
 
+    #[\Override]
     public function buildProperties(
         TypeGenericProperties $type_generic_data,
         ?Query $query
@@ -60,26 +63,33 @@ class Definition implements DefinitionInterface
         );
     }
 
+    #[\Override]
     public function getPersistence(): Persistence
     {
         return $this->persistence;
     }
 
-    public function hasCapability(string $capability_class_name): bool
-    {
+    #[\Override]
+    public function hasCapability(
+        string $capability_class_name
+    ): bool {
         return array_key_exists($capability_class_name, $this->available_capabilities);
     }
 
-    public function getCapability(string $capability_class_name): ?Capability
-    {
+    #[\Override]
+    public function getCapability(
+        string $capability_class_name
+    ): ?Capability {
         return $this->available_capabilities[$capability_class_name];
     }
 
+    #[\Override]
     public function getEditView(): Edit
     {
         return $this->edit_view;
     }
 
+    #[\Override]
     public function getParticipantView(): Participant
     {
         return $this->participant_view;

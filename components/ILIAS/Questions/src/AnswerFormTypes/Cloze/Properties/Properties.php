@@ -18,17 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties;
 
 use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\AnswerForm\Properties as PropertiesInterface;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Layout\OverviewTable;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
+use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
@@ -37,13 +39,17 @@ use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Persistence\Where;
-use ILIAS\Questions\Presentation\Layout\Definitions\CarryWrapper;
+use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Table\Factory as TableFactory;
+use ILIAS\UI\Component\Table\Data as DataTable;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Properties implements PropertiesInterface
 {
@@ -59,6 +65,7 @@ class Properties implements PropertiesInterface
     public function __construct(
         private readonly Uuid $answer_form_id,
         private readonly Uuid $question_id,
+        private readonly Definition $definition,
         private Text $cloze_text,
         private readonly string $legacy_cloze_text,
         private Gaps $gaps,
@@ -67,22 +74,31 @@ class Properties implements PropertiesInterface
     ) {
     }
 
-    public function getAnswerFormId(): ?Uuid
+    #[\Override]
+    public function getAnswerFormId(): Uuid
     {
         return $this->answer_form_id;
     }
 
+    #[\Override]
     public function getQuestionId(): Uuid
     {
         return $this->question_id;
     }
 
+    #[\Override]
+    public function getDefinition(): Definition
+    {
+        return $this->definition;
+    }
+
+    #[\Override]
     public function getTypeGenericProperties(): TypeGenericProperties
     {
         return new TypeGenericProperties(
             $this->answer_form_id,
             $this->question_id,
-            Definition::class,
+            $this->definition,
             null,
             null,
             null,
@@ -107,6 +123,13 @@ class Properties implements PropertiesInterface
     public function getLegacyClozeText(): string
     {
         return $this->legacy_cloze_text;
+    }
+
+    public function getClozeTextForPresentation(): string
+    {
+        return $this->cloze_text === null
+            ? $this->legacy_cloze_text
+            : $this->cloze_text->getRenderedMarkdownForParticipantPresentation();
     }
 
     public function getScoringOfIdenticalResponses(): ScoringIdentical
@@ -148,6 +171,7 @@ class Properties implements PropertiesInterface
         return $clone;
     }
 
+    #[\Override]
     public function getBasicPropertiesForListing(
         Language $lng
     ): array {
@@ -157,6 +181,21 @@ class Properties implements PropertiesInterface
             $lng->txt('score_identical') => $this->scoring_identical
                 ->getTranslatedOptionName($lng)
         ];
+    }
+
+    #[\Override]
+    public function getOverviewTable(
+        TableFactory $table_factory,
+        Language $lng,
+        ServerRequestInterface $request,
+        Environment $environment
+    ): DataTable {
+        return new OverviewTable(
+            $table_factory,
+            $lng,
+            $request,
+            $environment
+        )->getTable();
     }
 
     public function buildBasicEditingInputs(
@@ -200,7 +239,8 @@ class Properties implements PropertiesInterface
     ): Group {
         return $ff->group(
             [
-                self::FORM_KEY_ID => $ff->hidden()->withValue($this->answer_form_id->toString()),
+                self::FORM_KEY_ID => $ff->hidden()->withValue($this->answer_form_id->toString())
+                    ->withDedicatedName(self::FORM_KEY_ID),
                 self::FORM_KEY_CLOZE_TEXT => $this->getClozeText()->getCarryInputs($ff)
                     ->withDedicatedName(self::FORM_KEY_CLOZE_TEXT),
                 self::FORM_KEY_GAPS_TO_EDIT => $this->gaps->getCarryInputs($ff)
@@ -268,11 +308,17 @@ class Properties implements PropertiesInterface
         return $clone;
     }
 
+    #[\Override]
     public function toStorage(
         Manipulate $manipulate
     ): Manipulate {
-        $persistence = $manipulate->getPersistenceForDefinitionClass(Definition::class);
-        $table_name_builder = $manipulate->getTableNameBuilder(Definition::class);
+        $persistence = $manipulate->getPersistenceForDefinitionClass(
+            $this->definition::class
+        );
+
+        $table_name_builder = $manipulate->getTableNameBuilder(
+            $this->definition::class
+        );
 
         $answer_form_statement = $manipulate->getManipulationType() === ManipulationType::Create
             ? $this->buildInsertAnswerFormStatement(
@@ -286,6 +332,30 @@ class Properties implements PropertiesInterface
         return $this->gaps->toStorage(
             $manipulate->withAdditionalStatement(
                 $answer_form_statement
+            ),
+            $persistence,
+            $table_name_builder
+        );
+    }
+
+    #[\Override]
+    public function toDelete(
+        Manipulate $manipulate
+    ): Manipulate {
+        $persistence = $manipulate->getPersistenceForDefinitionClass(
+            $this->definition::class
+        );
+
+        $table_name_builder = $manipulate->getTableNameBuilder(
+            $this->definition::class
+        );
+
+        return $this->gaps->toDelete(
+            $manipulate->withAdditionalStatement(
+                $this->buildDeleteAnswerFormStatement(
+                    $persistence,
+                    $table_name_builder
+                )
             ),
             $persistence,
             $table_name_builder
@@ -318,7 +388,9 @@ class Properties implements PropertiesInterface
         return new Update(
             $persistence->getColumns(
                 $table_name_builder,
-                $table_definition
+                $table_definition,
+                null,
+                ['answer_form_id']
             ),
             [
                 new Value(\ilDBConstants::T_TEXT, $this->scoring_identical->value),
@@ -331,6 +403,29 @@ class Properties implements PropertiesInterface
                         $table_definition
                     ),
                     new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString())
+                )
+            ]
+        );
+    }
+
+    private function buildDeleteAnswerFormStatement(
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Delete {
+        $table_definition = TableTypes::TypeSpecificAnswerForms;
+
+        return new Delete(
+            $table_definition->getTable($table_name_builder),
+            [
+                new Where(
+                    $persistence->getForeignKeyColumn(
+                        $table_name_builder,
+                        $table_definition
+                    ),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->answer_form_id->toString()
+                    )
                 )
             ]
         );

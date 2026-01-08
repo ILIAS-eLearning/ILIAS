@@ -21,15 +21,32 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm;
 
 use ILIAS\Questions\Persistence\Storable;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
+use ILIAS\UI\Component\Table\Factory as TableFactory;
+use ILIAS\UI\Component\Table\Data as DataTable;
+use ILIAS\UI\Component\Table\Ordering as OrderingTable;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface Properties extends Storable
 {
-    public function getAnswerFormId(): ?Uuid;
-    public function getQuestionId(): ?Uuid;
+    public function getAnswerFormId(): Uuid;
+
+    public function getQuestionId(): Uuid;
+
+    public function getDefinition(): Definition;
+
     public function getTypeGenericProperties(): TypeGenericProperties;
+
     public function getBasicPropertiesForListing(
         Language $lng
     ): array;
+
+    public function getOverviewTable(
+        TableFactory $table_factory,
+        Language $lng,
+        ServerRequestInterface $request,
+        Environment $environment
+    ): DataTable|OrderingTable;
 }

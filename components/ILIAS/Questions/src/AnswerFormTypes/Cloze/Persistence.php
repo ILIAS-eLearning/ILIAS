@@ -26,6 +26,7 @@ use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\Join;
 use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\JoinType;
+use ILIAS\Questions\Persistence\Order;
 use ILIAS\Questions\Persistence\Select;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableNameSpace;
@@ -81,11 +82,13 @@ class Persistence implements PersistenceInterface
     ) {
     }
 
+    #[\Override]
     public function getPublicNameSpace(): TableNameSpace
     {
         return $this->table_namespace;
     }
 
+    #[\Override]
     public function getColumns(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
@@ -101,13 +104,16 @@ class Persistence implements PersistenceInterface
         };
         return array_map(
             fn(string $v): Column => new Column($table, $v),
-            array_filter(
-                $column_identifiers,
-                fn(string $v) => !in_array($v, $columns_to_skip)
+            array_values(
+                array_filter(
+                    $column_identifiers,
+                    fn(string $v) => !in_array($v, $columns_to_skip)
+                )
             )
         );
     }
 
+    #[\Override]
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
@@ -125,6 +131,7 @@ class Persistence implements PersistenceInterface
         };
     }
 
+    #[\Override]
     public function getForeignKeyColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
@@ -150,6 +157,7 @@ class Persistence implements PersistenceInterface
         };
     }
 
+    #[\Override]
     public function completeQuery(
         Query $query,
         Column $answer_form_id_column
@@ -202,11 +210,25 @@ class Persistence implements PersistenceInterface
                 ),
                 JoinType::Left
             )
+        )->withAdditionalOrder(
+            new Order(
+                $this->getIdColumn(
+                    $table_name_builder,
+                    $answer_input_table_definition
+                )
+            )
         )->withAdditionalSelect(
             new Select(
                 $this->getColumns(
                     $table_name_builder,
                     $answer_options_table_definition
+                )
+            )
+        )->withAdditionalOrder(
+            new Order(
+                new Column(
+                    $answer_options_table_definition->getTable($table_name_builder),
+                    'position'
                 )
             )
         )->withAdditionalJoin(

@@ -20,11 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
+use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Persistence\Value;
+use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 class AnswerOptions
@@ -33,24 +38,40 @@ class AnswerOptions
 
     public function __construct(
         private readonly Factory $factory,
+        private readonly Uuid $answer_input_id,
         private array $answer_options
     ) {
         $this->answer_options_awarding_points = $this->buildAnswerOptionsAwardingPointsFromAnswerOptions($answer_options);
     }
 
+    public function isIncomplete(): bool
+    {
+        return $this->answer_options === []
+            || $this->answer_options_awarding_points === [];
+    }
+
     public function getAnswerOptionForPositionOrNew(
-        Uuid $answer_input_id,
         int $position
     ): AnswerOption {
         return $this->answer_options[$position]
-            ?? $this->factory->getDefaultAnswerOptionForPosition($answer_input_id, $position);
+            ?? $this->factory->getDefaultAnswerOptionForPosition(
+                $this->answer_input_id,
+                $position
+            );
     }
 
     public function getTagsArrayFromAnswerOptions(): array
     {
-        return array_map(
-            fn(AnswerOption $v): string => $v->getTextValue(),
-            $this->answer_options
+        return array_reduce(
+            $this->answer_options,
+            function (array $c, AnswerOption $v): array {
+                if ($v->getTextValue() === '') {
+                    return $c;
+                }
+                $c[] = $v->getTextValue();
+                return $c;
+            },
+            []
         );
     }
 
@@ -86,7 +107,6 @@ class AnswerOptions
     }
 
     public function withValuesFromHiddenInputValue(
-        Uuid $answer_input_id,
         ?string $value
     ): self {
         if ($value === null
@@ -101,7 +121,7 @@ class AnswerOptions
         $clone->answer_options = array_map(
             fn(array $vs): AnswerOption => $this->factory->buildAnswerOption(
                 $vs[AnswerOption::FORM_KEY_ID],
-                $answer_input_id,
+                $this->answer_input_id,
                 $vs[AnswerOption::FORM_KEY_POSITION],
                 $vs[AnswerOption::FORM_KEY_TEXT_VALUE],
                 $vs[AnswerOption::FORM_KEY_LOWER_LIMIT] ?? null,
@@ -123,15 +143,13 @@ class AnswerOptions
     }
 
     public function withAnswerOptionsFromTags(
-        Uuid $answer_input_id,
         array $tags
     ): self {
         $clone = clone $this;
         $position = 0;
         $clone->answer_options = array_map(
-            function (string $v) use ($answer_input_id, &$position): AnswerOption {
+            function (string $v) use (&$position): AnswerOption {
                 return $this->buildAnswerOptionFromTag(
-                    $answer_input_id,
                     $position++,
                     $v
                 );
@@ -160,10 +178,24 @@ class AnswerOptions
 
                 return $v;
             },
-            $this->answer_options
+            $clone->answer_options
         );
-        $this->answer_options_awarding_points = $this->buildAnswerOptionsAwardingPointsFromAnswerOptions($this->answer_options);
+        $clone->answer_options_awarding_points = $clone
+            ->buildAnswerOptionsAwardingPointsFromAnswerOptions($clone->answer_options);
         return $clone;
+    }
+
+    public function buildArrayForInput(
+        Transformation $shuffle_transformation
+    ): array {
+        return array_reduce(
+            $shuffle_transformation->transform($this->answer_options),
+            function (array $c, AnswerOption $v): array {
+                $c[$v->getAnswerOptionId()->toString()] = $v->getTextValue();
+                return $c;
+            },
+            []
+        );
     }
 
     public function buildHiddenInputValue(): string
@@ -206,10 +238,33 @@ class AnswerOptions
             $this->answer_options,
             fn(?Replace $c, AnswerOption $v): Replace => $v->buildReplace(
                 $c,
-                $persistence,
+                $persistence->getColumns($table_name_builder, TableTypes::AnswerOptions),
                 $table_name_builder
             ),
             $replace
+        );
+    }
+
+    public function buildDelete(
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Delete {
+        $answer_options_table_definition = TableTypes::AnswerOptions;
+
+        return new Delete(
+            $answer_options_table_definition->getTable($table_name_builder),
+            [
+                new Where(
+                    $persistence->getForeignKeyColumn(
+                        $table_name_builder,
+                        $answer_options_table_definition
+                    ),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->answer_input_id->toString()
+                    )
+                )
+            ]
         );
     }
 
@@ -223,12 +278,15 @@ class AnswerOptions
     }
 
     private function buildAnswerOptionFromTag(
-        Uuid $answer_input_id,
         int $position,
         string $text_value
     ): AnswerOption {
         $answer_option = $this->retrieveAnswerOptionByTextValue($text_value)
-            ?? $this->factory->getDefaultAnswerOptionForPosition($answer_input_id, $position);
+            ?? $this->factory->getDefaultAnswerOptionForPosition(
+                $this->answer_input_id,
+                $position
+            );
+
         return $answer_option
             ->withPosition($position)
             ->withTextValue($text_value);

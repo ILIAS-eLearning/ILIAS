@@ -30,30 +30,44 @@ class Delete
     ) {
     }
 
-    public function toManipulateString(\ilDBInterface $db): string
+    public function getTableToLock(): string
     {
+        return $this->table->getName();
+    }
+
+    public function toManipulateString(
+        \ilDBInterface $db
+    ): string {
         return "DELETE FROM {$this->table->getName()}" . PHP_EOL
             . $this->buildWhereString($db);
     }
 
-    private function buildWhereString(\ilDBInterface $db): string
-    {
+    private function buildWhereString(
+        \ilDBInterface $db
+    ): string {
         $values = [];
-
         return sprintf(
             array_reduce(
                 $this->where,
                 function (?string $c, Where $v) use ($db, &$values): string {
-                    $values[] = $v->getRight()->getQuotedValue($db);
+                    $quoted_value = $v->getRight()->getQuotedValue($db);
+                    if (is_array($quoted_value)) {
+                        $values = array_merge(
+                            $values,
+                            array_values($quoted_value)
+                        );
+                    } else {
+                        $values[] = $quoted_value;
+                    }
 
                     if ($c === null) {
                         return "WHERE {$v->toSql()}" . PHP_EOL;
                     }
 
-                    return "{$c}{$v->getLogicalOperator()} {$v->toSql()}" . PHP_EOL;
+                    return "{$c}{$v->getLogicalOperator()->value} {$v->toSql()}" . PHP_EOL;
                 }
-            ),
-            $values
+            ) ?? '',
+            ...$values
         );
     }
 }

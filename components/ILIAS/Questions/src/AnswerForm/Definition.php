@@ -25,19 +25,27 @@ use ILIAS\Questions\AnswerForm\Views\Edit;
 use ILIAS\Questions\AnswerForm\Views\Participant;
 use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\Persistence\Query;
-use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Language\Language;
 
 interface Definition
 {
     public function getLabel(Language $lng): string;
+
     public function buildProperties(
         TypeGenericProperties $type_generic_properties,
         ?Query $query
     ): Properties;
     public function getPersistence(): Persistence;
-    public function hasCapability(string $capability_class_name): bool;
-    public function getCapability(string $capability_class_name): ?Capability;
+
+    public function hasCapability(
+        string $capability_class_name
+    ): bool;
+
+    public function getCapability(
+        string $capability_class_name
+    ): ?Capability;
+
     public function getEditView(): Edit;
+
     public function getParticipantView(): Participant;
 }

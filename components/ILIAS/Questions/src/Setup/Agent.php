@@ -22,16 +22,38 @@ namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
-use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Setup\Agent\HasNoNamedObjective;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective\NullObjective;
 use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\Config;
 
-class Agent extends NullAgent
+class Agent implements SetupAgent
 {
-    public function getUpdateObjective(?Config $config = null): Objective
+    use HasNoNamedObjective;
+
+    public function __construct(
+        private readonly array $answer_form_migrations
+    ) {
+    }
+
+    public function hasConfig(): bool
     {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation(): Transformation
+    {
+        throw new LogicException(self::class . ' has no Config.');
+    }
+
+    #[\Override]
+    public function getUpdateObjective(
+        ?Config $config = null
+    ): Objective {
         return new ObjectiveCollection(
             'Database is updated for ILIAS\Questions',
             false,
@@ -52,8 +74,10 @@ class Agent extends NullAgent
         );
     }
 
-    public function getStatusObjective(Storage $storage): Objective
-    {
+    #[\Override]
+    public function getStatusObjective(
+        Storage $storage
+    ): Objective {
         return new ObjectiveCollection(
             'ILIAS\Questions',
             true,
@@ -70,5 +94,36 @@ class Agent extends NullAgent
                 )
             )
         );
+    }
+
+    #[\Override]
+    public function getMigrations(): array
+    {
+        return [
+            new QuestionsMigration(
+                $this->answer_form_migrations
+            )
+        ];
+    }
+
+    #[\Override]
+    public function getBuildObjective(): Objective
+    {
+        return new NullObjective();
+    }
+
+    #[\Override]
+    public function getInstallObjective(
+        ?Config $config = null
+    ): Objective {
+        return new NullObjective();
+    }
+
+
+    #[\Override]
+    public function getNamedObjectives(
+        ?Config $config = null
+    ): array {
+        return new NullObjective();
     }
 }

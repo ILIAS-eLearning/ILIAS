@@ -18,26 +18,28 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout\Definitions;
+namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Presentation\Views\Edit;
-use ILIAS\Questions\Presentation\Layout\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\UI\Component\Table;
+use ILIAS\Language\Language;
+use ILIAS\UI\Component\Table\DataRetrieval;
+use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use Psr\Http\Message\ServerRequestInterface;
 
-class QuestionsTable implements Table\DataRetrieval
+class QuestionsTable implements DataRetrieval
 {
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
-        private readonly \ilLanguage $lng,
+        private readonly Language $lng,
         private readonly ServerRequestInterface $request,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
@@ -52,18 +54,9 @@ class QuestionsTable implements Table\DataRetrieval
         return $ui_renderer->render($this->buildContent());
     }
 
-    public function getColums(): array
-    {
-        $f = $this->ui_factory->table()->column();
-
-        return [
-            'title' => $f->link($this->lng->txt('title')),
-            'type' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
-        ];
-    }
-
+    #[\Override]
     public function getRows(
-        Table\DataRowBuilder $row_builder,
+        DataRowBuilder $row_builder,
         array $visible_column_ids,
         Range $range,
         Order $order,
@@ -83,6 +76,7 @@ class QuestionsTable implements Table\DataRetrieval
         }
     }
 
+    #[\Override]
     public function getTotalRowCount(
         mixed $additional_viewcontrol_data,
         mixed $filter_data,
@@ -99,12 +93,15 @@ class QuestionsTable implements Table\DataRetrieval
                 $this,
                 $this->lng->txt('questions'),
                 $this->getColums(),
+            )->withActions(
+                $this->getActions()
             )->withRequest($this->request)
         ];
     }
 
-    private function buildFilter(string $action): Filter
-    {
+    private function buildFilter(
+        string $action
+    ): Filter {
         $question_type_options = [
             '' => $this->lng->txt('filter_all_question_types')
         ];
@@ -129,5 +126,27 @@ class QuestionsTable implements Table\DataRetrieval
             true
         );
         return $filter;
+    }
+
+    private function getColums(): array
+    {
+        $f = $this->ui_factory->table()->column();
+
+        return [
+            'title' => $f->link($this->lng->txt('title')),
+            'type' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
+        ];
+    }
+
+    private function getActions(): array
+    {
+        return [
+            'delete' => $this->ui_factory->table()->action()->standard(
+                $this->lng->txt('delete'),
+                $this->environment->withActionParameter(Edit::CMD_DELETE_QUESTION)
+                    ->getUrlBuilder(),
+                $this->environment->getQuestionIdsToken()
+            )->withAsync(true)
+        ];
     }
 }
