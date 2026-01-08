@@ -43,10 +43,14 @@ class Query
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Refinery $refinery
     ) {
-
+        $questions_linking_table_definition = CoreTables::Linking;
         $questions_table_definition = CoreTables::Questions;
         $answer_form_table_definition = CoreTables::AnswerForms;
         $questions_id_column = $questions_table_definition->getIdColumn();
+
+        $this->select[] = new Select(
+            $questions_linking_table_definition->getColumns()
+        );
 
         $this->select[] = new Select(
             $questions_table_definition->getColumns()
@@ -54,6 +58,12 @@ class Query
 
         $this->select[] = new Select(
             $answer_form_table_definition->getColumns()
+        );
+
+        $this->joins[] = new Join(
+            $questions_id_column,
+            $questions_table_definition->getIdColumn(),
+            JoinType::Inner
         );
 
         $this->joins[] = new Join(
@@ -95,36 +105,41 @@ class Query
         return $this->refinery;
     }
 
-    public function withAdditionalSelect(Select $select): self
-    {
+    public function withAdditionalSelect(
+        Select $select
+    ): self {
         $clone = clone $this;
         $clone->select[] = $select;
         return $clone;
     }
 
-    public function withAdditionalJoin(Join $join): self
-    {
+    public function withAdditionalJoin(
+        Join $join
+    ): self {
         $clone = clone $this;
         $clone->joins[] = $join;
         return $clone;
     }
 
-    public function withAdditionalWhere(Where $where): self
-    {
+    public function withAdditionalWhere(
+        Where $where
+    ): self {
         $clone = clone $this;
         $clone->where[] = $where;
         return $clone;
     }
 
-    public function withAdditionalOrder(Order $order): self
-    {
+    public function withAdditionalOrder(
+        Order $order
+    ): self {
         $clone = clone $this;
         $clone->order[] = $order;
         return $clone;
     }
 
-    public function withLimit(int $limit): self
-    {
+    public function withLimit(
+        int $limit
+    ): self {
         $clone = clone $this;
         $clone->limit = $limit;
         return $clone;
@@ -175,13 +190,24 @@ class Query
                     static fn(array $c, Select $v): array => [...$c, ...$v->toColumnsArray()],
                     []
                 )
-            ) . ' FROM ' . CoreTables::Questions->value
+            ) . ' FROM ' . CoreTables::Linking->value
             . array_reduce(
                 $this->joins,
                 static fn(string $c, Join $v): string => $c . PHP_EOL . $v->toSql(),
                 ''
             ) . PHP_EOL
             . $this->buildWhereString()
+            . 'ORDER BY ' . implode(
+                ', ',
+                array_reduce(
+                    $this->order,
+                    static function (array $c, Order $v): array {
+                        $c[] = $v->toSql();
+                        return $c;
+                    },
+                    []
+                )
+            ) . PHP_EOL
             . ($this->limit !== null ? "LIMIT = {$this->limit}" : ''),
             $this->binding_types,
             $this->binding_values
@@ -203,9 +229,10 @@ class Query
         ) ?? '';
     }
 
-    private function addValueToBinding(Value $value): void
-    {
-        if (!is_array($value)) {
+    private function addValueToBinding(
+        Value $value
+    ): void {
+        if (!is_array($value->getValue())) {
             $this->binding_types[] = $value->getType();
             $this->binding_values[] = $value->getValue();
             return;

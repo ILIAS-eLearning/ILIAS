@@ -33,7 +33,7 @@ class Where
 
     public function toSql(): string
     {
-        return $this->negate ? 'NOT ' : ''
+        return ($this->negate ? 'NOT ' : '')
             . $this->comparison->toSql(
                 $this->left,
                 $this->right->getNumberOfElements()

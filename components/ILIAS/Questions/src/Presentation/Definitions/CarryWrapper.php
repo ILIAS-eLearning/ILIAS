@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout\Definitions;
+namespace ILIAS\Questions\Presentation\Definitions;
 
 use ILIAS\Refinery\Transformation;
 
@@ -34,15 +34,18 @@ class CarryWrapper
      * of `CarrySectionData` containing the next nesting level if the value contains
      * values from multiple variables from $_POST.
      */
-    public function retrieve(string $key, Transformation $transformation): mixed
-    {
+    public function retrieve(
+        string $key,
+        Transformation $transformation
+    ): mixed {
         return $transformation->transform(
             $this->retrieveValueFromArray($key)
         );
     }
 
-    private function retrieveValueFromArray(string $key): mixed
-    {
+    private function retrieveValueFromArray(
+        string $key
+    ): mixed {
         $value = $this->raw_values[$key] ?? null;
 
         if ($value === null) {

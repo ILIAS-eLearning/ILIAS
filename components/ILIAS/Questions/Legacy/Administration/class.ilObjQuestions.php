@@ -20,8 +20,10 @@ declare(strict_types=1);
 
 class ilObjQuestions extends ilObject
 {
-    public function __construct(int $id = 0, bool $referenced = true)
-    {
+    public function __construct(
+        int $id = 0,
+        bool $referenced = true
+    ) {
         $this->type = 'qsts';
         parent::__construct($id, $referenced);
     }

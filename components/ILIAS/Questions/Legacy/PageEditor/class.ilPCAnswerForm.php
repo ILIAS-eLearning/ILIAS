@@ -18,7 +18,13 @@
 
 declare(strict_types=1);
 
+use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
+use ILIAS\Questions\Legacy\LocalDIC;
+use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Language\Language;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 class ilPCAnswerForm extends ilPageContent
 {
@@ -31,11 +37,13 @@ class ilPCAnswerForm extends ilPageContent
         $this->setType('answf');
     }
 
+    #[\Override]
     public static function getLangVars(): array
     {
         return ['ed_insert_pcqst', 'empty_question', 'pc_qst'];
     }
 
+    #[\Override]
     public function modifyPageContentPostXsl(
         string $output,
         string $mode,
@@ -45,38 +53,25 @@ class ilPCAnswerForm extends ilPageContent
             return $output;
         }
 
-        /** @var \ILIAS\Questions\Question\QuestionImplementation $question */
+        global $DIC;
+        $ui_factory = $DIC['ui.factory'];
+        $ui_renderer = $DIC['ui.renderer'];
+        $lng = $DIC['lng'];
         $question = $this->pg_obj->getQuestion();
 
         return mb_ereg_replace_callback(
             self::ANSWER_FORM_PLACEHOLDER,
-            fn(array $matches): string => $question
-                ->getAnswerFormByIdString($matches[1])?->getTypeGenericProperties()
-                ->getAdditionalText() ?? '',
+            fn(array $matches): string => $this->renderAnswerForm(
+                $ui_factory,
+                $ui_renderer,
+                $lng,
+                $question->getAnswerFormPropertiesByIdString($matches[1])
+            ),
             $output
         );
     }
 
-    public function getCssFiles(string $a_mode): array
-    {
-        if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
-            return array("./components/ILIAS/TestQuestionPool/resources/js/dist/question_handling.css",
-                "components/ILIAS/TestQuestionPool/templates/default/test_javascript.css");
-        }
-        return array();
-    }
-
-    public function create(
-        Uuid $answer_form_id
-    ): void {
-        $this->createInitialChildNode(
-            $this->hier_id,
-            '',
-            self::ANSWER_FORM_ELEMENT_TAG,
-            [self::ANSWER_FORM_ID_ATTRIBUTE => $answer_form_id->toString()]
-        );
-    }
-
+    #[\Override]
     public static function afterPageUpdate(
         ilPageObject $page,
         DOMDocument $domdoc,
@@ -89,6 +84,7 @@ class ilPCAnswerForm extends ilPageContent
 
         global $DIC;
         $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+        $question_repository = LocalDIC::dic()[Repository::class];
 
         /** @var \ILIAS\Questions\Question\QuestionImplementation $question */
         $question = $page->getQuestion();
@@ -97,8 +93,13 @@ class ilPCAnswerForm extends ilPageContent
         foreach ($dom_util->path($domdoc, '//AnswerForm') as $node) {
             $answer_forms[] = $node->getAttribute(self::ANSWER_FORM_ID_ATTRIBUTE);
         }
+
+        $question_repository->update(
+            [$question->withoutDeletedAnswerForms($answer_forms)]
+        );
     }
 
+    #[\Override]
     public static function handleCopiedContent(
         DOMDocument $a_domdoc,
         bool $a_self_ass = true,
@@ -153,5 +154,43 @@ class ilPCAnswerForm extends ilPageContent
                 $parent->parentNode->removeChild($parent);
             }
         }
+    }
+
+    public function create(
+        Uuid $answer_form_id
+    ): void {
+        $this->createInitialChildNode(
+            $this->hier_id,
+            '',
+            self::ANSWER_FORM_ELEMENT_TAG,
+            [self::ANSWER_FORM_ID_ATTRIBUTE => $answer_form_id->toString()]
+        );
+    }
+
+    public function getAnswerFormIdStringFromAttribute(): string
+    {
+        return $this->getChildNode()->attributes
+                ->getNamedItem(self::ANSWER_FORM_ID_ATTRIBUTE)->nodeValue;
+    }
+
+    private function renderAnswerForm(
+        UIFactory $ui_factory,
+        UIRenderer $ui_renderer,
+        Language $lng,
+        ?AnswerFormProperties $answer_form_properties,
+    ): string {
+        if ($answer_form_properties === null) {
+            return $lng->txt('broken_answer_form');
+        }
+
+        return $ui_renderer->render(
+            $ui_factory->legacy()->latexContent(
+                $answer_form_properties->getDefinition()->getParticipantView()
+                    ->get(
+                        $answer_form_properties,
+                        null
+                    )
+            )
+        );
     }
 }

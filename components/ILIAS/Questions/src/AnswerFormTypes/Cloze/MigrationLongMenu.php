@@ -18,17 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout\Definitions;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze;
 
-class Leaf
+use ILIAS\Questions\AnswerForm\Migration;
+use ILIAS\Questions\Persistence\Manipulate;
+
+class MigrationLongMenu implements Migration
 {
-    public function __construct(
-        private readonly mixed $value
-    ) {
+    #[\Override]
+    public function getOldQuestionIdentifier(): string
+    {
+        return 'assLongMenu';
     }
 
-    public function get(): mixed
-    {
-        return $this->value;
+    #[\Override]
+    public function toStorage(
+        Manipulate $manipulate
+    ): Manipulate {
+
     }
 }

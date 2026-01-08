@@ -67,10 +67,9 @@ class Insert
         return $clone;
     }
 
-    public function lockTable(
-        \ilAtomQuery $atom_query
-    ): void {
-        $atom_query->addTableLock($this->columns[0]->getTableName());
+    public function getTableToLock(): string
+    {
+        return $this->columns[0]->getTableName();
     }
 
     public function toManipulateString(
@@ -93,8 +92,9 @@ class Insert
             ) . ')';
     }
 
-    protected function buildValuesString(\ilDBInterface $db): string
-    {
+    protected function buildValuesString(
+        \ilDBInterface $db
+    ): string {
         $return = [];
         foreach ($this->value_sets as $values) {
             $return[] = '(' . implode(

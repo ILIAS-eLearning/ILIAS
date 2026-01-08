@@ -31,7 +31,8 @@ class Join
 
     public function toSql(): string
     {
-        return "{$this->type->value} JOIN {$this->right->getTableName()} ON {$this->left->getColumnString()} = {$this->right->getColumnString()}";
+        return "{$this->type->value} JOIN {$this->right->getTableName()} "
+        . "ON {$this->left->getColumnString()} = {$this->right->getColumnString()}";
     }
 
     public function getLeft(): Column

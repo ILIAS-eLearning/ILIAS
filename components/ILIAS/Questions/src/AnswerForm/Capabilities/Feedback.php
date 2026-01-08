@@ -24,6 +24,12 @@ use ILIAS\Questions\Question\Response;
 
 interface Feedback extends Capability
 {
-    public function getGeneralFeedback(Response $response): array;
-    public function getSpecificFeedback(Response $response, string $answer_id): array;
+    public function getGeneralFeedback(
+        Response $response
+    ): array;
+
+    public function getSpecificFeedback(
+        Response $response,
+        string $answer_id
+    ): array;
 }
