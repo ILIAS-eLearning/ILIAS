@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\BackgroundTask\Setup;
+namespace ILIAS\BackgroundTasks\Setup;
 
 use ilUtil;
 use ilSetting;

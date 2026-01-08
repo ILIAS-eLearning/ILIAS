@@ -20,7 +20,7 @@ use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
 use ILIAS\UI;
-use ILIAS\BackgroundTask\Setup\BackgoundWorkerObjective;
+use ILIAS\BackgroundTasks\Setup\BackgoundWorkerObjective;
 
 class ilBackgroundTasksSetupAgent implements Setup\Agent
 {
