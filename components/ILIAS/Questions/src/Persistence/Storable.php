@@ -22,6 +22,11 @@ namespace ILIAS\Questions\Persistence;
 
 interface Storable
 {
-    public function toStorage(Manipulate $manipulate): Manipulate;
-    public function toDelete(Manipulate $manipulate): Manipulate;
+    public function toStorage(
+        Manipulate $manipulate
+    ): Manipulate;
+
+    public function toDelete(
+        Manipulate $manipulate
+    ): Manipulate;
 }

@@ -18,20 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Response;
+namespace ILIAS\Questions\Presentation\Definitions;
 
-interface Repository
+class Leaf
 {
-    public function getForUser(
-        int $question_id,
-        int $user_id
-    ): Result;
+    public function __construct(
+        private readonly mixed $value
+    ) {
+    }
 
-    public function getAllForQuestion(
-        int $question_id
-    ): Result;
-
-    public function storeResult(
-        Result $result
-    ): void;
+    public function get(): mixed
+    {
+        return $this->value;
+    }
 }

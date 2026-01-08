@@ -24,4 +24,5 @@ enum ManipulationType
 {
     case Create;
     case Update;
+    case Delete;
 }

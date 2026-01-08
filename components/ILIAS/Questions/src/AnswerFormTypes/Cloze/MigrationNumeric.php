@@ -18,20 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Response;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze;
 
-interface Repository
+use ILIAS\Questions\AnswerForm\Migration;
+use ILIAS\Questions\Persistence\Manipulate;
+
+class MigrationNumeric implements Migration
 {
-    public function getForUser(
-        int $question_id,
-        int $user_id
-    ): Result;
+    #[\Override]
+    public function getOldQuestionIdentifier(): string
+    {
+        return 'assNumeric';
+    }
 
-    public function getAllForQuestion(
-        int $question_id
-    ): Result;
+    #[\Override]
+    public function toStorage(
+        Manipulate $manipulate
+    ): Manipulate {
 
-    public function storeResult(
-        Result $result
-    ): void;
+    }
 }

@@ -24,6 +24,9 @@ use ILIAS\Questions\Response\Response;
 
 interface Marking extends Capability
 {
-    public function addAchievedPointsToResponse(Response $response): Response;
+    public function addAchievedPointsToResponse(
+        Response $response
+    ): Response;
+
     public function getBestResponse(): Response;
 }

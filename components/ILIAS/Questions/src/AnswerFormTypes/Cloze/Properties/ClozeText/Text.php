@@ -65,8 +65,9 @@ class Text
         ->withValue($this->cloze_text->getRawRepresentation());
     }
 
-    public function getCarryInputs(FieldFactory $ff): HiddenInput
-    {
+    public function getCarryInputs(
+        FieldFactory $ff
+    ): HiddenInput {
         return $ff->hidden()->withValue($this->getTextForOutputInHiddenInput());
     }
 
@@ -75,12 +76,21 @@ class Text
         return $this->cloze_text->getRawRepresentation();
     }
 
+    public function getRenderedMarkdownForParticipantPresentation(): string
+    {
+        return $this->refinery->string()->markdown()->toHTML()->transform(
+            $this->cloze_text->getRawRepresentation()
+        );
+    }
+
     public function getRenderedMarkdownForEditingPresentation(
         Gaps $gaps
     ): string {
         return $this->mustache_engine->render(
-            $this->cloze_text->getRawRepresentation(),
-            $gaps->getPlaceholderArrayForPreview()
+            $this->refinery->string()->markdown()->toHTML()->transform(
+                $this->cloze_text->getRawRepresentation()
+            ),
+            $gaps->getPlaceholderArrayForEditFormPanel()
         );
     }
 
@@ -95,7 +105,7 @@ class Text
         $position = 0;
         return array_reduce(
             $this->mustache_engine->getTokenizer()->scan($this->cloze_text->getRawRepresentation()),
-            function (Gaps $c, array $v) use ($answer_form_id, &$position): Gaps {
+            function (Gaps $c, array $v) use ($answer_form_id, $pre_existing_gaps, &$position): Gaps {
                 if ($v['type'] !== '_v'
                     || !str_starts_with($v['name'], Gap::GAP_PLACEHOLDER_NAME)) {
                     return $c;
@@ -105,14 +115,11 @@ class Text
                     return $c->withNewGap($answer_form_id, $position++);
                 }
 
-                $gap = $c->getGapByTagName($v['name']);
+                $gap = $pre_existing_gaps->getGapByTagName($v['name']);
                 if ($gap !== null) {
                     return $c->withGap(
-                        $gap->withProperties(
-                            $gap->getProperties()->withPosition(
-                                $answer_form_id,
-                                $position++
-                            )
+                        $gap->withPosition(
+                            $position++
                         )
                     );
                 }
@@ -123,14 +130,15 @@ class Text
                     $position++
                 );
             },
-            $pre_existing_gaps
+            $pre_existing_gaps->withResetGaps()
         );
     }
 
-    public function withIdsOfNewGapsInClozeText(array $new_gaps): self
-    {
+    public function withIdsOfNewGapsInClozeText(
+        array $new_gaps
+    ): self {
         if ($new_gaps === []) {
-            return self;
+            return $this;
         }
 
         $clone = clone $this;

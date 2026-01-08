@@ -23,8 +23,16 @@ namespace ILIAS\Questions\Response;
 interface Response
 {
     public function getCorrespondingQuestionType(): QuestionType;
+
     public function getQuestionId(): ?int;
-    public function withQuestionId(int $question_id): self;
+
+    public function withQuestionId(
+        int $question_id
+    ): self;
+
     public function getParticipantId(): ?int;
-    public function withParticipantId(int $participant_id): self;
+
+    public function withParticipantId(
+        int $participant_id
+    ): self;
 }

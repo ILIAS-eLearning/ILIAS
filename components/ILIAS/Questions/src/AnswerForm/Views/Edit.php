@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Views;
 
 use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\Presentation\Layout\Definitions\EditForm;
-use ILIAS\Questions\Presentation\Layout\Definitions\EditOverview;
-use ILIAS\Questions\Presentation\Layout\Definitions\Environment;
+use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\EditForm;
+use ILIAS\Questions\Presentation\Layout\EditOverview;
 
 interface Edit
 {

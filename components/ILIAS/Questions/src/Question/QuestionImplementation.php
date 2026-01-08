@@ -22,16 +22,15 @@ namespace ILIAS\Questions\Question;
 
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Persistence\CoreTables;
+use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
-use ILIAS\Questions\Persistence\Storable;
 use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Persistence\Where;
-use ILIAS\Questions\Presentation\Layout\Definitions\EnvironmentImplementation;
+use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
@@ -42,8 +41,9 @@ use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\RequestInterface;
 
-class QuestionImplementation implements Question, Storable
+class QuestionImplementation implements Question
 {
+    private bool $linking_information_updated = false;
     private bool $self_updated = false;
     private array $updated_answer_forms = [];
     private array $deleted_answer_forms = [];
@@ -55,6 +55,8 @@ class QuestionImplementation implements Question, Storable
      */
     public function __construct(
         private readonly Uuid $id,
+        private int $parent_obj_id,
+        private ?int $position = null,
         private ?int $page_id = null,
         private string $title = '',
         private string $author = '',
@@ -80,6 +82,29 @@ class QuestionImplementation implements Question, Storable
     public function getId(): ?Uuid
     {
         return $this->id;
+    }
+
+    public function getParentObjId(): int
+    {
+        return $this->parent_obj_id;
+    }
+
+    public function withParentObjId(
+        int $parent_obj_id
+    ): self {
+        $clone = clone $this;
+        $clone->parent_obj_id = $parent_obj_id;
+        $clone->linking_information_updated = true;
+        return $clone;
+    }
+
+    public function withPosition(
+        int $position
+    ): self {
+        $clone = clone $this;
+        $clone->position = $position;
+        $clone->linking_information_updated = true;
+        return $clone;
     }
 
     public function getPageId(): ?int
@@ -181,7 +206,7 @@ class QuestionImplementation implements Question, Storable
         return $this->answer_forms;
     }
 
-    public function getAnswerFormByIdString(
+    public function getAnswerFormPropertiesByIdString(
         string $form_id
     ): ?AnswerFormProperties {
         return $this->answer_forms[$form_id] ?? null;
@@ -202,7 +227,7 @@ class QuestionImplementation implements Question, Storable
         $clone = clone $this;
         foreach (array_keys($this->answer_forms) as $answer_form_id) {
             if (!in_array($answer_form_id, $found_answer_form_ids)) {
-                $this->deleted_answer_forms = $clone->answer_forms[$answer_form_id];
+                $clone->deleted_answer_forms[] = $clone->answer_forms[$answer_form_id];
                 unset($clone->answer_forms[$answer_form_id]);
             }
         }
@@ -224,17 +249,24 @@ class QuestionImplementation implements Question, Storable
         UIFactory $ui_factory,
         Refinery $refinery,
         RequestInterface $request,
-        \ilCtrl $ctrl,
-        DataFactory $data_factory
+        \ilCtrl $ctrl
     ): Views\Edit {
-        return new Views\Edit($lng, $current_user, $ui_factory, $refinery, $request, $ctrl, $data_factory, $this);
+        return new Views\Edit(
+            $lng,
+            $current_user,
+            $ui_factory,
+            $refinery,
+            $request,
+            $ctrl,
+            $this
+        );
     }
 
+    #[\Override]
     public function getParticipantView(): Views\Participant
     {
         return new Views\Participant(
-            new \QstsQuestionPageGUI($this),
-            $this->answer_forms
+            $this
         );
     }
 
@@ -282,16 +314,24 @@ class QuestionImplementation implements Question, Storable
     public function toDelete(
         Manipulate $manipulate
     ): Manipulate {
-        ;
+        return $this->addDeleteAnswerFormsStatementsToManipulate(
+            $manipulate->withAdditionalStatement(
+                $this->buildDeleteQuestionStatement()
+            ),
+            $this->answer_forms
+        );
     }
 
     private function addInsertStatementsToManipulation(
         Manipulate $manipulate
     ): Manipulate {
         if ($this->created === null) {
-            $manipulate = $manipulate->withAdditionalStatement(
-                $this->buildInsertQuestionStatement()
-            );
+            $manipulate = $manipulate
+                ->withAdditionalStatement(
+                    $this->buildInsertLinkingStatement()
+                )->withAdditionalStatement(
+                    $this->buildInsertQuestionStatement()
+                );
         }
 
         if ($this->updated_answer_forms !== []) {
@@ -314,6 +354,13 @@ class QuestionImplementation implements Question, Storable
     private function addUpdateStatementsToManipulation(
         Manipulate $manipulate
     ): Manipulate {
+        if ($this->linking_information_updated) {
+            $manipulate = $manipulate
+                ->withAdditionalStatement(
+                    $this->buildUpdateLinkingStatement()
+                );
+        }
+
         if ($this->self_updated) {
             $manipulate = $manipulate->withAdditionalStatement(
                 $this->buildUpdateQuestionStatement()
@@ -321,7 +368,7 @@ class QuestionImplementation implements Question, Storable
         }
 
         if ($this->deleted_answer_forms !== []) {
-            $manipulate = $this->addDeleteAnswerFormStatementsToManipulate(
+            $manipulate = $this->addDeleteAnswerFormsStatementsToManipulate(
                 $manipulate,
                 $this->deleted_answer_forms
             );
@@ -330,6 +377,46 @@ class QuestionImplementation implements Question, Storable
         return $this->addAnswerFormStatementsToManipulate(
             $manipulate,
             $this->updated_answer_forms
+        );
+    }
+
+    private function addAnswerFormStatementsToManipulate(
+        Manipulate $manipulate,
+        array $answer_forms
+    ): Manipulate {
+        return array_reduce(
+            $answer_forms,
+            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toStorage(
+                $v->getTypeGenericProperties()->toStorage($c)
+            ),
+            $manipulate
+        );
+    }
+
+    private function addDeleteAnswerFormsStatementsToManipulate(
+        Manipulate $manipulate,
+        array $answer_forms_to_delete
+    ): Manipulate {
+        return array_reduce(
+            $answer_forms_to_delete,
+            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toDelete(
+                $v->getTypeGenericProperties()->toDelete($c)
+            ),
+            $manipulate
+        );
+    }
+
+
+
+    private function buildInsertLinkingStatement(): Insert
+    {
+        return new Insert(
+            CoreTables::Linking->getColumns(),
+            [
+                new Value(\ilDBConstants::T_TEXT, $this->id->toString()),
+                new Value(\ilDBConstants::T_INTEGER, $this->parent_obj_id),
+                new Value(\ilDBConstants::T_INTEGER, $this->position)
+            ]
         );
     }
 
@@ -351,29 +438,23 @@ class QuestionImplementation implements Question, Storable
         );
     }
 
-    private function addAnswerFormStatementsToManipulate(
-        Manipulate $manipulate,
-        array $answer_forms
-    ): Manipulate {
-        return array_reduce(
-            $answer_forms,
-            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toStorage(
-                $v->getTypeGenericProperties()->toStorage($c)
+    private function buildUpdateLinkingStatement(): Update
+    {
+        $linking_table_definition = CoreTables::Linking;
+        return new Update(
+            $linking_table_definition->getColumns(
+                [CoreTables::LINKING_TABLE_ID_COLUMN]
             ),
-            $manipulate
-        );
-    }
-
-    private function addDeleteAnswerFormStatementsToManipulate(
-        Manipulate $manipulate,
-        array $answer_forms_to_delete
-    ): Manipulate {
-        return array_reduce(
-            $answer_forms_to_delete,
-            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toDelete(
-                $v->getTypeGenericProperties()->toDelete($c)
-            ),
-            $manipulate
+            [
+                new Value(\ilDBConstants::T_INTEGER, $this->parent_obj_id),
+                new Value(\ilDBConstants::T_INTEGER, $this->position)
+            ],
+            [
+                new Where(
+                    $linking_table_definition->getIdColumn(),
+                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
+                )
+            ]
         );
     }
 
@@ -398,6 +479,23 @@ class QuestionImplementation implements Question, Storable
                 new Where(
                     $questions_table_definition->getIdColumn(),
                     new Value(\ilDBConstants::T_TEXT, $this->id->toString())
+                )
+            ]
+        );
+    }
+
+    private function buildDeleteQuestionStatement(): Delete
+    {
+        $table_definition = CoreTables::Questions;
+        return new Delete(
+            $table_definition->getTable(),
+            [
+                new Where(
+                    $table_definition->getIdColumn(),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
                 )
             ]
         );

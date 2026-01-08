@@ -41,11 +41,38 @@ class Text extends Type
         parent::__construct($refinery);
     }
 
+    #[\Override]
     public function getIdentifier(): string
     {
         return 'text';
     }
 
+    #[\Override]
+    public function getParticipantViewLegacyInput(
+        Gap $gap
+    ): string {
+        $gaptemplate = new \ilTemplate(
+            'tpl.il_as_qpl_cloze_question_gap_text.html',
+            true,
+            true,
+            'components/ILIAS/TestQuestionPool'
+        );
+
+        $gap_size = $gap->getMaxChars();
+        if ($gap_size > 0) {
+            $gaptemplate->setCurrentBlock('size_and_maxlength');
+            $gaptemplate->setVariable('TEXT_GAP_SIZE', $gap_size);
+            $gaptemplate->parseCurrentBlock();
+        }
+        $gaptemplate->setVariable(
+            'GAP_COUNTER',
+            $gap->getAnswerInputId()->toString()
+        );
+
+        return $gaptemplate->get();
+    }
+
+    #[\Override]
     public function getEditAnswerOptionsInputs(
         Gap $gap
     ): array {
@@ -67,6 +94,7 @@ class Text extends Type
         ];
     }
 
+    #[\Override]
     public function getEditAnswerOptionsSectionConstraint(): ?Constraint
     {
         return $this->refinery->custom()->constraint(
@@ -78,6 +106,7 @@ class Text extends Type
         );
     }
 
+    #[\Override]
     public function getEditPointsInputs(
         AnswerOptions $answer_options
     ): array {
@@ -87,6 +116,7 @@ class Text extends Type
         );
     }
 
+    #[\Override]
     public function getEditPointsSectionConstraint(): ?Constraint
     {
         return $this->refinery->custom()->constraint(
@@ -102,6 +132,7 @@ class Text extends Type
         );
     }
 
+    #[\Override]
     public function getBuildGapTransformation(
         Gap $gap
     ): Transformation {
@@ -112,13 +143,13 @@ class Text extends Type
                         ?? self::DEFAULT_TECT_MATCHING_METHOD
                 )->withAnswerOptions(
                     $gap->getAnswerOptions()->withAnswerOptionsFromTags(
-                        $gap->getAnswerInputId(),
                         $vs['answer_options']
                     )
                 )
         );
     }
 
+    #[\Override]
     public function getAnswerInput(): \ilFormPropertyGUI
     {
         ;

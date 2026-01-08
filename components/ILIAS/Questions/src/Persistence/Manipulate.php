@@ -25,7 +25,7 @@ use ILIAS\Questions\AnswerForm\Persistence;
 
 class Manipulate
 {
-    private array $statements;
+    private array $statements = [];
 
     public function __construct(
         private readonly \ilDBInterface $db,
@@ -68,11 +68,20 @@ class Manipulate
 
     public function run(): void
     {
+        if ($this->statements === []) {
+            return;
+        }
+
         $atom_query = $this->db->buildAtomQuery();
 
         $manipulates = [];
+        $locked_tables = [];
         foreach ($this->statements as $statement) {
-            $statement->lockTable($atom_query);
+            $table_to_lock = $statement->getTableToLock();
+            if (!in_array($table_to_lock, $locked_tables)) {
+                $atom_query->addTableLock($table_to_lock);
+                $locked_tables[] = $table_to_lock;
+            }
             $manipulates[] = $statement->toManipulateString($this->db);
         }
         $atom_query->addQueryCallable(

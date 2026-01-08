@@ -25,10 +25,11 @@ use ILIAS\Questions\AnswerFormTypes\Cloze;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Presentation\Views\Edit;
-use ILIAS\Questions\Presentation\Layout\Definitions\Factory as DefinitionsFactory;
+use ILIAS\Questions\Presentation\Layout\Factory as DefinitionsFactory;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\DI\Container as ILIASContainer;
+use Mustache\Engine as MustacheEngine;
 use Pimple\Container as PimpleContainer;
 
 class LocalDIC extends PimpleContainer
@@ -49,6 +50,8 @@ class LocalDIC extends PimpleContainer
         $dic = new self();
         $dic[DataFactory::class] = static fn($c): DataFactory => new DataFactory();
         $dic[UuidFactory::class] = static fn($c): UuidFactory => new UuidFactory();
+        $dic[MustacheEngine::class] = static fn($c): MustacheEngine
+                => new MustacheEngine(['escape' => static fn($v) => $v]);
 
         $dic[AnswerFormFactory::class] = static fn($c): AnswerFormFactory
             => new AnswerFormFactory(
@@ -67,6 +70,7 @@ class LocalDIC extends PimpleContainer
         $dic[DefinitionsFactory::class] = static fn($c): DefinitionsFactory =>
             new DefinitionsFactory(
                 $DIC['ui.factory'],
+                $DIC['http'],
                 $DIC['lng']
             );
         $dic[Edit::class] = static fn($c): Edit => new Edit(
@@ -76,10 +80,12 @@ class LocalDIC extends PimpleContainer
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
             $DIC['global_screen'],
+            $DIC['tpl'],
+            $DIC->contentStyle(),
             $DIC['ilCtrl'],
             $DIC['http'],
+            $DIC['ilTabs'],
             $DIC->uiService(),
-            $c[DataFactory::class],
             $c[UuidFactory::class],
             $c[AnswerFormFactory::class],
             $c[QuestionsRepository::class],
@@ -89,7 +95,7 @@ class LocalDIC extends PimpleContainer
         $dic[Cloze\Properties\ClozeText\Factory::class] = static fn($c): Cloze\Properties\ClozeText\Factory
             => new Cloze\Properties\ClozeText\Factory(
                 $DIC['refinery'],
-                (new \ilMustacheFactory())->getBasicEngine(),
+                $c[MustacheEngine::class],
                 $c[DataFactory::class]->text()
             );
         $dic[Cloze\Properties\Gaps\AnswerOptions\Factory::class] = static fn($c): Cloze\Properties\Gaps\AnswerOptions\Factory
@@ -120,12 +126,13 @@ class LocalDIC extends PimpleContainer
                     new Cloze\Properties\Gaps\LongMenu(
                         $DIC['refinery'],
                         $DIC['lng'],
-                        $DIC['ui.factory']
+                        $DIC['ui.factory'],
+                        $DIC['tpl']
                     )
                 ]
             );
-        $dic[Cloze\Properties\AnswerForm\Factory::class] = static fn($c): Cloze\Properties\AnswerForm\Factory
-            => new Cloze\Properties\AnswerForm\Factory(
+        $dic[Cloze\Properties\Factory::class] = static fn($c): Cloze\Properties\Factory
+            => new Cloze\Properties\Factory(
                 $c[Cloze\Properties\ClozeText\Factory::class],
                 $c[Cloze\Properties\Gaps\Factory::class]
             );
@@ -139,14 +146,17 @@ class LocalDIC extends PimpleContainer
                 $DIC['ui.factory'],
                 $DIC['refinery'],
                 $DIC['http'],
-                $c[Cloze\Properties\AnswerForm\Factory::class],
+                $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\ClozeText\Factory::class],
                 $c[Cloze\Properties\Gaps\Factory::class]
             );
         $dic[Cloze\Views\Participant::class] = static fn($c): Cloze\Views\Participant
-            => new Cloze\Views\Participant();
+            => new Cloze\Views\Participant(
+                $DIC['tpl'],
+                $c[MustacheEngine::class]
+            );
         $dic[Cloze\Definition::class] = static fn($c): Cloze\Definition => new Cloze\Definition(
-            $c[Cloze\Properties\AnswerForm\Factory::class],
+            $c[Cloze\Properties\Factory::class],
             $c[Cloze\Persistence::class],
             [
                 Cloze\Capabilities\Marking::class => new Cloze\Capabilities\Marking(),

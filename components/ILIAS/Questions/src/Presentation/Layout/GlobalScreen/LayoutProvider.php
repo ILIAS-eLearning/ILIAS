@@ -43,19 +43,23 @@ class LayoutProvider extends AbstractModificationProvider
 
     private const MODIFICATION_PRIORITY = 5; //slightly above "low"
 
+    #[\Override]
     public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main();
     }
 
-    protected function isModeEnabled(CalledContexts $called_contexts): bool
-    {
+    protected function isModeEnabled(
+        CalledContexts $called_contexts
+    ): bool {
         return $called_contexts->current()->getAdditionalData()
             ->is(self::MODE_ENABLED, true);
     }
 
-    public function getBreadCrumbsModification(CalledContexts $called_contexts): ?BreadCrumbsModification
-    {
+    #[\Override]
+    public function getBreadCrumbsModification(
+        CalledContexts $called_contexts
+    ): ?BreadCrumbsModification {
         if (!$this->isModeEnabled($called_contexts)) {
             return null;
         }
@@ -68,8 +72,10 @@ class LayoutProvider extends AbstractModificationProvider
             )->withPriority(self::MODIFICATION_PRIORITY);
     }
 
-    public function getMainBarModification(CalledContexts $called_contexts): ?MainBarModification
-    {
+    #[\Override]
+    public function getMainBarModification(
+        CalledContexts $called_contexts
+    ): ?MainBarModification {
         $mainbar = $this->globalScreen()->layout()->factory()->mainbar();
 
         if (!$this->isModeEnabled($called_contexts)) {
@@ -82,8 +88,10 @@ class LayoutProvider extends AbstractModificationProvider
             )->withPriority(self::MODIFICATION_PRIORITY);
     }
 
-    public function getMetaBarModification(CalledContexts $called_contexts): ?MetaBarModification
-    {
+    #[\Override]
+    public function getMetaBarModification(
+        CalledContexts $called_contexts
+    ): ?MetaBarModification {
         if (!$this->isModeEnabled($called_contexts)) {
             return null;
         }
@@ -96,8 +104,10 @@ class LayoutProvider extends AbstractModificationProvider
             )->withPriority(self::MODIFICATION_PRIORITY);
     }
 
-    public function getPageBuilderDecorator(CalledContexts $called_contexts): ?PageBuilderModification
-    {
+    #[\Override]
+    public function getPageBuilderDecorator(
+        CalledContexts $called_contexts
+    ): ?PageBuilderModification {
         if (!$this->isModeEnabled($called_contexts)) {
             return null;
         }
@@ -118,8 +128,9 @@ class LayoutProvider extends AbstractModificationProvider
             );
     }
 
-    private function buildMainbarModification(CalledContexts $called_contexts): \Closure
-    {
+    private function buildMainbarModification(
+        CalledContexts $called_contexts
+    ): \Closure {
         return function (?MainBar $mainbar) use ($called_contexts): ?MainBar {
             if ($mainbar === null) {
                 return null;

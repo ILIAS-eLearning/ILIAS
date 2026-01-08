@@ -35,10 +35,12 @@ class Factory
     ) {
     }
 
-    public function getDefaultAnswerOptions(): AnswerOptions
-    {
+    public function getDefaultAnswerOptions(
+        Uuid $answer_input_id
+    ): AnswerOptions {
         return new AnswerOptions(
             $this,
+            $answer_input_id,
             []
         );
     }
@@ -89,6 +91,7 @@ class Factory
                             && $v['answer_input_id'] !== $previous_answer_input_id) {
                             $return_array[$previous_answer_input_id] = new AnswerOptions(
                                 $this,
+                                $this->uuid_factory->fromString($previous_answer_input_id),
                                 $answer_options
                             );
                             $answer_options = [];
@@ -107,6 +110,7 @@ class Factory
 
                     $return_array[$v['answer_input_id']] = new AnswerOptions(
                         $this,
+                        $this->uuid_factory->fromString($v['answer_input_id']),
                         $answer_options
                     );
 
@@ -116,8 +120,9 @@ class Factory
         );
     }
 
-    private function convertToFloatOrNull(?string $value): ?float
-    {
+    private function convertToFloatOrNull(
+        ?string $value
+    ): ?float {
         return $this->refinery->byTrying([
             $this->refinery->kindlyTo()->float(),
             $this->refinery->always(null)

@@ -18,27 +18,16 @@
 
 declare(strict_types=1);
 
-use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\QuestionImplementation;
 
 class QstsQuestionPage extends ilPageObject
 {
-    private readonly Edit $edit_view;
     private readonly QuestionImplementation $question;
 
+    #[\Override]
     public function getParentType(): string
     {
         return 'qsts';
-    }
-
-    public function getEditView(): Edit
-    {
-        return $this->edit_view;
-    }
-
-    public function setEditView(Edit $edit_view): void
-    {
-        $this->edit_view = $edit_view;
     }
 
     public function getQuestion(): QuestionImplementation
@@ -46,8 +35,9 @@ class QstsQuestionPage extends ilPageObject
         return $this->question;
     }
 
-    public function setQuestion(QuestionImplementation $question): void
-    {
+    public function setQuestion(
+        QuestionImplementation $question
+    ): void {
         $this->question = $question;
     }
 }

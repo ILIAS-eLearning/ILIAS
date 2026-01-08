@@ -25,13 +25,16 @@ use ILIAS\Questions\Question\Response;
 
 class Skills implements SkillsInterface
 {
+    #[\Override]
     public function isConfigured(): bool
     {
         return false;
     }
 
-    public function getSkillPointsForResponse(Response $response): float
-    {
+    #[\Override]
+    public function getSkillPointsForResponse(
+        Response $response
+    ): float {
 
     }
 }

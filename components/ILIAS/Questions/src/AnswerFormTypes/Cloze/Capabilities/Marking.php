@@ -22,20 +22,24 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Capabilities;
 
 use ILIAS\Questions\AnswerForm\Capabilities\Marking as MarkingInterface;
 use ILIAS\Questions\Response\Response;
-use ILIAS\Questions\AnswerForm;
 
 class Marking implements MarkingInterface
 {
+    #[\Override]
     public function isConfigured(): bool
     {
         return false;
     }
 
-    public function addAchievedPointsToResponse(Response $response): Response
-    {
+
+    #[\Override]
+    public function addAchievedPointsToResponse(
+        Response $response
+    ): Response {
 
     }
 
+    #[\Override]
     public function getBestResponse(): Response
     {
 

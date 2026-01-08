@@ -22,6 +22,9 @@ namespace ILIAS\Questions\Persistence;
 
 class Value
 {
+    /*
+     * @param $type Type definition as provided by \ilDBConstants
+     */
     public function __construct(
         private readonly string $type,
         private readonly null|string|int|float|array $value
@@ -38,9 +41,20 @@ class Value
         return $this->value;
     }
 
-    public function getQuotedValue(\ilDBInterface $db): string
-    {
-        return $db->quote($this->value, $this->type);
+    public function getQuotedValue(
+        \ilDBInterface $db
+    ): array|string {
+        if (!is_array($this->value)) {
+            return $db->quote(
+                $this->value,
+                $this->type
+            );
+        }
+
+        return array_map(
+            fn(mixed $v): string => $db->quote($v, $this->type),
+            $this->value
+        );
     }
 
     public function getNumberOfElements(): int

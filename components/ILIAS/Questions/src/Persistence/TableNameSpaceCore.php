@@ -27,6 +27,7 @@ class TableNameSpaceCore extends TableNameSpace
     ) {
     }
 
+    #[\Override]
     public function getTypeSpecificTableNamePart(): string
     {
         return $this->answer_form_id;

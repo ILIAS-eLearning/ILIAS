@@ -18,10 +18,9 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\AnswerForm;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties;
 
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text as ClozeText;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
@@ -45,11 +44,14 @@ class Factory
             return new Properties(
                 $type_generic_properties->getAnswerFormId(),
                 $type_generic_properties->getQuestionId(),
+                $type_generic_properties->getDefinition(),
                 $this->cloze_text_factory->buildFromTextString(
                     $type_generic_properties->getAdditionalText()
                 ),
                 $type_generic_properties->getAdditionalTextLegacy(),
-                $this->gaps_factory->getEmptyGapsObject()
+                $this->gaps_factory->getEmptyGapsObject(
+                    $type_generic_properties->getAnswerFormId()
+                )
             );
         }
 
@@ -58,7 +60,7 @@ class Factory
             'combinations_activated' => $combinations_activated
         ] = $query->retrieveCurrentRecord(
             TableTypes::TypeSpecificAnswerForms->getTable(
-                $query->getTableNameBuilder(Definition::class)
+                $query->getTableNameBuilder($type_generic_properties->getDefinition()::class)
             ),
             $query->getRefinery()->custom()->transformation(
                 fn(array $vs): array => [
@@ -71,11 +73,15 @@ class Factory
         return new Properties(
             $type_generic_properties->getAnswerFormId(),
             $type_generic_properties->getQuestionId(),
+            $type_generic_properties->getDefinition(),
             $this->cloze_text_factory->buildFromTextString(
                 $type_generic_properties->getAdditionalText()
             ),
             $type_generic_properties->getAdditionalTextLegacy(),
-            $this->gaps_factory->fromDatabase($query),
+            $this->gaps_factory->fromDatabase(
+                $type_generic_properties->getAnswerFormId(),
+                $query
+            ),
             $scoring_identical_responses,
             $combinations_activated
         );

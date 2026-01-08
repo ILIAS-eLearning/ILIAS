@@ -34,6 +34,7 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class UploadAnswerOptionsGUI extends AbstractCtrlAwareUploadHandler
 {
+    #[\Override]
     protected function getUploadResult(): HandlerResult
     {
         $this->upload->process();
@@ -61,8 +62,10 @@ class UploadAnswerOptionsGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    protected function getRemoveResult(string $identifier): HandlerResult
-    {
+    #[\Override]
+    protected function getRemoveResult(
+        string $identifier
+    ): HandlerResult {
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
             HandlerResult::STATUS_OK,
@@ -71,8 +74,10 @@ class UploadAnswerOptionsGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    public function getInfoResult(string $identifier): ?FileInfoResult
-    {
+    #[\Override]
+    public function getInfoResult(
+        string $identifier
+    ): ?FileInfoResult {
         return new BasicFileInfoResult(
             $this->getFileIdentifierParameterName(),
             $identifier,
@@ -82,11 +87,13 @@ class UploadAnswerOptionsGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
+    #[\Override]
     /**
      * @return \ILIAS\FileUpload\Handler\BasicFileInfoResult[]
      */
-    public function getInfoForExistingFiles(array $file_ids): array
-    {
+    public function getInfoForExistingFiles(
+        array $file_ids
+    ): array {
         $info_results = [];
         foreach ($file_ids as $identifier) {
             $info_results[] = $this->getInfoResult($identifier);

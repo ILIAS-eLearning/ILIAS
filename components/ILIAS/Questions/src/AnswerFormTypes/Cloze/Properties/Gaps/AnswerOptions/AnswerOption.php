@@ -21,10 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
 use ILIAS\Questions\Persistence\Replace;
-use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Persistence\Value;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Data\UUID\Uuid;
 
 class AnswerOption
@@ -57,8 +54,9 @@ class AnswerOption
         return $this->position;
     }
 
-    public function withPosition(int $position): self
-    {
+    public function withPosition(
+        int $position
+    ): self {
         $clone = clone $this;
         $clone->position = $position;
         return $clone;
@@ -69,8 +67,9 @@ class AnswerOption
         return $this->text_value;
     }
 
-    public function withTextValue(string $text_value): self
-    {
+    public function withTextValue(
+        string $text_value
+    ): self {
         $clone = clone $this;
         $clone->text_value = $text_value;
         return $clone;
@@ -81,8 +80,9 @@ class AnswerOption
         return $this->lower_limit;
     }
 
-    public function withLowerLimit(float $lower_limit): self
-    {
+    public function withLowerLimit(
+        float $lower_limit
+    ): self {
         $clone = clone $this;
         $clone->lower_limit = $lower_limit;
         return $clone;
@@ -93,8 +93,9 @@ class AnswerOption
         return $this->upper_limit;
     }
 
-    public function withUpperLimit(?float $upper_limit): self
-    {
+    public function withUpperLimit(
+        ?float $upper_limit
+    ): self {
         $clone = clone $this;
         $clone->upper_limit = $upper_limit;
         return $clone;
@@ -105,8 +106,9 @@ class AnswerOption
         return $this->available_points;
     }
 
-    public function withAvailablePoints(?float $available_points): self
-    {
+    public function withAvailablePoints(
+        ?float $available_points
+    ): self {
         $clone = clone $this;
         $clone->available_points = $available_points;
         return $clone;
@@ -120,7 +122,7 @@ class AnswerOption
             self::FORM_KEY_TEXT_VALUE => $this->getTextValue()
         ];
 
-        if ($this->getUpperLimit() !== null) {
+        if ($this->getLowerLimit() !== null) {
             $values[self::FORM_KEY_LOWER_LIMIT] = (string) $this->getLowerLimit();
         }
 
@@ -128,7 +130,7 @@ class AnswerOption
             $values[self::FORM_KEY_UPPER_LIMIT] = (string) $this->getUpperLimit();
         }
 
-        if ($this->getUpperLimit() !== null) {
+        if ($this->getAvailablePoints() !== null) {
             $values[self::FORM_KEY_AVAILABLE_POINTS] = (string) $this->getAvailablePoints();
         }
 
@@ -137,14 +139,11 @@ class AnswerOption
 
     public function buildReplace(
         ?Replace $replace,
-        Persistence $persistence,
-        TableNameBuilder $table_name_builder
+        array $columns
     ): Replace {
-        $table_definition = TableTypes::AnswerOptions;
-
         if ($replace === null) {
             return new Replace(
-                $persistence->getColumns($table_name_builder, $table_definition),
+                $columns,
                 $this->buildValuesForGapReplace()
             );
         }

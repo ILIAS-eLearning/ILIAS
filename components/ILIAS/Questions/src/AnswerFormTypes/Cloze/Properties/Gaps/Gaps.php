@@ -29,7 +29,7 @@ use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
-use ILIAS\Questions\Presentation\Layout\Definitions\CarryWrapper;
+use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -37,13 +37,29 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UICore\GlobalTemplate;
 
 class Gaps
 {
+    /**
+     * @var array<string, \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap>
+     */
+    private array $gaps;
+
     public function __construct(
         private readonly Factory $factory,
-        private array $gaps
+        private Uuid $answer_form_id,
+        array $gaps
     ) {
+        $this->gaps = array_reduce(
+            $gaps,
+            function (array $c, Gap $v): array {
+                $c[$v->getAnswerInputId()->toString()] = $v;
+                return $c;
+            },
+            []
+        );
     }
 
     public function getGapById(
@@ -115,12 +131,36 @@ class Gaps
         );
     }
 
-    public function getPlaceholderArrayForPreview(): array
+    public function getRemovedGaps(
+        self $old_gaps
+    ): array {
+        return array_diff_key($old_gaps->gaps, $this->gaps);
+    }
+
+    public function getAddedGaps(
+        self $old_gaps
+    ): array {
+        return array_diff_key($this->gaps, $old_gaps->gaps);
+    }
+
+    public function getPlaceholderArrayForParticipantView(): array
     {
         return array_reduce(
             $this->gaps,
             function (array $c, Gap $v): array {
-                $c[$v->buildGapPlaceholderNameWithId($v)] = $v->buildShortenedGapRepresentation($v);
+                $c[$v->buildGapPlaceholderNameWithId($v)] = $v->buildParticipantViewLegacyInput();
+                return $c;
+            },
+            []
+        );
+    }
+
+    public function getPlaceholderArrayForEditFormPanel(): array
+    {
+        return array_reduce(
+            $this->gaps,
+            function (array $c, Gap $v): array {
+                $c[$v->buildGapPlaceholderNameWithId($v)] = $v->buildShortenedGapRepresentation();
                 return $c;
             },
             []
@@ -131,11 +171,14 @@ class Gaps
         Language $lng,
         FieldFactory $ff,
         Refinery $refinery,
-        array $available_gap_types
+        array $available_gap_types,
+        array $selected_gaps
     ): Section {
         return $ff->section(
             array_reduce(
-                $this->getUndefinedGaps(),
+                $selected_gaps !== []
+                    ? $this->filterGapsBySelected($selected_gaps)
+                    : $this->getUndefinedGaps(),
                 function (array $c, Gap $v) use ($ff, $available_gap_types): array {
                     $c[$v->getAnswerInputId()->toString()] = $ff->select(
                         $v->buildShortenedGapName(),
@@ -164,11 +207,14 @@ class Gaps
     public function buildAnswerOptionsInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery
+        Refinery $refinery,
+        array $selected_gaps
     ): Section {
         return $ff->section(
             array_reduce(
-                $this->gaps,
+                $selected_gaps !== []
+                    ? $this->filterGapsBySelected($selected_gaps)
+                    : $this->getGapsWithIncompleteAnswerOptions(),
                 function (array $c, Gap $v) use ($lng, $ff): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditAnswerOptionsSection(
                         $lng,
@@ -193,11 +239,14 @@ class Gaps
     public function buildPointInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery
+        Refinery $refinery,
+        array $selected_gaps
     ): Section {
         return $ff->section(
             array_reduce(
-                $this->gaps,
+                $selected_gaps !== []
+                    ? $this->filterGapsBySelected($selected_gaps)
+                    : $this->getGapsWithIncompleteAnswerOptions(),
                 function (array $c, Gap $v) use ($lng, $ff): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditPointsSection(
                         $lng,
@@ -259,33 +308,23 @@ class Gaps
         );
     }
 
+    public function toTableRows(
+        DataRowBuilder $row_builder,
+        Language $lng
+    ): \Generator {
+        foreach ($this->gaps as $gap) {
+            yield $gap->toTableRow(
+                $row_builder,
+                $lng
+            );
+        }
+    }
+
     public function toStorage(
         Manipulate $manipulate,
         Persistence $persistence,
         TableNameBuilder $table_name_builder
     ): Manipulate {
-        $table_definition = TableTypes::AnswerInputs;
-        $manipulate->withAdditionalStatement(
-            new Delete(
-                $table_definition->getTable($table_name_builder),
-                [
-                    new Where(
-                        $persistence->getIdColumn($table_name_builder, $table_definition),
-                        new Value(
-                            \ilDBConstants::T_TEXT,
-                            array_map(
-                                fn(Gap $v): string => $v->getAnswerInputId()->toString(),
-                                $this->gaps
-                            )
-                        ),
-                        Operator::In,
-                        Junctor::Conjunction,
-                        true
-                    )
-                ]
-            )
-        );
-
         [
             'gaps' => $replace_for_gaps,
             'answer_options' => $replace_for_answer_options
@@ -309,12 +348,119 @@ class Gaps
             ]
         );
 
-        return $manipulate->withAdditionalStatement($replace_for_gaps)
-            ->withAdditionalStatement($replace_for_answer_options);
+        return $manipulate->withAdditionalStatement(
+            $this->buildDeleteForRemovedGaps(
+                $persistence,
+                $table_name_builder
+            )
+        )->withAdditionalStatement($replace_for_gaps)
+        ->withAdditionalStatement($replace_for_answer_options);
     }
 
-    private function extractIdFromTagName(string $tag_name): string
+    public function toDelete(
+        Manipulate $manipulate,
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Manipulate {
+        return array_reduce(
+            $this->gaps,
+            fn(Manipulate $c, Gap $v): Manipulate => $c->withAdditionalStatement(
+                $v->getAnswerOptions()->buildDelete(
+                    $persistence,
+                    $table_name_builder
+                )
+            ),
+            $manipulate->withAdditionalStatement(
+                $this->buildDeleteForDeletionOfAnswerForm(
+                    $persistence,
+                    $table_name_builder
+                )
+            )
+        );
+    }
+
+    private function buildDeleteForRemovedGaps(
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Delete {
+        $table_definition = TableTypes::AnswerInputs;
+        return new Delete(
+            $table_definition->getTable($table_name_builder),
+            [
+                new Where(
+                    $persistence->getForeignKeyColumn(
+                        $table_name_builder,
+                        $table_definition
+                    ),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->answer_form_id->toString()
+                    )
+                ),
+                new Where(
+                    $persistence->getIdColumn(
+                        $table_name_builder,
+                        $table_definition
+                    ),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        array_map(
+                            fn(Gap $v): string => $v->getAnswerInputId()->toString(),
+                            $this->gaps
+                        )
+                    ),
+                    Operator::In,
+                    Junctor::Conjunction,
+                    true
+                )
+            ]
+        );
+    }
+
+    private function buildDeleteForDeletionOfAnswerForm(
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Delete {
+        $table_definition = TableTypes::AnswerInputs;
+
+        return new Delete(
+            $table_definition->getTable($table_name_builder),
+            [
+                new Where(
+                    $persistence->getForeignKeyColumn(
+                        $table_name_builder,
+                        $table_definition
+                    ),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->answer_form_id->toString()
+                    ),
+                )
+            ]
+        );
+    }
+
+    private function getGapsWithIncompleteAnswerOptions(): array
     {
+        return array_filter(
+            $this->gaps,
+            fn(Gap $v): bool => $v->getAnswerOptions()->isIncomplete()
+        );
+    }
+
+    private function extractIdFromTagName(
+        string $tag_name
+    ): string {
         return mb_substr($tag_name, mb_strlen(Gap::GAP_PLACEHOLDER_NAME) + 1);
+    }
+
+    private function filterGapsBySelected(
+        array $selected_gaps
+    ): array {
+        return array_filter(
+            $this->gaps,
+            fn(string $k): bool => in_array($k, $selected_gaps),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }

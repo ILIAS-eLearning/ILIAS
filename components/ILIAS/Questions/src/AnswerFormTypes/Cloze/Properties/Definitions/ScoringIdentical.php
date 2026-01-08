@@ -53,8 +53,9 @@ enum ScoringIdentical: string
         );
     }
 
-    private static function buildOptionsList(Language $lng): array
-    {
+    private static function buildOptionsList(
+        Language $lng
+    ): array {
         return array_reduce(
             self::cases(),
             function (array $c, self $v) use ($lng): array {

@@ -32,26 +32,29 @@ class Collector
     ) {
     }
 
-    public function withRequiredCapabilities(array $capability_class_names): self
-    {
+    public function withRequiredCapabilities(
+        array $capability_class_names
+    ): self {
         $this->checkCapabilities($capability_class_names);
         $clone = clone $this;
         $clone->required_capabilities = $capability_class_names;
         return $clone;
     }
 
-    public function getQuestionsForId(int $id): Question|null
-    {
+    public function getQuestionsForId(
+        int $id
+    ): ?Question {
         return $this->repository->getForQuestionId($id);
     }
 
     /**
      *
-     * @param array<int> $ids
+     * @param list<int> $ids
      * @return \Generator<ILIAS\Questions\Question\Question>
      */
-    public function getQuestionsForIds(array $ids): \Generator
-    {
+    public function getQuestionsForIds(
+        array $ids
+    ): \Generator {
         yield from $this->repository->getForQuestionIds($ids);
     }
 }

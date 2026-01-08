@@ -29,22 +29,26 @@ use ILIAS\Questions\Persistence\TableTypes;
 interface Persistence
 {
     public function getPublicNameSpace(): TableNameSpace;
+
     public function getColumns(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         ?string $table_identifier = null,
         array $columns_to_skip = []
     ): array;
+
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         ?string $table_identifier = null
     ): Column;
+
     public function getForeignKeyColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         ?string $table_identifier = null
     ): Column;
+
     public function completeQuery(
         Query $query,
         Column $base_table_id_column,

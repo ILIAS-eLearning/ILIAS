@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Views;
 
-use ILIAS\Questions\Question\Question;
+use ILIAS\Questions\Question\QuestionImplementation;
 
 class Participant
 {
@@ -30,12 +30,13 @@ class Participant
     private bool $show_correct_solution = false;
 
     public function __construct(
-        private readonly Question $question
+        private readonly QuestionImplementation $question
     ) {
     }
 
-    public function withIsAsync(bool $async): self
-    {
+    public function withIsAsync(
+        bool $async
+    ): self {
         foreach ($this->question->getAnswerForms() as $form) {
             if (!$form->getType()->isAsyncPresentationAvailable()) {
                 throw \Exception('This QuestionType has no async presentation.');
@@ -46,15 +47,17 @@ class Participant
         return $clone;
     }
 
-    public function withIsInteractive(bool $interactive): self
-    {
+    public function withIsInteractive(
+        bool $interactive
+    ): self {
         $clone = clone $this;
         $clone->interactive = $interactive;
         return $clone;
     }
 
-    public function withShowMarks(bool $show_marks): self
-    {
+    public function withShowMarks(
+        bool $show_marks
+    ): self {
         foreach ($this->question->getAnswerForms() as $form) {
             if (!$form->getType()->isMarkable()) {
                 throw \Exception('This QuestionType cannot be marked.');
@@ -66,8 +69,9 @@ class Participant
         return $clone;
     }
 
-    public function withShowCorrectSolution(bool $show_correct_solution): self
-    {
+    public function withShowCorrectSolution(
+        bool $show_correct_solution
+    ): self {
         foreach ($this->question->getAnswerForms() as $form) {
             if (!$form->getType()->isMarkable()) {
                 throw \Exception('This QuestionType cannot be marked.');
@@ -77,5 +81,33 @@ class Participant
         $clone = clone $this;
         $clone->show_correct_solution = $show_correct_solution;
         return $clone;
+    }
+
+    public function get(
+        int $obj_id
+    ): string {
+        $tpl = new \ilTemplate(
+            'tpl.qpl_question_preview.html',
+            true,
+            true,
+            'components/ILIAS/TestQuestionPool'
+        );
+
+        $tpl->setVariable(
+            'PREVIEW_FORMACTION',
+            ''
+        );
+
+        $question_page = new \QstsQuestionPageGUI(
+            $this->question,
+            $obj_id
+        );
+        $question_page->setPresentationTitle($this->question->getTitle());
+
+        $tpl->setVariable(
+            'QUESTION_OUTPUT',
+            $question_page->presentation()
+        );
+        return $tpl->get();
     }
 }

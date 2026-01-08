@@ -33,8 +33,9 @@ class Factory
     ) {
     }
 
-    public function buildFromTextString(string $text): Text
-    {
+    public function buildFromTextString(
+        string $text
+    ): Text {
         return new Text(
             $this->refinery,
             $this->mustache_engine,
@@ -43,13 +44,15 @@ class Factory
         );
     }
 
-    public function buildFromHiddenInputString(string $text): Text
-    {
+    public function buildFromHiddenInputString(
+        string $text
+    ): Text {
         return $this->buildFromTextString($this->unmaskTextFromOutputInHiddenInput($text));
     }
 
-    private function unmaskTextFromOutputInHiddenInput(string $text): string
-    {
+    private function unmaskTextFromOutputInHiddenInput(
+        string $text
+    ): string {
         return str_replace(['\{\{', '\}\}'], ['{{', '}}'], $text);
     }
 }

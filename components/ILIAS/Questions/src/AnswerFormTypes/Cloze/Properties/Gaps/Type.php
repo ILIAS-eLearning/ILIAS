@@ -33,15 +33,32 @@ abstract class Type
     }
 
     abstract public function getIdentifier(): string;
-    abstract public function getEditAnswerOptionsInputs(Gap $gap): array;
+
+    abstract public function getParticipantViewLegacyInput(
+        Gap $gap
+    ): string;
+
+    abstract public function getEditAnswerOptionsInputs(
+        Gap $gap
+    ): array;
+
     abstract public function getEditAnswerOptionsSectionConstraint(): ?Constraint;
-    abstract public function getEditPointsInputs(AnswerOptions $answer_options): array;
+
+    abstract public function getEditPointsInputs(
+        AnswerOptions $answer_options
+    ): array;
+
     abstract public function getEditPointsSectionConstraint(): ?Constraint;
-    abstract public function getBuildGapTransformation(Gap $gap): Transformation;
+
+    abstract public function getBuildGapTransformation(
+        Gap $gap
+    ): Transformation;
+
     abstract public function getAnswerInput(): \ilFormPropertyGUI;
 
-    public function getAddPointsTransformation(Gap $gap): Transformation
-    {
+    public function getAddPointsTransformation(
+        Gap $gap
+    ): Transformation {
         return $this->refinery->custom()->transformation(
             fn(array $vs): Gap => $gap->withAnswerOptions(
                 $gap->getAnswerOptions()

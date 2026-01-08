@@ -18,9 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout\Definitions;
+namespace ILIAS\Questions\Presentation\Layout;
 
-use ILIAS\Questions\AnswerForm\Properties;
+use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
+use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Definitions\Leaf;
+use ILIAS\Data\URI;
+use ILIAS\HTTP\Services as HttpService;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -28,30 +32,29 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
-use ILIAS\UI\Component\Table\Data as DataTable;
-use ILIAS\UI\Component\Table\Ordering as OrderingTable;
+use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 
 class Factory
 {
     public function __construct(
         private readonly UIFactory $ui_factory,
+        private readonly HttpService $http,
         private readonly Language $lng
     ) {
     }
 
     public function getEditOverview(
-        Editability $editability,
-        URLBuilder $url_builder,
-        DataTable|OrderingTable $answer_elements_table,
-        Properties $answer_form_properties
+        Environment $environment,
+        URI $uri_to_edit_basic_answer_form_properties
     ): EditOverview {
         return new EditOverview(
             $this->ui_factory,
             $this->lng,
-            $editability,
-            $url_builder,
-            $answer_elements_table,
-            $answer_form_properties
+            $this->http->request(),
+            $environment,
+            $uri_to_edit_basic_answer_form_properties
         );
     }
 
@@ -68,6 +71,15 @@ class Factory
             $main_section_inputs,
             $is_final_step,
             $carry_inputs
+        );
+    }
+
+    public function getAsync(
+        InterruptiveModal|RoundTripModal|MessageBox $content
+    ): Async {
+        return new Async(
+            $this->http,
+            $content
         );
     }
 

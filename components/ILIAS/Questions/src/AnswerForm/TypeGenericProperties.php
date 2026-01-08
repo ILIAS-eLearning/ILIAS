@@ -36,7 +36,7 @@ class TypeGenericProperties implements Storable
     public function __construct(
         private readonly Uuid $answer_form_id,
         private readonly Uuid $question_id,
-        private readonly ?string $definition_class = null,
+        private readonly ?Definition $definition = null,
         private ?float $available_points = null,
         private ?int $image_size = null,
         private ?bool $shuffle_answer_options = null,
@@ -53,6 +53,11 @@ class TypeGenericProperties implements Storable
     public function getQuestionId(): Uuid
     {
         return $this->question_id;
+    }
+
+    public function getDefinition(): Definition
+    {
+        return $this->definition;
     }
 
     public function getAvailablePoints(): ?float
@@ -83,7 +88,7 @@ class TypeGenericProperties implements Storable
     public function toStorage(
         Manipulate $manipulate
     ): Manipulate {
-        if ($this->definition_class === null) {
+        if ($this->definition === null) {
             throw new \UnexpectedValueException(
                 'You cannot save a Answer Form without a Type!'
             );
@@ -99,13 +104,17 @@ class TypeGenericProperties implements Storable
         Manipulate $manipulate
     ): Manipulate {
         $answer_form_table_definition = CoreTables::AnswerForms;
+
         return $manipulate->withAdditionalStatement(
             new Delete(
                 $answer_form_table_definition->getTable(),
                 [
                     new Where(
                         $answer_form_table_definition->getIdColumn(),
-                        $this->answer_form_id->toString()
+                        new Value(
+                            \ilDBConstants::T_TEXT,
+                            $this->answer_form_id->toString()
+                        )
                     )
                 ]
             )
@@ -118,7 +127,7 @@ class TypeGenericProperties implements Storable
             CoreTables::AnswerForms->getColumns(),
             [
                 new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
-                new Value(\ilDBConstants::T_TEXT, $this->definition_class),
+                new Value(\ilDBConstants::T_TEXT, $this->definition::class),
                 new Value(\ilDBConstants::T_TEXT, $this->question_id->toString()),
                 new Value(\ilDBConstants::T_FLOAT, $this->available_points),
                 new Value(\ilDBConstants::T_INTEGER, $this->image_size),
@@ -135,22 +144,27 @@ class TypeGenericProperties implements Storable
         $answer_form_table_definition = CoreTables::AnswerForms;
         return new Update(
             $answer_form_table_definition->getColumns([
-                $answer_form_table_definition->getIdColumn(),
+                'id',
                 'type',
                 'question_id',
                 'additional_text_legacy'
             ]),
             [
                 new Value(\ilDBConstants::T_FLOAT, $this->available_points),
-                new Value(\ilDBConstants::T_INT, $this->image_size),
-                new Value(\ilDBConstants::T_INT, $this->shuffle_answer_options ? 1 : 0),
+                new Value(\ilDBConstants::T_INTEGER, $this->image_size),
+                new Value(\ilDBConstants::T_INTEGER, $this->shuffle_answer_options ? 1 : 0),
                 new Value(\ilDBConstants::T_TEXT, $this->additional_text)
 
             ],
-            new Where(
-                $answer_form_table_definition->getIdColumn(),
-                $this->answer_form_id->toString()
-            )
+            [
+                new Where(
+                    $answer_form_table_definition->getIdColumn(),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->answer_form_id->toString()
+                    )
+                )
+            ]
         );
     }
 }

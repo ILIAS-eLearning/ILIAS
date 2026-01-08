@@ -24,5 +24,7 @@ use ILIAS\Questions\Question\Response;
 
 interface Skills extends Capability
 {
-    public function getSkillPointsForResponse(Response $response): float;
+    public function getSkillPointsForResponse(
+        Response $response
+    ): float;
 }

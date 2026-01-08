@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Persistence;
 
 class Replace extends Insert
 {
+    #[\Override]
     public function toManipulateString(
         \ilDBInterface $db
     ): string {

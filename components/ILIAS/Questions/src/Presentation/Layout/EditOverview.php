@@ -18,11 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout\Definitions;
+namespace ILIAS\Questions\Presentation\Layout;
 
-use ILIAS\Questions\AnswerForm\Properties;
+use ILIAS\Questions\Presentation\Definitions\Editability;
+use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Data\URI;
 use ILIAS\Language\Language;
-use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -30,16 +31,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class EditOverview
 {
-    private bool $orderable = false;
-
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly Language $lng,
-        private readonly Editability $editability,
-        private readonly URLBuilder $url_builder,
-        private readonly Properties $answer_form_properties
+        private readonly ServerRequestInterface $request,
+        private readonly Environment $environment,
+        private readonly URI $uri_to_edit_basic_answer_form_properties
     ) {
-        $this->form = $this->buildForm();
     }
 
     public function render(
@@ -48,26 +46,16 @@ class EditOverview
         return $ui_renderer->render($this->buildContent());
     }
 
-    public function withRequest(
-        ServerRequestInterface $request
-    ): self {
-        $clone = clone $this;
-        $clone->form = $clone->form->withRequest($request);
-        return $clone;
-    }
-
-    public function withOrderable(bool $orderable): self
-    {
-        $clone = clone $this;
-        $clone->orderable = $orderable;
-        return $clone;
-    }
-
     private function buildContent(): array
     {
         return [
             $this->buildBasicAnswerFormPanel(),
-            $this->answer_form_properties->getOverviewTable()
+            $this->environment->getAnswerFormProperties()->getOverviewTable(
+                $this->ui_factory->table(),
+                $this->lng,
+                $this->request,
+                $this->environment
+            )
         ];
     }
 
@@ -75,14 +63,14 @@ class EditOverview
     {
         $content = [
             $this->ui_factory->listing()->descriptive(
-                $this->answer_form_properties->getBasicPropertiesForListing($this->lng)
+                $this->environment->getAnswerFormProperties()->getBasicPropertiesForListing($this->lng)
             )
         ];
 
-        if ($this->editability === Editability::Full) {
+        if ($this->environment->getEditability() === Editability::Full) {
             $content[] = $this->ui_factory->button()->standard(
                 $this->lng->txt('edit_basic_answer_form_properties'),
-                $this->url_builder->buildURI()->__toString()
+                $this->uri_to_edit_basic_answer_form_properties->__toString()
             );
         }
 

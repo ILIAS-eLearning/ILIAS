@@ -18,20 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Response;
+namespace ILIAS\Questions\AnswerForm;
 
-interface Repository
+use ILIAS\Questions\Persistence\Manipulate;
+
+interface Migration
 {
-    public function getForUser(
-        int $question_id,
-        int $user_id
-    ): Result;
+    /*
+     * Returns the identifier under which the question type was stored previously
+     * in the database.
+     */
+    public function getOldQuestionIdentifier(): string;
 
-    public function getAllForQuestion(
-        int $question_id
-    ): Result;
-
-    public function storeResult(
-        Result $result
-    ): void;
+    public function toStorage(
+        Manipulate $manipulate
+    ): Manipulate;
 }

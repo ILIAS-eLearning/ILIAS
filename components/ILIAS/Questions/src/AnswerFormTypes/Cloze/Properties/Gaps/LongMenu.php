@@ -22,13 +22,13 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Properties;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UICore\GlobalTemplate;
 
 class LongMenu extends Type
 {
@@ -38,16 +38,49 @@ class LongMenu extends Type
     public function __construct(
         Refinery $refinery,
         private readonly Language $lng,
-        private readonly UIFactory $ui_factory
+        private readonly UIFactory $ui_factory,
+        private readonly GlobalTemplate $global_tpl
     ) {
         parent::__construct($refinery);
     }
 
+    #[\Override]
     public function getIdentifier(): string
     {
         return 'long_menu';
     }
 
+    #[\Override]
+    public function getParticipantViewLegacyInput(
+        Gap $gap
+    ): string {
+        $answer_input_id = $gap->getAnswerInputId()->toString();
+        $gaptemplate = new \ilTemplate(
+            'tpl.il_as_qpl_longmenu_question_text_gap.html',
+            true,
+            true,
+            'components/ILIAS/TestQuestionPool'
+        );
+
+        $gaptemplate->setVariable(
+            'KEY',
+            $answer_input_id
+        );
+
+        $this->global_tpl->addOnLoadCode('il.test.player.longmenu.init('
+            . "document.querySelector('input[name=\"answer[{$answer_input_id}]\"]'), "
+            . "{$gap->getMinAutocomplete()}, "
+            . json_encode(
+                array_values(
+                    $gap->getAnswerOptions()->buildArrayForInput(
+                        $this->refinery->random()->dontShuffle()
+                    )
+                )
+            ) . ')');
+        return $gaptemplate->get();
+    }
+
+    #[\Override]
     public function getEditAnswerOptionsInputs(
         Gap $gap
     ): array {
@@ -72,9 +105,11 @@ class LongMenu extends Type
             )
             ->withRequired(true)
             ->withValue(
-                array_map(
-                    fn(AnswerOption $v): string => $v->getTextValue(),
-                    $gap->getAnswerOptions()->getAnswerOptionsAwardingPoints()
+                array_values(
+                    array_map(
+                        fn(AnswerOption $v): string => $v->getTextValue(),
+                        $gap->getAnswerOptions()->getAnswerOptionsAwardingPoints()
+                    )
                 )
             )
         ];
@@ -108,6 +143,7 @@ class LongMenu extends Type
         );
     }
 
+    #[\Override]
     public function getEditPointsSectionConstraint(): ?Constraint
     {
         return $this->refinery->custom()->constraint(
@@ -123,6 +159,7 @@ class LongMenu extends Type
         );
     }
 
+    #[\Override]
     public function getBuildGapTransformation(
         Gap $gap
     ): Transformation {
@@ -131,7 +168,6 @@ class LongMenu extends Type
                 ->withMinAutocomplete($vs['min_autocomplete'])
                 ->withAnswerOptions(
                     $gap->getAnswerOptions()->withAnswerOptionsFromTags(
-                        $gap->getAnswerInputId(),
                         array_merge(
                             $vs['answer_options'],
                             $this->retrieveAnswerOptionsArrayFromUpload($vs['upload_answer_options'])
@@ -141,6 +177,7 @@ class LongMenu extends Type
         );
     }
 
+    #[\Override]
     public function getAnswerInput(): \ilFormPropertyGUI
     {
         ;

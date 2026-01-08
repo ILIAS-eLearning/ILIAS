@@ -24,8 +24,10 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db): void
-    {
+    #[\Override]
+    public function prepare(
+        \ilDBInterface $db
+    ): void {
         $this->db = $db;
     }
 
@@ -190,7 +192,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
                 'position' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 2,
-                    'notnull' => true
+                    'notnull' => false
                 ]
             ]);
         }
@@ -201,6 +203,34 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
         if (!$this->db->indexExistsByFields($table_name, ['obj_id'])) {
             $this->db->addIndex($table_name, ['obj_id'], 'o');
+        }
+    }
+
+    public function step_5(): void
+    {
+        if (!$this->db->tableExists(QuestionsMigration::MIGRATIONS_TABLE)) {
+            $this->db->createTable(QuestionsMigration::MIGRATIONS_TABLE, [
+                'old_question_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'new_question_id' => [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 4,
+                    'notnull' => true
+                ]
+            ]);
+        }
+
+        if (!$this->db->primaryExistsByFields(
+            QuestionsMigration::MIGRATIONS_TABLE,
+            ['old_question_id']
+        )) {
+            $this->db->addPrimaryKey(
+                QuestionsMigration::MIGRATIONS_TABLE,
+                ['old_question_id']
+            );
         }
     }
 }

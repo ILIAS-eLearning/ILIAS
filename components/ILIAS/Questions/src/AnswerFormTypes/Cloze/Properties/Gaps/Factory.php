@@ -70,20 +70,23 @@ class Factory
             $answer_input_id,
             $answer_form_id,
             $position,
-            $this->answer_options_factory->getDefaultAnswerOptions()
+            $this->answer_options_factory->getDefaultAnswerOptions($answer_input_id)
         );
     }
 
-    public function getEmptyGapsObject(): Gaps
-    {
+    public function getEmptyGapsObject(
+        Uuid $answer_form_id,
+    ): Gaps {
         return new Gaps(
             $this,
+            $answer_form_id,
             []
         );
     }
 
-    public function getGapTypeByIdentifier(string $identifier): Type
-    {
+    public function getGapTypeByIdentifier(
+        string $identifier
+    ): Type {
         if (!array_key_exists($identifier, $this->available_gap_types)) {
             throw new \InvalidArgumentException('Gap type does not exist.');
         }
@@ -91,6 +94,7 @@ class Factory
     }
 
     public function fromDatabase(
+        Uuid $answer_form_id,
         Query $query
     ): Gaps {
         $answer_options = $this->answer_options_factory->fromDatabase($query);
@@ -98,35 +102,44 @@ class Factory
         return $query->retrieveCurrentRecord(
             TableTypes::AnswerInputs->getTable($query->getTableNameBuilder(Definition::class)),
             $query->getRefinery()->custom()->transformation(
-                function (array $vs) use ($answer_options): Gaps {
+                function (array $vs) use ($answer_form_id, $answer_options): Gaps {
                     $previous_answer_input_id = null;
                     $gaps = [];
                     foreach ($vs as $v) {
-                        if ($previous_answer_input_id === $v['id']) {
+                        if ($v['answer_form_id'] !== $answer_form_id->toString()
+                            || $previous_answer_input_id === $v['id']) {
                             continue;
                         }
                         $previous_answer_input_id = $v['id'];
-                        $gaps[] = new Gap(
-                            $this->uuid_factory->fromString($v['id']),
-                            $this->uuid_factory->fromString($v['answer_form_id']),
-                            $v['position'],
-                            $answer_options[$v['id']],
-                            $this->getGapTypeByIdentifier($v['gap_type']),
-                            $v['max_chars'],
-                            $v['step_size'],
-                            $v['text_matching_method'] === null
-                                ? null
-                                : TextMatchingOptions::tryFrom($v['text_matching_method']),
-                            $v['min_autocomplete'],
-                            $v['shuffle_answer_options'] === 1
-                        );
+                        $gaps[] = $this->buildGapFromDBValues($v, $answer_options);
                     }
                     return new Gaps(
                         $this,
+                        $answer_form_id,
                         $gaps
                     );
                 }
             )
+        );
+    }
+
+    private function buildGapFromDBValues(
+        array $values,
+        array $answer_options
+    ): Gap {
+        return new Gap(
+            $this->uuid_factory->fromString($values['id']),
+            $this->uuid_factory->fromString($values['answer_form_id']),
+            $values['position'],
+            $answer_options[$values['id']],
+            $this->getGapTypeByIdentifier($values['gap_type']),
+            $values['max_chars'],
+            $values['step_size'],
+            $values['text_matching_method'] === null
+                ? null
+                : TextMatchingOptions::tryFrom($values['text_matching_method']),
+            $values['min_autocomplete'],
+            $values['shuffle_answer_options'] === 1
         );
     }
 }
