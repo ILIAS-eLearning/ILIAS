@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Input\Field\FileUpload;
@@ -55,6 +56,7 @@ class File extends HasDynamicInputs implements C\Input\Field\File
         DataFactory $data_factory,
         Factory $field_factory,
         Refinery $refinery,
+        HasDynamicInputsNameSource $has_dynamic_inputs_name_source,
         UploadLimitResolver $upload_limit_resolver,
         C\Input\Field\UploadHandler $handler,
         string $label,
@@ -70,6 +72,7 @@ class File extends HasDynamicInputs implements C\Input\Field\File
             $language,
             $data_factory,
             $refinery,
+            $has_dynamic_inputs_name_source,
             $this->createDynamicInputsTemplate($field_factory, $metadata_input),
             $label,
             $byline,

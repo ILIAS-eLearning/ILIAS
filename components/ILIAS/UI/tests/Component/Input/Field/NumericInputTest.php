@@ -34,13 +34,6 @@ class NumericInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();
@@ -57,12 +50,13 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $numeric = $f->numeric($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $numeric = $f->numeric($label, $byline)->withNameFrom($name_source);
 
         $expected = $this->getFormWrappedHtml(
             'numeric-field-input',
             $label,
-            '<input id="id_1" type="number" step="1" name="name_0" class="c-field-number" />',
+            '<input id="id_1" type="number" step="1" name="' . $name . '" class="c-field-number" />',
             $byline,
             'id_1'
         );
@@ -73,7 +67,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $numeric = $f->numeric($label)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $numeric = $f->numeric($label)->withNameFrom($name_source);
 
         $this->testWithError($numeric);
         $this->testWithNoByline($numeric);
@@ -87,12 +82,13 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $value = "10";
-        $numeric = $f->numeric($label)->withValue($value)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $numeric = $f->numeric($label)->withValue($value)->withNameFrom($name_source);
 
         $expected = $this->getFormWrappedHtml(
             'numeric-field-input',
             $label,
-            '<input id="id_1" type="number" step="1" value="10" name="name_0" class="c-field-number" />',
+            '<input id="id_1" type="number" step="1" value="10" name="'. $name . '" class="c-field-number" />',
             null,
             'id_1'
         );
@@ -102,8 +98,9 @@ class NumericInputTest extends ILIAS_UI_TestBase
     public function testNullValue(): \ILIAS\UI\Component\Input\Container\Form\FormInput
     {
         $f = $this->getFieldFactory();
-        $post_data = new DefInputData(['name_0' => null]);
-        $field = $f->numeric('')->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $post_data = new DefInputData([$name => null]);
+        $field = $f->numeric('')->withNameFrom($name_source);
         $field_required = $field->withRequired(true);
 
         $value = $field->withInput($post_data)->getContent();
@@ -118,7 +115,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
     #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testEmptyValue(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
-        $post_data = new DefInputData(['name_0' => '']);
+        [,$name] = $this->getDefaultNameSourceStub();
+        $post_data = new DefInputData([$name => '']);
         $field_required = $field->withRequired(true);
 
         $value = $field->withInput($post_data)->getContent();
@@ -133,7 +131,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
     #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testZeroIsValidValue(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
-        $post_data = new DefInputData(['name_0' => 0]);
+        [,$name] = $this->getDefaultNameSourceStub();
+        $post_data = new DefInputData([$name => 0]);
         $field_required = $field->withRequired(true);
 
         $value = $field->withInput($post_data)->getContent();
@@ -148,7 +147,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
     #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testConstraintForRequirementForFloat(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
-        $post_data = new DefInputData(['name_0' => 1.1]);
+        [,$name] = $this->getDefaultNameSourceStub();
+        $post_data = new DefInputData([$name => 1.1]);
         $field_required = $field->withRequired(true);
 
         $value = $field->withInput($post_data)->getContent();
@@ -164,7 +164,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
     #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testFloatValue(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
-        $post_data = new DefInputData(['name_0' => 1.1]);
+        [,$name] = $this->getDefaultNameSourceStub();
+        $post_data = new DefInputData([$name => 1.1]);
         $value = $field
             ->withStepSize(.1)
             ->withInput($post_data)
@@ -176,7 +177,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
     #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testFloatValueOffsetStep(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
-        $post_data = new DefInputData(['name_0' => 1.2]);
+        [,$name] = $this->getDefaultNameSourceStub();
+        $post_data = new DefInputData([$name => 1.2]);
         $value = $field
             ->withStepSize(.5)
             ->withInput($post_data)
@@ -188,7 +190,8 @@ class NumericInputTest extends ILIAS_UI_TestBase
     #[\PHPUnit\Framework\Attributes\Depends('testNullValue')]
     public function testFloatValueForInt(\ILIAS\UI\Component\Input\Container\Form\FormInput $field): void
     {
-        $post_data = new DefInputData(['name_0' => 2]);
+        [,$name] = $this->getDefaultNameSourceStub();
+        $post_data = new DefInputData([$name => 2]);
         $value = $field
             ->withStepSize(.5)
             ->withInput($post_data)
@@ -203,15 +206,16 @@ class NumericInputTest extends ILIAS_UI_TestBase
         $data_factory = new DataFactory();
         $language = $this->createMock(ILIAS\Language\Language::class);
         $refinery = new Refinery($data_factory, $language);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
 
         $f = $this->getFieldFactory();
-        $field = $f->numeric('')->withNameFrom($this->name_source)
+        $field = $f->numeric('')->withNameFrom($name_source)
             ->withStepSize(.2)
             ->withAdditionalTransformation(
                 $refinery->custom()->transformation(fn(float $v): float => $v + 1)
             );
 
-        $post_data = new DefInputData(['name_0' => 1]);
+        $post_data = new DefInputData([$name => 1]);
 
         $value = $field
             ->withInput($post_data)

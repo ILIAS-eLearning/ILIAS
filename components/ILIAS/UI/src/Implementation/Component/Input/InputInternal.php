@@ -33,10 +33,8 @@ interface InputInternal extends Input
 {
     /**
      * Get an input like this one, with a different name.
-     *
-     * @return static
      */
-    public function withNameFrom(NameSource $source);
+    public function withNameFrom(NameSource $source): static;
 
     /**
      * The name of the input as used in HTML.

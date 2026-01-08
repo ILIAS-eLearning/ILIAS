@@ -34,7 +34,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use LogicException;
 use Generator;
 use InvalidArgumentException;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
 
 /**
  * This implements commonalities between inputs.
@@ -197,17 +197,10 @@ abstract class Input implements InputInternal
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
+    public function withNameFrom(NameSource $source): static
     {
         $clone = clone $this;
-        if ($source instanceof DynamicInputsNameSource) {
-            $clone->name = '';
-        } else {
-            $clone->name = ($parent_name !== null) ? $parent_name . '/' : '';
-        }
-        $clone->name .= ($clone->dedicated_name !== null)
-                        ? $source->getNewDedicatedName($clone->dedicated_name)
-                        : $source->getNewName();
+        $clone->name = $source->getNextName($this->dedicated_name);
         return $clone;
     }
 

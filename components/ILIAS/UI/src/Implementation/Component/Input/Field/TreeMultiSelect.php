@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
 use ILIAS\UI\Component as C;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Constraint;
@@ -36,6 +37,7 @@ class TreeMultiSelect extends HasDynamicInputs implements C\Input\Field\TreeMult
         Language $language,
         DataFactory $data_factory,
         Refinery $refinery,
+        HasDynamicInputsNameSource $has_dynamic_inputs_name_source,
         C\Input\Container\Form\FormInput $dynamic_input_template,
         protected C\Input\Field\Node\NodeRetrieval $node_retrieval,
         string $label,
@@ -45,6 +47,7 @@ class TreeMultiSelect extends HasDynamicInputs implements C\Input\Field\TreeMult
             $language,
             $data_factory,
             $refinery,
+            $has_dynamic_inputs_name_source,
             $dynamic_input_template,
             $label,
             $byline

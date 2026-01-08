@@ -249,6 +249,7 @@ class UI implements Component\Component
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
                 $internal[UI\Implementation\Component\Modal\InterruptiveItem\Factory::class],
                 $internal[UI\Implementation\Component\Input\Field\Factory::class],
+                $internal[UI\Implementation\Component\Input\DefaultNameSource::class],
             );
         $internal[UI\Implementation\Component\SignalGeneratorInterface::class] = static fn() =>
             new UI\Implementation\Component\SignalGenerator();
@@ -278,6 +279,7 @@ class UI implements Component\Component
             new UI\Implementation\Component\Dropzone\File\Factory(
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
                 $internal[UI\Implementation\Component\Input\Field\Factory::class],
+                $internal[UI\Implementation\Component\Input\DefaultNameSource::class],
             );
 
         $internal[UI\Implementation\Component\Popover\Factory::class] = static fn() =>
@@ -322,6 +324,7 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Input\Field\Factory::class] = static fn() =>
             new UI\Implementation\Component\Input\Field\Factory(
                 $internal[UI\Implementation\Component\Input\Field\Node\Factory::class],
+                $internal[UI\Implementation\Component\Input\HasDynamicInputsNameSource::class],
                 $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
                 $pull[Data\Factory::class],
@@ -345,16 +348,19 @@ class UI implements Component\Component
             new UI\Implementation\Component\Input\Container\Form\Factory(
                 $internal[UI\Implementation\Component\Input\Field\Factory::class],
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
+                $internal[UI\Implementation\Component\Input\DefaultNameSource::class],
             );
         $internal[UI\Implementation\Component\Input\Container\Filter\Factory::class] = static fn() =>
             new UI\Implementation\Component\Input\Container\Filter\Factory(
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
                 $internal[UI\Implementation\Component\Input\Field\Factory::class],
+                $internal[UI\Implementation\Component\Input\DefaultNameSource::class],
             );
         $internal[UI\Implementation\Component\Input\Container\ViewControl\Factory::class] = static fn() =>
             new UI\Implementation\Component\Input\Container\ViewControl\Factory(
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
                 $internal[UI\Implementation\Component\Input\ViewControl\Factory::class],
+                $internal[UI\Implementation\Component\Input\DefaultNameSource::class],
             );
         $internal[UI\Implementation\Component\Input\ViewControl\Factory::class] = static fn() =>
             new UI\Implementation\Component\Input\ViewControl\Factory(
@@ -363,6 +369,12 @@ class UI implements Component\Component
                 $pull[Refinery\Factory::class],
                 $internal[UI\Implementation\Component\SignalGeneratorInterface::class],
                 $use[Language\Language::class],
+            );
+        $internal[UI\Implementation\Component\Input\DefaultNameSource::class] = static fn() =>
+            new UI\Implementation\Component\Input\DefaultNameSource();
+        $internal[UI\Implementation\Component\Input\HasDynamicInputsNameSource::class] = static fn() =>
+            new UI\Implementation\Component\Input\HasDynamicInputsNameSource(
+                $internal[UI\Implementation\Component\Input\DefaultNameSource::class],
             );
 
         $internal[UI\Implementation\Component\Table\Factory::class] = static fn() =>

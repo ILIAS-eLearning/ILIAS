@@ -25,6 +25,7 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\Input;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -64,10 +65,10 @@ trait GroupDecorator
     /**
      * @inheritDoc
      */
-    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
+    public function withNameFrom(NameSource $source): static
     {
         $clone = clone $this;
-        $clone->setInputGroup($clone->getInputGroup()->withNameFrom($source, $parent_name));
+        $clone->setInputGroup($clone->getInputGroup()->withNameFrom($source));
         return $clone;
     }
 

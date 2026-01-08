@@ -27,6 +27,8 @@ use ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory;
 
 class FilterFactoryTest extends AbstractFactoryTestCase
 {
+    use NameSourceStubs;
+
     public static array $kitchensink_info_settings = [
         "standard" => [
             "context" => false,
@@ -44,12 +46,14 @@ class FilterFactoryTest extends AbstractFactoryTestCase
             new SignalGenerator(),
             new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
                 $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+                $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
                 $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
                 new SignalGenerator(),
                 $df,
                 new ILIAS\Refinery\Factory($df, $language),
                 $language
-            )
+            ),
+            $this->createFixedNameSourceStub('name'),
         );
     }
 

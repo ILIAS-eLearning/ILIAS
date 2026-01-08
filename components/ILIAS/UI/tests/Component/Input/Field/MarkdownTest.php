@@ -33,6 +33,7 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 require_once(__DIR__ . "/../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -43,11 +44,13 @@ require_once(__DIR__ . "/InputTest.php");
  */
 class MarkdownTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected const TEST_ASYNC_URL = 'https://localhost';
     protected const TEST_PARAMETER_NAME = 'preview';
 
     protected MarkdownRenderer $markdown_renderer;
-    protected DefNamesource $name_source;
+    protected NameSource $name_source;
     protected FieldFactory $factory;
 
     protected ViewControlMode $view_control_mock;
@@ -62,7 +65,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
     {
         $this->markdown_renderer = $this->getMarkdownRendererMock();
         $this->factory = $this->buildMinimalFieldFactory();
-        $this->name_source = new DefNamesource();
+        $this->name_source = $this->createCountingNameSourceStub('name_');
 
         $this->view_control_mock = $this->getViewControlModeStub();
         $this->numberedlist_glyph_mock = $this->getGlyphStub('numberedlist');
@@ -474,6 +477,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
     {
         return new FieldFactory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(UploadLimitResolver::class),
             new SignalGenerator(),
             $this->createMock(DataFactory::class),

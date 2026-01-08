@@ -25,7 +25,6 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\ViewControl as Control;
 use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
 use ILIAS\UI\Implementation\Component\Input\Container\ViewControl as VC;
-use ILIAS\UI\Implementation\Component\Input\FormInputNameSource;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,6 +33,8 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
 
 class ViewControlContainerTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected function buildDataFactory(): Data\Factory
     {
         return new Data\Factory();
@@ -50,12 +51,14 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         return new VC\Factory(
             new I\SignalGenerator(),
             $this->buildVCFactory(),
+            $this->createCountingNameSourceStub('input_'),
         );
     }
     protected function buildFieldFactory(): FieldFactory
     {
         return new FieldFactory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(UploadLimitResolver::class),
             new I\SignalGenerator(),
             $this->buildDataFactory(),
@@ -82,27 +85,6 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(I\Signal::class, $vc->getSubmissionSignal());
     }
 
-    public function testViewControlContainerWithControls(): void
-    {
-        $c_factory = $this->buildVCFactory();
-        $controls = [
-            $c_factory->fieldSelection([]),
-            $c_factory->sortation([]),
-            $c_factory->pagination()
-        ];
-
-        $name_source = new FormInputNameSource();
-        $vc = $this->buildContainerFactory()->standard($controls);
-        $this->assertSameSize($controls, $vc->getInputs());
-
-        $named = array_map(
-            fn($input) => $input->withNameFrom($name_source, 'view_control'),
-            $vc->getInputs()
-        );
-
-        $this->assertEquals($named, $vc->getInputs());
-    }
-
     public function testViewControlContainerWithRequest(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
@@ -110,9 +92,9 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getQueryParams")
             ->willReturn([
-                'view_control/input_0' => ['a1', 'a3'],
-                'view_control/input_1/input_2' => 'a2',
-                'view_control/input_1/input_3' => 'DESC'
+                'input_1' => ['a1', 'a3'],
+                'input_3' => 'a2',
+                'input_4' => 'DESC'
             ]);
 
         $c_factory = $this->buildVCFactory();
@@ -190,9 +172,9 @@ class ViewControlContainerTest extends ILIAS_UI_TestBase
 
         $this->assertEquals(
             [
-                'view_control/input_0' => ['a1', 'a3'],
-                'view_control/input_1/input_2' => 'a2',
-                'view_control/input_1/input_3' => 'DESC'
+                'input_1' => ['a1', 'a3'],
+                'input_3' => 'a2',
+                'input_4' => 'DESC'
             ],
             $data
         );

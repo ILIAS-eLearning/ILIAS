@@ -67,7 +67,7 @@ class ViewControlModeTest extends ViewControlTestBase
             ->willReturn($v);
 
         $vc = $this->buildVCFactory()->mode($options)
-            ->withNameFrom($this->getNamesource())
+            ->withNameFrom($this->createCountingNameSourceStub('name_'))
             ->withInput($input);
 
         $df = $this->buildDataFactory();

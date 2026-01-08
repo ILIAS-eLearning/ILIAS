@@ -29,35 +29,17 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Language\Language;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\Button\Factory as ButtonFactory;
+use NameSourceStubs;
 
 require_once(__DIR__ . "/../../../../Base.php");
-
-class InputNameSource implements NameSource
-{
-    public int $count = 0;
-
-    public function getNewName(): string
-    {
-        $name = "form_input_$this->count";
-        $this->count++;
-
-        return $name;
-    }
-
-    public function getNewDedicatedName(string $dedicated_name): string
-    {
-        $name = $dedicated_name . "_$this->count";
-        $this->count++;
-
-        return $name;
-    }
-}
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class FormWithoutSubmitButtonsTest extends \ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected SignalGenerator $signal_generator;
     protected NameSource $namesource;
     protected Refinery $refinery;
@@ -67,7 +49,7 @@ class FormWithoutSubmitButtonsTest extends \ILIAS_UI_TestBase
     public function setUp(): void
     {
         $this->signal_generator = new \SignalGeneratorMock();
-        $this->namesource = new InputNameSource();
+        $this->namesource = $this->createCountingNameSourceStub('input_');
         $this->language = $this->getLanguage();
         $this->refinery = new Refinery(
             new \ILIAS\Data\Factory(),
@@ -156,17 +138,18 @@ class FormWithoutSubmitButtonsTest extends \ILIAS_UI_TestBase
             )
         );
 
+        $input_name = 'input_name_1';
         $form = new StandardForm(
             $this->signal_generator,
             $this->buildInputFactory(),
-            $this->namesource,
+            $this->createFixedNameSourceStub($input_name),
             $post_url,
             [$dummy_input]
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getParsedBody')->willReturn([
-            'form_0/form_input_1' => '',
+            $input_name => '',
         ]);
 
         $form = $form->withRequest($request);
@@ -194,6 +177,7 @@ EOT;
         $df = new \ILIAS\Data\Factory();
         return new \ILIAS\UI\Implementation\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             $this->signal_generator,
             $df,

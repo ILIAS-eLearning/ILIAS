@@ -291,6 +291,25 @@ Storage of paramters in DataTable and SequenceNavigation look very much alike;
 in favor of those and further/future components the implementation should be
 realized as a trait to be used by several components.
 
+### Remove all internal usages of `withDedicatedName()` (beginner, 8h)
+
+`ILIAS\UI\Component\Input\Container\Container::withDedicatedName()` and
+`ILIAS\UI\Component\Input\Input::withDedicatedName()` are currently used internally in a few places. When this happens,
+we sometimes override already provided dedicated names (of the consumer) and introduce a hidden dependance on an
+implementation detail. Since consumers MUST NOT rely on the names of inputs during data processing, this behaviour adds
+complexity without clear benefit. Removing these internal usages will streamline naming and make the framework easier to
+understand and maintain. This MAY be the first step towards removing `withDedicatedName()` altogether, if no advantage
+will arise soon.
+
+### Remove `OrderingTableContextRenderer` and revise `Table\Ordering` composition (advanced, ~5d)
+
+The `ILIAS\UI\Implementation\Component\Input\Field\OrderingTableContextRenderer` was introduced during the refactoring
+of `ILIAS\UI\Implementation\Component\Input\NameSource`. Its a temporary workaround that replaced the implementation of
+such name source as an inline anonymous class inside the table context renderer. This name source was used in order to
+bypass input mechanics in order to set the ordering row ids as dedicated input names directly as the actual input name.
+This highlights the fact that `Table\Ordering` is some unfinished hybrid between a form input container and a table,
+which is not ideal. The next step is to revisit the composition and interal handling of the ordering table, remove this
+temporary workaround, and ensure the table complies with the normal mechanics of our inputs.
 
 ## Long Term
 

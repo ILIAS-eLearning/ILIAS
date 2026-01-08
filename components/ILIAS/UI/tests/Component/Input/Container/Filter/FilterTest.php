@@ -32,16 +32,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\UI\Component\Input\Field\Group;
 
-class FixedNameSourceFilter implements NameSource
-{
-    public string $name = "name";
-
-    public function getNewName(): string
-    {
-        return $this->name;
-    }
-}
-
 class ConcreteFilter extends Filter
 {
     public array $inputs;
@@ -52,6 +42,7 @@ class ConcreteFilter extends Filter
     public function __construct(
         SignalGenerator $signal_generator,
         Input\Field\Factory $field_factory,
+        NameSource $name_source,
         $toggle_action_on,
         $toggle_action_off,
         $expand_action,
@@ -67,6 +58,7 @@ class ConcreteFilter extends Filter
         parent::__construct(
             $signal_generator,
             $field_factory,
+            $name_source,
             $toggle_action_on,
             $toggle_action_off,
             $expand_action,
@@ -112,11 +104,14 @@ class ConcreteFilter extends Filter
  */
 class FilterTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected function buildFactory(): Input\Container\Filter\Factory
     {
         return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
             new SignalGenerator(),
-            $this->buildInputFactory()
+            $this->buildInputFactory(),
+            $this->createFixedNameSourceStub('name'),
         );
     }
 
@@ -126,6 +121,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $language = $this->createMock(ILIAS\Language\Language::class);
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
@@ -175,52 +171,12 @@ class FilterTest extends ILIAS_UI_TestBase
         return new Data\Factory();
     }
 
-    public function testGetInputs(): void
-    {
-        $f = $this->buildFactory();
-        $if = $this->buildInputFactory();
-        $name_source = new FixedNameSourceFilter();
-
-        $inputs = [$if->text(""), $if->select("", [])];
-        $inputs_rendered = [true, true];
-        $filter = $f->standard(
-            "#",
-            "#",
-            "#",
-            "#",
-            "#",
-            "#",
-            $inputs,
-            $inputs_rendered,
-            false,
-            false
-        );
-
-        $seen_names = [];
-        $inputs = $filter->getInputs();
-
-        foreach ($inputs as $input) {
-            $name = $input->getName();
-            $name_source->name = $name;
-
-            // name is a string
-            $this->assertIsString($name);
-
-            // only name is attached
-            $input = array_shift($inputs);
-            $this->assertEquals($input->withNameFrom($name_source), $input);
-
-            // every name can only be contained once.
-            $this->assertNotContains($name, $seen_names);
-            $seen_names[] = $name;
-        }
-    }
-
     public function testExtractParamData(): void
     {
         $filter = new ConcreteFilter(
             new SignalGenerator(),
             $this->buildInputFactory(),
+            $this->createFixedNameSourceStub('name'),
             "#",
             "#",
             "#",
@@ -273,6 +229,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $filter = new ConcreteFilter(
             new SignalGenerator(),
             $this->buildInputFactory(),
+            $this->createFixedNameSourceStub('name'),
             "#",
             "#",
             "#",
@@ -326,6 +283,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $filter = new ConcreteFilter(
             new SignalGenerator(),
             $this->buildInputFactory(),
+            $this->createFixedNameSourceStub('name'),
             "#",
             "#",
             "#",

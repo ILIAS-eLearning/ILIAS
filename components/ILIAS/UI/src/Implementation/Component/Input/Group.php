@@ -113,11 +113,11 @@ trait Group
     /**
      * @return Input[]
      */
-    protected function nameInputs(NameSource $source, string $parent_name): array
+    protected function nameInputs(NameSource $source): array
     {
         $named_inputs = [];
         foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source, $parent_name);
+            $named_inputs[$key] = $input->withNameFrom($source);
         }
 
         return $named_inputs;

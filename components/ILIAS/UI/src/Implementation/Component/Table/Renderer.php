@@ -564,21 +564,9 @@ class Renderer extends AbstractComponentRenderer
             return $cell_tpl->get();
         }
 
-        $namesource = new class () implements NameSource {
-            public function getNewName(): string
-            {
-                return '';
-            }
-            public function getNewDedicatedName(string $dedicated_name): string
-            {
-                return $dedicated_name;
-            }
-        };
-
         $numeric_label = $this->txt("ui_table_order");
         $input = $this->getUIFactory()->input()->field()->numeric($numeric_label)
             ->withDedicatedName($component->getId())
-            ->withNameFrom($namesource)
             ->withValue($component->getPosition() * 10);
         $cell_tpl->setVariable('ORDER_INPUT', $default_renderer->render($input));
 

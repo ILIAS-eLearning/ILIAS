@@ -26,7 +26,7 @@ use ILIAS\UI\Component\Input\InputData;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class DynamicInputDataIterator implements Iterator
+class HasDynamicInputsDataIterator implements Iterator
 {
     protected string $parent_input_name;
     protected array $post_data;
@@ -44,7 +44,7 @@ class DynamicInputDataIterator implements Iterator
             $entry = [];
             // for each input of the dynamic input template, the input data must
             // be mapped to the rendered name, similar to one delivered by
-            // DynamicInputsNameSource for further processing.
+            // HasDynamicInputsNameSource for further processing.
             foreach ($this->post_data as $input_name => $data) {
                 $dynamic_input_name = "$this->parent_input_name[$input_name][]";
                 $entry[$dynamic_input_name] = $data[$this->index];

@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component as C;
@@ -37,6 +38,7 @@ class Image extends File implements C\Input\Field\Image
         DataFactory $data_factory,
         Factory $field_factory,
         Refinery $refinery,
+        HasDynamicInputsNameSource $has_dynamic_inputs_name_source,
         UploadLimitResolver $upload_limit_resolver,
         C\Input\Field\UploadHandler $handler,
         protected ImagePurpose $image_purpose,
@@ -49,6 +51,7 @@ class Image extends File implements C\Input\Field\Image
             $data_factory,
             $field_factory,
             $refinery,
+            $has_dynamic_inputs_name_source,
             $upload_limit_resolver,
             $handler,
             $label,

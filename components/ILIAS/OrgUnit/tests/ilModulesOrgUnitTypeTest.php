@@ -41,6 +41,8 @@ class mock_ilOrgUnitTypeGUI extends ilOrgUnitTypeGUI
 
 class ilModulesOrgUnitTypeTest extends TestCase
 {
+    use NameSourceStubs;
+
     public function getRefinery(): \ILIAS\Refinery\Factory
     {
         $data_factory = new \ILIAS\Data\Factory();
@@ -52,30 +54,36 @@ class ilModulesOrgUnitTypeTest extends TestCase
     public function getUIFactory(): NoUIFactory
     {
         $node_factory = $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class);
+        $has_dynamic_inputs_name_source = $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class);
         $language = $this->createMock(ilLanguage::class);
         $filter_factory = $this->createMock(Component\Input\Container\Filter\Factory::class);
         $view_control_factory = $this->createMock(Component\Input\Container\ViewControl\Factory::class);
         $control_factory = $this->createMock(Component\Input\ViewControl\Factory::class);
         $upload_limit_resolver = $this->createMock(Component\Input\UploadLimitResolver::class);
         $refinery = $this->getRefinery();
+        $name_source = $this->createCountingNameSourceStub('input_');
 
         $factory = new class (
             $node_factory,
+            $has_dynamic_inputs_name_source,
             $language,
             $filter_factory,
             $view_control_factory,
             $control_factory,
             $upload_limit_resolver,
-            $refinery
+            $refinery,
+            $name_source,
         ) extends NoUIFactory {
             public function __construct(
                 protected $node_factory,
+                protected $has_dynamic_inputs_name_source,
                 protected $language,
                 protected $filter_factory,
                 protected $view_control_factory,
                 protected $control_factory,
                 protected $upload_limit_resolver,
-                protected $refinery
+                protected $refinery,
+                protected $name_source,
             ) {
             }
 
@@ -86,6 +94,7 @@ class ilModulesOrgUnitTypeTest extends TestCase
 
                 $field_factory = new Component\Input\Field\Factory(
                     $this->node_factory,
+                    $this->has_dynamic_inputs_name_source,
                     $this->upload_limit_resolver,
                     $signal_generator,
                     $data_factory,
@@ -95,7 +104,8 @@ class ilModulesOrgUnitTypeTest extends TestCase
 
                 $form_factory = new Component\Input\Container\Form\Factory(
                     $field_factory,
-                    $signal_generator
+                    $signal_generator,
+                    $this->name_source,
                 );
                 $container_factory = new Component\Input\Container\Factory(
                     $form_factory,

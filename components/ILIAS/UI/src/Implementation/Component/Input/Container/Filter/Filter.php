@@ -33,7 +33,7 @@ use ILIAS\UI\Component\Input\InputData;
 /**
  * This implements commonalities between all Filters.
  */
-abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameSource
+abstract class Filter implements C\Input\Container\Filter\Filter
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -106,6 +106,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         CI\Input\Field\Factory $field_factory,
+        protected CI\Input\NameSource $name_source,
         $toggle_action_on,
         $toggle_action_off,
         $expand_action,
@@ -131,7 +132,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $this->checkArgListElements("input", $inputs, $classes);
 
         $this->initSignals();
-        $this->input_group = $field_factory->group($inputs)->withNameFrom($this);
+        $this->input_group = $field_factory->group($inputs)->withNameFrom($this->name_source->withReset());
 
         foreach ($is_input_rendered as $r) {
             $this->checkBoolArg("is_input_rendered", $r);
@@ -248,36 +249,6 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     protected function extractParamData(ServerRequestInterface $request): InputData
     {
         return new QueryParamsFromServerRequest($request);
-    }
-
-    /**
-     * Implementation of NameSource
-     *
-     * @inheritdoc
-     */
-    public function getNewName(): string
-    {
-        $name = "filter_input_$this->count";
-        $this->count++;
-
-        return $name;
-    }
-
-    /**
-     * Implementation of NameSource
-     * for using dedicated names in filter fields
-     */
-    public function getNewDedicatedName(string $dedicated_name): string
-    {
-        if ($dedicated_name == 'filter_input') {
-            return $this->getNewName();
-        }
-        if (in_array($dedicated_name, $this->used_names)) {
-            return $dedicated_name . '_' . $this->count++;
-        } else {
-            $this->used_names[] = $dedicated_name;
-            return $dedicated_name;
-        }
     }
 
     /**

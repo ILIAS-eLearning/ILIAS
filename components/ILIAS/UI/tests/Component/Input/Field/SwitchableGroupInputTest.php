@@ -48,6 +48,7 @@ class Group2 extends Group
 class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
+    use NameSourceStubs;
 
     /**
      * @var Group1|mixed|MockObject
@@ -108,18 +109,14 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ["child1" => $this->child1, "child2" => $this->child2],
             "LABEL",
             "BYLINE"
-        ))->withNameFrom(new class () implements NameSource {
-            public function getNewName(): string
-            {
-                return "name0";
-            }
-        });
+        ))->withNameFrom($this->createFixedNameSourceStub('name0'));
     }
 
     protected function buildFactory(): I\Input\Field\Factory
     {
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $this->data_factory,
@@ -511,6 +508,7 @@ EOT;
     {
         $f = $this->getFieldFactory();
         $label = "label";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
 
         $group1 = $f->group([
             "field_1" => $f->text("f")
@@ -525,7 +523,7 @@ EOT;
                 "g2" => $group2
             ],
             $label
-        )->withNameFrom((new DefNamesource()));
+        )->withNameFrom($name_source);
 
         $this->testWithError($sg);
         $this->testWithNoByline($sg);

@@ -34,14 +34,12 @@ class DurationInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
     protected I\Input\Field\Factory $factory;
     protected Language $lng;
 
     public function setUp(): void
     {
-        $this->name_source = new DefNamesource();
         $this->data_factory = new Data\Factory();
         $this->factory = $this->buildFactory();
     }
@@ -64,6 +62,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
     {
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $this->data_factory,
@@ -163,8 +162,9 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
     public function testRender(): \ILIAS\UI\Component\Input\Field\Duration
     {
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $duration = $this->factory->duration('label', 'byline')
-            ->withNameFrom($this->name_source);
+            ->withNameFrom($name_source);
         $label_start = 'duration_default_label_start';
         $label_end = 'duration_default_label_end';
 
@@ -172,25 +172,23 @@ class DurationInputTest extends ILIAS_UI_TestBase
             'date-time-field-input',
             $label_start,
             '<div class="c-input-group">
-                <input id="id_1" type="date" name="name_0/start_1" class="c-field-datetime" />
+                <input id="id_1" type="date" name="' . $name . '" class="c-field-datetime" />
             </div>
             ',
             null,
             'id_1',
             null,
-            'name_0/start_1'
         );
         $f2 = $this->getFormWrappedHtml(
             'date-time-field-input',
             $label_end,
             '<div class="c-input-group">
-                <input id="id_2" type="date" name="name_0/end_2" class="c-field-datetime" />
+                <input id="id_2" type="date" name="' . $name . '" class="c-field-datetime" />
             </div>
             ',
             null,
             'id_2',
             null,
-            'name_0/end_2'
         );
 
         $expected = $this->getFormWrappedHtml(
@@ -208,6 +206,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
     {
         $other_start_label = 'other startlabel';
         $other_end_label = 'other endlabel';
+        [,$name] = $this->getDefaultNameSourceStub();
 
         $duration = $duration->withLabels($other_start_label, $other_end_label);
 
@@ -215,25 +214,23 @@ class DurationInputTest extends ILIAS_UI_TestBase
             'date-time-field-input',
             $other_start_label,
             '<div class="c-input-group">
-                <input id="id_1" type="date" name="name_0/start_1" class="c-field-datetime" />
+                <input id="id_1" type="date" name="' . $name . '" class="c-field-datetime" />
             </div>
             ',
             null,
             'id_1',
             null,
-            'name_0/start_1'
         );
         $f2 = $this->getFormWrappedHtml(
             'date-time-field-input',
             $other_end_label,
             '<div class="c-input-group">
-                <input id="id_2" type="date" name="name_0/end_2" class="c-field-datetime" />
+                <input id="id_2" type="date" name="' . $name . '" class="c-field-datetime" />
             </div>
             ',
             null,
             'id_2',
             null,
-            'name_0/end_2'
         );
 
         $expected = $this->getFormWrappedHtml(
@@ -247,8 +244,9 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
     public function testCommonRendering(): void
     {
+        [$name_source] = $this->getDefaultNameSourceStub();
         $duration = $this->factory->duration('label')
-            ->withNameFrom($this->name_source);
+            ->withNameFrom($name_source);
         $this->testWithError($duration);
         $this->testWithNoByline($duration);
         $this->testWithRequired($duration);

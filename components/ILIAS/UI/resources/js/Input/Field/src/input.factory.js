@@ -35,6 +35,7 @@ import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
 import Tagify from '@yaireo/tagify';
 import tag from './Tag/tag.js';
 import OptionFilterFactory from './OptionFilter/OptionFilterFactory.js';
+import HasDynamicInputsTemplateRenderer from './HasDynamicInputsTemplateRenderer.js';
 
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
@@ -59,4 +60,7 @@ il.UI.Input = il.UI.Input || {};
   Input.tagInput = Input.tag || {};
   Input.tagInput.init = (input, config, value, autocompleteEndpoint, autocompleteToken) => tag(
     Tagify, input, config, value, autocompleteEndpoint, autocompleteToken);
+
+  // @todo: remove this once file input is migrated.
+  Input.HasDynamicInputsTemplateRenderer = HasDynamicInputsTemplateRenderer;
 }(il.UI.Input));

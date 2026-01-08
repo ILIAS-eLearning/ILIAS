@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
@@ -33,6 +34,7 @@ class Factory implements I\Factory
 {
     public function __construct(
         protected Node\Factory $node_factory,
+        protected HasDynamicInputsNameSource $has_dynamic_inputs_name_source,
         protected UploadLimitResolver $upload_limit_resolver,
         protected SignalGeneratorInterface $signal_generator,
         protected Data\Factory $data_factory,
@@ -127,6 +129,7 @@ class Factory implements I\Factory
             $this->data_factory,
             $this,
             $this->refinery,
+            $this->has_dynamic_inputs_name_source,
             $this->upload_limit_resolver,
             $handler,
             $label,
@@ -147,6 +150,7 @@ class Factory implements I\Factory
             $this->data_factory,
             $this,
             $this->refinery,
+            $this->has_dynamic_inputs_name_source,
             $this->upload_limit_resolver,
             $upload_handler,
             $image_purpose,
@@ -195,6 +199,7 @@ class Factory implements I\Factory
             $this->lng,
             $this->data_factory,
             $this->refinery,
+            $this->has_dynamic_inputs_name_source,
             $this->hidden(),
             $node_retrieval,
             $label,
@@ -211,6 +216,7 @@ class Factory implements I\Factory
             $this->lng,
             $this->data_factory,
             $this->refinery,
+            $this->has_dynamic_inputs_name_source,
             $this->hidden(),
             $node_retrieval,
             $label,

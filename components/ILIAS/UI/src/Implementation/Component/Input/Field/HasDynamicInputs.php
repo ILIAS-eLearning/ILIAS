@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsDataIterator;
+use ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Container\Form\FormInput as FormInputInterface;
@@ -52,6 +52,7 @@ abstract class HasDynamicInputs extends FormInput
         protected Language $language,
         DataFactory $data_factory,
         Refinery $refinery,
+        protected HasDynamicInputsNameSource $has_dynamic_inputs_name_source,
         protected FormInputInterface $dynamic_input_template,
         string $label,
         ?string $byline
@@ -119,18 +120,24 @@ abstract class HasDynamicInputs extends FormInput
         return $clone;
     }
 
-    public function withNameFrom(NameSource $source, ?string $parent_name = null): self
+    public function withNameFrom(NameSource $source): static
     {
-        $clone = parent::withNameFrom($source, $parent_name);
+        $clone = parent::withNameFrom($source);
 
-        $clone->dynamic_input_template = $clone->getTemplateForDynamicInputs()->withNameFrom(
-            new DynamicInputsNameSource($clone->getName())
-        );
+        $template_name_source = $this->has_dynamic_inputs_name_source
+            ->withReset()
+            ->withIndices(false)
+            ->withParentName($clone->getName());
+
+        $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom($template_name_source);
+
+        $generated_inputs_name_source = $this->has_dynamic_inputs_name_source
+            ->withReset()
+            ->withIndices(true)
+            ->withParentName($clone->getName());
 
         foreach ($clone->generated_dynamic_inputs as $key => $input) {
-            $clone->generated_dynamic_inputs[$key] = $input->withNameFrom(
-                new DynamicInputsNameSource($clone->getName())
-            );
+            $clone->generated_dynamic_inputs[$key] = $input->withNameFrom($generated_inputs_name_source->withResetDefaultNameSource());
         }
 
         return $clone;
@@ -146,7 +153,7 @@ abstract class HasDynamicInputs extends FormInput
         $contains_error = false;
         $contents = [];
 
-        foreach ((new DynamicInputDataIterator($post_data, $clone->getName())) as $index => $input_data) {
+        foreach ((new HasDynamicInputsDataIterator($post_data, $clone->getName())) as $index => $input_data) {
             $clone->generated_dynamic_inputs[$index] = $clone->getTemplateForDynamicInputs()->withInput($input_data);
             if ($clone->generated_dynamic_inputs[$index]->getContent()->isOk()) {
                 $contents[] = $clone->generated_dynamic_inputs[$index]->getContent()->value();

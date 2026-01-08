@@ -117,6 +117,7 @@ class InitUIFramework
                 $c["ui.signal_generator"],
                 $c["ui.factory.interruptive_item"],
                 $c["ui.factory.input.field"],
+                $c["ui.input.default_name_source"],
             );
         };
         $c["ui.factory.progress.refresh_interval"] = static fn(\ILIAS\DI\Container $c) =>
@@ -254,6 +255,7 @@ class InitUIFramework
         $c["ui.factory.input.field"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
                 $c["ui.factory.input.field.node"],
+                $c["ui.input.has_dynamic_inputs_name_source"],
                 $c["ui.upload_limit_resolver"],
                 $c["ui.signal_generator"],
                 $c["ui.data_factory"],
@@ -274,19 +276,30 @@ class InitUIFramework
         $c["ui.factory.input.container.form"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
                 $c["ui.factory.input.field"],
-                $c["ui.signal_generator"]
+                $c["ui.signal_generator"],
+                $c["ui.input.default_name_source"],
             );
         };
         $c["ui.factory.input.container.filter"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
                 $c["ui.signal_generator"],
-                $c["ui.factory.input.field"]
+                $c["ui.factory.input.field"],
+                $c["ui.input.default_name_source"],
             );
         };
         $c["ui.factory.input.container.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\ViewControl\Factory(
                 $c["ui.signal_generator"],
                 $c["ui.factory.input.viewcontrol"],
+                $c["ui.input.default_name_source"],
+            );
+        };
+        $c["ui.input.default_name_source"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Input\DefaultNameSource();
+        };
+        $c["ui.input.has_dynamic_inputs_name_source"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource(
+                $c["ui.input.default_name_source"],
             );
         };
         $c["ui.factory.input.viewcontrol"] = function ($c) {
@@ -302,6 +315,7 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory(
                 $c["ui.signal_generator"],
                 $c["ui.factory.input.field"],
+                $c["ui.input.default_name_source"],
             );
         };
         $c["ui.factory.panel.listing"] = function ($c) {

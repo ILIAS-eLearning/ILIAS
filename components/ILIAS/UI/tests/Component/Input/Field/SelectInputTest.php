@@ -39,13 +39,6 @@ class SelectInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testOnlyValuesFromOptionsAreAcceptableClientSideValues(): void
     {
         $options = ["one" => "Eins", "two" => "Zwei", "three" => "Drei"];
@@ -80,13 +73,14 @@ class SelectInputTest extends ILIAS_UI_TestBase
     public function testEmptyStringCreatesErrorIfSelectIsRequired(): void
     {
         $options = [];
+        [$name_source] = $this->getDefaultNameSourceStub();
         $select = $this->getFieldFactory()->select(
             "",
             $options,
             ""
         )
         ->withRequired(true)
-        ->withNameFrom($this->name_source);
+        ->withNameFrom($name_source);
 
         $data = $this->createMock(InputData::class);
         $data->expects($this->once())
@@ -119,12 +113,13 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
-        $select = $f->select($label, $options, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $select = $f->select($label, $options, $byline)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'select-field-input',
             $label,
             '
-            <select id="id_1" name="name_0">
+            <select id="id_1" name="' . $name . '">
                 <option selected="selected" value="">-</option>
                 <option value="one">One</option>
                 <option value="two">Two</option>
@@ -144,12 +139,13 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $options = ["one" => "One", "two" => "Two", "three" => "Three"];
-        $select = $f->select($label, $options, $byline)->withNameFrom($this->name_source)->withValue("one");
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $select = $f->select($label, $options, $byline)->withNameFrom($name_source)->withValue("one");
         $expected = $this->getFormWrappedHtml(
             'select-field-input',
             $label,
             '
-            <select id="id_1" name="name_0">
+            <select id="id_1" name="' . $name .'">
                 <option value="">-</option>
                 <option selected="selected" value="one">One</option>
                 <option value="two">Two</option>
@@ -166,7 +162,8 @@ class SelectInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $select = $f->select($label, [], null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $select = $f->select($label, [], null)->withNameFrom($name_source);
 
         $this->testWithError($select);
         $this->testWithNoByline($select);
@@ -182,8 +179,9 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $options = ["something_value" => "something"];
+        [$name_source] = $this->getDefaultNameSourceStub();
         $select = $f->select($label, $options, $byline)
-                    ->withNameFrom($this->name_source);
+                    ->withNameFrom($name_source);
 
         $html_without = $this->brutallyTrimHTML($this->getDefaultRenderer()->render($select));
 

@@ -62,13 +62,6 @@ class PasswordInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();
@@ -82,8 +75,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
-        $pwd = $f->password($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $pwd = $f->password($label, $byline)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'password-field-input',
             $label,
@@ -102,7 +95,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $pwd = $f->password($label)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $pwd = $f->password($label)->withNameFrom($name_source);
 
         $this->testWithError($pwd);
         $this->testWithNoByline($pwd);
@@ -116,8 +110,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $value = "value_0";
-        $name = "name_0";
-        $pwd = $f->password($label)->withValue($value)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $pwd = $f->password($label)->withValue($value)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'password-field-input',
             $label,
@@ -136,8 +130,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $name = "name_0";
-        $pwd = $f->password($label)->withNameFrom($this->name_source)->withRequired(true);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $pwd = $f->password($label)->withNameFrom($name_source)->withRequired(true);
 
         $pwd1 = $pwd->withInput(new DefInputData([$name => "0"]));
         $value1 = $pwd1->getContent();
@@ -152,7 +146,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $pwd = $f->password($label)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $pwd = $f->password($label)->withNameFrom($name_source);
         $this->assertNull($pwd->getValue());
 
         $post = new _PWDInputData();

@@ -68,7 +68,7 @@ class ViewControlInputGenericTest extends ViewControlTestBase
             ->willReturn($v);
 
         $vc = $this->getViewControl()
-            ->withNameFrom($this->getNamesource())
+            ->withNameFrom($this->createCountingNameSourceStub('name_'))
             ->withInput($input);
 
         $df = $this->buildDataFactory();

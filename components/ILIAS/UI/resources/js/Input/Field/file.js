@@ -170,6 +170,10 @@ il.UI.Input = il.UI.Input || {};
 					forceChunking: should_upload_be_chunked,
 					chunkSize: chunk_size_in_bytes,
 					form: action_button.closest('form'),
+          templateRenderer: new il.UI.Input.HasDynamicInputsTemplateRenderer(
+            document,
+            current_file_count,
+          ),
 
 					// override default rendering function.
 					addedfile: file => {
@@ -375,7 +379,9 @@ il.UI.Input = il.UI.Input || {};
 				return;
 			}
 
-			let preview = il.UI.core.TemplateRenderer.createContent(dropzones[input_id].options.customPreviewTemplate);
+      let preview = dropzones[input_id].options.templateRenderer.createContent(
+        dropzones[input_id].options.customPreviewTemplate,
+      );
 
 			// add file info to preview and setup expansion toggles.
 			preview.querySelector('[data-dz-name]').innerText = file.name;

@@ -30,15 +30,19 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as FieldFactory;
  */
 class PlayerVideoTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     public function getUIFactory(): NoUIFactory
     {
         return new class (
             $this->createMock(I\Component\Modal\InterruptiveItem\Factory::class),
             $this->createMock(FieldFactory::class),
+            $this->createFixedNameSourceStub(''),
         ) extends NoUIFactory {
             public function __construct(
                 protected I\Component\Modal\InterruptiveItem\Factory $interruptive_item_factory,
                 protected FieldFactory $field_factory,
+                protected I\Component\Input\NameSource $name_source,
             ) {
             }
 
@@ -48,6 +52,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
                     new I\Component\SignalGenerator(),
                     $this->interruptive_item_factory,
                     $this->field_factory,
+                    $this->name_source,
                 );
             }
             public function button(): I\Component\Button\Factory

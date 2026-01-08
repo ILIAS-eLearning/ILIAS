@@ -33,13 +33,6 @@ class UrlInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    private DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $factory = $this->getFieldFactory();
@@ -55,11 +48,12 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $renderer = $this->getDefaultRenderer();
         $label = "Test Label";
         $byline = "Test Byline";
-        $url = $factory->url($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $url = $factory->url($label, $byline)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'url-field-input',
             $label,
-            '<input id="id_1" type="url" name="name_0" class="c-field-url" />',
+            '<input id="id_1" type="url" name="' . $name . '" class="c-field-url" />',
             $byline,
             'id_1'
         );
@@ -71,12 +65,13 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $factory = $this->getFieldFactory();
         $label = "Test Label";
         $value = "https://www.ilias.de/";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $url = $factory->url($label)->withValue($value)
-            ->withNameFrom($this->name_source);
+            ->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'url-field-input',
             $label,
-            '<input id="id_1" type="url" value="https://www.ilias.de/" name="name_0" class="c-field-url" />',
+            '<input id="id_1" type="url" value="https://www.ilias.de/" name="' . $name . '" class="c-field-url" />',
             null,
             'id_1'
         );
@@ -86,7 +81,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
     public function testCommonRendering(): void
     {
         $f = $this->getFieldFactory();
-        $url = $f->url('label', null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $url = $f->url('label', null)->withNameFrom($name_source);
 
         $this->testWithError($url);
         $this->testWithNoByline($url);

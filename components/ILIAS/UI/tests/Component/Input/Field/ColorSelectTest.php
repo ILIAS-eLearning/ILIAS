@@ -33,13 +33,6 @@ class ColorSelectTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
-
-    public function setUp(): void
-    {
-        $this->name_source = new DefNamesource();
-    }
-
     public function testImplementsFactoryInterface(): void
     {
         $f = $this->getFieldFactory();
@@ -53,12 +46,13 @@ class ColorSelectTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $cp = $f->colorSelect($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $cp = $f->colorSelect($label, $byline)->withNameFrom($name_source);
 
         $expected = $this->getFormWrappedHtml(
             'color-select-field-input',
             $label,
-            '<input id="id_1" type="color" name="name_0" value="" class="c-field-color-select"/>',
+            '<input id="id_1" type="color" name="' . $name . '" value="" class="c-field-color-select"/>',
             $byline,
             'id_1'
         );
@@ -69,7 +63,8 @@ class ColorSelectTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $color_select = $f->colorSelect($label, null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $color_select = $f->colorSelect($label, null)->withNameFrom($name_source);
 
         $this->testWithError($color_select);
         $this->testWithNoByline($color_select);
@@ -84,14 +79,15 @@ class ColorSelectTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $value = "value_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $cp = $f->colorSelect($label, $byline)
                 ->withValue($value)
-                ->withNameFrom($this->name_source);
+                ->withNameFrom($name_source);
 
         $expected = $this->getFormWrappedHtml(
             'color-select-field-input',
             $label,
-            '<input id="id_1" type="color" name="name_0" value="value_0" class="c-field-color-select"/>',
+            '<input id="id_1" type="color" name="' . $name . '" value="value_0" class="c-field-color-select"/>',
             $byline,
             'id_1'
         );
@@ -103,9 +99,9 @@ class ColorSelectTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
         $cp = $f->colorSelect($label, $byline)
-                ->withNameFrom($this->name_source)
+                ->withNameFrom($name_source)
                 ->withRequired(true);
 
         $cp1 = $cp->withInput(new DefInputData([$name => "#FFF"]));

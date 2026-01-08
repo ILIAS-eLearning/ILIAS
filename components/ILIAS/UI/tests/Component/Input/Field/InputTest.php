@@ -51,27 +51,6 @@ class DefInput extends FormInput
     }
 }
 
-class DefNamesource implements NameSource
-{
-    public int $count = 0;
-
-    public function getNewName(): string
-    {
-        $name = "name_{$this->count}";
-        $this->count++;
-
-        return $name;
-    }
-
-    public function getNewDedicatedName($dedicated_name = 'dedicated_name'): string
-    {
-        $name = $dedicated_name . "_{$this->count}";
-        $this->count++;
-
-        return $name;
-    }
-}
-
 class DefInputData implements InputData
 {
     public array $values = array();
@@ -122,11 +101,13 @@ class DefInputData implements InputData
  */
 class InputTest extends ILIAS_UI_TestBase
 {
+    use NameSourceStubs;
+
     protected DataFactory $data_factory;
     protected Refinery $refinery;
     protected DefInput $input;
     protected DefInput $dedicated_input;
-    protected DefNamesource $name_source;
+    protected NameSource $name_source;
     protected FormInput $named_input;
 
     public function setUp(): void
@@ -141,7 +122,7 @@ class InputTest extends ILIAS_UI_TestBase
             "byline"
         );
         $this->named_input = $this->input->withDedicatedName('dedicated_name');
-        $this->name_source = new DefNamesource();
+        $this->name_source = $this->createCountingNameSourceStub('name_');
     }
 
     public function testConstructor(): void
@@ -220,24 +201,22 @@ class InputTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $this->input->getValue());
     }
 
-    public function testWithName(): void
+    public function testWithNameFrom(): void
     {
         $name = "name_0";
         $input = $this->input->withNameFrom($this->name_source);
         $this->assertEquals(null, $this->input->getName());
         $this->assertEquals($name, $input->getName());
         $this->assertNotSame($this->input, $input);
-        $this->assertEquals(1, $this->name_source->count);
     }
 
     public function testWithNameForNamedInput(): void
     {
         $name = "dedicated_name_0";
-        $input = $this->named_input->withNameFrom($this->name_source);
+        $input = $this->named_input->withDedicatedName($name)->withNameFrom($this->createRelayArgumentNameSourceStub());
         $this->assertEquals(null, $this->named_input->getName());
         $this->assertEquals($name, $input->getName());
         $this->assertNotSame($this->named_input, $input);
-        $this->assertEquals(1, $this->name_source->count);
     }
 
     public function testWithError(): void

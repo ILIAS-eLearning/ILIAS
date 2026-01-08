@@ -33,13 +33,11 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
     protected Data\Factory $data_factory;
     protected I\Input\Field\Factory $factory;
 
     public function setUp(): void
     {
-        $this->name_source = new DefNamesource();
         $this->data_factory = new Data\Factory();
         $this->factory = $this->buildFactory();
     }
@@ -75,6 +73,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
 
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\HasDynamicInputsNameSource::class),
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $this->data_factory,
@@ -193,8 +192,9 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
 
     public function testCommonRendering(): void
     {
+        [$name_source] = $this->getDefaultNameSourceStub();
         $datetime = $this->factory->dateTime('label')
-            ->withNameFrom($this->name_source);
+            ->withNameFrom($name_source);
 
         $this->testWithError($datetime);
         $this->testWithNoByline($datetime);

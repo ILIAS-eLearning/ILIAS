@@ -22,19 +22,16 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component\Input\Container\Filter as F;
 use ILIAS\UI\Implementation\Component\Input\Field;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements F\Factory
 {
-    protected SignalGeneratorInterface $signal_generator;
-    protected Field\Factory $field_factory;
-
     public function __construct(
-        SignalGeneratorInterface $signal_generator,
-        Field\Factory $field_factory
+        protected SignalGeneratorInterface $signal_generator,
+        protected Field\Factory $field_factory,
+        protected NameSource $name_source,
     ) {
-        $this->signal_generator = $signal_generator;
-        $this->field_factory = $field_factory;
     }
 
     public function standard(
@@ -52,6 +49,7 @@ class Factory implements F\Factory
         return new Standard(
             $this->signal_generator,
             $this->field_factory,
+            $this->name_source,
             $toggle_action_on,
             $toggle_action_off,
             $expand_action,

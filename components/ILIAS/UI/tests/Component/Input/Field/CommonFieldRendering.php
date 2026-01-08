@@ -25,14 +25,33 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use PHPUnit\Framework\MockObject\MockObject;
 
 trait CommonFieldRendering
 {
+    use NameSourceStubs;
+
+    protected string $default_input_name = 'default_input_name';
+    protected string $dynamic_input_name = 'dynamic_input_name';
+
+    /** @return array{0: I\Input\NameSource&MockObject, 1: string} */
+    protected function getDefaultNameSourceStub(): array
+    {
+        return [$this->createFixedNameSourceStub($this->default_input_name), $this->default_input_name];
+    }
+
+    /** @return array{0: I\Input\HasDynamicInputsNameSource&MockObject, 1: string} */
+    protected function getDefaultHasDynamicInputNameSourceStub(): array
+    {
+        return [$this->createFixedHasDynamicInputsNameSourceStub($this->dynamic_input_name), $this->dynamic_input_name];
+    }
+
     protected function getFieldFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
+            $this->createFixedHasDynamicInputsNameSourceStub($this->dynamic_input_name),
             $this->createMock(UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
@@ -73,7 +92,7 @@ trait CommonFieldRendering
     protected function testWithDisabled(FormInput $component): void
     {
         $type = $this->getDefaultRenderer()->getComponentCanonicalNameAttribute($component);
-        $expected = '<fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="name_0" disabled="disabled"';
+        $expected = '<fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $this->default_input_name . '" disabled="disabled"';
         $this->assertStringContainsString($expected, $this->render($component->withDisabled(true)));
     }
 
@@ -120,11 +139,12 @@ trait CommonFieldRendering
         ?string $byline = null,
         ?string $label_id = null,
         ?string $js_id = null,
-        ?string $name = 'name_0',
+        ?string $name = null,
     ): string {
         $label_id = $label_id ? " for=\"$label_id\"" : '';
         $tab = $label_id ? '' : ' tabindex="0"';
         $js_id = $js_id ? " id=\"$js_id\"" : '';
+        $name = $name ?? $this->default_input_name;
         if ($type === 'section-field-input') {
             $headline_tag_open = "<h2>";
             $headline_tag_close = "</h2>";

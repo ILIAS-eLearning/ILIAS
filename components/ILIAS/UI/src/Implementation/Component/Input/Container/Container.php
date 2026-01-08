@@ -39,15 +39,13 @@ abstract class Container implements C\Input\Container\Container
     protected ?Transformation $transformation = null;
     protected ?string $error = null;
     protected ?string $dedicated_name = null;
-    protected CI\Input\NameSource $name_source;
     protected ?Result $result = null;
 
     /**
      * For the implementation of NameSource.
      */
-    public function __construct(NameSource $name_source)
+    public function __construct(protected NameSource $name_source)
     {
-        $this->name_source = clone $name_source;
     }
 
     /**
@@ -71,7 +69,7 @@ abstract class Container implements C\Input\Container\Container
     public function withInput(InputData $input_data): self
     {
         $clone = clone $this;
-        $clone->input_group = $this->getInputGroup()->withInput($input_data);
+        $clone->input_group = $this->getInputGroup()->withInput($input_data)->withNameFrom($this->name_source->withReset());
         $clone->result = $clone->input_group->getContent();
 
         if (!$clone->result->isok()) {
@@ -127,7 +125,7 @@ abstract class Container implements C\Input\Container\Container
         $clone->dedicated_name = $dedicated_name;
         $clone->input_group = $clone->input_group
             ->withDedicatedName($dedicated_name)
-            ->withNameFrom($clone->name_source);
+            ->withNameFrom($clone->name_source->withReset());
         return $clone;
     }
 
@@ -141,7 +139,7 @@ abstract class Container implements C\Input\Container\Container
      */
     protected function setInputGroup(C\Input\Group $input_group): void
     {
-        $this->input_group = $input_group->withNameFrom($this->name_source);
+        $this->input_group = $input_group->withNameFrom($this->name_source->withReset());
     }
 
     /**

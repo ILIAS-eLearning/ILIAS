@@ -27,17 +27,16 @@ use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 class CheckboxInputTest extends ILIAS_UI_TestBase
 {
     use CommonFieldRendering;
 
-    protected DefNamesource $name_source;
     protected Refinery $refinery;
 
     public function setUp(): void
     {
-        $this->name_source = new DefNamesource();
         $this->refinery = new Refinery($this->createMock(Data\Factory::class), $this->createMock(ILIAS\Language\Language::class));
     }
 
@@ -56,11 +55,12 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $byline = "byline";
-        $checkbox = $f->checkbox($label, $byline)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $checkbox = $f->checkbox($label, $byline)->withNameFrom($name_source);
         $expected = $this->getFormWrappedHtml(
             'checkbox-field-input',
             $label,
-            '<input type="checkbox" id="id_1" value="checked" name="name_0" class="c-field-checkbox" />',
+            '<input type="checkbox" id="id_1" value="checked" name="' . $name . '" class="c-field-checkbox" />',
             $byline,
             'id_1'
         );
@@ -72,9 +72,10 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $value = true;
-        $checkbox = $f->checkbox($label)->withValue($value)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $checkbox = $f->checkbox($label)->withValue($value)->withNameFrom($name_source);
 
-        $expected = '<input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="c-field-checkbox" />';
+        $expected = '<input type="checkbox" id="id_1" value="checked" checked="checked" name="' . $name . '" class="c-field-checkbox" />';
         $this->assertStringContainsString($expected, $this->render($checkbox));
     }
 
@@ -95,7 +96,8 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $checkbox = $f->checkbox($label, null)->withNameFrom($this->name_source);
+        [$name_source] = $this->getDefaultNameSourceStub();
+        $checkbox = $f->checkbox($label, null)->withNameFrom($name_source);
 
         $this->testWithError($checkbox);
         $this->testWithNoByline($checkbox);
@@ -108,13 +110,14 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $checkbox = $f->checkbox($label)->withNameFrom($name_source);
 
         $input_data = $this->createMock(InputData::class);
         $input_data
             ->expects($this->atLeastOnce())
             ->method("getOr")
-            ->with("name_0", "")
+            ->with($name, "")
             ->willReturn("checked");
 
         $checkbox_true = $checkbox->withInput($input_data);
@@ -127,13 +130,14 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
-        $checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
+        [$name_source, $name] = $this->getDefaultNameSourceStub();
+        $checkbox = $f->checkbox($label)->withNameFrom($name_source);
 
         $input_data = $this->createMock(InputData::class);
         $input_data
             ->expects($this->atLeastOnce())
             ->method("getOr")
-            ->with("name_0", "")
+            ->with($name, "")
             ->willReturn("");
 
         $checkbox_false = $checkbox->withInput($input_data);
@@ -146,8 +150,9 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFieldFactory();
         $label = "label";
+        [$name_source] = $this->getDefaultNameSourceStub();
         $checkbox = $f->checkbox($label)
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withDisabled(true)
             ->withValue(true)
             ->withInput($this->createMock(InputData::class))
@@ -162,8 +167,9 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $f = $this->getFieldFactory();
         $label = "label";
         $new_value = "NEW_VALUE";
+        [$name_source] = $this->getDefaultNameSourceStub();
         $checkbox = $f->checkbox($label)
-            ->withNameFrom($this->name_source)
+            ->withNameFrom($name_source)
             ->withDisabled(true)
             ->withValue(true)
             ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called, $new_value): string {
