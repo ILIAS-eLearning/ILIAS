@@ -64,6 +64,37 @@ class NewsRepository
         return array_map(fn($row) => $this->factory->newsItem($row), $this->db->fetchAll($result));
     }
 
+    /**
+     * @param NewsContext[] $contexts
+     * @return NewsContext[]
+     */
+    public function filterContext(array $contexts, NewsCriteria $criteria): array
+    {
+        $obj_ids = array_map(fn($context) => $context->getObjId(), $contexts);
+
+        $values = [];
+        $types = [];
+        $query = "SELECT DISTINCT (context_obj_id) AS obj_id FROM il_news_item WHERE ";
+        $query .= $this->db->in('context_obj_id', $obj_ids, false, \ilDBConstants::T_INTEGER);
+
+        if ($criteria->getPeriod() > 0) {
+            $query .= " AND creation_date >= %s";
+            $values[] = self::parseTimePeriod($criteria->getPeriod());
+            $types[] = ilDBConstants::T_TIMESTAMP;
+        }
+
+        if ($criteria->getStartDate()) {
+            $query .= " AND creation_date >= %s";
+            $values[] = $criteria->getStartDate()->format('Y-m-d H:i:s');
+            $types[] = ilDBConstants::T_TIMESTAMP;
+        }
+
+        $result = $this->db->queryF($query, $types, $values);
+        $needed_obj_ids = array_column($this->db->fetchAll($result), 'obj_id', 'obj_id');
+
+        return array_filter($contexts, fn($context) => isset($needed_obj_ids[$context->getObjId()]));
+    }
+
 
     /**
      * @param int[] $news_ids
