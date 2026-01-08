@@ -63,7 +63,10 @@ class NumericInputTest extends ILIAS_UI_TestBase
             $label,
             '<input id="id_1" type="number" name="name_0" class="c-field-number" />',
             $byline,
-            'id_1'
+            'id_1',
+            null,
+            'name_0',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($numeric));
     }
@@ -93,7 +96,10 @@ class NumericInputTest extends ILIAS_UI_TestBase
             $label,
             '<input id="id_1" type="number" value="10" name="name_0" class="c-field-number" />',
             null,
-            'id_1'
+            'id_1',
+            null,
+            'name_0',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($numeric));
     }

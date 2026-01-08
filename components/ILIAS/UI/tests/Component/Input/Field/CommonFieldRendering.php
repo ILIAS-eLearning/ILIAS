@@ -120,6 +120,7 @@ trait CommonFieldRendering
         ?string $label_id = null,
         ?string $js_id = null,
         ?string $name = 'name_0',
+        ?string $fieldset_id = null
     ): string {
         $label_id = $label_id ? " for=\"$label_id\"" : '';
         $tab = $label_id ? '' : ' tabindex="0"';
@@ -133,7 +134,7 @@ trait CommonFieldRendering
         }
 
         $html = '
-        <fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $name . '"' . $js_id . $tab . '>
+        <fieldset class="c-input" data-il-ui-component="' . $type . '" data-il-ui-input-name="' . $name . '"' . $js_id . $tab . ($fieldset_id ? ' id="' . $fieldset_id . '"' : '') . '>
             <label' . $label_id . '>' . $headline_tag_open . $label . $headline_tag_close . '</label>
             <div class="c-input__field">';
         $html .= $payload_field;

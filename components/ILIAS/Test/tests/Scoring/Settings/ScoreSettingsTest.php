@@ -468,7 +468,8 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             'tst_highscore_top_num_description',
             'id_3',
             null,
-            ''
+            '',
+            'id_4'
         );
 
 
@@ -482,7 +483,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         ];
         foreach ($opts as $index => $entry) {
             list($label, $byline) = $entry;
-            $nr = (string) ($index + 4);
+            $nr = (string) ($index + 5);
             $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked" checked="checked" class="c-field-checkbox" />';
             $fields .= $this->getFormWrappedHtml(
                 'checkbox-field-input',
@@ -512,7 +513,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             null,
             null,
             null,
-            ''
+            '',
         );
         $this->assertHTMLEquals($expected, $this->brutallyTrimSignals($actual));
     }
