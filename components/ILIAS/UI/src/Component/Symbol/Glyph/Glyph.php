@@ -88,6 +88,9 @@ interface Glyph extends Symbol, Clickable
     public const DRAG_HANDLE = "dragHandle";
     public const CHECKED = "checked";
     public const UNCHECKED = "unchecked";
+    public const SELECT = 'select';
+    public const UNSELECT = 'unselect';
+    public const CLEAR = 'clear';
 
     /**
      * Get the type of the glyph.
