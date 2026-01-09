@@ -120,8 +120,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         $connector = new ilLTIDataConnector();
         $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
-        $object = ilObjectFactory::getInstanceByRefId($consumer->getRefId());
-        return $consumer->getTitle() . " - " . $object->getTitle();
+        $title = "";
+        try {
+            $object = ilObjectFactory::getInstanceByRefId($consumer->getRefId());
+            $title = $object->getTitle();
+        } catch (ilDatabaseException|ilObjectNotFoundException $e) {
+            $title = "Object not found refId: " . $consumer->getRefId();
+        }
+        return $consumer->getTitle() . " - " . $title;
     }
 
     /**
