@@ -183,7 +183,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
                     $mapped_node_ids[] = $mapped_node_id;
                 }
             }
-            $this->mapped_taxonomy_filter[] = $mapped_node_ids;
+            $this->mapped_taxonomy_filter[$mapped_taxonomy_id] = $mapped_node_ids;
         }
     }
 
