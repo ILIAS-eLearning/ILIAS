@@ -105,6 +105,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $collection = $this->domain->collection()->getNewsForContext(
             new NewsContext($this->std_request->getRefId()),
             new NewsCriteria(read_user_id: $this->user->getId()),
+            $this->user->getId(),
             true
         );
 

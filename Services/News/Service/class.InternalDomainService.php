@@ -59,7 +59,7 @@ class InternalDomainService
             $this->repo_service->cache(),
             $this->resolver(),
             $this->objectDataCache(),
-            $this->access()
+            $this->DIC->rbac()->system()
         );
     }
 
