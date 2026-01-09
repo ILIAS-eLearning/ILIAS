@@ -30,7 +30,7 @@ class ilECSImport
     protected int $server_id = 0;
     protected int $obj_id = 0;
     protected string $econtent_id = '';
-    protected string $content_id = '';
+    protected ?string $content_id = '';
     protected ?string $sub_id = '';
     protected int $mid = 0;
     protected bool $imported = false;
@@ -85,7 +85,7 @@ class ilECSImport
     /**
      * get content id
      */
-    public function getContentId(): string
+    public function getContentId(): ?string
     {
         return $this->content_id;
     }
