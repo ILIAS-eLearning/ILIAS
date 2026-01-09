@@ -195,7 +195,7 @@ class TextareaTest extends ILIAS_UI_TestBase
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" maxlength=\"$max\"></textarea>
-                        <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
+                        <div class=\"ui-input-textarea-remainder\" aria-live=\"polite\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
                     </div>
                     <div class=\"help-block\">$byline</div>
                 </div>
@@ -226,7 +226,7 @@ class TextareaTest extends ILIAS_UI_TestBase
                 <div class=\"col-sm-8 col-md-9 col-lg-10\">
                     <div class=\"ui-input-textarea\">
                         <textarea id=\"$id\" class=\"form-control form-control-sm\" name=\"$name\" minlength=\"5\" maxlength=\"20\"></textarea>
-                        <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
+                        <div class=\"ui-input-textarea-remainder\" aria-live=\"polite\"> ui_chars_remaining <span data-action=\"remainder\">$max</span> </div>
                     </div>
                     <div class=\"help-block\">$byline</div>
                 </div>
