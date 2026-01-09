@@ -37,6 +37,7 @@ use ilDatabaseInitializedObjective;
 use ilSettingsFactoryExistsObjective;
 use ILIAS\Setup\Objective\ClientIdReadObjective;
 use ILIAS\Setup\Objective\AdminConfirmedObjective;
+use ilBackgroundTasksSetupConfig;
 
 class BackgoundWorkerObjective extends AdminConfirmedObjective
 {
@@ -78,6 +79,20 @@ class BackgoundWorkerObjective extends AdminConfirmedObjective
             new ilDatabaseInitializedObjective(),
             new ilSettingsFactoryExistsObjective()
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Environment $environment): bool
+    {
+        $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
+
+        if (!$ini->groupExists('background_tasks')) {
+            return false;
+        }
+
+        return $ini->readVariable('background_tasks', 'concurrency') === ilBackgroundTasksSetupConfig::TYPE_ASYNCHRONOUS;
     }
 
     public function achieve(Environment $environment): Environment
