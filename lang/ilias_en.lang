@@ -11632,6 +11632,7 @@ mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List "%s"
 mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent.
+mail#:#mail_mode_switch_label#:#Switch between personal mail and mail merge mode
 mail#:#mail_move_error#:#An error occurred while trying to move your mail.
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_move_to_folder_btn_label#:#Move Mail

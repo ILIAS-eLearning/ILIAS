@@ -279,7 +279,7 @@ class ilMailFormGUI
                     ilUtil::securePlainString($form_values['m_subject'] ?? $this->lng->txt('mail_no_subject')),
                     $sanitized_message,
                     $files,
-                    ilSession::get('mail_mode') === self::MAIL_FORM_MODE_SERIAL_LETTER,
+                    $form_values['use_placeholders'],
                     $outbox_id ?? null
                 ),
                 $form_values['use_schedule']['m_schedule']
@@ -360,7 +360,7 @@ class ilMailFormGUI
             ilUtil::securePlainString($value['m_subject']),
             $value['m_message'],
             $files,
-            ilSession::get('mail_mode') === self::MAIL_FORM_MODE_SERIAL_LETTER,
+            $value['use_placeholders'],
         )
         ) {
             $this->showSubmissionErrors($errors);
@@ -460,7 +460,7 @@ class ilMailFormGUI
             $value['m_message'],
             $draft_id,
             $value['use_schedule']['m_schedule'] ?? null,
-            ilSession::get('mail_mode') === self::MAIL_FORM_MODE_SERIAL_LETTER,
+            $value['use_placeholders'],
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
@@ -750,7 +750,6 @@ class ilMailFormGUI
                 break;
 
             case self::MAIL_FORM_TYPE_NEW:
-                ilSession::clear('mail_mode');
                 ilSession::clear('draft');
                 ilSession::clear('outbox');
                 // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
@@ -788,7 +787,6 @@ class ilMailFormGUI
                 break;
 
             case self::MAIL_FORM_TYPE_ROLE:
-                ilSession::set('mail_mode', self::MAIL_FORM_MODE_SERIAL_LETTER);
                 $roles = [];
                 if ($this->http->wrapper()->post()->has('roles')) {
                     $roles = $this->http->wrapper()->post()->retrieve(
@@ -856,10 +854,10 @@ class ilMailFormGUI
         }
 
         $this->tpl->parseCurrentBlock();
-        $this->addToolbarButtons();
         if ($form === null) {
             $form = $this->buildForm($mail_data);
         }
+        $this->addToolbarButtons($form);
         $this->tpl->setVariable('FORM', $this->ui_renderer->render($form));
         $this->tpl->addJavaScript('assets/js/ilMailComposeFunctions.js');
         $this->tpl->printToStdout();
@@ -915,10 +913,14 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    protected function saveMailBeforeSearch(): void
+    protected function saveMailBeforeSearch(?array $input_results = null): void
     {
-        $form = $this->buildForm()->withRequest($this->request);
-        $result = $form->getInputGroup()->getInputs()[0]->getInputs();
+        if (!$input_results) {
+            $form = $this->buildForm()->withRequest($this->request);
+            $result = $form->getInputGroup()->getInputs()[0]->getInputs();
+        } else {
+            $result = $input_results;
+        }
 
         $resource_collection_id = null;
         $attachments = $result['attachments']->getValue();
@@ -939,7 +941,7 @@ class ilMailFormGUI
             ilUtil::securePlainString($result['m_subject']->getValue()),
             ilUtil::securePlainString($result['m_message']->getValue()),
             $resource_collection_id,
-            ilSession::get('mail_mode') === self::MAIL_FORM_MODE_SERIAL_LETTER,
+            (bool) $result['use_placeholders']->getValue(),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
@@ -1099,7 +1101,9 @@ class ilMailFormGUI
             $this->lng->txt('message_content')
         )->withValue($mail_data['m_message'] ?? '');
 
-        $mode = ilSession::get('mail_mode') ?: self::MAIL_FORM_MODE_REGULAR_MAIL;
+        $use_placeholder_value = $mail_data['use_placeholders'] ?? $this->mail_form_type === self::MAIL_FORM_TYPE_ROLE;
+        $mode = $use_placeholder_value ? self::MAIL_FORM_MODE_SERIAL_LETTER : self::MAIL_FORM_MODE_REGULAR_MAIL;
+        $use_placeholders = $ff->hidden()->withValue($use_placeholder_value ? '1' : '0');
         $placeholders = [];
         if ($mode === self::MAIL_FORM_MODE_SERIAL_LETTER) {
             foreach ($context->getPlaceholders() as $key => $value) {
@@ -1115,6 +1119,10 @@ class ilMailFormGUI
                 ;
             }
         }
+        $use_placeholders = $use_placeholders->withAdditionalTransformation(
+            $this->refinery->kindlyTo()->bool()
+        );
+
 
         if ($signal !== null) {
             $m_subject = $m_subject->withAdditionalOnLoadCode(
@@ -1204,6 +1212,7 @@ class ilMailFormGUI
 
         $elements['use_schedule'] = $use_schedule_input;
 
+        $elements['use_placeholders'] = $use_placeholders;
         $section = $ff->section(
             $elements,
             $this->lng->txt('compose')
@@ -1214,14 +1223,23 @@ class ilMailFormGUI
         ];
     }
 
-    protected function addToolbarButtons(): void
+    protected function addToolbarButtons(Form $form): void
     {
         $bf = $this->ui_factory->button();
 
         $action = $this->ctrl->getFormAction($this, 'searchUsers');
         $btn = $bf->standard(
             $this->lng->txt('search_recipients'),
-            $action,
+            '',
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.c-form');
+                    let btn = mailform.querySelector('button');
+                    btn.formAction = '{$action}'; 
+                    mailform.requestSubmit(btn);   
+                });";
+            }
         );
 
         $this->toolbar->addComponent($btn);
@@ -1229,14 +1247,32 @@ class ilMailFormGUI
         $action = $this->ctrl->getFormAction($this, 'searchCoursesTo');
         $btn = $bf->standard(
             $this->lng->txt('mail_my_courses'),
-            $action,
+            ''
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.c-form');
+                    let btn = mailform.querySelector('button');
+                    btn.formAction = '{$action}'; 
+                    mailform.requestSubmit(btn);   
+                });";
+            }
         );
         $this->toolbar->addComponent($btn);
 
         $action = $this->ctrl->getFormAction($this, 'searchGroupsTo');
         $btn = $bf->standard(
             $this->lng->txt('mail_my_groups'),
-            $action
+            ''
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.c-form');
+                    let btn = mailform.querySelector('button');
+                    btn.formAction = '{$action}'; 
+                    mailform.requestSubmit(btn);   
+                });";
+            }
         );
         $this->toolbar->addComponent($btn);
 
@@ -1244,7 +1280,16 @@ class ilMailFormGUI
             $action = $this->ctrl->getFormAction($this, 'searchMailingListsTo');
             $btn = $bf->standard(
                 $this->lng->txt('mail_my_mailing_lists'),
-                $action
+                ''
+            )->withAdditionalOnLoadCode(
+                function ($id) use ($action) {
+                    return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.c-form');
+                    let btn = mailform.querySelector('button');
+                    btn.formAction = '{$action}'; 
+                    mailform.requestSubmit(btn);   
+                });";
+                }
             );
             $this->toolbar->addComponent($btn);
         }
@@ -1252,11 +1297,21 @@ class ilMailFormGUI
         $action = $this->ctrl->getFormAction($this, 'editAttachments');
         $btn = $bf->standard(
             $this->lng->txt('edit_attachments'),
-            $action
+            ''
+        )->withAdditionalOnLoadCode(
+            function ($id) use ($action) {
+                return "document.getElementById('{$id}').addEventListener('click', function (event) {
+                    let mailform = document.querySelector('form.c-form');
+                    let btn = mailform.querySelector('button');
+                    btn.formAction = '{$action}'; 
+                    mailform.requestSubmit(btn);   
+                });";
+            }
         );
         $this->toolbar->addComponent($btn);
 
-        $current_mode = ilSession::get('mail_mode') ?: self::MAIL_FORM_MODE_REGULAR_MAIL;
+        $result = $form->getInputGroup()->getInputs()[0]->getInputs();
+        $use_placeholders = (bool) $result['use_placeholders']->getValue();
         $action = $this->ctrl->getFormAction($this, 'toggleMailMode');
         $url_builder = new UrlBuilder(new URI(ILIAS_HTTP_PATH . '/' . $action));
         [$url_builder, $mail_mode_parameter] = $url_builder->acquireParameter(['mail', 'form'], 'mail_mode');
@@ -1265,12 +1320,13 @@ class ilMailFormGUI
                 $this->lng->txt(self::MAIL_FORM_MODE_REGULAR_MAIL) => (string) $url_builder->withParameter($mail_mode_parameter, self::MAIL_FORM_MODE_REGULAR_MAIL)->buildURI(),
                 $this->lng->txt(self::MAIL_FORM_MODE_SERIAL_LETTER) => (string) $url_builder->withParameter($mail_mode_parameter, self::MAIL_FORM_MODE_SERIAL_LETTER)->buildURI(),
             ],
-            'Modes'
-        )->withActive($this->lng->txt($current_mode));
+            'mail_mode_switch_label'
+        )->withActive($this->lng->txt($use_placeholders ? self::MAIL_FORM_MODE_SERIAL_LETTER : self::MAIL_FORM_MODE_REGULAR_MAIL));
         $this->toolbar->addComponent($btn);
-
         $this->tpl->addOnLoadCode(
-            "document.getElementById('{$this->toolbar->getId()}').querySelectorAll('button').forEach(function(button) {
+            "document.getElementById('{$this->toolbar->getId()}')
+            .querySelector('div[aria-label=\"" . $this->lng->txt('mail_mode_switch_label') . "\"]')
+            .querySelectorAll('button[data-action]').forEach(function(button) {
                 button.addEventListener('click', function(event) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -1296,12 +1352,15 @@ class ilMailFormGUI
 
     public function toggleMailMode(): void
     {
-        $this->saveMailBeforeSearch();
+        $form = $this->buildForm()->withRequest($this->request);
 
         $mode = $this->getQueryParam('mail_form_mail_mode', $this->refinery->kindlyTo()->string(), self::MAIL_FORM_MODE_REGULAR_MAIL);
         if (in_array($mode, [self::MAIL_FORM_MODE_REGULAR_MAIL, self::MAIL_FORM_MODE_SERIAL_LETTER], true)) {
-            ilSession::set('mail_mode', $mode);
+            $result = $form->getInputGroup()->getInputs()[0]->getInputs();
+            $result['use_placeholders'] = $result['use_placeholders']->withValue($mode === self::MAIL_FORM_MODE_SERIAL_LETTER ? '1' : '0');
         }
+        $this->saveMailBeforeSearch($result ?? null);
+
         $this->searchResults();
     }
 }
