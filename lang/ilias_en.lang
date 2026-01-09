@@ -11774,6 +11774,7 @@ mail#:#only_inbox_trash_info#:#Only delete e-mails that are located in the Inbox
 mail#:#orphaned_mail_body#:#Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted.
 mail#:#orphaned_mail_subject#:#Notification of old mails
 mail#:#placeholders_advise#:#Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders.
+mail#:#regular_mail#:#Regular Mail
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Look up Users
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered.
@@ -11782,6 +11783,7 @@ mail#:#send_mail_admins#:#All Administrators
 mail#:#send_mail_members#:#All Members
 mail#:#send_mail_to#:#Mail to
 mail#:#send_mail_tutors#:#All Tutors
+mail#:#serial_letter#:#Serial Letter
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#Enable individual users to alter their mail settings, thereby overriding the global mail settings that would otherwise apply to them. ‘Mail Settings’ are accessible via their ‘Personal Settings’ or ‘Communication > Mail’. Note: In order for users to be allowed to change their individual mail settings and thereby override the global settings, this needs to be set in the 'Standard Fields' section of the global user account administration settings. If users do not have the permission to change these profile settings, the global default is applied even if users were able to and did change their personal mail settings in the past.
 mail#:#system_notification_installation_changed_by#:#Changed by

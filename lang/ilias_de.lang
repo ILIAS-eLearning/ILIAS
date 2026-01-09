@@ -11772,6 +11772,7 @@ mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gel
 mail#:#orphaned_mail_body#:#Es existieren alte oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
 mail#:#orphaned_mail_subject#:#Benachrichtigung über alte Mails
 mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern.
+mail#:#regular_mail#:#Reguläre Mail
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
@@ -11780,6 +11781,7 @@ mail#:#send_mail_admins#:#Administration
 mail#:#send_mail_members#:#Mitglied
 mail#:#send_mail_to#:#Mail an
 mail#:#send_mail_tutors#:#Kursbetreuung
+mail#:#serial_letter#:#Serienbrief
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Einstellungen' oder 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
