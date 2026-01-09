@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\News\Domain;
 
 use ILIAS\News\Aggregation\NewsAggregator;
-use ILIAS\News\Data\LazyNewsCollection;
 use ILIAS\News\Data\NewsCollection;
 use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
@@ -39,7 +38,7 @@ class NewsCollectionService
         private readonly NewsCache $cache,
         private readonly UserContextResolver $user_context_resolver,
         private readonly \ilObjectDataCache $object_data,
-        private readonly \ilAccessHandler $access,
+        private readonly \ilRbacSystem $rbac
     ) {
     }
 
@@ -74,7 +73,7 @@ class NewsCollectionService
         }
 
         // 4. Query news for resolved contexts [DPL 2-4]
-        $news_collection = $this->getNewsForContexts($user_contexts, $criteria, $lazy);
+        $news_collection = $this->getNewsForContexts($user_contexts, $criteria, $user->getId(), $lazy);
 
         // 5. Store in cache
         $this->cache->storeNewsForUser($user->getId(), $criteria, $news_collection);
@@ -83,9 +82,13 @@ class NewsCollectionService
         return $this->applyFinalProcessing($news_collection, $criteria);
     }
 
-    public function getNewsForContext(NewsContext $context, NewsCriteria $criteria, bool $lazy = false): NewsCollection
-    {
-        return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $lazy), $criteria);
+    public function getNewsForContext(
+        NewsContext $context,
+        NewsCriteria $criteria,
+        int $user_id,
+        bool $lazy = false
+    ): NewsCollection {
+        return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $user_id, $lazy), $criteria);
     }
 
     public function invalidateCache(int $user_id): void
@@ -96,7 +99,7 @@ class NewsCollectionService
     /**
      * @param NewsContext[] $contexts
      */
-    private function getNewsForContexts(array $contexts, NewsCriteria $criteria, bool $lazy): NewsCollection
+    private function getNewsForContexts(array $contexts, NewsCriteria $criteria, int $user_id, bool $lazy): NewsCollection
     {
         // 1. Try context cache first (L1)
         $cached = $this->cache->getAggregatedContexts($contexts);
@@ -117,7 +120,7 @@ class NewsCollectionService
         }
 
         // 4. Perform access checks [DPL 3]
-        $aggregated = $this->filterByAccess($hits, $criteria);
+        $aggregated = $this->filterByAccess($hits, $criteria, $user_id);
 
         // 5. Batch load news from the database [DPL 4]
         return $lazy
@@ -156,7 +159,7 @@ class NewsCollectionService
      * @param NewsContext[] $contexts
      * @return NewsContext[]
      */
-    private function filterByAccess(array $contexts, NewsCriteria $criteria): array
+    private function filterByAccess(array $contexts, NewsCriteria $criteria, int $user_id): array
     {
         if ($criteria->isOnlyPublic()) {
             return $contexts;
@@ -165,12 +168,27 @@ class NewsCollectionService
         // Remove contexts without news items or outside the criteria
         $contexts = $this->repository->filterContext($contexts, $criteria);
 
-        // Preload activation cache which is used in access handler
-        \ilObjectActivation::preloadData(array_map(fn($context) => $context->getRefId(), $contexts));
+        // Preload rbac cache
+        $this->rbac->preloadRbacPaCache(array_map(fn($context) => $context->getRefId(), $contexts), $user_id);
 
+        // Order contexts by level to keep tree hierarchy
+        usort($contexts, fn($a, $b) => $a->getLevel() <=> $b->getLevel());
         $filtered = [];
+        $ac_result = [];
+
         foreach ($contexts as $context) {
-            if ($this->access->checkAccess('read', '', $context->getRefId())) {
+            // Filter object and skip access check if the parent object was denied
+            if (isset($ac_result[$context->getParentRefId()]) && !$ac_result[$context->getParentRefId()]) {
+                continue;
+            }
+
+            $ac_result[$context->getRefId()] = $this->rbac->checkAccess(
+                'read',
+                $context->getRefId(),
+                $context->getObjType(),
+            );
+
+            if ($ac_result[$context->getRefId()]) {
                 $filtered[] = $context;
             }
         }
