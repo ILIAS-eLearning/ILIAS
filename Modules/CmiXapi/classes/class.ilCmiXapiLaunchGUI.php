@@ -115,7 +115,7 @@ class ilCmiXapiLaunchGUI
             if ($this->object->isBypassProxyEnabled()) {
                 $params['auth'] = urlencode($this->object->getLrsType()->getBasicAuth());
             } else {
-                $params['auth'] = urlencode('Basic ' . base64_encode(
+                $params['auth'] = rawurlencode('Basic ' . base64_encode(
                     CLIENT_ID . ':' . $token
                 ));
             }
