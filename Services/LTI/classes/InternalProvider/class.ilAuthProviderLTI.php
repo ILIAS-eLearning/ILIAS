@@ -118,14 +118,18 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      */
     public static function lookupConsumer(int $a_sid): string
     {
+        global $DIC;
+        $lng = $DIC->language();
+        $lng->loadLanguageModule('common');
         $connector = new ilLTIDataConnector();
         $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
+
         $title = "";
         try {
             $object = ilObjectFactory::getInstanceByRefId($consumer->getRefId());
             $title = $object->getTitle();
         } catch (ilDatabaseException|ilObjectNotFoundException $e) {
-            $title = "Object not found refId: " . $consumer->getRefId();
+            $title = $lng->txt("obj_not_found") . " - RefId: " . $consumer->getRefId();
         }
         return $consumer->getTitle() . " - " . $title;
     }
