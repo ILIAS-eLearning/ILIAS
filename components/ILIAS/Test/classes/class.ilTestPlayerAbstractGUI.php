@@ -1030,30 +1030,33 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->test_result_repository->updateTestResultCache($this->test_session->getActiveId());
     }
 
-    protected function afterTestPassFinishedCmd()
+    protected function afterTestPassFinishedCmd(): void
     {
         // show final statement
-        if (!$this->testrequest->isset('skipfinalstatement')) {
-            if ($this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()) {
-                $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
-            }
+        if (
+            !$this->testrequest->isset('skipfinalstatement')
+            && $this->object->getMainSettings()->getFinishingSettings()->getConcludingRemarksEnabled()
+        ) {
+            $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
         }
 
         // redirect after test
         $redirection_mode = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode();
-        $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
-        if (empty($redirection_url)
-            || $this->object->canShowTestResults($this->test_session)
-            || $redirection_mode === RedirectionModes::NONE
-            || $redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED && !$this->object->getKioskMode()) {
+        if ($redirection_mode === RedirectionModes::NONE || $this->object->canShowTestResults($this->test_session)) {
+            $this->redirectBackCmd();
+        }
+
+        if ($redirection_mode === RedirectionModes::IF_KIOSK_ACTIVATED && !$this->object->getKioskMode()) {
             $this->redirectBackCmd();
         }
 
         if ($redirection_mode === RedirectionModes::ALWAYS_TO_LOGOUT) {
-            $redirection_url = ilStartUpGUI::logoutUrl();
+            $this->ctrl->redirectToURL(ilStartUpGUI::logoutUrl());
         }
 
-        ilUtil::redirect($redirection_url);
+        $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
+
+        $redirection_url ? ilUtil::redirect($redirection_url) : $this->redirectBackCmd();
     }
 
     public function buildFinishTestModal(): InterruptiveModal
