@@ -132,7 +132,8 @@ class ilDclTableViewGUI
         $switcher->addTableSwitcherToToolbar(
             $this->parent_obj->getDataCollectionObject()->getTables(),
             self::class,
-            'show'
+            'show',
+            $this->table->getId()
         );
 
         $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table, $this->getParentObj()->getRefId());

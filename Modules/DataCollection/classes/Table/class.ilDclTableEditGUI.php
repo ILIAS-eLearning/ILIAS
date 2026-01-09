@@ -181,7 +181,8 @@ class ilDclTableEditGUI
             $switcher->addTableSwitcherToToolbar(
                 $this->parent_object->getDataCollectionObject()->getTables(),
                 self::class,
-                'edit'
+                'edit',
+                $this->table_id
             );
 
             $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');

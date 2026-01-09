@@ -547,7 +547,8 @@ class ilDclRecordListGUI
         $switcher->addTableSwitcherToToolbar(
             $tables,
             self::class,
-            self::CMD_SHOW
+            self::CMD_SHOW,
+            $this->getTableId()
         );
 
         $switcher->addViewSwitcherToToolbar(
