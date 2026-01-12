@@ -109,7 +109,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
             $mapped[$new_ref_id] = $data;
         }
 
-        $ls_items = $this->obj->getLSItems($this->obj->getRefId());
+        $ls_items = $this->obj->getLSItems();
         $updated = [];
         foreach ($ls_items as $item) {
             $item_ref_id = $item->getRefId();
@@ -121,9 +121,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
                     $item_data["condition_value"]
                 );
                 $item = $item->withPostCondition($post_condition);
-                if (isset($item_data["position"])) {
-                    $item = $item->withOrderNumber((int) $item_data["position"]);
-                }
+                $item = $item->withOrderNumber((int) $item_data["position"]);
                 $updated[] = $item;
             }
         }
