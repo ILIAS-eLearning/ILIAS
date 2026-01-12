@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"james-heinrich/getid3": "^1.9.24"
 	},
 	"require-dev": {
 	},
