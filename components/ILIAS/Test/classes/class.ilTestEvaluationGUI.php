@@ -426,7 +426,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $grading_message_builder->sendMessage();
         }
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
 
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
             if ($this->object->getAnonymity()) {
@@ -525,7 +525,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         );
         $template->setVariable('PASS_DETAILS', $answers);
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
         $template->setVariable('USER_DATA', $user_data);
         if (strlen($signature)) {
             $template->setVariable('SIGNATURE', $signature);
