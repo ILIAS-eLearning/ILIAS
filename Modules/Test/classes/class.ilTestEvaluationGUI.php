@@ -1121,7 +1121,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $template->parseCurrentBlock();
         }
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
 
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
@@ -1340,7 +1340,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $gradingMessageBuilder->sendMessage();
         }
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
 
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
             if ($this->object->getAnonymity()) {
@@ -1432,7 +1432,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
         $template->setVariable("PRINT_URL", "javascript:window.print();");
 
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
         $template->setVariable("USER_DATA", $user_data);
         $template->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
         if (strlen($signature)) {

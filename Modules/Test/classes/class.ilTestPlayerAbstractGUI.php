@@ -1423,7 +1423,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->tpl->setCurrentBlock("adm_content");
         $this->tpl->setVariable("TXT_ANSWER_SHEET", $this->lng->txt("tst_list_of_answers"));
-        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($this->test_session, $active_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($active_id);
         $signature = $this->getResultsSignature();
         $this->tpl->setVariable("USER_DETAILS", $user_data);
         $this->tpl->setVariable("SIGNATURE", $signature);
@@ -1431,9 +1431,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
         $invited_user = &$this->object->getInvitedUsers($this->user->getId());
         $pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") .
-            ": " . $invited_user[$this->user->getId()]["clientip"] . " - " .
-            $this->lng->txt("matriculation") . ": " .
-            $invited_user[$this->user->getId()]["matriculation"];
+            ": " . $invited_user[$this->user->getId()]["clientip"];
+        if (!$this->object->getAnonymity()) {
+            $pagetitle .= " - " . $this->lng->txt("matriculation") . ": " .
+                $invited_user[$this->user->getId()]["matriculation"];
+        }
         $this->tpl->setVariable("PAGETITLE", $pagetitle);
         $this->tpl->parseCurrentBlock();
     }
