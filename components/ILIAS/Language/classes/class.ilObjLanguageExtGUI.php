@@ -59,6 +59,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ilClientIniFile = $DIC->clientIni();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->http = $DIC['http'];
+        $this->refinery = $DIC['refinery'];
 
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
@@ -71,19 +73,18 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $this->type = "lng";
         $obj_id_get = 0;
 
-        if (!$this->id = $obj_id_get) {
-            $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
-        }
-
-        // do all generic GUI initialisations
-        parent::__construct($a_data, $this->id, false, true);
-
         if ($this->http->wrapper()->query()->has("obj_id")) {
             $obj_id_get = $this->http->wrapper()->query()->retrieve("obj_id", $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has("language_folder_obj_ids")) {
             $obj_id_get = $this->http->wrapper()->query()->retrieve("language_folder_obj_ids", $this->refinery->kindlyTo()->int());
         }
 
+        if (!$this->id = $obj_id_get) {
+            $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
+        }
+
+        // do all generic GUI initialisations
+        parent::__construct($a_data, $this->id, false, true);
 
         // initialize the array to store session variables for extended language maintenance
         if (!is_array($this->getSession())) {
