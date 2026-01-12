@@ -136,11 +136,12 @@ class ilAttendanceList
                 false
             );
         }
-
         // add udf fields
-        foreach ($this->profile->getVisibleUserDefinedFields(
-            Context::buildFromObjectType($this->parent_obj->getType())
-        ) as $field) {
+        $object_type = Context::buildFromObjectType($this->parent_obj->getType());
+        foreach (
+            $object_type === null
+                ? $this->profile->getAllUserDefinedFields()
+                : $this->profile->getVisibleUserDefinedFields($object_type) as $field) {
             $this->presets['udf_' . $field->getIdentifier()] = array(
                 $field->getLabel($this->lng),
                 false
@@ -222,9 +223,12 @@ class ilAttendanceList
             }
         }
 
-        foreach ($this->profile->getVisibleUserDefinedFields(
-            Context::buildFromObjectType($this->parent_obj->getType())
-        ) as $field) {
+        // add udf fields
+        $object_type = Context::buildFromObjectType($this->parent_obj->getType());
+        foreach (
+            $object_type === null
+                ? $this->profile->getAllUserDefinedFields()
+                : $this->profile->getVisibleUserDefinedFields($object_type) as $field) {
             $profile_data = $this->profile->getDataForMultiple($user_ids);
             foreach ($profile_data as $user_id => $field) {
                 $a_res[$user_id]['udf_' . $field->getIdentifier()] = $profile_data->getAdditionalFieldByIdentifier(
