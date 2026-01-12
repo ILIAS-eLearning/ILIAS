@@ -293,7 +293,7 @@ class SettingsResultSummary extends TestSettings implements Exportable
     {
         return (new self())
             ->withScoreReporting(ScoreReportingTypes::from($data['score_reporting']))
-            ->withReportingDate($data['reporting_date'] !== 0 ? new \DateTimeImmutable($data['reporting_date']) : null)
+            ->withReportingDate($data['reporting_date'] ? new \DateTimeImmutable($data['reporting_date']) : null)
             ->withShowGradingStatusEnabled((bool) $data['show_grading_status'])
             ->withShowGradingMarkEnabled((bool) $data['show_grading_mark'])
             ->withShowPassDetails((bool) $data['show_pass_details'])
