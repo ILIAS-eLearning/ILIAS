@@ -81,6 +81,7 @@ class ilObjCertificateSettings extends ilObject
         $this->certificate_settings->set('cert_bg_image', $identification->serialize());
 
         $this->certificate_repository->updateDefaultBackgroundImagePaths($identification, $old_identification);
+        $this->resource_handler->handleResourceChange($old_identification);
 
         return $identification->serialize() !== '';
     }
