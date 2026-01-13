@@ -282,7 +282,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
 
         $start = $range->getStart();
         $length = $range->getLength();
-        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, \RoundingMode::HalfTowardsZero));
+        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, PHP_ROUND_HALF_DOWN));
         $this->data_provider->getViewRequest()->setItemsPerPage($length);
 
         switch ($sort_field . '_' . $sort_direction) {
