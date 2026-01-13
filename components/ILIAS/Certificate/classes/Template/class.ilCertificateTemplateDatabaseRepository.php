@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  * Repository that allows interaction with the database
@@ -409,13 +411,15 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
         $this->logger->debug(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
     }
 
-    public function updateDefaultBackgroundImagePaths(string $old_relative_path, string $new_relative_path): void
-    {
+    public function updateDefaultBackgroundImagePaths(
+        ResourceIdentification|string $new_relative_path_or_rid,
+        ResourceIdentification|string $old_relative_path_or_rid,
+    ): void {
         $this->logger->debug(
             sprintf(
-                'START - Update all default background image paths from "%s" to "%s"',
-                $old_relative_path,
-                $new_relative_path
+                'START - Update all default background image paths/identifications from "%s" to "%s"',
+                $old_relative_path_or_rid,
+                $new_relative_path_or_rid
             )
         );
 
@@ -423,20 +427,20 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
             'UPDATE ' . self::TABLE_NAME . ' SET background_image_ident = %s ' .
             'WHERE currently_active = 1 AND (background_image_ident = %s OR background_image_ident = %s )',
             [
-                'text',
-                'text',
-                'text'
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_TEXT,
+                ilDBConstants::T_TEXT
             ],
             [
-                $new_relative_path,
-                $old_relative_path,
+                $new_relative_path_or_rid instanceof ResourceIdentification ? $new_relative_path_or_rid->serialize() : $new_relative_path_or_rid,
+                $old_relative_path_or_rid instanceof ResourceIdentification ? $old_relative_path_or_rid->serialize() : $old_relative_path_or_rid,
                 '/certificates/default/background.jpg'
             ]
         );
 
         $this->logger->debug(
             sprintf(
-                'END - Updated %s certificate templates using old path',
+                'END - Updated %s certificate templates using old path/identification',
                 $affected_rows
             )
         );
