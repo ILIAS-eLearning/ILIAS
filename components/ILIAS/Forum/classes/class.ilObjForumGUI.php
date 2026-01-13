@@ -237,8 +237,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
 
             $this->tpl->addOnLoadCode('il.ForumDraftsAutosave.init(' . json_encode([
-                'loading_img_src' => ilUtil::getImagePath('media/loader.svg'),
-                'draft_id' => $this->retrieveDraftId(),
+                'loadingImgSrc' => ilUtil::getImagePath('media/loader.svg'),
+                'draftId' => $this->retrieveDraftId(),
                 'interval' => $interval * 1000,
                 'url' => $this->ctrl->getFormAction($this, $autosave_cmd, '', true),
                 'selectors' => [

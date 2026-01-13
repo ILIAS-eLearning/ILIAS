@@ -127,7 +127,6 @@ class ilLTIConsumerResultService
                 return;
             }
 
-
             // check the object status
             $this->readProperties($this->result->obj_id);
 
@@ -135,7 +134,7 @@ class ilLTIConsumerResultService
                 $this->respondUnsupported();
                 return;
             }
-
+            $logger->info("LTI consumer readProperties: " . json_encode($this->result) . " - token: " . json_encode($token) . " - token->userId: " . json_encode($token->getUsrId()) . " - token->objectId: " . json_encode($token->getObjId()) . " - sourceId: " . (string) $request->resultRecord->sourcedGUID->sourcedId);
             // Verify the signature
             $this->readFields($this->result->obj_id);
             try {

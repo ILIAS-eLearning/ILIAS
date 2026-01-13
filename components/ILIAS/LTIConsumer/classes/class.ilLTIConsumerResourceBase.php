@@ -146,9 +146,13 @@ abstract class ilLTIConsumerResourceBase
      */
     public function checkTool(array $scopes = array()): ?object
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
         $token = $this->getService()->checkTool();
+        $logger->info("check Tool token: " . json_encode($token));
         $permittedScopes = $this->getService()->getPermittedScopes();
         if (empty($scopes) || empty(array_intersect($permittedScopes, $scopes))) {
+            $logger->info("check Tool token setted to null: " . json_encode($token));
             $token = null;
         }
         return $token;

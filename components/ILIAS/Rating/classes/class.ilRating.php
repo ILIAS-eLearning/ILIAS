@@ -162,6 +162,34 @@ class ilRating
         return (float) $rec["av"];
     }
 
+    public static function getNumberOfFinishedCategoryRatingsForWikis(int $a_obj_id, array $all_category_ids): int
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+        if (empty($all_category_ids)) {
+            return 0;
+        }
+        $category_count = count($all_category_ids);
+        $category_ids_csv = implode(",", array_map("intval", $all_category_ids));
+
+        $query = "
+        SELECT COUNT(*) cnt FROM (
+            SELECT user_id
+            FROM il_rating
+            WHERE obj_id = " . $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER) . "
+                AND obj_type = " . $ilDB->quote("wiki", ilDBConstants::T_TEXT) . "
+                AND category_id IN (" . $category_ids_csv . ")
+            GROUP BY user_id
+            HAVING count(DISTINCT category_id) = " . $ilDB->quote($category_count, "integer") . "
+        ) full_users
+    ";
+
+        $set = $ilDB->query($query);
+        $rec = $ilDB->fetchAssoc($set);
+        return (int) ($rec["cnt"] ?? 0);
+    }
+
     /**
     * Get overall rating for an object.
     *

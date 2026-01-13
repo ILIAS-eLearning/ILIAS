@@ -35,48 +35,46 @@ class ilDclSwitcher
 
     /**
      * @param ilDclTable[]  $tables
-     * @param string $target_class
-     * @param string $target_cmd
-     * @return void
-     * @throws ilCtrlException
      */
-    public function addTableSwitcherToToolbar(array $tables, string $target_class, string $target_cmd): void
+    public function addTableSwitcherToToolbar(array $tables, string $target_class, string $target_cmd, int $table_id = 0): void
     {
+        $this->ctrl->clearParameterByClass($target_class, 'tableview_id');
         $links = [];
-
-        $this->ctrl->clearParameterByClass(ilObjDataCollectionGUI::class, "tableview_id");
-        $this->ctrl->clearParameterByClass($target_class, "tableview_id");
-
+        $current = '';
         foreach ($tables as $table) {
-            $this->ctrl->setParameterByClass($target_class, "table_id", $table->getId());
-            $links[] = $this->ui_factory->link()->standard($table->getTitle(), $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
+            $title = $table->getTitle();
+            if ($table->getId() == $table_id) {
+                $current = $title;
+            }
+            $title = ($current === $title ? '✓ ' : '⠀ ') . $title;
+            $this->ctrl->setParameterByClass($target_class, 'table_id', $table->getId());
+            $links[] = $this->ui_factory->link()->standard($title, $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
         }
-        $this->ctrl->clearParameterByClass($target_class, "table_id");
+        $this->ctrl->clearParameterByClass($target_class, 'table_id');
 
-        $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_switch_table'));
+        $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_table') . ': ' . $current);
     }
 
     /**
      * @param ilDclTableView[]  $views
-     * @param int    $table_id
-     * @param string $target_class
-     * @param string $target_cmd
-     * @return void
-     * @throws ilCtrlException
      */
     public function addViewSwitcherToToolbar(array $views, int $table_id, string $target_class, string $target_cmd, int $tableview_id = 0): void
     {
+        $this->ctrl->setParameterByClass($target_class, 'table_id', $table_id);
         $links = [];
-        $this->ctrl->setParameterByClass($target_class, "table_id", $table_id);
+        $current = '';
         foreach ($views as $view) {
-            $this->ctrl->setParameterByClass($target_class, "tableview_id", $view->getId());
             $title = $view->getTitle();
-            if ($view->getId() === $tableview_id) {
-                $title .= ' (' . $this->lng->txt('selected') . ')';
+            if ($view->getId() == $tableview_id) {
+                $current = $title;
             }
+            $title = ($current === $title ? '✓⠀' : '⠀⠀') . $title;
+            $this->ctrl->setParameterByClass($target_class, 'tableview_id', $view->getId());
             $links[] = $this->ui_factory->link()->standard($title, $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
         }
-        $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_switch_view'));
+        $this->ctrl->clearParameterByClass($target_class, 'tableview_id');
+
+        $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_tableview') . ': ' . $current);
     }
 
     /**

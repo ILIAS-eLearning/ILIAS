@@ -124,6 +124,7 @@ class ilDclDetailedViewGUI
 
     public function executeCommand(): void
     {
+        $this->ctrl->setParameter($this, 'table_id', $this->table->getId());
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {

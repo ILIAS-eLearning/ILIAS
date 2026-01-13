@@ -155,6 +155,16 @@ class ilLTIConsumerResult
         return true;
     }
 
+    public function isAttended(): bool
+    {
+        return $this->attended;
+    }
+
+    public function setAttended(bool $attended): void
+    {
+        $this->attended = $attended;
+    }
+
     public function getId(): int
     {
         return $this->id;

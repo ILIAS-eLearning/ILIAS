@@ -185,6 +185,9 @@ $DIC->http()->saveResponse(
         ->withStatus(302)
         ->withAddedHeader('Location', $url)
 );
-$DIC->http()->sendResponse();
-$DIC->http()->close();
-exit;
+try {
+    $DIC->http()->sendResponse();
+    $DIC->http()->close();
+} catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
+    $DIC->http()->close();
+}

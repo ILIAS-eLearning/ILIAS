@@ -977,7 +977,7 @@ class ilLTIConsumeProvider
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $DIC->database()->update('lti_ext_provider', $this->getInsertUpdateFields(), array(
-                'id' => array('integer', $this->getId()),
+            'id' => array('integer', $this->getId()),
         ));
     }
 

@@ -916,7 +916,8 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
-            "tool_consumer_info_version" => ILIAS_VERSION
+            "tool_consumer_info_version" => ILIAS_VERSION,
+            "lis_result_sourcedid" => $token
         ];
 
         $provider_custom_params = self::getProviderCustomParamsArray($this->getProvider());
@@ -928,7 +929,6 @@ class ilObjLTIConsumer extends ilObject2
 
         if ($this->getProvider()->isGradeSynchronization() || $this->getProvider()->getHasOutcome()) {
 
-            //include_once("components/ILIAS/LTIConsumer/classes/class.ilLTIConsumerGradeService.php");
             $gradeservice = new ilLTIConsumerGradeService();
             $launch_vars['custom_lineitem_url'] = self::getIliasHttpPath(
             ) . "/ltiservices.php/gradeservice/" . $contextId . "/lineitems/" . $this->id . "/lineitem";
@@ -1105,28 +1105,6 @@ class ilObjLTIConsumer extends ilObject2
         $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/deployment_id'] = strval($typeId);
         if (!empty($endpoint)) {  // only for launch request
             $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/target_link_uri'] = $endpoint;
-        }
-
-        if (!empty($parms['custom_lineitem_url']) || !empty($parms['custom_lineitems_url']) || !empty($parms['custom_ags_scopes'])) {
-            $ags_claim = [];
-
-            if (!empty($parms['custom_lineitem_url'])) {
-                $ags_claim['lineitem'] = $parms['custom_lineitem_url'];
-            }
-            if (!empty($parms['custom_lineitems_url'])) {
-                $ags_claim['lineitems'] = $parms['custom_lineitems_url'];
-            }
-            if (!empty($parms['custom_ags_scopes'])) {
-                // scopes are comma-separated in launch_vars
-                $ags_claim['scope'] = array_values(array_filter(array_map('trim', explode(',', $parms['custom_ags_scopes']))));
-            }
-
-            if (!empty($ags_claim)) {
-                $payLoad['https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'] = $ags_claim;
-            }
-
-            // prevent them from also being added to custom/claim/custom later
-            unset($parms['custom_lineitem_url'], $parms['custom_lineitems_url'], $parms['custom_ags_scopes']);
         }
 
         foreach ($parms as $key => $value) {
@@ -1462,17 +1440,17 @@ class ilObjLTIConsumer extends ilObject2
     public static function verifyToken(): ?object
     {
         global $DIC;
+        $logger = $DIC->logger()->root();
         $auth = $DIC->http()->request()->getHeader("Authorization");
         if (count($auth) < 1) {
             self::sendResponseError(405, "missing Authorization header");
         }
-        $logger = $DIC->logger()->root();
-        $logger->info("Verifying token: " . json_encode($auth) . " HEADER: " . json_encode($DIC->http()->request()->getHeaders()) . " REQUEST getParsedBody: " . json_encode($DIC->http()->request()->getParsedBody()) . " REQUEST getParsedBody" . json_encode($DIC->http()->request()->getQueryParams()));
         preg_match('/Bearer\s+(.+)$/i', $auth[0], $matches);
         if (count($matches) != 2) {
             self::sendResponseError(405, "missing required Authorization Baerer token");
         }
         $token = $matches[1];
+        $logger->info("verifyToken Verify token: " . $token);
         return self::getTokenObject($token);
     }
 
