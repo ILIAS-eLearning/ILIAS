@@ -50,7 +50,7 @@ say on new test cases and can ask for modifications. They will be the ones
 contacted if there are questions concerning the test cases for a component.
 4. **Authority to (De-)Assign Authorities**: The people listed here are
 authorised to assign and deassign other people to the authorities of a component
-They are the only ones allowed to modify the `maintanance.json` of a component.
+They are the only ones allowed to modify the `maintenance.json` of a component.
 
 Each of these authorities can be held by a different set of people. This means
 that the social organisation of different groups working on different parts of
@@ -91,6 +91,7 @@ assigned to PRs](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/develo
 * The person/people holding the **Authority to (De-)Assign Authorities**
 coordinate assignments of authorities with the Product Manager and the Technical
 Board, who hold a vetoing power over these decisions.
+* If the person holding the **Authority to (De-)Assign Authorities** assigns a new **Authority to Curate Test Cases** the Testcase Management MUST be informed about the change.
 
 # Additional Rules and Guidelines
 * Although the first decision on new features or feature removals in a unit of
