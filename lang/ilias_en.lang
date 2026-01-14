@@ -11481,6 +11481,7 @@ mail#:#mail_add_folder#:#Add New Sub-Folder
 mail#:#mail_add_recipient#:#Please enter a recipient in the form of a valid e-mail address or ILIAS username.
 mail#:#mail_add_subfolder#:#Add Sub-Folder
 mail#:#mail_add_subject#:#Please enter a subject.
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments
 mail#:#mail_all_in_trash#:#All in Trash
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.

@@ -11480,6 +11480,7 @@ mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
+mail#:#mail_adopt_selected_attachements#:#Ausgewählte Anhänge übernehmen
 mail#:#mail_all_in_trash#:#Alle im Papierkorb
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
