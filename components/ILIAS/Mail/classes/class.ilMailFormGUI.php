@@ -854,10 +854,10 @@ class ilMailFormGUI
         }
 
         $this->tpl->parseCurrentBlock();
-        if ($form === null) {
-            $form = $this->buildForm($mail_data);
-        }
+
+        $form ??= $this->buildForm($mail_data);
         $this->addToolbarButtons($form);
+
         $this->tpl->setVariable('FORM', $this->ui_renderer->render($form));
         $this->tpl->addJavaScript('assets/js/ilMailComposeFunctions.js');
         $this->tpl->printToStdout();
@@ -913,9 +913,12 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    protected function saveMailBeforeSearch(?array $input_results = null): void
+    /**
+     * @param array<string|\ILIAS\UI\Component\Input\Input>|null $input_results
+     */
+    private function saveMailBeforeSearch(?array $input_results = null): void
     {
-        if (!$input_results) {
+        if (empty($input_results)) {
             $form = $this->buildForm()->withRequest($this->request);
             $result = $form->getInputGroup()->getInputs()[0]->getInputs();
         } else {
@@ -923,8 +926,7 @@ class ilMailFormGUI
         }
 
         $resource_collection_id = null;
-        $attachments = $result['attachments']->getValue();
-        if (count($attachments) > 0) {
+        if (!empty($result['attachments']->getValue())) {
             $files = $this->handleAttachments($result['attachments']->getValue());
             $resource_collection_id = $this->getIdforCollection($files);
         }
@@ -1033,15 +1035,17 @@ class ilMailFormGUI
 
         $template_chb = null;
         $signal = null;
+        $use_placeholder_value = false;
+        $context = new ilMailTemplateGenericContext();
         if (ilMailFormCall::getContextId()) {
             $context_id = ilMailFormCall::getContextId();
-            $use_placeholder_value = true;
 
             try {
                 $context = ilMailTemplateContextService::getTemplateContextById($context_id);
+                $use_placeholder_value = true;
 
                 $templates = $this->template_service->loadTemplatesForContextId($context->getId());
-                if (count($templates) > 0) {
+                if (!empty($templates)) {
                     $options = [];
 
                     $tmpl_value = '';
@@ -1072,16 +1076,14 @@ class ilMailFormGUI
                         ->withValue($tmpl_value)
                         ->withOnUpdate($signal);
                 }
-            } catch (Exception $e) {
+            } catch (Exception) {
                 ilLoggerFactory::getLogger('mail')->error(sprintf(
                     '%s has been called with invalid context id: %s.',
                     __METHOD__,
                     $context_id
                 ));
-                $context = new ilMailTemplateGenericContext();
             }
         } else {
-            $context = new ilMailTemplateGenericContext();
             $use_placeholder_value = $mail_data['use_placeholders'] ?? false;
         }
 
@@ -1104,14 +1106,15 @@ class ilMailFormGUI
             $this->lng->txt('message_content')
         )->withValue($mail_data['m_message'] ?? '');
 
-        $mode = $use_placeholder_value ? self::MAIL_FORM_MODE_SERIAL_LETTER : self::MAIL_FORM_MODE_REGULAR_MAIL;
         $use_placeholders = $ff->hidden()->withValue($use_placeholder_value ? '1' : '0');
+
         $placeholders = [];
-        if ($mode === self::MAIL_FORM_MODE_SERIAL_LETTER) {
-            foreach ($context->getPlaceholders() as $key => $value) {
+        $mode = $use_placeholder_value ? self::MAIL_FORM_MODE_SERIAL_LETTER : self::MAIL_FORM_MODE_REGULAR_MAIL;
+        if ($mode === self::MAIL_FORM_MODE_SERIAL_LETTER && $context) {
+            foreach ($context->getPlaceholders() as $value) {
                 $placeholders[$value['placeholder']] = $value['label'];
             }
-            if (count($placeholders) > 0) {
+            if (!empty($placeholders)) {
                 $m_message = $m_message
                     ->withMustacheVariables(
                         $placeholders,
@@ -1121,10 +1124,10 @@ class ilMailFormGUI
                 ;
             }
         }
+
         $use_placeholders = $use_placeholders->withAdditionalTransformation(
             $this->refinery->kindlyTo()->bool()
         );
-
 
         if ($signal !== null) {
             $m_subject = $m_subject->withAdditionalOnLoadCode(
@@ -1213,8 +1216,8 @@ class ilMailFormGUI
         }
 
         $elements['use_schedule'] = $use_schedule_input;
-
         $elements['use_placeholders'] = $use_placeholders;
+
         $section = $ff->section(
             $elements,
             $this->lng->txt('compose')
@@ -1232,7 +1235,7 @@ class ilMailFormGUI
         $action = $this->ctrl->getFormAction($this, 'searchUsers');
         $btn = $bf->standard(
             $this->lng->txt('search_recipients'),
-            '',
+            ''
         )->withAdditionalOnLoadCode(
             function ($id) use ($action) {
                 return "document.getElementById('{$id}').addEventListener('click', function (event) {
@@ -1317,13 +1320,23 @@ class ilMailFormGUI
         $action = $this->ctrl->getFormAction($this, 'toggleMailMode');
         $url_builder = new UrlBuilder(new URI(ILIAS_HTTP_PATH . '/' . $action));
         [$url_builder, $mail_mode_parameter] = $url_builder->acquireParameter(['mail', 'form'], 'mail_mode');
+
         $btn = $this->ui_factory->viewControl()->mode(
             [
-                $this->lng->txt(self::MAIL_FORM_MODE_REGULAR_MAIL) => (string) $url_builder->withParameter($mail_mode_parameter, self::MAIL_FORM_MODE_REGULAR_MAIL)->buildURI(),
-                $this->lng->txt(self::MAIL_FORM_MODE_SERIAL_LETTER) => (string) $url_builder->withParameter($mail_mode_parameter, self::MAIL_FORM_MODE_SERIAL_LETTER)->buildURI(),
+                $this->lng->txt(self::MAIL_FORM_MODE_REGULAR_MAIL) => (string) $url_builder->withParameter(
+                    $mail_mode_parameter,
+                    self::MAIL_FORM_MODE_REGULAR_MAIL
+                )->buildURI(),
+                $this->lng->txt(self::MAIL_FORM_MODE_SERIAL_LETTER) => (string) $url_builder->withParameter(
+                    $mail_mode_parameter,
+                    self::MAIL_FORM_MODE_SERIAL_LETTER
+                )->buildURI(),
             ],
             'mail_mode_switch_label'
-        )->withActive($this->lng->txt($use_placeholders ? self::MAIL_FORM_MODE_SERIAL_LETTER : self::MAIL_FORM_MODE_REGULAR_MAIL));
+        )->withActive(
+            $this->lng->txt($use_placeholders ? self::MAIL_FORM_MODE_SERIAL_LETTER : self::MAIL_FORM_MODE_REGULAR_MAIL)
+        );
+        $this->toolbar->addSeparator();
         $this->toolbar->addComponent($btn);
         $this->tpl->addOnLoadCode(
             "document.getElementById('{$this->toolbar->getId()}')
@@ -1352,18 +1365,39 @@ class ilMailFormGUI
         );
     }
 
-    public function toggleMailMode(): void
+    private function toggleMailMode(): never
     {
         $form = $this->buildForm()->withRequest($this->request);
-        $mode = $this->getQueryParam('mail_form_mail_mode', $this->refinery->kindlyTo()->string(), self::MAIL_FORM_MODE_REGULAR_MAIL);
-        if (!ilMailFormCall::getContextId() && in_array($mode, [self::MAIL_FORM_MODE_REGULAR_MAIL, self::MAIL_FORM_MODE_SERIAL_LETTER], true)) {
+
+        $mode = $this->getQueryParam(
+            'mail_form_mail_mode',
+            $this->refinery->kindlyTo()->string(),
+            self::MAIL_FORM_MODE_REGULAR_MAIL
+        );
+
+        $result = null;
+        if (!ilMailFormCall::getContextId() && in_array(
+            $mode,
+            [self::MAIL_FORM_MODE_REGULAR_MAIL, self::MAIL_FORM_MODE_SERIAL_LETTER],
+            true
+        )) {
             $result = $form->getInputGroup()->getInputs()[0]->getInputs();
-            $result['use_placeholders'] = $result['use_placeholders']->withValue($mode === self::MAIL_FORM_MODE_SERIAL_LETTER ? '1' : '0');
-        } elseif (ilMailFormCall::getContextId() && $mode === self::MAIL_FORM_MODE_REGULAR_MAIL) {
-            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('mail_template_context_mode_fixed'), true);
+            $result['use_placeholders'] = $result['use_placeholders']->withValue(
+                $mode === self::MAIL_FORM_MODE_SERIAL_LETTER ? '1' : '0'
+            );
+        } elseif ($mode === self::MAIL_FORM_MODE_REGULAR_MAIL && ilMailFormCall::getContextId()) {
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_INFO,
+                sprintf(
+                    $this->lng->txt('mail_mode_switch_locked'),
+                    $this->lng->txt('regular_mail')
+                ),
+                true
+            );
         }
 
         $this->saveMailBeforeSearch($result ?? null);
+
         $this->ctrl->redirect($this, 'searchResults');
     }
 }
