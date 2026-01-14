@@ -162,8 +162,12 @@ class ilRating
         return (float) $rec["av"];
     }
 
-    public static function getNumberOfFinishedCategoryRatingsForWikis(int $a_obj_id, array $all_category_ids): int
-    {
+    public static function getNumberOfFinishedCategoryRatingsForWikis(
+        int $a_obj_id,
+        int $sub_obj_id,
+        string $sub_obj_type,
+        array $all_category_ids
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -179,6 +183,8 @@ class ilRating
             FROM il_rating
             WHERE obj_id = " . $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER) . "
                 AND obj_type = " . $ilDB->quote("wiki", ilDBConstants::T_TEXT) . "
+                AND sub_obj_id = " . $ilDB->quote($sub_obj_id, ilDBConstants::T_INTEGER) . "
+                AND sub_obj_type = " . $ilDB->quote($sub_obj_type, ilDBConstants::T_TEXT) . "
                 AND category_id IN (" . $category_ids_csv . ")
             GROUP BY user_id
             HAVING count(DISTINCT category_id) = " . $ilDB->quote($category_count, "integer") . "

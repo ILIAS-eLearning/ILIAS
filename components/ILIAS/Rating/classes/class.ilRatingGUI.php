@@ -336,7 +336,12 @@ class ilRatingGUI implements ilCtrlSecurityInterface
 
             // Collect all category IDs
             $category_ids = array_column($a_categories, "id");
-            $overall_count = ilRating::getNumberOfFinishedCategoryRatingsForWikis($this->obj_id, $category_ids);
+            $overall_count = ilRating::getNumberOfFinishedCategoryRatingsForWikis(
+                $this->obj_id,
+                $this->sub_obj_id,
+                $this->sub_obj_type,
+                $category_ids
+            );
 
             foreach ($a_categories as $category) {
                 $user_rating = round(ilRating::getRatingForUserAndObject(
