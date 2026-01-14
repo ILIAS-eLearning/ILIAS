@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
 {
-    /**
-     * Outputs html of a certain field
-     */
     public function getHTML(bool $link = true, array $options = []): string
     {
         $value = $this->getRecordField()->getValue();
@@ -31,85 +28,34 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
             return "";
         }
 
-        // the file is only temporary uploaded. Still need to be confirmed before stored
-        $has_ilfilehash = $this->http->wrapper()->post()->has('ilfilehash');
-        if (is_array($value) && $has_ilfilehash) {
-            $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
-
-            $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, "ilfilehash", $ilfilehash);
-            $this->ctrl->setParameterByClass(
-                ilDclRecordListGUI::class,
-                "field_id",
-                $this->getRecordField()->getField()->getId()
-            );
-
-            return '<a href="' . $this->ctrl->getLinkTargetByClass(
-                ilDclRecordListGUI::class,
-                "sendFile"
-            ) . '">' . $value['name'] . '</a>';
-        }
-
         $mob = new ilObjMediaObject($value);
-        $med = $mob->getMediaItem('Standard');
+        $item = $mob->getMediaItem('Standard');
+        $component = match (explode('/', (string) $item?->getFormat())[0] ?? '') {
+            'image' => $this->factory->image()->responsive($item->getLocationSrc(), $mob->getTitle()),
+            'video' => $this->factory->player()->video($item->getLocationSrc()),
+            'audio' => $this->factory->player()->audio($item->getLocationSrc()),
+            default => $this->factory->image()->responsive('', $mob->getTitle()),
+        };
 
-        if (!$med || $med->getLocation() === "" || !$this->getField()->getFileSystem()->has(ilObjMediaObject::_getRelativeDirectory($mob->getId()) . '/' . $med->getLocation())) {
-            return "";
-        }
-
-        $field = $this->getRecordField()->getField();
-
-        $is_linked_field = $field->getProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB);
-        $has_view = false;
-        if ($this->http->wrapper()->query()->has("tableview_id")) {
-            $tableview_id = $this->http->wrapper()->query()->retrieve(
-                'tableview_id',
-                $this->refinery->kindlyTo()->int()
-            );
-            $has_view = ilDclDetailedViewDefinition::isActive($tableview_id);
-        }
-
-        $components = [];
-
-        if (in_array(strtolower($med->getSuffix()), ['jpg', 'jpeg', 'png', 'gif'])) {
-            // Image
-            $dir = ilObjMediaObject::_getDirectory($mob->getId());
-
-            $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($dir . "/" . $med->getLocation()), "");
-
-            if ($is_linked_field && $has_view && $link) {
-                $this->ctrl->setParameterByClass(
-                    'ilDclDetailedViewGUI',
-                    'record_id',
-                    $this->getRecordField()->getRecord()->getId()
-                );
-                $image = $image->withAction($this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord'));
-            }
-            $components[] = $image;
-        } else {
-            $location = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-            if (strtolower($med->getSuffix()) == 'mp3') {
-                $components[] = $this->factory->player()->audio($location);
+        if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB) && $link) {
+            if ($this->http->wrapper()->query()->has('tableview_id')) {
+                $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
             } else {
-                $components[] = $this->factory->player()->video($location);
+                $tableview_id = $this->getRecord()->getTable()->getFirstTableViewId($this->user->getId());
             }
-
-            if ($is_linked_field && $has_view) {
-                $this->ctrl->setParameterByClass(
-                    'ilDclDetailedViewGUI',
-                    'record_id',
-                    $this->getRecordField()->getRecord()->getId()
-                );
-                $components[] = $this->factory->link()->standard(
-                    $this->lng->txt('details'),
-                    $this->ctrl->getLinkTargetByClass(
-                        "ilDclDetailedViewGUI",
-                        'renderRecord'
-                    )
-                );
+            if (ilDclDetailedViewDefinition::isActive($tableview_id)) {
+                $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $this->getRecord()->getId());
+                $link = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
+                $this->ctrl->clearParameterByClass(ilDclDetailedViewGUI::class, 'record_id');
+                if ($component instanceof Image) {
+                    $component = $component->withAction($link);
+                } else {
+                    $component = [$component, $this->factory->link()->standard($this->lng->txt('details'), $link)];
+                }
             }
         }
 
-        return $this->renderer->render($components);
+        return $this->renderer->render($component);
     }
 
     public function parseFormInput($value)
