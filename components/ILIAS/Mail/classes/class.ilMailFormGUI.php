@@ -360,7 +360,7 @@ class ilMailFormGUI
             ilUtil::securePlainString($value['m_subject']),
             $value['m_message'],
             $files,
-            $value['use_placeholders'],
+            $value['use_placeholders']
         )
         ) {
             $this->showSubmissionErrors($errors);
@@ -1035,6 +1035,7 @@ class ilMailFormGUI
         $signal = null;
         if (ilMailFormCall::getContextId()) {
             $context_id = ilMailFormCall::getContextId();
+            $use_placeholder_value = true;
 
             try {
                 $context = ilMailTemplateContextService::getTemplateContextById($context_id);
@@ -1077,9 +1078,11 @@ class ilMailFormGUI
                     __METHOD__,
                     $context_id
                 ));
+                $context = new ilMailTemplateGenericContext();
             }
         } else {
             $context = new ilMailTemplateGenericContext();
+            $use_placeholder_value = $mail_data['use_placeholders'] ?? false;
         }
 
         $m_subject = $ff
@@ -1101,7 +1104,6 @@ class ilMailFormGUI
             $this->lng->txt('message_content')
         )->withValue($mail_data['m_message'] ?? '');
 
-        $use_placeholder_value = $mail_data['use_placeholders'] ?? $this->mail_form_type === self::MAIL_FORM_TYPE_ROLE;
         $mode = $use_placeholder_value ? self::MAIL_FORM_MODE_SERIAL_LETTER : self::MAIL_FORM_MODE_REGULAR_MAIL;
         $use_placeholders = $ff->hidden()->withValue($use_placeholder_value ? '1' : '0');
         $placeholders = [];
@@ -1353,14 +1355,15 @@ class ilMailFormGUI
     public function toggleMailMode(): void
     {
         $form = $this->buildForm()->withRequest($this->request);
-
         $mode = $this->getQueryParam('mail_form_mail_mode', $this->refinery->kindlyTo()->string(), self::MAIL_FORM_MODE_REGULAR_MAIL);
-        if (in_array($mode, [self::MAIL_FORM_MODE_REGULAR_MAIL, self::MAIL_FORM_MODE_SERIAL_LETTER], true)) {
+        if (!ilMailFormCall::getContextId() && in_array($mode, [self::MAIL_FORM_MODE_REGULAR_MAIL, self::MAIL_FORM_MODE_SERIAL_LETTER], true)) {
             $result = $form->getInputGroup()->getInputs()[0]->getInputs();
             $result['use_placeholders'] = $result['use_placeholders']->withValue($mode === self::MAIL_FORM_MODE_SERIAL_LETTER ? '1' : '0');
+        } elseif (ilMailFormCall::getContextId() && $mode === self::MAIL_FORM_MODE_REGULAR_MAIL) {
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('mail_template_context_mode_fixed'), true);
         }
-        $this->saveMailBeforeSearch($result ?? null);
 
-        $this->searchResults();
+        $this->saveMailBeforeSearch($result ?? null);
+        $this->ctrl->redirect($this, 'searchResults');
     }
 }

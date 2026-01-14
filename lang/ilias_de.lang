@@ -11630,6 +11630,7 @@ mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste „%s“
 mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt.
+mail#:#mail_mode_fixed#:#Sie können nicht zu Persönliche Mail wechseln.
 mail#:#mail_mode_switch_label#:#Zwischen persönlicher Mail und Serienmail umschalten
 mail#:#mail_move_error#:#Beim Versuch, Ihre E-Mail zu verschieben, ist ein Fehler aufgetreten.
 mail#:#mail_move_to#:#Verschieben nach:

@@ -11632,6 +11632,7 @@ mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List "%s"
 mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent.
+mail#:#mail_mode_fixed#:#You cannot switch to personal mail mode.
 mail#:#mail_mode_switch_label#:#Switch between personal mail and mail merge mode
 mail#:#mail_move_error#:#An error occurred while trying to move your mail.
 mail#:#mail_move_to#:#Move to:
@@ -11775,7 +11776,7 @@ mail#:#only_inbox_trash_info#:#Only delete e-mails that are located in the Inbox
 mail#:#orphaned_mail_body#:#Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted.
 mail#:#orphaned_mail_subject#:#Notification of old mails
 mail#:#placeholders_advise#:#Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders.
-mail#:#regular_mail#:#Regular Mail
+mail#:#regular_mail#:#Personal Mail
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Look up Users
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered.
