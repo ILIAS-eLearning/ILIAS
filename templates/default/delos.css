@@ -15365,8 +15365,9 @@ img.ilBadgeImage {
 }
 
 .badge_table-wrapper button > img.img-responsive, .badge_table-wrapper a > img.img-responsive {
-    max-width: 150px;
-    max-height: 150px;
+  max-width: 150px;
+  max-height: 150px;
+  display: inline-block;
 }
 
 div.ilBadgeBackpackPanelContent {
@@ -18961,6 +18962,17 @@ div.ilRatingOverlay {
   z-index: 1000 !important;
   padding: 0 5px;
   display: none;
+}
+
+ul.il-rating-stars {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.il-rating-stars li.il-rating-star {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 #ilMMSearch ul li {
