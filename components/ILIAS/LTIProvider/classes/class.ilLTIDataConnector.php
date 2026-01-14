@@ -72,7 +72,12 @@ class ilLTIDataConnector extends DataConnector
             $types = array('integer');
             $values = array($id);
         } elseif (!empty($platform->platformId)) {
-            if (empty($platform->clientId)) {
+            if (empty($platform->clientId) && !empty($platform->deploymentId)) {
+                $allowMultiple = true;
+                $query .= '(platform_id = %s) AND (deployment_id = %s)';
+                $types = array('text', 'text');
+                $values = array($platform->platformId, $platform->deploymentId);
+            } elseif (empty($platform->clientId)) {
                 $allowMultiple = true;
                 $query .= '(platform_id = %s)';
                 $types = array('text');

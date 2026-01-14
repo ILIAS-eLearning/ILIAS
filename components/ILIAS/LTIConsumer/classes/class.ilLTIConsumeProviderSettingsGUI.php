@@ -131,15 +131,14 @@ class ilLTIConsumeProviderSettingsGUI
             'lti_message_hint' => $lti_message_hint,
             'target_link_uri' => $provider->getContentItemUrl(),
             'id' => $platform_client_id, // Instead of client_id due to ILIAS redirection system
+            'lti_deployment_id' => $deployment_id,
             'state' => $state,
         ];
 
 
         $join = (str_contains($provider->getInitiateLogin(), '?')) ? '&' : '?';
         $url = $provider->getInitiateLogin() . $join . http_build_query($params);
-        //dump($params, $url);exit();
         $urlSafe = htmlspecialchars($url, ENT_QUOTES);
-        //dump($urlSafe);exit();
         echo <<<HTML
         <!doctype html>
         <html>
