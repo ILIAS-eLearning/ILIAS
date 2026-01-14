@@ -27,42 +27,20 @@ class ilDclMobRecordFieldModel extends ilDclFileRecordFieldModel
         $mob = new ilObjMediaObject();
         $mob->setTitle($value[self::FILE_NAME]);
         $mob->create();
-        $mob->createDirectory();
-        $target_file_path = ilObjMediaObject::_getRelativeDirectory($mob->getId());
 
-        if ($has_save_confirmation) {
-            $move_file = ilDclPropertyFormGUI::getTempFilename(
-                $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string()),
-                'field_' . $this->getField()->getId(),
-                $value[self::FILE_NAME],
-                $value[self::FILE_TYPE]
-            );
-            $this->getField()->getFileSystem()->write($target_file_path . '/' . str_replace(' ', '_', $value[self::FILE_NAME]), file_get_contents($move_file));
-        } else {
-            $this->upload->moveFilesTo(ilObjMediaObject::_getRelativeDirectory($mob->getId()), Location::WEB);
-        }
-
-        $file = $this->getField()->getFileSystem()->listContents(ilObjMediaObject::_getRelativeDirectory($mob->getId()))[0];
-        $format = $this->getField()->getFileSystem()->getMimeType($file->getPath());
+        $mob->addMediaItemFromUpload(
+            'Standard',
+            $this->upload->getResults()[$value[self::FILE_TMP_NAME]],
+            $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string())
+        );
+        $mob->update();
 
         ilObjMediaObject::_saveUsage(
             $mob->getId(),
             'dcl:html',
             $this->getRecord()->getTable()->getCollectionObject()->getId()
         );
-        $media_item = new ilMediaItem();
-        $media_item->setPurpose('Standard');
-        $media_item->setFormat($format);
-        $media_item->setLocation(basename($file->getPath()));
-        $media_item->setLocationType('LocalFile');
-        $mob->addMediaItem($media_item);
 
-        if (ilFFmpeg::enabled() && ilFFmpeg::supportsImageExtraction($format)) {
-            $dir = ilObjMediaObject::_getDirectory($mob->getId());
-            ilFFmpeg::extractImage($dir . '/' . basename($file->getPath()), 'mob_vpreview.png', $dir);
-        }
-
-        $mob->update();
         return $mob->getId();
     }
 
@@ -97,7 +75,6 @@ class ilDclMobRecordFieldModel extends ilDclFileRecordFieldModel
     {
         if (ilObjMediaObject::_exists($this->value)) {
             $mob = new ilObjMediaObject($this->value);
-            $this->getField()->getFileSystem()->deleteDir(ilObjMediaObject::_getRelativeDirectory($mob->getId()));
             $mob->delete();
         }
     }
@@ -108,14 +85,8 @@ class ilDclMobRecordFieldModel extends ilDclFileRecordFieldModel
             $value = null;
             if (ilObjMediaObject::_exists($this->value)) {
                 $origin = new ilObjMediaObject($this->value);
-                $path = $origin::_getRelativeDirectory($origin->getId()) . '/' . $origin->getTitle();
-                if ($this->getField()->getFileSystem()->has($path)) {
-                    $new = $origin->duplicate();
-                    $new->createDirectory();
-                    $new_path = $origin::_getRelativeDirectory($new->getId()) . '/' . $new->getTitle();
-                    $this->getField()->getFileSystem()->copy($path, $new_path);
-                    $value = $new->getId();
-                }
+                $new = $origin->duplicate();
+                $value = $new->getId();
             }
             $this->setValue($value, true);
             $this->doUpdate();
