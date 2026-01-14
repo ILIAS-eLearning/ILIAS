@@ -231,12 +231,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Badges)
 
 * **Badges**
-    * Authority to Sign off on Conceptual Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
-    * Authority to Sign off on Code Changes: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Authority to Sign off on Conceptual Changes: [fhelfer](https://docu.ilias.de/go/usr/93367)
+    * Authority to Sign off on Code Changes: [fhelfer](https://docu.ilias.de/go/usr/93367), [mjansen](https://docu.ilias.de/go/usr/8784)
     * Authority to Curate Test Cases: [atoedt](https://docu.ilias.de/go/usr/3139)
     * Authority to (De-)Assign Authorities: [mjansen (Databay AG)](https://docu.ilias.de/go/usr/8784)
-    * Assignee for Security Reports: [mjansen](https://docu.ilias.de/go/usr/8784)
-    * Assignee for Security Issues: [mjansen](https://docu.ilias.de/go/usr/8784)
+    * Assignee for Security Reports: [fhelfer](https://docu.ilias.de/go/usr/93367)
+    * Assignee for Security Issues: [fhelfer](https://docu.ilias.de/go/usr/93367)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Badges)
