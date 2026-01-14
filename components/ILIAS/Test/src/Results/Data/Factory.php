@@ -284,10 +284,9 @@ class Factory
 
             $feedback = $question_gui->getGenericFeedbackOutput($active_id, $attempt_id);
 
-            $recapitulation = null;
-            if ($is_user_output && $settings->getShowRecapitulation()) {
-                $recapitulation = $question_gui->getObject()->getSuggestedSolutionOutput();
-            }
+            $recapitulation = $is_user_output && $settings->getShowRecapitulation()
+                ? $question->getSuggestedSolutionOutput()
+                : null;
 
             $question_results[] = new QuestionResult(
                 $qid,

@@ -491,7 +491,7 @@ abstract class assQuestion implements Question
                     );
 
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
-                    $path_to_solution = $this->getSuggestedSolutionPathWeb() . $solution->getFilename();
+                    $path_to_solution = "{$this->getSuggestedSolutionPath()}{$solution->getFilename()}";
                     if (!file_exists($path_to_solution)) {
                         break;
                     }
@@ -2845,8 +2845,7 @@ abstract class assQuestion implements Question
 
     protected function loadSuggestedSolutions(): array
     {
-        $question_id = $this->getId();
-        return $this->getSuggestedSolutionsRepo()->selectFor($question_id);
+        return $this->getSuggestedSolutionsRepo()->selectFor($this->getId());
     }
 
     /**
