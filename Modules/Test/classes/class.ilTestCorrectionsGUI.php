@@ -63,7 +63,8 @@ class ilTestCorrectionsGUI
 
     public function executeCommand()
     {
-        if (!$this->testAccess->checkCorrectionsAccess()) {
+        if ((new ilSetting('assessment'))->get('assessment_adjustments_enabled', '0') !== '1'
+            || !$this->testAccess->checkCorrectionsAccess()) {
             ilObjTestGUI::accessViolationRedirect();
         }
         if (
