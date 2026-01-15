@@ -16,14 +16,13 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Access\NewsAccess;
 use ILIAS\News\Data\NewsCollection;
-use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
 use ILIAS\News\Data\NewsItem;
 use ILIAS\News\InternalDomainService;
 use ILIAS\News\InternalGUIService;
 use ILIAS\News\StandardGUIRequest;
-use ILIAS\News\Access\NewsAccess;
 
 /**
  * BlockGUI class for block NewsForContext
@@ -102,8 +101,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             return;
         }
 
-        $collection = $this->domain->collection()->getNewsForContext(
-            new NewsContext($this->std_request->getRefId()),
+        $collection = $this->domain->collection()->getNewsForContainer(
+            $this->std_request->getRefId(),
+            $this->ctrl->getContextObjId(),
+            $this->ctrl->getContextObjType(),
             new NewsCriteria(read_user_id: $this->user->getId()),
             $this->user->getId(),
             true
