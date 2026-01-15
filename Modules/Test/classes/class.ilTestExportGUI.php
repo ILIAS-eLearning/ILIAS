@@ -36,6 +36,7 @@ class ilTestExportGUI extends ilExportGUI
 {
     public function __construct(
         ilObjTestGUI $parent_gui,
+        private ilObjUser $current_user,
         private ilDBInterface $db,
         private ilLogger $logger,
         private ilObjectDataCache $obj_cache,
@@ -120,6 +121,7 @@ class ilTestExportGUI extends ilExportGUI
             $participantData->load($this->obj->getTestId());
 
             $archiveService = new ilTestArchiveService(
+                $this->current_user,
                 $this->obj,
                 $this->lng,
                 $this->obj_cache,

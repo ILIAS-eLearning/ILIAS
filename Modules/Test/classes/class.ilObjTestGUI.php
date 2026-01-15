@@ -280,6 +280,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
                 $export_gui = new ilTestExportGUI(
                     $this,
+                    $this->user,
                     $this->db,
                     $this->logging_services->root(),
                     $this->obj_data_cache,

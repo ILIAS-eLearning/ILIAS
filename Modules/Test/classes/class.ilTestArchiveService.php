@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Data\Factory as DataFactory;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -29,6 +31,7 @@ class ilTestArchiveService
     protected ?ilTestParticipantData $participantData = null;
 
     public function __construct(
+        protected ilObjUser $current_user,
         protected ilObjTest $test_obj,
         protected ilLanguage $lng,
         protected ilObjectDataCache $obj_cache,
@@ -58,11 +61,68 @@ class ilTestArchiveService
 
     public function archiveActivesPass(int $active_id, int $pass): void
     {
-        $content = $this->renderOverviewContent($active_id, $pass);
+        $participant_data = $this->getParticipantData();
+        $user = $participant_data->getUserDataByActiveId($active_id);
+
+        $tpl = new ilTemplate(
+            'tpl.il_as_tst_archive_page.html',
+            true,
+            true,
+            'Modules/Test'
+        );
+
+        $tpl->setVariable(
+            'NAME',
+            sprintf(
+                $this->lng->txt('tst_result_user_name'),
+                $this->test_obj->buildName(
+                    $user['user_id'],
+                    $user['firstname'],
+                    $user['lastname']
+                )
+            )
+        );
+
+        if (!empty($user['matriculation']) && $this->test_obj->getAnonymity() === false) {
+            $tpl->setCurrentBlock('matriculation');
+            $tpl->setVariable(
+                'MATRICULATION_LABEL',
+                $this->lng->txt('matriculation')
+            );
+            $tpl->setVariable(
+                'MATRICULATION',
+                $user['matriculation']
+            );
+            $tpl->parseCurrentBlock();
+        }
+
+        $tpl->setVariable(
+            'PASS_FINISH_DATE_LABEL',
+            $this->lng->txt('tst_pass_finished_on')
+        );
+
+        $finish_date = ilObjTest::lookupLastTestPassAccess($active_id, $pass);
+        $tpl->setVariable(
+            'PASS_FINISH_DATE',
+            $finish_date === null
+                ? ''
+                : (new DateTimeImmutable(
+                    "@{$finish_date}",
+                    new DateTimeZone($this->current_user->getTimeZone())
+                ))->format(
+                    $this->buildDateTimeFormat()
+                )
+        );
+
+        $tpl->setVariable(
+            'OVERVIEW',
+            $this->renderOverviewContent($active_id, $pass)
+        );
+
         $filename = $this->buildOverviewFilename($active_id, $pass);
-        $this->html_generator->generateHTML($content, $filename);
+        $this->html_generator->generateHTML($tpl->get(), $filename);
         $archiver = new ilTestArchiver($this->test_obj->getId());
-        $archiver->setParticipantData($this->getParticipantData());
+        $archiver->setParticipantData($participant_data);
         $archiver->handInTestResult($active_id, $pass, $filename);
         $archiver->handInParticipantUploadedResults($active_id, $pass, $this->test_obj);
         unlink($filename);
@@ -107,5 +167,13 @@ class ilTestArchiveService
     {
         $tmpFileName = ilFileUtils::ilTempnam();
         return dirname($tmpFileName) . '/scores-' . $this->test_obj->getId() . '-' . $activeId . '-' . $pass . '.html';
+    }
+
+    private function buildDateTimeFormat(): string
+    {
+        $date_format = $this->current_user->getDateFormat();
+        return $this->current_user->getTimeFormat() === (string) ilCalendarSettings::TIME_FORMAT_12
+            ? (new DataFactory())->dateFormat()->withTime12($date_format)->toString()
+            : (new DataFactory())->dateFormat()->withTime24($date_format)->toString();
     }
 }
