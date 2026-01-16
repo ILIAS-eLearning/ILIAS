@@ -40,7 +40,7 @@ class ilBookingReservationsGUI
     protected array $raw_post_data;
     protected StandardGUIRequest $book_request;
     protected ilBookingHelpAdapter $help;
-    protected int $context_obj_id;
+    protected ?int $context_obj_id;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
@@ -53,7 +53,7 @@ class ilBookingReservationsGUI
     protected int $booked_user;
     protected ilUIService $ui_service;
 
-    public function __construct(ilObjBookingPool $pool, ilBookingHelpAdapter $help, int $context_obj_id = 0)
+    public function __construct(ilObjBookingPool $pool, ilBookingHelpAdapter $help, ?int $context_obj_id = null)
     {
         global $DIC;
 
@@ -202,7 +202,7 @@ class ilBookingReservationsGUI
             $this->access->canManageAllReservations($this->ref_id) || $this->pool->hasPublicLog(),
             $this->ui_service->filter()->getData($bookings_table->getFilter()) ?? [],
             null,
-            $this->context_obj_id > 0 ? [$this->context_obj_id] : null
+            $this->context_obj_id !== null ? [$this->context_obj_id] : null
         );
         $reservations_table->getExportMode() > 0 && $reservations_table->exportData($reservations_table->getExportMode(), true);
     }
