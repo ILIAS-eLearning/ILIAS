@@ -8845,7 +8845,7 @@ dcl#:#dcl_text_email_title#:#Titel
 dcl#:#dcl_text_email_title_info#:#Titel für die URL oder E-Mail-Adresse (optional).
 dcl#:#dcl_text_selection#:#Text per Auswahl
 dcl#:#dcl_text_selection_desc#:#Ausvorgegebenen Optionen kann eine Auswahl getroffen werden,
-dcl#:#dcl_title_standardview#:#Standard-Ansicht
+dcl#:#dcl_title_standard#:#Standard
 dcl#:#dcl_unique#:#Gleiche Einträge verhindern
 dcl#:#dcl_unique_desc#:#Identische Einträge sind in diesem Feld nicht erlaubt.
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.

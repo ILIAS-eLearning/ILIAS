@@ -191,7 +191,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             if ($this->page_active) {
                 $record_data["_front"] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
                 $action_links[] = $this->ui->factory()->link()->standard(
-                    $this->lng->txt('view'),
+                    $this->lng->txt('dcl_detailed_view'),
                     $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord')
                 );
             }
