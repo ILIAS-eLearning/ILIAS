@@ -190,7 +190,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
                 $action_links[] = $this->ui->factory()->link()->standard(
-                    $this->lng->txt('view'),
+                    $this->lng->txt('dcl_detailed_view'),
                     $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord')
                 );
             }

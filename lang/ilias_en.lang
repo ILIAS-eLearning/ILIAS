@@ -8857,7 +8857,7 @@ dcl#:#dcl_text_email_title#:#Title
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).
 dcl#:#dcl_text_selection#:#Text Selection
 dcl#:#dcl_text_selection_desc#:#Allow a text to be chosen from among a predefined selection of text options.
-dcl#:#dcl_title_standardview#:#Standard Views
+dcl#:#dcl_title_standard#:#Standard
 dcl#:#dcl_unique#:#Unique
 dcl#:#dcl_unique_desc#:#Identical entries are not allowed in this field.
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another Entry.
