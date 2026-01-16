@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\MediaObjects\MediaObjectRepository;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Data\Repository;
 use ILIAS\Test\TestDIC;
@@ -145,6 +148,8 @@ class ilObjTest extends ilObject
     protected Repository $test_result_repository;
 
     protected LOMetadata $lo_metadata;
+    protected MediaObjectRepository $media_object_repository;
+    protected ResourceStorage $irss;
 
     /**
      * Constructor
@@ -166,6 +171,8 @@ class ilObjTest extends ilObject
         $this->component_factory = $DIC['component.factory'];
         $this->filesystem_web = $DIC->filesystem()->web();
         $this->lo_metadata = $DIC->learningObjectMetadata();
+        $this->media_object_repository = $DIC->mediaObjects()->internal()->repo()->mediaObject();
+        $this->irss = $DIC->resourceStorage();
 
         $local_dic = $this->getLocalDIC();
         $this->participant_access_filter = $local_dic['participant.access_filter.factory'];
@@ -3742,7 +3749,13 @@ class ilObjTest extends ilObject
                 ilFileUtils::createDirectory($target_dir);
                 $media_obj = new ilObjMediaObject((int) $mob_id);
                 $media_obj->exportXML($a_xml_writer, (int) $a_inst);
+                /** @var ilMediaItem $item */
                 foreach ($media_obj->getMediaItems() as $item) {
+                    $rid = $this->media_object_repository->getById($item->getMobId())['rid'] ?? null;
+                    if (!is_string($rid) || !$this->irss->manage()->find($rid) instanceof ResourceIdentification) {
+                        $expLog->write(date('[y-m-d H:i:s] ') . "The resource for Media Object {$item->getMobId()} does not exist (skipping)");
+                        continue;
+                    }
                     $stream = $item->getLocationStream();
                     file_put_contents($target_dir . DIRECTORY_SEPARATOR . $item->getLocation(), $stream);
                     $stream->close();
