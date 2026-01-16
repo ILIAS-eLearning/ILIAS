@@ -16,6 +16,7 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Access\NewsAccess;
 use ILIAS\News\Data\NewsCollection;
 use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
@@ -23,7 +24,6 @@ use ILIAS\News\Data\NewsItem;
 use ILIAS\News\InternalDomainService;
 use ILIAS\News\InternalGUIService;
 use ILIAS\News\StandardGUIRequest;
-use ILIAS\News\Access\NewsAccess;
 
 /**
  * BlockGUI class for block NewsForContext
@@ -137,7 +137,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $info = $this->getNewsForId($data[0]);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            return $this->ui->factory()->item()->standard($this->lng->txt('news_sorry_not_accessible_anymore'));
+            return $this->ui->factory()->item()->standard($this->lng->txt('news_not_available'))
+                ->withDescription($this->lng->txt('news_sorry_not_accessible_anymore'));
         }
 
 

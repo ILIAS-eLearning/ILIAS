@@ -12707,6 +12707,7 @@ news#:#news_news_item_visibility_info#:#Public news can be accessed without auth
 news#:#news_news_items#:#News Item(s)
 news#:#news_no_js_click_here#:#If news are not displayed, click here.
 news#:#news_no_news_items#:#No news available.
+news#:#news_not_available#:#Unavailable News
 news#:#news_notifications#:#Notifications
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
