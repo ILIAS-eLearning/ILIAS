@@ -1410,12 +1410,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Survey)
 
 * **Survey**
-    * Authority to Sign off on Conceptual Changes: [akill](https://docu.ilias.de/go/usr/149)
-    * Authority to Sign off on Code Changes: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to Sign off on Conceptual Changes: [sergiosantiago02](https://docu.ilias.de/go/usr/110174)
+    * Authority to Sign off on Code Changes: [sergiosantiago02](https://docu.ilias.de/go/usr/110174), [amorales](https://docu.ilias.de/go/usr/110909), [jmdelaflor](https://docu.ilias.de/go/usr/107249)
     * Authority to Curate Test Cases: [ezenzen](https://docu.ilias.de/go/usr/42910)
-    * Authority to (De-)Assign Authorities: [akill](https://docu.ilias.de/go/usr/149)
-    * Assignee for Security Reports: [akill](https://docu.ilias.de/go/usr/149)
-    * Assignee for Security Issues: [akill](https://docu.ilias.de/go/usr/149)
+    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Issues: [jcop](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Survey)
