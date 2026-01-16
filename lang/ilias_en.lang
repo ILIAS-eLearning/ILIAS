@@ -8598,7 +8598,7 @@ dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_deprecated_copy#:#(Deprecated)
 dcl#:#dcl_desc#:#Descending Order (DESC)
 dcl#:#dcl_description#:#Field Description
-dcl#:#dcl_detailed_view#:#Single
+dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Enable possibility to copy or link the referenced module
 dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_edit#:#Edit Data Collection
@@ -8800,7 +8800,7 @@ dcl#:#dcl_text_email_title#:#Title
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).
 dcl#:#dcl_text_selection#:#Text Selection
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.
-dcl#:#dcl_title_standardview#:#Standard Views
+dcl#:#dcl_title_standard#:#Standard
 dcl#:#dcl_unique#:#Unique
 dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another Entry.
