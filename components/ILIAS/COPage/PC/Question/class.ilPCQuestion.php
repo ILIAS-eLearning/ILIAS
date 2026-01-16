@@ -212,9 +212,13 @@ class ilPCQuestion extends ilPageContent
             $q_ids = $this->getQuestionIds();
             if (count($q_ids)) {
                 foreach ($q_ids as $q_id) {
-                    $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
+                    $q_gui = assQuestion::instantiateQuestionGUI($q_id);
+                    if ($q_gui instanceof assQuestionGUI) {
+                        continue;
+                    }
+
                     // object check due to #16557
-                    if (!is_null($q_gui) && is_object($q_gui->getObject()) && !$q_gui->getObject()->isComplete()) {
+                    if (!$q_gui->getObject()->isComplete()) {
                         $a_output = str_replace(
                             "{{{{{Question;il__qst_" . $q_id . "}}}}}",
                             "<i>" . $lng->txt("cont_empty_question") . "</i>",
@@ -278,9 +282,9 @@ class ilPCQuestion extends ilPageContent
             $js_files[] = 'assets/js/matching.js';
 
             foreach ($this->getQuestionIds() as $qId) {
-                $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
-                if (!is_null($qstGui)) {
-                    $js_files = array_merge($js_files, $qstGui->getPresentationJavascripts());
+                $qst_gui = assQuestion::instantiateQuestionGUI($qId);
+                if ($qst_gui instanceof assQuestionGUI) {
+                    $js_files = array_merge($js_files, $qst_gui->getPresentationJavascripts());
                 }
             }
         }
