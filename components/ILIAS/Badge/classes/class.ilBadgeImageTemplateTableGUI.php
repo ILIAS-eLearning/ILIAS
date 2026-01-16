@@ -37,6 +37,7 @@ use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\Badge\Table\TableContentWrapper;
 
 class ilBadgeImageTemplateTableGUI implements DataRetrieval
 {
@@ -86,15 +87,12 @@ class ilBadgeImageTemplateTableGUI implements DataRetrieval
                 );
                 $image_html = $this->renderer->render($image_component);
 
-                $image_src_large = $template->getImageFromResourceId(
-                    ilBadgeImage::IMAGE_SIZE_XL
-                );
                 $large_image_component = $this->factory->image()->responsive(
-                    $image_src_large,
+                    $image_src,
                     $template->getTitle()
                 );
 
-                $modal = $modal_container->constructModal($large_image_component, $template->getTitle());
+                $modal = $modal_container->constructModal($large_image_component, $template->getTitle(), [], true);
 
                 $image = implode('', [
                     $modal_container->renderShyButton($image_html, $modal),
@@ -217,12 +215,12 @@ class ilBadgeImageTemplateTableGUI implements DataRetrieval
         $table = $this->factory
             ->table()
             ->data($this, $this->lng->txt('badge_image_templates'), $this->getColumns())
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 
-        $out = [$table];
         $query = $this->http->wrapper()->query();
         if ($query->has('tid')) {
             $query_values = $query->retrieve(
@@ -280,6 +278,11 @@ class ilBadgeImageTemplateTableGUI implements DataRetrieval
             }
         }
 
-        $this->tpl->setContent($this->renderer->render($out));
+        $content_wrapper = new TableContentWrapper($this->renderer, $this->factory);
+        $this->tpl->setContent($this->renderer->render(
+            $content_wrapper->wrap(
+                $table
+            )
+        ));
     }
 }

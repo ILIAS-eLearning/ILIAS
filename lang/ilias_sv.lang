@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#Visa ILIAS provnummer
 assessment#:#examid_in_test_res_desc#:#I testresultaten, statistiken och Excel-exporten visas ILIAS-examensnumret.
 assessment#:#exp_all_test_runs#:#All test runs###21 11 2023 new variable
 assessment#:#exp_eval_data#:#Exportera utvärderingsdata som
-assessment#:#exp_file_created#:#Exportfil genererad.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt
 assessment#:#exp_type_certificate#:#Certifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Kommaseparerade värden (CSV)
 assessment#:#expected_result_type#:#Typ av förväntat resultat
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Välj minst en årskurs för att ta bort!
 assessment#:#tst_derive_new_pool#:#Skapa ny frågepool
 assessment#:#tst_derive_new_pools#:#Skapa nya frågepooler
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Visa inte detta meddelande igen i min nuvarande session.
-assessment#:#tst_dont_use_previous_answers#:#Dina tidigare svar kommer inte att användas som standardvärden i framtida testkörningar
 assessment#:#tst_edit_competence_assign#:#Redigera egenskaper för tilldelning
 assessment#:#tst_edit_scoring#:#Ändra betyg
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###21 11 2023 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Ja, jag vill avsluta testet
 assessment#:#tst_finish_confirm_cancel_button#:#Nej, jag vill gå tillbaka till det senaste svaret
 assessment#:#tst_finish_confirmation_question#:#Du är på väg att avsluta testet och nå det maximala antalet tillåtna testkörningar. Efter det kommer du inte längre att kunna komma åt testet igen för att ändra dina svar. Vill du verkligen avsluta testet?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###21 11 2023 new variable
-assessment#:#tst_finish_notification_no#:#Ingen anmälan
 assessment#:#tst_finished#:#Färdig
 assessment#:#tst_form_dynamic_question_set_config#:#Kontinuerligt urval av frågor
 assessment#:#tst_gap_analysis#:#Analys av luckor
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###21 11 2023 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###21 11 2023 new variable
 assessment#:#tst_hide_pagecontents#:# Dölj sidans innehåll
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS-innehåll som placeras före och efter den faktiska frågetexten via knappen "Redigera sida" visas inte i resultatvyerna och utskriften.
-assessment#:#tst_hide_side_list#:#Frågelista från
 assessment#:#tst_highscore_achieved_ts#:#Datum
 assessment#:#tst_highscore_achieved_ts_description#:#En extra kolumn med tiden för testet visas.
 assessment#:#tst_highscore_all_tables#:#Egen rankning och leaderboard
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Poäng
 assessment#:#tst_highscore_score_description#:#Ytterligare en kolumn visas med antalet uppnådda poäng.
 assessment#:#tst_highscore_top_num#:#Bästa listlängd
 assessment#:#tst_highscore_top_num_description#:#Bestämmer hur många poster som visas i topplistan.
-assessment#:#tst_highscore_top_num_unit#:#Placeringar
 assessment#:#tst_highscore_top_table#:#Bästalista
 assessment#:#tst_highscore_top_table_description#:#Deltagarna kommer att få se en tabell med de bästa placeringarna.
 assessment#:#tst_highscore_wtime#:#Bearbetningstid
@@ -1753,7 +1747,6 @@ assessment#:#tst_postpone_on_desc#:#Frågor vars svar deltagarna ignorerar eller
 assessment#:#tst_presentation_properties#:#Utförande
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###21 11 2023 new variable
-assessment#:#tst_print#:#Test och bedömning - utskriftsvy
 assessment#:#tst_proceed#:#Fortsättning
 assessment#:#tst_processing_time#:#Begränsad bearbetningstid
 assessment#:#tst_processing_time_desc#:#Använd denna inställning för e-tester/distanstester för att ge deltagarna en fast tidsperiod för att slutföra testet. Tiden löper för varje deltagare från det ögonblick då den första testkörningen startades. "Avbryt test" stoppar inte testets varaktighet
@@ -1890,10 +1883,6 @@ assessment#:#tst_show_results#:#Testresultat
 assessment#:#tst_show_side_list#:#Frågelista till
 assessment#:#tst_show_solution_answers_only#:#Skriv ut resultaten (endast svar)
 assessment#:#tst_show_solution_answers_only_desc#:#Om "Skriv ut resultat (endast svar)" är markerat, kommer ILIAS-innehåll som du kan placera före och efter den faktiska frågetexten via fliken "Redigera innehåll" i frågorna inte att visas i en utskrift.
-assessment#:#tst_show_solution_compare#:#Visa bästa möjliga lösning i 'Tabell med detaljerade testresultat'.
-assessment#:#tst_show_solution_compare_desc#:#Deltagarna presenteras med en översikt som en del av 'Tabell med detaljerade testresultat', som jämför deras egna svar och den bästa möjliga lösningen. <br> Denna översikt visas inte i underfliken "Poängbedömda svar" på fliken "Resultat", även om denna i
-assessment#:#tst_show_solution_details#:#Rated svar som en lista
-assessment#:#tst_show_solution_details_desc#:#En lista med dina egna svar läggs till i tabellen "Detaljerade testresultat".
 assessment#:#tst_show_solution_details_singlepage#:#Relaterade svar på enskilda sidor
 assessment#:#tst_show_solution_details_singlepage_desc#:#Deltagarna kan ringa upp varje fråga individuellt och se om deras svar var korrekta och hur många poäng de fick.
 assessment#:#tst_show_solution_feedback#:#Tillbaka
@@ -1916,7 +1905,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetens samlas endas
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Minst en kompetens som tas upp i testet har inte tilldelats ett tillräckligt antal frågor. För dessa kompetenser registreras inga kompetensposter för deltagarna.<br />Minsta antal tilldelade frågor
 assessment#:#tst_skl_level_thresholds_link#:#Konfigurera tröskelvärden för kompetens
 assessment#:#tst_skl_level_thresholds_missing#:#Tröskelvärden har ännu inte definierats för alla relevanta kompetenser!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Tänk på att kompetensresultaten från ett enskilt test endast är villkorligt meningsfulla. Ju mer information som samlas in om de enskilda kompetenserna, desto mer giltigt blir påståendet. Om enskilda kompetenser inte har angetts, har för lite information
 assessment#:#tst_skl_sub_tab_thresholds#:#Tröskelvärden för kompetens
 assessment#:#tst_sol_comp_expressions#:#Jämförelse av uttryck
 assessment#:#tst_solution_compare_cfg#:#Konfiguration för jämförelse av svar
@@ -1978,7 +1966,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#Det angivna svaret är korrekt.
 assessment#:#tst_unchanged_order_is_correct#:#Det givna arrangemanget är korrekt.
 assessment#:#tst_use_previous_answers#:#Använda tidigare lösningar
 assessment#:#tst_use_previous_answers_description#:#Visar deltagarna svaren från föregående testkörning. Alternativet måste aktiveras av deltagaren via en kryssruta på fliken "Info" innan testet påbörjas.
-assessment#:#tst_use_previous_answers_user#:#Använd mina lösningar från en tidigare testkörning som standardvärden
 assessment#:#tst_user_finished_test#:#En deltagare har avslutat testet (%s)
 assessment#:#tst_view_competence_assign#:#Visa egenskaper för tilldelning
 assessment#:#tst_virtual_pass_header_lo_initial#:#Establishment-resultat för lärandemålet<br />%s
@@ -2563,7 +2550,6 @@ book#:#book_booking#:#Booking###21 11 2023 new variable
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bokningsobjekt
 book#:#book_booking_reminders#:#Väntande reservationer
-book#:#book_bookings_per_user#:#Bokningar per användare
 book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.###21 11 2023 new variable
 book#:#book_bulk_creation#:#Bulk Creation###21 11 2023 new variable
 book#:#book_bulk_data#:#Object Data###21 11 2023 new variable

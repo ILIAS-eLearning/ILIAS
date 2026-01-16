@@ -562,37 +562,37 @@ class ilMapArea
 
         $this->drawLine(
             $im,
-            $coord[0] / $a_x_ratio,
-            $coord[1] / $a_y_ratio,
-            $coord[0] / $a_x_ratio,
-            $coord[3] / $a_y_ratio,
+            (int) ($coord[0] / $a_x_ratio),
+            (int) ($coord[1] / $a_y_ratio),
+            (int) ($coord[0] / $a_x_ratio),
+            (int) ($coord[3] / $a_y_ratio),
             $c1,
             $c2
         );
         $this->drawLine(
             $im,
-            $coord[0] / $a_x_ratio,
-            $coord[3] / $a_y_ratio,
-            $coord[2] / $a_x_ratio,
-            $coord[3] / $a_y_ratio,
+            (int) ($coord[0] / $a_x_ratio),
+            (int) ($coord[3] / $a_y_ratio),
+            (int) ($coord[2] / $a_x_ratio),
+            (int) ($coord[3] / $a_y_ratio),
             $c1,
             $c2
         );
         $this->drawLine(
             $im,
-            $coord[2] / $a_x_ratio,
-            $coord[3] / $a_y_ratio,
-            $coord[2] / $a_x_ratio,
-            $coord[1] / $a_y_ratio,
+            (int) ($coord[2] / $a_x_ratio),
+            (int) ($coord[3] / $a_y_ratio),
+            (int) ($coord[2] / $a_x_ratio),
+            (int) ($coord[1] / $a_y_ratio),
             $c1,
             $c2
         );
         $this->drawLine(
             $im,
-            $coord[2] / $a_x_ratio,
-            $coord[1] / $a_y_ratio,
-            $coord[0] / $a_x_ratio,
-            $coord[1] / $a_y_ratio,
+            (int) ($coord[2] / $a_x_ratio),
+            (int) ($coord[1] / $a_y_ratio),
+            (int) ($coord[0] / $a_x_ratio),
+            (int) ($coord[1] / $a_y_ratio),
             $c1,
             $c2
         );
@@ -634,10 +634,10 @@ class ilMapArea
         for ($i = 0; $i < $anz - $p; $i++) {
             $this->drawLine(
                 $im,
-                $c[$i * 2] / $a_x_ratio,
-                $c[$i * 2 + 1] / $a_y_ratio,
-                $c[($i * 2 + 2) % (2 * $anz)] / $a_x_ratio,
-                $c[($i * 2 + 3) % (2 * $anz)] / $a_y_ratio,
+                (int) ($c[$i * 2] / $a_x_ratio),
+                (int) ($c[$i * 2 + 1] / $a_y_ratio),
+                (int) ($c[($i * 2 + 2) % (2 * $anz)] / $a_x_ratio),
+                (int) ($c[($i * 2 + 3) % (2 * $anz)] / $a_y_ratio),
                 $c1,
                 $c2
             );
@@ -664,30 +664,30 @@ class ilMapArea
         $c = explode(",", $coords);
         imagearc(
             $im,
-            $c[0] / $a_x_ratio,
-            $c[1] / $a_y_ratio,
-            ($c[2] + 1) * 2 / $a_x_ratio,
-            ($c[2] + 1) * 2 / $a_y_ratio,
+            (int) ($c[0] / $a_x_ratio),
+            (int) ($c[1] / $a_y_ratio),
+            (int) (($c[2] + 1) * 2 / $a_x_ratio),
+            (int) (($c[2] + 1) * 2 / $a_y_ratio),
             1,
             360,
             $c1
         );
         imagearc(
             $im,
-            $c[0] / $a_x_ratio,
-            $c[1] / $a_y_ratio,
-            ($c[2] - 1) * 2 / $a_x_ratio,
-            ($c[2] - 1) * 2 / $a_y_ratio,
+            (int) ($c[0] / $a_x_ratio),
+            (int) ($c[1] / $a_y_ratio),
+            (int) (($c[2] - 1) * 2 / $a_x_ratio),
+            (int) (($c[2] - 1) * 2 / $a_y_ratio),
             1,
             360,
             $c1
         );
         imagearc(
             $im,
-            $c[0] / $a_x_ratio,
-            $c[1] / $a_y_ratio,
-            $c[2] * 2 / $a_x_ratio,
-            $c[2] * 2 / $a_y_ratio,
+            (int) ($c[0] / $a_x_ratio),
+            (int) ($c[1] / $a_y_ratio),
+            (int) ($c[2] * 2 / $a_x_ratio),
+            (int) ($c[2] * 2 / $a_y_ratio),
             1,
             360,
             $c2

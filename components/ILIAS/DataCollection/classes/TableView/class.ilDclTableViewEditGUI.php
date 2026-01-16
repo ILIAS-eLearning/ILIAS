@@ -160,8 +160,9 @@ class ilDclTableViewEditGUI
                     default:
                         if ($cmd === 'create' || $cmd === 'update') {
                             $this->save($cmd === 'create');
+                        } else {
+                            $this->$cmd();
                         }
-                        $this->$cmd();
                         break;
                 }
                 break;
@@ -182,7 +183,7 @@ class ilDclTableViewEditGUI
                 )
             ],
             $this->lng->txt('role_limitation')
-        );
+        )->withValue(null);
 
         $inputs['settings'] = $this->ui_factory->input()->field()->section($settings, $this->lng->txt('general_settings'));
 
@@ -246,7 +247,8 @@ class ilDclTableViewEditGUI
 
     public function save(bool $create = false): void
     {
-        $data = $this->initForm()->withRequest($this->http->request())->getData();
+        $form = $this->initForm($create)->withRequest($this->http->request());
+        $data = $form->getData();
         if ($data !== null) {
             $this->tableview->setTitle($data['settings']['title']);
             $this->tableview->setDescription($data['settings']['description']);
@@ -254,15 +256,27 @@ class ilDclTableViewEditGUI
             $this->tableview->setRoles($data['settings']['role_limitation']['roles'] ?? []);
             if ($create) {
                 $this->tableview->setTableId($this->table->getId());
-                $this->tableview->setOrder($this->table->getNewTableviewOrder());
                 $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('dcl_msg_tableview_created'), true);
                 $this->tableview->create();
+                $this->ctrl->setParameter($this, 'tableview_id', $this->tableview->getId());
             } else {
                 $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('dcl_msg_tableview_updated'), true);
                 $this->tableview->update();
             }
+            $this->ctrl->redirect($this, 'editGeneralSettings');
         }
-        $this->ctrl->redirect($this, 'editGeneralSettings');
+
+        if ($create) {
+            $this->help->setSubScreenId('create');
+            $this->tpl->setContent($this->lng->txt('dcl_new_view') . $this->ui_renderer->render($form));
+        } else {
+            $this->help->setSubScreenId('edit');
+            $this->setTabs('general_settings');
+            $this->tpl->setContent(
+                sprintf($this->lng->txt('dcl_edit_view'), $this->tableview->getTitle()) .
+                $this->ui_renderer->render($form)
+            );
+        }
     }
 
     public function saveOverviewSettings(): void

@@ -778,6 +778,13 @@ class ilSurveyEvaluationGUI
 
         $this->log->debug("check access");
 
+        if ($details == 0) {
+            $this->tabs->activateSubTab("svy_eval_cumulated");
+        } else {
+            $this->tabs->activateSubTab("svy_eval_detail");
+        }
+
+
         // auth
         if (!$this->hasResultsAccess()) {
             if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
@@ -833,13 +840,9 @@ class ilSurveyEvaluationGUI
             if ($details) {
                 //templates: results, table of contents
                 $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "components/ILIAS/Survey/Evaluation");
-                $toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "components/ILIAS/Survey/Evaluation");
                 $this->lng->loadLanguageModule("content");
-                $toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
             }
-
             $finished_ids = $this->evaluation_manager->getFilteredFinishedIds();
-
             // parse answer data in evaluation results
             $listing = $this->gui->listing();
 
@@ -886,10 +889,8 @@ class ilSurveyEvaluationGUI
             }
 
             if ($details) {
-                $toc_tpl->setVariable("LIST", $listing->render());
-
                 //TABLE OF CONTENTS
-                $panel_toc = $ui_factory->panel()->standard("", $ui_factory->legacy()->content($toc_tpl->get()));
+                $panel_toc = $ui_factory->panel()->standard($this->lng->txt('cont_toc'), $ui_factory->legacy()->content($listing->render()));
                 $render_toc = $ui_renderer->render($panel_toc);
                 $dtmpl->setVariable("PANEL_TOC", $render_toc);
 
@@ -1146,6 +1147,15 @@ class ilSurveyEvaluationGUI
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
 
+        $this->ui_modifier->setResultsParticipantToolbar(
+            $this->object,
+            $ilToolbar,
+            $this->user->getId()
+        );
+
+        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
+
+        $modal = "";
         $appr_id = null;
         $data = [];
 

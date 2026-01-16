@@ -176,6 +176,9 @@ class ilInternalLink
         string $a_type,
         string $a_target
     ): ?string {
+        global $DIC;
+        $wiki_import_resolver = $DIC->wiki()->internal()->domain()->page()->importResolver();
+
         switch ($a_type) {
             case "PageObject":
                 $id = ilLMObject::_getIdForImportId($a_target);
@@ -200,13 +203,10 @@ class ilInternalLink
                 break;
 
             case "WikiPage":
-                // no import IDs for wiki pages (yet)
-                //$id = ilGlossaryTerm::_getIdForImportId($a_target);
-                $id = 0;
-                /*
+                $id = $wiki_import_resolver->getIdForImportId($a_target);
                 if ($id > 0) {
                     return "il__wpage_" . $id;
-                }*/
+                }
                 break;
 
             case "MediaObject":

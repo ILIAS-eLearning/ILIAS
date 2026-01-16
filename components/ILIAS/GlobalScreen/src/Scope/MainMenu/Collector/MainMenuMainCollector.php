@@ -43,7 +43,6 @@ use Iterator;
 use Generator;
 use ILIAS\GlobalScreen\Scope\isDecorateable;
 use ILIAS\UI\Help\Topic;
-use ILIAS\UI\Implementation\Component\Legacy\Content;
 
 /**
  * Class MainMenuMainCollector
@@ -84,6 +83,14 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
     public function filterItemsByVisibilty(bool $async_only = false): void
     {
+        $this->map->walk(function (isItem &$item): void {
+            if (!$this->information->isItemActive($item)) {
+                $item = $item->withAvailableCallable(fn(): bool => false)
+                             ->withNonAvailableReason('-deactived_by_configuration-');
+                $this->map->add($item);
+            }
+        });
+
         // apply filter
         $this->map->filter(function (isItem $item) use ($async_only): bool {
             if ($async_only && !$item instanceof supportsAsynchronousLoading) {
@@ -110,13 +117,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return $item->isAvailable() && $item->isVisible();
         });
 
-        $this->map->walk(function (isItem &$item) {
-            if (!$this->information->isItemActive($item)) {
-                $item = $item->withAvailableCallable(fn(): bool => false)
-                             ->withNonAvailableReason('-deactived_by_configuration-');
-                $this->map->add($item);
-            }
-        });
+
     }
 
     public function prepareItemsForUIRepresentation(): void

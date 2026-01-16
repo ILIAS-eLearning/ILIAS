@@ -257,7 +257,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->addItem($header);
 
         $orderingElementInput = $this->object->buildOrderingElementInputGui();
-        $orderingElementInput->setStylingDisabled($this->isRenderPurposePrintPdf());
         $this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 
         $list = $this->object->getOrderingElementList();
@@ -397,7 +396,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->addItem($header);
 
         $orderingElementInput = $this->object->buildNestedOrderingElementInputGui();
-        $orderingElementInput->setStylingDisabled($this->isRenderPurposePrintPdf());
 
         $this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 

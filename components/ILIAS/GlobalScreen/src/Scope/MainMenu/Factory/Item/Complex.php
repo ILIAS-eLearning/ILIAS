@@ -31,6 +31,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\UI\Component\Component;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -41,10 +43,12 @@ class Complex extends AbstractChildItem implements
     hasSymbol,
     supportsAsynchronousLoading,
     isInterchangeableItem,
-    isChild
+    isChild,
+    isDecorateable
 {
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
+    use ComponentDecoratorTrait;
 
     private ?Closure $content_wrapper = null;
     private ?Component $content = null;
@@ -88,7 +92,6 @@ class Complex extends AbstractChildItem implements
     }
 
     /**
-     * @param string $title
      * @return Complex
      */
     public function withTitle(string $title): hasTitle

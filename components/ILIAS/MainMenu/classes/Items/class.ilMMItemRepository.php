@@ -25,7 +25,6 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\MainMenu\Provider\CustomMainBarProvider;
@@ -110,6 +109,25 @@ class ilMMItemRepository implements Request
         )->getArray();
     }
 
+    public function getLostItems(): array
+    {
+        $q = "SELECT sub_items.* " .
+            "FROM il_mm_items AS sub_items " .
+            "LEFT JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification " .
+            "WHERE sub_items.parent_identification != '' AND sub_items.parent_identification IS NOT NULL " .
+            "AND (top_items.identification IS NULL OR top_items.identification = '') " .
+            "ORDER BY top_items.position, parent_identification, sub_items.position ASC";
+
+        $r = $this->db->query($q);
+        $return = [];
+        while ($data = $this->db->fetchAssoc($r)) {
+            $return[] = $data;
+        }
+
+        return $return;
+    }
+
+
     public function getSubItemsForTable(?ilMMItemFacadeInterface $parent = null): array
     {
         if ($parent !== null) {
@@ -141,45 +159,17 @@ ORDER BY top_items.position, parent_identification, sub_items.position ASC",
 
     public function flushLostItems(): void
     {
-        foreach ($this->getTopItems() as $item) {
+        foreach ($this->getLostItems() as $item) {
             $item_facade = $this->getItemFacade(
                 $this->services->identification()->fromSerializedIdentification($item['identification'])
             );
-            if (Lost::class === $item_facade->getType()) {
-                $item_facade->delete();
-            }
-        }
-
-        foreach ($this->getSubItemsForTable() as $item) {
-            $item_facade = $this->getItemFacade(
-                $this->services->identification()->fromSerializedIdentification($item['identification'])
-            );
-            if (Lost::class === $item_facade->getType()) {
-                $item_facade->delete();
-            }
+            $item_facade->delete();
         }
     }
 
     public function hasLostItems(): bool
     {
-        foreach ($this->getTopItems() as $item) {
-            $item_facade = $this->getItemFacade(
-                $this->services->identification()->fromSerializedIdentification($item['identification'])
-            );
-            if (Lost::class === $item_facade->getType()) {
-                return true;
-            }
-        }
-
-        foreach ($this->getSubItemsForTable() as $item) {
-            $item_facade = $this->getItemFacade(
-                $this->services->identification()->fromSerializedIdentification($item['identification'])
-            );
-            if (Lost::class === $item_facade->getType()) {
-                return true;
-            }
-        }
-        return false;
+        return count($this->getLostItems()) > 0;
     }
 
     /**

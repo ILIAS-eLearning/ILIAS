@@ -207,10 +207,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     public function getObjTypesAvailable(): array
     {
         $query = "SELECT DISTINCT obj_type FROM il_meta_rights " .
-            "WHERE description = " . $this->db->quote(
-                'il_copyright_entry__' . IL_INST_ID . '__' . $this->copyright_id,
-                'text'
-            ) .
+            "WHERE description = " . $this->db->quote($this->getCopyrightIdentifier(), ilDBConstants::T_TEXT) .
             " AND rbac_id = obj_id";
         $result = $this->db->query($query);
         $data = array();
@@ -226,10 +223,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     public function getDataFromDB(): array
     {
         $query = "SELECT rbac_id, obj_id, obj_type FROM il_meta_rights " .
-            "WHERE description = " . $this->db->quote(
-                'il_copyright_entry__' . IL_INST_ID . '__' . $this->copyright_id,
-                'text'
-            ) .
+            "WHERE description = " . $this->db->quote($this->getCopyrightIdentifier(), ilDBConstants::T_TEXT) .
             ' AND rbac_id != ' . $this->db->quote(0, 'integer') .
             " GROUP BY rbac_id";
 
@@ -248,12 +242,18 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     {
         $query = "SELECT count(rbac_id) total FROM il_meta_rights " .
             "WHERE rbac_id = " . $this->db->quote($a_rbac_id, ilDBConstants::T_INTEGER) .
-            " AND rbac_id != obj_id";
+            " AND rbac_id != obj_id" .
+            " AND description = " . $this->db->quote($this->getCopyrightIdentifier(), ilDBConstants::T_TEXT);
 
         $result = $this->db->query($query);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return (int) $row->total;
         }
         return 0;
+    }
+
+    protected function getCopyrightIdentifier(): string
+    {
+        return 'il_copyright_entry__' . IL_INST_ID . '__' . $this->copyright_id;
     }
 }

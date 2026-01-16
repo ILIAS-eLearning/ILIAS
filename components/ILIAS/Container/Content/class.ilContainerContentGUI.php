@@ -122,7 +122,6 @@ abstract class ilContainerContentGUI
             ->content()
             ->block();
         $this->item_presentation = $item_presentation;
-
         $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->getObject()->getId(), "block_limit");
     }
 
@@ -710,48 +709,14 @@ abstract class ilContainerContentGUI
         string $type
     ): string {
         $this->initRenderer();
-        // get all sub items
-        $this->items = $this->getContainerObject()->getSubItems(
-            $this->getContainerGUI()->isActiveAdministrationPanel()
-        );
-
-        $exhausted = false;
         $ref_ids = $this->request->getAlreadyRenderedRefIds();
 
-        // iterate all types
-        if (is_array($this->items[$type]) &&
-            $this->renderer->addTypeBlock($type)) {
-            //$this->renderer->setBlockPosition($type, ++$pos);
-
-            $position = 1;
-            $counter = 1;
-            foreach ($this->items[$type] as $item_data) {
-                $item_ref_id = $item_data["child"];
-
-                if (in_array($item_ref_id, $ref_ids)) {
-                    continue;
-                }
-                if ($this->block_limit > 0 && $counter == $this->block_limit + 1) {
-                    if ($counter == $this->block_limit + 1) {
-                        // render more button
-                        $this->renderer->addShowMoreButton($type);
-                        $exhausted = true;
-                    }
-                    continue;
-                }
-
-                if (!$this->renderer->hasItem($item_ref_id)) {
-                    $html = $this->renderItem($item_data, $position++);
-
-                    if ($html != "") {
-                        $counter++;
-                        $this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
-                    }
-                }
-            }
-        }
-
-        return $this->renderer->renderSingleTypeBlock($type, $exhausted);
+        return $this->renderer->renderSingleTypeBlockAsynch(
+            $this->item_presentation->getItemBlockSequence($ref_ids),
+            $type,
+            $ref_ids,
+            $this->block_limit
+        );
     }
 
     /**

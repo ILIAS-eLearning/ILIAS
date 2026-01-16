@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#Display ILIAS Test ID
 assessment#:#examid_in_test_res_desc#:#Show the ILIAS Test ID in the ‘Detailed Results’ and ‘Printable List of Answers’ views as well as in spreadsheet files exported via the ‘Participants’ tab.
 assessment#:#exp_all_test_runs#:#All test attempts
 assessment#:#exp_eval_data#:#Export data
-assessment#:#exp_file_created#:#Export file created.
 assessment#:#exp_grammar_as#:#as
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt
 assessment#:#exp_type_certificate#:#Certificate (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#Comma Separated Values (CSV)
 assessment#:#expected_result_type#:#Expected result type
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.
@@ -772,7 +770,7 @@ assessment#:#hide_best_solution#:#Hide best solution
 assessment#:#identical_scoring#:#Identical Scoring
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurrence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
-assessment#:#imap_line_color#:#Image Map Line Color
+assessment#:#imap_line_color#:#Image Map Line Colour
 assessment#:#import_question#:#Import Question(s)
 assessment#:#in_range#:#Within range
 assessment#:#in_trash#:#In Trash
@@ -972,9 +970,9 @@ assessment#:#option_label_not_adequate#:#not adequate
 assessment#:#option_label_not_applicable#:#not applicable
 assessment#:#option_label_plus#:#+
 assessment#:#option_label_plus_minus#:#+ / -
-assessment#:#option_label_right#:#right
+assessment#:#option_label_right#:#Right
 assessment#:#option_label_right_wrong#:#right / wrong
-assessment#:#option_label_wrong#:#wrong
+assessment#:#option_label_wrong#:#Wrong
 assessment#:#oq_btn_define_pictures#:#Switch to picture definition view
 assessment#:#oq_btn_define_terms#:#Switch to term definition view
 assessment#:#oq_btn_nest_pictures#:#Switch to picture nesting view
@@ -1168,6 +1166,7 @@ assessment#:#question_summary#:#Test Attempt Overview
 assessment#:#question_summary_btn#:#Test Attempt Overview
 assessment#:#question_title#:#Question Title
 assessment#:#question_type#:#Question Type
+assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
 assessment#:#questionpool_not_selected#:#Please select a question pool!
 assessment#:#questions#:#Questions
@@ -1453,7 +1452,6 @@ assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to r
 assessment#:#tst_derive_new_pool#:#Derive New Question Pool
 assessment#:#tst_derive_new_pools#:#Derive New Question Pools
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Don't show this message again in my current session.
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test attempts
 assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_enable_questionlist#:#Show List of Questions
@@ -1509,7 +1507,6 @@ assessment#:#tst_finish_confirm_button#:#Yes, I want to finish the test
 assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous question
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test. You won’t be able to enter this test attempt again to change your answers. Do you really want to finish this test?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?
-assessment#:#tst_finish_notification_no#:#No e-mail
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_gap_analysis#:#Gap Analysis
@@ -1521,7 +1518,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab
 assessment#:#tst_hide_info_tab_desc#:#Hide the test’s ‘Info’ tab.
 assessment#:#tst_hide_pagecontents#:#Hide Page Content
 assessment#:#tst_hide_pagecontents_desc#:#Content placed before and after the actual question text via the ‘Edit Page’ button will not be displayed in results views or print output.
-assessment#:#tst_hide_side_list#:#Hide List of Questions
 assessment#:#tst_highscore_achieved_ts#:#Date / Time
 assessment#:#tst_highscore_achieved_ts_description#:#Show an additional column in the rankings table showing when the test was finished.
 assessment#:#tst_highscore_all_tables#:#Own performance and top ranks
@@ -1539,7 +1535,6 @@ assessment#:#tst_highscore_score#:#Point Score
 assessment#:#tst_highscore_score_description#:#Show an additional column in the ranking table showing points scored.
 assessment#:#tst_highscore_top_num#:#Number of Top Ranks
 assessment#:#tst_highscore_top_num_description#:#Specify how many positions are to be included in the top ranks list.
-assessment#:#tst_highscore_top_num_unit#:#entries
 assessment#:#tst_highscore_top_table#:#Top ranks
 assessment#:#tst_highscore_top_table_description#:#Participants will be shown the top positions in the rankings.
 assessment#:#tst_highscore_wtime#:#Time Spent
@@ -1753,7 +1748,6 @@ assessment#:#tst_postpone_on_desc#:#Questions that users skip without answering 
 assessment#:#tst_presentation_properties#:#Administering the Test: Question Behaviour
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!
-assessment#:#tst_print#:#Test and Assessment - Print View
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Time Limit
 assessment#:#tst_processing_time_desc#:#Each participant can work through the test only for a specified period of time. Time starts running down from the moment a user starts the test for the first time. Suspending the test does not stop the clock. If the number of times a test can be taken is limited, an additional feature for granting extra time to participants appears in the ‘Participants’ tab.
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#Test Results
 assessment#:#tst_show_side_list#:#Show List of Questions
 assessment#:#tst_show_solution_answers_only#:#Print View of Results (Answers Only)
 assessment#:#tst_show_solution_answers_only_desc#:#If is selected, the ILIAS content you place around a question using the ‘Edit content’ tab page will not be visible in a print-out. If you want to save some paper space, select this option.
-assessment#:#tst_show_solution_compare#:#Show Best Solution in ‘Detailed Results’
-assessment#:#tst_show_solution_compare_desc#:#Participants are presented with an overview comparing their own answers with the best solutions. Please note that this view will be displayed in the 'Detailed Results' that can be accessed via the 'Show Test Results'-button on the 'Info'-tab. It will not be displayed in the printable 'List of Answers' even though the setting is made here.
-assessment#:#tst_show_solution_details#:#Scored Answers of Participant
-assessment#:#tst_show_solution_details_desc#:#The ‘Table of Detailed Test Results’ will be added by a list of answers.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.
 assessment#:#tst_show_solution_feedback#:#Feedback
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't tri
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#At least one of the competences addressed by this test is not triggered by the minimal required amount of questions. No competence records will be written for these competences.<br />The required amount of questions: %s
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#The preset answer is correct###fa
 assessment#:#tst_unchanged_order_is_correct#:#The preset order is correct###fau: testNav
 assessment#:#tst_use_previous_answers#:#Use Previous Answers
 assessment#:#tst_use_previous_answers_description#:#Participants will be presented with their answers from previous test attempts. This option has to be activated by individual participants in a modal that pops up when starting a test attempt.
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test attempts
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_view_competence_assign#:#View Assignment Properties
 assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s
@@ -2546,6 +2534,7 @@ blog#:#blog_whole_blog#:#Whole blog
 book#:#X_reservations_of#:#%s booking(s) of
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Item
+book#:#book_add_participant#:#Add Participant
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
@@ -2564,7 +2553,6 @@ book#:#book_booking#:#Booking
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bookable Items
 book#:#book_booking_reminders#:#Upcoming Bookings
-book#:#book_bookings_per_user#:#Bookings per User
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.
 book#:#book_bulk_creation#:#Bulk Creation
 book#:#book_bulk_data#:#Item Data
@@ -2627,7 +2615,7 @@ book#:#book_object_selection#:#Item Selection
 book#:#book_object_updated#:#Bookable item updated.
 book#:#book_objects_available#:#Items available %s
 book#:#book_open#:#Open Booking Pool
-book#:#book_overall_limit#:#Limit Number of Bookings
+book#:#book_overall_limit#:#Limit Total Number of Bookings per User
 book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings allowed.
 book#:#book_participant_already_assigned#:#One or more participants have already been added.
 book#:#book_participant_assigned#:#Participant(s) added.
@@ -2680,7 +2668,7 @@ book#:#book_schedule_type_fixed#:#Fixed Schedule
 book#:#book_schedule_type_fixed_info#:#This booking mode can be used for things that can be booked for specific periods of time, such as rooms, services and equipment.
 book#:#book_schedule_type_none#:#No Schedule
 book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking
-book#:#book_schedule_type_none_direct_info#:#This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis.
+book#:#book_schedule_type_none_direct_info#:#This booking mode is ideal for presentation topics or places in seminars that do not require set times. Participants can book items directly on a first come, first served basis. Each item can only be booked once per participant.
 book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such.
 book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
 book#:#book_schedule_type_none_preference_info#:#This booking mode is ideal for presentation topics, places in seminars or similar. Participants get to indicate their preferences in terms of which items they are most interested in. Items will then be allocated automatically after the preferences deadline has passed.
@@ -2694,6 +2682,7 @@ book#:#book_show_message#:#Show Message
 book#:#book_title_description_nr#:#Title; Description; Number of Units
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.
 book#:#book_too_many_preferences#:#You have selected too many preferences. Your preferences have not been saved.
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.
 book#:#book_type_warning#:#There are currently no bookable items available. Please create some bookable items to be able to use this booking pool.
 book#:#book_week#:#Week
 book#:#book_your_bookings#:#Your Bookings
@@ -3836,7 +3825,7 @@ common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
 common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
 common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
 common#:#cron_users_without_login_del_role_whitelist_info#:#Only users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
-common#:#cronjob_last_start#:#Last Start of the Cron Job
+common#:#cronjob_last_start#:#Last Automatic Execution of Cron Job Script
 common#:#cronjob_last_start_unknown#:#Indeterminate
 common#:#crs#:#Course
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
@@ -4945,8 +4934,6 @@ common#:#obj_etal#:#Employee Talk
 common#:#obj_exc#:#Exercise
 common#:#obj_exc_duplicate#:#Copy Exercise
 common#:#obj_excv#:#Exercise Certificate
-common#:#obj_extt#:#Third Party Software
-common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 common#:#obj_facs#:#Files
 common#:#obj_facs_desc#:#Settings for files and file handling
 common#:#obj_file#:#File
@@ -5869,6 +5856,7 @@ common#:#upload_settings#:#Upload Settings
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#uploading#:#Uploading...
@@ -6087,6 +6075,7 @@ cont#:#cont_news_timeline_landing_page#:#Landing Page
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_no_title#:#Empty Title
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Path
@@ -8822,8 +8811,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.
 dcl#:#dcl_std_filter#:#Default Filter
 dcl#:#dcl_supported_filetypes#:#Permitted File Types
 dcl#:#dcl_supported_filetypes_desc#:#You can set which file types can be uploaded by entering a comma-separated list of permitted file extensions here, e.g. pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table
-dcl#:#dcl_switch_view#:#Change View
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_table_list_fields#:#Fields Of Selected Table
@@ -9494,6 +9481,7 @@ exc#:#exc_passed_status_determination#:#Determination of Status ‘Passed’
 exc#:#exc_passing_exc#:#Passing the Exercise
 exc#:#exc_past#:#Past
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
+exc#:#exc_peer_feedback_status#:#Feedback Status
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Users can rate the solutions of their peers after the deadline and if granted the grace period lapsed. Specific settings on peer-feedback are made in the respective tab. After activation this option and saving it, the tab 'Peer-Feedback' will be displayed.
 exc#:#exc_peer_review_chars_invalid#:#Your feedback does not have the required minimum length of %s characters.
@@ -10542,9 +10530,11 @@ help#:#gdtr_language#:#Language
 help#:#gdtr_language_info#:#Activates a guided tour only for users with the selected language.
 help#:#gdtr_list_tours_mess#:#To activate the presentation of screen and element IDs as tooltips, switch to ID Settings and enter your account name.
 help#:#gdtr_mainbar#:#Mainbar
-help#:#gdtr_mainbar_info#:#The mainbar ist the main menu on the left side. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.
+help#:#gdtr_mainbar_ID_info#:#ID of the desired entry in the main menu. Move the mouse over the entry to see the ID as a tooltip.
+help#:#gdtr_mainbar_info#:#The mainbar ist the main menu on the left side.
 help#:#gdtr_metabar#:#Metabar
-help#:#gdtr_metabar_info#:#The metabar is the menu on the top, right. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.
+help#:#gdtr_metabar_ID_info#:#ID of the desired element in the metabar. Move your mouse over the element to see the ID as a tooltip.
+help#:#gdtr_metabar_info#:#The metabar is the menu on the top, right.
 help#:#gdtr_next_step#:#Next Step
 help#:#gdtr_permission#:#Permission
 help#:#gdtr_permission_info#:#Activates a guided tour only for users with a certain permission on the current repository object, e.g. only for users with "edit settings" permission for a course. If you "Create" is selected, the tour is active, if the user has any creation permission.
@@ -10560,7 +10550,8 @@ help#:#gdtr_step_type#:#User Interface Element
 help#:#gdtr_table#:#Table
 help#:#gdtr_table_info#:#The first table of the main content area. Usually views should only contain one table.
 help#:#gdtr_tabs#:#Tabs
-help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the screen. If element-ID presentation is activated, the IDs will be shown in tooltips for the distinct items.
+help#:#gdtr_tabs_ID_info#:#ID of the desired tab. Move your mouse over a tab to see the ID as a tooltip.
+help#:#gdtr_tabs_info#:#The tabs are displayed below the main header of the screen.
 help#:#gdtr_toolbar#:#Toolbar
 help#:#gdtr_toolbar_info#:#The first toolbar of the main content area, usually presented below the tabs. Views should only contain one toolbar.
 help#:#gdtr_tour_has_been_reset#:#Tour has been reset.
@@ -11530,6 +11521,7 @@ mail#:#mail_add_folder#:#Add New Sub-Folder
 mail#:#mail_add_recipient#:#Please enter a recipient in the form of a valid e-mail address or ILIAS username.
 mail#:#mail_add_subfolder#:#Add Sub-Folder
 mail#:#mail_add_subject#:#Please enter a subject.
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments
 mail#:#mail_all_in_trash#:#All in Trash
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#Allow the delivery of external e-mails (via-SMTP). Unchecking this box will prevent external mails being sent globally across this installation.
@@ -11640,6 +11632,8 @@ mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List "%s"
 mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent.
+mail#:#mail_mode_switch_label#:#Switch between „Personal Mail” and „Serial Letter” mode
+mail#:#mail_mode_switch_locked#:#You cannot switch to „%s” mode.
 mail#:#mail_move_error#:#An error occurred while trying to move your mail.
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_move_to_folder_btn_label#:#Move Mail
@@ -11782,6 +11776,7 @@ mail#:#only_inbox_trash_info#:#Only delete e-mails that are located in the Inbox
 mail#:#orphaned_mail_body#:#Your mailbox contains the following old or orphaned mails. Please note that these mails will soon be automatically deleted.
 mail#:#orphaned_mail_subject#:#Notification of old mails
 mail#:#placeholders_advise#:#Personal placeholders are only replaced with user-specific information for recipients listed in the ‘To’ field.%s Personal placeholders for recipients listed in the CC and BCC fields are NOT replaced with user-specific information and instead show up as placeholders.
+mail#:#regular_mail#:#Personal Mail
 mail#:#search_content#:#Search Result
 mail#:#search_recipients#:#Look up Users
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered.
@@ -11790,11 +11785,12 @@ mail#:#send_mail_admins#:#All Administrators
 mail#:#send_mail_members#:#All Members
 mail#:#send_mail_to#:#Mail to
 mail#:#send_mail_tutors#:#All Tutors
+mail#:#serial_letter#:#Serial Letter
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#show_mail_settings_info#:#Enable individual users to alter their mail settings, thereby overriding the global mail settings that would otherwise apply to them. ‘Mail Settings’ are accessible via their ‘Personal Settings’ or ‘Communication > Mail’. Note: In order for users to be allowed to change their individual mail settings and thereby override the global settings, this needs to be set in the 'Standard Fields' section of the global user account administration settings. If users do not have the permission to change these profile settings, the global default is applied even if users were able to and did change their personal mail settings in the past.
 mail#:#system_notification_installation_changed_by#:#Changed by
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
-maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Extending ILIAS > Maps" administration menu to enable address search.
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search?q=[QUERY]&format=json
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
 maps#:#maps_enable_maps#:#Enable Maps
@@ -11919,6 +11915,7 @@ mep#:#mep_all_mobs#:#All Media Objects
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_choose_from_folder#:#Choose from Folder
 mep#:#mep_choose_from_mep#:#Choose from Pool
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.
 mep#:#mep_content#:#Content
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
@@ -12779,6 +12776,7 @@ mme#:#item_updated#:#Item stored
 mme#:#main#:#Main Menu
 mme#:#mm_translation_lang#:#Language
 mme#:#mm_translation_trans#:#Translation
+mme#:#mme_lost_items#:#Nowhere assigned
 mme#:#move_to_item#:#Move to Items
 mme#:#move_to_top_item#:#Move to Top Items
 mme#:#msg_languages_added#:#Added languages
@@ -14252,10 +14250,6 @@ rbac#:#excs_read#:#User has read access to Exercise administration
 rbac#:#excs_visible#:#Exercise administration is visible
 rbac#:#excs_write#:#Edit settings in Exercise administration
 rbac#:#export_member_data#:#Access User Data
-rbac#:#extt_edit_permission#:#User can change permission settings of Third Party Software administration
-rbac#:#extt_read#:#User has read access to administration of Third Party Software
-rbac#:#extt_visible#:#Administration of Third Party Software is visible
-rbac#:#extt_write#:#User can edit settings of Third Party Software
 rbac#:#facs_edit_permission#:#User can change permission settings of Files and Folders administration
 rbac#:#facs_read#:#User has read access to administration of Files and Folders
 rbac#:#facs_upload_blacklisted_files#:#Upload indexed file types despite blacklist
@@ -17418,6 +17412,7 @@ trac#:#trac_view_mode_all#:#All Objects
 trac#:#trac_view_mode_collection#:#Only objects that determine the overall status
 trac#:#trac_visits#:#Required Number of Visits
 trac#:#trac_visits_info#:#A click counts as new visit only after %s seconds.
+trac#:#trac_visits_nr#:#Number of Visits
 trac#:#user_total#:#User Total
 trac#:#view_mode#:#View Mode
 trac#:#view_mode_all#:#All

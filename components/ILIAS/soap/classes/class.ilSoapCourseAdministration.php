@@ -129,7 +129,14 @@ class ilSoapCourseAdministration extends ilSoapAdministration
     /**
      * @return bool|soap_fault|SoapFault|null
      */
-    public function assignCourseMember(string $sid, int $course_id, int $user_id, string $type)
+    public function assignCourseMember(
+        string $sid, int $course_id,
+        int $user_id,
+        string $type,
+        ?bool $notification =  null,
+        ?bool $contact_person = null,
+        ?bool $blocked = null
+    )
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -160,13 +167,13 @@ class ilSoapCourseAdministration extends ilSoapAdministration
         if (ilObject::_lookupType($user_id) !== 'usr') {
             return $this->raiseError('Invalid user id. User with id "' . $user_id . ' does not exist', 'Client');
         }
-        if ($type !== 'Admin' &&
-            $type !== 'Tutor' &&
-            $type !== 'Member') {
-            return $this->raiseError(
-                'Invalid type given. Parameter "type" must be "Admin", "Tutor" or "Member"',
-                'Client'
-            );
+        $valid_roles = [
+            'Admin' => ilParticipants::IL_CRS_ADMIN,
+            'Tutor' => ilParticipants::IL_CRS_TUTOR,
+            'Member' => ilParticipants::IL_CRS_MEMBER
+        ];
+        if (!isset($valid_roles[$type])) {
+            return $this->raiseError('Invalid type. Must be "Admin", "Tutor", or "Member"', 'Client');
         }
 
         if (!$tmp_course = ilObjectFactory::getInstanceByRefId($course_id, false)) {
@@ -179,23 +186,18 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
         $course_members = ilCourseParticipants::_getInstanceByObjId($tmp_course->getId());
 
-        switch ($type) {
-            case 'Admin':
-                $settings = new ilSetting();
-                $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_ADMIN);
-                $course_members->updateNotification(
-                    $tmp_user->getId(),
-                    (bool) $settings->get('mail_crs_admin_notification', "1")
-                );
-                break;
+        $course_members->add($tmp_user->getId(), $valid_roles[$type]);
 
-            case 'Tutor':
-                $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_TUTOR);
-                break;
+        if($type === 'Admin' || $type === 'Tutor') {
+            if ($notification !== null) {
+                $course_members->updateNotification($tmp_user->getId(), $notification);
+            }
 
-            case 'Member':
-                $course_members->add($tmp_user->getId(), ilParticipants::IL_CRS_MEMBER);
-                break;
+            if ($contact_person !== null) {
+                $course_members->updateContact($tmp_user->getId(), $contact_person);
+            }
+        }elseif( $type === "Member" && $blocked !== null) {
+            $course_members->updateBlocked($tmp_user->getId(), $blocked);
         }
         return true;
     }

@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Certificate;
 
 use ilAchievementsGUI;
-use ilCtrlInterface;
 use ilDashboardGUI;
 use ILIAS\StaticURL\Context;
 use ILIAS\StaticURL\Handler\BaseHandler;
@@ -29,30 +28,11 @@ use ILIAS\StaticURL\Handler\Handler;
 use ILIAS\StaticURL\Request\Request;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Response\Response;
-use ilObjUser;
 use ilSetting;
 use ilUserCertificateGUI;
 
 class StaticUrlHandler extends BaseHandler implements Handler
 {
-    private readonly ilCtrlInterface $ctrl;
-    private readonly ilSetting $certificate_settings;
-    private readonly ilObjUser $user;
-
-    public function __construct(
-        ?ilCtrlInterface $ctrl = null,
-        ?ilSetting $certificate_settings = null,
-        ?ilObjUser $user = null
-    ) {
-        global $DIC;
-
-        $this->ctrl = $ctrl ?? $DIC->ctrl();
-        $this->certificate_settings = $certificate_settings ?? new ilSetting('certificate');
-        $this->user = $user ?? $DIC->user();
-
-        parent::__construct();
-    }
-
     public function getNamespace(): string
     {
         return 'cert';
@@ -60,26 +40,27 @@ class StaticUrlHandler extends BaseHandler implements Handler
 
     public function handle(Request $request, Context $context, Factory $response_factory): Response
     {
-        if ($this->user->isAnonymous() || !$this->user->getId()) {
+        if (!$context->isUserLoggedIn()) {
             return $response_factory->loginFirst();
         }
 
-        if (!$this->certificate_settings->get('active', '0')) {
+        $certificate_settings = new ilSetting('certificate');
+        if (!$certificate_settings->get('active', '0')) {
             return $response_factory->cannot();
         }
 
         $additional_params = implode('/', $request->getAdditionalParameters() ?? []);
 
         return match ($additional_params) {
-            'list' => $response_factory->can($this->ctrl->getLinkTargetByClass(
+            'list' => $response_factory->can($context->ctrl()->getLinkTargetByClass(
                 [
                     ilDashboardGUI::class,
                     ilAchievementsGUI::class,
                     ilUserCertificateGUI::class,
                 ],
-                "listCertificates",
+                'listCertificates',
             )),
-            default => $response_factory->cannot(),
+            default => $response_factory->cannot()
         };
     }
 }

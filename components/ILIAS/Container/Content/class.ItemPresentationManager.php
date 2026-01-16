@@ -210,9 +210,11 @@ class ItemPresentationManager
         return $this->item_set->hasItems();
     }
 
-    public function getItemBlockSequence(): ItemBlockSequence
-    {
+    public function getItemBlockSequence(
+        array $omit_ref_ids = []
+    ): ItemBlockSequence {
         $this->init();
+        $this->sequence_generator->setOmitRefIds($omit_ref_ids);
         return $this->sequence_generator->getSequence();
     }
 

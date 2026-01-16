@@ -21,9 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\User;
 
 use ILIAS\User\LocalDIC;
+use ILIAS\User\Account\DeleteAccountGUI;
 use ILIAS\User\Profile\PersonalProfileGUI;
 use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\User\Settings\PersonalSettingsGUI;
 use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
+use ILIAS\Data\ReferenceId;
 use ILIAS\LegalDocuments\Conductor as LegalDocumentsConductor;
 use ILIAS\StaticURL\Handler\Handler;
 use ILIAS\StaticURL\Request\Request;
@@ -138,7 +141,7 @@ class StaticURLHandler extends BaseHandler implements Handler
             && $this->user->hasDeletionFlag()) {
             $context->ctrl()->setTargetScript('ilias.php');
             return $context->ctrl()->getLinkTargetByClass(
-                [\ilDashboardGUI::class, \ilPersonalSkillsGUI::class],
+                [\ilDashboardGUI::class, PersonalSettingsGUI::class, DeleteAccountGUI::class],
                 'deleteOwnAccountStep2'
             );
         }
@@ -153,10 +156,10 @@ class StaticURLHandler extends BaseHandler implements Handler
 
     private function getRedirectToOtherComponentsOrProfile(
         \ilCtrl $ctrl,
-        ?int $target_user_id,
+        ?ReferenceId $target_user_id,
         string $cmd
     ): string {
-        if (substr($cmd, -4) == '_bdg') {
+        if (str_starts_with($cmd, '_bdg')) {
             return $ctrl->getLinkTargetByClass(\ilDashboardGUI::class, 'jumpToBadges');
         }
 
@@ -177,15 +180,15 @@ class StaticURLHandler extends BaseHandler implements Handler
         }
 
         return $this->buildProfileUrl(
-            $target_user_id->toInt(),
             $ctrl,
+            $target_user_id,
             PublicProfileGUI::DEFAULT_CMD
         );
     }
 
     private function buildProfileUrl(
         \ilCtrl $ctrl,
-        ?int $target_user_id,
+        ?ReferenceId $target_user_id,
         string $cmd
     ): string {
         if ($target_user_id === null) {
@@ -194,7 +197,7 @@ class StaticURLHandler extends BaseHandler implements Handler
                 'jumpToProfile'
             );
         }
-        $ctrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $target_user_id);
+        $ctrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $target_user_id->toInt());
         return $ctrl->getLinkTargetByClass([\ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class], $cmd);
     }
 }

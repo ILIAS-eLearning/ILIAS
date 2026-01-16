@@ -28,6 +28,7 @@ use ilMailingList;
 use ilMailingListsGUI;
 use ilLanguage;
 use ilMailingLists;
+use ILIAS\Data\Range;
 
 class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
@@ -71,7 +72,8 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
                 $columns,
             )
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
-            ->withId(self::class)
+            ->withRange(new Range(0, 50))
+            ->withId(str_replace('\\', '', self::class))
             ->withActions($actions)
             ->withRequest($this->request);
     }

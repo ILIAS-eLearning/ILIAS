@@ -172,10 +172,12 @@ class ilAccountRegistrationGUI
 
         // add information to role selection (if not hidden)
         $role = $this->buildRolesInput();
-        if ($this->code_enabled) {
-            $role->setInfo($this->lng->txt('registration_code_role_info'));
+        if ($role !== null) {
+            if ($this->code_enabled) {
+                $role->setInfo($this->lng->txt('registration_code_role_info'));
+            }
+            $this->form->addItem($role);
         }
-        $this->form->addItem($role);
 
         // #11407
         $domains = [];
@@ -185,7 +187,7 @@ class ilAccountRegistrationGUI
             }
         }
         if (count($domains)) {
-            $mail_obj = $this->form->getItemByPostVar('usr_email');
+            $mail_obj = $this->form->getItemByPostVar('email');
             $mail_obj->setInfo(sprintf(
                 $this->lng->txt('reg_email_domains'),
                 implode(', ', $domains)
@@ -195,7 +197,7 @@ class ilAccountRegistrationGUI
 
         // #14272
         if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION) {
-            $mail_obj = $this->form->getItemByPostVar('usr_email');
+            $mail_obj = $this->form->getItemByPostVar('email');
             if ($mail_obj) { // #16087
                 $mail_obj->setRequired(true);
             }
@@ -243,7 +245,7 @@ class ilAccountRegistrationGUI
         // valid codes override email domain check
         if (!$valid_code) {
             // validate email against restricted domains
-            $email = $this->form->getInput('usr_email');
+            $email = $this->form->getInput('email');
             if ($email) {
                 // #10366
                 $domains = [];
@@ -264,7 +266,7 @@ class ilAccountRegistrationGUI
                         }
                     }
                     if (!$mail_valid) {
-                        $mail_obj = $this->form->getItemByPostVar('usr_email');
+                        $mail_obj = $this->form->getItemByPostVar('email');
                         $mail_obj->setAlert(sprintf(
                             $this->lng->txt('reg_email_domains'),
                             implode(', ', $domains)
@@ -303,7 +305,7 @@ class ilAccountRegistrationGUI
             } // assign by email
             else {
                 $registration_role_assignments = new ilRegistrationRoleAssignments();
-                $valid_role = $registration_role_assignments->getRoleByEmail($this->form->getInput('usr_email'));
+                $valid_role = $registration_role_assignments->getRoleByEmail($this->form->getInput('email'));
             }
         }
 
@@ -644,6 +646,10 @@ class ilAccountRegistrationGUI
 
     protected function buildRolesInput(): ?ilFormPropertyGUI
     {
+        if (!$this->registration_settings->roleSelectionEnabled()) {
+            return null;
+        }
+
         $options = [];
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
             $options[$role['id']] = $role['title'];

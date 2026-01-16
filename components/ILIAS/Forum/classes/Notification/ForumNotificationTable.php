@@ -143,6 +143,7 @@ class ForumNotificationTable implements DataRetrieval
                     )
                 )
                 ->withId('forum_notification_table')
+                ->withRange(new Range(0, 50))
                 ->withRequest($this->http_request);
         }
 

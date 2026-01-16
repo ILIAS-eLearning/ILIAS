@@ -333,6 +333,16 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                 "avg" => 0,
                 "cnt" => 0
             ];
+
+            // Collect all category IDs
+            $category_ids = array_column($a_categories, "id");
+            $overall_count = ilRating::getNumberOfFinishedCategoryRatingsForWikis(
+                $this->obj_id,
+                $this->sub_obj_id,
+                $this->sub_obj_type,
+                $category_ids
+            );
+
             foreach ($a_categories as $category) {
                 $user_rating = round(ilRating::getRatingForUserAndObject(
                     $this->obj_id,
@@ -434,9 +444,9 @@ class ilRatingGUI implements ilCtrlSecurityInterface
                 $ttpl->parseCurrentBlock();
             }
 
-            if ($overall_rating["cnt"] > 0) {
+            if ($overall_count > 0) {
                 $ttpl->setCurrentBlock("votes_number_bl");
-                $ttpl->setVariable("NUMBER_VOTES", sprintf($lng->txt("rating_number_votes"), $overall_rating["cnt"]));
+                $ttpl->setVariable("NUMBER_VOTES", sprintf($lng->txt("rating_number_votes"), $overall_count));
                 $ttpl->parseCurrentBlock();
             }
 

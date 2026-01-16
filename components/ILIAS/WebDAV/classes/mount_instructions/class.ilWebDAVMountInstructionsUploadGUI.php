@@ -34,6 +34,7 @@ class ilWebDAVMountInstructionsUploadGUI
 {
     public const ACTION_SAVE_ADD_DOCUMENT_FORM = 'saveAddDocumentForm';
     public const ACTION_SAVE_EDIT_DOCUMENT_FORM = 'saveEditDocumentForm';
+    private const string P_DOCUMENT_ID = 'document_id';
     private UIFactory $ui_factory;
     private Renderer $ui_renderer;
     private int $webdav_object_ref_id;
@@ -45,7 +46,6 @@ class ilWebDAVMountInstructionsUploadGUI
         private ilLanguage $lng,
         private ilRbacSystem $rbacsystem,
         private ilErrorHandling $error,
-        private ilLogger $log,
         private ilToolbarGUI $toolbar,
         private Services $http,
         private RefineryFactory $refinery,
@@ -121,7 +121,7 @@ class ilWebDAVMountInstructionsUploadGUI
         ilWebDAVMountInstructionsDocument $a_document
     ): ilWebDAVMountInstructionsDocumentFormGUI {
         if ($a_document->getId() > 0) {
-            $this->ctrl->setParameter($this, 'doc_id', $a_document->getId());
+            $this->ctrl->setParameter($this, self::P_DOCUMENT_ID, $a_document->getId());
 
             $form_action = $this->ctrl->getFormAction($this, self::ACTION_SAVE_EDIT_DOCUMENT_FORM);
             $save_command = self::ACTION_SAVE_EDIT_DOCUMENT_FORM;
@@ -130,7 +130,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $save_command = self::ACTION_SAVE_ADD_DOCUMENT_FORM;
         }
 
-        $form = new ilWebDAVMountInstructionsDocumentFormGUI(
+        return new ilWebDAVMountInstructionsDocumentFormGUI(
             $a_document,
             $this->mount_instructions_repository,
             new ilWebDAVMountInstructionsDocumentPurifier(),
@@ -142,8 +142,6 @@ class ilWebDAVMountInstructionsUploadGUI
             'showDocuments',
             $this->rbacsystem->checkAccess('write', $this->webdav_object_ref_id)
         );
-
-        return $form;
     }
 
     protected function showAddDocumentForm(): void
@@ -162,7 +160,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
+        $document_id = $this->http->wrapper()->query()->retrieve(self::P_DOCUMENT_ID, $this->refinery->kindlyTo()->int());
         $document = $this->mount_instructions_repository->getMountInstructionsDocumentById($document_id);
         $form = $this->getDocumentForm($document);
         $this->tpl->setContent($form->getHTML());
@@ -201,7 +199,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
+        $document_id = $this->http->wrapper()->query()->retrieve(self::P_DOCUMENT_ID, $this->refinery->kindlyTo()->int());
         $form = $this->getDocumentForm(
             $this->mount_instructions_repository->getMountInstructionsDocumentById($document_id)
         );
@@ -225,7 +223,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
+        $document_id = $this->http->wrapper()->query()->retrieve(self::P_DOCUMENT_ID, $this->refinery->kindlyTo()->int());
 
         $this->mount_instructions_repository->deleteMountInstructionsById($document_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('deleted_successfully'), true);

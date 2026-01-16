@@ -32,6 +32,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\isDecorateable;
 use ILIAS\UI\Component\Component;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
 
 class LayoutProvider extends AbstractModificationProvider
 {

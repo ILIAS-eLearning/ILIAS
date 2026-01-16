@@ -159,6 +159,9 @@ class ilEditClipboardGUI
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
 
+        $this->lng->loadLanguageModule("mep");
+        $tpl->setOnScreenMessage("info", $this->lng->txt("mep_clipboard_info"));
+
         $this->gui->button(
             $this->lng->txt("cont_create_mob"),
             $ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create")

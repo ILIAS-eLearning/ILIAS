@@ -3935,7 +3935,7 @@ class ilObjTest extends ilObject
                 $this->getMainSettings()->getFinishingSettings()->withConcludingRemarksPageId(
                     $this->cloneConcludingRemarks()
                 )
-            );
+            )->withId(0);
 
         $new_main_settings = $this->getMainSettingsRepository()->store($new_main_settings, $new_obj->getTestId());
         $this->getScoreSettingsRepository()->store(

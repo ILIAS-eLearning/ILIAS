@@ -251,14 +251,17 @@ class ilNusoapUserAdministrationAdapter
             array('sid' => 'xsd:string',
                   'course_id' => 'xsd:int',
                   'user_id' => 'xsd:int',
-                  'type' => 'xsd:string'
+                  'type' => 'xsd:string',
+                  'notification' => 'xsd:int',
+                  'contact_person' => 'xsd:int',
+                  'blocked' => 'xsd:int'
             ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#assignCourseMember',
             SERVICE_STYLE,
             SERVICE_USE,
-            'ILIAS assignCourseMember(). Assigns an user to an existing course. Type should be "Admin", "Tutor" or "Member"'
+            'ILIAS assignCourseMember(). Assigns an user to an existing course. Type should be "Admin", "Tutor" or "Member". Notification, contact_person and blocked should be either 1 or 0.'
         );
 
         // excludeCourseMember()

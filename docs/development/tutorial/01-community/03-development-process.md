@@ -39,16 +39,16 @@ All bugs discovered in maintained ILIAS versions have to be reported to our [Man
 
 ## 8. Release and Maintenance
 In the last step a new release is packed and published. Major ILIAS releases are published once a year. Stable versions are to be used for productive systems. For each major release a number of maintenance releases will be published for up to two years. Information about every published release is added to [Download & Releases](https://docu.ilias.de/goto_docu_lm_35.html).
-Major releases are identified by the first number of the release, e.g. 7.0, 8.0, 9.0. Major releases include new features and are published once a year.
-For maintenance releases (aka bug fix releases) the last number is incremented, e.g. 7.9, 7.10, 7.11. Bug fix releases do not include new features. Upgrading should be usually painless and customized templates or style sheets should not be affected.
+Major releases are identified by the first number of the release, e.g. 9.x or 11.x. Major releases include new features and are published once a year.
+For maintenance releases (aka bug fix releases) the last number is incremented, e.g. 10.1, 10.2, 10.3 a.s.o. Bug fix releases do not include new features. Upgrading should be usually painless and customized templates or style sheets should not be affected.
 
 ### Typical Major Release Timeline
-- New features can be suggested for an upcoming release until feature freeze, usually end of April. Already before and also after feature freeze, the core team decides which features will go into the new release and which not. The decisions are documented in the feature wiki.
+- New features can be suggested anytime. The Product Manager and the responsible developers for the affected component(s) decide if a suggested feature is accepted for trunk. The decision is documented in the Feature Wiki. In which upcoming version a new feature is published is decided by the responsible developer (authority).
 - Coding of the new feature can already begin as soon as the ILIAS trunk is opened for the new version. This happens straight after Coding Completed of the former ILIAS version and the creation of a release branch for this version (usually end of October).
 - All features for an upcoming ILIAS version have to be fully developed until Coding Completed. After Coding Completed only bug fixes and usabilty improvements are allowed to commit.
-- Community testing starts as soon as the first beta release of an upcoming ILIAS version has been published. The ILIAS society provides general testing installations for all for each major release, e.g. test7.ilias.de, test8.ilias.de.
+- Community testing starts as soon as the first beta release of an upcoming ILIAS version has been published. The ILIAS society provides general testing installations for all for each major release, e.g. test10.ilias.de, test11.ilias.de.
 - A first stable release of a new ILIAS version is usually planned for mid/end of March.
 
 ### End of Lifetime
 
-Beginning with ILIAS 8, an ILIAS version will be fully maintained (bug fixes, usability fixes, A11y fixes, ...) until 31 December of the year following its initial stable release. We will continue to provide security fixes for the version for a further year (in exceptional cases for 18 months), but no more normal bug fixes. Example for ILIAS 8: first stable release in April 2023, full maintenance until 31 December 2024, security bugfixes only until 31 December 2025.
+Since ILIAS 8, an ILIAS version will be fully maintained (bug fixes, usability fixes, A11y fixes, ...) until 31 December of the year following its initial stable release. We will continue to provide security fixes for the version for a further year (in exceptional cases for 18 months), but no more normal bug fixes. Example for ILIAS 8: first stable release in April 2023, full maintenance until 31 December 2024, security bugfixes only until 31 December 2025.

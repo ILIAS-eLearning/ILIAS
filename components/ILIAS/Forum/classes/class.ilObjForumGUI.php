@@ -242,8 +242,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
 
             $this->tpl->addOnLoadCode('il.ForumDraftsAutosave.init(' . json_encode([
-                'loading_img_src' => ilUtil::getImagePath('media/loader.svg'),
-                'draft_id' => $this->retrieveDraftId(),
+                'loadingImgSrc' => ilUtil::getImagePath('media/loader.svg'),
+                'draftId' => $this->retrieveDraftId(),
                 'interval' => $interval * 1000,
                 'url' => $this->ctrl->getFormAction($this, $autosave_cmd, '', true),
                 'selectors' => [
@@ -762,7 +762,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
         }
 
-        $view_controls[] = $this->getSortationViewControl($this->forum_thread_table_session_storage->getThreadPage());
+        $view_controls[] = $this->getSortationViewControl(
+            $this->forum_thread_table_session_storage->getThreadPage(),
+            $this->forum_thread_table_session_storage->getThreadSortation()
+        );
         $view_controls[] = $this->factory
             ->viewControl()
             ->pagination()
@@ -804,29 +807,27 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
 
-    private function getSortationViewControl(int $offset): \ILIAS\UI\Component\ViewControl\Sortation
-    {
+    private function getSortationViewControl(
+        int $offset,
+        ThreadSortation $effective_sortation
+    ): \ILIAS\UI\Component\ViewControl\Sortation {
         if ($offset > 0) {
             $this->ctrl->setParameter($this, 'page', $offset);
         }
 
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-        $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
         $base_url = $this->ctrl->getLinkTarget($this, 'showThreads');
 
-        $translationKeys = [];
+        $translation_keys = [];
         foreach (ThreadSortation::cases() as $sortation) {
-            $this->ctrl->setParameter($this, 'thread_sortation', $sortation->value);
-            $url = $this->ctrl->getLinkTarget($this, 'showThreads');
-
-            $translationKeys[$url] = $this->lng->txt($sortation->languageId());
+            $translation_keys[$sortation->value] = $this->lng->txt($sortation->languageId());
         }
         $this->ctrl->clearParameters($this);
+
         return $this->factory->viewControl()->sortation(
-            $translationKeys,
-            current(array_keys($translationKeys))
-        )
-        ->withTargetURL($base_url, 'thread_sortation');
+            $translation_keys,
+            (string) $effective_sortation->value
+        )->withTargetURL($base_url, ForumThreadTableSessionStorage::KEY_THREAD_SORTATION);
     }
 
     /**
@@ -3469,21 +3470,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
 
         $this->tpl->addOnLoadCode(
-            <<<'EOD'
-        document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
-          const maxWidth = img.getAttribute('width');
-          const maxHeight = img.getAttribute('height');
-
-          if (maxWidth) {
-            img.style.maxWidth = maxWidth + 'px';
-            img.removeAttribute('width');
-          }
-
-          if (maxHeight) {
-            img.style.maxHeight = maxHeight + 'px';
-            img.removeAttribute('height');
-          }
-        });
+            <<<EOD
+                document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
+                  const maxWidth = img.getAttribute('width');
+                  const maxHeight = img.getAttribute('height');
+        
+                  if (maxWidth) {
+                    img.style.maxWidth = maxWidth + 'px';
+                    img.removeAttribute('width');
+                  }
+        
+                  if (maxHeight) {
+                    img.style.maxHeight = maxHeight + 'px';
+                    img.removeAttribute('height');
+                  }
+                });
 EOD
         );
 

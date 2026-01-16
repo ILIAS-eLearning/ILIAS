@@ -640,7 +640,9 @@ class PersonalProfileGUI
                 switch ($field->getIdentifier()) {
                     case 'avatar':
                         $caption = $this->lng->txt('personal_picture');
-                        $value = "<img src='{$value}' alt='{$this->lng->txt('user_avatar')}' />";
+                        $value = $value !== null
+                            ? "<img src='{$value}' alt='{$this->lng->txt('user_avatar')}' />"
+                            : null;
                         break;
 
                     default:

@@ -60,7 +60,8 @@ class QuestionsTable implements OrderingRetrieval
         ->withActions($this->table_actions->getActions())
         ->withRequest($this->request);
 
-        if ($this->test_obj->isRandomTest()) {
+        if ($this->test_obj->isRandomTest()
+            || $this->test_obj->evalTotalPersons() !== 0) {
             return $table->withOrderingDisabled(true);
         }
 

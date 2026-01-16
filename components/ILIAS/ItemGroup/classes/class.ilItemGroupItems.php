@@ -28,6 +28,7 @@ class ilItemGroupItems
     protected ilObjectDefinition $obj_def;
     protected ilObjectDataCache $obj_data_cache;
     protected ilLogger $log;
+    protected ilAccessHandler $access;
     public ilTree $tree;
     public ilLanguage $lng;
     public int $item_group_id = 0;
@@ -45,6 +46,7 @@ class ilItemGroupItems
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
         $this->obj_def = $DIC["objDefinition"];
+        $this->access = $DIC->access();
 
         $this->setItemGroupRefId($a_item_group_ref_id);
         if ($this->getItemGroupRefId() > 0) {
@@ -131,8 +133,6 @@ class ilItemGroupItems
 
     public function getAssignableItems(): array
     {
-        $objDefinition = $this->obj_def;
-
         if ($this->getItemGroupRefId() <= 0) {
             return array();
         }
@@ -159,7 +159,11 @@ class ilItemGroupItems
                 continue;
             }
 
-            if ($objDefinition->isInactivePlugin((string) $node['type'])) {
+            if ($this->obj_def->isInactivePlugin((string) $node['type'])) {
+                continue;
+            }
+
+            if (!$this->access->checkAccess('visible', '', $node['ref_id'])) {
                 continue;
             }
 

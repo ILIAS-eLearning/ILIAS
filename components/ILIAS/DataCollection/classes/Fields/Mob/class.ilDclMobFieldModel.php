@@ -34,8 +34,6 @@ class ilDclMobFieldModel extends ilDclFileFieldModel
     public function getValidFieldProperties(): array
     {
         return [
-            ilDclBaseFieldModel::PROP_WIDTH,
-            ilDclBaseFieldModel::PROP_HEIGHT,
             ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB
         ];
     }
@@ -52,6 +50,6 @@ class ilDclMobFieldModel extends ilDclFileFieldModel
 
     protected function getExtensions(): array
     {
-        return ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv'];
+        return ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'mp4', 'm4v'];
     }
 }

@@ -9244,6 +9244,9 @@ ul.c-input--has-mustache-variables__definitions > li {
   grid-area: label;
   padding-right: 12px;
 }
+.c-input[data-il-ui-component] > label > .asterisk:first-child {
+  padding-left: 3px;
+}
 .c-input[data-il-ui-component] > .c-input__field {
   grid-area: field;
 }
@@ -15990,6 +15993,11 @@ div.ilc_Question {
   padding-right: 15px;
 }
 
+img.ilc_solution_image {
+  min-width: 0.875rem;
+  min-height: 0.875rem;
+}
+
 .solutionbox {
   color: black;
   background-color: white;
@@ -17183,16 +17191,10 @@ img.ilBadgeImage {
   max-height: 150px;
 }
 
-.ilBadgeImageThumbnail a .img-responsive {
-  max-width: 50px;
-  max-height: 50px;
+.badge_table-wrapper button > img.img-responsive, .badge_table-wrapper a > img.img-responsive {
+  max-width: 150px;
+  max-height: 150px;
   display: inline-block;
-}
-
-.ilBadgeImageThumbnail .modal .img-responsive {
-  margin: auto;
-  width: 50%;
-  height: auto;
 }
 
 div.ilBadgeBackpackPanelContent {
@@ -19244,6 +19246,9 @@ fieldset[disabled] .checkbox label {
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
   width: 100%;
+}
+.form-horizontal .control-label > .asterisk {
+  padding-left: 3px;
 }
 
 .ilFormHeader {

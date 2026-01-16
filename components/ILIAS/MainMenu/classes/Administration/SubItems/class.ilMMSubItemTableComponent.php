@@ -71,7 +71,7 @@ class ilMMSubItemTableComponent implements OrderingRetrieval
         private Pons $pons,
         TokenContainer $token_container,
         private ilMMItemRepository $repository,
-        private ilMMItemFacadeInterface $parent_item,
+        private ?ilMMItemFacadeInterface $parent_item,
         private bool $write_access
     ) {
         $this->ui_factory = $this->pons->out()->ui()->factory();
@@ -82,15 +82,21 @@ class ilMMSubItemTableComponent implements OrderingRetrieval
 
     public function getRows(OrderingRowBuilder $row_builder, array $visible_column_ids): Generator
     {
-        foreach ($this->repository->getSubItemsForTable($this->parent_item) as $top_item) {
-            $id = $top_item['identification'];
+        if ($this->parent_item === null) {
+            $items = $this->repository->getLostItems();
+        } else {
+            $items = $this->repository->getSubItemsForTable($this->parent_item);
+        }
+
+        foreach ($items as $sub_item) {
+            $id = $sub_item['identification'];
             $item = $this->repository->getItemFacade(
                 $this->repository->resolveIdentificationFromString($id)
             );
 
             $remark = $item->getStatus() !== null ? $this->ui_renderer->render($item->getStatus()) : '';
 
-            if (preg_match('/^-[a-zA-Z0-9_]+-$/', $remark)) {
+            if (preg_match('/^-\w+-$/', $remark)) {
                 // this is a language variable, translate it
                 $remark = $this->pons->i18n()->t(substr($remark, 1, -1));
             }
@@ -135,7 +141,7 @@ class ilMMSubItemTableComponent implements OrderingRetrieval
             $this->ui_factory->table()->ordering(
                 $this,
                 $this->pons->flow()->getHereAsURI(ilMMSubItemGUI::CMD_SAVE_ORDER),
-                $this->parent_item->getDefaultTitle(),
+                $this->parent_item?->getDefaultTitle() ?? $this->pons->i18n()->t('mme_lost_items'),
                 [
                     'title' => $this->ui_factory->table()->column()->text(
                         $this->pons->i18n()->t('title', 'sub'),

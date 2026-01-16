@@ -82,6 +82,10 @@
     display: block;
     grid-area: label;
     padding-right: l.$il-margin-large-horizontal;
+
+    > .asterisk:first-child {
+      padding-left: $il-padding-base-vertical;
+    }
   }
 
   > .c-input__field {

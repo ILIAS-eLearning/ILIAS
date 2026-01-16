@@ -1345,13 +1345,6 @@ EOT;
                 true,
                 false
             ));
-            $view->setAutoplayCallback($this->ctrl->getLinkTarget(
-                $this,
-                "handleAutoplayTrigger",
-                "",
-                true,
-                false
-            ));
             $view->show();
         } else {
             $this->listItemsObject(true);
@@ -1443,15 +1436,6 @@ EOT;
     protected function afterPoolInsert(array $mob_ids): void
     {
         $this->addMobsToCast($mob_ids, "", true, true);
-    }
-
-    protected function handleAutoplayTriggerObject(): void
-    {
-        $this->user->writePref(
-            "mcst_autoplay",
-            $this->mc_request->getAutoplay()
-        );
-        exit;
     }
 
     protected function getCommentGUI(): ilCommentGUI

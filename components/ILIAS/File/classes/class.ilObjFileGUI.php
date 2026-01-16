@@ -18,7 +18,6 @@
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Section;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
@@ -139,6 +138,18 @@ class ilObjFileGUI extends ilObject2GUI
         );
 
         $this->capabilities = $capability_builder->get($capability_context);
+    }
+
+    protected function recordReadEvent(): void
+    {
+        // Record read event and catchup with write events
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+        $this->updateLearningProgress();
     }
 
     protected function updateLearningProgress(): void
@@ -295,7 +306,7 @@ class ilObjFileGUI extends ilObject2GUI
                 };
 
                 $this->tabs_gui->activateTab('content');
-                $this->updateLearningProgress();
+                $this->recordReadEvent();
 
                 if ($this->id_type === Context::CONTEXT_WORKSPACE) {
                     $goto_link = ilWorkspaceAccessHandler::getGotoLink(
@@ -734,13 +745,7 @@ class ilObjFileGUI extends ilObject2GUI
 
             if ($this->capabilities->get(Capabilities::DOWNLOAD)->isUnlocked()) {
                 // Record read event and catchup with write events
-                ilChangeEvent::_recordReadEvent(
-                    $this->object->getType(),
-                    $this->object->getRefId(),
-                    $this->object->getId(),
-                    $this->user->getId()
-                );
-                $this->updateLearningProgress();
+                $this->recordReadEvent();
 
                 $this->object->sendFile($hist_entry_id);
             } else {

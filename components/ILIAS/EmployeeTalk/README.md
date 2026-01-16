@@ -152,7 +152,7 @@ over which they have authority.
 These permission are overwritten in some cases: users always have **Read** access
 to _Talks_ in which they are **Superior** or **Employee**, and can always
 edit _Talks_ in which they are **Superior**, but they can never edit _Talks_
-in which they are **Employee**. A _Talk_ can only be deleted by the
-**Superior**, or an _Administrator_.<br>
+in which they are **Employee**. A _Talk_ can only be deleted by an _Administrator_,
+or the **Superior** if they have **Read** access to the _Talk Template_ administration.<br>
 To have access to **Organisation** and **Organisation** > **Talks**, a user
 needs to have at least one of the three permissions above.

@@ -79,10 +79,18 @@ class ilSoapFunctions
     /**
      * @return bool|soap_fault|SoapFault|null
      */
-    public static function assignCourseMember(string $sid, int $course_id, int $user_id, string $type)
+    public static function assignCourseMember(
+        string $sid,
+        int $course_id,
+        int $user_id,
+        string $type,
+        ?bool $notification =  null,
+        ?bool $contact_person = null,
+        ?bool $blocked = null
+    )
     {
         $sca = new ilSoapCourseAdministration();
-        return $sca->assignCourseMember($sid, $course_id, $user_id, $type);
+        return $sca->assignCourseMember($sid, $course_id, $user_id, $type, $notification, $contact_person, $blocked);
     }
 
     /**

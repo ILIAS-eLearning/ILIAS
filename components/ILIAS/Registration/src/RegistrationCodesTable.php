@@ -97,6 +97,7 @@ class RegistrationCodesTable implements DataRetrieval
             )
             ->withFilter($filter->getFilterData()->getData())
             ->withOrder(new Order('generated', Order::DESC))
+            ->withRange(new Range(0, 100))
             ->withRequest($this->http_request)
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token));
     }
@@ -212,11 +213,15 @@ class RegistrationCodesTable implements DataRetrieval
                         break;
 
                     case 'absolute':
-                        $result[$k]['alimit'] = $this->lng->txt('reg_access_limitation_mode_absolute_target') .
-                            ': ' .
-                            $date_format->applyTo(
-                                (new DateTimeImmutable('@' . $code['alimitdt']))->setTimezone(
-                                    new DateTimeZone($this->actor->getTimeZone())
+                        $result[$k]['alimit'] = $this->lng->txt('reg_access_limitation_mode_absolute_target')
+                            . ': '
+                            . (
+                                $code['alimitdt'] === null
+                                ? '-'
+                                : $this->actor->getDateFormat()->applyTo(
+                                    (new DateTimeImmutable($code['alimitdt']))->setTimezone(
+                                        new DateTimeZone($this->actor->getTimeZone())
+                                    )
                                 )
                             );
                         break;

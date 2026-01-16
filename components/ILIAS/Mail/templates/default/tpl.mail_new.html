@@ -2,6 +2,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.c-form');
+    if (!form) {
+      console.error(
+        'Mail: Could not find form element by selector ".c-form".' +
+        'Could not bind Enter key handler to prevent accidental submissions.'
+      );
+      return;
+    }
 
     const handleEnterKey = (event) => {
         if (event.which === 13) {

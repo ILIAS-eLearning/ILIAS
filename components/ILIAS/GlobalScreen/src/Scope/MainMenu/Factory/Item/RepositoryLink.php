@@ -31,6 +31,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ilLink;
 use LogicException;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -40,17 +42,18 @@ class RepositoryLink extends AbstractChildItem implements
     hasAction,
     hasSymbol,
     isInterchangeableItem,
-    isChild
+    isChild,
+    isDecorateable
 {
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
+    use ComponentDecoratorTrait;
 
     protected int $ref_id = 0;
     protected string $alt_text;
     protected string $title = '';
 
     /**
-     * @param string $title
      * @return RepositoryLink
      */
     public function withTitle(string $title): hasTitle
@@ -61,9 +64,6 @@ class RepositoryLink extends AbstractChildItem implements
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
@@ -77,26 +77,16 @@ class RepositoryLink extends AbstractChildItem implements
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAltText(): string
     {
         return $this->alt_text;
     }
 
-    /**
-     * @return string
-     */
     final public function getAction(): string
     {
         return ilLink::_getLink($this->ref_id);
     }
 
-    /**
-     * @param string $action
-     * @return hasAction
-     */
     public function withAction(string $action): hasAction
     {
         $clone = clone $this;
@@ -118,9 +108,6 @@ class RepositoryLink extends AbstractChildItem implements
         return $this->symbol;
     }
 
-    /**
-     * @return int
-     */
     public function getRefId(): int
     {
         return $this->ref_id;

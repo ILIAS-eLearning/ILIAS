@@ -48,7 +48,8 @@ class ilUploadFiles
      */
     public static function _getUploadFiles(): array
     {
-        if ($upload_dir = self::_getUploadDirectory() === '' || $upload_dir = self::_getUploadDirectory() === '0') {
+        $upload_dir = self::_getUploadDirectory();
+        if ($upload_dir === '' || $upload_dir === '0') {
             return [];
         }
 

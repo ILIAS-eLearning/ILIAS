@@ -99,7 +99,7 @@ class QuestionsBrowserTable implements DataRetrieval
                 $this->lng->txt('qpl_settings_subtab_taxonomies')
             )->withIsOptional(false, true),
             'feedback' => $column_factory->boolean(
-                $this->lng->txt('feedback'),
+                $this->lng->txt('tst_feedback'),
                 $iconYes,
                 $iconNo
             )->withIsOptional(true, false),

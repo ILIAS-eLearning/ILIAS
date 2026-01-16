@@ -72,6 +72,11 @@ class ilChatroomXMLParser extends ilSaxParser
     public function handlerBeginTag(XMLParser $a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
+            case 'Body':
+                $this->timestamp = null;
+                $this->message = null;
+                break;
+
             case 'Messages':
                 $this->in_messages = true;
                 break;
@@ -130,9 +135,6 @@ class ilChatroomXMLParser extends ilSaxParser
                 break;
 
             case 'Message':
-                break;
-
-            case 'Messages':
                 if ($this->isSameInstallation()) {
                     $message = json_decode($this->message, true, 512, JSON_THROW_ON_ERROR);
                     if (is_array($message)) {
@@ -142,8 +144,9 @@ class ilChatroomXMLParser extends ilSaxParser
                         $this->room->addHistoryEntry($message);
                     }
                 }
+                break;
 
-                $this->timestamp = 0;
+            case 'Messages':
                 $this->in_messages = false;
                 break;
 

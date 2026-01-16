@@ -39,7 +39,6 @@ class VideoViewGUI
     protected \ilLanguage $lng;
     protected \ilObjUser $user;
     protected string $completed_callback = "";
-    protected string $autoplay_callback = "";
     protected VideoSequence $video_sequence;
     protected string $video_wrapper_id = "mcst_video";
 
@@ -70,11 +69,6 @@ class VideoViewGUI
         $this->completed_callback = $completed_callback;
     }
 
-    public function setAutoplayCallback(string $autoplay_callback): void
-    {
-        $this->autoplay_callback = $autoplay_callback;
-    }
-
     /**
      * @throws \ilTemplateException
      */
@@ -97,8 +91,6 @@ class VideoViewGUI
         $video_cnt = count($this->video_sequence->getVideos());
 
         $mcst_settings = \ilMediaCastSettings::_getInstance();
-
-        $autoplay = $this->getAutoplay();
 
         $factory = $this->ui->factory();
         $renderer = $this->ui->renderer();
@@ -131,23 +123,6 @@ class VideoViewGUI
             $toolbar->addStickyItem($next);
         }
 
-        // autoplay
-        if ($this->media_cast->getAutoplayMode() !== \ilObjMediaCast::AUTOPLAY_NO && $video_cnt > 1) {
-            $toolbar->addSeparator();
-            $s = new SignalGenerator();
-            $autoplay_on = $s->create();
-            $autoplay_off = $s->create();
-            $button = $factory->button()->toggle($lng->txt("mcst_autoplay"), $autoplay_on, $autoplay_off, $autoplay);
-            $toolbar->addStickyItem($button);
-            $this->main_tpl->addOnLoadCode("
-                $(document).on('" . $autoplay_on . "', function (event, signalData) {
-                    il.VideoPlaylist.autoplay('mcst_playlist', true);
-                });
-                $(document).on('" . $autoplay_off . "', function (event, signalData) {
-                    il.VideoPlaylist.autoplay('mcst_playlist', false);
-                });");
-        }
-
         if ($video_cnt > 0 && $this->rss_link !== "") {
             $f = $this->ui->factory();
             $actions = [
@@ -158,20 +133,6 @@ class VideoViewGUI
             ];
             $toolbar->addComponent($f->dropdown()->standard($actions));
         }
-    }
-
-    protected function getAutoplay(): bool
-    {
-        $video_cnt = count($this->video_sequence->getVideos());
-        if ($video_cnt <= 1) {
-            return false;
-        }
-        $autoplay = (bool) ($this->user->getPref("mcst_autoplay") ??
-            ($this->media_cast->getAutoplayMode() == \ilObjMediaCast::AUTOPLAY_ACT));
-        if ($this->media_cast->getAutoplayMode() == \ilObjMediaCast::AUTOPLAY_NO) {
-            $autoplay = false;
-        }
-        return $autoplay;
     }
 
     protected function getDropdown(): ?\ILIAS\UI\Component\Dropdown\Standard
@@ -195,8 +156,6 @@ class VideoViewGUI
     public function renderSideColumn(): string
     {
         $mcst_settings = \ilMediaCastSettings::_getInstance();
-
-        $autoplay = $this->getAutoplay();
 
         $lng = $this->lng;
         $tpl = new \ilTemplate("tpl.video_cast_side.html", true, true, "components/ILIAS/MediaCast/Presentation");
@@ -236,6 +195,13 @@ class VideoViewGUI
                 "mob_id",
                 $video->getId()
             );
+            $download_url = "";
+            if ($video->isLocal() && $this->media_cast->getDownloadable()) {
+                $this->ctrl->setParameterByClass("ilobjmediacastgui", "purpose", "Standard");
+                $this->ctrl->setParameterByClass("ilobjmediacastgui", "item_id", $video->getNewsId());
+                $download_url = $this->ctrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem");
+            }
+
             $items[] = [
                 "id" => $video->getId(),
                 "resource" => $video->getResource(),
@@ -251,7 +217,8 @@ class VideoViewGUI
                 "renderUrl" => $this->ctrl->getLinkTargetByClass(
                     \ilObjMediaCastGUI::class,
                     "renderVideo"
-                )
+                ),
+                "download_url" => $download_url
             ];
         }
 
@@ -310,8 +277,8 @@ class VideoViewGUI
             $this->tpl->addOnLoadCode(
                 "il.VideoPlaylist.init('mcst_playlist', 'mcst_video', " . json_encode(
                     $items
-                ) . ", '$item_content', " . ($autoplay ? "true" : "false") . ", " .
-                (int) $init_videos . ", '" . $this->completed_callback . "', '" . $this->autoplay_callback . "', " . ((int) $mcst_settings->getVideoCompletionThreshold()) . ");"
+                ) . ", '$item_content', false, " .
+                (int) $init_videos . ", '" . $this->completed_callback . "', '', " . ((int) $mcst_settings->getVideoCompletionThreshold()) . ");"
             );
 
             if (count($items) === 1) {

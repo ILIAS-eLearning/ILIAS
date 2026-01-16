@@ -99,7 +99,6 @@ class ilPdfGenerator
             ]
         );
 
-
         $background_rid = $this->irss->manage()->find($certificate->getBackgroundImageIdentification());
         if ($background_rid instanceof ResourceIdentification) {
             $background_src = $this->irss->consume()->src($background_rid)->getSrc(true);
@@ -112,18 +111,30 @@ class ilPdfGenerator
         }
 
         $pdf_base64 = $this->rpc->ilFO2PDF('RPCTransformationHandler', $content);
+        if (!is_string($pdf_base64->scalar)) {
+            $this->logger?->error(
+                'ilServer returned invalid PDF content for certificate id {certificate_id} ' .
+                '(user {user_id} and object {object_id})',
+                [
+                    'certificate_id' => $certificate->getCertificateId()->asString(),
+                    'user_id' => $certificate->getUserId(),
+                    'object_id' => $certificate->getObjId()
+                ]
+            );
 
-        $size = strlen(base64_decode($pdf_base64->scalar, true));
+            throw new ilException('ilServer returned invalid PDF content');
+        }
+
         $this->logger?->debug(
-            'Received generated PDF with size {size} bytes for certificate id {certificate_id} (user {user_id} and object {object_id}) from ilServer',
+            'Received generated PDF with size {size} bytes for certificate id {certificate_id} (user {user_id} ' .
+            'and object {object_id}) from ilServer',
             [
-                'size' => $size,
+                'size' => strlen($pdf_base64->scalar),
                 'certificate_id' => $certificate->getCertificateId()->asString(),
                 'user_id' => $certificate->getUserId(),
                 'object_id' => $certificate->getObjId()
             ]
         );
-
 
         return $pdf_base64->scalar;
     }

@@ -3,7 +3,7 @@
   "description": "ILIAS CHAT",
   "version": "11.0.0",
   "dependencies": {
-    "express": "^5.0.1",
+    "express": "^5.2.1",
     "mariadb": "^3.4.0",
     "node-schedule": "^2.1.0",
     "socket.io": "^4.8.1",

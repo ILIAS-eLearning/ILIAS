@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/composer/vendor/autoload.php';
+require_once("../artifacts/bootstrap_default.php");
 
 $path_info_components = explode('/', (string) $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
@@ -26,12 +27,10 @@ $show_mount_instr = isset($_GET['mount-instructions']);
 
 try {
     ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
-
     $_GET["client_id"] = $client_id;
-    $context = ilContext::CONTEXT_WEBDAV;
-    ilContext::init($context);
+    ilContext::init(ilContext::CONTEXT_WEBDAV);
     $post_array = $_POST;
-    ilInitialisation::initILIAS();
+    entry_point("ILIAS Legacy Initialisation Adapter");
 } catch (InvalidArgumentException) {
     header("HTTP/1.1 400 Bad Request");
     header("X-WebDAV-Status: 400 Bad Request", true);

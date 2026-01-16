@@ -156,7 +156,7 @@ class LogTable implements Table\DataRetrieval
 
         $this->filter = $this->ui_service->filter()->standard(
             $log_table_filter_id,
-            $this->unmaskCmdNodesFromBuilder($this->url_builder->buildURI()->__toString()),
+            $this->url_builder->buildURI()->__toString(),
             $filter_inputs,
             $active,
             true,
@@ -314,10 +314,10 @@ class LogTable implements Table\DataRetrieval
             $this->ui_factory->modal()->interruptive(
                 $this->lng->txt('confirmation'),
                 $this->lng->txt('confirm_log_deletion'),
-                $this->unmaskCmdNodesFromBuilder($this->url_builder
+                $this->url_builder
                     ->withParameter($this->action_parameter_token, self::ACTION_DELETE)
                     ->withParameter($this->row_id_token, $affected_items)
-                    ->buildURI()->__toString())
+                    ->buildURI()->__toString()
             )
         );
         exit;
@@ -541,19 +541,5 @@ class LogTable implements Table\DataRetrieval
             static fn(array $v): int => $v['usr_id'],
             $response['set']
         );
-    }
-
-    /**
-     * 2024-05-07 skergomard: This is a workaround as I didn't find another way
-     */
-    private function unmaskCmdNodesFromBuilder(string $url): string
-    {
-        $matches = [];
-        preg_match('/cmdNode=([A-Za-z0-9]+%3)+[A-Za-z0-9]+&/i', $url, $matches);
-        if (empty($matches[0])) {
-            return $url;
-        }
-        $replacement = str_replace('%3', ':', $matches[0]);
-        return str_replace($matches[0], $replacement, $url);
     }
 }

@@ -26,6 +26,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use ILIAS\Data\Order;
 use ilUserSearchOptions;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class MailBoxQuery
 {
@@ -277,6 +278,15 @@ class MailBoxQuery
 
         $set = [];
         while ($row = $this->db->fetchAssoc($res)) {
+            if (isset($row['attachments']) && \is_string($row['attachments']) && str_contains($row['attachments'], '{')) {
+                $unserialized_attachments = unserialize($row['attachments'], ['allowed_classes' => false]);
+                $row['attachments'] = \is_array($unserialized_attachments) ? $unserialized_attachments : null;
+            } elseif (isset($row['attachments']) && \is_string($row['attachments']) && $row['attachments'] !== '') {
+                $row['attachments'] = new ResourceCollectionIdentification($row['attachments']);
+            } else {
+                $row['attachments'] = null;
+            }
+
             $set[] = new MailRecordData(
                 isset($row['mail_id']) ? (int) $row['mail_id'] : 0,
                 isset($row['user_id']) ? (int) $row['user_id'] : 0,
@@ -291,10 +301,7 @@ class MailBoxQuery
                 isset($row['rcp_to']) ? (string) $row['rcp_to'] : null,
                 isset($row['rcp_cc']) ? (string) $row['rcp_cc'] : null,
                 isset($row['rcp_bcc']) ? (string) $row['rcp_bcc'] : null,
-                isset($row['attachments']) ? (array) unserialize(
-                    stripslashes($row['attachments']),
-                    ['allowed_classes' => false]
-                ) : [],
+                $row['attachments'],
                 isset($row['tpl_ctx_id']) ? (string) $row['tpl_ctx_id'] : null,
                 isset($row['tpl_ctx_params']) ? (string) $row['tpl_ctx_params'] : null
             );

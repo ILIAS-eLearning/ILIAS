@@ -26,6 +26,8 @@ use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Repositories;
 use ILIAS\ResourceStorage\Resource\Repository\FlavourRepository;
+use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class StandardRepositoryPreloader
@@ -38,6 +40,7 @@ class StandardRepositoryPreloader implements RepositoryPreloader
     protected InformationRepository $information_repository;
     protected StakeholderRepository $stakeholder_repository;
     protected FlavourRepository $flavour_repository;
+    protected CollectionRepository $collection_repository;
 
     public function __construct(Repositories $repositories)
     {
@@ -46,6 +49,7 @@ class StandardRepositoryPreloader implements RepositoryPreloader
         $this->information_repository = $repositories->getInformationRepository();
         $this->stakeholder_repository = $repositories->getStakeholderRepository();
         $this->flavour_repository = $repositories->getFlavourRepository();
+        $this->collection_repository = $repositories->getCollectionRepository();
     }
 
     public function preload(array $identification_strings): void
@@ -55,5 +59,25 @@ class StandardRepositoryPreloader implements RepositoryPreloader
         $this->information_repository->preload($identification_strings);
         $this->stakeholder_repository->preload($identification_strings);
         $this->flavour_repository->preload($identification_strings);
+    }
+
+    /**
+     * @param string[] $collection_identification_strings
+     */
+    public function preloadCollections(array $collection_identification_strings): void
+    {
+        if ($collection_identification_strings === []) {
+            return;
+        }
+        $resource_ids = $this->collection_repository->getResourceIdsForCollections($collection_identification_strings);
+        $resource_ids = array_values(array_unique(
+            array_map(static fn(ResourceIdentification $id) => $id->serialize(), $resource_ids)
+        ));
+
+        if ($resource_ids === []) {
+            return;
+        }
+
+        $this->preload($resource_ids);
     }
 }

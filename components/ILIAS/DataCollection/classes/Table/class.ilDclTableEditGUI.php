@@ -260,6 +260,7 @@ class ilDclTableEditGUI
 
             if ($create) {
                 $this->table->doCreate();
+                $this->ctrl->setParameter($this, 'table_id', $this->table->getId());
                 $message = 'dcl_msg_table_created';
             } else {
                 $this->table->setDefaultSortField($data['table']['default_sort_field']);

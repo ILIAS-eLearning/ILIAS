@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ILIAS-Test-ID anzeigen
 assessment#:#examid_in_test_res_desc#:#Die ILIAS-Test-ID wird in den Ansichten „Detaillierte Ergebnisse“ und   „Druckbare Liste der Antworten“ angezeigt sowie in den über den Reiter „Teilnehmer“ exportierten Tabellenkalkulationsdateien.
 assessment#:#exp_all_test_runs#:#Alle Durchläufe
 assessment#:#exp_eval_data#:#Daten exportieren
-assessment#:#exp_file_created#:#Exportdatei erzeugt.
 assessment#:#exp_grammar_as#:#als
 assessment#:#exp_scored_test_attempt#:#Bewerteter Durchlauf
 assessment#:#exp_type_certificate#:#Zertifikat (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel
-assessment#:#exp_type_spss#:#durch Komma getrennte Werte (CSV)
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
 assessment#:#export_cert_failed_for_users_p#:#Für die folgenden %s Konten konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
 assessment#:#export_cert_failed_for_users_s#:#Für das folgende Konto konnte kein Zertifikats-Dokument generiert und in das Archiv gelegt werden: %s. Bitte kontaktieren Sie einen Administrator zur Sichtung der Protokolldateien.
@@ -1168,6 +1166,7 @@ assessment#:#question_summary#:#Übersicht Testdurchlauf
 assessment#:#question_summary_btn#:#Übersicht Testdurchlauf
 assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
+assessment#:#questionlist_cannot_be_altered#:#Die Fragenliste kann nicht verändert werden da der Test Teilnehmerdatensätze enthält.
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
 assessment#:#questionpool_not_selected#:#Bitte wählen Sie einen Fragenpool aus!
 assessment#:#questions#:#Fragen
@@ -1241,7 +1240,7 @@ assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#save_and_next#:#Speichern und weiter
 assessment#:#save_on_navigation#:#Navigieren mit Speichern
 assessment#:#save_on_navigation_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert.
-assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Feedback zu Ihrer Antwort.
+assessment#:#save_on_navigation_forced_feedback_hint#:#Vorher erhalten Sie Rückmeldung zu Ihrer Antwort.
 assessment#:#save_on_navigation_locked_confirmation#:#Ihre geänderten Antworten werden beim Navigieren automatisch gespeichert und festgeschrieben.
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#score_anon#:#Anonym bewerten
@@ -1453,7 +1452,6 @@ assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenst
 assessment#:#tst_derive_new_pool#:#Neuen Fragenpool ableiten
 assessment#:#tst_derive_new_pools#:#Neue Fragenpools ableiten
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Diese Meldung in meiner aktuellen Sitzung nicht mehr anzeigen.
-assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_enable_questionlist#:#Fragenliste
@@ -1509,7 +1507,6 @@ assessment#:#tst_finish_confirm_button#:#Ja, ich will den Test beenden
 assessment#:#tst_finish_confirm_cancel_button#:#Nein, ich will zur letzten Antwort zurückgehen
 assessment#:#tst_finish_confirmation_question#:#Sie sind dabei, diesen Test zu beenden. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#Sie sind dabei, diesen Test zu beenden und die maximale Anzahl erlaubter Testdurchläufe zu erreichen. Danach werden Sie nicht mehr in der Lage sein, den Test erneut aufzurufen, um Ihre Antworten zu ändern. Wollen Sie den Test wirklich beenden?
-assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finished#:#Beendet
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_gap_analysis#:#Gap-Analyse
@@ -1521,7 +1518,6 @@ assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
 assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
 assessment#:#tst_hide_pagecontents_desc#:#Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
-assessment#:#tst_hide_side_list#:#Fragenliste aus
 assessment#:#tst_highscore_achieved_ts#:#Datum / Uhrzeit
 assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte eingeblendet, die anzeigt, wann der Test beendet wurde.
 assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -1539,7 +1535,6 @@ assessment#:#tst_highscore_score#:#Punkte
 assessment#:#tst_highscore_score_description#:#Es wird einen zusätzliche Spalte mit der Angabe der erreichten Punkte eingeblendet.
 assessment#:#tst_highscore_top_num#:#Länge der Bestenliste
 assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
-assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 assessment#:#tst_highscore_top_table#:#Bestenliste
 assessment#:#tst_highscore_top_table_description#:#Teilnehmerinnen und Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
 assessment#:#tst_highscore_wtime#:#Bearbeitungsdauer
@@ -1582,9 +1577,9 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#Bei Anklicken des 'Rüc
 assessment#:#tst_instant_feedback_contents#:#Inhalte der Rückmeldung
 assessment#:#tst_instant_feedback_desc#:#Sofern Fragen mit Rückmeldungen versehen sind, stehen diese den Teilnehmern während des Tests zur Verfügung.
 assessment#:#tst_instant_feedback_results#:#Erreichte Punkte
-assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
+assessment#:#tst_instant_feedback_results_desc#:#Den Teilnehmenden wird angezeigt, wie viele Punkte ihre Antwort wert ist. Bitte wählen Sie unten aus, wie die Rückmeldung ausgelöst werden soll.
 assessment#:#tst_instant_feedback_solution#:#Bestmögliche Lösung anzeigen
-assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie das Feedback ausgelöst werden soll.
+assessment#:#tst_instant_feedback_solution_desc#:#Den Teilnehmenden wird die bestmögliche Antwort auf die Frage angezeigt. Bitte wählen Sie unten aus, wie die Rückmeldung ausgelöst werden soll.
 assessment#:#tst_instant_feedback_trigger#:#Auslöser der Rückmeldung
 assessment#:#tst_instant_feedback_trigger_forced#:#Eine Frage beantworten
 assessment#:#tst_instant_feedback_trigger_forced_desc#:#Durch Beantwortung einer Frage wird die Rückmeldung automatisch ausgelöst.
@@ -1753,7 +1748,6 @@ assessment#:#tst_postpone_on_desc#:#Fragen, die verworfen oder übersprungen wer
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_presentation_settings_section#:#Darstellung
 assessment#:#tst_previous_access_code_not_available#:#Kein vorheriger Code verfügbar!
-assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_proceed#:#Fortfahren
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
 assessment#:#tst_processing_time_desc#:#Teilnehmer dürfen den Test nur während eines vorgegebenen Zeitraums bearbeiten. Die Zeit läuft für jede Person ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Teilnehmer“ eine Funktion, um einzelnen Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
@@ -1890,10 +1884,6 @@ assessment#:#tst_show_results#:#Testergebnisse
 assessment#:#tst_show_side_list#:#Fragenliste an
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_answers_only_desc#:#Wenn „Druckausgabe der Ergebnisse (nur Antworten)“ ausgewählt ist, werden ILIAS-Inhalte, die Sie über den „Inhalt bearbeiten“-Reiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt.
-assessment#:#tst_show_solution_compare#:#Zeige bestmögliche Lösung in „Tabelle mit detaillierten Testergebnissen“
-assessment#:#tst_show_solution_compare_desc#:#Teilnehmern wird als Teil der Tabelle „Detallierte Testergebnisse“ eine Ansicht präsentiert, welche ihre eigenen Antworten und die bestmögliche Lösung gegenüberstellt. <br> Diese Ansicht wird nicht im Unterreiter „Bewertete Antworten“ des „Meine Ergebnisse“-Reiters angezeigt, auch wenn diese Einstellung hier vorgenommen wird.
-assessment#:#tst_show_solution_details#:#Bewertete Antworten als Liste
-assessment#:#tst_show_solution_details_desc#:#Die Tabelle „Detallierte Testergebnisse“ wird um eine Liste der eigenen Antworten ergänzt.
 assessment#:#tst_show_solution_details_singlepage#:#Bewertete Antworten auf Einzelseiten
 assessment#:#tst_show_solution_details_singlepage_desc#:#Teilnehmerinnen und Teilnehmer können jede Frage einzeln aufrufen und sehen, ob ihre Antworten richtig waren und wie viele Punkte sie damit erreicht haben.
 assessment#:#tst_show_solution_feedback#:#Rückmeldungen
@@ -1916,7 +1906,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenzen werden ers
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Mindestens eine im Test adressierte Kompetenz ist nicht ausreichend vielen Fragen zugeordnet. Für diese Kompetenzen werden keine Kompetenzeinträge für Teilnehmer erfasst.<br />Die Mindestanzahl für zugewiesene Fragen: %s
 assessment#:#tst_skl_level_thresholds_link#:#Kompetenzschwellenwerte konfigurieren
 assessment#:#tst_skl_level_thresholds_missing#:#Es sind noch nicht für alle relevanten Kompetenzen Schwellenwerte definiert worden!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenzschwellenwerte
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
 assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
@@ -1978,7 +1967,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#Die vorgegebene Antwort ist korre
 assessment#:#tst_unchanged_order_is_correct#:#Die vorgegebene Anordnung ist korrekt.
 assessment#:#tst_use_previous_answers#:#Verwendung vorheriger Lösungen
 assessment#:#tst_use_previous_answers_description#:#Zeigt Teilnehmern die Antworten aus dem vorherigen Testdurchlauf an. Die Übernahme der Lösungen muss vom Teilnehmer vor Beginn des Testdurchlaufs in einem Modal per Checkbox aktiviert werden.
-assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
 assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zum Lernziel<br />%s
@@ -2545,6 +2533,7 @@ blog#:#blog_whole_blog#:#Gesamtes Blog
 book#:#X_reservations_of#:#%s Buchungen von
 book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Angebot hinzufügen
+book#:#book_add_participant#:#Teilnehmer hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
@@ -2563,7 +2552,6 @@ book#:#book_booking#:#Buchung
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Angebote
 book#:#book_booking_reminders#:#Anstehende Buchungen
-book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_bulk_confirmation#:#Bitte überprüfen Sie die angegebenen Werte.
 book#:#book_bulk_creation#:#Massenerstellung
 book#:#book_bulk_data#:#Daten zu Angeboten
@@ -2626,7 +2614,7 @@ book#:#book_object_selection#:#Angebotsauswahl
 book#:#book_object_updated#:#Das Angebot wurde geändert.
 book#:#book_objects_available#:#Verfügbare Angebote: %s
 book#:#book_open#:#Buchungspool öffnen
-book#:#book_overall_limit#:#Begrenzung
+book#:#book_overall_limit#:#Gesamtzahl der Buchungen pro Benutzer begrenzen
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 book#:#book_participant_already_assigned#:#Ein oder mehrere Teilnehmer waren bereits zugewiesen.
 book#:#book_participant_assigned#:#Teilnehmer wurde/n hinzugefügt.
@@ -2679,7 +2667,7 @@ book#:#book_schedule_type_fixed#:#Buchung nach festem Zeitplan
 book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none#:#Ohne Zeitplan
 book#:#book_schedule_type_none_direct#:#Buchung ohne Termine
-book#:#book_schedule_type_none_direct_info#:#Teilnehmer können direkt buchen. Der Modus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
+book#:#book_schedule_type_none_direct_info#:#Dieser Buchungsmodus ist ideal für Präsentationsthemen oder Plätze in Seminaren, die keine festen Zeiten erfordern. Teilnehmende können Elemente direkt nach dem Prinzip „wer zuerst kommt, mahlt zuerst“ buchen. Jedes Element kann nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_schedule_type_none_info#:#Dieser Buchungsmodus ist geeignet für die Vergabe von Referatsthemen, Seminarplätzen oder vergleichbaren Angeboten.
 book#:#book_schedule_type_none_preference#:#Automatisch nach Präferenzen verteilen
 book#:#book_schedule_type_none_preference_info#:#Teilnehmer benennen zunächst Präferenzen. Zu einem gewählten Enddatum werden dann die Buchungen automatisch vorgenommen. Der Buchungsmodus ist geeignet für Referatsthemen oder Seminarplätze, die ohne Termin vergeben werden.
@@ -2693,6 +2681,7 @@ book#:#book_show_message#:#Mitteilung anzeigen
 book#:#book_title_description_nr#:#Titel; Beschreibung; Anzahl
 book#:#book_title_description_nr_info#:#Geben Sie bitte Titel, Beschreibung und Anzahl getrennt durch ein Semikolon oder TAB ein. Nutzen Sie einen Zeile je Buchungsobjekt.
 book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_total_individual_bookings_limit#:#Begrenze die Gesamtanzahl an Buchungen, die von/für einzelne Teilnehmende durchgeführt werden können – über alle verfügbaren Objekte hinweg. Jedes buchbare Objekt kann dabei weiterhin nur einmal pro Teilnehmendem gebucht werden.
 book#:#book_type_warning#:#Es sind momentan keine Angebote vorhanden. Um den Pool nutzen zu können, müssen zuerst Angebote angelegt werden.
 book#:#book_week#:#Wochenansicht
 book#:#book_your_bookings#:#Ihre Buchungen
@@ -3835,7 +3824,7 @@ common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
 common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Anmeldekonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rollen
 common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
-common#:#cronjob_last_start#:#Letzter Start des Cron-Jobs
+common#:#cronjob_last_start#:#Letzte automatische Ausführung des Cron-Jobs-Scripts
 common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
 common#:#crs#:#Kurs
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
@@ -5865,6 +5854,7 @@ common#:#upload_settings#:#Upload-Einstellungen
 common#:#upload_svg_rejection_message#:#Eine hochgeladene SVG-Datei enthält möglicherweise bösartigen Code und kann nicht verarbeitet werden.
 common#:#upload_svg_rejection_message_base64#:#Die Datei enthält base64 kodierten Inhalt.
 common#:#upload_svg_rejection_message_elements#:#Die Datei enthält Elemente oder Attribute, die nicht erlaubt oder bekannt sind.
+common#:#upload_svg_rejection_message_foreign_object#:#Die Datei bindet externe Objekte ein.
 common#:#upload_svg_rejection_message_script#:#Die Datei enthält Skript-Elemente.
 common#:#uploaded_and_checked#:#Die Datei wurde hochgeladen und überprüft, Sie können sie nun importieren.
 common#:#uploading#:#Hochladen...
@@ -6083,6 +6073,7 @@ cont#:#cont_news_timeline_landing_page#:#Startseite
 cont#:#cont_news_timeline_landing_page_info#:#Timeline als Startseite
 cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_no_title#:#Leerer Titel
+cont#:#cont_only_crs_grp_fold_download#:#Es können nur Dateien, Kurse, Gruppen oder Ordner heruntergeladen werden.
 cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
 cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
 cont#:#cont_path#:#Pfad
@@ -8751,8 +8742,8 @@ dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstell
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Sie haben auf keine Standard-Tabellenansicht Lesezugriff.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
-dcl#:#dcl_no_table_found#:#Keine sichbare Tabelle verfügbar!
-dcl#:#dcl_no_tableview_found#:#Keine sichbare Tabellenansicht verfügbar!
+dcl#:#dcl_no_table_found#:#Keine sichtbare Tabelle verfügbar!
+dcl#:#dcl_no_tableview_found#:#Keine sichtbare Tabellenansicht verfügbar!
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp wird beim Import nicht unterstützt.
 dcl#:#dcl_notification_activate#:#Benachrichtigung aktivieren
@@ -8818,8 +8809,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standardfelder sind nicht importierbar.
 dcl#:#dcl_std_filter#:#Filtervorbelegung
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
 dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
-dcl#:#dcl_switch_table#:#Tabelle wechseln
-dcl#:#dcl_switch_view#:#Ansicht ändern
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
@@ -9490,6 +9479,7 @@ exc#:#exc_passed_status_determination#:#Bewertung als „Bestanden“
 exc#:#exc_passing_exc#:#Bestehen der Übung
 exc#:#exc_past#:#Vergangene
 exc#:#exc_peer_deadline_mismatch#:#Da das Feedback erst nach dem Abgabetermin der Übungseinheit gegeben werden kann, darf die Deadline für das Feedback nicht vor dem Abgabedatum liegen.
+exc#:#exc_peer_feedback_status#:#Status
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Der zusätzliche Reiter „Peer-Feedback“ wird aktiviert. Dort legen Sie fest, wie teilnehmende Personen einander Feedback geben sollen. Feedback kann abgegeben werden, sobald der Abgabetermin und eine etwaige Nachfrist abgelaufen sind.
 exc#:#exc_peer_review_chars_invalid#:#Sie haben noch nicht die erforderliche Länge des Textes von %s Zeichen erreicht.
@@ -10524,11 +10514,11 @@ help#:#gdtr_deleted_tour#:#Die Tour wurde gelöscht.
 help#:#gdtr_edit_content#:#Inhalt bearbeiten
 help#:#gdtr_edit_page_info#:#Bearbeiten Sie den Inhalt, der erscheinen soll um das ausgewählte Bedienelement zu beschreiben.
 help#:#gdtr_edit_properties#:#Eigenschaften bearbeiten
-help#:#gdtr_edit_step_info#:#In diesem Formular spezifizieren Sie das Bedienelement auf dem Bildschirm, welches einen Erklärungstext in diesem Schritt der Tour erhalten soll. In der Präsentation wird dann ein Popover mit dem definierten Erklärungstext neben dem angegebenen Element dargestellt.
+help#:#gdtr_edit_step_info#:#Wählen Sie das Bedienelement aus, das mit einem Erklärungstext versehen werden soll.
 help#:#gdtr_edit_steps#:#Schritte bearbeiten
-help#:#gdtr_element_id#:#Element ID
+help#:#gdtr_element_id#:#Element-ID
 help#:#gdtr_form#:#Formular
-help#:#gdtr_form_info#:#Das erste Formular im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. ein Formular enthalten.
+help#:#gdtr_form_info#:#Das erste Formular einer Seite
 help#:#gdtr_guided_tours#:#Touren
 help#:#gdtr_id_pres_users#:#IDs anzeigen für
 help#:#gdtr_id_pres_users_info#:#Tragen Sie einen oder mehrere Anmeldenamen ein. Diesen Personen werden auf der Bedienoberfläche Tooltipps mit den IDs der einzelnen Elemente angezeigt. Fahren Sie mit der Maus über die Elemente, um die Tooltipps zu sehen.
@@ -10536,17 +10526,19 @@ help#:#gdtr_id_settings#:#Einstellungen
 help#:#gdtr_import_tour#:#Tour importieren
 help#:#gdtr_language#:#Nach Sprache
 help#:#gdtr_language_info#:#Nur Personen mit der ausgewählten Sprache sehen die Tour.
-help#:#gdtr_list_tours_mess#:#Um Touren auszuarbeiten, müssen Sie zunächst Ihren Anmeldenamen im Unterreiter „Einstellungen“ eintragen.
+help#:#gdtr_list_tours_mess#:#Mit einer interaktiven Tour können Sie die Bedienelemente auf einer Seite in ILIAS erklären. Um Touren überhaupt ausarbeiten zu können, müssen Sie zunächst Ihren Anmeldenamen im Unterreiter „Einstellungen“ eintragen.
 help#:#gdtr_mainbar#:#Mainbar
-help#:#gdtr_mainbar_info#:#Die Mainbar ist das Hauptmenü auf der linken Seite. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
+help#:#gdtr_mainbar_ID_info#:#ID des gewünschten Eintrags im Hauptmenü. Fahren Sie mit der Maus über den Eintrag, um die ID als Tooltipp zu sehen.
+help#:#gdtr_mainbar_info#:#Die Mainbar ist das Hauptmenü, das auf großen Bildschirmen auf der linken Seite angezeigt wird.
 help#:#gdtr_metabar#:#Metabar
-help#:#gdtr_metabar_info#:#Die Metabar ist das Menü im rechten, oberen Bildrand. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
+help#:#gdtr_metabar_ID_info#:#ID des gewünschten Elements in der Metabar. Fahren Sie mit der Maus über das Element, um die ID als Tooltipp zu sehen.
+help#:#gdtr_metabar_info#:#Die Metabar ist das Menü im rechten, oberen Bildrand.
 help#:#gdtr_next_step#:#Nächster Schritt
 help#:#gdtr_permission#:#Nach Rechten
 help#:#gdtr_permission_info#:#Nur Personen mit den ausgewählten Rechten sehen die Tour. Diese Einstellung sollte nur zusammen mit der Einstellung „Nach Screen-ID“ genutzt werden.
 help#:#gdtr_presentation_limitation#:#Anzeige einschränken
 help#:#gdtr_primary_button#:#Primary Button
-help#:#gdtr_primary_button_info#:#Der erste Primary-Button im Hauptbereich der Ansicht. Dieser wird um Gegensatz zu anderen Aktionsknöpfen betont dargestellt. Normalerweise sollen Ansichten nur max. eine Primary-Button enthalten.
+help#:#gdtr_primary_button_info#:#Diese besonderen Buttons gibt es nur auf wenigen Seiten in ILIAS. Sie sind farblich besonders hervorgehoben und kennzeichnen die wichtigste Aktion, die auf der Seite vorgenommen werden kann.
 help#:#gdtr_reset_tour#:#Tour zurücksetzen
 help#:#gdtr_reset_tour_mess#:#Wenn Sie die Tour zurücksetzen, werden alle diejenigen, die zuvor die Tour abgeschlossen haben, die Tour erneut präsentiert bekommen. Möchten Sie fortfahren?
 help#:#gdtr_screen_ids#:#Nach Screen-IDs
@@ -10554,11 +10546,12 @@ help#:#gdtr_screen_ids_info#:#Tragen Sie hier die Screen-IDs der Seiten ein, auf
 help#:#gdtr_step#:#Schritt
 help#:#gdtr_step_type#:#Bedienelement
 help#:#gdtr_table#:#Tabelle
-help#:#gdtr_table_info#:#Die erste Tabelle im Hauptbereich der Ansicht. Normalerweise sollen Ansichten nur max. eine Tabelle enthalten.
+help#:#gdtr_table_info#:#Die erste Tabelle einer Seite
 help#:#gdtr_tabs#:#Reiter
-help#:#gdtr_tabs_info#:#Die Reiter werden in der Mitte unter dem Haupttitel einer Ansicht dargestellt. Bei aktivierter ID-Darstellung werden die Element-IDs der einzelnen Einträge als Tooltipp dargestellt.
+help#:#gdtr_tabs_ID_info#:#ID des gewünschten Reiters. Fahren Sie mit der Maus über einen Reiter, um die ID als Tooltipp zu sehen.
+help#:#gdtr_tabs_info#:#Reiter werden unter dem Titel einer Seite dargestellt.
 help#:#gdtr_toolbar#:#Toolbar
-help#:#gdtr_toolbar_info#:#Die erste Toolbar im Hauptbereich der Ansicht. Diese wird normalerweise unterhalb der Reiter dargestellt und kann mehrere Bedienelemente enthalten. Normalerweise sollen Ansichten nur max. eine Toolbar enthalten.
+help#:#gdtr_toolbar_info#:#Die Toolbar wird auf einigen Seiten unterhalb der Reiter dargestellt und enthält meistens mehrere Buttons.
 help#:#gdtr_tour_has_been_reset#:#Die Tour wurde zurückgesetzt.
 help#:#gdtr_tour_settings#:#Einstellungen bearbeiten
 help#:#gdtr_tour_steps#:#Schritte
@@ -11526,6 +11519,7 @@ mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
+mail#:#mail_adopt_selected_attachements#:#Ausgewählte Anhänge übernehmen
 mail#:#mail_all_in_trash#:#Alle im Papierkorb
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Die Zustellung von externen E-Mails (via SMTP) zulassen. Falls nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
@@ -11636,6 +11630,8 @@ mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste „%s“
 mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt.
+mail#:#mail_mode_switch_label#:#Zwischen „Persönliche Mail” und „Serienbrief” umschalten
+mail#:#mail_mode_switch_locked#:#Sie können nicht zu „%s” wechseln.
 mail#:#mail_move_error#:#Beim Versuch, Ihre E-Mail zu verschieben, ist ein Fehler aufgetreten.
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_move_to_folder_btn_label#:#Mail verschieben
@@ -11778,6 +11774,7 @@ mail#:#only_inbox_trash_info#:#Falls aktiviert, werden ausschließlich Mails gel
 mail#:#orphaned_mail_body#:#Es existieren alte oder verwaiste Mails in den folgenden Ordnern. Beachten Sie, dass diese Mails in kürze automatisch gelöscht werden.
 mail#:#orphaned_mail_subject#:#Benachrichtigung über alte Mails
 mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Personen im „An”-Feld ersetzt. Personen im „CC”-Feld und „BCC”-Feld erhalten die Mail mit nicht-ersetzten Platzhaltern.
+mail#:#regular_mail#:#Persönliche Mail
 mail#:#search_content#:#Suchergebnis
 mail#:#search_recipients#:#Personen suchen
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
@@ -11786,11 +11783,12 @@ mail#:#send_mail_admins#:#Administration
 mail#:#send_mail_members#:#Mitglied
 mail#:#send_mail_to#:#Mail an
 mail#:#send_mail_tutors#:#Kursbetreuung
+mail#:#serial_letter#:#Serienbrief
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Aktiviert die Anzeige der Mail-Einstellungen im Bereich 'Einstellungen' oder 'Mail'. Benutzer können die Mail-Einstellungen nur ändern, wenn die Konfiguration des Benutzer-Profils dies erlaubt. Wenn Benutzer nicht berechtigt sind, die Mail-Einstellung ihrer Profils zu ändern, dann gelten die globalen Einstellungen. Dies gilt auch dann, wenn Benutzer in der Vergangenheit die Berechtigung zum Ändern der Mail-Einstellungen hatten und persönliche Einstellungen vorgenommen haben.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut „%s“ im Feld „%s“ verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
-maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
+maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „ILIAS erweitern > Karten“ ab.
 maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: https://nominatim.example.com/search?q=[QUERY]&format=json
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist „%s“.
 maps#:#maps_enable_maps#:#Karten aktivieren
@@ -11915,6 +11913,7 @@ mep#:#mep_all_mobs#:#Alle Medienobjekte
 mep#:#mep_bulk_upload#:#Massen-Upload
 mep#:#mep_choose_from_folder#:#Aus Ordner auswählen
 mep#:#mep_choose_from_mep#:#Aus Pool auswählen
+mep#:#mep_clipboard_info#:#Hier können Sie Mediendateien hochladen, auf die Sie anschließend von jeder Seite, auf der Sie Zugriff auf den Seiteneditor haben, zugreifen können. Ebenfalls können Sie das Clipboard in Medienpools nutzen. Dieser Speicher ist nur für Sie und kann nicht von anderen Benutzern eingesehen werden.
 mep#:#mep_content#:#Medienobjekte
 mep#:#mep_content_snippet_in_use#:#Inhaltsbaustein „%s“ wird verwendet und kann daher nicht gelöscht werden.
 mep#:#mep_content_snippet_used_in_older_versions#:#Achtung: Der Inhaltsbaustein wurde in älteren Versionen von einigen Seiten genutzt. Wenn so eine Version einer Seite wiederhergestellt wird, wird der Inhaltsbaustein in ihr fehlen.
@@ -12775,6 +12774,7 @@ mme#:#item_updated#:#Eintrag gespeichert
 mme#:#main#:#Hauptmenü
 mme#:#mm_translation_lang#:#Sprache
 mme#:#mm_translation_trans#:#Übersetzung
+mme#:#mme_lost_items#:#Nicht zugeordnet
 mme#:#move_to_item#:#Zu Einträge verschieben
 mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_languages_added#:#Sprachen hinzugefügt
@@ -14248,10 +14248,6 @@ rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
 rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
 rbac#:#excs_write#:#Einstellungen in Übungs-Administration bearbeiten
 rbac#:#export_member_data#:#Export von Mitgliederdaten
-rbac#:#extt_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#extt_read#:#Lesezugriff auf Administration der Software von Drittanbietern
-rbac#:#extt_visible#:#Administration der Software von Drittanbietern ist sichtbar
-rbac#:#extt_write#:#Software von Drittanbietern konfigurieren
 rbac#:#facs_edit_permission#:#Rechteeinstellung für die Administration ändern
 rbac#:#facs_read#:#Lesezugriff auf Administration für Dateien und Ordner
 rbac#:#facs_upload_blacklisted_files#:#Dateien mit indexierten Endungen hochladen
@@ -17094,7 +17090,7 @@ tagging#:#tag_tags_deleted#:#Tag wurde für Objekte ohne Zugriff entfernt.
 tagging#:#tagging_all_users#:#Alle Benutzer
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_all_users#:#Zeige Tags aller Benutzer
-tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, im dem die Tags aller Besucher zu einer Ressource angezeigt werden.
+tagging#:#tagging_enable_all_users_info#:#Fügt auf dem Reiter „Info“ einen Bereich "Alle Benutzer" hinzu, in dem die Tags aller Besucher zu einer Ressource angezeigt werden.
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 tagging#:#tagging_forbidden_tags#:#Verbotene Tags
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit „%s“ verschlagwortet.
@@ -17414,6 +17410,7 @@ trac#:#trac_view_mode_all#:#Alle Objekte
 trac#:#trac_view_mode_collection#:#Nur Objekte, die Gesamtstatus bestimmen
 trac#:#trac_visits#:#Mindestanzahl Aufrufe
 trac#:#trac_visits_info#:#Ein Aufruf wird erst nach %s Sekunden als neuer Aufruf gezählt.
+trac#:#trac_visits_nr#:#Anzahl Aufrufe
 trac#:#user_total#:#Anzahl Benutzer
 trac#:#view_mode#:#Anzeigemodus
 trac#:#view_mode_all#:#Alle

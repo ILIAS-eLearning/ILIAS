@@ -119,7 +119,7 @@ This feature does not apply for ILIAS-internal messages at all.
 some kind of reduced and **medium level** notification system
 dealing only with internal and external emails.
 It does neither care about low-level transport of messages
-(e.g. like sending external emails via SMTP), nor does it
+(e.g., like sending external emails via SMTP), nor does it
 act like a centralized notification system dealing with
 any kind/type of notification in ILIAS.
 
@@ -287,32 +287,75 @@ The consumer MUST ensure that the message does
 not contain any HTML.
 Line breaks MUST be provided by a line feed (LF) character.
 Violations against this rule may raise exceptions in
-future ILIAS releases.
+future ILIAS releases or lead to undesired and undefined behavior.
 
-Currently the mail system tries to magically detect
-whether or not the message body passed by consumers
+Starting with ILIAS 11, the message body is always
+interpreted as Markdown when using `ilMail` or the facades
+of it (see: [ilMailNotification](#ilmailnotification)
+and [ilSystemNotification](#ilsystemnotification)).
+
+This means, that if a message body is passed to `ilMail`,
+it is unconditionally processed by the Markdown parser
+(`ILIAS\Refinery\String\MarkdownFormattingToHTML`) when
+presenting it in ILIAS views, or if activated in the global
+administration, it is used within the HTML frame of an external
+email (see: [External Emails: HTML Frame](#external-emails-html-frame)).
+
+This has several important implications:
+
+* Markdown syntax is supported
+  Consumers may use standard Markdown features such as
+  paragraphs, lists, emphasis, etc.. This also means,
+  consumers must be aware that certain character sequences
+  (e.g. *, _, #, or indentation) may be interpreted as Markdown
+  and can therefore affect the resulting HTML output.
+  Input should be authored or validated accordingly to avoid
+  unintended formatting.
+* Raw HTML is not supported
+  As outlined above, HTML tags contained in the message body
+  are not supported and stripped during Markdown processing
+  for security reasons. This behavior is intentional and
+  enforced by the Markdown parser configuration.
+* No additional escaping is performed 
+  Message bodies are not escaped using `htmlencodePlainString`
+  anymore when presenting them in ILIAS. Instead, all escaping is
+  delegated to the Markdown parser.
+* Consistent rendering in the UI
+  When displaying messages in ILIAS, the stored message body
+  is rendered from its Markdown representation, ensuring
+  consistent formatting and security guarantees across all mail views.
+
+Summary:
+
+* Always assume that the message body will be
+  parsed/presented as Markdown.
+* Do not rely on embedded HTML for formatting.
+  The rule is: You MUST NOT pass any HTML
+* Provide Markdown-compatible plain text input.
+
+When directly sending external emails by using the
+low-level [ilMimeMail](#ilmimemail) class, consumers have to
+manually prepare the HTML body if Markdown/HTML formatting is
+desired.
+
+`ilMimeMail` still tries to magically detect
+whether the message body passed by consumers
 contains any HTML when sending **external**
-[emails with an HTML frame and a plain/text alternative](#external-emails:-html-frame).
-This is done in `\ilMimeMail::buildBodyParts`.
-If no HTML is included at all, or only a few inline
-elements (\<b\>, \<u\>, \<i\>, \<a\>) are given, a
-[`nl2br()`](http://php.net/manual/en/function.nl2br.php)
-is applied on the body and used for the HTML version
-of the email. The originally passed body is used as
-plain/text alternative.
+[emails with an HTML frame and a plain/text alternative](#external-emails-html-frame).
+This is done in `\ilMimeMail::buildBodyMultiParts`.
+If `ilMimeMail` detects HTML block elements or line breaks
+typically supported by Markdown, it treats the message body
+as HTML and strips all HTML tags for the plain/text alternative.
+If only a few inline elements (\<b\>, \<u\>, \<i\>, \<a\>) are
+given, a [`nl2br()`](http://php.net/manual/en/function.nl2br.php) is applied to a copy of the message
+body, which is then used for the HTML version of the email.
+The originally passed body is used as plain/text alternative.
 If HTML is detected in the body string passed by the
 consumer, the original body is used for the HTML email.
 For the plain/text alternative, `<br>` elements are replaced
 with a `\n` (LF) character and
 [`strip_tags'](http://php.net/manual/en/function.strip-tags.php)
 is applied afterwards on the originally passed message body.
-
-This behaviour is not specified at all and also tries
-to handle/fix misusage by consumers.
-The rule is: You MUST NOT pass any HTML.
-
-For **internal** messages HTML is completely escaped
-on the UI endpoint via `\ilUtil::htmlencodePlainString`.
 
 ### Attachments
 

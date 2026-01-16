@@ -108,6 +108,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt("settings"));
 
         $cb_prop = new ilCheckboxInputGUI($this->lng->txt("enable_webdav"), "enable_webdav");
+        $cb_prop->setInfo($this->lng->txt("enable_webdav_info"));
         $cb_prop->setValue('1');
         $cb_prop->setChecked($this->object->isWebdavEnabled());
         $form->addItem($cb_prop);

@@ -45,6 +45,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Component\Table\Action\Action;
 use ilAccessHandler;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\Badge\Table\TableContentWrapper;
 
 class ilObjectBadgeTableGUI implements DataRetrieval
 {
@@ -299,7 +300,8 @@ class ilObjectBadgeTableGUI implements DataRetrieval
                 'active' => $badge_item['active'] ? $this->lng->txt('yes') : $this->lng->txt('no'),
                 'type' => $record['type'],
                 'container' => implode(' ', \array_slice($container_title_parts, 1, null, true)),
-            ]
+            ],
+            true
         );
 
         return [
@@ -451,12 +453,11 @@ class ilObjectBadgeTableGUI implements DataRetrieval
         $table = $this->factory
             ->table()
             ->data($this, $this->lng->txt('badge_object_badges'), $this->getColumns())
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
-
-        $out = [$table];
 
         $query = $this->http->wrapper()->query();
         if ($query->has($action_parameter_token->getName())) {
@@ -506,6 +507,11 @@ class ilObjectBadgeTableGUI implements DataRetrieval
             }
         }
 
-        $this->tpl->setContent($this->renderer->render($out));
+        $content_wrapper = new TableContentWrapper($this->renderer, $this->factory);
+        $this->tpl->setContent($this->renderer->render(
+            $content_wrapper->wrap(
+                $table
+            )
+        ));
     }
 }

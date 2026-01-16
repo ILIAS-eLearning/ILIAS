@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Container\Content\ItemBlock\ItemBlockSequence;
+use ILIAS\Container\Content\ItemBlock\ItemBlock;
+
 /**
  * Class ilContainerRenderer
  *
@@ -852,7 +855,7 @@ class ilContainerRenderer
     }
 
     public function renderItemBlockSequence(
-        \ILIAS\Container\Content\ItemBlock\ItemBlockSequence $sequence
+        ItemBlockSequence $sequence
     ): string {
         $valid = false;
 
@@ -1053,6 +1056,78 @@ class ilContainerRenderer
             return $page_html . $block_tpl->get();
         }
         return $page_html;
+    }
+
+    public function renderSingleTypeBlockAsynch(
+        ItemBlockSequence $sequence,
+        string $block_id,
+        array $already_rendered_items,
+        int $block_limit
+    ): string {
+
+        $block = $this->getBlockById($sequence, $block_id);
+        // get all sub items
+        //$this->items = $this->getContainerObject()->getSubItems(
+        //    $this->getContainerGUI()->isActiveAdministrationPanel()
+        //);
+        $exhausted = false;
+        $ref_ids = $already_rendered_items;
+
+        // iterate all types
+        if (!is_null($block) && count($block->getItemRefIds()) > 0) {
+
+            $this->addTypeBlock($block_id);
+            //$this->renderer->setBlockPosition($type, ++$pos);
+
+            $position = 1;
+            $counter = 1;
+            foreach ($block->getItemRefIds() as $item_ref_id) {
+                $item_data = $this->item_presentation->getRawDataByRefId($item_ref_id);
+                if (in_array($item_ref_id, $ref_ids)) {
+                    continue;
+                }
+
+                $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
+                if ($this->container_gui->isActiveAdministrationPanel()) {
+                    $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_ADMIN;
+                } elseif ($this->container_gui->isMultiDownloadEnabled()) {
+                    $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_DOWNLOAD;
+                }
+                if (!$this->hasItem($item_ref_id)) {
+                    $html = $this->item_renderer->renderItem(
+                        $item_data,
+                        $position++,
+                        false,
+                        "",
+                        "",
+                        $checkbox,
+                        $this->item_presentation->isActiveItemOrdering($item_data["type"]),
+                    );
+                    if ($html != "") {
+                        $this->addItemToBlock($block_id, $item_data["type"], $item_ref_id, $html);
+                    }
+                }
+
+                if ($block_limit > 0 && $html != "" && $block->getLimitExhausted()) {
+                    $this->addShowMoreButton($block_id);
+                    $exhausted = true;
+                }
+            }
+        }
+
+        return $this->renderSingleTypeBlock($block_id, $exhausted);
+    }
+
+    public function getBlockById(
+        ItemBlockSequence $sequence,
+        string $block_id,
+    ): ?ItemBlock {
+        foreach ($sequence->getBlocks() as $block) {
+            if ($block->getId() === $block_id) {
+                return $block;
+            }
+        }
+        return null;
     }
 
     /**

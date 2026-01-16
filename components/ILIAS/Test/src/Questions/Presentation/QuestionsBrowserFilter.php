@@ -88,7 +88,7 @@ class QuestionsBrowserFilter
             'parent_title' => [$input->text($this->lng->txt($this->parent_title)), true],
             'taxonomy_title' => [$input->text($this->lng->txt('taxonomy_title')), true],
             'taxonomy_node_title' => [$input->text($this->lng->txt('taxonomy_node_title')), true],
-            'feedback' => [$input->select($this->lng->txt('feedback'), $yes_no_all_options), false],
+            'feedback' => [$input->select($this->lng->txt('tst_feedback'), $yes_no_all_options), false],
         ];
     }
 

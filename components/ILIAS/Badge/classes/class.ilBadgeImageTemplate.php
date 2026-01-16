@@ -19,7 +19,6 @@
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Badge\ilBadgeImage;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 class ilBadgeImageTemplate
@@ -184,7 +183,6 @@ class ilBadgeImageTemplate
                     }
                     $stakeholder = new ilBadgeFileStakeholder();
                     $identification = $this->resource_storage->manage()->upload($array_result, $stakeholder);
-                    $this->resource_storage->flavours()->ensure($identification, new \ilBadgePictureDefinition());
                     $badge->setImageRid($identification);
                     $badge->update();
                 }
@@ -378,18 +376,13 @@ class ilBadgeImageTemplate
     }
 
     public function getImageFromResourceId(
-        int $size = ilBadgeImage::IMAGE_SIZE_XS
     ): string {
         $image_src = '';
 
         if ($this->getImageRid()) {
             $identification = $this->resource_storage->manage()->find($this->getImageRid());
             if ($identification !== null) {
-                $flavour = $this->resource_storage->flavours()->get($identification, new ilBadgePictureDefinition());
-                $urls = $this->resource_storage->consume()->flavourUrls($flavour)->getURLsAsArray();
-                if (count($urls) === ilBadgeImage::IMAGE_URL_COUNT && isset($urls[$size])) {
-                    $image_src = $urls[$size];
-                }
+                $image_src = $this->resource_storage->consume()->src($identification)->getSrc();
             }
         } elseif ($this->getImage()) {
             $image_src = ilWACSignedPath::signFile($this->getImagePath());

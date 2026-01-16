@@ -71,6 +71,7 @@ class Factory implements VCInterface\Factory
 
     public function group(array $view_controls): Group
     {
+        $this->language->loadLanguageModule('ui');
         return new Group(
             $this->data_factory,
             $this->refinery,

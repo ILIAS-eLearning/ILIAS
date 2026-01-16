@@ -29,15 +29,13 @@ class ilBenchmark
     private ?ilSetting $settings = null;
     private ?ilObjUser $user = null;
 
-    private Container $dic;
+    private ?Container $dic;
 
     private string $start = '';
     private ?string $temporary_sql_storage = '';
     private array $collected_db_benchmarks = [];
 
     private bool $stop_db_recording = false;
-
-    private int $bench_max_records = 2000;
 
     private ?bool $db_bechmark_enabled = null;
     private ?int $db_bechmark_user_id = null;
@@ -48,12 +46,16 @@ class ilBenchmark
     public function __construct()
     {
         global $DIC;
-        $this->dic = $DIC;
-        $this->initSettins();//(int) ($this->retrieveSetting("bench_max_records") ?? 0);
+        $this->dic = $DIC instanceof Container ? $DIC : null;
+        $this->initSettings();
     }
 
-    private function initSettins(): void
+    private function initSettings(): void
     {
+        if ($this->dic === null) {
+            return;
+        }
+
         if (!$this->settings instanceof ilSetting) {
             $global_settings_available = $this->dic->isDependencyAvailable('settings');
             if ($global_settings_available) {
@@ -168,22 +170,6 @@ class ilBenchmark
         }
     }
 
-    /**
-     * get current number of benchmark records
-     */
-    private function getCurrentRecordNumber(): int
-    {
-        if ($this->isDBavailable()) {
-            $db = $this->retrieveDB();
-            if ($db !== null) {
-                $cnt_set = $db->query("SELECT COUNT(*) AS cnt FROM benchmark");
-                $cnt_rec = $db->fetchAssoc($cnt_set);
-                return (int) $cnt_rec["cnt"];
-            }
-        }
-        return 0;
-    }
-
     //
     //
     // NEW DB BENCHMARK IMPLEMENTATION
@@ -204,7 +190,7 @@ class ilBenchmark
             $this->disableDbBenchmark();
             return;
         }
-        $this->initSettins();
+        $this->initSettings();
         $this->db_bechmark_enabled = true;
         $this->settings->set(self::ENABLE_DB_BENCH, '1');
 
@@ -227,14 +213,14 @@ class ilBenchmark
      */
     public function startDbBench(string $a_sql): void
     {
-        $this->initSettins();
+        $this->initSettings();
         if (
             !$this->stop_db_recording
             && $this->isDbBenchEnabled()
             && $this->isUserAvailable()
             && $this->db_bechmark_user_id === $this->user->getId()
         ) {
-            $this->start = (string) microtime();
+            $this->start = microtime();
             $this->temporary_sql_storage = $a_sql;
         }
     }
@@ -247,7 +233,7 @@ class ilBenchmark
             && $this->isUserAvailable()
             && $this->db_bechmark_user_id === $this->user->getId()
         ) {
-            $this->collected_db_benchmarks[] = ["start" => $this->start, "stop" => (string) microtime(), "sql" => $this->temporary_sql_storage];
+            $this->collected_db_benchmarks[] = ["start" => $this->start, "stop" => microtime(), "sql" => $this->temporary_sql_storage];
 
             return true;
         }

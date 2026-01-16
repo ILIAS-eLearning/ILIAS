@@ -185,24 +185,24 @@ class ilTrQuery
         foreach ($a_sco_ids as $sco_id) {
             // #9719 - can have in_progress AND failed/completed
             if (in_array($a_user_id, $status_info["failed"][$sco_id])) {
-                $status = ilLPStatus::LP_STATUS_FAILED;
+                $status = ilLPStatus::LP_STATUS_FAILED_NUM;
             } elseif (in_array(
                 $a_user_id,
                 $status_info["completed"][$sco_id]
             )) {
-                $status = ilLPStatus::LP_STATUS_COMPLETED;
+                $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } elseif (in_array(
                 $a_user_id,
                 $status_info["in_progress"][$sco_id]
             )) {
-                $status = ilLPStatus::LP_STATUS_IN_PROGRESS;
+                $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             } else {
-                $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED;
+                $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
             }
 
             $items[$sco_id] = array(
                 "title" => $status_info["scos_title"][$sco_id],
-                "status" => (int) $status,
+                "status" => $status,
                 "type" => "sahs",
                 "score" => (int) ($scores[$sco_id] ?? 0)
             );
@@ -880,9 +880,8 @@ class ilTrQuery
         }
 
         if ($valid) {
-            $result["country"] = self::getSummaryPercentages("country", $query);
-            $result["sel_country"] = self::getSummaryPercentages(
-                "sel_country",
+            $result["country"] = self::getSummaryPercentages(
+                "country",
                 $query
             );
             $result["city"] = self::getSummaryPercentages("city", $query);
@@ -1131,7 +1130,6 @@ class ilTrQuery
                     case "street":
                     case "email":
                     case "matriculation":
-                    case "country":
                     case "city":
                     case "title":
                         $where[] = $ilDB->like(
@@ -1143,7 +1141,7 @@ class ilTrQuery
 
                     case "gender":
                     case "zipcode":
-                    case "sel_country":
+                    case "country":
                         $where[] = "usr_data." . $id . " = " . $ilDB->quote(
                             $value,
                             "text"
