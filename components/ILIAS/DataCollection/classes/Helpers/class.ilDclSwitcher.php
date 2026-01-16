@@ -73,6 +73,7 @@ class ilDclSwitcher
             $links[] = $this->ui_factory->link()->standard($title, $this->ctrl->getLinkTargetByClass($target_class, $target_cmd));
         }
         $this->ctrl->clearParameterByClass($target_class, 'tableview_id');
+        $this->ctrl->clearParameterByClass($target_class, 'table_id');
 
         $this->addSwitcherToToolbar($links, $this->lng->txt('dcl_tableview') . ': ' . $current);
     }

@@ -153,6 +153,9 @@ class ilDclRecordListGUI
 
         $this->createSwitchers();
 
+        $this->ctrl->setParameter($this, 'table_id', $this->table_id);
+        $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
+
         $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord(
             $this->parent_obj->getRefId(),
             $this->table_id
