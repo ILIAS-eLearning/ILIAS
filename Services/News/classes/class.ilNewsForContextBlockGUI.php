@@ -139,7 +139,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $info = $this->getNewsForId($data[0]);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
-            return $this->ui->factory()->item()->standard($this->lng->txt('news_sorry_not_accessible_anymore'));
+            return $this->ui->factory()->item()->standard($this->lng->txt('news_not_available'))
+                ->withDescription($this->lng->txt('news_sorry_not_accessible_anymore'));
         }
 
 
