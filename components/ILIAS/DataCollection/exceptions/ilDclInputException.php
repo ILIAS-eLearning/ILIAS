@@ -38,6 +38,11 @@ class ilDclInputException extends ilException
         parent::__construct($this->__toString(), $exception_type);
     }
 
+    public function getExceptionType(): int
+    {
+        return $this->exception_type;
+    }
+
     public function __toString(): string
     {
         switch ($this->exception_type) {
