@@ -56,7 +56,7 @@ class ilObjDataCollection extends ilObject2
         if (!$clone_mode) {
             $main_table = ilDclCache::getTableCache();
             $main_table->setObjId($this->getId());
-            $main_table->setTitle($this->getTitle());
+            $main_table->setTitle($this->lng->txt('dcl_title_standard'));
             $main_table->setAddPerm(true);
             $main_table->setEditPerm(true);
             $main_table->setDeletePerm(false);
