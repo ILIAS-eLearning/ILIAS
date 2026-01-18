@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\AuthApache;
 
 use ilAuthFrontendCredentials;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 use ilUtil;
 use ilSetting;
 use ilContext;
@@ -32,14 +34,13 @@ use ILIAS\ApacheAuth\UsernameProvider\UsernameResolver;
 
 class AuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 {
+    private readonly ilSetting $settings;
+
     public function __construct(
-        private readonly \ILIAS\HTTP\GlobalHttpState $http,
-        private readonly \ILIAS\Refinery\Factory $refinery,
+        private readonly GlobalHttpState $http,
+        private readonly Factory $refinery,
         private readonly ilCtrlInterface $ctrl
     ) {
-        $this->http = $http;
-        $this->refinery = $refinery;
-        $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');
         parent::__construct();
     }
@@ -117,7 +118,7 @@ class AuthFrontendCredentialsApache extends ilAuthFrontendCredentials
                     require CollectUsernameProvidersObjective::PATH()
                 ), $this->logger);
 
-                $this->setUsername($resolver->resolve($this->http_request)->asString());
+                $this->setUsername($resolver->resolve($this->http->request())->asString());
                 break;
         }
     }
