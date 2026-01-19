@@ -604,7 +604,6 @@ class ilExerciseManagementGUI
     {
         $this->initFilter();
         $this->setBackToMembers();
-
         /** @var $button_print \ILIAS\UI\Component\Component */
         $button_print = $this->ui_factory->button()->standard($this->lng->txt('print'), "#")
             ->withOnLoadCode(function ($id) {

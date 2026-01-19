@@ -341,6 +341,10 @@ class ilExAssignment
     public function getInstructionPresentation(): string
     {
         $inst = $this->getInstruction();
+
+        $purifier = new ilExcInstructionPurifier();
+        $inst = $purifier->purify($inst);
+
         if (trim($inst)) {
             $is_html = (strlen($inst) != strlen(strip_tags($inst)));
             if (!$is_html) {

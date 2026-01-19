@@ -983,8 +983,7 @@ class ilExPeerReviewGUI
         if ($text !== []) {
             $text = array_shift($text);
             if (trim($text["atext"]) !== '' && trim($text["atext"]) !== '0') {
-                // mob id to mob src
-                return nl2br(ilRTE::_replaceMediaObjectImageSrc($text["atext"], 1));
+                return $this->gui->getUIUtil()->formatTextInput($text["atext"]);
             }
         }
         return "";

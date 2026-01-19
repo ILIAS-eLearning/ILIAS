@@ -39,6 +39,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     public const SUBMISSION_DATE_COLUMN = 3;
     public const FIRST_DEFAULT_SUBMIT_COLUMN = 4;
     public const FIRST_DEFAULT_REVIEW_COLUMN = 5;
+    protected \ILIAS\Exercise\InternalGUIService $gui;
     protected \ILIAS\Exercise\Team\TeamManager $team;
 
     protected ilLogger $logger;
@@ -572,7 +573,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                     if (!in_array($assignment_type, $this->ass_types_with_files)) {
                         foreach ($submission_files as $submission_file) {
                             $this->excel->setCell($row, self::SUBMISSION_DATE_COLUMN, $submission_file['timestamp']);
-                            $this->excel->setCell($row, self::FIRST_DEFAULT_SUBMIT_COLUMN, $submission_file['atext']);
+                            $purifier = new ilExcTextSubmissionPurifier();
+                            $atext = $purifier->purify($submission_file['atext']);
+                            $this->excel->setCell($row, self::FIRST_DEFAULT_SUBMIT_COLUMN, $atext);
                         }
                     } else {
                         $col = self::FIRST_DEFAULT_SUBMIT_COLUMN;

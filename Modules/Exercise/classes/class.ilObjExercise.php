@@ -21,7 +21,6 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
-
 use ILIAS\Exercise\InternalService;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 
@@ -444,7 +443,8 @@ class ilObjExercise extends ilObject
 
         // body
 
-        $body = $a_ass->getInstruction();
+        $purifier = new ilExcInstructionPurifier();
+        $body = $purifier->purify($a_ass->getInstruction());
         $body .= "\n\n";
 
         $body .= $lng->txt("exc_edit_until") . ": ";
