@@ -124,7 +124,8 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
                 self::TAG_LSITEM,
                 [
                     'obj_id' => \ilObject::_lookupObjectId($ls_item->getRefId()),
-                    'ref_id' => $ls_item->getRefId()
+                    'ref_id' => $ls_item->getRefId(),
+                    'position' => $ls_item->getOrderNumber()
                 ]
             );
 
