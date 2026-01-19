@@ -823,7 +823,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     ): string {
         global $tpl;
 
-        $shib_is_default_without_local_login = (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_SHIBBOLETH;
+        $shib_is_default_without_local_login = (
+            (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_SHIBBOLETH &&
+            !$this->setting->get('shib_auth_allow_local', '0')
+        );
         $cas_is_default = (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_CAS;
 
         if ($cas_is_default || $shib_is_default_without_local_login) {
