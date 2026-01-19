@@ -6199,10 +6199,8 @@ content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_Information#:#Information
 content#:#cont_Interaction#:#Interaction
-content#:#cont_Link#:#Link
 content#:#cont_List#:#List
 content#:#cont_Literature#:#Literature
-content#:#cont_Media#:#Media (Standard)
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Numbers#:#Numbers
 content#:#cont_Poly#:#Polygon
@@ -6312,6 +6310,8 @@ content#:#cont_chapters_after_pages#:#Please note that pages have to precede all
 content#:#cont_chapters_and_pages#:#Chapters and Pages
 content#:#cont_chapters_only#:#Chapters only
 content#:#cont_char_format#:#Character
+content#:#cont_char_link#:#Link
+content#:#cont_char_media#:#Media (Standard)
 content#:#cont_char_style_acc#:#Accentuated
 content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Comment
@@ -12939,6 +12939,7 @@ news#:#news_news_item_visibility_info#:#Public news can be accessed without auth
 news#:#news_news_items#:#News Item(s)
 news#:#news_no_js_click_here#:#If news are not displayed, click here.
 news#:#news_no_news_items#:#No news available.
+news#:#news_not_available#:#Unavailable News
 news#:#news_notifications#:#Notifications
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
@@ -15866,7 +15867,6 @@ skmg#:#skmg_usage_type_info_prof#:#Used in Competence Profiles
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Learning Material
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
-style#:#Style#:#Style
 style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
 style#:#adapt_icons#:#Adapt Icon Colors

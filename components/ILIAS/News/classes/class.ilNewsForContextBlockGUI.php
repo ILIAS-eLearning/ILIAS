@@ -132,7 +132,14 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
     protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
-        $info = $this->getNewsForId($data[0]);
+        try {
+            $info = $this->getNewsForId($data[0]);
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+            return $this->ui->factory()->item()->standard($this->lng->txt('news_not_available'))
+                ->withDescription($this->lng->txt('news_sorry_not_accessible_anymore'));
+        }
+
 
         $props = [
             $this->lng->txt('date') => $info['creation_date'] ?? ''

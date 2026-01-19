@@ -129,7 +129,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             "Confirmation" => $lng->txt("cont_Confirmation"),
             "Information" => $lng->txt("cont_Information"),
             "Interaction" => $lng->txt("cont_Interaction"),
-            "Link" => $lng->txt("cont_Link"),
+            "Link" => $lng->txt("cont_char_link"),
             "Literature" => $lng->txt("cont_Literature"),
             "Separator" => $lng->txt("cont_Separator"),
             "StandardCenter" => $lng->txt("cont_StandardCenter"),
