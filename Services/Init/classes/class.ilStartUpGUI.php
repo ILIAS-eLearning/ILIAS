@@ -823,6 +823,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     ): string {
         global $tpl;
 
+        $shib_is_default_without_local_login = (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_SHIBBOLETH;
+        $cas_is_default = (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_CAS;
+
+        if ($cas_is_default || $shib_is_default_without_local_login) {
+            return $page_editor_html;
+        }
+
         return $this->substituteLoginPageElements(
             $tpl,
             $page_editor_html,
