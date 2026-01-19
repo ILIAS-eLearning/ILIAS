@@ -15,67 +15,77 @@ var	iv={},
 
 
 /* XMLHHTP functions */
-function sendRequest (url, data, callback, user, password, headers) {		
+function sendRequest( url, data, callback, user, password, headers ){
 
-	function sendAndLoad(url, data, callback, user, password, headers) {
-		function createHttpRequest() {
-			try 
-			{
-				return window.XMLHttpRequest 
+	function sendAndLoad( url, data, callback, user, password, headers ){
+		function createHttpRequest(){
+			try {
+				return window.XMLHttpRequest
 					? new window.XMLHttpRequest()
-					: new window.ActiveXObject('MSXML2.XMLHTTP');
-			} 
-			catch (e) 
-			{
-				throw new Error('cannot create XMLHttpRequest');
+					: new window.ActiveXObject( 'MSXML2.XMLHTTP' );
+			}
+			catch ( e ){
+				throw new Error( 'cannot create XMLHttpRequest' );
 			}
 		}
-		function HttpResponse(xhttp) 
-		{
-			this.status = Number(xhttp.status);
-			this.content = String(xhttp.responseText);
-			this.type = String(xhttp.getResponseHeader('Content-Type'));
+
+		function HttpResponse( xhttp ){
+			this.status = Number( xhttp.status );
+			this.content = String( xhttp.responseText );
+			this.type = String( xhttp.getResponseHeader( 'Content-Type' ) );
 		}
-		function onStateChange() 
-		{
-			if (xhttp.readyState === 4) { // COMPLETED
-				if (typeof callback === 'function') {
-					callback(new HttpResponse(xhttp));
-				} else {
-					return new HttpResponse(xhttp);
-				} 
+
+		function onStateChange(){
+			if ( xhttp.readyState === 4 ){ // COMPLETED
+				if ( typeof callback === 'function' ){
+					callback( new HttpResponse( xhttp ) );
+				}
+				else {
+					return new HttpResponse( xhttp );
+				}
 			}
 		}
+
+		function sendData( data ){
+			try {
+				xhttp.send( data ? String( data ) : '' );
+			}
+			catch ( e ){
+				console.log( 'Failed xhttp.send' );
+				// add timed retries on failure?
+			}
+		}
+
 		var xhttp = createHttpRequest();
 		var async = !!callback;
-		var post = !!data; 
-		xhttp.open(post ? 'POST' : 'GET', url, async, user, password);
-		if (typeof headers !== 'object') 
-		{
-			headers = new Object();
+		var post = !!data;
+
+		xhttp.open( post ? 'POST' : 'GET', url, async, user, password );
+
+		if ( typeof headers !== 'object' ){
+			headers = {};
 		}
-		if (post) 
-		{
-			headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+		if ( post ){
+			headers[ 'Content-Type' ] = 'application/x-www-form-urlencoded';
 		}
-		if (headers && headers instanceof Object) 
-		{
-			for (var k in headers) {
-				xhttp.setRequestHeader(k, headers[k]);
+
+		if ( headers && headers instanceof Object ){
+			for ( var k in headers ){
+				xhttp.setRequestHeader( k, headers[ k ] );
 			}
 		}
-		if (async) 
-		{
+
+		if ( async ){
 			xhttp.onreadystatechange = onStateChange;
-//				xhttp.send(data ? String(data) : '');				
-			xhttp.send(data);				
-		} else 
-		{
-			xhttp.send(data ? String(data) : '');				
+			sendData( data );
+		}
+		else {
+			sendData( data );
 			return onStateChange();
 		}
 	}
-	
+
 	function useSendBeacon() {
 		if (navigator.userAgent.indexOf("Chrom") > -1) {
             var winev = null;
