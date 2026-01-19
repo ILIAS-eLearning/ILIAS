@@ -46,12 +46,11 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
                 break;
 
             case "edit":
-                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+                $this->ctrl->setParameterByClass("ilObjFileBasedLMGUI", "ref_id", $this->ref_id);
                 $cmd_link = $this->ctrl->getLinkTargetByClass(
                     [ilRepositoryGUI::class, ilObjFileBasedLMGUI::class],
                     ilObjFileBasedLMGUI::CMD_LIST_FILES
                 );
-                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 break;
 
             default:
