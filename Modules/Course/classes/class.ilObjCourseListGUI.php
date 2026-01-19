@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=0);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=0);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=0);
 
 /**
  * Class ilObjCourseListGUI
@@ -143,12 +143,12 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         // course period
         $info = ilObjCourseAccess::lookupPeriodInfo($this->obj_id);
-        if (is_array($info)) {
+        if ($info !== []) {
             $props[] = array(
                 'alert' => false,
                 'newline' => true,
-                'property' => $info['property'] ?? "",
-                'value' => $info['value'] ?? ""
+                'property' => $info['property'],
+                'value' => $info['value']
             );
         }
 
