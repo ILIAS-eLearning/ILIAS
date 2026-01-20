@@ -97,6 +97,8 @@ class RoutingTest extends TestCase
         $ctrl = $this->mock(ilCtrl::class);
         $ctrl->expects(self::once())->method('redirectToURL')->with('some url');
 
+        $this->expectException(\PHPUnit\Framework\MockObject\NeverReturningMethodException::class);
+
         (new Routing(
             $ctrl,
             $session,

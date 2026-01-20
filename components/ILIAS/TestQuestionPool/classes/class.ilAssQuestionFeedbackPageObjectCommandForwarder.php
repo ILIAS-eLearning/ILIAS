@@ -26,16 +26,7 @@
  */
 class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstractPageObjectCommandForwarder
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param assQuestion $questionOBJ
-     * @param ilCtrl $ctrl
-     * @param ilTabsGUI $tabs
-     * @param ilLanguage $lng
-     */
-    public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
+    public function __construct(assQuestion $questionOBJ, ilCtrlInterface $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();

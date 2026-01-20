@@ -65,6 +65,8 @@ class StartUpStepTest extends TestCase
             $this->mockTree(Intercept::class, ['intercept' => true, 'id' => 'baz', 'target' => ['guiName' => 'foo', 'guiPath' => ['foo'], 'command' => 'bar']]),
         ]]));
 
+        $this->expectException(\PHPUnit\Framework\MockObject\NeverReturningMethodException::class);
+
         $instance->execute();
     }
 

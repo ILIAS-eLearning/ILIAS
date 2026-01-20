@@ -122,6 +122,9 @@ class ilMailOptionsGUITest extends ilMailBaseTestCase
 
         $gui = $this->getMailOptionsGUI($http, $ctrl, $options);
         $gui->setForm($form);
+
+        $this->expectException(\PHPUnit\Framework\MockObject\NeverReturningMethodException::class);
+
         $gui->executeCommand();
     }
 
