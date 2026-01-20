@@ -514,12 +514,13 @@ class ilBookingProcessWithScheduleGUI implements \ILIAS\BookingManager\BookingPr
             $until,
             $message
         );
-        if (count($booked) > 0) {
-            $this->util_gui->handleBookingSuccess($obj_id, "displayPostInfo", $booked);
-        } else {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed'), true);
-            $this->util_gui->back();
+        if ($booked !== []) {
+            $this->util_gui->handleBookingSuccess($obj_id, 'displayPostInfo', $booked);
+            return;
         }
+
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed'), true);
+        $this->util_gui->back();
     }
 
     protected function getBookAvailableTarget(
