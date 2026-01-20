@@ -5900,10 +5900,9 @@ EOD
      */
     private function preloadPostingFileResources(array $postings, array $draftsObjects): void
     {
-        global $DIC;
         $collectionIds = [];
 
-        foreach ($postings as $posting) {
+        foreach ($postings as $postingig) {
             $rcid = $posting->getRCID();
             if ($rcid !== ilForumPost::NO_RCID && !empty($rcid)) {
                 $collection_ids[] = $rcid;
