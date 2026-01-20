@@ -5839,6 +5839,7 @@ common#:#upload_settings#:#Configuración de envíos
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###30 04 2024 new variable
 common#:#uploaded_and_checked#:#El archivo ha sido enivado y chequeado, puede comenzar a importarlo.
 common#:#uploading#:#Enviando...
@@ -6059,6 +6060,7 @@ cont#:#cont_news_timeline_landing_page#:#Página de aterrizaje
 cont#:#cont_news_timeline_landing_page_info#:#La página del calendario será la página de aterrizaje.
 cont#:#cont_news_timeline_tab#:#Calendario
 cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Ruta
@@ -6141,10 +6143,8 @@ content#:#cont_Headline2#:#Cabecera 2
 content#:#cont_Headline3#:#Cabecera 3
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#Lista
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#Media (Genérico)
 content#:#cont_Mnemonic#:#Nemónico
 content#:#cont_Numbers#:#Numbers###30 04 2021 new variable
 content#:#cont_Poly#:#Polígono
@@ -6256,6 +6256,8 @@ content#:#cont_chapters_after_pages#:#Por favor, anotar qué páginas preceden a
 content#:#cont_chapters_and_pages#:#Capítulos y páginas
 content#:#cont_chapters_only#:#Capítulos sólo
 content#:#cont_char_format#:#Carácter
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Acentuado
 content#:#cont_char_style_code#:#Código
 content#:#cont_char_style_com#:#Comentario
@@ -8763,8 +8765,6 @@ dcl#:#dcl_std_field_not_importable#:# - Los campos estándar no se pueden import
 dcl#:#dcl_std_filter#:#Filtro estándar
 dcl#:#dcl_supported_filetypes#:#Extensiones de archivo permitidas
 dcl#:#dcl_supported_filetypes_desc#:#Puede indicar las extensiones permitidas separadas por comas. Por ejemplo: pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabla
 dcl#:#dcl_table_id#:#ID de Tabla
 dcl#:#dcl_table_info#:#Los usuarios con los permisos "Cambiar Configuración" (ver pestaña "Permisos") tienen permiso para añadir/editar/eliminar entradas. Los usuarios con permiso "Añadir/editar Entrada" (ver pestaña "Permisos") sólo tienen permisos dependiendo de los ajustes especificados en el siguiente formulario.
@@ -8802,7 +8802,7 @@ dcl#:#dcl_text_email_title#:#Título
 dcl#:#dcl_text_email_title_info#:#Un título para la URL o dirección de correo electrónico superior (opcional)
 dcl#:#dcl_text_selection#:#Selección de texto
 dcl#:#dcl_text_selection_desc#:#Ofrecer opciones de selección de texto.
-dcl#:#dcl_title_standardview#:#Standard Views
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Único
 dcl#:#dcl_unique_desc#:#En este campo sólo pueden introducirse valore únicos
 dcl#:#dcl_unique_exception#:#El valor introducido ya se ha seleccionado en otro registro
@@ -9422,6 +9422,7 @@ exc#:#exc_passed_status_determination#:#Determinación del estado "superado"
 exc#:#exc_passing_exc#:#Realizando ejercicio
 exc#:#exc_past#:#Past###30 04 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Puesto que la revisión se realiza después de la fecha límite, la fecha límite para mostrar la revisión no puede ser anterior a la fecha de finalización de la entrega
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Revisión por pares
 exc#:#exc_peer_review_ass_setting_info#:#Si está activado, los usuarios pueden calificar a sus compañeros después de la fecha límite.
 exc#:#exc_peer_review_chars_invalid#:#Al menos uno de tus revisiones de pares no alcanza el número mínimo de caracteres: %s.
@@ -11720,6 +11721,7 @@ mep#:#mep_all_mobs#:#Todos los objetos Media
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_choose_from_folder#:#Elegir de una carpeta
 mep#:#mep_choose_from_mep#:#Elegir de un banco de elementos multimedia
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Contenido
 mep#:#mep_content_snippet_in_use#:#Parte del contenido '%s' está en uso y no puede ser eliminado.
 mep#:#mep_content_snippet_used_in_older_versions#:#Este fragmento está en uso en versiones antiguas de alguna páginas. Si estas páginas deshacen los cambios a versiones anteriores que lo incluyan, el fragmento ya no aparecerá en ellas
@@ -12705,6 +12707,7 @@ news#:#news_news_item_visibility_info#:#Las noticias públicas pueden ser accedi
 news#:#news_news_items#:#Noticia(s)
 news#:#news_no_js_click_here#:#Si las noticias no se muestran, haga click aquí.
 news#:#news_no_news_items#:#No hay noticias disponibles.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Notificaciones
 news#:#news_notifications_public#:#Notificaciones públicas
 news#:#news_notifications_public_info#:#Si esta opción está habilitada, las notificaciones pueden obtenerse con feeds RSS personales desde fuera de ILIAS. Por favor, observe que esto implica que las notificaciones serán accesibles sin autenticación para quién conozca la URL
@@ -15620,7 +15623,6 @@ skmg#:#skmg_usage_type_info_prof#:#Usado en Perfiles de Competencias
 skmg#:#skmg_usage_type_info_res#:#Elementos del Repositorio asignados como recursos recomendados
 skmg#:#skmg_usage_type_info_user#:#Asignado a los usuarios
 skmg#:#skmg_your_self_evaluation#:#Su autoevaluación
-style#:#Style#:#Style###07 02 2020 new variable
 style#:#adapt_icon#:#Adaptar icono
 style#:#adapt_icon_description#:#Adaptar los colores del icono o cambiar el propio icono.
 style#:#adapt_icons#:#Adaptar colores de iconos
@@ -17193,6 +17195,7 @@ trac#:#trac_view_mode_all#:#Todos los objetos
 trac#:#trac_view_mode_collection#:#Solo objetos que determinen el estado general
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Total del usuario
 trac#:#view_mode#:#Modo de vista
 tstv#:#tstv_create#:#Crear informe de test completado

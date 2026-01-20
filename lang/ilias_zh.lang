@@ -5836,6 +5836,7 @@ common#:#upload_settings#:#Uploading Settings###24 10 2013 new variable
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###30 04 2024 new variable
 common#:#uploaded_and_checked#:#文件已经上传并经过检查，您现在可以导入它。
 common#:#uploading#:#Uploading...###24 10 2013 new variable
@@ -6056,6 +6057,7 @@ cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
 cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
 cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Path###31 08 2017 new variable
@@ -6138,10 +6140,8 @@ content#:#cont_Headline2#:#标题　２
 content#:#cont_Headline3#:#标题　３
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#列表
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#媒体(标准)
 content#:#cont_Mnemonic#:#助记符
 content#:#cont_Numbers#:#Numbers###30 04 2021 new variable
 content#:#cont_Poly#:# 多边形
@@ -6253,6 +6253,8 @@ content#:#cont_chapters_after_pages#:#请注意，页面必须优先于同级的
 content#:#cont_chapters_and_pages#:#章节和页面
 content#:#cont_chapters_only#:#仅章节
 content#:#cont_char_format#:#字符
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#被强调的
 content#:#cont_char_style_code#:#代码
 content#:#cont_char_style_com#:#评论
@@ -8760,8 +8762,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25
 dcl#:#dcl_std_filter#:#Standardfilter###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx###25 10 2016 new variable
-dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#表
 dcl#:#dcl_table_id#:#表ID
 dcl#:#dcl_table_info#:#具有权限"编辑设置"的用户(请看选项卡"权限")总是被授予添加/编辑/删除条目的权限。具有"编辑设置"权限的用户(请看选项卡"权限")仅有根据上面的表单中指定的设置权限。
@@ -8799,7 +8799,7 @@ dcl#:#dcl_text_email_title#:#Title###30 08 2015 new variable
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).###30 08 2015 new variable
 dcl#:#dcl_text_selection#:#Text Selection###31 08 2017 new variable
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.###31 08 2017 new variable
-dcl#:#dcl_title_standardview#:#Standard Views###10 11 2018 new variable
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#独一无二
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.###30 08 2015 new variable
 dcl#:#dcl_unique_exception#:#您输入的值已被其他记录采用。
@@ -9419,6 +9419,7 @@ exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"###11 03 
 exc#:#exc_passing_exc#:#Passing the Exercise###11 03 2014 new variable
 exc#:#exc_past#:#Past###30 04 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Peer-Feedback###24 10 2013 new variable
 exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers after the deadline.###24 10 2013 new variable
 exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.###30 08 2015 new variable
@@ -11717,6 +11718,7 @@ mep#:#mep_all_mobs#:#所有的媒体对象
 mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
 mep#:#mep_choose_from_folder#:#从文件夹选择
 mep#:#mep_choose_from_mep#:#从媒体池选择
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Content###31 08 2017 new variable
 mep#:#mep_content_snippet_in_use#:#内容片段 "%s" 已在使用，不能删除。
 mep#:#mep_content_snippet_used_in_older_versions#:#请注意：这个片断已经使用在某些页面的更老的版本中。如果这些页面回溯到一个包含这个片段的版本，这个片段将在此页面中丢失。
@@ -12702,6 +12704,7 @@ news#:#news_news_item_visibility_info#:#公共新闻可以无需ILIAS身份验�
 news#:#news_news_items#:#新闻项
 news#:#news_no_js_click_here#:#如果新闻没有显示，请点击这里
 news#:#news_no_news_items#:#没有新闻可用。
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#通知
 news#:#news_notifications_public#:#公共通知
 news#:#news_notifications_public_info#:#如果这个选项已启用，可以由ILIAS以外的个人RSS feeds获得通知。请注意，这个通知无需身份验证就可访问。
@@ -15617,7 +15620,6 @@ skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles###30 12 2013 new varia
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource###30 12 2013 new variable
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users###30 12 2013 new variable
 skmg#:#skmg_your_self_evaluation#:#您的自我评价
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#adapt_icon#:#Adapt Icon###25 10 2016 new variable
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.###25 10 2016 new variable
 style#:#adapt_icons#:#Adapt Icon Colors###25 10 2016 new variable
@@ -17190,6 +17192,7 @@ trac#:#trac_view_mode_all#:#所有对象
 trac#:#trac_view_mode_collection#:#仅确定整体状态的对象
 trac#:#trac_visits#:#访问量
 trac#:#trac_visits_info#:#每个页面访问都做为一次访问计数。
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#用户总数
 trac#:#view_mode#:#视图模式
 tstv#:#tstv_create#:#创建测试验证

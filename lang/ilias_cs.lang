@@ -5837,6 +5837,7 @@ common#:#upload_settings#:#Nastavení ukládání
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###30 04 2024 new variable
 common#:#uploaded_and_checked#:#Soubor byl odeslán a zkontrolován, můžete nyní můžete spustit jeho import.
 common#:#uploading#:#Ukládání...
@@ -6057,6 +6058,7 @@ cont#:#cont_news_timeline_landing_page#:#Vstupní stránka
 cont#:#cont_news_timeline_landing_page_info#:#Stránka časové osy bude vstupní stránkou.
 cont#:#cont_news_timeline_tab#:#Časová osa
 cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Cesta
@@ -6139,10 +6141,8 @@ content#:#cont_Headline2#:#Nadpis 2
 content#:#cont_Headline3#:#Nadpis 3
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#Seznam
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#Média (Standardní)
 content#:#cont_Mnemonic#:#K zapamatování
 content#:#cont_Numbers#:#Numbers###30 04 2021 new variable
 content#:#cont_Poly#:#Mnohoúhelník
@@ -6254,6 +6254,8 @@ content#:#cont_chapters_after_pages#:#Povšimněte si prosím, že těmto strán
 content#:#cont_chapters_and_pages#:#Kapitoly a stránky
 content#:#cont_chapters_only#:#Pouze kapitoly
 content#:#cont_char_format#:#Písmo
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Zvýrazněný
 content#:#cont_char_style_code#:#Kód
 content#:#cont_char_style_com#:#Komentář
@@ -8761,8 +8763,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standardní pole nejsou importovatelná.
 dcl#:#dcl_std_filter#:#Standardní filtr
 dcl#:#dcl_supported_filetypes#:#Povolené přípony souborů
 dcl#:#dcl_supported_filetypes_desc#:#Můžete nastavit povolené přípony s oddělovači. Například: pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabulka
 dcl#:#dcl_table_id#:#ID tabulky
 dcl#:#dcl_table_info#:#Uživatelé s oprávněním "upravit nastavení" (viz tab "Oprávnění") vždy mají oprávnění přidat/upravit/smazat položky. Uživatelé s oprávněním "upravit položky" (viz tab "Oprávnění") mají jen oprávnění podle nastavení odpovídající ve formuláři níže.
@@ -8800,7 +8800,7 @@ dcl#:#dcl_text_email_title#:#Název
 dcl#:#dcl_text_email_title_info#:#Název výše uvedené URL adresy nebo e-mailové adresy (volitelné).
 dcl#:#dcl_text_selection#:#Výběr textu
 dcl#:#dcl_text_selection_desc#:#Nabídka výběru možností textu.
-dcl#:#dcl_title_standardview#:#Standardní zobrazení
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Unikátní
 dcl#:#dcl_unique_desc#:#V tomto poli může být stejný záznam vytvořen jen jednou.
 dcl#:#dcl_unique_exception#:#Hodnota Vámi vložená je již použita jiným záznamem.
@@ -9420,6 +9420,7 @@ exc#:#exc_passed_status_determination#:#Stanovení stavu „splněno“
 exc#:#exc_passing_exc#:#Splnění cvičení
 exc#:#exc_past#:#Past###30 04 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Vzhledem k tomu, že zpětná vazba je dána po uplynutí konečného termínu, nesmí být konečný termín pro zpětnou vazbu kratší než konečný termín úlohy.
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Vzájemná zpětná vazba
 exc#:#exc_peer_review_ass_setting_info#:#Pokud je povolena, uživatelé mohou partnery hodnotit po uplynutí lhůty.
 exc#:#exc_peer_review_chars_invalid#:#Nejméně jedna z vašich zpětných vazeb nemá požadovanou minimální délku %s znaků.
@@ -11718,6 +11719,7 @@ mep#:#mep_all_mobs#:#Všechny mediální objekty
 mep#:#mep_bulk_upload#:#Hromadné nahrání
 mep#:#mep_choose_from_folder#:#Vyberte ze složky
 mep#:#mep_choose_from_mep#:#Vyberte ze zásobníku
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Obsah
 mep#:#mep_content_snippet_in_use#:#Obsah úryvků '%s' je v použití a nemůže být smazán.
 mep#:#mep_content_snippet_used_in_older_versions#:#Povšimněte si prosím: Tento úryvek je použit ve starších verzích některých stránek. Pokud budete tyto stránky procházet zpět před verzi, která obsahuje tento úryvek, úryven bude na stránce chybět.
@@ -12703,6 +12705,7 @@ news#:#news_news_item_visibility_info#:#Veřejné zprávy mohou být přístupn�
 news#:#news_news_items#:#Položky zpráv
 news#:#news_no_js_click_here#:#Pokud zprávy nejsou zobrazeny, klepněte zde.
 news#:#news_no_news_items#:#Žádné dostupné zprávy.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Oznámení
 news#:#news_notifications_public#:#Veřejné oznámení
 news#:#news_notifications_public_info#:#Je-li tato volba zapnuta, oznamování může být získáváno přes osobní feeds RSS mimo ILIAS. Povšimněte si prosím, že tento způsob zajišťuje oznamování  přístupné bez autentizace.
@@ -15618,7 +15621,6 @@ skmg#:#skmg_usage_type_info_prof#:#Používá se v profilech dovedností
 skmg#:#skmg_usage_type_info_res#:#Objekty úložiště přiřazené jako doporučený zdroj
 skmg#:#skmg_usage_type_info_user#:#Přidělené uživatelům
 skmg#:#skmg_your_self_evaluation#:#Vaše sebehodnocení
-style#:#Style#:#Style###07 02 2020 new variable
 style#:#adapt_icon#:#Upravte ikonu
 style#:#adapt_icon_description#:#Upravte barvy ikony nebo změňte samotnou ikonu.
 style#:#adapt_icons#:#Upravte barvy ikon
@@ -17191,6 +17193,7 @@ trac#:#trac_view_mode_all#:#Všechny objekty
 trac#:#trac_view_mode_collection#:#Jen objekty, kteé určují celkový status
 trac#:#trac_visits#:#Počet návštěv
 trac#:#trac_visits_info#:#Každá návštěva stránky je počítána jako jedna návštěva.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Celkem uživatelů
 trac#:#view_mode#:#Mód zobrazení
 tstv#:#tstv_create#:#Vytvořit verifikaci testu

@@ -5837,6 +5837,7 @@ common#:#upload_settings#:#Uploaden instellingen
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###30 04 2024 new variable
 common#:#uploaded_and_checked#:#Het bestand werd geüpload en gecontroleerd, je kunt nu de import starten.
 common#:#uploading#:#Bezig met uploaden...
@@ -6057,6 +6058,7 @@ cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
 cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
 cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Path###31 08 2017 new variable
@@ -6139,10 +6141,8 @@ content#:#cont_Headline2#:#Kopregel 2
 content#:#cont_Headline3#:#Kopregel 3
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#Lijst
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#Media (Standard)
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Numbers#:#Numbers###30 04 2021 new variable
 content#:#cont_Poly#:#Polygoon
@@ -6254,6 +6254,8 @@ content#:#cont_chapters_after_pages#:#Please note that pages have to precede all
 content#:#cont_chapters_and_pages#:#Hoofdstukken en pagina's
 content#:#cont_chapters_only#:#Alleen hoofdstukken
 content#:#cont_char_format#:#Leesteken
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Geaccentueerd
 content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Commentaar
@@ -8761,8 +8763,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25
 dcl#:#dcl_std_filter#:#Standardfilter###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx###25 10 2016 new variable
-dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabel
 dcl#:#dcl_table_id#:#Tabel ID
 dcl#:#dcl_table_info#:#Gebruikers met het recht "Instellingen wijzigen" (zie tabblad rechten) hebben altijd het recht om onderdelen toe te voegen, te wijzigen en te verwijderen. Gebruikers met het recht "wijzigen onderdeel" (zie tabblad rechten) hebben alleen de rechten zoals gespecificeerd volgens de instellingen in het formulier hieronder.
@@ -8800,7 +8800,7 @@ dcl#:#dcl_text_email_title#:#Title###30 08 2015 new variable
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).###30 08 2015 new variable
 dcl#:#dcl_text_selection#:#Text Selection###31 08 2017 new variable
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.###31 08 2017 new variable
-dcl#:#dcl_title_standardview#:#Standard Views###10 11 2018 new variable
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Uniek
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.###30 08 2015 new variable
 dcl#:#dcl_unique_exception#:#De waarde die je hebt ingegeven wordt al gebruikt door een ander record
@@ -9420,6 +9420,7 @@ exc#:#exc_passed_status_determination#:#Bepalen van de "Geslaagd" status.
 exc#:#exc_passing_exc#:#Slagen voor de oefening
 exc#:#exc_past#:#Past###30 04 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Sinds feedback wordt gegeven na de deadline, moet de feedback deadline niet eerder staan dan de toets deadline.
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#Als ingeschakeld kunnen gebruikers nog feedback geven na de deadline.
 exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.###30 08 2015 new variable
@@ -11718,6 +11719,7 @@ mep#:#mep_all_mobs#:#Alle Media Objecten
 mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
 mep#:#mep_choose_from_folder#:#Kies uit folder
 mep#:#mep_choose_from_mep#:#Kies uit mediapool
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Content###31 08 2017 new variable
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
@@ -12703,6 +12705,7 @@ news#:#news_news_item_visibility_info#:#Het openbare nieuws kan zonder authentic
 news#:#news_news_items#:#Nieuwsitem(s)
 news#:#news_no_js_click_here#:#Hier klikken als het niet wordt weergegeven
 news#:#news_no_news_items#:#Geen nieuws beschikbaat
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Meldingen
 news#:#news_notifications_public#:#Publieke berichten
 news#:#news_notifications_public_info#:#Als deze optie wordt toegelaten, kunnen de berichten door persoonlijks feed RSS buiten ILIAS worden verkregen. Gelieve op te merken dat dit berichten zonder authenticatie toegankelijk maakt.
@@ -15618,7 +15621,6 @@ skmg#:#skmg_usage_type_info_prof#:#Gebruikt in vaardigheidsprofielen
 skmg#:#skmg_usage_type_info_res#:#Studiecentrumobjecten aangewezen als gesuggereerd leermateriaal
 skmg#:#skmg_usage_type_info_user#:#Toegeked aan gebruikers
 skmg#:#skmg_your_self_evaluation#:#Jouw Zelf-Evaluatie
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#adapt_icon#:#Adapt Icon###25 10 2016 new variable
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.###25 10 2016 new variable
 style#:#adapt_icons#:#Adapt Icon Colors###25 10 2016 new variable
@@ -17191,6 +17193,7 @@ trac#:#trac_view_mode_all#:#Alle objecten
 trac#:#trac_view_mode_collection#:#Alleen objecten die de totale / algehele status bepalen
 trac#:#trac_visits#:#Aantal bezoeken
 trac#:#trac_visits_info#:#Elk paginabezoek telt voor 1 bezoek
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Gebruiker totaal
 trac#:#view_mode#:#Toon mode
 tstv#:#tstv_create#:#Aanmaken Toets Certificaat

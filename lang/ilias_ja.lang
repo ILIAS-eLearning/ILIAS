@@ -6141,10 +6141,8 @@ content#:#cont_Headline2#:#ヘッダー行2
 content#:#cont_Headline3#:#ヘッダー行3
 content#:#cont_Information#:#Information
 content#:#cont_Interaction#:#インタラクション
-content#:#cont_Link#:#Link
 content#:#cont_List#:#リスト
 content#:#cont_Literature#:#文献
-content#:#cont_Media#:#メディア (標準)
 content#:#cont_Mnemonic#:#ニーモニック
 content#:#cont_Numbers#:#Numbers
 content#:#cont_Poly#:#多角形
@@ -6256,6 +6254,8 @@ content#:#cont_chapters_after_pages#:#ページは同じレベルの全ての副
 content#:#cont_chapters_and_pages#:#章とページ
 content#:#cont_chapters_only#:#章のみ
 content#:#cont_char_format#:#文字
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#強調
 content#:#cont_char_style_code#:#コード
 content#:#cont_char_style_com#:#コメント
@@ -8800,7 +8800,7 @@ dcl#:#dcl_text_email_title#:#タイトル
 dcl#:#dcl_text_email_title_info#:#上記のURLまたはE-Mailアドレス用のタイトル。(オプション)
 dcl#:#dcl_text_selection#:#テキスト選択
 dcl#:#dcl_text_selection_desc#:#テキストオプションを提示
-dcl#:#dcl_title_standardview#:#標準ビュー
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#ユニーク
 dcl#:#dcl_unique_desc#:#このフィールドの値は全てのエントリー内でユニークにする必要があります。
 dcl#:#dcl_unique_exception#:#入力した値はすでに別のレコードで使用されています。
@@ -12705,6 +12705,7 @@ news#:#news_news_item_visibility_info#:#パブリックニュースはRSS 経由
 news#:#news_news_items#:#新しいアイテム
 news#:#news_no_js_click_here#:#ニュースが表示されない場合はここをクリックします。
 news#:#news_no_news_items#:#ニュースはありません。
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#通知
 news#:#news_notifications_public#:#パブリック通知
 news#:#news_notifications_public_info#:#このオプションが有効になっていると、ILIAS外部のパーソナルRSSフィードで通知を得る事ができます。認証しなくても通知アクセスできるようになる事に注意願います。
@@ -15620,7 +15621,6 @@ skmg#:#skmg_usage_type_info_prof#:#スキルプロファイル内で使用済み
 skmg#:#skmg_usage_type_info_res#:#推奨リソースとして割当てられたリポジトリオブジェクト
 skmg#:#skmg_usage_type_info_user#:#ユーザへ割当て済み
 skmg#:#skmg_your_self_evaluation#:#あなたの自己評価
-style#:#Style#:#Style
 style#:#adapt_icon#:#アイコンを適合
 style#:#adapt_icon_description#:#アイコンを適合またはアイコン自体を変更します。
 style#:#adapt_icons#:#アイコンカラーを適合

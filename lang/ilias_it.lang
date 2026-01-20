@@ -5836,6 +5836,7 @@ common#:#upload_settings#:#Caricamento delle impostazioni
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###30 04 2024 new variable
 common#:#uploaded_and_checked#:#Il file è stato caricato e verificato, ora puoi iniziare a importarlo.
 common#:#uploading#:#Caricamento...
@@ -6056,6 +6057,7 @@ cont#:#cont_news_timeline_landing_page#:#Pagina di destinazione
 cont#:#cont_news_timeline_landing_page_info#:#La pagina del calendario sarà la pagina di destinazione.
 cont#:#cont_news_timeline_tab#:#Calendario
 cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Pagina Archivio (Corsi, Gruppi, ...)
 cont#:#cont_page_type_cstr#:#Pagina iniziale del corso (visualizzazione degli obiettivi di apprendimento)
 cont#:#cont_path#:#Percorso
@@ -6138,10 +6140,8 @@ content#:#cont_Headline2#:#Intestazione 2
 content#:#cont_Headline3#:#Intestazione 3
 content#:#cont_Information#:#Information
 content#:#cont_Interaction#:#Interazione
-content#:#cont_Link#:#Collegamento
 content#:#cont_List#:#Lista
 content#:#cont_Literature#:#Literature
-content#:#cont_Media#:#Supporti (Standard)
 content#:#cont_Mnemonic#:#Mnemonico
 content#:#cont_Numbers#:#Numbers
 content#:#cont_Poly#:#Poligono
@@ -6253,6 +6253,8 @@ content#:#cont_chapters_after_pages#:#Ricordatevi che le pagine devono precedere
 content#:#cont_chapters_and_pages#:#Capitoli e pagine
 content#:#cont_chapters_only#:#Capitoli solamente
 content#:#cont_char_format#:#Carattere
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Marcato
 content#:#cont_char_style_code#:#Codice
 content#:#cont_char_style_com#:#Commento
@@ -8760,8 +8762,6 @@ dcl#:#dcl_std_field_not_importable#:# - I campi standard non possono essere impo
 dcl#:#dcl_std_filter#:#Filtro standard
 dcl#:#dcl_supported_filetypes#:#Consenti estensione file
 dcl#:#dcl_supported_filetypes_desc#:#È possibile impostare le estensioni consentite separate dalla virgola. Per esempio: pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabella
 dcl#:#dcl_table_id#:#ID tabella
 dcl#:#dcl_table_info#:#Gli utenti con l'autorizzazione "modifica impostazioni" (vedere la scheda "Autorizzazione") hanno sempre l'autorizzazione per aggiungere/modificare/eliminare voci. Gli utenti con autorizzazione "modifica voce" (vedere la scheda "Autorizzazioni") hanno autorizzazioni solo in base alle impostazioni specificate nel modulo seguente.
@@ -8799,7 +8799,7 @@ dcl#:#dcl_text_email_title#:#Titolo
 dcl#:#dcl_text_email_title_info#:#Un titolo per l’URL o l’indirizzo email in alto (opzionale).
 dcl#:#dcl_text_selection#:#Selezione del testo
 dcl#:#dcl_text_selection_desc#:#Offerta selezione di opzioni di testo.
-dcl#:#dcl_title_standardview#:#Visione predefinita
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Unico
 dcl#:#dcl_unique_desc#:#Il valore in questo campo deve essere unico tra tutte le voci.
 dcl#:#dcl_unique_exception#:#Il valore inserito è già preso da un'altra registrazione.
@@ -9419,6 +9419,7 @@ exc#:#exc_passed_status_determination#:#Determinazione dello Staus "superato"
 exc#:#exc_passing_exc#:#Superamento dell’esercizio
 exc#:#exc_past#:#Past###30 04 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Poiché il feedback è dato dopo che la scadenza ha superato il termine di feedback non deve essere precedente al termine di assegnazione.
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Feedback tra pari
 exc#:#exc_peer_review_ass_setting_info#:#Se abilitato, gli utenti possono valutare i propri colleghi dopo la scadenza.
 exc#:#exc_peer_review_chars_invalid#:#Almeno uno dei tuoi feedback non ha la lunghezza minima richiesta di %s caratteri.
@@ -11717,6 +11718,7 @@ mep#:#mep_all_mobs#:#Tutti gli oggetti Media
 mep#:#mep_bulk_upload#:#Caricamento collettivo
 mep#:#mep_choose_from_folder#:#Scegli dalla cartella
 mep#:#mep_choose_from_mep#:#Scegli dal pool
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Contenuto
 mep#:#mep_content_snippet_in_use#:#Frammento di contenuto '%s' è in uso e non può essere eliminato.
 mep#:#mep_content_snippet_used_in_older_versions#:#Si prega di notare: Questo frammento di codice viene utilizzato nelle versioni precedenti di alcune pagine. Se queste pagine sono ripristinate ad una versione che include questo frammento, il frammento di codice mancherà nella pagina.
@@ -12702,6 +12704,7 @@ news#:#news_news_item_visibility_info#:#Le News pubbliche sono accessibili senza
 news#:#news_news_items#:#News
 news#:#news_no_js_click_here#:#Se le news non sono visualizzate, cliccare quì.
 news#:#news_no_news_items#:#Non ci sono news disponibili.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Notifiche
 news#:#news_notifications_public#:#Notifiche pubbliche
 news#:#news_notifications_public_info#:#Se questa opzione è abilitata, le notifiche possono essere ottenute via feed RSS personale, fuori da ILIAS. Nota bene che questa opzione rende le notifiche accessibili senza autenticazione.
@@ -15617,7 +15620,6 @@ skmg#:#skmg_usage_type_info_prof#:#Utilizzato nei profili di competenze
 skmg#:#skmg_usage_type_info_res#:#Oggetti repository assegnati come risorsa suggerita
 skmg#:#skmg_usage_type_info_user#:#Assegnato agli utenti
 skmg#:#skmg_your_self_evaluation#:#La tua auto valutazione.
-style#:#Style#:#
 style#:#adapt_icon#:#Adatta icona
 style#:#adapt_icon_description#:#Adatta colori icona o cambia l’icona.
 style#:#adapt_icons#:#Adatta colori icona
@@ -17190,6 +17192,7 @@ trac#:#trac_view_mode_all#:#Tutti gli oggetti
 trac#:#trac_view_mode_collection#:#Solo gli oggetti che determinano lo stato generale
 trac#:#trac_visits#:#Numero minimo di chiamate
 trac#:#trac_visits_info#:#Una chiamata viene conteggiata come una nuova chiamata solo dopo %s secondi.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Totale utenti
 trac#:#view_mode#:#Visualizza modalità
 tstv#:#tstv_create#:#Crea certificato del test

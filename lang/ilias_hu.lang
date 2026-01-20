@@ -5837,6 +5837,7 @@ common#:#upload_settings#:#Fájlok feltöltési beállításai
 common#:#upload_svg_rejection_message#:#Az SVG-fájl vélhetően rosszindulatú kódot tartalmaz, ezért nem dolgoztuk fel.
 common#:#upload_svg_rejection_message_base64#:#A fájl base64 kódolású részeket tartalmaz.
 common#:#upload_svg_rejection_message_elements#:#A fájl nem engedélyezettek vagy ismeretlen elemeket, attribútumokat tartalmaz.
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#A fájl script-elemeket tartalmaz.
 common#:#uploaded_and_checked#:#A fájlt feltöltötte és sikeresen ellenőriztük. Elkezdheti importálását.
 common#:#uploading#:#Feltöltés…
@@ -6057,6 +6058,7 @@ cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
 cont#:#cont_news_timeline_landing_page_info#:#Az Idővonal lap lesz a kezdőoldal.
 cont#:#cont_news_timeline_tab#:#Idővonal
 cont#:#cont_no_title#:#Üres cím
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Tartalomtár oldal (kurzusok, csoportok, …)
 cont#:#cont_page_type_cstr#:#Kurzus kezdő oldala (tanulási cél nézet)
 cont#:#cont_path#:#Útvonal
@@ -6139,10 +6141,8 @@ content#:#cont_Headline2#:#Címsor 2
 content#:#cont_Headline3#:#Címsor 3
 content#:#cont_Information#:#Információ
 content#:#cont_Interaction#:#Kölcsönhatás
-content#:#cont_Link#:#Link
 content#:#cont_List#:#Lista
 content#:#cont_Literature#:#Irodalom
-content#:#cont_Media#:#Média (standard)
 content#:#cont_Mnemonic#:#Emlékezést segítő
 content#:#cont_Numbers#:#Számok
 content#:#cont_Poly#:#Sokszög
@@ -6254,6 +6254,8 @@ content#:#cont_chapters_after_pages#:#Ne felejtse el, hogy a lapoknak ugyanazon 
 content#:#cont_chapters_and_pages#:#Fejezetek és lapok
 content#:#cont_chapters_only#:#Csak fejezetek
 content#:#cont_char_format#:#Karakter
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Kiemelt
 content#:#cont_char_style_code#:#Kód
 content#:#cont_char_style_com#:#Megjegyzés
@@ -8761,8 +8763,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standard mezők nem importálhatóak.
 dcl#:#dcl_std_filter#:#Alapértelmezett szűrő
 dcl#:#dcl_supported_filetypes#:#Engedélyezett fájlkiterjesztések
 dcl#:#dcl_supported_filetypes_desc#:#Az engedélyezni kívánt fájlkiterjesztéseket vesszővel elválasztva adja meg. Például: pdf, docx
-dcl#:#dcl_switch_table#:#Tábla módosítása
-dcl#:#dcl_switch_view#:#Nézet váltása
 dcl#:#dcl_table#:#Tábla
 dcl#:#dcl_table_id#:#Tábla-ID
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' lapot) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok módosítása' jogosultságú felhasználók (lásd a 'Jogosultságok' lapot) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
@@ -8800,7 +8800,7 @@ dcl#:#dcl_text_email_title#:#Cím
 dcl#:#dcl_text_email_title_info#:#Az alábbi URL-hez vagy e-mail címhez címke (nem kötelező).
 dcl#:#dcl_text_selection#:#Szövegválasztó
 dcl#:#dcl_text_selection_desc#:#Szöveglehetőségek választásának felkínálása.
-dcl#:#dcl_title_standardview#:#Standard nézetek
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Egyedi
 dcl#:#dcl_unique_desc#:#Ebben a mezőben minden értéknek különböznie kell egymástól.
 dcl#:#dcl_unique_exception#:#Az Ön által megadott értéket már másik bejegyzés tartalmazza.
@@ -9420,6 +9420,7 @@ exc#:#exc_passed_status_determination#:#'Sikeresen teljesítette' állapot megha
 exc#:#exc_passing_exc#:#Beadandó feladat teljesítése
 exc#:#exc_past#:#Elmúlt
 exc#:#exc_peer_deadline_mismatch#:#Hogy visszajelzést lehessen küldeni, a visszajelzés határideje nem lehet korábbi, mint a feladata beadási határideje.
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Tanulói visszajelzés
 exc#:#exc_peer_review_ass_setting_info#:#Felhasználók értékelhetik a társaik megoldását a határidő után és amennyiben létezik türelmi idő, annak lejárta után. A visszajelzés néhány tulajdonságát az adott lapon lehet beállítani. Ezen opció aktiválása és mentése után megjelenik a 'Visszajelzés' lap.
 exc#:#exc_peer_review_chars_invalid#:#Visszajelzésének hossza nem éri a szükséges %s karaktert.
@@ -11718,6 +11719,7 @@ mep#:#mep_all_mobs#:#Összes médiaobjektum
 mep#:#mep_bulk_upload#:#Tömeges feltöltés
 mep#:#mep_choose_from_folder#:#Válasszon a mappából
 mep#:#mep_choose_from_mep#:#Válasszon a gyűjteményből
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Tartalom
 mep#:#mep_content_snippet_in_use#:#'%s' tartalom-építőelem használatban van, nem törölhető.
 mep#:#mep_content_snippet_used_in_older_versions#:#Ne feledje: néhány lap régebbi verziója használja ezt az építőelemet. Ha ezeket a lapokat visszaállítják egy olyan verzióra, amely tartalmazza ezt az építőelemet, az építőelem hiányozni fog a lapról.
@@ -12703,6 +12705,7 @@ news#:#news_news_item_visibility_info#:#A nyilvános hírek elérhetők bejelent
 news#:#news_news_items#:#hír
 news#:#news_no_js_click_here#:#Ha nem jelennek meg a hírek, kattintson ide!
 news#:#news_no_news_items#:#Nincsenek elérhető hírek.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Értesítések
 news#:#news_notifications_public#:#Nyilvános értesítések
 news#:#news_notifications_public_info#:#A személyes RSS-csatornák elérhetők az ILIAS-on kívül is. Tehát így bejelentkezés nélkül is elérhetővé teszi az értesítéseket.
@@ -15618,7 +15621,6 @@ skmg#:#skmg_usage_type_info_prof#:#Kompetenciaprofilokban felhasználásra
 skmg#:#skmg_usage_type_info_res#:#ILIAS-objektumok hozzárendelése tanulási (segéd)anyagként
 skmg#:#skmg_usage_type_info_user#:#Felhasználókhoz rendelve
 skmg#:#skmg_your_self_evaluation#:#Az Ön önértékelése
-style#:#Style#:#Stílus
 style#:#adapt_icon#:#Ikon átvétele
 style#:#adapt_icon_description#:#Ikonszínek átvétele vagy az ikon módosítása.
 style#:#adapt_icons#:#Ikonszínek átalakítása
@@ -17191,6 +17193,7 @@ trac#:#trac_view_mode_all#:#Összes objektum
 trac#:#trac_view_mode_collection#:#Csak azok az objektumok, amelyek az átfogó állapotot határozzák meg
 trac#:#trac_visits#:#Elvárt látogatások száma
 trac#:#trac_visits_info#:#Csak a %s másodpercen túli kattintás számít új látogatásnak.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Felhasználók összesen
 trac#:#view_mode#:#Nézet
 tstv#:#tstv_create#:#Tesztigazolás létrehozása

@@ -5837,6 +5837,7 @@ common#:#upload_settings#:#Ustawienia dotyczące wysyłania
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###30 04 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###30 04 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###30 04 2024 new variable
 common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz możesz rozpocząć jego import.
 common#:#uploading#:#Wyślij...
@@ -6057,6 +6058,7 @@ cont#:#cont_news_timeline_landing_page#:#Strona startowa
 cont#:#cont_news_timeline_landing_page_info#:#Linia czasu jako strona startowa
 cont#:#cont_news_timeline_tab#:#Linia czasu
 cont#:#cont_no_title#:#Empty Title###30 07 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
 cont#:#cont_path#:#Ścieżka
@@ -6139,10 +6141,8 @@ content#:#cont_Headline2#:#Nagłówek 2
 content#:#cont_Headline3#:#Nagłówek 3
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#Lista
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#Media (standard)
 content#:#cont_Mnemonic#:#Pamięciowy
 content#:#cont_Numbers#:#Numbers###30 04 2021 new variable
 content#:#cont_Poly#:#Wielobok
@@ -6254,6 +6254,8 @@ content#:#cont_chapters_after_pages#:#Pamiętaj, że na jednym poziomie najpierw
 content#:#cont_chapters_and_pages#:#Rozdziały i strony
 content#:#cont_chapters_only#:#Tylko rozdziały
 content#:#cont_char_format#:#Format znaku
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Akcentowany
 content#:#cont_char_style_code#:#Kod
 content#:#cont_char_style_com#:#Komentarz
@@ -8761,8 +8763,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standardowe pola nie są importowalne.
 dcl#:#dcl_std_filter#:#Wstępna aktywacja filtra
 dcl#:#dcl_supported_filetypes#:#Dopuszczalne końcówki plików
 dcl#:#dcl_supported_filetypes_desc#:#Tutaj możesz wpisać końcówki plików przedzielone przecinkami. Np.: pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table###30 04 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###30 04 2024 new variable
 dcl#:#dcl_table#:#Tabela
 dcl#:#dcl_table_id#:#Numer ID tabelki
 dcl#:#dcl_table_info#:#Poniżej ustalasz, co użytkownicy, którzy dla zbioru danych posiadają prawo "Wprowadzania", mogą robić w tabeli.
@@ -8800,7 +8800,7 @@ dcl#:#dcl_text_email_title#:#Tytuł
 dcl#:#dcl_text_email_title_info#:#Nazwa dla adresu URL lub adresu mailowego (opcjonalnie).
 dcl#:#dcl_text_selection#:#Menu wyboru tekstu
 dcl#:#dcl_text_selection_desc#:#Udostępnienie opcji wyboru (tekst)
-dcl#:#dcl_title_standardview#:#Standard Views
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Zapobiegaj identycznym wpisom
 dcl#:#dcl_unique_desc#:#W tym pola można tylko raz wpisać identyczne dane.
 dcl#:#dcl_unique_exception#:#Wprowadzona wartość używana jest przez inny wpis.
@@ -9420,6 +9420,7 @@ exc#:#exc_passed_status_determination#:#Ocena „Zaliczone“
 exc#:#exc_passing_exc#:#Zaliczenie ćwiczenia
 exc#:#exc_past#:#Past###30 04 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Ponieważ feedback można dać dopiero po terminie oddania zadania, ostateczny termin feedbacku nie może być przed terminem oddania.
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Feedback dotyczący oceny
 exc#:#exc_peer_review_ass_setting_info#:#Po upływie terminu oddania oraz ewentualnie terminu dodatkowego uczestnicy mogą nawzajem oceniać wyniki swojej pracy. Dokładne ustawienia dla feedbacku dotyczącego oceny włączane są w zakładce o takiej samej nazwie. Zakładka jest widoczna, gdy opcja została aktywowana i zapisana.
 exc#:#exc_peer_review_chars_invalid#:#Twój tekst jeszcze nie osiągnął wymaganej długości %s znaków.
@@ -11718,6 +11719,7 @@ mep#:#mep_all_mobs#:#Wszystkie obiekty
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_choose_from_folder#:#Wybierz z folderu
 mep#:#mep_choose_from_mep#:#Wybierz z puli
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Obiekty multimedialne
 mep#:#mep_content_snippet_in_use#:#moduł treści '%s' jest używany i dlatego nie można ich usunąć.
 mep#:#mep_content_snippet_used_in_older_versions#:#Uwaga: w starszych wersjach moduł treści był używany przed kilka stron. Jeśli przywrócona zostanie jedna z wersji takiej strony, nie będzie w niej tego modułu treści.
@@ -12703,6 +12705,7 @@ news#:#news_news_item_visibility_info#:#Publiczne wiadomości mogą być dostęp
 news#:#news_news_items#:#Pozycje wiadomości
 news#:#news_no_js_click_here#:#Jeśli wiadomości się nie pokazały, kliknij tutaj.
 news#:#news_no_news_items#:#Nie ma dostępnych wiadomości.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Zawiadomienie
 news#:#news_notifications_public#:#Publiczne zawiadomienia
 news#:#news_notifications_public_info#:#Jeśli ta opcja jest wybrana, zawiadomienia mogą być otrzymywane poprzez osobiste RSS poza ILIAS. Oznacza to dostęp bez autoryzacji.
@@ -15618,7 +15621,6 @@ skmg#:#skmg_usage_type_info_prof#:#Użycie w profilach kompetencji
 skmg#:#skmg_usage_type_info_res#:#Przydział do obiektów w dostępnych zasobach
 skmg#:#skmg_usage_type_info_user#:#Przydział do użytkowników
 skmg#:#skmg_your_self_evaluation#:#Twoja samoocena
-style#:#Style#:#Style###07 02 2020 new variable
 style#:#adapt_icon#:#Dopasowanie ikon
 style#:#adapt_icon_description#:#Dostosuj kolor ikony lub ikonę.
 style#:#adapt_icons#:#Dostosowanie kolorów ikon
@@ -17191,6 +17193,7 @@ trac#:#trac_view_mode_all#:#Wszystkie obiekty
 trac#:#trac_view_mode_collection#:#Tylko obiekty, które określają status łączny
 trac#:#trac_visits#:#Liczba wizyt
 trac#:#trac_visits_info#:#Każda wizyta na stronie jest liczona jako jedna wizyta.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Liczba użytkowników
 trac#:#view_mode#:#Tryb widoku
 tstv#:#tstv_create#:#Utwórz certyfikat testu
