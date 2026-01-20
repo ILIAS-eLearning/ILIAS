@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"phiki/phiki": "^2.0"
 	},
 	"require-dev": {
 	},
