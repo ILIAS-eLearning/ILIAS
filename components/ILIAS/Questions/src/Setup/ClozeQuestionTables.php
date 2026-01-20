@@ -54,7 +54,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
                     'length' => 32,
                     'notnull' => true
                 ],
-                'combinations_activated' => [
+                'combinations_enabled' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 1,
                     'notnull' => true
@@ -163,7 +163,7 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
                 ],
                 'points' => [
                     'type' => \ilDBConstants::T_FLOAT,
-                    'notnull' => false
+                    'notnull' => true
                 ]
             ]);
         }

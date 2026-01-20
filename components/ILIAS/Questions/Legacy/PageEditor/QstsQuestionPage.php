@@ -40,4 +40,24 @@ class QstsQuestionPage extends ilPageObject
     ): void {
         $this->question = $question;
     }
+
+    public function migrateQuestionElementToAnswerForm(): void
+    {
+        global $DIC;
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+
+        $answer_forms = $this->question->getAnswerForms();
+
+        $answer_form_node = new ilPCAnswerForm($this);
+        $answer_form_node->createPageContentNode();
+        $answer_form_node->writePCId($this->generatePCId());
+        $answer_form_node->create(
+            array_shift($answer_forms)->getAnswerFormId()
+        );
+
+        $dom_util->path($this->getDomDoc(), '//Question')
+            ->item(0)->parentNode->replaceWith($answer_form_node->getDomNode());
+
+        $this->update();
+    }
 }

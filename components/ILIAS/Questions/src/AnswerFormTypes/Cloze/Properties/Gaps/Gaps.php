@@ -38,7 +38,6 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UICore\GlobalTemplate;
 
 class Gaps
 {
