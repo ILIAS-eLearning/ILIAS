@@ -24,6 +24,7 @@ use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Setup\QuestionsMigration;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as Refinery;
@@ -197,7 +198,7 @@ class Repository
             $this->refinery->identity()
         );
 
-        return $query->retrieveCurrentRecord(
+        $question = $query->retrieveCurrentRecord(
             CoreTables::Questions->getTable(),
             $this->refinery->custom()->transformation(
                 fn(array $vs): QuestionImplementation => new QuestionImplementation(
@@ -218,6 +219,12 @@ class Repository
                 )
             )
         );
+
+        if ($question->getPageId() !== 0) {
+            return $question;
+        }
+
+        return $this->migrateQuestionPage($question);
     }
 
     private function retrieveAnswerFormsFromQuery(
@@ -301,8 +308,8 @@ class Repository
 
         $last_id = $this->db->fetchObject(
             $this->db->query(
-                'SELECT MAX(page_id) AS last FROM ' . CoreTables::PageEditor->value
-                    . ' WHERE parent_type = "qsts"'
+                'SELECT MAX(page_id) AS last FROM page_object '
+                . 'WHERE parent_type = "qsts"'
             )
         )->last;
         if ($last_id === null) {
@@ -310,5 +317,31 @@ class Repository
         }
 
         return $last_id + 1;
+    }
+
+    private function migrateQuestionPage(
+        QuestionImplementation $question
+    ): QuestionImplementation {
+        $old_page_id = $this->db->fetchObject(
+            $this->db->query(
+                'SELECT old_question_id FROM ' . CoreTables::MigrationsTable->value . PHP_EOL
+                . "WHERE new_question_id = {$this->db->quote($question->getId(), \ilDBConstants::T_TEXT)}"
+            )
+        )->old_question_id;
+
+        $new_page_id = $this->getNextAvailableQuestionPageId();
+        $old_qsts_page = new \ilAssQuestionPage($old_page_id);
+        $old_qsts_page->copyToAnswerForm($new_page_id, $question);
+
+        $new_qsts_page = new \QstsQuestionPage($new_page_id);
+        $new_qsts_page->setQuestion($question);
+        $new_qsts_page->buildDom();
+        $new_qsts_page->migrateQuestionElementToAnswerForm();
+
+        $new_question = $question->withPageId($new_page_id);
+
+        $this->update([$new_question]);
+
+        return $new_question;
     }
 }

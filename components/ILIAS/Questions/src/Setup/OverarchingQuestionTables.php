@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
+use ILIAS\Questions\Persistence\CoreTables;
+
 class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
@@ -33,7 +35,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $table_name = 'qsts_questions';
+        $table_name = CoreTables::Questions->value;
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -91,7 +93,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        $table_name = 'qsts_answer_forms';
+        $table_name = CoreTables::AnswerForms->value;
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -121,7 +123,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
                 'shuffle_answer_options' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 1,
-                    'notnull' => true
+                    'notnull' => false
                 ],
                 'additional_text' => [
                     'type' => \ilDBConstants::T_CLOB,
@@ -145,7 +147,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_3(): void
     {
-        $table_name = 'qsts_responses';
+        $table_name = CoreTables::Responses->value;
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -176,7 +178,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $table_name = 'qsts_linking';
+        $table_name = CoreTables::Linking->value;
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'question_id' => [
@@ -208,8 +210,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_5(): void
     {
-        if (!$this->db->tableExists(QuestionsMigration::MIGRATIONS_TABLE)) {
-            $this->db->createTable(QuestionsMigration::MIGRATIONS_TABLE, [
+        $table_name = CoreTables::MigrationsTable->value;
+        if (!$this->db->tableExists($table_name)) {
+            $this->db->createTable($table_name, [
                 'old_question_id' => [
                     'type' => \ilDBConstants::T_TEXT,
                     'length' => 64,
@@ -224,11 +227,11 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
         }
 
         if (!$this->db->primaryExistsByFields(
-            QuestionsMigration::MIGRATIONS_TABLE,
+            $table_name,
             ['old_question_id']
         )) {
             $this->db->addPrimaryKey(
-                QuestionsMigration::MIGRATIONS_TABLE,
+                $table_name,
                 ['old_question_id']
             );
         }

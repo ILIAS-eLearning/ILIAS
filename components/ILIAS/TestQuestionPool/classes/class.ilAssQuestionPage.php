@@ -16,15 +16,10 @@
  *
  *********************************************************************/
 
-/**
- * Question page object
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
- * @version $Id$
- *
- * @ingroup components\ILIASTestQuestionPool
- */
+declare(strict_types=1);
+
+use ILIAS\Questions\Question\QuestionImplementation;
+
 class ilAssQuestionPage extends ilPageObject
 {
     /**
@@ -34,5 +29,20 @@ class ilAssQuestionPage extends ilPageObject
     public function getParentType(): string
     {
         return "qpl";
+    }
+
+    public function copyToAnswerForm(
+        int $new_id,
+        QuestionImplementation $question
+    ): void {
+        $new_page_object = new QstsQuestionPage();
+        $new_page_object->setParentId($this->getParentId());
+        $new_page_object->setId($new_id);
+        $new_page_object->setXMLContent($this->copyXMLContent(false, $this->getParentId()));
+        $new_page_object->setActive($this->getActive());
+        $new_page_object->setActivationStart($this->getActivationStart());
+        $new_page_object->setActivationEnd($this->getActivationEnd());
+        $new_page_object->setQuestion($question);
+        $new_page_object->create(false);
     }
 }
