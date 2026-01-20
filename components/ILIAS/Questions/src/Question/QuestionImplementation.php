@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Question;
 
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Persistence\CoreTables;
+use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Update;
@@ -45,6 +46,7 @@ class QuestionImplementation implements Question
 {
     private bool $linking_information_updated = false;
     private bool $self_updated = false;
+    private bool $page_id_updated = false;
     private array $updated_answer_forms = [];
     private array $deleted_answer_forms = [];
 
@@ -117,7 +119,7 @@ class QuestionImplementation implements Question
     ): self {
         $clone = clone $this;
         $clone->page_id = $page_id;
-        $clone->self_updated = true;
+        $clone->page_id_updated = true;
         return $clone;
     }
 
@@ -367,6 +369,12 @@ class QuestionImplementation implements Question
             );
         }
 
+        if ($this->page_id) {
+            $manipulate = $manipulate->withAdditionalStatement(
+                $this->buildUpdatePageIdStatement()
+            );
+        }
+
         if ($this->deleted_answer_forms !== []) {
             $manipulate = $this->addDeleteAnswerFormsStatementsToManipulate(
                 $manipulate,
@@ -496,6 +504,37 @@ class QuestionImplementation implements Question
                         \ilDBConstants::T_TEXT,
                         $this->id->toString()
                     )
+                )
+            ]
+        );
+    }
+
+    /**
+     * skergomard, 2026-01-26: This we only need while the migrations exist, after
+     * this a question MUST never change the page assigned to it after its creation!
+     */
+    private function buildUpdatePageIdStatement(): Update
+    {
+        $questions_table_definition = CoreTables::Questions;
+        return new Update(
+            [
+                new Column(
+                    $questions_table_definition->getTable(),
+                    'page_id'
+                ),
+                new Column(
+                    $questions_table_definition->getTable(),
+                    'last_update'
+                )
+            ],
+            [
+                new Value(\ilDBConstants::T_TEXT, $this->page_id),
+                new Value(\ilDBConstants::T_INTEGER, time())
+            ],
+            [
+                new Where(
+                    $questions_table_definition->getIdColumn(),
+                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
                 )
             ]
         );
