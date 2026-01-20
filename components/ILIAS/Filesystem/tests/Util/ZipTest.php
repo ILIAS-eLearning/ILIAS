@@ -27,12 +27,12 @@ use ILIAS\Filesystem\Util\Archive\Zip;
 use ILIAS\Filesystem\Util\Archive\ZipOptions;
 
 /**
- * @author Fabian Schmid <fabian@sr.solutions>
+ * @author                      Fabian Schmid <fabian@sr.solutions>
  *
  * @runTestsInSeparateProcesses // This is required for the test to work since we define some constants in the test
- * @preserveGlobalState    disabled
- * @backupGlobals          disabled
- * @backupStaticAttributes disabled
+ * @preserveGlobalState         disabled
+ * @backupGlobals               disabled
+ * @backupStaticAttributes      disabled
  */
 class ZipTest extends TestCase
 {
@@ -69,7 +69,39 @@ class ZipTest extends TestCase
         $this->assertGreaterThan(0, $zip_stream->getSize());
 
         $unzip_again = new Unzip(new UnzipOptions(), $zip_stream);
-        $this->assertEquals(2, $unzip_again->getAmountOfFiles());
+        $this->assertSame(2, $unzip_again->getAmountOfFiles());
+    }
+
+    public function testZip2(): void
+    {
+        $zip_options = new ZipOptions();
+        $streams = [
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'r')),
+        ];
+        $zip = new Zip($zip_options, ...$streams);
+        $zip_stream = $zip->get();
+        $this->assertGreaterThan(0, $zip_stream->getSize());
+
+        $unzip_again = new Unzip(new UnzipOptions(), $zip_stream);
+        $this->assertSame(1, $unzip_again->getAmountOfFiles());
+    }
+
+    public function testZip3(): void
+    {
+        $zip_options = new ZipOptions();
+        $streams = [
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_1_file_mac.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_mac.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '1_folder_win.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '3_folders_mac.zip', 'r')),
+            Streams::ofResource(fopen($this->zips_dir . '3_folders_win.zip', 'r')),
+        ];
+        $zip = new Zip($zip_options, ...$streams);
+        $zip_stream = $zip->get();
+        $this->assertGreaterThan(0, $zip_stream->getSize());
+
+        $unzip_again = new Unzip(new UnzipOptions(), $zip_stream);
+        $this->assertSame(5, $unzip_again->getAmountOfFiles());
     }
 
     public function testLegacyZip(): void
@@ -85,8 +117,19 @@ class ZipTest extends TestCase
         $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP, false);
         $this->assertFileExists($this->unzips_dir . self::ZIPPED_ZIP);
 
-        $unzip_again = new Unzip(new UnzipOptions(), Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r')));
-        $this->assertEquals(5, $unzip_again->getAmountOfFiles());
+        $unzip_again = new Unzip(
+            new UnzipOptions(),
+            Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r'))
+        );
+        $this->assertSame([
+            0 => './',
+            1 => '3_folders_win.zip',
+            2 => '1_folder_mac.zip',
+            3 => '3_folders_mac.zip',
+            4 => '1_folder_win.zip',
+            5 => '1_folder_1_file_mac.zip'
+        ], iterator_to_array($unzip_again->getPaths()));
+        $this->assertSame(5, $unzip_again->getAmountOfFiles());
 
         $depth = 0;
         foreach ($unzip_again->getPaths() as $path) {
@@ -111,8 +154,11 @@ class ZipTest extends TestCase
         $legacy->zip($this->zips_dir, $this->unzips_dir . self::ZIPPED_ZIP, true);
         $this->assertFileExists($this->unzips_dir . self::ZIPPED_ZIP);
 
-        $unzip_again = new Unzip(new UnzipOptions(), Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r')));
-        $this->assertEquals(5, $unzip_again->getAmountOfFiles());
+        $unzip_again = new Unzip(
+            new UnzipOptions(),
+            Streams::ofResource(fopen($this->unzips_dir . self::ZIPPED_ZIP, 'r'))
+        );
+        $this->assertSame(5, $unzip_again->getAmountOfFiles());
 
         $depth = 0;
         foreach ($unzip_again->getPaths() as $path) {
@@ -145,10 +191,10 @@ class ZipTest extends TestCase
         $unzip = new Unzip($options, $stream);
 
         $this->assertFalse($unzip->hasZipReadingError());
-        $this->assertEquals($has_multiple_root_entries, $unzip->hasMultipleRootEntriesInZip());
-        $this->assertEquals($expected_amount_directories, $unzip->getAmountOfDirectories());
+        $this->assertSame($has_multiple_root_entries, $unzip->hasMultipleRootEntriesInZip());
+        $this->assertSame($expected_amount_directories, $unzip->getAmountOfDirectories());
         $this->assertEquals($expected_directories, iterator_to_array($unzip->getDirectories()));
-        $this->assertEquals($expected_amount_files, $unzip->getAmountOfFiles());
+        $this->assertSame($expected_amount_files, $unzip->getAmountOfFiles());
         $this->assertEquals($expected_files, iterator_to_array($unzip->getFiles()));
     }
 
@@ -159,13 +205,12 @@ class ZipTest extends TestCase
         $unzip = new Unzip($options, $stream);
         $this->assertTrue($unzip->hasZipReadingError());
         $this->assertFalse($unzip->hasMultipleRootEntriesInZip());
-        $this->assertEquals(0, iterator_count($unzip->getFiles()));
-        $this->assertEquals(0, iterator_count($unzip->getDirectories()));
-        $this->assertEquals(0, iterator_count($unzip->getPaths()));
-        $this->assertEquals([], iterator_to_array($unzip->getDirectories()));
-        $this->assertEquals([], iterator_to_array($unzip->getFiles()));
+        $this->assertCount(0, iterator_to_array($unzip->getFiles()));
+        $this->assertCount(0, iterator_to_array($unzip->getDirectories()));
+        $this->assertCount(0, iterator_to_array($unzip->getPaths()));
+        $this->assertSame([], iterator_to_array($unzip->getDirectories()));
+        $this->assertSame([], iterator_to_array($unzip->getFiles()));
     }
-
 
     public function testLargeZIPs(): void
     {
@@ -264,15 +309,13 @@ class ZipTest extends TestCase
 
     // PROVIDERS
 
-    public static function getZips(): array
+    public static function getZips(): \Iterator
     {
-        return [
-            ['1_folder_mac.zip', false, 10, self::$directories_one, 15, self::$files_one],
-            ['1_folder_win.zip', false, 10, self::$directories_one, 15, self::$files_one],
-            ['3_folders_mac.zip', true, 9, self::$directories_three, 12, self::$files_three],
-            ['3_folders_win.zip', true, 9, self::$directories_three, 12, self::$files_three],
-            ['1_folder_1_file_mac.zip', true, 3, self::$directories_mixed, 5, self::$files_mixed]
-        ];
+        yield ['1_folder_mac.zip', false, 10, self::$directories_one, 15, self::$files_one];
+        yield ['1_folder_win.zip', false, 10, self::$directories_one, 15, self::$files_one];
+        yield ['3_folders_mac.zip', true, 9, self::$directories_three, 12, self::$files_three];
+        yield ['3_folders_win.zip', true, 9, self::$directories_three, 12, self::$files_three];
+        yield ['1_folder_1_file_mac.zip', true, 3, self::$directories_mixed, 5, self::$files_mixed];
     }
 
     protected static array $files_mixed = [
