@@ -778,12 +778,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN IndividualAssessment)
 
 * **IndividualAssessment**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
-    * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Security Reports: [MISSING]
-    * Assignee for Security Issues: [MISSING]
+    * Authority to Sign off on Conceptual Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Authority to Sign off on Code Changes: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Authority to Curate Test Cases: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Authority to (De-)Assign Authorities: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Assignee for Security Reports: [mbecker](https://docu.ilias.de/go/usr/27266)
+    * Assignee for Security Issues: [mbecker](https://docu.ilias.de/go/usr/27266)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END IndividualAssessment)
