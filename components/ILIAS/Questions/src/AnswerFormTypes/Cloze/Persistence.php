@@ -83,7 +83,7 @@ class Persistence implements PersistenceInterface
     }
 
     #[\Override]
-    public function getPublicNameSpace(): TableNameSpace
+    public function getTableNameSpace(): TableNameSpace
     {
         return $this->table_namespace;
     }

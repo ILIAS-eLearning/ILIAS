@@ -22,12 +22,12 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
-use ILIAS\Questions\Question\Definitions\TextMatchingOptions;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -370,7 +370,12 @@ class Gap
             new Value(\ilDBConstants::T_FLOAT, $this->step_size),
             new Value(\ilDBConstants::T_INTEGER, $this->text_matching_method?->value),
             new Value(\ilDBConstants::T_INTEGER, $this->min_autocomplete),
-            new Value(\ilDBConstants::T_INTEGER, $this->shuffle_answer_options ? 1 : 0)
+            new Value(
+                \ilDBConstants::T_INTEGER,
+                $this->shuffle_answer_options === null
+                    ? null
+                    : ($this->shuffle_answer_options ? 1 : 0)
+            )
 
         ];
     }

@@ -54,7 +54,7 @@ class Manipulate
             $this->answer_form_factory
                 ->getDefinitionForClass($definition_class)
                 ->getPersistence()
-                ->getPublicNameSpace()
+                ->getTableNameSpace()
         );
     }
 

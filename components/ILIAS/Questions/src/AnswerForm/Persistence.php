@@ -28,7 +28,7 @@ use ILIAS\Questions\Persistence\TableTypes;
 
 interface Persistence
 {
-    public function getPublicNameSpace(): TableNameSpace;
+    public function getTableNameSpace(): TableNameSpace;
 
     public function getColumns(
         TableNameBuilder $table_name_builder,

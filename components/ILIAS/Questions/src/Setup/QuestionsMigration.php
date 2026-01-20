@@ -20,33 +20,46 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
-use ILIAS\Questions\AnswerForm\Migration as AnswerFormMigration;
+use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
+use ILIAS\Questions\AnswerForm\Migration\MigrationInsert as AnswerFormMigrationInsert;
+use ILIAS\Questions\Persistence\CoreTables;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
-use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Persistence\Insert;
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\Value;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup;
 use ILIAS\Setup\CLI\IOWrapper;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Migration;
-use ILIAS\DI\Container;
 
 class QuestionsMigration implements Migration
 {
-    private const string QUESTIONS_TABLE = 'qpl_questions';
+    private const string OLD_QUESTIONS_TABLE = 'qpl_questions';
     private const string TEST_QUESTIONS_SEQUENCE_TABLE = 'tst_test_question';
-    public const string MIGRATIONS_TABLE = 'qsts_migrations';
 
     private \ilDBInterface $db;
     private IOWrapper $io;
     private UuidFactory $uuid_factory;
+    private readonly array $answer_form_migrations;
 
     private bool $ilias_is_initialized = false;
     private ?array $question_to_learning_module_mapping = null;
     private ?array $allready_migrated_questions = null;
+    private ?array $allready_migrated_questions_in_qpls = null;
 
     public function __construct(
-        private readonly array $answer_form_migrations
+        array $answer_form_migrations
     ) {
+        $this->answer_form_migrations = array_reduce(
+            $answer_form_migrations,
+            function (array $c, AnswerFormMigration $v): array {
+                $c[$v->getOldQuestionIdentifier()] = $v;
+                return $c;
+            },
+            []
+        );
     }
 
     #[\Override]
@@ -93,7 +106,7 @@ class QuestionsMigration implements Migration
         $db_values = $this->fetchValidRecord();
 
         if ($db_values->obj_fi === 0) {
-            $question->obj_fi = $this->getObjIdFromMapping($db_values->question_id);
+            $db_values->obj_fi = $this->getObjIdFromLearningModulMapping($db_values->question_id);
         }
 
         if ($db_values->obj_fi === null) {
@@ -104,19 +117,40 @@ class QuestionsMigration implements Migration
             return;
         }
 
-        $question = new QuestionImplementation(
-            $this->uuid_factory->uuid4(),
-            $db_values->obj_fi,
-            $db_values->sequence,
-            $this->buildQuestionPage($db_values),
-            $db_values->title,
-            $db_values->author,
-            Lifecycle::tryFrom($db_values->lifecycle),
-            $db_values->description,
-            $db_values->original_id,
-            $db_values->created,
-            time()
-        );
+        /** @var \ILIAS\Questions\AnswerForm\Migration\Migration $answer_form_migration */
+        $answer_form_migration = $this->answer_form_migrations[$db_values->type_tag];
+
+        $new_question_id = $this->uuid_factory->uuid4();
+
+        $answer_form_migration->buildInsertStatement(
+            $this->buildMigrationInsert(
+                $answer_form_migration,
+                [
+                    $this->buildInsertLinkingStatement(
+                        $new_question_id,
+                        $db_values->obj_fi,
+                        $db_values->sequence
+                    ),
+                    $this->buildInsertQuestionStatement(
+                        $new_question_id,
+                        $db_values->title,
+                        $db_values->author,
+                        Lifecycle::tryFrom($db_values->lifecycle),
+                        $db_values->description,
+                        $db_values->original_id,
+                        $db_values->created
+                    ),
+                    $this->buildInsertMigrationStatement(
+                        $db_values->question_id,
+                        $new_question_id
+                    )
+                ],
+                $new_question_id,
+                $db_values
+            )
+        )->run();
+
+        $this->io->inform($new_question_id->toString());
     }
 
     #[\Override]
@@ -124,9 +158,9 @@ class QuestionsMigration implements Migration
     {
         return $this->db->fetchObject(
             $this->db->query(
-                'SELECT COUNT(question_id) cnt FROM ' . self::QUESTIONS_TABLE . ' q' . PHP_EOL
+                'SELECT COUNT(question_id) cnt FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
                 . 'JOIN qpl_qst_type t ON q.question_type_fi = t.question_type_id' . PHP_EOL
-                . 'LEFT JOIN ' . self::MIGRATIONS_TABLE . ' m ON q.question_id = m.old_question_id' . PHP_EOL
+                . 'LEFT JOIN ' . CoreTables::MigrationsTable->value . ' m ON q.question_id = m.old_question_id' . PHP_EOL
                 . 'WHERE t.type_tag IN ('
                 . implode(
                     ', ',
@@ -141,12 +175,12 @@ class QuestionsMigration implements Migration
         )->cnt;
     }
 
-    private function fetchValidRecord(): array
+    private function fetchValidRecord(): \stdClass
     {
-        $query_string = 'SELECT q.*, t.sequence FROM ' . self::QUESTIONS_TABLE . ' q' . PHP_EOL
+        $query_string = 'SELECT q.*, t.type_tag, s.sequence FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
             . 'JOIN qpl_qst_type t ON q.question_type_fi = t.question_type_id' . PHP_EOL
-            . 'LEFT JOIN ' . self::MIGRATIONS_TABLE . ' m ON q.question_id = m.old_question_id' . PHP_EOL
-            . 'LEFT JOIN ' . self::TEST_QUESTIONS_SEQUENCE_TABLE . ' t ON q.question_id = t.question_fi'
+            . 'LEFT JOIN ' . CoreTables::MigrationsTable->value . ' m ON q.question_id = m.old_question_id' . PHP_EOL
+            . 'LEFT JOIN ' . self::TEST_QUESTIONS_SEQUENCE_TABLE . ' s ON q.question_id = s.question_fi' . PHP_EOL
             . 'WHERE t.type_tag IN ('
             . implode(
                 ', ',
@@ -156,7 +190,7 @@ class QuestionsMigration implements Migration
                 )
             ) . ')' . PHP_EOL
             . 'AND q.complete = 1' . PHP_EOL
-            . 'AND m.old_question_id IS NULL'
+            . 'AND m.old_question_id IS NULL' . PHP_EOL
             . 'LIMIT 1';
 
         do {
@@ -165,19 +199,19 @@ class QuestionsMigration implements Migration
             );
         } while (!$this->areDbValuesValid($db_values));
 
-        $db_values->original_id = $this->getNewQuestionIdForOld($db_values->original_id);
+        $db_values->original_id = $this->cleanupAndMigrateOriginalId($db_values->original_id);
         return $db_values;
     }
 
     private function areDbValuesValid(
-        array $db_values
+        \stdClass $db_values
     ): bool {
         if ($db_values->original_id === null) {
             return true;
         }
 
         if ($this->allready_migrated_questions === null) {
-            $this->allready_migrated_questions = $this->loadAlreadyMigratedQuestions();
+            $this->loadAlreadyMigratedQuestions();
         }
 
         if (isset($this->allready_migrated_questions[$db_values->original_id])) {
@@ -187,51 +221,49 @@ class QuestionsMigration implements Migration
         return false;
     }
 
-    private function getNewQuestionIdForOld(
-        ?int $question_id
-    ): ?uuid {
-        if ($question_id === null) {
+    private function cleanupAndMigrateOriginalId(
+        ?int $original_id
+    ): ?Uuid {
+        if ($original_id === null
+            || in_array($this->allready_migrated_questions_in_qpls, $original_id)) {
             return null;
         }
-
-        if ($this->allready_migrated_questions === null) {
-            $this->allready_migrated_questions = $this->loadAlreadyMigratedQuestions();
-        }
-
-        if (!isset($this->allready_migrated_questions[$question_id])) {
-            return null;
-        }
-
         return $this->uuid_factory->fromString(
-            $this->allready_migrated_questions[$question_id]
+            $this->allready_migrated_questions[$original_id]
         );
     }
 
-    private function loadAlreadyMigratedQuestions(): array
+    private function loadAlreadyMigratedQuestions(): void
     {
 
         $query = $this->db->query(
-            'SELECT * FROM ' . self::MIGRATIONS_TABLE
+            'SELECT m.*, o.type FROM ' . CoreTables::MigrationsTable->value . ' m' . PHP_EOL
+            . 'JOIN ' . CoreTables::Linking->value . 'l' . PHP_EOL
+            . 'ON m.new_question_id = l.question_id' . PHP_EOL
+            . 'JOIN object_data o ON l.obj_id = o.obj_id' . PHP_EOL
         );
 
-        $questions = [];
+        $this->allready_migrated_questions = [];
+        $this->allready_migrated_questions_in_qpls = [];
         while (($row = $this->db->fetchObject($query)) !== null) {
-            $questions[$row->old_question_id] = $row->new_question_id;
+            $this->allready_migrated_questions[$row->old_question_id] = $row->new_question_id;
+            if ($row->type === 'qpl') {
+                $this->allready_migrated_questions_in_qpls[] = $row->new_question_id;
+            }
         }
-        return $questions;
     }
 
-    private function getObjIdFromMapping(
+    private function getObjIdFromLearningModulMapping(
         int $question_id
     ): ?int {
         if ($this->question_to_learning_module_mapping === null) {
-            $this->question_to_learning_module_mapping = $this->loadQuestionsToLearningModuleMapping();
+            $this->loadQuestionsToLearningModuleMapping();
         }
 
         $this->question_to_learning_module_mapping[$question_id] ?? null;
     }
 
-    private function loadQuestionsToLearningModuleMapping(): array
+    private function loadQuestionsToLearningModuleMapping(): void
     {
 
         $query = $this->db->query(
@@ -242,38 +274,83 @@ class QuestionsMigration implements Migration
             . 'WHERE page_parent_type = "lm"'
         );
 
-        $mapping = [];
+        $this->question_to_learning_module_mapping = [];
         while (($row = $this->db->fetchObject($query)) !== null) {
-            $mapping[$row->question_id] = $row->obj_id;
+            $this->question_to_learning_module_mapping[$row->question_id] = $row->obj_id;
         }
-        return $mapping;
     }
 
-    private function buildQuestionPage(
-
-    ): int {
-        $new_id = $this->getNextAvailableQuestionPageId();
-        $page = new \ilAssQuestionPage();
-        $page->copy(
-            $new_id,
-            'qsts',
+    private function buildInsertLinkingStatement(
+        Uuid $new_question_id,
+        int $obj_id,
+        ?int $position
+    ): Insert {
+        return new Insert(
+            CoreTables::Linking->getColumns(),
+            [
+                new Value(\ilDBConstants::T_TEXT, $new_question_id->toString()),
+                new Value(\ilDBConstants::T_INTEGER, $obj_id),
+                new Value(\ilDBConstants::T_INTEGER, $position)
+            ]
         );
-        return $new_id;
     }
 
-    private function getNextAvailableQuestionPageId(): int
-    {
+    private function buildInsertQuestionStatement(
+        Uuid $id,
+        string $title,
+        string $author,
+        Lifecycle $lifecycle,
+        string $remarks,
+        ?Uuid $original_id,
+        int $create_date
+    ): Insert {
+        return new Insert(
+            CoreTables::Questions->getColumns(),
+            [
+                new Value(\ilDBConstants::T_TEXT, $id->toString()),
+                new Value(\ilDBConstants::T_INTEGER, 0),
+                new Value(\ilDBConstants::T_TEXT, $title),
+                new Value(\ilDBConstants::T_TEXT, $author),
+                new Value(\ilDBConstants::T_TEXT, $lifecycle->value),
+                new Value(\ilDBConstants::T_TEXT, $remarks),
+                new Value(\ilDBConstants::T_TEXT, $original_id?->toString()),
+                new Value(\ilDBConstants::T_INTEGER, time()),
+                new Value(\ilDBConstants::T_INTEGER, $create_date)
+            ]
+        );
+    }
 
-        $last_id = $this->db->fetchObject(
-            $this->db->query(
-                'SELECT MAX(page_id) AS last FROM ' . CoreTables::PageEditor->value
-                    . ' WHERE parent_type = "qsts"'
-            )
-        )->last;
-        if ($last_id === null) {
-            return 1;
-        }
+    private function buildInsertMigrationStatement(
+        int $old_question_id,
+        Uuid $new_question_id
+    ): Insert {
+        return new Insert(
+            CoreTables::MigrationsTable->getColumns(),
+            [
+                new Value(\ilDBConstants::T_INTEGER, $old_question_id),
+                new Value(\ilDBConstants::T_TEXT, $new_question_id->toString())
+            ]
+        );
+    }
 
-        return $last_id + 1;
+    private function buildMigrationInsert(
+        AnswerFormMigration $answer_form_migration,
+        array $question_inserts,
+        Uuid $new_question_id,
+        \stdClass $db_values
+    ): AnswerFormMigrationInsert {
+        return new AnswerFormMigrationInsert(
+            $this->db,
+            $this->io,
+            $this->uuid_factory,
+            new TableNameBuilder(
+                $answer_form_migration->getTableNameSpace()
+            ),
+            $question_inserts,
+            $db_values->question_id,
+            $new_question_id,
+            $this->uuid_factory->uuid4(),
+            $answer_form_migration->getDefinitionClass()
+        );
     }
 }

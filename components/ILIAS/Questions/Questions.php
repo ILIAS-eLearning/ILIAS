@@ -21,10 +21,12 @@ declare(strict_types=1);
 namespace ILIAS;
 
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
-use ILIAS\Questions\AnswerForm\Migration as AnswerFormMigration;
-use ILIAS\Questions\AnswerFormTypes\Cloze\MigrationCloze;
-use ILIAS\Questions\AnswerFormTypes\Cloze\MigrationLongMenu;
-use ILIAS\Questions\AnswerFormTypes\Cloze\MigrationNumeric;
+use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationCloze;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationLongMenu;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationNumeric;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Questions\Setup\Agent;
 use ILIAS\Setup\Agent as AgentInterface;
 
@@ -45,10 +47,23 @@ class Questions implements Component\Component
             new Agent(
                 $seek[AnswerFormMigration::class]
             );
-        $contribute[AnswerFormMigration::class] = static fn() => new MigrationCloze();
-        $contribute[AnswerFormMigration::class] = static fn() => new MigrationLongMenu();
-        $contribute[AnswerFormMigration::class] = static fn() => new MigrationNumeric();
+        $contribute[AnswerFormMigration::class] = static fn() => new MigrationCloze(
+            $internal[Persistence::class],
+            $internal[\EvalMath::class]
+        );
+        $contribute[AnswerFormMigration::class] = static fn() => new MigrationLongMenu(
+            $internal[Persistence::class]
+        );
+        $contribute[AnswerFormMigration::class] = static fn() => new MigrationNumeric(
+            $internal[Persistence::class],
+            $internal[\EvalMath::class]
+        );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/ParticipantViewLongMenu.js');
+
+        $internal[Persistence::class] = static fn() => new Persistence(
+            new TableNameSpaceCore('cloze')
+        );
+        $internal[\EvalMath::class] = static fn() => new \EvalMath();
     }
 }

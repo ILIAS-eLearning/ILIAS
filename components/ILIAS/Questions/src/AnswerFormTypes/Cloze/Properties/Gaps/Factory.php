@@ -24,7 +24,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\Factory as AnswerOptionsFactory;
 use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Question\Definitions\TextMatchingOptions;
+use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Language\Language;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Data\UUID\Factory as UuidFactory;

@@ -37,11 +37,11 @@ class TypeGenericProperties implements Storable
         private readonly Uuid $answer_form_id,
         private readonly Uuid $question_id,
         private readonly ?Definition $definition = null,
-        private ?float $available_points = null,
-        private ?int $image_size = null,
-        private ?bool $shuffle_answer_options = null,
-        private string $additional_text = '',
-        private string $additional_text_legacy = ''
+        private readonly ?float $available_points = null,
+        private readonly ?int $image_size = null,
+        private readonly ?bool $shuffle_answer_options = null,
+        private readonly string $additional_text = '',
+        private readonly string $additional_text_legacy = ''
     ) {
     }
 
@@ -55,7 +55,7 @@ class TypeGenericProperties implements Storable
         return $this->question_id;
     }
 
-    public function getDefinition(): Definition
+    public function getDefinition(): ?Definition
     {
         return $this->definition;
     }
@@ -131,7 +131,7 @@ class TypeGenericProperties implements Storable
                 new Value(\ilDBConstants::T_TEXT, $this->question_id->toString()),
                 new Value(\ilDBConstants::T_FLOAT, $this->available_points),
                 new Value(\ilDBConstants::T_INTEGER, $this->image_size),
-                new Value(\ilDBConstants::T_INTEGER, $this->shuffle_answer_options ? 1 : 0),
+                new Value(\ilDBConstants::T_INTEGER, $this->getShuffleAnswerOptionsForStorage()),
                 new Value(\ilDBConstants::T_TEXT, $this->additional_text),
                 new Value(\ilDBConstants::T_TEXT, $this->additional_text_legacy)
 
@@ -152,7 +152,7 @@ class TypeGenericProperties implements Storable
             [
                 new Value(\ilDBConstants::T_FLOAT, $this->available_points),
                 new Value(\ilDBConstants::T_INTEGER, $this->image_size),
-                new Value(\ilDBConstants::T_INTEGER, $this->shuffle_answer_options ? 1 : 0),
+                new Value(\ilDBConstants::T_INTEGER, $this->getShuffleAnswerOptionsForStorage()),
                 new Value(\ilDBConstants::T_TEXT, $this->additional_text)
 
             ],
@@ -166,5 +166,14 @@ class TypeGenericProperties implements Storable
                 )
             ]
         );
+    }
+
+    private function getShuffleAnswerOptionsForStorage(): ?int
+    {
+        if ($this->shuffle_answer_options === null) {
+            return null;
+        }
+
+        return $this->shuffle_answer_options ? 1 : 0;
     }
 }

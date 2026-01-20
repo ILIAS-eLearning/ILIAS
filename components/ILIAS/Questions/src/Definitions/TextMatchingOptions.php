@@ -18,14 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Question\Definitions;
+namespace ILIAS\Questions\Definitions;
 
 use ILIAS\Language\Language;
 
 enum TextMatchingOptions: string
 {
-    case CaseInsensitive = 'cloze_textgap_case_insensitive';
-    case CaseSensitive = 'cloze_textgap_case_sensitive';
+    case CaseInsensitive = 'case_insensitive';
+    case CaseSensitive = 'case_sensitive';
     case Levenstein1 = '1';
     case Levenstein2 = '2';
     case Levenstein3 = '3';
@@ -36,7 +36,7 @@ enum TextMatchingOptions: string
         Language $lng
     ): string {
         return match ($this) {
-            self::CaseInsensitive, self::CaseSensitive => $lng->txt($this->value),
+            self::CaseInsensitive, self::CaseSensitive => $lng->txt("cloze_textgap_{$this->value}"),
             default => sprintf($lng->txt('cloze_textgap_levenshtein_of'), $this->value)
         };
     }

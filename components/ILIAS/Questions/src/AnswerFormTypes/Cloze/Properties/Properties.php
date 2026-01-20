@@ -87,7 +87,7 @@ class Properties implements PropertiesInterface
     }
 
     #[\Override]
-    public function getDefinition(): Definition
+    public function getDefinition(): ?Definition
     {
         return $this->definition;
     }
@@ -127,7 +127,7 @@ class Properties implements PropertiesInterface
 
     public function getClozeTextForPresentation(): string
     {
-        return $this->cloze_text === null
+        return $this->cloze_text->getRawRepresentationForPersistence() === ''
             ? $this->legacy_cloze_text
             : $this->cloze_text->getRenderedMarkdownForParticipantPresentation();
     }
@@ -179,7 +179,10 @@ class Properties implements PropertiesInterface
             $lng->txt('cloze_text') => $this->cloze_text
                 ->getRenderedMarkdownForEditingPresentation($this->gaps),
             $lng->txt('score_identical') => $this->scoring_identical
-                ->getTranslatedOptionName($lng)
+                ->getTranslatedOptionName($lng),
+            $lng->txt('gap_combinations') => $this->combinations_enabled
+                ? $lng->txt('enabled')
+                : $lng->txt('disabled')
         ];
     }
 

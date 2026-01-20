@@ -57,22 +57,16 @@ class Factory
 
         [
             'scoring_identical_responses' => $scoring_identical_responses,
-            'combinations_enabled' => $combinations_enabled
+            'combinations_activated' => $combinations_activated
         ] = $query->retrieveCurrentRecord(
             TableTypes::TypeSpecificAnswerForms->getTable(
                 $query->getTableNameBuilder($type_generic_properties->getDefinition()::class)
             ),
             $query->getRefinery()->custom()->transformation(
-                function (array $vs) use ($type_generic_properties): array {
-                    $values = $this->retrieveFirstMatchingRowFromDBRecords(
-                        $type_generic_properties->getAnswerFormId()->toString(),
-                        $vs
-                    );
-                    return [
-                        'scoring_identical_responses' => ScoringIdentical::tryFrom($values['scoring_identical_responses']),
-                        'combinations_enabled' => $values['combinations_enabled'] === 1
-                    ];
-                }
+                fn(array $vs): array => [
+                    'scoring_identical_responses' => ScoringIdentical::tryFrom($vs[0]['scoring_identical_responses']),
+                    'combinations_activated' => $vs[0]['combinations_activated'] === 1
+                ]
             )
         );
 
@@ -89,7 +83,7 @@ class Factory
                 $query
             ),
             $scoring_identical_responses,
-            $combinations_enabled
+            $combinations_activated
         );
     }
 
@@ -110,17 +104,5 @@ class Factory
             )->withGaps($updated_gaps)
             ->withScoringOfIdenticalResponses($scoring_of_identical_responses)
             ->withCombinationsEnabled($combinations_enabled);
-    }
-
-    private function retrieveFirstMatchingRowFromDBRecords(
-        string $answer_form_id,
-        array $vs
-    ): ?array {
-        foreach ($vs as $row) {
-            if ($row['answer_form_id'] === $answer_form_id) {
-                return $row;
-            }
-        }
-        return null;
     }
 }

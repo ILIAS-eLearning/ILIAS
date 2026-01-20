@@ -35,7 +35,7 @@ interface Properties extends Storable
 
     public function getQuestionId(): Uuid;
 
-    public function getDefinition(): Definition;
+    public function getDefinition(): ?Definition;
 
     public function getTypeGenericProperties(): TypeGenericProperties;
 

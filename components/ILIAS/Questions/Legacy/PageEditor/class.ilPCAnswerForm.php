@@ -78,7 +78,7 @@ class ilPCAnswerForm extends ilPageContent
         string $xml,
         bool $creation
     ): void {
-        if ($page::class !== QstsQuestionPage::class) {
+        if ($page::class !== QstsQuestionPage::class || $creation) {
             return;
         }
 

@@ -18,23 +18,23 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze;
+namespace ILIAS\Questions\AnswerForm\Migration;
 
-use ILIAS\Questions\AnswerForm\Migration;
-use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\TableNameSpace;
 
-class MigrationLongMenu implements Migration
+interface Migration
 {
-    #[\Override]
-    public function getOldQuestionIdentifier(): string
-    {
-        return 'assLongMenu';
-    }
+    /*
+     * Returns the identifier under which the question type was stored previously
+     * in the database.
+     */
+    public function getOldQuestionIdentifier(): string;
 
-    #[\Override]
-    public function toStorage(
-        Manipulate $manipulate
-    ): Manipulate {
+    public function getDefinitionClass(): string;
 
-    }
+    public function getTableNameSpace(): TableNameSpace;
+
+    public function buildInsertStatement(
+        MigrationInsert $migration_insert
+    ): MigrationInsert;
 }
