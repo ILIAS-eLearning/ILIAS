@@ -28,6 +28,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
 use ILIAS\Forum\Notification\NotificationType;
 use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
@@ -74,6 +75,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public ilHelpGUI $ilHelp;
     private Factory $factory;
     private Renderer $renderer;
+    private IRSS $irss;
 
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
@@ -92,6 +94,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->globalScreen = $DIC->globalScreen();
+
+        $this->irss = $DIC->resourceStorage();
 
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -3344,6 +3348,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
             $this->ensureValidPageForCurrentPosting($subtree_nodes, $pagedPostings, $pageSize, $firstNodeInThread);
 
+            $this->preloadPostingFileResources($pagedPostings, $draftsObjects);
             if ($doRenderDrafts && $pageIndex === 0 &&
                 $this->selectedSorting === ilForumProperties::VIEW_DATE_DESC) {
                 foreach ($draftsObjects as $draft) {
@@ -5887,5 +5892,33 @@ EOD
                 $this->refinery->always('')
             ])
         ));
+    }
+
+    /**
+     * @param ilForumPost[] $postings
+     * @param ilForumPostDraft[] $draftsObjects
+     */
+    private function preloadPostingFileResources(array $postings, array $draftsObjects): void
+    {
+        global $DIC;
+        $collectionIds = [];
+
+        foreach ($postings as $posting) {
+            $rcid = $posting->getRCID();
+            if ($rcid !== ilForumPost::NO_RCID && !empty($rcid)) {
+                $collection_ids[] = $rcid;
+            }
+        }
+
+        foreach ($draftsObjects as $draft) {
+            $rcid = $draft->getRCID();
+            if ($rcid !== ilForumPostDraft::NO_RCID && !empty($rcid)) {
+                $collection_ids[] = $rcid;
+            }
+        }
+
+        if (!empty($collection_ids)) {
+            $this->irss->preloadCollections(array_unique($collection_ids));
+        }
     }
 }
