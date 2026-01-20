@@ -85,6 +85,7 @@ class ilDclRecordListGUI
 
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLE_ID, $this->table_id);
         $this->ctrl->setParameterByClass(ilDclRecordEditGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
+        $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_TABLE_ID, $this->table_id);
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, self::GET_TABLEVIEW_ID, $this->tableview_id);
 
         $this->mode = self::MODE_VIEW;
