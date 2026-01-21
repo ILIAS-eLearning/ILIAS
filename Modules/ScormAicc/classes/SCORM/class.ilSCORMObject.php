@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,6 +24,8 @@ declare(strict_types=1);
 *
 * @ingroup ModulesScormAicc
 */
+
+declare(strict_types=1);
 class ilSCORMObject
 {
     public int $id;
@@ -98,7 +99,7 @@ class ilSCORMObject
             array($this->getId())
         );
         $obj_rec = $ilDB->fetchAssoc($obj_set);
-        $this->setTitle($obj_rec["title"]);
+        $this->setTitle($obj_rec["title"] ?? '');
         $this->setType($obj_rec["c_type"]);
         $this->setSLMId((int) $obj_rec["slm_id"]);
     }
