@@ -1588,7 +1588,6 @@ of ILIAS. The file contains the following fields:
     * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Authority to Sign off Testcase Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Authority to (De-)Assign Authorities: [fschmid](https://docu.ilias.de/go/usr/21087)
-	* Testcases: [fschmid](https://docu.ilias.de/go/usr/70029)
     * Assignee for Issues: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Assignee for Security Reports: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
