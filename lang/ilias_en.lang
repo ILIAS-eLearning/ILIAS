@@ -3806,6 +3806,7 @@ common#:#cron_users_without_login_del_role_whitelist_info#:#Only users with one 
 common#:#cronjob_last_start#:#Last Start of the Cron Job
 common#:#cronjob_last_start_unknown#:#Indeterminate
 common#:#crs#:#Course
+common#:#crs_access_not_possible#:#Course cannot currently be accessed.
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added

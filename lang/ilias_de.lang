@@ -3806,6 +3806,7 @@ common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit ein
 common#:#cronjob_last_start#:#Letzter Start des Cron-Jobs
 common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
 common#:#crs#:#Kurs
+common#:#crs_access_not_possible#:#Kurszugriff aktuell nicht möglich.
 common#:#crs_activation_start_invalid#:#Der Start und der Endtermin sind nicht gültig.
 common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt

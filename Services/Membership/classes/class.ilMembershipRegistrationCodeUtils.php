@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,6 +22,10 @@ declare(strict_types=1);
  * @version $Id$
  * @ingroup ServicesMembership
  */
+
+declare(strict_types=1);
+
+
 class ilMembershipRegistrationCodeUtils
 {
     protected const CODE_LENGTH = 10;
@@ -32,16 +34,56 @@ class ilMembershipRegistrationCodeUtils
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
-
+        $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $tree = $DIC->repositoryTree();
-
+        $access = $DIC->access();
         $lng->loadLanguageModule($a_type);
         try {
-            self::useCode($a_code, $a_ref_id);
             $title = ilObject::_lookupTitle(ilObject::_lookupObjectId($a_ref_id));
-            $main_tpl->setOnScreenMessage('success', sprintf($lng->txt($a_type . "_admission_link_success_registration"), $title), true);
-            ilUtil::redirect(ilLink::_getLink($a_ref_id));
+            $link_target = ilLink::_getLink($a_ref_id);
+            $message = sprintf($lng->txt($a_type . "_admission_link_success_registration"), $title);
+            $message_type = ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS;
+            $is_online = true;
+            if ($a_type === 'crs') {
+                $crs = new ilObjCourse($a_ref_id, true);
+                $is_online = $crs->isActivated();
+            }
+            if ($a_type === 'grp') {
+                $grp = new ilObjGroup($a_ref_id, true);
+                $is_online = !$grp->getOfflineStatus();
+            }
+            $parent_id = $tree->getParentId($a_ref_id);
+            $is_valid_type = $a_type === 'crs' || $a_type === 'grp';
+            $is_obj_available =
+                $is_online &&
+                $access->checkAccess("visible", "", $a_ref_id);
+            $is_parent_available =
+                $access->checkAccess("read", "", $parent_id) &&
+                $access->checkAccess("visible", "", $parent_id);
+            # Redirect to object parent if object not available
+            if (
+                $is_valid_type &&
+                !$is_obj_available &&
+                $is_parent_available
+            ) {
+                $link_target = ilLink::_getLink($parent_id);
+                $message .= " " . $lng->txt("crs_access_not_possible");
+                $message_type = ilGlobalTemplateInterface::MESSAGE_TYPE_INFO;
+            }
+            # Redirect to dashboard if object and parent object are unavailable
+            if (
+                $is_valid_type &&
+                !$is_obj_available &&
+                !$is_parent_available
+            ) {
+                $link_target = "";
+                $message .= " " . $lng->txt("crs_access_not_possible");
+                $message_type = ilGlobalTemplateInterface::MESSAGE_TYPE_INFO;
+            }
+            self::useCode($a_code, $a_ref_id);
+            $main_tpl->setOnScreenMessage($message_type, $message, true);
+            $ctrl->redirectToURL($link_target);
         } catch (ilMembershipRegistrationException $e) {
             switch ($e->getCode()) {
                 case ilMembershipRegistrationException::ADDED_TO_WAITINGLIST://added to waiting list
