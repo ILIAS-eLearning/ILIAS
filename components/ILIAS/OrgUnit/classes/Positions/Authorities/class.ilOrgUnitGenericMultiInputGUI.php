@@ -461,10 +461,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     private function getGlyph(string $which): string
     {
         $symbol = $this->ui_factory->symbol()->glyph()->$which();
-        /**
-         * do not render an a-tag around the glyph.
-         * should be outdated and removed when Glyphs loose their Clickable
-         */
         $renderer = $this->renderer_loader->getRendererFor(
             $symbol,
             [$this->ui_factory->button()->bulky($symbol, '', '')]

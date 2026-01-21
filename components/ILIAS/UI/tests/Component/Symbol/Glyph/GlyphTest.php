@@ -190,27 +190,6 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals($factory_method, $g->getType());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
-    public function testGlyphNoAction(string $factory_method): void
-    {
-        $f = $this->getGlyphFactory();
-        $g = $f->$factory_method();
-
-        $this->assertNotNull($g);
-        $this->assertEquals(null, $g->getAction());
-    }
-
-    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
-    public function testWithUnavailableAction(string $factory_method): void
-    {
-        $f = $this->getGlyphFactory();
-        $g = $f->$factory_method();
-        $g2 = $f->$factory_method()->withUnavailableAction();
-
-        $this->assertTrue($g->isActive());
-        $this->assertFalse($g2->isActive());
-    }
-
     public function testWithHighlight(): void
     {
         $gf = $this->getGlyphFactory();
@@ -359,25 +338,6 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
-    public function testRenderWithUnavailableAction(string $type): void
-    {
-        $f = $this->getGlyphFactory();
-        $r = $this->getDefaultRenderer();
-        $c = $f->$type()->withUnavailableAction();
-
-        $html = $this->normalizeHTML($r->render($c));
-
-        $css_classes = self::$canonical_css_classes[$type];
-        $aria_label = self::$aria_labels[$type];
-
-        $expected = '
-        <a class="glyph disabled" aria-label="' . $aria_label . '" aria-disabled="true">
-            <span class="' . $css_classes . '" aria-hidden="true"></span>
-        </a>';
-        $this->assertEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
-    }
-
     #[\PHPUnit\Framework\Attributes\DataProvider('getCounterTypeProvider')]
     public function testRenderWithCounter(string $type): void
     {
@@ -438,29 +398,5 @@ class GlyphTest extends ILIAS_UI_TestBase
         $f = $this->getCounterFactory();
 
         $r->render($f->status(0), $this->getDefaultRenderer());
-    }
-
-    #[\PHPUnit\Framework\Attributes\DataProvider('getGlyphTypeProvider')]
-    public function testRenderWithOnLoadCode(string $type): void
-    {
-        $f = $this->getGlyphFactory();
-        $r = $this->getDefaultRenderer();
-        $ids = array();
-        $c = $f->$type()
-                ->withOnLoadCode(function ($id) use (&$ids): string {
-                    $ids[] = $id;
-                    return "";
-                });
-
-        $html = $this->normalizeHTML($r->render($c));
-
-        $this->assertCount(1, $ids);
-
-        $css_classes = self::$canonical_css_classes[$type];
-        $aria_label = self::$aria_labels[$type];
-
-        $id = $ids[0];
-        $expected = '<a class="glyph" aria-label="' . $aria_label . '" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
-        $this->assertEquals($expected, $html);
     }
 }

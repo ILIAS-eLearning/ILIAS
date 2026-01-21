@@ -131,11 +131,15 @@ function base()
         ->withProperty('Event Date', '14.02.2023');
 
     $prio_reactions = [
-        $f->symbol()->glyph()->love()
-            ->withCounter($f->counter()->status(2)),
-        $f->symbol()->glyph()->comment()
+        $f->button()->shy('', '#')->withSymbol(
+            $f->symbol()->glyph()->love()
+              ->withCounter($f->counter()->status(2))
+        ),
+        $f->button()->shy('', '#')->withSymbol(
+            $f->symbol()->glyph()->comment()
             ->withCounter($f->counter()->novelty(3))
             ->withCounter($f->counter()->status(7))
+        )
     ];
 
     $main_detail_1 = $f->listing()->property()

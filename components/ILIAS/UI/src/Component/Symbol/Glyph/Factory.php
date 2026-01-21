@@ -43,10 +43,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be “Settings”.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function settings(?string $action = null): Glyph;
+    public function settings(): Glyph;
 
     /**
      * ---
@@ -71,10 +70,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Collapse Content'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function collapse(?string $action = null): Glyph;
+    public function collapse(): Glyph;
 
     /**
      * ---
@@ -99,10 +97,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Expand Content'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function expand(?string $action = null): Glyph;
+    public function expand(): Glyph;
 
     /**
      * ---
@@ -135,10 +132,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Add'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function add(?string $action = null): Glyph;
+    public function add(): Glyph;
 
     /**
      * ---
@@ -169,10 +165,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Remove'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function remove(?string $action = null): Glyph;
+    public function remove(): Glyph;
 
     /**
      * ---
@@ -206,10 +201,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Up'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function up(?string $action = null): Glyph;
+    public function up(): Glyph;
 
     /**
      * ---
@@ -243,10 +237,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Down'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function down(?string $action = null): Glyph;
+    public function down(): Glyph;
 
     /**
      * ---
@@ -274,10 +267,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Back'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function back(?string $action = null): Glyph;
+    public function back(): Glyph;
 
     /**
      * ---
@@ -304,10 +296,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Next'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function next(?string $action = null): Glyph;
+    public function next(): Glyph;
 
     /**
      * ---
@@ -325,10 +316,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Sort Ascending'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function sortAscending(?string $action = null): Glyph;
+    public function sortAscending(): Glyph;
 
     /**
      * ---
@@ -346,10 +336,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Sort Descending'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function sortDescending(?string $action = null): Glyph;
+    public function sortDescending(): Glyph;
 
     /**
      * ---
@@ -366,10 +355,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Background Tasks'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function briefcase(?string $action = null): Glyph;
+    public function briefcase(): Glyph;
 
     /**
      * ---
@@ -388,10 +376,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Show who is online'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function user(?string $action = null): Glyph;
+    public function user(): Glyph;
 
     /**
      * ---
@@ -410,10 +397,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Mail'.
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function mail(?string $action = null): Glyph;
+    public function mail(): Glyph;
 
     /**
      * ---
@@ -431,10 +417,9 @@ interface Factory
      *       2: >
      *          The aria-label MUST be "Notifications".
      * ---
-     * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function notification(?string $action = null): Glyph;
+    public function notification(): Glyph;
 
     /**
      * ---
@@ -454,10 +439,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Tags'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function tag(?string $action = null): Glyph;
+    public function tag(): Glyph;
 
     /**
      * ---
@@ -477,10 +461,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Notes'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function note(?string $action = null): Glyph;
+    public function note(): Glyph;
 
     /**
      * ---
@@ -500,10 +483,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Comments'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function comment(?string $action = null): Glyph;
+    public function comment(): Glyph;
 
     /**
      * ---
@@ -526,10 +508,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Like'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function like(?string $action = null): Glyph;
+    public function like(): Glyph;
 
     /**
      * ---
@@ -552,10 +533,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Love'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function love(?string $action = null): Glyph;
+    public function love(): Glyph;
 
     /**
      * ---
@@ -578,10 +558,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Dislike'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function dislike(?string $action = null): Glyph;
+    public function dislike(): Glyph;
 
     /**
      * ---
@@ -604,10 +583,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Laugh'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function laugh(?string $action = null): Glyph;
+    public function laugh(): Glyph;
 
     /**
      * ---
@@ -630,10 +608,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Astounded'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function astounded(?string $action = null): Glyph;
+    public function astounded(): Glyph;
 
     /**
      * ---
@@ -656,10 +633,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Sad'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function sad(?string $action = null): Glyph;
+    public function sad(): Glyph;
 
     /**
      * ---
@@ -682,10 +658,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Angry'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function angry(?string $action = null): Glyph;
+    public function angry(): Glyph;
 
     /**
      * ---
@@ -709,10 +684,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be "Eye Closed - Click to hide the input's contents".
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function eyeclosed(?string $action = null): Glyph;
+    public function eyeclosed(): Glyph;
 
     /**
      * ---
@@ -736,10 +710,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be "Eye Opened - Click to reveal the input's contents".
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function eyeopen(?string $action = null): Glyph;
+    public function eyeopen(): Glyph;
 
     /**
      * ---
@@ -760,10 +733,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Attachment'.
      * ---
-     * @param string|null $action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function attachment(?string $action = null): Glyph;
+    public function attachment(): Glyph;
 
     /**
      * ---
@@ -794,10 +766,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Reset'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function reset(?string $action = null): Glyph;
+    public function reset(): Glyph;
 
     /**
      * ---
@@ -828,10 +799,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Apply'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function apply(?string $action = null): Glyph;
+    public function apply(): Glyph;
 
     /**
      * ---
@@ -853,10 +823,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Search'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function search(?string $action = null): Glyph;
+    public function search(): Glyph;
 
     /**
      * ---
@@ -879,10 +848,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Help'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function help(?string $action = null): Glyph;
+    public function help(): Glyph;
 
     /**
      * ---
@@ -902,10 +870,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Calendar'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function calendar(?string $action = null): Glyph;
+    public function calendar(): Glyph;
 
     /**
      * ---
@@ -925,10 +892,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Time'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function time(?string $action = null): Glyph;
+    public function time(): Glyph;
 
     /**
      * ---
@@ -946,10 +912,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Close'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function close(?string $action = null): Glyph;
+    public function close(): Glyph;
 
     /**
      * ---
@@ -1004,10 +969,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Show More'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function more(?string $action = null): Glyph;
+    public function more(): Glyph;
 
     /**
      * ---
@@ -1060,10 +1024,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be „Disclose“.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function disclosure(?string $action = null): Glyph;
+    public function disclosure(): Glyph;
 
     /**
      * ---
@@ -1091,10 +1054,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Switch Language'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function language(?string $action = null): Glyph;
+    public function language(): Glyph;
 
     /**
      * ---
@@ -1121,10 +1083,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Login'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function login(?string $action = null): Glyph;
+    public function login(): Glyph;
 
     /**
      * ---
@@ -1149,10 +1110,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Logout'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function logout(?string $action = null): Glyph;
+    public function logout(): Glyph;
 
     /**
      * ---
@@ -1175,10 +1135,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Bullet Point List'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function bulletlist(?string $action = null): Glyph;
+    public function bulletlist(): Glyph;
 
     /**
      * ---
@@ -1204,10 +1163,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Numbered List'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function numberedlist(?string $action = null): Glyph;
+    public function numberedlist(): Glyph;
 
     /**
      * ---
@@ -1231,10 +1189,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Increase Indent'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function listindent(?string $action = null): Glyph;
+    public function listindent(): Glyph;
 
     /**
      * ---
@@ -1257,10 +1214,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Decrease Indent'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function listoutdent(?string $action = null): Glyph;
+    public function listoutdent(): Glyph;
 
     /**
      * ---
@@ -1282,10 +1238,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Filter'.
      * ---
-     * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function filter(?string $action = null): Glyph;
+    public function filter(): Glyph;
 
     /**
      * ---
@@ -1315,10 +1270,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘collapse/back'.
      * ---
-     * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function collapseHorizontal(?string $action = null): Glyph;
+    public function collapseHorizontal(): Glyph;
 
     /**
      * ---
@@ -1343,10 +1297,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Insert Heading'.
      * ---
-     * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function header(?string $action = null): Glyph;
+    public function header(): Glyph;
 
     /**
      * ---
@@ -1371,10 +1324,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Insert Italic'.
      * ---
-     * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function italic(?string $action = null): Glyph;
+    public function italic(): Glyph;
 
     /**
      * ---
@@ -1399,10 +1351,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Insert Bold'.
      * ---
-     * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function bold(?string $action = null): Glyph;
+    public function bold(): Glyph;
 
     /**
      * ---
@@ -1428,10 +1379,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be ‘Insert Link'.
      * ---
-     * @param string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function link(?string $action = null): Glyph;
+    public function link(): Glyph;
 
     /**
      * ---
@@ -1454,10 +1404,9 @@ interface Factory
      *       1: The LAUNCH Glyph MUST NOT be used for mere navigation; focus is on
      *         a process to start, which means altering a user's relation to some object.
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function launch(?string $action = null): Glyph;
+    public function launch(): Glyph;
 
     /**
      * ---
@@ -1480,10 +1429,9 @@ interface Factory
      *          The aria-label MUST be 'Enlarge'.
      *   usage:
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function enlarge(?string $action = null): Glyph;
+    public function enlarge(): Glyph;
 
     /**
      * ---
@@ -1505,10 +1453,9 @@ interface Factory
      *   usage:
      *       1: The List View Glyph SHOULD not come without a Tile View Glyph and vice versa.
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function listView(?string $action = null): Glyph;
+    public function listView(): Glyph;
 
     /**
      * ---
@@ -1531,10 +1478,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Preview'.
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function preview(?string $action = null): Glyph;
+    public function preview(): Glyph;
 
     /**
      * ---
@@ -1555,10 +1501,9 @@ interface Factory
      *   usage:
      *       1: The Sort Glyph SHOULD NOT be used to display the selected sort option.
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function sort(?string $action = null): Glyph;
+    public function sort(): Glyph;
 
     /**
      * ---
@@ -1577,10 +1522,9 @@ interface Factory
      *       1: >
      *          The aria-label MUST be 'Column Selection'.
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function columnSelection(?string $action = null): Glyph;
+    public function columnSelection(): Glyph;
 
     /**
      * ---
@@ -1604,10 +1548,9 @@ interface Factory
      *   usage:
      *       1: The Tile View Glyph SHOULD not come without a ListView Glyph and vice versa.
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function tileView(?string $action = null): Glyph;
+    public function tileView(): Glyph;
 
     /**
      * ---
@@ -1637,10 +1580,9 @@ interface Factory
      *   usage:
      *       1: The Drag Glyph SHOULD be positioned near the corners of a draggable element.
      * ---
-     * @param   string|null $action
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
-    public function dragHandle(?string $action = null): Glyph;
+    public function dragHandle(): Glyph;
 
     /**
      * ---

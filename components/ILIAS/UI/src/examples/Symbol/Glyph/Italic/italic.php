@@ -22,8 +22,17 @@ namespace ILIAS\UI\examples\Symbol\Glyph\Italic;
 
 /**
  * ---
+ * description: >
+ *   Example for rendring an italic glyph.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   Active:
+ *   ILIAS shows an italic "I" symbol on a grey background. Moving the cursor above the symbol will darken it's
+ *   color slightly. Additionally the cursor's form will change and it indicates a linking.
+ *
+ *   Highlighted:
+ *   ILIAS shows the same symbol but it's highlighted particularly. Moving the cursor above the symbol will darken it's
+ *   color slightly. Additionally the cursor's form will change and it indicates a linking.
  * ---
  */
 function italic()
@@ -38,7 +47,6 @@ function italic()
     // showcase the various states of this Glyph
     $list = $factory->listing()->descriptive([
         "Active" => $glyph,
-        "Inactive" => $glyph->withUnavailableAction(),
         "Highlighted" => $glyph->withHighlight()
     ]);
 

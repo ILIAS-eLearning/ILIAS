@@ -209,16 +209,15 @@ class DataRendererTest extends TableRendererTestBase
             <tr class="c-table-data__header c-table-data__row">
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1" aria-sort="ascending">
                     <div class="c-table-data__header__resize-wrapper">
-                        <a tabindex="0" class="glyph" href="#" aria-label="sort_ascending" id="id_2"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
-                        <button class="btn btn-link" id="id_1">Field 1</button>
+                        <button class="btn btn-link" id="id_1"><span class="glyph" role="img"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></span> Field 1</button>
                     </div>
                 </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2" aria-sort="">
                     <div class="c-table-data__header__resize-wrapper">Field 2</div>
                 </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" tabindex="-1" aria-colindex="3">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--number" tabindex="-1" aria-colindex="3" aria-sort="">
                     <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" id="id_3">Field 3</button>
+                        <button class="btn btn-link" id="id_2">Field 3</button>
                     </div>
                 </th>
             </tr>
@@ -291,10 +290,10 @@ EOT;
         <table class="c-table-data__table" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}" role="grid">
             <thead>
             <tr class="c-table-data__header c-table-data__row">
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1"  aria-sort="">
                     <div class="c-table-data__header__resize-wrapper">Field 1</div>
                 </th>
-                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2">
+                <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="2" aria-sort="">
                     <div class="c-table-data__header__resize-wrapper">Field 2</div>
                 </th>
             </tr>

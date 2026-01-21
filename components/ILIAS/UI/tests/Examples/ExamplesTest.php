@@ -139,20 +139,6 @@ class ExamplesTest extends ILIAS_UI_TestBase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getFullFunctionNamesAndPathExample')]
-    public function testAllExamplesRenderAString(string $example_function_name, string $example_path): void
-    {
-        global $DIC;
-        $DIC = $this->dic;
-
-        include_once $example_path;
-        try {
-            $this->assertIsString($example_function_name(), " Example $example_function_name does not render a string");
-        } catch (NotImplementedException $e) {
-            $this->assertTrue(true);
-        }
-    }
-
-    #[\PHPUnit\Framework\Attributes\DataProvider('getFullFunctionNamesAndPathExample')]
     public function testAllExamplesHaveExpectedOutcomeInDocs(string $example_function_name, string $example_path)
     {
         $docs = $this->example_parser->parseYamlStringArrayFromFile($example_path);

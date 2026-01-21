@@ -466,10 +466,8 @@ class Renderer extends AbstractComponentRenderer
             });
 
             $f = $this->getUIFactory();
-            $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
-                              ->withOnClick($sig_reveal);
-            $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
-                            ->withOnClick($sig_mask);
+            $glyph_reveal = $f->button()->shy('', $sig_reveal)->withSymbol($f->symbol()->glyph()->eyeopen());
+            $glyph_mask = $f->button()->shy('', $sig_mask)->withSymbol($f->symbol()->glyph()->eyeclosed());
 
             $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
@@ -570,10 +568,6 @@ class Renderer extends AbstractComponentRenderer
         ];
 
         foreach ($markdown_actions_glyphs as $tpl_variable => $glyph) {
-            if ($component->isDisabled()) {
-                $glyph = $glyph->withUnavailableAction();
-            }
-
             $action = $this->getUIFactory()->button()->standard('', '#')->withSymbol($glyph);
 
             if ($component->isDisabled()) {
@@ -1011,9 +1005,10 @@ class Renderer extends AbstractComponentRenderer
         ?FileInfoResult $file_info,
         Template $template
     ): Template {
+        $f = $this->getUIFactory();
         $template->setCurrentBlock('block_file_preview');
         $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
-            $this->getUIFactory()->symbol()->glyph()->close()->withAction("#")
+            $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->close())
         ));
 
         if (null !== $file_info) {
@@ -1028,15 +1023,14 @@ class Renderer extends AbstractComponentRenderer
         // contains actual (unhidden) inputs.
         if ($file_input->hasMetadataInputs()) {
             $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->expand()->withAction("#")
+                $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->expand())
             ));
             $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
-                $this->getUIFactory()->symbol()->glyph()->collapse()->withAction("#")
+                $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->collapse())
             ));
         }
 
         $template->setVariable('METADATA_INPUTS', $default_renderer->render($metadata_input));
-
         $template->parseCurrentBlock();
 
         return $template;

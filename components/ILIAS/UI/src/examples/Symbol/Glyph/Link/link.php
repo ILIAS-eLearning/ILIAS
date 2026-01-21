@@ -22,8 +22,17 @@ namespace ILIAS\UI\examples\Symbol\Glyph\Link;
 
 /**
  * ---
+ * description: >
+ *   Example for rendering a Link Glyph.
+ *
  * expected output: >
- *   ILIAS shows the rendered Component.
+ *   Active:
+ *   ILIAS shows a link symbol on a grey background. If you move your cursor onto the symbol it's
+ *   color darkens a little bit. Additionaly the cursor symbol changes it's form and indicates a linking.
+ *
+ *   Highlighted:
+ *   ILIAS shows the same symbol. But it's highlighted particularly. The presentation will darken if you move your cursor
+ *   above the symbol. Additionally the cursor symbol will change it's form and indicates a linking.
  * ---
  */
 function link()
@@ -38,7 +47,6 @@ function link()
     // showcase the various states of this Glyph
     $list = $factory->listing()->descriptive([
         "Active" => $glyph,
-        "Inactive" => $glyph->withUnavailableAction(),
         "Highlighted" => $glyph->withHighlight()
     ]);
 

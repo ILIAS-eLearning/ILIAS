@@ -69,16 +69,18 @@ interface Entity extends Component
      * common ones (here) and less often used ones.
      * Another way of distinguishing Reactions might be the availability/significance
      * for everybody in contrast to the current user (e.g. rating vs. my favorite)
+     * Reactions SHOULD be shy button with symbols and no text label (or tag).
      */
-    public function withPrioritizedReactions(Glyph | Tag ...$prio_reactions): self;
+    public function withPrioritizedReactions(Shy | Tag ...$prio_reactions): self;
 
 
     //Further Areas
 
     /**
      * Reactions that are less prominent than Prioritized Reactions go here.
+     * Reactions SHOULD be shy button with symbols and no text label (or tag).
      */
-    public function withReactions(Glyph | Tag ...$reactions): self;
+    public function withReactions(Shy | Tag ...$reactions): self;
 
     /**
      * Properties that could potentially limit a users access to the object

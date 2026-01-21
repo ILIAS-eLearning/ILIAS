@@ -169,11 +169,16 @@ class ilLikeGUI
         $comps = array();
         foreach ($this->data->getExpressionTypes() as $k => $txt) {
             if ($cnts[$k] > 0) {
-                $glyph = $this->getGlyphForConst($k, $unavailable);
-                if ($modal_signal !== null) {
-                    $glyph = $glyph->withOnClick($modal_signal);
+                $glyph = $this->getGlyphForConst($k);
+                $button_with_symbol = $this->ui->factory()->button()->shy('', '#')
+                    ->withSymbol($glyph->withCounter($f->counter()->status($cnts[$k])));
+                if ($unavailable) {
+                    $button_with_symbol = $button_with_symbol->withUnavailableAction();
                 }
-                $comps[] = $glyph->withCounter($f->counter()->status($cnts[$k]));
+                if ($modal_signal !== null) {
+                    $button_with_symbol = $button_with_symbol->withOnClick($modal_signal);
+                }
+                $comps[] = $button_with_symbol;
             }
         }
 
@@ -194,8 +199,7 @@ class ilLikeGUI
     }
 
     protected function getGlyphForConst(
-        int $a_const,
-        bool $unavailable = false
+        int $a_const
     ): ?\ILIAS\UI\Component\Symbol\Glyph\Glyph {
         $f = $this->ui->factory();
         $like = null;
@@ -215,9 +219,7 @@ class ilLikeGUI
             case ilLikeData::TYPE_ANGRY: $like = $f->symbol()->glyph()->angry();
                 break;
         }
-        if ($unavailable) {
-            $like = $like->withUnavailableAction();
-        }
+
         return $like;
     }
 
@@ -250,12 +252,13 @@ class ilLikeGUI
             )) {
                 $g = $g->withHighlight();
             }
-
-            $g = $g->withAdditionalOnLoadCode(function ($id) use ($k, $url) {
-                return
-                    "$('#" . $id . "').click(function() { il.Like.toggle('" . $url . "','" . $id . "','" . $this->dom_id . "'," . $k . ");});";
-            });
-            $glyphs[] = $g;
+            $button_with_symbol = $this->ui->factory()->button()->shy('', '#')
+                ->withSymbol($g)
+                ->withAdditionalOnLoadCode(function ($id) use ($k, $url) {
+                    return
+                        "$('#" . $id . "').click(function() { il.Like.toggle('" . $url . "','" . $id . "','" . $this->dom_id . "'," . $k . ");});";
+                });
+            $glyphs[] = $button_with_symbol;
         }
 
         $tpl->setVariable("GLYPHS", $r->renderAsync($glyphs));
@@ -332,9 +335,11 @@ class ilLikeGUI
                 $name
             );
 
-            $g = $this->getGlyphForConst($exp["expression"], true);
+            $g = $this->getGlyphForConst($exp["expression"]);
             $placeholder = "###" . $exp["expression"] . "###";
-            $glyph_renderings[$placeholder] = $r->render($g);
+            $glyph_renderings[$placeholder] = $r->render(
+                $this->ui->factory()->button()->shy('', '#')->withSymbol($g)->withUnavailableAction()
+            );
 
             $list_items[] = $f->item()->standard($name)
                 ->withDescription($placeholder . " " .

@@ -60,7 +60,7 @@ class SystemInfoTest extends ILIAS_UI_TestBase
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" data-action="#" id="id"><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -93,7 +93,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" data-action="#" id="id"><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -126,7 +126,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" data-action="#" id="id"><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -158,7 +158,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" data-action="#" id="id"><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -193,9 +193,11 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <a tabindex="0" class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+            <button class="btn btn-link" data-action="#" id="id"><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
-        <span class="il-system-info-close"><a tabindex="0" class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
+        <span class="il-system-info-close">
+            <button class="btn btn-link" id="id"><span class="glyph" aria-label="close" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></button>
+        </span>
     </div>
 </div>
 EOT;
@@ -248,6 +250,11 @@ EOT;
                     new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory(),
                     new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory()
                 );
+            }
+
+            public function button(): ILIAS\UI\Implementation\Component\Button\Factory
+            {
+                return new ILIAS\UI\Implementation\Component\Button\Factory();
             }
 
             public function mainControls(): \ILIAS\UI\Implementation\Component\MainControls\Factory

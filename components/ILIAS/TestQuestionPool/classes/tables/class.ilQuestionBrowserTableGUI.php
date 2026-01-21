@@ -548,8 +548,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 
         $ajax_link = $this->getCommentsAjaxLink($qData['question_id']);
 
-        $comment_glyph = $this->ui_factory->symbol()->glyph()->comment()->withCounter(
-            $this->ui_factory->counter()->status($qData['comments'])
+        $comment_glyph = $this->ui_factory->button()->shy('', '#')->withSymbol(
+            $this->ui_factory->symbol()->glyph()->comment()->withCounter(
+                $this->ui_factory->counter()->status($qData['comments'])
+            )
         )->withAdditionalOnLoadCode(function ($id) use ($ajax_link): string {
             return "document.getElementById('$id').onclick = function (event) { $ajax_link; };";
         });

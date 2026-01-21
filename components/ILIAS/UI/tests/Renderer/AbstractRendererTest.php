@@ -37,17 +37,6 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
             return $this->getTemplate($a, $b, $c);
         }
     }
-
-    class GlyphNonAbstractRendererWithJS extends GlyphNonAbstractRenderer
-    {
-        public array $ids = array();
-
-        public function render(Component $component, Renderer $default_renderer): string
-        {
-            $this->ids[] = $this->bindJavaScript($component);
-            return "";
-        }
-    }
 }
 
 namespace ILIAS\UI\Implementation\Component\Counter {
@@ -209,60 +198,6 @@ namespace {
                               => array(true, false)
             );
             $this->assertEquals($expected, $this->tpl_factory->files);
-        }
-
-        public function testBindJavaScriptSuccessfull(): void
-        {
-            $r = new GlyphNonAbstractRendererWithJS(
-                $this->ui_factory,
-                $this->tpl_factory,
-                $this->lng,
-                $this->js_binding,
-                $this->image_path_resolver,
-                $this->getDataFactory(),
-                $this->help_text_retriever,
-                $this->getUploadLimitResolver()
-            );
-
-            $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
-
-            $ids = array();
-            $g = $g->withOnLoadCode(function ($id) use (&$ids) {
-                $ids[] = $id;
-                return "ID: $id";
-            });
-            $r->render($g, new NullDefaultRenderer());
-
-            $this->assertEquals($this->js_binding->ids, $ids);
-            $this->assertEquals(array("id_1"), $ids);
-            $this->assertEquals(array("ID: id_1"), $this->js_binding->on_load_code);
-        }
-
-        public function testBindJavaScriptNoString(): void
-        {
-            $r = new GlyphNonAbstractRendererWithJS(
-                $this->ui_factory,
-                $this->tpl_factory,
-                $this->lng,
-                $this->js_binding,
-                $this->image_path_resolver,
-                $this->getDataFactory(),
-                $this->help_text_retriever,
-                $this->getUploadLimitResolver()
-            );
-
-            $g = new Glyph(C\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
-
-            $g = $g->withOnLoadCode(function ($id) {
-                return null;
-            });
-
-            try {
-                $r->render($g, new NullDefaultRenderer());
-                $this->assertFalse("This should not happen...");
-            } catch (LogicException $e) {
-                $this->assertTrue(true);
-            }
         }
     }
 }

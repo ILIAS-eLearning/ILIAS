@@ -21,12 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Symbol;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a symbol.
  */
-interface Symbol extends Component, JavaScriptBindable
+interface Symbol extends Component
 {
     /**
      * Get the label of this icon.

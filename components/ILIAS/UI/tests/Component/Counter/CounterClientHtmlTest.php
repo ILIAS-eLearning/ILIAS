@@ -56,7 +56,7 @@ class CounterClientHtmlTest extends ILIAS_UI_TestBase
             </div>';
 
 
-        $add_glpyh = $this->getGlyphFactory()->add("");
+        $add_glpyh = $this->getGlyphFactory()->add();
         $glyph_with_counter = $add_glpyh->withCounter($counter_factory->status(1))
                                         ->withCounter($counter_factory->novelty(5));
 
