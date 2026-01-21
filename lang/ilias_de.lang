@@ -2769,6 +2769,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
 buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
+buddysystem#:#buddy_confirm_unlink#:#Möchten Sie die Verbindung zu diesem Kontakt wirklich aufheben?
 buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage

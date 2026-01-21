@@ -2770,6 +2770,7 @@ buddysystem#:#buddy_bs_state_requested_p#:#Requested
 buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_confirm_unlink#:#Do you really want to disconnect from this contact?
 buddysystem#:#buddy_enable#:#Activate ‘Contacts’
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
