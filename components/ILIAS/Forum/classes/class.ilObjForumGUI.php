@@ -5902,7 +5902,7 @@ EOD
     {
         $collectionIds = [];
 
-        foreach ($postings as $postingig) {
+        foreach ($postings as $posting) {
             $rcid = $posting->getRCID();
             if ($rcid !== ilForumPost::NO_RCID && !empty($rcid)) {
                 $collection_ids[] = $rcid;
