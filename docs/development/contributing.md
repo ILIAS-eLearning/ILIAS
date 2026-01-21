@@ -107,7 +107,7 @@ be assigned by the Technical Board or Authorities:
 | javascript      | The label `javascript` has to be set for PRs changing Javascript code.                                                                                                    |
 | jour fixe       | PRs which should be discussed during the next Jour Fixe are labeled with this `jour fixe`. Please set this label at least 2 days before the envisaged date of Jour Fixe.  |
 | kitchen sink    | All contributions to the Kitchen Sink Project are labeled accordingly.                                                                                                    |
-| css/html        | The label `css/html` is used for PRs which propose changes to css/scss or html files.                                                                                     |
+| css/html        | The label `css/html` is used for PRs which propose changes to CSS/SCSS or HTML files.                                                                                     |
 | Looking for Shepherd | The label `Looking for Shepherd` has to be set for PRs which changes made for unmaintained components.                                                      |
 | php             | The label `php` has to be set for PRs changing PHP code.                                                                                                                  |
 | roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions of technical topics regarding the future of a component.                          |
