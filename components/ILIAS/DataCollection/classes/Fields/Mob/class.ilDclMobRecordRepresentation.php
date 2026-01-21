@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Image\Image;
+
 class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
 {
     public function getHTML(bool $link = true, array $options = []): string
@@ -43,7 +45,8 @@ class ilDclMobRecordRepresentation extends ilDclFileRecordRepresentation
             } else {
                 $tableview_id = $this->getRecord()->getTable()->getFirstTableViewId($this->user->getId());
             }
-            if (ilDclDetailedViewDefinition::isActive($tableview_id)) {
+            $page = new ilDclDetailedViewDefinitionGUI($tableview_id);
+            if ($page->getPageObject()->isActive()) {
                 $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $this->getRecord()->getId());
                 $link = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
                 $this->ctrl->clearParameterByClass(ilDclDetailedViewGUI::class, 'record_id');
