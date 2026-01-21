@@ -176,12 +176,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ActiveRecord)
 
 * **ActiveRecord**
-    * Authority to Sign off on Conceptual Changes: MISSING
-    * Authority to Sign off on Code Changes: MISSING
+    * Authority to Sign off on Conceptual Changes: [fwolf](https://docu.ilias.de/go/usr/29018)
+    * Authority to Sign off on Code Changes: [fwolf](https://docu.ilias.de/go/usr/29018)
     * Authority to Curate Test Cases: MISSING
-    * Authority to (De-)Assign Authorities: MISSING
-    * Assignee for Security Reports: MISSING
-    * Assignee for Security Issues: MISSING
+    * Authority to (De-)Assign Authorities: [fwolf](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Reports: [fwolf](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Issues: [fwolf](https://docu.ilias.de/go/usr/29018)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ActiveRecord)
@@ -1571,12 +1571,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebAccessChecker)
 
 * **Web Access Checker**
-    * Authority to Sign off on Conceptual Changes: MISSING 
+    * Authority to Sign off on Conceptual Changes: [fwolf](https://docu.ilias.de/go/usr/29018) 
     * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/go/usr/21855)
     * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Authority to (De-)Assign Authorities: MISSING
-    * Assignee for Security Reports: MISSING
-    * Assignee for Security Issues: MISSING
+    * Authority to (De-)Assign Authorities: [fwolf](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Reports: [fwolf](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Issues: [fwolf](https://docu.ilias.de/go/usr/29018)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebAccessChecker)
