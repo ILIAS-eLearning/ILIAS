@@ -126,10 +126,22 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_CYCLE', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'begin')) {
-            $this->tpl->setVariable('VAL_START', isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX)) : '--');
+            $val_start = '--';
+            try {
+                $val_start = ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX));
+            } catch(Exception $e) {
+                // $e: $values[$field] is unset or date parse exception
+            }
+            $this->tpl->setVariable('VAL_START', $val_start);
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'end')) {
-            $this->tpl->setVariable('VAL_END', isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX)) : '--');
+            $val_end = '--';
+            try {
+                $val_end = ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX));
+            } catch(Exception $e) {
+                // $e: $values[$field] is unset or date parse exception
+            }
+            $this->tpl->setVariable('VAL_START', $val_end);
         }
     }
 

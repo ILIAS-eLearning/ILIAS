@@ -774,7 +774,10 @@ class ilECSSettingsGUI
 
         $settings = ilECSServerSettings::getInstance();
 
-        $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
+        $sel_srv = 0;
+        if (array_key_exists("ecs_mapping_server", $_REQUEST)) {
+            $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
+        }
 
         // Iterate all servers
         $options = array(0 => $this->lng->txt("please_choose"));
@@ -815,7 +818,10 @@ class ilECSSettingsGUI
 
         $settings = ilECSServerSettings::getInstance();
 
-        $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
+        $sel_srv = 0;
+        if (array_key_exists("ecs_mapping_server", $_REQUEST)) {
+            $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
+        }
 
         // Iterate all servers
         $options = array(0 => $this->lng->txt("please_choose"));
@@ -1280,9 +1286,9 @@ class ilECSSettingsGUI
         }
 
 
-        $sel_type = $_REQUEST["otype"];
-        if (!$sel_type) {
-            $sel_type = "rcrs";
+        $sel_type = "rcrs";
+        if (array_key_exists("otype", $_REQUEST)) {
+            $sel_type = $_REQUEST["otype"];
         }
 
         $options = ilECSUtils::getPossibleRemoteTypes(true);
@@ -1437,9 +1443,9 @@ class ilECSSettingsGUI
             $this->toolbar->addSeparator();
         }
 
-        $sel_type = $_REQUEST["otype"];
-        if (!$sel_type) {
-            $sel_type = "rcrs";
+        $sel_type = "rcrs";
+        if (array_key_exists("otype", $_REQUEST)) {
+            $sel_type = $_REQUEST["otype"];
         }
 
         $options = ilECSUtils::getPossibleReleaseTypes(true);

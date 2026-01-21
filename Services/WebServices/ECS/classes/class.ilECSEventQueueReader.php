@@ -153,7 +153,7 @@ class ilECSEventQueueReader
             if (is_array($imported)) {
                 // Delete event for deprecated econtent
                 foreach ($imported as $econtent_id => $obj_id) {
-                    $type = self::getEventTypeFromObjectType(ilObject::_lookupType($obj_id));
+                    $type = self::getEventTypeFromObjectType(ilObject::_lookupType((int) $obj_id));
                     if ($type) {
                         $this->add(
                             $type,
