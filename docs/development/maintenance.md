@@ -258,12 +258,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN BibliographicListItem)
 
 * **Bibliographic List Item**
-    * Authority to Sign off on Conceptual Changes: MISSING
+    * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
     * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
-    * Authority to Curate Test Cases: MISSING
-    * Authority to (De-)Assign Authorities: MISSING
-    * Assignee for Issues: MISSING
-    * Assignee for Security Reports: MISSING
+    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END BibliographicListItem)
@@ -1188,12 +1188,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN OrganisationalUnits)
 
 * **Organisational Units**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
+    * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
     * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
     * Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Issues: [MISSING] 
-	* Assignee for Security Reports: [MISSING]
+    * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188) 
+	* Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END OrganisationalUnits)
@@ -1397,12 +1397,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN StudyProgramme)
 
 * **Study Programme**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
-    * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Issues: [MISSING]
-    * Assignee for Security Reports: [MISSING]
+    * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
+    * Authority to Sign off on Code Changes: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
+    * Assignee for Security Reports: [maalers](https://docu.ilias.de/go/usr/119188)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END StudyProgramme)
