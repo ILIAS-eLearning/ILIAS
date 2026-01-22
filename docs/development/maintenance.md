@@ -1534,7 +1534,7 @@ of ILIAS. The file contains the following fields:
 * **UI-Service**
     * Authority to Sign off on Conceptual Changes: [amstutz](https://docu.ilias.de/go/usr/26468), [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
     * Authority to Sign off on Code Changes: [amstutz](https://docu.ilias.de/go/usr/26468), [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
-    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631)
+    * Authority to Curate Test Cases: [Fabian](https://docu.ilias.de/go/usr/27631), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
     * Authority to (De-)Assign Authorities: [amstutz](https://docu.ilias.de/go/usr/26468), [tfuhrer](https://docu.ilias.de/go/usr/81947), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
     * Assignee for Security Reports: [amstutz](https://docu.ilias.de/go/usr/26468), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
     * Assignee for Security Issues: [amstutz](https://docu.ilias.de/go/usr/26468), [oliver.samoila](https://docu.ilias.de/go/usr/26160)
