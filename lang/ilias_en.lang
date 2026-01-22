@@ -11499,6 +11499,7 @@ mail#:#deleteTemplate#:#Delete
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
+mail#:#incoming_local_no_new_mails_inbox#:#Your account is configured to receive mails to your mail address. <br>You can only see mails in this inbox if your account is configured to receive them locally.
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:

@@ -481,6 +481,15 @@ class ilMailFolderGUI implements ilCtrlSecurityInterface
             self::PARAM_TARGET_FOLDER
         );
 
+        $message_box = null;
+        if ($this->folder->isInbox()) {
+            $mail_options = new ilMailOptions($this->user->getId());
+            if ($mail_options->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
+                $message_box = $this->ui_factory->messageBox()->info($this->lng->txt('incoming_local_no_new_mails_inbox'));
+                $components = [$message_box, ...$components];
+            }
+        }
+
         $table = new MailFolderTableUI(
             $url_builder,
             $action_token,
