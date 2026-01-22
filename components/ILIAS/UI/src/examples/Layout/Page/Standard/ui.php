@@ -516,14 +516,14 @@ function getDemoEntryTools(\ILIAS\UI\Factory $f): array
     $slate = $f->maincontrols()->slate()->legacy(
         'Initially hidden',
         $symbol,
-        $f->legacy(loremIpsum())
+        $f->legacy()->content(loremIpsum())
     );
     $tools['tool3'] = $slate;
 
     $slate = $f->maincontrols()->slate()->legacy(
         'Closable Tool',
         $symbol,
-        $f->legacy(loremIpsum())
+        $f->legacy()->content(loremIpsum())
     );
     $tools['tool4'] = $slate;
 
