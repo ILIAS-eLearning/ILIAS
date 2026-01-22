@@ -308,7 +308,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                             $href = "";
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
-                                    PublicProfileGUI::class,
+                                    [ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class],
                                     "getHTML",
                                     "",
                                     false,
@@ -543,7 +543,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
         $fields["description"] = $f->input()->field()->textarea($lng->txt("description"));
 
-        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM, true);
         if (!is_null($ts)) {
             $fields["layout_id"] = $ts;
         }

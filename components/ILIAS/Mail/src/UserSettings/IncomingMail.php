@@ -78,8 +78,8 @@ class IncomingMail implements SettingDefinition
                     $lng->txt('mail_incoming_smtp')
                 )->withDisabled(
                     $user === null || (
-                        $user->getEmail() === '' &&
-                        $user->getSecondEmail() === ''
+                        empty($user->getEmail()) &&
+                        empty($user->getSecondEmail())
                     )
                 ),
                 \ilMailOptions::INCOMING_BOTH => $field_factory->group(
@@ -87,8 +87,8 @@ class IncomingMail implements SettingDefinition
                     $lng->txt('mail_incoming_both')
                 )->withDisabled(
                     $user === null || (
-                        $user->getEmail() === '' &&
-                        $user->getSecondEmail() === ''
+                        empty($user->getEmail()) &&
+                        empty($user->getSecondEmail())
                     )
                 )
             ],
@@ -109,6 +109,7 @@ class IncomingMail implements SettingDefinition
 
         $input = new \ilIncomingMailInputGUI($lng->txt('mail_incoming'), 'incoming_mail');
         $input->setFreeOptionChoice(false);
+        $input->setUser($user);
         $input->setValueByArray(
             $user !== null
                 ? $this->retrieveValueFromUser($user)
@@ -216,9 +217,9 @@ class IncomingMail implements SettingDefinition
             function (array $v) use ($refinery, $user): array {
                 $email_address_option = $v[1]['mail_address_option'] ?? null;
                 if ($user !== null) {
-                    if ($user->getEmail() !== '' && $user->getSecondEmail() === '') {
+                    if (!empty($user->getEmail()) && empty($user->getSecondEmail())) {
                         $email_address_option = \ilMailOptions::FIRST_EMAIL;
-                    } elseif ($user->getSecondEmail() !== '' && $user->getEmail() === '') {
+                    } elseif (!empty($user->getSecondEmail()) && empty($user->getEmail())) {
                         $email_address_option = \ilMailOptions::SECOND_EMAIL;
                     }
                 }
@@ -253,7 +254,7 @@ class IncomingMail implements SettingDefinition
             ];
 
         if ($value['incoming_mail'] === \ilMailOptions::INCOMING_LOCAL ||
-            ($user->getEmail() === '' && $user->getSecondEmail() === '')) {
+            (empty($user->getEmail()) && empty($user->getSecondEmail()))) {
             return $value['incoming_mail'];
         }
 
@@ -270,7 +271,7 @@ class IncomingMail implements SettingDefinition
         FieldFactory $field_factory,
         ?\ilObjUser $user
     ): array {
-        if ($user === null || ($user->getEmail() === '' && $user->getSecondEmail() === '')) {
+        if ($user === null || (empty($user->getEmail()) && empty($user->getSecondEmail()))) {
             return [];
         }
 
@@ -289,7 +290,7 @@ class IncomingMail implements SettingDefinition
                 ->withOption(
                     (string) \ilMailOptions::SECOND_EMAIL,
                     $lng->txt('mail_second_email'),
-                    $user->getSecondEmail() === ''
+                    empty($user->getSecondEmail())
                         ? $lng->txt('second_email_missing_info')
                         : $user->getSecondEmail()
                 )

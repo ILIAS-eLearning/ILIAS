@@ -61,7 +61,8 @@ class ilTestCorrectionsGUI
 
     public function executeCommand()
     {
-        if (!$this->test_access->checkCorrectionsAccess()
+        if (!$this->test_obj->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed()
+            || !$this->test_access->checkCorrectionsAccess()
             || $this->question_gui !== null
                 && !$this->checkQuestion()) {
             ilObjTestGUI::accessViolationRedirect();

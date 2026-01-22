@@ -3,13 +3,13 @@
 Every ILIAS version will be **fully supported** until the end of the year after
 the year it was released in. **Fully supported** means that every kind of issue
 that is reported for the release according to our bugfixing process is eligible
-for a fix. *E.g.: A usability issue, reported for ILIAS 9 (released 2024), can
-be reported in August 2025 and is eligible for a fix then.*
+for a fix. *E.g.: A usability issue, reported for ILIAS 10 (released 2025), can
+be reported in August 2026 and is eligible for a fix then.*
 
 Every ILIAS version will then gain **security support** for an additional year
 after that. **Security support** means that we are fixing security issues only.
-*E.g.: A security issue, reported for ILIAS 9 (release 2024), can be reported
-in August 2026 and is eligible for a fix then. A malfunction that does make the
+*E.g.: A security issue, reported for ILIAS 10 (release 2025), can be reported
+in August 2027 and is eligible for a fix then. A malfunction that does make the
 program crash, reported at the same moment, won't be eligible for a fix.*
 
 

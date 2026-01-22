@@ -28,12 +28,16 @@ use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Tree\Tree;
 use LogicException;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolItem
+class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolItem, isDecorateable
 {
+    use ComponentDecoratorTrait;
+
     protected ?Symbol $symbol = null;
     protected Tree $tree;
     protected string $title;

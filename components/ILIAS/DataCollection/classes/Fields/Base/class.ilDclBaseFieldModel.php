@@ -43,8 +43,6 @@ class ilDclBaseFieldModel
     public const PROP_URL = "url";
     public const PROP_REFERENCE_LINK = "reference_link";
     public const PROP_UNIQUE = "unique";
-    public const PROP_WIDTH = "width";
-    public const PROP_HEIGHT = "height";
     public const PROP_LEARNING_PROGRESS = "learning_progress";
     public const PROP_ILIAS_REFERENCE_LINK = "ILIAS_reference_link";
     public const PROP_N_REFERENCE = "multiple_selection";

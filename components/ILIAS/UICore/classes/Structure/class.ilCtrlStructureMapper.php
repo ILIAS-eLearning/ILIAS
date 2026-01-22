@@ -19,8 +19,6 @@
 declare(strict_types=1);
 
 /**
- * Class ilCtrlStructureMapper
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 class ilCtrlStructureMapper
@@ -64,6 +62,8 @@ class ilCtrlStructureMapper
     private function addViseVersaMappingByClass(string $class_name, string $key_ref_from, string $key_ref_to): void
     {
         if (!empty($this->ctrl_structure[$class_name][$key_ref_from])) {
+            $invalid_indices = [];
+
             foreach ($this->ctrl_structure[$class_name][$key_ref_from] as $index => $reference) {
                 $is_reference_available = isset($this->ctrl_structure[$reference]);
                 $is_reference_valid = $this->isStructureEntryValid($reference);
@@ -85,9 +85,11 @@ class ilCtrlStructureMapper
                 // if the referenced class does not exist within the current
                 // structure, the reference is removed from the reference list.
                 if (!$is_reference_available || !$is_reference_valid) {
-                    $this->removeReference($this->ctrl_structure[$class_name][$key_ref_from], $index);
+                    $invalid_indices[] = $index;
                 }
             }
+
+            $this->removeInvalidReferences($invalid_indices, $class_name, $key_ref_from);
         }
     }
 
@@ -119,19 +121,20 @@ class ilCtrlStructureMapper
     }
 
     /**
-     * Removes an entry within the given reference list for the
-     * given index and re-indexes the reference list afterwards.
-     *
-     * @param array      $reference_list
-     * @param string|int $index
+     * @param list<int> $invalid_indices
      */
-    private function removeReference(array &$reference_list, $index): void
+    private function removeInvalidReferences(array $invalid_indices, string $class_name, string $key_ref_from): void
     {
-        // remove the reference of the current index.
-        unset($reference_list[$index]);
+        foreach ($invalid_indices as $index) {
+            unset($this->ctrl_structure[$class_name][$key_ref_from][$index]);
+        }
 
-        // re-index the reference list.
-        $reference_list = array_values($reference_list);
+        // Re-index the array once after all removals
+        if (!empty($invalid_indices)) {
+            $this->ctrl_structure[$class_name][$key_ref_from] = array_values(
+                $this->ctrl_structure[$class_name][$key_ref_from]
+            );
+        }
     }
 
     /**

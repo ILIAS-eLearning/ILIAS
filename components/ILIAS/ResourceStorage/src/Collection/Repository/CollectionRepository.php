@@ -25,13 +25,14 @@ use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
 use ILIAS\ResourceStorage\Events\DataContainer;
+use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
 /**
  * Interface CollectionRepository
  *
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface CollectionRepository extends LockingRepository
+interface CollectionRepository extends LockingRepository, PreloadableRepository
 {
     public function has(ResourceCollectionIdentification $identification): bool;
 
@@ -45,6 +46,12 @@ interface CollectionRepository extends LockingRepository
      * @return \Generator|string[]
      */
     public function getResourceIdStrings(ResourceCollectionIdentification $identification): \Generator;
+
+    /**
+     * @param string[] $collection_identifications
+     * @return ResourceIdentification[]
+     */
+    public function getResourceIdsForCollections(array $collection_identifications): array;
 
     public function update(ResourceCollection $collection, DataContainer $event_data_container): void;
 

@@ -1029,7 +1029,6 @@ class ilPCTableGUI extends ilPageContentGUI
 
         $this->displayValidationError();
         $this->initEditor();
-        $this->tpl->addJavaScript("assets/js/AdvancedSelectionList.js");
         $this->tpl->addCss(ilObjStyleSheet::getBaseContentStylePath());
         $this->tpl->setContent($this->getEditDataTable(true));
     }

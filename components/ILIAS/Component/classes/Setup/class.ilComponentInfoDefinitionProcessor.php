@@ -59,6 +59,8 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
             $type = "components/ILIAS";
         } elseif ($name === "pluginslot") {
             $type = null;
+        } elseif ($name === "component") {
+            $type = $attributes["type"] ?? null;
         } else {
             return;
         }

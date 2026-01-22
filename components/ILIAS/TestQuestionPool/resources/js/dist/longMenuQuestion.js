@@ -382,7 +382,7 @@ var longMenuQuestion = (function () {
 	pro.redrawAnswerList = function(question_id)
 	{
 		pro.checkAnswersArray(question_id);
-    const answer_options_element = document.querySelector('#ilGapModal .modal_answer_options');
+    const answer_options_element = document.querySelector(`#${pub.gap_modal_id} .modal_answer_options`);
     answer_options_element.innerHTML = '';
 
     if (pro.inputFieldsStillPossible(question_id))

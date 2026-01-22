@@ -29,6 +29,7 @@ use ILIAS\Setup\ilMysqlMyIsamToInnoDbMigration;
 use ILIAS\Setup\ObjectiveConstructor;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\Objective\CalledFromRootObjective;
 
 class ilDatabaseSetupAgent implements Agent
 {
@@ -80,6 +81,7 @@ class ilDatabaseSetupAgent implements Agent
         return new ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
+            new CalledFromRootObjective(),
             new ilDatabaseConfigStoredObjective($config),
             new ilDatabaseEnvironmentValidObjective(),
             new \ilDatabaseUpdatedObjective()
@@ -92,6 +94,7 @@ class ilDatabaseSetupAgent implements Agent
     public function getUpdateObjective(?Config $config = null): Objective
     {
         $p = [];
+        $p[] = new CalledFromRootObjective();
         $p[] = new \ilDatabaseUpdatedObjective();
         $p[] = new ilDatabaseEnvironmentValidObjective();
         return new ObjectiveCollection(

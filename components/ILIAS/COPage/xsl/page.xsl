@@ -843,7 +843,7 @@
 		</option>
 	</xsl:if>
 	<xsl:if test = "$javascript = 'enable'">
-		<a href="#" class="ilGroupedListLE" onMouseOver="M_in(this);" onMouseOut="M_out(this);">
+		<a href="#" onMouseOver="M_in(this);" onMouseOut="M_out(this);">
 		<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '', '<xsl:value-of select="name(.)"/>', '<xsl:value-of select="@Characteristic"/>'); return false;</xsl:attribute>
 		<xsl:if test="$text = ''">
 			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>

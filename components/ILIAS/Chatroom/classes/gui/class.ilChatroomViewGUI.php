@@ -86,7 +86,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         ilLinkifyUtil::initLinkify($this->mainTpl);
         $this->mainTpl->addJavaScript('assets/js/socket.io.min.js');
         $this->mainTpl->addJavaScript('assets/js/Chatroom.min.js');
-        $this->mainTpl->addJavaScript('assets/js/AdvancedSelectionList.js');
 
         $this->mainTpl->setPermanentLink($this->gui->getObject()->getType(), $this->gui->getObject()->getRefId());
     }

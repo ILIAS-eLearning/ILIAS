@@ -61,20 +61,11 @@ class ilAuthenticationSetupAgent implements Setup\Agent
             return new Setup\ObjectiveCollection(
                 'Authentication',
                 true,
-                new ilSessionMaxIdleIsSetObjective($config),
-                new ilDatabaseUpdateStepsExecutedObjective(
-                    new AbandonCASAuthModeUpdateObjective()
-                ),
+                new ilSessionMaxIdleIsSetObjective($config)
             );
         }
 
-        return new Setup\ObjectiveCollection(
-            'Authentication',
-            true,
-            new ilDatabaseUpdateStepsExecutedObjective(
-                new AbandonCASAuthModeUpdateObjective()
-            ),
-        );
+        return new Setup\Objective\NullObjective();
     }
 
     public function getBuildObjective(): Setup\Objective
@@ -84,14 +75,7 @@ class ilAuthenticationSetupAgent implements Setup\Agent
 
     public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            'Component Authentication',
-            true,
-            new ilDatabaseUpdateStepsMetricsCollectedObjective(
-                $storage,
-                new AbandonCASAuthModeUpdateObjective()
-            ),
-        );
+        return new Setup\Objective\NullObjective();
     }
 
     public function getMigrations(): array

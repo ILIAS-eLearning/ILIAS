@@ -22,7 +22,7 @@ For improved privacy and enhanced data security, it is highly recommended to use
 The LTI component employs the following services, please consult the respective privacy.md files:
 - LearningProgress
 - User
-- xAPI
+- [xAPI](../../ILIAS/CmiXapi/PRIVACY.md)
 
 ### Data being stored
 

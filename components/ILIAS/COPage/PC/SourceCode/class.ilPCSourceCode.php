@@ -16,16 +16,68 @@
  *
  *********************************************************************/
 
-/**
- * Class ilPCSourceCode
- *
- * Paragraph of ilPageObject
- *
- * @author Roland Küstermann
- * @author Alex Killing <alex.killing@gmx.de>
- */
+use Phiki\Phiki;
+use Phiki\Grammar\Grammar;
+use Phiki\Theme\Theme;
+
 class ilPCSourceCode extends ilPCParagraph
 {
+    public const string JAVA = "java";
+    public const string PHP = "php";
+    public const string C = "c";
+    public const string CPP = "cpp";
+    public const string HTML = "html4strict";
+    public const string XML = "xml";
+    public const string VISUAL_BASIC = "vb";
+    public const string LATEX = "latex";
+    public const string DELPHI = "delphi";
+    public const string PYTHON = "python";
+    public const string CSS = "css";
+    public const string JAVASCRIPT = "javascript";
+    public const string SQL = "sql";
+    public const string BASH = "bash";
+    public const string POWERSHELL = "powershell";
+
+    /**
+     * @var string[]
+     */
+    protected static array $langs = array(
+        self::BASH => "Bash",
+        self::C => "C",
+        self::CPP => "C++",
+        self::CSS => "CSS",
+        self::DELPHI => "Delphi",
+        self::HTML => "HTML",
+        self::JAVA => "Java",
+        self::JAVASCRIPT => "Javascript",
+        self::LATEX => "LaTeX",
+        self::PHP => "PHP",
+        self::POWERSHELL => "Powershell",
+        self::PYTHON => "Python",
+        self::SQL => "SQL",
+        self::VISUAL_BASIC => "Visual Basic",
+        self::XML => "XML"
+    );
+
+    protected static array $v51_map = array(
+        "php3" => "php",
+        "java122" => "java",
+        "html" => "html4strict"
+    );
+
+    public static function getSupportedLanguages(): array
+    {
+        $langs = array();
+        $map = array_flip(self::$v51_map);
+        foreach (self::$langs as $k => $v) {
+            if (isset($map[$k])) {
+                $k = $map[$k];
+            }
+            $langs[$k] = $v;
+        }
+        return $langs;
+    }
+
     public function init(): void
     {
         $this->setType("src");
@@ -109,7 +161,7 @@ class ilPCSourceCode extends ilPCParagraph
             //if we have to show line numbers
             if (strcmp($showlinenumbers, "y") == 0) {
                 $linenumbers = "<td nowrap=\"nowrap\" class=\"ilc_LineNumbers\" >";
-                $linenumbers .= "<pre class=\"ilc_Code ilc_code_block_Code\">";
+                $linenumbers .= "<pre class=\"ilc_Code ilc_code_block_Code\"><code>";
 
                 for ($j = 0; $j < $rownums; $j++) {
                     $indentno = strlen($rownums) - strlen($j + 1) + 2;
@@ -119,7 +171,7 @@ class ilPCSourceCode extends ilPCParagraph
                         $linenumbers .= "\n";
                     }
                 }
-                $linenumbers .= "</pre>";
+                $linenumbers .= "</code></pre>";
                 $linenumbers .= "</td>";
             }
 
@@ -153,6 +205,30 @@ class ilPCSourceCode extends ilPCParagraph
         return $a_output;
     }
 
+    protected function phikiMap(string $lang): ?Grammar
+    {
+        $grammar = match ($lang) {
+            "java" => Grammar::Java,
+            "php" => Grammar::Php,
+            "c" => Grammar::C,
+            "cpp" => Grammar::Cpp,
+            "html4strict" => Grammar::Html,
+            "xml" => Grammar::Xml,
+            "vb" => Grammar::Vb,
+            "latex" => Grammar::Latex,
+            "delphi" => Grammar::Pascal,
+            "python" => Grammar::Python,
+            "css" => Grammar::Css,
+            "javascript" => Grammar::Javascript,
+            "sql" => Grammar::Sql,
+            "bash" => Grammar::Shellscript,
+            "powershell" => Grammar::Powershell,
+            default => Grammar::Markdown
+        };
+
+        return $grammar;
+    }
+
     /**
      * Highlights Text with given ProgLang
      */
@@ -167,8 +243,14 @@ class ilPCSourceCode extends ilPCParagraph
             $proglang = $map[$proglang];
         }
 
-        $geshi = new GeSHi(html_entity_decode($a_text), $proglang);
-        $a_code = $geshi->parse_code();
+        $phiki = new Phiki();
+        $grammar = $this->phikiMap($proglang);
+        if (!is_null($grammar)) {
+            $a_code = $phiki->codeToHtml(html_entity_decode($a_text), $grammar, Theme::GithubLight);
+        } else {
+            $a_code = $a_text;
+        }
+
         $a_code = substr($a_code, strpos($a_code, ">") + 1);
         $a_code = substr($a_code, 0, strrpos($a_code, "<"));
         return $a_code;

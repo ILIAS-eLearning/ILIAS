@@ -38,25 +38,6 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
     }
 
     /**
-     * FOR COMPATIBILITY ONLY
-     *
-     * @param $stylingDisabled
-     */
-    public function setStylingDisabled($stylingDisabled): void
-    {
-    }
-
-    /**
-     * FOR COMPATIBILITY ONLY
-     *
-     * @return bool
-     */
-    public function getStylingDisabled(): bool
-    {
-        return false;
-    }
-
-    /**
      * @param ilAssOrderingElementList $elementList
      */
     public function setElementList(ilAssOrderingElementList $elementList): void

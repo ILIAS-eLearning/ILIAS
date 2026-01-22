@@ -1019,6 +1019,6 @@ $(document).ready(() => {
   numericInputCheck();
 });
 
-if (navigator.serviceWorker !== 'undefined') {
+if (typeof navigator.serviceWorker !== 'undefined') {
   navigator.serviceWorker.register('/service-worker.js');
 }

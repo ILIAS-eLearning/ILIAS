@@ -153,9 +153,6 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
      */
     final protected function bindJavaScript(JavaScriptBindable $component): ?string
     {
-        if ($component instanceof Triggerer) {
-            $component = $this->addTriggererOnLoadCode($component);
-        }
         return $this->bindOnloadCode($component);
     }
 
@@ -201,7 +198,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     /**
      * Add onload-code for triggerer.
      */
-    private function addTriggererOnLoadCode(Triggerer $triggerer): JavaScriptBindable
+    final protected function addTriggererOnLoadCode(Triggerer $triggerer): Triggerer
     {
         $triggered_signals = $triggerer->getTriggeredSignals();
         if (count($triggered_signals) == 0) {

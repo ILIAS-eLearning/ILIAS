@@ -55,7 +55,10 @@ class ilUserUtil
         $ilDB = $DIC['ilDB'];
 
         if ($a_ctrl_path === null) {
-            $a_ctrl_path = strtolower(PublicProfileGUI::class);
+            $a_ctrl_path = [
+                strtolower(ilPublicProfileBaseClassGUI::class),
+                strtolower(PublicProfileGUI::class)
+            ];
         }
 
         if (!is_array($a_ctrl_path)) {
@@ -206,7 +209,10 @@ class ilUserUtil
         }
 
         $ctrl->setParameterByClass(PublicProfileGUI::class, 'user', $a_usr_id);
-        return $ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'getHTML');
+        return $ctrl->getLinkTargetByClass(
+            [ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class],
+            'getHTML'
+        );
     }
 
     public static function getStartingPointAsUrl(): string

@@ -28,6 +28,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * Class Link
@@ -40,10 +42,12 @@ class Link extends AbstractChildItem implements
     hasAction,
     hasSymbol,
     isInterchangeableItem,
-    isChild
+    isChild,
+    isDecorateable
 {
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
+    use ComponentDecoratorTrait;
 
     protected bool $is_external_action = false;
     protected string $action = '';
@@ -51,7 +55,6 @@ class Link extends AbstractChildItem implements
     protected string $title = '';
 
     /**
-     * @param string $title
      * @return Link
      */
     public function withTitle(string $title): hasTitle
@@ -62,9 +65,6 @@ class Link extends AbstractChildItem implements
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
@@ -78,16 +78,12 @@ class Link extends AbstractChildItem implements
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAltText(): string
     {
         return $this->alt_text;
     }
 
     /**
-     * @param string $action
      * @return Link
      */
     public function withAction(string $action): hasAction
@@ -98,16 +94,12 @@ class Link extends AbstractChildItem implements
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->action;
     }
 
     /**
-     * @param bool $is_external
      * @return Link
      */
     public function withIsLinkToExternalAction(bool $is_external): hasAction
@@ -118,9 +110,6 @@ class Link extends AbstractChildItem implements
         return $clone;
     }
 
-    /**
-     * @return bool
-     */
     public function isLinkWithExternalAction(): bool
     {
         return $this->is_external_action;

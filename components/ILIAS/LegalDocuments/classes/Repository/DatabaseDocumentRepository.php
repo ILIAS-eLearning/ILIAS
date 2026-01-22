@@ -242,6 +242,8 @@ class DatabaseDocumentRepository implements DocumentRepository, DocumentReposito
                 'id' => $this->database->nextId($this->documentTable()),
                 'creation_ts' => $modification->time(),
                 'owner_usr_id' => $modification->user(),
+                'modification_ts' => $modification->time(),
+                'last_modified_usr_id' => $modification->user(),
                 'sorting' => $this->nextSorting(),
                 'provider' => $this->id,
                 'title' => 'Unnamed document',

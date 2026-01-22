@@ -241,11 +241,11 @@ class ilMimeMail
             $this->buildBodyMultiParts($skin, $style);
             $this->buildHtmlInlineImages($skin, $style);
         } else {
-            $this->final_body = $this->removeHTMLTags($this->body);
+            $this->final_body = $this->removeHtmlTags($this->body);
         }
     }
 
-    private function removeHTMLTags(string $maybe_html): string
+    private function removeHtmlTags(string $maybe_html): string
     {
         $maybe_html = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybe_html);
 
@@ -258,18 +258,36 @@ class ilMimeMail
             $this->body = ' ';
         }
 
-        if (strip_tags($this->body, '<b><u><i><a>') === $this->body) {
-            // Let's assume(!) that there is no HTML
-            // (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this),
-            // so convert "\n" to "<br>"
-            $this->final_body_alt = strip_tags($this->body);
-            $this->body = $this->refinery->string()->makeClickable()->transform(nl2br($this->body));
+        $contains_html = $this->containsHtmlBlockElementsOrLineBreaks($this->body);
+        if ($contains_html) {
+            $this->final_body_alt = strip_tags(str_ireplace(['<br />', '<br>', '<br/>'], "\n", $this->body));
         } else {
-            // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
-            $this->final_body_alt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));
+            $this->final_body_alt = strip_tags($this->body);
+            $this->body = nl2br($this->body);
         }
 
-        $this->final_body = str_replace('{PLACEHOLDER}', $this->body, $this->getHtmlEnvelope($skin, $style));
+        $body_with_clickable_urls = $this->refinery->string()->makeClickable()->transform($this->body);
+
+        $this->final_body = str_replace(
+            '{PLACEHOLDER}',
+            $body_with_clickable_urls,
+            $this->getHtmlEnvelope($skin, $style)
+        );
+    }
+
+    private function containsHtmlBlockElementsOrLineBreaks(string $email_body): bool
+    {
+        if (str_contains($email_body, '<') === false || str_contains($email_body, '>') === false) {
+            return false;
+        }
+
+        // Detect common HTML tags produced by Markdown rendering.
+        $pattern = '~</?(p|br|div|ul|ol|li|code|pre|h[1-6])\b~i';
+        if (preg_match($pattern, $email_body) === 1) {
+            return true;
+        }
+
+        return strip_tags($email_body, '<b><u><i><a>') !== $email_body;
     }
 
     private function getPathToRootDirectory(): string

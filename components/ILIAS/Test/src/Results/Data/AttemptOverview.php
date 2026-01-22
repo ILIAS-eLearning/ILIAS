@@ -133,11 +133,13 @@ class AttemptOverview
         UIFactory $ui_factory,
         array $environment
     ): DescriptiveListing {
+        $is_finished = $this->getStatusOfAttempt()->isFinished();
         $items = [
-            $lng->txt('tst_stat_result_resultspoints') => $this->reached_points
-                . ' ' . strtolower($lng->txt('of')) . ' ' . $this->available_points
-            . ' (' . sprintf('%2.2f', $this->getReachedPointsInPercent()) . ' %)',
-            $lng->txt('tst_stat_result_resultsmarks') => $this->mark?->getShortName() ?? ''
+            $lng->txt('tst_stat_result_resultspoints') =>
+                "{$this->getReachedPoints()} " . strtolower($lng->txt('of')) . " {$this->getAvailablePoints()} (" . sprintf('%2.2f', $this->getReachedPointsInPercent()) . ' %)',
+            $lng->txt('tst_stat_result_resultsmarks') => $is_finished
+                ? $this->mark?->getShortName() ?? '-'
+                : '-'
         ];
 
         return $ui_factory->listing()->descriptive(
@@ -150,8 +152,8 @@ class AttemptOverview
                     ?->setTimezone($environment['timezone'])
                     ->format($environment['datetimeformat']) ?? '',
                 $lng->txt('tst_nr_of_passes') => (string) $this->nr_of_attempts,
-                $lng->txt('scored_pass') => (string) ($this->scored_attempt + 1),
-                $lng->txt('tst_stat_result_rank_participant') => (string) $this->rank
+                $lng->txt('scored_pass') => $is_finished && $this->scored_attempt !== null ? (string) ($this->scored_attempt + 1) : '-',
+                $lng->txt('tst_stat_result_rank_participant') => $is_finished ? (string) $this->rank : '-',
             ]
         );
     }

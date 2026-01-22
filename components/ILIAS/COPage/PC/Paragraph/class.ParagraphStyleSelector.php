@@ -42,7 +42,7 @@ class ParagraphStyleSelector
     }
 
     /**
-     * Get style selector
+     * Get style selector for "Paragraph" top level
      */
     public function getStyleSelector(
         string $a_selected,

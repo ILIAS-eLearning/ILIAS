@@ -21,12 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Message;
 
 use DateTimeImmutable;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 
 class MailRecordData
 {
     public const string STATUS_READ = 'read';
     public const string STATUS_UNREAD = 'unread';
 
+    /**
+     * @param null|non-empty-list<string>|ResourceCollectionIdentification $attachments
+     */
     public function __construct(
         private readonly int $mail_id,
         private readonly int $user_id,
@@ -41,7 +45,7 @@ class MailRecordData
         private readonly ?string $rcp_to = null,
         private readonly ?string $rcp_cc = null,
         private readonly ?string $rcp_bc = null,
-        private readonly ?array $attachments = [],
+        private readonly null|array|ResourceCollectionIdentification $attachments = null,
         private readonly ?string $tpl_ctx_id = null,
         private readonly ?string $tpl_ctx_params = null
     ) {
@@ -113,9 +117,9 @@ class MailRecordData
     }
 
     /**
-     * @return string[]|null
+     * @return null|non-empty-list<string>|ResourceCollectionIdentification
      */
-    public function getAttachments(): ?array
+    public function getAttachments(): null|array|ResourceCollectionIdentification
     {
         return $this->attachments;
     }

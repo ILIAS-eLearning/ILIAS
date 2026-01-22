@@ -27,6 +27,7 @@
  */
 class ilWikiDataSet extends ilDataSet
 {
+    protected \ILIAS\Wiki\InternalRepoService $wiki_repo;
     protected \ILIAS\Wiki\Navigation\ImportantPageDBRepository $imp_page_repo;
     protected ?ilObjWiki $current_obj = null;
     protected ilLogger $wiki_log;
@@ -39,6 +40,7 @@ class ilWikiDataSet extends ilDataSet
         parent::__construct();
         $this->wiki_log = ilLoggerFactory::getLogger('wiki');
         $this->imp_page_repo = $DIC->wiki()->internal()->repo()->importantPage();
+        $this->wiki_repo = $DIC->wiki()->internal()->repo();
     }
 
     public function getSupportedVersions(): array
@@ -178,7 +180,8 @@ class ilWikiDataSet extends ilDataSet
                         "Rating" => "integer",
                         "TemplateNewPages" => "integer",
                         "TemplateAddToPage" => "integer",
-                        "Lang" => "text"
+                        "Lang" => "text",
+                        "ImportId" => "text"
                     );
             }
         }
@@ -201,7 +204,6 @@ class ilWikiDataSet extends ilDataSet
     public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
-
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
@@ -304,6 +306,7 @@ class ilWikiDataSet extends ilDataSet
                             $this->data[$k]["TemplateNewPages"] = $rec["new_pages"];
                             $this->data[$k]["TemplateAddToPage"] = $rec["add_to_page"];
                         }
+                        $this->data[$k]["ImportId"] = "il_" . IL_INST_ID . "_wpage_" . $v["Id"];
                     }
                     break;
             }
@@ -408,6 +411,14 @@ class ilWikiDataSet extends ilDataSet
                 }
 
                 $wpage->create(true);
+
+                if (isset($a_rec["ImportId"])) {
+                    $this->wiki_repo->page()->writeImportId(
+                        $wpage->getId(),
+                        ($lang === "") ? "-" : $lang,
+                        (string) $a_rec["ImportId"]
+                    );
+                }
 
                 if (isset($a_rec["TemplateNewPages"]) || isset($a_rec["TemplateAddToPage"])) {
                     $wtpl = new ilWikiPageTemplate($wiki_id);

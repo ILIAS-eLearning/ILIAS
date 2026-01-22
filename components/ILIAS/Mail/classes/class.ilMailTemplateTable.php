@@ -108,6 +108,7 @@ class ilMailTemplateTable implements DataRetrieval
                 'mail_man_tpl'
             )
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withRequest($this->http_request);
     }
 

@@ -78,6 +78,7 @@ class ilDclTable
     protected ILIAS\Refinery\Factory $refinery;
     protected ilObjUser $user;
     protected ilDBInterface $db;
+    protected ilLanguage $lng;
     protected bool $show_invalid = false;
 
     public function __construct(int $a_id = 0)
@@ -88,6 +89,8 @@ class ilDclTable
         $this->refinery = $DIC->refinery();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('dcl');
 
         if ($a_id != 0) {
             $this->id = $a_id;
@@ -166,7 +169,7 @@ class ilDclTable
                 $this->getId(),
                 "integer"
             ) . ","
-            . $this->db->quote($this->getObjId(), "integer") . "," . $this->db->quote($this->getTitle(), "text") . ","
+            . $this->db->quote($this->getObjId(), "integer") . "," . $this->db->quote($this->lng->txt('dcl_title_standard'), "text") . ","
             . $this->db->quote($this->getAddPerm() ? 1 : 0, "integer") . "," . $this->db->quote(
                 $this->getEditPerm() ? 1 : 0,
                 "integer"
@@ -421,31 +424,6 @@ class ilDclTable
     }
 
     /**
-     * @return int
-     */
-    public function getNewTableviewOrder(): int
-    {
-        return (ilDclTableView::getCountForTableId($this->getId()) + 1) * 10;
-    }
-
-    /**
-     * @param ilDclTableView[] $tableviews
-     */
-    public function sortTableViews(?array $tableviews = null): void
-    {
-        if ($tableviews == null) {
-            $tableviews = $this->getTableViews();
-        }
-
-        $order = 10;
-        foreach ($tableviews as $tableview) {
-            $tableview->setTableviewOrder($order);
-            $tableview->update();
-            $order += 10;
-        }
-    }
-
-    /**
      * Returns all fields of this table including the standard fields
      * @param bool $force_include_comments by default false, so comments will only load when enabled in tablesettings
      * @return ilDclBaseFieldModel[]
@@ -471,7 +449,7 @@ class ilDclTable
     }
 
     /**
-     * @return ilDclTableView[] all tableviews ordered by tableview_order
+     * @return ilDclTableView[]
      */
     public function getTableViews(): array
     {

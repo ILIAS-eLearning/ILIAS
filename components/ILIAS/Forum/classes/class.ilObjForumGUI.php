@@ -28,6 +28,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Forum\Drafts\ForumDraftsTable;
 use ILIAS\Forum\Notification\NotificationType;
 use ILIAS\User\Profile\PublicProfileGUI;
+use ILIAS\ResourceStorage\Services as IRSS;
 
 /**
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
@@ -74,6 +75,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public ilHelpGUI $ilHelp;
     private Factory $factory;
     private Renderer $renderer;
+    private IRSS $irss;
 
     private int $selectedSorting;
     private ilForumThreadSettingsSessionStorage $selected_post_storage;
@@ -92,6 +94,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->globalScreen = $DIC->globalScreen();
+
+        $this->irss = $DIC->resourceStorage();
 
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -242,8 +246,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
 
             $this->tpl->addOnLoadCode('il.ForumDraftsAutosave.init(' . json_encode([
-                'loading_img_src' => ilUtil::getImagePath('media/loader.svg'),
-                'draft_id' => $this->retrieveDraftId(),
+                'loadingImgSrc' => ilUtil::getImagePath('media/loader.svg'),
+                'draftId' => $this->retrieveDraftId(),
                 'interval' => $interval * 1000,
                 'url' => $this->ctrl->getFormAction($this, $autosave_cmd, '', true),
                 'selectors' => [
@@ -762,7 +766,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
         }
 
-        $view_controls[] = $this->getSortationViewControl($this->forum_thread_table_session_storage->getThreadPage());
+        $view_controls[] = $this->getSortationViewControl(
+            $this->forum_thread_table_session_storage->getThreadPage(),
+            $this->forum_thread_table_session_storage->getThreadSortation()
+        );
         $view_controls[] = $this->factory
             ->viewControl()
             ->pagination()
@@ -804,29 +811,27 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->tpl->setContent($forwarder->forward() . $default_html . $modals);
     }
 
-    private function getSortationViewControl(int $offset): \ILIAS\UI\Component\ViewControl\Sortation
-    {
+    private function getSortationViewControl(
+        int $offset,
+        ThreadSortation $effective_sortation
+    ): \ILIAS\UI\Component\ViewControl\Sortation {
         if ($offset > 0) {
             $this->ctrl->setParameter($this, 'page', $offset);
         }
 
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-        $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
         $base_url = $this->ctrl->getLinkTarget($this, 'showThreads');
 
-        $translationKeys = [];
+        $translation_keys = [];
         foreach (ThreadSortation::cases() as $sortation) {
-            $this->ctrl->setParameter($this, 'thread_sortation', $sortation->value);
-            $url = $this->ctrl->getLinkTarget($this, 'showThreads');
-
-            $translationKeys[$url] = $this->lng->txt($sortation->languageId());
+            $translation_keys[$sortation->value] = $this->lng->txt($sortation->languageId());
         }
         $this->ctrl->clearParameters($this);
+
         return $this->factory->viewControl()->sortation(
-            $translationKeys,
-            current(array_keys($translationKeys))
-        )
-        ->withTargetURL($base_url, 'thread_sortation');
+            $translation_keys,
+            (string) $effective_sortation->value
+        )->withTargetURL($base_url, ForumThreadTableSessionStorage::KEY_THREAD_SORTATION);
     }
 
     /**
@@ -3343,6 +3348,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
             $this->ensureValidPageForCurrentPosting($subtree_nodes, $pagedPostings, $pageSize, $firstNodeInThread);
 
+            $this->preloadPostingFileResources($pagedPostings, $draftsObjects);
             if ($doRenderDrafts && $pageIndex === 0 &&
                 $this->selectedSorting === ilForumProperties::VIEW_DATE_DESC) {
                 foreach ($draftsObjects as $draft) {
@@ -3469,21 +3475,21 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
 
         $this->tpl->addOnLoadCode(
-            <<<'EOD'
-        document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
-          const maxWidth = img.getAttribute('width');
-          const maxHeight = img.getAttribute('height');
-
-          if (maxWidth) {
-            img.style.maxWidth = maxWidth + 'px';
-            img.removeAttribute('width');
-          }
-
-          if (maxHeight) {
-            img.style.maxHeight = maxHeight + 'px';
-            img.removeAttribute('height');
-          }
-        });
+            <<<EOD
+                document.querySelectorAll('.ilFrmPostContent img').forEach((img) => {
+                  const maxWidth = img.getAttribute('width');
+                  const maxHeight = img.getAttribute('height');
+        
+                  if (maxWidth) {
+                    img.style.maxWidth = maxWidth + 'px';
+                    img.removeAttribute('width');
+                  }
+        
+                  if (maxHeight) {
+                    img.style.maxHeight = maxHeight + 'px';
+                    img.removeAttribute('height');
+                  }
+                });
 EOD
         );
 
@@ -5886,5 +5892,32 @@ EOD
                 $this->refinery->always('')
             ])
         ));
+    }
+
+    /**
+     * @param ilForumPost[] $postings
+     * @param ilForumPostDraft[] $draftsObjects
+     */
+    private function preloadPostingFileResources(array $postings, array $draftsObjects): void
+    {
+        $collectionIds = [];
+
+        foreach ($postings as $posting) {
+            $rcid = $posting->getRCID();
+            if ($rcid !== ilForumPost::NO_RCID && !empty($rcid)) {
+                $collection_ids[] = $rcid;
+            }
+        }
+
+        foreach ($draftsObjects as $draft) {
+            $rcid = $draft->getRCID();
+            if ($rcid !== ilForumPostDraft::NO_RCID && !empty($rcid)) {
+                $collection_ids[] = $rcid;
+            }
+        }
+
+        if (!empty($collection_ids)) {
+            $this->irss->preloadCollections(array_unique($collection_ids));
+        }
     }
 }

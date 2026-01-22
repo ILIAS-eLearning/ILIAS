@@ -1,0 +1,9 @@
+{
+  "name": "ILIAS-Chat",
+  "description": "ILIAS CHAT",
+  "version": "12.0.0",
+  "dependencies": {
+  },
+  "extra": {
+  }
+}

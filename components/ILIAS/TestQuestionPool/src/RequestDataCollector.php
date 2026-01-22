@@ -245,6 +245,15 @@ class RequestDataCollector implements RequestDataCollectorInterface
         return $this->retrieveArray($key, 1, $this->refinery->identity());
     }
 
+    public function getRowIdParameter(string $key): string|int
+    {
+        return $this->get($key, $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->int(),
+            $this->refinery->kindlyTo()->string(),
+            $this->refinery->custom()->transformation(fn(array $v): string|int => $v[0])
+        ]));
+    }
+
     /**
      * @return array<int>|string
      */

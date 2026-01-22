@@ -21,15 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Contact\BuddySystem\Tables;
 
 use ILIAS\Contact\TableRows;
-use ILIAS\UI\Component\Table\DataRow;
 use ilBuddySystemArrayCollection;
 use ILIAS\UI\Component\Component;
 use ilBuddySystemRelationState;
 use ILIAS\UI\Component\Table\Action\Action;
-use ilCtrlInterface;
-use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\Data\Range;
-use ILIAS\Data\Order;
 use ilObjUser;
 use ilStr;
 use ilUserUtil;
@@ -42,21 +38,34 @@ use ilUIService;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use Closure;
 use ILIAS\HTTP\GlobalHttpState as Http;
-use Generator;
 
+/**
+ * @phpstan-type RelationRecord array{
+ *     user_id: int,
+ *     public_name: string,
+ *     login: string,
+ *     state: ilBuddySystemRelationState,
+ *     target_states: list<ilBuddySystemRelationState>,
+ *     state_text: string
+ * }
+ */
 class RelationsTable
 {
+    /**
+     * @param Closure(int, string): string $link_to_profile
+     */
     public function __construct(
         private readonly UIFactory $create,
         private readonly ilLanguage $lng,
         private readonly ilUIService $ui_service,
-        private readonly Http $http
+        private readonly Http $http,
+        private readonly Closure $link_to_profile,
     ) {
     }
 
     /**
      * @param array{state?: string, name?: string} $filter
-     * @return array<array{user_id: int, public_name: string, login: string, state: ilBuddySystemRelationState, points: ilBuddySystemRelationState[], state-text: string}>
+     * @return list<RelationRecord>
      */
     public static function data(array $filter = []): array
     {
@@ -80,7 +89,7 @@ class RelationsTable
         $logins = array_map(static function (string $value): string {
             $matches = null;
             preg_match_all('/\[([^\[]+?)\]/', $value, $matches);
-            return $matches[1][count($matches[1]) - 1] ?? '';
+            return $matches[1][\count($matches[1]) - 1] ?? '';
         }, $logins);
 
         $public_name_query = (string) ($filter['name'] ?? '');
@@ -96,8 +105,8 @@ class RelationsTable
                 'public_name' => $public_names[$user_id],
                 'login' => $logins[$user_id],
                 'state' => $relation->getState(),
-                'points' => $relation->getCurrentPossibleTargetStates()->toArray(),
-                'state-text' => $txt,
+                'target_states' => $relation->getCurrentPossibleTargetStates()->toArray(),
+                'state_text' => $txt,
             ];
         }
 
@@ -107,7 +116,7 @@ class RelationsTable
     /**
      * @param array<string, Action> $multi_actions
      * @param callable(string, string, string): Action $action
-     * @return Component[]
+     * @return list<Component>
      */
     public function build(array $multi_actions, string $target_url, callable $action): array
     {
@@ -115,23 +124,30 @@ class RelationsTable
         $data = static::data($this->ui_service->filter()->getData($filter) ?: []);
         $single_actions = $this->actions($data, $action);
 
-        $rows = $this->rows($data, array_keys($single_actions));
-        $return = [];
-        $return[] = $filter;
-        $return[] = $this->create->table()->data(
-            new TableRows($rows),
-            $this->lng->txt('buddy_tbl_title_relations'),
-            [
-                'public_name' => $this->create->table()->column()->text($this->lng->txt('name')),
-                'login' => $this->create->table()->column()->text($this->lng->txt('login')),
-                'state-text' => $this->create->table()->column()
-                    ->text($this->lng->txt('buddy_tbl_state_actions_col_label')),
-            ]
-        )->withRequest($this->http->request())->withActions(
-            array_merge($single_actions, $multi_actions)
-        );
+        $components = [
+            $filter
+        ];
+        $components[] = $this->create
+            ->table()
+            ->data(
+                new TableRows($data, array_keys($single_actions), $this->link_to_profile),
+                $this->lng->txt('buddy_tbl_title_relations'),
+                [
+                    'public_name' => $this->create->table()->column()->text($this->lng->txt('name')),
+                    'login' => $this->create->table()->column()->text($this->lng->txt('login')),
+                    'state_text' => $this->create
+                        ->table()->column()
+                        ->text($this->lng->txt('buddy_tbl_state_actions_col_label')),
+                ]
+            )
+            ->withId('buddy_relations_table')
+            ->withRequest($this->http->request())
+            ->withRange(new Range(0, 50))
+            ->withActions(
+                array_merge($single_actions, $multi_actions)
+            );
 
-        return $return;
+        return $components;
     }
 
     /**
@@ -143,11 +159,11 @@ class RelationsTable
      */
     private static function filter(string $public_name_query, ilBuddySystemArrayCollection $relations, array $public_names, array $logins): Closure
     {
-        $in_string = static fn(string $needle, string $haystack): bool => false !== ilStr::strpos(
+        $in_string = static fn(string $needle, string $haystack): bool => ilStr::strpos(
             ilStr::strtolower($haystack),
             ilStr::strtolower($needle),
             0
-        );
+        ) !== false;
 
         return self::pipe($relations->getKey(...), static fn(int $user_id): bool => (
             $in_string($public_name_query, $public_names[$user_id]) ||
@@ -161,7 +177,7 @@ class RelationsTable
     }
 
     /**
-     * @param array<array{state: ilBuddySystemRelationState, points: ilBuddySystemRelationState[]}> $data
+     * @param list<RelationRecord> $data
      * @param callable(string, string, string): Action $action
      *
      * @return array<string, Action>
@@ -170,11 +186,11 @@ class RelationsTable
     {
         $actions = [];
         foreach ($data as $row) {
-            foreach ($row['points'] as $point) {
-                $actions[$row['state'] . '->' . $point] = $action(
+            foreach ($row['target_states'] as $state) {
+                $actions[$row['state'] . '->' . $state] = $action(
                     'single',
-                    'buddy_bs_act_btn_txt_' . $row['state']->getSnakeName() . '_to_' . $point->getSnakeName(),
-                    $point->getAction()
+                    'buddy_bs_act_btn_txt_' . $row['state']->getSnakeName() . '_to_' . $state->getSnakeName(),
+                    $state->getAction()
                 );
             }
         }
@@ -186,10 +202,10 @@ class RelationsTable
     {
         $state_factory = ilBuddySystemRelationStateFactory::getInstance();
         $options = array_merge(...array_map(
-            fn($m): array => $m->optionsForState(),
+            static fn($m): array => $m->optionsForState(),
             array_map(
                 $state_factory->getTableFilterStateMapper(...),
-                array_filter($state_factory->getValidStates(), fn($s): bool => !$s->isInitial())
+                array_filter($state_factory->getValidStates(), static fn($s): bool => !$s->isInitial())
             )
         ));
 
@@ -202,37 +218,9 @@ class RelationsTable
             'contact-filter',
             $target_url,
             $fields,
-            array_map(fn(): bool => true, $fields),
+            array_map(static fn(): bool => true, $fields),
             true,
             true
         );
-    }
-
-    /**
-     * @param array<array{user_id: int, public_name: string, login: string, state: ilBuddySystemRelationState, points: ilBuddySystemRelationState[]}> $data
-     * @param string[] $actions
-     */
-    private function rows(array $data, array $actions): Closure
-    {
-        return static function (
-            DataRowBuilder $row_builder,
-            array $visible_column_ids,
-            Range $range,
-            Order $order
-        ) use ($data, $actions): Generator {
-            $order = $order->get();
-            $times = current($order) === 'ASC' ? 1 : -1;
-            usort($data, fn(array $a, array $b): int => $times * strcasecmp($a[key($order)], $b[key($order)]));
-            foreach ($data as $row) {
-                $transitions = array_map(fn($s): string => $row['state'] . '->' . $s, $row['points']);
-                yield array_reduce(
-                    $actions,
-                    fn(DataRow $row, string $action): DataRow => in_array($action, $transitions, true) ?
-                        $row :
-                        $row->withDisabledAction($action),
-                    $row_builder->buildDataRow((string) $row['user_id'], $row)
-                );
-            }
-        };
     }
 }

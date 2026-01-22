@@ -32,6 +32,8 @@ use InvalidArgumentException;
 use ReflectionFunction;
 use ReflectionException;
 use Generator;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -41,10 +43,12 @@ class LinkList extends AbstractChildItem implements
     supportsAsynchronousLoading,
     hasSymbol,
     isInterchangeableItem,
-    isChild
+    isChild,
+    isDecorateable
 {
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
+    use ComponentDecoratorTrait;
 
     protected string $title = '';
     /**
@@ -54,7 +58,6 @@ class LinkList extends AbstractChildItem implements
     protected bool $supports_async_loading = false;
 
     /**
-     * @param string $title
      * @return Link
      */
     public function withTitle(string $title): hasTitle
@@ -65,9 +68,6 @@ class LinkList extends AbstractChildItem implements
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;

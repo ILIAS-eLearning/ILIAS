@@ -276,7 +276,9 @@ class ilExAssignmentTeam
         int $a_action,
         ?string $a_details = null
     ): void {
-        self::writeTeamLog($this->id, $a_action, $a_details);
+        if ($this->id) {
+            self::writeTeamLog($this->id, $a_action, $a_details);
+        }
     }
 
     /**

@@ -26,7 +26,7 @@ use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Component\Input\Field\Node\NodeRetrieval as UINodeRetrieval;
 use ILIAS\UI\URLBuilder;
-use ILIAS\StaticURL\Shortlinks\UI\NodeRetrieval;
+use ILIAS\StaticURL\Shortlinks\UI\TreeSelectNodeRetrieval;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -78,7 +78,7 @@ class NodeRetrievalGUI implements \ilCtrlBaseClassInterface
         $branch_node_types = $object_definition->getExplorerContainerTypes();
         $leaf_node_types = array_diff($object_definition->getAllRepositoryTypes(false), $branch_node_types);
 
-        $this->node_retrieval = new NodeRetrieval(
+        $this->node_retrieval = new TreeSelectNodeRetrieval(
             $DIC->language(),
             $data_factory,
             $this->async_node_id_parameter,
@@ -125,6 +125,7 @@ class NodeRetrievalGUI implements \ilCtrlBaseClassInterface
         $child_node_iterator = $this->node_retrieval->getNodes(
             $this->ui_factory->input()->field()->node(),
             $this->ui_factory->symbol()->icon(),
+            [],
             (string) $parent_node_id,
         );
 

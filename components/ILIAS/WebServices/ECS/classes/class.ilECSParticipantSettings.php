@@ -114,7 +114,7 @@ class ilECSParticipantSettings
     public function isImportAllowed(array $a_mids): bool
     {
         foreach ($a_mids as $mid) {
-            if ($this->import[$mid]) {
+            if (($this->import[$mid] ?? 0) == 1) {
                 return true;
             }
         }

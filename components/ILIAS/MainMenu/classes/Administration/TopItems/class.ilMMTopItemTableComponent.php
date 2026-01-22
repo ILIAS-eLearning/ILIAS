@@ -146,6 +146,53 @@ class ilMMTopItemTableComponent implements OrderingRetrieval
                 !$item->canBeDeactivated(),
             );
         }
+
+        // Lost Items
+        if ($this->repository->hasLostItems()) {
+            yield $row_builder->buildOrderingRow(
+                $this->hash('lost_items'),
+                [
+                    'title' => $this->ui_factory->link()->standard(
+                        $this->pons->i18n()->t('mme_lost_items'),
+                        (string) $this->url_builder
+                            ->withURI(
+                                $this->pons->flow()->getTargetURI(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DEFAULT)
+                            )
+                            ->withParameter($this->token, $this->hash('lost_items'))
+                            ->buildURI()
+                    ),
+                    'active' => false,
+                    'status' => '',
+                    'sub_items' => '-',
+                    'css_id' => "mm_lost_items",
+                    'type' => '-',
+                    'provider' => '-',
+                ]
+            )->withDisabledAction(
+                self::ACTION_EDIT,
+                true
+            )->withDisabledAction(
+                self::ACTION_TRANSLATE,
+                true
+            )->withDisabledAction(
+                self::ACTION_ACTIVATE,
+                true
+            )->withDisabledAction(
+                self::ACTION_DEACTIVATE,
+                true,
+            )->withDisabledAction(
+                self::ACTION_MOVE,
+                true
+            )->withDisabledAction(
+                self::ACTION_DELETE,
+                true
+            )->withDisabledAction(
+                self::ACTION_EDIT_SUB_TEMS,
+                true
+            );
+
+        }
+
     }
 
     public function get(): Component|array

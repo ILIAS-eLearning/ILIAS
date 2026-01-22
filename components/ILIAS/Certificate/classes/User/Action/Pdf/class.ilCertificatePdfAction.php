@@ -18,54 +18,64 @@
 
 declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class ilCertificatePdfAction
 {
-    private readonly ilCertificateUtilHelper $ilUtilHelper;
-    private readonly ilErrorHandling $errorHandler;
+    private readonly ilCertificateUtilHelper $helper;
+    private readonly ilErrorHandling $error_handler;
+    private ?ilLogger $logger = null;
 
     public function __construct(
-        private readonly ilPdfGenerator $pdfGenerator,
-        ?ilCertificateUtilHelper $ilUtilHelper = null,
-        private readonly string $translatedErrorText = '',
-        ?ilErrorHandling $errorHandler = null
+        private readonly ilPdfGenerator $pdf_generator,
+        ?ilCertificateUtilHelper $helper = null,
+        private readonly string $error_txt = '',
+        ?ilErrorHandling $error_handler = null
     ) {
-        if (null === $ilUtilHelper) {
-            $ilUtilHelper = new ilCertificateUtilHelper();
-        }
-        $this->ilUtilHelper = $ilUtilHelper;
+        global $DIC;
 
-        if (null === $errorHandler) {
-            global $DIC;
-            $errorHandler = $DIC['ilErr'];
-        }
-        $this->errorHandler = $errorHandler;
+        $this->helper = $helper ?? new ilCertificateUtilHelper();
+        $this->error_handler = $error_handler ?? $DIC['ilErr'];
+    }
+
+    public function withLogger(ilLogger $logger): self
+    {
+        $clone = clone $this;
+        $clone->logger = $logger;
+
+        return $clone;
     }
 
     public function createPDF(int $userId, int $objectId): string
     {
-        return $this->pdfGenerator->generateCurrentActiveCertificate($userId, $objectId);
+        return $this->pdf_generator->generateCurrentActiveCertificate($userId, $objectId);
     }
 
     public function downloadPdf(int $userId, int $objectId): string
     {
         try {
-            $pdfScalar = $this->createPDF($userId, $objectId);
+            $pdf_scalar = $this->createPDF($userId, $objectId);
 
-            $fileName = $this->pdfGenerator->generateFileName($userId, $objectId);
+            $filename = $this->pdf_generator->generateFileName($userId, $objectId);
 
-            $this->ilUtilHelper->deliverData(
-                $pdfScalar,
-                $fileName,
+            $this->helper->deliverData(
+                $pdf_scalar,
+                $filename,
                 'application/pdf'
             );
-        } catch (ilException) {
-            $this->errorHandler->raiseError($this->translatedErrorText, $this->errorHandler->MESSAGE);
+        } catch (Throwable $e) {
+            $this->logger?->error(
+                'Error while generating or downloading certificate PDF for user {user_id} and object {object_id}: {error}',
+                [
+                    'user_id' => $userId,
+                    'object_id' => $objectId,
+                    'error' => $e->getMessage(),
+                    'exception' => $e
+                ]
+            );
+
+            $this->error_handler->raiseError($this->error_txt, $this->error_handler->MESSAGE);
             return '';
         }
 
-        return $pdfScalar;
+        return $pdf_scalar;
     }
 }

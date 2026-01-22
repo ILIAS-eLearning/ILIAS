@@ -43,7 +43,8 @@ class HistoryTable implements Table
     private readonly Closure $format_date;
 
     /**
-     * @param Closure(class-string, ... $constructor_args): object<class-string> $create
+     * @template C
+     * @param Closure(class-string<C>, mixed...): C $create
      * @param null|Closure(DateTimeImmutable): string $format_date
      */
     public function __construct(
@@ -114,7 +115,7 @@ class HistoryTable implements Table
             'login' => $user?->getLogin() ?? $this->ui->txt('deleted'),
             'firstname' => $user?->getFirstname() ?? '-',
             'lastname' => $user?->getLastname() ?? '-',
-            'document' => $this->modal->create($record->documentContent()),
+            'document' => [...$this->modal->create($record->documentContent()), ...$this->modal->popComponents()],
             'criteria' => $this->showCriteria($record),
         ];
     }

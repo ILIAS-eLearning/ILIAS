@@ -68,7 +68,7 @@ class SkillsByQuestionOverviewTable
                             : 'qpl_skill_point_eval_mode_quest_result'
                     )
                 )
-                ->withProperty($this->lng->txt('tst_comp_points'), (string) $skill_assignment->getSkillPoints());
+                ->withProperty($this->lng->txt('tst_comp_points'), (string) $skill_assignment->getMaxSkillPoints());
         }
 
         $row = $row

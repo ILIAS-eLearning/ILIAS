@@ -22,6 +22,7 @@ use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once(__DIR__ . "/../../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
@@ -96,7 +97,7 @@ class FieldAsyncNodeTest extends \ILIAS_UI_TestBase
         $node_id = 'some-existing-node-id';
         $node_name = 'some existing node name';
 
-        $component = $this->getNodeFactory()->async($this->uri_stub, $node_id, $node_name);
+        $component = $this->getNodeFactory()->async($this->uri_stub, [$node_id], $node_name);
         $renderer = $this->getDefaultRenderer();
 
         $expected = <<<HTML
@@ -125,7 +126,7 @@ HTML;
     {
         [$icon_stub, $icon_html] = $this->createSimpleRenderingStub(Component\Symbol\Icon\Custom::class);
 
-        $component = $this->getNodeFactory()->async($this->uri_stub, '', $icon_stub);
+        $component = $this->getNodeFactory()->async($this->uri_stub, [''], $icon_stub);
         $renderer = $this->getDefaultRenderer(null, [$icon_stub]);
 
         $actual = $renderer->render($component);
@@ -141,12 +142,44 @@ HTML;
         $this->icon_factory->expects($this->once())->method('standard');
         $this->icon_stub->expects($this->once())->method('withAbbreviation')->with($first_node_name_letter);
 
-        $component = $this->getNodeFactory()->async($this->uri_stub, '', $node_name);
+        $component = $this->getNodeFactory()->async($this->uri_stub, [''], $node_name);
         $renderer = $this->getDefaultRenderer();
 
         $actual = $renderer->render($component);
 
         $this->assertTrue(str_contains($actual, $this->icon_html));
+    }
+
+    protected function testConstructorWithValidNodePath(): void
+    {
+        $root_node_id = 0;
+        $level_one_node_id = 1;
+        $level_two_node_id = 2;
+        $parent_ids = [$root_node_id, $level_one_node_id];
+        $full_node_path = [...$parent_ids, $level_two_node_id];
+
+        $node = $this->getNodeFactory()->async($this->uri_stub, $full_node_path, "");
+
+        $this->assertEquals($full_node_path, $node->getFullPath());
+        $this->assertEquals($parent_ids, $node->getParentIds());
+        $this->assertEquals($level_two_node_id, $node->getId());
+    }
+
+    #[DataProvider('provideInvalidNodePaths')]
+    protected function testConstructorWithInvalidNodePath(array $path): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->getNodeFactory()->async($this->uri_stub, $path, "");
+    }
+
+    public static function provideInvalidNodePaths(): array
+    {
+        return [
+            [1.0],
+            [false],
+            [null],
+            [],
+        ];
     }
 
     protected function getNodeFactory(): Field\Node\Factory

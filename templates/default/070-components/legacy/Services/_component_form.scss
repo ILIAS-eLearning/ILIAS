@@ -20,7 +20,7 @@ $il-form-autocomplete-padding: $il-padding-xs-horizontal;
 // --------------------------------------------------
 
 
-// Normalize non-controls
+// Normalize non-controlsHm
 //
 // Restyle and baseline non-control form elements.
 
@@ -519,6 +519,10 @@ input[type="checkbox"] {
 		&.col-sm-3.il_textarea {
 		  width: 100%;
 		}
+
+        > .asterisk {
+          padding-left: $il-padding-base-vertical;
+        }
 	  }
 	/*
 	// Reset spacing and right align labels, but scope to media queries so that

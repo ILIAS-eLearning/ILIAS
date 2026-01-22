@@ -37,6 +37,10 @@ class Renderer extends AbstractComponentRenderer
 
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        if ($component instanceof Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
+
         switch (true) {
             case ($component instanceof FieldSelection):
                 return $this->renderFieldSelection($component, $default_renderer);

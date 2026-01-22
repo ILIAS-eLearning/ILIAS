@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 320 320">
-  <!-- Generator: Adobe Illustrator 29.6.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 9)  -->
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 320 320">
+  <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
   <defs>
     <style>
       .st0 {
@@ -10,17 +10,8 @@
       .st1 {
         fill: #4c6586;
       }
-
-      .st2 {
-        clip-path: url(#clippath);
-      }
     </style>
-    <clipPath id="clippath">
-      <rect class="st0" width="320" height="320"/>
-    </clipPath>
   </defs>
-  <polygon class="st1" points="140 125 140 185 180 185 180 125 210 125 160 85 110 125 140 125"/>
-  <g class="st2">
-    <path class="st1" d="M250,230v-85h-15v75H85v-75h-15v85c0,2.8,2.2,5,5,5h170c2.8,0,5-2.2,5-5"/>
-  </g>
+  <path class="st1" d="M265,180v60H55v-60h-20v80h250v-80h-20ZM160,65l-59.3,55.6h34.5v69.4h49.5v-69.4h34.5l-59.3-55.6Z"/>
+  <rect class="st0" width="320" height="320"/>
 </svg>

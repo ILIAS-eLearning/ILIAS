@@ -24,11 +24,15 @@ namespace ILIAS\Data\Text;
  * This class currently is a stub only. It will need a proper implementation, just
  * like Text\Markdown has.
  */
-class HTML
+class HTML implements \Stringable
 {
     public function __construct(
         protected string $html_text = ""
     ) {
-        $this->html_text = $html_text;
+    }
+
+    public function __toString(): string
+    {
+        return $this->html_text;
     }
 }

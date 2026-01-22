@@ -24,6 +24,7 @@ use ILIAS\DI\LoggingServices;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\User\StaticURLHandler;
 
 class DeleteAccountGUI
 {
@@ -96,7 +97,10 @@ class DeleteAccountGUI
         \ilSession::setClosingContext(\ilSession::SESSION_CLOSE_USER);
         $this->auth_session->logout();
 
-        $this->ctrl->redirectToURL('login.php?cmd=force_login&target=usr_' . md5('usrdelown'));
+        $this->ctrl->redirectToURL(
+            'login.php?cmd=force_login&target=usr_'
+                . StaticURLHandler::DEL_OWN_ACCOUNT_OPERATION
+        );
     }
 
     protected function deleteOwnAccountStep2(): void

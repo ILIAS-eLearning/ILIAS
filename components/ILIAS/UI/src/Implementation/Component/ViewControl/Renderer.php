@@ -38,6 +38,9 @@ class Renderer extends AbstractComponentRenderer
 
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
+        if ($component instanceof Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
         if ($component instanceof Component\ViewControl\Mode) {
             return $this->renderMode($component, $default_renderer);
         }

@@ -400,7 +400,8 @@ class ilMail
         }
 
         if (isset($row['attachments']) && is_string($row['attachments']) && str_contains($row['attachments'], '{')) {
-            $row['attachments'] = unserialize($row['attachments']);
+            $unserialized_attachments = unserialize($row['attachments'], ['allowed_classes' => false]);
+            $row['attachments'] = is_array($unserialized_attachments) ? $unserialized_attachments : null;
         } elseif (isset($row['attachments']) && is_string($row['attachments']) && $row['attachments'] !== '') {
             $row['attachments'] = new ResourceCollectionIdentification($row['attachments']);
         } else {
@@ -567,7 +568,8 @@ class ilMail
         if ($use_placeholders) {
             $message = $this->replacePlaceholders($message, $usr_id);
         }
-        $message = $this->formatLinebreakMessage($this->refinery->string()->markdown()->toHTML()->transform($message) ?? '');
+
+        $message = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $message);
 
         $next_id = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
@@ -1044,9 +1046,9 @@ class ilMail
     ): array {
         global $DIC;
 
-        $sanitizeMb4Encoding = new Utf8Mb4Sanitizer();
-        $a_m_subject = $sanitizeMb4Encoding->transform($a_m_subject);
-        $a_m_message = $sanitizeMb4Encoding->transform($a_m_message);
+        $sanitizer = new Utf8Mb4Sanitizer();
+        $a_m_subject = $sanitizer->transform($a_m_subject);
+        $a_m_message = $sanitizer->transform($a_m_message);
 
         $this->logger->info(
             'New mail system task:' .
@@ -1509,11 +1511,6 @@ class ilMail
     public function setMailOptionsByUserIdMap(array $mail_options_by_usr_id_map): void
     {
         $this->mail_options_by_usr_id_map = $mail_options_by_usr_id_map;
-    }
-
-    public function formatLinebreakMessage(string $message): string
-    {
-        return $message;
     }
 
     private function createRecipient(int $user_id): Recipient

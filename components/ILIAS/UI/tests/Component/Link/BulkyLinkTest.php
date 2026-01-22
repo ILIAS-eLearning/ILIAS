@@ -101,7 +101,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         $with_query = $plain . "?query1=1";
         $with_multi_query = $with_query . "&query2=2";
         $with_fragment = $plain . "#fragment";
-        $with_multi_query_and_fragment_uri = $with_multi_query . $with_fragment;
+        $with_multi_query_and_fragment_uri = $with_multi_query . "#fragment";
 
         $plain_uri = new Data\URI($plain);
         $with_query_uri = new Data\URI($with_query);

@@ -339,7 +339,10 @@ class ilIndividualAssessmentMembersTableGUI
         $back_url = $this->ctrl->getLinkTarget($this->parent, "view");
         $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $user_id);
         $this->ctrl->setParameterByClass(PublicProfileGUI::class, "back_url", rawurlencode($back_url));
-        $link = $this->ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'getHTML');
+        $link = $this->ctrl->getLinkTargetByClass(
+            [ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class],
+            'getHTML'
+        );
         $link = $this->factory->link()->standard($full_name, $link);
 
         return $this->renderer->render($link);

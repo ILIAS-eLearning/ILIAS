@@ -116,7 +116,7 @@ class ilMemberExportSettingsGUI
         }
 
         // udf
-        $exportable = $this->profile->getVisibleUserDefinedFields(Context::buildFromObjectType($this->type));
+        $exportable = $this->profile->getVisibleUserDefinedFields(Context::buildFromObjectType($this->parent_type));
         foreach ($exportable as $field) {
             $fields['udf_' . $field->getIdentifier()] = $field->getLabel($this->lng);
         }

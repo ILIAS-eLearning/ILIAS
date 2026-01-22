@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\AuthApache\AuthProviderApache;
+
 class ilAuthProviderFactory
 {
     private ilLogger $logger;
@@ -76,7 +78,7 @@ class ilAuthProviderFactory
 
             case ilAuthUtils::AUTH_APACHE:
                 $this->logger->debug('Using apache authentication.');
-                return new ilAuthProviderApache($credentials);
+                return new AuthProviderApache($credentials);
 
             case ilAuthUtils::AUTH_SHIBBOLETH:
                 $this->logger->debug('Using shibboleth authentication.');

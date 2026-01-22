@@ -27,4 +27,12 @@ namespace ILIAS\ResourceStorage\Preloader;
 interface RepositoryPreloader
 {
     public function preload(array $identification_strings): void;
+
+    /**
+     * Preload collections (by their collection identifications) and all
+     * resources contained in those collections.
+     *
+     * @param string[] $collection_identification_strings
+     */
+    public function preloadCollections(array $collection_identification_strings): void;
 }

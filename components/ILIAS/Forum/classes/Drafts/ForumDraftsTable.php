@@ -134,6 +134,7 @@ class ForumDraftsTable implements DataRetrieval
                 ) . '_' . $this->forum->getId()
             )
             ->withRequest($this->httpRequest)
+            ->withRange(new Range(0, 50))
             ->withActions(
                 [
                     'delete' => $this->ui_factory->table()->action()->multi(

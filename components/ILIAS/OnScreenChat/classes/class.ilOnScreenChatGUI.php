@@ -311,7 +311,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $page->addJavaScript('assets/js/modal.min.js');
             $page->addJavaScript('assets/js/socket.io.min.js');
             $page->addJavaScript('assets/js/Chatroom.min.js');
-            $page->addJavaScript('assets/js/moment-with-locales.min.js');
             $page->addJavaScript('assets/js/BrowserNotifications.min.js');
             $page->addJavaScript('assets/js/onscreenchat-notifications.js');
             $page->addJavaScript('assets/js/moment.js');

@@ -490,9 +490,6 @@ class ilPropertyFormGUI extends ilFormGUI
         $tpl = $DIC["tpl"];
         $ilSetting = $this->settings;
 
-        ilYuiUtil::initEvent();
-        ilYuiUtil::initDom();
-
         $tpl->addJavaScript("assets/js/Basic.js");
         $tpl->addJavaScript("assets/js/Form.js");
 

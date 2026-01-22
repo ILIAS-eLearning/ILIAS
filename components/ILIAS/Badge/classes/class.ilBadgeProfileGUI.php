@@ -23,18 +23,24 @@ use ILIAS\Badge\Tile;
 
 class ilBadgeProfileGUI implements ilCtrlSecurityInterface
 {
-    final public const BACKPACK_EMAIL = 'badge_mozilla_bp';
+    private const string LIST_BADGES_ACTION = 'listBadges';
+    private const string MANAGE_BADGES_ACTION = 'manageBadges';
+    private const string TABLE_ACTIONS = 'handleTableActions';
+    private const string DEFAULT_ACTION = self::LIST_BADGES_ACTION;
 
-    protected ilBadgeGUIRequest $request;
-    protected ilCtrl $ctrl;
-    protected ilLanguage $lng;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilTabsGUI $tabs;
-    protected ilObjUser $user;
-    protected ilAccessHandler $access;
-    protected \ILIAS\UI\Factory $factory;
-    protected \ILIAS\UI\Renderer $renderer;
-    protected BadgeNotificationPrefRepository $noti_repo;
+    public const string TABLE_ALL_OBJECTS_ACTION = 'ALL_OBJECTS';
+
+    final public const string BACKPACK_EMAIL = 'badge_mozilla_bp';
+
+    private readonly ilBadgeGUIRequest $request;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilLanguage $lng;
+    private readonly ilGlobalTemplateInterface $tpl;
+    private readonly ilTabsGUI $tabs;
+    private readonly ilObjUser $user;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
+    private readonly BadgeNotificationPrefRepository $noti_repo;
     private readonly TileView $tile_view;
 
     public function __construct()
@@ -46,9 +52,8 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         $this->tpl = $DIC['tpl'];
         $this->tabs = $DIC->tabs();
         $this->user = $DIC->user();
-        $this->access = $DIC->access();
-        $this->factory = $DIC->ui()->factory();
-        $this->renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
         $this->request = new ilBadgeGUIRequest(
             $DIC->http(),
             $DIC->refinery()
@@ -66,28 +71,16 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
 
     public function executeCommand(): void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $this->lng->loadLanguageModule('badge');
 
-        $lng->loadLanguageModule('badge');
-
-        switch ($ilCtrl->getNextClass()) {
+        switch ($this->ctrl->getNextClass()) {
             default:
-                $cmd = $ilCtrl->getCmd('listBadges');
+                $cmd = $this->ctrl->getCmd(self::DEFAULT_ACTION);
+                if ($cmd === '' || $cmd === null || !method_exists($this, $cmd . 'Cmd')) {
+                    $cmd = self::DEFAULT_ACTION;
+                }
+                $cmd .= 'Cmd';
 
-                global $DIC;
-                $query = $DIC->http()->wrapper()->query();
-                $action = '';
-                $parameter = 'badge_table_action';
-                if ($cmd === 'action' && $this->query->has($parameter)) {
-                    $action = $this->query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
-                    $cmd = 'listBadges';
-                }
-                if ($action === 'obj_badge_activate') {
-                    $this->activate();
-                } elseif ($action === 'obj_badge_deactivate') {
-                    $this->deactivate();
-                }
                 $this->$cmd();
                 break;
         }
@@ -98,12 +91,32 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         return [];
     }
 
-    public function getUnsafeGetCommands(): array
+    private function getTableAction(): ?string
     {
-        return ['action'];
+        return $this->http->wrapper()->query()->retrieve(
+            'badge_table_action',
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(null)
+            ])
+        );
     }
 
-    protected function listBadges(): void
+    private function handleTableActionsCmd(): void
+    {
+        match ($this->getTableAction()) {
+            'obj_badge_activate' => $this->activate(),
+            'obj_badge_deactivate' => $this->deactivate(),
+            default => $this->ctrl->redirect($this, self::DEFAULT_ACTION),
+        };
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [self::TABLE_ACTIONS];
+    }
+
+    private function listBadgesCmd(): void
     {
         $this->tpl->setContent($this->renderDeck($this->tile_view->show()));
         $this->noti_repo->updateLastCheckedTimestamp();
@@ -116,36 +129,52 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
         return $template->get();
     }
 
-    protected function manageBadges(): void
+    private function manageBadgesCmd(): void
     {
         $tpl = new ilBadgePersonalTableGUI();
-        $tpl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'action'));
+        $tpl->renderTable(ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, self::TABLE_ACTIONS));
     }
 
-    protected function getMultiSelection(): array
+    private function getMultiSelection(): array
     {
-        $ids = $this->request->getBadgeIds();
-        if (count($ids) > 0) {
-            $res = [];
-            foreach ($ids as $id) {
-                $ass = new ilBadgeAssignment($id, $this->user->getId());
-                if ($ass->getTimestamp()) {
-                    $res[] = $ass;
-                }
-            }
+        $badge_ids = array_filter(
+            $this->http->wrapper()->query()->retrieve(
+                'badge_id',
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()),
+                    $this->refinery->always([])
+                ])
+            )
+        );
 
-            return $res;
+        if ($badge_ids === [self::TABLE_ALL_OBJECTS_ACTION]) {
+            $badge_assignments = array_filter(
+                ilBadgeAssignment::getInstancesByUserId($this->user->getId()),
+                static fn(ilBadgeAssignment $ass): bool => (bool) $ass->getTimestamp()
+            );
+        } else {
+            $badge_assignments = array_filter(
+                array_map(
+                    fn(int $badge_id): ilBadgeAssignment => new ilBadgeAssignment(
+                        $badge_id,
+                        $this->user->getId()
+                    ),
+                    $this->request->getBadgeIds()
+                ),
+                static fn(ilBadgeAssignment $ass): bool => (bool) $ass->getTimestamp()
+            );
         }
 
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-        $this->ctrl->redirect($this, 'manageBadges');
+        if (!empty($badge_assignments)) {
+            return $badge_assignments;
+        }
+
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('select_one'), true);
+        $this->ctrl->redirect($this, self::MANAGE_BADGES_ACTION);
     }
 
-    protected function activate(): void
+    private function activate(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         foreach ($this->getMultiSelection() as $ass) {
             // already active?
             if (!$ass->getPosition()) {
@@ -154,15 +183,12 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt('position_updated'), true);
-        $ilCtrl->redirect($this, 'manageBadges');
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('position_updated'), true);
+        $this->ctrl->redirect($this, self::MANAGE_BADGES_ACTION);
     }
 
-    protected function deactivate(): void
+    private function deactivate(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         foreach ($this->getMultiSelection() as $ass) {
             // already inactive?
             if ($ass->getPosition()) {
@@ -171,15 +197,12 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt('position_updated'), true);
-        $ilCtrl->redirect($this, 'manageBadges');
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('position_updated'), true);
+        $this->ctrl->redirect($this, self::MANAGE_BADGES_ACTION);
     }
 
-    protected function activateInCard(): void
+    private function activateInCardCmd(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         foreach ($this->getMultiSelection() as $ass) {
             // already active?
             if (!$ass->getPosition()) {
@@ -188,15 +211,12 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt('position_updated'), true);
-        $ilCtrl->redirect($this, 'listBadges');
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('position_updated'), true);
+        $this->ctrl->redirect($this, self::LIST_BADGES_ACTION);
     }
 
-    protected function deactivateInCard(): void
+    private function deactivateInCardCmd(): void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         foreach ($this->getMultiSelection() as $ass) {
             // already inactive?
             if ($ass->getPosition()) {
@@ -205,61 +225,52 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
             }
         }
 
-        $this->tpl->setOnScreenMessage('success', $lng->txt('position_updated'), true);
-        $ilCtrl->redirect($this, 'listBadges');
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('position_updated'), true);
+        $this->ctrl->redirect($this, self::LIST_BADGES_ACTION);
     }
 
-    protected function setBackpackSubTabs(): void
+    private function setBackpackSubTabs(): void
     {
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $ilTabs->addSubTab(
+        $this->tabs->addSubTab(
             'backpack_badges',
-            $lng->txt('obj_bdga'),
-            $ilCtrl->getLinkTarget($this, 'listBackpackGroups')
+            $this->lng->txt('obj_bdga'),
+            $this->ctrl->getLinkTarget($this, 'listBackpackGroups')
         );
 
-        $ilTabs->addSubTab(
+        $this->tabs->addSubTab(
             'backpack_settings',
-            $lng->txt('settings'),
-            $ilCtrl->getLinkTarget($this, 'editSettings')
+            $this->lng->txt('settings'),
+            $this->ctrl->getLinkTarget($this, 'editSettings')
         );
 
-        $ilTabs->activateTab('backpack_badges');
+        $this->tabs->activateTab('backpack_badges');
     }
 
-    protected function listBackpackGroups(): void
+    private function listBackpackGroupsCmd(): void
     {
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
         $this->setBackpackSubTabs();
-        $ilTabs->activateSubTab('backpack_badges');
+        $this->tabs->activateSubTab('backpack_badges');
 
-        $this->tpl->setOnScreenMessage('info', $lng->txt('badge_backpack_gallery_info'));
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('badge_backpack_gallery_info'));
 
         $bp = new ilBadgeBackpack($this->getBackpackMail());
         $bp_groups = $bp->getGroups();
 
         if (!count($bp_groups)) {
-            $this->tpl->setOnScreenMessage('info', $lng->txt('badge_backpack_no_groups'));
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_INFO, $this->lng->txt('badge_backpack_no_groups'));
             return;
         }
 
         $tmpl = new ilTemplate('tpl.badge_backpack.html', true, true, 'components/ILIAS/Badge/');
 
-        $tmpl->setVariable('BACKPACK_TITLE', $lng->txt('badge_backpack_list'));
+        $tmpl->setVariable('BACKPACK_TITLE', $this->lng->txt('badge_backpack_list'));
 
         ilDatePresentation::setUseRelativeDates(false);
 
         foreach ($bp_groups as $group_id => $group) {
             $bp_badges = $bp->getBadges($group_id);
             if (count($bp_badges)) {
-                foreach ($bp_badges as $idx => $badge) {
+                foreach ($bp_badges as $badge) {
                     $tmpl->setCurrentBlock('badge_bl');
                     $tmpl->setVariable('BADGE_TITLE', $badge['title']);
                     $tmpl->setVariable('BADGE_DESC', $badge['description']);
@@ -277,76 +288,63 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
             $tmpl->parseCurrentBlock();
         }
 
-        $tpl->setContent($tmpl->get());
+        $this->tpl->setContent($tmpl->get());
     }
 
     //
     // settings
     //
 
-    protected function getBackpackMail(): string
+    private function getBackpackMail(): string
     {
-        $ilUser = $this->user;
-
-        $mail = $ilUser->getPref(self::BACKPACK_EMAIL);
+        $mail = $this->user->getPref(self::BACKPACK_EMAIL);
         if (!$mail) {
-            $mail = $ilUser->getEmail();
+            $mail = $this->user->getEmail();
         }
+
         return $mail;
     }
 
-    protected function initSettingsForm(): ilPropertyFormGUI
+    private function initSettingsForm(): ilPropertyFormGUI
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this, 'saveSettings'));
-        $form->setTitle($lng->txt('settings'));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
+        $form->setTitle($this->lng->txt('settings'));
 
-        $email = new ilEMailInputGUI($lng->txt('badge_backpack_email'), 'email');
-        // $email->setRequired(true);
-        $email->setInfo($lng->txt('badge_backpack_email_info'));
+        $email = new ilEMailInputGUI($this->lng->txt('badge_backpack_email'), 'email');
+        $email->setInfo($this->lng->txt('badge_backpack_email_info'));
         $email->setValue($this->getBackpackMail());
         $form->addItem($email);
 
-        $form->addCommandButton('saveSettings', $lng->txt('save'));
+        $form->addCommandButton('saveSettings', $this->lng->txt('save'));
 
         return $form;
     }
 
-    protected function editSettings(?ilPropertyFormGUI $a_form = null): void
+    private function editSettingsCmd(?ilPropertyFormGUI $a_form = null): void
     {
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
-        $ilCtrl->redirect($this, 'listBadges');
+        $this->ctrl->redirect($this, self::LIST_BADGES_ACTION);
     }
 
-    protected function saveSettings(): void
+    private function saveSettingsCmd(): void
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $new_email = $form->getInput('email');
             $old_email = $this->getBackpackMail();
 
-            $ilUser->writePref(self::BACKPACK_EMAIL, $new_email);
+            $this->user->writePref(self::BACKPACK_EMAIL, $new_email);
 
             // if email was changed: delete badge files
-            if ($new_email != $old_email) {
-                ilBadgeAssignment::clearBadgeCache($ilUser->getId());
+            if ($new_email !== $old_email) {
+                ilBadgeAssignment::clearBadgeCache($this->user->getId());
             }
 
-            $this->tpl->setOnScreenMessage('success', $lng->txt('settings_saved'), true);
-            $ilCtrl->redirect($this, 'editSettings');
+            $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
+            $this->ctrl->redirect($this, 'editSettings');
         }
 
         $form->setValuesByPost();
-        $this->editSettings($form);
+        $this->editSettingsCmd($form);
     }
 }

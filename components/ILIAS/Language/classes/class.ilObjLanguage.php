@@ -87,6 +87,23 @@ class ilObjLanguage extends ilObject
 
 
     /**
+     * Return the language keys of the installed languages
+     *
+     * @return array
+     */
+    public static function getLangKeysOfInstalledLanguages(): array
+    {
+        $lang_keys = [];
+        foreach (ilObject::_getObjectsByType("lng") as $lang) {
+            if ($lang['desc'] === 'installed') {
+                $lang_keys[] = $lang['title'];
+            }
+        }
+        return $lang_keys;
+    }
+
+
+    /**
      * get language key
      *
      * Return language key

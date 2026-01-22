@@ -43,6 +43,9 @@ class Renderer extends AbstractComponentRenderer
             $this->cannotHandleComponent($component);
         }
 
+        /** @var $component Component\Symbol\Glyph\Glyph */
+        $component = $this->addTriggererOnLoadCode($component);
+
         $tpl_file = $this->getTemplateFilename();
         $tpl = $this->getTemplate($tpl_file, true, true);
 

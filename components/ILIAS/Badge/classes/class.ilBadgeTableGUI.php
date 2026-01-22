@@ -38,6 +38,7 @@ use ilBadge;
 use ilBadgeAuto;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\Badge\Table\TableContentWrapper;
 
 class ilBadgeTableGUI implements DataRetrieval
 {
@@ -179,7 +180,8 @@ class ilBadgeTableGUI implements DataRetrieval
             [
                 'description' => $badge->getDescription(),
                 'badge_criteria' => $badge->getCriteria(),
-            ]
+            ],
+            true
         );
 
         $record['image'] = $images['rendered']
@@ -347,11 +349,11 @@ class ilBadgeTableGUI implements DataRetrieval
         $table = $this->factory
             ->table()
             ->data($this, $this->lng->txt('obj_bdga'), $this->getColumns())
-            ->withId(self::class . '_' . $this->parent_id)
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->parent_id)
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
-        $out = [$table];
 
         $query = $this->http->wrapper()->query();
 
@@ -387,6 +389,11 @@ class ilBadgeTableGUI implements DataRetrieval
             }
         }
 
-        $this->tpl->setContent($this->renderer->render($out));
+        $content_wrapper = new TableContentWrapper($this->renderer, $this->factory);
+        $this->tpl->setContent($this->renderer->render(
+            $content_wrapper->wrap(
+                $table
+            )
+        ));
     }
 }

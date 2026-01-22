@@ -684,12 +684,10 @@ assessment#:#examid_in_test_res#:#ILIAS-vizsgaazonosító
 assessment#:#examid_in_test_res_desc#:#Az ILIAS-vizsgaazonosító a teszteredményeknél jelenik meg.
 assessment#:#exp_all_test_runs#:#All test attempts###26 08 2024 new variable
 assessment#:#exp_eval_data#:#Kiértékelési adatok exportja, mint
-assessment#:#exp_file_created#:#Elkészült az exportfájl.
 assessment#:#exp_grammar_as#:#as###26 08 2024 new variable
 assessment#:#exp_scored_test_attempt#:#Scored Test Attempt###28 10 2024 new variable
 assessment#:#exp_type_certificate#:#Igazolás (PDF)
 assessment#:#exp_type_excel#:#Microsoft Excel (XLS)
-assessment#:#exp_type_spss#:#Vesszővel tagolt szöveg (CSV)
 assessment#:#expected_result_type#:#Elvárt eredménytípus
 assessment#:#export_cert_failed_for_users_p#:#No certificate file could be generated and added for the following %s accounts: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
 assessment#:#export_cert_failed_for_users_s#:#No certificate file could be generated and added to the archive for the following account: %s. Please contact an administrator to check the log file.###26 08 2024 new variable
@@ -1453,7 +1451,6 @@ assessment#:#tst_delete_missing_mark#:#Válasszon legalább egy érdemjegyet az 
 assessment#:#tst_derive_new_pool#:#Új kérdésgyűjtemény származtatása
 assessment#:#tst_derive_new_pools#:#Új kérdésgyűjtemények származtatása
 assessment#:#tst_dont_show_msg_again_in_current_session#:#Ez az üzenet többször ne jelenjen meg a munkamenet alatt.
-assessment#:#tst_dont_use_previous_answers#:#Korábbi válaszai nem lesznek alapértelmezett értékekként használva a jövőbeni tesztteljesítésekhez.
 assessment#:#tst_edit_competence_assign#:#Összerendelési tulajdonságok módosítása
 assessment#:#tst_edit_scoring#:#Pontozás módosítása
 assessment#:#tst_enable_questionlist#:#Show 'List of Questions’###26 08 2024 new variable
@@ -1509,7 +1506,6 @@ assessment#:#tst_finish_confirm_button#:#Igen, be szeretném fejezni a tesztet.
 assessment#:#tst_finish_confirm_cancel_button#:#Nem, menjen vissza az előző kérdéshez.
 assessment#:#tst_finish_confirmation_question#:#Ha befejezi ezt a tesztet, eléri az engedélyezett tesztkitöltések maximális számát. Nem fog tudni visszatérni a tesztbe, hogy megváltoztassa válaszait. Biztos, hogy be szeretné fejezni a tesztet?
 assessment#:#tst_finish_confirmation_question_no_attempts_left#:#You are going to finish this test and reach the maximum number of allowed test attempts. You won’t be able to enter this test again to change your answers. Do you really want to finish the test?###26 08 2024 new variable
-assessment#:#tst_finish_notification_no#:#Nincs e-mail
 assessment#:#tst_finished#:#Befejezve
 assessment#:#tst_form_dynamic_question_set_config#:#Folyamatos kérdéskiválasztás
 assessment#:#tst_gap_analysis#:#Gap analízis (rés elemzés)
@@ -1521,7 +1517,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_hide_side_list#:#Kérdéslista elrejtése
 assessment#:#tst_highscore_achieved_ts#:#Időpont
 assessment#:#tst_highscore_achieved_ts_description#:#A rangsorban a teszt időpontját tartalmazó oszlopot megjelenik.
 assessment#:#tst_highscore_all_tables#:#Résztvevő saját helyezése és legkiemelkedőbb helyezések
@@ -1539,7 +1534,6 @@ assessment#:#tst_highscore_score#:#Pontszám
 assessment#:#tst_highscore_score_description#:#A rangsorban a pontszámot tartalmazó oszlopot megjelenik.
 assessment#:#tst_highscore_top_num#:#Legkiemelkedőbb helyezések hossza
 assessment#:#tst_highscore_top_num_description#:#Hány helyezés legyen a legkiemelkedőbb helyezések felsorolásában.
-assessment#:#tst_highscore_top_num_unit#:#bejegyzések
 assessment#:#tst_highscore_top_table#:#Legkiemelkedőbb helyezések
 assessment#:#tst_highscore_top_table_description#:#A résztvevők láthatják a legkiemelkedőbb helyezéseket.
 assessment#:#tst_highscore_wtime#:#Tesztkitöltés ideje
@@ -1752,8 +1746,7 @@ assessment#:#tst_postpone_on#:#Meg nem válaszolt kérdések sorba állítása
 assessment#:#tst_postpone_on_desc#:#A megtekintett, de meg nem válaszolt kérdések a teszt végén automatikusan, sorba rendezve újra megjelennek.
 assessment#:#tst_presentation_properties#:#Teszt kezelése: A kérdés viselkedése
 assessment#:#tst_presentation_settings_section#:#Megjelenítés
-assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Teszt és értékelés nyomtatási nézete
+assessment#:#tst_previous_access_code_not_available#:#Egy korábbi kód sem érhető el!
 assessment#:#tst_proceed#:#Folytatás
 assessment#:#tst_processing_time#:#Elhasználható idő korlátja
 assessment#:#tst_processing_time_desc#:#A résztvevők csak meghatározott ideig dolgozhatnak a teszten. A visszaszámlálás akkor kezdődik, amikor a felhasználó először indítja a tesztet. A teszt felfüggesztése nem állítja meg az órát. Ha a lehetséges kitöltések száma korlátozott, megjelenik az extra idő biztosítása a kitöltőknek lehetőség a 'Műszerfal' fül alatt.
@@ -1890,10 +1883,6 @@ assessment#:#tst_show_results#:#Teszteredmények
 assessment#:#tst_show_side_list#:#Kérdéslista megjelenítése
 assessment#:#tst_show_solution_answers_only#:#Eredmények nyomtatási előnézete (csak a válaszoké)
 assessment#:#tst_show_solution_answers_only_desc#:#Ha be van kapcsolva, a 'Tartalom módosítása' fülön a kérdéshez beállított tartalom nem jelenik meg nyomtatásban. Papír spórolása esetén válassza ezt az opciót.
-assessment#:#tst_show_solution_compare#:#Legjobb megoldás megjelenítése a 'Részletes teszteredmények'-ben
-assessment#:#tst_show_solution_compare_desc#:#A résztvevők összehasonlíthatják saját megoldásikat a legjobb megoldással. Ez az 'Információs' fülön lévő 'Teszteredmények megjelenítése' linkkel elérhető 'Részletes teszteredmények'-ben jelenik meg, a nyomtatható 'Válaszok felsorolása' részben viszont nem.
-assessment#:#tst_show_solution_details#:#Megoldások megjelenítése a teszteredményekben
-assessment#:#tst_show_solution_details_desc#:#A 'Részletes teszteredmények táblázata' kiegészítéseként, minden kérdésnél egy link jelenik meg, ami egy oldalra mutat, ahol a kérdés, a résztvevő válasza, a válasz értékelése (helyes/helytelen) és a válaszra kapott pontszám jelenik meg.
 assessment#:#tst_show_solution_details_singlepage#:#Scored Answers on single pages###26 08 2024 new variable
 assessment#:#tst_show_solution_details_singlepage_desc#:#Participants can access each question individually and see if their answers were correct and how many points they scored.###26 08 2024 new variable
 assessment#:#tst_show_solution_feedback#:#Válaszspecifikus visszajelzés megjelenítése a teszteredményekben
@@ -1916,7 +1905,6 @@ assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Kompetenciára nem vá
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#A teszt által legalább egy mérni kívánt kompetenciához nincs elegendő kérdés, így azokhoz egy kompetenciabejegyzést sem fogunk rögzíteni.<br />A szükséges minimális kérdésszám: %s
 assessment#:#tst_skl_level_thresholds_link#:#Kompetencia-küszöbértékek beállítása
 assessment#:#tst_skl_level_thresholds_missing#:#Az érintett kompetenciákhoz hiányoznak a küszöbértékek!
-assessment#:#tst_skl_res_interpretation_hint_msg#:#Kérjük, vegye figyelembe, hogy a csupán egy tesztből kapott kompetenciaeredmények korlátozott jelentőséggel bírnak. Minél több információt sikerül gyűjteni kompetenciánként, annál jobb lesz az eredmény. Amennyiben egyszerű kompetenciához nincs bejegyzés, a kompetencia megállapításához túl kevés információ áll rendelkezésre.
 assessment#:#tst_skl_sub_tab_thresholds#:#Kompetencia-küszöbértékek
 assessment#:#tst_sol_comp_expressions#:#Összehasonlító kifejezések
 assessment#:#tst_solution_compare_cfg#:#Megoldás összehasonlításához beállítások
@@ -1978,7 +1966,6 @@ assessment#:#tst_unchanged_answer_is_correct#:#A jelenlegi válasz helyes.
 assessment#:#tst_unchanged_order_is_correct#:#A jelenlegi sorrend helyes.
 assessment#:#tst_use_previous_answers#:#Korábbi válaszok használata
 assessment#:#tst_use_previous_answers_description#:#A résztvevők számára korábbi tesztkitöltéseik válaszai megjelennek. Ezt a lehetőséget a résztvevők saját maguknak tudják bekapcsolni az 'Információ' fülön a kitöltés megkezdése előtt.
-assessment#:#tst_use_previous_answers_user#:#Használja korábbi válaszaimat alapértelmezett értékként a jövőbeni tesztkitöltésekhez.
 assessment#:#tst_user_finished_test#:#'%s' tesztet egy felhasználó befejezte
 assessment#:#tst_view_competence_assign#:#Összerendelési tulajdonságok megtekintése
 assessment#:#tst_virtual_pass_header_lo_initial#:#A Tanulási célkitűzés Belépő tesztjének eredményei<br />%s
@@ -2563,10 +2550,9 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Információ
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Jövőbeni foglalások
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
-book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
-book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
-book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
+book#:#book_bulk_confirmation#:#Kérem, ellenőrizze, hogy az összes érték helyesen jelenik-e meg.
+book#:#book_bulk_creation#:#Üres létrehozása
+book#:#book_bulk_data#:#Objektum adata
 book#:#book_cal_entry#:#Ennek a foglalása:
 book#:#book_confirm_booking#:#Foglalás megerősítése
 book#:#book_confirm_booking_for_users#:#Are you sure you want to book this item for the following user(s)?###29 10 2025 new variable

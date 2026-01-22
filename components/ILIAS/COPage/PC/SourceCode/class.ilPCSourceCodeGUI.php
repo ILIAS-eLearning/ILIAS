@@ -160,30 +160,6 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->requested_par_content = $this->request->getRaw("par_content");
         $this->requested_par_downloadtitle = str_replace('"', '', $this->request->getString("par_downloadtitle"));
 
-        //        $this->upload_source();
-
-        // set language and characteristic
-
-        /*
-        $this->content_obj->setLanguage(
-            $this->request->getString("par_language")
-        );
-        $this->content_obj->setCharacteristic($this->request->getString("par_characteristic"));*/
-
-        // set language and characteristic
-        /*$this->content_obj->setLanguage($this->request->getString("par_language"));
-        $this->content_obj->setSubCharacteristic($this->request->getString("par_subcharacteristic"));
-        $this->content_obj->setDownloadTitle(
-            str_replace('"', '', $this->requested_par_downloadtitle)
-        );
-        $this->content_obj->setShowLineNumbers(
-            $this->request->getString("par_showlinenumbers") ? "y" : "n"
-        );
-        $this->content_obj->setSubCharacteristic($this->request->getString("par_subcharacteristic"));
-        $this->content_obj->setCharacteristic("Code");
-
-        */
-
         $this->updated = $this->content_obj->setText(
             $this->content_obj->input2xml($this->requested_par_content, 0, false)
         );
@@ -296,7 +272,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
     {
         $prog_langs = array(
             "" => "other");
-        foreach (ilSyntaxHighlighter::getSupportedLanguagesV51() as $k => $v) {
+        foreach (ilPCSourceCode::getSupportedLanguages() as $k => $v) {
             $prog_langs[$k] = $v;
         }
         return $prog_langs;
@@ -313,30 +289,9 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $form->addCommandButton($a_cmd, $this->lng->txt("save"));
         $form->addCommandButton($a_cmd_cancel, $this->lng->txt("cancel"));
 
-        /*
-        $lang_var = ilMDLanguageItem::_getLanguages();
-        $lang = new ilSelectInputGUI($this->lng->txt("language"), "par_language");
-        $lang->setOptions($lang_var);
-        $form->addItem($lang);
-
-        $prog_langs = $this->getProgLangOptions();
-        $code_style = new ilSelectInputGUI($this->lng->txt("cont_src"), "par_subcharacteristic");
-        $code_style->setOptions($prog_langs);
-        $form->addItem($code_style);
-        $line_number = new ilCheckboxInputGUI($this->lng->txt("cont_show_line_numbers"), "par_showlinenumbers");
-        $form->addItem($line_number);
-*/
         $code = new ilTextAreaInputGUI("", "par_content");
         $code->setRows(12);
         $form->addItem($code);
-
-        /*
-        $downlaod_title = new ilTextInputGUI($this->lng->txt("cont_download_title"), "par_downloadtitle");
-        $downlaod_title->setSize(40);
-        $form->addItem($downlaod_title);
-
-        $file = new ilFileInputGUI($this->lng->txt("import_file"), "userfile");
-        $form->addItem($file);*/
 
         return $form;
     }

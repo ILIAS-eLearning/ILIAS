@@ -38,6 +38,9 @@ class CollectionDBRepository implements CollectionRepository
     public const R_IDENTIFICATION = 'rid';
     public const C_IDENTIFICATION = 'rcid';
 
+    /** @var array<string, string[]> */
+    private array $resource_ids_cache = [];
+
     public function __construct(protected \ilDBInterface $db)
     {
     }
@@ -55,11 +58,18 @@ class CollectionDBRepository implements CollectionRepository
         ?int $owner_id = null,
         ?string $title = null
     ): ResourceCollection {
-        return new ResourceCollection(
+        $collection = new ResourceCollection(
             $identification,
             $owner_id ?? ResourceCollection::NO_SPECIFIC_OWNER,
             $title ?? ''
         );
+
+        $rcid = $identification->serialize();
+        if (!isset($this->resource_ids_cache[$rcid])) {
+            $this->resource_ids_cache[$rcid] = [];
+        }
+
+        return $collection;
     }
 
     public function existing(ResourceCollectionIdentification $identification): ResourceCollection
@@ -91,17 +101,24 @@ class CollectionDBRepository implements CollectionRepository
      */
     public function getResourceIdStrings(ResourceCollectionIdentification $identification): \Generator
     {
-        $q = "SELECT " . self::R_IDENTIFICATION . " FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s ORDER BY position ASC";
-        $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
-        while ($d = $this->db->fetchAssoc($r)) {
-            yield (string) $d[self::R_IDENTIFICATION];
+        $rcid = $identification->serialize();
+
+        if (!isset($this->resource_ids_cache[$rcid])) {
+            $this->preload([$rcid]);
+        }
+
+        foreach ($this->resource_ids_cache[$rcid] ?? [] as $rid) {
+            yield $rid;
         }
     }
 
     public function clear(ResourceCollectionIdentification $identification): void
     {
+        $rcid = $identification->serialize();
         $q = "DELETE FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s";
-        $r = $this->db->manipulateF($q, ['text'], [$identification->serialize()]);
+        $this->db->manipulateF($q, ['text'], [$rcid]);
+
+        $this->resource_ids_cache[$rcid] = [];
     }
 
     public function update(ResourceCollection $collection, DataContainer $event_data_container): void
@@ -148,6 +165,8 @@ class CollectionDBRepository implements CollectionRepository
                 ]
             );
         }
+
+        $this->resource_ids_cache[$identification->serialize()] = array_values($resource_identification_strings);
         if ($this->has($identification)) {
             $this->db->update(
                 self::COLLECTION_TABLE_NAME,
@@ -174,34 +193,111 @@ class CollectionDBRepository implements CollectionRepository
 
     public function removeResourceFromAllCollections(ResourceIdentification $resource_identification): void
     {
+        $rid = $resource_identification->serialize();
+
         $this->db->manipulateF(
             "DELETE FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::R_IDENTIFICATION . " = %s",
             ['text'],
-            [$resource_identification->serialize()]
+            [$rid]
         );
+
+        foreach ($this->resource_ids_cache as $rcid => $rids) {
+            if (in_array($rid, $rids, true)) {
+                $this->resource_ids_cache[$rcid] = array_values(array_diff($rids, [$rid]));
+            }
+        }
     }
 
     public function delete(ResourceCollectionIdentification $identification): void
     {
+        $rcid = $identification->serialize();
+
         $this->db->manipulateF(
             "DELETE FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s",
             ['text'],
-            [$identification->serialize()]
+            [$rcid]
         );
         $this->db->manipulateF(
             "DELETE FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s",
             ['text'],
-            [$identification->serialize()]
+            [$rcid]
         );
+
+        unset($this->resource_ids_cache[$rcid]);
     }
 
     public function preload(array $identification_strings): void
     {
-        // TODO: Implement preload() method.
+        if ($identification_strings === []) {
+            return;
+        }
+
+        $identification_strings = array_values(array_unique($identification_strings));
+
+        $to_load = [];
+        foreach ($identification_strings as $rcid) {
+            if (!isset($this->resource_ids_cache[$rcid])) {
+                $this->resource_ids_cache[$rcid] = [];
+                $to_load[] = $rcid;
+            }
+        }
+
+        if ($to_load === []) {
+            return;
+        }
+
+        $q = "SELECT " . self::C_IDENTIFICATION . ", " . self::R_IDENTIFICATION .
+            " FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME .
+            " WHERE " . $this->db->in(self::C_IDENTIFICATION, $to_load, false, 'text') .
+            " ORDER BY position ASC";
+
+        $res = $this->db->query($q);
+        while ($row = $this->db->fetchAssoc($res)) {
+            $rcid = (string) $row[self::C_IDENTIFICATION];
+            $rid = (string) $row[self::R_IDENTIFICATION];
+            $this->resource_ids_cache[$rcid][] = $rid;
+        }
+    }
+
+    /**
+     * @param string[] $collection_identifications
+     * @return ResourceIdentification[]
+     */
+    public function getResourceIdsForCollections(array $collection_identifications): array
+    {
+        if ($collection_identifications === []) {
+            return [];
+        }
+
+        $collection_identifications = array_values(array_unique($collection_identifications));
+
+        $to_preload = [];
+        foreach ($collection_identifications as $rcid) {
+            if (!isset($this->resource_ids_cache[$rcid])) {
+                $to_preload[] = $rcid;
+            }
+        }
+        if ($to_preload !== []) {
+            $this->preload($to_preload);
+        }
+
+        $result_rids = [];
+        foreach ($collection_identifications as $rcid) {
+            foreach ($this->resource_ids_cache[$rcid] ?? [] as $rid) {
+                $result_rids[] = $rid;
+            }
+        }
+
+        $result_rids = array_values(array_unique($result_rids));
+
+        return array_map(
+            static fn(string $rid): ResourceIdentification => new ResourceIdentification($rid),
+            $result_rids
+        );
     }
 
     public function populateFromArray(array $data): void
     {
-        // TODO: Implement populateFromArray() method.
+        // Nothing to do here
     }
 }

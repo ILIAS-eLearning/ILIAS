@@ -129,7 +129,7 @@ class Services implements GlobalHttpState
         $this->raw()->sendResponse();
     }
 
-    public function close(): void
+    public function close(): never
     {
         $this->raw()->close();
     }

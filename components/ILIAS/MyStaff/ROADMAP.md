@@ -3,10 +3,6 @@
 
 ## Short Term
 
-### Remove Legacy UI, **Actions** Dropdown
-
-The **Actions** dropdown (`ilAdvancedSelectionListGUI`), used in the different Staff views in the table, should be replaced by the corresponding KS element `Standard Dropdown`.
-
 ### Remove Legacy UI, Filter
 
 The filters, used in the different Staff views in the toolbar, should be replaced by the corresponding KS element `Filter`.

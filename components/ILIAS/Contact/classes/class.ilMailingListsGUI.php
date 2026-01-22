@@ -606,7 +606,7 @@ class ilMailingListsGUI implements ilCtrlSecurityInterface
             $user_select = $this->ui_factory->input()->field()->select(
                 $this->lng->txt('mail_entry_of_contacts'),
                 $options
-            );
+            )->withRequired(true);
 
             $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
             $form = $this->ui_factory->input()->container()->form()->standard(

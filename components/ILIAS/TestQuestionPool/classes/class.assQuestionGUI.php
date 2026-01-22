@@ -1102,7 +1102,7 @@ abstract class assQuestionGUI
         $options = $this->getTypeOptions();
 
         $solution_type = $this->ctrl->getCmd() === 'cancelSuggestedSolution'
-            ? $solution->getType()
+            ? $solution?->getType()
             : $this->request_data_collector->string('solutiontype');
         if ($solution_type === SuggestedSolution::TYPE_FILE
             && ($solution === null || $solution->getType() !== SuggestedSolution::TYPE_FILE)
@@ -1603,12 +1603,16 @@ abstract class assQuestionGUI
 
     protected function addTab_QuestionFeedback(ilTabsGUI $tabs): void
     {
-        $tabCommands = self::getCommandsFromClassConstants(ilAssQuestionFeedbackEditingGUI::class);
-
         $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'q_id', $this->object->getId());
-        $tabLink = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
 
-        $tabs->addTarget('feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
+        $tabs->addTab(
+            'feedback',
+            $this->lng->txt('tst_feedback'),
+            $this->ctrl->getLinkTargetByClass(
+                ilAssQuestionFeedbackEditingGUI::class,
+                ilAssQuestionFeedbackEditingGUI::CMD_SHOW
+            )
+        );
     }
 
     protected function addTab_Question(ilTabsGUI $tabs_gui): void

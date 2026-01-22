@@ -44,6 +44,9 @@ class Renderer extends AbstractComponentRenderer
             $this->cannotHandleComponent($component);
         }
 
+        /** @var $component Component\Modal\Modal */
+        $component = $this->addTriggererOnLoadCode($component);
+
         // If the modal is rendered async, we just create a fake container which will be
         // replaced by the modal upon successful ajax request
         if ($component->getAsyncRenderUrl()) {

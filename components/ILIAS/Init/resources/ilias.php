@@ -31,7 +31,18 @@ global $DIC;
 
 try {
     $DIC->ctrl()->callBaseClass();
-} catch (ilCtrlException) {
+} catch (ilCtrlException $e) {
+    if (defined('DEVMODE') && DEVMODE) {
+        throw $e;
+    }
+
+    if (!str_contains($e->getMessage(), 'not given a baseclass') &&
+        !str_contains($e->getMessage(), 'not a baseclass')) {
+        throw new RuntimeException(sprintf('ilCtrl could not dispatch request: %s', $e->getMessage()), 0, $e);
+    }
+
+    $DIC->logger()->root()->error($e->getMessage());
+    $DIC->logger()->root()->error($e->getTraceAsString());
     $DIC->ctrl()->redirectToURL(ilUtil::_getHttpPath());
 }
 

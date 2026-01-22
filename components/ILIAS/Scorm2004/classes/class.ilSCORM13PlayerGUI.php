@@ -39,99 +39,99 @@ class ilSCORM13PlayerGUI
      * @var array<string, array<string, array<string, mixed>>>
      */
     private static array $schema = array // order of entries matters!
-    (
-        'package' => array(
-            'user_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'user_id'),
-            'learner_name' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'learner_name'),
-            'slm_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'slm_id'),
-            'mode' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'c_mode'),
-            'credit' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'credit'),
-        ),
-        'node' => array(
-            'accesscount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accesscount'),
-            'accessduration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accessduration'),
-            'accessed' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accessed'),
-            'activityAbsoluteDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityabsduration'),
-            'activityAttemptCount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityattemptcount'),
-            'activityExperiencedDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityexpduration'),
-            'activityProgressStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityprogstatus'),
-            'attemptAbsoluteDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptabsduration'),
-            'attemptCompletionAmount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptcomplamount'),
-            'attemptCompletionStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptcomplstatus'),
-            'attemptExperiencedDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptexpduration'),
-            'attemptProgressStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptprogstatus'),
-            'audio_captioning' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'audio_captioning'),
-            'audio_level' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'audio_level'),
-            'availableChildren' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'availablechildren'),
-            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
-            'completion' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion'),
-            'completion_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_status'),
-            'completion_threshold' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_threshold'),
-            'cp_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cp_node_id'),
-            'created' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'created'),
-            'credit' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'credit'),
-            'delivery_speed' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'delivery_speed'),
-            'entry' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_entry'),
-            'exit' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_exit'),
-            'language' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_language'),
-            'launch_data' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'launch_data'),
-            'learner_name' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'learner_name'),
-            'location' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'location'),
-            'max' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_max'),
-            'min' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_min'),
-            'mode' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_mode'),
-            'modified' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'modified'),
-            'progress_measure' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'progress_measure'),
-            'raw' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_raw'),
-            'scaled' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled'),
-            'scaled_passing_score' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled_passing_score'),
-            'session_time' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'session_time'),
-            'success_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'success_status'),
-            'suspend_data' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'suspend_data'),
-            'total_time' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'total_time'),
-            'user_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'user_id'),
-        ),
-        'comment' => array(
-            'cmi_comment_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_comment_id'),
-            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
-            'comment' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_comment'),
-            'timestamp' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_timestamp'),
-            'location' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'location'),
-            'sourceIsLMS' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'sourceislms'),
-        ),
-        'correct_response' => array(
-            'cmi_correct_response_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_correct_resp_id'),
-            'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
-            'pattern' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'pattern'),
-        ),
-        'interaction' => array(
-            'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
-            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
-            'description' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'description'),
-            'id' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'id'),
-            'latency' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'latency'),
-            'learner_response' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'learner_response'),
-            'result' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'result'),
-            'timestamp' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_timestamp'),
-            'type' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_type'),
-            'weighting' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'weighting'),
-        ),
-        'objective' => array(
-            'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
-            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
-            'cmi_objective_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_objective_id'),
-            'completion_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_status'),
-            'description' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'description'),
-            'id' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'id'),
-            'max' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_max'),
-            'min' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_min'),
-            'raw' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_raw'),
-            'scaled' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled'),
-            'progress_measure' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'progress_measure'),
-            'success_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'success_status'),
-            'scope' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scope'),
-        ),
-    );
+        (
+            'package' => array(
+                'user_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'user_id'),
+                'learner_name' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'learner_name'),
+                'slm_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'slm_id'),
+                'mode' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'c_mode'),
+                'credit' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'credit'),
+            ),
+            'node' => array(
+                'accesscount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accesscount'),
+                'accessduration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accessduration'),
+                'accessed' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accessed'),
+                'activityAbsoluteDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityabsduration'),
+                'activityAttemptCount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityattemptcount'),
+                'activityExperiencedDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityexpduration'),
+                'activityProgressStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityprogstatus'),
+                'attemptAbsoluteDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptabsduration'),
+                'attemptCompletionAmount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptcomplamount'),
+                'attemptCompletionStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptcomplstatus'),
+                'attemptExperiencedDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptexpduration'),
+                'attemptProgressStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptprogstatus'),
+                'audio_captioning' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'audio_captioning'),
+                'audio_level' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'audio_level'),
+                'availableChildren' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'availablechildren'),
+                'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+                'completion' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion'),
+                'completion_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_status'),
+                'completion_threshold' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_threshold'),
+                'cp_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cp_node_id'),
+                'created' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'created'),
+                'credit' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'credit'),
+                'delivery_speed' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'delivery_speed'),
+                'entry' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_entry'),
+                'exit' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_exit'),
+                'language' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_language'),
+                'launch_data' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'launch_data'),
+                'learner_name' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'learner_name'),
+                'location' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'location'),
+                'max' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_max'),
+                'min' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_min'),
+                'mode' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_mode'),
+                'modified' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'modified'),
+                'progress_measure' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'progress_measure'),
+                'raw' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_raw'),
+                'scaled' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled'),
+                'scaled_passing_score' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled_passing_score'),
+                'session_time' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'session_time'),
+                'success_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'success_status'),
+                'suspend_data' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'suspend_data'),
+                'total_time' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'total_time'),
+                'user_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'user_id'),
+            ),
+            'comment' => array(
+                'cmi_comment_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_comment_id'),
+                'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+                'comment' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_comment'),
+                'timestamp' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_timestamp'),
+                'location' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'location'),
+                'sourceIsLMS' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'sourceislms'),
+            ),
+            'correct_response' => array(
+                'cmi_correct_response_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_correct_resp_id'),
+                'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
+                'pattern' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'pattern'),
+            ),
+            'interaction' => array(
+                'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
+                'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+                'description' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'description'),
+                'id' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'id'),
+                'latency' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'latency'),
+                'learner_response' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'learner_response'),
+                'result' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'result'),
+                'timestamp' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_timestamp'),
+                'type' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_type'),
+                'weighting' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'weighting'),
+            ),
+            'objective' => array(
+                'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
+                'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+                'cmi_objective_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_objective_id'),
+                'completion_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_status'),
+                'description' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'description'),
+                'id' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'id'),
+                'max' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_max'),
+                'min' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_min'),
+                'raw' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_raw'),
+                'scaled' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled'),
+                'progress_measure' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'progress_measure'),
+                'success_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'success_status'),
+                'scope' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scope'),
+            ),
+        );
 
     private int $userId;
     private array $flat_structure;
@@ -464,8 +464,6 @@ class ilSCORM13PlayerGUI
 
 
         $this->tpl->setVariable('JSON_LANGSTRINGS', json_encode($langstrings));
-        // include_once("../components/ILIAS/YUI/classes/class.ilYuiUtil.php");
-        // $this->tpl->setVariable('YUI_PATH', ilYuiUtil::getLocalPath());
         // $this->tpl->setVariable('TREE_JS', "../components/ILIAS/UIComponent/NestedList/js/ilNestedList.js");
         $this->tpl->setVariable('TREE_JS', "components/ILIAS/Scorm2004/scripts/ilNestedList.js");
         foreach ($langstrings as $key => $value) {
@@ -904,7 +902,9 @@ class ilSCORM13PlayerGUI
         $ilUser = $DIC->user();
         $g_data = json_decode(file_get_contents('php://input'));
 
-        if ($g_data == null) return;
+        if ($g_data == null) {
+            return;
+        }
 
         //Step 1: Get the writeable stores for this SCO that already have values
         $query = 'SELECT dm.target_id, sd.store '
@@ -1697,7 +1697,6 @@ class ilSCORM13PlayerGUI
         $logfile = $this->logFileName() . ".html";
         $this->tpl->setVariable('LOGFILE', $this->logFileName() . ".html");
         $this->tpl->setVariable('FILES_DATA', json_encode($this->getLogFileList($lng->txt("debugwindow_delete"), $lng->txt("debugwindow_download"), $lng->txt("debugwindow_open"))));
-        $this->tpl->setVariable('PATH_YUI', ilYuiUtil::getLocalPath());
         //}
         echo $this->tpl->get("DEFAULT", true);
     }

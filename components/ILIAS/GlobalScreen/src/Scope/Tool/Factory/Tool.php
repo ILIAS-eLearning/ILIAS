@@ -30,13 +30,17 @@ use ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
 use LogicException;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
 
 /**
  * Class Tool
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTerminating
+class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTerminating, isDecorateable
 {
+    use ComponentDecoratorTrait;
+
     protected string $title;
     protected ?Closure $terminated_callback = null;
     protected ?Symbol $symbol = null;
@@ -45,7 +49,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
     protected ?Closure $close_callback = null;
 
     /**
-     * @param string $title
      * @return Tool
      */
     public function withTitle(string $title): hasTitle
@@ -56,9 +59,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
@@ -144,17 +144,11 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
         return $clone;
     }
 
-    /**
-     * @return Closure|null
-     */
     public function getTerminatedCallback(): ?Closure
     {
         return $this->terminated_callback;
     }
 
-    /**
-     * @return bool
-     */
     public function hasTerminatedCallback(): bool
     {
         return $this->terminated_callback instanceof Closure;

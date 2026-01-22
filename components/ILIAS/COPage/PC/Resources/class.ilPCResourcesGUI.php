@@ -169,7 +169,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         if ($this->supportsItemGroups() && count($item_groups) > 0) {
             // item groups
             $options = $item_groups;
-            sort($options);
+            asort($options);
             $si = new ilSelectInputGUI($this->lng->txt("obj_itgr"), "itgr");
             $si->setOptions($options);
             $selected = ($a_insert)

@@ -840,6 +840,11 @@ class ilExerciseManagementGUI
         array $a_data
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
+        $this->ctrl->setParameterByClass(
+            self::class,
+            "ass_id",
+            $this->assignment->getId()
+        );
         $form->setFormAction($this->ctrl->getFormAction($this, "saveEvaluationFromModal"));
         $form->setId(uniqid('form'));
 
@@ -894,7 +899,6 @@ class ilExerciseManagementGUI
             $grade = trim($form->getInput('grade'));
             $mark = trim($form->getInput('mark'));
         }
-
         if ($this->assignment->getId() && $user_id > 0) {
             $member_status = $this->assignment->getMemberStatus($user_id);
             $member_status->setComment(ilUtil::stripSlashes($comment));
@@ -1037,9 +1041,13 @@ class ilExerciseManagementGUI
             $this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
             $this->ctrl->setParameter($this, "part_id", $current_participant);
 
-            $ilToolbar->addSeparator();
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-            $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
+            $ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
+
+            if (count($ass) > 0) {
+                $ilToolbar->addSeparator();
+                $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+                $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
+            }
 
             $part_tab = new ilAssignmentsPerParticipantTableGUI(
                 $this,
@@ -2232,7 +2240,7 @@ class ilExerciseManagementGUI
             "uid" => $user_id,
             "uname" => $uname,
             "udate" => $ts,
-            "utext" => ilRTE::_replaceMediaObjectImageSrc($text, 1) // mob id to mob src
+            "utext" => $this->gui->getUIUtil()->formatTextInput($text) // mob id to mob src
         );
 
         //get data peer and assign it

@@ -76,7 +76,7 @@ class AccessManager
         array $participant_ids
     ): array {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'render',
+            'write',
             'render',
             $ref_id,
             $participant_ids

@@ -65,8 +65,10 @@ class DocumentModal
     /**
      * @return Component[]
      */
-    public function components(): array
+    public function popComponents(): array
     {
-        return $this->components;
+        $c = $this->components;
+        $this->components = [];
+        return $c;
     }
 }

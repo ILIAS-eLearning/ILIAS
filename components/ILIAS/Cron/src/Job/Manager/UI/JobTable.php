@@ -351,7 +351,7 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
                 ->column()
                 ->text($this->lng->txt('cron_component'))
                 ->withIsSortable(true)
-                ->withIsOptional(true, false),
+                ->withIsOptional(true, true),
             'schedule' => $this->ui_factory
                 ->table()
                 ->column()
@@ -441,8 +441,9 @@ class JobTable implements \ILIAS\UI\Component\Table\DataRetrieval
             ->table()
             ->data($this, $this->lng->txt('cron_jobs'), $this->getColumns())
             ->withActions($this->getActions())
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withRequest($this->request)
-            ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC));
+            ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 100));
     }
 }

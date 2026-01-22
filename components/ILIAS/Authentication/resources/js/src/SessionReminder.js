@@ -108,6 +108,7 @@ export default class SessionReminder {
     fetch(this.#options.url, {
       method: 'POST',
       body: formData,
+      credentials: 'omit',
     })
       .then((response) => response.json())
       .then((data) => {

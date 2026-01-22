@@ -214,7 +214,7 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
                 $ctrl->getLinkTargetByClass(self::class, "listSteps")
             );
             $actions[] = $f->link()->standard(
-                $lng->txt("settings"),
+                $lng->txt("gdtr_tour_settings"),
                 $ctrl->getLinkTargetByClass(self::class, "editSettings")
             );
             $reset_modal = $this->getResetTourModal($tour->getId());
@@ -225,7 +225,7 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
             $ui_items[] = $reset_modal;
             $delete_modal = $this->getDeleteTourModal($tour->getId());
             $actions[] = $f->button()->shy(
-                $lng->txt("delete"),
+                $lng->txt("gdtr_delete_tour"),
                 "#"
             )->withOnClick($delete_modal->getShowSignal());
             $ui_items[] = $delete_modal;
@@ -381,6 +381,7 @@ class ilGuidedTourAdminGUI // implements ilCtrlBaseClassInterface
                 "",
                 $settings?->isActive()
             )
+            ->section("sec2", $lng->txt("gdtr_presentation_limitation"))
             ->text(
                 "screen_ids",
                 $lng->txt("gdtr_screen_ids"),

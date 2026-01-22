@@ -114,13 +114,17 @@ class ilSessionIStorage
         global $DIC;
 
         if (is_array($a_session_id)) {
-            $q = 'DELETE FROM usr_sess_istorage WHERE ' .
-                $DIC->database()->in('session_id', $a_session_id, false, 'text');
+            $chunk_size = 500;
+            $batches = array_chunk($a_session_id, $chunk_size);
+            foreach ($batches as $batch) {
+                $q = 'DELETE FROM usr_sess_istorage WHERE ' .
+                    $DIC->database()->in('session_id', $batch, false, ilDBConstants::T_TEXT);
+                $DIC->database()->manipulate($q);
+            }
         } else {
             $q = 'DELETE FROM usr_sess_istorage WHERE session_id = ' .
-                $DIC->database()->quote($a_session_id, 'text');
+                $DIC->database()->quote($a_session_id, ilDBConstants::T_TEXT);
+            $DIC->database()->manipulate($q);
         }
-
-        $DIC->database()->manipulate($q);
     }
 }

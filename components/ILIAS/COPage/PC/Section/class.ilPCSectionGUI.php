@@ -129,7 +129,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             "Confirmation" => $lng->txt("cont_Confirmation"),
             "Information" => $lng->txt("cont_Information"),
             "Interaction" => $lng->txt("cont_Interaction"),
-            "Link" => $lng->txt("cont_Link"),
+            "Link" => $lng->txt("cont_char_link"),
             "Literature" => $lng->txt("cont_Literature"),
             "Separator" => $lng->txt("cont_Separator"),
             "StandardCenter" => $lng->txt("cont_StandardCenter"),
@@ -302,7 +302,11 @@ class ilPCSectionGUI extends ilPageContentGUI
         if (!$a_insert) {
             $l = $this->content_obj->getLink();
             if ($l["LinkType"] == "IntLink") {
-                $ac->setValueByIntLinkAttributes($l["Type"], $l["Target"], $l["TargetFrame"]);
+                $target_frame = $l["TargetFrame"];
+                if (trim($target_frame) === "") {
+                    $target_frame = trim($l["Anchor"]);
+                }
+                $ac->setValueByIntLinkAttributes($l["Type"], $l["Target"], $target_frame);
                 $cb->setChecked(true);
             } elseif ($l["LinkType"] == "ExtLink") {
                 $ac->setValue($l["Href"]);
@@ -463,7 +467,13 @@ class ilPCSectionGUI extends ilPageContentGUI
             } elseif ($form->getInput("link_mode") == "int" && $form->getInput("link") != "") {
                 $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
                 if (($la["Type"] ?? "") != "") {
-                    $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
+                    $anchor = "";
+                    if (trim($la["TargetFrame"]) !== "" &&
+                        !in_array($la["TargetFrame"], ["Media", "FAQ", "Glossary", "New"])) {
+                        $anchor = trim($la["TargetFrame"]);
+                        $la["TargetFrame"] = "";
+                    }
+                    $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"], $anchor);
                 }
             } else {
                 $this->content_obj->setNoLink();

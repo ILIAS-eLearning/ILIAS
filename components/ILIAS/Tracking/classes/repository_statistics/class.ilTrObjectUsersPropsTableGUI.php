@@ -258,7 +258,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 case "street":
                 case "zipcode":
                 case "city":
-                case "country":
                 case "email":
                 case "matriculation":
                 case "login":
@@ -326,9 +325,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                     $this->filter["gender"] = $item->getValue();
                     break;
 
-                case "sel_country":
+                case "country":
                     $item = $this->addFilterItemByMetaType(
-                        "sel_country",
+                        "country",
                         ilTable2GUI::FILTER_SELECT,
                         true,
                         $meta["txt"]
@@ -343,7 +342,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                         array("" => $this->lng->txt("trac_all")) + $options
                     );
 
-                    $this->filter["sel_country"] = $item->getValue();
+                    $this->filter["country"] = $item->getValue();
                     break;
 
                 case "status":

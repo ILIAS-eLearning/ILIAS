@@ -78,22 +78,20 @@ class QuestionsTableActions
             || $this->is_in_test_with_results;
 
         return $row->withDisabledAction(
-            self::ACTION_DELETE,
-            $this->is_in_test_with_random_question_set && !$this->is_in_test_with_results
-        )->withDisabledAction(self::ACTION_COPY, $disable_default_actions)
-            ->withDisabledAction(self::ACTION_ADD_TO_POOL, $this->is_in_test_with_random_question_set)
-            ->withDisabledAction(self::ACTION_EDIT_QUESTION, $disable_default_actions)
-            ->withDisabledAction(self::ACTION_EDIT_PAGE, $disable_default_actions)
-            ->withDisabledAction(
-                self::ACTION_ADJUST,
-                $this->is_adjusting_questions_with_results_allowed && !$this->is_in_test_with_results
-            )->withDisabledAction(self::ACTION_FEEDBACK, $disable_default_actions)
-            ->withDisabledAction(self::ACTION_PRINT_ANSWERS, !$this->is_in_test_with_results)
-            ->withDisabledAction(
-                self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS,
-                $row->getCellContent('type_tag') !== $this->lng->txt(\assFileUpload::class)
-                || !$this->questionrepository->questionHasAnswers((int) $row->getId())
-            );
+            self::ACTION_ADD_TO_POOL,
+            $this->is_in_test_with_random_question_set
+        )->withDisabledAction(self::ACTION_EDIT_QUESTION, $disable_default_actions)
+        ->withDisabledAction(self::ACTION_EDIT_PAGE, $disable_default_actions)
+        ->withDisabledAction(
+            self::ACTION_ADJUST,
+            !$this->is_adjusting_questions_with_results_allowed || !$this->is_in_test_with_results
+        )->withDisabledAction(self::ACTION_FEEDBACK, $disable_default_actions)
+        ->withDisabledAction(self::ACTION_PRINT_ANSWERS, !$this->is_in_test_with_results)
+        ->withDisabledAction(
+            self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS,
+            $row->getCellContent('type_tag') !== $this->lng->txt(\assFileUpload::class)
+            || !$this->questionrepository->questionHasAnswers((int) $row->getId())
+        );
     }
 
     public function getOrderActionUrl(): URI
@@ -120,13 +118,17 @@ class QuestionsTableActions
             self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS => $ag('single', 'download_all_files', self::ACTION_DOWNLOAD_FILE_QUESTION_ANSWERS),
         ];
 
-        if (!$this->test_obj->isRandomTest()) {
+        if (!$this->is_in_test_with_random_question_set
+           && (!$this->is_in_test_with_results || $this->is_adjusting_questions_with_results_allowed)) {
             $actions[self::ACTION_DELETE] = $ag('standard', 'delete', self::ACTION_DELETE)
                 ->withAsync();
         }
 
+        if (!$this->is_in_test_with_random_question_set && !$this->is_in_test_with_results) {
+            $actions[self::ACTION_COPY] = $ag('standard', 'copy', self::ACTION_COPY);
+        }
+
         return $actions + [
-            self::ACTION_COPY => $ag('standard', 'copy', self::ACTION_COPY),
             self::ACTION_ADD_TO_POOL => $ag('standard', 'copy_and_link_to_questionpool', self::ACTION_ADD_TO_POOL),
             self::ACTION_PRINT_QUESTIONS => $ag('multi', 'print', self::ACTION_PRINT_QUESTIONS)
         ];
@@ -220,9 +222,17 @@ class QuestionsTableActions
             case self::ACTION_DELETE_CONFIRMED:
                 $row_ids = $this->request->getParsedBody()['interruptive_items'] ?? [];
                 if (array_filter($row_ids) === []) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_questions_selected'));
+
                     return true;
                 }
+
+                if ($this->is_in_test_with_random_question_set
+                    || $this->is_in_test_with_results
+                        && !$this->is_adjusting_questions_with_results_allowed) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('questionlist_cannot_be_altered'));
+                    return true;
+                }
+
                 $protect_by_write_protection();
                 if ($this->is_in_test_with_results) {
                     $this->test_obj->removeQuestionsWithResults($row_ids);
@@ -238,6 +248,12 @@ class QuestionsTableActions
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_questions_selected'));
                     return true;
                 }
+
+                if ($this->is_in_test_with_random_question_set || $this->is_in_test_with_results) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('questionlist_cannot_be_altered'));
+                    return true;
+                }
+
                 $protect_by_write_protection();
                 $this->test_obj->copyQuestions($row_ids);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('copy_questions_success'), true);

@@ -73,8 +73,9 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval,
                 $this->lng->txt('attachment'),
                 $this->getColumnDefinition(),
             )
-            ->withId(self::class . '_' . $this->mode->name)
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->mode->name)
             ->withOrder(new \ILIAS\Data\Order('filename', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 50))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }
@@ -118,7 +119,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval,
 
         if ($this->mode === AttachmentManagement::CONSUME) {
             $actions['saveAttachments'] = $this->ui_factory->table()->action()->multi(
-                $this->lng->txt('adopt'),
+                $this->lng->txt('mail_adopt_selected_attachements'),
                 $this->url_builder->withParameter(
                     $this->action_parameter_token,
                     self::TABLE_ACTION_SAVE_ATTACHMENTS

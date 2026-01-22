@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,25 +40,6 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
     }
 
     public static $instanceCounter = 0;
-
-    /**
-     * FOR COMPATIBILITY ONLY
-     *
-     * @param $stylingDisabled
-     */
-    public function setStylingDisabled($stylingDisabled): void
-    {
-    }
-
-    /**
-     * FOR COMPATIBILITY ONLY
-     *
-     * @return bool
-     */
-    public function getStylingDisabled(): bool
-    {
-        return false;
-    }
 
     /**
      * @param ilAssOrderingElementList $elementList

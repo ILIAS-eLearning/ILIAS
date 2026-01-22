@@ -89,19 +89,16 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
             ->withParent($this->getIdentificationFor(ilFooterStandardGroups::LEGAL_INFORMATION));
 
         // system support contacts
-
-        $system_support_url = \ilSystemSupportContactsGUI::getFooterLink();
-        $system_support_title = \ilSystemSupportContactsGUI::getFooterText();
-        $entries[] = $this->item_factory
-            ->link(
-                $this->id_factory->identifier('system_support'),
-                $system_support_title
-            )
-            ->withAvailableCallable(
-                fn() => !empty($system_support_url)
-            )
-            ->withAction($this->buildURI($system_support_url))
-            ->withParent($this->getIdentificationFor(ilFooterStandardGroups::SUPPORT));
+        if (($system_support_url = \ilSystemSupportContactsGUI::getFooterLink()) !== null) {
+            $system_support_title = \ilSystemSupportContactsGUI::getFooterText();
+            $entries[] = $this->item_factory
+                ->link(
+                    $this->id_factory->identifier('system_support'),
+                    $system_support_title
+                )
+                ->withAction($system_support_url)
+                ->withParent($this->getIdentificationFor(ilFooterStandardGroups::SUPPORT));
+        }
 
         // output translation link
         $translation_url = \ilObjLanguageAccess::_getTranslationLink();

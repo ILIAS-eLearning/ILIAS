@@ -280,7 +280,7 @@ class ilMailAttachmentGUI extends AbstractCtrlAwareUploadHandler implements
                 ->withBulky(true)
                 ->withUploadButton(
                     $this->ui_factory->button()->shy(
-                        $this->lng->txt('upload'),
+                        $this->lng->txt('select_files_from_computer'),
                         '#'
                     )
                 );

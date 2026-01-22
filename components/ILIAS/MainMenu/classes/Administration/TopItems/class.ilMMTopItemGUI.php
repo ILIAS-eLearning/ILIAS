@@ -35,6 +35,7 @@ class ilMMTopItemGUI extends ilMMBaseGUI
     public const CMD_RESTORE = 'restore';
     public const CMD_SELECT_PARENT = 'selectParent';
     public const CMD_MOVE = 'move';
+    public const string CMD_FLUSH = 'flush';
 
     private TokenContainer $top_token;
 
@@ -161,7 +162,7 @@ class ilMMTopItemGUI extends ilMMBaseGUI
             $this->toolbar->addComponent($restoration_modal);
 
             // REMOVE LOST ITEMS
-            if ($this->repository->hasLostItems()) {
+            if ($this->repository->hasLostItems() && method_exists($this, self::CMD_FLUSH)) {
                 $btn_flush = $this->ui->factory()->button()->standard(
                     $this->lng->txt(self::CMD_FLUSH),
                     $this->flow->getLinkTarget($this, self::CMD_FLUSH)
@@ -195,22 +196,22 @@ class ilMMTopItemGUI extends ilMMBaseGUI
     #[Command('write')]
     private function move(): void
     {
-        $item = $this->getCurrentItem();
-
         $data = $this->getMoveForm()
                      ->withRequest($this->pons->in()->request())
                      ->getData();
 
-        if (isset($data[0]) && $item->isInterchangeable()) {
-            $f = $this->repository->getItemFacadeForIdentificationString($data[0]);
-            $item->setParent($data[0]);
-            $this->repository->updateItem($item);
-            $this->pons->out()->success($this->lng->txt('msg_moved'), true);
-        } else {
-            $this->pons->out()->error($this->lng->txt('msg_not_moved'), true);
-        }
+        foreach ($this->getMutlipleItems() as $item) {
+            if (isset($data[0]) && $item->isInterchangeable()) {
+                $f = $this->repository->getItemFacadeForIdentificationString($data[0]);
+                $item->setParent($data[0]);
+                $this->repository->updateItem($item);
+                $this->pons->out()->success($this->lng->txt('msg_moved'), true);
+            } else {
+                $this->pons->out()->error($this->lng->txt('msg_not_moved'), true);
+            }
 
-        $this->pons->flow()->redirect(self::CMD_DEFAULT);
+            $this->pons->flow()->redirect(self::CMD_DEFAULT);
+        }
     }
 
     private function getMoveForm(): Standard

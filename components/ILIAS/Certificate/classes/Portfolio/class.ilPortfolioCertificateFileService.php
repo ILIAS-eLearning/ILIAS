@@ -28,18 +28,18 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilPortfolioCertificateFileService
 {
-    private readonly Filesystem $filesystem;
-    private const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
-    private const CERTIFICATE_FILENAME = 'certificate.pdf';
+    private const string PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
+    private const string CERTIFICATE_FILENAME = 'certificate.pdf';
 
-    public function __construct(?Filesystem $filesystem = null)
+    private readonly Filesystem $filesystem;
+    private readonly ilLogger $logger;
+
+    public function __construct(?Filesystem $filesystem = null, ?ilLogger $logger = null)
     {
         global $DIC;
 
-        if (null === $filesystem) {
-            $filesystem = $DIC->filesystem()->storage();
-        }
-        $this->filesystem = $filesystem;
+        $this->filesystem = $filesystem ?? $DIC->filesystem()->storage();
+        $this->logger = $logger ?? $DIC->logger()->cert();
     }
 
     /**
@@ -58,7 +58,7 @@ class ilPortfolioCertificateFileService
             $this->filesystem->createDir($dirPath);
         }
 
-        $pdfGenerator = new ilPdfGenerator($userCertificateRepository);
+        $pdfGenerator = (new ilPdfGenerator($userCertificateRepository))->withLogger($this->logger);
 
         $pdfScalar = $pdfGenerator->generate($userCertificate->getId());
 

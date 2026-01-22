@@ -21,19 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Content;
 use Closure;
 use ILIAS\GlobalScreen\Scope\VisibilityAvailabilityTrait;
-use ILIAS\GlobalScreen\Scope\isDecorateable;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-abstract class AbstractBaseItem implements isItem, isDecorateable
+abstract class AbstractBaseItem implements isItem
 {
-    use ComponentDecoratorTrait;
     use VisibilityAvailabilityTrait;
 
     protected int $position = 0;
@@ -44,7 +41,6 @@ abstract class AbstractBaseItem implements isItem, isDecorateable
 
     /**
      * AbstractBaseItem constructor.
-     * @param IdentificationInterface $provider_identification
      */
     public function __construct(protected IdentificationInterface $provider_identification)
     {

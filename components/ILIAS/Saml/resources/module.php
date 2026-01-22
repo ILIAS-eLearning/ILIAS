@@ -27,10 +27,9 @@ $cookie_path .= preg_match('@/$@', $cookie_path) ? '' : '/';
 define('IL_COOKIE_PATH', $cookie_path);
 
 require_once '../vendor/composer/vendor/autoload.php';
+ilContext::init(ilContext::CONTEXT_SAML);
+
 require_once __DIR__ . '/../artifacts/bootstrap_default.php';
 entry_point('ILIAS Legacy Initialisation Adapter');
-
-ilContext::init(ilContext::CONTEXT_SAML);
-ilInitialisation::initILIAS();
 
 \ILIAS\Saml\Module::run();

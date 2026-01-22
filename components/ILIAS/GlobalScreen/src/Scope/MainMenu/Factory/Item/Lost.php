@@ -35,6 +35,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -46,8 +48,10 @@ class Lost extends AbstractBaseItem implements
     isChild,
     hasTitle,
     hasAction,
-    hasSymbol
+    hasSymbol,
+    isDecorateable
 {
+    use ComponentDecoratorTrait;
     private array $children = [];
     private IdentificationInterface $parent;
     private string $title = '';

@@ -194,7 +194,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
                 break;
 
             case $this->ls_item_online_status::S_TEST:
-                $prop_for_type = 'ilObjTestSettingsMainGUI::showForm';
+                $prop_for_type = 'ILIAS\Test\Settings\MainSettings\SettingsMainGUI::showForm';
                 break;
 
             case $this->ls_item_online_status::S_IND_ASSESSMENT:

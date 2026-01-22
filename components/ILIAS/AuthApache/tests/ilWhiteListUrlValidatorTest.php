@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\AuthApache\WhiteListUrlValidator;
 
 final class ilWhiteListUrlValidatorTest extends TestCase
 {
@@ -63,6 +64,6 @@ final class ilWhiteListUrlValidatorTest extends TestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('domainProvider')]
     public function testValidator(string $domain, array $whitelist, bool $result): void
     {
-        $this->assertSame((new ilWhiteListUrlValidator($domain, $whitelist))->isValid(), $result);
+        $this->assertSame((new WhiteListUrlValidator($domain, $whitelist))->isValid(), $result);
     }
 }

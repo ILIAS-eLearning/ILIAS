@@ -72,6 +72,7 @@ class DocumentModalTest extends TestCase
         });
 
         $this->assertSame([$button_component], $instance->create($content));
-        $this->assertSame([$modal_component], $instance->components($content));
+        $this->assertSame([$modal_component], $instance->popComponents());
+        $this->assertSame([], $instance->popComponents());
     }
 }
