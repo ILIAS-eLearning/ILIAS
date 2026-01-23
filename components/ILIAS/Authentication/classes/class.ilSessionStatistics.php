@@ -182,8 +182,9 @@ class ilSessionStatistics
 
     /**
      * Read raw data for timespan
+     * @return Generator<list<array{start_time: int, end_time: ?int, end_context: ?int}>>
      */
-    protected static function getRawData(int $a_begin, int $a_end): array
+    protected static function getRawData(int $a_begin, int $a_end): Generator
     {
         global $DIC;
 
@@ -195,11 +196,9 @@ class ilSessionStatistics
             ' AND ' . $ilDB->in('type', ilSessionControl::$session_types_controlled, false, 'integer') .
             ' ORDER BY start_time';
         $res = $ilDB->query($sql);
-        $all = [];
         while ($row = $ilDB->fetchAssoc($res)) {
-            $all[] = $row;
+            yield $row;
         }
-        return $all;
     }
 
     /**
