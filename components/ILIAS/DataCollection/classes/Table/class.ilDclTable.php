@@ -333,6 +333,10 @@ class ilDclTable
         }
 
         $field->doDelete();
+        if ($this->getDefaultSortField() === $field->getId()) {
+            $this->setDefaultSortField('');
+            $this->doUpdate();
+        }
     }
 
     public function getField(string $field_id): ?ilDclBaseFieldModel
