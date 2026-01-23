@@ -22,6 +22,10 @@ class ilSessionStatistics
 {
     private const int SLOT_SIZE = 15;
 
+    protected static ?ilDBStatement $number_of_active_raw_sessions_statement = null;
+    protected static ?ilDBStatement $aggregated_raw_data_statement = null;
+    protected static ?ilDBStatement $raw_data_statement = null;
+
     /**
      * Is session statistics active at all?
      */
@@ -171,12 +175,8 @@ class ilSessionStatistics
 
         $ilDB = $DIC['ilDB'];
 
-        $sql = 'SELECT COUNT(*) counter FROM usr_session_stats_raw' .
-            ' WHERE (end_time IS NULL OR end_time >= ' . $ilDB->quote($a_time, 'integer') . ')' .
-            ' AND start_time <= ' . $ilDB->quote($a_time, 'integer') .
-            ' AND ' . $ilDB->in('type', ilSessionControl::$session_types_controlled, false, 'integer');
-        $res = $ilDB->query($sql);
-        $row = $ilDB->fetchAssoc($res);
+        $statement = self::getNumberOfActiveRawSessionsPreparedStatement();
+        $row = $DIC->database()->fetchAssoc($DIC->database()->execute($statement, [$a_time, $a_time]));
         return (int) $row['counter'];
     }
 
@@ -188,15 +188,11 @@ class ilSessionStatistics
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $sql = 'SELECT start_time,end_time,end_context FROM usr_session_stats_raw' .
-            ' WHERE start_time <= ' . $ilDB->quote($a_end, 'integer') .
-            ' AND (end_time IS NULL OR end_time >= ' . $ilDB->quote($a_begin, 'integer') . ')' .
-            ' AND ' . $ilDB->in('type', ilSessionControl::$session_types_controlled, false, 'integer') .
-            ' ORDER BY start_time';
-        $res = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($res)) {
+        $res = $DIC->database()->execute(
+            self::getRawDataPreparedStatement(),
+            [$a_end, $a_begin]
+        );
+        while ($row = $DIC->database()->fetchAssoc($res)) {
             yield $row;
         }
     }
@@ -255,15 +251,76 @@ class ilSessionStatistics
         self::deleteAggregatedRaw($a_now);
     }
 
-    /**
-     * Aggregate statistics data for one slot
-     *
-     */
-    public static function aggregateRawHelper(int $a_begin, int $a_end): void
+    protected static function getNumberOfActiveRawSessionsPreparedStatement(): ilDbStatement
+    {
+        if (self::$number_of_active_raw_sessions_statement === null) {
+            global $DIC;
+            self::$number_of_active_raw_sessions_statement = $DIC->database()->prepare(
+                'SELECT COUNT(*) counter FROM usr_session_stats_raw '
+                . 'WHERE (end_time IS NULL OR end_time >= ?) '
+                . 'AND start_time <= ? '
+                . 'AND ' . $DIC->database()->in('type', ilSessionControl::$session_types_controlled, false, 'integer'),
+                [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER]
+            );
+        }
+
+        return self::$number_of_active_raw_sessions_statement;
+    }
+
+    protected static function getAggregatedRawDataPreparedStatement(): ilDBStatement
+    {
+        if (!self::$aggregated_raw_data_statement) {
+            global $DIC;
+            self::$aggregated_raw_data_statement = $DIC->database()->prepareManip(
+                'UPDATE usr_session_stats '
+                . 'SET active_min = ?, '
+                . 'active_max = ?, '
+                . 'active_avg = ?, '
+                . 'active_end = ?, '
+                . 'opened = ?, '
+                . 'closed_manual = ?, '
+                . 'closed_expire = ?, '
+                . 'closed_login = ?, '
+                . 'closed_misc = ? '
+                . 'WHERE slot_begin = ? AND slot_end = ?',
+                [
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER,
+                    ilDBConstants::T_INTEGER
+                ]
+            );
+        }
+
+        return self::$aggregated_raw_data_statement;
+    }
+
+    protected static function getRawDataPreparedStatement(): ilDBStatement
+    {
+        if (!self::$raw_data_statement) {
+            global $DIC;
+            self::$raw_data_statement = $DIC->database()->prepare(
+                'SELECT start_time,end_time,end_context FROM usr_session_stats_raw' .
+                ' WHERE start_time <= %s' .
+                ' AND (end_time IS NULL OR end_time >= %s)' .
+                ' AND ' . $DIC->database()->in('type', ilSessionControl::$session_types_controlled, false, ilDBConstants::T_INTEGER) .
+                ' ORDER BY start_time',
+                [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER]
+            );
+        }
+        return self::$raw_data_statement;
+    }
+
+    public static function aggregateRawHelper(int $a_begin, int $a_end)
     {
         global $DIC;
-
-        $ilDB = $DIC['ilDB'];
 
         // "relevant" closing types
         $separate_closed = [
@@ -354,24 +411,21 @@ class ilSessionStatistics
         }
         unset($events);
 
-        // save aggregated data
-        $fields = [
-            'active_min' => ['integer', $active_min],
-            'active_max' => ['integer', $active_max],
-            'active_avg' => ['integer', $active_avg],
-            'active_end' => ['integer', $active_end],
-            'opened' => ['integer', $opened_counter],
-            'closed_manual' => ['integer', (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0)],
-            'closed_expire' => ['integer', (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0)],
-            'closed_login' => ['integer', (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0)],
-            'closed_misc' => ['integer', (int) ($closed_counter[0] ?? 0)],
-        ];
-        $ilDB->update(
-            'usr_session_stats',
-            $fields,
+
+        $DIC->database()->execute(
+            self::getAggregatedRawDataPreparedStatement(),
             [
-                'slot_begin' => ['integer', $a_begin],
-                'slot_end' => ['integer', $a_end]
+                'active_min' => $active_min,
+                'active_max' => $active_max,
+                'active_avg' => $active_avg,
+                'active_end' => $active_end,
+                'opened' => $opened_counter,
+                'closed_manual' => (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0),
+                'closed_expire' => (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0),
+                'closed_login' => (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0),
+                'closed_misc' => (int) ($closed_counter[0] ?? 0),
+                'slot_begin' => $a_begin,
+                'slot_end' => $a_end,
             ]
         );
     }
