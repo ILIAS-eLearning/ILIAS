@@ -20,7 +20,7 @@
 * @module language file Hungarian
 * @modulegroup language
 * @author Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version 10.x 2025-08-27
+* @version 10.x 2026-01-23
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -653,7 +653,7 @@ assessment#:#errFormulaQuestion#:#A képlet-kérdés hibás információt tartal
 assessment#:#errRecursionInResult#:#A képlet végtelen rekurziót tartalmaz.
 assessment#:#err_category_in_use#:#Legalább egy kategória nem törölhető. A kategória egy vagy több mértékegysége még használatban van.
 assessment#:#err_divider_too_big#:#Ebben a kérdésben az egyik változó oszója túl nagy.
-assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
+assessment#:#err_divider_too_big_specific#:#Ennek a változónak oszója túl nagy.
 assessment#:#err_division#:#Ennek az értéknek a maximumnál kisebbnek kell lennie.
 assessment#:#err_duplicate_results#:#Többször használtál egy végeredményt. Ez tesztkérdésben nem megengedett
 assessment#:#err_no_formula#:#Képletet írjon
@@ -1150,7 +1150,7 @@ assessment#:#question_summary#:#Teszkitöltések áttekintése
 assessment#:#question_summary_btn#:#Teszkitöltések áttekintése
 assessment#:#question_title#:#Kérdéscím
 assessment#:#question_type#:#Kérdéstípus
-assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
+assessment#:#questionlist_cannot_be_altered#:#A kérdéslista nem módosítható, mert már vannak kitöltések.
 assessment#:#questionpool_not_entered#:#Adjon nevet a kérdésgyűjteménynek.
 assessment#:#questionpool_not_selected#:#Kérem, válasszon ki egy kérdésgyűjteményt.
 assessment#:#questions#:#Kérdések
@@ -1179,11 +1179,11 @@ assessment#:#redirectAfterSave#:#Elérte a maximális munkaidőt, az Ön utolsó
 assessment#:#redirect_after_finishing_rule#:#Átirányítás
 assessment#:#redirect_after_finishing_tst#:#Átirányítás
 assessment#:#redirect_after_finishing_tst_desc#:#A teszt befejezése után az összes kitöltő automatikus átirányítása a megadott oldalra, amennyiben nincs hozzáférése a teszteredményéhez. Külső weboldal megadásakor használjon teljes URL-t (beleértve a 'https://'-t is). ILIAS-objektumra irányításhoz használja annak láblécében levő állandó linket.
-assessment#:#redirect_always#:#mindig a megadott URL-re
-assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
-assessment#:#redirect_in_kiosk_mode#:#csak akkor, ha a 'Vizsganézet' be van kapcsolva
-assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
-assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
+assessment#:#redirect_always#:#Mindig a megadott URL-re
+assessment#:#redirect_always_to_logout#:#Mindig a kijelentkezési képpernyőre
+assessment#:#redirect_in_kiosk_mode#:#Amikor a 'Vizsganézet' be van kapcsolva, a meghatározott weboldalra
+assessment#:#redirect_url_invalid#:#A cél weboldal valós URL-jét írja ide.
+assessment#:#redirect_url_required_for_rule#:#Amikor "%s" van kiválasztva, a weboldal URL-je kötelező.
 assessment#:#redirection_url#:#URL
 assessment#:#region#:#Régió
 assessment#:#remaining_duration#:#Fennmaradó idő
@@ -1235,7 +1235,7 @@ assessment#:#search_groups#:#Talált csoportok
 assessment#:#search_roles#:#Talált szerepkörök
 assessment#:#search_term#:#Fogalom keresése
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Kérjük, válasszon legalább egy visszajelzéstípust és egy triggert.
-assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
+assessment#:#select_at_least_one_lock_answer_type#:#Legalább egy válaszzárolási típust válasszon.
 assessment#:#select_gap#:#Szöveghely választása
 assessment#:#select_max_one_item#:#Csak egy elemet válasszon!
 assessment#:#select_one_user#:#Válasszon legalább egy felhasználót!
@@ -1367,7 +1367,7 @@ assessment#:#tst_anonymity_no_anonymization#:#Eredmények nevekkel
 assessment#:#tst_answer_aggr_answer_header#:#Válasz
 assessment#:#tst_answer_aggr_frequency_header#:#Gyakoriság
 assessment#:#tst_answer_details#:#Válasz részletei
-assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
+assessment#:#tst_answer_fixation#:#Válaszok zárolása
 assessment#:#tst_answer_fixation_handling#:#Válaszok véglegesítése
 assessment#:#tst_answer_fixation_none#:#A válaszokat nem véglegesítjük a tesztkitöltés alatt
 assessment#:#tst_answer_fixation_none_desc#:#A kitöltők a válaszaikat a teszt befejezésig bármikor módosíthatják.
@@ -1917,7 +1917,7 @@ assessment#:#tst_setting_offer_hints_info#:#A kitöltők a kérdés megválaszol
 assessment#:#tst_setting_offer_hints_label#:#Segítség
 assessment#:#tst_settings_conflict_postpone_and_lock#:#A 'Meg nem válaszolt kérdések sorba állítása' nem használható együtt a 'Válaszok véglegesítése a következő kérdés megjelenésekor' lehetőséggel.
 assessment#:#tst_settings_conflict_shuffle_and_lock#:#A 'Kérdések keverése' nem használható együtt a 'Válaszok véglegesítése a következő kérdés megjelenésekor' lehetőséggel.
-assessment#:#tst_settings_form_reload_needed#:#The form needed to be reloaded to avoid data loss as the available settings have changed due to the removal of all results of participants.###23 09 2025 new variable
+assessment#:#tst_settings_form_reload_needed#:#Az adatvesztés elkerülése érdekében újra kellett tölteni az űrlapot, mivel az elérhető beállítások megváltoztak a résztvevők összes eredményének eltávolítása miatt.
 assessment#:#tst_settings_header_additional#:#További jellemzők
 assessment#:#tst_settings_header_execution#:#Teszt kezelése: hozzáférés
 assessment#:#tst_settings_header_intro#:#A teszt megkezdése előtti információ
@@ -2099,7 +2099,7 @@ auth#:#auth_cas_ldap_info#:#A felhasználói fiókok és azok szerepkörökhöz 
 auth#:#auth_cron_destroy_expired_sessions#:#Lejárt munkamenetek törlése
 auth#:#auth_cron_destroy_expired_sessions_desc#:#Ez az ütemezett feladat törli a lejárt munkameneteket.
 auth#:#auth_err_expired#:#Munkamenete inaktivitás miatt lejárt.
-auth#:#auth_err_invalid_user_account#:#Hitelesítés belső hiba miatt sikertelen.
+auth#:#auth_err_invalid_user_account#:#Sikertelen bejelentkezés. Kérjük, ellenőrizze, hogy helyesen adta-e meg felhasználónevét és jelszavát. Ha a probléma továbbra is fennáll, fiókja inaktív lehet, vagy lejárt. Ebben az esetben kérjük, vegye fel a kapcsolatot az ILIAS platform technikai támogatásával a képernyő alján található linken keresztül.
 auth#:#auth_err_ldap_exception#:#Hitelesítés belső (LDAP) hitelesítési hiba miatt sikertelen.
 auth#:#auth_info_add#:#Válassza ezt a lehetőséget, ha még nem regisztrált az ILIAS-ba. Új ILIAS-fiók jön létre.
 auth#:#auth_info_migrate#:#Ha van már ILIAS-fiókja, adja meg felhasználónevét és jelszavát személyes adatai migrálásához (levelek, teszteredmények, …).
@@ -2296,7 +2296,7 @@ badge#:#badge_notification_badges_goto#:#Érdemérmeimhez
 badge#:#badge_notification_body#:#ezúton értesítjük, hogy új érdemérmet kapott.
 badge#:#badge_notification_osd#:#Új érdemérmet kapott: [BADGE_LIST]
 badge#:#badge_notification_parent_goto#:#Tartalomtárhoz
-badge#:#badge_notification_reason#:#Ezt az üzenetet azért kapta, mert érdemérmet adhat profiljához.
+badge#:#badge_notification_reason#:#Profilodhoz új vagy meglévő érdemérmeket a 'Teljesítmények' / 'Érdemérmek' menüpontban (lásd a fenti link) adhatsz.
 badge#:#badge_notification_subject#:#Érdemérmet kapott
 badge#:#badge_object_badges#:#Érdemérem-objektumok
 badge#:#badge_personal_badges#:#Érdemérmeim
@@ -2308,14 +2308,14 @@ badge#:#badge_select_one#:#Legalább egy érdemérmet ki kell választania
 badge#:#badge_service_activate#:#Szolgáltatás bekapcsolása
 badge#:#badge_service_activate_info#:#A szolgáltatás bekapcsolása érdemérmek elérhetővé tételéhez
 badge#:#badge_settings#:#Érdemérem beállításai
-badge#:#badge_sort_active_badges_first#:#Active Badges First###
-badge#:#badge_sort_active_badges_last#:#Active Badges Last
-badge#:#badge_sort_activity_badges_first#:#Activity Badges First
-badge#:#badge_sort_activity_badges_last#:#Activity Badges Last
-badge#:#badge_sort_added_to_profile_last#:#Added To Profile First
-badge#:#badge_sort_excluded_from_profile_first#:#Excluded From Profile First
-badge#:#badge_sort_manual_awarding_first#:#Badges mit manueller Vergabe zuerst
-badge#:#badge_sort_manual_awarding_last#:#Badges mit manueller Vergabe zuletzt
+badge#:#badge_sort_active_badges_first#:#Aktív érdemérmék előre
+badge#:#badge_sort_active_badges_last#:#Aktív érdemérmék hátra
+badge#:#badge_sort_activity_badges_first#:#Aktivitás érdemérmék előre
+badge#:#badge_sort_activity_badges_last#:#Aktivitás érdemérmék hátra
+badge#:#badge_sort_added_to_profile_last#:#A profilhoz hozzárendeltek előre
+badge#:#badge_sort_excluded_from_profile_first#:#A profilból kizátrak előre
+badge#:#badge_sort_manual_awarding_first#:#Manuális hozzárendelésű érdemérmék előre
+badge#:#badge_sort_manual_awarding_last#:#Manuális hozzárendelésű érdemérmék hátra
 badge#:#badge_subtype_auto#:#Automatikus
 badge#:#badge_subtype_manual#:#Manuális
 badge#:#badge_template_deletion_confirmation#:#Biztos, hogy törli a következő képsablont?
@@ -2575,7 +2575,7 @@ blog#:#blog_whole_blog#:#Teljes blog
 book#:#X_reservations_of#:#%s foglalás /
 book#:#book_add#:#Foglalásgyűjtemény létrehozása
 book#:#book_add_object#:#Objektum létrehozása
-book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
+book#:#book_add_participant#:#Résztvevő hozzáadása
 book#:#book_add_schedule#:#Időterv létrehozása
 book#:#book_additional_info_file#:#További leírás
 book#:#book_all#:#Összes megjelenítése
@@ -2638,7 +2638,7 @@ book#:#book_new#:#Új foglalásgyűjtemény
 book#:#book_no_bookings_for_you#:#Nem foglaltunk le semmi az Ön számára.
 book#:#book_no_objects#:#Nincs hozzárendelés
 book#:#book_no_of_objects#:#Objektumok száma
-book#:#book_no_pools_selected#:#No booking pools have been assigned to this course. Booking pools can be assigned via the course's 'Resources' tab.###23 09 2025 new variable
+book#:#book_no_pools_selected#:#Ehhez a kurzushoz nincsenek hozzárendelve foglalási csoportok. A foglalási csoportokat a kurzus 'Erőforrások' lapján tud hozzárendelni.
 book#:#book_no_preferences_for_you#:#Egy előzetes választását sem tároltunk el.
 book#:#book_no_recurrence#:#Foglalás csak erre a dátumra
 book#:#book_not#:#Nem
@@ -2656,7 +2656,7 @@ book#:#book_object_selection#:#Objektumválasztás
 book#:#book_object_updated#:#A foglalható objektumot sikeresen frissítette.
 book#:#book_objects_available#:#%s elérhető objektum
 book#:#book_open#:#Foglalásgyűjtemény megnyitása
-book#:#book_overall_limit#:#Foglalások maximális száma
+book#:#book_overall_limit#:#Felhasználonkénti összes foglalás maximális száma
 book#:#book_overall_limit_warning#:#Foglalásai elérték a maximális megengedett számot.
 book#:#book_participant#:#Foglalás résztvevőknek
 book#:#book_participant_already_assigned#:#Egy vagy több résztvevőt már korábban hozzárendeltek.
@@ -2710,7 +2710,7 @@ book#:#book_schedule_type_fixed#:#Ismétlődő, rögzített időterv
 book#:#book_schedule_type_fixed_info#:#Termek, kivetítők, stb. foglalásánál használható.
 book#:#book_schedule_type_none#:#Nincs időterv
 book#:#book_schedule_type_none_direct#:#Nincs ismétlődés, közvetlen a foglalás
-book#:#book_schedule_type_none_direct_info#:#Előadástéma, feladatkiosztás, stb. választásához használható. A résztvevők közvetlenül foglalhatnak elemeket.
+book#:#book_schedule_type_none_direct_info#:#Előadástéma, feladatkiosztás, stb. választásához használható. A résztvevők közvetlenül foglalhatnak elemeket. Minden elemet résztvevőnként csak egyszer lehet lefoglalni.
 book#:#book_schedule_type_none_info#:#Szemináriumi dolgozatokhoz, beszámolókhoz és hasonlókhoz használható
 book#:#book_schedule_type_none_preference#:#Nincs ismétlődés, az előzetes választásokat használjuk
 book#:#book_schedule_type_none_preference_info#:#Előadástéma, feladatkiosztás, stb. választásához használható. A résztvevők előzetesen választhatnak, majd a tényleges foglalások az előzetes választások határideje után történik meg.
@@ -2724,7 +2724,7 @@ book#:#book_show_message#:#Üzenet megjelenítése
 book#:#book_title_description_nr#:#Cím; Leírás; Objektumok száma
 book#:#book_title_description_nr_info#:#Adja meg a címet, a leírást és az objektumok számát pontosvesszővel vagy TAB karakterrel elválasztva (ha táblázatkezelőből importálja). Minden objektum új sorba kerüljön.
 book#:#book_too_many_preferences#:#Az előzetes választása túl sok, azokat nem mentettük.
-book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
+book#:#book_total_individual_bookings_limit#:#Az egyes résztvevők által/az egyes résztvevők számára az összes foglalás számának korlátozása. Mindegyik elem továbbra is csak egyszer foglalható résztvevőnként.
 book#:#book_type_warning#:#Jelenleg nem érhető el foglalható objektum. A foglalásgyűjtemény használatához foglalható objektumot is létre kell hoznia.
 book#:#book_week#:#hét
 book#:#book_your_bookings#:#Foglalásaim
@@ -2887,7 +2887,7 @@ certificate#:#certificate_short_name_description#:#Adja meg a tanúsítvány rö
 certificate#:#certificate_text#:#Tanúsítványszöveg
 certificate#:#certificate_text_info#:#Kérem, adja meg a tanúsítvány szövegét. Amennyiben a WYSIWYG szerkesztő ki van kapcsolva a Rendszerbeállításokban, használjon érvényes XHTML formátumú szöveget.
 certificate#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], például 10 mm vagy 3 in!
-certificate#:#certificate_usage#:#A tanúsítványkezelés csak akkor érhető el, ha fut az ILIAS Java-szerver. A Java-szerver konfigurálása a Rendszerbeállítások » Általános beállítások » Szerver menü Java-szerver almenüjében érhető el.
+certificate#:#certificate_usage#:#Felhívjuk figyelmét, hogy tanúsítványok használata és létrehozása csak akkor lehetséges, ha az ILIAS Java szervert használja. A Java szerver konfigurálása a hálózati gazdagép és port megadásával történik az ILIAS telepítőjében, és többek között a PDF fájlok létrehozásához szükséges.
 certificate#:#certificate_var_max_points#:#46
 certificate#:#certificate_var_result_mark_long#:#Jó
 certificate#:#certificate_var_result_mark_short#:#Jó
@@ -3078,8 +3078,8 @@ chatroom#:#preferred_chatname#:#Preferált név
 chatroom#:#public_chat_created#:#A nyilvános csevegést sikeresen létrehozta a Tartalomtárban.
 chatroom#:#scope#:#Szoba
 chatroom#:#select_custom_username#:#Egyéni felhasználónév kiválasztása
-chatroom#:#server_further_information#:#További információkat a szerver-konfigurációról a <a href="%1$s" target="_blank">readme file</a>-ban talál.
-chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
+chatroom#:#server_further_information#:#További információkat a szerver-konfigurációról a Readme fájlban talál.
+chatroom#:#server_readme_file_btn_label#:#Readme fájl
 chatroom#:#session#:#Munkamenet
 chatroom#:#settings_general#:#Általános
 chatroom#:#settings_title#:#Beállítások
@@ -3666,8 +3666,8 @@ common#:#back_to_grp_content#:#Vissza a csoporttartalomhoz
 common#:#backto_lua#:#Vissza a helyi ILIAS-fiókok kezeléséhez
 common#:#basedn#:#BaseDN <br />Például <i>ou=userek, dc=pelda, dc=hu</i>
 common#:#basic_settings#:#Alapbeállítások
-common#:#before#:#előtte
-common#:#behind#:#Mögötte:
+common#:#before#:#Előtte
+common#:#behind#:#Mögötte
 common#:#benchmark#:#Teljesítménymérés
 common#:#benchmarks#:#Teljesítménymérések
 common#:#bib_data#:#Bibliográfiai adatok
@@ -5581,7 +5581,7 @@ common#:#search_active#:#Beleértve az aktív felhasználókat
 common#:#search_at_current_position#:#A jelenlegi helyen
 common#:#search_engine#:#Keresőbarát URL-ek
 common#:#search_for#:#Keresendő
-common#:#search_globally#:#Globálisan
+common#:#search_globally#:#Összes tartalom
 common#:#search_in#:#Keresés helye
 common#:#search_inactive#:#Beleértve az inaktív felhasználókat
 common#:#search_new#:#Új keresés
@@ -5599,8 +5599,8 @@ common#:#sel_country#:#Ország
 common#:#select#:#Kiválasztás
 common#:#select_all#:#Összes kijelölése
 common#:#select_at_least_one_object#:#Legalább egy objektumot jelöljön ki!
-common#:#select_file#:#Fájl kijelölése
-common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
+common#:#select_file#:#Fájl kiválasztása
+common#:#select_file_from_computer#:#Válassza ki a fájlt a számítógépéről
 common#:#select_files_from_computer#:#Válassza ki a fájlokat a számítógépéről
 common#:#select_max_one_item#:#Kérem, csak egy elemet válasszon ki
 common#:#select_object_to_link#:#Kérem, válassza ki a linkelni kívánt objektumot.
@@ -5764,8 +5764,8 @@ common#:#svy#:#Kérdőív
 common#:#svy_add#:#Kérdőív létrehozása
 common#:#svy_finished#:#Befejezte a kérdőív kitöltését.
 common#:#svy_new#:#Új kérdőív
-common#:#svy_not_finished#:#Még nem fejezte be a kérdőív kitöltését.
-common#:#svy_not_started#:#Nem vett részt ennek a kérdőívnek a kitöltésében.
+common#:#svy_not_finished#:#Elkedzte, de még nem fejezte be a kérdőív kitöltését.
+common#:#svy_not_started#:#Még nem vett részt ennek a kérdőívnek a kitöltésében.
 common#:#svy_run#:#Indítás
 common#:#svy_warning_survey_not_complete#:#A kérdőívet még nem fejezte be.
 common#:#switch_language#:#Nyelv módosítása
@@ -5897,7 +5897,7 @@ common#:#upload_settings#:#Fájlok feltöltési beállításai
 common#:#upload_svg_rejection_message#:#Az SVG-fájl vélhetően rosszindulatú kódot tartalmaz, ezért nem dolgoztuk fel.
 common#:#upload_svg_rejection_message_base64#:#A fájl base64 kódolású részeket tartalmaz.
 common#:#upload_svg_rejection_message_elements#:#A fájl nem engedélyezettek vagy ismeretlen elemeket, attribútumokat tartalmaz.
-common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#A fájl idegen objektumkat tartalmaz.
 common#:#upload_svg_rejection_message_script#:#A fájl script-elemeket tartalmaz.
 common#:#uploaded_and_checked#:#A fájlt feltöltötte és sikeresen ellenőriztük. Elkezdheti importálását.
 common#:#uploading#:#Feltöltés…
@@ -6118,7 +6118,7 @@ cont#:#cont_news_timeline_landing_page#:#Kezdőoldal
 cont#:#cont_news_timeline_landing_page_info#:#Az Idővonal lap lesz a kezdőoldal.
 cont#:#cont_news_timeline_tab#:#Idővonal
 cont#:#cont_no_title#:#Üres cím
-cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Csak kurzusok, csoportok, mappák vagy fájlok tölthetők le.
 cont#:#cont_page_type_cont#:#Tartalomtár oldal (kurzusok, csoportok, …)
 cont#:#cont_page_type_cstr#:#Kurzus kezdő oldala (tanulási cél nézet)
 cont#:#cont_path#:#Útvonal
@@ -6309,8 +6309,8 @@ content#:#cont_chapters_after_pages#:#Ne felejtse el, hogy a lapoknak ugyanazon 
 content#:#cont_chapters_and_pages#:#Fejezetek és lapok
 content#:#cont_chapters_only#:#Csak fejezetek
 content#:#cont_char_format#:#Karakter
-content#:#cont_char_link#:#Link###20 01 2026 new variable
-content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
+content#:#cont_char_link#:#Link
+content#:#cont_char_media#:#Média (Standard)
 content#:#cont_char_style_acc#:#Kiemelt
 content#:#cont_char_style_code#:#Kód
 content#:#cont_char_style_com#:#Megjegyzés
@@ -6516,7 +6516,7 @@ content#:#cont_edit_marker_position#:#Jelölő helyének módosítása
 content#:#cont_edit_mob#:#Médiaobjektum módosítása
 content#:#cont_edit_mob_alias_prop#:#Médiaobjektum-példány tulajdonságainak módosítása
 content#:#cont_edit_mode#:#Szerkesztőmód
-content#:#cont_edit_multi#:#Kijelölés
+content#:#cont_edit_multi#:#Kiválasztása
 content#:#cont_edit_overlay_position#:#Fedés helyének módosítása
 content#:#cont_edit_par#:#Szöveg módosítása
 content#:#cont_edit_personal_data#:#Személyes adatok módosítása
@@ -6778,7 +6778,7 @@ content#:#cont_lrs_settings#:#Beállítások
 content#:#cont_lvalue#:#Adatelem
 content#:#cont_maintenance#:#Karbantartás
 content#:#cont_manifest#:#Manifest
-content#:#cont_manual_item_group#:#Elemcsoport kézi létrehozása
+content#:#cont_manual_item_group#:#Manuálisan létrehozott elemcsoport
 content#:#cont_map_file_not_generated#:#Sajnos nem lehet térképfájlt generálni a szerkesztéshez.
 content#:#cont_marker#:#Jelölő
 content#:#cont_master_language_only#:#Fordításhoz főnyelv
@@ -7422,7 +7422,7 @@ copg#:#copg_page_type_stys#:#Lapelrendezés
 copg#:#copg_pages#:#Lapok
 copg#:#copg_par_format_selection#:#Bekezdésformátumok
 copg#:#copg_pc_mob_does_not_exist#:#Ez a médiaelem nem létezik.
-copg#:#copg_plugin#:#Plugin###23 09 2025 new variable
+copg#:#copg_plugin#:#Bővítmény
 copg#:#copg_plugin_not_avail#:#'%s' bővítmény nem érhető el
 copg#:#copg_questions_not_supported_here#:#Ebben a kontextusban a kérdéseket nem támogatjuk.
 copg#:#copg_reload_page#:#Oldal újratöltése
@@ -8656,7 +8656,7 @@ dcl#:#dcl_detailed_view#:#Részletes nézet
 dcl#:#dcl_display_action_menu#:#Másolás
 dcl#:#dcl_display_action_menu_desc#:#Az objektummásolható a bejegyzésből
 dcl#:#dcl_display_record_alt#:#Bejegyzés megjelenítése
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#Ez a meglévő bejegyzésekre is vonatkozhat.
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#A mezőben található néhány bejegyzés ​​ismétlődik. Ahhoz, hogy a mező 'Egyedi' tulajdonságú legyen, a meglévő bejegyzéseknek is egyedieknek kell lenniük (azaz nem lehetnek azonosak). Kérjük, lépjen a 'Tartalom' lapra, és szerkessze a mezőben található bejegyzéseket úgy, hogy minden bejegyzés különböző legyen.
 dcl#:#dcl_edit#:#Adatgyűjtés beállításai
 dcl#:#dcl_edit_entry_rules#:#Bejegyzés módosítása
 dcl#:#dcl_edit_field#:#Mező módosítása
@@ -8712,7 +8712,7 @@ dcl#:#dcl_learning_progress#:#Linkelt tananyag tanulási haladásának megjelen�
 dcl#:#dcl_learning_progress_desc#:#A megtekintett linkelt tananyag tanulási haladását jeleníti meg
 dcl#:#dcl_legend_placeholders#:#Dzsókerelem
 dcl#:#dcl_length#:#Hosszúság
-dcl#:#dcl_length_info#:#A maximálisan beírható karakterek száma (maximum 4000). Több, mint 200 karakter esetén használjon szövegterületet.
+dcl#:#dcl_length_info#:#A felhasználó által beírható karakterek maximális száma. 200 felett a bevitel többsorosként jelenik meg.
 dcl#:#dcl_limit_end#:#Záró időpont
 dcl#:#dcl_limit_start#:#Kezdő időpont
 dcl#:#dcl_limited#:#Korlátozott létrehozási/szerkesztési/törlési időszak
@@ -8726,7 +8726,7 @@ dcl#:#dcl_locked_tooltip#:#Ha bekapcsolja, a felhasználók ezt a mezőt nem sze
 dcl#:#dcl_manage#:#Kezelése
 dcl#:#dcl_max_digits#:#Számjegyek maximális hossza
 dcl#:#dcl_max_import#:#Elértük a maximálisan importálható rekordok számát.
-dcl#:#dcl_max_text_length#:#Maximális hossz
+dcl#:#dcl_max_text_length#:#Maximális hossz: %s
 dcl#:#dcl_mob#:#Médiaobjektum
 dcl#:#dcl_mob_desc#:#Kép-, hang-, illetve videófájl feltöltési lehetőség. A fájl az adatgyűjtésben jelenik meg. Engedélyezett fájltípusok: %s
 dcl#:#dcl_msg_field_modified#:#Mezőt sikeresen módosította
@@ -8754,7 +8754,7 @@ dcl#:#dcl_no_fields_yet#:#Ez az adatkészlet még nem tartalmaz mezőket. A meta
 dcl#:#dcl_no_read_access_on_any_standard_view#:#A táblázat alapértelmezett nézetéhez nincs olvasási hozzáférése.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen tananyagot sem sikerült találni ez alapján:
 dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
-dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
+dcl#:#dcl_no_table_found#:#Egy látható tábla se található!
 dcl#:#dcl_no_tableview_found#:#Egy látható táblanézet se található!
 dcl#:#dcl_not_checked#:#Nem kipipált
 dcl#:#dcl_not_supported_in_import#:#Ez a mezőtípus nem támogatott az importban.
@@ -8856,7 +8856,7 @@ dcl#:#dcl_text_email_title#:#Cím
 dcl#:#dcl_text_email_title_info#:#Az alábbi URL-hez vagy e-mail címhez címke (nem kötelező).
 dcl#:#dcl_text_selection#:#Szövegválasztó
 dcl#:#dcl_text_selection_desc#:#Szöveglehetőségek választásának felkínálása.
-dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
+dcl#:#dcl_title_standard#:#Standard
 dcl#:#dcl_unique#:#Egyedi
 dcl#:#dcl_unique_desc#:#Ebben a mezőben minden értéknek különböznie kell egymástól.
 dcl#:#dcl_unique_exception#:#Az Ön által megadott értéket már másik bejegyzés tartalmazza.
@@ -8887,8 +8887,8 @@ dcl#:#entry_of#:#%1$d / %2$d bejegyzés
 dcl#:#fieldtitle_allow_chars#:#Nem engedélyezett karakterek: %s
 dcl#:#fileupload_not_migrated#:#Ezt fájlt még nem migrálták, ezért nem jeleníthető meg. Kérem, keresse a rendszerüzemeltetőt.
 dcl#:#set_as_default#:#Beállításnak alapértelmezettnek
-dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
-dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
+dcl#:#table_not_found#:#A tábla nem található!
+dcl#:#tableview_not_found#:#A táblanézet nem található!
 didactic#:#activate_exclusive_template#:#Alapértelmezetten őszülő
 didactic#:#activate_exclusive_template_info#:#A standard sablon nem lesz elérhető ahol ez a sablon aktív.
 didactic#:#activate_local_didactic_template#:#Alkalmazás hatásköre
@@ -9234,10 +9234,10 @@ etal#:#etal_date_series_edit#:#Megbeszéléssorozat dátuma
 etal#:#etal_delete_confirmation_msg#:#Biztos, hogy törli az alábbi megbeszélést?
 etal#:#etal_edit#:#Általános
 etal#:#etal_invalid_user#:#A felhasználó nem létezik vagy nem hívható meg.
-etal#:#etal_location#:#Location###04 11 2025 new variable
+etal#:#etal_location#:#Helyszín
 etal#:#etal_new#:#Új Talk
 etal#:#etal_open#:#Munkavállalói megbeszélés megnyitása
-etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
+etal#:#etal_recurrence#:#Ismétlődés
 etal#:#etal_status_all#:#Összes
 etal#:#etal_status_completed#:#Befejezve
 etal#:#etal_status_pending#:#Függőben
@@ -9485,7 +9485,7 @@ exc#:#exc_passed_status_determination#:#'Sikeresen teljesítette' állapot megha
 exc#:#exc_passing_exc#:#Beadandó feladat teljesítése
 exc#:#exc_past#:#Elmúlt
 exc#:#exc_peer_deadline_mismatch#:#Hogy visszajelzést lehessen küldeni, a visszajelzés határideje nem lehet korábbi, mint a feladata beadási határideje.
-exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
+exc#:#exc_peer_feedback_status#:#Visszajelzés állapota
 exc#:#exc_peer_review#:#Tanulói visszajelzés
 exc#:#exc_peer_review_ass_setting_info#:#Felhasználók értékelhetik a társaik megoldását a határidő után és amennyiben létezik türelmi idő, annak lejárta után. A visszajelzés néhány tulajdonságát az adott lapon lehet beállítani. Ezen opció aktiválása és mentése után megjelenik a 'Visszajelzés' lap.
 exc#:#exc_peer_review_chars_invalid#:#Visszajelzésének hossza nem éri a szükséges %s karaktert.
@@ -9780,9 +9780,9 @@ exp#:#exp_html#:#HTML
 exp#:#exp_import_validation_err_no_matching_xsd#:#%s verzióhoz nincs érvényes sémafájl.
 exp#:#exp_not_public_access_status#:#Nem publikált
 exp#:#exp_print_pdf#:#Nyomtatás/PDF
-exp#:#exp_print_pdf_info#:#PDF létrehozásához használja a 'Nyomtatás PDF-be' lehetőséget a nyomtatási kép megjelenése után.
+exp#:#exp_print_pdf_info#:#PDF létrehozásához válassza a 'Nyomtatás PDF-be' lehetőséget a 'Nyomtatási nézet' megjelenése után.
 exp#:#exp_public_access_status#:#Elérhető az 'Információ' lapon
-exp#:#exp_really_delete#:#Biztos, hogy törli ezeket az exportfájlokat?
+exp#:#exp_really_delete#:#Biztos, hogy törli a következő az exportfájlokat?
 exp#:#exp_show_print_view#:#Nyomtatási nézet megjelenítése
 exp#:#exp_xml#:#XML
 exp#:#export_created#:#Új exportfájl jött létre.
@@ -9790,7 +9790,7 @@ exp#:#export_files_deleted#:#A kijelölt exportfájlokat sikeresen törölte.
 exp#:#export_options#:#Exportálás beállításai
 exp#:#export_type#:#Exportálás típusa
 export#:#exp_file#:#Fáj neve
-export#:#exp_public_access#:#Nyilvános elérés
+export#:#exp_public_access#:#Elérhető az 'Információó' lapon
 export#:#exp_size#:#Fájl mérete (MB)
 export#:#exp_timestamp#:#Létrehozás dátuma
 export#:#exp_toggle_public_access#:#Nyilvános elérés módosítása
@@ -9968,7 +9968,7 @@ form#:#form_msg_max_upload#:#Egyidőben feltölthető fájlok maximális száma:
 form#:#form_msg_numeric_value_required#:#Számértéket adjon meg!
 form#:#form_msg_value_too_high#:#Az érték túl magas. Adjon meg alacsonyabb értéket!
 form#:#form_msg_value_too_low#:#Az érték túl alacsony. Adjon meg magasabb értéket!
-form#:#form_msg_wrong_date#:#Hibás dátum. Érvényes dátumot adjon meg.
+form#:#form_msg_wrong_date#:#Kérjük, ellenőrizze a dátumokat. Mind a kezdő, mind a záró dátum megadása kötelező, és a kezdő dátum nem lehet későbbi a záró dátumnál.
 form#:#form_no_link#:#Nincs link
 form#:#form_open_answer#:#Szabadszöveges
 form#:#form_password_not_allowed_for_auth#:#A választott hitelesítési módhoz nem lehet megváltoztatni a jelszót.
@@ -11481,7 +11481,7 @@ mail#:#mail_add_folder#:#Új almappa létrehozása
 mail#:#mail_add_recipient#:#Adja meg az elküldendő levél címzettjét!
 mail#:#mail_add_subfolder#:#Almappa létrehozása
 mail#:#mail_add_subject#:#Adja meg az elküldendő levél tárgyát!
-mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments###20 01 2026 new variable
+mail#:#mail_adopt_selected_attachements#:#Kijelölt mellékletek elfogadása
 mail#:#mail_all_in_trash#:#Az összeset a lomtárban
 mail#:#mail_allow_external#:#Külső levelek
 mail#:#mail_allow_external_info#:#Ha ki van kapcsolva, külső levelek küldése (SMTP-n keresztül) központilag le van tiltva.
@@ -11902,7 +11902,7 @@ mep#:#mep_all_mobs#:#Összes médiaobjektum
 mep#:#mep_bulk_upload#:#Tömeges feltöltés
 mep#:#mep_choose_from_folder#:#Válasszon a mappából
 mep#:#mep_choose_from_mep#:#Válasszon a gyűjteményből
-mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
+mep#:#mep_clipboard_info#:#Ide feltölthet médiafájlokat, amelyeket bármely szerkeszthető oldalra beilleszthet. A vágólap a médiagyűjteményekben is elérhető. Ez a tároló csak az öné, azaz más felhasználók nem tekintheti meg a tartalmát.
 mep#:#mep_content#:#Tartalom
 mep#:#mep_content_snippet_in_use#:#'%s' tartalom-építőelem használatban van, nem törölhető.
 mep#:#mep_content_snippet_used_in_older_versions#:#Ne feledje: néhány lap régebbi verziója használja ezt az építőelemet. Ha ezeket a lapokat visszaállítják egy olyan verzióra, amely tartalmazza ezt az építőelemet, az építőelem hiányozni fog a lapról.
@@ -12046,7 +12046,7 @@ meta#:#md_import_file_vocab#:#Importfájl
 meta#:#md_import_vocab#:#Importálás
 meta#:#md_import_vocab_modal#:#Importálás fájlból
 meta#:#md_months#:#Hónap:
-meta#:#md_oai_contact_mail#:#Kontakt e-mail cím
+meta#:#md_oai_contact_mail#:#A szervezet kontakt e-mail címe
 meta#:#md_oai_identifier_prefix#:#OAI előtag
 meta#:#md_oai_identifier_prefix_info#:#Ez az előtag névtérként használatos a visszaadott NyOE-rekordok azonosítóiban.
 meta#:#md_oai_pmh_enabled#:#OAI-PMH Interfészen keresztüli lekérdezés engedélyezése
@@ -12938,7 +12938,7 @@ news#:#news_news_item_visibility_info#:#A nyilvános hírek elérhetők bejelent
 news#:#news_news_items#:#hír
 news#:#news_no_js_click_here#:#Ha nem jelennek meg a hírek, kattintson ide!
 news#:#news_no_news_items#:#Nincsenek elérhető hírek.
-news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
+news#:#news_not_available#:#El nem érhető hírek
 news#:#news_notifications#:#Értesítések
 news#:#news_notifications_public#:#Nyilvános értesítések
 news#:#news_notifications_public_info#:#A személyes RSS-csatornák elérhetők az ILIAS-on kívül is. Tehát így bejelentkezés nélkül is elérhetővé teszi az értesítéseket.
@@ -13079,7 +13079,7 @@ obj#:#obj_fallback_lang#:#Alapértelmezett nyelv
 obj#:#obj_features#:#További tulajdonságok
 obj#:#obj_import_file_error#:#Ez a fájl nem importálható. Ellenőrizze, hogy ez tényleg egy ugyanolyan objektum ILIAS exportfájlja (XML export). A fájl nevét exportálás után nem szabad módosítani. Hibaüzenet:
 obj#:#obj_insert_into_clipboard#:#Tegyük a vágólapra
-obj#:#obj_inserted_clipboard#:#Objektumok a vágólapra mozgatva.
+obj#:#obj_inserted_clipboard#:#Az objektumo(ka)t sikeresen a vágólapra tette.
 obj#:#obj_master_lang#:#Elsődleges nyelv
 obj#:#obj_more_translations#:#További fordítások
 obj#:#obj_multilang_deactivated#:#Többnyelvűség kikapcsolva.
@@ -13295,7 +13295,7 @@ pdesk#:#bookmark_select_target#:#Válasszon célt
 poll#:#poll_absolute#:#Szavazatok száma
 poll#:#poll_activation_online_info#:#Kapcsolja be ezt a beállítást, hogy a szavazást elérhessék a felhasználók.
 poll#:#poll_add#:#Szavazás létrehozása
-poll#:#poll_anonymous_warning#:#Ez a szavazás névtelen.
+poll#:#poll_anonymous_warning#:#A szavazatát rögzítjük, de a neve nem fog megjelenni a szavazás eredményében.
 poll#:#poll_answer#:#Válasz
 poll#:#poll_answer_selected_alt_text#:#Kiválasztott
 poll#:#poll_answers#:#Lehetséges válaszok
@@ -13319,7 +13319,7 @@ poll#:#poll_max_number_of_answers#:#Részvevőnkénti válaszok maximális szám
 poll#:#poll_max_number_of_answers_info#:#Maximálisan %s választ adhat.
 poll#:#poll_mode#:#Mód
 poll#:#poll_mode_anonymous#:#Névtelen
-poll#:#poll_mode_anonymous_info#:#A rendszer nem tárolja a szavazók nevét, így azt később sem lehet kideríteni.
+poll#:#poll_mode_anonymous_info#:#A szavazás résztvevőinek neve nem jelenik meg az 'Eredmények' lapon. Kérjük, vegye figyelembe: a résztvevők felhasználói azonosítóit azonban rögzítjük az adatbázisban.
 poll#:#poll_mode_personal#:#Nevesített
 poll#:#poll_mode_personal_info#:#A résztvevők szavazatait tartalmazó lista csak megfelelő jogosultsággal érhető el.
 poll#:#poll_new#:#Új szavazás létrehozása
@@ -13939,7 +13939,7 @@ pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogok bekapcsolása
 pwsp#:#pwsp_enable_wsp_files#:#Fájlok bekapcsolása
 pwsp#:#pwsp_enable_wsp_links#:#Linkek bekapcsolása
-pwsp#:#pwsp_type_cannot_be_copied#:#Objects of type '%s' cannot be copied.###23 09 2025 new variable
+pwsp#:#pwsp_type_cannot_be_copied#:#'%s' típusú objektumok nem másolhatók.
 qpl#:#qpl_filter_commented_exclude#:#Megjegyzések nélküli kérdések
 qpl#:#qpl_filter_commented_only#:#Megjegyzéssel ellátott kérdések
 qpl#:#qpl_page_type_qfbg#:#Általános visszajelzés
@@ -14819,7 +14819,7 @@ rbac#:#svy_copy#:#A felhasználó másolhat kérdőívet
 rbac#:#svy_delete#:#A felhasználó áthelyezhet vagy törölhet kérdőívet
 rbac#:#svy_edit_learning_progress#:#A felhasználó módosíthatja a tanulási haladás beállításait
 rbac#:#svy_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
-rbac#:#svy_invite#:#A felhasználó meghívhat másokat kérdőívhez
+rbac#:#svy_invite#:#A felhasználó meghívhat másokat kérdőívbe
 rbac#:#svy_read#:#A felhasználó részt vehet kérdőívben
 rbac#:#svy_read_learning_progress#:#A felhasználó megnézheti mások tanulási haladását
 rbac#:#svy_read_results#:#A felhasználó hozzáférhet mások válaszaihoz
@@ -16101,7 +16101,7 @@ style#:#sty_media_queries#:#Médialekérdezés
 style#:#sty_media_query_info#:#Az alapértelmezett (nem speciális médialekérdezés) blokk után mindegyik médialekérdezéshez különálló CSS blokkot hozunk létre.
 style#:#sty_min_height#:#Minimális magasság
 style#:#sty_move_lm_styles#:#Tananyag stílusának cseréje
-style#:#sty_move_obj_styles#:#Change Style of Objects###23 09 2025 new variable
+style#:#sty_move_obj_styles#:#Objektumok stílusának a módosítása
 style#:#sty_move_style#:#Stílus cseréje
 style#:#sty_move_user_styles#:#Felhasználók stílusának cseréje
 style#:#sty_move_user_styles_saved#:#A felhasználókhoz rendelt skin-id módosult: %s → %s.
@@ -16110,7 +16110,7 @@ style#:#sty_msg_color_must_only_include#:#A színnév csak az alábbi karakterek
 style#:#sty_msg_input_must_be_numeric#:#A bemenetnek számnak kell lennie.
 style#:#sty_name#:#Név
 style#:#sty_nr_learning_modules#:#Tananyagok száma
-style#:#sty_nr_objects#:#Number of Objects###23 09 2025 new variable
+style#:#sty_nr_objects#:#Objektumok száma
 style#:#sty_odd_col_class#:#Páratlan oszlopok
 style#:#sty_odd_row_class#:#Páratlan sorok
 style#:#sty_ol#:#Számozott felsorolás
@@ -16336,26 +16336,26 @@ survey#:#SurveyTextQuestion#:#Esszékérdés
 survey#:#add_heading#:#Címsor létrehozása
 survey#:#already_completed_survey#:#Már befejezte a kérdőív kitöltését. Nem léphet bele többször.
 survey#:#anonymization#:#Névtelenség
-survey#:#anonymize_anonymous_introduction#:#Ez a kérdőív névtelenül kezel minden felhasználói adatot.<br/>A kérdőív eléréséhez 5 karakteres kérdőívkódot kell megadnia, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg kódját a fenti szövegmezőben.
+survey#:#anonymize_anonymous_introduction#:#A kérdőív eléréséhez 5 karakterből álló kódot kell megadnia, amelyet ezen kérdőív létrehozójától/karbantartójától kaphat meg.<br/>Adja meg kódját a kérdőív indítása után.
 survey#:#answer#:#Válasz
 survey#:#arithmetic_mean#:#Számtani átlag
 survey#:#browse_for_questions#:#Hozzáadás kérdésgyűjteményből
 survey#:#cancel_survey#:#Kérdőív kitöltésének felfüggesztése
 survey#:#cannot_read_survey#:#Nincs megfelelő jogosultsága a kérdőív adatainak olvasásához.
-survey#:#cannot_switch_to_online_no_questions#:#Nem módosítható &quot;online (aktív)&quot;-ra az állapot, mert nincsenek kérdések a kérdőívben.
-survey#:#cant_send_email_smtp_disabled#:#Külső e-mail küldése központilag le van tiltva.
+survey#:#cannot_switch_to_online_no_questions#:#A kérdőív nem módosítható 'online'-ra, mert nincsenek benne kérdések.
+survey#:#cant_send_email_smtp_disabled#:#Külső e-mail küldésének lehetőségét központilag kikapcsolták.
 survey#:#category#:#Válasz
 survey#:#category_nr_selected#:#Kiválasztások száma
 survey#:#chart#:#Diagram
 survey#:#codes#:#Hozzáférési kód
-survey#:#codes_created#:#Kódo(ok) jött(ek) létre
-survey#:#codes_deleted#:#Kód(ok) törlése sikerült
+survey#:#codes_created#:#Kódo(ok) jött(ek) létre.
+survey#:#codes_deleted#:#Kód(ok) törlése sikerült.
 survey#:#combobox#:#Legördülő lista
 survey#:#concatenation#:#Összefűzés
-survey#:#confirm_delete_all_user_data#:#Biztos, hogy törli a kérdőív összes felhasználói adatát?
+survey#:#confirm_delete_all_user_data#:#Biztos, hogy törli a kérdőív összes felhasználói adatát? Ez kihat a válaszokra és a kitöltők listájára is.
 survey#:#confirm_delete_single_user_data#:#Biztos, hogy törli a résztvevőket? Evvel törli a kiválasztott felhasználók kérdőívadatait is.
 survey#:#confirm_remove_heading#:#Biztos, hogy eltávolítja a címsort?
-survey#:#confirm_sync_questions#:#A kérdés amit módosított, egy kérdés aktuális kérdőívhez létrehozott másolata. A kérdés eredeti példányát is módosítani szeretné?
+survey#:#confirm_sync_questions#:#A kérdés amit módosított, egy kérdés létrehozott másolata az aktuális kérdőívhez. A kérdés eredeti példányát is módosítani szeretné?
 survey#:#conjunction_and#:#ha minden feltétel teljesül
 survey#:#conjunction_and_title#:#Minden alábbi feltétel kitöltése
 survey#:#conjunction_or#:#ha egy feltétel teljesül
@@ -16363,9 +16363,9 @@ survey#:#conjunction_or_title#:#Egy feltétel kitöltése az alábbiak közül
 survey#:#constraint_add#:#Elágazási szabály létrehozása
 survey#:#constraint_fulfilled#:#Lap megjelenítése
 survey#:#constraints#:#Elágazási szabályok
-survey#:#constraints_first_question_description#:#Az első entitásnak nem lehet semmilyen elágazása, mert nincsenek megelőző kérdések.
+survey#:#constraints_first_question_description#:#Az első kérdésnek és kérdésblokknak nem lehet semmilyen elágazása, mert nincsenek azt megelőző kérdések.
 survey#:#constraints_introduction#:#Egy kérdéshez vagy több kérdést tartalmazó kérdésblokkhoz elágazási szabály definiálható. A kitöltő a korábbi válaszától függően kapja vagy nem kapja a következő kérdést, azaz a kitöltő számára a válasza alapján nem relevánsnak ítélt következő kérdés nem jelenik meg, így rövidebb, személyre szabottabb lesz a kérdőív. Az első kérdéshez, illetve kérdésblokkhoz nem rendelhető elágazási szabály.
-survey#:#constraints_list_of_entities#:#Elágazási szabályokhoz használható elemek
+survey#:#constraints_list_of_entities#:#Kérdések
 survey#:#constraints_no_nonessay_available#:#Elágazási szabályok meghatározásához nincsenek korábbi kérdések. A következő típusok támogatottak: metrikus, egyválaszos, többválaszos.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Legalább egy kérdést vagy kérdésblokkot válasszon ki!
 survey#:#contains#:#Magában foglalja
@@ -16421,7 +16421,7 @@ survey#:#enter_valid_number_of_codes#:#Érvényes számot adjon meg a kérdőív
 survey#:#err_external_rcp_no_email#:#Az importadatoknak legalább egy 'e-mail' mezőt kell tartalmaznia.
 survey#:#err_external_rcp_no_email_column#:#Az importadatoknak legalább egy 'e-mail' oszlopot kell tartalmaznia az 'email' felirattal az első sorban, és e-mail címeket a további sorokban.
 survey#:#err_maxvaluegeminvalue#:#A maximális érték nagyobb vagy egyenlő kell legyen, mint a minimumérték, és kisebb vagy egyenlő, mint a válaszok maximális száma.
-survey#:#err_minvalueganswers#:#A minimumnak kisebbnek vagy egyenlőnek kell lennie, mint a válaszok maximális számának.
+survey#:#err_minvalueganswers#:#A minimális érték kisebb vagy egyenlő kell legyen, mint a maximumérték, és kisebb vagy egyenlő, mint a válaszok maximális száma.
 survey#:#err_no_exact_answers#:#Pontosan %s választ jelöljön meg!
 survey#:#err_no_max_answers#:#Legfeljebb %s választ jelöljön meg!
 survey#:#err_no_min_answers#:#Legalább %s választ jelöljön meg!
@@ -16429,7 +16429,7 @@ survey#:#err_no_pool_name#:#Adja meg egy kérdőívkérdés-gyűjtemény nevét!
 survey#:#error_retrieving_anonymous_survey#:#Nem találja a rendszer a %s kódú kérdőívét. Ellenőrizze a megadott kérdőívkódot!
 survey#:#error_save_code#:#Az értéket nem sikerült megfelelően menteni. <b>'%s' e-mail cím nem valós</b>. Családnév: '%s', utónév: '%s'.<br />
 survey#:#evaluation#:#Statisztika
-survey#:#evaluation_access#:#Válaszadók hozzáférése a végeredményekhez
+survey#:#evaluation_access#:#Hozzáférés a végeredményekhez
 survey#:#evaluation_access_all#:#Az összes felhasználó hozzáférhet ennek a kérdőívnek a végeredményeihez
 survey#:#evaluation_access_info#:#Ön hozzáférhet a kérdőív végeredményeihez
 survey#:#evaluation_access_off#:#A válaszadók nem férhetnek hozzá a végeredményekhez
@@ -16448,7 +16448,7 @@ survey#:#externaltext#:#Szöveg importálása
 survey#:#externaltext_info#:#Az importszöveget sorokba és oszlopokba kell rendezni, az oszlopokat pontosvesszővel kell elválasztani. Az első sor tartalmazza az oszlop címét. A szövegnek legalább egy 'email' oszlopot kell tartalmaznia a címzett e-mail címével.
 survey#:#filter_all_question_types#:#Összes kérdéstípus
 survey#:#filter_all_questionpools#:#Összes kérdésgyűjtemény
-survey#:#finished_mail_subject#:#'%s' kérdőívet befejezte
+survey#:#finished_mail_subject#:#'%s' kérdőívet egy válaszadó befejezte
 survey#:#freetext_answers#:#Szabadszöveges válaszok
 survey#:#geometric_mean#:#Geometriai átlag
 survey#:#given_answers#:#Adott válaszok
@@ -16462,7 +16462,7 @@ survey#:#import_from_file#:#Felhasználói adatok importálása fájlból
 survey#:#import_from_text#:#Felhasználói adatok importálása szövegből
 survey#:#import_no_file_selected#:#Nincs kiválasztott fájl.
 survey#:#import_question#:#Kérdés(ek) importálása
-survey#:#import_wrong_file_type#:#Hibás fájltípus.
+survey#:#import_wrong_file_type#:#Érvénytelen fájltípus.
 survey#:#insert_after#:#Beszúrás utána
 survey#:#insert_before#:#Beszúrás előtte
 survey#:#insert_missing_question#:#Legalább egy kérdést válasszon ki a kérdőívbe való beszúráshoz!
@@ -16472,20 +16472,20 @@ survey#:#internal_link#:#Belső link
 survey#:#introduction#:#Bevezető üzenet
 survey#:#invited_users#:#Kiválasztott felhasználók
 survey#:#label#:#Címke
-survey#:#label_info#:#Alternatív azonosító további adatfeldolgozáshoz (például SPSS-ben)
-survey#:#language_changed#:#Nyelv megváltoztatva
+survey#:#label_info#:#Alternatív azonosító további adatfeldolgozáshoz (például SPSS-ben).
+survey#:#language_changed#:#A nyelvet sikeresen  megváltoztatta.
 survey#:#layout#:#Elrendezés
 survey#:#lower_limit#:#Alsó határ
-survey#:#mail_import_example2#:#sandraowen@domain.tld;Sandra;Owen
-survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt
+survey#:#mail_import_example2#:#lucysnowe@villette.be;Lucy;Snowe
+survey#:#mail_import_example3#:#holmes@bakerstreetconsulting.co.uk;Sherlock;Holmes
 survey#:#mail_sent_short#:#Elküldés
-survey#:#mail_survey_codes#:#Hozzáférési kódok, üzenetek küldése
+survey#:#mail_survey_codes#:#Emlékeztető / Hozzáférési kód üzenetek
 survey#:#mailaddresses#:#Címzettek
-survey#:#mailaddresses_info#:#Adja meg a kérdőívek befejezéséről értesítendő tutorok felhasználóneveinek listáját vesszővel elválasztva.
+survey#:#mailaddresses_info#:#Adja meg azon felhasználónevek listáját vesszővel elválasztva, akikenek értesítést küldünk, amikor egy felhasználó befejezik a kérdőív kitöltését.
 survey#:#mailnotification#:#Minden befejezésről külön e-mail küldése
-survey#:#mailparticipantdata#:#További válaszadói adatok
+survey#:#mailparticipantdata#:#Információs szöveg
 survey#:#mailparticipantdata_info#:#Ez az információ az értesítő levélbe automatikusan beillesztett eredmények része elé kerül.
-survey#:#mailparticipantdata_placeholder#:#Ezek a helyőrzők a felhasználó aktuális adatára cserélődnek, ha az 'Adatvédelem' értéke 'Nevekkel':
+survey#:#mailparticipantdata_placeholder#:#Ezek a helyőrzők a felhasználó aktuális adatára cserélődnek, ha az 'Adatvédelem' értéke 'Nevekkel' (Lásd 'Eredmények' rész):
 survey#:#maintenance#:#Válaszadók
 survey#:#matrix_appearance#:#Megjelenés
 survey#:#matrix_bipolar_adjectives#:#Bipoláris melléknevek
@@ -16495,7 +16495,7 @@ survey#:#matrix_column_separators_description#:#Vastag vonal az oszlopok közöt
 survey#:#matrix_column_settings#:#Mátrixoszlopok beállításai
 survey#:#matrix_columns#:#Mátrixoszlopok
 survey#:#matrix_left_pole#:#Bal pólus
-survey#:#matrix_neutral_answer#:#Szöveg semleges oszlophoz ('Nem meghatározott', 'Nem tudom', stb.)
+survey#:#matrix_neutral_answer#:#Szöveg semleges oszlophoz ('Nem meghatározott', 'Nem tudom' stb.)
 survey#:#matrix_neutral_column_separator#:#Semleges oszlopelválasztók
 survey#:#matrix_neutral_column_separator_description#:#Vastag vonal a semleges és a többi oszlop közé.
 survey#:#matrix_question_checkbox_not_checked#:#Jelöljön be legalább egy jelölőnégyzetet minden sorban!
@@ -16891,33 +16891,33 @@ survey#:#svy_search_user#:#Felhasználó keresése
 survey#:#svy_search_user_info#:#Felhasználók, illetve szerepkörök keresése és résztvevők kiválasztása.
 survey#:#svy_search_users#:#Válaszadók keresése
 survey#:#svy_select_rater#:#Értékelők keresése
-survey#:#svy_selected_user_data_deleted#:#A kiválasztott felhasználó(k) kérdőívadatai sikeresen törlődtek.
+survey#:#svy_selected_user_data_deleted#:#A kiválasztott felhasználó(k) kérdőívadatait sikeresen törlölte.
 survey#:#svy_self_ev_access_results_all#:#Összes résztvevő önértékeléseinek elérése
 survey#:#svy_self_ev_access_results_none#:#Nincs hozzáférés az eredményekhez
 survey#:#svy_self_ev_access_results_own#:#Saját önértékelések elérése
-survey#:#svy_self_ev_info#:#Önértékelésre használva.
+survey#:#svy_self_ev_info#:#Egy kérdőív, ami önértékelésre használható.
 survey#:#svy_self_ev_mode#:#Csak önértékelés
 survey#:#svy_settings_section_access#:#Kérdőív kezelése: Hozzáférés
-survey#:#svy_settings_section_before_start#:#Kérdőív kezdése előtti információ
+survey#:#svy_settings_section_before_start#:#Kérdőív kezdése előtt megjelenő információ
 survey#:#svy_settings_section_finishing#:#Kérdőív befejezése
 survey#:#svy_settings_section_question_behaviour#:#Kérdőív kezelése: A kérdés viselkedése
 survey#:#svy_settings_section_reminders#:#Emlékeztetők
 survey#:#svy_show_questiontitles#:#Kérdéscím megjelenítése
 survey#:#svy_skl_comp_assignm_not_supported#:#Kompetencia összerendelés nem támogatott ebben a kérdéstípusban.
 survey#:#svy_sum_score#:#Összpontszám
-survey#:#svy_type_of_rater#:#Értékelős típusa
+survey#:#svy_type_of_rater#:#Értékelők típusa
 survey#:#svy_view_own_results#:#Válaszaim megtekintése
 survey#:#svy_wrong_or_expired_code#:#Lejárt vagy érvénytelen kódot adott meg.
-survey#:#text_maximum_chars_allowed#:#Ne adjon meg több, mint %s karaktert! Az efölötti karakterek nem kerülnek tárolásra.
+survey#:#text_maximum_chars_allowed#:#Ne adjon meg több, mint %s karaktert! Ha túllépi ezt a korlátot, a válaszát nem rögzítjük, a folytatáshoz le kell rövidítenie.
 survey#:#text_question_not_filled_out#:#Töltse ki a válaszmezőt!
-survey#:#unfold#:#Szétbontás
+survey#:#unfold#:#Kérdésblokk szétbontás
 survey#:#upper_limit#:#Felső határ
 survey#:#use_anonymous_id#:#Válaszadókód megjelenítése
-survey#:#use_anonymous_id_desc#:#Anonimizált kérdőívekben a válaszadók 'Anonymous' helyett egy kódként jelenjenek meg.
+survey#:#use_anonymous_id_desc#:#Anonimizált kérdőívben a résztvevők hozzáférési kódjait használjuk felhasználónevük helyett. Ha nincs bepipálva, a felhasználónevek helyett a 'Névtelen' felirat jelenik meg.
 survey#:#use_browser_print_function#:#Használja a böngészője nyomtatási funkcióját!
-survey#:#use_min_answers#:#Válaszok száma
-survey#:#use_min_answers_option#:#Kijelölendő válaszok számának beállítása
-survey#:#use_other_answer#:#Egyéb válasz (szabadszöveges)
+survey#:#use_min_answers#:#Válaszok elvárt száma
+survey#:#use_min_answers_option#:#Kijelölendő válaszok számának (minimum, maximum) beállítása
+survey#:#use_other_answer#:#Szabadszöveges válasz
 survey#:#used#:#használt
 survey#:#users_answered#:#Válaszoltak
 survey#:#users_invited#:#%s felhasználót meghívta
@@ -16925,20 +16925,20 @@ survey#:#users_skipped#:#Kihagyták
 survey#:#values#:#Értékek
 survey#:#vertical#:#Függőleges
 survey#:#warning_question_not_complete#:#Nem teljes a kérdés.
-survey#:#workingtime#:#Munkaidő
-svy#:#survey_360_appraisees_remind_info#:#Ha az önértékelés be van kapcsolva, értesítjük a saját magukat nem értékelt személyeket.
+survey#:#workingtime#:#Eltöltött idő
+svy#:#survey_360_appraisees_remind_info#:#Ha az 'Önértékelés' be van kapcsolva, értesítjük a saját magukat nem értékelt személyeket, hogy tegyék meg.
 svy#:#survey_360_raters_remind_info#:#Emlékeztetni fogjuk azokat az értékelőket, akik még nem fejezeték be a kérdőívet.
-svy#:#svy_0_open_appraisees#:#Több értékelés már nem adhat le ebben a kérdőívben.
+svy#:#svy_0_open_appraisees#:#Nincs több értékelendője, értékelést már nem adhat le ebben a kérdőívben.
 svy#:#svy_all_pages#:#Összes oldal
 svy#:#svy_all_participants#:#Összes résztvevő
 svy#:#svy_all_questions#:#Összes kérdés
 svy#:#svy_code#:#Hozzáférési kód
 svy#:#svy_codes#:#Hozzáférési kódok
 svy#:#svy_current_page#:#Jelenlegi oldal
-svy#:#svy_finish_survey#:#'%1' kérdőív befejezése
+svy#:#svy_finish_survey#:#'%1' kérdőívben részvétel
 svy#:#svy_finished_x_appraisees#:#%s értékelendő esetében már befejezet a kérdőívet.
 svy#:#svy_information#:#Információ
-svy#:#svy_invite_participants#:#Résztvevők meghívása
+svy#:#svy_invite_participants#:#Résztvevők feladatához hozzáadás
 svy#:#svy_link_to_svy#:#Kérdőívre mutató link
 svy#:#svy_part_overview#:#Áttekintés
 svy#:#svy_placeholders_label#:#Elérhető helyettesítő karakterek
@@ -16951,7 +16951,7 @@ svy#:#svy_selection#:#Kiválasztás
 svy#:#svy_status#:#Állapot
 svy#:#svy_status_finished#:#Befejezve
 svy#:#svy_status_in_progress#:#Folyamatban
-svy#:#svy_status_invited#:#Meghívva
+svy#:#svy_status_invited#:#Sikeresen hozzáadta a feladatokhoz
 svy#:#svy_user_added_appraisee#:#'%1' kérdőív
 svy#:#svy_user_added_appraisee_close_mail#:#A kérdőív lezárult az értékelők számára.
 svy#:#svy_user_added_appraisee_mail#:#ezúton értesítjük, hogy értékelendő személynek hozzáadták a kérdőívhez.
@@ -16959,9 +16959,9 @@ svy#:#svy_user_added_rater#:#'%1' kérdőív
 svy#:#svy_user_added_rater_mail#:#ezúton értesítjük, hogy értékelő személynek hozzáadták a kérdőívhez.
 svy#:#svy_user_added_rater_reminder_mail#:#Kérem, fejezze be a következő értékeléseket:
 svy#:#svy_user_not_found#:#A felhasználó nem található.
-svy#:#svy_users_invited#:#A felhasználókat sikeresen meghívta.
+svy#:#svy_users_invited#:#A felhasználók Műszerfaluk 'Feladatok' részéhez hozzáadtuk egy 'teendő' részt, amely értesíti őket arról, hogy részt vehetnek ebben a kérdőívben.
 svy#:#svy_x_appraisees_closed_for_raters#:#%s értékelendő már lezárta a kérdőívet az értékelők előtt.
-svy#:#svy_x_open_appraisees#:#%s értékelendője nyitott az Ön értékelésére.
+svy#:#svy_x_open_appraisees#:#%s értékelendője vár az Ön értékelésére.
 svy#:#svy_your_appraisees#:#Értékelendőim
 svy#:#svy_your_raters#:#Értékelőim
 svy#:#svy_your_raters_finished#:#Az értékelőiből %s fejezte be a kérdőívet.
@@ -17140,7 +17140,7 @@ trac#:#trac_current_system_load#:#Jelenlegi rendszerterhelés
 trac#:#trac_data_deleted#:#Az adatokat sikeresen törölte.
 trac#:#trac_defaults#:#Teljesítettségi állapot
 trac#:#trac_defaults_inactive#:#Inaktív
-trac#:#trac_defaults_info#:#Meghatározza, hogy hogyan történjen a következő objektumtípusok teljesítési állapotának meghatározása, amikor egy kurzus elemeként használják őket. Több érdemérem-típus, illetve a tanúsítvány használja ezt.
+trac#:#trac_defaults_info#:#Meghatározza, hogy hogyan történjen a következő objektumtípusok teljesítési állapotának meghatározása, amikor egy kurzus vagy csoport elemeként használják őket. Több érdemérem-típus, illetve a tanúsítvány használja ezt.
 trac#:#trac_delete_data#:#Adatok törlése
 trac#:#trac_determines_learning_progress#:#Meghatározza-e a tanulási haladást
 trac#:#trac_edit_collection#:#Itt találhatók a tanulási haladást meghatározó objektumok.
@@ -17345,7 +17345,7 @@ trac#:#trac_view_mode_all#:#Összes objektum
 trac#:#trac_view_mode_collection#:#Csak azok az objektumok, amelyek az átfogó állapotot határozzák meg
 trac#:#trac_visits#:#Elvárt látogatások száma
 trac#:#trac_visits_info#:#Csak a %s másodpercen túli kattintás számít új látogatásnak.
-trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
+trac#:#trac_visits_nr#:#Látogatások száma
 trac#:#user_total#:#Felhasználók összesen
 trac#:#view_mode#:#Nézet
 tstv#:#tstv_create#:#Teszttanúsítvány létrehozása
@@ -17532,7 +17532,7 @@ user#:#user_profile_info_text_info#:#Ez a szöveg a személyes adatok megadásá
 user#:#user_profile_portfolio#:#Ha egy portfóliót a személyes profiljaként szeretne használni, a portfóliórészben jelölje ki 'Profilom'-nak.
 user#:#user_profile_portfolio_selected#:#Jelenleg egy portfóliót használ profiljaként. Az aktiválás a 'Megosztás' lapon állítható be ott.
 user#:#user_profile_preview#:#Profil előnézete
-user#:#user_profile_prompt_text#:#Prompt Text###28 10 2024 new variable
+user#:#user_profile_prompt_text#:#Prompt szöveg
 user#:#user_profile_prompt_text_info#:#Ez a szöveg jelenik meg az alapértelmezett információs szöveg helyett a felhasználó profiljának megjelenítésekor.
 user#:#user_prompt_incomplete#:#Csak ha a profil nem teljes
 user#:#user_prompt_incomplete_info#:#A profil bejelentkezés után megjelenik, amennyiben a felhasználónak van ki nem töltött, kötelező mezője.
