@@ -259,7 +259,7 @@ of ILIAS. The file contains the following fields:
 
 * **Bibliographic List Item**
     * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188)
     * Authority to Curate Test Cases: [maalers](https://docu.ilias.de/go/usr/119188)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188)
@@ -1189,7 +1189,7 @@ of ILIAS. The file contains the following fields:
 
 * **Organisational Units**
     * Authority to Sign off on Conceptual Changes: [lschmidt-tf](https://docu.ilias.de/go/usr/120143)
-    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087)
+    * Authority to Sign off on Code Changes: [fschmid](https://docu.ilias.de/go/usr/21087), [maalers](https://docu.ilias.de/go/usr/119188)
     * Authority to Curate Test Cases: [wischniak](https://docu.ilias.de/go/usr/21896)
     * Authority to (De-)Assign Authorities: [maalers](https://docu.ilias.de/go/usr/119188)
     * Assignee for Issues: [maalers](https://docu.ilias.de/go/usr/119188) 
