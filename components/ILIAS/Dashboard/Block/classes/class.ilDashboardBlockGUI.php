@@ -597,13 +597,17 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
                 return ['' => $data];
             case ilPDSelectedItemsBlockConstants::SORT_BY_START_DATE:
                 return $this->groupItemsByStartDate();
-            case ilPDSelectedItemsBlockConstants::SORT_BY_TYPE:
-                return $this->groupItemsByType();
             case ilPDSelectedItemsBlockConstants::SORT_MANUALLY:
                 return ['' => $this->sortManually($this->getData())];
+            case ilPDSelectedItemsBlockConstants::SORT_BY_TYPE:
+                $groups = $this->groupItemsByType();
+                ksort($groups, SORT_NATURAL);
+                return $groups;
             case ilPDSelectedItemsBlockConstants::SORT_BY_LOCATION:
             default:
-                return $this->groupItemsByLocation();
+                $groups = $this->groupItemsByLocation();
+                ksort($groups, SORT_NATURAL);
+                return $groups;
         }
     }
 
