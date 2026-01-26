@@ -77,11 +77,7 @@ export default class OrderingTable {
     this.#table.querySelectorAll('input[type="number"]').forEach((input) => {
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-          const form = this.#component.querySelector('form.c-table-ordering__form');
-          if (form) {
-            event.preventDefault();
-            form.submit();
-          }
+          event.preventDefault();
         }
       });
     });
