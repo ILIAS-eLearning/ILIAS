@@ -1211,8 +1211,6 @@ class nusoap_xmlschema extends nusoap_base
                 $this->debug("XML payload:\n" . $xml);
                 $this->setError($errstr);
             }
-
-            xml_parser_free($this->parser);
         } else {
             $this->debug('no xml passed to parseString()!!');
             $this->setError('no xml passed to parseString()!!');
@@ -4853,8 +4851,6 @@ class wsdl extends nusoap_base
             $this->setError($errstr);
             return false;
         }
-        // free the parser
-        xml_parser_free($this->parser);
         $this->debug('Parsing WSDL done');
         // catch wsdl parse errors
         if ($this->getError()) {
@@ -6640,7 +6636,6 @@ class nusoap_parser extends nusoap_base
                     }
                 }
             }
-            xml_parser_free($this->parser);
         } else {
             $this->debug('xml was empty, didn\'t parse!');
             $this->setError('xml was empty, didn\'t parse!');

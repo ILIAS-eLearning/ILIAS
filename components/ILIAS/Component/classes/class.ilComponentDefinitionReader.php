@@ -72,24 +72,17 @@ class ilComponentDefinitionReader
 
     protected function parseComponentXML(string $type, string $component, string $xml): void
     {
-        $xml_parser = null;
-        try {
-            $xml_parser = xml_parser_create("UTF-8");
-            xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
-            xml_set_element_handler($xml_parser, $this->beginTag(...), $this->endTag(...));
-            if (!xml_parse($xml_parser, $xml)) {
-                $code = xml_get_error_code($xml_parser);
-                $line = xml_get_current_line_number($xml_parser);
-                $col = xml_get_current_column_number($xml_parser);
-                $msg = xml_error_string($code);
-                throw new \InvalidArgumentException(
-                    "Error $code component xml of $type/$component, on line $line in column $col: $msg"
-                );
-            }
-        } finally {
-            if ($xml_parser) {
-                xml_parser_free($xml_parser);
-            }
+        $xml_parser = xml_parser_create("UTF-8");
+        xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
+        xml_set_element_handler($xml_parser, $this->beginTag(...), $this->endTag(...));
+        if (!xml_parse($xml_parser, $xml)) {
+            $code = xml_get_error_code($xml_parser);
+            $line = xml_get_current_line_number($xml_parser);
+            $col = xml_get_current_column_number($xml_parser);
+            $msg = xml_error_string($code);
+            throw new \InvalidArgumentException(
+                "Error $code component xml of $type/$component, on line $line in column $col: $msg"
+            );
         }
     }
 

@@ -1803,7 +1803,6 @@ class ilQTIParser extends ilSaxParser
     {
         $parser = xml_parser_create();
         $is_resource = is_resource($parser);
-        xml_parser_free($parser);
 
         return $is_resource ? [] : new SplObjectStorage();
     }

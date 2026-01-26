@@ -108,7 +108,6 @@ abstract class ilSaxParser
                 );
                 break;
         }
-        $this->freeParser($xml_parser);
     }
 
     /**
@@ -190,18 +189,6 @@ abstract class ilSaxParser
             throw new ilSaxParserException($message);
         }
     }
-
-    /**
-     * @param resource $a_xml_parser
-     * @throws ilSaxParserException
-     */
-    private function freeParser($a_xml_parser): void
-    {
-        if (!xml_parser_free($a_xml_parser)) {
-            $this->handleError("Error freeing xml parser handle");
-        }
-    }
-
 
     protected function setThrowException(bool $throw_exception): void
     {
