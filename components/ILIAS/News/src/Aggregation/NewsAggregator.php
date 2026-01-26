@@ -53,6 +53,10 @@ class NewsAggregator
 
         // Prepare queue
         foreach ($contexts as $context) {
+            $strategy = $this->getStrategy($context->getObjType());
+            if ($strategy === null || $strategy->shouldSkip($context)) {
+                continue;
+            }
             $frontier->enqueue($context);
         }
 
