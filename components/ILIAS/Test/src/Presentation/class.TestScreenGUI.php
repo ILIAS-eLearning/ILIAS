@@ -22,13 +22,12 @@ namespace ILIAS\Test\Presentation;
 
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Logging\TestParticipantInteractionTypes;
-use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Link;
 use ILIAS\Data\Password;
 use ILIAS\Data\Result;
-use ILIAS\Data\URI;
+use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\UI\Component\Launcher\Launcher;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory as UIFactory;
@@ -116,11 +115,46 @@ class TestScreenGUI
         $elements = $this->handleRenderMessageBox($elements);
         $elements = $this->handleRenderIntroduction($elements);
 
+        if ($this->testCanBeStarted()) {
+            $this->tpl->setContent(
+                $this->ui_renderer->render(
+                    $this->handleRenderLauncher(
+                        $elements
+                    )
+                )
+            );
+            return;
+        }
+
         $this->tpl->setContent(
             $this->ui_renderer->render(
-                $this->testCanBeStarted() ? $this->handleRenderLauncher($elements) : $elements
+                $this->addOfflineMessageBoxIfNecessary(
+                    $elements
+                )
             )
         );
+    }
+
+    private function addOfflineMessageBoxIfNecessary(array $elements): array
+    {
+        if (!$this->object->getOfflineStatus()) {
+            return $elements;
+        }
+
+        $offline_message_box = $this->ui_factory->messageBox()->info($this->lng->txt('test_is_offline'));
+
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $elements[] = $offline_message_box;
+            return $elements;
+        }
+
+        $elements[] = $offline_message_box->withLinks([
+            $this->ui_factory->link()->standard(
+                $this->lng->txt('test_edit_settings'),
+                $this->ctrl->getLinkTargetByClass(SettingsMainGUI::class)
+            )
+        ]);
+        return $elements;
     }
 
     private function handleRenderMessageBox(array $elements): array
