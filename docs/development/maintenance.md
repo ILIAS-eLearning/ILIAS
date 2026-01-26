@@ -472,7 +472,7 @@ of ILIAS. The file contains the following fields:
 
 * **CSS / Templates**
     * Authority to Sign off on Conceptual Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
-    * Authority to Sign off on Code Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573), [rotegras](https://docu.ilias.de/go/usr/88399)
+    * Authority to Sign off on Code Changes: [BettyFromHH](https://docu.ilias.de/go/usr/96573), [rotegras](https://docu.ilias.de/go/usr/88399), [padvincenzo](https://docu.ilias.de/go/usr/87189)
     * Authority to Curate Test Cases: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Authority to (De-)Assign Authorities: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
     * Assignee for Issues: [BettyFromHH](https://docu.ilias.de/go/usr/96573)
