@@ -1649,10 +1649,10 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN xAPIAndcmi5)
 
 * **xAPI/cmi5**
-    * Authority to Sign off on Conceptual Changes: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
-    * Authority to Sign off on Code Changes: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
-    * Authority to Curate Test Cases: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
-    * Authority to (De-)Assign Authorities: [[ukohnle](https://docu.ilias.de/go/usr/21855)]
+    * Authority to Sign off on Conceptual Changes: [ukohnle](https://docu.ilias.de/go/usr/21855)
+    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/go/usr/21855)
+    * Authority to Curate Test Cases: [ukohnle](https://docu.ilias.de/go/usr/21855)
+    * Authority to (De-)Assign Authorities: [ukohnle](https://docu.ilias.de/go/usr/21855)
     * Assignee for Issues: [ukohnle](https://docu.ilias.de/go/usr/21855)
     * Assignee for Security Reports: [ukohnle](https://docu.ilias.de/go/usr/21855)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
