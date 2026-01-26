@@ -367,7 +367,7 @@ class ilCmiXapiLaunchGUI
                 $this->log()->error("CMI5preLaunch HTTP error $status: $body");
             }
             curl_multi_remove_handle($mh, $ch);
-            curl_close($ch);
+            $ch = null;
         }
 
         curl_multi_close($mh);

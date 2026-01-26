@@ -177,7 +177,6 @@ class ilCurlConnection
     final public function close(): void
     {
         if ($this->ch !== null) {
-            curl_close($this->ch);
             $this->ch = null;
         }
     }

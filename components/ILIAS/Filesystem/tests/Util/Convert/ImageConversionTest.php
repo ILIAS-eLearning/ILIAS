@@ -458,7 +458,7 @@ class ImageConversionTest extends TestCase
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_USERAGENT, 'PHPUnit/1.0');
         $string = curl_exec($curl);
-        curl_close($curl);
+        $curl = null;
 
         $img = Streams::ofString($string);
         $this->assertInstanceOf(FileStream::class, $img);

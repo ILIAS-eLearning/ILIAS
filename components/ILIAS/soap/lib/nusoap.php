@@ -3121,7 +3121,7 @@ class soap_transport_http extends nusoap_base
                 }
                 $this->debug($err);
                 $this->setError($err);
-                curl_close($this->ch);
+                $this->ch = null;
                 return false;
             } else {
                 //echo '<pre>';
@@ -3130,7 +3130,7 @@ class soap_transport_http extends nusoap_base
             }
             // close curl
             $this->debug('No cURL error, closing cURL');
-            curl_close($this->ch);
+            $this->ch = null;
 
             // try removing skippable headers
             $savedata = $data;

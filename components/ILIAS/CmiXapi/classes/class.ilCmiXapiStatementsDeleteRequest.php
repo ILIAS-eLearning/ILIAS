@@ -239,7 +239,7 @@ class ilCmiXapiStatementsDeleteRequest
             $body = curl_exec($ch);
             $error = curl_error($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
+            $ch = null;
 
             if ($error) {
                 throw new Exception("cURL error: $error");
@@ -476,8 +476,7 @@ class ilCmiXapiStatementsDeleteRequest
         $responseBody = curl_exec($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
-
-        curl_close($ch);
+        $ch = null;
 
         return [
             'status' => $statusCode,
@@ -549,7 +548,7 @@ class ilCmiXapiStatementsDeleteRequest
             ];
 
             curl_multi_remove_handle($mh, $ch);
-            curl_close($ch);
+            $ch = null;
         }
 
         curl_multi_close($mh);

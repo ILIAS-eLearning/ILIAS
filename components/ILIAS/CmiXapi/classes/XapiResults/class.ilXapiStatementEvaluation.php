@@ -401,8 +401,6 @@ class ilXapiStatementEvaluation
                 $this->log->error('checkResponse failed: ' . $e->getMessage());
             }
         }
-
-        curl_close($ch);
+        $ch = null;
     }
-
 }

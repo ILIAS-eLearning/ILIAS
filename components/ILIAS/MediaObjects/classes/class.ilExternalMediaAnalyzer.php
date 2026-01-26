@@ -189,7 +189,7 @@ class ilExternalMediaAnalyzer
         curl_setopt($curl, CURLOPT_REFERER, ILIAS_HTTP_PATH);
 
         $return = curl_exec($curl);
-        curl_close($curl);
+        $curl = null;
 
         $r = json_decode($return, true);
 
@@ -209,7 +209,7 @@ class ilExternalMediaAnalyzer
         curl_setopt($curl, CURLOPT_REFERER, ILIAS_HTTP_PATH);
 
         $return = curl_exec($curl);
-        curl_close($curl);
+        $curl = null;
 
         $r = json_decode($return, true);
 

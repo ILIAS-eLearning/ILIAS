@@ -65,7 +65,7 @@ abstract class ilCmiXapiAbstractRequest
         $body = curl_exec($ch);
         $error = curl_error($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $ch = null;
 
         // Fehlerbehandlung
         if ($error) {

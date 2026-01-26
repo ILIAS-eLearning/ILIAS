@@ -307,7 +307,7 @@ class XapiProxyRequest
         $rawBody = curl_exec($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlError = curl_error($ch);
-        curl_close($ch);
+        $ch = null;
 
         if ($curlError) {
             $this->xapiproxy->log()->error("cURL error for $url: $curlError");
