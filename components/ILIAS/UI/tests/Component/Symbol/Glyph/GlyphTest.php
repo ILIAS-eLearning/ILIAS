@@ -355,7 +355,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = '<a class="glyph" aria-label="' . $aria_label . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
+        $expected = '<a class="glyph" aria-label="' . $aria_label . '" role="img"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
         $this->assertEquals($expected, $html);
     }
 
@@ -372,7 +372,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $expected = '
-        <a class="glyph disabled" aria-label="' . $aria_label . '" aria-disabled="true">
+        <a class="glyph disabled" aria-label="' . $aria_label . '" aria-disabled="true" role="img">
             <span class="' . $css_classes . '" aria-hidden="true"></span>
         </a>';
         $this->assertEquals($this->brutallyTrimHTML($expected), $this->brutallyTrimHTML($html));
@@ -392,7 +392,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
 
         $expected = '
-            <a class="glyph" aria-label="' . $aria_label . '">
+            <a class="glyph" aria-label="' . $aria_label . '" role="img">
                     <span class="' . $css_classes . '" aria-hidden="true"></span>
                     <span class="il-counter"><span class="badge badge-notify il-counter-' . $type . '">42</span></span>
                     <span class="il-counter-spacer">42</span>
@@ -413,7 +413,7 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[G\Glyph::MAIL];
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
-        $expected = '<a class="glyph" aria-label="' . $aria_label . '">' .
+        $expected = '<a class="glyph" aria-label="' . $aria_label . '" role="img">' .
                     '<span class="' . $css_classes . '" aria-hidden="true"></span>' .
                     '<span class="il-counter"><span class="badge badge-notify il-counter-status">7</span></span>' .
                     '<span class="il-counter"><span class="badge badge-notify il-counter-novelty">42</span></span>' .
@@ -460,7 +460,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $id = $ids[0];
-        $expected = '<a class="glyph" aria-label="' . $aria_label . '" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
+        $expected = '<a class="glyph" aria-label="' . $aria_label . '" role="img" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
         $this->assertEquals($expected, $html);
     }
 }

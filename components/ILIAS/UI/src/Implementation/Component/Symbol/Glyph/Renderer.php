@@ -67,16 +67,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $has_action = $component->isActive() && ($component->getAction() !== '');
-        $is_clickable = $component->isTabbable() || ($component instanceof Component\Triggerer && count($component->getTriggeredSignals()) > 0);
-
-        if (!$has_action) {
-            $role = $is_clickable ? 'button' : 'img';
-            $tpl->setCurrentBlock("with_role");
-            $tpl->setVariable("ROLE", $role);
-            $tpl->parseCurrentBlock();
-        }
-
+        $tpl= $this->renderRole($component, $tpl);
         $tpl = $this->renderLabel($component, $tpl);
 
         $id = $this->bindJavaScript($component);
@@ -105,6 +96,21 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ACTION", $component->getAction());
             $tpl->parseCurrentBlock();
         }
+        return $tpl;
+    }
+
+    public function renderRole(Component\Component $component, Template $tpl): Template
+    {
+        $has_action = $component->isActive() && ($component->getAction() !== null);
+        $is_clickable = $component->isTabbable() || ($component instanceof Component\Triggerer && count($component->getTriggeredSignals()) > 0);
+
+        if (!$has_action) {
+            $role = $is_clickable ? 'button' : 'img';
+            $tpl->setCurrentBlock("with_role");
+            $tpl->setVariable("ROLE", $role);
+            $tpl->parseCurrentBlock();
+        }
+
         return $tpl;
     }
 

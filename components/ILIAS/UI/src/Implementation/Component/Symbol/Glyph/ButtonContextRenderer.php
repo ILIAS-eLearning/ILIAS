@@ -53,4 +53,9 @@ class ButtonContextRenderer extends Renderer
 
         return $tpl;
     }
+
+    public function renderRole(Component\Component $component, Template $tpl): Template
+    {
+        return $tpl;
+    }
 }
