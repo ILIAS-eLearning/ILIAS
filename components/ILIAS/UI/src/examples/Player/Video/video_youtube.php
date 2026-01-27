@@ -44,7 +44,7 @@ function video_youtube(): string
     $renderer = $DIC->ui()->renderer();
     $f = $DIC->ui()->factory();
 
-    $video = $f->player()->video("https://www.youtube.com/watch?v=YSN2osYbshQ");
+    $video = $f->player()->video("https://www.youtube.com/embed/YSN2osYbshQ");
 
     return $renderer->render($video);
 }
