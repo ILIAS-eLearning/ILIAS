@@ -38,16 +38,16 @@ class ButtonContextRenderer extends Renderer
     protected function renderLabel(Component\Component $component, Template $tpl): Template
     {
         $aria_label = $component->getLabel();
-        if($aria_label != '') {
+        if ($aria_label != '') {
             $aria_label = $this->txt($aria_label);
         }
         foreach ($component->getCounters() as $counter) {
-            if($counter->getNumber() > 0) {
+            if ($counter->getNumber() > 0) {
                 $aria_label .= $this->txt("counter_" . $counter->getType()) . " " . $counter->getNumber() . "; ";
             }
         }
 
-        if($aria_label != "") {
+        if ($aria_label != "") {
             $tpl->setVariable("LABEL", $aria_label);
         }
 

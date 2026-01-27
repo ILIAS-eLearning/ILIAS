@@ -67,7 +67,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tpl= $this->renderRole($component, $tpl);
+        $tpl = $this->renderRole($component, $tpl);
         $tpl = $this->renderLabel($component, $tpl);
 
         $id = $this->bindJavaScript($component);
