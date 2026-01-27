@@ -685,10 +685,9 @@ class ilDclBaseFieldModel
 
     public function checkUnique($value, ?int $record_id): bool
     {
-        if ($value && $this->getProperty(ilDclBaseFieldModel::PROP_UNIQUE) === '1') {
+        if ($this->getProperty(ilDclBaseFieldModel::PROP_UNIQUE) === '1') {
             foreach (ilDclCache::getTableCache($this->getTableId())->getRecords() as $record) {
                 if ($record->getId() !== $record_id) {
-                    $x = $record->getRecordFieldValue($this->getId());
                     if ($this->areEqual($record->getRecordFieldValue($this->getId()), $value)) {
                         throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
                     }
