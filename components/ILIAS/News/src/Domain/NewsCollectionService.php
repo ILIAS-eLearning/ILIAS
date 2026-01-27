@@ -91,36 +91,6 @@ class NewsCollectionService
         return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $user_id, $lazy), $criteria);
     }
 
-    public function getNewsForContainer(
-        int $ref_id,
-        int $context_obj_id,
-        string $context_type,
-        NewsCriteria $criteria,
-        int $user_id,
-        bool $lazy = false
-    ): NewsCollection {
-        if (in_array($context_type, ['grp', 'crs'])) {
-            // see #31471, #30687, and ilMembershipNotification
-            if (!\ilContainer::_lookupContainerSetting($context_obj_id, 'cont_use_news', '1')
-                || (
-                    !\ilContainer::_lookupContainerSetting($context_obj_id, 'cont_use_news', '1')
-                       && !\ilContainer::_lookupContainerSetting($context_obj_id, 'news_timeline')
-                )) {
-                return new NewsCollection();
-            }
-
-            if (\ilBlockSetting::_lookup('news', 'hide_news_per_date', 0, $context_obj_id)) {
-                $hide_date = \ilBlockSetting::_lookup('news', 'hide_news_date', 0, $context_obj_id);
-                if (!empty($hide_date)) {
-                    $criteria = $criteria->withStartDate(new \DateTimeImmutable($hide_date));
-                }
-            }
-        }
-
-        $context = new NewsContext($ref_id, $context_obj_id, $context_type);
-        return $this->applyFinalProcessing($this->getNewsForContexts([$context], $criteria, $user_id, $lazy), $criteria);
-    }
-
     public function invalidateCache(int $user_id): void
     {
         $this->cache->invalidateNewsForUser($user_id, new NewsCriteria());
@@ -149,10 +119,13 @@ class NewsCollectionService
             }
         }
 
-        // 4. Perform access checks [DPL 3]
+        // 4. Add start dates to criteria
+        $criteria = $this->appendStartDateFilter($hits, $criteria);
+
+        // 5. Perform access checks [DPL 3]
         $aggregated = $this->filterByAccess($hits, $criteria, $user_id);
 
-        // 5. Batch load news from the database [DPL 4]
+        // 6. Batch load news from the database [DPL 4]
         return $lazy
             ? $this->repository->findByContextsBatchLazy($aggregated, $criteria)
             : $this->repository->findByContextsBatch($aggregated, $criteria);
@@ -223,6 +196,32 @@ class NewsCollectionService
             }
         }
         return $filtered;
+    }
+
+    /**
+     * @param NewsContext[] $contexts
+     */
+    private function appendStartDateFilter(array $contexts, NewsCriteria $criteria): NewsCriteria
+    {
+        $date_filter = [];
+
+        foreach ($contexts as $context) {
+            if (
+                !in_array($context->getObjType(), ['grp', 'crs']) ||
+                !\ilBlockSetting::_lookup('news', 'hide_news_per_date', 0, $context->getObjId())
+            ) {
+                continue;
+            }
+
+            $hide_date = \ilBlockSetting::_lookup('news', 'hide_news_date', 0, $context->getObjId());
+            if (empty($hide_date)) {
+                continue;
+            }
+
+            $date_filter[$context->getObjId()] = new \DateTimeImmutable($hide_date);
+        }
+
+        return $criteria->withStartDates($date_filter);
     }
 
     /**

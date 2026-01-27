@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\News\Timeline;
 
 use ILIAS\News\Data\NewsCollection;
+use ILIAS\News\Data\NewsContext;
 use ILIAS\News\Data\NewsCriteria;
 use ILIAS\News\Data\NewsItem;
 use ILIAS\News\InternalRepoService;
@@ -57,10 +58,8 @@ class TimelineManager
         );
 
         if ($ref_id > 0) {
-            return $this->domain->collection()->getNewsForContainer(
-                $ref_id,
-                $context_obj_id,
-                $context_type,
+            return $this->domain->collection()->getNewsForContext(
+                new NewsContext($ref_id, $context_obj_id, $context_type),
                 $criteria,
                 $this->domain->user()->getId()
             );
