@@ -28,7 +28,6 @@ use DateTimeImmutable;
 final class NewsCriteria implements \JsonSerializable
 {
     public function __construct(
-        private ?DateTimeImmutable $start_date = null,
         private ?int $period = null,
         private bool $only_public = false,
         private ?int $min_priority = null,
@@ -39,6 +38,8 @@ final class NewsCriteria implements \JsonSerializable
         private array $excluded_news_ids = [],
         private ?bool $include_read_status = null,
         private ?int $read_user_id = null,
+        /** @var array<int, DateTimeImmutable> */
+        private array $start_dates = [],
     ) {
         // By default, include read status if only public is not set
         $this->include_read_status = $this->include_read_status ?? !$this->only_public;
@@ -47,11 +48,6 @@ final class NewsCriteria implements \JsonSerializable
     /*
         Getters and Setters
      */
-
-    public function getStartDate(): ?DateTimeImmutable
-    {
-        return $this->start_date;
-    }
 
     public function getPeriod(): ?int
     {
@@ -103,11 +99,12 @@ final class NewsCriteria implements \JsonSerializable
         return $this->read_user_id;
     }
 
-    public function withStartDate(?DateTimeImmutable $start_date): self
+    /**
+     * @return array<int, DateTimeImmutable>
+     */
+    public function getStartDates(): array
     {
-        $new = clone $this;
-        $new->start_date = $start_date;
-        return $new;
+        return $this->start_dates;
     }
 
     public function withPeriod(?int $period): self
@@ -180,6 +177,16 @@ final class NewsCriteria implements \JsonSerializable
         return $new;
     }
 
+    /**
+     * @param array<int, DateTimeImmutable> $start_dates
+     */
+    public function withStartDates(array $start_dates): self
+    {
+        $new = clone $this;
+        $new->start_dates = $start_dates;
+        return $new;
+    }
+
     /*
         Public Methods
      */
@@ -192,7 +199,6 @@ final class NewsCriteria implements \JsonSerializable
     public function toArray(): array
     {
         return [
-            'start_date' => $this->start_date?->format('Y-m-d H:i:s'),
             'period' => $this->period,
             'only_public' => $this->only_public,
             'min_priority' => $this->min_priority,
@@ -203,6 +209,7 @@ final class NewsCriteria implements \JsonSerializable
             'excluded_news_ids' => $this->excluded_news_ids,
             'include_read_status' => $this->include_read_status,
             'read_user_id' => $this->read_user_id,
+            'start_dates' => $this->start_dates
         ];
     }
 
