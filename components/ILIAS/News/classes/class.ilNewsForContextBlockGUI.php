@@ -51,6 +51,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     protected ilHelpGUI $help;
     protected ilSetting $settings;
     protected ilTabsGUI $tabs;
+    protected ilLogger $logger;
 
     protected StandardGUIRequest $std_request;
     protected InternalDomainService $domain;
@@ -70,6 +71,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $this->help = $DIC["ilHelp"];
         $this->settings = $DIC->settings();
         $this->tabs = $DIC->tabs();
+        $this->logger = $DIC->logger()->news();
 
         $locator = $DIC->news()->internal();
         $this->std_request = $locator->gui()->standardRequest();
