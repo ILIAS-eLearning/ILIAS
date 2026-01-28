@@ -168,14 +168,14 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone">
-                    <button type="button" class="btn btn-link" data-action="#" id="id_2">select_file_from_computer</button>
+                    <button class="btn btn-link" id="id_2" type="button">select_file_from_computer</button>
                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
             ',
             $byline,
-            null,
+            'id_2',
             'id_3'
         );
         $this->assertEquals($expected, $this->renderInsideContainer($file_input));
@@ -249,14 +249,14 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone">
-                    <button type="button" class="btn btn-link" data-action="#" id="id_3">select_file_from_computer</button>
+                    <button class="btn btn-link" id="id_3" type="button">select_file_from_computer</button>
                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
             ',
             null,
-            null,
+            'id_3',
             'id_4'
         );
         $this->assertEquals($expected, $this->renderInsideContainer($file_input));
@@ -320,14 +320,15 @@ class FileInputTest extends ILIAS_UI_TestBase
                         </div>
                     </template>
                 </div>
-                <div class="ui-input-file-input-dropzone"><button type="button" class="btn btn-link" data-action="#"
-                        id="id_5">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
-                        data-dz-error-msg></span></div>
+                <div class="ui-input-file-input-dropzone">
+                    <button class="btn btn-link" id="id_5" type="button">select_file_from_computer</button>
+                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+                </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
             ',
             null,
-            null,
+            'id_5',
             'id_6',
         );
         $this->assertEquals($expected, $this->renderInsideContainer($file_input));
@@ -400,14 +401,15 @@ class FileInputTest extends ILIAS_UI_TestBase
                         </div>
                     </template>
                 </div>
-                <div class="ui-input-file-input-dropzone"><button type="button" class="btn btn-link" data-action="#"
-                        id="id_5">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
-                        data-dz-error-msg></span></div>
+                <div class="ui-input-file-input-dropzone">
+                    <button class="btn btn-link" id="id_5" type="button">select_file_from_computer</button>
+                    <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+                </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
             ',
             null,
-            null,
+            'id_5',
             'id_6'
         );
         $this->assertEquals($expected, $this->renderInsideContainer($file_input));
