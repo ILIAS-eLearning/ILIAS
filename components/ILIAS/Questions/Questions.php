@@ -25,6 +25,7 @@ use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationCloze;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationLongMenu;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationNumeric;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationTextSubset;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Questions\Setup\Agent;
@@ -57,6 +58,9 @@ class Questions implements Component\Component
         $contribute[AnswerFormMigration::class] = static fn() => new MigrationNumeric(
             $internal[Persistence::class],
             $internal[\EvalMath::class]
+        );
+        $contribute[AnswerFormMigration::class] = static fn() => new MigrationTextSubset(
+            $internal[Persistence::class]
         );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/ParticipantViewLongMenu.js');
