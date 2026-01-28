@@ -319,6 +319,10 @@ class QuestionImplementation implements Question
         return $this->addDeleteAnswerFormsStatementsToManipulate(
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteQuestionStatement()
+            )->withAdditionalStatement(
+                $this->buildDeleteLinkingStatement()
+            )->withAdditionalStatement(
+                $this->buildDeleteMigrationStatement()
             ),
             $this->answer_forms
         );
@@ -495,6 +499,44 @@ class QuestionImplementation implements Question
     private function buildDeleteQuestionStatement(): Delete
     {
         $table_definition = CoreTables::Questions;
+        return new Delete(
+            $table_definition->getTable(),
+            [
+                new Where(
+                    $table_definition->getIdColumn(),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
+                )
+            ]
+        );
+    }
+
+    private function buildDeleteLinkingStatement(): Delete
+    {
+        $table_definition = CoreTables::Linking;
+        return new Delete(
+            $table_definition->getTable(),
+            [
+                new Where(
+                    $table_definition->getIdColumn(),
+                    new Value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
+                )
+            ]
+        );
+    }
+
+    /**
+     * skergomard, 2026-01-86: This we only need while the migrations exist, after
+     * this MUST go!
+     */
+    private function buildDeleteMigrationStatement(): Delete
+    {
+        $table_definition = CoreTables::MigrationsTable;
         return new Delete(
             $table_definition->getTable(),
             [
