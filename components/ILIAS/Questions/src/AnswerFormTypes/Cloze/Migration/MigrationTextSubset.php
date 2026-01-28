@@ -26,22 +26,21 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Data\UUID\Uuid;
 
-class MigrationNumeric implements Migration
+class MigrationTextSubset implements Migration
 {
     use BasicMigrationFunctions;
 
     public function __construct(
-        private readonly Persistence $persistence,
-        private readonly \EvalMath $math
+        private readonly Persistence $persistence
     ) {
-        $this->math->suppress_errors = true;
     }
 
     #[\Override]
     public function getOldQuestionIdentifier(): string
     {
-        return 'assNumeric';
+        return 'assTextSubset';
     }
 
     #[\Override]
@@ -60,50 +59,54 @@ class MigrationNumeric implements Migration
     public function buildInsertStatement(
         MigrationInsert $migration_insert
     ): MigrationInsert {
-        $db_row = $this->fetchDBValues(
+        $gaps = [];
+        foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
-        )->current();
+        ) as $db_row) {
+            $answer_form_id = $migration_insert->getAnswerFormId();
 
-        $answer_form_id = $migration_insert->getAnswerFormId();
-        $gap_id = $migration_insert->getUuid();
-        return $migration_insert->withAdditionalInsert(
-            $this->buildGapInsertStatement(
-                $this->persistence,
-                $migration_insert->getTableNameBuilder(),
-                $gap_id,
-                $answer_form_id,
-                0,
-                'numeric',
-                null,
-                0.0001,
-                null,
-                null,
-                null
-            )
-        )->withAdditionalInsert(
-            $this->buildAnswerOptionInsertStatement(
-                $this->persistence,
-                $migration_insert->getTableNameBuilder(),
-                $migration_insert->getUuid(),
-                $gap_id,
-                0,
-                '',
-                $db_row->points,
-                $this->limitToFloat($this->math, $db_row->lowerlimit),
-                $this->limitToFloat($this->math, $db_row->upperlimit)
-            )
-        )->withAdditionalInsert(
-            $this->buildAnswerFormInsertStatement(
-                $this->persistence,
-                $migration_insert->getTableNameBuilder(),
-                $answer_form_id,
-                ScoringIdentical::ScoreAll,
-                0
-            )
-        )->withAdditionalTextLegacy(
-            '{{' . Gap::GAP_PLACEHOLDER_NAME . '_' . array_shift($gap_id->toString()) . '}}'
-        );
+            if ($gaps === []) {
+                for ($i = 0; $i < $db_row->correctanswers; $i++) {
+                    $gaps[] = $migration_insert->getUuid();
+                }
+            }
+
+            foreach ($gaps as $gap_id) {
+                $migration_insert = $migration_insert->withAdditionalInsert(
+                    $this->buildAnswerOptionInsertStatement(
+                        $this->persistence,
+                        $migration_insert->getTableNameBuilder(),
+                        $migration_insert->getUuid(),
+                        $gap_id,
+                        $db_row->aorder,
+                        $db_row->answertext,
+                        $db_row->points,
+                        null,
+                        null
+                    )
+                );
+            }
+        }
+
+        return $migration_insert
+            ->withAdditionalInsert(
+                $this->buildAnswerFormInsertStatement(
+                    $this->persistence,
+                    $migration_insert->getTableNameBuilder(),
+                    $answer_form_id,
+                    ScoringIdentical::OnlyScoreDistinct,
+                    false
+                )
+            )->withAdditionalText(
+                implode(
+                    "\n\n",
+                    array_map(
+                        fn(Uuid $v) => "{{GAP_{$v->toString()}}}",
+                        $gaps,
+                    )
+                )
+            );
     }
 
     private function fetchDBValues(
@@ -111,8 +114,9 @@ class MigrationNumeric implements Migration
         int $old_question_id
     ): \Generator {
         $query = $db->query(
-            'SELECT points, lowerlimit, upperlimit FROM qpl_num_range' . PHP_EOL
-            . "WHERE q.question_fi = {$db->quote($old_question_id)}"
+            'SELECT * FROM qpl_qst_textsubset q' . PHP_EOL
+            . 'JOIN qpl_a_textsubset a ON q.question_fi = a.question_fi' . PHP_EOL
+            . "WHERE q.question_fi = {$db->quote($old_question_id)}" . PHP_EOL
         );
 
         while (($row = $db->fetchObject($query)) !== null) {
