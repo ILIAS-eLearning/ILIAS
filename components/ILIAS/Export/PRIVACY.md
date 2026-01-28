@@ -12,15 +12,15 @@ OER-Harvester can create and publish exports of objects. Only export types witho
 The Export does use the [IRSS].
 
 ## Data being stored
-Export Service
+### Export Service
 The Export service itself does not store data. The data is stored in the IRSS. 
 
-Export Files (this needs to be distributed to the components) 
-Once an Export file is created it is stacked up in the Export tab of the very object.  
+### Export Files
+Once an Export file is created, it is stacked up in the Export tab of the very object.  
 These object export files for objects do not comprise any personal data.
 However, the Test is an exception to this and allows exporting participant results. 
 A minor infringement are the pool objects of test and survey. They automatically add the first and last name of the author of a question. This personal data is included in the export file.
-If an object type has Metadata, they might contain personal data, which will be exported.   
+If an object type has metadata, they might contain personal data, which will be exported.   
 The export files of user data comprise the full set of data configured on that platform but minimally first name and last name and login. (Should this become a part of user service?)
 
 ## Data being presented
