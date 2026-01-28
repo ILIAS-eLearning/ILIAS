@@ -178,7 +178,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         if ($this->testrequest->isset('attempt')) {
-            $attempt_id = $this->testrequest->int('attempt');
+            $attempt_id = min($this->testrequest->int('attempt'), ilObjTest::_getMaxPass($current_active_id));
         } else {
             $attempt_id = ilObjTest::_getResultPass($current_active_id);
         }
