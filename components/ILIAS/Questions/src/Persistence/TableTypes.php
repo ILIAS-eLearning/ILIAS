@@ -30,7 +30,7 @@ enum TableTypes
 
     public function getTable(
         TableNameBuilder $table_name_builder,
-        ?string $table_identifier = null
+        string $table_identifier = ''
     ): Table {
         return match($this) {
             self::Additional => new Table(

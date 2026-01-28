@@ -62,7 +62,7 @@ class Select extends Type
             ? $this->refinery->random()->shuffleArray(new GivenSeed(4))
             : $this->refinery->random()->dontShuffle();
 
-        foreach ($gap->getAnswerOptions()->buildArrayForInput($shuffler) as $key => $answer_option) {
+        foreach ($gap->getAnswerOptions()->buildArrayForSelectInput($shuffler) as $key => $answer_option) {
             $gaptemplate->setCurrentBlock('select_gap_option');
             $gaptemplate->setVariable(
                 'SELECT_GAP_VALUE',
@@ -148,11 +148,5 @@ class Select extends Type
                 )
             )->withShuffleAnswerOptions($vs['shuffle_answer_options'])
         );
-    }
-
-    #[\Override]
-    public function getAnswerInput(): \ilFormPropertyGUI
-    {
-        ;
     }
 }

@@ -31,7 +31,7 @@ use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Renderer as UIRenderer;
 use Psr\Http\Message\ServerRequestInterface;
 
-class EditForm
+class EditForm implements Renderable
 {
     private const string MAIN_SECTION_NAME = 'form';
     public const string CARRY_SECTION_NAME = 'carry';

@@ -34,7 +34,7 @@ use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 use Psr\Http\Message\ServerRequestInterface;
 
-class QuestionsTable implements DataRetrieval
+class QuestionsTable implements Renderable, DataRetrieval
 {
     public function __construct(
         private readonly UIFactory $ui_factory,
