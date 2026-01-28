@@ -50,6 +50,15 @@ class AnswerOptions
             || $this->answer_options_awarding_points === [];
     }
 
+    public function getAnswerOptionById(
+        Uuid $answer_option_id
+    ): ?AnswerOption {
+        return array_find(
+            $this->answer_options,
+            fn(AnswerOption $v): bool => $v->getAnswerOptionId()->toString() === $answer_option_id->toString()
+        );
+    }
+
     public function getAnswerOptionForPositionOrNew(
         int $position
     ): AnswerOption {
@@ -185,7 +194,7 @@ class AnswerOptions
         return $clone;
     }
 
-    public function buildArrayForInput(
+    public function buildArrayForSelectInput(
         Transformation $shuffle_transformation
     ): array {
         return array_reduce(
@@ -221,7 +230,7 @@ class AnswerOptions
             $answer_options_awarding_points ?? $this->answer_options,
             function (array $c, AnswerOption $v) use ($ff, $build_label): array {
                 $c[$v->getAnswerOptionId()->toString()] = $ff->numeric($build_label($v))
-                    ->withStepSize(0.0001)
+                    ->withStepSize(0.01)
                     ->withValue($v->getAvailablePoints());
                 return $c;
             },

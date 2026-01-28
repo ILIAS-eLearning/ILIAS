@@ -35,8 +35,9 @@ use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 
 class Gaps
@@ -71,6 +72,11 @@ class Gaps
         string $tag_name
     ): ?Gap {
         return $this->gaps[$this->extractIdFromTagName($tag_name)] ?? null;
+    }
+
+    public function getNumberOfGaps(
+    ): int {
+        return count($this->gaps);
     }
 
     public function hasAtLeastOneGap(): bool
@@ -267,8 +273,26 @@ class Gaps
         );
     }
 
-    public function getCarryInputs(FieldFactory $ff): Group
-    {
+    public function buildGapsMultiSelect(
+        string $label,
+        FieldFactory $ff
+    ): MultiSelect {
+        return $ff->multiSelect(
+            $label,
+            array_reduce(
+                $this->gaps,
+                function (array $c, Gap $v): array {
+                    $c[$v->getAnswerInputId()->toString()] = $v->buildShortenedGapName();
+                    return $c;
+                },
+                []
+            )
+        );
+    }
+
+    public function getCarryInputs(
+        FieldFactory $ff
+    ): Group {
         return $ff->group(
             array_reduce(
                 $this->gaps,

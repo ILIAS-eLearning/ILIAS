@@ -41,7 +41,7 @@ class Persistence implements PersistenceInterface
     private const array ANSWER_FORM_TABLE_COLUMNS = [
         'answer_form_id',
         'scoring_identical_responses',
-        'combinations_activated'
+        'combinations_enabled'
     ];
 
     private const string ANSWER_INPUTS_TABLE_FOREIGN_KEY_COLUMN = 'answer_form_id';
@@ -68,13 +68,22 @@ class Persistence implements PersistenceInterface
         'upper_limit'
     ];
 
-    private const string COMBINATIONS_TABLE_IDENTIFIER = 'combinations';
-    private const string COMBINATIONS_TABLE_FOREIGN_KEY_COLUMN = 'answer_form_id';
-    private const array COMBINATIONS_TABLE_COLUMNS = [
+    public const string COMBINATION_TABLE_IDENTIFIER = 'combinations';
+    private const string COMBINATION_TABLE_FOREIGN_KEY_COLUMN = 'answer_form_id';
+    private const array COMBINATION_TABLE_COLUMNS = [
         'id',
         'answer_form_id',
-        'answer_options',
         'points'
+    ];
+
+    public const string COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER = 'combinations_to_answer_options';
+    private const string COMBINATION_TO_ANSWER_OPTIONS_TABLE_ID_COLUMN = 'combination_id';
+    private const string COMBINATION_TO_ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN = 'combination_id';
+    private const array COMBINATION_TO_ANSWER_OPTIONS_TABLE_COLUMNS = [
+        'combination_id',
+        'gap_id',
+        'answer_option_id',
+        'in_range'
     ];
 
     public function __construct(
@@ -92,7 +101,7 @@ class Persistence implements PersistenceInterface
     public function getColumns(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        ?string $table_identifier = null,
+        string $table_identifier = '',
         array $columns_to_skip = []
     ): array {
         $table = $table_type->getTable($table_name_builder, $table_identifier);
@@ -100,7 +109,10 @@ class Persistence implements PersistenceInterface
             TableTypes::TypeSpecificAnswerForms => self::ANSWER_FORM_TABLE_COLUMNS,
             TableTypes::AnswerInputs => self::ANSWER_INPUTS_TABLE_COLUMNS,
             TableTypes::AnswerOptions => self::ANSWER_OPTIONS_TABLE_COLUMNS,
-            TableTypes::Additional => self::COMBINATIONS_TABLE_COLUMNS
+            TableTypes::Additional => match($table_identifier) {
+                self::COMBINATION_TABLE_IDENTIFIER => self::COMBINATION_TABLE_COLUMNS,
+                self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER => self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_COLUMNS
+            }
         };
         return array_map(
             fn(string $v): Column => new Column($table, $v),
@@ -117,25 +129,36 @@ class Persistence implements PersistenceInterface
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        ?string $table_identifier = null
+        string $table_identifier = ''
     ): Column {
-        return match($table_type) {
-            TableTypes::TypeSpecificAnswerForms => new Column(
+        if ($table_type === TableTypes::TypeSpecificAnswerForms) {
+            return new Column(
                 $table_type->getTable($table_name_builder),
                 self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
-            ),
-            default => new Column(
-                $table_type->getTable($table_name_builder, $table_identifier),
-                self::ID_COLUMN
-            )
-        };
+            );
+        }
+
+        if ($table_identifier === self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER) {
+            return new Column(
+                $table_type->getTable(
+                    $table_name_builder,
+                    self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
+                ),
+                self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_ID_COLUMN
+            );
+        }
+
+        return new Column(
+            $table_type->getTable($table_name_builder, $table_identifier),
+            self::ID_COLUMN
+        );
     }
 
     #[\Override]
     public function getForeignKeyColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        ?string $table_identifier = null
+        string $table_identifier = ''
     ): Column {
         return match($table_type) {
             TableTypes::TypeSpecificAnswerForms => new Column(
@@ -152,7 +175,9 @@ class Persistence implements PersistenceInterface
             ),
             TableTypes::Additional => new Column(
                 $table_type->getTable($table_name_builder, $table_identifier),
-                self::COMBINATIONS_TABLE_FOREIGN_KEY_COLUMN
+                $table_identifier === self::COMBINATION_TABLE_IDENTIFIER
+                    ? self::COMBINATION_TABLE_FOREIGN_KEY_COLUMN
+                    : self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN
             )
         };
     }
@@ -167,7 +192,13 @@ class Persistence implements PersistenceInterface
         $answer_form_specific_table_definition = TableTypes::TypeSpecificAnswerForms;
         $answer_input_table_definition = TableTypes::AnswerInputs;
         $answer_options_table_definition = TableTypes::AnswerOptions;
-        $combinations_table_definition = TableTypes::Additional;
+        $additional_table_definition = TableTypes::Additional;
+
+        $combinations_id_column = $this->getIdColumn(
+            $table_name_builder,
+            $additional_table_definition,
+            self::COMBINATION_TABLE_IDENTIFIER
+        );
 
         return $query->withAdditionalJoin(
             new Join(
@@ -236,8 +267,8 @@ class Persistence implements PersistenceInterface
                 $answer_form_id_column,
                 $this->getForeignKeyColumn(
                     $table_name_builder,
-                    $combinations_table_definition,
-                    self::COMBINATIONS_TABLE_IDENTIFIER
+                    $additional_table_definition,
+                    self::COMBINATION_TABLE_IDENTIFIER
                 ),
                 JoinType::Left
             )
@@ -245,10 +276,42 @@ class Persistence implements PersistenceInterface
             new Select(
                 $this->getColumns(
                     $table_name_builder,
-                    $combinations_table_definition,
-                    self::COMBINATIONS_TABLE_IDENTIFIER
+                    $additional_table_definition,
+                    self::COMBINATION_TABLE_IDENTIFIER
                 )
             )
+        )->withAdditionalJoin(
+            new Join(
+                $combinations_id_column,
+                $this->getForeignKeyColumn(
+                    $table_name_builder,
+                    $additional_table_definition,
+                    self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
+                ),
+                JoinType::Left
+            )
+        )->withAdditionalSelect(
+            new Select(
+                $this->getColumns(
+                    $table_name_builder,
+                    $additional_table_definition,
+                    self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
+                )
+            )
+        )->withAdditionalOrder(
+            new Order(
+                $combinations_id_column
+            )
         );
+    }
+
+    public function getCombinationsTableIdentifier(): string
+    {
+        return self::COMBINATION_TABLE_IDENTIFIER;
+    }
+
+    public function getCombinationToAnswerOptionsTableIdentifier(): string
+    {
+        return self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER;
     }
 }

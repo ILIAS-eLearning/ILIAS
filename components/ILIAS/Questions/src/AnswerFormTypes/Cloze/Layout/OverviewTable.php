@@ -71,7 +71,7 @@ class OverviewTable implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return 0;
+        return $this->environment->getAnswerFormProperties()->getGaps()->getNumberOfGaps();
     }
 
     private function getColums(): array

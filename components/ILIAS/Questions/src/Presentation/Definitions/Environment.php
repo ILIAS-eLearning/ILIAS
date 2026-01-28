@@ -30,8 +30,11 @@ interface Environment
     public function setEditAnswerFormBackTarget(): void;
 
     public function addEditAnswerFormSubTab(
-        string $id,
-        string $text,
+        string $step,
+        string $text
+    ): void;
+
+    public function activateEditAnswerFormSubTab(
         string $step
     ): void;
 

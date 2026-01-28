@@ -27,6 +27,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Layout\OverviewTable;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Combinations;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
@@ -59,6 +60,8 @@ class Properties implements PropertiesInterface
     private const string FORM_KEY_ENABLE_COMBINATIONS = 'enable_combinations';
     private const string FORM_KEY_GAPS_TO_EDIT = 'gaps';
 
+    private bool $updated_combinations = false;
+
     /**
      * @param array<string, \ILIAS\Questions\AnswerFormTypes\Cloze\Gap> $gaps
      */
@@ -68,9 +71,9 @@ class Properties implements PropertiesInterface
         private readonly Definition $definition,
         private Text $cloze_text,
         private readonly string $legacy_cloze_text,
+        private ScoringIdentical $scoring_identical,
         private Gaps $gaps,
-        private ScoringIdentical $scoring_identical = ScoringIdentical::ScoreAll,
-        private bool $combinations_enabled = false
+        private Combinations $combinations
     ) {
     }
 
@@ -145,16 +148,17 @@ class Properties implements PropertiesInterface
         return $clone;
     }
 
-    public function areCombinationsEnabled(): bool
+    public function getCombinations(): Combinations
     {
-        return $this->combinations_enabled;
+        return $this->combinations;
     }
 
-    public function withCombinationsEnabled(
-        bool $combinations_enabled
+    public function withCombinations(
+        Combinations $combinations
     ): self {
         $clone = clone $this;
-        $clone->combinations_enabled = $combinations_enabled;
+        $clone->combinations = $combinations;
+        $clone->updated_combinations = true;
         return $clone;
     }
 
@@ -180,7 +184,7 @@ class Properties implements PropertiesInterface
                 ->getRenderedMarkdownForEditingPresentation($this->gaps),
             $lng->txt('score_identical') => $this->scoring_identical
                 ->getTranslatedOptionName($lng),
-            $lng->txt('gap_combinations') => $this->combinations_enabled
+            $lng->txt('gap_combinations') => $this->combinations->areCombinationsEnabled()
                 ? $lng->txt('enabled')
                 : $lng->txt('disabled')
         ];
@@ -222,7 +226,7 @@ class Properties implements PropertiesInterface
                     $this->scoring_identical
                 )->withValue($this->getScoringOfIdenticalResponses()->value),
                 self::FORM_KEY_ENABLE_COMBINATIONS => $ff->checkbox($lng->txt('cloze_enable_combinations'))
-                    ->withValue($this->areCombinationsEnabled())
+                    ->withValue($this->combinations->areCombinationsEnabled())
             ],
             $lng->txt('create_answer_form')
         )->withAdditionalTransformation(
@@ -253,7 +257,7 @@ class Properties implements PropertiesInterface
                     ->withValue($this->getScoringOfIdenticalResponses()->value),
                 self::FORM_KEY_ENABLE_COMBINATIONS => $ff->hidden()
                     ->withDedicatedName(self::FORM_KEY_ENABLE_COMBINATIONS)
-                    ->withValue($this->areCombinationsEnabled() ? 1 : 0)
+                    ->withValue($this->combinations->areCombinationsEnabled() ? 1 : 0)
             ]
         );
     }
@@ -289,11 +293,15 @@ class Properties implements PropertiesInterface
             ])
         );
 
-        $clone->combinations_enabled = $carry->retrieve(
+        $clone->combinations = $carry->retrieve(
             self::FORM_KEY_ENABLE_COMBINATIONS,
             $refinery->byTrying([
-                $refinery->kindlyTo()->bool(),
-                $refinery->always($clone->combinations_enabled)
+                $refinery->custom()->transformation(
+                    fn($v): Combinations => $clone->combinations->withCombinationsEnabled(
+                        $refinery->kindlyTo()->bool()->transform($v)
+                    )
+                ),
+                $refinery->always($clone->combinations)
             ])
         );
 
@@ -333,7 +341,11 @@ class Properties implements PropertiesInterface
             );
 
         return $this->gaps->toStorage(
-            $manipulate->withAdditionalStatement(
+            $this->addReplaceCombinationsStatements(
+                $manipulate,
+                $persistence,
+                $table_name_builder
+            )->withAdditionalStatement(
                 $answer_form_statement
             ),
             $persistence,
@@ -378,7 +390,10 @@ class Properties implements PropertiesInterface
             [
                 new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
                 new Value(\ilDBConstants::T_TEXT, $this->scoring_identical->value),
-                new Value(\ilDBConstants::T_INTEGER, $this->combinations_enabled ? 1 : 0)
+                new Value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->combinations->areCombinationsEnabled() ? 1 : 0
+                )
             ]
         );
     }
@@ -392,12 +407,15 @@ class Properties implements PropertiesInterface
             $persistence->getColumns(
                 $table_name_builder,
                 $table_definition,
-                null,
+                '',
                 ['answer_form_id']
             ),
             [
                 new Value(\ilDBConstants::T_TEXT, $this->scoring_identical->value),
-                new Value(\ilDBConstants::T_INTEGER, $this->combinations_enabled ? 1 : 0)
+                new Value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->combinations->areCombinationsEnabled() ? 1 : 0
+                )
             ],
             [
                 new Where(
@@ -408,6 +426,23 @@ class Properties implements PropertiesInterface
                     new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString())
                 )
             ]
+        );
+    }
+
+    private function addReplaceCombinationsStatements(
+        Manipulate $manipulate,
+        Persistence $persistence,
+        TableNameBuilder $table_name_builder
+    ): Manipulate {
+        if (!$this->combinations->areCombinationsEnabled()
+            || !$this->updated_combinations) {
+            return $manipulate;
+        }
+
+        return $this->combinations->toStorage(
+            $manipulate,
+            $persistence,
+            $table_name_builder
         );
     }
 

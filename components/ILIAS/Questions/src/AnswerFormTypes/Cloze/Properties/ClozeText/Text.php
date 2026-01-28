@@ -27,9 +27,11 @@ use ILIAS\Data\Text\Factory as TextFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Markdown as MarkdownInput;
 use ILIAS\UI\Component\Input\Field\Hidden as HiddenInput;
+use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use Mustache\Engine;
 
 class Text
@@ -80,6 +82,21 @@ class Text
     {
         return $this->refinery->string()->markdown()->toHTML()->transform(
             $this->cloze_text->getRawRepresentation()
+        );
+    }
+
+    public function buildPanelForEditing(
+        UIFactory $ui_factory,
+        Language $lng,
+        Gaps $gaps
+    ): StandardPanel {
+        return $ui_factory->panel()->standard(
+            $lng->txt('cloze_text'),
+            $ui_factory->legacy()->content(
+                $this->getRenderedMarkdownForEditingPresentation(
+                    $gaps
+                )
+            )
         );
     }
 

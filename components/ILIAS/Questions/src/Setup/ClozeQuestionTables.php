@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
+use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
 
@@ -179,7 +180,10 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::Additional, 'combinations');
+        $table_name = $this->table_name_builder->getTableNameFor(
+            TableTypes::Additional,
+            Persistence::COMBINATION_TABLE_IDENTIFIER
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -190,11 +194,6 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
                 'answer_form_id' => [
                     'type' => \ilDBConstants::T_TEXT,
                     'length' => 64,
-                    'notnull' => true
-                ],
-                'answer_options' => [
-                    'type' => \ilDBConstants::T_TEXT,
-                    'length' => 4000,
                     'notnull' => true
                 ],
                 'points' => [
@@ -214,6 +213,46 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
     }
 
     public function step_5(): void
+    {
+        $table_name = $this->table_name_builder->getTableNameFor(
+            TableTypes::Additional,
+            Persistence::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
+        );
+        if (!$this->db->tableExists($table_name)) {
+            $this->db->createTable($table_name, [
+                'combination_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'gap_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'answer_option_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'in_range' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 16,
+                    'notnull' => false
+                ]
+            ]);
+        }
+
+        if (!$this->db->addPrimaryKey($table_name, ['combination_id', 'gap_id'])) {
+            $this->db->addPrimaryKey($table_name, ['combination_id', 'gap_id']);
+        }
+
+        if (!$this->db->indexExistsByFields($table_name, ['combination_id'])) {
+            $this->db->addIndex($table_name, ['combination_id'], 'ci');
+        }
+    }
+
+    public function step_6(): void
     {
         $table_name = $this->table_name_builder->getTableNameFor(TableTypes::Responses);
         if (!$this->db->tableExists($table_name)) {

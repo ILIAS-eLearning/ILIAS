@@ -27,11 +27,13 @@ use ILIAS\Data\URI;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Language\Language;
+use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
@@ -40,6 +42,7 @@ class Factory
 {
     public function __construct(
         private readonly UIFactory $ui_factory,
+        private readonly Refinery $refinery,
         private readonly HttpService $http,
         private readonly Language $lng
     ) {
@@ -83,16 +86,33 @@ class Factory
         );
     }
 
+    /**
+     * @param CustomTransformation $to_inputs This MUST return an `array` of
+     * inputs that will then be used in the form. The transformation will receive
+     * the string produced by `$to_carry` as parameter.
+     * @param Input|array|null $inputs If you provide inputs it is assumed that no
+     * carry is present and you want to use them directly.
+     */
+    public function getInputsBuilder(
+        CustomTransformation $to_inputs,
+        Input|array|null $inputs = null
+    ): InputsBuilder {
+        return new InputsBuilder(
+            $this->refinery,
+            $to_inputs,
+            $inputs
+        );
+    }
+
     public function getCarrySectionData(
-        ArrayBasedRequestWrapper $post_wrapper,
-        Refinery $refinery
+        ArrayBasedRequestWrapper $post_wrapper
     ): CarryWrapper {
         return new CarryWrapper(
             array_reduce(
                 $post_wrapper->keys(),
-                function (array $c, string $v) use ($post_wrapper, $refinery): array {
+                function (array $c, string $v) use ($post_wrapper): array {
                     $value = new Leaf(
-                        $post_wrapper->retrieve($v, $refinery->identity())
+                        $post_wrapper->retrieve($v, $this->refinery->identity())
                     );
                     foreach (array_reverse(explode('/', $v)) as $path_element) {
                         $value = [$path_element => $value];

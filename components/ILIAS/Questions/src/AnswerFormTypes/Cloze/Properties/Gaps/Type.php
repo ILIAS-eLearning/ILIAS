@@ -54,7 +54,13 @@ abstract class Type
         Gap $gap
     ): Transformation;
 
-    abstract public function getAnswerInput(): \ilFormPropertyGUI;
+    public function getCombinationsSelectValues(
+        Gap $gap
+    ): array {
+        return $gap->getAnswerOptions()->buildArrayForSelectInput(
+            $this->refinery->random()->dontShuffle()
+        );
+    }
 
     public function getAddPointsTransformation(
         Gap $gap

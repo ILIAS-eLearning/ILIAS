@@ -18,13 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Presentation\Layout;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
-use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Language\Language;
 
-interface Renderable
+enum InRange: string
 {
-    public function render(
-        UIRenderer $ui_renderer
-    ): string;
+    case InRange = 'i';
+    case OutOfRange = 'o';
+
+    public function getLabel(
+        Language $lng
+    ): string {
+        return match($this) {
+            self::InRange => $lng->txt('in_range'),
+            self::OutOfRange => $lng->txt('out_of_range')
+        };
+    }
 }

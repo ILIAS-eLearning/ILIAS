@@ -33,20 +33,20 @@ interface Persistence
     public function getColumns(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        ?string $table_identifier = null,
+        string $table_identifier = '',
         array $columns_to_skip = []
     ): array;
 
     public function getIdColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        ?string $table_identifier = null
+        string $table_identifier = ''
     ): Column;
 
     public function getForeignKeyColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        ?string $table_identifier = null
+        string $table_identifier = ''
     ): Column;
 
     public function completeQuery(

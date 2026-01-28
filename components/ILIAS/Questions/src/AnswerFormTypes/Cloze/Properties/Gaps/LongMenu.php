@@ -72,7 +72,7 @@ class LongMenu extends Type
             . "{$gap->getMinAutocomplete()}, "
             . json_encode(
                 array_values(
-                    $gap->getAnswerOptions()->buildArrayForInput(
+                    $gap->getAnswerOptions()->buildArrayForSelectInput(
                         $this->refinery->random()->dontShuffle()
                     )
                 )
@@ -175,12 +175,6 @@ class LongMenu extends Type
                     )->withAnswerOptionsAwardingPoints($vs['options_awarding_points'])
                 )
         );
-    }
-
-    #[\Override]
-    public function getAnswerInput(): \ilFormPropertyGUI
-    {
-        ;
     }
 
     private function retrieveAnswerOptionsArrayFromUpload(
