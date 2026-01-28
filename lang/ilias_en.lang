@@ -14112,6 +14112,7 @@ qpl#:#qpl_page_type_qfbg#:#General Feedback
 qpl#:#qpl_page_type_qfbs#:#Special Feedback
 qpl#:#qpl_page_type_qht#:#Hint
 qpl#:#qpl_page_type_qpl#:#Question Page
+qsts#:#answer_form#:#Answer Form
 qsts#:#cloze_enable_combinations#:#Lückenkombinationen aktivieren
 qsts#:#cont_ed_insert_answf#:#Insert Answer Form
 qsts#:#create_answer_form#:#Create Answer Form

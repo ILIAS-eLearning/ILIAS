@@ -14149,6 +14149,7 @@ qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
 qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
 qpl#:#qpl_page_type_qht#:#Hinweis
 qpl#:#qpl_page_type_qpl#:#Fragenseite
+qsts#:#answer_form#:#Antwort Formular
 qsts#:#cloze_enable_combinations#:#Enable Gap Combination
 qsts#:#cont_ed_insert_answf#:#Antwortformular einfügen
 qsts#:#create_answer_form#:#Antwortformular erstellen
