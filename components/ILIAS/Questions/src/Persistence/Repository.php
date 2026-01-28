@@ -50,15 +50,48 @@ class Repository
     /**
      * @return \Generator<\ILIAS\Questions\Question\QuestionImplementation>
      */
-    public function getAllQuestions(): \Generator
+    public function getQuestionDataOnlyForAllQuestions(): \Generator
     {
-        yield from $this->getForBaseQuery(
-            new Query(
-                $this->db,
-                $this->answer_form_factory,
-                $this->refinery
+        foreach ((new Query(
+            $this->db,
+            $this->answer_form_factory,
+            $this->refinery
+        ))->loadNextRecord() as $query_with_record) {
+            yield $this->retrieveQuestionFromQuery(
+                $query_with_record,
+                []
+            );
+        }
+    }
+
+    /**
+     * @return \Generator<\ILIAS\Questions\Question\QuestionImplementation>
+     */
+    public function getQuestionDataOnlyForQuestionIds(
+        array $question_ids
+    ): \Generator {
+        foreach ((new Query(
+            $this->db,
+            $this->answer_form_factory,
+            $this->refinery
+        )->withAdditionalWhere(
+            new Where(
+                CoreTables::Questions->getIdColumn(),
+                new Value(
+                    \ilDBConstants::T_TEXT,
+                    array_map(
+                        fn(Uuid $v): string => $v->toString(),
+                        $question_ids
+                    )
+                ),
+                Operator::In
             )
-        );
+        ))->loadNextRecord() as $query_with_record) {
+            yield $this->retrieveQuestionFromQuery(
+                $query_with_record,
+                []
+            );
+        }
     }
 
     public function getForQuestionId(
@@ -219,7 +252,7 @@ class Repository
             )
         );
 
-        if ($question->getPageId() !== 0) {
+        if ($answer_forms === [] || $question->getPageId() !== 0) {
             return $question;
         }
 

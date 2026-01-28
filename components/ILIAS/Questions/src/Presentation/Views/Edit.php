@@ -491,7 +491,7 @@ class Edit
                         $environment->withActionParameter(self::CMD_EDIT_QUESTION)
                     )
                 ),
-                iterator_to_array($this->questions_repository->getAllQuestions())
+                iterator_to_array($this->questions_repository->getQuestionDataOnlyForAllQuestions())
             )
         );
     }
@@ -545,8 +545,8 @@ class Edit
         string|array $question_ids
     ): array {
         $questions = $question_ids === 'ALL_OBJECTS'
-                ? $this->questions_repository->getAllQuestions()
-                : $this->questions_repository->getForQuestionIds($question_ids);
+                ? $this->questions_repository->getQuestionDataOnlyForAllQuestions()
+                : $this->questions_repository->getQuestionDataOnlyForQuestionIds($question_ids);
         $affected_items = [];
         foreach ($questions as $question) {
             $affected_items[] = $this->ui_factory->modal()->interruptiveItem()->standard(

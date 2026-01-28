@@ -67,7 +67,7 @@ class QuestionsTable implements Renderable, DataRetrieval
         $environment_with_action = $this->environment->withActionParameter(
             Edit::CMD_EDIT_QUESTION
         );
-        foreach ($this->questions_repository->getAllQuestions() as $question) {
+        foreach ($this->questions_repository->getQuestionDataOnlyForAllQuestions() as $question) {
             yield $question->toTableRow(
                 $row_builder,
                 $this->ui_factory,
