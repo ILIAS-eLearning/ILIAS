@@ -727,7 +727,7 @@ assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#final_statement#:#Abschließende Bemerkung
 assessment#:#final_statement_show_desc#:#Zeigt die Abschließende Bemerkung nach Abgabe des Tests an.  Von dieser Seite aus ist es nicht möglich, zum Test zurückzukehren. Die abschließende Bemerkung kann im Unterreiter „Abschließende Bemerkung bearbeiten“ des Reiters „Einstellungen“ bearbeitet werden.
 assessment#:#finalized_by#:#Bewertung abgeschlossen von
-assessment#:#finalized_evaluation#:#Endgültig bewertet
+assessment#:#finalized_evaluation#:#Bewertet
 assessment#:#finalized_on#:#Bewertung abgeschlossen am
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
