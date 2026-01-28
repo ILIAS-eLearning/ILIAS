@@ -8047,7 +8047,7 @@ crs#:#mem_cron_min_members_task#:#Please inform the participants if the course w
 crs#:#obj_count_members#:#Number of members
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
-crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
+crs#:#sess_join_info#:#Please click on 'Attend' if you want to take part in this session.
 crs#:#sess_limit#:#Limit Number of Sessions Shown
 crs#:#sess_limit_info#:#Participants are not presented with a list of all sessions, but rather a limited number of sessions.
 crs#:#sess_num_next#:#Number of Future Sessions (from tomorrow)
@@ -8629,7 +8629,6 @@ dcl#:#dcl_datetime#:#Datetime Entry
 dcl#:#dcl_datetime_desc#:#Users can enter a date and time of their choice or select one using a calendar.
 dcl#:#dcl_datetime_selection#:#Datetime Selection
 dcl#:#dcl_datetime_selection_desc#:#Allow a date and time to be chosen from among a predefined selection of datetime options.
-dcl#:#dcl_deactivate_view#:#Deactivate this view
 dcl#:#dcl_default_sort_field#:#Default sort field
 dcl#:#dcl_default_sort_field_order#:#Default sort field order
 dcl#:#dcl_default_sort_field_order_desc#:#Arrange the order of the entries in the table based on this field.
@@ -8645,8 +8644,6 @@ dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Copy
 dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.
-dcl#:#dcl_display_record_alt#:#Display this entry
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#This is not compatible with existing records.###23 02 2024 new variable
 dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
@@ -8658,12 +8655,9 @@ dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
 dcl#:#dcl_export_enabled#:#Export Table
 dcl#:#dcl_export_enabled_desc#:#The data in this table can be exported. Please note: Only fields that have the ‘Exportable’ checkbox activated in the ‘Fields’ tab of this table will be included in the export.
-dcl#:#dcl_export_finished#:#Export finished
-dcl#:#dcl_export_started#:#Asynchronous Export started
 dcl#:#dcl_field_datatype#:#Field Type
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_description_desc#:#The description will be shown below the input field when making a new entry.
-dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_field_visible#:#Visible
@@ -8684,7 +8678,6 @@ dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_ilias_reference#:#Repository Object
 dcl#:#dcl_ilias_reference_desc#:#Allow users to select an ILIAS object from the repository.
 dcl#:#dcl_ilias_reference_link#:#Link to Selected Object
-dcl#:#dcl_import#:#Import Data Collection
 dcl#:#dcl_import_enabled#:#Import Data Into Table
 dcl#:#dcl_import_enabled_desc#:#Data can be imported into the table via an Excel file.
 dcl#:#dcl_import_records .xls#:#Excel-Import
@@ -8709,8 +8702,6 @@ dcl#:#dcl_link_detail_page#:#Link to Detailed View
 dcl#:#dcl_link_detail_page_desc#:#Additionally, a detailed view template must have been created and activated within the tab ‘Detailed View’.
 dcl#:#dcl_list_fields#:#Fields
 dcl#:#dcl_list_visibility_and_filter#:#Overview
-dcl#:#dcl_locked#:#Locked
-dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
@@ -8719,7 +8710,6 @@ dcl#:#dcl_mob#:#Image, Audio, Video
 dcl#:#dcl_mob_desc#:#Allow users to upload a media file which will be displayed within the data collection. Allowed data types: %s
 dcl#:#dcl_msg_field_modified#:#Field updated
 dcl#:#dcl_msg_fields_deleted#:#Deleted fields
-dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
 dcl#:#dcl_msg_mc_to_sc_confirmation#:#Swichting from multiple selection to single selection might lead to a loss of data in existing entries. Are you sure to continue?
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
@@ -8735,13 +8725,11 @@ dcl#:#dcl_new_entries#:#New Entries
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_new_view#:#New View
-dcl#:#dcl_next_record#:#Next Entry
 dcl#:#dcl_no_entries#:#Action not permitted
 dcl#:#dcl_no_entry#:#No entry
 dcl#:#dcl_no_export_async_config#:#No SOAP Configuration for asyncronous exports available.
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 dcl#:#dcl_no_fields_yet#:#You cannot add any entries to this table as it does not yet have any fields. To create a field, click on a table in the ‘Tables’ tab and and then on the ‘Add New Field’ button.
-dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
 dcl#:#dcl_no_table_found#:#No visible table found!
@@ -8769,20 +8757,12 @@ dcl#:#dcl_owner_name#:#Owner (Name)
 dcl#:#dcl_page_type_dclf#:#Details View
 dcl#:#dcl_placeholder_info#:#To use data from the data collection in this view, please use the corresponding placeholders. These are available in the page element 'Text' and 'Data Table'.
 dcl#:#dcl_please_select#:#--- Please select ---
-dcl#:#dcl_plugin#:#Plugin
-dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
-dcl#:#dcl_plugin_no_hooks_available#:#No active field-type plugins found
-dcl#:#dcl_prev_record#:#Previous Entry
 dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Valid operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Allowed fields (click on a title to use as a placeholder within the expression):<br>%s<br><b>(Allowed fields are checkbox, number, text and date that don’t contain any formula-sensitive characters inside their titles)</b>
-dcl#:#dcl_public_comments#:#Activate Public Comments
-dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_rating_desc#:#Existing entries can be rated on a scale of one to five stars.
-dcl#:#dcl_rbac_roles_without_read_access_on_any_standard_view#:#The following rbac roles have read access on the data collection, but no read access on any standard view of a table:
 dcl#:#dcl_record#:#Entry
 dcl#:#dcl_record_deleted#:#Entry deleted
-dcl#:#dcl_record_from_total#:#%d of %d
 dcl#:#dcl_record_settings#:#Record Settings
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
@@ -8792,12 +8772,9 @@ dcl#:#dcl_reference_title#:#Referenced Field
 dcl#:#dcl_reference_title_desc#:#The data entries of the selected field will be the selectable options in this field.
 dcl#:#dcl_regex#:#Restrict Text Input
 dcl#:#dcl_regex_info#:#Allow the input of a regular expression without delimiter. Certain entries will the be automatically rejected.
-dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
 dcl#:#dcl_save_confirmation#:#Additional Confirmation of Entries
 dcl#:#dcl_save_confirmation_desc#:#Users have to confirm new entries into the data collection.
-dcl#:#dcl_save_order#:#Save Order
-dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_selection_options#:#Options
 dcl#:#dcl_selection_type#:#Format
 dcl#:#dcl_selection_type_combobox#:#Single selection from drop-down menu
@@ -8813,8 +8790,6 @@ dcl#:#dcl_supported_filetypes#:#Permitted File Types
 dcl#:#dcl_supported_filetypes_desc#:#You can set which file types can be uploaded by entering a comma-separated list of permitted file extensions here, e.g. pdf, docx
 dcl#:#dcl_table#:#Table
 dcl#:#dcl_table_id#:#Table ID
-dcl#:#dcl_table_list_fields#:#Fields Of Selected Table
-dcl#:#dcl_table_list_tables#:#Available Tables
 dcl#:#dcl_table_settings#:#Table Settings.
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_table_title_not_matching#:#The titles of the excel sheet and the Data Collection table do not match. Rename the sheet for a successfull import.
@@ -8829,16 +8804,13 @@ dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be
 dcl#:#dcl_tableview_field_access#:#Field Access
 dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
 dcl#:#dcl_tableview_fieldtitle#:#Field Title
-dcl#:#dcl_tableview_locked#:#Locked
 dcl#:#dcl_tableview_locked_visible#:#Locked & Visible
 dcl#:#dcl_tableview_not_visible#:#Not Visible
 dcl#:#dcl_tableview_required#:#Required
 dcl#:#dcl_tableview_required_visible#:#Required & Visible
 dcl#:#dcl_tableview_visible#:#Visible
 dcl#:#dcl_tableviews#:#Views
-dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?
 dcl#:#dcl_tableviews_of_X#:#Views of table %s
-dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_text#:#Text Entry
 dcl#:#dcl_text_desc#:#A text field for text, links or e-mail addresses.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
@@ -8857,7 +8829,6 @@ dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_update_record#:#Update Entry
 dcl#:#dcl_updated_entries#:#Updated Entries
 dcl#:#dcl_url#:#Mandatory URL or E-Mail
-dcl#:#dcl_view_configuration#:#View Configuration
 dcl#:#dcl_view_own_records_perm#:#View Only Own Entries
 dcl#:#dcl_view_own_records_perm_desc#:#The entries of other users are not visible.
 dcl#:#dcl_view_viewdefinition#:#Detailed View
@@ -16173,6 +16144,7 @@ style#:#sty_media_queries#:#Media Queries
 style#:#sty_media_query_info#:#A separate CSS block is added for each media query after the default (no special media query) block.
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
+style#:#sty_move_obj_styles#:#Change Style of Objects
 style#:#sty_move_style#:#Change Style
 style#:#sty_move_user_styles#:#Change Style of Users
 style#:#sty_move_user_styles_saved#:#The assignment of the users assigned to skind-id %s has been changed to skin-id %s.

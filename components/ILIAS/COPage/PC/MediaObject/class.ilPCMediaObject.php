@@ -259,7 +259,9 @@ class ilPCMediaObject extends ilPageContent
                 0,
                 $a_page->getLanguage()
             );
-            self::saveMobUsage($a_page, $a_domdoc);
+        }
+        self::saveMobUsage($a_page, $a_domdoc);
+        if (!$a_page->getImportMode()) {
             foreach ($mob_ids as $mob) {	// check, whether media object can be deleted
                 if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob") {
                     $mob_obj = new ilObjMediaObject($mob);

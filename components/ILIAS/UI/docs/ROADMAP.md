@@ -291,6 +291,27 @@ Storage of paramters in DataTable and SequenceNavigation look very much alike;
 in favor of those and further/future components the implementation should be
 realized as a trait to be used by several components.
 
+### Replace unmaintained file-upload library (expert, ~12d)
+
+We are using the `dropzone` npm package as a file-upload library, which is not actively
+maintained anymore. Its last update is now almost 5 years ago and because this is a production
+dependency this becomes a growing security risk.
+
+There have already been some investigations which has led us to the `@uppy/core` and 
+`@uppy/tus-client` npm packages. These dependencies were already approved by JF once, but we
+never managed to integrate them. The first package is responsible for file-uploads, whereas
+the second package takes care of the client-side implementation of the [TUS protocol](https://tus.io/).
+Both of these packages are necessary in order to keep the functionality of chunked-uploading
+alive. The TUS protocol can be used to implement this behaviour in a more structure manner than
+we currently do. To fully integrate this our `Field\UploadHandler` need to be adjusted however.
+To prevent ending up in a similar situation again, we need to abstract the package more clearly
+this time.
+
+Replacing the current package is not simple though, because it is a center-piece of four UI
+components: `Input\Field\File`, `Input\Field\Image`, `Dropzone\File\Standard` and
+`Dropzone\File\Wrapper`. A refactoring of the client-side logic of all these components is
+necessary, ideally in a way where no or only minimal interface changes are caused, so this
+improvement can be backported to earlier versions too.
 
 ## Long Term
 

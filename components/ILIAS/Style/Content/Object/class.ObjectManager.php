@@ -252,4 +252,10 @@ class ObjectManager
         return $this->object_repo->countObjSelected($style_id);
     }
 
+    public function move(int $from_style_id, int $to_style_id): void
+    {
+        $this->object_repo->move($from_style_id, $to_style_id);
+    }
+
+
 }

@@ -610,8 +610,8 @@ class ilObjMediaObject extends ilObject
                                 "\" Language=\"" . $srt["language"] . "\" " . $def . "/>";
                         }
                     }
-                    if ($this->getVideoPreviewPic(true)) {
-                        $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(true) .
+                    if ($this->getVideoPreviewPic(false)) {
+                        $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(false) .
                             "\" />";
                     }
                     if ($item->getLocationType() == "LocalFile") {
@@ -1704,7 +1704,6 @@ class ilObjMediaObject extends ilObject
 
         $logger->debug("Generate preview pic...");
         $logger->debug("..." . $item->getFormat());
-
         $this->thumbs->createPreview(
             $this->getId(),
             $item->getLocation(),

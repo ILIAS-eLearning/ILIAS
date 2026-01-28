@@ -230,6 +230,12 @@ class ThumbsManager
      */
     public function getPreviewSrc(int $mob_id): string
     {
+        $mob = new \ilObjMediaObject($mob_id);
+        $item = $mob->getMediaItem("Standard");
+        if ($item?->getLocationType() === "Reference" && str_starts_with($item?->getFormat(), "image/")) {
+            return $item?->getLocation();
+        }
+
         $ppics = array(
             "mob_vpreview.png",
             "mob_vpreview.jpg",

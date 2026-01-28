@@ -860,8 +860,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     {
         $GLOBALS['DIC']->tabs()->setTabActive('export');
         $exp_gui = new ilExportGUI($this);
-        // @todo: removed deprecated ilCtrl methods, this needs inspection by a maintainer.
-        // $this->ctrl->setCmd("listExportFiles");
+        // Here used to be $this->ctrl->setCmd("listExportFiles") in <10
         $exp_gui->addFormat("xml");
         return $this->ctrl->forwardCommand($exp_gui);
     }

@@ -189,7 +189,11 @@ class ilIndividualAssessmentMembersGUI
         );
 
         $filter = $this->getFilterValue();
+
         $sort = $this->getSortValue();
+        if ($sort === null) {
+            $sort = self::S_NAME_ASC;
+        }
 
         $entries = $this->object->loadMembersAsSingleObjects($filter, $sort);
         $table->setData($entries);

@@ -74,6 +74,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('rep');
+        $this->lng->loadLanguageModule('obj');
 
         if ($this->object instanceof ilObjContentPage) {
             $this->infoScreenEnabled = (bool) ilContainer::_lookupContainerSetting(

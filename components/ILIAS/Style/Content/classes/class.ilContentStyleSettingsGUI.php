@@ -170,7 +170,7 @@ class ilContentStyleSettingsGUI
             $data[-1] =
                 array("title" => $this->lng->txt("sty_individual_styles"),
                     "id" => 0, "lm_nr" => $this->domain->object(0)->countOverallOwned());
-            $from_styles[-1] = $this->lng->txt("sty_individual_styles");
+            //$from_styles[-1] = $this->lng->txt("sty_individual_styles");
         }
 
         // number of default style (fallback default style)
@@ -199,10 +199,7 @@ class ilContentStyleSettingsGUI
             $this->toolbar->addSeparator();
 
             // from styles selector
-            $si = new ilSelectInputGUI(
-                $this->lng->txt("sty_move_obj_styles") . ": " . $this->lng->txt("sty_from"),
-                "from_style"
-            );
+            $si = new ilSelectInputGUI($this->lng->txt("sty_move_obj_styles") . ": " . $this->lng->txt("sty_from"), "from_style");
             $si->setOptions($from_styles);
             $this->toolbar->addInputItem($si, true);
 
@@ -265,10 +262,7 @@ class ilContentStyleSettingsGUI
             return;
         }
 
-        ilObjContentObject::_moveLMStyles(
-            $this->request->getFromStyleId(),
-            $this->request->getToStyleId()
-        );
+        $this->domain->object(0)->move($this->request->getFromStyleId(), $this->request->getToStyleId());
         $this->ctrl->redirect($this, "edit");
     }
 

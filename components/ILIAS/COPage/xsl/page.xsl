@@ -2591,6 +2591,7 @@
 				<iframe allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin">
 					<!-- see #bug22632 -->
 					<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.youtube.com/embed/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" /></xsl:attribute>
+					<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 				</iframe>
 			</div>
 		</xsl:when>
@@ -2682,7 +2683,7 @@
 					<xsl:attribute name="style">max-width: 100%; width: 100%; max-height: 100%;</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File != ''">
-					<xsl:attribute name="poster"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File"/></xsl:attribute>
+					<xsl:attribute name="poster"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/PreviewPic/@File"/></xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
@@ -2743,6 +2744,7 @@
 			<iframe allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin">
 				<!-- see #bug22632 -->
 				<xsl:attribute name="src">//player.vimeo.com/video/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='id']/@Value" /></xsl:attribute>
+				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 			</div>
 		</xsl:when>

@@ -231,6 +231,8 @@ class SettingsGUI
                 static::class
             );
 
+            \ilGlossaryTerm::setShortTextsDirty($this->obj_id);
+
             $mt->setOnScreenMessage("success", $lng->txt("msg_obj_modified"), true);
             $ctrl->redirectByClass(self::class, "edit");
         } else {

@@ -114,4 +114,18 @@ class ObjectDBRepository
         return 0;
     }
 
+    public function move(int $from_style_id, int $to_style_id): void
+    {
+        $db = $this->db;
+        $db->update(
+            "style_usage",
+            [
+            "style_id" => ["integer", $to_style_id]
+        ],
+            [    // where
+                "style_id" => ["integer", $from_style_id]
+            ]
+        );
+    }
+
 }
