@@ -24,8 +24,11 @@ use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\InRange;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
+use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Questions\Persistence\TableTypes;
 
 class MigrationCloze implements Migration
 {
@@ -60,6 +63,7 @@ class MigrationCloze implements Migration
         MigrationInsert $migration_insert
     ): MigrationInsert {
         $answer_input_mapping = [];
+        $answer_options_mapping = [];
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
@@ -67,6 +71,7 @@ class MigrationCloze implements Migration
             $answer_form_id = $migration_insert->getAnswerFormId();
             if (!isset($answer_input_mapping[$db_row->gap_id])) {
                 $answer_input_mapping[$db_row->gap_id] = $migration_insert->getUuid();
+                $answer_options_mapping[$db_row->gap_id] = [];
                 $migration_insert = $migration_insert->withAdditionalInsert(
                     $this->buildGapInsertStatement(
                         $this->persistence,
@@ -84,11 +89,17 @@ class MigrationCloze implements Migration
                 );
             }
 
+            $answer_option_id = $migration_insert->getUuid();
+            $answer_options_mapping[$db_row->gap_id][$db_row->answertext] = [
+                'is_numeric' => $db_row->cloze_type == \assClozeGap::TYPE_NUMERIC,
+                'answer_option_id' => $answer_option_id
+            ];
+
             $migration_insert = $migration_insert->withAdditionalInsert(
                 $this->buildAnswerOptionInsertStatement(
                     $this->persistence,
                     $migration_insert->getTableNameBuilder(),
-                    $migration_insert->getUuid(),
+                    $answer_option_id,
                     $answer_input_mapping[$db_row->gap_id],
                     $db_row->aorder,
                     $db_row->answertext,
@@ -96,6 +107,14 @@ class MigrationCloze implements Migration
                     $this->limitToFloat($this->math, $db_row->lowerlimit),
                     $this->limitToFloat($this->math, $db_row->upperlimit)
                 )
+            );
+        }
+
+        if ($db_row->combinations_enabled) {
+            $migration_insert = $this->addCombinationInserStatements(
+                $migration_insert,
+                $answer_input_mapping,
+                $answer_options_mapping
             );
         }
 
@@ -137,6 +156,91 @@ class MigrationCloze implements Migration
         }
     }
 
+    private function fetchCombinationsDBValues(
+        \ilDBInterface $db,
+        int $old_question_id
+    ): \Generator {
+        $query = $db->query(
+            'SELECT combination_id, gap_fi, answer, points FROM qpl_a_cloze_combi_res' . PHP_EOL
+                . "WHERE question_fi = {$db->quote($old_question_id)}" . PHP_EOL
+                . 'ORDER BY combination_id, row_id'
+        );
+
+        while (($row = $db->fetchObject($query)) !== null) {
+            yield $row;
+        }
+    }
+
+    private function addCombinationInserStatements(
+        MigrationInsert $migration_insert,
+        array $answer_input_mapping,
+        array $answer_options_mapping
+    ): MigrationInsert {
+        $combination_mapping = [];
+        foreach ($this->fetchCombinationsDBValues(
+            $migration_insert->getDb(),
+            $migration_insert->getOldQuestionId()
+        ) as $db_row) {
+            if (!isset($combination_mapping[$db_row->combination_id . $db_row->row_id])) {
+                $combination_mapping[$db_row->combination_id . $db_row->row_id] = $migration_insert->getUuid();
+                $migration_insert = $migration_insert->withAdditionalInsert(
+                    new Insert(
+                        $this->persistence->getColumns(
+                            $this->persistence->getTableNameSpace(),
+                            TableTypes::Additional,
+                            $this->persistence->getCombinationsTableIdentifier()
+                        ),
+                        [
+                            new Value(
+                                \ilDBConstants::T_TEXT,
+                                $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString()
+                            ),
+                            new Value(
+                                \ilDBConstants::T_TEXT,
+                                $migration_insert->getAnswerFormId()->toString()
+                            ),
+                            new Value(\ilDBConstants::T_FLOAT, $db_row->points),
+                        ]
+                    )
+                );
+            }
+
+            $answer_option = $db_row->answer === 'out_of_bound'
+                ? reset($answer_options_mapping[$db_row->gap_fi])
+                : $answer_options_mapping[$db_row->gap_fi][$db_row->answer];
+
+            $migration_insert = $migration_insert->withAdditionalInsert(
+                new Insert(
+                    $this->persistence->getColumns(
+                        $this->persistence->getTableNameSpace(),
+                        TableTypes::Additional,
+                        $this->persistence->getCombinationToAnswerOptionsTableIdentifier()
+                    ),
+                    [
+                        new Value(
+                            \ilDBConstants::T_TEXT,
+                            $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString()
+                        ),
+                        new Value(
+                            \ilDBConstants::T_TEXT,
+                            $answer_input_mapping[$db_row->gap_fi]
+                        ),
+                        new Value(
+                            \ilDBConstants::T_TEXT,
+                            $answer_option['answer_option_id']
+                        ),
+                        new Value(
+                            \ilDBConstants::T_TEXT,
+                            $this->buildRangeValue($answer_option['is_numeric'], $db_row->answer)
+                        ),
+                    ]
+                )
+            );
+        }
+
+        return $migration_insert;
+    }
+
     private function buildNewGapTypeIdentifierFromOld(
         int $old_gap_type
     ): string {
@@ -159,5 +263,20 @@ class MigrationCloze implements Migration
             \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN4 => TextMatchingOptions::Levenstein4,
             \assClozeGap::TEXTGAP_RATING_LEVENSHTEIN5 => TextMatchingOptions::Levenstein5
         };
+    }
+
+    private function buildRangeValue(
+        bool $is_numeric,
+        string $value
+    ): ?string {
+        if ($is_numeric === null) {
+            return null;
+        }
+
+        if ($value === 'out_of_bounds') {
+            return InRange::OutOfRange->value;
+        }
+
+        return InRange::InRange->value;
     }
 }

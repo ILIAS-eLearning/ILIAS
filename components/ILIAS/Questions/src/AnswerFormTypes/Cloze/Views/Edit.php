@@ -27,15 +27,17 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeT
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
+use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Language\Language;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Standard as InterruptiveItem;
-use ILIAS\UI\Component\Panel\Standard as StandardPanel;
-use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\URLBuilder;
 
 class Edit implements EditViewInterface
 {
@@ -52,6 +54,7 @@ class Edit implements EditViewInterface
     public function __construct(
         private readonly Language $lng,
         private readonly UIFactory $ui_factory,
+        private readonly \ilToolbarGUI $toolbar,
         private readonly Refinery $refinery,
         private readonly HTTPServices $http,
         private readonly PropertiesFactory $properties_factory,
@@ -78,6 +81,17 @@ class Edit implements EditViewInterface
     ): EditOverview|EditForm|Properties {
         $step = $environment->getStep();
 
+        $combinations = $environment->getAnswerFormProperties()->getCombinations();
+        if ($combinations->areCombinationsEnabled()) {
+            $combinations->getEditView(
+                $this->ui_factory,
+                $this->toolbar,
+                $this->refinery,
+                $this->lng,
+                $this->http
+            )->addCombinationsSubTab($environment);
+        }
+
         if ($step === '') {
             return $environment->getPresentationFactory()->getEditOverview(
                 $environment,
@@ -97,8 +111,23 @@ class Edit implements EditViewInterface
     #[\Override]
     public function other(
         Environment $environment
-    ): EditForm|Properties {
+    ): Async|Renderable|Properties {
+        return $environment
+            ->getAnswerFormProperties()
+            ->getCombinations()->getEditView(
+                $this->ui_factory,
+                $this->toolbar,
+                $this->refinery,
+                $this->lng,
+                $this->http
+            )->show($environment);
+    }
 
+    #[\Override]
+    public function getFinishEditingUrl(
+        Environment $environment
+    ): URLBuilder {
+        return $environment->getUrlBuilder();
     }
 
     private function callIntermediateStep(
@@ -116,8 +145,7 @@ class Edit implements EditViewInterface
                     $this->cloze_text_factory,
                     $this->gap_factory,
                     $environment->getPresentationFactory()->getCarrySectionData(
-                        $this->http->wrapper()->post(),
-                        $this->refinery
+                        $this->http->wrapper()->post()
                     )
                 )
             );
@@ -219,7 +247,11 @@ class Edit implements EditViewInterface
             $properties->withClozeText($properties->getClozeText())
                 ->buildCarryInputs($ff)
         )->withContentBeforeForm(
-            $this->buildClozeTextPanel($properties)
+            $properties->getClozeText()->buildPanelForEditing(
+                $this->ui_factory,
+                $this->lng,
+                $properties->getGaps()
+            )
         );
     }
 
@@ -256,7 +288,11 @@ class Edit implements EditViewInterface
             false,
             $properties->buildCarryInputs($ff)
         )->withContentBeforeForm(
-            $this->buildClozeTextPanel($properties)
+            $properties->getClozeText()->buildPanelForEditing(
+                $this->ui_factory,
+                $this->lng,
+                $properties->getGaps()
+            )
         );
     }
 
@@ -293,7 +329,11 @@ class Edit implements EditViewInterface
             true,
             $properties->buildCarryInputs($ff)
         )->withContentBeforeForm(
-            $this->buildClozeTextPanel($properties)
+            $properties->getClozeText()->buildPanelForEditing(
+                $this->ui_factory,
+                $this->lng,
+                $properties->getGaps()
+            )
         );
     }
 
@@ -308,21 +348,12 @@ class Edit implements EditViewInterface
         $data = $form->getData();
         return $data === null
             ? $form->withContentBeforeForm(
-                $this->buildClozeTextPanel($properties)
-            ) : $properties->withGaps($data);
-    }
-
-    private function buildClozeTextPanel(
-        Properties $properties
-    ): StandardPanel {
-        return $this->ui_factory->panel()->standard(
-            $this->lng->txt('cloze_text'),
-            $this->ui_factory->legacy()->content(
-                $properties->getClozeText()->getRenderedMarkdownForEditingPresentation(
+                $properties->getClozeText()->buildPanelForEditing(
+                    $this->ui_factory,
+                    $this->lng,
                     $properties->getGaps()
                 )
-            )
-        );
+            ) : $properties->withGaps($data);
     }
 
     /**

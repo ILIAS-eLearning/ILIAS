@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\InRange;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Language\Language;
@@ -148,8 +149,13 @@ class Numeric extends Type
     }
 
     #[\Override]
-    public function getAnswerInput(): \ilFormPropertyGUI
-    {
-        ;
+    public function getCombinationsSelectValues(
+        Gap $gap
+    ): array {
+        $values = [];
+        foreach (InRange::cases() as $in_range) {
+            $values[$in_range->value] = $in_range->getLabel($this->lng);
+        }
+        return $values;
     }
 }

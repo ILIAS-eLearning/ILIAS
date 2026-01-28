@@ -22,8 +22,11 @@ namespace ILIAS\Questions\AnswerForm\Views;
 
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
+use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
+use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\UI\URLBuilder;
 
 interface Edit
 {
@@ -37,5 +40,9 @@ interface Edit
 
     public function other(
         Environment $environment
-    ): EditForm|Properties;
+    ): Async|Renderable|Properties;
+
+    public function getFinishEditingUrl(
+        Environment $environment
+    ): URLBuilder;
 }

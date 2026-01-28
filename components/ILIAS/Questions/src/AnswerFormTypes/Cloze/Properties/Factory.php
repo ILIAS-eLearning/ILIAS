@@ -23,6 +23,7 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text as ClozeText;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Factory as CombinationsFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
 use ILIAS\Questions\Persistence\Query;
@@ -32,7 +33,8 @@ class Factory
 {
     public function __construct(
         private readonly ClozeTextFactory $cloze_text_factory,
-        private readonly GapsFactory $gaps_factory
+        private readonly GapsFactory $gaps_factory,
+        private readonly CombinationsFactory $combinations_factory
     ) {
     }
 
@@ -49,8 +51,13 @@ class Factory
                     $type_generic_properties->getAdditionalText()
                 ),
                 $type_generic_properties->getAdditionalTextLegacy(),
+                ScoringIdentical::ScoreAll,
                 $this->gaps_factory->getEmptyGapsObject(
                     $type_generic_properties->getAnswerFormId()
+                ),
+                $this->combinations_factory->getCombinations(
+                    $type_generic_properties,
+                    false
                 )
             );
         }
@@ -76,6 +83,11 @@ class Factory
             )
         );
 
+        $gaps = $this->gaps_factory->fromDatabase(
+            $type_generic_properties->getAnswerFormId(),
+            $query
+        );
+
         return new Properties(
             $type_generic_properties->getAnswerFormId(),
             $type_generic_properties->getQuestionId(),
@@ -84,12 +96,14 @@ class Factory
                 $type_generic_properties->getAdditionalText()
             ),
             $type_generic_properties->getAdditionalTextLegacy(),
-            $this->gaps_factory->fromDatabase(
-                $type_generic_properties->getAnswerFormId(),
-                $query
-            ),
             $scoring_identical_responses,
-            $combinations_enabled
+            $gaps,
+            $this->combinations_factory->getCombinations(
+                $type_generic_properties,
+                $combinations_enabled,
+                $gaps,
+                $query
+            )
         );
     }
 
@@ -109,7 +123,11 @@ class Factory
                 $cloze_text->withIdsOfNewGapsInClozeText($updated_gaps->getUndefinedGaps())
             )->withGaps($updated_gaps)
             ->withScoringOfIdenticalResponses($scoring_of_identical_responses)
-            ->withCombinationsEnabled($combinations_enabled);
+            ->withCombinations(
+                $properties->getCombinations()->withCombinationsEnabled(
+                    $combinations_enabled
+                )
+            );
     }
 
     private function retrieveFirstMatchingRowFromDBRecords(

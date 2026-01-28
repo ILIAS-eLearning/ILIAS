@@ -29,7 +29,7 @@ use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Renderer as UIRenderer;
 use Psr\Http\Message\ServerRequestInterface;
 
-class EditOverview
+class EditOverview implements Renderable
 {
     public function __construct(
         private readonly UIFactory $ui_factory,
