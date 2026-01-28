@@ -87,6 +87,10 @@ class Factory
                     $return_array = [];
                     $answer_options = [];
                     foreach ($vs as $v) {
+                        if (array_key_exists($v['id'], $answer_options)) {
+                            continue;
+                        }
+
                         if ($previous_answer_input_id !== null
                             && $v['answer_input_id'] !== $previous_answer_input_id) {
                             $return_array[$previous_answer_input_id] = new AnswerOptions(
@@ -97,7 +101,7 @@ class Factory
                             $answer_options = [];
                         }
                         $previous_answer_input_id = $v['answer_input_id'];
-                        $answer_options[] = new AnswerOption(
+                        $answer_options[$v['id']] = new AnswerOption(
                             $this->uuid_factory->fromString($v['id']),
                             $this->uuid_factory->fromString($v['answer_input_id']),
                             $v['position'],

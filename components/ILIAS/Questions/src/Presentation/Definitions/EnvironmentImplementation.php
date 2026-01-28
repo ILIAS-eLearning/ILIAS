@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Presentation\Definitions;
 
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Layout\Factory;
+use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Data\URI;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
@@ -29,6 +30,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
@@ -41,6 +43,7 @@ class EnvironmentImplementation implements Environment
     private const string TOKEN_STRING_QUESTION_IDS = 'qs';
     private const string TOKEN_TYPE_HASH = 't';
     private const string TOKEN_TABLE_ROW_ID = 'r';
+    private const string TOKEN_CARRY_ID = 'c';
 
     private const string INTERRUPTIVE_ITEMS_KEY = 'interruptive_items';
 
@@ -57,6 +60,7 @@ class EnvironmentImplementation implements Environment
     private readonly URLBuilderToken $question_ids_token;
     private readonly URLBuilderToken $type_hash_token;
     private readonly URLBuilderToken $table_row_token;
+    private readonly URLBuilderToken $carry_token;
 
     private ?array $table_row_ids = null;
 
@@ -87,15 +91,26 @@ class EnvironmentImplementation implements Environment
 
     #[\Override]
     public function addEditAnswerFormSubTab(
-        string $id,
-        string $text,
-        string $step
+        string $step,
+        string $language_variable
     ): void {
         $this->tabs_gui->addSubTab(
-            $id,
-            $text,
-            $this->getUrlBuilderWithStepParameter($step)->buildURI()->__toString()
+            $step,
+            $this->lng->txt($language_variable),
+            $this->getUrlBuilderWithStepParameter($step)
+                ->withParameter(
+                    $this->action_token,
+                    Edit::CMD_OTHER_ANSWER_FORM
+                )->buildURI()
+                ->__toString()
         );
+    }
+
+    #[\Override]
+    public function activateEditAnswerFormSubTab(
+        string $step
+    ): void {
+        $this->tabs_gui->activateSubTab($step);
     }
 
     #[\Override]
@@ -237,6 +252,15 @@ class EnvironmentImplementation implements Environment
         return $clone;
     }
 
+    public function withCarryParameter(
+        string $carry
+    ): self {
+        $clone = clone $this;
+        $clone->url_builder = $this->url_builder
+            ->withParameter($this->carry_token, $carry);
+        return $clone;
+    }
+
     public function getQuestionId(): ?Uuid
     {
         return $this->http->wrapper()->query()->retrieve(
@@ -283,9 +307,18 @@ class EnvironmentImplementation implements Environment
         );
     }
 
-    public function getTypeClassHast(): string
+    public function getTypeClassHash(): string
     {
         return $this->retrieveStringValueForToken($this->type_hash_token);
+    }
+
+    public function getCarry(
+        Transformation $to_form_transformation
+    ): Input|array|string|null {
+        return $this->http->wrapper()->query()->retrieve(
+            $this->carry_token->getName(),
+            $to_form_transformation
+        );
     }
 
     public function setEditAnswerFormTabs(
@@ -316,7 +349,14 @@ class EnvironmentImplementation implements Environment
                 ->__toString()
         );
 
+        $this->tabs_gui->addSubTab(
+            self::TAB_ID_ANSWER_FORM,
+            $this->lng->txt('overview'),
+            $this->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+        );
+
         $this->tabs_gui->activateTab(self::TAB_ID_ANSWER_FORM);
+        $this->tabs_gui->activateSubTab(self::TAB_ID_ANSWER_FORM);
     }
 
     public function setParametersForQuestionCmds(): void
@@ -338,7 +378,8 @@ class EnvironmentImplementation implements Environment
             $this->question_id_token,
             $this->question_ids_token,
             $this->type_hash_token,
-            $this->table_row_token
+            $this->table_row_token,
+            $this->carry_token
         ] = (new URLBuilder($base_uri))
             ->acquireParameters(
                 self::QUERY_PARAMETER_NAME_SPACE,
@@ -347,7 +388,8 @@ class EnvironmentImplementation implements Environment
                 self::TOKEN_STRING_QUESTION_ID,
                 self::TOKEN_STRING_QUESTION_IDS,
                 self::TOKEN_TYPE_HASH,
-                self::TOKEN_TABLE_ROW_ID
+                self::TOKEN_TABLE_ROW_ID,
+                self::TOKEN_CARRY_ID
             );
     }
 

@@ -148,10 +148,4 @@ class Text extends Type
                 )
         );
     }
-
-    #[\Override]
-    public function getAnswerInput(): \ilFormPropertyGUI
-    {
-        ;
-    }
 }
