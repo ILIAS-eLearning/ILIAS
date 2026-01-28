@@ -256,7 +256,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         } else {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-        $this->editSettings();
+        $this->ctrl->redirect($this, 'editSettings');
     }
 
     public function setSettingsSubTabs(string $a_active): void
@@ -368,7 +368,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         } else {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-        $this->editPresentation();
+        $this->ctrl->redirect($this, 'editPresentation');
     }
 
     public function saveSorting(): void
@@ -391,11 +391,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                     }
                 }
                 $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('msg_obj_modified'), true);
+            } else {
+                $this->editSorting($form);
+                return;
             }
         } else {
             $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_FAILURE, $this->lng->txt('no_permission'), true);
         }
-        $this->editSorting($form);
+        $this->ctrl->redirect($this, 'editSorting');
     }
 
     /**
