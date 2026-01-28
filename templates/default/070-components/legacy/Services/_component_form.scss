@@ -739,7 +739,7 @@ div[id$="color-picker-menu"] {
     margin: 0;
     padding: $il-form-autocomplete-padding;
     list-style: none;
-    z-index: 1;
+    z-index: 10;
     cursor: default;
 
     & li:hover {

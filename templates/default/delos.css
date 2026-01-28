@@ -19415,7 +19415,7 @@ div[id$=color-picker-menu] {
   margin: 0;
   padding: 3px;
   list-style: none;
-  z-index: 1;
+  z-index: 10;
   cursor: default;
 }
 .c-form__autocomplete li:hover {
