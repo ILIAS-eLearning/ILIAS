@@ -247,7 +247,7 @@ class Renderer extends AbstractComponentRenderer
         ];
         $entries = $component->getEntries();
 
-        $more_label = $this->txt('menu_label');
+        $more_label = $this->txt('metabar_slate_label');
         $more_symbol = $f->symbol()->glyph()->disclosure()
             ->withCounter($f->counter()->novelty(0))
             ->withCounter($f->counter()->status(0));
