@@ -131,7 +131,7 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
                 ],
                 'additional_text_legacy' => [
                     'type' => \ilDBConstants::T_CLOB,
-                    'notnull' => false
+                    'notnull' => true
                 ]
             ]);
         }
@@ -213,14 +213,19 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
         $table_name = CoreTables::MigrationsTable->value;
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
-                'old_question_id' => [
+                'new_question_id' => [
                     'type' => \ilDBConstants::T_TEXT,
                     'length' => 64,
                     'notnull' => true
                 ],
-                'new_question_id' => [
+                'old_question_id' => [
                     'type' => \ilDBConstants::T_INTEGER,
                     'length' => 4,
+                    'notnull' => false
+                ],
+                'success' => [
+                    'type' => \ilDBConstants::T_INTEGER,
+                    'length' => 1,
                     'notnull' => true
                 ]
             ]);

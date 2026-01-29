@@ -25,6 +25,8 @@ use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\Order as DataOrder;
+use ILIAS\Data\Range as DataRange;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -52,11 +54,11 @@ class Repository
      */
     public function getQuestionDataOnlyForAllQuestions(): \Generator
     {
-        foreach ((new Query(
+        foreach ($query = new Query(
             $this->db,
             $this->answer_form_factory,
             $this->refinery
-        ))->loadNextRecord() as $query_with_record) {
+        )->loadNextRecord() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 []
