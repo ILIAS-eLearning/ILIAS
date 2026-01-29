@@ -415,19 +415,6 @@ of ILIAS. The file contains the following fields:
 
 [//]: # (END ContentPage)
 
-[//]: # (BEGIN Context)
-
-* **Context**
-    * Authority to Sign off on Conceptual Changes: [MISSING]
-    * Authority to Sign off on Code Changes: [MISSING]
-    * Authority to Curate Test Cases: [MISSING]
-    * Authority to (De-)Assign Authorities: [MISSING]
-    * Assignee for Issues: [MISSING]
-    * Assignee for Security Reports: [MISSING]
-    * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
-
-[//]: # (END Context)
-
 [//]: # (BEGIN ILIASPageEditor)
 
 * **COPage (aka ILIAS Page Editor)**

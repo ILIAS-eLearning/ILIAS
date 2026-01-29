@@ -3,10 +3,11 @@
 ILIAS can be used in several contexts, with the web-application being the first and foremost usage. But there are several other ways to access ILIAS ressources: SOAP, CLI/Shell, RSS, and so on. As all protocols have their respective limitations ilContext has been introduced with ILIAS 4.3 to handle those limits in a generic way.
 
 ## ilContext - basic usage
-Every script - as in "entry point" - in ILIAS should set a specific context, e.g. `CONTEXT_WEB` or `CONTEXT_CRON`. This has to be done **before** calling `ilInitalisation` (either directly or through `inc.header.php`). If no specific context is set, `CONTEXT_WEB` is assumed.
+Every script - as in "entry point" - in ILIAS should set a specific context,
+e.g. `CONTEXT_WEB` or `CONTEXT_CRON`. This has to be done **before** invoking
+the `entry_point(...)` function. If no specific context is set, `CONTEXT_WEB` is assumed.
 
 ```php
-include_once "components/ILIAS/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_CRON);
 ```
 

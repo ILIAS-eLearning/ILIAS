@@ -26,11 +26,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ilContextTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        require_once("components/ILIAS/Context/tests/class.ilContextExtended.php");
-    }
-
     #[\PHPUnit\Framework\Attributes\DataProvider('contextProvider')]
     public function testInit(string $context, string $className): void
     {
