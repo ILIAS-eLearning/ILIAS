@@ -66,7 +66,7 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
                 continue;
             }
 
-            if (!$this->isRelevantLso($lso_obj)) {
+            if (!(ilLPStatus::_lookupStatus($lso_obj->getId(), $this->user->getId()) === ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)) {
                 continue;
             }
 
@@ -84,22 +84,6 @@ class ilDashboardLearningSequenceGUI extends ilDashboardBlockGUI
         }
 
         $this->setData(['' => $data]);
-    }
-
-    protected function isRelevantLso(ilObjLearningSequence $obj): bool
-    {
-        $ls_lp_items = $obj->getLSLearnerItems($this->user->getId());
-        if ($ls_lp_items === []) {
-            return false;
-        }
-
-        foreach ($ls_lp_items as $item) {
-            if ($item->getLearningProgressStatus() === ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function getBlockType(): string
