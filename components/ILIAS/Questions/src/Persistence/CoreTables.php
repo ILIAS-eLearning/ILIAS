@@ -60,7 +60,8 @@ enum CoreTables: string
     private const string MIGRATIONS_TABLE_FOREIGN_KEY_COLUMN = 'old_question_id';
     private const array MIGRATIONS_TABLE_COLUMNS = [
         'old_question_id',
-        'new_question_id'
+        'new_question_id',
+        'success'
     ];
 
     case Questions = 'qsts_questions';

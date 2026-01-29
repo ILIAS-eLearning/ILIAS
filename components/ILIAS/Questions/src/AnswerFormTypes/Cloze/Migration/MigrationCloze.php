@@ -29,6 +29,8 @@ use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Persistence\Value;
+use ILIAS\Setup\Environment;
 
 class MigrationCloze implements Migration
 {
@@ -59,11 +61,13 @@ class MigrationCloze implements Migration
     }
 
     #[\Override]
-    public function buildInsertStatement(
+    public function completeMigrationInsert(
+        Environment $environment,
         MigrationInsert $migration_insert
-    ): MigrationInsert {
+    ): ?MigrationInsert {
         $answer_input_mapping = [];
         $answer_options_mapping = [];
+
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
@@ -108,6 +112,10 @@ class MigrationCloze implements Migration
                     $this->limitToFloat($this->math, $db_row->upperlimit)
                 )
             );
+        }
+
+        if (!isset($db_row)) {
+            return null;
         }
 
         if ($db_row->combinations_enabled) {
@@ -161,7 +169,7 @@ class MigrationCloze implements Migration
         int $old_question_id
     ): \Generator {
         $query = $db->query(
-            'SELECT combination_id, gap_fi, answer, points FROM qpl_a_cloze_combi_res' . PHP_EOL
+            'SELECT combination_id, gap_fi, answer, points, row_id FROM qpl_a_cloze_combi_res' . PHP_EOL
                 . "WHERE question_fi = {$db->quote($old_question_id)}" . PHP_EOL
                 . 'ORDER BY combination_id, row_id'
         );
@@ -181,12 +189,21 @@ class MigrationCloze implements Migration
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
         ) as $db_row) {
+            if ($db_row->answer !== 'out_of_bound'
+                && !isset($answer_options_mapping[$db_row->gap_fi][$db_row->answer])) {
+                continue;
+            }
+
+            $answer_option = $db_row->answer === 'out_of_bound'
+                ? reset($answer_options_mapping[$db_row->gap_fi])
+                : $answer_options_mapping[$db_row->gap_fi][$db_row->answer];
+
             if (!isset($combination_mapping[$db_row->combination_id . $db_row->row_id])) {
                 $combination_mapping[$db_row->combination_id . $db_row->row_id] = $migration_insert->getUuid();
                 $migration_insert = $migration_insert->withAdditionalInsert(
                     new Insert(
                         $this->persistence->getColumns(
-                            $this->persistence->getTableNameSpace(),
+                            $migration_insert->getTableNameBuilder(),
                             TableTypes::Additional,
                             $this->persistence->getCombinationsTableIdentifier()
                         ),
@@ -205,14 +222,10 @@ class MigrationCloze implements Migration
                 );
             }
 
-            $answer_option = $db_row->answer === 'out_of_bound'
-                ? reset($answer_options_mapping[$db_row->gap_fi])
-                : $answer_options_mapping[$db_row->gap_fi][$db_row->answer];
-
             $migration_insert = $migration_insert->withAdditionalInsert(
                 new Insert(
                     $this->persistence->getColumns(
-                        $this->persistence->getTableNameSpace(),
+                        $migration_insert->getTableNameBuilder(),
                         TableTypes::Additional,
                         $this->persistence->getCombinationToAnswerOptionsTableIdentifier()
                     ),
@@ -223,11 +236,11 @@ class MigrationCloze implements Migration
                         ),
                         new Value(
                             \ilDBConstants::T_TEXT,
-                            $answer_input_mapping[$db_row->gap_fi]
+                            $answer_input_mapping[$db_row->gap_fi]->toString()
                         ),
                         new Value(
                             \ilDBConstants::T_TEXT,
-                            $answer_option['answer_option_id']
+                            $answer_option['answer_option_id']->toString()
                         ),
                         new Value(
                             \ilDBConstants::T_TEXT,

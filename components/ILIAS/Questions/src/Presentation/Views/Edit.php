@@ -25,6 +25,7 @@ use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
 use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\Questions\Presentation\Definitions\Editability;
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Presentation\Layout\QuestionsTable;
 use ILIAS\Questions\Presentation\Layout\GlobalScreen\LayoutProvider;
@@ -42,7 +43,6 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Component\Item\Standard as StandardItem;
 use ILIAS\UI\Component\Item\Group as ItemGroup;
 use ILIAS\UI\Component\MainControls\Slate\Legacy as LegacySlate;
 use ILIAS\Style\Content\Service as ContentStyle;
@@ -52,7 +52,7 @@ class Edit
 {
     private const string CMD_CREATE_QUESTION = 'create';
     public const string CMD_EDIT_QUESTION = 'edit';
-    public const string CMD_DELETE_QUESTION = 'delete';
+    public const string CMD_DELETE_QUESTIONS = 'delete';
     private const string CMD_CREATE_ANSWER_FORM = 'create_af';
     public const string CMD_OTHER_ANSWER_FORM = 'other_af';
     private const string CMD_EDIT_FEEDBACK = 'edit_f';
@@ -126,7 +126,7 @@ class Edit
         return match($environment->getAction()) {
             self::CMD_CREATE_QUESTION => $this->createQuestion($environment),
             self::CMD_EDIT_QUESTION => $this->editQuestion($environment),
-            self::CMD_DELETE_QUESTION => $this->deleteQuestion($environment),
+            self::CMD_DELETE_QUESTIONS => $this->deleteQuestions($environment),
             default => $this->showTable($toolbar, $environment)
         };
     }
@@ -322,7 +322,7 @@ class Edit
         );
     }
 
-    private function deleteQuestion(
+    private function deleteQuestions(
         EnvironmentImplementation $environment
     ): Async {
         $question_ids = $environment->getQuestionIds();
@@ -335,12 +335,8 @@ class Edit
             );
         }
 
-        if ($environment->getStep() === self::CMD_DELETE_QUESTION) {
-            $this->questions_repository->delete(
-                iterator_to_array(
-                    $this->questions_repository->getForQuestionIds($question_ids)
-                )
-            );
+        if ($environment->getStep() === self::CMD_DELETE_QUESTIONS) {
+            $this->deleteSelectedQuestions($question_ids);
             $this->ctrl->redirectToURL(
                 $environment->getUrlBuilder()->buildURI()->__toString()
             );
@@ -351,9 +347,9 @@ class Edit
                 $this->lng->txt('confirm'),
                 $this->lng->txt('qpl_confirm_delete_questions'),
                 $environment->withActionParameter(
-                    self::CMD_DELETE_QUESTION
+                    self::CMD_DELETE_QUESTIONS
                 )->getUrlBuilderWithStepParameter(
-                    self::CMD_DELETE_QUESTION
+                    self::CMD_DELETE_QUESTIONS
                 )->buildURI()->__toString()
             )->withAffectedItems(
                 $this->buildAffectedItems($question_ids)
@@ -484,16 +480,23 @@ class Edit
     ): ItemGroup {
         return $this->ui_factory->item()->group(
             '',
-            array_map(
-                fn(QuestionImplementation $v): StandardItem => $this->ui_factory->item()->standard(
-                    $v->toEditLink(
-                        $this->ui_factory->link(),
-                        $environment->withActionParameter(self::CMD_EDIT_QUESTION)
-                    )
-                ),
-                iterator_to_array($this->questions_repository->getQuestionDataOnlyForAllQuestions())
-            )
+            $this->builEditLinksForQuestionListSlate($environment)
         );
+    }
+
+    private function builEditLinksForQuestionListSlate(
+        Environment $environment
+    ): array {
+        $links = [];
+        foreach ($this->questions_repository->getQuestionDataOnlyForAllQuestions() as $question) {
+            $links[] = $this->ui_factory->item()->standard(
+                $question->toEditLink(
+                    $this->ui_factory->link(),
+                    $environment->withActionParameter(self::CMD_EDIT_QUESTION)
+                )
+            );
+        }
+        return $links;
     }
 
     private function buildEditStartView(
@@ -570,7 +573,22 @@ class Edit
         }
     }
 
-    public function buildEnvironment(
+    private function deleteSelectedQuestions(
+        array $question_ids
+    ): void {
+        $questions_to_delete = [];
+        foreach ($this->questions_repository->getForQuestionIds($question_ids) as $question) {
+            if (count($questions_to_delete) < 100) {
+                $questions_to_delete[] = $question;
+                continue;
+            }
+
+            $this->questions_repository->delete($questions_to_delete);
+            $questions_to_delete = [];
+        }
+    }
+
+    private function buildEnvironment(
         URI $base_uri,
         int $obj_id
     ): EnvironmentImplementation {

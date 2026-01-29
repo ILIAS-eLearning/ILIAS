@@ -37,6 +37,7 @@ use ILIAS\Setup\Migration;
 class QuestionsMigration implements Migration
 {
     private const string OLD_QUESTIONS_TABLE = 'qpl_questions';
+    private const string OLD_QUESTION_TYPE_TABLE = 'qpl_qst_type';
     private const string TEST_QUESTIONS_SEQUENCE_TABLE = 'tst_test_question';
 
     private \ilDBInterface $db;
@@ -44,7 +45,6 @@ class QuestionsMigration implements Migration
     private UuidFactory $uuid_factory;
     private readonly array $answer_form_migrations;
 
-    private bool $ilias_is_initialized = false;
     private ?array $question_to_learning_module_mapping = null;
     private ?array $allready_migrated_questions = null;
     private ?array $allready_migrated_questions_in_qpls = null;
@@ -92,18 +92,11 @@ class QuestionsMigration implements Migration
     public function step(
         Environment $environment
     ): void {
-        /**
-         * sk, 2026-01-14: Sadly this is necessary to clone the question pages
-         * without duplicating a humongous amount of code. It is mighty
-         * depressing, but the structure of `COPage` is yay stupid.
-         */
-        if (!$this->ilias_is_initialized) {
-            \ilContext::init(\ilContext::CONTEXT_CRON);
-            entry_point('ILIAS Legacy Initialisation Adapter');
-            $this->ilias_is_initialized = true;
-        }
-
         $db_values = $this->fetchValidRecord();
+
+        if ($db_values === null) {
+            return;
+        }
 
         if ($db_values->obj_fi === 0) {
             $db_values->obj_fi = $this->getObjIdFromLearningModulMapping($db_values->question_id);
@@ -122,7 +115,8 @@ class QuestionsMigration implements Migration
 
         $new_question_id = $this->uuid_factory->uuid4();
 
-        $answer_form_migration->buildInsertStatement(
+        $migration_insert = $answer_form_migration->completeMigrationInsert(
+            $environment,
             $this->buildMigrationInsert(
                 $answer_form_migration,
                 [
@@ -148,18 +142,31 @@ class QuestionsMigration implements Migration
                 $new_question_id,
                 $db_values
             )
-        )->run();
+        );
 
-        $this->io->inform($new_question_id->toString());
+        if ($migration_insert === null) {
+            $this->db->manipulate(
+                $this->buildInsertMigrationStatement(
+                    $db_values->question_id,
+                    null
+                )->toManipulateString($this->db)
+            );
+            $this->io->inform(
+                "{$db_values->question_id} could not be migrated due to missing question data."
+            );
+            return;
+        }
+
+        $migration_insert->run();
+        $this->io->inform("{$new_question_id->toString()} successfully migrated.");
     }
 
     #[\Override]
     public function getRemainingAmountOfSteps(): int
     {
-        return $this->db->fetchObject(
-            $this->db->query(
-                'SELECT COUNT(question_id) cnt FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
-                . 'JOIN qpl_qst_type t ON q.question_type_fi = t.question_type_id' . PHP_EOL
+        $query = $this->db->query(
+            'SELECT COUNT(question_id) cnt FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
+                . 'JOIN ' . self::OLD_QUESTION_TYPE_TABLE . ' t ON q.question_type_fi = t.question_type_id' . PHP_EOL
                 . 'LEFT JOIN ' . CoreTables::MigrationsTable->value . ' m ON q.question_id = m.old_question_id' . PHP_EOL
                 . 'WHERE t.type_tag IN ('
                 . implode(
@@ -171,14 +178,17 @@ class QuestionsMigration implements Migration
                 ) . ')' . PHP_EOL
                 . 'AND q.complete = 1' . PHP_EOL
                 . 'AND m.old_question_id IS NULL'
-            )
+        );
+        return $this->db->fetchObject(
+            $query
         )->cnt;
     }
 
-    private function fetchValidRecord(): \stdClass
+    private function fetchValidRecord(): ?\stdClass
     {
-        $query_string = 'SELECT q.*, t.type_tag, s.sequence FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
-            . 'JOIN qpl_qst_type t ON q.question_type_fi = t.question_type_id' . PHP_EOL
+        $query = $this->db->query(
+            'SELECT q.*, t.type_tag, s.sequence FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
+            . 'JOIN ' . self::OLD_QUESTION_TYPE_TABLE . ' t ON q.question_type_fi = t.question_type_id' . PHP_EOL
             . 'LEFT JOIN ' . CoreTables::MigrationsTable->value . ' m ON q.question_id = m.old_question_id' . PHP_EOL
             . 'LEFT JOIN ' . self::TEST_QUESTIONS_SEQUENCE_TABLE . ' s ON q.question_id = s.question_fi' . PHP_EOL
             . 'WHERE t.type_tag IN ('
@@ -190,13 +200,14 @@ class QuestionsMigration implements Migration
                 )
             ) . ')' . PHP_EOL
             . 'AND q.complete = 1' . PHP_EOL
-            . 'AND m.old_question_id IS NULL' . PHP_EOL
-            . 'LIMIT 1';
+            . 'AND m.old_question_id IS NULL'
+        );
 
         do {
-            $db_values = $this->db->fetchObject(
-                $this->db->query($query_string)
-            );
+            $db_values = $this->db->fetchObject($query);
+            if ($db_values === null) {
+                return null;
+            }
         } while (!$this->areDbValuesValid($db_values));
 
         $db_values->original_id = $this->cleanupAndMigrateOriginalId($db_values->original_id);
@@ -225,7 +236,7 @@ class QuestionsMigration implements Migration
         ?int $original_id
     ): ?Uuid {
         if ($original_id === null
-            || in_array($this->allready_migrated_questions_in_qpls, $original_id)) {
+            || in_array($original_id, $this->allready_migrated_questions_in_qpls)) {
             return null;
         }
         return $this->uuid_factory->fromString(
@@ -235,10 +246,9 @@ class QuestionsMigration implements Migration
 
     private function loadAlreadyMigratedQuestions(): void
     {
-
         $query = $this->db->query(
             'SELECT m.*, o.type FROM ' . CoreTables::MigrationsTable->value . ' m' . PHP_EOL
-            . 'JOIN ' . CoreTables::Linking->value . 'l' . PHP_EOL
+            . 'JOIN ' . CoreTables::Linking->value . ' l' . PHP_EOL
             . 'ON m.new_question_id = l.question_id' . PHP_EOL
             . 'JOIN object_data o ON l.obj_id = o.obj_id' . PHP_EOL
         );
@@ -260,7 +270,7 @@ class QuestionsMigration implements Migration
             $this->loadQuestionsToLearningModuleMapping();
         }
 
-        $this->question_to_learning_module_mapping[$question_id] ?? null;
+        return $this->question_to_learning_module_mapping[$question_id] ?? null;
     }
 
     private function loadQuestionsToLearningModuleMapping(): void
@@ -322,13 +332,19 @@ class QuestionsMigration implements Migration
 
     private function buildInsertMigrationStatement(
         int $old_question_id,
-        Uuid $new_question_id
+        ?Uuid $new_question_id
     ): Insert {
         return new Insert(
             CoreTables::MigrationsTable->getColumns(),
             [
                 new Value(\ilDBConstants::T_INTEGER, $old_question_id),
-                new Value(\ilDBConstants::T_TEXT, $new_question_id->toString())
+                new Value(\ilDBConstants::T_TEXT, $new_question_id?->toString()),
+                new Value(
+                    \ilDBConstants::T_INTEGER,
+                    $new_question_id === null
+                        ? '0'
+                        : '1'
+                )
             ]
         );
     }

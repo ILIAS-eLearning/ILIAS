@@ -20,13 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\Persistence\TableNameSpace;
-use ILIAS\Data\UUID\Uuid;
+use ILIAS\Setup\Environment;
 
 class MigrationTextSubset implements Migration
 {
@@ -56,10 +57,12 @@ class MigrationTextSubset implements Migration
     }
 
     #[\Override]
-    public function buildInsertStatement(
+    public function completeMigrationInsert(
+        Environment $environment,
         MigrationInsert $migration_insert
-    ): MigrationInsert {
+    ): ?MigrationInsert {
         $gaps = [];
+
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
@@ -89,6 +92,10 @@ class MigrationTextSubset implements Migration
             }
         }
 
+        if (!isset($db_row)) {
+            return null;
+        }
+
         return $migration_insert
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
@@ -96,7 +103,7 @@ class MigrationTextSubset implements Migration
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     ScoringIdentical::OnlyScoreDistinct,
-                    false
+                    0
                 )
             )->withAdditionalText(
                 implode(

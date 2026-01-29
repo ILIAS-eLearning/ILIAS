@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Persistence;
 
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Persistence;
+use ILIAS\Data\Range;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
@@ -31,7 +32,7 @@ class Query
     private array $where = [];
     private array $joins = [];
     private array $order = [];
-    private ?int $limit = null;
+    private ?Range $range = null;
 
     private array $binding_types = [];
     private array $binding_values = [];
@@ -61,7 +62,7 @@ class Query
         );
 
         $this->joins[] = new Join(
-            $questions_id_column,
+            $questions_linking_table_definition->getIdColumn(),
             $questions_table_definition->getIdColumn(),
             JoinType::Inner
         );
@@ -137,11 +138,11 @@ class Query
         return $clone;
     }
 
-    public function withLimit(
-        int $limit
+    public function withRange(
+        Range $range
     ): self {
         $clone = clone $this;
-        $clone->limit = $limit;
+        $clone->range = $range;
         return $clone;
     }
 
@@ -208,7 +209,7 @@ class Query
                     []
                 )
             ) . PHP_EOL
-            . ($this->limit !== null ? "LIMIT = {$this->limit}" : ''),
+            . ($this->range !== null ? "LIMIT {$this->range->getStart()}, {$this->range->getLength()}" : ''),
             $this->binding_types,
             $this->binding_values
         );
