@@ -112,7 +112,7 @@ class LinearWorkflowTest extends ILIAS_UI_TestBase
                     </li>
                     <li class="il-workflow-step last active not-started">
                         <div class="text">
-                            <span class="il-workflow-step-label"></span>
+                            <span class="il-workflow-step-label" aria-current="step"></span>
                             <span class="il-workflow-step-description"></span>
                         </div>
                     </li>
