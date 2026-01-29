@@ -23,5 +23,5 @@ namespace ILIAS\Questions\Persistence;
 enum JoinType: string
 {
     case Inner = 'INNER';
-    case Left = 'left';
+    case Left = 'LEFT';
 }

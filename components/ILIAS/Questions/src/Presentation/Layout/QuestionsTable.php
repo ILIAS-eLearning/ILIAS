@@ -95,7 +95,8 @@ class QuestionsTable implements Renderable, DataRetrieval
                 $this->getColums(),
             )->withActions(
                 $this->getActions()
-            )->withRequest($this->request)
+            )->withRange(new Range(0, 20))
+            ->withRequest($this->request)
         ];
     }
 
@@ -143,7 +144,7 @@ class QuestionsTable implements Renderable, DataRetrieval
         return [
             'delete' => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('delete'),
-                $this->environment->withActionParameter(Edit::CMD_DELETE_QUESTION)
+                $this->environment->withActionParameter(Edit::CMD_DELETE_QUESTIONS)
                     ->getUrlBuilder(),
                 $this->environment->getQuestionIdsToken()
             )->withAsync(true)

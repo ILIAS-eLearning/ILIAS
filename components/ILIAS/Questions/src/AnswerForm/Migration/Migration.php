@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Migration;
 
 use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Setup\Environment;
 
 interface Migration
 {
@@ -34,7 +35,8 @@ interface Migration
 
     public function getTableNameSpace(): TableNameSpace;
 
-    public function buildInsertStatement(
+    public function completeMigrationInsert(
+        Environment $environment,
         MigrationInsert $migration_insert
-    ): MigrationInsert;
+    ): ?MigrationInsert;
 }

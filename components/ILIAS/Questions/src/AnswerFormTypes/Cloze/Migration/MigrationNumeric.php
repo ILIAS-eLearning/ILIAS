@@ -25,7 +25,9 @@ use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Setup\Environment;
 
 class MigrationNumeric implements Migration
 {
@@ -57,13 +59,18 @@ class MigrationNumeric implements Migration
     }
 
     #[\Override]
-    public function buildInsertStatement(
+    public function completeMigrationInsert(
+        Environment $environment,
         MigrationInsert $migration_insert
-    ): MigrationInsert {
+    ): ?MigrationInsert {
         $db_row = $this->fetchDBValues(
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
-        )->current();
+        )?->current();
+
+        if ($db_row === null) {
+            return null;
+        }
 
         $answer_form_id = $migration_insert->getAnswerFormId();
         $gap_id = $migration_insert->getUuid();
@@ -101,8 +108,8 @@ class MigrationNumeric implements Migration
                 ScoringIdentical::ScoreAll,
                 0
             )
-        )->withAdditionalTextLegacy(
-            '{{' . Gap::GAP_PLACEHOLDER_NAME . '_' . array_shift($gap_id->toString()) . '}}'
+        )->withAdditionalText(
+            '{{' . Gap::GAP_PLACEHOLDER_NAME . '_' . $gap_id->toString() . '}}'
         );
     }
 
@@ -112,7 +119,7 @@ class MigrationNumeric implements Migration
     ): \Generator {
         $query = $db->query(
             'SELECT points, lowerlimit, upperlimit FROM qpl_num_range' . PHP_EOL
-            . "WHERE q.question_fi = {$db->quote($old_question_id)}"
+            . "WHERE question_fi = {$db->quote($old_question_id)}"
         );
 
         while (($row = $db->fetchObject($query)) !== null) {
