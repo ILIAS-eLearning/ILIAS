@@ -42,7 +42,6 @@ use ILIAS\Skill\Service\SkillService;
  *
  * @ilCtrl_Calls ilTestResultsGUI: ilMyTestResultsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestEvalObjectiveOrientedGUI
- * @ilCtrl_Calls ilTestResultsGUI: ilMyTestSolutionsGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestToplistGUI
  * @ilCtrl_Calls ilTestResultsGUI: ilTestSkillEvaluationGUI
  */
@@ -88,13 +87,16 @@ class ilTestResultsGUI
                     ilObjTestGUI::accessViolationRedirect();
                 }
 
-                $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_MY_RESULTS);
+                $this->test_tabs->activateSubTab(
+                    $this->ctrl->getCmd() === 'outUserListOfAnswerPasses'
+                        ? TabsManager::SUBTAB_ID_MY_SOLUTIONS
+                        : TabsManager::SUBTAB_ID_MY_RESULTS
+                );
 
                 $gui = new ilMyTestResultsGUI(
                     $this->test_object,
                     $this->test_access,
                     $this->objective_parent,
-                    $this->user,
                     $this->lng,
                     $this->ctrl,
                     $this->main_tpl,
@@ -113,26 +115,6 @@ class ilTestResultsGUI
 
                 $gui = new ilTestEvalObjectiveOrientedGUI($this->test_object);
                 $gui->setObjectiveOrientedContainer($this->objective_parent);
-                $this->ctrl->forwardCommand($gui);
-                break;
-
-            case 'ilmytestsolutionsgui':
-                if (!$this->test_tabs->needsYourSolutionsSubTab()) {
-                    ilObjTestGUI::accessViolationRedirect();
-                }
-
-                $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_MY_SOLUTIONS);
-
-                $gui = new ilMyTestSolutionsGUI(
-                    $this->test_object,
-                    $this->test_access,
-                    $this->objective_parent,
-                    $this->lng,
-                    $this->ctrl,
-                    $this->main_tpl,
-                    $this->questionrepository,
-                    $this->testrequest
-                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
