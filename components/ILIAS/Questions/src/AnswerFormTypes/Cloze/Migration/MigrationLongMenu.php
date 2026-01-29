@@ -25,6 +25,7 @@ use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Setup\Environment;
 
 class MigrationLongMenu implements Migration
 {
@@ -54,9 +55,10 @@ class MigrationLongMenu implements Migration
     }
 
     #[\Override]
-    public function buildInsertStatement(
+    public function completeMigrationInsert(
+        Environment $environment,
         MigrationInsert $migration_insert
-    ): MigrationInsert {
+    ): ?MigrationInsert {
         $answer_input_mapping = [];
 
         foreach ($this->fetchDBValues(
@@ -78,7 +80,7 @@ class MigrationLongMenu implements Migration
                         null,
                         null,
                         null,
-                        $db_row->min_autocomplete,
+                        $db_row->min_auto_complete,
                         $db_row->shuffle_answers === '1' ? 1 : 0
                     )
                 );
@@ -90,15 +92,22 @@ class MigrationLongMenu implements Migration
                         'points' => 0.0
                     ],
                     $this->loadAnswersFromFile(
+                        $environment->getResource(Environment::RESOURCE_ILIAS_INI),
+                        $environment->getResource(Environment::RESOURCE_CLIENT_ID),
                         $migration_insert->getOldQuestionId(),
                         $db_row->gap_number
                     )
                 );
             }
 
-            if ($answers[$db_row->position]['text'] === trim($db_row->answer_text)) {
+            if (isset($answers[$db_row->position])
+                && $answers[$db_row->position]['text'] === trim($db_row->answer_text)) {
                 $answers[$db_row->position]['points'] = $db_row->points;
             }
+        }
+
+        if (!isset($db_row)) {
+            return null;
         }
 
         foreach ($answers as $position => $answer) {
@@ -129,7 +138,7 @@ class MigrationLongMenu implements Migration
             )->withAdditionalTextLegacy(
                 $this->replaceGapsAndSantizeLegacyClozeText(
                     '\[Longmenu \d+\]',
-                    $db_row->cloze_text,
+                    $db_row->long_menu_text,
                     $answer_input_mapping
                 )
             );
@@ -152,16 +161,18 @@ class MigrationLongMenu implements Migration
     }
 
     private function loadAnswersFromFile(
+        \ilIniFile $ini,
+        string $client_id,
         int $old_question_id,
         int $gap_id
     ): array {
-        $file = ilFileUtils::getDataDir() . "/assessment/longMenuQuestion/{$old_question_id}/{$gap_id}.txt";
+        $file = "{$ini->readVariable('clients', 'datadir')}/{$client_id}/assessment/longMenuQuestion/{$old_question_id}/{$gap_id}.txt";
 
         if (!file_exists($file)) {
             return [];
         }
 
-        return exlode(
+        return explode(
             "\n",
             file_get_contents($file)
         );

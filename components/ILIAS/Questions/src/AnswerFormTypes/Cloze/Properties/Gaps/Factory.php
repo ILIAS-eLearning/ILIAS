@@ -127,8 +127,9 @@ class Factory
         array $values,
         array $answer_options
     ): Gap {
+        $answer_input_uuid = $this->uuid_factory->fromString($values['id']);
         return new Gap(
-            $this->uuid_factory->fromString($values['id']),
+            $answer_input_uuid,
             $this->uuid_factory->fromString($values['answer_form_id']),
             $values['position'],
             $answer_options[$values['id']],
