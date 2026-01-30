@@ -350,7 +350,7 @@ class ilTemplate extends HTML_Template_ITX
         $tpl_sub_path = '/templates/default/';
         if (str_starts_with($a_tplname, 'components/ILIAS/UI/')) {
             $a_in_module = 'components/ILIAS/UI/src';
-            $a_tplname = str_replace('components/ILIAS/UI/src/templates/default/', '', $a_tplname);
+            $a_tplname = str_replace('components/ILIAS/UI/templates/default/', '', $a_tplname);
         }
 
         if (str_starts_with($a_tplname, $ilias_root)) {
