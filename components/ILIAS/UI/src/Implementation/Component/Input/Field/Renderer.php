@@ -308,6 +308,36 @@ class Renderer extends AbstractComponentRenderer
 
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
 
+        $autocomplete_endpoint = 'undefined';
+        $autocomplete_token = 'undefined';
+        if (
+            $component->getAsyncAutocompleteEndpoint() !== null
+            && $component->getAsyncAutocompleteToken() !== null
+        ) {
+            $autocomplete_endpoint = $component->getAsyncAutocompleteEndpoint()
+                ->renderObject([$component->getAsyncAutocompleteToken()]);
+            $autocomplete_token = $component->getAsyncAutocompleteToken()->render();
+        }
+
+        $configuration = $component->getConfiguration();
+
+        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use ($configuration, $autocomplete_endpoint, $autocomplete_token) {
+                $encoded_config = json_encode($configuration, JSON_THROW_ON_ERROR);
+
+                /** @noinspection CommaExpressionJS */
+                return <<<JS
+                    il.UI.Input.textInput.init(
+                        document.querySelector('#$id .c-field-text'),
+                        $encoded_config,
+                        $autocomplete_endpoint,
+                        $autocomplete_token
+                    )
+                JS;
+            }
+        );
+
         $label_id = $this->createId();
         $tpl->setVariable('ID', $label_id);
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);

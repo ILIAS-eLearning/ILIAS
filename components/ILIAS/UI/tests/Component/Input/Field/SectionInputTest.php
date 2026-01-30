@@ -52,16 +52,16 @@ class SectionInputTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text"  name="name_0/name_1" class="c-field-text" />',
             'in 1',
             'id_1',
-            null,
+            'id_2',
             'name_0/name_1'
         );
         $f2 = $this->getFormWrappedHtml(
             'text-field-input',
             'input2',
-            '<input id="id_2" type="text"  name="name_0/name_2" class="c-field-text" />',
+            '<input id="id_3" type="text"  name="name_0/name_2" class="c-field-text" />',
             'in 2',
-            'id_2',
-            null,
+            'id_3',
+            'id_4',
             'name_0/name_2'
         );
         $expected = $this->getFormWrappedHtml(

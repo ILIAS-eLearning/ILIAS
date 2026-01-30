@@ -110,7 +110,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
             'id_1',
-            null,
+            'id_2',
             'form/input_0'
         );
     }
@@ -272,9 +272,9 @@ class StandardFormTest extends ILIAS_UI_TestBase
         message
     </div>
     <fieldset class="c-input" data-il-ui-component="text-field-input" data-il-ui-input-name="form_0/input_1"
-              aria-describedby="id_2"><label for="id_1">label</label>
+              aria-describedby="id_3" id="id_2"><label for="id_1">label</label>
         <div class="c-input__field"><input id="id_1" type="text" name="form_0/input_1" class="c-field-text" /></div>
-        <div class="c-input__error-msg alert alert-danger" id="id_2"><span class="sr-only">ui_error:</span>This is
+        <div class="c-input__error-msg alert alert-danger" id="id_3"><span class="sr-only">ui_error:</span>This is
             invalid...
         </div>
         <div class="c-input__help-byline">byline</div>
@@ -333,7 +333,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text" name="form_0/input_1" class="c-field-text"/>',
             'byline',
             'id_1',
-            null,
+            'id_2',
             'form_0/input_1'
         );
 
@@ -370,7 +370,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
             'id_1',
-            null,
+            'id_2',
             'form/input_0'
         );
 

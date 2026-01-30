@@ -62,15 +62,15 @@ class LinkInputTest extends ILIAS_UI_TestBase
             '<input id="id_1" type="text" name="name_0/label_1" class="c-field-text" />',
             null,
             'id_1',
-            null,
+            'id_2',
             'name_0/label_1'
         );
         $f2 = $this->getFormWrappedHtml(
             'url-field-input',
             'ui_link_url',
-            '<input id="id_2" type="url" name="name_0/url_2" class="c-field-url" />',
+            '<input id="id_3" type="url" name="name_0/url_2" class="c-field-url" />',
             null,
-            'id_2',
+            'id_3',
             null,
             'name_0/url_2'
         );

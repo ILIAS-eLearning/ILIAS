@@ -25,6 +25,10 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
 use Closure;
 use Generator;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use InvalidArgumentException;
+use stdClass;
 
 /**
  * This implements the text input.
@@ -33,6 +37,9 @@ class Text extends FormInput implements C\Input\Field\Text
 {
     private ?int $max_length = null;
     private bool $strip_tags_from_input = true;
+    protected ?URLBuilder $async_autocomplete_endpoint = null;
+    protected ?URLBuilderToken $async_autocomplete_token = null;
+    protected int $suggestion_starts_with = 3;
 
     /**
      * @inheritdoc
@@ -134,5 +141,50 @@ class Text extends FormInput implements C\Input\Field\Text
         $clone = clone $this;
         $clone->strip_tags_from_input = false;
         return $clone;
+    }
+
+    public function withAsyncAutocomplete(
+        URLBuilder $autocomplete_endpoint,
+        URLBuilderToken $term_token
+    ): self {
+        $clone = clone $this;
+        $clone->async_autocomplete_endpoint = $autocomplete_endpoint;
+        $clone->async_autocomplete_token = $term_token;
+        return $clone;
+    }
+
+    public function getAsyncAutocompleteEndpoint(): ?URLBuilder
+    {
+        return $this->async_autocomplete_endpoint;
+    }
+
+    public function getAsyncAutocompleteToken(): ?URLBuilderToken
+    {
+        return $this->async_autocomplete_token;
+    }
+
+    public function withSuggestionsStartAfter(int $characters): self
+    {
+        if ($characters < 1) {
+            throw new InvalidArgumentException('The amount of characters must be at least 1, $characters given.');
+        }
+        $clone = clone $this;
+        $clone->suggestion_starts_with = $characters;
+
+        return $clone;
+    }
+
+    public function getSuggestionsStartAfter(): int
+    {
+        return $this->suggestion_starts_with;
+    }
+
+    public function getConfiguration(): stdClass
+    {
+        $configuration = new stdClass();
+        $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+        $configuration->autocompleteTriggerTimeout = 200;
+
+        return $configuration;
     }
 }

@@ -34,6 +34,7 @@ import TreeSelectFactory from './TreeSelect/TreeSelectFactory.js';
 import JQueryEventListener from '../../../Core/src/JQueryEventListener.js';
 import Tagify from '@yaireo/tagify';
 import tag from './Tag/tag.js';
+import text from './Text/text.js';
 import OptionFilterFactory from './OptionFilter/OptionFilterFactory.js';
 
 il.UI = il.UI || {};
@@ -56,6 +57,15 @@ il.UI.Input = il.UI.Input || {};
     { txt: (s) => il.Language.txt(s) },
     document,
   );
+
+  Input.textInput = Input.textInput || {};
+  Input.textInput.init = (input, config, autocompleteEndpoint, autocompleteToken) => text(
+    input,
+    config,
+    autocompleteEndpoint,
+    autocompleteToken,
+  );
+
   Input.tagInput = Input.tag || {};
   Input.tagInput.init = (input, config, value, autocompleteEndpoint, autocompleteToken) => tag(
     Tagify, input, config, value, autocompleteEndpoint, autocompleteToken);

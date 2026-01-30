@@ -28,6 +28,8 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 
 class TextInputTest extends ILIAS_UI_TestBase
 {
@@ -61,7 +63,8 @@ class TextInputTest extends ILIAS_UI_TestBase
             $label,
             '<input id="id_1" type="text" name="name_0" class="c-field-text" />',
             $byline,
-            'id_1'
+            'id_1',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($text));
     }
@@ -90,7 +93,8 @@ class TextInputTest extends ILIAS_UI_TestBase
             $label,
             '<input id="id_1" type="text" value="value" name="name_0" class="c-field-text" />',
             null,
-            'id_1'
+            'id_1',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($text));
     }
@@ -122,7 +126,8 @@ class TextInputTest extends ILIAS_UI_TestBase
             $label,
             '<input id="id_1" type="text" name="name_0" maxlength="8" class="c-field-text" />',
             null,
-            'id_1'
+            'id_1',
+            'id_2'
         );
         $this->assertEquals($expected, $this->render($text));
     }
@@ -167,5 +172,43 @@ class TextInputTest extends ILIAS_UI_TestBase
 
         $content = $text->getContent();
         $this->assertEquals("<script>alert()</script>", $content->value());
+    }
+
+    public function testTextWithAutocompleteEndpoint(): void
+    {
+        $url_builder = new URLBuilder(new Data\URI('http://wwww.ilias.de?ref_id=1'));
+        $token = new URLBuilderToken(['t'], 't');
+        $f = $this->getFieldFactory();
+        $text = $f->text('my_text');
+
+        $this->assertEquals(null, $text->getAsyncAutocompleteEndpoint());
+        $this->assertEquals(null, $text->getAsyncAutocompleteToken());
+
+        $text = $text->withAsyncAutocomplete(
+            $url_builder,
+            $token
+        );
+        $this->assertEquals($url_builder, $text->getAsyncAutocompleteEndpoint());
+        $this->assertEquals($token, $text->getAsyncAutocompleteToken());
+    }
+
+    public function testTextWithAutocompleteEndpointJSAdded(): void
+    {
+        $token = $this->createMock(URLBuilderToken::class);
+        $token->expects($this->once())
+            ->method('render');
+        $url_builder = $this->createMock(URLBuilder::class);
+        $url_builder->expects($this->once())
+            ->method('renderObject')
+            ->with([$token]);
+
+        $f = $this->getFieldFactory();
+        $text = $f->text('my_text')->withAsyncAutocomplete(
+            $url_builder,
+            $token
+        );
+
+        $renderer = $this->getDefaultRenderer();
+        $renderer->render($text);
     }
 }

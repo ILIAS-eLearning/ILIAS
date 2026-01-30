@@ -304,7 +304,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-metadata" style="display: none;"><input id="id_1" type="hidden"
                                 name="name_0[input_1][]" value="file_id" />
                             <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                data-il-ui-input-name="name_0[input_2][]"><label for="id_2">text_input</label>
+                                data-il-ui-input-name="name_0[input_2][]" id="id_3"><label for="id_2">text_input</label>
                                 <div class="c-input__field"><input id="id_2" type="text" name="name_0[input_2][]"
                                         class="c-field-text" /></div>
                             </fieldset>
@@ -325,11 +325,11 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         aria-label="close"><span class="glyphicon glyphicon-remove"
                                             aria-hidden="true"></span></a></span><span class="ui-input-file-input-error-msg"
                                     data-dz-error-msg></span></div>
-                            <div class="ui-input-file-metadata" style="display: none;"><input id="id_3" type="hidden"
+                            <div class="ui-input-file-metadata" style="display: none;"><input id="id_4" type="hidden"
                                     name="name_0[input_1][]" value="" />
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                    data-il-ui-input-name="name_0[input_2][]"><label for="id_4">text_input</label>
-                                    <div class="c-input__field"><input id="id_4" type="text" name="name_0[input_2][]"
+                                    data-il-ui-input-name="name_0[input_2][]" id="id_6"><label for="id_5">text_input</label>
+                                    <div class="c-input__field"><input id="id_5" type="text" name="name_0[input_2][]"
                                             class="c-field-text" /></div>
                                 </fieldset>
                             </div>
@@ -340,14 +340,14 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#"
-                        id="id_5">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
+                        id="id_7">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
                         data-dz-error-msg></span></div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
             ',
             null,
             null,
-            'id_6',
+            'id_8',
         );
         $this->assertEquals($expected, $this->render($file_input));
     }
@@ -399,7 +399,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-metadata" style="display: none;"><input id="id_1" type="hidden"
                                 name="name_0[input_1][]" value="test_file_id_1" />
                             <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                data-il-ui-input-name="name_0[input_2][]"><label for="id_2">text_input</label>
+                                data-il-ui-input-name="name_0[input_2][]" id="id_3"><label for="id_2">text_input</label>
                                 <div class="c-input__field"><input id="id_2" type="text" value="test"
                                         name="name_0[input_2][]" class="c-field-text" /></div>
                             </fieldset>
@@ -420,11 +420,11 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         aria-label="close"><span class="glyphicon glyphicon-remove"
                                             aria-hidden="true"></span></a></span><span class="ui-input-file-input-error-msg"
                                     data-dz-error-msg></span></div>
-                            <div class="ui-input-file-metadata" style="display: none;"><input id="id_3" type="hidden"
+                            <div class="ui-input-file-metadata" style="display: none;"><input id="id_4" type="hidden"
                                     name="name_0[input_1][]" value="" />
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
-                                    data-il-ui-input-name="name_0[input_2][]"><label for="id_4">text_input</label>
-                                    <div class="c-input__field"><input id="id_4" type="text" name="name_0[input_2][]"
+                                    data-il-ui-input-name="name_0[input_2][]" id="id_6"><label for="id_5">text_input</label>
+                                    <div class="c-input__field"><input id="id_5" type="text" name="name_0[input_2][]"
                                             class="c-field-text" /></div>
                                 </fieldset>
                             </div>
@@ -435,14 +435,14 @@ class FileInputTest extends ILIAS_UI_TestBase
                     </template>
                 </div>
                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#"
-                        id="id_5">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
+                        id="id_7">select_file_from_computer</button><span class="ui-input-file-input-error-msg"
                         data-dz-error-msg></span></div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
             ',
             null,
             null,
-            'id_6'
+            'id_8'
         );
         $this->assertEquals($expected, $this->render($file_input));
     }
