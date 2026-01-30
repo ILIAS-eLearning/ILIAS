@@ -34,7 +34,7 @@ class MigrationInsert
     private ?int $image_size = null;
     private ?bool $shuffle_answer_options = null;
     private string $additional_text = '';
-    private ?string $additional_text_legacy = null;
+    private ?string $additional_text_legacy = '';
 
     public function __construct(
         private readonly \ilDBInterface $db,
