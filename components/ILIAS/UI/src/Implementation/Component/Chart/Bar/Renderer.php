@@ -136,7 +136,7 @@ class Renderer extends AbstractComponentRenderer
             $height = $max_height;
         }
 
-        return $height . "px";
+        return (string) (int) $height;
     }
 
     protected function determineHeightForVertical(Bar\Bar $component): string
@@ -149,7 +149,7 @@ class Renderer extends AbstractComponentRenderer
             $height = $max_height;
         }
 
-        return $height . "px";
+        return (string) (int) $height;
     }
 
     protected function getAccessibilityList(
