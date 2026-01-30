@@ -488,17 +488,16 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
 
         $value = $component->getValue();
+        $value_is_empty = $value === null || $value === '';
         //disable first option if required.
         $tpl->setCurrentBlock("options");
-        if (!$value) {
-            $tpl->setVariable("SELECTED", 'selected="selected"');
-        }
-        if ($component->isRequired() && !$value) {
+        $tpl->setVariable("SELECTED", $value_is_empty ? 'selected="selected"' : '');
+        if ($component->isRequired() && $value_is_empty) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
             $tpl->setVariable("HIDDEN", "hidden");
         }
 
-        if (!($value && $component->isRequired())) {
+        if ($value_is_empty || !$component->isRequired()) {
             $tpl->setVariable("VALUE", null);
             $tpl->setVariable("VALUE_STR", $component->isRequired() ? $this->txt('ui_select_dropdown_label') : '-');
             $tpl->parseCurrentBlock();
@@ -506,9 +505,7 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($component->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
-            if ($value == $option_key) {
-                $tpl->setVariable("SELECTED", 'selected="selected"');
-            }
+            $tpl->setVariable("SELECTED", ($value !== null && $value !== '' && $value == $option_key) ? 'selected="selected"' : '');
             $tpl->setVariable("VALUE", $option_key);
             $tpl->setVariable("VALUE_STR", $option_value);
             $tpl->parseCurrentBlock();
