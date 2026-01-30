@@ -208,7 +208,7 @@ interface Factory
      *     2: Elements in the bar MUST NOT open a modal or new Viewport.
      *
      *   accessibility:
-     *     1: The HTML tag < nav > MUST be used for the Main Bar to be identified as
+     *     1: The HTML tag &lt;nav&gt; MUST be used for the Main Bar to be identified as
      *        the ARIA Landmark Role "Navigation".
      *     2: >
      *        The "aria-label" attribute MUST be set for the Main Bar, which MUST be
