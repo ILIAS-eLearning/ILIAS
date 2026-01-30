@@ -22,6 +22,8 @@ use ILIAS\Questions\Question\QuestionImplementation;
 
 class ilAssQuestionPage extends ilPageObject
 {
+    private readonly QuestionImplementation $question;
+
     /**
      * Get parent type
      * @return string parent type
@@ -31,10 +33,19 @@ class ilAssQuestionPage extends ilPageObject
         return "qpl";
     }
 
+    public function setQuestion(
+        QuestionImplementation $question
+    ): void {
+        $this->question = $question;
+    }
+
     public function copyToAnswerForm(
         int $new_id,
         QuestionImplementation $question
     ): void {
+        $this->buildDom();
+        $this->migrateQuestionElementToAnswerForm();
+
         $new_page_object = new QstsQuestionPage();
         $new_page_object->setParentId($this->getParentId());
         $new_page_object->setId($new_id);
@@ -44,5 +55,24 @@ class ilAssQuestionPage extends ilPageObject
         $new_page_object->setActivationEnd($this->getActivationEnd());
         $new_page_object->setQuestion($question);
         $new_page_object->create(false);
+    }
+
+    private function migrateQuestionElementToAnswerForm(): void
+    {
+        global $DIC;
+        $dom_util = $DIC->copage()->internal()->domain()->domUtil();
+
+        $answer_forms = $this->question->getAnswerForms();
+
+        $answer_form_node = new ilPCAnswerForm($this);
+        $answer_form_node->createPageContentNode();
+        $answer_form_node->writePCId($this->generatePCId());
+        $answer_form_node->create(
+            array_shift($answer_forms)->getAnswerFormId()
+        );
+
+        $dom_util->path($this->getDomDoc(), '//Question')
+            ->item(0)->parentNode->replaceWith($answer_form_node->getDomNode());
+        $this->xml = $this->getXMLFromDom();
     }
 }

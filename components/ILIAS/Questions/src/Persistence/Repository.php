@@ -398,12 +398,8 @@ class Repository
 
         $new_page_id = $this->getNextAvailableQuestionPageId();
         $old_qsts_page = new \ilAssQuestionPage($old_page_id);
+        $old_qsts_page->setQuestion($question);
         $old_qsts_page->copyToAnswerForm($new_page_id, $question);
-
-        $new_qsts_page = new \QstsQuestionPage($new_page_id);
-        $new_qsts_page->setQuestion($question);
-        $new_qsts_page->buildDom();
-        $new_qsts_page->migrateQuestionElementToAnswerForm();
 
         $new_question = $question->withPageId($new_page_id);
 
