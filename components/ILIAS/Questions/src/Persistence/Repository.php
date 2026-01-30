@@ -113,13 +113,14 @@ class Repository
                     ),
                     Operator::Equal
                 )
-            )
+            ),
+            [$question_id]
         )->current();
     }
 
     /**
      *
-     * @param array<\ILIAS\Data\Uuid> $question_ids
+     * @param list<\ILIAS\Data\Uuid> $question_ids
      * @return \Generator<\ILIAS\Questions\Question\QuestionImplementation>
      */
     public function getForQuestionIds(
@@ -142,7 +143,8 @@ class Repository
                     ),
                     Operator::In
                 )
-            )
+            ),
+            $question_ids
         );
     }
 
@@ -201,13 +203,15 @@ class Repository
     }
 
     /**
+     * @param  array<\ILIAS\Data\Uuid> $question_ids
      * @return \Generator<\ILIAS\Questions\Question\QuestionImplementation>
      */
     private function getForBaseQuery(
-        Query $query
+        Query $query,
+        array $question_ids
     ): \Generator {
         $query_with_answer_forms = array_reduce(
-            $this->answer_form_factory->getAvailableDefinitions(),
+            $this->getAnswerFormTypesForQuestionIds($question_ids),
             fn(Query $c, AnswerFormDefinition $v) => $v->getPersistence()->completeQuery(
                 $c,
                 CoreTables::AnswerForms->getIdColumn()
@@ -223,6 +227,9 @@ class Repository
         }
     }
 
+    /**
+     * $param array<\ILIAS\Questions\AnswerForms\Properties> $answer_forms
+     */
     private function retrieveQuestionFromQuery(
         Query $query,
         array $answer_forms
@@ -261,6 +268,9 @@ class Repository
         return $this->migrateQuestionPage($question);
     }
 
+    /**
+     * @return array<\ILIAS\Questions\AnswerForms\Properties>
+     */
     private function retrieveAnswerFormsFromQuery(
         Query $query
     ): array {
@@ -290,6 +300,29 @@ class Repository
                 }
             )
         );
+    }
+
+    /**
+     * @param  array<\ILIAS\Data\Uuid> $question_ids
+     * @return array<\ILIAS\Questions\AnswerForm\Definition>
+     */
+    private function getAnswerFormTypesForQuestionIds(
+        array $question_ids
+    ): array {
+        $query = $this->db->query(
+            'SELECT DISTINCT type FROM ' . CoreTables::AnswerForms->value . PHP_EOL
+                . "WHERE {$this->db->in(
+                    'question_id',
+                    $question_ids,
+                    false,
+                    \ilDBConstants::T_TEXT
+                )}"
+        );
+        $answer_form_types = [];
+        while (($type_class = $this->db->fetchObject($query)?->type) !== null) {
+            $answer_form_types[] = $this->answer_form_factory->getDefinitionForClass($type_class);
+        }
+        return $answer_form_types;
     }
 
     /**

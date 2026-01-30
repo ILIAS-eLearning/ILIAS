@@ -22,6 +22,7 @@ namespace ILIAS\Questions;
 
 use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Questions\Question\Question;
+use ILIAS\Data\UUID\Uuid;
 
 class Collector
 {
@@ -42,14 +43,16 @@ class Collector
     }
 
     public function getQuestionsForId(
-        int $id
+        Uuid $id
     ): ?Question {
         return $this->repository->getForQuestionId($id);
     }
 
     /**
+     * Use with Care: This is going to be freakishly expensive, if you ask
+     * for a lot of questions as the query will contain a huge amount of joins!
      *
-     * @param list<int> $ids
+     * @param list<\ILIAS\Data\Uuid> $ids
      * @return \Generator<ILIAS\Questions\Question\Question>
      */
     public function getQuestionsForIds(
