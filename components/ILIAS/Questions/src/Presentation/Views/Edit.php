@@ -586,6 +586,8 @@ class Edit
             $this->questions_repository->delete($questions_to_delete);
             $questions_to_delete = [];
         }
+
+        $this->questions_repository->delete($questions_to_delete);
     }
 
     private function buildEnvironment(
