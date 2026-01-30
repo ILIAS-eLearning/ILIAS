@@ -211,8 +211,11 @@ function usuallyDoneByGlobalScreenProbablyIgnore($async_item, $f, $renderer, $ad
                              ->withAdditionalEntry($async_slate)
                              ->withAdditionalEntry($mail_slate);
 
-    $css_fix = "<style>.panel-primary .il-maincontrols-metabar{flex-direction: column;} .panel-primary .il-metabar-slates{position: relative;top: 0px;}</style>";
-    return $css_fix . $renderer->render([buildMetabarWithNotifications($f, $notification_center),$add_button,$set_button,$reset_button]);
+    $html = $renderer->render([buildMetabarWithNotifications($f, $notification_center), $add_button, $set_button, $reset_button]);
+    // Apply layout fix as inline styles (no <style> tag – not allowed as child of div in documentation context)
+    $html = preg_replace('/(<ul class="il-maincontrols-metabar"[^>]*\sstyle=")([^"]*)(")/', '$1flex-direction: column; $2$3', $html, 1);
+    $html = preg_replace('/<div class="il-metabar-slates">/', '<div class="il-metabar-slates" style="position: relative; top: 0px;">', $html);
+    return $html;
 }
 
 function buildMetabarWithNotifications($f, $notification_center)
