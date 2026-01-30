@@ -75,7 +75,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $ctrl = $DIC->ctrl();
 
         $iframe_url = $ctrl->getLinkTargetByClass(
-            [$target_gui_class],
+            [ilAdministrationGUI::class, $target_gui_class],
             $cmd,
             '',
             true
