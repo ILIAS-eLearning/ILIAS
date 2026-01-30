@@ -49,6 +49,10 @@ class Factory
         );
     }
 
+    /**
+     *
+     * @return array<string>
+     */
     public function getAvailableDefinitions(): array
     {
         return array_values($this->available_answer_form_types);
