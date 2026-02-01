@@ -4656,7 +4656,7 @@ common#:#mails#:#correos
 common#:#mails_at_the_ilias_installation#:#Has recibido %1$s nuevos correos en la instalación de ILIAS %2$s
 common#:#mails_pl#:#Correo(s)
 common#:#main_menu#:#Menú Principal
-common#:#mainbar_aria_label#:#Barra de navegación principal
+common#:#mainbar_aria_label#:#Barra de navegación principal###01 02 2026 changed content
 common#:#mainbar_more_label#:#More###29 07 2022 new variable
 common#:#manage_members#:#Gestionar miembros
 common#:#marked_entries#:#Entradas marcadas
