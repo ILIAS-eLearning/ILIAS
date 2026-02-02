@@ -61,33 +61,51 @@ class MigrationTextSubset implements Migration
         Environment $environment,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
+        $answer_form_id = $migration_insert->getAnswerFormId();
+        $answer_options_insert = null;
         $gaps = [];
 
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
         ) as $db_row) {
-            $answer_form_id = $migration_insert->getAnswerFormId();
-
             if ($gaps === []) {
+                $gaps_insert = null;
                 for ($i = 0; $i < $db_row->correctanswers; $i++) {
-                    $gaps[] = $migration_insert->getUuid();
+                    $gap_id = $migration_insert->getUuid();
+                    $gaps[] = $gap_id;
+
+                    $gaps_insert = $this->buildGapInsertStatement(
+                        $this->persistence,
+                        $migration_insert->getTableNameBuilder(),
+                        $gaps_insert,
+                        $gap_id,
+                        $answer_form_id,
+                        $i,
+                        'text',
+                        null,
+                        null,
+                        $this->buildNewTextRatingFromOld($db_row->textgap_rating),
+                        null,
+                        0
+                    );
                 }
+
+                $migration_insert = $migration_insert->withAdditionalInsert($gaps_insert);
             }
 
             foreach ($gaps as $gap_id) {
-                $migration_insert = $migration_insert->withAdditionalInsert(
-                    $this->buildAnswerOptionInsertStatement(
-                        $this->persistence,
-                        $migration_insert->getTableNameBuilder(),
-                        $migration_insert->getUuid(),
-                        $gap_id,
-                        $db_row->aorder,
-                        $db_row->answertext,
-                        $db_row->points,
-                        null,
-                        null
-                    )
+                $answer_options_insert = $this->buildAnswerOptionInsertStatement(
+                    $this->persistence,
+                    $migration_insert->getTableNameBuilder(),
+                    $answer_options_insert,
+                    $migration_insert->getUuid(),
+                    $gap_id,
+                    $db_row->aorder,
+                    $db_row->answertext,
+                    $db_row->points,
+                    null,
+                    null
                 );
             }
         }
@@ -105,6 +123,8 @@ class MigrationTextSubset implements Migration
                     ScoringIdentical::OnlyScoreDistinct,
                     0
                 )
+            )->withAdditionalInsert(
+                $answer_options_insert
             )->withAdditionalText(
                 implode(
                     "\n\n",
