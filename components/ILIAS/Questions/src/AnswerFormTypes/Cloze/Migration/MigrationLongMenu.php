@@ -60,6 +60,8 @@ class MigrationLongMenu implements Migration
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $answer_input_mapping = [];
+        $gaps_insert = null;
+        $answer_options_insert = null;
 
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
@@ -69,20 +71,19 @@ class MigrationLongMenu implements Migration
             if (!isset($answer_input_mapping[$db_row->gap_number])) {
                 $answer_input_mapping[$db_row->gap_number] = $migration_insert->getUuid();
 
-                $migration_insert = $migration_insert->withAdditionalInsert(
-                    $this->buildGapInsertStatement(
-                        $this->persistence,
-                        $migration_insert->getTableNameBuilder(),
-                        $answer_input_mapping[$db_row->gap_number],
-                        $answer_form_id,
-                        $db_row->gap_number,
-                        $this->buildNewGapTypeIdentifierFromOld($db_row->type),
-                        null,
-                        null,
-                        null,
-                        $db_row->min_auto_complete,
-                        $db_row->shuffle_answers === '1' ? 1 : 0
-                    )
+                $gaps_insert = $this->buildGapInsertStatement(
+                    $this->persistence,
+                    $migration_insert->getTableNameBuilder(),
+                    $gaps_insert,
+                    $answer_input_mapping[$db_row->gap_number],
+                    $answer_form_id,
+                    $db_row->gap_number,
+                    $this->buildNewGapTypeIdentifierFromOld($db_row->type),
+                    null,
+                    null,
+                    null,
+                    $db_row->min_auto_complete,
+                    $db_row->shuffle_answers === '1' ? 1 : 0
                 );
 
                 $answers = array_map(
@@ -111,18 +112,17 @@ class MigrationLongMenu implements Migration
         }
 
         foreach ($answers as $position => $answer) {
-            $migration_insert = $migration_insert->withAdditionalInsert(
-                $this->buildAnswerOptionInsertStatement(
-                    $this->persistence,
-                    $migration_insert->getTableNameBuilder(),
-                    $answer['answer_input_id'],
-                    $answer_input_mapping[$db_row->gap_number],
-                    $position,
-                    $answer['text'],
-                    $answer['points'],
-                    null,
-                    null
-                )
+            $answer_options_insert = $this->buildAnswerOptionInsertStatement(
+                $this->persistence,
+                $migration_insert->getTableNameBuilder(),
+                $answer_options_insert,
+                $answer['answer_input_id'],
+                $answer_input_mapping[$db_row->gap_number],
+                $position,
+                $answer['text'],
+                $answer['points'],
+                null,
+                null
             );
         }
 
@@ -141,7 +141,8 @@ class MigrationLongMenu implements Migration
                     $db_row->long_menu_text,
                     $answer_input_mapping
                 )
-            );
+            )->withAdditionalInsert($gaps_insert)
+            ->withAdditionalInsert($answer_options_insert);
     }
 
     private function fetchDBValues(
