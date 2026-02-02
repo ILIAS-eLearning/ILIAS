@@ -3721,6 +3721,9 @@
 	</div>
 </xsl:template>
 
+<xsl:template match="LegacyAnswerFormText">
+    [[[LEGACY_ANSWER_FORM_TEXT_<xsl:value-of select="@Text"/>]]]
+</xsl:template>
 <xsl:template match="AnswerForm">
 	[[[ANSWER_FORM_<xsl:value-of select="@Uuid"/>]]]
 </xsl:template>
