@@ -37,7 +37,7 @@ class Participant
     public function withIsAsync(
         bool $async
     ): self {
-        foreach ($this->question->getAnswerForms() as $form) {
+        foreach ($this->question->getAnswerFormProperties() as $form) {
             if (!$form->getType()->isAsyncPresentationAvailable()) {
                 throw \Exception('This QuestionType has no async presentation.');
             }
@@ -58,7 +58,7 @@ class Participant
     public function withShowMarks(
         bool $show_marks
     ): self {
-        foreach ($this->question->getAnswerForms() as $form) {
+        foreach ($this->question->getAnswerFormProperties() as $form) {
             if (!$form->getType()->isMarkable()) {
                 throw \Exception('This QuestionType cannot be marked.');
             }
@@ -72,7 +72,7 @@ class Participant
     public function withShowCorrectSolution(
         bool $show_correct_solution
     ): self {
-        foreach ($this->question->getAnswerForms() as $form) {
+        foreach ($this->question->getAnswerFormProperties() as $form) {
             if (!$form->getType()->isMarkable()) {
                 throw \Exception('This QuestionType cannot be marked.');
             }
