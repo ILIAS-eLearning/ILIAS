@@ -78,6 +78,7 @@ class MigrationNumeric implements Migration
             $this->buildGapInsertStatement(
                 $this->persistence,
                 $migration_insert->getTableNameBuilder(),
+                null,
                 $gap_id,
                 $answer_form_id,
                 0,
@@ -92,6 +93,7 @@ class MigrationNumeric implements Migration
             $this->buildAnswerOptionInsertStatement(
                 $this->persistence,
                 $migration_insert->getTableNameBuilder(),
+                null,
                 $migration_insert->getUuid(),
                 $gap_id,
                 0,
