@@ -64,7 +64,7 @@ class ilAssQuestionPage extends ilPageObject
         $dom_util = $DIC->copage()->internal()->domain()->domUtil();
 
         /** @var \ILIAS\Questions\AnswerForm\Properties $answer_form_properties */
-        $answer_form_properties = $this->question->getAnswerForms();
+        $answer_form_properties = $this->question->getAnswerFormProperties();
 
         $dom_util->path($this->getDomDoc(), '//Question')
             ->item(0)->parentNode->replaceWith(
