@@ -14117,6 +14117,7 @@ qsts#:#cloze_enable_combinations#:#Lückenkombinationen aktivieren
 qsts#:#cont_ed_insert_answf#:#Insert Answer Form
 qsts#:#create_answer_form#:#Create Answer Form
 qsts#:#edit_basic_form_properties#:#Edit Basic Form Properties
+qsts#:#legacy_text_cannot_be_edited#:#This text was migrated from the previous question implementation and cannot be edited.
 qsts#:#qst_lifecycle#:#Lifecycle
 qsts#:#qst_lifecycle_draft#:#Draft
 qsts#:#qst_lifecycle_filter_all#:#All Lifecycles

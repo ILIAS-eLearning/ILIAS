@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Data\UUID\Uuid;
 
 class ilAssQuestionPage extends ilPageObject
 {
@@ -62,17 +63,63 @@ class ilAssQuestionPage extends ilPageObject
         global $DIC;
         $dom_util = $DIC->copage()->internal()->domain()->domUtil();
 
-        $answer_forms = $this->question->getAnswerForms();
+        /** @var \ILIAS\Questions\AnswerForm\Properties $answer_form_properties */
+        $answer_form_properties = $this->question->getAnswerForms();
 
+        $dom_util->path($this->getDomDoc(), '//Question')
+            ->item(0)->parentNode->replaceWith(
+                $this->buildLegacyAnswerFormTextNode(),
+                $this->buildAnswerFormNode(
+                    reset($answer_form_properties)->getAnswerFormId()
+                )
+            );
+        $this->xml = $this->getXMLFromDom();
+    }
+
+    private function buildLegacyAnswerFormTextNode(): DOMNode
+    {
+        $legacy_answer_form_text_node = new ilPCLegacyAnswerFormText($this);
+        $legacy_answer_form_text_node->createPageContentNode();
+        $legacy_answer_form_text_node->writePCId($this->generatePCId());
+        $legacy_answer_form_text_node->create(
+            $this->retrieveLegacyPageElementContent()
+        );
+
+        return $legacy_answer_form_text_node->getDomNode();
+    }
+
+    private function buildAnswerFormNode(
+        Uuid $answer_form_id
+    ): DOMNode {
         $answer_form_node = new ilPCAnswerForm($this);
         $answer_form_node->createPageContentNode();
         $answer_form_node->writePCId($this->generatePCId());
-        $answer_form_node->create(
-            array_shift($answer_forms)->getAnswerFormId()
+        $answer_form_node->create($answer_form_id);
+
+        return $answer_form_node->getDomNode();
+    }
+
+    private function retrieveLegacyPageElementContent(): string
+    {
+        $question_info = $this->db->fetchObject(
+            $this->db->query(
+                "SELECT add_cont_edit_mode, question_text FROM qpl_questions WHERE question_id = {$this->id}"
+            )
         );
 
-        $dom_util->path($this->getDomDoc(), '//Question')
-            ->item(0)->parentNode->replaceWith($answer_form_node->getDomNode());
-        $this->xml = $this->getXMLFromDom();
+        $purified_content = ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution')
+            ->purify($question_info->question_text);
+
+        if ($question_info->add_cont_edit_mode === assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE
+            || !(new ilSetting('advanced_editing'))->get('advanced_editing_javascript_editor') === 'tinymce') {
+            $purified_content = nl2br($purified_content);
+        }
+        return base64_encode(
+            ilLegacyFormElementsUtil::prepareTextareaOutput(
+                $purified_content,
+                true,
+                true
+            )
+        );
     }
 }

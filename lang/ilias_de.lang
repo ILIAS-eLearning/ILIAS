@@ -14154,6 +14154,7 @@ qsts#:#cloze_enable_combinations#:#Enable Gap Combination
 qsts#:#cont_ed_insert_answf#:#Antwortformular einfügen
 qsts#:#create_answer_form#:#Antwortformular erstellen
 qsts#:#edit_basic_form_properties#:#Grundeinstellungen der Frage bearbeiten
+qsts#:#legacy_text_cannot_be_edited#:#Der Text stammt aus einer überführten Frage und kann nicht geändert werden.
 qsts#:#qst_lifecycle#:#Lebenszyklus
 qsts#:#qst_lifecycle_draft#:#Entwurf
 qsts#:#qst_lifecycle_filter_all#:#Alle Lebenszyklen

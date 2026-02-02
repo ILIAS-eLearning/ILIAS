@@ -18,14 +18,16 @@
 
 declare(strict_types=1);
 
-class QstsQuestionPageConfig extends ilPageConfig
+use ILIAS\UI\Component\MessageBox\MessageBox;
+
+/**
+ * @ilCtrl_isCalledBy ilPCLegacyAnswerFormTextGUI: ilPageEditorGUI
+ */
+class ilPCLegacyAnswerFormTextGUI extends ilPageContentGUI
 {
-    public function init(): void
+    public function executeCommand()
     {
-        $this->setEnablePCType('Tabs', true);
-        $this->setEnablePCType('AnswerForm', true);
-        $this->setEnablePCType('LegacyAnswerFormText', true);
-        $this->setEnableInternalLinks(false);
-        $this->setEnablePageToc(true);
+        $this->tpl->setOnScreenMessage(MessageBox::FAILURE, $this->lng->txt('legacy_text_cannot_be_edited'), true);
+        $this->ctrl->redirectByClass(\QstsQuestionPageGUI::class, 'edit');
     }
 }
