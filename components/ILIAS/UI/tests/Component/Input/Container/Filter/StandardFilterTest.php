@@ -206,12 +206,12 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
@@ -344,12 +344,12 @@ EOT;
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
@@ -482,12 +482,12 @@ EOT;
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
@@ -620,12 +620,12 @@ EOT;
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
