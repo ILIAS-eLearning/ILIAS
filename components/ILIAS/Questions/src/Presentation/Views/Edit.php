@@ -243,7 +243,7 @@ class Edit
         }
 
         $this->questions_repository->update(
-            [$question->withAnswerForm($next)]
+            [$question->withAnswerFormProperties($next)]
         );
 
         $this->ctrl->redirectToURL(
@@ -423,7 +423,7 @@ class Edit
         }
 
         $this->questions_repository->create(
-            [$question->withAnswerForm($create)]
+            [$question->withAnswerFormProperties($create)]
         );
 
         $content_object->create($create->getAnswerFormId());

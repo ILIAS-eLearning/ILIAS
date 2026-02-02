@@ -203,7 +203,7 @@ class QuestionImplementation implements Question
         return $this->created;
     }
 
-    public function getAnswerForms(): array
+    public function getAnswerFormProperties(): array
     {
         return $this->answer_forms;
     }
@@ -214,7 +214,7 @@ class QuestionImplementation implements Question
         return $this->answer_forms[$form_id] ?? null;
     }
 
-    public function withAnswerForm(
+    public function withAnswerFormProperties(
         AnswerFormProperties $answer_form
     ): self {
         $clone = clone $this;
