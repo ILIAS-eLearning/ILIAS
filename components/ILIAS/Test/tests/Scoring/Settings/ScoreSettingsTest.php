@@ -291,7 +291,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $i1_1_4_1 = $this->getFormWrappedHtml(
             'date-time-field-input',
-            'tst_reporting_date<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_reporting_date<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             '<div class="c-input-group">
                 <input id="id_6" type="datetime-local" class="c-field-datetime" />
             </div>',
@@ -303,7 +303,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $i1_1_4 = $this->getFormWrappedHtml(
             'group-field-input',
-            '<input type="radio" id="id_5" value="3" /><span>tst_results_access_date</span><span class="asterisk" aria-label="required_field">*</span>',
+            '<input type="radio" id="id_5" value="3" /><span>tst_results_access_date</span><span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             $i1_1_4_1,
             'tst_results_access_date_desc',
             'id_5',
@@ -313,7 +313,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $i1_1 = $this->getFormWrappedHtml(
             'switchable-group-field-input',
-            'tst_results_access_setting<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_results_access_setting<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             $i1_1_1 . $i1_1_2 . $i1_1_3 . $i1_1_4,
             null,
             null,
@@ -441,7 +441,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
 
         $fields = $this->getFormWrappedHtml(
             'radio-field-input',
-            'tst_highscore_mode<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_highscore_mode<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             '<div class="c-field-radio">
                 <div class="c-field-radio__item">
                     <input type="radio" id="id_2_1_opt" value="1" /><label for="id_2_1_opt">tst_highscore_own_table</label><div class="c-input__help-byline">tst_highscore_own_table_description</div>
@@ -460,7 +460,7 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         );
         $fields .= $this->getFormWrappedHtml(
             'numeric-field-input',
-            'tst_highscore_top_num<span class="asterisk" aria-label="required_field">*</span>',
+            'tst_highscore_top_num<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             '<input id="id_3" type="number" step="1" value="10" class="c-field-number" />',
             'tst_highscore_top_num_description',
             'id_3',

@@ -366,7 +366,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
         $field_html = $this->getFormWrappedHtml(
             'text-field-input',
-            'label<span class="asterisk" aria-label="required_field">*</span>',
+            'label<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
             '<input id="id_1" type="text" name="form/input_0" class="c-field-text" />',
             'byline',
             'id_1',
