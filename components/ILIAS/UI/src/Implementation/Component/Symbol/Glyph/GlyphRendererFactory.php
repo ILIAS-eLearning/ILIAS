@@ -27,8 +27,8 @@ use ILIAS\UI\Implementation\Render\ComponentRenderer;
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
     /**
-     * components which render glyphs inside an HTML <button> element, where only
-     * palpable content is allowed.
+     * components which render glyphs inside an HTML <button> element (or equivalent),
+     * where only palpable content is allowed (no <a>).
      * @see https://html.spec.whatwg.org/#palpable-content
      */
     protected const array USE_BUTTON_CONTEXT_RENDERER_FOR = [
@@ -43,6 +43,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
         'ShyLink',
         'MultiSelectFieldInput',
         'RadioFieldInput',
+        'StandardFilterContainerInput',
+        'ModeViewControl',
     ];
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer
