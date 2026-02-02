@@ -24,6 +24,7 @@ class QstsQuestionPageConfig extends ilPageConfig
     {
         $this->setEnablePCType('Tabs', true);
         $this->setEnablePCType('AnswerForm', true);
+        $this->setEnablePCType('LegacyAnswerFormText', true);
         $this->setEnableInternalLinks(false);
         $this->setEnablePageToc(true);
     }

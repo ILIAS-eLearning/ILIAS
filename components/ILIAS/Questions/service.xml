@@ -8,6 +8,7 @@
 	</objects>
     <copage>
         <pagecontent pc_type="answf" name="AnswerForm" directory="PageEditor" int_links="0" style_classes="1" xsl="0" def_enabled="0" top_item="1" order_nr="0" />
+        <pagecontent pc_type="laft" name="LegacyAnswerFormText" directory="PageEditor" int_links="0" style_classes="1" xsl="0" def_enabled="0" top_item="0" order_nr="0" />
         <pageobject parent_type="qsts" class_name="QstsQuestionPage" directory="Legacy/PageEditor" />
     </copage>
     <logging />
