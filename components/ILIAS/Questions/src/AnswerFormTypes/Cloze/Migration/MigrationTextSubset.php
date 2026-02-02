@@ -126,13 +126,7 @@ class MigrationTextSubset implements Migration
             )->withAdditionalInsert(
                 $answer_options_insert
             )->withAdditionalText(
-                implode(
-                    "\n\n",
-                    array_map(
-                        fn(Uuid $v) => "{{GAP_{$v->toString()}}}",
-                        $gaps,
-                    )
-                )
+                $this->buildAdditionalTextFromGapsArray($gaps)
             );
     }
 
@@ -149,5 +143,20 @@ class MigrationTextSubset implements Migration
         while (($row = $db->fetchObject($query)) !== null) {
             yield $row;
         }
+    }
+
+    private function buildAdditionalTextFromGapsArray(
+        array $gaps
+    ): string {
+        $text_array = [];
+        foreach ($gaps as $index => $gap) {
+            $position = $index + 1;
+            $text_array[] = "{$position}. {{GAP_{$gap->toString()}}}";
+        }
+
+        return implode(
+            "\n\n",
+            $text_array
+        );
     }
 }
