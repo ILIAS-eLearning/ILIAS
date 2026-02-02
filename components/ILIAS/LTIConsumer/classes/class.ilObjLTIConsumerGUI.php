@@ -37,6 +37,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerScoringGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerContentGUI
  * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumerGradeSynchronizationGUI
+ * @ilCtrl_Calls ilObjLTIConsumerGUI: ilLTIConsumeProviderSettingsGUI
  */
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {
@@ -755,7 +756,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
         if (!ilLTIConsumerContentGUI::isEmbeddedLaunchRequest()) {
             $this->prepareOutput();
-            $this->addHeaderAction();
+            //$this->addHeaderAction();
         }
 
         if (!$this->creation_mode) {
@@ -778,6 +779,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $obj = $this->object;
 
         switch ($DIC->ctrl()->getNextClass()) {
+            case strtolower(ilLTIConsumeProviderSettingsGUI::class):
+                $gui = new ilLTIConsumeProviderSettingsGUI($obj, $this->ltiAccess);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case strtolower(ilObjectCopyGUI::class):
 
                 $gui = new ilObjectCopyGUI($this);
@@ -1082,7 +1088,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $this->object->getId(),
             $DIC->user()->getId()
         );
-
+        // dump("ilObjLTIConsumerGUI", $this->object, $this->object->getId(), $DIC->user()->getId());exit();
         ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
     }
 

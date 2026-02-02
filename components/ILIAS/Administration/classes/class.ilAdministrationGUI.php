@@ -54,7 +54,7 @@ use ILIAS\Administration\AdminGUIRequest;
 * @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI, ilMemberExportSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI, ilPropertyFormGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCmiXapiAdministrationGUI, ilObjCmiXapiGUI, ilObjLTIConsumerGUI, ilLTIConsumeProviderSettingsGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjCmiXapiAdministrationGUI, ilObjCmiXapiGUI, ilObjLTIConsumerGUI, ilLTIConsumerSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLearningSequenceAdminGUI, ilObjContentPageAdministrationGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjIndividualAssessmentGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilLPProgressTableGUI
@@ -120,6 +120,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
 
         // determine current ref id and mode
         $ref_id = $this->request->getRefId();
+        // dump($ref_id);exit();
         if ($tree->isInTree($ref_id)) {
             $this->cur_ref_id = $ref_id;
         } else {
@@ -212,12 +213,17 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                                 if (is_subclass_of($class_name, "ilObject2GUI")) {
                                     $this->gui_obj = new $class_name($this->cur_ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
                                 } else {
+                                    //$this->cur_ref_id=224;
+                                    //dump($this->cur_ref_id);exit();
+
                                     $this->gui_obj = new $class_name(null, $this->cur_ref_id, true, false);
                                 }
                             } else {
                                 if (is_subclass_of($class_name, "ilObject2GUI")) {
+                                    //dump("putada2");exit();
                                     $this->gui_obj = new $class_name(null, ilObject2GUI::REPOSITORY_NODE_ID, $this->cur_ref_id);
                                 } else {
+
                                     $this->gui_obj = new $class_name("", 0, true, false);
                                 }
                             }
