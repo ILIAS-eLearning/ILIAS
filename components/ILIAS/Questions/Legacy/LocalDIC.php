@@ -76,7 +76,9 @@ class LocalDIC extends PimpleContainer
             );
         $dic[Edit::class] = static fn($c): Edit => new Edit(
             $DIC['lng'],
-            $DIC['ilUser'],
+            $DIC['ilSetting'],
+            $DIC['user']->getSettings(),
+            $DIC['user']->getLoggedInUser(),
             $DIC['refinery'],
             $DIC['ui.factory'],
             $DIC['ui.renderer'],
