@@ -39,6 +39,7 @@ use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
+use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\RequestInterface;
 
@@ -247,6 +248,8 @@ class QuestionImplementation implements Question
 
     public function getEditView(
         Language $lng,
+        \ilSetting $settings,
+        UserSettings $user_settings,
         \ilObjUser $current_user,
         UIFactory $ui_factory,
         Refinery $refinery,
@@ -255,6 +258,8 @@ class QuestionImplementation implements Question
     ): Views\Edit {
         return new Views\Edit(
             $lng,
+            $settings,
+            $user_settings,
             $current_user,
             $ui_factory,
             $refinery,

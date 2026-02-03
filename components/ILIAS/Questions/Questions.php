@@ -64,6 +64,8 @@ class Questions implements Component\Component
         );
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, 'js/dist/ParticipantViewLongMenu.js');
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Questions\UserSettings\Settings();
 
         $internal[Persistence::class] = static fn() => new Persistence(
             new TableNameSpaceCore('cloze')
