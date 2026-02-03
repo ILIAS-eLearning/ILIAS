@@ -709,7 +709,7 @@ class ilObject
             $this->lom_services->derive()->fromBasicProperties(
                 $this->getTitle(),
                 $this->getLongDescription(),
-                $ilUser->getPref('language')
+                $ilUser->getPref('language') ?? ''
             )->forObject($this->getId(), 0, $this->getType());
 
             $this->doCreateMetaData();
