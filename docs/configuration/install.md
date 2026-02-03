@@ -565,10 +565,9 @@ After upgrading the code from ILIAS 9 to ILIAS 10 due to structural changes, you
 and `/data` folder to its new destination. Both are now located in the newly created `public` folder.
 
 ```shell
-sudo -uwww-data mkdir -p public/Customizing/plugins
+sudo -uwww-data mkdir -p public/Customizing/global/plugins
 mv data public/
-mv Customizing/global/plugins/Services/* public/Customizing/plugins/
-mv Customizing/global/plugins/Modules/* public/Customizing/plugins/
+mv Customizing/global/plugins/* public/Customizing/global/plugins/
 ```
 
 Then update the code of your plugins according to their documentation to ensure they are compatible with the new ILIAS version.
