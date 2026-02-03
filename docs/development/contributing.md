@@ -112,6 +112,8 @@ be assigned by the Technical Board or Authorities:
 | php             | The label `php` has to be set for PRs changing PHP code.                                                                                                                  |
 | roadmap         | The label `roadmap` is assigned to PRs that contain strategical or tactical discussions of technical topics regarding the future of a component.                          |
 | technical board | This label is given for PRs which will be discussed in a meeting of the Technical Board. The label will be removed after the discussion.                                  |
+| accessibility   | The label `accessibility` is assigned to PRs which address accessibility in some way, spawned by new features, bugfixes or general improvements.                          |
+| translations    | The label `translations` is assigned to PRs which update translation files, located in the `lang/` directory of the repository.                                           |
 
 <a name="looking-for-shepherd"></a>
 #### Looking for Shepherd
