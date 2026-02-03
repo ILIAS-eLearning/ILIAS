@@ -45,6 +45,7 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Item\Group as ItemGroup;
 use ILIAS\UI\Component\MainControls\Slate\Legacy as LegacySlate;
+use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Style\Content\Service as ContentStyle;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 
@@ -64,6 +65,8 @@ class Edit
 
     public function __construct(
         private readonly Language $lng,
+        private readonly \ilSetting $settings,
+        private readonly UserSettings $user_settings,
         private readonly \ilObjUser $current_user,
         private readonly Refinery $refinery,
         private readonly UIFactory $ui_factory,
@@ -260,6 +263,8 @@ class Edit
             $environment->getObjId()
         )->getEditView(
             $this->lng,
+            $this->settings,
+            $this->user_settings,
             $this->current_user,
             $this->ui_factory,
             $this->refinery,
@@ -298,6 +303,7 @@ class Edit
 
         $edit = $question->getEditView(
             $this->lng,
+            $this->user_settings,
             $this->current_user,
             $this->ui_factory,
             $this->refinery,
@@ -505,6 +511,8 @@ class Edit
     ): EditForm {
         return $question->getEditView(
             $this->lng,
+            $this->settings,
+            $this->user_settings,
             $this->current_user,
             $this->ui_factory,
             $this->refinery,

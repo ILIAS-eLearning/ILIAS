@@ -25,10 +25,12 @@ use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
+use ILIAS\Questions\UserSettings\EditingMode;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Component\Panel\Standard as StandardPanel;
+use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\RequestInterface;
@@ -39,6 +41,8 @@ class Edit
 
     public function __construct(
         private readonly Language $lng,
+        private readonly \ilSetting $settings,
+        private readonly UserSettings $user_settings,
         private readonly \ilObjUser $current_user,
         private readonly UIFactory $ui_factory,
         private readonly Refinery $refinery,
@@ -53,8 +57,11 @@ class Edit
         EnvironmentImplementation $environment
     ): EditForm|Question {
         return match ($environment->getStep()) {
-            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm($environment),
-            default => $this->buildBasicPropertiesForm($environment)
+            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm(
+                $environment,
+                true
+            ),
+            default => $this->buildBasicPropertiesForm($environment, true)
         };
     }
 
@@ -63,28 +70,37 @@ class Edit
         Participant $participant_view
     ): EditForm|Question {
         return match ($environment->getStep()) {
-            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm($environment),
-            default => $this->buildBasicPropertiesForm($environment)->withContentAfterForm(
+            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm(
+                $environment,
+                false
+            ),
+            default => $this->buildBasicPropertiesForm(
+                $environment,
+                false
+            )->withContentAfterForm(
                 $this->buildPreviewPanel($environment, $participant_view)
             )
         };
     }
 
     private function buildBasicPropertiesForm(
-        EnvironmentImplementation $environment
+        EnvironmentImplementation $environment,
+        bool $is_context_create
     ): EditForm {
         return $environment->getPresentationFactory()->getEditForm(
             $environment->getUrlBuilderWithStepParameter(self::CMD_SAVE_QUESTION),
-            $this->buildBasicPropertiesInputs(),
+            $this->buildBasicPropertiesSection($is_context_create),
             true
         );
     }
 
     private function processBasicPropertiesForm(
-        EnvironmentImplementation $environment
+        EnvironmentImplementation $environment,
+        bool $is_context_create
     ): EditForm|Question {
         $form = $this->buildBasicPropertiesForm(
-            $environment
+            $environment,
+            $is_context_create
         )->withRequest($this->request);
 
         $data = $form->getData();
@@ -93,38 +109,69 @@ class Edit
             : $data;
     }
 
-    private function buildBasicPropertiesInputs(): Section
-    {
+    private function buildBasicPropertiesSection(
+        bool $needs_create_mode_input
+    ): Section {
         $ff = $this->ui_factory->input()->field();
+
+        $inputs = $this->buildBasicPropertiesInputs();
+        $values = $this->buildBasicPropertiesBasicValuesArray();
+
+        if ($needs_create_mode_input) {
+            $user_settings = $this->user_settings
+                ->getSettingByDefinitionClass(EditingMode::class);
+            $inputs['create_mode'] = $user_settings->getInput(
+                $ff,
+                $this->lng,
+                $this->refinery,
+                $this->settings
+            );
+            $values['create_mode'] = $user_settings->retrieveValueFromUser(
+                $this->current_user
+            );
+        }
+
         $section = $ff->section(
-            [
-                'title' => $ff->text($this->lng->txt('title'))
-                    ->withRequired(true),
-                'author' => $ff->text($this->lng->txt('author')),
-                'lifecycle' => $ff->select(
-                    $this->lng->txt('qst_lifecycle'),
-                    array_reduce(
-                        Lifecycle::cases(),
-                        function (array $c, Lifecycle $v): array {
-                            $c[$v->value] = $this->lng->txt("qst_lifecycle_{$v->value}");
-                            return $c;
-                        },
-                        []
-                    )
-                )->withRequired(true),
-                'remarks' => $ff->textarea($this->lng->txt('qst_remarks'))
-            ],
+            $inputs,
             $this->lng->txt('edit_basic_form_properties')
         )->withAdditionalTransformation($this->buildAddBasicPropertiesToQuestionTrafo());
 
-        return $section->withValue([
+        return $section->withValue($values);
+    }
+
+    private function buildBasicPropertiesInputs(): array
+    {
+        $ff = $this->ui_factory->input()->field();
+
+        return [
+            'title' => $ff->text($this->lng->txt('title'))
+                ->withRequired(true),
+            'author' => $ff->text($this->lng->txt('author')),
+            'lifecycle' => $ff->select(
+                $this->lng->txt('qst_lifecycle'),
+                array_reduce(
+                    Lifecycle::cases(),
+                    function (array $c, Lifecycle $v): array {
+                        $c[$v->value] = $this->lng->txt("qst_lifecycle_{$v->value}");
+                        return $c;
+                    },
+                    []
+                )
+            )->withRequired(true),
+            'remarks' => $ff->textarea($this->lng->txt('qst_remarks'))
+        ];
+    }
+
+    private function buildBasicPropertiesBasicValuesArray(): array
+    {
+        return [
             'title' => $this->question->getTitle(),
             'author' => $this->question->getAuthor() !== ''
                 ? $this->question->getAuthor()
                 : $this->current_user->getFullname(),
             'lifecycle' => $this->question->getLifecycle()->value,
             'remarks' => $this->question->getRemarks()
-        ]);
+        ];
     }
 
     private function buildAddBasicPropertiesToQuestionTrafo(): Transformation
