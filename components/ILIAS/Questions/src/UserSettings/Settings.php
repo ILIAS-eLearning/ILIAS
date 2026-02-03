@@ -18,16 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Authentication\UserSettings;
+namespace ILIAS\Questions\UserSettings;
 
 use ILIAS\User\Settings\UserSettings;
 
 class Settings implements UserSettings
 {
+    #[\Override]
     public function getSettingConfigurations(): array
     {
         return [
-            Password::class
+            EditingMode::class
         ];
     }
 }
