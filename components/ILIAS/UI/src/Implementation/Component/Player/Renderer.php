@@ -45,8 +45,6 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.audio.html", true, true);
 
-        // Always provide a non-empty id attribute. If there is no JS binding,
-        // fall back to a plain, unique id.
         $id = $this->bindJavaScript($component) ?? $this->createId();
 
         if ($component->getTranscription() != "") {
@@ -98,7 +96,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.video_vimeo.html", true, true);
 
-        // Ensure the iframe always has a valid, non-empty id attribute.
         $id = $this->bindJavaScript($component) ?? $this->createId();
 
         $tpl->setVariable("ID", $id);
@@ -114,7 +111,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.video_youtube.html", true, true);
 
-        // Ensure the iframe always has a valid, non-empty id attribute.
         $id = $this->bindJavaScript($component) ?? $this->createId();
 
         $tpl->setVariable("ID", $id);
@@ -130,7 +126,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.video.html", true, true);
 
-        // Ensure the <video> element always has a valid, non-empty id attribute.
         $id = $this->bindJavaScript($component) ?? $this->createId();
 
         foreach ($component->getSubtitleFiles() as $lang_key => $file) {
