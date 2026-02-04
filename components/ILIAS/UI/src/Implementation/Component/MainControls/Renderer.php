@@ -167,8 +167,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
 
             if ($slate) {
-                // Legacy slates (e.g. with Tree content) must not use role="menu" because
-                // ARIA forbids role="tree"/"treeitem" inside role="menu". Use role="navigation" instead.
                 $aria_role = ($entry instanceof LegacySlate) ? ISlate::NAVIGATION : ISlate::MENU;
                 $entry = $entry->withAriaRole($aria_role);
 
