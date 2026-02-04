@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\TestQuestionPool\QuestionPoolDIC;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+
 /**
  * Class ilUnitTableGUI
  */
@@ -27,6 +30,8 @@ class ilUnitTableGUI extends ilTable2GUI
     private $position = 1;
     private \ILIAS\UI\Factory $ui_factory;
     private \ILIAS\UI\Renderer $ui_renderer;
+    private ilAccessHandler $access;
+    private RequestDataCollector $request;
 
     /**
      * @param ilUnitConfigurationGUI         $controller
@@ -44,6 +49,8 @@ class ilUnitTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->access = $DIC->access();
+        $this->request = QuestionPoolDIC::dic()['request_data_collector'];
 
         $this->setId('units_' . $controller->getUniqueId());
 
@@ -51,7 +58,10 @@ class ilUnitTableGUI extends ilTable2GUI
 
         $ilCtrl->setParameter($this->getParentObject(), 'category_id', $category->getId());
 
-        if ($this->getParentObject()->isCRUDContext()) {
+        if (
+            $this->getParentObject()?->isCRUDContext()
+            && $this->access->checkAccess('write', '', $this->request->getRefId())
+        ) {
             $this->addColumn('', '', '1%', true);
             $this->setSelectAllCheckbox('unit_ids[]');
             $this->addMultiCommand('confirmDeleteUnits', $this->lng->txt('delete'));
@@ -88,7 +98,10 @@ class ilUnitTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        if ($this->getParentObject()->isCRUDContext()) {
+        if (
+            $this->getParentObject()?->isCRUDContext()
+            && $this->access->checkAccess('write', '', $this->request->getRefId())
+        ) {
             $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'unit_ids[]', $a_set['unit_id']);
 
             $sequence = new ilNumberInputGUI('', 'sequence[' . $a_set['unit_id'] . ']');
