@@ -42,7 +42,7 @@ class SkillManagementAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "visible,read", $this->skmg_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "read", $this->skmg_ref_id);
     }
 
     public function hasEditManagementSettingsPermission(int $a_usr_id = 0): bool
