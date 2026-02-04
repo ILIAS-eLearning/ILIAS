@@ -43,7 +43,7 @@ class ilLSLearnerItemsQueries
         $this->usr_id = $usr_id;
     }
 
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return count($this->getItems()) > 0;
     }
