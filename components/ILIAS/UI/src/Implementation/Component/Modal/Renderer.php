@@ -262,11 +262,9 @@ class Renderer extends AbstractComponentRenderer
             $first = false;
         }
         if (count($pages) > 1) {
-            $tpl->setCurrentBlock('controls');
-            $tpl->setVariable('ID_CAROUSEL3', $id_carousel);
+            $tpl->touchBlock('controls');
             $tpl->parseCurrentBlock();
         }
-        $tpl->setVariable('ID_CAROUSEL4', $id_carousel);
         return $tpl->get();
     }
 

@@ -183,11 +183,11 @@ EOT;
 						</div>
 					</div>
 
-					<button class="left carousel-control btn-link" data-target="#id_1_carousel" type="button" type="button" data-slide="prev">
+					<button class="left carousel-control btn-link" type="button" data-slide="prev">
 						<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 						<span class="sr-only">Previous</span>
 					</button>
-					<button class="right carousel-control btn-link" data-target="#id_1_carousel" type="button" type="button" data-slide="next">
+					<button class="right carousel-control btn-link" type="button" data-slide="next">
 						<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 						<span class="sr-only">Next</span>
 					</button>
