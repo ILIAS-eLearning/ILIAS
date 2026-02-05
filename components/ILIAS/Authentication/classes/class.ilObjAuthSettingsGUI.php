@@ -562,7 +562,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
     private function buildSOAPForm(
-        string $submit_action
+        string $submit_action,
+        string $show_action
     ): \ILIAS\UI\Component\Input\Container\Form\Form {
         $role_list = $this->rbac_review->getRolesByFilter(2, $this->object->getId());
         $roles = [];
@@ -671,27 +672,38 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             )
             ->withValue((bool) $this->settings->get('soap_auth_user_default_role', ''));
 
+        $access = $this->rbac_system->checkAccess('write', $this->object->getRefId());
+        $inputs = [
+            'active' => $active,
+            'server' => $server,
+            'port' => $port,
+            'use_https' => $use_https,
+            'uri' => $uri,
+            'namespace' => $namespace,
+            'dotnet' => $dotnet,
+            'createuser' => $createuser,
+            'sendmail' => $sendmail,
+            'defaultrole' => $defaultrole,
+            'allowlocal' => $allowlocal
+        ];
+        if (!$access) {
+            foreach ($inputs as $key => $input) {
+                $inputs[$key] = $input->withDisabled(true);
+            }
+        }
         $form = $this->ui_factory->input()->container()->form()->standard(
-            $submit_action,
-            [
-                'active' => $active,
-                'server' => $server,
-                'port' => $port,
-                'use_https' => $use_https,
-                'uri' => $uri,
-                'namespace' => $namespace,
-                'dotnet' => $dotnet,
-                'createuser' => $createuser,
-                'sendmail' => $sendmail,
-                'defaultrole' => $defaultrole,
-                'allowlocal' => $allowlocal
-            ]
+            $access ? $submit_action : $show_action,
+            $inputs
         );
+
+        if (!$access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
         return $form;
     }
 
     private function buildSOAPTestForm(
-        string $submit_action
+        string $submit_action,
     ): \ILIAS\UI\Component\Input\Container\Form\Form {
         $ext_uid = $this->ui_factory->input()->field()->text(
             'ext_uid'
@@ -708,7 +720,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 'soap_pw' => $soap_pw,
                 'new_user' => $new_user
             ]
-        )->withSubmitLabel('Send');
+        )->withSubmitLabel($this->lng->txt('send'));
     }
 
     public function editSOAPObject(): void
@@ -717,8 +729,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
         }
 
-        $soap_form = $this->buildSOAPForm($this->ctrl->getFormAction($this, 'saveSOAP'));
-        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, 'testSoapAuthConnection'));
+        $soap_form = $this->buildSOAPForm(
+            $this->ctrl->getFormAction($this, 'saveSOAP'),
+            $this->ctrl->getFormAction($this, 'editSOAP')
+        );
+        $test_form = $this->buildSOAPTestForm(
+            $this->ctrl->getFormAction($this, 'testSoapAuthConnection'),
+            $this->ctrl->getFormAction($this, 'editSOAP')
+        );
 
         $this->tabs_gui->setTabActive('auth_soap');
         $panel = $this->ui_factory->panel()->standard('SOAP', [$soap_form, $test_form]);
@@ -731,15 +749,18 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
         }
 
-        $soap_form = $this->buildSOAPForm($this->ctrl->getFormAction($this, 'saveSOAP'));
-        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, 'testSoapAuthConnection'));
+        $soap_form = $this->buildSOAPForm(
+            $this->ctrl->getFormAction($this, 'saveSOAP'),
+            $this->ctrl->getFormAction($this, 'editSOAP')
+        );
+        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, 'testSoapAuthConnection'),);
         $panel_content = [$soap_form, $test_form];
         if ($this->request->getMethod() === 'POST') {
             $test_form = $test_form->withRequest($this->request);
             $result = $test_form->getData();
             if ($result !== null) {
                 $panel_content[] = $this->ui_factory->legacy()->content(
-                    ilSOAPAuth::testConnection($result['ext_uid'], $result['soap_pw'], $result['new_user'])
+                    ilAuthSOAP::testConnection($result['ext_uid'], $result['soap_pw'], $result['new_user'])
                 );
             }
         }
@@ -754,8 +775,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
         }
 
-        $soap_form = $this->buildSOAPForm($this->ctrl->getFormAction($this, 'saveSOAP'));
-        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, 'testSoapAuthConnection'));
+        $soap_form = $this->buildSOAPForm(
+            $this->ctrl->getFormAction($this, 'saveSOAP'),
+            $this->ctrl->getFormAction($this, 'editSOAP')
+        );
+        $test_form = $this->buildSOAPTestForm(
+            $this->ctrl->getFormAction($this, 'testSoapAuthConnection'),
+            $this->ctrl->getFormAction($this, 'editSOAP')
+        );
         if ($this->request->getMethod() === 'POST') {
             $soap_form = $soap_form->withRequest($this->request);
             $result = $soap_form->getData();
