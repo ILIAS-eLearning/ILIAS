@@ -1168,7 +1168,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ctrl->redirect($this, self::CMD_SHOW_APACHE_SETTINGS);
         }
 
-        $this->ctrl->redirect($this, self::CMD_SHOW_APACHE_SETTINGS);
+        $this->apacheAuthSettingsObject($form);
     }
 
     private function validateApacheAuthAllowedDomains(string $text): string
