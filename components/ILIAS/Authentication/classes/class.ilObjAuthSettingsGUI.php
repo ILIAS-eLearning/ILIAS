@@ -686,11 +686,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             'defaultrole' => $defaultrole,
             'allowlocal' => $allowlocal
         ];
+
         if (!$access) {
             foreach ($inputs as $key => $input) {
                 $inputs[$key] = $input->withDisabled(true);
             }
         }
+
         $form = $this->ui_factory->input()->container()->form()->standard(
             $access ? $submit_action : $show_action,
             $inputs
@@ -699,11 +701,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if (!$access) {
             $form = $form->withSubmitLabel($this->lng->txt('refresh'));
         }
+
         return $form;
     }
 
     private function buildSOAPTestForm(
-        string $submit_action,
+        string $submit_action
     ): \ILIAS\UI\Component\Input\Container\Form\Form {
         $ext_uid = $this->ui_factory->input()->field()->text(
             'ext_uid'
