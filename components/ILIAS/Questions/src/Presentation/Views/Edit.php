@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Views;
 
+use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
@@ -35,8 +36,11 @@ use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\AnswerForm\Views\Edit as AnswerFormEditView;
 use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\UserSettings\CreateMode;
+use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\URI;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\UICore\GlobalTemplate;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -51,13 +55,13 @@ use ILIAS\GlobalScreen\Services as GlobalScreen;
 
 class Edit
 {
-    private const string CMD_CREATE_QUESTION = 'create';
-    public const string CMD_EDIT_QUESTION = 'edit';
-    public const string CMD_DELETE_QUESTIONS = 'delete';
-    private const string CMD_CREATE_ANSWER_FORM = 'create_af';
-    public const string CMD_OTHER_ANSWER_FORM = 'other_af';
-    private const string CMD_EDIT_FEEDBACK = 'edit_f';
-    private const string CMD_EDIT_CONTENT_FOR_REPETITION = 'edit_cfr';
+    private const string ACTION_CREATE_QUESTION = 'create';
+    public const string ACTION_EDIT_QUESTION = 'edit';
+    public const string ACTION_DELETE_QUESTIONS = 'delete';
+    private const string ACTION_CREATE_ANSWER_FORM = 'create_af';
+    public const string ACTION_OTHER_ANSWER_FORM = 'other_af';
+    private const string ACTION_EDIT_FEEDBACK = 'edit_f';
+    private const string ACTION_EDIT_CONTENT_FOR_REPETITION = 'edit_cfr';
 
     private array $required_capabilities = [];
     private Editability $editability = Editability::Full;
@@ -65,8 +69,7 @@ class Edit
 
     public function __construct(
         private readonly Language $lng,
-        private readonly \ilSetting $settings,
-        private readonly UserSettings $user_settings,
+        private readonly ConfigurationRepository $configuration_repository,
         private readonly \ilObjUser $current_user,
         private readonly Refinery $refinery,
         private readonly UIFactory $ui_factory,
@@ -127,9 +130,9 @@ class Edit
         );
 
         return match($environment->getAction()) {
-            self::CMD_CREATE_QUESTION => $this->createQuestion($environment),
-            self::CMD_EDIT_QUESTION => $this->editQuestion($environment),
-            self::CMD_DELETE_QUESTIONS => $this->deleteQuestions($environment),
+            self::ACTION_CREATE_QUESTION => $this->createQuestion($environment),
+            self::ACTION_EDIT_QUESTION => $this->editQuestion($environment),
+            self::ACTION_DELETE_QUESTIONS => $this->deleteQuestions($environment),
             default => $this->showTable($toolbar, $environment)
         };
     }
@@ -145,7 +148,7 @@ class Edit
             $obj_id
         );
         $this->initializeEditMode($environment);
-        $environment->setParametersForQuestionCmds();
+        $environment->preserveParametersForPageEditorCmds();
 
         $this->content_style->gui()->addCss(
             $tpl,
@@ -161,7 +164,7 @@ class Edit
                     $obj_id
                 )->withReturnURI(
                     $environment
-                            ->withActionParameter(self::CMD_EDIT_QUESTION)
+                            ->withActionParameter(self::ACTION_EDIT_QUESTION)
                             ->withQuestionIdParameter($environment->getQuestionId())
                             ->getUrlBuilder()
                             ->buildURI()
@@ -179,7 +182,7 @@ class Edit
         $environment = $this->buildEnvironment(
             $base_uri,
             $obj_id
-        )->withActionParameter(self::CMD_CREATE_ANSWER_FORM)
+        )->withActionParameter(self::ACTION_CREATE_ANSWER_FORM)
         ->withQuestionIdParameter($question->getId());
 
         $answer_form_type_class_hash = $environment->getTypeClassHash();
@@ -205,7 +208,7 @@ class Edit
         }
 
         return match($environment->getAction()) {
-            self::CMD_CREATE_ANSWER_FORM => $this->processCreateAnswerForm(
+            self::ACTION_CREATE_ANSWER_FORM => $this->processCreateAnswerForm(
                 $environment,
                 $question,
                 $content_object
@@ -228,14 +231,14 @@ class Edit
         ->withQuestionIdParameter($question->getId());
 
         $environment->setEditAnswerFormTabs(
-            self::CMD_EDIT_FEEDBACK,
-            self::CMD_EDIT_CONTENT_FOR_REPETITION
+            self::ACTION_EDIT_FEEDBACK,
+            self::ACTION_EDIT_CONTENT_FOR_REPETITION
         );
 
         $edit_view = $type->getEditView();
 
-        if ($environment->getAction() === self::CMD_OTHER_ANSWER_FORM) {
-            $environment = $environment->withActionParameter(self::CMD_OTHER_ANSWER_FORM);
+        if ($environment->getAction() === self::ACTION_OTHER_ANSWER_FORM) {
+            $environment = $environment->withActionParameter(self::ACTION_OTHER_ANSWER_FORM);
             $next = $edit_view->other($environment);
         } else {
             $next = $edit_view->edit($environment);
@@ -263,15 +266,14 @@ class Edit
             $environment->getObjId()
         )->getEditView(
             $this->lng,
-            $this->settings,
-            $this->user_settings,
+            $this->configuration_repository,
             $this->current_user,
             $this->ui_factory,
             $this->refinery,
             $this->http->request(),
             $this->ctrl
         )->create(
-            $environment->withActionParameter(self::CMD_CREATE_QUESTION)
+            $environment->withActionParameter(self::ACTION_CREATE_QUESTION)
         );
 
         if ($create instanceof EditForm) {
@@ -280,13 +282,11 @@ class Edit
 
         $this->questions_repository->create([$create]);
         return $this->ctrl->redirectToURL(
-            $environment
-                ->withDefaultStep()
-                ->withActionParameter(self::CMD_EDIT_QUESTION)
-                ->withQuestionIdParameter($create->getId())
-                ->getUrlBuilder()
-                ->buildURI()
-                ->__toString()
+            $this->buildAfterQuestionCreationRedirectUri(
+                $environment,
+                $create->getCreateMode(),
+                $create->getId()
+            )
         );
 
     }
@@ -303,7 +303,7 @@ class Edit
 
         $edit = $question->getEditView(
             $this->lng,
-            $this->user_settings,
+            $this->configuration_repository,
             $this->current_user,
             $this->ui_factory,
             $this->refinery,
@@ -311,7 +311,7 @@ class Edit
             $this->ctrl
         )->edit(
             $environment_with_question_parameter
-                ->withActionParameter(self::CMD_EDIT_QUESTION),
+                ->withActionParameter(self::ACTION_EDIT_QUESTION),
             $question->getParticipantView()
         );
 
@@ -323,7 +323,7 @@ class Edit
         return $this->buildEditStartView(
             $environment_with_question_parameter
                 ->withDefaultStep()
-                ->withActionParameter(self::CMD_EDIT_QUESTION),
+                ->withActionParameter(self::ACTION_EDIT_QUESTION),
             $edit
         );
     }
@@ -341,7 +341,7 @@ class Edit
             );
         }
 
-        if ($environment->getStep() === self::CMD_DELETE_QUESTIONS) {
+        if ($environment->getStep() === self::ACTION_DELETE_QUESTIONS) {
             $this->deleteSelectedQuestions($question_ids);
             $this->ctrl->redirectToURL(
                 $environment->getUrlBuilder()->buildURI()->__toString()
@@ -353,9 +353,9 @@ class Edit
                 $this->lng->txt('confirm'),
                 $this->lng->txt('qpl_confirm_delete_questions'),
                 $environment->withActionParameter(
-                    self::CMD_DELETE_QUESTIONS
+                    self::ACTION_DELETE_QUESTIONS
                 )->getUrlBuilderWithStepParameter(
-                    self::CMD_DELETE_QUESTIONS
+                    self::ACTION_DELETE_QUESTIONS
                 )->buildURI()->__toString()
             )->withAffectedItems(
                 $this->buildAffectedItems($question_ids)
@@ -370,7 +370,7 @@ class Edit
         $toolbar->addComponent(
             $this->ui_factory->button()->standard(
                 $this->lng->txt('create'),
-                $environment->withActionParameter(self::CMD_CREATE_QUESTION)
+                $environment->withActionParameter(self::ACTION_CREATE_QUESTION)
                     ->getUrlBuilder()
                     ->buildURI()
                     ->__toString()
@@ -396,24 +396,34 @@ class Edit
         $form = $this->buildCreateAnswerForm($environment)->withRequest($this->http->request());
 
         $data = $form->getData();
-        return $data === null
-            ? $form
-            : $this->forwardCreateAnswerFormCmd(
-                $environment->withAnswerFormProperties(
-                    $data->buildProperties(
-                        $this->answer_form_factory->getDefaultTypeGenericProperties(
-                            $question->getId(),
-                            $data
-                        ),
-                        null
-                    )
-                )->withAnswerFormTypeHashParameter(
-                    $this->answer_form_factory->getHashedClass($data::class)
-                ),
+        if ($data === null) {
+            return $form;
+        }
+
+        if ($this->configuration_repository->isCreateModeSimple($environment)) {
+            $this->addQuestionTextToPage(
                 $question,
-                $content_object,
-                $data->getEditView()
+                $data['question_text']
             );
+        }
+
+        $type_definition = $data['type'];
+        return $this->forwardCreateAnswerFormCmd(
+            $environment->withAnswerFormProperties(
+                $type_definition->buildProperties(
+                    $this->answer_form_factory->getDefaultTypeGenericProperties(
+                        $question->getId(),
+                        $type_definition
+                    ),
+                    null
+                )
+            )->withAnswerFormTypeHashParameter(
+                $this->answer_form_factory->getHashedClass($type_definition::class)
+            ),
+            $question,
+            $content_object,
+            $type_definition->getEditView()
+        );
     }
 
     private function forwardCreateAnswerFormCmd(
@@ -456,7 +466,7 @@ class Edit
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             LayoutProvider::URL_CREATE_QUESTION,
             $environment
-            ->withActionParameter(self::CMD_CREATE_QUESTION)
+            ->withActionParameter(self::ACTION_CREATE_QUESTION)
             ->getUrlBuilder()
             ->buildURI()
         );
@@ -498,7 +508,7 @@ class Edit
             $links[] = $this->ui_factory->item()->standard(
                 $question->toEditLink(
                     $this->ui_factory->link(),
-                    $environment->withActionParameter(self::CMD_EDIT_QUESTION)
+                    $environment->withActionParameter(self::ACTION_EDIT_QUESTION)
                 )
             );
         }
@@ -511,8 +521,7 @@ class Edit
     ): EditForm {
         return $question->getEditView(
             $this->lng,
-            $this->settings,
-            $this->user_settings,
+            $this->configuration_repository,
             $this->current_user,
             $this->ui_factory,
             $this->refinery,
@@ -525,23 +534,34 @@ class Edit
     }
 
     private function buildCreateAnswerForm(
-        EnvironmentImplementation $environemt
+        EnvironmentImplementation $environment
     ): EditForm {
         $if = $this->ui_factory->input();
-        return $environemt->getPresentationFactory()->getEditForm(
-            $environemt->getUrlBuilder(),
+
+        $inputs = [];
+        if ($this->configuration_repository->isCreateModeSimple($environment)) {
+            $inputs['question_text'] = $if->field()->textarea(
+                $this->lng->txt('question_text')
+            );
+            $environment = $environment->withCreateModeParameter();
+        }
+
+        return $environment->getPresentationFactory()->getEditForm(
+            $environment->getUrlBuilder(),
             $if->field()->section(
-                [
-                        $if->field()->select(
-                            $this->lng->txt('select_answer_form_type'),
-                            $this->answer_form_factory->getAnswerFormTypesArrayForSelect($this->lng)
-                        )->withRequired(true)
-                    ],
+                $inputs + [
+                    'type' => $if->field()->select(
+                        $this->lng->txt('select_answer_form_type'),
+                        $this->answer_form_factory->getAnswerFormTypesArrayForSelect($this->lng)
+                    )->withRequired(true)
+                    ->withAdditionalTransformation(
+                        $this->refinery->custom()->transformation(
+                            fn(string $v): ?Definition => $this->answer_form_factory
+                                ->buildTypeDefinitionFromSelectValue($v)
+                        )
+                    )
+                ],
                 $this->lng->txt('create_answer_form')
-            )->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(
-                    fn(array $vs): ?Definition => $this->answer_form_factory->buildTypeDefinitionFromSelectValue($vs[0])
-                )
             ),
             false
         );
@@ -598,6 +618,27 @@ class Edit
         $this->questions_repository->delete($questions_to_delete);
     }
 
+    private function addQuestionTextToPage(
+        QuestionImplementation $question,
+        string $text
+    ): void {
+        $page = new \QstsQuestionPage(
+            $question->getPageId()
+        );
+        $page->setQuestion($question);
+        $page->buildDom();
+
+        $page_element = new \ilPCParagraph(
+            $page
+        );
+
+        $page_element->create($page, 'pg');
+        $page_element->setLanguage($this->current_user->getLanguage());
+        $page_element->setText($text);
+
+        $page->update();
+    }
+
     private function buildEnvironment(
         URI $base_uri,
         int $obj_id
@@ -613,6 +654,33 @@ class Edit
             $this->editability,
             $base_uri,
             $obj_id
+        );
+    }
+
+    private function buildAfterQuestionCreationRedirectUri(
+        EnvironmentImplementation $environment,
+        CreateModes $create_mode,
+        Uuid $question_uuid
+    ): string {
+        if ($create_mode !== CreateModes::Simple) {
+            return $environment
+                ->withDefaultStep()
+                ->withActionParameter(self::ACTION_EDIT_QUESTION)
+                ->withQuestionIdParameter($question_uuid)
+                ->getUrlBuilder()
+                ->buildURI()
+                ->__toString();
+        }
+
+        $environment->setParamtersForSimpleCreateCmd($question_uuid);
+
+        return $this->ctrl->getLinkTargetByClass(
+            [
+                \QstsQuestionPageGUI::class,
+                \ilPageEditorGUI::class,
+                \ilPCAnswerFormGUI::class
+            ],
+            'insert'
         );
     }
 }
