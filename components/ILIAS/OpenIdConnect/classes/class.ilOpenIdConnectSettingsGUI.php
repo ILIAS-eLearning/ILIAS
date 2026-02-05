@@ -343,6 +343,7 @@ class ilOpenIdConnectSettingsGUI
                 $item->setDisabled(true);
             }
         }
+
         return $form;
     }
 
@@ -477,9 +478,9 @@ class ilOpenIdConnectSettingsGUI
         )->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
 
         if (!$has_write_access) {
-            /** @var Form $form */
             $form = $form->withSubmitLabel($this->lng->txt('refresh'));
         }
+
         return $form;
     }
 
@@ -565,8 +566,10 @@ class ilOpenIdConnectSettingsGUI
         );
         $ui_container[] = $group;
 
-        foreach ($ui_container as $key => $item) {
-            $ui_container[$key] = $has_write_access ? $item->withDisabled(false) : $item->withDisabled(true);
+        if (!$has_write_access) {
+            foreach ($ui_container as $key => $item) {
+                $ui_container[$key] = $item->withDisabled(true);
+            }
         }
 
         return $ui_container;
@@ -952,8 +955,10 @@ class ilOpenIdConnectSettingsGUI
         }
 
         $has_write_access = $this->checkAccessBool('write');
-        foreach ($ui_container as $key => $item) {
-            $ui_container[$key] = $has_write_access ? $item : $item->withDisabled(true);
+        if (!$has_write_access) {
+            foreach ($ui_container as $key => $item) {
+                $ui_container[$key] = $item->withDisabled(true);
+            }
         }
 
         $this->ctrl->setParameter(
@@ -975,6 +980,7 @@ class ilOpenIdConnectSettingsGUI
         if (!$has_write_access) {
             $form = $form->withSubmitLabel($this->lng->txt('refresh'));
         }
+
         return $form;
     }
 
