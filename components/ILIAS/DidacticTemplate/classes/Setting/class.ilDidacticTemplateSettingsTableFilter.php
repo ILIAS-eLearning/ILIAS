@@ -23,18 +23,16 @@ use ILIAS\UI\Renderer;
 
 class ilDidacticTemplateSettingsTableFilter
 {
-    protected const FILTER_ID = 'otpl_templates_table';
-
-    protected const FILTER_NAME_ICON = 'icon';
-    protected const FILTER_NAME_TITLE = 'title';
-    protected const FILTER_NAME_TYPE = 'type';
-    protected const FILTER_NAME_SCOPE = 'scope';
-    protected const FILTER_NAME_ACTIVE = 'active';
-
-    protected const FILTER_ON = 1;
-    protected const FILTER_OFF = 2;
-    protected const FILTER_GLOBAL = 1;
-    protected const FILTER_LOCAL = 2;
+    protected const string FILTER_ID = 'otpl_templates_table';
+    protected const string FILTER_NAME_ICON = 'icon';
+    protected const string FILTER_NAME_TITLE = 'title';
+    protected const string FILTER_NAME_TYPE = 'type';
+    protected const string FILTER_NAME_SCOPE = 'scope';
+    protected const string FILTER_NAME_ACTIVE = 'active';
+    protected const int FILTER_ON = 1;
+    protected const int FILTER_OFF = 2;
+    protected const int FILTER_GLOBAL = 1;
+    protected const int FILTER_LOCAL = 2;
 
     private array $input_activation_config = [
         self::FILTER_NAME_ICON => false,

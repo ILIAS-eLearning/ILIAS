@@ -24,27 +24,25 @@ declare(strict_types=1);
  */
 abstract class ilDidacticTemplateAction
 {
-    public const TYPE_LOCAL_POLICY = 1;
-    public const TYPE_LOCAL_ROLE = 2;
-    public const TYPE_BLOCK_ROLE = 3;
+    public const int TYPE_LOCAL_POLICY = 1;
+    public const int TYPE_LOCAL_ROLE = 2;
+    public const int TYPE_BLOCK_ROLE = 3;
 
-    public const FILTER_SOURCE_TITLE = 1;
-    public const FILTER_SOURCE_OBJ_ID = 2;
-    public const FILTER_PARENT_ROLES = 3;
-    public const FILTER_LOCAL_ROLES = 4;
-
-    public const PATTERN_PARENT_TYPE = 'action';
+    public const int FILTER_SOURCE_TITLE = 1;
+    public const int FILTER_SOURCE_OBJ_ID = 2;
+    public const int FILTER_PARENT_ROLES = 3;
+    public const int FILTER_LOCAL_ROLES = 4;
+    public const string PATTERN_PARENT_TYPE = 'action';
 
     protected ilLogger $logger;
     protected ilDBInterface $db;
     protected ilRbacReview $review;
     protected ilRbacAdmin $admin;
 
-    private int $action_id = 0;
-    private int $tpl_id = 0;
-    private int $type = 0;
-
-    private int $ref_id = 0;
+    protected int $action_id = 0;
+    protected int $tpl_id = 0;
+    protected int $type = 0;
+    protected int $ref_id = 0;
 
     public function __construct(int $action_id = 0)
     {

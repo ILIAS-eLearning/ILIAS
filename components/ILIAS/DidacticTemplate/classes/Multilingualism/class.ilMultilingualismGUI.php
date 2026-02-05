@@ -16,7 +16,20 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\DidacticTemplate\Multilingualism;
+
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
+use ilLanguage;
+use ilCtrl;
+use ilGlobalTemplateInterface;
+use ilToolbarGUI;
+use ilObjUser;
+use ilPropertyFormGUI;
+use ilSelectInputGUI;
+use ilLoggerFactory;
+use ilConfirmationGUI;
 
 /**
  * GUI class for object translation handling.
@@ -52,7 +65,7 @@ class ilMultilingualismGUI
         $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->obj_trans = ilMultilingualism::getInstance($a_obj_id, $a_type);
-        $this->request = new \ILIAS\Multilingualism\StandardGUIRequest(
+        $this->request = new \ILIAS\DidacticTemplate\Multilingualism\StandardGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
@@ -76,18 +89,12 @@ class ilMultilingualismGUI
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
-
-        switch ($next_class) {
-            default:
-                $cmd = $this->ctrl->getCmd("listTranslations");
-                if (in_array($cmd, array("listTranslations", "saveTranslations",
-                    "addTranslation", "deleteTranslations", "activateContentMultilinguality",
-                    "confirmRemoveLanguages", "removeLanguages", "confirmDeactivateContentMultiLang", "saveLanguages",
-                    "saveContentTranslationActivation", "deactivateContentMultiLang", "addLanguages"))) {
-                    $this->$cmd();
-                }
-                break;
+        $cmd = $this->ctrl->getCmd("listTranslations");
+        if (in_array($cmd, array("listTranslations", "saveTranslations",
+            "addTranslation", "deleteTranslations", "activateContentMultilinguality",
+            "confirmRemoveLanguages", "removeLanguages", "confirmDeactivateContentMultiLang", "saveLanguages",
+            "saveContentTranslationActivation", "deactivateContentMultiLang", "addLanguages"))) {
+            $this->$cmd();
         }
     }
 
@@ -391,8 +398,8 @@ class ilMultilingualismGUI
         if (count($post_langs) > 0) {
             $langs = $this->obj_trans->getLanguages();
             foreach ($langs as $k => $l) {
-                if (in_array($l, $post_langs)) {
-                    $this->obj_trans->removeLanguage($l);
+                if (in_array($k, $post_langs)) {
+                    $this->obj_trans->removeLanguage($k);
                 }
             }
             $this->obj_trans->save();

@@ -24,20 +24,15 @@ declare(strict_types=1);
  */
 abstract class ilDidacticTemplateFilterPattern
 {
-    public const PATTERN_INCLUDE = 1;
-    public const PATTERN_EXCLUDE = 2;
-
-    public const PATTERN_SUBTYPE_REGEX = 1;
-
-    private int $pattern_id = 0;
-
-    private int $parent_id = 0;
-    private string $parent_type = '';
-
-    private string $pattern = '';
-    private int $pattern_type = 0;
-    private int $pattern_sub_type = 0;
-
+    public const int PATTERN_INCLUDE = 1;
+    public const int PATTERN_EXCLUDE = 2;
+    public const int PATTERN_SUBTYPE_REGEX = 1;
+    protected string $parent_type = '';
+    protected string $pattern = '';
+    protected int $pattern_id = 0;
+    protected int $parent_id = 0;
+    protected int $pattern_type = 0;
+    protected int $pattern_sub_type = 0;
     protected ilDBInterface $db;
     protected ilLogger $logger;
 
@@ -116,15 +111,11 @@ abstract class ilDidacticTemplateFilterPattern
 
     /**
      * Check if pattern matches
-     * @param mixed
-     * @return bool
      */
     abstract public function valid(string $a_source): bool;
 
     /**
      * Get xml representation of pattern
-     * @param ilXmlWriter $writer
-     * @return string
      */
     abstract public function toXml(ilXmlWriter $writer): void;
 

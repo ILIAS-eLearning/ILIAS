@@ -24,11 +24,11 @@ declare(strict_types=1);
  */
 class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 {
-    public const TPL_ACTION_OVERWRITE = 1;
-    public const TPL_ACTION_INTERSECT = 2;
-    public const TPL_ACTION_ADD = 3;
-    public const TPL_ACTION_SUBTRACT = 4;
-    public const TPL_ACTION_UNION = 5;
+    public const int TPL_ACTION_OVERWRITE = 1;
+    public const int TPL_ACTION_INTERSECT = 2;
+    public const int TPL_ACTION_ADD = 3;
+    public const int TPL_ACTION_SUBTRACT = 4;
+    public const int TPL_ACTION_UNION = 5;
 
     /** @var ilDidacticTemplateFilterPattern[] */
     private array $pattern = [];

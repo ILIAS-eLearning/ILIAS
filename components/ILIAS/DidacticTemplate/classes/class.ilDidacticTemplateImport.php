@@ -22,6 +22,7 @@ use ILIAS\Export\ImportHandler\Factory as ilImportHandlerFactory;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 use ILIAS\Export\ImportStatus\StatusType;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
+use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualism;
 
 /**
  * Description of ilDidacticTemplateImport
@@ -30,12 +31,11 @@ use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectio
  */
 class ilDidacticTemplateImport
 {
-    protected const XML_ELEMENT_NAME_LOCAL_ROLE_ACTION = 'localRoleAction';
-    protected const XML_ELEMENT_NAME_BLOCK_ROLE_ACIONE = 'blockRoleAction';
-    protected const XML_ELEMENT_NAME_LOCAL_POLICY_ACTION = 'localPolicyAction';
-    public const IMPORT_FILE = 1;
-    protected const SCHEMA_TYPE = 'otpl';
-
+    protected const string XML_ELEMENT_NAME_LOCAL_ROLE_ACTION = 'localRoleAction';
+    protected const string XML_ELEMENT_NAME_BLOCK_ROLE_ACIONE = 'blockRoleAction';
+    protected const string XML_ELEMENT_NAME_LOCAL_POLICY_ACTION = 'localPolicyAction';
+    protected const string SCHEMA_TYPE = 'otpl';
+    public const int IMPORT_FILE = 1;
     protected int $type = 0;
     protected string $xmlfile = '';
     protected ilLogger $logger;
@@ -71,13 +71,8 @@ class ilDidacticTemplateImport
      */
     public function import(int $a_dtpl_id = 0): ilDidacticTemplateSetting
     {
-        $root = null;
         $use_internal_errors = libxml_use_internal_errors(true);
-        switch ($this->getInputType()) {
-            case self::IMPORT_FILE:
-                $root = simplexml_load_string(file_get_contents($this->getInputFile()));
-                break;
-        }
+        $root = ($this->getInputType() === self::IMPORT_FILE) ? simplexml_load_string(file_get_contents($this->getInputFile())) : null;
         libxml_use_internal_errors($use_internal_errors);
         if (!$root instanceof SimpleXMLElement) {
             throw new ilDidacticTemplateImportException(
@@ -322,7 +317,6 @@ class ilDidacticTemplateImport
             }
             if ($action->getName() === self::XML_ELEMENT_NAME_LOCAL_POLICY_ACTION) {
                 $this->parseLocalPolicyAction($set, $action);
-                continue;
             }
         }
     }

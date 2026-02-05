@@ -32,6 +32,8 @@ use ILIAS\Export\ImportStatus\StatusType as ImportStatusType;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\StaticURL\Services as StaticURLService;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualism;
+use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualismGUI;
 
 /**
  * Settings for a single didactic template

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualism;
+
 /**
  * Settings for a single didactic template
  * @author   Stefan Meyer <meyer@leifos.com>
@@ -25,8 +27,7 @@ declare(strict_types=1);
  */
 class ilDidacticTemplateSetting
 {
-    public const TYPE_CREATION = 1;
-
+    public const int TYPE_CREATION = 1;
     private int $id = 0;
     private bool $enabled = false;
     private string $title = '';
@@ -474,12 +475,8 @@ class ilDidacticTemplateSetting
 
     public function toXml(ilXmlWriter $writer): ilXmlWriter
     {
-        $type = '';
-        switch ($this->getType()) {
-            case self::TYPE_CREATION:
-                $type = 'creation';
-                break;
-        }
+        $type = ($this->getType() === self::TYPE_CREATION) ? 'creation' : '';
+
         $writer->xmlStartTag('didacticTemplate', ['type' => $type]);
         $writer->xmlElement('title', [], $this->getTitle());
         $writer->xmlElement('description', [], $this->getDescription());
@@ -489,8 +486,7 @@ class ilDidacticTemplateSetting
         // info text with p-tags
         if ($this->getInfo() !== '') {
             $writer->xmlStartTag('info');
-
-            $info_lines = (array) explode("\n", $this->getInfo());
+            $info_lines = explode("\n", $this->getInfo());
             foreach ($info_lines as $info) {
                 $trimmed_info = trim($info);
                 if ($trimmed_info !== '') {

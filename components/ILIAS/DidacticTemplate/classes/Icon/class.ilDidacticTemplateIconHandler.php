@@ -33,8 +33,7 @@ use ILIAS\FileUpload\Location;
  */
 class ilDidacticTemplateIconHandler
 {
-    protected const WEBDIR_PREFIX = 'ilDidacticTemplateIcons';
-
+    protected const string WEBDIR_PREFIX = 'ilDidacticTemplateIcons';
     protected ilDidacticTemplateSetting $settings;
     protected ilLogger $logger;
     protected Filesystem $webDirectory;

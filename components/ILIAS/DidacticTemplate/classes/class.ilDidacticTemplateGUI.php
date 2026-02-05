@@ -77,16 +77,8 @@ class ilDidacticTemplateGUI
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-
-        switch ($next_class) {
-            default:
-                if (!$cmd) {
-                    $cmd = 'overview';
-                }
-                $this->$cmd();
-
-                break;
-        }
+        $cmd = !$cmd ? 'overview' : $cmd;
+        $this->$cmd();
     }
 
     public function appendToolbarSwitch(ilToolbarGUI $toolbar, string $a_obj_type, int $a_ref_id): bool

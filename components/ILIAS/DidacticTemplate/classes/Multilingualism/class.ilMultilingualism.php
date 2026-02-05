@@ -16,6 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+namespace ILIAS\DidacticTemplate\Multilingualism;
+
+use ilLanguage;
+use ilDBInterface;
+use ilObjectException;
+use SimpleXMLElement;
+use ilXMLWriter;
+
 /**
  * Class handles translation mode for an object.
  *
@@ -301,9 +311,9 @@ class ilMultilingualism
 
         foreach ($root->translation as $trans) {
             $this->addLanguage(
-                trim($trans["language"]),
-                trim($trans->title),
-                trim($trans->description),
+                trim((string) $trans["language"]),
+                trim((string) $trans->title),
+                trim((string) $trans->description),
                 (int) $trans["default"] !== 0
             );
         }
