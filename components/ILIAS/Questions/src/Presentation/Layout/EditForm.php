@@ -20,14 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Layout;
 
+use ILIAS\Data\URI;
 use ILIAS\Language\Language;
-use ILIAS\UI\Component\Input\Container\Form\Factory as FormFactory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
-use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Renderer as UIRenderer;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -41,11 +42,12 @@ class EditForm implements Renderable
     private ?StandardPanel $content_before_form = null;
     private ?StandardPanel $content_after_form = null;
     private ?InterruptiveModal $confirmation = null;
+    private ?MessageBox $insert_legacy_text_button = null;
 
     public function __construct(
-        private readonly FormFactory $form_factory,
+        private readonly UIFactory $ui_factory,
         private readonly Language $lng,
-        private readonly URLBuilder $url_builder,
+        private readonly URI $form_target_uri,
         private readonly Section $main_section_inputs,
         private readonly bool $is_final_step,
         private readonly ?Group $carry_inputs
@@ -74,6 +76,21 @@ class EditForm implements Renderable
     ): self {
         $clone = clone $this;
         $clone->confirmation = $confirmation_modal;
+        return $clone;
+    }
+
+    public function withInsertLegacyTextsButton(
+        URI $target_uri
+    ): self {
+        $clone = clone $this;
+        $clone->insert_legacy_text_button = $this->ui_factory->messageBox()->info(
+            $this->lng->txt('insert_legacy_texts_info')
+        )->withButtons([
+            $this->ui_factory->button()->standard(
+                $this->lng->txt('insert_legacy_texts'),
+                $target_uri->__toString()
+            )
+        ]);
         return $clone;
     }
 
@@ -119,6 +136,10 @@ class EditForm implements Renderable
             );
         }
 
+        if ($this->insert_legacy_text_button !== null) {
+            $content[] = $this->insert_legacy_text_button;
+        }
+
         $content[] = $this->form;
 
         if ($this->content_after_form !== null) {
@@ -130,8 +151,8 @@ class EditForm implements Renderable
 
     private function buildForm(): StandardForm
     {
-        $form = $this->form_factory->standard(
-            $this->url_builder->buildURI()->__toString(),
+        $form = $this->ui_factory->input()->container()->form()->standard(
+            $this->form_target_uri->__toString(),
             $this->buildFormInputs()
         );
 
