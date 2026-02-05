@@ -366,7 +366,8 @@ class QuestionsMigration implements Migration
             $db_values->question_id,
             $new_question_id,
             $this->uuid_factory->uuid4(),
-            $answer_form_migration->getDefinitionClass()
+            $answer_form_migration->getDefinitionClass(),
+            $db_values->add_cont_edit_mode === \assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE
         );
     }
 }
