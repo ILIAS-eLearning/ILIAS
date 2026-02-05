@@ -100,13 +100,13 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        // move to connector
-        $query = 'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
+        // Use ext_consumer_id to align with user creation logic
+        $query = 'SELECT DISTINCT(ext_consumer_id) ext_consumer_id FROM lti2_consumer WHERE ext_consumer_id IS NOT NULL';
         $res = $ilDB->query($query);
 
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $sids[] = $row->consumer_pk;
+            $sids[] = $row->ext_consumer_id;
         }
         return $sids;
     }
@@ -118,9 +118,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      */
     public static function lookupConsumer(int $a_sid): string
     {
-        $connector = new ilLTIDataConnector();
-        $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
-        return $consumer->getTitle();
+        global $ilDB;
+
+        // Look up provider title directly from lti_ext_consumer table
+        $query = 'SELECT title FROM lti_ext_consumer WHERE id = %s';
+        $res = $ilDB->queryF($query, ['integer'], [$a_sid]);
+
+        if ($row = $ilDB->fetchObject($res)) {
+            return $row->title;
+        }
+        return 'Unknown Provider';
     }
 
     /**
