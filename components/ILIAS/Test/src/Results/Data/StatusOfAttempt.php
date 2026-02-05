@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Results\Data;
 
+use ILIAS\Language\Language;
+
 enum StatusOfAttempt: string
 {
     case NOT_YET_STARTED = 'not_started';
@@ -52,5 +54,10 @@ enum StatusOfAttempt: string
         }
 
         return StatusOfAttempt::tryFrom($finalized_by);
+    }
+
+    public function getTranslation(Language $lng): string
+    {
+        return $lng->txt($this->value);
     }
 }
