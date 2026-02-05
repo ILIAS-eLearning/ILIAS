@@ -46,8 +46,7 @@ class ilShibbolethSettingsForm
         protected ilShibbolethSettings $settings,
         protected string $action,
         protected string $show_command = ''
-    )
-    {
+    ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
