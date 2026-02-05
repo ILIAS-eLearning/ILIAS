@@ -131,7 +131,7 @@ class Properties implements PropertiesInterface
     public function getClozeTextForPresentation(): string
     {
         return $this->cloze_text->getRawRepresentationForPersistence() === ''
-            ? $this->legacy_cloze_text
+            ? \ilRTE::_replaceMediaObjectImageSrc($this->legacy_cloze_text, 0)
             : $this->cloze_text->getRenderedMarkdownForParticipantPresentation();
     }
 

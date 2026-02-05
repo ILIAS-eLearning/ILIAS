@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 
+use ILIAS\Questions\AnswerForm\Migration\SanitizeLegacyText;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
@@ -32,6 +33,8 @@ use ILIAS\Data\UUID\Uuid;
 
 trait BasicMigrationFunctions
 {
+    use SanitizeLegacyText;
+
     private function buildGapInsertStatement(
         Persistence $persistence,
         TableNameBuilder $table_name_builder,
@@ -218,9 +221,11 @@ trait BasicMigrationFunctions
     }
 
     private function replaceGapsAndSantizeLegacyClozeText(
+        \ilDBInterface $db,
         string $gap_replace_regex,
         string $text,
-        array $gaps_mapping
+        array $gaps_mapping,
+        bool $ilias_page_editor_text
     ): string {
         ksort($gaps_mapping);
 
@@ -229,7 +234,11 @@ trait BasicMigrationFunctions
             function (array $matches) use (&$gaps_mapping): string {
                 return '{{' . Gap::GAP_PLACEHOLDER_NAME . '_' . array_shift($gaps_mapping) . '}}';
             },
-            $text
+            $this->sanitizeLegacyText(
+                $db,
+                $text,
+                $ilias_page_editor_text
+            )
         );
     }
 
@@ -238,5 +247,10 @@ trait BasicMigrationFunctions
         string $limit
     ): float {
         return (float) $math->e($limit);
+    }
+
+    private function getHtmlQuestionContentPurifier(): \ilHtmlPurifierInterface
+    {
+        return \ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
 }
