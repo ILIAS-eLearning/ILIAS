@@ -178,7 +178,7 @@ class ilAuthLogoutBehaviourGUI
             $form = $form->withRequest($request);
         }
 
-        if(!$access) {
+        if (!$access) {
             $form = $form->withSubmitLabel($this->lng->txt('refresh'));
         }
 

@@ -185,7 +185,7 @@ class ilObjectContentStyleSettingsGUI
         $form->setTitle($lng->txt("obj_sty"));
         $form->setFormAction($ilCtrl->getFormAction($this));
 
-         if(!$access) {
+        if (!$access) {
             foreach ($form->getItems() as $item) {
                 if ($item instanceof ilFormSectionHeaderGUI) {
                     continue;
