@@ -419,11 +419,6 @@ class TestScreenGUI
     private function evaluateLauncherModalForm(Result $result): void
     {
         if ($result->isError()) {
-            $this->tpl->setOnScreenMessage(
-                \ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('tst_exam_required_fields_not_filled_message'),
-                true
-            );
             return;
         }
 
