@@ -547,7 +547,7 @@ class Edit
         }
 
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->getUrlBuilder(),
+            $environment->getUrlBuilder()->buildURI(),
             $if->field()->section(
                 $inputs + [
                     'type' => $if->field()->select(
