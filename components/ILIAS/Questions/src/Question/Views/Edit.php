@@ -20,17 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question\Views;
 
+use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
-use ILIAS\Questions\UserSettings\EditingMode;
+use ILIAS\Questions\UserSettings\CreateMode;
+use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
-use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\RequestInterface;
@@ -41,8 +41,7 @@ class Edit
 
     public function __construct(
         private readonly Language $lng,
-        private readonly \ilSetting $settings,
-        private readonly UserSettings $user_settings,
+        private readonly ConfigurationRepository $configuration_repository,
         private readonly \ilObjUser $current_user,
         private readonly UIFactory $ui_factory,
         private readonly Refinery $refinery,
@@ -57,11 +56,10 @@ class Edit
         EnvironmentImplementation $environment
     ): EditForm|Question {
         return match ($environment->getStep()) {
-            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm(
-                $environment,
-                true
+            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesCreateForm(
+                $environment
             ),
-            default => $this->buildBasicPropertiesForm($environment, true)
+            default => $this->buildBasicPropertiesCreateForm($environment)
         };
     }
 
@@ -70,73 +68,98 @@ class Edit
         Participant $participant_view
     ): EditForm|Question {
         return match ($environment->getStep()) {
-            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesForm(
-                $environment,
-                false
+            self::CMD_SAVE_QUESTION => $this->processBasicPropertiesEditingForm(
+                $environment
             ),
-            default => $this->buildBasicPropertiesForm(
-                $environment,
-                false
-            )->withContentAfterForm(
-                $this->buildPreviewPanel($environment, $participant_view)
-            )
+            default => $this->buildBasicPropertiesEditingForm($environment)
+                ->withContentAfterForm(
+                    $this->buildPreviewPanel($environment, $participant_view)
+                )
         };
     }
 
-    private function buildBasicPropertiesForm(
-        EnvironmentImplementation $environment,
-        bool $is_context_create
+    private function buildBasicPropertiesCreateForm(
+        EnvironmentImplementation $environment
     ): EditForm {
+        $ff = $this->ui_factory->input()->field();
+
+        $inputs = [
+            'question' => $ff->group(
+                $this->buildBasicPropertiesInputs()
+            )->withAdditionalTransformation(
+                $this->buildAddBasicPropertiesToQuestionTrafo()
+            )->withValue(
+                $this->buildBasicPropertiesBasicValuesArray()
+            )
+        ];
+
+        if ($this->configuration_repository->isCreateModeChangeableByUser()) {
+            $inputs['create_mode'] = $this->configuration_repository->getInputForCreateMode(
+                $ff,
+                $this->lng,
+                $this->refinery
+            )->withAdditionalTransformation(
+                $this->refinery->custom()->transformation(
+                    fn(string $v): CreateModes => CreateModes::tryFrom($v)
+                        ?? $this->configuration_repository->getGlobalCreateMode()
+                )
+            );
+        }
+
         return $environment->getPresentationFactory()->getEditForm(
             $environment->getUrlBuilderWithStepParameter(self::CMD_SAVE_QUESTION),
-            $this->buildBasicPropertiesSection($is_context_create),
+            $ff->section(
+                $inputs,
+                $this->lng->txt('edit_basic_form_properties')
+            ),
             true
         );
     }
 
-    private function processBasicPropertiesForm(
-        EnvironmentImplementation $environment,
-        bool $is_context_create
+    private function processBasicPropertiesCreateForm(
+        EnvironmentImplementation $environment
     ): EditForm|Question {
-        $form = $this->buildBasicPropertiesForm(
-            $environment,
-            $is_context_create
+        $form = $this->buildBasicPropertiesCreateForm(
+            $environment
+        )->withRequest($this->request);
+
+        $data = $form->getData();
+
+        $mode = $data['create_mode'];
+
+        return $data === null
+            ? $form
+            : $data['question']->withCreateMode($mode);
+    }
+
+    private function buildBasicPropertiesEditingForm(
+        EnvironmentImplementation $environment
+    ): EditForm {
+        return $environment->getPresentationFactory()->getEditForm(
+            $environment->getUrlBuilderWithStepParameter(self::CMD_SAVE_QUESTION),
+            $this->ui_factory->input()->field()->section(
+                $this->buildBasicPropertiesInputs(),
+                $this->lng->txt('edit_basic_form_properties')
+            )->withAdditionalTransformation(
+                $this->buildAddBasicPropertiesToQuestionTrafo()
+            )->withValue(
+                $this->buildBasicPropertiesBasicValuesArray()
+            ),
+            true
+        );
+    }
+
+    private function processBasicPropertiesEditingForm(
+        EnvironmentImplementation $environment
+    ): EditForm|Question {
+        $form = $this->buildBasicPropertiesEditingForm(
+            $environment
         )->withRequest($this->request);
 
         $data = $form->getData();
         return $data === null
             ? $form
             : $data;
-    }
-
-    private function buildBasicPropertiesSection(
-        bool $needs_create_mode_input
-    ): Section {
-        $ff = $this->ui_factory->input()->field();
-
-        $inputs = $this->buildBasicPropertiesInputs();
-        $values = $this->buildBasicPropertiesBasicValuesArray();
-
-        if ($needs_create_mode_input) {
-            $user_settings = $this->user_settings
-                ->getSettingByDefinitionClass(EditingMode::class);
-            $inputs['create_mode'] = $user_settings->getInput(
-                $ff,
-                $this->lng,
-                $this->refinery,
-                $this->settings
-            );
-            $values['create_mode'] = $user_settings->retrieveValueFromUser(
-                $this->current_user
-            );
-        }
-
-        $section = $ff->section(
-            $inputs,
-            $this->lng->txt('edit_basic_form_properties')
-        )->withAdditionalTransformation($this->buildAddBasicPropertiesToQuestionTrafo());
-
-        return $section->withValue($values);
     }
 
     private function buildBasicPropertiesInputs(): array
@@ -197,7 +220,7 @@ class Edit
         EnvironmentImplementation $environment,
         Participant $participant_view
     ): StandardPanel {
-        $environment->setParametersForQuestionCmds();
+        $environment->preserveParametersForPageEditorCmds();
         return $this->ui_factory->panel()->standard(
             $this->lng->txt('preview'),
             $this->ui_factory->legacy()->content(

@@ -28,7 +28,7 @@ class Settings implements UserSettings
     public function getSettingConfigurations(): array
     {
         return [
-            EditingMode::class
+            CreateMode::class
         ];
     }
 }

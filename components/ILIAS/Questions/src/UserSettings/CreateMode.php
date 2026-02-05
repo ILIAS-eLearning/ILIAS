@@ -29,12 +29,17 @@ use ILIAS\UI\Component\Input\Field\Radio;
 use ILIAS\UI\Component\Input\Input;
 use ILIAS\Refinery\Factory as Refinery;
 
-class EditingMode implements SettingDefinition
+class CreateMode implements SettingDefinition
 {
+    private \ilSetting $settings;
+    public function __construct()
+    {
+        $this->settings = new \ilSetting('questions');
+    }
     #[\Override]
     public function getIdentifier(): string
     {
-        return 'question_editing_mode';
+        return 'question_create_mode';
     }
 
     #[\Override]
@@ -46,7 +51,7 @@ class EditingMode implements SettingDefinition
     #[\Override]
     public function getLabel(Language $lng): string
     {
-        return $lng->txt('question_editing_mode');
+        return $lng->txt('question_create_mode');
     }
 
     #[\Override]
@@ -71,8 +76,8 @@ class EditingMode implements SettingDefinition
     ): Input {
         $lng->loadLanguageModule('questions');
         return array_reduce(
-            EditingModes::cases(),
-            fn(Radio $c, EditingModes $v): Radio => $c->withOption(
+            CreateModes::cases(),
+            fn(Radio $c, CreateModes $v): Radio => $c->withOption(
                 $v->value,
                 $v->getLabelForInput($lng),
                 $v->getBylineForInput($lng)
@@ -83,7 +88,10 @@ class EditingMode implements SettingDefinition
         )->withValue(
             $user !== null
                 ? $this->retrieveValueFromUser($user)
-                : EditingModes::getDefaultMode()->value
+                : $this->settings->get(
+                    'default_create_mode',
+                    CreateModes::getDefaultMode()->value
+                )
         );
     }
 
@@ -94,21 +102,31 @@ class EditingMode implements SettingDefinition
         ?\ilObjUser $user = null
     ): \ilFormPropertyGUI {
         $lng->loadLanguageModule('questions');
-        $input = new \ilRadioGroupInputGUI($lng->txt('create_mode'));
-        $input->setOptions(
-            array_map(
-                fn(EditingModes $v): \ilRadioOption => new \ilRadioOption(
-                    $v->getLabelForInput($lng),
-                    $v->value,
-                    $v->getBylineForInput($lng)
-                ),
-                EditingModes::cases()
-            )
+        $input = array_reduce(
+            CreateModes::cases(),
+            function (
+                \ilRadioGroupInputGUI $c,
+                CreateModes $v
+            ) use ($lng): \ilRadioGroupInputGUI {
+                $c->addOption(
+                    new \ilRadioOption(
+                        $v->getLabelForInput($lng),
+                        $v->value,
+                        $v->getBylineForInput($lng)
+                    )
+                );
+                return $c;
+            },
+            new \ilRadioGroupInputGUI($lng->txt('create_mode'))
         );
+
         $input->setValue(
             $user !== null
                 ? $this->retrieveValueFromUser($user)
-                : EditingModes::getDefaultMode()->value
+                : $this->settings->get(
+                    'default_create_mode',
+                    CreateModes::getDefaultMode()->value
+                )
         );
         return $input;
     }
@@ -118,7 +136,7 @@ class EditingMode implements SettingDefinition
         Language $lng,
         \ilSetting $settings
     ): string {
-        return EditingModes::getDefaultMode()->getLabelForInput($lng);
+        return CreateModes::getDefaultMode()->getLabelForInput($lng);
     }
 
     #[\Override]
@@ -126,8 +144,11 @@ class EditingMode implements SettingDefinition
         \ilSetting $settings,
         \ilObjUser $user
     ): bool {
-        return EditingModes::tryFrom($this->retrieveValueFromUser($user))
-            !== EditingModes::getDefaultMode();
+        return $this->retrieveValueFromUser($user)
+            !== $this->settings->get(
+                'default_create_mode',
+                CreateModes::getDefaultMode()->value
+            );
     }
 
     #[\Override]
@@ -136,8 +157,13 @@ class EditingMode implements SettingDefinition
         mixed $input
     ): \ilObjUser {
         $user->setPref(
-            'question_editing_mode',
-            $input !== null ? $input : EditingModes::getDefaultMode()->value
+            'question_create_mode',
+            $input !== null
+                ? $input
+                : $this->settings->get(
+                    'default_create_mode',
+                    CreateModes::getDefaultMode()->value
+                )
         );
         return $user;
     }
@@ -145,7 +171,10 @@ class EditingMode implements SettingDefinition
     #[\Override]
     public function retrieveValueFromUser(\ilObjUser $user): string
     {
-        return $user->getPref('question_editing_mode')
-            ?? EditingModes::getDefaultMode()->value;
+        return $user->getPref('question_create_mode')
+            ?? $this->settings->get(
+                'default_create_mode',
+                CreateModes::getDefaultMode()->value
+            );
     }
 }

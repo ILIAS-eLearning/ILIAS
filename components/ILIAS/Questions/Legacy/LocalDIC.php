@@ -20,15 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Legacy;
 
+use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Persistence\Repository as QuestionsRepository;
 use ILIAS\Questions\AnswerFormTypes\Cloze;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
+use ILIAS\Questions\Units\Repository as UnitsRepository;
+use ILIAS\Questions\UserSettings\CreateMode;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\DI\Container as ILIASContainer;
+use ILIAS\User\Settings\Settings as UserSettings;
 use Mustache\Engine as MustacheEngine;
 use Pimple\Container as PimpleContainer;
 
@@ -76,8 +80,7 @@ class LocalDIC extends PimpleContainer
             );
         $dic[Edit::class] = static fn($c): Edit => new Edit(
             $DIC['lng'],
-            $DIC['ilSetting'],
-            $DIC['user']->getSettings(),
+            $c[ConfigurationRepository::class],
             $DIC['user']->getLoggedInUser(),
             $DIC['refinery'],
             $DIC['ui.factory'],
