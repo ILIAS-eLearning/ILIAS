@@ -142,9 +142,11 @@ class MigrationCloze implements Migration
                 $answer_options_insert
             )->withAdditionalTextLegacy(
                 $this->replaceGapsAndSantizeLegacyClozeText(
+                    $migration_insert->getDb(),
                     '\[gap\].+?\[\/gap\]',
                     $db_row->cloze_text,
-                    $answer_input_mapping
+                    $answer_input_mapping,
+                    $migration_insert->wasIliasPageEditorUsedForAdditionalTexts()
                 )
             );
     }

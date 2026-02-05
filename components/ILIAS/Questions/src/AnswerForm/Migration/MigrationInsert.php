@@ -45,7 +45,8 @@ class MigrationInsert
         private readonly int $old_question_id,
         private readonly Uuid $new_question_id,
         private readonly Uuid $answer_form_id,
-        private readonly string $definition_class
+        private readonly string $definition_class,
+        private readonly bool $ilias_page_editor_used_for_additional_texts
     ) {
     }
 
@@ -77,6 +78,11 @@ class MigrationInsert
     public function getAnswerFormId(): Uuid
     {
         return $this->answer_form_id;
+    }
+
+    public function wasIliasPageEditorUsedForAdditionalTexts(): bool
+    {
+        return $this->ilias_page_editor_used_for_additional_texts;
     }
 
     public function withAvailablePoints(

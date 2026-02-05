@@ -137,9 +137,11 @@ class MigrationLongMenu implements Migration
                 )
             )->withAdditionalTextLegacy(
                 $this->replaceGapsAndSantizeLegacyClozeText(
+                    $migration_insert->getDb(),
                     '\[Longmenu \d+\]',
                     $db_row->long_menu_text,
-                    $answer_input_mapping
+                    $answer_input_mapping,
+                    $migration_insert->wasIliasPageEditorUsedForAdditionalTexts()
                 )
             )->withAdditionalInsert($gaps_insert)
             ->withAdditionalInsert($answer_options_insert);
