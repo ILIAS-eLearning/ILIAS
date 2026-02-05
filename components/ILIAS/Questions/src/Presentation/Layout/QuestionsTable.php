@@ -65,7 +65,7 @@ class QuestionsTable implements Renderable, DataRetrieval
         mixed $additional_parameters
     ): \Generator {
         $environment_with_action = $this->environment->withActionParameter(
-            Edit::CMD_EDIT_QUESTION
+            Edit::ACTION_EDIT_QUESTION
         );
         foreach ($this->questions_repository->getQuestionDataOnlyForAllQuestions() as $question) {
             yield $question->toTableRow(
@@ -144,9 +144,9 @@ class QuestionsTable implements Renderable, DataRetrieval
         return [
             'delete' => $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('delete'),
-                $this->environment->withActionParameter(Edit::CMD_DELETE_QUESTIONS)
+                $this->environment->withActionParameter(Edit::ACTION_DELETE_QUESTIONS)
                     ->getUrlBuilder(),
-                $this->environment->getQuestionIdsToken()
+                $this->environment->getTableRowIdToken()
             )->withAsync(true)
         ];
     }

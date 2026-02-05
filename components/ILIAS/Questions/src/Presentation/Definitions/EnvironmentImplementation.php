@@ -40,10 +40,12 @@ class EnvironmentImplementation implements Environment
     private const string TOKEN_STRING_ACTION = 'a';
     private const string TOKEN_STRING_STEP = 's';
     private const string TOKEN_STRING_QUESTION_ID = 'q';
-    private const string TOKEN_STRING_QUESTION_IDS = 'qs';
-    private const string TOKEN_TYPE_HASH = 't';
-    private const string TOKEN_TABLE_ROW_ID = 'r';
-    private const string TOKEN_CARRY_ID = 'c';
+    private const string TOKEN_STRING_TYPE_HASH = 't';
+    private const string TOKEN_STRING_TABLE_ROW_ID = 'r';
+    private const string TOKEN_STRING_CARRY_ID = 'c';
+    private const string TOKEN_STRING_CREATE_MODE = 'cm';
+
+    private const string PARAMETER_STRING_HIER_ID = 'hier_id';
 
     private const string INTERRUPTIVE_ITEMS_KEY = 'interruptive_items';
 
@@ -57,10 +59,7 @@ class EnvironmentImplementation implements Environment
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $step_token;
     private readonly URLBuilderToken $question_id_token;
-    private readonly URLBuilderToken $question_ids_token;
-    private readonly URLBuilderToken $type_hash_token;
     private readonly URLBuilderToken $table_row_token;
-    private readonly URLBuilderToken $carry_token;
 
     private ?array $table_row_ids = null;
 
@@ -215,11 +214,6 @@ class EnvironmentImplementation implements Environment
         return $this->obj_id;
     }
 
-    public function getQuestionIdsToken(): URLBuilderToken
-    {
-        return $this->question_ids_token;
-    }
-
     public function getAction(): string
     {
         return $this->retrieveStringValueForToken($this->action_token);
@@ -246,18 +240,50 @@ class EnvironmentImplementation implements Environment
     public function withAnswerFormTypeHashParameter(
         string $type_hash
     ): self {
+        [
+            $url_builder,
+            $type_hash_token
+        ] = $this->url_builder->acquireParameter(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_TYPE_HASH
+        );
+
         $clone = clone $this;
-        $clone->url_builder = $this->url_builder
-            ->withParameter($this->type_hash_token, $type_hash);
+        $clone->url_builder = $url_builder
+            ->withParameter($type_hash_token, $type_hash);
         return $clone;
     }
 
     public function withCarryParameter(
         string $carry
     ): self {
+        [
+            $url_builder,
+            $carry_token
+        ] = $this->url_builder->acquireParameter(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_CARRY_ID
+        );
+
         $clone = clone $this;
-        $clone->url_builder = $this->url_builder
-            ->withParameter($this->carry_token, $carry);
+        $clone->url_builder = $url_builder
+            ->withParameter($carry_token, $carry);
+        return $clone;
+    }
+
+    public function withCreateModeParameter(): self
+    {
+        [
+            $url_builder,
+            $create_mode_token
+        ] = $this->url_builder->acquireParameter(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_CREATE_MODE
+        );
+
+        $clone = clone $this;
+        $clone->url_builder = $url_builder
+            ->withParameter($create_mode_token, '1');
         return $clone;
     }
 
@@ -275,14 +301,14 @@ class EnvironmentImplementation implements Environment
     }
 
     /**
-     * This function will either return the QuestionIds from the corresponding
-     * $_GET parameter OR from an InterruptiveItems $_POST value.
+     * This function will either return the QuestionIds from the $_GET parameter
+     * for row ids OR from an InterruptiveItems $_POST value.
      * @return array<\ILIAS\Data\UUID\Uuid>|string|null
      */
     public function getQuestionIds(): array|string|null
     {
         return $this->http->wrapper()->query()->retrieve(
-            $this->question_ids_token->getName(),
+            $this->table_row_token->getName(),
             $this->refinery->byTrying([
                 $this->refinery->custom()->transformation(
                     fn($v): string => $v === ['ALL_OBJECTS']
@@ -309,15 +335,35 @@ class EnvironmentImplementation implements Environment
 
     public function getTypeClassHash(): string
     {
-        return $this->retrieveStringValueForToken($this->type_hash_token);
+        [,$type_hash_token] = $this->url_builder->acquireParameter(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_TYPE_HASH
+        );
+        return $this->retrieveStringValueForToken($type_hash_token);
     }
 
     public function getCarry(
         Transformation $to_form_transformation
     ): Input|array|string|null {
+        [, $carry_token] = $this->url_builder->acquireParameter(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_CARRY_ID
+        );
         return $this->http->wrapper()->query()->retrieve(
-            $this->carry_token->getName(),
+            $carry_token->getName(),
             $to_form_transformation
+        );
+    }
+
+    public function isCreateModeSimple(): bool
+    {
+        [, $create_mode_token] = $this->url_builder->acquireParameter(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_CREATE_MODE
+        );
+
+        return $this->http->wrapper()->query()->has(
+            $create_mode_token->getName()
         );
     }
 
@@ -359,12 +405,41 @@ class EnvironmentImplementation implements Environment
         $this->tabs_gui->activateSubTab(self::TAB_ID_ANSWER_FORM);
     }
 
-    public function setParametersForQuestionCmds(): void
+    public function preserveParametersForPageEditorCmds(): void
     {
+        $this->setQuestionIdParamterForPageEditorCmds($this->getQuestionId());
+    }
+
+    public function setParamtersForSimpleCreateCmd(
+        Uuid $question_id
+    ): void {
+        $this->setQuestionIdParamterForPageEditorCmds($question_id);
+
+        $this->ctrl->setParameterByClass(
+            \QstsQuestionPageGUI::class,
+            self::PARAMETER_STRING_HIER_ID,
+            '1'
+        );
+
+        [, $create_mode_token] = $this->url_builder->acquireParameter(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_CREATE_MODE
+        );
+
+        $this->ctrl->setParameterByClass(
+            \QstsQuestionPageGUI::class,
+            $create_mode_token->getName(),
+            '1'
+        );
+    }
+
+    private function setQuestionIdParamterForPageEditorCmds(
+        Uuid $question_id
+    ): void {
         $this->ctrl->setParameterByClass(
             \QstsQuestionPageGUI::class,
             $this->question_id_token->getName(),
-            $this->getQuestionId()->toString()
+            $question_id->toString()
         );
     }
 
@@ -376,20 +451,14 @@ class EnvironmentImplementation implements Environment
             $this->action_token,
             $this->step_token,
             $this->question_id_token,
-            $this->question_ids_token,
-            $this->type_hash_token,
-            $this->table_row_token,
-            $this->carry_token
+            $this->table_row_token
         ] = (new URLBuilder($base_uri))
             ->acquireParameters(
                 self::QUERY_PARAMETER_NAME_SPACE,
                 self::TOKEN_STRING_ACTION,
                 self::TOKEN_STRING_STEP,
                 self::TOKEN_STRING_QUESTION_ID,
-                self::TOKEN_STRING_QUESTION_IDS,
-                self::TOKEN_TYPE_HASH,
-                self::TOKEN_TABLE_ROW_ID,
-                self::TOKEN_CARRY_ID
+                self::TOKEN_STRING_TABLE_ROW_ID
             );
     }
 

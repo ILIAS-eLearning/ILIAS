@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Question;
 
+use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Persistence\CoreTables;
 use ILIAS\Questions\Persistence\Column;
@@ -32,6 +33,7 @@ use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
+use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
@@ -39,12 +41,12 @@ use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
-use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Refinery\Factory as Refinery;
 use Psr\Http\Message\RequestInterface;
 
 class QuestionImplementation implements Question
 {
+    private ?CreateModes $create_mode = null;
     private bool $linking_information_updated = false;
     private bool $self_updated = false;
     private bool $page_id_updated = false;
@@ -246,10 +248,22 @@ class QuestionImplementation implements Question
         return $this->original_id !== null;
     }
 
+    public function getCreateMode(): ?CreateModes
+    {
+        return $this->create_mode;
+    }
+
+    public function withCreateMode(
+        CreateModes $create_mode
+    ): self {
+        $clone = clone $this;
+        $clone->create_mode = $create_mode;
+        return $clone;
+    }
+
     public function getEditView(
         Language $lng,
-        \ilSetting $settings,
-        UserSettings $user_settings,
+        ConfigurationRepository $configuration_repository,
         \ilObjUser $current_user,
         UIFactory $ui_factory,
         Refinery $refinery,
@@ -258,8 +272,7 @@ class QuestionImplementation implements Question
     ): Views\Edit {
         return new Views\Edit(
             $lng,
-            $settings,
-            $user_settings,
+            $configuration_repository,
             $current_user,
             $ui_factory,
             $refinery,

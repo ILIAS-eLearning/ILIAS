@@ -22,7 +22,7 @@ namespace ILIAS\Questions\UserSettings;
 
 use ILIAS\Language\Language;
 
-enum EditingModes: string
+enum CreateModes: string
 {
     case Simple = 'simple';
     case Full = 'full';
@@ -30,13 +30,13 @@ enum EditingModes: string
     public function getLabelForInput(
         Language $lng
     ): string {
-        return $lng->txt("editing_mode_{$this->value}");
+        return $lng->txt("create_mode_{$this->value}");
     }
 
     public function getBylineForInput(
         Language $lng
     ): string {
-        return $lng->txt("byline_editing_mode_{$this->value}");
+        return $lng->txt("byline_create_mode_{$this->value}");
     }
 
     public static function getDefaultMode(): self

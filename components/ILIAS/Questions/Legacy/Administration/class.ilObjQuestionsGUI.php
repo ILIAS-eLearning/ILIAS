@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Questions\Administration\ConfigurationGUI;
+use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Legacy\LocalDIC;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\UploadAnswerOptionsGUI;
@@ -27,11 +29,19 @@ use ILIAS\Data\URI;
 /**
  * @ilCtrl_isCalledBy ilObjQuestionsGUI: ilAdministrationGUI
  * @ilCtrl_Calls ilObjQuestionsGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjQuestionsGUI: ILIAS\Questions\Administration\ConfigurationGUI
  * @ilCtrl_Calls ilObjQuestionsGUI: QstsQuestionPageGUI
  */
 class ilObjQuestionsGUI extends ilObjectGUI
 {
-    private Edit $edit_view;
+    private const string TAB_IDENTIFIER_QUESTIONS = 'questions';
+    private const string TAB_IDENTIFIER_SETTINGS = 'settings';
+    private const string TAB_IDENTIFIER_UNITS = 'units';
+    private const string TAB_IDENTIFIER_PERMISSIONS = 'perm_settings';
+
+    private readonly UnitsRepository $units_repository;
+    private readonly Edit $edit_view;
+    private readonly ConfigurationRepository $configurations_repository;
 
     private DataFactory $data_factory;
 
@@ -44,7 +54,10 @@ class ilObjQuestionsGUI extends ilObjectGUI
         global $DIC;
         $this->data_factory = new DataFactory();
 
-        $this->edit_view = LocalDIC::dic()[Edit::class];
+        $local_dic = LocalDIC::dic();
+        $this->units_repository = $local_dic[UnitsRepository::class];
+        $this->edit_view = $local_dic[Edit::class];
+        $this->configurations_repository = $local_dic[ConfigurationRepository::class];
 
         $this->type = 'qsts';
 
@@ -70,7 +83,7 @@ class ilObjQuestionsGUI extends ilObjectGUI
                 break;
 
             case strtolower(ilPermissionGUI::class):
-                $this->tabs_gui->activateTab('perm_settings');
+                $this->tabs_gui->activateTab(self::TAB_IDENTIFIER_PERMISSIONS);
                 $this->ctrl->forwardCommand(new \ilPermissionGUI($this));
                 break;
 
@@ -80,6 +93,22 @@ class ilObjQuestionsGUI extends ilObjectGUI
                     $this->buildEditQuestionsBaseUri(),
                     $this->obj_id,
                     $this->ref_id
+                );
+                break;
+
+            case strtolower(ConfigurationGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_IDENTIFIER_SETTINGS);
+                $this->ctrl->forwardCommand(
+                    new ConfigurationGUI(
+                        $this->ctrl,
+                        $this->http,
+                        $this->lng,
+                        $this->refinery,
+                        $this->tpl,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->configuration_repository
+                    )
                 );
                 break;
 
@@ -116,17 +145,23 @@ class ilObjQuestionsGUI extends ilObjectGUI
     {
         if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
-                'questions',
-                $this->lng->txt('questions'),
+                self::TAB_IDENTIFIER_QUESTIONS,
+                $this->lng->txt(self::TAB_IDENTIFIER_QUESTIONS),
                 $this->ctrl->getLinkTargetByClass(self::class, 'viewQuestions')
+            );
+
+            $this->tabs_gui->addTab(
+                self::TAB_IDENTIFIER_SETTINGS,
+                $this->lng->txt(self::TAB_IDENTIFIER_SETTINGS),
+                $this->ctrl->getLinkTargetByClass(ConfigurationGUI::class, ''),
             );
         }
 
         if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
-                'perm_settings',
-                $this->lng->txt('perm_settings'),
-                $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], 'perm')
+                self::TAB_IDENTIFIER_PERMISSIONS,
+                $this->lng->txt(self::TAB_IDENTIFIER_PERMISSIONS),
+                $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], 'perm'),
             );
         }
     }
