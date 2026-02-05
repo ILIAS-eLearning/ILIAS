@@ -32,8 +32,6 @@ use ILIAS\Export\ImportStatus\StatusType as ImportStatusType;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\StaticURL\Services as StaticURLService;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualism;
-use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualismGUI;
 
 /**
  * Settings for a single didactic template
@@ -505,7 +503,7 @@ class ilDidacticTemplateSettingsGUI
                     }
                 }
                 $title->setInfo($this->lng->txt("language") . ": " . $language .
-                    ' <a href="' . $this->ctrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations") .
+                    ' <a href="' . $this->ctrl->getLinkTargetByClass(ilMultilingualismGUI::class, "listTranslations") .
                     '">&raquo; ' . $this->lng->txt("more_translations") . '</a>');
             }
         }
@@ -754,7 +752,7 @@ class ilDidacticTemplateSettingsGUI
                 $this->tabs->addSubTab(
                     'settings_trans',
                     $this->lng->txt("obj_multilinguality"),
-                    $this->ctrl->getLinkTargetByClass(["ilmultilingualismgui"], 'listTranslations')
+                    $this->ctrl->getLinkTargetByClass(ilMultilingualismGUI::class, 'listTranslations')
                 );
                 $this->tabs->setTabActive('edit');
                 $this->tabs->setSubTabActive($a_tab_active);

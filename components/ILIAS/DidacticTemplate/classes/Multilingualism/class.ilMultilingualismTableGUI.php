@@ -18,12 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\DidacticTemplate\Multilingualism;
-
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
-use ilTable2GUI;
-use ilAccessHandler;
-use ilLegacyFormElementsUtil;
 
 /**
  * TableGUI class for title/description translations

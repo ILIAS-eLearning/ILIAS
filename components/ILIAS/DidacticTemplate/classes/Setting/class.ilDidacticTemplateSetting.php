@@ -18,8 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualism;
-
 /**
  * Settings for a single didactic template
  * @author   Stefan Meyer <meyer@leifos.com>

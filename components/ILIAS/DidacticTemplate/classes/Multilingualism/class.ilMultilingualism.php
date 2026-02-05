@@ -18,14 +18,6 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\DidacticTemplate\Multilingualism;
-
-use ilLanguage;
-use ilDBInterface;
-use ilObjectException;
-use SimpleXMLElement;
-use ilXMLWriter;
-
 /**
  * Class handles translation mode for an object.
  *

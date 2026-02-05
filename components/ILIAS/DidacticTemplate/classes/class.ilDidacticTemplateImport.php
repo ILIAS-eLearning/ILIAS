@@ -22,7 +22,6 @@ use ILIAS\Export\ImportHandler\Factory as ilImportHandlerFactory;
 use ILIAS\Export\ImportStatus\ilFactory as ilImportStatusFactory;
 use ILIAS\Export\ImportStatus\StatusType;
 use ILIAS\Export\ImportStatus\I\ilCollectionInterface as ilImportStatusCollectionInterface;
-use ILIAS\DidacticTemplate\Multilingualism\ilMultilingualism;
 
 /**
  * Description of ilDidacticTemplateImport

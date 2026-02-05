@@ -18,23 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\DidacticTemplate\Multilingualism;
-
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
-use ilLanguage;
-use ilCtrl;
-use ilGlobalTemplateInterface;
-use ilToolbarGUI;
-use ilObjUser;
-use ilPropertyFormGUI;
-use ilSelectInputGUI;
-use ilLoggerFactory;
-use ilConfirmationGUI;
 
 /**
  * GUI class for object translation handling.
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_IsCalledBy ilMultilingualismeGUI: ilDidacticTemplateSettingsGUI
+ * @ilCtrl_IsCalledBy ilMultilingualismGUI: ilDidacticTemplateSettingsGUI
  */
 class ilMultilingualismGUI
 {
