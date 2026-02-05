@@ -46,6 +46,7 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
     private GUIService $content_style_gui;
     private int $ref_id;
     private ?string $request_ipe_context;
+    private ilRbacSystem $rbac_system;
 
     public function __construct(int $a_ref_id)
     {
@@ -59,6 +60,7 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->rbac_system = $DIC->rbac()->system();
 
         $this->lng = $DIC['lng'];
 
@@ -170,6 +172,7 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
         }
 
         $this->ctrl->setReturnByClass($ipe_gui_class, 'edit');
+        /** @var ilLoginPageGUI $page_gui */
         $page_gui = new ($ipe_gui_class)($this->requested_language_id);
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
@@ -179,6 +182,11 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
         $page_gui->setTemplateTargetVar('ADM_CONTENT');
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setTemplateOutput(false);
+
+        if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
+            $page_gui->setOutputMode(ilPageObjectGUI::PREVIEW);
+            $page_gui->setEnableEditing(false);
+        }
 
         $html = $this->ctrl->forwardCommand($page_gui);
 
@@ -208,16 +216,21 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
         switch ($action) {
             case AuthPageLanguagesOverviewTable::DEACTIVATE:
             case AuthPageLanguagesOverviewTable::ACTIVATE:
+                if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+                    break;
+                }
                 $this->$action();
                 break;
 
             case AuthPageLanguagesOverviewTable::EDIT:
+            case AuthPageLanguagesOverviewTable::PREVIEW:
                 $language_id = ilLanguage::lookupId((string) current($keys));
                 if ($language_id) {
                     $this->ctrl->setParameter($this, 'key', $language_id);
                     $this->ctrl->redirectByClass(
                         $this->getRequestedAuthPageEditorContext()->pageUiClass(),
-                        'edit'
+                        $action
                     );
                 }
         }
@@ -290,7 +303,8 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
             $this->http,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->getRequestedAuthPageEditorContext()
+            $this->getRequestedAuthPageEditorContext(),
+            $this->rbac_system->checkAccess('write', $this->ref_id)
         );
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));

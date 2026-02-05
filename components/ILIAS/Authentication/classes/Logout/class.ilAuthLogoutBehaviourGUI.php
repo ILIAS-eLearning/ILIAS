@@ -40,10 +40,11 @@ class ilAuthLogoutBehaviourGUI
     private ilSetting $settings;
     private UIFactory $ui_factory;
     private UIRenderer $ui_renderer;
+    private ilRbacSystem $rbac_system;
     private ilGlobalTemplateInterface $tpl;
     private ConfigurableLogoutTarget $configurable_logout_target;
 
-    public function __construct()
+    public function __construct(private readonly int $ref_id)
     {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
@@ -52,6 +53,7 @@ class ilAuthLogoutBehaviourGUI
         $this->refinery = $DIC->refinery();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ui_factory = $DIC->ui()->factory();
+        $this->rbac_system = $DIC->rbac()->system();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->lng->loadLanguageModule('auth');
         $this->settings = new ilSetting('auth');
@@ -156,6 +158,10 @@ class ilAuthLogoutBehaviourGUI
                     LogoutDestinations::LOGOUT_SCREEN->value
                 )
             );
+        $access = $this->rbac_system->checkAccess('write', $this->ref_id);
+        if (!$access) {
+            $logout_behaviour_switchable_group = $logout_behaviour_switchable_group->withDisabled(true);
+        }
 
         $section = $this->ui_factory->input()->field()
             ->section(
@@ -170,6 +176,10 @@ class ilAuthLogoutBehaviourGUI
             );
         if ($request) {
             $form = $form->withRequest($request);
+        }
+
+        if(!$access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
         }
 
         return $form;
@@ -195,6 +205,12 @@ class ilAuthLogoutBehaviourGUI
 
     public function saveForm(): void
     {
+        if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->showForm();
+            return;
+        }
+
         $form = $this->getForm();
         $form = $form->withRequest($this->http->request());
         $section = $form->getInputs()['logout_behaviour'];
