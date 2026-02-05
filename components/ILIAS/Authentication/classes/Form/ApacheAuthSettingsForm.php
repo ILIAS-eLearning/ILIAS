@@ -200,7 +200,12 @@ readonly class ApacheAuthSettingsForm
             '2' => $this->ui_field->group([], $this->lng->txt('apache_auth_username_extended_mapping'))->withDisabled(true),
             '3' => $this->ui_field->group([], $this->lng->txt('apache_auth_username_by_function')),
         ], $this->lng->txt('apache_auth_username_config_type'))
-            ->withValue($this->values['apache_auth_username_config_type'] ?? '1');
+            ->withValue(
+                isset($this->values['apache_auth_username_config_type']) &&
+                $this->values['apache_auth_username_config_type'] !== '' ?
+                    $this->values['apache_auth_username_config_type'] :
+                    '1'
+            );
     }
 
     private function checkGroupEnabled(string $post_var): bool
