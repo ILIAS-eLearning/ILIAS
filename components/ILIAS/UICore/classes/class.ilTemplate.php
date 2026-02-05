@@ -348,8 +348,8 @@ class ilTemplate extends HTML_Template_ITX
         }
 
         $tpl_sub_path = '/templates/default/';
-        if (str_starts_with($a_tplname, 'components/ILIAS/UI/')) {
-            $a_in_module = 'components/ILIAS/UI/src';
+        if (str_starts_with($a_tplname, 'components/ILIAS/UI')) {
+            $a_in_module = 'components/ILIAS/UI';
             $a_tplname = str_replace('components/ILIAS/UI/templates/default/', '', $a_tplname);
         }
 
@@ -378,7 +378,7 @@ class ilTemplate extends HTML_Template_ITX
         $style = $this->getCurrentStyle();
         $base_path .= 'public/Customizing/skin/' . $skin . '/' . $style;
 
-        if ($a_in_module === 'components/ILIAS/UI/src') {
+        if ($a_in_module === 'components/ILIAS/UI') {
             $a_in_module = 'UI';
         }
 
