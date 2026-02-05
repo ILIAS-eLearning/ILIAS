@@ -100,8 +100,11 @@ class ilAuthShibbolethSettingsGUI
     {
         $this->tabs_gui->activateSubTab('shib_settings');
         $form = new ilShibbolethSettingsForm(
+            $this->ref_id,
+            $this,
             $this->shib_settings,
-            $this->ctrl->getLinkTarget($this, 'save')
+            $this->ctrl->getLinkTarget($this, 'save'),
+            $this->ctrl->getLinkTarget($this, 'settings')
         );
 
         $this->tpl->setContent($form->getHTML());
@@ -113,8 +116,11 @@ class ilAuthShibbolethSettingsGUI
     public function save(): void
     {
         $form = new ilShibbolethSettingsForm(
+            $this->ref_id,
+            $this,
             $this->shib_settings,
-            $this->ctrl->getLinkTarget($this, 'save')
+            $this->ctrl->getLinkTarget($this, 'save'),
+            $this->ctrl->getLinkTarget($this, 'settings')
         );
         $form->setValuesByPost();
         if ($form->saveObject()) {
@@ -169,7 +175,7 @@ class ilAuthShibbolethSettingsGUI
     {
         if (!$this->wrapper->post()->has('rule_ids')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
-            $this->roleAssignment();
+            $this->settings();
 
             return false;
         }
