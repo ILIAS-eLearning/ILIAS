@@ -735,7 +735,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         );
         $test_form = $this->buildSOAPTestForm(
             $this->ctrl->getFormAction($this, 'testSoapAuthConnection'),
-            $this->ctrl->getFormAction($this, 'editSOAP')
         );
 
         $this->tabs_gui->setTabActive('auth_soap');
@@ -753,7 +752,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ctrl->getFormAction($this, 'saveSOAP'),
             $this->ctrl->getFormAction($this, 'editSOAP')
         );
-        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, 'testSoapAuthConnection'),);
+        $test_form = $this->buildSOAPTestForm(
+            $this->ctrl->getFormAction($this, 'testSoapAuthConnection')
+        );
         $panel_content = [$soap_form, $test_form];
         if ($this->request->getMethod() === 'POST') {
             $test_form = $test_form->withRequest($this->request);
@@ -781,7 +782,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         );
         $test_form = $this->buildSOAPTestForm(
             $this->ctrl->getFormAction($this, 'testSoapAuthConnection'),
-            $this->ctrl->getFormAction($this, 'editSOAP')
         );
         if ($this->request->getMethod() === 'POST') {
             $soap_form = $soap_form->withRequest($this->request);
