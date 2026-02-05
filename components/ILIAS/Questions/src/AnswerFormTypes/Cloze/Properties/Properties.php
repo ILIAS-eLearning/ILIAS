@@ -210,15 +210,24 @@ class Properties implements PropertiesInterface
         FieldFactory $ff,
         Refinery $refinery,
         Factory $propteries_factory,
-        ClozeTextFactory $cloze_text_factory
+        ClozeTextFactory $cloze_text_factory,
+        bool $add_legacy_cloze_text_to_input
     ): Section {
+        $cloze_text_input = $this->getClozeText()->getInput(
+            $lng,
+            $ff,
+            $cloze_text_factory
+        );
+
+        if ($add_legacy_cloze_text_to_input) {
+            $cloze_text_input = $cloze_text_input->withValue(
+                strip_tags($this->legacy_cloze_text)
+            );
+        }
+
         return $ff->section(
             [
-                self::FORM_KEY_CLOZE_TEXT => $this->getClozeText()->getInput(
-                    $lng,
-                    $ff,
-                    $cloze_text_factory
-                ),
+                self::FORM_KEY_CLOZE_TEXT => $cloze_text_input,
                 self::FORM_KEY_IDENTICAL_SCORING => ScoringIdentical::buildInput(
                     $lng,
                     $ff,
