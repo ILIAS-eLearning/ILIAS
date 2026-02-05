@@ -61,16 +61,20 @@ class Factory
         );
     }
 
+    /**
+     * @param URLBuilder $url_builder The url_builder MUST have the step set,
+     * to which the form shall be sent.
+     */
     public function getEditForm(
-        URLBuilder $url_builder,
+        URI $form_target_uri,
         Section $main_section_inputs,
         bool $is_final_step,
         ?Group $carry_inputs = null
     ): EditForm {
         return new EditForm(
-            $this->ui_factory->input()->container()->form(),
+            $this->ui_factory,
             $this->lng,
-            $url_builder,
+            $form_target_uri,
             $main_section_inputs,
             $is_final_step,
             $carry_inputs

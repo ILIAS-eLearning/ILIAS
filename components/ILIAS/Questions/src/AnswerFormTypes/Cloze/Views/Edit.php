@@ -42,6 +42,7 @@ use ILIAS\UI\URLBuilder;
 class Edit implements EditViewInterface
 {
     private const string STEP_EDIT_BASIC_PROPERTIES = 'ebp';
+    private const string STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES = 'altbp';
     private const string STEP_CONFIRMED_GAP_REMOVAL = 'cgr';
     private const string STEP_SET_GAP_TYPES = 'sgt';
     public const string STEP_JUMP_TO_SET_GAP_TYPES = 'jsgt';
@@ -103,7 +104,10 @@ class Edit implements EditViewInterface
         $environment->setEditAnswerFormBackTarget();
 
         return match ($step) {
-            self::STEP_EDIT_BASIC_PROPERTIES => $this->buildBasicEditingForm($environment),
+            self::STEP_EDIT_BASIC_PROPERTIES =>
+                $this->buildBasicEditingForm($environment, false),
+            self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES =>
+                $this->addLegacyTextToBasicProperties($environment),
             default => $this->callIntermediateStep($environment, $step)
         };
     }
@@ -178,18 +182,47 @@ class Edit implements EditViewInterface
     }
 
     private function buildBasicEditingForm(
-        Environment $environment
+        Environment $environment,
+        bool $add_legacy_cloze_text_to_input
     ): EditForm {
-        return $environment->getPresentationFactory()->getEditForm(
-            $environment->getUrlBuilderWithStepParameter(self::STEP_SET_GAP_TYPES),
-            $environment->getAnswerFormProperties()->buildBasicEditingInputs(
+
+        /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $answer_form_properties */
+        $answer_form_properties = $environment->getAnswerFormProperties();
+
+        $editing_form = $environment->getPresentationFactory()->getEditForm(
+            $environment
+                ->getUrlBuilderWithStepParameter(self::STEP_SET_GAP_TYPES)
+                ->buildURI(),
+            $answer_form_properties->buildBasicEditingInputs(
                 $this->lng,
                 $this->ui_factory->input()->field(),
                 $this->refinery,
                 $this->properties_factory,
-                $this->cloze_text_factory
+                $this->cloze_text_factory,
+                $add_legacy_cloze_text_to_input
             ),
             false
+        );
+
+        if (!$add_legacy_cloze_text_to_input
+            && $answer_form_properties->getLegacyClozeText() !== ''
+            && $answer_form_properties->getClozeText()->getRawRepresentationForPersistence() === '') {
+            return $editing_form->withInsertLegacyTextsButton(
+                $environment->getUrlBuilderWithStepParameter(
+                    self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES
+                )->buildURI()
+            );
+        }
+
+        return $editing_form;
+    }
+
+    private function addLegacyTextToBasicProperties(
+        Environment $environment
+    ): EditForm {
+        return $this->buildBasicEditingForm(
+            $environment,
+            true
         );
     }
 
@@ -235,7 +268,9 @@ class Edit implements EditViewInterface
         $properties = $environment->getAnswerFormProperties();
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->getUrlBuilderWithStepParameter(self::STEP_SET_ANSWER_OPTIONS),
+            $environment
+                ->getUrlBuilderWithStepParameter(self::STEP_SET_ANSWER_OPTIONS)
+                ->buildURI(),
             $properties->getGaps()->buildGapsTypeInputs(
                 $this->lng,
                 $ff,
@@ -278,7 +313,9 @@ class Edit implements EditViewInterface
         $properties = $environment->getAnswerFormProperties();
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->getUrlBuilderWithStepParameter(self::STEP_SET_POINTS),
+            $environment
+                ->getUrlBuilderWithStepParameter(self::STEP_SET_POINTS)
+                ->buildURI(),
             $properties->getGaps()->buildAnswerOptionsInputs(
                 $this->lng,
                 $ff,
@@ -319,7 +356,9 @@ class Edit implements EditViewInterface
         $properties = $environment->getAnswerFormProperties();
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->getUrlBuilderWithStepParameter(self::STEP_SAVE),
+            $environment
+                ->getUrlBuilderWithStepParameter(self::STEP_SAVE)
+                ->buildURI(),
             $properties->getGaps()->buildPointInputs(
                 $this->lng,
                 $ff,
