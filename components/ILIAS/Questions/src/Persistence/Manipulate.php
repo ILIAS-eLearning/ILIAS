@@ -29,9 +29,15 @@ class Manipulate
 
     public function __construct(
         private readonly \ilDBInterface $db,
+        private readonly Factory $persistence_factory,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly ManipulationType $type
     ) {
+    }
+
+    public function getPersistenceFactory(): Factory
+    {
+        return $this->persistence_factory;
     }
 
     public function getManipulationType(): ManipulationType

@@ -23,10 +23,10 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
@@ -243,6 +243,7 @@ class Gap
     public function buildReplace(
         ?Replace $replace,
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Replace {
         if ($this->type === null) {
@@ -254,14 +255,18 @@ class Gap
         $table_definition = TableTypes::AnswerInputs;
 
         if ($replace === null) {
-            return new Replace(
-                $persistence->getColumns($table_name_builder, $table_definition),
-                $this->buildValuesForGapReplace()
+            return $persistence_factory->replace(
+                $persistence->getColumns(
+                    $persistence_factory,
+                    $table_name_builder,
+                    $table_definition
+                ),
+                $this->buildValuesForGapReplace($persistence_factory)
             );
         }
 
         return $replace->withAdditionalValues(
-            $this->buildValuesForGapReplace()
+            $this->buildValuesForGapReplace($persistence_factory)
         );
     }
 
@@ -359,18 +364,19 @@ class Gap
         );
     }
 
-    private function buildValuesForGapReplace(): array
-    {
+    private function buildValuesForGapReplace(
+        PersistenceFactory $persistence_factory
+    ): array {
         return [
-            new Value(\ilDBConstants::T_TEXT, $this->answer_input_id->toString()),
-            new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
-            new Value(\ilDBConstants::T_INTEGER, $this->position),
-            new Value(\ilDBConstants::T_TEXT, $this->type->getIdentifier()),
-            new Value(\ilDBConstants::T_INTEGER, $this->max_chars),
-            new Value(\ilDBConstants::T_FLOAT, $this->step_size),
-            new Value(\ilDBConstants::T_INTEGER, $this->text_matching_method?->value),
-            new Value(\ilDBConstants::T_INTEGER, $this->min_autocomplete),
-            new Value(
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $this->answer_input_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->position),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $this->type->getIdentifier()),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->max_chars),
+            $persistence_factory->value(\ilDBConstants::T_FLOAT, $this->step_size),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->text_matching_method?->value),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $this->min_autocomplete),
+            $persistence_factory->value(
                 \ilDBConstants::T_INTEGER,
                 $this->shuffle_answer_options === null
                     ? null

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Refinery\Transformation;
@@ -36,6 +37,7 @@ class Agent implements SetupAgent
     use HasNoNamedObjective;
 
     public function __construct(
+        private readonly PersistenceFactory $persistence_factory,
         private readonly array $answer_form_migrations
     ) {
     }
@@ -101,6 +103,7 @@ class Agent implements SetupAgent
     {
         return [
             new QuestionsMigration(
+                $this->persistence_factory,
                 $this->answer_form_migrations
             )
         ];

@@ -100,7 +100,10 @@ class Factory
         $answer_options = $this->answer_options_factory->fromDatabase($query);
 
         return $query->retrieveCurrentRecord(
-            TableTypes::AnswerInputs->getTable($query->getTableNameBuilder(Definition::class)),
+            TableTypes::AnswerInputs->getTable(
+                $query->getPersistenceFactory(),
+                $query->getTableNameBuilder(Definition::class)
+            ),
             $query->getRefinery()->custom()->transformation(
                 function (array $vs) use ($answer_form_id, $answer_options): Gaps {
                     $previous_answer_input_id = null;

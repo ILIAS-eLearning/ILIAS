@@ -23,14 +23,12 @@ namespace ILIAS\Questions\Question;
 use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Persistence\CoreTables;
-use ILIAS\Questions\Persistence\Column;
 use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
-use ILIAS\Questions\Persistence\Value;
-use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
@@ -336,11 +334,17 @@ class QuestionImplementation implements Question
     ): Manipulate {
         return $this->addDeleteAnswerFormsStatementsToManipulate(
             $manipulate->withAdditionalStatement(
-                $this->buildDeleteQuestionStatement()
+                $this->buildDeleteQuestionStatement(
+                    $manipulate->getPersistenceFactory()
+                )
             )->withAdditionalStatement(
-                $this->buildDeleteLinkingStatement()
+                $this->buildDeleteLinkingStatement(
+                    $manipulate->getPersistenceFactory()
+                )
             )->withAdditionalStatement(
-                $this->buildDeleteMigrationStatement()
+                $this->buildDeleteMigrationStatement(
+                    $manipulate->getPersistenceFactory()
+                )
             ),
             $this->answer_forms
         );
@@ -352,9 +356,13 @@ class QuestionImplementation implements Question
         if ($this->created === null) {
             $manipulate = $manipulate
                 ->withAdditionalStatement(
-                    $this->buildInsertLinkingStatement()
+                    $this->buildInsertLinkingStatement(
+                        $manipulate->getPersistenceFactory()
+                    )
                 )->withAdditionalStatement(
-                    $this->buildInsertQuestionStatement()
+                    $this->buildInsertQuestionStatement(
+                        $manipulate->getPersistenceFactory()
+                    )
                 );
         }
 
@@ -387,13 +395,17 @@ class QuestionImplementation implements Question
 
         if ($this->self_updated) {
             $manipulate = $manipulate->withAdditionalStatement(
-                $this->buildUpdateQuestionStatement()
+                $this->buildUpdateQuestionStatement(
+                    $manipulate->getPersistenceFactory()
+                )
             );
         }
 
         if ($this->page_id) {
             $manipulate = $manipulate->withAdditionalStatement(
-                $this->buildUpdatePageIdStatement()
+                $this->buildUpdatePageIdStatement(
+                    $manipulate->getPersistenceFactory()
+                )
             );
         }
 
@@ -438,91 +450,103 @@ class QuestionImplementation implements Question
 
 
 
-    private function buildInsertLinkingStatement(): Insert
-    {
-        return new Insert(
-            CoreTables::Linking->getColumns(),
+    private function buildInsertLinkingStatement(
+        PersistenceFactory $persistence_factory
+    ): Insert {
+        return $persistence_factory->insert(
+            CoreTables::Linking->getColumns(
+                $persistence_factory
+            ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->id->toString()),
-                new Value(\ilDBConstants::T_INTEGER, $this->parent_obj_id),
-                new Value(\ilDBConstants::T_INTEGER, $this->position)
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->id->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->parent_obj_id
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->position
+                )
             ]
         );
     }
 
-    private function buildInsertQuestionStatement(): Insert
-    {
-        return new Insert(
-            CoreTables::Questions->getColumns(),
+    private function buildInsertQuestionStatement(
+        PersistenceFactory $persistence_factory
+    ): Insert {
+        return $persistence_factory->insert(
+            CoreTables::Questions->getColumns(
+                $persistence_factory
+            ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->id->toString()),
-                new Value(\ilDBConstants::T_INTEGER, $this->page_id),
-                new Value(\ilDBConstants::T_TEXT, $this->title),
-                new Value(\ilDBConstants::T_TEXT, $this->author),
-                new Value(\ilDBConstants::T_TEXT, $this->lifecycle->value),
-                new Value(\ilDBConstants::T_TEXT, $this->remarks),
-                new Value(\ilDBConstants::T_TEXT, $this->original_id?->toString()),
-                new Value(\ilDBConstants::T_INTEGER, time()),
-                new Value(\ilDBConstants::T_INTEGER, time())
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->id->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->page_id
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->title
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->author
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->lifecycle->value
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->remarks
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->original_id?->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    time()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    time()
+                )
             ]
         );
     }
 
-    private function buildUpdateLinkingStatement(): Update
-    {
+    private function buildUpdateLinkingStatement(
+        PersistenceFactory $persistence_factory
+    ): Update {
         $linking_table_definition = CoreTables::Linking;
-        return new Update(
+        return $persistence_factory->update(
             $linking_table_definition->getColumns(
+                $persistence_factory,
                 [CoreTables::LINKING_TABLE_ID_COLUMN]
             ),
             [
-                new Value(\ilDBConstants::T_INTEGER, $this->parent_obj_id),
-                new Value(\ilDBConstants::T_INTEGER, $this->position)
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->parent_obj_id
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->position
+                )
             ],
             [
-                new Where(
-                    $linking_table_definition->getIdColumn(),
-                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
-                )
-            ]
-        );
-    }
-
-    private function buildUpdateQuestionStatement(): Update
-    {
-        $questions_table_definition = CoreTables::Questions;
-        return new Update(
-            $questions_table_definition->getColumns([
-                CoreTables::ANSWER_FORM_TABLE_ID_COLUMN,
-                'page_id',
-                'created'
-            ]),
-            [
-                new Value(\ilDBConstants::T_TEXT, $this->title),
-                new Value(\ilDBConstants::T_TEXT, $this->author),
-                new Value(\ilDBConstants::T_TEXT, $this->lifecycle->value),
-                new Value(\ilDBConstants::T_TEXT, $this->remarks),
-                new Value(\ilDBConstants::T_TEXT, $this->original_id?->toString()),
-                new Value(\ilDBConstants::T_INTEGER, time())
-            ],
-            [
-                new Where(
-                    $questions_table_definition->getIdColumn(),
-                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
-                )
-            ]
-        );
-    }
-
-    private function buildDeleteQuestionStatement(): Delete
-    {
-        $table_definition = CoreTables::Questions;
-        return new Delete(
-            $table_definition->getTable(),
-            [
-                new Where(
-                    $table_definition->getIdColumn(),
-                    new Value(
+                $persistence_factory->where(
+                    $linking_table_definition->getIdColumn(
+                        $persistence_factory
+                    ),
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->id->toString()
                     )
@@ -531,15 +555,91 @@ class QuestionImplementation implements Question
         );
     }
 
-    private function buildDeleteLinkingStatement(): Delete
-    {
-        $table_definition = CoreTables::Linking;
-        return new Delete(
-            $table_definition->getTable(),
+    private function buildUpdateQuestionStatement(
+        PersistenceFactory $persistence_factory
+    ): Update {
+        $questions_table_definition = CoreTables::Questions;
+        return $persistence_factory->update(
+            $questions_table_definition->getColumns(
+                $persistence_factory,
+                [
+                    CoreTables::ANSWER_FORM_TABLE_ID_COLUMN,
+                    'page_id',
+                    'created'
+                ]
+            ),
             [
-                new Where(
-                    $table_definition->getIdColumn(),
-                    new Value(
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->title
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->author
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->lifecycle->value
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->remarks
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->original_id?->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    time()
+                )
+            ],
+            [
+                $persistence_factory->where(
+                    $questions_table_definition->getIdColumn(
+                        $persistence_factory
+                    ),
+                    $persistence_factory->value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
+                )
+            ]
+        );
+    }
+
+    private function buildDeleteQuestionStatement(
+        PersistenceFactory $persistence_factory
+    ): Delete {
+        $table_definition = CoreTables::Questions;
+        return $persistence_factory->delete(
+            $table_definition->getTable($persistence_factory),
+            [
+                $persistence_factory->where(
+                    $table_definition->getIdColumn(
+                        $persistence_factory
+                    ),
+                    $persistence_factory->value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
+                )
+            ]
+        );
+    }
+
+    private function buildDeleteLinkingStatement(
+        PersistenceFactory $persistence_factory
+    ): Delete {
+        $table_definition = CoreTables::Linking;
+        return $persistence_factory->delete(
+            $table_definition->getTable($persistence_factory),
+            [
+                $persistence_factory->where(
+                    $table_definition->getIdColumn(
+                        $persistence_factory
+                    ),
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->id->toString()
                     )
@@ -549,18 +649,21 @@ class QuestionImplementation implements Question
     }
 
     /**
-     * skergomard, 2026-01-86: This we only need while the migrations exist, after
+     * @todo skergomard, 2026-01-86: This we only need while the migrations exist, after
      * this MUST go!
      */
-    private function buildDeleteMigrationStatement(): Delete
-    {
+    private function buildDeleteMigrationStatement(
+        PersistenceFactory $persistence_factory
+    ): Delete {
         $table_definition = CoreTables::MigrationsTable;
-        return new Delete(
-            $table_definition->getTable(),
+        return $persistence_factory->delete(
+            $table_definition->getTable($persistence_factory),
             [
-                new Where(
-                    $table_definition->getIdColumn(),
-                    new Value(
+                $persistence_factory->where(
+                    $table_definition->getIdColumn(
+                        $persistence_factory
+                    ),
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->id->toString()
                     )
@@ -570,31 +673,43 @@ class QuestionImplementation implements Question
     }
 
     /**
-     * skergomard, 2026-01-26: This we only need while the migrations exist, after
+     * @todo skergomard, 2026-01-26: This we only need while the migrations exist, after
      * this a question MUST never change the page assigned to it after its creation!
      */
-    private function buildUpdatePageIdStatement(): Update
-    {
+    private function buildUpdatePageIdStatement(
+        PersistenceFactory $persistence_factory
+    ): Update {
         $questions_table_definition = CoreTables::Questions;
-        return new Update(
+        return $persistence_factory->update(
             [
-                new Column(
-                    $questions_table_definition->getTable(),
+                $persistence_factory->column(
+                    $questions_table_definition->getTable($persistence_factory),
                     'page_id'
                 ),
-                new Column(
-                    $questions_table_definition->getTable(),
+                $persistence_factory->column(
+                    $questions_table_definition->getTable($persistence_factory),
                     'last_update'
                 )
             ],
             [
-                new Value(\ilDBConstants::T_TEXT, $this->page_id),
-                new Value(\ilDBConstants::T_INTEGER, time())
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->page_id
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    time()
+                )
             ],
             [
-                new Where(
-                    $questions_table_definition->getIdColumn(),
-                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
+                $persistence_factory->where(
+                    $questions_table_definition->getIdColumn(
+                        $persistence_factory
+                    ),
+                    $persistence_factory->value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
                 )
             ]
         );

@@ -24,9 +24,9 @@ use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert as AnswerFormMigrationInsert;
 use ILIAS\Questions\Persistence\CoreTables;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup;
@@ -50,6 +50,7 @@ class QuestionsMigration implements Migration
     private ?array $allready_migrated_questions_in_qpls = null;
 
     public function __construct(
+        private readonly PersistenceFactory $persistence_factory,
         array $answer_form_migrations
     ) {
         $this->answer_form_migrations = array_reduce(
@@ -295,12 +296,23 @@ class QuestionsMigration implements Migration
         int $obj_id,
         ?int $position
     ): Insert {
-        return new Insert(
-            CoreTables::Linking->getColumns(),
+        return $this->persistence_factory->insert(
+            CoreTables::Linking->getColumns(
+                $this->persistence_factory
+            ),
             [
-                new Value(\ilDBConstants::T_TEXT, $new_question_id->toString()),
-                new Value(\ilDBConstants::T_INTEGER, $obj_id),
-                new Value(\ilDBConstants::T_INTEGER, $position)
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $new_question_id->toString()
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $obj_id
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $position
+                )
             ]
         );
     }
@@ -314,18 +326,47 @@ class QuestionsMigration implements Migration
         ?Uuid $original_id,
         int $create_date
     ): Insert {
-        return new Insert(
-            CoreTables::Questions->getColumns(),
+        return $this->persistence_factory->insert(
+            CoreTables::Questions->getColumns(
+                $this->persistence_factory
+            ),
             [
-                new Value(\ilDBConstants::T_TEXT, $id->toString()),
-                new Value(\ilDBConstants::T_INTEGER, 0),
-                new Value(\ilDBConstants::T_TEXT, $title),
-                new Value(\ilDBConstants::T_TEXT, $author),
-                new Value(\ilDBConstants::T_TEXT, $lifecycle->value),
-                new Value(\ilDBConstants::T_TEXT, $remarks),
-                new Value(\ilDBConstants::T_TEXT, $original_id?->toString()),
-                new Value(\ilDBConstants::T_INTEGER, time()),
-                new Value(\ilDBConstants::T_INTEGER, $create_date)
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $id->toString()
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    0
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $title
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $author
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $lifecycle->value
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $remarks
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $original_id?->toString()
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    time()
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $create_date
+                )
             ]
         );
     }
@@ -334,12 +375,20 @@ class QuestionsMigration implements Migration
         int $old_question_id,
         ?Uuid $new_question_id
     ): Insert {
-        return new Insert(
-            CoreTables::MigrationsTable->getColumns(),
+        return $this->persistence_factory->insert(
+            CoreTables::MigrationsTable->getColumns(
+                $this->persistence_factory
+            ),
             [
-                new Value(\ilDBConstants::T_INTEGER, $old_question_id),
-                new Value(\ilDBConstants::T_TEXT, $new_question_id?->toString()),
-                new Value(
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $old_question_id
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $new_question_id?->toString()
+                ),
+                $this->persistence_factory->value(
                     \ilDBConstants::T_INTEGER,
                     $new_question_id === null
                         ? '0'
@@ -359,6 +408,7 @@ class QuestionsMigration implements Migration
             $this->db,
             $this->io,
             $this->uuid_factory,
+            $this->persistence_factory,
             new TableNameBuilder(
                 $answer_form_migration->getTableNameSpace()
             ),

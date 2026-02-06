@@ -22,12 +22,12 @@ namespace ILIAS\Questions\AnswerForm;
 
 use ILIAS\Questions\Persistence\CoreTables;
 use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\Storable;
 use ILIAS\Questions\Persistence\Update;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Persistence\Where;
 use ILIAS\Data\UUID\Uuid;
 
@@ -85,6 +85,7 @@ class TypeGenericProperties implements Storable
         return $this->additional_text_legacy;
     }
 
+    #[\Override]
     public function toStorage(
         Manipulate $manipulate
     ): Manipulate {
@@ -95,23 +96,28 @@ class TypeGenericProperties implements Storable
         }
         return $manipulate->withAdditionalStatement(
             $manipulate->getManipulationType() === ManipulationType::Create
-                ? $this->buildInsertStatement()
-                : $this->buildUpdateStatement()
+                ? $this->buildInsertStatement($manipulate->getPersistenceFactory())
+                : $this->buildUpdateStatement($manipulate->getPersistenceFactory())
         );
     }
 
+    #[\Override]
     public function toDelete(
         Manipulate $manipulate
     ): Manipulate {
         $answer_form_table_definition = CoreTables::AnswerForms;
 
         return $manipulate->withAdditionalStatement(
-            new Delete(
-                $answer_form_table_definition->getTable(),
+            $manipulate->getPersistenceFactory()->delete(
+                $answer_form_table_definition->getTable(
+                    $manipulate->getPersistenceFactory()
+                ),
                 [
-                    new Where(
-                        $answer_form_table_definition->getIdColumn(),
-                        new Value(
+                    $manipulate->getPersistenceFactory()->where(
+                        $answer_form_table_definition->getIdColumn(
+                            $manipulate->getPersistenceFactory()
+                        ),
+                        $manipulate->getPersistenceFactory()->value(
                             \ilDBConstants::T_TEXT,
                             $this->answer_form_id->toString()
                         )
@@ -121,45 +127,89 @@ class TypeGenericProperties implements Storable
         );
     }
 
-    private function buildInsertStatement(): Insert
-    {
-        return new Insert(
-            CoreTables::AnswerForms->getColumns(),
+    private function buildInsertStatement(
+        PersistenceFactory $persistence_factory
+    ): Insert {
+        return $persistence_factory->insert(
+            CoreTables::AnswerForms->getColumns(
+                $persistence_factory
+            ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
-                new Value(\ilDBConstants::T_TEXT, $this->definition::class),
-                new Value(\ilDBConstants::T_TEXT, $this->question_id->toString()),
-                new Value(\ilDBConstants::T_FLOAT, $this->available_points),
-                new Value(\ilDBConstants::T_INTEGER, $this->image_size),
-                new Value(\ilDBConstants::T_INTEGER, $this->getShuffleAnswerOptionsForStorage()),
-                new Value(\ilDBConstants::T_TEXT, $this->additional_text),
-                new Value(\ilDBConstants::T_TEXT, $this->additional_text_legacy)
-
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->answer_form_id->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->definition::class
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->question_id->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_FLOAT,
+                    $this->available_points
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->image_size
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->getShuffleAnswerOptionsForStorage()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->additional_text
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->additional_text_legacy
+                )
             ]
         );
     }
 
-    private function buildUpdateStatement(): Update
-    {
+    private function buildUpdateStatement(
+        PersistenceFactory $persistence_factory
+    ): Update {
         $answer_form_table_definition = CoreTables::AnswerForms;
-        return new Update(
-            $answer_form_table_definition->getColumns([
-                'id',
-                'type',
-                'question_id',
-                'additional_text_legacy'
-            ]),
+        return $persistence_factory->update(
+            $answer_form_table_definition->getColumns(
+                $persistence_factory,
+                [
+                    'id',
+                    'type',
+                    'question_id',
+                    'additional_text_legacy'
+                ]
+            ),
             [
-                new Value(\ilDBConstants::T_FLOAT, $this->available_points),
-                new Value(\ilDBConstants::T_INTEGER, $this->image_size),
-                new Value(\ilDBConstants::T_INTEGER, $this->getShuffleAnswerOptionsForStorage()),
-                new Value(\ilDBConstants::T_TEXT, $this->additional_text)
+                $persistence_factory->value(
+                    \ilDBConstants::T_FLOAT,
+                    $this->available_points
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->image_size
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->getShuffleAnswerOptionsForStorage()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->additional_text
+                )
 
             ],
             [
-                new Where(
-                    $answer_form_table_definition->getIdColumn(),
-                    new Value(
+                $persistence_factory->where(
+                    $answer_form_table_definition->getIdColumn(
+                        $persistence_factory
+                    ),
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->answer_form_id->toString()
                     )

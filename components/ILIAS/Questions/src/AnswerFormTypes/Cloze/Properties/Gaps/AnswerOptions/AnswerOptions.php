@@ -21,11 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
 use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
-use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as Refinery;
@@ -241,14 +240,19 @@ class AnswerOptions
     public function buildReplace(
         ?Replace $replace,
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Replace {
         return array_reduce(
             $this->answer_options,
             fn(?Replace $c, AnswerOption $v): Replace => $v->buildReplace(
+                $persistence_factory,
                 $c,
-                $persistence->getColumns($table_name_builder, TableTypes::AnswerOptions),
-                $table_name_builder
+                $persistence->getColumns(
+                    $persistence_factory,
+                    $table_name_builder,
+                    TableTypes::AnswerOptions
+                )
             ),
             $replace
         );
@@ -256,19 +260,23 @@ class AnswerOptions
 
     public function buildDelete(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
         $answer_options_table_definition = TableTypes::AnswerOptions;
 
-        return new Delete(
-            $answer_options_table_definition->getTable($table_name_builder),
+        return $persistence_factory->delete(
+            $answer_options_table_definition->getTable(
+                $persistence_factory,
+                $table_name_builder
+            ),
             [
-                new Where(
+                $persistence_factory->where(
                     $persistence->getForeignKeyColumn(
                         $table_name_builder,
                         $answer_options_table_definition
                     ),
-                    new Value(
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->answer_input_id->toString()
                     )
