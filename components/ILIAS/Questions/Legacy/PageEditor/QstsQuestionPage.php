@@ -40,4 +40,22 @@ class QstsQuestionPage extends ilPageObject
     ): void {
         $this->question = $question;
     }
+
+    public function addQuestionText(
+        string $text
+    ): void {
+        $this->buildDom();
+
+        $lng = $this->user->getLanguage();
+        if ($lng === '') {
+            $lng = 'de';
+        }
+
+        $page_element = new \ilPCParagraph($this);
+        $page_element->create($this, 'pg');
+        $page_element->setLanguage($lng);
+        $page_element->setText($text);
+
+        $this->update();
+    }
 }
