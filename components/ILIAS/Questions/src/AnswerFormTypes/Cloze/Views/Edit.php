@@ -71,7 +71,7 @@ class Edit implements EditViewInterface
         $step = $environment->getStep();
 
         return match($step) {
-            '' => $this->buildBasicEditingForm($environment),
+            '' => $this->buildBasicEditingForm($environment, false),
             default => $this->callIntermediateStep($environment, $step)
         };
     }
