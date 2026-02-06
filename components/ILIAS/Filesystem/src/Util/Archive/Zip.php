@@ -73,9 +73,9 @@ class Zip
         }
 
         $this->maybeOpenZip(\ZipArchive::OVERWRITE);
-        foreach ($streams as $path_unside_zip => $stream) {
-            $path_unside_zip = is_int($path_unside_zip) ? basename((string) $stream->getMetadata('uri')) : $path_unside_zip;
-            $this->addStream($stream, basename($path_unside_zip));
+        foreach ($streams as $path_inside_zip => $stream) {
+            $path_inside_zip = is_int($path_inside_zip) ? basename((string) $stream->getMetadata('uri')) : $path_inside_zip;
+            $this->addStream($stream, basename($path_inside_zip));
         }
     }
 
