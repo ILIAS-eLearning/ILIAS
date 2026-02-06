@@ -196,7 +196,8 @@ class CombinationsOverview implements DataRetrieval, Renderable
             $properties->getClozeText()->buildPanelForEditing(
                 $this->ui_factory,
                 $this->lng,
-                $gaps
+                $gaps,
+                $properties->getLegacyClozeText()
             ),
             [
                 'combination' => $gaps->buildGapsMultiSelect(
@@ -256,7 +257,8 @@ class CombinationsOverview implements DataRetrieval, Renderable
             $properties->getClozeText()->buildPanelForEditing(
                 $this->ui_factory,
                 $this->lng,
-                $gaps
+                $gaps,
+                $properties->getLegacyClozeText()
             ),
             [
                 'values_awarding_points' => $inputs

@@ -88,26 +88,17 @@ class Text
     public function buildPanelForEditing(
         UIFactory $ui_factory,
         Language $lng,
-        Gaps $gaps
+        Gaps $gaps,
+        string $legacy_cloze_text
     ): StandardPanel {
         return $ui_factory->panel()->standard(
             $lng->txt('cloze_text'),
-            $ui_factory->legacy()->content(
+            $ui_factory->legacy()->latexContent(
                 $this->getRenderedMarkdownForEditingPresentation(
-                    $gaps
+                    $gaps,
+                    $legacy_cloze_text
                 )
             )
-        );
-    }
-
-    public function getRenderedMarkdownForEditingPresentation(
-        Gaps $gaps
-    ): string {
-        return $this->mustache_engine->render(
-            $this->refinery->string()->markdown()->toHTML()->transform(
-                $this->cloze_text->getRawRepresentation()
-            ),
-            $gaps->getPlaceholderArrayForEditFormPanel()
         );
     }
 
@@ -169,6 +160,22 @@ class Text
             )
         );
         return $clone;
+    }
+
+    private function getRenderedMarkdownForEditingPresentation(
+        Gaps $gaps,
+        string $legacy_cloze_text
+    ): string {
+        $text = $this->cloze_text->getRawRepresentation() === ''
+            ? $legacy_cloze_text
+            : $this->refinery->string()->markdown()->toHTML()->transform(
+                $this->cloze_text->getRawRepresentation()
+            );
+
+        return $this->mustache_engine->render(
+            $text,
+            $gaps->getPlaceholderArrayForEditFormPanel()
+        );
     }
 
     private function hasAtLeastOneGap(): bool
