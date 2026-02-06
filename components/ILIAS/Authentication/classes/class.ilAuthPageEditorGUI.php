@@ -47,6 +47,7 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
     private int $ref_id;
     private ?string $request_ipe_context;
     private ilRbacSystem $rbac_system;
+    private ilErrorHandling $ilErr;
 
     public function __construct(int $a_ref_id)
     {
@@ -57,6 +58,7 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
         $this->tabs = $DIC->tabs();
 
         $this->http = $DIC->http();
+        $this->ilErr = $DIC->ilErr();
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
@@ -217,7 +219,7 @@ class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
             case AuthPageLanguagesOverviewTable::DEACTIVATE:
             case AuthPageLanguagesOverviewTable::ACTIVATE:
                 if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+                    $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
                     break;
                 }
                 $this->$action();
