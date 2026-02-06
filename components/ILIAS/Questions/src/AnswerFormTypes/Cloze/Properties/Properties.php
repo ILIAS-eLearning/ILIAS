@@ -181,7 +181,10 @@ class Properties implements PropertiesInterface
     ): array {
         return [
             $lng->txt('cloze_text') => $this->cloze_text
-                ->getRenderedMarkdownForEditingPresentation($this->gaps),
+                ->getRenderedMarkdownForEditingPresentation(
+                    $this->gaps,
+                    $this->getLegacyClozeText()
+                ),
             $lng->txt('score_identical') => $this->scoring_identical
                 ->getTranslatedOptionName($lng),
             $lng->txt('gap_combinations') => $this->combinations->areCombinationsEnabled()
