@@ -50,6 +50,11 @@ class Step implements C\Listing\Workflow\Step
      */
     private $status;
 
+    /**
+     * @var ?string
+     */
+    private $aria_label;
+
     public function __construct(string $label, string $description = '', $action = null)
     {
         $this->checkArg(
@@ -117,7 +122,7 @@ class Step implements C\Listing\Workflow\Step
     /**
      * @inheritdoc
      */
-    public function withStatus($status): C\Listing\Workflow\Step
+    public function withStatus($status, ?string $aria_label = null): C\Listing\Workflow\Step
     {
         $valid = [
             static::NOT_STARTED,
@@ -129,6 +134,7 @@ class Step implements C\Listing\Workflow\Step
 
         $clone = clone $this;
         $clone->status = $status;
+        $clone->aria_label = $aria_label;
         return $clone;
     }
 
@@ -138,5 +144,13 @@ class Step implements C\Listing\Workflow\Step
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAriaLabel(): ?string
+    {
+        return $this->aria_label;
     }
 }

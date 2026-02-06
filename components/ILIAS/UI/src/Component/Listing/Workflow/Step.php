@@ -74,8 +74,11 @@ interface Step extends Component
      * Get a step like this with completion status according to parameter.
      *
      * @param 	mixed 	$status
+     * @param   ?string $aria_label  Optional aria-label override for accessibility.
+     *                                Should include the visible name for WCAG ARIA8 compliance.
+     *                                Example: "Question title (Answered)"
      */
-    public function withStatus($status): Step;
+    public function withStatus($status, ?string $aria_label = null): Step;
 
     /**
      * Get the action of this Step.
@@ -83,4 +86,11 @@ interface Step extends Component
      * @return	null|Signal|string
      */
     public function getAction();
+
+    /**
+     * Get the aria-label for this step, if any.
+     *
+     * @return  ?string
+     */
+    public function getAriaLabel(): ?string;
 }
