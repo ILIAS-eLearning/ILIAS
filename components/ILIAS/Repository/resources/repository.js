@@ -1,3 +1,19 @@
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /* global il, $ */
 
 il = il || {};
@@ -55,16 +71,6 @@ il.repository.ui = (function (il, $) {
   const initForms = function () {
   };
 
-  const initModal = function (id) {
-    const modal = document.getElementById(id);
-    const buttons = modal.querySelectorAll('.modal-footer button');
-    if (buttons.length >= 2) {
-      const penultimate = buttons[buttons.length - 2];
-      penultimate.remove();
-    }
-    modal.dataset.modalInitialised = '1';
-  };
-
   const init = function () {
     initForms();
   };
@@ -82,7 +88,6 @@ il.repository.ui = (function (il, $) {
   return {
     init,
     submitModalForm,
-    initModal,
   };
 }(il, $));
 

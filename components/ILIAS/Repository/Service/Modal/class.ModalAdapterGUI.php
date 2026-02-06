@@ -154,9 +154,6 @@ class ModalAdapterGUI
         if ($this->cancel_label !== "") {
             $modal = $modal->withCancelButtonLabel($this->cancel_label);
         }
-        $modal = $modal->withAdditionalOnLoadCode(function ($id) {
-            return "il.repository.ui.initModal('$id');";
-        });
         return $modal;
     }
 
