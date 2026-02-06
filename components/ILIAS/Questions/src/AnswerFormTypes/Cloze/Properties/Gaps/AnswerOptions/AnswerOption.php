@@ -20,8 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Data\UUID\Uuid;
 
 class AnswerOption
@@ -138,32 +138,54 @@ class AnswerOption
     }
 
     public function buildReplace(
+        PersistenceFactory $persistence_factory,
         ?Replace $replace,
         array $columns
     ): Replace {
         if ($replace === null) {
-            return new Replace(
+            return $persistence_factory->replace(
                 $columns,
-                $this->buildValuesForGapReplace()
+                $this->buildValuesForGapReplace($persistence_factory)
             );
         }
 
         return $replace->withAdditionalValues(
-            $this->buildValuesForGapReplace()
+            $this->buildValuesForGapReplace($persistence_factory)
         );
     }
 
-    private function buildValuesForGapReplace(): array
-    {
+    private function buildValuesForGapReplace(
+        PersistenceFactory $persistence_factory
+    ): array {
         return [
-            new Value(\ilDBConstants::T_TEXT, $this->answer_option_id->toString()),
-            new Value(\ilDBConstants::T_TEXT, $this->answer_input_id->toString()),
-            new Value(\ilDBConstants::T_INTEGER, $this->position),
-            new Value(\ilDBConstants::T_TEXT, $this->text_value),
-            new Value(\ilDBConstants::T_FLOAT, $this->available_points),
-            new Value(\ilDBConstants::T_FLOAT, $this->lower_limit),
-            new Value(\ilDBConstants::T_FLOAT, $this->upper_limit)
-
+            $persistence_factory->value(
+                \ilDBConstants::T_TEXT,
+                $this->answer_option_id->toString()
+            ),
+            $persistence_factory->value(
+                \ilDBConstants::T_TEXT,
+                $this->answer_input_id->toString()
+            ),
+            $persistence_factory->value(
+                \ilDBConstants::T_INTEGER,
+                $this->position
+            ),
+            $persistence_factory->value(
+                \ilDBConstants::T_TEXT,
+                $this->text_value
+            ),
+            $persistence_factory->value(
+                \ilDBConstants::T_FLOAT,
+                $this->available_points
+            ),
+            $persistence_factory->value(
+                \ilDBConstants::T_FLOAT,
+                $this->lower_limit
+            ),
+            $persistence_factory->value(
+                \ilDBConstants::T_FLOAT,
+                $this->upper_limit
+            )
         ];
     }
 }

@@ -25,7 +25,7 @@ class Join
     public function __construct(
         private readonly Column $left,
         private readonly Column $right,
-        private readonly JoinType $type = JoinType::Inner
+        private readonly JoinType $type
     ) {
     }
 

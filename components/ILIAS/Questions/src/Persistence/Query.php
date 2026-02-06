@@ -41,45 +41,67 @@ class Query
 
     public function __construct(
         private readonly \ilDBInterface $db,
+        private readonly Factory $persistence_factory,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Refinery $refinery
     ) {
         $questions_linking_table_definition = CoreTables::Linking;
         $questions_table_definition = CoreTables::Questions;
         $answer_form_table_definition = CoreTables::AnswerForms;
-        $questions_id_column = $questions_table_definition->getIdColumn();
-
-        $this->select[] = new Select(
-            $questions_linking_table_definition->getColumns()
+        $questions_id_column = $questions_table_definition->getIdColumn(
+            $this->persistence_factory
         );
 
-        $this->select[] = new Select(
-            $questions_table_definition->getColumns()
+        $this->select[] = $this->persistence_factory->select(
+            $questions_linking_table_definition->getColumns(
+                $this->persistence_factory
+            )
         );
 
-        $this->select[] = new Select(
-            $answer_form_table_definition->getColumns()
+        $this->select[] = $this->persistence_factory->select(
+            $questions_table_definition->getColumns(
+                $this->persistence_factory
+            )
         );
 
-        $this->joins[] = new Join(
-            $questions_linking_table_definition->getIdColumn(),
-            $questions_table_definition->getIdColumn(),
+        $this->select[] = $this->persistence_factory->select(
+            $answer_form_table_definition->getColumns(
+                $this->persistence_factory
+            )
+        );
+
+        $this->joins[] = $this->persistence_factory->join(
+            $questions_linking_table_definition->getIdColumn(
+                $this->persistence_factory
+            ),
+            $questions_table_definition->getIdColumn(
+                $this->persistence_factory
+            ),
             JoinType::Inner
         );
 
-        $this->joins[] = new Join(
+        $this->joins[] = $this->persistence_factory->join(
             $questions_id_column,
-            $answer_form_table_definition->getForeignKeyColumn(),
+            $answer_form_table_definition->getForeignKeyColumn(
+                $this->persistence_factory
+            ),
             JoinType::Left
         );
 
-        $this->order[] = new Order(
+        $this->order[] = $this->persistence_factory->order(
             $questions_id_column
         );
 
-        $this->order[] = new Order(
-            $answer_form_table_definition->getIdColumn()
+        $this->order[] = $this->persistence_factory->order(
+            $answer_form_table_definition->getIdColumn(
+                $this->persistence_factory
+            )
         );
+    }
+
+    public function getPersistenceFactory(): Factory
+    {
+        return $this->persistence_factory;
     }
 
     public function getPersistenceForDefinitionClass(
@@ -148,7 +170,9 @@ class Query
 
     public function loadNextRecord(): \Generator
     {
-        $alias = CoreTables::Questions->getIdColumn()->getColumnAlias();
+        $alias = CoreTables::Questions->getIdColumn(
+            $this->persistence_factory
+        )->getColumnAlias();
 
         $result = $this->toSql();
 

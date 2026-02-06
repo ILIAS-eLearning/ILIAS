@@ -23,11 +23,9 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze;
 use ILIAS\Questions\AnswerForm\Persistence as PersistenceInterface;
 use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Persistence\Query;
-use ILIAS\Questions\Persistence\Join;
 use ILIAS\Questions\Persistence\Column;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\JoinType;
-use ILIAS\Questions\Persistence\Order;
-use ILIAS\Questions\Persistence\Select;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
@@ -99,12 +97,17 @@ class Persistence implements PersistenceInterface
 
     #[\Override]
     public function getColumns(
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         string $table_identifier = '',
         array $columns_to_skip = []
     ): array {
-        $table = $table_type->getTable($table_name_builder, $table_identifier);
+        $table = $table_type->getTable(
+            $persistence_factory,
+            $table_name_builder,
+            $table_identifier
+        );
         $column_identifiers = match($table_type) {
             TableTypes::TypeSpecificAnswerForms => self::ANSWER_FORM_TABLE_COLUMNS,
             TableTypes::AnswerInputs => self::ANSWER_INPUTS_TABLE_COLUMNS,
@@ -115,7 +118,7 @@ class Persistence implements PersistenceInterface
             }
         };
         return array_map(
-            fn(string $v): Column => new Column($table, $v),
+            fn(string $v): Column => $persistence_factory->column($table, $v),
             array_values(
                 array_filter(
                     $column_identifiers,
@@ -127,20 +130,25 @@ class Persistence implements PersistenceInterface
 
     #[\Override]
     public function getIdColumn(
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         string $table_identifier = ''
     ): Column {
         if ($table_type === TableTypes::TypeSpecificAnswerForms) {
-            return new Column(
-                $table_type->getTable($table_name_builder),
+            return $persistence_factory->column(
+                $table_type->getTable(
+                    $persistence_factory,
+                    $table_name_builder
+                ),
                 self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
             );
         }
 
         if ($table_identifier === self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER) {
-            return new Column(
+            return $persistence_factory->column(
                 $table_type->getTable(
+                    $persistence_factory,
                     $table_name_builder,
                     self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
                 ),
@@ -148,33 +156,51 @@ class Persistence implements PersistenceInterface
             );
         }
 
-        return new Column(
-            $table_type->getTable($table_name_builder, $table_identifier),
+        return $persistence_factory->column(
+            $table_type->getTable(
+                $persistence_factory,
+                $table_name_builder,
+                $table_identifier
+            ),
             self::ID_COLUMN
         );
     }
 
     #[\Override]
     public function getForeignKeyColumn(
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         string $table_identifier = ''
     ): Column {
         return match($table_type) {
-            TableTypes::TypeSpecificAnswerForms => new Column(
-                $table_type->getTable($table_name_builder),
+            TableTypes::TypeSpecificAnswerForms => $persistence_factory->column(
+                $table_type->getTable(
+                    $persistence_factory,
+                    $table_name_builder
+                ),
                 self::ANSWER_FORM_TABLE_ID_COLUMN
             ),
-            TableTypes::AnswerInputs => new Column(
-                $table_type->getTable($table_name_builder),
+            TableTypes::AnswerInputs => $persistence_factory->column(
+                $table_type->getTable(
+                    $persistence_factory,
+                    $table_name_builder
+                ),
                 self::ANSWER_INPUTS_TABLE_FOREIGN_KEY_COLUMN
             ),
-            TableTypes::AnswerOptions => new Column(
-                $table_type->getTable($table_name_builder),
+            TableTypes::AnswerOptions => $persistence_factory->column(
+                $table_type->getTable(
+                    $persistence_factory,
+                    $table_name_builder
+                ),
                 self::ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN
             ),
-            TableTypes::Additional => new Column(
-                $table_type->getTable($table_name_builder, $table_identifier),
+            TableTypes::Additional => $persistence_factory->column(
+                $table_type->getTable(
+                    $persistence_factory,
+                    $table_name_builder,
+                    $table_identifier
+                ),
                 $table_identifier === self::COMBINATION_TABLE_IDENTIFIER
                     ? self::COMBINATION_TABLE_FOREIGN_KEY_COLUMN
                     : self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_FOREIGN_KEY_COLUMN
@@ -187,6 +213,7 @@ class Persistence implements PersistenceInterface
         Query $query,
         Column $answer_form_id_column
     ): Query {
+        $persistence_factory = $query->getPersistenceFactory();
         $table_name_builder = $query->getTableNameBuilder(Definition::class);
 
         $answer_form_specific_table_definition = TableTypes::TypeSpecificAnswerForms;
@@ -195,77 +222,93 @@ class Persistence implements PersistenceInterface
         $additional_table_definition = TableTypes::Additional;
 
         $combinations_id_column = $this->getIdColumn(
+            $persistence_factory,
             $table_name_builder,
             $additional_table_definition,
             self::COMBINATION_TABLE_IDENTIFIER
         );
 
         return $query->withAdditionalJoin(
-            new Join(
+            $persistence_factory->join(
                 $answer_form_id_column,
                 $this->getForeignKeyColumn(
+                    $persistence_factory,
                     $table_name_builder,
                     $answer_form_specific_table_definition
                 ),
                 JoinType::Left
             )
         )->withAdditionalSelect(
-            new Select(
-                $this->getColumns($table_name_builder, $answer_form_specific_table_definition)
+            $persistence_factory->select(
+                $this->getColumns(
+                    $persistence_factory,
+                    $table_name_builder,
+                    $answer_form_specific_table_definition
+                )
             )
         )->withAdditionalJoin(
-            new Join(
+            $persistence_factory->join(
                 $answer_form_id_column,
                 $this->getForeignKeyColumn(
+                    $persistence_factory,
                     $table_name_builder,
                     $answer_input_table_definition
                 ),
                 JoinType::Left
             )
         )->withAdditionalSelect(
-            new Select(
+            $persistence_factory->select(
                 $this->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     $answer_input_table_definition
                 )
             )
         )->withAdditionalJoin(
-            new Join(
+            $persistence_factory->join(
                 $this->getIdColumn(
+                    $persistence_factory,
                     $table_name_builder,
                     $answer_input_table_definition
                 ),
                 $this->getForeignKeyColumn(
+                    $persistence_factory,
                     $table_name_builder,
                     $answer_options_table_definition
                 ),
                 JoinType::Left
             )
         )->withAdditionalOrder(
-            new Order(
+            $persistence_factory->order(
                 $this->getIdColumn(
+                    $persistence_factory,
                     $table_name_builder,
                     $answer_input_table_definition
                 )
             )
         )->withAdditionalSelect(
-            new Select(
+            $persistence_factory->select(
                 $this->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     $answer_options_table_definition
                 )
             )
         )->withAdditionalOrder(
-            new Order(
-                new Column(
-                    $answer_options_table_definition->getTable($table_name_builder),
+            $persistence_factory->order(
+                $persistence_factory->column(
+                    $answer_options_table_definition->getTable(
+                        $persistence_factory,
+                        $table_name_builder
+                    ),
                     'position'
                 )
             )
         )->withAdditionalJoin(
-            new Join(
+            $persistence_factory->join(
                 $answer_form_id_column,
                 $this->getForeignKeyColumn(
+                    $persistence_factory,
                     $table_name_builder,
                     $additional_table_definition,
                     self::COMBINATION_TABLE_IDENTIFIER
@@ -273,17 +316,19 @@ class Persistence implements PersistenceInterface
                 JoinType::Left
             )
         )->withAdditionalSelect(
-            new Select(
+            $persistence_factory->select(
                 $this->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     $additional_table_definition,
                     self::COMBINATION_TABLE_IDENTIFIER
                 )
             )
         )->withAdditionalJoin(
-            new Join(
+            $persistence_factory->join(
                 $combinations_id_column,
                 $this->getForeignKeyColumn(
+                    $persistence_factory,
                     $table_name_builder,
                     $additional_table_definition,
                     self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
@@ -291,15 +336,16 @@ class Persistence implements PersistenceInterface
                 JoinType::Left
             )
         )->withAdditionalSelect(
-            new Select(
+            $persistence_factory->select(
                 $this->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     $additional_table_definition,
                     self::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
                 )
             )
         )->withAdditionalOrder(
-            new Order(
+            $persistence_factory->order(
                 $combinations_id_column
             )
         );

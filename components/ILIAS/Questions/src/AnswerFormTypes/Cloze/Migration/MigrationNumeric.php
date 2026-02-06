@@ -77,6 +77,7 @@ class MigrationNumeric implements Migration
         return $migration_insert->withAdditionalInsert(
             $this->buildGapInsertStatement(
                 $this->persistence,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 null,
                 $gap_id,
@@ -92,6 +93,7 @@ class MigrationNumeric implements Migration
         )->withAdditionalInsert(
             $this->buildAnswerOptionInsertStatement(
                 $this->persistence,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 null,
                 $migration_insert->getUuid(),
@@ -105,6 +107,7 @@ class MigrationNumeric implements Migration
         )->withAdditionalInsert(
             $this->buildAnswerFormInsertStatement(
                 $this->persistence,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 $answer_form_id,
                 ScoringIdentical::ScoreAll,

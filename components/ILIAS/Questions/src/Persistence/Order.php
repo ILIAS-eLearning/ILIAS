@@ -24,7 +24,7 @@ class Order
 {
     public function __construct(
         private readonly Column $column,
-        private readonly OrderDirection $direction = OrderDirection::Asc
+        private readonly OrderDirection $direction
     ) {
     }
 

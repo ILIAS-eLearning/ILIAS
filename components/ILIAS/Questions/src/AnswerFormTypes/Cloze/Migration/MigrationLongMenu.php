@@ -75,6 +75,7 @@ class MigrationLongMenu implements Migration
 
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->persistence,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $gaps_insert,
                     $answer_input_id,
@@ -133,6 +134,7 @@ class MigrationLongMenu implements Migration
         ) as $answer) {
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->persistence,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 $answer_options_insert,
                 $answer['answer_option_id'],
@@ -149,6 +151,7 @@ class MigrationLongMenu implements Migration
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
                     $this->persistence,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld($db_row->identical_scoring),

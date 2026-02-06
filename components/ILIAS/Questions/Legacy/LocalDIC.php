@@ -25,6 +25,7 @@ use ILIAS\Questions\Persistence\Repository as QuestionsRepository;
 use ILIAS\Questions\AnswerFormTypes\Cloze;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
 use ILIAS\Questions\Units\Repository as UnitsRepository;
@@ -32,7 +33,6 @@ use ILIAS\Questions\UserSettings\CreateMode;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\DI\Container as ILIASContainer;
-use ILIAS\User\Settings\Settings as UserSettings;
 use Mustache\Engine as MustacheEngine;
 use Pimple\Container as PimpleContainer;
 
@@ -57,6 +57,14 @@ class LocalDIC extends PimpleContainer
         $dic[MustacheEngine::class] = static fn($c): MustacheEngine
                 => new MustacheEngine(['escape' => static fn($v) => $v]);
 
+        $dic[ConfigurationRepository::class] = static fn($c): ConfigurationRepository
+            => new ConfigurationRepository(
+                $DIC['ilSetting'],
+                $DIC['user']->getSettings()->getSettingByDefinitionClass(
+                    CreateMode::class
+                ),
+                new \ilSetting('questions')
+            );
         $dic[AnswerFormFactory::class] = static fn($c): AnswerFormFactory
             => new AnswerFormFactory(
                 $c[UuidFactory::class],
@@ -68,7 +76,8 @@ class LocalDIC extends PimpleContainer
             new QuestionsRepository(
                 $DIC['ilDB'],
                 $DIC['refinery'],
-                new UuidFactory(),
+                $c[UuidFactory::class],
+                new PersistenceFactory(),
                 $c[AnswerFormFactory::class]
             );
         $dic[LayoutFactory::class] = static fn($c): LayoutFactory =>

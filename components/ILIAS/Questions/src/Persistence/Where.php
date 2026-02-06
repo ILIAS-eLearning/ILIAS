@@ -25,9 +25,9 @@ class Where
     public function __construct(
         private readonly Column $left,
         private readonly Value $right,
-        private readonly Operator $comparison = Operator::Equal,
-        private readonly Junctor $junctor = Junctor::Conjunction,
-        private readonly bool $negate = false
+        private readonly Operator $comparison,
+        private readonly Junctor $junctor,
+        private readonly bool $negate
     ) {
     }
 

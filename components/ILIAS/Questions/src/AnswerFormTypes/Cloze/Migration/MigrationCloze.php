@@ -25,11 +25,11 @@ use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\InRange;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup\Environment;
 
@@ -81,6 +81,7 @@ class MigrationCloze implements Migration
                 $answer_options_mapping[$db_row->gap_id] = [];
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->persistence,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $gaps_insert,
                     $answer_input_mapping[$db_row->gap_id],
@@ -103,6 +104,7 @@ class MigrationCloze implements Migration
 
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->persistence,
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 $answer_options_insert,
                 $answer_option_id,
@@ -131,6 +133,7 @@ class MigrationCloze implements Migration
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
                     $this->persistence,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld((int) $db_row->identical_scoring),
@@ -210,6 +213,7 @@ class MigrationCloze implements Migration
             if (!isset($combination_mapping[$db_row->combination_id . $db_row->row_id])) {
                 $combination_mapping[$db_row->combination_id . $db_row->row_id] = $migration_insert->getUuid();
                 $combinations_insert = $this->buildCombinationsInsert(
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $combinations_insert,
                     $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString(),
@@ -219,6 +223,7 @@ class MigrationCloze implements Migration
             }
 
             $combinations_to_answer_options_insert = $this->buildCombinationsToAnswerOptionsInsert(
+                $migration_insert->getPersistenceFactory(),
                 $migration_insert->getTableNameBuilder(),
                 $combinations_to_answer_options_insert,
                 $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString(),
@@ -233,6 +238,7 @@ class MigrationCloze implements Migration
     }
 
     private function buildCombinationsInsert(
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         ?Insert $combinations_insert,
         Uuid $combination_id,
@@ -240,28 +246,30 @@ class MigrationCloze implements Migration
         float $points
     ): Insert {
         if ($combinations_insert === null) {
-            return new Insert(
+            return $persistence_factory->insert(
                 $this->persistence->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     TableTypes::Additional,
                     $this->persistence->getCombinationsTableIdentifier()
                 ),
                 [
-                    new Value(\ilDBConstants::T_TEXT, $combination_id),
-                    new Value(\ilDBConstants::T_TEXT, $answer_form_id),
-                    new Value(\ilDBConstants::T_FLOAT, $points),
+                    $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
+                    $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id),
+                    $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
                 ]
             );
         }
 
         return $combinations_insert->withAdditionalValues([
-            new Value(\ilDBConstants::T_TEXT, $combination_id),
-            new Value(\ilDBConstants::T_TEXT, $answer_form_id),
-            new Value(\ilDBConstants::T_FLOAT, $points),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id),
+            $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
         ]);
     }
 
     private function buildCombinationsToAnswerOptionsInsert(
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         ?Insert $combinations_to_answer_options_insert,
         Uuid $combination_id,
@@ -270,26 +278,27 @@ class MigrationCloze implements Migration
         InRange $in_range
     ): Insert {
         if ($combinations_to_answer_options_insert === null) {
-            return new Insert(
+            return $persistence_factory->insert(
                 $this->persistence->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     TableTypes::Additional,
                     $this->persistence->getCombinationToAnswerOptionsTableIdentifier()
                 ),
                 [
-                    new Value(\ilDBConstants::T_TEXT, $combination_id),
-                    new Value(\ilDBConstants::T_TEXT, $gap_id),
-                    new Value(\ilDBConstants::T_TEXT, $answer_option_id),
-                    new Value(\ilDBConstants::T_TEXT, $in_range)
+                    $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
+                    $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_id),
+                    $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id),
+                    $persistence_factory->value(\ilDBConstants::T_TEXT, $in_range)
                 ]
             );
         }
 
         return $combinations_to_answer_options_insert->withAdditionalValues([
-            new Value(\ilDBConstants::T_TEXT, $combination_id),
-            new Value(\ilDBConstants::T_TEXT, $gap_id),
-            new Value(\ilDBConstants::T_TEXT, $answer_option_id),
-            new Value(\ilDBConstants::T_TEXT, $in_range)
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_id),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $in_range)
         ]);
     }
 

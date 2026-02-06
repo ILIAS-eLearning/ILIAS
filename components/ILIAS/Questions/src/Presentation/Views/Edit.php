@@ -49,7 +49,6 @@ use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Item\Group as ItemGroup;
 use ILIAS\UI\Component\MainControls\Slate\Legacy as LegacySlate;
-use ILIAS\User\Settings\Settings as UserSettings;
 use ILIAS\Style\Content\Service as ContentStyle;
 use ILIAS\GlobalScreen\Services as GlobalScreen;
 

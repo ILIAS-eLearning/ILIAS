@@ -27,6 +27,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationLongMenu;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationNumeric;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationTextSubset;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
 use ILIAS\Questions\Setup\Agent;
 use ILIAS\Setup\Agent as AgentInterface;
@@ -46,6 +47,7 @@ class Questions implements Component\Component
         $define[] = AnswerFormDefinition::class;
         $contribute[AgentInterface::class] = static fn() =>
             new Agent(
+                $internal[PersistenceFactory::class],
                 $seek[AnswerFormMigration::class]
             );
         $contribute[AnswerFormMigration::class] = static fn() => new MigrationCloze(
@@ -70,6 +72,7 @@ class Questions implements Component\Component
         $internal[Persistence::class] = static fn() => new Persistence(
             new TableNameSpaceCore('cloze')
         );
+        $internal[PersistenceFactory::class] = static fn() => new PersistenceFactory();
         $internal[\EvalMath::class] = static fn() => new \EvalMath();
     }
 }

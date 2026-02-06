@@ -21,9 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Migration;
 
 use ILIAS\Questions\Persistence\CoreTables;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup\CLI\IOWrapper;
@@ -40,6 +40,7 @@ class MigrationInsert
         private readonly \ilDBInterface $db,
         private readonly IOWrapper $io,
         private readonly UuidFactory $uuid_factory,
+        private readonly PersistenceFactory $persistence_factory,
         private readonly TableNameBuilder $table_name_builder,
         private array $inserts,
         private readonly int $old_question_id,
@@ -63,6 +64,11 @@ class MigrationInsert
     public function getUuid(): Uuid
     {
         return $this->uuid_factory->uuid4();
+    }
+
+    public function getPersistenceFactory(): PersistenceFactory
+    {
+        return $this->persistence_factory;
     }
 
     public function getTableNameBuilder(): TableNameBuilder
@@ -160,23 +166,45 @@ class MigrationInsert
 
     private function buildCoreAnswerFormInsertStatement(): Insert
     {
-        return new Insert(
-            CoreTables::AnswerForms->getColumns(),
+        return $this->persistence_factory->insert(
+            CoreTables::AnswerForms->getColumns(
+                $this->persistence_factory
+            ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
-                new Value(\ilDBConstants::T_TEXT, $this->definition_class),
-                new Value(\ilDBConstants::T_TEXT, $this->new_question_id->toString()),
-                new Value(\ilDBConstants::T_FLOAT, $this->available_points),
-                new Value(\ilDBConstants::T_INTEGER, $this->image_size),
-                new Value(
+               $this->persistence_factory->value(
+                   \ilDBConstants::T_TEXT,
+                   $this->answer_form_id->toString()
+               ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->definition_class
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->new_question_id->toString()
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_FLOAT,
+                    $this->available_points
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_INTEGER,
+                    $this->image_size
+                ),
+                $this->persistence_factory->value(
                     \ilDBConstants::T_INTEGER,
                     $this->shuffle_answer_options === null
                         ? null
                         : ($this->shuffle_answer_options ? 1 : 0)
                 ),
-                new Value(\ilDBConstants::T_TEXT, $this->additional_text),
-                new Value(\ilDBConstants::T_TEXT, $this->additional_text_legacy)
-
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->additional_text
+                ),
+                $this->persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->additional_text_legacy
+                )
             ]
         );
     }

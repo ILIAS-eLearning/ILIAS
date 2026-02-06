@@ -24,8 +24,8 @@ class Table
 {
     public function __construct(
         private readonly CoreTables|TableTypes $table_definition,
-        private readonly ?TableNameBuilder $table_name_builder = null,
-        private readonly string $table_identifier = ''
+        private readonly ?TableNameBuilder $table_name_builder,
+        private readonly string $table_identifier
     ) {
     }
 

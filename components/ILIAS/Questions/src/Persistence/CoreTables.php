@@ -70,15 +70,17 @@ enum CoreTables: string
     case Linking = 'qsts_linking';
     case MigrationsTable = 'qsts_migrations';
 
-    public function getTable(): Table
-    {
-        return new Table($this);
+    public function getTable(
+        Factory $persistence_factory
+    ): Table {
+        return $persistence_factory->table($this);
     }
 
     public function getColumns(
+        Factory $persistence_factory,
         array $columns_to_skip = []
     ): array {
-        $table = $this->getTable();
+        $table = $this->getTable($persistence_factory);
         $column_identifiers = match($this) {
             self::Questions => self::QUESTION_TABLE_COLUMNS,
             self::AnswerForms => self::ANSWER_FORM_TABLE_COLUMNS,
@@ -86,7 +88,7 @@ enum CoreTables: string
             self::MigrationsTable => self::MIGRATIONS_TABLE_COLUMNS
         };
         return array_map(
-            fn(string $v): Column => new Column($table, $v),
+            fn(string $v): Column => $persistence_factory->column($table, $v),
             array_values(
                 array_filter(
                     $column_identifiers,
@@ -96,41 +98,43 @@ enum CoreTables: string
         );
     }
 
-    public function getIdColumn(): Column
-    {
+    public function getIdColumn(
+        Factory $persistence_factory
+    ): Column {
         return match($this) {
-            self::Questions => new Column(
-                $this->getTable(),
+            self::Questions => $persistence_factory->column(
+                $this->getTable($persistence_factory),
                 self::QUESTION_TABLE_ID_COLUMN
             ),
-            self::AnswerForms => new Column(
-                $this->getTable(),
+            self::AnswerForms => $persistence_factory->column(
+                $this->getTable($persistence_factory),
                 self::ANSWER_FORM_TABLE_ID_COLUMN
             ),
-            self::Linking => new Column(
-                $this->getTable(),
+            self::Linking => $persistence_factory->column(
+                $this->getTable($persistence_factory),
                 self::LINKING_TABLE_ID_COLUMN
             ),
-            self::MigrationsTable => new Column(
-                $this->getTable(),
+            self::MigrationsTable => $persistence_factory->column(
+                $this->getTable($persistence_factory),
                 self::MIGRATIONS_TABLE_ID_COLUMN
             )
         };
     }
 
-    public function getForeignKeyColumn(): ?Column
-    {
+    public function getForeignKeyColumn(
+        Factory $persistence_factory
+    ): ?Column {
         return match($this) {
-            self::AnswerForms => new Column(
-                $this->getTable(),
+            self::AnswerForms => $persistence_factory->column(
+                $this->getTable($persistence_factory),
                 self::ANSWER_FORM_TABLE_FOREIGN_KEY_COLUMN
             ),
-            self::Linking => new Column(
-                $this->getTable(),
+            self::Linking => $persistence_factory->column(
+                $this->getTable($persistence_factory),
                 self::LINKING_TABLE_FOREIGN_KEY_COLUMN
             ),
-            self::MigrationsTable => new Column(
-                $this->getTable(),
+            self::MigrationsTable => $persistence_factory->column(
+                $this->getTable($persistence_factory),
                 self::MIGRATIONS_TABLE_FOREIGN_KEY_COLUMN
             ),
             default => null

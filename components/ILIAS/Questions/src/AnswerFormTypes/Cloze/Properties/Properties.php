@@ -32,14 +32,13 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentica
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
 use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
-use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
@@ -346,9 +345,11 @@ class Properties implements PropertiesInterface
         $answer_form_statement = $manipulate->getManipulationType() === ManipulationType::Create
             ? $this->buildInsertAnswerFormStatement(
                 $persistence,
+                $manipulate->getPersistenceFactory(),
                 $table_name_builder
             ) : $this->buildUpdateAnswerFormStatement(
                 $persistence,
+                $manipulate->getPersistenceFactory(),
                 $table_name_builder
             );
 
@@ -381,6 +382,7 @@ class Properties implements PropertiesInterface
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteAnswerFormStatement(
                     $persistence,
+                    $manipulate->getPersistenceFactory(),
                     $table_name_builder
                 )
             ),
@@ -391,18 +393,26 @@ class Properties implements PropertiesInterface
 
     private function buildInsertAnswerFormStatement(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Insert {
         $table_definition = TableTypes::TypeSpecificAnswerForms;
-        return new Insert(
+        return $persistence_factory->insert(
             $persistence->getColumns(
+                $persistence_factory,
                 $table_name_builder,
                 $table_definition
             ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString()),
-                new Value(\ilDBConstants::T_TEXT, $this->scoring_identical->value),
-                new Value(
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->answer_form_id->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->scoring_identical->value
+                ),
+                $persistence_factory->value(
                     \ilDBConstants::T_INTEGER,
                     $this->combinations->areCombinationsEnabled() ? 1 : 0
                 )
@@ -412,30 +422,38 @@ class Properties implements PropertiesInterface
 
     private function buildUpdateAnswerFormStatement(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Update {
         $table_definition = TableTypes::TypeSpecificAnswerForms;
-        return new Update(
+        return $persistence_factory->update(
             $persistence->getColumns(
+                $persistence_factory,
                 $table_name_builder,
                 $table_definition,
                 '',
                 ['answer_form_id']
             ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->scoring_identical->value),
-                new Value(
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->scoring_identical->value
+                ),
+                $persistence_factory->value(
                     \ilDBConstants::T_INTEGER,
                     $this->combinations->areCombinationsEnabled() ? 1 : 0
                 )
             ],
             [
-                new Where(
+                $persistence_factory->where(
                     $persistence->getIdColumn(
                         $table_name_builder,
                         $table_definition
                     ),
-                    new Value(\ilDBConstants::T_TEXT, $this->answer_form_id->toString())
+                    $persistence_factory->value(
+                        \ilDBConstants::T_TEXT,
+                        $this->answer_form_id->toString()
+                    )
                 )
             ]
         );
@@ -460,19 +478,23 @@ class Properties implements PropertiesInterface
 
     private function buildDeleteAnswerFormStatement(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
         $table_definition = TableTypes::TypeSpecificAnswerForms;
 
-        return new Delete(
-            $table_definition->getTable($table_name_builder),
+        return $persistence_factory->delete(
+            $table_definition->getTable(
+                $persistence_factory,
+                $table_name_builder
+            ),
             [
-                new Where(
+                $persistence_factory->where(
                     $persistence->getForeignKeyColumn(
                         $table_name_builder,
                         $table_definition
                     ),
-                    new Value(
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->answer_form_id->toString()
                     )

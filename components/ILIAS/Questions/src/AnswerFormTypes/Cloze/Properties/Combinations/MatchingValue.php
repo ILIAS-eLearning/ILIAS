@@ -23,10 +23,10 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Language\Language;
 use ILIAS\Data\UUID\Uuid;
 
@@ -74,6 +74,7 @@ class MatchingValue
 
     public function toStorage(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Replace {
         if ($this->answer_option === null) {
@@ -83,17 +84,30 @@ class MatchingValue
         }
 
         $table_definition = TableTypes::Additional;
-        return new Replace(
+        return $persistence_factory->replace(
             $persistence->getColumns(
+                $persistence_factory,
                 $table_name_builder,
                 $table_definition,
                 $persistence->getCombinationToAnswerOptionsTableIdentifier()
             ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->combination_id->toString()),
-                new Value(\ilDBConstants::T_TEXT, $this->gap->getAnswerInputId()->toString()),
-                new Value(\ilDBConstants::T_TEXT, $this->answer_option->getAnswerOptionId()->toString()),
-                new Value(\ilDBConstants::T_TEXT, $this->in_range?->value)
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->combination_id->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->gap->getAnswerInputId()->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->answer_option->getAnswerOptionId()->toString()
+                ),
+                $persistence_factory->value(
+                    \ilDBConstants::T_TEXT,
+                    $this->in_range?->value
+                )
             ]
         );
     }

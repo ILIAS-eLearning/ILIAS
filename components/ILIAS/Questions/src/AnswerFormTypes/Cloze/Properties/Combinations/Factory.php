@@ -189,6 +189,7 @@ class Factory
     ): array {
         return $query->retrieveCurrentRecord(
             TableTypes::Additional->getTable(
+                $query->getPersistenceFactory(),
                 $query->getTableNameBuilder(
                     $type_generic_properties->getDefinition()::class
                 ),
@@ -238,6 +239,7 @@ class Factory
     ): array {
         return $query->retrieveCurrentRecord(
             TableTypes::Additional->getTable(
+                $query->getPersistenceFactory(),
                 $query->getTableNameBuilder(
                     $type_generic_properties->getDefinition()::class
                 ),
