@@ -230,7 +230,8 @@ class Edit implements EditViewInterface
         Environment $environment
     ): EditForm|Properties {
         $form = $this->buildBasicEditingForm(
-            $environment
+            $environment,
+            false
         )->withRequest($this->http->request());
 
         $data = $form->getData();
