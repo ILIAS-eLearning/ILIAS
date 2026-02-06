@@ -175,7 +175,10 @@ class Query
         $table_name = $table->getName();
         $filtered_record = [];
         foreach ($this->current_record as $data_set) {
-            $filtered_record[] = $this->filterDataSetByTable($table_name, $data_set);
+            $filtered_dataset = $this->filterDataSetByTable($table_name, $data_set);
+            if (array_filter($filtered_dataset) !== []) {
+                $filtered_record[] = $filtered_dataset;
+            }
         }
 
         return $transformation->transform($filtered_record);

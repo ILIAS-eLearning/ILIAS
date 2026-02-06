@@ -59,23 +59,25 @@ class MigrationLongMenu implements Migration
         Environment $environment,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
+        $answer_form_id = $migration_insert->getAnswerFormId();
+
         $answer_input_mapping = [];
         $gaps_insert = null;
-        $answer_options_insert = null;
+        $answer_options_to_insert = [];
 
         foreach ($this->fetchDBValues(
             $migration_insert->getDb(),
             $migration_insert->getOldQuestionId()
         ) as $db_row) {
-            $answer_form_id = $migration_insert->getAnswerFormId();
             if (!isset($answer_input_mapping[$db_row->gap_number])) {
-                $answer_input_mapping[$db_row->gap_number] = $migration_insert->getUuid();
+                $answer_input_id = $migration_insert->getUuid();
+                $answer_input_mapping[$db_row->gap_number] = $answer_input_id;
 
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->persistence,
                     $migration_insert->getTableNameBuilder(),
                     $gaps_insert,
-                    $answer_input_mapping[$db_row->gap_number],
+                    $answer_input_id,
                     $answer_form_id,
                     $db_row->gap_number,
                     $this->buildNewGapTypeIdentifierFromOld($db_row->type),
@@ -86,39 +88,56 @@ class MigrationLongMenu implements Migration
                     $db_row->shuffle_answers === '1' ? 1 : 0
                 );
 
-                $answers = array_map(
-                    fn(string $v) => [
-                        'answer_input_id' => $migration_insert->getUuid(),
-                        'text' => trim($v),
+                $answers_from_file = $this->loadAnswersFromFile(
+                    $environment->getResource(Environment::RESOURCE_ILIAS_INI),
+                    $environment->getResource(Environment::RESOURCE_CLIENT_ID),
+                    $migration_insert->getOldQuestionId(),
+                    $db_row->gap_number
+                );
+
+                $answer_options_to_insert[$answer_input_id->toString()] = array_map(
+                    fn(int $v) => [
+                        'answer_option_id' => $migration_insert->getUuid(),
+                        'answer_input_id' => $answer_input_id,
+                        'position' => $v,
+                        'text' => trim($answers_from_file[$v]),
                         'points' => 0.0
                     ],
-                    $this->loadAnswersFromFile(
-                        $environment->getResource(Environment::RESOURCE_ILIAS_INI),
-                        $environment->getResource(Environment::RESOURCE_CLIENT_ID),
-                        $migration_insert->getOldQuestionId(),
-                        $db_row->gap_number
-                    )
+                    array_keys($answers_from_file)
                 );
             }
 
-            if (isset($answers[$db_row->position])
-                && $answers[$db_row->position]['text'] === trim($db_row->answer_text)) {
-                $answers[$db_row->position]['points'] = $db_row->points;
+            $answer_input_id_string = $answer_input_mapping[$db_row->gap_number]->toString();
+            $position = array_find_key(
+                $answer_options_to_insert[$answer_input_id_string],
+                fn(array $v, int $k): bool => trim($v['text']) === trim($db_row->answer_text)
+            );
+
+            if ($position !== null) {
+                $answer_options_to_insert[$answer_input_id_string][$position]['points'] = $db_row->points;
+                ;
             }
+
+
         }
 
         if (!isset($db_row)) {
             return null;
         }
 
-        foreach ($answers as $position => $answer) {
+        $answer_options_insert = null;
+        foreach (array_reduce(
+            $answer_options_to_insert,
+            fn(array $c, array $v): array => [...$c, ...$v],
+            []
+        ) as $answer) {
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->persistence,
                 $migration_insert->getTableNameBuilder(),
                 $answer_options_insert,
+                $answer['answer_option_id'],
                 $answer['answer_input_id'],
-                $answer_input_mapping[$db_row->gap_number],
-                $position,
+                $answer['position'],
                 $answer['text'],
                 $answer['points'],
                 null,
