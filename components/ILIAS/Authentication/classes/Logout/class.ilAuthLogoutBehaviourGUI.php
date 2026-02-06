@@ -39,6 +39,7 @@ class ilAuthLogoutBehaviourGUI
     private Refinery $refinery;
     private ilSetting $settings;
     private UIFactory $ui_factory;
+    private ilErrorHandling $ilErr;
     private UIRenderer $ui_renderer;
     private ilRbacSystem $rbac_system;
     private ilGlobalTemplateInterface $tpl;
@@ -55,6 +56,7 @@ class ilAuthLogoutBehaviourGUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->rbac_system = $DIC->rbac()->system();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->ilErr = $DIC->error();
         $this->lng->loadLanguageModule('auth');
         $this->settings = new ilSetting('auth');
         $this->configurable_logout_target = new ConfigurableLogoutTarget(
@@ -158,6 +160,7 @@ class ilAuthLogoutBehaviourGUI
                     LogoutDestinations::LOGOUT_SCREEN->value
                 )
             );
+
         $access = $this->rbac_system->checkAccess('write', $this->ref_id);
         if (!$access) {
             $logout_behaviour_switchable_group = $logout_behaviour_switchable_group->withDisabled(true);
@@ -206,8 +209,7 @@ class ilAuthLogoutBehaviourGUI
     public function saveForm(): void
     {
         if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->showForm();
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
             return;
         }
 

@@ -194,6 +194,7 @@ class ilObjectContentStyleSettingsGUI
                 $item->setDisabled(true);
             }
         }
+
         return $form;
     }
 

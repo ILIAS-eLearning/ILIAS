@@ -445,6 +445,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if (!$access) {
             $form = $form->withSubmitLabel($this->lng->txt('refresh'));
         }
+
         return $form;
     }
 

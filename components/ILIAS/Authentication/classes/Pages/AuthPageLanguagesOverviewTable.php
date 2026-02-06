@@ -128,12 +128,14 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
                 $overview_url_builder->withParameter($overview_action_parameter, self::ACTIVATE),
                 $overview_row_id
             );
+
             $actions[self::DEACTIVATE] = $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_deactivate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::DEACTIVATE),
                 $overview_row_id
             );
         }
+
         return $actions;
     }
 
