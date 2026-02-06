@@ -285,7 +285,8 @@ class Edit implements EditViewInterface
             $properties->getClozeText()->buildPanelForEditing(
                 $this->ui_factory,
                 $this->lng,
-                $properties->getGaps()
+                $properties->getGaps(),
+                $properties->getLegacyClozeText()
             )
         );
     }
@@ -328,7 +329,8 @@ class Edit implements EditViewInterface
             $properties->getClozeText()->buildPanelForEditing(
                 $this->ui_factory,
                 $this->lng,
-                $properties->getGaps()
+                $properties->getGaps(),
+                $properties->getLegacyClozeText()
             )
         );
     }
@@ -371,7 +373,8 @@ class Edit implements EditViewInterface
             $properties->getClozeText()->buildPanelForEditing(
                 $this->ui_factory,
                 $this->lng,
-                $properties->getGaps()
+                $properties->getGaps(),
+                $properties->getLegacyClozeText()
             )
         );
     }
@@ -390,7 +393,8 @@ class Edit implements EditViewInterface
                 $properties->getClozeText()->buildPanelForEditing(
                     $this->ui_factory,
                     $this->lng,
-                    $properties->getGaps()
+                    $properties->getGaps(),
+                    $properties->getLegacyClozeText()
                 )
             ) : $properties->withGaps($data);
     }
