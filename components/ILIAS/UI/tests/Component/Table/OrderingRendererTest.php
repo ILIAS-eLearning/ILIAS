@@ -48,7 +48,7 @@ class OrderingRendererTest extends TableRendererTestBase
     {
         $renderer = $this->getRenderer();
         $data_factory = new \ILIAS\Data\Factory();
-        $tpl = $this->getTemplateFactory()->getTemplate("components/ILIAS/UI/src/templates/default/Table/tpl.orderingtable.html", true, true);
+        $tpl = $this->getTemplateFactory()->getTemplate("components/ILIAS/UI/templates/default/Table/tpl.orderingtable.html", true, true);
         $f = $this->getColumnFactory();
         $data = new class () implements ILIAS\UI\Component\Table\OrderingBinding {
             public function getRows(
