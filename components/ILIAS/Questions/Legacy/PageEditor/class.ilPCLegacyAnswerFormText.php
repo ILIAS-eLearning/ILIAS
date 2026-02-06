@@ -41,7 +41,9 @@ class ilPCLegacyAnswerFormText extends ilPageContent
 
         return mb_ereg_replace_callback(
             self::TEXT_PLACEHOLDER,
-            static fn(array $matches): string => base64_decode($matches[1]),
+            static fn(array $matches): string => \ilRTE::_replaceMediaObjectImageSrc(
+                base64_decode($matches[1])
+            ),
             $output
         );
     }

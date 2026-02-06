@@ -102,6 +102,22 @@ class Text
         );
     }
 
+    public function getRenderedMarkdownForEditingPresentation(
+        Gaps $gaps,
+        string $legacy_cloze_text
+    ): string {
+        $text = $this->cloze_text->getRawRepresentation() === ''
+            ? $legacy_cloze_text
+            : $this->refinery->string()->markdown()->toHTML()->transform(
+                $this->cloze_text->getRawRepresentation()
+            );
+
+        return $this->mustache_engine->render(
+            $text,
+            $gaps->getPlaceholderArrayForEditFormPanel()
+        );
+    }
+
     public function updateGapsFromMarkdown(
         Uuid $answer_form_id,
         Gaps $pre_existing_gaps
@@ -160,22 +176,6 @@ class Text
             )
         );
         return $clone;
-    }
-
-    private function getRenderedMarkdownForEditingPresentation(
-        Gaps $gaps,
-        string $legacy_cloze_text
-    ): string {
-        $text = $this->cloze_text->getRawRepresentation() === ''
-            ? $legacy_cloze_text
-            : $this->refinery->string()->markdown()->toHTML()->transform(
-                $this->cloze_text->getRawRepresentation()
-            );
-
-        return $this->mustache_engine->render(
-            $text,
-            $gaps->getPlaceholderArrayForEditFormPanel()
-        );
     }
 
     private function hasAtLeastOneGap(): bool
