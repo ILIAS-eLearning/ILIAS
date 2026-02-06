@@ -115,6 +115,7 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
             'action',
             'key'
         );
+
         $actions = [];
         $actions[self::EDIT] = $this->ui_factory->table()->action()->single(
             $this->lng->txt($this->has_write_access ? 'edit' : 'preview'),
