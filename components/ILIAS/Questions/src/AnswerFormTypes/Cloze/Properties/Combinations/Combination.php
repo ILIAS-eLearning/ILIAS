@@ -21,16 +21,13 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Replace;
-use ILIAS\Questions\Persistence\Table;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
-use ILIAS\Questions\Persistence\Where;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -111,14 +108,16 @@ class Combination
             fn(Manipulate $c, MatchingValue $v): Manipulate => $c->withAdditionalStatement(
                 $v->toStorage(
                     $persistence,
+                    $manipulate->getPersistenceFactory(),
                     $table_name_builder
                 )
             ),
             $manipulate->withAdditionalStatement(
                 $this->buildReplace(
-                    $answer_form_id,
                     $persistence,
-                    $table_name_builder
+                    $manipulate->getPersistenceFactory(),
+                    $table_name_builder,
+                    $answer_form_id
                 )
             )
         );
@@ -130,54 +129,65 @@ class Combination
         Manipulate $manipulate
     ): Manipulate {
         return $manipulate->withAdditionalStatement(
-            $this->buildDelete($persistence, $table_name_builder)
+            $this->buildDelete(
+                $persistence,
+                $manipulate->getPersistenceFactory(),
+                $table_name_builder
+            )
         )->withAdditionalStatement(
             $this->buildDeleteForLinkedValues(
                 $persistence,
+                $manipulate->getPersistenceFactory(),
                 $table_name_builder
             )
         );
     }
 
     private function buildReplace(
-        Uuid $answer_form_id,
         Persistence $persistence,
-        TableNameBuilder $table_name_builder
+        PersistenceFactory $persistence_factory,
+        TableNameBuilder $table_name_builder,
+        Uuid $answer_form_id
     ): Replace {
         $table_definition = TableTypes::Additional;
-        return new Replace(
+        return $persistence_factory->replace(
             $persistence->getColumns(
+                $persistence_factory,
                 $table_name_builder,
                 $table_definition,
                 $persistence->getCombinationsTableIdentifier()
             ),
             [
-                new Value(\ilDBConstants::T_TEXT, $this->id->toString()),
-                new Value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
-                new Value(\ilDBConstants::T_FLOAT, $this->available_points)
+                $persistence_factory->value(\ilDBConstants::T_TEXT, $this->id->toString()),
+                $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
+                $persistence_factory->value(\ilDBConstants::T_FLOAT, $this->available_points)
             ]
         );
     }
 
     private function buildDelete(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
         $table_definition = TableTypes::Additional;
-        return new Delete(
-            new Table(
+        return $persistence_factory->delete(
+            $persistence_factory->table(
                 $table_definition,
                 $table_name_builder,
                 $persistence->getCombinationsTableIdentifier()
             ),
             [
-                new Where(
+                $persistence_factory->where(
                     $persistence->getIdColumn(
                         $table_name_builder,
                         $table_definition,
                         $persistence->getCombinationsTableIdentifier()
                     ),
-                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
+                    $persistence_factory->value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
                 )
             ]
         );
@@ -185,23 +195,27 @@ class Combination
 
     private function buildDeleteForLinkedValues(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
         $table_definition = TableTypes::Additional;
-        return new Delete(
-            new Table(
+        return $persistence_factory->delete(
+            $persistence_factory->table(
                 $table_definition,
                 $table_name_builder,
                 $persistence->getCombinationToAnswerOptionsTableIdentifier()
             ),
             [
-                new Where(
+                $persistence_factory->where(
                     $persistence->getIdColumn(
                         $table_name_builder,
                         $table_definition,
                         $persistence->getCombinationToAnswerOptionsTableIdentifier()
                     ),
-                    new Value(\ilDBConstants::T_TEXT, $this->id->toString())
+                    $persistence_factory->value(
+                        \ilDBConstants::T_TEXT,
+                        $this->id->toString()
+                    )
                 )
             ]
         );

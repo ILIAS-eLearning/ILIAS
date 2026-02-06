@@ -67,6 +67,7 @@ class Factory
             'combinations_enabled' => $combinations_enabled
         ] = $query->retrieveCurrentRecord(
             TableTypes::TypeSpecificAnswerForms->getTable(
+                $query->getPersistenceFactory(),
                 $query->getTableNameBuilder($type_generic_properties->getDefinition()::class)
             ),
             $query->getRefinery()->custom()->transformation(

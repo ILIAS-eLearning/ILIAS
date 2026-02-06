@@ -36,6 +36,7 @@ class Repository
         private readonly \ilDBInterface $db,
         private readonly Refinery $refinery,
         private readonly UuidFactory $uuid_factory,
+        private readonly Factory $persistence_factory,
         private readonly AnswerFormFactory $answer_form_factory
     ) {
     }
@@ -56,6 +57,7 @@ class Repository
     {
         foreach ($query = new Query(
             $this->db,
+            $this->persistence_factory,
             $this->answer_form_factory,
             $this->refinery
         )->loadNextRecord() as $query_with_record) {
@@ -74,12 +76,15 @@ class Repository
     ): \Generator {
         foreach ((new Query(
             $this->db,
+            $this->persistence_factory,
             $this->answer_form_factory,
             $this->refinery
         )->withAdditionalWhere(
-            new Where(
-                CoreTables::Questions->getIdColumn(),
-                new Value(
+            $this->persistence_factory->where(
+                CoreTables::Questions->getIdColumn(
+                    $this->persistence_factory
+                ),
+                $this->persistence_factory->value(
                     \ilDBConstants::T_TEXT,
                     array_map(
                         fn(Uuid $v): string => $v->toString(),
@@ -102,12 +107,15 @@ class Repository
         return $this->getForBaseQuery(
             (new Query(
                 $this->db,
+                $this->persistence_factory,
                 $this->answer_form_factory,
                 $this->refinery
             ))->withAdditionalWhere(
-                new Where(
-                    CoreTables::Questions->getIdColumn(),
-                    new Value(
+                $this->persistence_factory->where(
+                    CoreTables::Questions->getIdColumn(
+                        $this->persistence_factory
+                    ),
+                    $this->persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $question_id->toString()
                     ),
@@ -129,12 +137,15 @@ class Repository
         yield from $this->getForBaseQuery(
             (new Query(
                 $this->db,
+                $this->persistence_factory,
                 $this->answer_form_factory,
                 $this->refinery
             ))->withAdditionalWhere(
-                new Where(
-                    CoreTables::Questions->getIdColumn(),
-                    new Value(
+                $this->persistence_factory->where(
+                    CoreTables::Questions->getIdColumn(
+                        $this->persistence_factory
+                    ),
+                    $this->persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         array_map(
                             fn(Uuid $v): string => $v->toString(),
@@ -162,6 +173,7 @@ class Repository
             ),
             new Manipulate(
                 $this->db,
+                $this->persistence_factory,
                 $this->answer_form_factory,
                 ManipulationType::Create
             )
@@ -178,6 +190,7 @@ class Repository
             $questions,
             new Manipulate(
                 $this->db,
+                $this->persistence_factory,
                 $this->answer_form_factory,
                 ManipulationType::Update
             )
@@ -192,6 +205,7 @@ class Repository
             fn(Manipulate $c, QuestionImplementation $v): Manipulate => $v->toDelete($c),
             new Manipulate(
                 $this->db,
+                $this->persistence_factory,
                 $this->answer_form_factory,
                 ManipulationType::Delete
             )
@@ -214,7 +228,9 @@ class Repository
             $this->getAnswerFormTypesForQuestionIds($question_ids),
             fn(Query $c, AnswerFormDefinition $v) => $v->getPersistence()->completeQuery(
                 $c,
-                CoreTables::AnswerForms->getIdColumn()
+                CoreTables::AnswerForms->getIdColumn(
+                    $this->persistence_factory
+                )
             ),
             $query
         );
@@ -235,12 +251,16 @@ class Repository
         array $answer_forms
     ): QuestionImplementation {
         $linking_info = $query->retrieveCurrentRecord(
-            CoreTables::Linking->getTable(),
+            CoreTables::Linking->getTable(
+                $query->getPersistenceFactory()
+            ),
             $this->refinery->identity()
         );
 
         $question = $query->retrieveCurrentRecord(
-            CoreTables::Questions->getTable(),
+            CoreTables::Questions->getTable(
+                $query->getPersistenceFactory()
+            ),
             $this->refinery->custom()->transformation(
                 fn(array $vs): QuestionImplementation => new QuestionImplementation(
                     $this->uuid_factory->fromString($vs[0]['id']),
@@ -275,7 +295,9 @@ class Repository
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
-            CoreTables::AnswerForms->getTable(),
+            CoreTables::AnswerForms->getTable(
+                $query->getPersistenceFactory()
+            ),
             $this->refinery->custom()->transformation(
                 function (array $vs) use ($query): array {
                     if (count($vs) === 1 && $vs[0]['type'] === null) {
