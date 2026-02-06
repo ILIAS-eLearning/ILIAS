@@ -376,9 +376,11 @@ il.TestPlayerQuestionEditControl = new function() {
      * @param jqXHR
      */
     function detectBackgroundChangesFailure(jqXHR) {
-        $('#autosavemessage').text(jqXHR.responseText)
-            .fadeIn(500, function(){
-                $('#autosavemessage').fadeOut(5000)
+        $('#autosavemessage').removeClass('sr-only').text(jqXHR.responseText)
+            .fadeTo(500, 1, function(){
+                $(this).fadeTo(5000, 0, function(){
+                    $(this).removeAttr('style').addClass('sr-only');
+                });
             });
     }
 
@@ -708,9 +710,11 @@ il.TestPlayerQuestionEditControl = new function() {
      */
     function autoSaveSuccess(responseText) {
         if (typeof responseText !== 'undefined' && responseText != '-IGNORE-') {
-            $('#autosavemessage').text(responseText)
-                .fadeIn(500, function(){
-                    $('#autosavemessage').fadeOut(5000)
+            $('#autosavemessage').removeClass('sr-only').text(responseText)
+                .fadeTo(500, 1, function(){
+                    $(this).fadeTo(5000, 0, function(){
+                        $(this).removeAttr('style').addClass('sr-only');
+                    });
             });
         }
     }
@@ -725,9 +729,11 @@ il.TestPlayerQuestionEditControl = new function() {
         responseText = jqXHR.responseText ;
       }
 
-      $('#autosavemessage').text(responseText)
-        .fadeIn(500, function(){
-            $('#autosavemessage').fadeOut(5000);
+      $('#autosavemessage').removeClass('sr-only').text(responseText)
+        .fadeTo(500, 1, function(){
+            $(this).fadeTo(5000, 0, function(){
+                $(this).removeAttr('style').addClass('sr-only');
+            });
       });
       autoSavedData = '';
     }
