@@ -401,10 +401,9 @@ class Edit
         }
 
         if ($this->configuration_repository->isCreateModeSimple($environment)) {
-            $this->addQuestionTextToPage(
-                $question,
-                $data['question_text']
-            );
+            $question_page = new \QstsQuestionPage($question->getPageId());
+            $question_page->setQuestion($question);
+            $question_page->addQuestionText($data['question_text']);
         }
 
         $type_definition = $data['type'];
@@ -616,27 +615,6 @@ class Edit
         }
 
         $this->questions_repository->delete($questions_to_delete);
-    }
-
-    private function addQuestionTextToPage(
-        QuestionImplementation $question,
-        string $text
-    ): void {
-        $page = new \QstsQuestionPage(
-            $question->getPageId()
-        );
-        $page->setQuestion($question);
-        $page->buildDom();
-
-        $page_element = new \ilPCParagraph(
-            $page
-        );
-
-        $page_element->create($page, 'pg');
-        $page_element->setLanguage($this->current_user->getLanguage());
-        $page_element->setText($text);
-
-        $page->update();
     }
 
     private function buildEnvironment(
