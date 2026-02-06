@@ -48,7 +48,7 @@ class LDAPRoleAssignmentTable implements DataRetrieval
         private readonly UIFactory $ui_factory,
         private readonly \ILIAS\Data\URI $action_url,
         private readonly int $server_id,
-        private readonly bool $has_write_access,
+        private readonly bool $has_write_access
     ) {
     }
 

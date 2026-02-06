@@ -246,8 +246,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         }
 
         if ($cmd !== 'serverList' && !$this->rbacSystem->checkAccess('read', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'), true);
-            $this->ctrl->redirect($this, 'serverList');
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
 
         $verified_command = $cmd . 'Cmd';
@@ -412,11 +411,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function deleteRulesCmd(): void
     {
-        if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->roleAssignmentsCmd();
-            return;
-        }
+        $this->checkAccess('write');
 
         if (!$this->rule_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_once'));
@@ -502,7 +497,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         $this->tabs_gui->activateTab('role_assignments');
         $this->ctrl->saveParameter($this, 'rule_id');
 
-        $parser = new ilQueryParser('');//unserialize(ilSession::get('ldap_role_ass'), ['allowed_classes' => false])['role_search']);
+        $parser = new ilQueryParser(unserialize(ilSession::get('ldap_role_ass'), ['allowed_classes' => false])['role_search']);
         $parser->setMinWordLength(1);
         $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
@@ -642,11 +637,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function deleteRoleMappingCmd(): void
     {
-        if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->roleAssignmentsCmd();
-            return;
-        }
+        $this->checkAccess('write');
 
         if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -682,11 +673,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function saveMappingCmd(): void
     {
-        if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->userMappingCmd();
-            return;
-        }
+        $this->checkAccess('write');
 
         $this->initAttributeMapping();
         $this->tabs_gui->activateTab('role_mapping');
@@ -812,7 +799,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                     ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleServerTableActions')
                 ),
             $this->rbacSystem->checkAccess('write', $this->ref_id),
-            $this->rbacSystem->checkAccess('read', $this->ref_id),
+            $this->rbacSystem->checkAccess('read', $this->ref_id)
         );
 
         $this->tpl->setContent($this->ui_renderer->render($table->getComponent()));
@@ -1068,11 +1055,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function saveCmd(): void
     {
-        if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->serverListCmd();
-            return;
-        }
+        $this->checkAccess('write');
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('settings');
 
@@ -1406,7 +1389,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                 continue;
             }
 
-            $text_form = new ilTextInputGUI($field->getLabel());
+            $text_form = new ilTextInputGUI($field->getLabel($this->lng));
             $text_form->setPostVar('udf_' . $field->getIdentifier() . '_value');
             $text_form->setValue($this->mapping->getValue('udf_' . $field->getIdentifier()));
             $text_form->setSize(32);
@@ -1538,10 +1521,10 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function createRoleMappingCmd(): void
     {
+        $this->checkAccess('write');
         $propertie_form = $this->initRoleMappingForm('createRoleMapping');
         if (
             $propertie_form->checkInput() &&
-            $this->rbacSystem->checkAccess('write', $this->ref_id) &&
             $this->rbacReview->roleExists($propertie_form->getInput('role'))
         ) {
             $mapping = new ilLDAPRoleGroupMappingSetting(0);
@@ -1562,9 +1545,6 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('ldap_role_not_exists') . ' ' .
                         $propertie_form->getInput('role'));
             }
-            if (!$this->rbacSystem->checkAccess('write', $this->ref_id)) {
-                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('no_write_access'));
-            }
             $propertie_form->setValuesByPost();
 
             $this->tpl->setContent($propertie_form->getHTML());
@@ -1573,11 +1553,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function confirmDeleteRoleMapping(): void
     {
-        if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirect($this, 'roleMapping');
-            return;
-        }
+        $this->checkAccess('write');
 
         if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
@@ -1654,11 +1630,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function deleteServerSettingsCmd(): void
     {
-        if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->serverListCmd();
-            return;
-        }
+        $this->checkAccess('write');
 
         if (!$this->server_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -1828,11 +1800,11 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function updateRoleMappingCmd(): void
     {
+        $this->checkAccess('write');
         $propertie_form = $this->initRoleMappingForm('updateRoleMapping');
 
         if (
             $propertie_form->checkInput() &&
-            $this->rbacSystem->checkAccess('write', $this->ref_id) &&
             $this->rbacReview->roleExists($propertie_form->getInput('role'))
         ) {
             $mapping = new ilLDAPRoleGroupMappingSetting($this->mapping_id);
@@ -1855,9 +1827,6 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                     $this->lng->txt('ldap_role_not_exists') . ' ' . $propertie_form->getInput('role')
                 );
             }
-            if (!$this->rbacSystem->checkAccess('write', $this->ref_id)) {
-                $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('no_write_access'));
-            }
             $propertie_form->setValuesByPost();
 
             $this->tpl->setContent($propertie_form->getHTML());
@@ -1866,11 +1835,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function saveSyncronizationSettingsCmd(): void
     {
-        if (!$this->ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->redirect($this, 'roleMapping');
-            return;
-        }
+        $this->checkAccess('write');
 
         $this->server->setRoleBindDN($this->role_bind_user);
         $this->server->setRoleBindPassword($this->role_bind_pass);

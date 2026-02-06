@@ -50,7 +50,7 @@ class LDAPRoleMappingTable implements DataRetrieval
         private readonly ilObjectDataCache $object_data_cache,
         private readonly ilRbacReview $rbac_review,
         private readonly \ILIAS\Data\URI $action_url,
-        private readonly bool $has_write_access,
+        private readonly bool $has_write_access
     ) {
     }
 
