@@ -21,13 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
 use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Junctor;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Operator;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
-use ILIAS\Questions\Persistence\Where;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
@@ -357,11 +356,13 @@ class Gaps
                 'gaps' => $v->buildReplace(
                     $c['gaps'],
                     $persistence,
+                    $manipulate->getPersistenceFactory(),
                     $table_name_builder
                 ),
                 'answer_options' => $v->getAnswerOptions()->buildReplace(
                     $c['answer_options'],
                     $persistence,
+                    $manipulate->getPersistenceFactory(),
                     $table_name_builder
                 )
             ],
@@ -374,6 +375,7 @@ class Gaps
         return $manipulate->withAdditionalStatement(
             $this->buildDeleteForRemovedGaps(
                 $persistence,
+                $manipulate->getPersistenceFactory(),
                 $table_name_builder
             )
         )->withAdditionalStatement($replace_for_gaps)
@@ -390,12 +392,14 @@ class Gaps
             fn(Manipulate $c, Gap $v): Manipulate => $c->withAdditionalStatement(
                 $v->getAnswerOptions()->buildDelete(
                     $persistence,
+                    $manipulate->getPersistenceFactory(),
                     $table_name_builder
                 )
             ),
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteForDeletionOfAnswerForm(
                     $persistence,
+                    $manipulate->getPersistenceFactory(),
                     $table_name_builder
                 )
             )
@@ -404,28 +408,34 @@ class Gaps
 
     private function buildDeleteForRemovedGaps(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
         $table_definition = TableTypes::AnswerInputs;
-        return new Delete(
-            $table_definition->getTable($table_name_builder),
+        return $persistence_factory->delete(
+            $table_definition->getTable(
+                $persistence_factory,
+                $table_name_builder
+            ),
             [
-                new Where(
+                $persistence_factory->where(
                     $persistence->getForeignKeyColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $table_definition
                     ),
-                    new Value(
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->answer_form_id->toString()
                     )
                 ),
-                new Where(
+                $persistence_factory->where(
                     $persistence->getIdColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $table_definition
                     ),
-                    new Value(
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         array_map(
                             fn(Gap $v): string => $v->getAnswerInputId()->toString(),
@@ -442,19 +452,23 @@ class Gaps
 
     private function buildDeleteForDeletionOfAnswerForm(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
         $table_definition = TableTypes::AnswerInputs;
 
-        return new Delete(
-            $table_definition->getTable($table_name_builder),
+        return $persistence_factory->delete(
+            $table_definition->getTable(
+                $persistence_factory,
+                $table_name_builder
+            ),
             [
-                new Where(
+                $persistence_factory->where(
                     $persistence->getForeignKeyColumn(
                         $table_name_builder,
                         $table_definition
                     ),
-                    new Value(
+                    $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
                         $this->answer_form_id->toString()
                     ),

@@ -24,10 +24,10 @@ use ILIAS\Questions\AnswerForm\Migration\SanitizeLegacyText;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Persistence\Value;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Data\UUID\Uuid;
 
@@ -37,6 +37,7 @@ trait BasicMigrationFunctions
 
     private function buildGapInsertStatement(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         ?Insert $gaps_insert,
         Uuid $answer_input_id,
@@ -50,12 +51,14 @@ trait BasicMigrationFunctions
         ?int $shuffle
     ): Insert {
         if ($gaps_insert === null) {
-            return new Insert(
+            return $persistence_factory->insert(
                 $persistence->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     TableTypes::AnswerInputs
                 ),
                 $this->buildGapValuesForInsert(
+                    $persistence_factory,
                     $answer_input_id,
                     $answer_form_id,
                     $position,
@@ -71,6 +74,7 @@ trait BasicMigrationFunctions
 
         return $gaps_insert->withAdditionalValues(
             $this->buildGapValuesForInsert(
+                $persistence_factory,
                 $answer_input_id,
                 $answer_form_id,
                 $position,
@@ -85,6 +89,7 @@ trait BasicMigrationFunctions
     }
 
     private function buildGapValuesForInsert(
+        PersistenceFactory $persistence_factory,
         Uuid $answer_input_id,
         Uuid $answer_form_id,
         int $position,
@@ -96,20 +101,21 @@ trait BasicMigrationFunctions
         ?int $shuffle
     ): array {
         return [
-            new Value(\ilDBConstants::T_TEXT, $answer_input_id->toString()),
-            new Value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
-            new Value(\ilDBConstants::T_INTEGER, $position),
-            new Value(\ilDBConstants::T_TEXT, $gap_type),
-            new Value(\ilDBConstants::T_INTEGER, $max_chars),
-            new Value(\ilDBConstants::T_FLOAT, $step_size),
-            new Value(\ilDBConstants::T_INTEGER, $matching_options?->value),
-            new Value(\ilDBConstants::T_INTEGER, $min_autocomplete),
-            new Value(\ilDBConstants::T_INTEGER, $shuffle)
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_input_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $position),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_type),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $max_chars),
+            $persistence_factory->value(\ilDBConstants::T_FLOAT, $step_size),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $matching_options?->value),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $min_autocomplete),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $shuffle)
         ];
     }
 
     private function buildAnswerOptionInsertStatement(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         ?Insert $options_insert,
         Uuid $answer_option_id,
@@ -121,12 +127,14 @@ trait BasicMigrationFunctions
         ?float $upper_limit
     ): Insert {
         if ($options_insert === null) {
-            return new Insert(
+            return $persistence_factory->insert(
                 $persistence->getColumns(
+                    $persistence_factory,
                     $table_name_builder,
                     TableTypes::AnswerOptions
                 ),
                 $this->buildOptionValuesForInsert(
+                    $persistence_factory,
                     $answer_option_id,
                     $answer_input_id,
                     $position,
@@ -140,6 +148,7 @@ trait BasicMigrationFunctions
 
         return $options_insert->withAdditionalValues(
             $this->buildOptionValuesForInsert(
+                $persistence_factory,
                 $answer_option_id,
                 $answer_input_id,
                 $position,
@@ -152,6 +161,7 @@ trait BasicMigrationFunctions
     }
 
     private function buildOptionValuesForInsert(
+        PersistenceFactory $persistence_factory,
         Uuid $answer_option_id,
         Uuid $answer_input_id,
         int $position,
@@ -161,13 +171,13 @@ trait BasicMigrationFunctions
         ?float $upper_limit
     ): array {
         return [
-            new Value(\ilDBConstants::T_TEXT, $answer_option_id->toString()),
-            new Value(\ilDBConstants::T_TEXT, $answer_input_id->toString()),
-            new Value(\ilDBConstants::T_INTEGER, $position),
-            new Value(\ilDBConstants::T_TEXT, $text_value),
-            new Value(\ilDBConstants::T_FLOAT, $points),
-            new Value(\ilDBConstants::T_FLOAT, $lower_limit),
-            new Value(
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_input_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_INTEGER, $position),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $text_value),
+            $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
+            $persistence_factory->value(\ilDBConstants::T_FLOAT, $lower_limit),
+            $persistence_factory->value(
                 \ilDBConstants::T_FLOAT,
                 $lower_limit !== $upper_limit
                     ? $upper_limit
@@ -178,20 +188,22 @@ trait BasicMigrationFunctions
 
     private function buildAnswerFormInsertStatement(
         Persistence $persistence,
+        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         Uuid $answer_form_id,
         ScoringIdentical $scoring_identical,
         int $combinations_enabled
     ): Insert {
-        return new Insert(
+        return $persistence_factory->insert(
             $persistence->getColumns(
+                $persistence_factory,
                 $table_name_builder,
                 TableTypes::TypeSpecificAnswerForms
             ),
             [
-                new Value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
-                new Value(\ilDBConstants::T_TEXT, $scoring_identical->value),
-                new Value(\ilDBConstants::T_INTEGER, $combinations_enabled)
+                $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
+                $persistence_factory->value(\ilDBConstants::T_TEXT, $scoring_identical->value),
+                $persistence_factory->value(\ilDBConstants::T_INTEGER, $combinations_enabled)
             ]
         );
     }

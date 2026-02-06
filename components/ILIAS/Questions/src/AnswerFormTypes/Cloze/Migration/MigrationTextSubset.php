@@ -77,6 +77,7 @@ class MigrationTextSubset implements Migration
 
                     $gaps_insert = $this->buildGapInsertStatement(
                         $this->persistence,
+                        $migration_insert->getPersistenceFactory(),
                         $migration_insert->getTableNameBuilder(),
                         $gaps_insert,
                         $gap_id,
@@ -97,6 +98,7 @@ class MigrationTextSubset implements Migration
             foreach ($gaps as $gap_id) {
                 $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                     $this->persistence,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_options_insert,
                     $migration_insert->getUuid(),
@@ -118,6 +120,7 @@ class MigrationTextSubset implements Migration
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
                     $this->persistence,
+                    $migration_insert->getPersistenceFactory(),
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     ScoringIdentical::OnlyScoreDistinct,

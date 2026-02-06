@@ -80,7 +80,10 @@ class Factory
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
-            TableTypes::AnswerOptions->getTable($query->getTableNameBuilder(Definition::class)),
+            TableTypes::AnswerOptions->getTable(
+                $query->getPersistenceFactory(),
+                $query->getTableNameBuilder(Definition::class)
+            ),
             $query->getRefinery()->custom()->transformation(
                 function (array $vs): array {
                     $previous_answer_input_id = null;
