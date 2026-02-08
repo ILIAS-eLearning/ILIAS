@@ -107,6 +107,9 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
                 fn ($v) => (float) $v
             )
         );
+        if(!$this->_checkPermission('edit_permission')) {
+            $poll_interval = $poll_interval->withDisabled(true);
+        }
 
         if (isset($values[self::F_POLL_INTERVAL])) {
             $poll_interval = $poll_interval->withValue($values[self::F_POLL_INTERVAL]);
@@ -145,6 +148,11 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
 
     protected function save(): void
     {
+        if(!$this->_checkPermission('edit_permission')) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'));
+            $this->edit();
+            return;
+        }
         $form = $this->getForm()->withRequest($this->request);
         $data = $form->getData();
         if ($data) {
@@ -154,5 +162,8 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->show($form);
+    }
+    public function _checkPermission(string $permission): bool {
+        return $this->rbac_system->checkAccess($permission, $this->object->getRefId());
     }
 }
