@@ -567,7 +567,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                         ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleRoleAssignmentTableActions')
                     ),
                 $this->server->getServerId(),
-                $this->rbacSystem->checkAccess('write', $this->ref_id),
+                $this->rbacSystem->checkAccess('write', $this->ref_id)
             ))->getComponent();
         }
 
