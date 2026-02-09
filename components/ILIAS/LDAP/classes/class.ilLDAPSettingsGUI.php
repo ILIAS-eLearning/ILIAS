@@ -1408,7 +1408,6 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
         if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
             $propertie_form->addCommandButton('saveMapping', $this->lng->txt('save'));
-
         } else {
             foreach ($propertie_form->getItems() as $item) {
                 if ($item instanceof ilFormSectionHeaderGUI) {
