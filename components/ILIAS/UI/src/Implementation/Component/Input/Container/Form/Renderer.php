@@ -74,9 +74,6 @@ class Renderer extends AbstractComponentRenderer
             ""
         );
 
-        if ($component->isForcedTopButton()) {
-            $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($main_submit_button));
-        }
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($main_submit_button));
         $tpl->setVariable("INPUTS", $default_renderer->render($component->getInputGroup()));
 

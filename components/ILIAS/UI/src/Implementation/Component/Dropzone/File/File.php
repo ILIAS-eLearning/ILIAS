@@ -297,16 +297,4 @@ abstract class File implements FileDropzone
     {
         return $this->type;
     }
-
-    public function withForcedTopButton(bool $forced_top_button): self
-    {
-        $clone = clone $this;
-        $clone->modal = $clone->modal->withForcedTopButton($forced_top_button);
-        return $clone;
-    }
-
-    public function isForcedTopButton(): bool
-    {
-        return $this->modal->isForcedTopButton();
-    }
 }

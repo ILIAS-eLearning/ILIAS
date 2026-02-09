@@ -40,7 +40,6 @@ class Standard extends Form implements C\Input\Container\Form\Standard, IsPrompt
 
     protected ?string $submit_caption = null;
     protected Signal $submit_signal;
-    protected bool $forced_top_button = false;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -85,23 +84,5 @@ class Standard extends Form implements C\Input\Container\Form\Standard, IsPrompt
     public function getSubmitSignal(): Signal
     {
         return $this->submit_signal;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withForcedTopButton(bool $forced_top_button): self
-    {
-        $clone = clone $this;
-        $clone->forced_top_button = $forced_top_button;
-        return $clone;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isForcedTopButton(): bool
-    {
-        return $this->forced_top_button;
     }
 }

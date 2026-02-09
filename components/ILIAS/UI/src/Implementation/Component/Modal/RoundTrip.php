@@ -249,18 +249,6 @@ class RoundTrip extends Modal implements M\RoundTrip
         return $this->submit_button_label;
     }
 
-    public function withForcedTopButton(bool $forced_top_button): self
-    {
-        $clone = clone $this;
-        $clone->form = $clone->form->withForcedTopButton($forced_top_button);
-        return $clone;
-    }
-
-    public function isForcedTopButton(): bool
-    {
-        return $this->form->isForcedTopButton();
-    }
-
     public function getSubmitSignal(): Signal
     {
         return $this->submit_signal;
