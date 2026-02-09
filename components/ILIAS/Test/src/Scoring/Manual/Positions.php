@@ -112,7 +112,7 @@ class Positions
             return [null];
         }
 
-        if (!$mode->isUserCentric()) {
+        if (!$mode->isUserCentric() && !$mode->isSingle()) {
             usort($reordered_positions, static fn($a, $b) => $a[1][0] <=> $b[1][0]);
         }
 
