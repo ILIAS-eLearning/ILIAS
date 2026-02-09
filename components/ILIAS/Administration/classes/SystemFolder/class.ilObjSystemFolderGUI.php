@@ -44,9 +44,11 @@ class ilObjSystemFolderGUI extends ilObject2GUI
         $this->tpl->setOnScreenMessage(GlobalTemplate::MESSAGE_TYPE_INFO, $this->lng->txt('system_folder_info'));
     }
 
-    public static function _goto(): void
+    public static function _goto(string $target): void
     {
         global $DIC;
+
+        $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', (int) $target);
         $DIC->ctrl()->redirectByClass([ilAdministrationGUI::class, self::class]);
     }
 }
