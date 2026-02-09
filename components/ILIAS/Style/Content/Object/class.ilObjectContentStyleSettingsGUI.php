@@ -38,7 +38,6 @@ class ilObjectContentStyleSettingsGUI
     protected int $ref_id;
     protected int $obj_id;
     private ilGlobalTemplateInterface $main_tpl;
-    private ilRbacSystem $rbac_system;
 
     public function __construct(
         InternalDomainService $domain_service,
@@ -58,7 +57,6 @@ class ilObjectContentStyleSettingsGUI
         $this->container_manager = $domain_service->repositoryContainer($ref_id);
         $this->object_manager = $domain_service->object($ref_id, $this->obj_id);
         $this->current_style_id = $current_style_id ?? $this->object_manager->getStyleId();
-        $this->rbac_system = $DIC->rbac()->system();
     }
 
     public function executeCommand(): void
@@ -108,7 +106,6 @@ class ilObjectContentStyleSettingsGUI
         $lng = $this->domain->lng();
 
         $style_id = $this->current_style_id;
-        $access = $this->rbac_system->checkAccess('write', $this->ref_id);
 
         $lng->loadLanguageModule("style");
 
@@ -139,25 +136,20 @@ class ilObjectContentStyleSettingsGUI
                     $cb->setInfo($lng->txt("style_support_reuse_info"));
                     $cb->setChecked($this->container_manager->getReuse());
                     $form->addItem($cb);
-                    if ($access) {
-                        $form->addCommandButton(
-                            "saveIndividualStyleSettings",
-                            $lng->txt("save")
-                        );
-                    }
-                }
-
-                if ($access) {
                     $form->addCommandButton(
-                        "editStyle",
-                        $lng->txt("style_edit_style")
-                    );
-
-                    $form->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("style_delete_style")
+                        "saveIndividualStyleSettings",
+                        $lng->txt("save")
                     );
                 }
+
+                $form->addCommandButton(
+                    "editStyle",
+                    $lng->txt("style_edit_style")
+                );
+                $form->addCommandButton(
+                    "deleteStyle",
+                    $lng->txt("style_delete_style")
+                );
             }
 
             if ($this->object_manager->canSelectStyle($style_id)) {
@@ -168,32 +160,18 @@ class ilObjectContentStyleSettingsGUI
                 $style_sel->setOptions($st_styles);
                 $style_sel->setValue($style_id);
                 $form->addItem($style_sel);
-
-                if ($access) {
-                    $form->addCommandButton(
-                        "saveStyleSettings",
-                        $lng->txt("save")
-                    );
-
-                    $form->addCommandButton(
-                        "createStyle",
-                        $lng->txt("sty_create_ind_style")
-                    );
-                }
+                $form->addCommandButton(
+                    "saveStyleSettings",
+                    $lng->txt("save")
+                );
+                $form->addCommandButton(
+                    "createStyle",
+                    $lng->txt("sty_create_ind_style")
+                );
             }
         }
         $form->setTitle($lng->txt("obj_sty"));
         $form->setFormAction($ilCtrl->getFormAction($this));
-
-        if (!$access) {
-            foreach ($form->getItems() as $item) {
-                if ($item instanceof ilFormSectionHeaderGUI) {
-                    continue;
-                }
-
-                $item->setDisabled(true);
-            }
-        }
 
         return $form;
     }
