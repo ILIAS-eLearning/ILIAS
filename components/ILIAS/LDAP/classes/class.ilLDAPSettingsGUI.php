@@ -1426,6 +1426,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
     private function roleMappingCmd(): void
     {
         $this->checkAccess('read');
+
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('role_mapping');
 
