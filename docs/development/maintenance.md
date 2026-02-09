@@ -176,12 +176,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN ActiveRecord)
 
 * **ActiveRecord**
-    * Authority to Sign off on Conceptual Changes: MISSING
-    * Authority to Sign off on Code Changes: MISSING
+    * Authority to Sign off on Conceptual Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Authority to Sign off on Code Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
     * Authority to Curate Test Cases: MISSING
-    * Authority to (De-)Assign Authorities: MISSING
-    * Assignee for Issues: MISSING
-    * Assignee for Security Reports: MISSING
+    * Authority to (De-)Assign Authorities: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Issues: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Reports: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END ActiveRecord)
@@ -1558,12 +1558,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN WebAccessChecker)
 
 * **Web Access Checker**
-    * Authority to Sign off on Conceptual Changes: MISSING 
-    * Authority to Sign off on Code Changes: [ukohnle](https://docu.ilias.de/go/usr/21855)
+    * Authority to Sign off on Conceptual Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Authority to Sign off on Code Changes: [fwolf-ilias](https://docu.ilias.de/go/usr/29018), [ukohnle](https://docu.ilias.de/go/usr/21855)
     * Authority to Curate Test Cases: [AUTHOR MISSING](https://docu.ilias.de/go/pg/64423_4793)
-    * Authority to (De-)Assign Authorities: MISSING
-    * Assignee for Issues: MISSING
-    * Assignee for Security Reports: MISSING
+    * Authority to (De-)Assign Authorities: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Issues: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
+    * Assignee for Security Reports: [fwolf-ilias](https://docu.ilias.de/go/usr/29018)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END WebAccessChecker)
@@ -1650,7 +1650,6 @@ of ILIAS. The file contains the following fields:
 
 The following directories are currently unmaintained:
 
-* ILIAS/Context
 * ILIAS/CSV
 * ILIAS/EventHandling
 
