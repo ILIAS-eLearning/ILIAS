@@ -29,7 +29,6 @@ use ILIAS\ResourceStorage\Resource\StorableContainerResource;
  */
 class HTMLModuleViewConfig implements PathStatusInfo
 {
-
     private \ILIAS\components\ResourceStorage\Container\View\Configuration $view_config;
 
     public function __construct(
