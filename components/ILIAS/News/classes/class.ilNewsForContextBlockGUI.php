@@ -618,8 +618,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $tpl->setVariable("CONTEXT_LOCATOR", $cont_loc->getHTML());
                 }
 
-                $no_context_title = $grouping['no_context_title'] ?? false;
-                if ($no_context_title !== true) {
+                if (!($grouping['no_context_title'] ?? false)) {
                     if (!$context_opened) {
                         $tpl->setCurrentBlock("context");
                     }
