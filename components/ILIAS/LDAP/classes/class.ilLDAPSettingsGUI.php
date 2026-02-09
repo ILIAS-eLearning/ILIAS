@@ -1526,6 +1526,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
     private function createRoleMappingCmd(): void
     {
         $this->checkAccess('write');
+
         $propertie_form = $this->initRoleMappingForm('createRoleMapping');
         if ($propertie_form->checkInput() && $this->rbacReview->roleExists($propertie_form->getInput('role'))) {
             $mapping = new ilLDAPRoleGroupMappingSetting(0);
