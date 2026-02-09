@@ -1057,6 +1057,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
     private function saveCmd(): void
     {
         $this->checkAccess('write');
+
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('settings');
 
