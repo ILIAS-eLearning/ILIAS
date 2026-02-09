@@ -658,6 +658,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
     private function chooseMappingCmd(): void
     {
         $this->checkAccess('read');
+
         if (!$this->mapping_template) {
             $this->userMappingCmd();
             return;
