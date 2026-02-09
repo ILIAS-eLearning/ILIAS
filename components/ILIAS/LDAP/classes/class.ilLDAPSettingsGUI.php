@@ -493,6 +493,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
     private function showRoleSelectionCmd(): void
     {
         $this->checkAccess('read');
+
         $this->setSubTabs();
         $this->tabs_gui->activateTab('role_assignments');
         $this->ctrl->saveParameter($this, 'rule_id');
