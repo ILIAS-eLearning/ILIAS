@@ -19,10 +19,7 @@
 declare(strict_types=1);
 
 /**
- * Class ilRpcClient
- *
  * @author Fabian Wolf <wolf@leifos.com>
- * @ingroup ServicesWebServicesRPC
  *
  * List of all known RPC methods...
  *
@@ -48,19 +45,16 @@ class ilRpcClient
     protected string $url;
     protected string $prefix = '';
     protected int $timeout = 0;
-    protected string $encoding = '';
 
     protected ilLogger $logger;
 
     /**
-     * ilRpcClient constructor.
-     * @param string $a_url URL to connect to
-     * @param string $a_prefix Optional prefix for method names
-     * @param int $a_timeout The maximum number of seconds to allow ilRpcClient to connect.
-     * @param string $a_encoding Character encoding
+     * @param string $url     URL to connect to
+     * @param string $prefix  Optional prefix for method names
+     * @param int    $timeout The maximum number of seconds to allow ilRpcClient to connect.
      * @throws ilRpcClientException
      */
-    public function __construct(string $a_url, string $a_prefix = '', int $a_timeout = 0, string $a_encoding = 'utf-8')
+    public function __construct(string $url, string $prefix = '', int $timeout = 0)
     {
         global $DIC;
 
@@ -71,33 +65,24 @@ class ilRpcClient
             throw new ilRpcClientException('Xmlrpc extension not enabled.', 50);
         }
 
-        $this->url = $a_url;
-        $this->prefix = $a_prefix;
-        $this->timeout = $a_timeout;
-        $this->encoding = $a_encoding;
+        $this->url = $url;
+        $this->prefix = $prefix;
+        $this->timeout = $timeout;
     }
 
     /**
-     * Magic caller to all RPC functions
-     *
-     * @param string $a_method Method name
-     * @param array $a_params Argument array
-     * @return mixed Returns either an array, or an integer, or a string, or a boolean according to the response returned by the XMLRPC method.
+     * @param string $method Method name
+     * @param (string|int|bool|int[])[] $parameters Argument array
+     * @return string|stdClass Depends on the response returned by the XMLRPC method.
      * @throws ilRpcClientException
      */
-    public function __call(string $a_method, array $a_params)
+    public function __call(string $method, array $parameters): string|stdClass
     {
         //prepare xml post data
-        $method_name = str_replace('_', '.', $this->prefix . $a_method);
-        $rpc_options = array(
-            'verbosity' => 'newlines_only',
-            'escaping' => 'markup'
-        );
+        $method_name = str_replace('_', '.', $this->prefix . $method);
 
-        if ($this->encoding) {
-            $rpc_options['encoding'] = $this->encoding;
-        }
-        $post_data = xmlrpc_encode_request($method_name, $a_params, $rpc_options);
+        $post_data = $this->encodeRequest($method_name, $parameters);
+
         //try to connect to the given url
         try {
             $curl = new ilCurlConnection($this->url);
@@ -111,7 +96,7 @@ class ilRpcClient
                 $curl->setOpt(CURLOPT_TIMEOUT, $this->timeout);
             }
             $this->logger->debug('RpcClient request to ' . $this->url . ' / ' . $method_name);
-            $xml_resp = $curl->exec();
+            $xml_response = $curl->exec();
         } catch (ilCurlConnectionException $e) {
             $this->logger->error(
                 'RpcClient could not connect to ' . $this->url . ' ' .
@@ -120,18 +105,178 @@ class ilRpcClient
             throw new ilRpcClientException($e->getMessage(), $e->getCode());
         }
 
-        //prepare output, throw exception if rpc fault is detected
-        $resp = xmlrpc_decode($xml_resp, $this->encoding);
+        //return output, throw exception if rpc fault is detected
+        return $this->handleResponse($xml_response);
+    }
 
-        //xmlrpc_is_fault can just handle arrays as response
-        if (is_array($resp) && xmlrpc_is_fault($resp)) {
-            $this->logger->error('RpcClient recieved error ' . $resp['faultCode'] . ': ' . $resp['faultString']);
+    /**
+     * @param (string|int|bool|int[])[] $parameters
+     * @throws ilRpcClientException
+     */
+    protected function encodeRequest(string $method, array $parameters): string
+    {
+        $request = new DOMDocument('1.0', 'UTF-8');
+        $method_name = new DOMElement('methodName', $method);
+        $params = new DOMElement('params');
+
+        foreach ($parameters as $parameter) {
+            match (true) {
+                is_string($parameter) => $encoded_parameter = $this->encodeString($parameter),
+                is_int($parameter) => $encoded_parameter = $this->encodeInteger($parameter),
+                is_bool($parameter) => $encoded_parameter = $this->encodeBoolean($parameter),
+                $this->isListOfIntegers($parameter) => $encoded_parameter = $this->encodeListOfIntegers(...$parameter),
+                default => throw new ilRpcClientException(
+                    'Invalid parameter type, only string, int, bool, and int[] are supported.'
+                )
+            };
+            $params->appendChild($this->wrapParameter($encoded_parameter));
+        }
+
+        $request->appendChild($method_name);
+        $request->appendChild($params);
+
+        return $request->saveXML();
+    }
+
+    protected function isListOfIntegers(mixed $parameter): bool
+    {
+        if (!is_array($parameter)) {
+            return false;
+        }
+        foreach ($parameter as $entries) {
+            if (!is_int($entries)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected function wrapParameter(DOMElement $encoded_parameter): DomElement
+    {
+        $param = new DomElement('param');
+        $value = new DomElement('value');
+
+        $value->appendChild($encoded_parameter);
+        $param->appendChild($value);
+
+        return $param;
+    }
+
+    protected function encodeString(string $parameter): DOMElement
+    {
+        return new DOMElement('string', $parameter);
+    }
+
+    protected function encodeInteger(int $parameter): DOMElement
+    {
+        return new DOMElement('int', (string) $parameter);
+    }
+
+    protected function encodeBoolean(bool $parameter): DOMElement
+    {
+        return new DOMElement('bool', $parameter ? '1' : '0');
+    }
+
+    protected function encodeListOfIntegers(int ...$parameters): DOMElement
+    {
+        $array = new DomElement('array');
+        $data = new DomElement('data');
+
+        foreach ($parameters as $parameter) {
+            $value = new DomElement('value');
+            $value->appendChild($this->encodeInteger($parameter));
+            $data->appendChild($value);
+        }
+        $array->appendChild($data);
+
+        return $array;
+    }
+
+    /**
+     * Returns decoded response if not faulty, otherwise throws exception.
+     * @throws ilRpcClientException
+     */
+    protected function handleResponse(string $xml): string|stdClass
+    {
+        $response = new DOMDocument('1.0', 'UTF-8');
+        $response->loadXML($xml);
+
+        if (!$response) {
+            throw new ilRpcClientException('Invalid XML response');
+        }
+
+        $response_body = $response->childNodes->item(0);
+
+        if ($response_body === null) {
+            throw new ilRpcClientException('Empty response');
+        }
+
+        return match ($response_body->nodeName) {
+            'params' => $this->decodeOKResponse($response_body),
+            'fault' => $this->handleFaultResponse($response_body),
+            default => throw new ilRpcClientException('Unexpected element in response: ' . $response_body->nodeName),
+        };
+    }
+
+    protected function decodeOKResponse(DOMElement $response_body): string|stdClass
+    {
+        $param_child = $response_body->getElementsByTagName('value')->item(0)?->childNodes?->item(0);
+
+        if ($param_child === null) {
+            throw new ilRpcClientException('No value in response');
+        }
+
+        return match ($param_child->nodeName) {
+            'string' => $this->decodeString($param_child),
+            'base64' => $this->decodeBase64($param_child),
+            default => throw new ilRpcClientException('Unexpected element in response value: ' . $param_child->nodeName),
+        };
+    }
+
+    protected function decodeString(DOMElement $string): string
+    {
+        return (string) $string->nodeValue;
+    }
+
+    protected function decodeBase64(DOMElement $base64): stdClass
+    {
+        return (object) base64_decode((string) $base64->nodeValue);
+    }
+
+    /**
+     * @throws ilRpcClientException
+     */
+    protected function handleFaultResponse(DOMElement $response_body): string
+    {
+        $fault_code = null;
+        $fault_string = null;
+
+        $members = $response_body->getElementsByTagName('member');
+        foreach ($members as $member) {
+            $name = $member->getElementsByTagName('name')->item(0)?->nodeName;
+            if ($name === 'faultCode') {
+                if ($fault_code !== null) {
+                    throw new ilRpcClientException('Multiple codes in fault response.');
+                }
+                $fault_code = $member->getElementsByTagName('int')->item(0)?->nodeValue;
+            }
+            if ($name === 'faultString') {
+                if ($fault_string !== null) {
+                    throw new ilRpcClientException('Multiple strings in fault response.');
+                }
+                $fault_string = $member->getElementsByTagName('string')->item(0)?->nodeValue;
+            }
+        }
+
+        if ($fault_code === null || $fault_string === null) {
+            throw new ilRpcClientException('No code or no string in fault respsonse');
+        }
+
+        $this->logger->error('RpcClient recieved error ' . $fault_code . ': ' . $fault_string);
             throw new ilRpcClientException(
                 'RPC-Server returned fault message: ' .
-                $resp['faultString'],
-                $resp['faultCode']
+            $fault_string,
+            $fault_code
             );
         }
-        return $resp;
-    }
 }
