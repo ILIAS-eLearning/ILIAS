@@ -174,7 +174,9 @@ class ilAuthLogoutBehaviourGUI
 
         $form = $this->ui_factory->input()->container()->form()
             ->standard(
-                $this->ctrl->getFormAction($this, 'saveForm'),
+                $access ?
+                    $this->ctrl->getFormAction($this, 'saveForm') :
+                    $this->ctrl->getFormAction($this, 'showForm'),
                 ['logout_behaviour' => $section]
             );
         if ($request) {

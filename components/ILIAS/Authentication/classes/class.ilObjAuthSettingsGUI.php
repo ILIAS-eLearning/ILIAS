@@ -285,7 +285,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             ->input()
             ->container()
             ->form()
-            ->standard($this->ctrl->getFormAction($this, 'updateRegistrationRoleMapping'), $fields)
+            ->standard(
+                $access ?
+                    $this->ctrl->getFormAction($this, 'updateRegistrationRoleMapping') :
+                    $this->ctrl->getFormAction($this, 'authSettings'),
+                $fields
+            )
             ->withDedicatedName('registration_role_mapping');
 
         if (!$access) {
@@ -419,7 +424,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             ->input()
             ->container()
             ->form()
-            ->standard($this->ctrl->getFormAction($this, 'updateAuthModeDetermination'), $sections)
+            ->standard(
+                $access ?
+                    $this->ctrl->getFormAction($this, 'updateAuthModeDetermination') :
+                    $this->ctrl->getFormAction($this, 'authSettings'),
+                $sections
+            )
             ->withDedicatedName('auth_mode_determination')
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(function ($value): array {
