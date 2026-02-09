@@ -1800,10 +1800,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         $this->checkAccess('write');
         $propertie_form = $this->initRoleMappingForm('updateRoleMapping');
 
-        if (
-            $propertie_form->checkInput() &&
-            $this->rbacReview->roleExists($propertie_form->getInput('role'))
-        ) {
+        if ($propertie_form->checkInput() &&
+            $this->rbacReview->roleExists($propertie_form->getInput('role'))) {
             $mapping = new ilLDAPRoleGroupMappingSetting($this->mapping_id);
             $mapping->setServerId($this->server->getServerId());
             $mapping->setURL($propertie_form->getInput('url'));
