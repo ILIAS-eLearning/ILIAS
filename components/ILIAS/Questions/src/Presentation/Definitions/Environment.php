@@ -42,10 +42,6 @@ interface Environment
 
     public function getUrlBuilder(): URLBuilder;
 
-    public function getUrlBuilderWithStepParameter(
-        string $step
-    ): URLBuilder;
-
     public function getTableRowIdToken(): URLBuilderToken;
 
     public function getTableRowIds(): array;
@@ -60,6 +56,10 @@ interface Environment
 
     public function withAnswerFormProperties(
         Properties $properties
+    ): self;
+
+    public function withStepParameter(
+        string $step
     ): self;
 
     public function withPreservedTableRowIdsParameter(): self;

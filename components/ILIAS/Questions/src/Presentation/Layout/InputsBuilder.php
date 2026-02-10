@@ -36,17 +36,21 @@ class InputsBuilder
 {
     private ?string $carry = null;
 
+    /**
+     * @param CustomTransformation $to_inputs This Transformation receives the
+     * value set by `self::withCarry()` if it is available, otherwise the value
+     * will be null.
+     */
     public function __construct(
         private readonly Refinery $refinery,
-        private readonly CustomTransformation $to_inputs,
-        private Input|array|null $inputs
+        private readonly CustomTransformation $to_inputs
     ) {
     }
 
     /**
      * @param string $carry The `string` will be `base64-encoded` before
-     * adding it to the `Query`. The string whill be passed to the `$to_inputs`
-     * to allow the recreation of the inputs.
+     * adding it to the `Query`. The string will be passed to the `$to_inputs`
+     * transformation to allow the recreation of the inputs.
      */
     public function withCarry(
         string $carry
@@ -66,23 +70,22 @@ class InputsBuilder
         );
     }
 
+    /**
+     * @return \ILIAS\UI\Component\Input\Input|array|null The return value will
+     * be null, if no inputs could be built. This is a sign that something is
+     * wrong with carry. This might mean that there is a mistake in the carry
+     * that was set, but it can also be the consequence of somebody messing
+     * with the query.
+     */
     public function getInputs(
         EnvironmentImplementation $environment
-    ): Input|array {
-        if ($this->inputs === null) {
-            $this->buildInputs($environment);
-        }
-
-        return $this->inputs;
-    }
-
-    private function buildInputs(
-        EnvironmentImplementation $environment
-    ): void {
-        $this->inputs = $environment->getCarry(
+    ): Input|array|null {
+        return $environment->getCarry(
             $this->refinery->custom()->transformation(
-                fn(string $v): Input|array => $this->to_inputs->transform(
-                    base64_decode($v)
+                fn(?string $v): Input|array|null => $this->to_inputs->transform(
+                    $v === null
+                        ? null
+                        : base64_decode($v)
                 )
             )
         );

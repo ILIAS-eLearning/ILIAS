@@ -96,11 +96,10 @@ class EnvironmentImplementation implements Environment
         $this->tabs_gui->addSubTab(
             $step,
             $this->lng->txt($language_variable),
-            $this->getUrlBuilderWithStepParameter($step)
-                ->withParameter(
-                    $this->action_token,
-                    Edit::CMD_OTHER_ANSWER_FORM
-                )->buildURI()
+            $this->withStepParameter($step)
+                ->withActionParameter(Edit::ACTION_OTHER_ANSWER_FORM)
+                ->getUrlBuilder()
+                ->buildURI()
                 ->__toString()
         );
     }
@@ -125,10 +124,13 @@ class EnvironmentImplementation implements Environment
     }
 
     #[\Override]
-    public function getUrlBuilderWithStepParameter(
+    public function withStepParameter(
         string $step
-    ): URLBuilder {
-        return $this->getUrlBuilder()->withParameter($this->step_token, $step);
+    ): self {
+        $clone = clone $this;
+        $clone->url_builder = $this->url_builder
+            ->withParameter($this->step_token, $step);
+        return $clone;
     }
 
     #[\Override]
@@ -344,7 +346,7 @@ class EnvironmentImplementation implements Environment
 
     public function getCarry(
         Transformation $to_form_transformation
-    ): Input|array|string|null {
+    ): Input|array|null {
         [, $carry_token] = $this->url_builder->acquireParameter(
             self::QUERY_PARAMETER_NAME_SPACE,
             self::TOKEN_STRING_CARRY_ID

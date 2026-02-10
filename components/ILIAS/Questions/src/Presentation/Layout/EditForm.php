@@ -20,13 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Layout;
 
+use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\URI;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
-use ILIAS\UI\Component\Input\Field\Section;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -35,7 +34,6 @@ use Psr\Http\Message\ServerRequestInterface;
 class EditForm implements Renderable
 {
     private const string MAIN_SECTION_NAME = 'form';
-    public const string CARRY_SECTION_NAME = 'carry';
 
     private StandardForm $form;
 
@@ -47,12 +45,22 @@ class EditForm implements Renderable
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly Language $lng,
-        private readonly URI $form_target_uri,
-        private readonly Section $main_section_inputs,
-        private readonly bool $is_final_step,
-        private readonly ?Group $carry_inputs
+        Environment $environment,
+        InputsBuilder $inputs_builder,
+        bool $is_final_step
     ) {
-        $this->form = $this->buildForm();
+        $this->form = $this->buildForm(
+            $environment,
+            $inputs_builder,
+            $is_final_step
+        );
+    }
+
+    #[\Override]
+    public function render(
+        UIRenderer $ui_renderer
+    ): string {
+        return $ui_renderer->render($this->buildContent());
     }
 
     public function withContentBeforeForm(
@@ -92,12 +100,6 @@ class EditForm implements Renderable
             )
         ]);
         return $clone;
-    }
-
-    public function render(
-        UIRenderer $ui_renderer
-    ): string {
-        return $ui_renderer->render($this->buildContent());
     }
 
     public function withRequest(
@@ -149,31 +151,28 @@ class EditForm implements Renderable
         return $content;
     }
 
-    private function buildForm(): StandardForm
-    {
+    private function buildForm(
+        Environment $environment,
+        InputsBuilder $inputs_builder,
+        bool $is_final_step
+    ): StandardForm {
         $form = $this->ui_factory->input()->container()->form()->standard(
-            $this->form_target_uri->__toString(),
-            $this->buildFormInputs()
+            $inputs_builder
+                ->addCarryToEnvironment($environment)
+                ->getUrlBuilder()
+                ->buildURI()
+                ->__toString(),
+            [
+                self::MAIN_SECTION_NAME => $inputs_builder->getInputs(
+                    $environment
+                )
+            ]
         );
 
-        if ($this->is_final_step) {
+        if ($is_final_step) {
             return $form->withSubmitLabel($this->lng->txt('save'));
         }
 
         return $form->withSubmitLabel($this->lng->txt('next'));
-    }
-
-    private function buildFormInputs(): array
-    {
-        $form_inputs = [
-            self::MAIN_SECTION_NAME => $this->main_section_inputs
-        ];
-
-        if ($this->carry_inputs !== null) {
-            $form_inputs[self::CARRY_SECTION_NAME] = $this->carry_inputs
-                ->withDedicatedName(self::CARRY_SECTION_NAME);
-        }
-
-        return $form_inputs;
     }
 }

@@ -96,7 +96,8 @@ class Edit implements EditViewInterface
         if ($step === '') {
             return $environment->getPresentationFactory()->getEditOverview(
                 $environment,
-                $environment->getUrlBuilderWithStepParameter(self::STEP_EDIT_BASIC_PROPERTIES)
+                $environment->withStepParameter(self::STEP_EDIT_BASIC_PROPERTIES)
+                    ->getUrlBuilder()
                     ->buildURI()
             );
         }
@@ -190,9 +191,7 @@ class Edit implements EditViewInterface
         $answer_form_properties = $environment->getAnswerFormProperties();
 
         $editing_form = $environment->getPresentationFactory()->getEditForm(
-            $environment
-                ->getUrlBuilderWithStepParameter(self::STEP_SET_GAP_TYPES)
-                ->buildURI(),
+            $environment->withStepParameter(self::STEP_SET_GAP_TYPES),
             $answer_form_properties->buildBasicEditingInputs(
                 $this->lng,
                 $this->ui_factory->input()->field(),
@@ -208,9 +207,10 @@ class Edit implements EditViewInterface
             && $answer_form_properties->getLegacyClozeText() !== ''
             && $answer_form_properties->getClozeText()->getRawRepresentationForPersistence() === '') {
             return $editing_form->withInsertLegacyTextsButton(
-                $environment->getUrlBuilderWithStepParameter(
+                $environment->withStepParameter(
                     self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES
-                )->buildURI()
+                )->getUrlBuilder()
+                ->buildURI()
             );
         }
 
@@ -269,9 +269,7 @@ class Edit implements EditViewInterface
         $properties = $environment->getAnswerFormProperties();
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
-            $environment
-                ->getUrlBuilderWithStepParameter(self::STEP_SET_ANSWER_OPTIONS)
-                ->buildURI(),
+            $environment->withStepParameter(self::STEP_SET_ANSWER_OPTIONS),
             $properties->getGaps()->buildGapsTypeInputs(
                 $this->lng,
                 $ff,
@@ -279,9 +277,7 @@ class Edit implements EditViewInterface
                 $this->gap_factory->getAvailableGapTypesOptionsArray($this->lng),
                 $environment->getTableRowIds()
             ),
-            false,
-            $properties->withClozeText($properties->getClozeText())
-                ->buildCarryInputs($ff)
+            false
         )->withContentBeforeForm(
             $properties->getClozeText()->buildPanelForEditing(
                 $this->ui_factory,
@@ -315,9 +311,7 @@ class Edit implements EditViewInterface
         $properties = $environment->getAnswerFormProperties();
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
-            $environment
-                ->getUrlBuilderWithStepParameter(self::STEP_SET_POINTS)
-                ->buildURI(),
+            $environment->withStepParameter(self::STEP_SET_POINTS),
             $properties->getGaps()->buildAnswerOptionsInputs(
                 $this->lng,
                 $ff,
@@ -359,9 +353,7 @@ class Edit implements EditViewInterface
         $properties = $environment->getAnswerFormProperties();
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
-            $environment
-                ->getUrlBuilderWithStepParameter(self::STEP_SAVE)
-                ->buildURI(),
+            $environment->withStepParameter(self::STEP_SAVE),
             $properties->getGaps()->buildPointInputs(
                 $this->lng,
                 $ff,
@@ -410,9 +402,9 @@ class Edit implements EditViewInterface
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
             $this->lng->txt('confirm_remove_gaps'),
-            $environment->getUrlBuilderWithStepParameter(
+            $environment->withStepParameter(
                 self::STEP_CONFIRMED_GAP_REMOVAL
-            )->buildURI()->__toString()
+            )->getUrlBuilder()->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
                 fn(Gap $v): InterruptiveItem => $this->ui_factory->modal()
