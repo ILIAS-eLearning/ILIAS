@@ -100,7 +100,7 @@ class EndpointGUI
             ])
         );
 
-        $response = array_map(
+        $response = array_unique(array_map(
             static fn(AutocompleteItem $v) => $v->getTagArray(),
             array_merge(
                 $this->endpoint_configurator->getAdditionalAnswerElements(
@@ -113,7 +113,7 @@ class EndpointGUI
                     $autocomplete_query
                 )
             )
-        );
+        ), SORT_REGULAR);
 
         usort(
             $response,
