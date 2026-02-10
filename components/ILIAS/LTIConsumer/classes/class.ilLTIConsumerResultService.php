@@ -127,7 +127,6 @@ class ilLTIConsumerResultService
                 return;
             }
 
-
             // check the object status
             $this->readProperties($this->result->obj_id);
 
@@ -135,7 +134,7 @@ class ilLTIConsumerResultService
                 $this->respondUnsupported();
                 return;
             }
-
+            $logger->info("LTI consumer readProperties: " . json_encode($this->result) . " - token: " . json_encode($token) . " - token->userId: " . json_encode($token->getUsrId()) . " - token->objectId: " . json_encode($token->getObjId()) . " - sourceId: " . (string) $request->resultRecord->sourcedGUID->sourcedId);
             // Verify the signature
             $this->readFields($this->result->obj_id);
             try {
@@ -209,12 +208,13 @@ class ilLTIConsumerResultService
             $description = "The result is out of range from 0 to 1.";
         } else {
             $this->result->result = (float) $result;
+            $this->result->setAttended(true);
             $this->result->save();
 
             if ($result >= $this->getMasteryScore()) {
                 $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } else {
-                $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
             }
             $lp_percentage = (int) round(100 * $result);
 

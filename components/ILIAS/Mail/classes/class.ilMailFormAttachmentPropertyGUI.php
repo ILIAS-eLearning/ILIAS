@@ -49,6 +49,7 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
             $tpl->parseCurrentBlock();
         }
         $tpl->setVariable('ATTACHMENT_BUTTON_LABEL', $this->buttonLabel);
+        $tpl->setVariable('ATTACHMENT_BUTTON_ID', $this->getFieldId());
 
         $a_tpl->setCurrentBlock('prop_generic');
         $a_tpl->setVariable('PROP_GENERIC', $tpl->get());

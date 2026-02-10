@@ -141,7 +141,7 @@ class RawHTTPServices implements GlobalHttpState
     }
 
 
-    public function close(): void
+    public function close(): never
     {
         exit;
     }

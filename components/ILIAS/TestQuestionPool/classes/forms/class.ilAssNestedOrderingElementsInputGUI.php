@@ -383,10 +383,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGU
 
     public function render(string $a_mode = ''): string
     {
-        if (!$this->styling_disabled) {
-            $this->getGlobalTpl()->addCss('assets/css/content.css');
-        }
-
         if ($this->interaction_enabled) {
             $this->initializePlayerJS();
         }

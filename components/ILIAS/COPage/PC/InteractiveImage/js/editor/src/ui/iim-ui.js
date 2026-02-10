@@ -479,7 +479,7 @@ export default class UI {
             dispatch.dispatch(action.interactiveImage().editor().saveTriggerOverlay(
               model.getCurrentTrigger().nr,
               this.getInputValueByName(this.formInput(0)),
-              model.getCurrentTrigger().getOverlay().getCoordsString()
+              model.getCurrentTrigger().getOverlay().getCoordsString(),
             ));
             break;
         }
@@ -684,7 +684,7 @@ export default class UI {
         switch (act) {
           case ACTIONS.E_SAVE_SETTINGS:
             event.preventDefault();
-            const form = document.querySelector('#copg-editor-slate-content .modal-body form');
+            const form = document.querySelector('#copg-editor-slate-content form');
             dispatch.dispatch(action.interactiveImage().editor().saveSettings(
               form,
             ));

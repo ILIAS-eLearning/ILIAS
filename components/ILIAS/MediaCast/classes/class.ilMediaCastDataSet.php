@@ -225,7 +225,6 @@ class ilMediaCastDataSet extends ilDataSet
                     );
                 }
                 if (in_array($a_schema_version, ["8.0"])) {
-                    $newObj->setAutoplayMode((int) ($a_rec["Autoplaymode"] ?? 0));
                     $newObj->setNumberInitialVideos((int) ($a_rec["NrInitialVideos"] ?? 0));
                     $newObj->setNewItemsInLearningProgress((bool) (int) ($a_rec["NewItemsInLp"] ?? false));
                 }

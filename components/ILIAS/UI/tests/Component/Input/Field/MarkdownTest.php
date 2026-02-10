@@ -275,7 +275,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
                             </div>
                         </div>
                              <textarea id=\"id_1\" class=\"c-field-textarea\" name=\"name_0\" minlength=\"$min\" maxlength=\"$max\"></textarea>
-                            <div class=\"ui-input-textarea-remainder\"> ui_chars_remaining<span data-action=\"remainder\">$max</span></div>
+                            <div class=\"ui-input-textarea-remainder\" aria-live=\"polite\"> ui_chars_remaining<span data-action=\"remainder\">$max</span></div>
                         <div class=\"c-field-markdown__preview hidden\">
                         </div>
                     </div>

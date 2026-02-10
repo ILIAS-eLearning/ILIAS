@@ -79,8 +79,8 @@ class ilBadgeProfileGUI implements ilCtrlSecurityInterface
                 $query = $DIC->http()->wrapper()->query();
                 $action = '';
                 $parameter = 'badge_table_action';
-                if ($cmd === 'action' && $this->query->has($parameter)) {
-                    $action = $this->query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
+                if ($cmd === 'action' && $query->has($parameter)) {
+                    $action = $query->retrieve($parameter, $DIC->refinery()->kindlyTo()->string());
                     $cmd = 'listBadges';
                 }
                 if ($action === 'obj_badge_activate') {

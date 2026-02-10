@@ -947,6 +947,12 @@ class ilObjStyleSheet extends ilObject
         return $chars;
     }
 
+    public function hasCharacteristic(string $type, string $char): bool
+    {
+        $chars = $this->getCharacteristics($type);
+        return in_array($char, $chars);
+    }
+
     public function setCharacteristics(array $a_chars): void
     {
         $this->chars = $a_chars;

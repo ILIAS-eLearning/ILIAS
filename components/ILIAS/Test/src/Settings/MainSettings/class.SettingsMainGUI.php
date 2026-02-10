@@ -370,11 +370,9 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         return $this->refinery->custom()->constraint(
             function (array $vs): bool {
-                if ($vs[self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL]['postponed_questions_behaviour'] === true
-                    && $vs[self::QUESTION_BEHAVIOUR_SETTINGS_LABEL]['lock_answers']['lock_answer_on_next_question']) {
-                    return false;
-                }
-                return true;
+                return $vs[self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL]['postponed_questions_behaviour'] === false
+                    || !($vs[self::QUESTION_BEHAVIOUR_SETTINGS_LABEL]['lock_answers']['lock_answer_on_next_question']
+                        ?? $this->main_settings->getQuestionBehaviourSettings()->getLockAnswerOnNextQuestionEnabled());
             },
             $this->lng->txt('tst_settings_conflict_postpone_and_lock')
         );

@@ -36,6 +36,7 @@ class ilMainMenuSearchGUI
     protected ilTree $tree;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
+    protected ilGlobalTemplateInterface $global_template;
 
     private GlobalHttpState $http;
     private Factory $refinery;
@@ -56,7 +57,7 @@ class ilMainMenuSearchGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $DIC->ui()->mainTemplate()->addJavascript('assets/js/SearchMainMenu.js');
+        $this->global_template = $DIC->ui()->mainTemplate();
 
         $this->initRefIdFromQuery();
     }
@@ -75,6 +76,9 @@ class ilMainMenuSearchGUI
     public function getHTML(): string
     {
         iljQueryUtil::initjQuery();
+
+        $this->global_template->addJavaScript('assets/js/legacyAutocomplete.js', true, 3);
+        $this->global_template->addJavascript('assets/js/SearchMainMenu.js');
 
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'components/ILIAS/Search');
         if ($this->user->getId() != ANONYMOUS_USER_ID) {

@@ -934,7 +934,7 @@ class ilExPeerReviewGUI
         if ($sub) {
             if (trim($sub->getText()) !== '' && trim($sub->getText()) !== '0') {
                 // mob id to mob src
-                return nl2br(ilRTE::_replaceMediaObjectImageSrc($sub->getText(), 1));
+                return $this->gui->getUIUtil()->formatTextInput($sub->getText());
             }
         }
         return "";

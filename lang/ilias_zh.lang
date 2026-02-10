@@ -1149,6 +1149,7 @@ assessment#:#question_summary#:#题目列表
 assessment#:#question_summary_btn#:#Processing Status###30 08 2015 new variable
 assessment#:#question_title#:#题目标题
 assessment#:#question_type#:#题目类型
+assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#请为题目池输入一个名字！
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
 assessment#:#questions#:#Questions###26 08 2024 new variable
@@ -1739,7 +1740,6 @@ assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to 
 assessment#:#tst_presentation_properties#:#展示设置
 assessment#:#tst_presentation_settings_section#:#Presentation###10 11 2018 new variable
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Test & Assessment Print View测试和评估打印视图
 assessment#:#tst_proceed#:#Proceed###10 11 2018 new variable
 assessment#:#tst_processing_time#:#最大处理时间
 assessment#:#tst_processing_time_desc#:#The maximum processing time starts from the time when a user starts a test and ends after the expiration of the entered hours, minutes and seconds.
@@ -2574,6 +2574,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#添加预订池
 book#:#book_add_object#:#添加对象
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#添加计划
 book#:#book_additional_info_file#:#附加描述
 book#:#book_all#:#显示所有
@@ -2592,7 +2593,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Information###31 08 2017 new variable
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Upcoming reservations###10 11 2018 new variable
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2723,6 +2723,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#当前，没有预订对象可用。使用预订池您需要创建预订对象。
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -5598,6 +5599,7 @@ common#:#select#:#选择
 common#:#select_all#:#全部选择
 common#:#select_at_least_one_object#:#请选择至少一个对象。
 common#:#select_file#:#选择文件
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Select the files from your computer###24 10 2013 new variable
 common#:#select_max_one_item#:#请只选择一项
 common#:#select_object_to_link#:#请选择您想链接的对象
@@ -5894,6 +5896,7 @@ common#:#upload_settings#:#Uploading Settings###24 10 2013 new variable
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###26 08 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###26 08 2024 new variable
 common#:#uploaded_and_checked#:#文件已经上传并经过检查，您现在可以导入它。
 common#:#uploading#:#Uploading...###24 10 2013 new variable
@@ -6114,6 +6117,7 @@ cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
 cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
 cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###29 07 2022 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###29 07 2022 new variable
 cont#:#cont_path#:#Path###31 08 2017 new variable
@@ -6193,10 +6197,8 @@ content#:#cont_Headline2#:#标题　２
 content#:#cont_Headline3#:#标题　３
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#列表
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#媒体(标准)
 content#:#cont_Mnemonic#:#助记符
 content#:#cont_Numbers#:#Numbers###29 07 2022 new variable
 content#:#cont_Poly#:# 多边形
@@ -6306,6 +6308,8 @@ content#:#cont_chapters_after_pages#:#请注意，页面必须优先于同级的
 content#:#cont_chapters_and_pages#:#章节和页面
 content#:#cont_chapters_only#:#仅章节
 content#:#cont_char_format#:#字符
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#被强调的
 content#:#cont_char_style_code#:#代码
 content#:#cont_char_style_com#:#评论
@@ -8736,7 +8740,6 @@ dcl#:#dcl_msg_tableview_created#:#Views created###25 10 2016 new variable
 dcl#:#dcl_msg_tableview_deleted#:#View deleted###25 10 2016 new variable
 dcl#:#dcl_msg_tableview_updated#:#View updated###25 10 2016 new variable
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist###25 10 2016 new variable
-dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated###25 10 2016 new variable
 dcl#:#dcl_multiple_selection#:#Multiple Selection###24 10 2013 new variable
 dcl#:#dcl_new#:#创建新的数据采集
 dcl#:#dcl_new_field#:#新字段
@@ -8750,6 +8753,7 @@ dcl#:#dcl_no_fields_yet#:#这个表没有定义字段，因此您还不能创建
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###10 11 2018 new variable
 dcl#:#dcl_no_search_results_found_for#:#没有模块发现
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:###24 10 2013 new variable
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#未勾选的
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import###24 10 2013 new variable
@@ -8758,7 +8762,6 @@ dcl#:#dcl_notification_activated#:#通知已激活
 dcl#:#dcl_notification_deactivate_dcl#:#为数据收集停用通知
 dcl#:#dcl_notification_deactivated#:#通知已停用
 dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
-dcl#:#dcl_notimage_exception#:#该文件必须是一个图片。
 dcl#:#dcl_noturl_exception#:#您必须输入一个链接(以http://开始)
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
@@ -8817,8 +8820,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25
 dcl#:#dcl_std_filter#:#Standardfilter###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx###25 10 2016 new variable
-dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#表
 dcl#:#dcl_table_id#:#表ID
 dcl#:#dcl_table_list_fields#:#当前表的列表字段
@@ -8854,7 +8855,7 @@ dcl#:#dcl_text_email_title#:#Title###30 08 2015 new variable
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).###30 08 2015 new variable
 dcl#:#dcl_text_selection#:#Text Selection###31 08 2017 new variable
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.###31 08 2017 new variable
-dcl#:#dcl_title_standardview#:#Standard Views###10 11 2018 new variable
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#独一无二
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.###30 08 2015 new variable
 dcl#:#dcl_unique_exception#:#您输入的值已被其他记录采用。
@@ -8885,6 +8886,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
 didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable
@@ -9481,6 +9484,7 @@ exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"###11 03 
 exc#:#exc_passing_exc#:#Passing the Exercise###11 03 2014 new variable
 exc#:#exc_past#:#Past###26 08 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Peer-Feedback###24 10 2013 new variable
 exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers after the deadline.###24 10 2013 new variable
 exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.###30 08 2015 new variable
@@ -11476,6 +11480,7 @@ mail#:#mail_add_folder#:#Add New Subfolder###10 07 2013 new variable
 mail#:#mail_add_recipient#:#请输入收件人
 mail#:#mail_add_subfolder#:#增加子文件夹
 mail#:#mail_add_subject#:#请输入标题
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments###20 01 2026 new variable
 mail#:#mail_all_in_trash#:#All in Trash###28 10 2024 new variable
 mail#:#mail_allow_external#:#External Emails###31 08 2017 new variable
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external emails (via SMTP) is globally disabled.###31 08 2017 new variable
@@ -11896,6 +11901,7 @@ mep#:#mep_all_mobs#:#所有的媒体对象
 mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
 mep#:#mep_choose_from_folder#:#从文件夹选择
 mep#:#mep_choose_from_mep#:#从媒体池选择
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Content###31 08 2017 new variable
 mep#:#mep_content_snippet_in_use#:#内容片段 "%s" 已在使用，不能删除。
 mep#:#mep_content_snippet_used_in_older_versions#:#请注意：这个片断已经使用在某些页面的更老的版本中。如果这些页面回溯到一个包含这个片段的版本，这个片段将在此页面中丢失。
@@ -12931,6 +12937,7 @@ news#:#news_news_item_visibility_info#:#公共新闻可以无需ILIAS身份验�
 news#:#news_news_items#:#新闻项
 news#:#news_no_js_click_here#:#如果新闻没有显示，请点击这里
 news#:#news_no_news_items#:#没有新闻可用。
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#通知
 news#:#news_notifications_public#:#公共通知
 news#:#news_notifications_public_info#:#如果这个选项已启用，可以由ILIAS以外的个人RSS feeds获得通知。请注意，这个通知无需身份验证就可访问。
@@ -15858,7 +15865,6 @@ skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles###30 12 2013 new varia
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource###30 12 2013 new variable
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users###30 12 2013 new variable
 skmg#:#skmg_your_self_evaluation#:#您的自我评价
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#adapt_icon#:#Adapt Icon###25 10 2016 new variable
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.###25 10 2016 new variable
 style#:#adapt_icons#:#Adapt Icon Colors###25 10 2016 new variable
@@ -17338,6 +17344,7 @@ trac#:#trac_view_mode_all#:#所有对象
 trac#:#trac_view_mode_collection#:#仅确定整体状态的对象
 trac#:#trac_visits#:#访问量
 trac#:#trac_visits_info#:#每个页面访问都做为一次访问计数。
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#用户总数
 trac#:#view_mode#:#视图模式
 tstv#:#tstv_create#:#创建测试验证

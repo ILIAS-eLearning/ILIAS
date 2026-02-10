@@ -226,7 +226,6 @@ class ilExcel
 
     protected function prepareString(
         string $value,
-        bool $disable_strip_tags = false
     ): string {
         if (!mb_check_encoding($value, 'UTF-8')) {
             throw new InvalidArgumentException('Invalid UTF-8 passed.');
@@ -292,15 +291,14 @@ class ilExcel
         int $a_row,
         int $col,
         $value,
-        ?string $datatype = null,
-        bool $disable_strip_tags_for_strings = false
+        ?string $datatype = null
     ): void {
         $coordinate = $this->getCoordByColumnAndRow($col, $a_row);
 
         if ($datatype === DataType::TYPE_STRING) {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
                 $coordinate,
-                $this->prepareString($value, $disable_strip_tags_for_strings),
+                $this->prepareString($value),
                 $datatype
             );
         } elseif ($datatype !== null) {

@@ -178,10 +178,14 @@ class FormAdapterGUI
         string $key,
         string $title,
         string $description = "",
-        ?string $value = null
+        ?string $value = null,
+        int $max_length = 0
     ): self {
         $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->text($title, $description);
+        if ($max_length > 0) {
+            $field = $field->withMaxLength($max_length);
+        }
         if (!is_null($value)) {
             $field = $field->withValue($value);
         }

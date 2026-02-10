@@ -26,9 +26,18 @@ trait ClassNameToScreenId
 
     protected function classNameToScreenId(string $classname): ?string
     {
+        $classname = str_replace("ILIAS\\", "", $classname);
+        // remove ILIAS from namespaces
         $classname = preg_replace(self::$REGEX, "$2", $classname);
+
+        // remove GUI from name
+        $classname = str_replace("GUI", "", $classname);
+
+
         $classname = $this->snakeToCamel($classname);
 
+        // remove namespace separators
+        $classname = str_replace("\\", "", $classname);
         return $classname;
     }
 

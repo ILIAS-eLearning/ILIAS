@@ -355,6 +355,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
                     false,
                     false,
                     $this->object->getShowSolutionFeedback(),
+                    false,
+                    true
                 )
             )
         );
@@ -372,6 +374,8 @@ class TestScoringByQuestionGUI extends TestScoringByParticipantGUI
             false,
             false,
             $this->object->getShowSolutionFeedback(),
+            false,
+            true
         );
         if ($autosave_content === null) {
             return null;

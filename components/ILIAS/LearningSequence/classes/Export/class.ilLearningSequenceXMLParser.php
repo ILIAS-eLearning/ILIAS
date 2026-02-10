@@ -105,6 +105,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
             case Writer::TAG_LSITEM:
                 $this->counter = (int)$attributes["ref_id"];
                 $this->ls_item_data[$this->counter]["ref_id"] = $attributes["ref_id"];
+                $this->ls_item_data[$this->counter]["position"] = $attributes["position"];
                 break;
 
             case Writer::TAG_CONDITION:

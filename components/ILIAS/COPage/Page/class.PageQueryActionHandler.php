@@ -80,15 +80,9 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected function allCommand(): Server\Response
     {
         $ctrl = $this->ctrl;
-        $f = $this->ui->factory();
-        $dd = $f->dropdown()->standard([
-            $f->link()->standard("label", "#")
-        ]);
-        $r = $this->ui->renderer();
         $o = new \stdClass();
-        $dd_html = preg_replace('/\s*id="[^"]*"/', '', $r->render($dd));
-        $r->renderAsync($dd);   // this prevents further buttons to get the dd JS attached
-        $o->dropdown = $dd_html;
+        $o->dropdown = $this->getDropdownTemplate();
+        $o->addDropdown = $this->getDropdownTemplate($this->lng->txt("copg_add_content"));
         $o->addCommands = $this->getAddCommands();
         $o->pageEditHelp = $this->getPageEditHelp();
         $o->multiEditHelp = $this->getMultiEditHelp();
@@ -121,6 +115,21 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         }
 
         return new Server\Response($o);
+    }
+
+    protected function getDropdownTemplate(string $aria_label = ""): string
+    {
+        $f = $this->ui->factory();
+        $dd = $f->dropdown()->standard([
+            $f->link()->standard("label", "#")
+        ]);
+        if ($aria_label !== "") {
+            $dd = $dd->withAriaLabel($aria_label);
+        }
+        $r = $this->ui->renderer();
+        $dd_html = preg_replace('/\s*id="[^"]*"/', '', $r->render($dd));
+        $r->renderAsync($dd);   // this prevents further buttons to get the dd JS attached
+        return $dd_html;
     }
 
     protected function getConfig(): \stdClass

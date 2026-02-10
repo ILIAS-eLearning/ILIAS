@@ -530,7 +530,6 @@ class ilExplorer
             $this->createLines($i);
         }
 
-        ilYuiUtil::initConnection();
         $tpl->addJavaScript("assets/js/ilExplorer.js");
 
         //echo "hh";

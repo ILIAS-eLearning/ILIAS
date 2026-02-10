@@ -1006,9 +1006,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $this->http->sendResponse();
                 exit;
             default:
-                // include yahoo dom per default
-                ilYuiUtil::initDom();
-
                 header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
                 header("Content-type: text/html; charset=UTF-8");
 

@@ -66,7 +66,7 @@ export default class HTMLTransform {
 
     // Entfernt alle Tags außer <p>
     tempDiv.querySelectorAll('*').forEach((node) => {
-      if (node.tagName.toLowerCase() !== 'p') {
+      if (!['p', 'li', 'ol', 'ul'].includes(node.tagName.toLowerCase())) { // see #0046876
         node.replaceWith(...node.childNodes); // Ersetzt das Element mit seinem Inhalt
       }
     });

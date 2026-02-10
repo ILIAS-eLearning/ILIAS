@@ -356,10 +356,17 @@ class ilTemplate extends HTML_Template_ITX
         if (str_starts_with($a_tplname, $ilias_root)) {
             $a_tplname = str_replace($ilias_root, '', $a_tplname);
         }
-        if (strpos($a_tplname, 'public/Customizing/global/plugins')) {
+
+        // Special Cases for plugins
+        if (str_starts_with($a_tplname, 'Customizing/global/plugins/')) {
+            $a_tplname = "public/$a_tplname";
+        }
+
+        if (str_contains($a_tplname, 'public/Customizing/global/plugins')) {
             $tpl_sub_path = '';
         }
 
+        // Proceed with skin lookup
         $base_path = $ilias_root;
         $default = $base_path . $a_in_module . $tpl_sub_path . $a_tplname;
 

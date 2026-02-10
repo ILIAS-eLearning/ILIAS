@@ -403,13 +403,13 @@ class EditSubObjectsGUI
         $ot = \ilObjectTranslation::getInstance($this->lm->getId());
         $ml = "";
         if ($ot->getContentActivated()) {
-            $ml = " (".$lng->txt("meta_l_" .$ot->getMasterLanguage()) . ")";
+            $ml = " (" . $lng->txt("meta_l_" . $ot->getMasterLanguage()) . ")";
         }
 
         $form = $this
             ->gui
             ->form(self::class, "saveTitle")
-            ->text("title", $lng->txt('title') . $ml, "", ilLMObject::_lookupTitle($id));
+            ->text("title", $lng->txt('title') . $ml, "", ilLMObject::_lookupTitle($id), 200);
         if ($ot->getContentActivated()) {
             foreach ($ot->getLanguages() as $lang) {
                 $code = $lang->getLanguageCode();
@@ -418,8 +418,13 @@ class EditSubObjectsGUI
                 }
                 $lmobjtrans = new \ilLMObjTranslation($id, $code);
                 $title = $lmobjtrans->getTitle();
-                $form = $form->text("title_" . $code, $lng->txt('title') . " (" . $lng->txt("meta_l_" . $code) . ")",
-                    "", $title);
+                $form = $form->text(
+                    "title_" . $code,
+                    $lng->txt('title') . " (" . $lng->txt("meta_l_" . $code) . ")",
+                    "",
+                    $title,
+                    200
+                );
             }
         }
         return $form;

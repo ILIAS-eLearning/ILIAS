@@ -335,13 +335,20 @@ class ilPCQuestion extends ilPageContent
         if ($get_stored_tries) {
             if (count($q_ids) > 0) {
                 foreach ($q_ids as $q_id) {
-                    $as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
-                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) ($as["try"] ?? 0) . ", " . ($as["passed"] ? "true" : "null") . ");";
+                    $status = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
+                    $status = $status[$q_id] ?? $status;
+
+                    $try = (int) ($status["try"] ?? 0);
+                    $passed = isset($status["passed"]) && $status["passed"] ? "true" : "null";
+                    $points = $status["points"] ?? "null";
+                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . $try . ", " . $passed . ", " . $points . ");";
                 }
             }
         }
 
-        $code[] = "ilias.questions.refresh_lang();";
+        if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
+            $code[] = "ilias.questions.refresh_lang();";
+        }
         return $code;
     }
 

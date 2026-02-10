@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\MediaObjects\Thumbs;
 
-
 use ILIAS\MediaObjects\InternalDataService;
 use ILIAS\MediaObjects\InternalDomainService;
 use ILIAS\Filesystem\Stream\Stream;
@@ -33,7 +32,6 @@ use ILIAS\MediaObjects\InternalRepoService;
 
 class ThumbsManager
 {
-
     protected \ILIAS\MediaObjects\MediaObjectRepository $repo;
     protected \ILIAS\MediaObjects\MediaObjectManager $media_manager;
     protected ImageOutputOptions $output_options;
@@ -50,7 +48,7 @@ class ThumbsManager
         $this->repo = $repo->mediaObject();
     }
 
-    protected function getThumbPath() : string
+    protected function getThumbPath(): string
     {
         return "thumbs/Standard.png";
     }
@@ -58,7 +56,7 @@ class ThumbsManager
     /**
      * For use in browser src of images
      */
-    public function getThumbSrc(int $mob_id) : string
+    public function getThumbSrc(int $mob_id): string
     {
         $mob = new \ilObjMediaObject($mob_id);
         $item = $mob->getMediaItem("Standard");
@@ -108,8 +106,7 @@ class ThumbsManager
         string $location,
         string $format,
         string $target_location,
-    ) : void
-    {
+    ): void {
         $is_image = is_int(strpos($format, "image/"));
         if ($is_image) {
             if (!$this->media_manager->hasLocalFile($mob_id, $location)) {
@@ -231,8 +228,14 @@ class ThumbsManager
     /**
      * For use in browser src of images
      */
-    public function getPreviewSrc(int $mob_id) : string
+    public function getPreviewSrc(int $mob_id): string
     {
+        $mob = new \ilObjMediaObject($mob_id);
+        $item = $mob->getMediaItem("Standard");
+        if ($item?->getLocationType() === "Reference" && str_starts_with($item?->getFormat(), "image/")) {
+            return $item?->getLocation();
+        }
+
         $ppics = array(
             "mob_vpreview.png",
             "mob_vpreview.jpg",

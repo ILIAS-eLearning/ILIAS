@@ -719,14 +719,23 @@ class ilObjectGUI implements ImplementsCreationCallback
     protected function getTitleForCreationFormPage(): string
     {
         if (!$this->obj_definition->isPlugin($this->requested_new_type)) {
-            return $this->lng->txt('obj_' . $this->requested_new_type);
+            return $this->lng->txt("obj_{$this->requested_new_type}");
         }
-        return ilObjectPlugin::lookupTxtById($this->requested_new_type, "obj_{$this->requested_new_type}");
+        return ilObjectPlugin::lookupTxtById(
+            $this->requested_new_type,
+            "obj_{$this->requested_new_type}"
+        );
     }
 
     protected function getCreationFormTitle(): string
     {
-        return $this->lng->txt($this->requested_new_type . '_new');
+        if (!$this->obj_definition->isPlugin($this->requested_new_type)) {
+            return $this->lng->txt("{$this->requested_new_type}_new");
+        }
+        return ilObjectPlugin::lookupTxtById(
+            $this->requested_new_type,
+            "{$this->requested_new_type}_new"
+        );
     }
 
     protected function initCreateForm(string $new_type): StandardForm|ilPropertyFormGUI|array
@@ -768,18 +777,22 @@ class ilObjectGUI implements ImplementsCreationCallback
 
         $didactic_templates_radio = $this->ui_factory->input()->field()->radio($this->lng->txt('type'));
 
+        $values = [];
         foreach ($options as $value => $option) {
             if ($existing_exclusive && $value == 'dtpl_0') {
                 //Skip default disabled if an exclusive template exists - Whatever the f*** that means!
                 continue;
             }
+            $values[] = $value;
             $didactic_templates_radio = $didactic_templates_radio->withOption($value, $option[0], $option[1] ?? '');
         }
 
         if (!$this->getCreationMode()) {
-            $value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
+            $current_value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
 
-            $didactic_templates_radio = $didactic_templates_radio->withValue($value);
+            if (in_array($current_value, $values)) {
+                $didactic_templates_radio = $didactic_templates_radio->withValue($current_value);
+            }
 
             if (!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0")) {
                 //add or rename actual value to not available

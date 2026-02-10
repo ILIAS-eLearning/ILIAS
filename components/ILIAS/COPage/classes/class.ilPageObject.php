@@ -2740,7 +2740,7 @@ s     */
                 " AND parent_type = " . $db->quote($this->getParentType(), "text")
             );
             $rec = $db->fetchAssoc($set);
-            if ($rec["edit_lock_user"] != $user->getId()) {
+            if (($rec["edit_lock_user"] ?? 0) != $user->getId()) {
                 return false;
             }
         }

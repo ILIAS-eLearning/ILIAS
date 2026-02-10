@@ -1150,6 +1150,7 @@ assessment#:#question_summary#:#Status för bearbetning
 assessment#:#question_summary_btn#:#Status för bearbetning
 assessment#:#question_title#:#Frågans titel
 assessment#:#question_type#:#Typ av fråga
+assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Var vänlig ange ett namn för frågepoolen!
 assessment#:#questionpool_not_selected#:#Välkomna att välja en frågepool!
 assessment#:#questions#:#Questions###21 11 2023 new variable
@@ -1740,7 +1741,6 @@ assessment#:#tst_postpone_on_desc#:#Frågor vars svar deltagarna ignorerar eller
 assessment#:#tst_presentation_properties#:#Utförande
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###21 11 2023 new variable
-assessment#:#tst_print#:#Test och bedömning - utskriftsvy
 assessment#:#tst_proceed#:#Fortsättning
 assessment#:#tst_processing_time#:#Begränsad bearbetningstid
 assessment#:#tst_processing_time_desc#:#Använd denna inställning för e-tester/distanstester för att ge deltagarna en fast tidsperiod för att slutföra testet. Tiden löper för varje deltagare från det ögonblick då den första testkörningen startades. "Avbryt test" stoppar inte testets varaktighet
@@ -2575,6 +2575,7 @@ blog#:#blog_whole_blog#:#Övergripande blogg
 book#:#X_reservations_of#:#%s reservationer från
 book#:#book_add#:#Skapa bokningspool
 book#:#book_add_object#:#Lägg till objekt
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Lägg till tidsraster
 book#:#book_additional_info_file#:#Tilläggsbeskrivning
 book#:#book_all#:#Visa alla
@@ -2593,7 +2594,6 @@ book#:#book_booking#:#Booking###21 11 2023 new variable
 book#:#book_booking_information#:#Information
 book#:#book_booking_objects#:#Bokningsobjekt
 book#:#book_booking_reminders#:#Väntande reservationer
-book#:#book_bookings_per_user#:#Bokningar per användare
 book#:#book_bulk_confirmation#:#Please check, if all values are listed correctly.###21 11 2023 new variable
 book#:#book_bulk_creation#:#Bulk Creation###21 11 2023 new variable
 book#:#book_bulk_data#:#Object Data###21 11 2023 new variable
@@ -2724,6 +2724,7 @@ book#:#book_show_message#:#Show Message###21 11 2023 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Objects###21 11 2023 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of objects separated by semicolon or TAB character. Use one line per object.###21 11 2023 new variable
 book#:#book_too_many_preferences#:#Du har valt för många inställningar. Inställningarna har inte sparats.
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Det finns för närvarande inga bokningsobjekt tillgängliga. För att kunna använda poolen måste bokningsobjekt först skapas.
 book#:#book_week#:#Week###21 11 2023 new variable
 book#:#book_your_bookings#:#Dina bokningar
@@ -5599,6 +5600,7 @@ common#:#select#:#Välj
 common#:#select_all#:#Välj alla
 common#:#select_at_least_one_object#:#Välj minst ett objekt.
 common#:#select_file#:#Välj fil
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Välj filer
 common#:#select_max_one_item#:#Välj endast ett objekt.
 common#:#select_object_to_link#:#Välj objektet som ska länkas.
@@ -5895,6 +5897,7 @@ common#:#upload_settings#:#Inställningar för uppladdning
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###26 08 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###26 08 2024 new variable
 common#:#uploaded_and_checked#:#Filen har laddats upp och kontrollerats, du kan nu importera den.
 common#:#uploading#:#Ladda upp...
@@ -6115,6 +6118,7 @@ cont#:#cont_news_timeline_landing_page#:#Startsida
 cont#:#cont_news_timeline_landing_page_info#:#Timeline som startsida
 cont#:#cont_news_timeline_tab#:#Tidslinje
 cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Magazin-sida (kurs, grupp, kategori, ...)
 cont#:#cont_page_type_cstr#:#Startpage lärande målorienterad kurs
 cont#:#cont_path#:#Stig
@@ -6194,10 +6198,8 @@ content#:#cont_Headline2#:#Rubrik 2
 content#:#cont_Headline3#:#Rubrik 3
 content#:#cont_Information#:#Information
 content#:#cont_Interaction#:#interaktion
-content#:#cont_Link#:#Länk
 content#:#cont_List#:#Lista
 content#:#cont_Literature#:#Litteratur
-content#:#cont_Media#:#Media (Standard)
 content#:#cont_Mnemonic#:#Merkset
 content#:#cont_Numbers#:#Nummer
 content#:#cont_Poly#:#Polygon
@@ -6307,6 +6309,8 @@ content#:#cont_chapters_after_pages#:#Notera att inom en nivå listas alla sidor
 content#:#cont_chapters_and_pages#:#Kapitel och sidor
 content#:#cont_chapters_only#:#Endast kapitel
 content#:#cont_char_format#:#Teckenformat
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Accentuerad
 content#:#cont_char_style_code#:#Kod
 content#:#cont_char_style_com#:#Kommentar
@@ -8737,7 +8741,6 @@ dcl#:#dcl_msg_tableview_created#:#Visa tillagd
 dcl#:#dcl_msg_tableview_deleted#:#Visa raderade
 dcl#:#dcl_msg_tableview_updated#:#Visa uppdaterad
 dcl#:#dcl_msg_tableviews_delete_all#:#Delete inte möjligt
-dcl#:#dcl_msg_tableviews_order_updated#:#Avvikande åsikter uppdaterade
 dcl#:#dcl_multiple_selection#:#Multipelt urval
 dcl#:#dcl_new#:#Skapa ny datainsamling
 dcl#:#dcl_new_field#:#Nytt fält
@@ -8751,6 +8754,7 @@ dcl#:#dcl_no_fields_yet#:#Inga fält har skapats för denna tabell ännu, så in
 dcl#:#dcl_no_read_access_on_any_standard_view#:#Du har inte läsbehörighet till någon standardtabellvy.
 dcl#:#dcl_no_search_results_found_for#:#Inga moduler hittades med
 dcl#:#dcl_no_such_reference#:#Följande värde finns inte i referenstabellen
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Inte vald
 dcl#:#dcl_not_supported_in_import#:#Den här fälttypen stöds inte under import.
@@ -8759,7 +8763,6 @@ dcl#:#dcl_notification_activated#:#Notifiering aktiv
 dcl#:#dcl_notification_deactivate_dcl#:#Avaktivera avisering
 dcl#:#dcl_notification_deactivated#:#Notifiering inaktiv
 dcl#:#dcl_notification_info#:#Aktiverar den individuella meddelandefunktionen för användare.
-dcl#:#dcl_notimage_exception#:#Filen måste vara en bild.
 dcl#:#dcl_noturl_exception#:#Ange en länk (som börjar med http
 dcl#:#dcl_number#:#Integers
 dcl#:#dcl_number_desc#:#Inmatningsfält för hela tal (högst 9 siffror). Bråk och decimaltal är inte tillåtna.
@@ -8818,8 +8821,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standardfält kan inte importeras.
 dcl#:#dcl_std_filter#:#Filter förinställt
 dcl#:#dcl_supported_filetypes#:#Tillåtna filtillägg
 dcl#:#dcl_supported_filetypes_desc#:#Du kan ange kommaseparerade filnamnstillägg här. Till exempel
-dcl#:#dcl_switch_table#:#Switch Table###21 11 2023 new variable
-dcl#:#dcl_switch_view#:#Change View###21 11 2023 new variable
 dcl#:#dcl_table#:#Tabell
 dcl#:#dcl_table_id#:#Tabeller ID
 dcl#:#dcl_table_list_fields#:#Fält i den valda tabellen
@@ -8855,7 +8856,7 @@ dcl#:#dcl_text_email_title#:#Titel
 dcl#:#dcl_text_email_title_info#:#Titel för URL-adressen eller e-postadressen (valfritt).
 dcl#:#dcl_text_selection#:#Välj menytext
 dcl#:#dcl_text_selection_desc#:#Ange alternativ för urval (text)
-dcl#:#dcl_title_standardview#:#Standardvy
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Förhindra samma inmatningar
 dcl#:#dcl_unique_desc#:#En identisk post kan endast göras en gång i detta fält.
 dcl#:#dcl_unique_exception#:#Det angivna värdet används redan av en annan post.
@@ -8886,6 +8887,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Inte tillåtna tecken
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###21 11 2023 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Grå ut standard
 didactic#:#activate_exclusive_template_info#:#Standardmallen är gråmarkerad när denna didaktiska mall är aktiv.
 didactic#:#activate_local_didactic_template#:#Validitetsintervall
@@ -9482,6 +9485,7 @@ exc#:#exc_passed_status_determination#:#Rating som "Godkänd
 exc#:#exc_passing_exc#:#Passning av övningen
 exc#:#exc_past#:#Past###21 11 2023 new variable
 exc#:#exc_peer_deadline_mismatch#:#Eftersom feedback endast kan ges efter deadline för övningsenheten, får deadline för feedback inte vara före inlämningsdatumet.
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Feedback från peers
 exc#:#exc_peer_review_ass_setting_info#:#Efter att tidsfristen och, i förekommande fall, respittiden har löpt ut kan deltagarna betygsätta varandras arbetsresultat. Exakta inställningar för kamratrespons görs på fliken med samma namn. Fliken visas när detta alternativ har aktiverats och sparats
 exc#:#exc_peer_review_chars_invalid#:#Du har ännu inte uppnått den önskade textlängden på %s tecken.
@@ -11477,6 +11481,7 @@ mail#:#mail_add_folder#:#Skapa ny mapp
 mail#:#mail_add_recipient#:#Ange vem som ska få mailet. Ange inloggningsnamn för ILIAS eller giltiga e-postadresser.###Modifierad som en del av jämställdhetsintegreringen för ILIAS 8
 mail#:#mail_add_subfolder#:#Lägg till undermapp
 mail#:#mail_add_subject#:#Vänligen ange ett ämne
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments###20 01 2026 new variable
 mail#:#mail_all_in_trash#:#All in Trash###28 10 2024 new variable
 mail#:#mail_allow_external#:#Externa e-postmeddelanden
 mail#:#mail_allow_external_info#:#Om den inte är aktiverad undertrycks sändningen av externa e-postmeddelanden (via SMTP) globalt.
@@ -11897,6 +11902,7 @@ mep#:#mep_all_mobs#:#Alla mediaobjekt
 mep#:#mep_bulk_upload#:#Massuppladdning
 mep#:#mep_choose_from_folder#:#Välj från mapp
 mep#:#mep_choose_from_mep#:#Välj från pool
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Medieobjekt
 mep#:#mep_content_snippet_in_use#:#Innehållsblocket '%s' används och kan därför inte tas bort.
 mep#:#mep_content_snippet_used_in_older_versions#:#Attention
@@ -12932,6 +12938,7 @@ news#:#news_news_item_visibility_info#:#Public news kan läsas från utsidan och
 news#:#news_news_items#:#Nyheter
 news#:#news_no_js_click_here#:#Om nyheten inte visas, vänligen klicka här.
 news#:#news_no_news_items#:#Det finns inga nyheter för dig.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Notifieringar
 news#:#news_notifications_public#:#Öffentliga meddelanden
 news#:#news_notifications_public_info#:#Om detta alternativ är valt kan meddelanden även tas emot utanför ILIAS via det personliga nyhetsflödet. Observera att dessa meddelanden kan nås utan autentisering.
@@ -15859,7 +15866,6 @@ skmg#:#skmg_usage_type_info_prof#:#Användning i kompetensprofiler
 skmg#:#skmg_usage_type_info_res#:#Uppdrag till magasinobjekt
 skmg#:#skmg_usage_type_info_user#:#Uppdrag till användare
 skmg#:#skmg_your_self_evaluation#:#Din självutvärdering
-style#:#Style#:#Stil
 style#:#adapt_icon#:#Anpassning av ikonerna
 style#:#adapt_icon_description#:#Justera ikonens färg eller ikon.
 style#:#adapt_icons#:#Justering av ikonernas färger
@@ -17339,6 +17345,7 @@ trac#:#trac_view_mode_all#:#Alla objekt
 trac#:#trac_view_mode_collection#:#Endast objekt som bestämmer den övergripande statusen
 trac#:#trac_visits#:#Minsta antal visningar
 trac#:#trac_visits_info#:#Ett samtal räknas som ett nytt samtal först efter %s sekunder.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Antal användare
 trac#:#view_mode#:# Visningsläge
 tstv#:#tstv_create#:#Skapa testcertifikat

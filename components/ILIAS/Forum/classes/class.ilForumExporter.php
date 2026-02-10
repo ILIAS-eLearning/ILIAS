@@ -88,7 +88,9 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
                 $pageObjectIds[] = self::OBJ_TYPE . ':' . $frmPageObjId;
             }
 
-            $style_id = $this->content_style_domain->styleForObjId((int) $frmObjId)->getStyleId();
+            $style_id = $this->content_style_domain
+                ->styleForObjId((int) $frmObjId)
+                ->getExportStyleId();
             if ($style_id > 0) {
                 $styleIds[$style_id] = $style_id;
             }

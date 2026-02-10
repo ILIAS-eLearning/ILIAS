@@ -146,7 +146,7 @@ class EditingGUIRequest
 
     public function getNrOfCodes(): int
     {
-        return $this->int("nrOfCodes");
+        return (int) $this->str("nrOfCodes");
     }
 
     /** @return string[] */

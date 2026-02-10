@@ -1150,6 +1150,7 @@ assessment#:#question_summary#:#Список вопросов
 assessment#:#question_summary_btn#:#Processing Status###30 08 2015 new variable
 assessment#:#question_title#:#Название вопроса
 assessment#:#question_type#:#Тип вопроса
+assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Пожалуйста, задайте имя для набора вопросов!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
 assessment#:#questions#:#Questions###26 08 2024 new variable
@@ -1740,7 +1741,6 @@ assessment#:#tst_postpone_on_desc#:#Not answered questions will be postponed to 
 assessment#:#tst_presentation_properties#:#Настройки отображения
 assessment#:#tst_presentation_settings_section#:#Presentation###10 11 2018 new variable
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Тесты и оценки - просмотр перед печатью
 assessment#:#tst_proceed#:#Proceed###10 11 2018 new variable
 assessment#:#tst_processing_time#:#Макс. время работы
 assessment#:#tst_processing_time_desc#:#The maximum processing time begins to countdown the moment a user starts a test for the first time and ends when the given time period expires. If this option is used, the option of suspending a test should be deactivated (see 'Sequence Settings') because suspending the test does prevent the maximum processing time from counting down.
@@ -2575,6 +2575,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#Add Booking Pool
 book#:#book_add_object#:#Add Object
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
@@ -2593,7 +2594,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Information###31 08 2017 new variable
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Upcoming reservations###10 11 2018 new variable
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2724,6 +2724,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -5599,6 +5600,7 @@ common#:#select#:#Выбор
 common#:#select_all#:#Выбрать всё
 common#:#select_at_least_one_object#:#Please choose at least one object.
 common#:#select_file#:#Выбрать файл
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Выберете файлы на вашем компьютере
 common#:#select_max_one_item#:#Пожалуйста, выберите только один пункт
 common#:#select_object_to_link#:#Пожалуйста, выберите только один связываемый объект
@@ -5895,6 +5897,7 @@ common#:#upload_settings#:#Uploading Settings
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###26 08 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###26 08 2024 new variable
 common#:#uploaded_and_checked#:#Файл был загружен и проверен, вы можете начать его импортировать.
 common#:#uploading#:#Uploading...
@@ -6115,6 +6118,7 @@ cont#:#cont_news_timeline_landing_page#:#Landing Page###25 10 2016 new variable
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.###25 10 2016 new variable
 cont#:#cont_news_timeline_tab#:#Timeline###25 10 2016 new variable
 cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###29 07 2022 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###29 07 2022 new variable
 cont#:#cont_path#:#Path###31 08 2017 new variable
@@ -6194,10 +6198,8 @@ content#:#cont_Headline2#:#Заголовок 2
 content#:#cont_Headline3#:#Заголовок 3
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#Список
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#Media (Standard)
 content#:#cont_Mnemonic#:#Мнемонический
 content#:#cont_Numbers#:#Numbers###29 07 2022 new variable
 content#:#cont_Poly#:#Многоугольник
@@ -6307,6 +6309,8 @@ content#:#cont_chapters_after_pages#:#Please note that pages have to precede all
 content#:#cont_chapters_and_pages#:#Главы и Страницы
 content#:#cont_chapters_only#:#Только Главы
 content#:#cont_char_format#:#Character
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Accentuated
 content#:#cont_char_style_code#:#Code
 content#:#cont_char_style_com#:#Comment
@@ -8737,7 +8741,6 @@ dcl#:#dcl_msg_tableview_created#:#Views created###25 10 2016 new variable
 dcl#:#dcl_msg_tableview_deleted#:#View deleted###25 10 2016 new variable
 dcl#:#dcl_msg_tableview_updated#:#View updated###25 10 2016 new variable
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist###25 10 2016 new variable
-dcl#:#dcl_msg_tableviews_order_updated#:#Order of views updated###25 10 2016 new variable
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_new_field#:#New Field
@@ -8751,6 +8754,7 @@ dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you ca
 dcl#:#dcl_no_read_access_on_any_standard_view#:#You don't have read access on any standard view of a table.###10 11 2018 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
@@ -8759,7 +8763,6 @@ dcl#:#dcl_notification_activated#:#Notification Activated
 dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_notification_info#:#Each user decides about notification###06 02 2015 new variable
-dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)
 dcl#:#dcl_number#:#Integer###25 10 2016 new variable
 dcl#:#dcl_number_desc#:#Field for integer values (max. 9 digits). No decimals or fractions.###25 10 2016 new variable
@@ -8818,8 +8821,6 @@ dcl#:#dcl_std_field_not_importable#:# - Standard fields are not importable.###25
 dcl#:#dcl_std_filter#:#Standardfilter###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions###25 10 2016 new variable
 dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx###25 10 2016 new variable
-dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Таблица
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_table_list_fields#:#Показать поля текущей таблицы
@@ -8855,7 +8856,7 @@ dcl#:#dcl_text_email_title#:#Title###30 08 2015 new variable
 dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).###30 08 2015 new variable
 dcl#:#dcl_text_selection#:#Text Selection###31 08 2017 new variable
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.###31 08 2017 new variable
-dcl#:#dcl_title_standardview#:#Standard Views###10 11 2018 new variable
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Уникальное
 dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.###30 08 2015 new variable
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another record.
@@ -8886,6 +8887,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Grey Out Default###25 10 2016 new variable
 didactic#:#activate_exclusive_template_info#:#The standard template won't be available wherever this template is active.###25 10 2016 new variable
 didactic#:#activate_local_didactic_template#:#Scope of Application###25 10 2016 new variable
@@ -9482,6 +9485,7 @@ exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"
 exc#:#exc_passing_exc#:#Passing the Exercise
 exc#:#exc_past#:#Past###26 08 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_ass_setting_info#:#If enabled, users can rate their peers after the deadline.
 exc#:#exc_peer_review_chars_invalid#:#At least one of your feedbacks does not have the required minimum length of %s characters.###30 08 2015 new variable
@@ -11477,6 +11481,7 @@ mail#:#mail_add_folder#:#Add New Subfolder
 mail#:#mail_add_recipient#:#Пожалуйста, выберите получателя
 mail#:#mail_add_subfolder#:#Добавить подкаталог
 mail#:#mail_add_subject#:#Пожалуйста, выберите тему
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments###20 01 2026 new variable
 mail#:#mail_all_in_trash#:#All in Trash###28 10 2024 new variable
 mail#:#mail_allow_external#:#External Emails###31 08 2017 new variable
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external emails (via SMTP) is globally disabled.###31 08 2017 new variable
@@ -11897,6 +11902,7 @@ mep#:#mep_all_mobs#:#All Media Objects
 mep#:#mep_bulk_upload#:#Bulk Upload###10 11 2018 new variable
 mep#:#mep_choose_from_folder#:#Choose from Folder
 mep#:#mep_choose_from_mep#:#Choose from Pool
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Content###31 08 2017 new variable
 mep#:#mep_content_snippet_in_use#:#Content snippet '%s' is in use and cannot be deleted.
 mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.
@@ -12932,6 +12938,7 @@ news#:#news_news_item_visibility_info#:#Public news can be accessed without auth
 news#:#news_news_items#:#News Item(s)
 news#:#news_no_js_click_here#:#Если новости не отображаются, то нажмите здесь.
 news#:#news_no_news_items#:#Новости отсутствуют.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Notifications
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.
@@ -15859,7 +15866,6 @@ skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#adapt_icon#:#Adapt Icon###25 10 2016 new variable
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.###25 10 2016 new variable
 style#:#adapt_icons#:#Adapt Icon Colors###25 10 2016 new variable
@@ -17339,6 +17345,7 @@ trac#:#trac_view_mode_all#:#All Objects
 trac#:#trac_view_mode_collection#:#Only objects that determine the overall status
 trac#:#trac_visits#:#Number of visits
 trac#:#trac_visits_info#:#Every page visit counts as one visit.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#User Total
 trac#:#view_mode#:#View mode
 tstv#:#tstv_create#:#Создать сертификат для теста
