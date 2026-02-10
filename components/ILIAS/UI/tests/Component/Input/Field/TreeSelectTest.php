@@ -160,6 +160,7 @@ class TreeSelectTest extends \ILIAS_UI_TestBase
     {
         $node_id = 'some-existing-node-id';
         $node_name = 'some existing node';
+        $static_js_id = 'js-id';
 
         [$leaf_stub,] = $this->getLeafStub($node_id, $node_name);
 
@@ -168,7 +169,7 @@ class TreeSelectTest extends \ILIAS_UI_TestBase
         $component = $this->getFieldFactory()->treeSelect($node_retrieval, '');
         $component = $component->withValue($node_id);
 
-        $renderer = $this->getDefaultRenderer(null, [$leaf_stub]);
+        $renderer = $this->getDefaultRenderer($this->getStaticIdJavaScriptBinding($static_js_id), [$leaf_stub]);
 
         $expected_html = <<<HTML
 <li data-node-id="$node_id">
@@ -176,7 +177,7 @@ class TreeSelectTest extends \ILIAS_UI_TestBase
     <button data-action="remove" type="button" class="close" aria-label="unselect_node">
         <span aria-hidden="true">&times;</span>
     </button>
-    <input id="id_2" type="hidden" value="$node_id" />
+    <input id="$static_js_id" type="hidden" value="$node_id" />
 </li>
 HTML;
 
@@ -192,15 +193,16 @@ HTML;
 
     public function testRenderWithDisabled(): void
     {
+        $static_js_id = 'js-id';
         $node_retrieval = $this->getNodeRetrieval();
 
         $component = $this->getFieldFactory()->treeSelect($node_retrieval, '');
         $component = $component->withDisabled(true);
 
-        $renderer = $this->getDefaultRenderer();
+        $renderer = $this->getDefaultRenderer($this->getStaticIdJavaScriptBinding($static_js_id));
 
         $expected_html = <<<HTML
-<input id="id_2" type="button" aria-label="select" value="select" disabled>
+<input id="$static_js_id" type="button" aria-label="select" value="select" disabled>
 HTML;
 
         $actual_html = $renderer->render($component);
@@ -215,15 +217,16 @@ HTML;
 
     public function testRenderWithRequired(): void
     {
+        $static_js_id = 'js-id';
         $node_retrieval = $this->getNodeRetrieval();
 
         $component = $this->getFieldFactory()->treeSelect($node_retrieval, '');
         $component = $component->withRequired(true);
 
-        $renderer = $this->getDefaultRenderer();
+        $renderer = $this->getDefaultRenderer($this->getStaticIdJavaScriptBinding($static_js_id));
 
         $expected_html = <<<HTML
-<label for="id_2"><span class="asterisk" aria-label="required_field">*</span></label>
+<label for="$static_js_id"><span class="asterisk" aria-label="required_field">*</span></label>
 HTML;
 
         $actual_html = $renderer->render($component);
@@ -252,8 +255,8 @@ HTML;
         $renderer = $this->getDefaultRenderer(null, [$leaf_stub]);
 
         $expected_html = <<<HTML
-<fieldset class="c-input" data-il-ui-component="tree-select-field-input" data-il-ui-input-name="name_0">
-    <label for="id_3">some tree select label</label>
+<fieldset class="c-input" data-il-ui-component="tree-select-field-input" data-il-ui-input-name="name_0" id="id_5">
+    <label for="id_4">some tree select label</label>
     <div class="c-input__field">
         <div class="c-input-tree_select">
             <dialog class="c-modal">
@@ -268,7 +271,7 @@ HTML;
                         <div class="modal-body">
                             <template>$this->breadcrumbs_html</template>
                             $this->breadcrumbs_html
-                            <section class="c-drilldown" id="id_2">
+                            <section class="c-drilldown" id="id_3">
                                 <header class="c-drilldown__header--showbacknav">
                                     <div></div>
                                     <div></div>
@@ -293,13 +296,13 @@ HTML;
                 <template>
                     <li data-node-id="">
                     <span data-node-name></span>
-                    <button data-action="remove" type="button" class="close" aria-label="">
+                    <button data-action="remove" type="button" class="close" aria-label="unselect_node">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <input id="id_1" type="hidden" name="name_0[input_0][]" value="" /></li>
+                    <input id="id_2" type="hidden" name="name_0[input_0][]" value="" /></li>
                 </template>
             </ul>
-            <input id="id_3" type="button" aria-label="select" value="select">
+            <input id="id_4" type="button" aria-label="select" value="select">
         </div>
     </div>
 </fieldset>
@@ -351,6 +354,20 @@ HTML;
             $this->getRefinery(),
             $this->getLanguage(),
         );
+    }
+
+    /** Note, if $id is an empty string some sections carrying the id MAY not be rendered. */
+    protected function getStaticIdJavaScriptBinding(string $id): JavaScriptBinding
+    {
+        return new class ($id) extends LoggingJavaScriptBinding {
+            public function __construct(protected string $id)
+            {
+            }
+            public function createId(): string
+            {
+                return $this->id;
+            }
+        };
     }
 
     /**

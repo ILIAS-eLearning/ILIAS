@@ -34,7 +34,7 @@ export default function updateMultiSelectButtonStates(treeSelectComponent) {
   nodeSelectionSet.forEach((nodeId) => {
     const node = nodeMap.get(nodeId);
     // ignore nodes which have not been loaded (yet) and leaf nodes
-    if (node === null || node.listElement === null) {
+    if (!node || node.listElement === null) {
       return;
     }
     // disable all descending select buttons

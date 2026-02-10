@@ -14,8 +14,8 @@
  */
 
 import terser from '@rollup/plugin-terser';
-import copyright from '../../../../../../scripts/Copyright-Checker/copyright';
-import preserveCopyright from '../../../../../../scripts/Copyright-Checker/preserveCopyright';
+import copyright from '../../../../../../scripts/Copyright-Checker/copyright.js';
+import preserveCopyright from '../../../../../../scripts/Copyright-Checker/preserveCopyright.js';
 
 export default {
   external: [
@@ -24,6 +24,7 @@ export default {
   ],
   input: './src/index.js',
   output: {
+    // file: '../../../../../../public/assets/js/dropdown.js',
     file: './dist/dropdown.js',
     format: 'iife',
     banner: copyright,

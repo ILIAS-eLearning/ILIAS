@@ -27,6 +27,7 @@ describe('TreeSelectFactory', () => {
   let languageMock;
   let drilldownMock;
   let drilldownFactoryMock;
+  let counterFactoryMock;
   let jQueryEventListenerMock;
 
   beforeEach(() => {
@@ -58,6 +59,9 @@ describe('TreeSelectFactory', () => {
     drilldownFactoryMock = {
       getInstance: () => drilldownMock,
     };
+    counterFactoryMock = {
+      getCounterObject: () => ({}),
+    };
     jQueryEventListenerMock = {
       on: () => {},
     };
@@ -67,6 +71,7 @@ describe('TreeSelectFactory', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
+      counterFactoryMock,
       languageMock,
       documentMock,
     );
@@ -79,6 +84,7 @@ describe('TreeSelectFactory', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
+      counterFactoryMock,
       languageMock,
       documentMock,
     );
@@ -91,6 +97,7 @@ describe('TreeSelectFactory', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
+      counterFactoryMock,
       languageMock,
       documentMock,
     );
@@ -107,6 +114,7 @@ describe('TreeSelectFactory', () => {
     const factory = new TreeSelectFactory(
       jQueryEventListenerMock,
       drilldownFactoryMock,
+      counterFactoryMock,
       languageMock,
       documentMock,
     );

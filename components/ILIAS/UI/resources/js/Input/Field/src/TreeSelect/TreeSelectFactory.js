@@ -68,6 +68,9 @@ export default class TreeSelectFactory {
   /** @type {DrilldownFactory} */
   #drilldownFactory;
 
+  /** @type {{ getCounterObject(HTMLElement): counterObject }} */
+  #counterFactory;
+
   /** @type {{txt: function(string): string}} */
   #language;
 
@@ -77,17 +80,20 @@ export default class TreeSelectFactory {
   /**
    * @param {JQueryEventListener} jqueryEventListener
    * @param {DrilldownFactory} drilldownFactory
+   * @param {{ getCounterObject(HTMLElement): counterObject }}
    * @param {{txt: function(string): string}} language
    * @param {Document} document
    */
   constructor(
     jqueryEventListener,
     drilldownFactory,
+    counterFactory,
     language,
     document,
   ) {
     this.#jqueryEventListener = jqueryEventListener;
     this.#drilldownFactory = drilldownFactory;
+    this.#counterFactory = counterFactory;
     this.#language = language;
     this.#document = document;
   }
@@ -113,7 +119,15 @@ export default class TreeSelectFactory {
       dialogSelectButton,
     ] = this.#getTreeSelectElements(inputId);
 
+    const [
+      nodeDropdownElement,
+      nodeDropdownMenuElement,
+      nodeDropdownMenuEntryTemplate,
+      nodeDropdownMenuEntryPlaceholder,
+    ] = this.#getTreeMultiSelectElements(inputId);
+
     const drilldownComponent = this.#getDrilldown(treeSelectElement);
+    const counterComponent = this.#getCounter(nodeDropdownElement);
 
     const treeMultiSelect = new TreeSelect(
       createTreeSelectNodes(getNodeElements(dialogElement)),
@@ -130,6 +144,10 @@ export default class TreeSelectFactory {
       dialogOpenButton,
       dialogElement,
       getMultiSelectionHandler(canSelectChildNodes),
+      nodeDropdownMenuElement,
+      counterComponent,
+      nodeDropdownMenuEntryTemplate,
+      nodeDropdownMenuEntryPlaceholder,
     );
 
     this.#instances.set(inputId, treeMultiSelect);
@@ -152,7 +170,7 @@ export default class TreeSelectFactory {
       breadcrumbsElement,
       breadcrumbTemplate,
       nodeSelectionElement,
-      nodeSelectionTemplate,
+      nodeSelectionEntryTemplate,
       dialogElement,
       dialogSelectButton,
     ] = this.#getTreeSelectElements(inputId);
@@ -169,7 +187,7 @@ export default class TreeSelectFactory {
       breadcrumbsElement,
       breadcrumbTemplate,
       nodeSelectionElement,
-      nodeSelectionTemplate,
+      nodeSelectionEntryTemplate,
       dialogSelectButton,
       dialogOpenButton,
       dialogElement,
@@ -194,11 +212,12 @@ export default class TreeSelectFactory {
 
   /**
    * @param {string} inputId
-   * @returns {Array}
+   * @returns {HTMLElement[]}
    * @throws {Error} if elements are not found
    */
   #getTreeSelectElements(inputId) {
-    const dialogOpenButton = this.#document.getElementById(inputId);
+    const dialogOpenButton = this.#document.getElementById(inputId)
+      ?.querySelector(CONSTANTS.TREE_OPEN_DIALOG_BUTTON);
     const treeSelectElement = dialogOpenButton?.closest(CONSTANTS.TREE_SELECT);
     const breadcrumbsElement = treeSelectElement?.querySelector(CONSTANTS.BREADCRUMB);
     const breadcrumbTemplate = treeSelectElement?.querySelector('.modal-body > template');
@@ -207,13 +226,13 @@ export default class TreeSelectFactory {
     const dialogElement = treeSelectElement?.querySelector('dialog');
     const dialogSelectButton = dialogElement?.querySelector(CONSTANTS.TREE_SELECT_BUTTON);
 
-    if (breadcrumbsElement === null
-      || breadcrumbTemplate === null
-      || nodeSelectionElement === null
-      || nodeSelectionTemplate === null
-      || dialogSelectButton === null
-      || dialogOpenButton === null
-      || dialogElement === null
+    if (!breadcrumbsElement
+      || !breadcrumbTemplate
+      || !nodeSelectionElement
+      || !nodeSelectionTemplate
+      || !dialogSelectButton
+      || !dialogOpenButton
+      || !dialogElement
     ) {
       throw new Error(`Could not find some element(s) for Tree Select Input '${inputId}'.`);
     }
@@ -227,6 +246,38 @@ export default class TreeSelectFactory {
       nodeSelectionTemplate,
       dialogElement,
       dialogSelectButton,
+    ];
+  }
+
+  /**
+   * @param {string} inputId
+   * @returns {HTMLElement[]}
+   * @throws {Error} if elements are not found
+   */
+  #getTreeMultiSelectElements(inputId) {
+    const dialogOpenButton = this.#document.getElementById(inputId)
+      ?.querySelector(CONSTANTS.TREE_OPEN_DIALOG_BUTTON);
+    const treeSelectElement = dialogOpenButton?.closest(CONSTANTS.TREE_SELECT);
+    const dropdownElement = treeSelectElement?.querySelector(CONSTANTS.TREE_SELECT_DROPDOWN);
+    const dropdownMenuElement = treeSelectElement
+      ?.querySelector(CONSTANTS.TREE_SELECT_DROPDOWN_MENU);
+    const dropdownMenuEntryTemplate = dropdownMenuElement?.querySelector(':scope > template');
+    const dropdownMenuEntryPlaceholder = dropdownMenuElement
+      ?.querySelector(`:scope > ${CONSTANTS.TREE_SELECT_DROPDOWN_ENTRY_PLACEHODLER}`);
+
+    if (!dropdownElement
+      || !dropdownMenuElement
+      || !dropdownMenuEntryTemplate
+      || !dropdownMenuEntryPlaceholder
+    ) {
+      throw new Error(`Could not find some element(s) for Tree Multi Select Input '${inputId}'.`);
+    }
+
+    return [
+      dropdownElement,
+      dropdownMenuElement,
+      dropdownMenuEntryTemplate,
+      dropdownMenuEntryPlaceholder,
     ];
   }
 
@@ -245,5 +296,18 @@ export default class TreeSelectFactory {
       throw new Error('Could not find drilldown instance.');
     }
     return drilldownComponent;
+  }
+
+  /**
+   * @param {HTMLElement} element
+   * @returns {counterObject}
+   * @throws {Error} if instance can not be found
+   */
+  #getCounter(element) {
+    const counterComponent = this.#counterFactory.getCounterObject(element);
+    if (!counterComponent) {
+      throw new Error('Could not find counter instance.');
+    }
+    return counterComponent;
   }
 }

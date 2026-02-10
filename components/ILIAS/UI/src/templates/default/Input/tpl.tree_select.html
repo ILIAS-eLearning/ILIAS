@@ -12,6 +12,30 @@
                     {DRILLDOWN}
                 </div>
                 <div class="modal-footer">
+                    <!-- BEGIN with_value_dropdown -->
+                    <div class="dropdown dropup">
+                        <button class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="{DROPDOWN_MENU_ID}">
+                            {LIST_VIEW_GLYPH}
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="{DROPDOWN_MENU_ID}" class="dropdown-menu">
+                            <template>
+                                <!-- BEGIN with_value_dropdown_entry_template -->
+                                <li data-node-id="{NODE_ID}">
+                                    <button data-action="engage" type="button" class="btn btn-link" aria-label="{ENGAGE_NODE_LABEL}"><span data-node-name>{NODE_NAME}</span></button>
+                                    <button data-action="remove" type="button" class="close" aria-label="{UNSELECT_NODE_LABEL}"><span aria-hidden="true">&times;</span></button>
+                                </li>
+                                <!-- END with_value_dropdown_entry_template -->
+                            </template>
+                            <!-- BEGIN with_value_dropdown_entry -->
+                            {DROPDOWN_ENTRY}
+                            <!-- END with_value_dropdown_entry -->
+                            <li tabindex="0" class="c-input-tree_select__dropdown-placeholder {VISIBILITY_CLASS}">
+                                <span>{NO_NODES_SELECTED_LABEL}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END with_value_dropdown -->
                     <button data-action="close" type="button" class="btn btn-default" aria-label="{CLOSE_LABEL}">{CLOSE_LABEL}</button>
                     <button data-action="close" type="button" class="btn btn-primary" aria-label="{SELECT_LABEL}">{SELECT_LABEL}</button>
                 </div>

@@ -1155,7 +1155,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderTreeMultiSelectField(F\TreeMultiSelect $component, RendererInterface $default_renderer): string
     {
-        $template = $this->prepareTreeSelectTemplate($component, $default_renderer);
+        [$template, $component] = $this->prepareTreeSelectTemplate($component, $default_renderer);
 
         if ($component->canSelectChildNodes()) {
             $select_child_nodes = 'true';
@@ -1163,32 +1163,35 @@ class Renderer extends AbstractComponentRenderer
             $select_child_nodes = 'false';
         }
 
-        $enriched_component = $component->withAdditionalOnLoadCode(
+        $component = $component->withAdditionalOnLoadCode(
             static fn($id) => "il.UI.Input.treeSelect.initTreeMultiSelect('$id', $select_child_nodes);"
         );
 
-        $id = $this->bindJSandApplyId($enriched_component, $template);
+        $label_id = $this->createId();
+        $template->setVariable('ID', $label_id);
 
-        return $this->wrapInFormContext($component, $component->getLabel(), $template->get(), $id);
+        return $this->wrapInFormContext($component, $component->getLabel(), $template->get(), $label_id);
     }
 
     protected function renderTreeSelectField(F\TreeSelect $component, RendererInterface $default_renderer): string
     {
-        $template = $this->prepareTreeSelectTemplate($component, $default_renderer);
+        [$template, $component] = $this->prepareTreeSelectTemplate($component, $default_renderer);
 
-        $enriched_component = $component->withAdditionalOnLoadCode(
+        $component = $component->withAdditionalOnLoadCode(
             static fn($id) => "il.UI.Input.treeSelect.initTreeSelect('$id');"
         );
 
-        $id = $this->bindJSandApplyId($enriched_component, $template);
+        $label_id = $this->createId();
+        $template->setVariable('ID', $label_id);
 
-        return $this->wrapInFormContext($component, $component->getLabel(), $template->get(), $id);
+        return $this->wrapInFormContext($component, $component->getLabel(), $template->get(), $label_id);
     }
 
+    /** @return array{0: Template, 1: TreeSelect|TreeMultiSelect} */
     protected function prepareTreeSelectTemplate(
         TreeSelect|TreeMultiSelect $component,
         RendererInterface $default_renderer,
-    ): Template {
+    ): array {
         $template = $this->getTemplate('tpl.tree_select.html', true, true);
 
         if ($component->isDisabled()) {
@@ -1205,9 +1208,36 @@ class Renderer extends AbstractComponentRenderer
         $template->setVariable('BREADCRUMB_TEMPLATE', $default_renderer->render(
             $this->getUIFactory()->breadcrumbs([$this->getUIFactory()->link()->standard('label', '#')])
         ));
+        // @todo: for TreeSelect this should be rendered here, derived from selected node path.
         $template->setVariable('BREADCRUMBS', $default_renderer->render(
             $this->getUIFactory()->breadcrumbs([])
         ));
+
+        $is_tree_multi_select = ($component instanceof TreeMultiSelect);
+
+        if ($is_tree_multi_select) {
+            $value_count = count($component->getValue());
+            $template->setCurrentBlock('with_value_dropdown');
+            $template->setVariable('DROPDOWN_MENU_ID', $this->createId());
+            $template->setVariable('NO_NODES_SELECTED_LABEL', $this->txt('no_nodes_selected'));
+            $template->setVariable('LIST_VIEW_GLYPH', $default_renderer->render(
+                $this->getUIFactory()->symbol()->glyph()->listView()->withCounter(
+                    $this->getUIFactory()->counter()->status($value_count)
+                ),
+            ));
+
+            // hide value dropdown placeholder entry if there are values
+            if (0 < $value_count) {
+                $template->setVariable('VISIBILITY_CLASS', 'hidden');
+            }
+
+            // parse <template> of value dropdown entries in $template once
+            $this->parseTreeMultiSelectValueDropdownEntry($template);
+
+            $component = $component->withAdditionalOnLoadCode(static fn($id) => "
+                il.UI.dropdown.init(document.querySelector('#$id .dropdown'));
+            ");
+        }
 
         /** @var $dynamic_inputs_generator \Generator<FormInput> */
         $dynamic_inputs_generator = (static fn() => yield from $component->getGeneratedDynamicInputs())();
@@ -1226,13 +1256,17 @@ class Renderer extends AbstractComponentRenderer
             /** @var $leaf Node\Leaf */
             $this->checkArgInstanceOf('leaf', $leaf, Node\Leaf::class);
 
+            if ($is_tree_multi_select) {
+                $value_dropdown_template = $this->getTemplate('tpl.tree_select.html', true, true);
+                $this->parseTreeMultiSelectValueDropdownEntry($value_dropdown_template, $leaf);
+
+                $template->setCurrentBlock('with_value_dropdown_entry');
+                $template->setVariable('DROPDOWN_ENTRY', $value_dropdown_template->get('with_value_dropdown_entry_template'));
+                $template->parseCurrentBlock();
+            }
+
             $value_template = $this->getTemplate('tpl.tree_select.html', true, true);
-            $value_template->setCurrentBlock('with_value_template');
-            $value_template->setVariable('NODE_ID', (string) ($leaf->getId()));
-            $value_template->setVariable('NODE_NAME', $leaf->getName());
-            $value_template->setVariable('INPUT_TEMPLATE', $default_renderer->render($dynamic_input));
-            $value_template->setVariable('UNSELECT_NODE_LABEL', sprintf($this->txt('unselect_node'), $leaf->getName()));
-            $value_template->parseCurrentBlock();
+            $this->parseTreeSelectValueListEntry($value_template, $default_renderer, $dynamic_input, $leaf);
 
             $template->setCurrentBlock('with_value');
             $template->setVariable('VALUE', $value_template->get('with_value_template'));
@@ -1243,6 +1277,9 @@ class Renderer extends AbstractComponentRenderer
                 $sync_node_id_whitelst[$node_id] = $node_id;
             }
         }
+
+        // parse <template> of value list entries in $template once
+        $this->parseTreeSelectValueListEntry($template, $default_renderer, $component->getTemplateForDynamicInputs());
 
         $node_factory = $this->getUIFactory()->input()->field()->node();
         $node_generator = $component->getNodeRetrieval()->getNodes(
@@ -1265,8 +1302,29 @@ class Renderer extends AbstractComponentRenderer
 
         $this->toJS('unselect_node');
         $this->toJS('select_node');
+        $this->toJS('engage_node');
 
-        return $template;
+        return [$template, $component];
+    }
+
+    protected function parseTreeMultiSelectValueDropdownEntry(Template $template, ?F\Node\Leaf $leaf = null): void
+    {
+        $template->setCurrentBlock('with_value_dropdown_entry_template');
+        $template->setVariable('NODE_ID', $leaf?->getId());
+        $template->setVariable('NODE_NAME', $leaf?->getName());
+        $template->setVariable('ENGAGE_NODE_LABEL', sprintf($this->txt('engage_node'), $leaf?->getName()));
+        $template->setVariable('UNSELECT_NODE_LABEL', sprintf($this->txt('unselect_node'), $leaf?->getName()));
+        $template->parseCurrentBlock();
+    }
+
+    protected function parseTreeSelectValueListEntry(Template $template, RendererInterface $default_renderer, FormInput $dynamic_input, ?F\Node\Leaf $leaf = null): void
+    {
+        $template->setCurrentBlock('with_value_template');
+        $template->setVariable('NODE_ID', $leaf?->getId());
+        $template->setVariable('NODE_NAME', $leaf?->getName());
+        $template->setVariable('INPUT_TEMPLATE', $default_renderer->render($dynamic_input));
+        $template->setVariable('UNSELECT_NODE_LABEL', sprintf($this->txt('unselect_node'), $leaf?->getName()));
+        $template->parseCurrentBlock();
     }
 
     /**
