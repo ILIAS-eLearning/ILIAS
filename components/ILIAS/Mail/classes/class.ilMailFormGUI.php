@@ -342,13 +342,13 @@ class ilMailFormGUI
         $rcp_cc = '';
         $rcp_bcc = '';
         if ($value['rcp_to'] != []) {
-            $rcp_to = $value['rcp_to'][0];
+            $rcp_to = implode(',', $value['rcp_to']);
         }
         if ($value['rcp_cc'] != []) {
-            $rcp_cc = $value['rcp_cc'][0];
+            $rcp_cc = implode(',', $value['rcp_cc']);
         }
         if ($value['rcp_bcc'] != []) {
-            $rcp_bcc = $value['rcp_bcc'][0];
+            $rcp_bcc = implode(',', $value['rcp_bcc']);
         }
 
         if ($errors = $mailer->enqueue(
