@@ -147,12 +147,16 @@ class CombinationsOverview implements DataRetrieval, Renderable
         return [
             $af->single(
                 $this->lng->txt('edit'),
-                $this->environment->getUrlBuilderWithStepParameter(self::STEP_JUMP_TO_SET_COMBINATION_VALUES),
+                $this->environment
+                    ->withStepParameter(self::STEP_JUMP_TO_SET_COMBINATION_VALUES)
+                    ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             )->withAsync(true),
             $af->single(
                 $this->lng->txt('delete'),
-                $this->environment->getUrlBuilderWithStepParameter(self::STEP_CONFIRM_DELETE_COMBINATION),
+                $this->environment
+                ->withStepParameter(self::STEP_CONFIRM_DELETE_COMBINATION)
+                ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             )->withAsync(true)
         ];
@@ -217,7 +221,8 @@ class CombinationsOverview implements DataRetrieval, Renderable
                 )
             ],
             $this->environment
-                ->getUrlBuilderWithStepParameter(self::STEP_SET_COMBINATION_VALUES)
+                ->withStepParameter(self::STEP_SET_COMBINATION_VALUES)
+                ->getUrlBuilder()
                 ->buildURI()
                 ->__toString()
         )->withSubmitLabel($this->lng->txt('next'));
@@ -265,7 +270,8 @@ class CombinationsOverview implements DataRetrieval, Renderable
             ],
             $inputs_builder->addCarryToEnvironment(
                 $this->environment
-            )->getUrlBuilderWithStepParameter(self::STEP_SAVE)
+            )->withStepParameter(self::STEP_SAVE)
+            ->getUrlBuilder()
             ->buildURI()
             ->__toString()
         );
@@ -291,9 +297,10 @@ class CombinationsOverview implements DataRetrieval, Renderable
         return $this->ui_factory->modal()->interruptive(
             $this->lng->txt('confirm'),
             $this->lng->txt('delete_combination'),
-            $this->environment->getUrlBuilderWithStepParameter(
+            $this->environment->withStepParameter(
                 self::STEP_DELETE_COMBINATION
-            )->withParameter(
+            )->getUrlBuilder()
+            ->withParameter(
                 $this->environment->getTableRowIdToken(),
                 [$affected_item->getId()->toString()]
             )->buildURI()->__toString()
@@ -320,20 +327,25 @@ class CombinationsOverview implements DataRetrieval, Renderable
     private function buildInputsBuilder(
         ?Combination $combination,
     ): InputsBuilder {
-        $properties = $this->environment->getAnswerFormProperties();
         $inputs_builder = $this->environment->getPresentationFactory()->getInputsBuilder(
-            $this->combinations_factory->getToCombinationTransformation(
-                $this->ui_factory->input()->field(),
-                $this->refinery,
-                $this->lng,
-                $properties
-            ),
-            $combination?->buildPointsInputs(
-                $this->ui_factory->input()->field(),
-                $this->refinery,
-                $this->lng,
-                $this->combinations_factory,
-                $properties
+            $this->refinery->custom()->transformation(
+                function (?string $v) use ($combination): ?Group {
+                    $properties = $this->environment->getAnswerFormProperties();
+                    if ($combination === null) {
+                        $combination = $this->combinations_factory
+                            ->buildCombinationFromCarryValue(
+                                $v,
+                                $properties
+                            );
+                    }
+
+                    return $combination?->buildPointsInputs(
+                        $this->ui_factory->input()->field(),
+                        $this->refinery,
+                        $this->lng,
+                        $properties
+                    );
+                }
             )
         );
 

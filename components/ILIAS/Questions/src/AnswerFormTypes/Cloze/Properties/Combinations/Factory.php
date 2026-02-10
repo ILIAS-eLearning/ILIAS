@@ -143,43 +143,27 @@ class Factory
         );
     }
 
-    public function getToCombinationTransformation(
-        FieldFactory $field_factory,
-        Refinery $refinery,
-        Language $lng,
+    public function buildCombinationFromCarryValue(
+        string $carry,
         Properties $properties
-    ): CustomTransformation {
-        return $refinery->custom()->transformation(
-            function (string $v) use (
-                $field_factory,
-                $refinery,
-                $lng,
-                $properties
-            ): Group {
-                $values_array = json_decode($v, true);
-                $combination_id = $this->uuid_factory->fromString(
-                    array_key_first($values_array)
-                );
-                return new Combination(
+    ): Combination {
+        $values_array = json_decode($carry, true);
+        $combination_id = $this->uuid_factory->fromString(
+            array_key_first($values_array)
+        );
+
+        return new Combination(
+            $combination_id,
+            null,
+            array_map(
+                fn(string $v): MatchingValue => new MatchingValue(
                     $combination_id,
-                    null,
-                    array_map(
-                        fn(string $v): MatchingValue => new MatchingValue(
-                            $combination_id,
-                            $properties->getGaps()->getGapById(
-                                $this->uuid_factory->fromString($v)
-                            )
-                        ),
-                        $values_array[$combination_id->toString()]
+                    $properties->getGaps()->getGapById(
+                        $this->uuid_factory->fromString($v)
                     )
-                )->buildPointsInputs(
-                    $field_factory,
-                    $refinery,
-                    $lng,
-                    $this,
-                    $properties
-                );
-            }
+                ),
+                $values_array[$combination_id->toString()]
+            )
         );
     }
 
