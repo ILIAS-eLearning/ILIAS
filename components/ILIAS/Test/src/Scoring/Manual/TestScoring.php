@@ -239,7 +239,7 @@ class TestScoring
                 [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
                 [$active_id, $pass]
             );
-            $values['points'] = [\ilDBConstants::T_FLOAT, $result->fetchAssoc()['reachedpoints'] ?? 0.0];
+            $values['points'] = [\ilDBConstants::T_FLOAT, max($result->fetchAssoc()['reachedpoints'] ?? 0.0, 0.0)];
         }
 
         $this->db->update(
