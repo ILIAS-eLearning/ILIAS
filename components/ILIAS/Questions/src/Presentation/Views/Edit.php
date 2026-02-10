@@ -353,9 +353,9 @@ class Edit
                 $this->lng->txt('qpl_confirm_delete_questions'),
                 $environment->withActionParameter(
                     self::ACTION_DELETE_QUESTIONS
-                )->getUrlBuilderWithStepParameter(
+                )->withStepParameter(
                     self::ACTION_DELETE_QUESTIONS
-                )->buildURI()->__toString()
+                )->getUrlBuilder()->buildURI()->__toString()
             )->withAffectedItems(
                 $this->buildAffectedItems($question_ids)
             )
@@ -545,7 +545,7 @@ class Edit
         }
 
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->getUrlBuilder()->buildURI(),
+            $environment,
             $if->field()->section(
                 $inputs + [
                     'type' => $if->field()->select(

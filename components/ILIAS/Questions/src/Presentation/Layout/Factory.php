@@ -30,7 +30,6 @@ use ILIAS\Language\Language;
 use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Input;
@@ -62,11 +61,11 @@ class Factory
     }
 
     /**
-     * @param URLBuilder $url_builder The url_builder MUST have the step set,
+     * @param Environment $environment The environment MUST have the step set,
      * to which the form shall be sent.
      */
     public function getEditForm(
-        URI $form_target_uri,
+        Environment $environment,
         Section $main_section_inputs,
         bool $is_final_step,
         ?Group $carry_inputs = null
@@ -74,7 +73,7 @@ class Factory
         return new EditForm(
             $this->ui_factory,
             $this->lng,
-            $form_target_uri,
+            $environment,
             $main_section_inputs,
             $is_final_step,
             $carry_inputs
@@ -98,13 +97,11 @@ class Factory
      * carry is present and you want to use them directly.
      */
     public function getInputsBuilder(
-        CustomTransformation $to_inputs,
-        Input|array|null $inputs = null
+        CustomTransformation $to_inputs
     ): InputsBuilder {
         return new InputsBuilder(
             $this->refinery,
-            $to_inputs,
-            $inputs
+            $to_inputs
         );
     }
 
