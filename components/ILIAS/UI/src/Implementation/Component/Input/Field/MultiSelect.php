@@ -96,21 +96,25 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect
      */
     public function getUpdateOnLoadCode(): Closure
     {
-        return fn($id) => "(function() {
-            var checkedBoxes = function() {
-				var options = [];
-				$('#$id').find('li').each(function() {
-				    if ($(this).find('input').prop('checked')) {
-					    options.push($(this).find('span').text());
-                    }
-				});
-				return options.join(', ');
-			}
-			$('#$id').on('input', function(event) {
-				il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
-			});
-			il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
-        })();";
+        return static fn($id) => <<<JS
+          (function () {
+            function reduceMultiSelectCheckboxInputs(inputs) {
+              return Array
+                .from(inputs)
+                .filter((input) => input.checked)
+                .map((input) => input.parentElement.querySelector('.c-field-multiselect__label-text')?.textContent ?? '')
+                .join(', ');
+            }
+            const multiSelectField = document.getElementById('$id');
+            const multiSelectCheckboxInputs = multiSelectField.querySelectorAll('.c-field-multiselect input[type="checkbox"]');
+            multiSelectCheckboxInputs.forEach((input) => {
+              input.addEventListener('input', (event) => {
+                il.UI.input.onFieldUpdate(event, '$id', reduceMultiSelectCheckboxInputs(multiSelectCheckboxInputs));
+              });
+            });
+            il.UI.input.onFieldUpdate(undefined, '$id', reduceMultiSelectCheckboxInputs(multiSelectCheckboxInputs));
+          })();
+JS;
     }
 
     /**

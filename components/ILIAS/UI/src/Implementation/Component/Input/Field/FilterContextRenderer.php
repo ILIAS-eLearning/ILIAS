@@ -148,6 +148,14 @@ class FilterContextRenderer extends Renderer
 							return false; // stop event propagation
 					});");
 
+        $tpl->setVariable("UI_COMPONENT_NAME", $this->getComponentCanonicalNameAttribute($component));
+        $tpl->setVariable("INPUT_NAME", $component->getName());
+
+        if ($component->getOnLoadCode() !== null) {
+            $binding_id = $this->bindJavaScript($component) ?? $this->createId();
+            $tpl->setVariable("BINDING_ID", $binding_id);
+        }
+
         $tpl->setCurrentBlock("addon_left");
         $tpl->setVariable("LABEL", $component->getLabel());
         if ($id_pointing_to_input) {
@@ -184,9 +192,6 @@ class FilterContextRenderer extends Renderer
         $tpl = $this->getTemplate("tpl.filter_field.html", true, true);
 
         $popover = $f->popover()->standard($f->legacy($input_html))->withVerticalPosition();
-        if ($component->getOnLoadCode() !== null) {
-            $popover = $popover->withAdditionalOnLoadCode($component->getOnLoadCode());
-        }
         $tpl->setVariable("POPOVER", $default_renderer->render($popover));
 
         $prox = new ProxyFilterField();
@@ -211,7 +216,6 @@ class FilterContextRenderer extends Renderer
         $input_html .= $default_renderer->render($input);
 
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
-        $id = $this->bindJSandApplyId($component, $tpl);
         $tpl->setVariable('DURATION', $input_html);
 
         return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get());
