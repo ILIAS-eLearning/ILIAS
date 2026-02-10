@@ -666,37 +666,16 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     protected function getAnswerStatisticOrderingVariantHtml(ilAssOrderingElementList $list): string
     {
-        $html = '<ul>';
+        $list = array_map(
+            fn(ilAssOrderingElement $elem): string => htmlspecialchars(
+                $this->getAnswerStatisticOrderingElementHtml($elem) ?? '',
+                ENT_QUOTES | ENT_SUBSTITUTE,
+                'utf-8'
+            ),
+            $list->getElements()
+        );
 
-        $lastIndent = 0;
-        $firstElem = true;
-
-        foreach ($list as $elem) {
-            if ($elem->getIndentation() > $lastIndent) {
-                $html .= '<ul><li>';
-            } elseif ($elem->getIndentation() < $lastIndent) {
-                $html .= '</li></ul><li>';
-            } elseif (!$firstElem) {
-                $html .= '</li><li>';
-            } else {
-                $html .= '<li>';
-            }
-
-            $html .= $this->getAnswerStatisticOrderingElementHtml($elem);
-
-            $firstElem = false;
-            $lastIndent = $elem->getIndentation();
-        }
-
-        $html .= '</li>';
-
-        for ($i = $lastIndent; $i > 0; $i--) {
-            $html .= '</ul></li>';
-        }
-
-        $html .= '</ul>';
-
-        return $html;
+        return $this->ui->renderer()->render($this->ui->factory()->listing()->unordered($list));
     }
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
@@ -731,7 +710,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 );
 
                 $answers[$hash] = [
-                    'answer' => $variantHtml, 'frequency' => 0
+                    'answer' => $variantHtml,
+                    'frequency' => 0,
+                    'sanitized' => true
                 ];
             }
 

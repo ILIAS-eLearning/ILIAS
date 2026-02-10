@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\DI\UIServices;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
@@ -98,7 +99,7 @@ abstract class assQuestionGUI
         'uploaddefintions'
     ];
 
-    private $ui;
+    protected UIServices $ui;
     private ilObjectDataCache $ilObjDataCache;
     private ilHelpGUI $ilHelp;
     private ilAccessHandler $access;

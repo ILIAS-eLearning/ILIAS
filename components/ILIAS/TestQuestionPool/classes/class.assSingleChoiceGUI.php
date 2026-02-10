@@ -816,14 +816,13 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
-        $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
-
         $answers = [];
 
-        foreach ($agg as $ans) {
+        foreach ($this->aggregateAnswers($relevantAnswers, $this->object->getAnswers()) as $ans) {
             $answers[] = [
                 'answer' => $ans['answertext'],
-                'frequency' => $ans['count_checked']
+                'frequency' => $ans['count_checked'],
+                'sanitized' => true
             ];
         }
 
