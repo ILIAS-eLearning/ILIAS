@@ -576,7 +576,6 @@ class ilMembershipGUI
                 $post_roles[$usr_id][] = $adminRoleId;
             }
 
-            // in lang datei, de and en
             if (!isset($post_roles[$usr_id]) || empty($post_roles[$usr_id])) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mmbr_role_error'), true);
                 $this->ctrl->redirect($this, 'participants');
