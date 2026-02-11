@@ -42,13 +42,13 @@ class Gap
 {
     public const string GAP_PLACEHOLDER_NAME = 'GAP';
 
-    private const string FORM_KEY_TYPE = 'type';
-    private const string FORM_KEY_MAX_CHARS = 'max_chars';
-    private const string FORM_KEY_STEP_SIZE = 'step_size';
-    private const string FORM_KEY_TEXT_MATCHING_METHOD = 'matching_method';
-    private const string FORM_KEY_MIN_AUTOCOMPLETE = 'min_autocomplete';
-    private const string FORM_KEY_SHUFFLE_ANSWER_OPTIONS = 'shuffle';
-    private const string FORM_KEY_ANSWER_OPTIONS = 'answer_options';
+    private const string KEY_TYPE = 'type';
+    private const string KEY_MAX_CHARS = 'max_chars';
+    private const string KEY_STEP_SIZE = 'step_size';
+    private const string KEY_TEXT_MATCHING_METHOD = 'matching_method';
+    private const string KEY_MIN_AUTOCOMPLETE = 'min_autocomplete';
+    private const string KEY_SHUFFLE_ANSWER_OPTIONS = 'shuffle';
+    private const string KEY_ANSWER_OPTIONS = 'answer_options';
 
     /**
      * @param array<ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption> $answer_options
@@ -181,42 +181,51 @@ class Gap
         return $clone;
     }
 
+    public function getQueryCarry(): array
+    {
+        return [
+            self::KEY_TYPE => $this->type?->getIdentifier() ?? '',
+            self::KEY_ANSWER_OPTIONS => $this->answer_options->buildQueryCarry()
+        ];
+    }
+
+    public function withValuesFromQueryCarry(
+        Factory $gap_factory,
+        array $carry
+    ): self {
+        $clone = clone $this;
+        $clone->type = $gap_factory->getGapTypeByIdentifier($carry[self::KEY_TYPE]);
+        $clone->answer_options = $clone->answer_options->withValuesFromQueryCarry(
+            $carry[self::KEY_ANSWER_OPTIONS]
+        );
+    }
+
     public function getCarryInputs(
         FieldFactory $ff
     ): Group {
         $inputs = [];
-        if ($this->type !== null) {
-            $inputs[self::FORM_KEY_TYPE] = $ff->hidden()->withValue($this->type?->getIdentifier() ?? '')
-                ->withDedicatedName(self::FORM_KEY_TYPE . $this->getShortenedAnswerInputId());
-        }
 
         if ($this->max_chars !== null) {
-            $inputs[self::FORM_KEY_MAX_CHARS] = $ff->hidden()->withValue($this->getMaxChars())
-                ->withDedicatedName(self::FORM_KEY_MAX_CHARS . $this->getShortenedAnswerInputId());
+            $inputs[self::KEY_MAX_CHARS] = $ff->hidden()->withValue($this->getMaxChars());
         }
 
         if ($this->step_size !== null) {
-            $inputs[self::FORM_KEY_STEP_SIZE] = $ff->hidden()->withValue($this->getStepSize())
-                ->withDedicatedName(self::FORM_KEY_STEP_SIZE . $this->getShortenedAnswerInputId());
+            $inputs[self::KEY_STEP_SIZE] = $ff->hidden()->withValue($this->getStepSize());
         }
 
         if ($this->text_matching_method !== null) {
-            $inputs[self::FORM_KEY_TEXT_MATCHING_METHOD] = $ff->hidden()->withValue($this->getTextMatchingMethod()->value)
-                ->withDedicatedName(self::FORM_KEY_TEXT_MATCHING_METHOD . $this->getShortenedAnswerInputId());
+            $inputs[self::KEY_TEXT_MATCHING_METHOD] = $ff->hidden()->withValue($this->getTextMatchingMethod()->value);
         }
 
         if ($this->min_autocomplete !== null) {
-            $inputs[self::FORM_KEY_MIN_AUTOCOMPLETE] = $ff->hidden()->withValue($this->getMinAutocomplete())
-                ->withDedicatedName(self::FORM_KEY_MIN_AUTOCOMPLETE . $this->getShortenedAnswerInputId());
+            $inputs[self::KEY_MIN_AUTOCOMPLETE] = $ff->hidden()->withValue($this->getMinAutocomplete());
         }
 
         if ($this->shuffle_answer_options !== null) {
-            $inputs[self::FORM_KEY_SHUFFLE_ANSWER_OPTIONS] = $ff->hidden()->withValue($this->getShuffleAnswerOptions() ? '1' : '0')
-                ->withDedicatedName(self::FORM_KEY_SHUFFLE_ANSWER_OPTIONS . $this->getShortenedAnswerInputId());
+            $inputs[self::KEY_SHUFFLE_ANSWER_OPTIONS] = $ff->hidden()->withValue($this->getShuffleAnswerOptions() ? '1' : '0');
         }
 
-        $inputs[self::FORM_KEY_ANSWER_OPTIONS] = $ff->hidden()->withValue($this->answer_options->buildHiddenInputValue())
-            ->withDedicatedName(self::FORM_KEY_ANSWER_OPTIONS . $this->getShortenedAnswerInputId());
+        $inputs[self::KEY_ANSWER_OPTIONS] = $ff->hidden()->withValue($this->answer_options->buildHiddenInputValue());
 
         return $ff->group($inputs);
     }
@@ -392,7 +401,7 @@ class Gap
         array $available_gap_types
     ): ?Type {
         return $carry->retrieve(
-            self::FORM_KEY_TYPE . $this->getShortenedAnswerInputId(),
+            self::KEY_TYPE . $this->getShortenedAnswerInputId(),
             $refinery->custom()->transformation(
                 fn(?string $v): ?Type => $available_gap_types[$v] ?? $this->getType()
             )
@@ -404,7 +413,7 @@ class Gap
         CarryWrapper $carry
     ): ?int {
         return $carry->retrieve(
-            self::FORM_KEY_MAX_CHARS . $this->getShortenedAnswerInputId(),
+            self::KEY_MAX_CHARS . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->int(),
                 $refinery->always($this->getMaxChars())
@@ -417,7 +426,7 @@ class Gap
         CarryWrapper $carry
     ): ?float {
         return $carry->retrieve(
-            self::FORM_KEY_STEP_SIZE . $this->getShortenedAnswerInputId(),
+            self::KEY_STEP_SIZE . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->float(),
                 $refinery->always($this->getStepSize())
@@ -430,7 +439,7 @@ class Gap
         CarryWrapper $carry
     ): ?TextMatchingOptions {
         return $carry->retrieve(
-            self::FORM_KEY_TEXT_MATCHING_METHOD . $this->getShortenedAnswerInputId(),
+            self::KEY_TEXT_MATCHING_METHOD . $this->getShortenedAnswerInputId(),
             $refinery->custom()->transformation(
                 fn(?string $v): ?TextMatchingOptions => $v !== null
                     ? TextMatchingOptions::tryFrom($v)
@@ -444,7 +453,7 @@ class Gap
         CarryWrapper $carry
     ): ?int {
         return $carry->retrieve(
-            self::FORM_KEY_MIN_AUTOCOMPLETE . $this->getShortenedAnswerInputId(),
+            self::KEY_MIN_AUTOCOMPLETE . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->int(),
                 $refinery->always($this->getMinAutocomplete())
@@ -457,7 +466,7 @@ class Gap
         CarryWrapper $carry
     ): ?bool {
         return $carry->retrieve(
-            self::FORM_KEY_SHUFFLE_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
+            self::KEY_SHUFFLE_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
             $refinery->byTrying([
                 $refinery->kindlyTo()->bool(),
                 $refinery->always($this->getShuffleAnswerOptions())
@@ -470,7 +479,7 @@ class Gap
         CarryWrapper $carry
     ): AnswerOptions {
         return $carry->retrieve(
-            self::FORM_KEY_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
+            self::KEY_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
             $refinery->custom()->transformation(
                 fn(?string $v): AnswerOptions => $this->answer_options
                     ->withValuesFromHiddenInputValue($v)

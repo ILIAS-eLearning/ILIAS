@@ -206,6 +206,34 @@ class AnswerOptions
         );
     }
 
+    public function buildQueryCarry(): array
+    {
+        return array_map(
+            fn(AnswerOption $v) => $v->getAnswerOptionId()->toString(),
+            $this->answer_options
+        );
+    }
+
+    public function withValuesFromQueryCarry(
+        array $carry
+    ): self {
+        $clone = clone $this;
+        $clone->answer_options = array_reduce(
+            $carry,
+            function (array $c, string $v): array {
+                $c[$v] = $this->factory->buildAnswerOption(
+                    $v,
+                    $this->answer_input_id,
+                    0,
+                    ''
+                );
+                return $c;
+            },
+            []
+        );
+        return $clone;
+    }
+
     public function buildHiddenInputValue(): string
     {
         return json_encode([

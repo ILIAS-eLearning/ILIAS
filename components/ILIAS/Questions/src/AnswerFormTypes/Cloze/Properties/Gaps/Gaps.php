@@ -212,6 +212,7 @@ class Gaps
         Language $lng,
         FieldFactory $ff,
         Refinery $refinery,
+        ?string $carry,
         array $selected_gaps
     ): Section {
         return $ff->section(
@@ -289,6 +290,18 @@ class Gaps
         );
     }
 
+    public function getQueryCarry(): array
+    {
+        return array_reduce(
+            $this->gaps,
+            function (array $c, Gap $v): array {
+                $c[$v->getAnswerInputId()->toString()] = $v->getQueryCarry();
+                return $c;
+            },
+            []
+        );
+    }
+
     public function getCarryInputs(
         FieldFactory $ff
     ): Group {
@@ -296,13 +309,33 @@ class Gaps
             array_reduce(
                 $this->gaps,
                 function (array $c, Gap $v) use ($ff): array {
-                    $c[$v->getAnswerInputId()->toString()] = $v->getCarryInputs($ff)
-                        ->withDedicatedName($v->getAnswerInputId()->toString());
+                    $c[$v->getAnswerInputId()->toString()] = $v->getCarryInputs($ff);
                     return $c;
                 },
                 []
             )
         );
+    }
+
+    public function withValuesFromQueryCarry(
+        Factory $gaps_factory,
+        array $carry
+    ): self {
+        $clone = clone $this;
+        foreach ($carry as $answer_input_id => $gap_definition) {
+            if (!isset($clone->gaps[$answer_input_id])) {
+                $clone->gaps[$answer_input_id] = $gaps_factory->getNewGap(
+                    $this->answer_form_id,
+                    0,
+                    $answer_input_id
+                );
+            }
+
+            $clone->gaps[$answer_input_id] = $clone->gaps[$answer_input_id]
+                ->withValuesFromQueryCarry($this->factory, $gap_definition);
+        }
+
+        return $clone;
     }
 
     public function getFromCarryTransformation(

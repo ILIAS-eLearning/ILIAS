@@ -104,24 +104,4 @@ class Factory
             $to_inputs
         );
     }
-
-    public function getCarrySectionData(
-        ArrayBasedRequestWrapper $post_wrapper
-    ): CarryWrapper {
-        return new CarryWrapper(
-            array_reduce(
-                $post_wrapper->keys(),
-                function (array $c, string $v) use ($post_wrapper): array {
-                    $value = new Leaf(
-                        $post_wrapper->retrieve($v, $this->refinery->identity())
-                    );
-                    foreach (array_reverse(explode('/', $v)) as $path_element) {
-                        $value = [$path_element => $value];
-                    }
-                    return array_merge_recursive($c, $value);
-                },
-                []
-            )['form'][EditForm::CARRY_SECTION_NAME] ?? []
-        );
-    }
 }
