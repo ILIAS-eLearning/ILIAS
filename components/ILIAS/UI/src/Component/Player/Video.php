@@ -33,13 +33,19 @@ interface Video extends Player
      * @param string $lang_key two letter lang key, e.g. "de", "en"
      * @param string $subtitle_file relative web root path of a vtt file
      */
-    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file): \ILIAS\UI\Component\Player\Video;
+    public function withAdditionalSubtitleFile(string $lang_key, string $subtitle_file, string $label): \ILIAS\UI\Component\Player\Video;
 
     /**
      * Get subtitle files
      * @return array<string,string>
      */
     public function getSubtitleFiles(): array;
+
+    /**
+     * Get subtitle labels
+     * @return array<string,string>
+     */
+    public function getSubtitleLabels(): array;
 
     /**
      * Set initially shown poster image
