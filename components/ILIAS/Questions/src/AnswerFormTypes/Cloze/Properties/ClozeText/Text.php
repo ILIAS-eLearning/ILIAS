@@ -47,7 +47,8 @@ class Text
     public function getInput(
         Language $lng,
         FieldFactory $ff,
-        Factory $cloze_text_factory
+        Factory $cloze_text_factory,
+        bool $is_required
     ): MarkdownInput {
         return $ff->markdown(
             new \ilUIMarkdownPreviewGUI(),
@@ -60,10 +61,11 @@ class Text
             )
         )->withAdditionalTransformation(
             $this->refinery->custom()->constraint(
-                fn(self $v): bool => $v->hasAtLeastOneGap(),
+                fn(self $v): bool => !$is_required && $v->getRawRepresentation() === ''
+                    || $v->hasAtLeastOneGap(),
                 $lng->txt('no_gaps')
             )
-        )->withRequired(true)
+        )->withRequired($is_required)
         ->withValue($this->cloze_text->getRawRepresentation());
     }
 
