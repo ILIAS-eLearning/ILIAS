@@ -2178,6 +2178,7 @@ auth#:#auth_saml_deleted_idp#:#Der Identity-Provider wurde gelöscht.
 auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
 auth#:#auth_saml_err_sqlite_driver#:#Die SAML-Authentifizierung benötigt die SQLite-Treiber für PHP. Bitte installieren Sie diese und versuchen Sie es erneut.
 auth#:#auth_saml_idp#:#IDP
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Der IDP ist nicht aktiviert, Authentifizierung gescheitert.
 auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity-Provider aus, mit dem Sie sich einloggen möchten.
 auth#:#auth_saml_idp_selection_table_title#:#Identity-Provider
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen
