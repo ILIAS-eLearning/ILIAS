@@ -11,9 +11,9 @@ namespace ILIAS\UI\examples\Player\Video;
  *
  * expected output: >
  *   ILIAS shows a rendered video player with a start screen. On the left side you will see a Start/Stop symbol,
- *   followed by a time bar and on the right side a symbol for subtitles (CC), volume control and for the the full screen.
+ *   followed by a time bar and on the right side a symbol for subtitles (CC) (depends on browser), volume control and for the the full screen.
  *   A big start symbol is shown in the middle of the start screen. While hovering over the subtitles symbol a list of all
- *   available languages appears. If a language gets selected you can find the text at the bottom of the full screen.
+ *   available languages appears. If a language gets selected you can find the text above the time bar.
  *
  *   In addition following functions have to be tested:
  *   - The video starts playing if clicking the start/stop symbol in the middle of the image. The video stops after another click.
