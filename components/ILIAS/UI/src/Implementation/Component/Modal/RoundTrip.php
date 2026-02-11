@@ -267,7 +267,7 @@ class RoundTrip extends Modal implements M\RoundTrip
      */
     public function getPromptButtons(): array
     {
-        return $this->buttons;
+        return $this->action_buttons;
     }
 
     /**
@@ -275,6 +275,6 @@ class RoundTrip extends Modal implements M\RoundTrip
      */
     public function getPromptTitle(): string
     {
-        return $this->type;
+        return $this->title;
     }
 }

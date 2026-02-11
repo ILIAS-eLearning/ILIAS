@@ -58,11 +58,19 @@ class Renderer extends AbstractComponentRenderer
             return $tpl->get();
         }
 
-        $tpl->setVariable('CONTENT', $default_renderer->render($content_component));
+        $content = $content_component;
+        if ($content_component instanceof \ILIAS\UI\Component\Modal\RoundTrip) {
+            $content = $content_component->getContent();
+        }
+
+        $tpl->setVariable('CONTENT', $default_renderer->render($content));
         $tpl->setVariable('TITLE', $component->getTitle());
 
         $buttons = $component->getButtons();
-        if ($content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form) {
+        if (
+            $content_component instanceof \ILIAS\UI\Component\Input\Container\Form\Form &&
+            !($content_component instanceof \ILIAS\UI\Component\Modal\RoundTrip)
+        ) {
             $submit_button = $this->getUIFactory()->button()->standard(
                 $content_component->getSubmitLabel() ?? $this->txt("save"),
                 $content_component->getSubmitSignal()
