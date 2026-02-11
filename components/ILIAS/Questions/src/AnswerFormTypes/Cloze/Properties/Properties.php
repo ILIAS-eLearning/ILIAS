@@ -40,7 +40,6 @@ use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -53,11 +52,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Properties implements PropertiesInterface
 {
-    private const string FORM_KEY_ID = 'form_id';
-    private const string FORM_KEY_CLOZE_TEXT = 'cloze_text';
-    private const string FORM_KEY_IDENTICAL_SCORING = 'identical_scoring';
-    private const string FORM_KEY_ENABLE_COMBINATIONS = 'enable_combinations';
-    private const string FORM_KEY_GAPS_TO_EDIT = 'gaps';
+    private const string KEY_ID = 'form_id';
+    private const string KEY_CLOZE_TEXT = 'cloze_text';
+    private const string KEY_IDENTICAL_SCORING = 'identical_scoring';
+    private const string KEY_ENABLE_COMBINATIONS = 'enable_combinations';
+    private const string KEY_GAPS_TO_EDIT = 'gaps';
 
     private bool $updated_combinations = false;
 
@@ -104,7 +103,7 @@ class Properties implements PropertiesInterface
             null,
             null,
             null,
-            $this->cloze_text->getRawRepresentationForPersistence(),
+            $this->cloze_text->getRawRepresentation(),
             $this->legacy_cloze_text
         );
     }
@@ -129,7 +128,7 @@ class Properties implements PropertiesInterface
 
     public function getClozeTextForPresentation(): string
     {
-        return $this->cloze_text->getRawRepresentationForPersistence() === ''
+        return $this->cloze_text->getRawRepresentation() === ''
             ? \ilRTE::_replaceMediaObjectImageSrc($this->legacy_cloze_text, 0)
             : $this->cloze_text->getRenderedMarkdownForParticipantPresentation();
     }
@@ -229,14 +228,14 @@ class Properties implements PropertiesInterface
 
         return $ff->section(
             [
-                self::FORM_KEY_CLOZE_TEXT => $cloze_text_input,
-                self::FORM_KEY_IDENTICAL_SCORING => ScoringIdentical::buildInput(
+                self::KEY_CLOZE_TEXT => $cloze_text_input,
+                self::KEY_IDENTICAL_SCORING => ScoringIdentical::buildInput(
                     $lng,
                     $ff,
                     $refinery,
                     $this->scoring_identical
                 )->withValue($this->getScoringOfIdenticalResponses()->value),
-                self::FORM_KEY_ENABLE_COMBINATIONS => $ff->checkbox($lng->txt('cloze_enable_combinations'))
+                self::KEY_ENABLE_COMBINATIONS => $ff->checkbox($lng->txt('cloze_enable_combinations'))
                     ->withValue($this->combinations->areCombinationsEnabled())
             ],
             $lng->txt('create_answer_form')
@@ -244,12 +243,36 @@ class Properties implements PropertiesInterface
             $refinery->custom()->transformation(
                 fn(array $vs): self => $propteries_factory->fromForm(
                     $this,
-                    $vs[self::FORM_KEY_CLOZE_TEXT],
-                    $vs[self::FORM_KEY_IDENTICAL_SCORING],
-                    $vs[self::FORM_KEY_ENABLE_COMBINATIONS]
+                    $vs[self::KEY_CLOZE_TEXT],
+                    $vs[self::KEY_IDENTICAL_SCORING],
+                    $vs[self::KEY_ENABLE_COMBINATIONS]
                 )
             )
         );
+    }
+
+    public function buildQueryCarry(): string
+    {
+        return json_encode($this->gaps->getQueryCarry());
+    }
+
+    public function withValuesFromQueryCarry(
+        ClozeTextFactory $cloze_text_factory,
+        ?string $carry
+    ): self {
+        if ($carry === null
+            || !is_array(
+                ($carry_array = json_decode($carry))
+            )) {
+            return $this;
+        }
+
+        $clone = clone $this;
+        $clone->gaps = $this->getGaps()->withValuesFromQueryCarry(
+            $cloze_text_factory,
+            $carry_array
+        );
+        return $clone;
     }
 
     public function buildCarryInputs(
@@ -257,23 +280,18 @@ class Properties implements PropertiesInterface
     ): Group {
         return $ff->group(
             [
-                self::FORM_KEY_ID => $ff->hidden()->withValue($this->answer_form_id->toString())
-                    ->withDedicatedName(self::FORM_KEY_ID),
-                self::FORM_KEY_CLOZE_TEXT => $this->getClozeText()->getCarryInputs($ff)
-                    ->withDedicatedName(self::FORM_KEY_CLOZE_TEXT),
-                self::FORM_KEY_GAPS_TO_EDIT => $this->gaps->getCarryInputs($ff)
-                    ->withDedicatedName(self::FORM_KEY_GAPS_TO_EDIT),
-                self::FORM_KEY_IDENTICAL_SCORING => $ff->hidden()
-                    ->withDedicatedName(self::FORM_KEY_IDENTICAL_SCORING)
+                self::KEY_ID => $ff->hidden()->withValue($this->answer_form_id->toString()),
+                self::FORM_KEY_CLOZE_TEXT => $this->getClozeText()->getCarryInputs($ff),
+                self::KEY_GAPS_TO_EDIT => $this->gaps->getCarryInputs($ff),
+                self::KEY_IDENTICAL_SCORING => $ff->hidden()
                     ->withValue($this->getScoringOfIdenticalResponses()->value),
-                self::FORM_KEY_ENABLE_COMBINATIONS => $ff->hidden()
-                    ->withDedicatedName(self::FORM_KEY_ENABLE_COMBINATIONS)
+                self::KEY_ENABLE_COMBINATIONS => $ff->hidden()
                     ->withValue($this->combinations->areCombinationsEnabled() ? 1 : 0)
             ]
         );
     }
 
-    public function withValuesFromCarry(
+    public function withValuesFromInputs(
         Refinery $refinery,
         ClozeTextFactory $cloze_text_factory,
         GapsFactory $gaps_factory,
@@ -281,7 +299,7 @@ class Properties implements PropertiesInterface
     ): Properties {
         $clone = clone $this;
         $clone->cloze_text = $carry->retrieve(
-            self::FORM_KEY_CLOZE_TEXT,
+            self::KEY_CLOZE_TEXT,
             $refinery->byTrying([
                 $refinery->custom()->transformation(
                     fn(?string $v): Text => $v === null
@@ -293,7 +311,7 @@ class Properties implements PropertiesInterface
         );
 
         $clone->scoring_identical = $carry->retrieve(
-            self::FORM_KEY_IDENTICAL_SCORING,
+            self::KEY_IDENTICAL_SCORING,
             $refinery->byTrying([
                 $refinery->custom()->transformation(
                     fn(?string $v): ScoringIdentical => $v === null
@@ -305,7 +323,7 @@ class Properties implements PropertiesInterface
         );
 
         $clone->combinations = $carry->retrieve(
-            self::FORM_KEY_ENABLE_COMBINATIONS,
+            self::KEY_ENABLE_COMBINATIONS,
             $refinery->byTrying([
                 $refinery->custom()->transformation(
                     fn($v): Combinations => $clone->combinations->withCombinationsEnabled(
@@ -317,7 +335,7 @@ class Properties implements PropertiesInterface
         );
 
         $clone->gaps = $carry->retrieve(
-            self::FORM_KEY_GAPS_TO_EDIT,
+            self::KEY_GAPS_TO_EDIT,
             $clone->cloze_text->updateGapsFromMarkdown(
                 $this->getAnswerFormId(),
                 $this->getGaps()

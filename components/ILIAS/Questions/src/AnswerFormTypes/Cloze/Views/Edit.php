@@ -35,6 +35,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Standard as InterruptiveItem;
 use ILIAS\UI\URLBuilder;
@@ -141,21 +142,6 @@ class Edit implements EditViewInterface
     ): EditForm|Properties {
         $initialized_environment = $environment->withPreservedTableRowIdsParameter();
 
-        if ($step !== self::STEP_JUMP_TO_SET_ANSWER_OPTIONS
-            && $step !== self::STEP_JUMP_TO_SET_ANSWER_OPTIONS
-            && $step !== self::STEP_JUMP_TO_SET_POINTS) {
-            $initialized_environment = $initialized_environment->withAnswerFormProperties(
-                $environment->getAnswerFormProperties()->withValuesFromCarry(
-                    $this->refinery,
-                    $this->cloze_text_factory,
-                    $this->gap_factory,
-                    $environment->getPresentationFactory()->getCarrySectionData(
-                        $this->http->wrapper()->post()
-                    )
-                )
-            );
-        }
-
         return match ($step) {
             self::STEP_SET_GAP_TYPES,
             self::STEP_CONFIRMED_GAP_REMOVAL => $this->processBasicEditingForm(
@@ -192,20 +178,24 @@ class Edit implements EditViewInterface
 
         $editing_form = $environment->getPresentationFactory()->getEditForm(
             $environment->withStepParameter(self::STEP_SET_GAP_TYPES),
-            $answer_form_properties->buildBasicEditingInputs(
-                $this->lng,
-                $this->ui_factory->input()->field(),
-                $this->refinery,
-                $this->properties_factory,
-                $this->cloze_text_factory,
-                $add_legacy_cloze_text_to_input
+            $environment->getPresentationFactory()->getInputsBuilder(
+                $this->refinery->custom()->transformation(
+                    fn(null $carry) => $answer_form_properties->buildBasicEditingInputs(
+                        $this->lng,
+                        $this->ui_factory->input()->field(),
+                        $this->refinery,
+                        $this->properties_factory,
+                        $this->cloze_text_factory,
+                        $add_legacy_cloze_text_to_input
+                    )
+                )
             ),
             false
         );
 
         if (!$add_legacy_cloze_text_to_input
             && $answer_form_properties->getLegacyClozeText() !== ''
-            && $answer_form_properties->getClozeText()->getRawRepresentationForPersistence() === '') {
+            && $answer_form_properties->getClozeText()->getRawRepresentation() === '') {
             return $editing_form->withInsertLegacyTextsButton(
                 $environment->withStepParameter(
                     self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES
@@ -266,16 +256,26 @@ class Edit implements EditViewInterface
     private function buildGapTypesForm(
         Environment $environment
     ): EditForm {
+        /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $properties */
         $properties = $environment->getAnswerFormProperties();
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
             $environment->withStepParameter(self::STEP_SET_ANSWER_OPTIONS),
-            $properties->getGaps()->buildGapsTypeInputs(
-                $this->lng,
-                $ff,
-                $this->refinery,
-                $this->gap_factory->getAvailableGapTypesOptionsArray($this->lng),
-                $environment->getTableRowIds()
+            $environment->getPresentationFactory()->getInputsBuilder(
+                $this->refinery->custom()->transformation(
+                    fn(?string $carry) => $properties
+                        ->withValuesFromQueryCarry($carry)
+                        ->getGaps()
+                        ->buildGapsTypeInputs(
+                            $this->lng,
+                            $ff,
+                            $this->refinery,
+                            $this->gap_factory->getAvailableGapTypesOptionsArray($this->lng),
+                            $environment->getTableRowIds()
+                        )
+                )
+            )->withCarry(
+                $properties->buildQueryCarry()
             ),
             false
         )->withContentBeforeForm(
@@ -312,11 +312,15 @@ class Edit implements EditViewInterface
         $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
             $environment->withStepParameter(self::STEP_SET_POINTS),
-            $properties->getGaps()->buildAnswerOptionsInputs(
-                $this->lng,
-                $ff,
-                $this->refinery,
-                $environment->getTableRowIds()
+            $this->refinery->custom()->transformation(
+                fn(?string $carry): Section => $properties->getGaps()
+                    ->buildAnswerOptionsInputs(
+                        $this->lng,
+                        $ff,
+                        $this->refinery,
+                        $carry,
+                        $environment->getTableRowIds()
+                    )
             ),
             false,
             $properties->buildCarryInputs($ff)
