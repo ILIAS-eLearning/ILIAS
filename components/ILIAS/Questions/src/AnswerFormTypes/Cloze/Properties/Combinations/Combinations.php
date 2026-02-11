@@ -95,8 +95,8 @@ class Combinations
             if ($combination->containsAnswerOptionsExactly($vs)) {
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
     public function getEditView(

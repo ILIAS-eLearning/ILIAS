@@ -33,6 +33,7 @@ use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 
@@ -252,7 +253,7 @@ class Combination
         Language $lng,
         Factory $combinations_factory,
         Properties $properties
-    ): Group {
+    ): Section {
         return $field_factory->section(
             [
                 'values' => $this->buildValuesInputs(
@@ -311,7 +312,7 @@ class Combination
                 function (array $c, MatchingValue $v) use ($field_factory, $properties): array {
                     $gap_id = $v->getGap()->getAnswerInputId();
                     $gap = $properties->getGaps()->getGapById($gap_id);
-                    $c[$gap_id] = $field_factory->select(
+                    $c[$gap_id->toString()] = $field_factory->select(
                         $gap->buildShortenedGapName(),
                         $gap->getType()->getCombinationsSelectValues($gap)
                     )->withRequired(true)

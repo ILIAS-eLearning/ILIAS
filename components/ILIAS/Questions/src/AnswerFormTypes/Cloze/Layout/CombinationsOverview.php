@@ -33,6 +33,7 @@ use ILIAS\HTTP\Services as Http;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Table\Data as DataTable;
@@ -329,7 +330,7 @@ class CombinationsOverview implements DataRetrieval, Renderable
     ): InputsBuilder {
         $inputs_builder = $this->environment->getPresentationFactory()->getInputsBuilder(
             $this->refinery->custom()->transformation(
-                function (?string $v) use ($combination): ?Group {
+                function (?string $v) use ($combination): ?Section {
                     $properties = $this->environment->getAnswerFormProperties();
                     if ($combination === null) {
                         $combination = $this->combinations_factory
@@ -343,6 +344,7 @@ class CombinationsOverview implements DataRetrieval, Renderable
                         $this->ui_factory->input()->field(),
                         $this->refinery,
                         $this->lng,
+                        $this->combinations_factory,
                         $properties
                     );
                 }
