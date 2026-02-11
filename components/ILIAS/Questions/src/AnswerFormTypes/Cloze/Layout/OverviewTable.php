@@ -99,7 +99,8 @@ class OverviewTable implements DataRetrieval
             'edit_answer_options' => $this->table_factory->action()->standard(
                 $this->lng->txt('edit_answer_options'),
                 $this->environment
-                    ->withStepParameter(Edit::STEP_JUMP_TO_SET_ANSWER_OPTIONS),
+                    ->withStepParameter(Edit::STEP_JUMP_TO_SET_ANSWER_OPTIONS)
+                    ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             ),
             'edit_points' => $this->table_factory->action()->standard(

@@ -114,21 +114,30 @@ class Factory
         ScoringIdentical $scoring_of_identical_responses,
         bool $combinations_enabled
     ): Properties {
-        $updated_gaps = $cloze_text->updateGapsFromMarkdown(
-            $properties->getAnswerFormId(),
-            $properties->getGaps()
-        );
-
-        return $properties
-            ->withClozeText(
-                $cloze_text->withIdsOfNewGapsInClozeText($updated_gaps->getUndefinedGaps())
-            )->withGaps($updated_gaps)
+        $updated_properties = $properties
             ->withScoringOfIdenticalResponses($scoring_of_identical_responses)
             ->withCombinations(
                 $properties->getCombinations()->withCombinationsEnabled(
                     $combinations_enabled
                 )
             );
+
+        if ($updated_properties->getLegacyClozeText() !== ''
+            && $cloze_text->getRawRepresentation() === '') {
+            return $updated_properties;
+        }
+
+        $updated_gaps = $cloze_text->updateGapsFromMarkdown(
+            $properties->getAnswerFormId(),
+            $properties->getGaps()
+        );
+
+        return $updated_properties
+            ->withClozeText(
+                $cloze_text->withIdsOfNewGapsInClozeText(
+                    $updated_gaps->getUndefinedGaps()
+                )
+            )->withGaps($updated_gaps);
     }
 
     private function retrieveFirstMatchingRowFromDBRecords(
