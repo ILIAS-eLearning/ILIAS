@@ -44,8 +44,8 @@ class ilShibbolethSettingsForm
         private readonly int $ref_id,
         private readonly object $parentObject,
         protected ilShibbolethSettings $settings,
-        protected string $action,
-        protected string $show_command = ''
+        protected readonly string $action,
+        protected readonly string $show_command = ''
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
