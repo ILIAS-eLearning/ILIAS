@@ -93,9 +93,10 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
     {
         $f = $this->getFactory();
 
-        $video = $f->video("/foo")->withAdditionalSubtitleFile("en", "subtitles.vtt");
+        $video = $f->video("/foo")->withAdditionalSubtitleFile("en", "subtitles.vtt", "English");
 
         $this->assertEquals(["en" => "subtitles.vtt"], $video->getSubtitleFiles());
+        $this->assertEquals(["en" => "English"], $video->getSubtitleLabels());
     }
 
     public function testRenderVideo(): void
@@ -143,13 +144,13 @@ EOT;
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
 
-        $video = $f->video("/foo")->withAdditionalSubtitleFile("en", "subtitles.vtt");
+        $video = $f->video("/foo")->withAdditionalSubtitleFile("en", "subtitles.vtt", "English");
 
         $html = $r->render($video);
         $expected = <<<EOT
 <div class="il-video-container">
     <video controls class="il-video-player" id="" src="/foo" preload="metadata" >
-        <track kind="subtitles" src="subtitles.vtt" srclang="en" />
+        <track kind="subtitles" src="subtitles.vtt" srclang="en" label="English" />
     </video>
 </div>
 EOT;

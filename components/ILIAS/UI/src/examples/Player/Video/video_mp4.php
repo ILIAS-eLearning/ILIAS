@@ -28,8 +28,8 @@ function video_mp4(): string
     $f = $DIC->ui()->factory();
 
     $video = $f->player()->video("https://files.ilias.de/ks/ILIAS-Video.mp4");
-    $video = $video->withAdditionalSubtitleFile("en", "./assets/ui-examples/misc/subtitles_en.vtt");
-    $video = $video->withAdditionalSubtitleFile("de", "./assets/ui-examples/misc/subtitles_de.vtt");
+    $video = $video->withAdditionalSubtitleFile("en", "./assets/ui-examples/misc/subtitles_en.vtt", "English");
+    $video = $video->withAdditionalSubtitleFile("de", "./assets/ui-examples/misc/subtitles_de.vtt", "Deutsch");
 
     return $renderer->render($video);
 }
