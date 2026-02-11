@@ -35,7 +35,12 @@ class ilMailLuceneSearcher
         }
 
         try {
-            $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail();
+            $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
+                CLIENT_ID . '_' . $this->settings->get('inst_id', '0'),
+                $user_id,
+                $this->query_parser->getQuery(),
+                $mail_folder_id
+            );
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('mail')->critical($e->getMessage());
             throw $e;

@@ -24,7 +24,7 @@ declare(strict_types=1);
  * List of all known RPC methods...
  *
  * RPCIndexHandler:
- * @method void index() index(string $client, bool $bool) Prefix/Package: RPCIndexHandler
+ * @method bool index() index(string $client, bool $bool) Prefix/Package: RPCIndexHandler
  * @method void indexObjects() indexObjects(string $client, array $object_ids) Prefix/Package: RPCIndexHandler
  *
  * RPCTransformationHandler:
@@ -59,12 +59,6 @@ class ilRpcClient
         global $DIC;
 
         $this->logger = $DIC->logger()->wsrv();
-
-        if (!extension_loaded('xmlrpc')) {
-            ilLoggerFactory::getLogger('wsrv')->error('RpcClient Xmlrpc extension not enabled');
-            throw new ilRpcClientException('Xmlrpc extension not enabled.', 50);
-        }
-
         $this->url = $url;
         $this->prefix = $prefix;
         $this->timeout = $timeout;
@@ -76,7 +70,7 @@ class ilRpcClient
      * @return string|stdClass Depends on the response returned by the XMLRPC method.
      * @throws ilRpcClientException
      */
-    public function __call(string $method, array $parameters): string|stdClass
+    public function __call(string $method, array $parameters): string|bool|stdClass
     {
         //prepare xml post data
         $method_name = str_replace('_', '.', $this->prefix . $method);
@@ -115,9 +109,10 @@ class ilRpcClient
      */
     protected function encodeRequest(string $method, array $parameters): string
     {
-        $request = new DOMDocument('1.0', 'UTF-8');
-        $method_name = new DOMElement('methodName', $method);
-        $params = new DOMElement('params');
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $method_call = $xml->createElement('methodCall');
+        $method_name = $xml->createElement('methodName', $method);
+        $params = $xml->createElement('params');
 
         foreach ($parameters as $parameter) {
             match (true) {
@@ -129,13 +124,14 @@ class ilRpcClient
                     'Invalid parameter type, only string, int, bool, and int[] are supported.'
                 )
             };
-            $params->appendChild($this->wrapParameter($encoded_parameter));
+            $params->appendChild($xml->importNode($this->wrapParameter($encoded_parameter)->documentElement, true));
         }
 
-        $request->appendChild($method_name);
-        $request->appendChild($params);
+        $method_call->appendChild($method_name);
+        $method_call->appendChild($params);
 
-        return $request->saveXML();
+        $xml->appendChild($method_call);
+        return $xml->saveXML();
     }
 
     protected function isListOfIntegers(mixed $parameter): bool
@@ -151,74 +147,87 @@ class ilRpcClient
         return true;
     }
 
-    protected function wrapParameter(DOMElement $encoded_parameter): DomElement
+    protected function wrapParameter(DOMDocument $encoded_parameter): DOMDocument
     {
-        $param = new DomElement('param');
-        $value = new DomElement('value');
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $param = $xml->createElement('param');
+        $value = $xml->createElement('value');
 
-        $value->appendChild($encoded_parameter);
+        $value->appendChild($xml->importNode($encoded_parameter->documentElement, true));
         $param->appendChild($value);
 
-        return $param;
+        $xml->appendChild($param);
+        return $xml;
     }
 
-    protected function encodeString(string $parameter): DOMElement
+    protected function encodeString(string $parameter): DOMDocument
     {
-        return new DOMElement('string', $parameter);
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->appendChild($xml->createElement('string', $parameter));
+        return $xml;
     }
 
-    protected function encodeInteger(int $parameter): DOMElement
+    protected function encodeInteger(int $parameter): DOMDocument
     {
-        return new DOMElement('int', (string) $parameter);
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->appendChild($xml->createElement('int', (string) $parameter));
+        return $xml;
     }
 
-    protected function encodeBoolean(bool $parameter): DOMElement
+    protected function encodeBoolean(bool $parameter): DOMDocument
     {
-        return new DOMElement('bool', $parameter ? '1' : '0');
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->appendChild($xml->createElement('boolean', $parameter ? '1' : '0'));
+        return $xml;
     }
 
-    protected function encodeListOfIntegers(int ...$parameters): DOMElement
+    protected function encodeListOfIntegers(int ...$parameters): DOMDocument
     {
-        $array = new DomElement('array');
-        $data = new DomElement('data');
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $array = $xml->createElement('array');
+        $data = $xml->createElement('data');
 
         foreach ($parameters as $parameter) {
-            $value = new DomElement('value');
-            $value->appendChild($this->encodeInteger($parameter));
+            $value = $xml->createElement('value');
+            $value->appendChild($xml->importNode($this->encodeInteger($parameter)->documentElement, true));
             $data->appendChild($value);
         }
         $array->appendChild($data);
 
-        return $array;
+        $xml->appendChild($array);
+        return $xml;
     }
 
     /**
      * Returns decoded response if not faulty, otherwise throws exception.
      * @throws ilRpcClientException
      */
-    protected function handleResponse(string $xml): string|stdClass
+    public function handleResponse(string $xml): string|bool|stdClass
     {
         $response = new DOMDocument('1.0', 'UTF-8');
+        $response->preserveWhiteSpace = false;
         $response->loadXML($xml);
 
         if (!$response) {
             throw new ilRpcClientException('Invalid XML response');
         }
 
-        $response_body = $response->childNodes->item(0);
+        $response_body = $response->documentElement->childNodes->item(0);
 
         if ($response_body === null) {
             throw new ilRpcClientException('Empty response');
         }
 
+        $this->logger->dump($response_body);
+
         return match ($response_body->nodeName) {
             'params' => $this->decodeOKResponse($response_body),
             'fault' => $this->handleFaultResponse($response_body),
-            default => throw new ilRpcClientException('Unexpected element in response: ' . $response_body->nodeName),
+            default => throw new ilRpcClientException('Unexpected element in response: ' . get_class($response_body)),
         };
     }
 
-    protected function decodeOKResponse(DOMElement $response_body): string|stdClass
+    protected function decodeOKResponse(DOMElement $response_body): string|bool|stdClass
     {
         $param_child = $response_body->getElementsByTagName('value')->item(0)?->childNodes?->item(0);
 
@@ -228,19 +237,26 @@ class ilRpcClient
 
         return match ($param_child->nodeName) {
             'string' => $this->decodeString($param_child),
+            '#text'  => $this->decodeString($param_child), // org.apache.xmlrpc returns java strings as unwrapped text node
             'base64' => $this->decodeBase64($param_child),
+            'boolean'   => $this->decodeBoolean($param_child),
             default => throw new ilRpcClientException('Unexpected element in response value: ' . $param_child->nodeName),
         };
     }
 
-    protected function decodeString(DOMElement $string): string
+    protected function decodeString(DOMNode $string): string
     {
         return (string) $string->nodeValue;
     }
 
-    protected function decodeBase64(DOMElement $base64): stdClass
+    protected function decodeBase64(DOMNode $base64): stdClass
     {
         return (object) base64_decode((string) $base64->nodeValue);
+    }
+
+    protected function decodeBoolean(DOMNode $boolean): bool
+    {
+        return (bool) $boolean->nodeValue;
     }
 
     /**
@@ -253,12 +269,12 @@ class ilRpcClient
 
         $members = $response_body->getElementsByTagName('member');
         foreach ($members as $member) {
-            $name = $member->getElementsByTagName('name')->item(0)?->nodeName;
+            $name = $member->getElementsByTagName('name')->item(0)?->nodeValue;
             if ($name === 'faultCode') {
                 if ($fault_code !== null) {
                     throw new ilRpcClientException('Multiple codes in fault response.');
                 }
-                $fault_code = $member->getElementsByTagName('int')->item(0)?->nodeValue;
+                $fault_code = (int) $member->getElementsByTagName('int')->item(0)?->nodeValue;
             }
             if ($name === 'faultString') {
                 if ($fault_string !== null) {
@@ -273,10 +289,10 @@ class ilRpcClient
         }
 
         $this->logger->error('RpcClient recieved error ' . $fault_code . ': ' . $fault_string);
-            throw new ilRpcClientException(
-                'RPC-Server returned fault message: ' .
+        throw new ilRpcClientException(
+            'RPC-Server returned fault message: ' .
             $fault_string,
             $fault_code
-            );
-        }
+        );
+    }
 }
