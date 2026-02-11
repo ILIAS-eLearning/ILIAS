@@ -121,7 +121,42 @@ or
 
 for a minified CSS version.
 
-#### Step 4: Add Icons (Optional)
+#### Step 4: Mail styling
+ILIAS 12 features a new, modern email design.
+This can also be customized using a custom system style.
+Both the styling and the layout can be changed as follows:
+
+##### Step 4.1: Sass
+The file `templates/default/mail.scss` provides the CSS for the mail template.
+This can be overwritten in the custom system style.
+To do this, the following file must exist in the custom system style:
+`public/Customizing/skin/<myskin>/mail.scss` or `public/Customizing/skin/<myskin>/<mystyle>/mail.scss`.
+
+Please note: this must be compiled separately into `mail.css`.
+By copying and compiling the file from `templates/default/mail.scss` to the custom system style, variables such as the text color and link color are automatically used for the mail styling.
+
+##### Step 4.2: Template
+The file `components/ILIAS/UI/src/templates/default/Layout/tpl.mailpage.html` forms the HTML framework for the email and can be overwritten in the same way as all other templates via the path `public/Customizing/skin/<myskin>/<mystyle>/UI/Layout/tpl.mailpage.html`.
+
+##### Step 4.3: Logo
+When a custom system style is enabled, a logo is searched for along the following paths and in the given sequence:
+1. `public/Customizing/skin/<myskin>/images/logo/Logo.svg`
+2. `public/Customizing/skin/<myskin>/images/logo/HeaderIcon.svg`
+3. `public/Customizing/skin/<myskin>/<mystyle>/images/logo/Logo.svg`
+4. `public/Customizing/skin/<myskin>/<mystyle>/images/logo/HeaderIcon.svg`
+5. The first compatible file in `public/Customizing/skin/<myskin>/images/logo/`
+6. The first compatible file in `public/Customizing/skin/<myskin>/<mystyle>/images/logo/`
+7. The ILIAS standard logo
+
+The first match will be used as the logo for the email.
+In addition to .svg, the following formats are also supported for the logo:
+- jpg
+- jpeg
+- gif
+- png
+
+
+#### Step 5: Add Icons (Optional)
 
 If you want to replace the default icons coming with ILIAS, you can add new
 representations of them to your skin. They must be stored in a subdirectory
@@ -139,7 +174,7 @@ all of them via the ILIAS administration:
 
 Administration / Repository and Objects / Files / File Objects: Suffix-Specific Icons
 
-#### Step 5: Change Layout (Optional)
+#### Step 6: Change Layout (Optional)
 
 The layout is specified in HTML template files. Some standard default template
 files can be found in directory `templates/default`. Other template files are
@@ -182,7 +217,7 @@ Also checkout the breadcrumb scss variables.
 * Startup Screens (Login, Registration, ...): `components/ILIAS/Init/templates/default/tpl .startup_screen.html`
 
 
-#### Step 6: Change the ILIAS Icon
+#### Step 7: Change the ILIAS Icon
 
 The main ILIAS icon is stored in the images Directory as `logo/HeaderIcon.svg`. You
 can replace this easyly by your own Icon in svg format. As long as your Icon is
