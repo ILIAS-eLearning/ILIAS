@@ -12776,6 +12776,7 @@ mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Wollen Sie wirklich die Mitgliedschaft für die folgenden Kurse und Gruppen beenden?
 mmbr#:#mmbr_memberships#:#Mitgliedschaften
+mmbr#:#mmbr_role_error#:#Mitglieder müssen mindestens eine Rolle haben.
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_unsubscribed_from_objs#:#Sie wurden von den ausgewählten Objekten abgemeldet.
 mme#:#add_languages#:#Sprache hinzufügen
