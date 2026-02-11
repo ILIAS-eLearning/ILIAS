@@ -73,7 +73,7 @@ class Text
         return $ff->hidden()->withValue($this->getTextForOutputInHiddenInput());
     }
 
-    public function getRawRepresentationForPersistence(): string
+    public function getRawRepresentation(): string
     {
         return $this->cloze_text->getRawRepresentation();
     }
