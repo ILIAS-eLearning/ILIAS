@@ -9231,6 +9231,8 @@ ecs#:#ecs_wiki_export_enabled#:#Freigeben
 ecs#:#ecs_wiki_export_obj_settings#:#Einstellungen für Wikifreigaben
 error#:#error_back_to_repository#:#Zurück zum Magazin
 error#:#error_sry_error#:#Es ist leider ein Fehler aufgetreten.
+error#:#http_404_not_found#:#Die angeforderte Seite wurde nicht gefunden.
+error#:#http_500_internal_server_error#:#Es ist ein interner Serverfehler aufgetreten.
 etal#:#appointments#:#Sitzungen
 etal#:#cal_type_tals#:#Gespräche
 etal#:#change_date_of_series#:#Gesprächsserie anpassen
