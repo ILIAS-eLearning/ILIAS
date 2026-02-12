@@ -60,7 +60,7 @@ trait CommonFieldRendering
 
     protected function testWithRequired(FormInput $component): void
     {
-        $expected = '<span class="asterisk" aria-label="required_field">*</span></label>';
+        $expected = '<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span></label>';
         $this->assertStringContainsString($expected, $this->render($component->withRequired(true)));
     }
 

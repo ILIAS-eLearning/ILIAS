@@ -46,7 +46,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         "page" => "PageObject",
         "chap" => "StructureObject",
         "term" => "GlossaryItem",
-        "wpage" => "WikiPage"
+        "wpage" => "WikiPage",
+        "ppage" => "PortfolioPage",
     );
     protected ilObjectDefinition $obj_definition;
     protected string $requested_postvar;
@@ -542,6 +543,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             case "page":
                 $type = $lng->txt("obj_pg");
                 $name = ilLMPageObject::_lookupTitle((int) $value[1]);
+                break;
+
+            case "ppage":
+                $type = $lng->txt("cont_prtf_page");
+                $name = ilPortfolioPage::lookupTitle((int) $value[1]);
                 break;
 
             case "chap":

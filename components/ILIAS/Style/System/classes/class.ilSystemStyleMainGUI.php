@@ -144,7 +144,6 @@ class ilSystemStyleMainGUI
                     $this->setTabs($skin_id, $style_id);
                     $this->tabs->activateSubTab('documentation');
                     $this->help->setSubScreenId('documentation');
-                    $read_only = !$this->checkPermission('sty_management', false);
                     $node_id = '';
                     if ($this->request_wrapper->query()->has('node_id')) {
                         $node_id = $this->request_wrapper->query()->retrieve(
@@ -188,7 +187,7 @@ class ilSystemStyleMainGUI
         $this->help->setSubScreenId('overview');
         $this->setTabs($skin_id, $style_id);
         $this->tabs->activateSubTab('overview');
-        $this->checkPermission('visible,read');
+        $this->checkPermission('read');
         $read_only = !$this->checkPermission('sty_write_system', false);
         $management_enabled = true;//$this->checkPermission('sty_management', false);
         $system_styles_overview = new ilSystemStyleOverviewGUI(
@@ -231,15 +230,19 @@ class ilSystemStyleMainGUI
         return true;
     }
 
-    protected function setTabs(string $skin_id, string $style_id, string $active = '') {
+    protected function setTabs(string $skin_id, string $style_id, string $active = '')
+    {
         $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'skin_id', $skin_id);
         $this->ctrl->setParameterByClass(ilSystemStyleDocumentationGUI::class, 'style_id', $style_id);
 
         $this->tabs->addSubTab(
             'overview',
             $this->lng->txt('overview'),
-            $this->ctrl->getLinkTargetByClass(self::class), 'documentation');
-        $this->tabs->addSubTab('documentation',
+            $this->ctrl->getLinkTargetByClass(self::class),
+            'documentation'
+        );
+        $this->tabs->addSubTab(
+            'documentation',
             $this->lng->txt('documentation'),
             $this->ctrl->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, 'entries')
         );

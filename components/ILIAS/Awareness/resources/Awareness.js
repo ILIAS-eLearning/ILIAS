@@ -76,6 +76,7 @@ il.Awareness = {
   afterListUpdate: function() {
     var t = il.Awareness;
 
+    t.init();
     $("#il_awrn_filter_form").submit(function (e) {
       var t = il.Awareness;
       $("#il_awrn_filer_btn").html("<img src='" + t.loader_src + "' />");

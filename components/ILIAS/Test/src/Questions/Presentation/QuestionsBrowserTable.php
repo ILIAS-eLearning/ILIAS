@@ -124,10 +124,10 @@ class QuestionsBrowserTable implements DataRetrieval
     private function getInsertAction(): TableAction
     {
         $url_builder = new URLBuilder($this->data_factory->uri(
-            ServerRequest::getUriFromGlobals() . $this->ctrl->getLinkTargetByClass(
+            ILIAS_HTTP_PATH . "/{$this->ctrl->getLinkTargetByClass(
                 ilTestQuestionBrowserTableGUI::class,
                 ilTestQuestionBrowserTableGUI::CMD_INSERT_QUESTIONS
-            )
+            )}"
         ));
 
         [$url_builder, $row_id_token] = $url_builder->acquireParameters(['qlist'], 'q_id');

@@ -162,7 +162,12 @@ class Pons
                 $attributes = $method->getAttributes(Command::class);
                 foreach ($attributes as $attribute) {
                     $instance = $attribute->newInstance();
-                    $this->access->require($instance->getPermissions());
+                    try {
+                        $this->access->require($instance->getPermissions());
+                    } catch (\Exception $e) {
+                        $this->out()->error($e->getMessage());
+                        return false;
+                    }
                 }
             }
         }

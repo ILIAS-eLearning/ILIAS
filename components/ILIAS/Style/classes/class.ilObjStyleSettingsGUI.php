@@ -126,13 +126,18 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
                 $this->lng->txt("system_styles"),
                 $this->ctrl->getLinkTargetByClass("ilsystemstylemaingui")
             );
+        }
 
+        if ($this->rbac_system->checkAccess('read,sty_write_content', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "content_styles",
                 $this->lng->txt("content_styles"),
                 $this->ctrl->getLinkTargetByClass("ilcontentstylesettingsgui", "edit")
             );
 
+        }
+
+        if ($this->rbac_system->checkAccess('read,sty_write_page_layout', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "page_layouts",
                 $this->lng->txt("page_layouts"),

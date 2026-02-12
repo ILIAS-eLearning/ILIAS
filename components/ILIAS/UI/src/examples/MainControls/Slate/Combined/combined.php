@@ -22,6 +22,9 @@ namespace ILIAS\UI\examples\MainControls\Slate\Combined;
 
 /**
  * ---
+ * description: >
+ *   Pressing the slate reveals more slates, bulky buttons or horizontal dividers.
+ *
  * expected output: >
  *   ILIAS shows the rendered Component.
  * ---

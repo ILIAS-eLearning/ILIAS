@@ -323,7 +323,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 break;
 
             default:
-                if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId()) &&
+                if (!$this->getCreationMode() && !$this->rbacsystem->checkAccess('write', $this->object->getRefId()) &&
                     !$this->rbacsystem->checkAccess('edit_content', $this->object->getRefId())) {
                     throw new ilGlossaryException("No permission.");
                 }

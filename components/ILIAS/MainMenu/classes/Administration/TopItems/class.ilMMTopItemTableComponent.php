@@ -197,6 +197,62 @@ class ilMMTopItemTableComponent implements OrderingRetrieval
 
     public function get(): Component|array
     {
+        $actions = [
+            self::ACTION_EDIT_SUB_TEMS => $this->ui_factory->table()->action()->single(
+                $this->pons->i18n()->t('edit_sub_tems'),
+                $this->url_builder->withURI(
+                    $this->pons->flow()->getTargetURI(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DEFAULT)
+                ),
+                $this->token
+            ),
+        ];
+        if ($this->write_access) {
+            $actions = array_merge($actions, [
+                self::ACTION_EDIT => $this->ui_factory->table()->action()->single(
+                    $this->pons->i18n()->t('edit'),
+                    $this->url_builder->withURI(
+                        $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_EDIT)
+                    ),
+                    $this->token
+                )->withAsync(true),
+                self::ACTION_TRANSLATE => $this->ui_factory->table()->action()->single(
+                    $this->pons->i18n()->t('translate'),
+                    $this->url_builder->withURI(
+                        $this->pons->flow()->getTranslationAsURI()
+                    ),
+                    $this->token
+                )->withAsync(true),
+                self::ACTION_ACTIVATE => $this->ui_factory->table()->action()->standard(
+                    $this->pons->i18n()->t('activate'),
+                    $this->url_builder->withURI(
+                        $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_ACTIVATE)
+                    ),
+                    $this->token
+                ),
+                self::ACTION_DEACTIVATE => $this->ui_factory->table()->action()->standard(
+                    $this->pons->i18n()->t('deactivate'),
+                    $this->url_builder->withURI(
+                        $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_DEACTIVATE)
+                    ),
+                    $this->token
+                ),
+                self::ACTION_MOVE => $this->ui_factory->table()->action()->standard(
+                    $this->pons->i18n()->t('move'),
+                    $this->url_builder->withURI(
+                        $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_SELECT_PARENT)
+                    ),
+                    $this->token
+                )->withAsync(true),
+                self::ACTION_DELETE => $this->ui_factory->table()->action()->standard(
+                    $this->pons->i18n()->t('delete'),
+                    $this->url_builder->withURI(
+                        $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_CONFIRM_DELETE)
+                    ),
+                    $this->token
+                )->withAsync(true),
+            ]);
+        }
+
         return [
             $this->ui_factory
                 ->table()
@@ -227,59 +283,10 @@ class ilMMTopItemTableComponent implements OrderingRetrieval
                         ),
                     ]
                 )
+                ->withOrderingDisabled(!$this->write_access)
                 ->withRequest($this->pons->in()->request())
                 ->withActions(
-                    [
-                        self::ACTION_EDIT_SUB_TEMS => $this->ui_factory->table()->action()->single(
-                            $this->pons->i18n()->t('edit_sub_tems'),
-                            $this->url_builder->withURI(
-                                $this->pons->flow()->getTargetURI(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DEFAULT)
-                            ),
-                            $this->token
-                        ),
-                        self::ACTION_EDIT => $this->ui_factory->table()->action()->single(
-                            $this->pons->i18n()->t('edit'),
-                            $this->url_builder->withURI(
-                                $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_EDIT)
-                            ),
-                            $this->token
-                        )->withAsync(true),
-                        self::ACTION_TRANSLATE => $this->ui_factory->table()->action()->single(
-                            $this->pons->i18n()->t('translate'),
-                            $this->url_builder->withURI(
-                                $this->pons->flow()->getTranslationAsURI()
-                            ),
-                            $this->token
-                        )->withAsync(true),
-                        self::ACTION_ACTIVATE => $this->ui_factory->table()->action()->standard(
-                            $this->pons->i18n()->t('activate'),
-                            $this->url_builder->withURI(
-                                $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_ACTIVATE)
-                            ),
-                            $this->token
-                        ),
-                        self::ACTION_DEACTIVATE => $this->ui_factory->table()->action()->standard(
-                            $this->pons->i18n()->t('deactivate'),
-                            $this->url_builder->withURI(
-                                $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_DEACTIVATE)
-                            ),
-                            $this->token
-                        ),
-                        self::ACTION_MOVE => $this->ui_factory->table()->action()->standard(
-                            $this->pons->i18n()->t('move'),
-                            $this->url_builder->withURI(
-                                $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_SELECT_PARENT)
-                            ),
-                            $this->token
-                        )->withAsync(true),
-                        self::ACTION_DELETE => $this->ui_factory->table()->action()->standard(
-                            $this->pons->i18n()->t('delete'),
-                            $this->url_builder->withURI(
-                                $this->pons->flow()->getHereAsURI(ilMMTopItemGUI::CMD_CONFIRM_DELETE)
-                            ),
-                            $this->token
-                        )->withAsync(true),
-                    ]
+                    $actions
                 )
         ];
     }

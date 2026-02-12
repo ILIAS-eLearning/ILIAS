@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Container\DataProvider;
 
-use ILIAS\ResourceStorage\Services;
 use ILIAS\components\ResourceStorage\Container\View\Request;
 use ILIAS\components\ResourceStorage\Container\Wrapper\Dir;
 use ILIAS\components\ResourceStorage\Container\Wrapper\File;
@@ -30,13 +29,10 @@ use ILIAS\components\ResourceStorage\Container\Wrapper\File;
  */
 final class TableDataProvider
 {
-    private Services $irss;
-
     public function __construct(
         private Request $view_request,
     ) {
         global $DIC;
-        $this->irss = $DIC->resourceStorage();
     }
 
     public function getViewRequest(): Request
@@ -72,7 +68,7 @@ final class TableDataProvider
             $type_a = $a instanceof Dir ? '' : $a->getMimeType();
             $type_b = $b instanceof Dir ? '' : $b->getMimeType();
             return match ($this->view_request->getSortation()) {
-                Request::BY_CREATION_DATE_DESC => $b->getModificationDate()->getTimestamp() <=> $a->getModificationDate()->getTimestamp(),
+                Request::BY_CREATION_DATE_DESC => $a->getModificationDate()->getTimestamp() <=> $b->getModificationDate()->getTimestamp(),
                 Request::BY_CREATION_DATE_ASC => $b->getModificationDate()->getTimestamp() <=> $a->getModificationDate()->getTimestamp(),
                 Request::BY_SIZE_DESC => $size_a - $size_b,
                 Request::BY_SIZE_ASC => $size_b - $size_a,

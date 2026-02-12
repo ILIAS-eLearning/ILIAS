@@ -19,12 +19,14 @@
 use ILIAS\Notes\NotesManager;
 use ILIAS\Notes\StandardGUIRequest;
 use ILIAS\Notes\Note;
+use ILIAS\Data\ReferenceId;
 
 /**
  * @ilCtrl_Calls ilNoteGUI: ilCommentGUI
  */
 class ilNoteGUI
 {
+    protected \ILIAS\Notes\InternalDomainService $domain;
     /**
      * @var Note[]
      */
@@ -125,6 +127,7 @@ class ilNoteGUI
             ->gui()
             ->standardRequest();
         $this->data = $ns->data();
+        $this->domain = $ns->domain();
         $this->gui = $ns->gui();
         $this->notes_access = $ns->domain()->noteAccess();
 
@@ -282,11 +285,6 @@ class ilNoteGUI
 
     public function getListHTML(bool $a_init_form = true): string
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
-
         $content = $this->getNoteListHTML($a_init_form);
         return $this->renderContent($content);
     }
@@ -918,7 +916,11 @@ class ilNoteGUI
                     }
                     $this->item_list_gui[$type]->initItem($vis_ref_id, $context->getObjId(), $title, $a_obj_type);
                     $link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
-                    $link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link) . "#note_" . $a_note_id;
+                    if ($link === "") {
+                        $link = (string) $this->domain->staticUrl()->builder()->build($type, new ReferenceId($vis_ref_id));
+                    } else {
+                        $link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link) . "#note_" . $a_note_id;
+                    }
                 } else {
                     $title = ilObject::_lookupTitle($context->getObjId());
                     $link = "goto.php?target=pg_" . $a_obj_id . "_" . $vis_ref_id;

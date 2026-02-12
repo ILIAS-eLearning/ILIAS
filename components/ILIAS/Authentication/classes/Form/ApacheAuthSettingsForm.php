@@ -74,33 +74,41 @@ readonly class ApacheAuthSettingsForm
     public function buildForm(): StandardForm
     {
         $access = $this->rbac_system->checkAccess('write', $this->ref_id);
+        $inputs = [
+            'apache_enable_auth' => $this->buildEnableAuthInput(),
+            'apache_enable_local' => $this->ui_field->checkbox($this->lng->txt('apache_enable_local'))
+                                                    ->withValue((bool) ($this->values['apache_enable_local'] ?? true)),
+            'apache_enable_ldap' => $this->buildLdapEnableInput(),
+            'apache_auth_indicator_name' => $this->ui_field->text($this->lng->txt('apache_auth_indicator_name'))
+                                                           ->withRequired(true)
+                                                           ->withValue($this->values['apache_auth_indicator_name'] ?? ''),
+            'apache_auth_indicator_value' => $this->ui_field->text($this->lng->txt('apache_auth_indicator_value'))
+                                                            ->withRequired(true)
+                                                            ->withValue($this->values['apache_auth_indicator_value'] ?? ''),
+            'apache_auth_enable_override_login_page' => $this->buildAuthEnableOverrideLoginPageInput(),
+            'apache_auth_authenticate_on_login_page' => $this->ui_field->checkbox($this->lng->txt('apache_auth_authenticate_on_login_page'))
+                                                                       ->withValue((bool) ($this->values['apache_auth_authenticate_on_login_page'] ?? true)),
+            'apache_auth_username_config' => $this->ui_field->section([
+                'apache_auth_username_config_type' => $this->buildAuthUsernameConfigTypeInput()
+            ], $this->lng->txt('apache_auth_username_config')),
+            'apache_auth_security' => $this->ui_field->section([
+                'apache_auth_domains' => $this->ui_field->textarea(
+                    $this->lng->txt('apache_auth_domains'),
+                    $this->lng->txt('apache_auth_domains_description')
+                )->withValue($this->values['apache_auth_domains'] ?? '')
+            ], $this->lng->txt('apache_auth_security'))
+        ];
+
+        if (!$access) {
+            foreach ($inputs as $key => $input) {
+                $inputs[$key] = $input->withDisabled(true);
+            }
+        }
+
 
         $form = $this->ui_factory->input()->container()->form()->standard(
             $this->ctrl->getFormAction($this->parentObject, $access ? $this->save_command : $this->show_command),
-            [
-                'apache_enable_auth' => $this->buildEnableAuthInput(),
-                'apache_enable_local' => $this->ui_field->checkbox($this->lng->txt('apache_enable_local'))
-                    ->withValue((bool) ($this->values['apache_enable_local'] ?? true)),
-                'apache_enable_ldap' => $this->buildLdapEnableInput(),
-                'apache_auth_indicator_name' => $this->ui_field->text($this->lng->txt('apache_auth_indicator_name'))
-                    ->withRequired(true)
-                    ->withValue($this->values['apache_auth_indicator_name'] ?? ''),
-                'apache_auth_indicator_value' => $this->ui_field->text($this->lng->txt('apache_auth_indicator_value'))
-                    ->withRequired(true)
-                    ->withValue($this->values['apache_auth_indicator_value'] ?? ''),
-                'apache_auth_enable_override_login_page' => $this->buildAuthEnableOverrideLoginPageInput(),
-                'apache_auth_authenticate_on_login_page' => $this->ui_field->checkbox($this->lng->txt('apache_auth_authenticate_on_login_page'))
-                    ->withValue((bool) ($this->values['apache_auth_authenticate_on_login_page'] ?? true)),
-                'apache_auth_username_config' => $this->ui_field->section([
-                    'apache_auth_username_config_type' => $this->buildAuthUsernameConfigTypeInput()
-                ], $this->lng->txt('apache_auth_username_config')),
-                'apache_auth_security' => $this->ui_field->section([
-                    'apache_auth_domains' => $this->ui_field->textarea(
-                        $this->lng->txt('apache_auth_domains'),
-                        $this->lng->txt('apache_auth_domains_description')
-                    )->withValue($this->values['apache_auth_domains'] ?? '')
-                ], $this->lng->txt('apache_auth_security'))
-            ]
+            $inputs
         );
 
         if (!$access) {
@@ -200,7 +208,12 @@ readonly class ApacheAuthSettingsForm
             '2' => $this->ui_field->group([], $this->lng->txt('apache_auth_username_extended_mapping'))->withDisabled(true),
             '3' => $this->ui_field->group([], $this->lng->txt('apache_auth_username_by_function')),
         ], $this->lng->txt('apache_auth_username_config_type'))
-            ->withValue($this->values['apache_auth_username_config_type'] ?? '1');
+            ->withValue(
+                isset($this->values['apache_auth_username_config_type']) &&
+                $this->values['apache_auth_username_config_type'] !== '' ?
+                    $this->values['apache_auth_username_config_type'] :
+                    '1'
+            );
     }
 
     private function checkGroupEnabled(string $post_var): bool

@@ -25,6 +25,7 @@ use ILIAS\User\Profile\PublicProfileGUI;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_IsCalledBy ilMStShowUserGUI: ilMyStaffGUI
  * @ilCtrl_Calls      ilMStShowUserGUI: ilUserCertificateGUI
+ * @ilCtrl_Calls      ilMStShowUserGUI: ILIAS\User\Profile\PublicProfileGUI
  */
 class ilMStShowUserGUI
 {

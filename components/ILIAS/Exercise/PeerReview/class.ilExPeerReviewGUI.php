@@ -378,7 +378,7 @@ class ilExPeerReviewGUI
                     else {
                         $builder->addProperty(
                             $builder::SEC_PEER_FEEDBACK,
-                            $lng->txt("exc_received_peer_feedback"),
+                            $lng->txt("exc_received_feedback"),
                             $lng->txt("exc_peer_review_show_received_none")
                         );
                     }

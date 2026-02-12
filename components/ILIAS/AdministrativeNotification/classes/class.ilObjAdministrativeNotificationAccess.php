@@ -17,8 +17,7 @@
  *********************************************************************/
 
 /**
- * Class ilObjAdministrativeNotificationAccess
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ilObjAdministrativeNotificationAccess extends ilObjectAccess
 {
@@ -48,8 +47,14 @@ class ilObjAdministrativeNotificationAccess extends ilObjectAccess
         }
     }
 
-    public function hasUserPermissionTo(string $permission): bool
+    public function hasUserPermissionTo(string $permissions_string): bool
     {
-        return $this->rbacsystem->checkAccess($permission, $this->ref_id);
+        $permissions = explode(',', $permissions_string);
+        foreach ($permissions as $permission) {
+            if ($this->rbacsystem->checkAccess($permission, $this->ref_id)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

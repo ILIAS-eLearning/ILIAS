@@ -49,7 +49,8 @@ class LDAPRoleMappingTable implements DataRetrieval
         private readonly int $server_id,
         private readonly ilObjectDataCache $object_data_cache,
         private readonly ilRbacReview $rbac_review,
-        private readonly \ILIAS\Data\URI $action_url
+        private readonly \ILIAS\Data\URI $action_url,
+        private readonly bool $has_write_access
     ) {
     }
 
@@ -158,20 +159,23 @@ class LDAPRoleMappingTable implements DataRetrieval
     public function getActions(URLBuilder $url_builder, URLBuilderToken $action_parameter_token, URLBuilderToken $row_id_token): array
     {
         $actions = [];
-        $actions['delete'] = $this->ui_factory->table()->action()->multi(
-            $this->lng->txt('delete'),
-            $url_builder->withParameter($action_parameter_token, 'confirmDeleteRoleMapping'),
-            $row_id_token
-        );
 
-        $actions['copy'] = $this->ui_factory->table()->action()->single(
-            $this->lng->txt('copy'),
-            $url_builder->withParameter($action_parameter_token, 'addRoleMapping'),
-            $row_id_token
-        );
+        if ($this->has_write_access) {
+            $actions['delete'] = $this->ui_factory->table()->action()->multi(
+                $this->lng->txt('delete'),
+                $url_builder->withParameter($action_parameter_token, 'confirmDeleteRoleMapping'),
+                $row_id_token
+            );
+
+            $actions['copy'] = $this->ui_factory->table()->action()->single(
+                $this->lng->txt('copy'),
+                $url_builder->withParameter($action_parameter_token, 'addRoleMapping'),
+                $row_id_token
+            );
+        }
 
         $actions['edit'] = $this->ui_factory->table()->action()->single(
-            $this->lng->txt('edit'),
+            $this->has_write_access ? $this->lng->txt('edit') : $this->lng->txt('view'),
             $url_builder->withParameter($action_parameter_token, 'editRoleMapping'),
             $row_id_token
         );

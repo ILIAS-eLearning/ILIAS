@@ -143,7 +143,7 @@ class ilContentStyleSettingsGUI
      */
     public function edit(): void
     {
-        $this->checkPermission("visible,read");
+        $this->checkPermission("read,sty_write_content");
 
         // @todo: check these, they are checked later, but never (ILIAS 6) set
         $fixed_style = 0;

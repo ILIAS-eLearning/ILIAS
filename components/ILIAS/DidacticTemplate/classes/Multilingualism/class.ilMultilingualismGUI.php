@@ -52,7 +52,7 @@ class ilMultilingualismGUI
         $this->lom_services = $DIC->learningObjectMetadata();
 
         $this->obj_trans = ilMultilingualism::getInstance($a_obj_id, $a_type);
-        $this->request = new \ILIAS\Multilingualism\StandardGUIRequest(
+        $this->request = new \ILIAS\DidacticTemplate\Multilingualism\StandardGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );

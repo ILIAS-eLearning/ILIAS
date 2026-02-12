@@ -1808,7 +1808,7 @@ class ilObjGroupGUI extends ilContainerGUI
         switch ($a_tab) {
             case 'settings':
                 $this->tabs_gui->addSubTabTarget(
-                    "grp_settings",
+                    "general",
                     $this->ctrl->getLinkTarget($this, 'edit'),
                     "edit",
                     get_class($this)

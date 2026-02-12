@@ -391,6 +391,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 break;
 
             case "ilcommonactiondispatchergui":
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;

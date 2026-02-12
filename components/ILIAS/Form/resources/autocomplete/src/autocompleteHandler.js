@@ -15,6 +15,7 @@
 
 const moreValue = 'more';
 const triggerTimeout = 500;
+const listCssClass = 'c-form__autocomplete';
 
 /**
  *
@@ -79,11 +80,14 @@ function buildListElement(label, value, id) {
 
 /**
  * @param {HTMLElement} inputField
+ * @param {Object} config
  * @returns {void}
  */
-function removeList(inputField) {
-  if (inputField.nextElementSibling?.nodeName === 'UL') {
-    inputField.nextElementSibling.remove();
+function removeList(inputField, config) {
+  if (config.appendTo) {
+    document.querySelector(config.appendTo)?.querySelector(`.${listCssClass}`)?.remove();
+  } else {
+    inputField.parentNode.querySelector(`.${listCssClass}`)?.remove();
   }
 }
 
@@ -113,19 +117,21 @@ async function fetchListItemsAndBuildSelector(fullUrl, inputField, config) {
     const items = buildItems(responseJson);
 
     if (items.length === 0) {
-      removeList(inputField);
+      removeList(inputField, config);
       return;
     }
 
     const list = document.createElement('ul');
-    list.style.left = `${inputField.offsetLeft}px`;
+    if (typeof config.appendTo !== 'string') {
+      list.style.left = `${inputField.offsetLeft}px`;
+    }
     list.style.minWidth = `${inputField.offsetWidth}px`;
-    list.classList.add('c-form__autocomplete');
+    list.classList.add(listCssClass);
     items.forEach((elem) => {
       if (inputField.value !== elem.value && inputField.value.includes(elem.value)) {
         return;
       }
-      list.appendChild(buildListElement(elem.label, elem.value, elem.id));
+      list.appendChild(buildListElement(elem.label || elem.value, elem.value, elem.id));
     });
     if (responseJson.hasMoreResults) {
       list.appendChild(buildListElement(config.moreText, moreValue));
@@ -133,35 +139,54 @@ async function fetchListItemsAndBuildSelector(fullUrl, inputField, config) {
     if (list.children.length === 0) {
       return;
     }
-    list.addEventListener('keydown', (e) => { keyHandler(e, config); });
-    list.addEventListener('click', (e) => { onSelectHandler(e, config); });
+    list.addEventListener('keydown', (e) => { keyHandler(inputField, e, config); });
+    list.addEventListener('click', (e) => { onSelectHandler(inputField, e, config); });
     const activeElementValue = document.activeElement.dataset.value;
-    removeList(inputField);
-    inputField.parentNode.insertBefore(list, inputField.nextElementSibling);
-    if (typeof activeElementValue !== 'undefined') {
-      inputField.parentNode.querySelector(`[data-value="${activeElementValue}"]`).focus();
+    removeList(inputField, config);
+    if (config.appendTo) {
+      document.querySelector(config.appendTo).appendChild(list);
+      if (typeof activeElementValue !== 'undefined') {
+        document.querySelector(config.appendTo)
+          .querySelector(`[data-value="${activeElementValue}"]`)
+          .focus();
+      }
+    } else {
+      inputField.parentNode.insertBefore(list, inputField.nextElementSibling);
+      if (typeof activeElementValue !== 'undefined') {
+        inputField.parentNode.querySelector(`[data-value="${activeElementValue}"]`).focus();
+      }
+    }
+    if (config.open) {
+      config.open(list);
     }
   } catch (e) {
-    // nothing to do
   }
 }
 
 /**
+ * @param {HTMLInputElement} inputField
  * @param {Event} e
  * @param {Object} config
  * @returns {void}
  */
-function keyHandler(e, config) {
+function keyHandler(inputField, e, config) {
   if (e.key === 'Enter' && e.target.nodeName === 'LI') {
     e.preventDefault();
-    onSelectHandler(e, config);
+    onSelectHandler(inputField, e, config);
   }
 
   if (e.key === 'ArrowDown') {
     e.stopImmediatePropagation();
     e.preventDefault();
-    if (e.target.nextElementSibling?.nodeName === 'UL') {
-      e.target.nextElementSibling.firstElementChild.focus();
+    if (e.target === inputField) {
+      if (config.appendTo) {
+        document.querySelector(config.appendTo)
+          .querySelector(`.${listCssClass}`)
+          .firstElementChild
+          .focus();
+      } else {
+        e.target.parentNode.querySelector(`.${listCssClass}`)?.firstElementChild?.focus();
+      }
     }
 
     if (e.target.nodeName === 'LI' && e.target.nextElementSibling !== null) {
@@ -172,8 +197,9 @@ function keyHandler(e, config) {
   if (e.key === 'ArrowUp' && e.target.nodeName === 'LI') {
     e.stopImmediatePropagation();
     e.preventDefault();
+
     if (e.target.previousElementSibling === null) {
-      e.target.parentElement.previousElementSibling.focus();
+      inputField.focus();
     } else {
       e.target.previousElementSibling.focus();
     }
@@ -193,7 +219,7 @@ function onChangeHandler(e, config) {
 
   if (e.target.value.length < config.autocompleteLength) {
     clearTimeout();
-    removeList(e.target);
+    removeList(e.target, config);
     return;
   }
 
@@ -227,28 +253,30 @@ function getTermFromSelectedValue(value, delimiter) {
 }
 
 /**
+ * @param {HTMLInputElement} inputField
  * @param {Event} e
  * @param {Object} config
  * @returns {void}
  */
-function onSelectHandler(e, config) {
+function onSelectHandler(inputField, e, config) {
   controller.abort();
   controller = new AbortController();
   let { value } = e.target.dataset;
   if (value === moreValue) {
     const term = getTermFromSelectedValue(
-      e.target.parentNode.previousElementSibling.value,
+      inputField.value,
       config.delimiter,
     );
     fetchListItemsAndBuildSelector(
       `${config.dataSource}&term=${encodeURIComponent(term)}&fetchall=1`,
-      e.target.parentNode.previousElementSibling,
+      inputField,
       config,
     );
     return;
   }
+
   if (config.delimiter !== null) {
-    const currentValueArray = e.target.parentNode.previousElementSibling.value
+    const currentValueArray = inputField.value
       .split(config.delimiter);
     let currentValue = '';
     if (currentValueArray.length > 1) {
@@ -256,8 +284,8 @@ function onSelectHandler(e, config) {
     }
     value = `${currentValue}${value}${config.delimiter} `;
   }
-  e.target.parentNode.previousElementSibling.value = value;
-  e.target.parentNode.previousElementSibling.focus();
+  inputField.value = value;
+  inputField.focus();
   e.target.parentNode.remove();
 
   if (config.submitOnSelection && 'id' in e.target.dataset) {
@@ -268,6 +296,6 @@ function onSelectHandler(e, config) {
 export default function autocompleteHandler(autocompleteInput, config) {
   controller = new AbortController();
   setAccessibilityAttributesToContainer(autocompleteInput.parentElement);
-  autocompleteInput.addEventListener('keydown', (e) => { keyHandler(e, config); });
+  autocompleteInput.addEventListener('keydown', (e) => { keyHandler(autocompleteInput, e, config); });
   autocompleteInput.addEventListener('keyup', (e) => { onChangeHandler(e, config); });
 }

@@ -34,6 +34,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
+use Generator;
 
 /**
  * Class TagInput
@@ -59,6 +60,8 @@ class Tag extends FormInput implements C\Input\Field\Tag
     protected ?URLBuilder $async_autocomplete_endpoint = null;
     protected ?URLBuilderToken $async_autocomplete_token = null;
 
+    private bool $strip_tags = true;
+
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
@@ -74,14 +77,8 @@ class Tag extends FormInput implements C\Input\Field\Tag
 
     protected function addAdditionalTransformations(): void
     {
-        $this->setAdditionalTransformation($this->refinery->string()->splitString(','));
-        $this->setAdditionalTransformation($this->refinery->custom()->transformation(function (array $v) {
-            if (count($v) == 1 && $v[0] === '') {
-                return [];
-            }
-            $array = array_map('rawurldecode', $v);
-            return array_map('strip_tags', $array);
-        }));
+        $map = static fn(string $s): array => array_filter(array_map('rawurldecode', explode(',', $s)));
+        $this->setAdditionalTransformation($this->refinery->custom()->transformation($map));
     }
 
     public function getConfiguration(): stdClass
@@ -348,5 +345,22 @@ class Tag extends FormInput implements C\Input\Field\Tag
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+    }
+
+    public function withoutStripTags(): self
+    {
+        $clone = clone $this;
+        $clone->strip_tags = false;
+        return $clone;
+    }
+
+    protected function getOperations(): Generator
+    {
+        yield from parent::getOperations();
+        if ($this->strip_tags) {
+            yield $this->refinery->container()->mapValues(
+                $this->refinery->custom()->transformation(strip_tags(...))
+            );
+        }
     }
 }

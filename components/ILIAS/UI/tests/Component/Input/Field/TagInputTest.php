@@ -303,4 +303,16 @@ class TagInputTest extends ILIAS_UI_TestBase
         $renderer = $this->getDefaultRenderer();
         $renderer->render($tag);
     }
+
+    public function testWithoutStripTags(): void
+    {
+        $tag = $this->getFieldFactory()->tag('my_tag', [])
+            ->withoutStripTags()
+            ->withNameFrom($this->name_source)
+            ->withInput(new DefInputData(['name_0' => '<member>']));
+
+        $result = $tag->getContent();
+        $this->assertTrue($result->isOk());
+        $this->assertSame(['<member>'], $result->value());
+    }
 }

@@ -2714,12 +2714,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             );
         }
 
-        // Always show container trash
-        $this->tabs_gui->addTab(
-            'trash',
-            $this->lng->txt('trash'),
-            $this->ctrl->getLinkTarget($this, 'trash')
-        );
+        if ($this->checkPermissionBool("write")) {
+            $this->tabs_gui->addTab(
+                'trash',
+                $this->lng->txt('trash'),
+                $this->ctrl->getLinkTarget($this, 'trash')
+            );
+        }
 
         if ($this->checkPermissionBool("edit_permission")) {
             $this->tabs_gui->addTab(

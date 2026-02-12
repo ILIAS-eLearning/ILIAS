@@ -275,6 +275,8 @@ class ilLMObject
 
         $ilDB = $DIC->database();
 
+        $a_title = ilStr::substr($a_title, 0, 200);
+
         $query = "UPDATE lm_data SET " .
             " title = " . $ilDB->quote($a_title, "text") .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer");

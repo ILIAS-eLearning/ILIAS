@@ -327,18 +327,25 @@ final class ilFooterGroupsGUI extends AbstractPonsGUI implements SupportsTransla
             );
         }
 
+        $successful_deletions = 0;
         foreach ($from_request as $id) {
-            $group = $this->repository->get($id);
-            if ($group === null) {
+            $item = $this->repository->get($id);
+            if ($item === null) {
                 continue;
             }
-            if ($group->isCore()) {
+            if ($item->isCore()) {
                 continue;
             }
-            $this->repository->delete($group);
+            $this->repository->delete($item);
+            $successful_deletions++;
         }
 
-        $this->pons->out()->success($this->translator->translate('group_deleted'));
+        if ($successful_deletions === 0) {
+            $this->pons->out()->error($this->translator->translate('entry_deleted_failed'), true);
+            $this->pons->flow()->redirect(self::CMD_DEFAULT);
+            return;
+        }
+        $this->pons->out()->success($this->translator->translate('entry_deleted'), true);
         $this->pons->flow()->redirect(self::CMD_DEFAULT);
     }
 

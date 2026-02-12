@@ -44,9 +44,6 @@ class ilAccordionGUI
     protected string $containerclass = "";
     protected string $id = "";
     protected bool $head_class_set = false;
-    public static string $owl_path = "./node_modules/owl.carousel/dist";
-    public static string $owl_js_path = "/owl.carousel.js";
-    public static string $owl_css_path = "/assets/owl.carousel.css";
     protected ilGlobalTemplateInterface $main_tpl;
     protected string $active_headerclass = "";
     protected string $behaviour = self::FIRST_OPEN;
@@ -256,16 +253,14 @@ class ilAccordionGUI
             );
         }
         return array(
-            "assets/js/accordion.js",
-            "assets/js" . self::$owl_js_path
+            "assets/js/accordion.js"
         );
     }
 
     public static function getLocalCssFiles(): array
     {
         return array(
-            "./components/ILIAS/Accordion/css/accordion.css",
-            self::$owl_path . self::$owl_css_path
+            "./components/ILIAS/Accordion/css/accordion.css"
         );
     }
 

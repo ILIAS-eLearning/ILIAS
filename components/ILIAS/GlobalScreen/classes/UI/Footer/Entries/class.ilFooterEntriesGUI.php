@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\GlobalScreen\GUI\I18n\Translator;
 use ILIAS\GlobalScreen\GUI\Input\TokenContainer;
 use ILIAS\UI\Factory;
@@ -36,6 +37,8 @@ use ILIAS\GlobalScreen\UI\Footer\Groups\GroupsRepositoryDB;
 use ILIAS\GlobalScreen\GUI\Flow\Command;
 use ILIAS\GlobalScreen\GUI\I18n\MultiLanguage\TranslatableItem;
 use ILIAS\GlobalScreen\GUI\Input\Input;
+use ILIAS\Data\URI;
+use ILIAS\GlobalScreen\UI\Footer\Entries\EntryDTO;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>
@@ -91,6 +94,8 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
      * @var string
      */
     public const CMD_TOGGLE_ACTIVATION = 'toggleActivation';
+    public const string CMD_SELECT_MOVE = 'selectMove';
+    public const string CMD_MOVE = 'move';
     private EntriesRepository $repository;
     private Factory $ui_factory;
     private ilCtrlInterface $ctrl;
@@ -101,6 +106,7 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
     private TokenContainer $group_token;
     private TokenContainer $entry_token;
     private ?Group $group;
+    private GroupsRepositoryDB $groups_repository;
 
     public function __construct(
         Pons $pons,
@@ -111,7 +117,7 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
         $this->dic = $DIC;
         $this->ui_factory = $this->dic->ui()->factory();
 
-        $group_repository = new GroupsRepositoryDB(
+        $this->groups_repository = new GroupsRepositoryDB(
             $this->dic->database(),
             new ilFooterCustomGroupsProvider($DIC)
         );
@@ -122,7 +128,7 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
         );
         $this->group_token = $this->pons->in()->buildToken('group', 'id');
         $this->entry_token = $this->pons->in()->buildToken('entry', 'id');
-        $this->group = $group_repository->get(
+        $this->group = $this->groups_repository->get(
             $this->pons->in()->getFirstFromRequest($this->group_token)
         );
         $this->pons->in()->keep($this->group_token);
@@ -361,6 +367,7 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
             );
         }
 
+        $successful_deletions = 0;
         foreach ($from_request as $id) {
             $item = $this->repository->get($id);
             if ($item === null) {
@@ -370,12 +377,19 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
                 continue;
             }
             $this->repository->delete($item);
+            $successful_deletions++;
         }
 
+        if ($successful_deletions === 0) {
+            $this->pons->out()->error($this->translator->translate('entry_deleted_failed'), true);
+            $this->pons->flow()->redirect(self::CMD_DEFAULT);
+            return;
+        }
         $this->pons->out()->success($this->translator->translate('entry_deleted'), true);
         $this->pons->flow()->redirect(self::CMD_DEFAULT);
     }
 
+    #[Command('write')]
     private function saveOrder(): void
     {
         foreach ($this->pons->in()->request()->getParsedBody() as $hashed_id => $position) {
@@ -384,6 +398,73 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
             $this->repository->store($item);
         }
         $this->pons->out()->success($this->pons->i18n()->translate('order_saved'));
+        $this->pons->flow()->redirect(self::CMD_DEFAULT);
+    }
+
+    private function buildTargetSelectorForm(URI $post_url): Standard
+    {
+        // determine parent group
+        $all_groups = $this->groups_repository->all();
+
+        $selection = [];
+        foreach ($all_groups as $group) {
+            if ($this->group !== null && $group->getId() === $this->group->getId()) {
+                continue;
+            }
+            $selection[$this->hash($group->getId())] = $group->getTitle();
+        }
+
+        return $this->pons->out()->ui()->factory()->input()->container()->form()->standard(
+            (string) $post_url,
+            [
+                $this->pons->out()->ui()->factory()->input()->field()->select(
+                    $this->pons->i18n()->t('target_group', 'entries'),
+                    $selection
+                )->withRequired(true)
+            ]
+        );
+    }
+
+    #[Command('write')]
+    private function selectMove(): void
+    {
+        $this->pons->in()->keepTokens($this);
+
+        $post_url = $this->pons->flow()->getHereAsURI(self::CMD_MOVE);
+        $this->pons->out()->outAsyncAsModal(
+            $this->pons->i18n()->t(self::CMD_MOVE),
+            $post_url,
+            $this->buildTargetSelectorForm($post_url)
+        );
+    }
+
+    #[Command('write')]
+    private function move(): void
+    {
+        $form = $this->buildTargetSelectorForm($this->pons->flow()->getHereAsURI(self::CMD_MOVE))->withRequest(
+            $this->pons->in()->request()
+        );
+
+        if (($data = $form->getData()) === null) {
+            $this->pons->out()->error($this->pons->i18n()->t('no_parent_selected'), true);
+            $this->pons->flow()->redirect(self::CMD_DEFAULT);
+            return;
+        }
+
+        try {
+            $parent_group = $this->unhash($data[0] ?? '');
+        } catch (Throwable $e) {
+            $this->pons->out()->error($this->pons->i18n()->t('no_parent_selected'), true);
+            $this->pons->flow()->redirect(self::CMD_DEFAULT);
+            return;
+        }
+
+        /**
+         * @var EntryDTO $selected_item
+         */
+        $selected_item = $this->getCurrentItem();
+        $this->repository->store($selected_item->withParent($parent_group));
+        $this->pons->out()->success($this->pons->i18n()->t('item_moved'), true);
         $this->pons->flow()->redirect(self::CMD_DEFAULT);
     }
 
@@ -402,6 +483,8 @@ final class ilFooterEntriesGUI extends AbstractPonsGUI implements SupportsTransl
             self::CMD_DELETE => $this->delete(),
             self::CMD_TOGGLE_ACTIVATION => $this->toggleActivation(),
             self::CMD_SAVE_ORDER => $this->saveOrder(),
+            self::CMD_SELECT_MOVE => $this->selectMove(),
+            self::CMD_MOVE => $this->move(),
             default => $this->pons->out()->outString(
                 'Unknown command: ' . $this->pons->flow()->getCommand(self::CMD_DEFAULT)
             ),

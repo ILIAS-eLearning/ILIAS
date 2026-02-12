@@ -99,7 +99,7 @@ class ilSingleUserShareGUI
                 }
                 $this->ctrl->returnToParent($this);
             } else {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_no_match'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('wsp_search_no_match'), true);
             }
         }
         $this->ctrl->redirect($this);

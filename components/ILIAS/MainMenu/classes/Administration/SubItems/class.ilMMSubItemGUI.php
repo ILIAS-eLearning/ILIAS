@@ -122,9 +122,15 @@ class ilMMSubItemGUI extends ilMMBaseGUI
 
         $form = $this->buildForm();
 
-        if ($save && $form->save()) {
-            $this->pons->out()->success($this->lng->t('item_updated'), true);
-            $this->pons->flow()->redirect(self::CMD_DEFAULT);
+        if ($save) {
+            if ($form->save()) {
+                $this->pons->out()->success($this->lng->t('item_updated'), true);
+                $this->pons->flow()->redirect(self::CMD_DEFAULT);
+            } else {
+                $this->pons->in()->keep($this->sub_token->token());
+                $this->pons->out()->out($form->get());
+                return;
+            }
         }
 
         $this->pons->out()->outAsyncAsModal(

@@ -41,10 +41,6 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
     private ilToolbarGUI $toolbar;
     private ilGlobalTemplateInterface $main_tpl;
     private ilComponentRepository $component_repository;
-    /**
-     * @var array<string, ILIAS\User\Profile\Field>|null
-     */
-    private ?array $user_defined_fields = null;
     private ?ilLDAPRoleAssignmentRule $role_mapping_rule = null;
     private ?ilLDAPRoleAssignmentRule $rule = null;
     private ?ilLDAPRoleGroupMappingSettings $role_mapping = null;
@@ -249,9 +245,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
             $cmd = 'serverList';
         }
 
-        if ($cmd !== 'serverList' && !$this->rbacSystem->checkAccess('visible,read', $this->ref_id)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_write'), true);
-            $this->ctrl->redirect($this, 'serverList');
+        if (!$this->rbacSystem->checkAccess('read', $this->ref_id)) {
+            $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
 
         $verified_command = $cmd . 'Cmd';
@@ -276,7 +271,11 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         foreach (array_keys($this->getMappingFields()) as $key) {
             $keys[] = $key;
         }
-        foreach ($this->user_defined_fields as $field) {
+        foreach ($this->profile->getFields() as $field) {
+            if (!$field->isCustom()) {
+                continue;
+            }
+
             $keys[] = 'udf_' . $field->getIdentifier();
         }
 
@@ -412,6 +411,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function deleteRulesCmd(): void
     {
+        $this->checkAccess('write');
+
         if (!$this->rule_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_once'));
             $this->roleAssignmentsCmd();
@@ -491,6 +492,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function showRoleSelectionCmd(): void
     {
+        $this->checkAccess('read');
+
         $this->setSubTabs();
         $this->tabs_gui->activateTab('role_assignments');
         $this->ctrl->saveParameter($this, 'rule_id');
@@ -508,7 +511,9 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
         $table = new ilRoleSelectionTableGUI($this, 'showRoleSelection');
         $table->setTitle($this->lng->txt('ldap_role_selection'));
-        $table->addMultiCommand('saveRoleSelection', $this->lng->txt('ldap_choose_role'));
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
+            $table->addMultiCommand('saveRoleSelection', $this->lng->txt('ldap_choose_role'));
+        }
         $table->parse($entries);
 
         $this->tpl->setContent($table->getHTML());
@@ -563,6 +568,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                         ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleRoleAssignmentTableActions')
                     ),
                 $this->server->getServerId(),
+                $this->rbacSystem->checkAccess('write', $this->ref_id)
             ))->getComponent();
         }
 
@@ -632,6 +638,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function deleteRoleMappingCmd(): void
     {
+        $this->checkAccess('write');
+
         if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->roleMappingCmd();
@@ -649,6 +657,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function chooseMappingCmd(): void
     {
+        $this->checkAccess('read');
+
         if (!$this->mapping_template) {
             $this->userMappingCmd();
             return;
@@ -665,6 +675,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function saveMappingCmd(): void
     {
+        $this->checkAccess('write');
+
         $this->initAttributeMapping();
         $this->tabs_gui->activateTab('role_mapping');
 
@@ -675,8 +687,11 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                 $this->attribute_mappings[$key][1]
             );
         }
-        $this->initUserDefinedFields();
-        foreach ($this->user_defined_fields as $field) {
+        foreach ($this->profile->getFields() as $field) {
+            if (!$field->isCustom()) {
+                continue;
+            }
+
             $key = 'udf_' . $field->getIdentifier();
             $this->mapping->setRule(
                 $key,
@@ -756,7 +771,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function serverListCmd(): void
     {
-        if (!$this->rbacSystem->checkAccess('visible,read', $this->ref_id)) {
+        if (!$this->rbacSystem->checkAccess('read', $this->ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
         }
 
@@ -785,7 +800,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                 ->uri(
                     ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleServerTableActions')
                 ),
-            $this->rbacSystem->checkAccess('write', $this->ref_id)
+            $this->rbacSystem->checkAccess('write', $this->ref_id),
+            $this->rbacSystem->checkAccess('read', $this->ref_id)
         );
 
         $this->tpl->setContent($this->ui_renderer->render($table->getComponent()));
@@ -1023,7 +1039,17 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
             ilAdministrationSettingsFormHandler::getSettingsGUIInstance('auth')
         );
 
-        $this->form_gui->addCommandButton('save', $this->lng->txt('save'));
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
+            $this->form_gui->addCommandButton('save', $this->lng->txt('save'));
+        } else {
+            foreach ($this->form_gui->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+                $item->setDisabled(true);
+            }
+        }
+
         if ($this->ctrl->getCmd() === 'addServerSettings') {
             $this->form_gui->addCommandButton('serverList', $this->lng->txt('cancel'));
         }
@@ -1031,6 +1057,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function saveCmd(): void
     {
+        $this->checkAccess('write');
+
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('settings');
 
@@ -1204,28 +1232,10 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         ];
     }
 
-    private function initUserDefinedFields(): void
-    {
-        if ($this->user_defined_fields === null) {
-            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
-        }
-    }
-
     private function initFormRoleAssignments(string $a_mode): void
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
-
-        switch ($a_mode) {
-            case 'edit':
-                $this->form->setTitle($this->lng->txt('ldap_edit_role_ass_rule'));
-                $this->form->addCommandButton('updateRoleAssignment', $this->lng->txt('save'));
-                break;
-            case 'create':
-                $this->form->setTitle($this->lng->txt('ldap_add_role_ass_rule'));
-                $this->form->addCommandButton('addRoleAssignment', $this->lng->txt('ldap_btn_add_role_ass'));
-                break;
-        }
 
         $role = new ilRadioGroupInputGUI($this->lng->txt('ldap_ilias_role'), 'role_name');
         $role->setInfo($this->lng->txt('ldap_role_name_info'));
@@ -1310,6 +1320,26 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
         $group->addOption($pl);
         $this->form->addItem($group);
+
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
+            switch ($a_mode) {
+                case 'edit':
+                    $this->form->setTitle($this->lng->txt('ldap_edit_role_ass_rule'));
+                    $this->form->addCommandButton('updateRoleAssignment', $this->lng->txt('save'));
+                    break;
+                case 'create':
+                    $this->form->setTitle($this->lng->txt('ldap_add_role_ass_rule'));
+                    $this->form->addCommandButton('addRoleAssignment', $this->lng->txt('ldap_btn_add_role_ass'));
+                    break;
+            }
+        } else {
+            foreach ($this->form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+                $item->setDisabled(true);
+            }
+        }
     }
 
     private function addRoleAutoCompleteObjectCmd(): void
@@ -1341,7 +1371,6 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         $propertie_form = new ilPropertyFormGUI();
         $propertie_form->setTitle($this->lng->txt('ldap_mapping_table'));
         $propertie_form->setFormAction($this->ctrl->getFormAction($this, 'saveMapping'));
-        $propertie_form->addCommandButton('saveMapping', $this->lng->txt('save'));
 
         foreach ($this->getMappingFields() as $mapping => $lang) {
             $text_form = new ilTextInputGUI($lang);
@@ -1358,9 +1387,12 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
             $propertie_form->addItem($checkbox_form);
         }
 
-        $this->initUserDefinedFields();
-        foreach ($this->user_defined_fields as $field) {
-            $text_form = new ilTextInputGUI($field->getLabel());
+        foreach ($this->profile->getFields() as $field) {
+            if (!$field->isCustom()) {
+                continue;
+            }
+
+            $text_form = new ilTextInputGUI($field->getLabel($this->lng));
             $text_form->setPostVar('udf_' . $field->getIdentifier() . '_value');
             $text_form->setValue($this->mapping->getValue('udf_' . $field->getIdentifier()));
             $text_form->setSize(32);
@@ -1374,22 +1406,33 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
             $propertie_form->addItem($checkbox_form);
         }
 
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
+            $propertie_form->addCommandButton('saveMapping', $this->lng->txt('save'));
+        } else {
+            foreach ($propertie_form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+                if ($item instanceof ilRadioGroupInputGUI) {
+                    $item->setDisabled(true);
+                }
+                $item->setDisabled(true);
+            }
+        }
+
         return $propertie_form;
     }
 
     private function roleMappingCmd(): void
     {
+        $this->checkAccess('read');
+
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('role_mapping');
-        $this->toolbar->addButton(
-            $this->lng->txt('ldap_new_role_assignment'),
-            $this->ctrl->getLinkTarget($this, 'addRoleMapping')
-        );
 
         $propertie_form = new ilPropertyFormGUI();
         $propertie_form->setTitle($this->lng->txt('ldap_role_settings'));
         $propertie_form->setFormAction($this->ctrl->getFormAction($this, 'saveSyncronizationSettings'));
-        $propertie_form->addCommandButton('saveSyncronizationSettings', $this->lng->txt('save'));
         $role_active = new ilCheckboxInputGUI($this->lng->txt('ldap_role_active'));
         $role_active->setPostVar('role_sync_active');
         $role_active->setChecked($this->server->enabledRoleSynchronization());
@@ -1413,6 +1456,21 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
         $propertie_form->addItem($binding);
 
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
+            $this->toolbar->addButton(
+                $this->lng->txt('ldap_new_role_assignment'),
+                $this->ctrl->getLinkTarget($this, 'addRoleMapping')
+            );
+            $propertie_form->addCommandButton('saveSyncronizationSettings', $this->lng->txt('save'));
+        } else {
+            foreach ($propertie_form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+                $item->setDisabled(true);
+            }
+        }
+
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ldap_role_mappings.html', 'components/ILIAS/LDAP');
         $this->tpl->setVariable('NEW_ASSIGNMENT_TBL', $propertie_form->getHTML());
 
@@ -1426,7 +1484,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
                 $this->object_data_cache,
                 $this->rbacReview,
                 (new Factory())
-                    ->uri(ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleRoleMappingTableActions'))
+                    ->uri(ilUtil::_getHttpPath() . '/' . $this->ctrl->getLinkTarget($this, 'handleRoleMappingTableActions')),
+                $this->rbacSystem->checkAccess('write', $this->ref_id),
             ))->getComponent())
         );
     }
@@ -1465,6 +1524,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function createRoleMappingCmd(): void
     {
+        $this->checkAccess('write');
+
         $propertie_form = $this->initRoleMappingForm('createRoleMapping');
         if ($propertie_form->checkInput() && $this->rbacReview->roleExists($propertie_form->getInput('role'))) {
             $mapping = new ilLDAPRoleGroupMappingSetting(0);
@@ -1493,6 +1554,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function confirmDeleteRoleMapping(): void
     {
+        $this->checkAccess('write');
+
         if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'roleMapping');
@@ -1534,7 +1597,7 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function editServerSettingsCmd(): void
     {
-        $this->checkAccess('write');
+        $this->checkAccess('read');
 
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('settings');
@@ -1568,6 +1631,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function deleteServerSettingsCmd(): void
     {
+        $this->checkAccess('write');
+
         if (!$this->server_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->serverListCmd();
@@ -1632,8 +1697,6 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         $propertie_form = new ilPropertyFormGUI();
         $propertie_form->setTitle($this->lng->txt('ldap_mapping_table'));
         $propertie_form->setFormAction($this->ctrl->getFormAction($this, $command));
-        $propertie_form->addCommandButton($command, $this->lng->txt('save'));
-        $propertie_form->addCommandButton('roleMapping', $this->lng->txt('cancel'));
 
         $url = new ilTextInputGUI($this->lng->txt('ldap_server'));
         $url->setPostVar('url');
@@ -1684,6 +1747,19 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
         $propertie_form->addItem($info);
         $propertie_form->addItem($info_type);
 
+        if ($this->rbacSystem->checkAccess('write', $this->ref_id)) {
+            $propertie_form->addCommandButton($command, $this->lng->txt('save'));
+        } else {
+            foreach ($propertie_form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+
+                $item->setDisabled(true);
+            }
+        }
+        $propertie_form->addCommandButton('roleMapping', $this->lng->txt('cancel'));
+
         return $propertie_form;
     }
 
@@ -1725,9 +1801,11 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function updateRoleMappingCmd(): void
     {
+        $this->checkAccess('write');
         $propertie_form = $this->initRoleMappingForm('updateRoleMapping');
 
-        if ($propertie_form->checkInput() && $this->rbacReview->roleExists($propertie_form->getInput('role'))) {
+        if ($propertie_form->checkInput() &&
+            $this->rbacReview->roleExists($propertie_form->getInput('role'))) {
             $mapping = new ilLDAPRoleGroupMappingSetting($this->mapping_id);
             $mapping->setServerId($this->server->getServerId());
             $mapping->setURL($propertie_form->getInput('url'));
@@ -1756,6 +1834,8 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
 
     private function saveSyncronizationSettingsCmd(): void
     {
+        $this->checkAccess('write');
+
         $this->server->setRoleBindDN($this->role_bind_user);
         $this->server->setRoleBindPassword($this->role_bind_pass);
         $this->server->enableRoleSynchronization($this->role_sync_active);

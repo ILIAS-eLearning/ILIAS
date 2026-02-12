@@ -334,6 +334,16 @@ class ilOpenIdConnectSettingsGUI
         $user_attr->setRequired(true);
         $form->addItem($user_attr);
 
+        if (!$this->checkAccessBool('write')) {
+            foreach ($form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+
+                $item->setDisabled(true);
+            }
+        }
+
         return $form;
     }
 
@@ -444,7 +454,7 @@ class ilOpenIdConnectSettingsGUI
 
         $this->setSubTabs(self::STAB_SCOPES);
         $url = $this->settings->getProvider();
-        if ($url !== '') {
+        if ($url !== '' && $this->checkAccessBool('write')) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
             $this->toolbar->addFormButton($this->lng->txt('auth_oidc_discover_scopes'), 'discoverScopesFromServer');
         }
@@ -458,13 +468,18 @@ class ilOpenIdConnectSettingsGUI
         $this->checkAccess('read');
 
         $ui_container = [];
-        $ui_container = $this->buildScopeSelection($ui_container);
+        $has_write_access = $this->checkAccessBool('write');
+        $ui_container = $this->buildScopeSelection($ui_container, $has_write_access);
 
         /** @var Form $form */
         $form = $this->ui->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, 'saveScopes'),
+            $has_write_access ? $this->ctrl->getFormAction($this, 'saveScopes') : $this->ctrl->getFormAction($this, 'scopes'),
             $ui_container
         )->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+
+        if (!$has_write_access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
 
         return $form;
     }
@@ -493,7 +508,7 @@ class ilOpenIdConnectSettingsGUI
      * @param list<FormInput> $ui_container
      * @return list<FormInput>
      */
-    private function buildScopeSelection(array $ui_container): array
+    private function buildScopeSelection(array $ui_container, bool $has_write_access): array
     {
         $disabled_input = $this->ui
             ->input()
@@ -550,6 +565,12 @@ class ilOpenIdConnectSettingsGUI
             [$disabled_input, $tag_input, $url_validation]
         );
         $ui_container[] = $group;
+
+        if (!$has_write_access) {
+            foreach ($ui_container as $key => $item) {
+                $ui_container[$key] = $item->withDisabled(true);
+            }
+        }
 
         return $ui_container;
     }
@@ -766,6 +787,14 @@ class ilOpenIdConnectSettingsGUI
 
         if ($this->checkAccessBool('write')) {
             $form->addCommandButton('saveRoles', $this->lng->txt('save'));
+        } else {
+            foreach ($form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+
+                $item->setDisabled(true);
+            }
         }
 
         return $form;
@@ -925,6 +954,13 @@ class ilOpenIdConnectSettingsGUI
             $ui_container = $this->buildUserMappingInputFormUDF($field, $ui_container);
         }
 
+        $has_write_access = $this->checkAccessBool('write');
+        if (!$has_write_access) {
+            foreach ($ui_container as $key => $item) {
+                $ui_container[$key] = $item->withDisabled(true);
+            }
+        }
+
         $this->ctrl->setParameter(
             $this,
             'opic',
@@ -937,9 +973,13 @@ class ilOpenIdConnectSettingsGUI
             ->container()
             ->form()
             ->standard(
-                $this->ctrl->getFormAction($this, 'saveProfileMapping'),
+                $has_write_access ? $this->ctrl->getFormAction($this, 'saveProfileMapping') : $this->ctrl->getFormAction($this, 'profile'),
                 $ui_container
             )->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+
+        if (!$has_write_access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
 
         return $form;
     }

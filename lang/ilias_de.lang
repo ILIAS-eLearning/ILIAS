@@ -415,7 +415,7 @@ adve#:#adve_minutes_info#:#Zeitraum in Minuten bis die Seite wegen fehlender Akt
 adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
 adve#:#adve_pe_general#:#Einstellungen
 adve#:#adve_rte_settings#:#TinyMCE-Editor
-adve#:#adve_text_content_features#:#Text Content Menü
+adve#:#adve_text_content_features#:#Unterstützte Zeichenformate
 adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE-Editor für WYSIWYG-Bearbeitung aktivieren
@@ -2125,6 +2125,7 @@ auth#:#auth_saml_deleted_idp#:#Der Identity-Provider wurde gelöscht.
 auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
 auth#:#auth_saml_err_sqlite_driver#:#Die SAML-Authentifizierung benötigt die SQLite-Treiber für PHP. Bitte installieren Sie diese und versuchen Sie es erneut.
 auth#:#auth_saml_idp#:#IDP
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Der IDP ist nicht aktiviert, Authentifizierung gescheitert.
 auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity-Provider aus, mit dem Sie sich einloggen möchten.
 auth#:#auth_saml_idp_selection_table_title#:#Identity-Provider
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen
@@ -3026,9 +3027,9 @@ chatroom#:#messages#:#Nachrichten
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend.
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen!
-chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
+chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungseinstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser-Benachrichtigungen werden mit Ihrem aktuellem Browser nicht unterstützt. Bitte stellen Sie sicher, dass Sie via HTTPS auf ILIAS zugreifen, und Ihr Browser als <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">unterstützter Browser</a> aufgelistet wird.
-chatroom#:#osc_browser_noti_req_permission_error#:#Die Browser-Benachrichtigungen konnten nicht aktiviert werden, da Sie den Zugriff in Ihrem Browser verweigert haben. Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems.
+chatroom#:#osc_browser_noti_req_permission_error#:#Die Browser-Benachrichtigungen konnten nicht aktiviert werden, da Sie den Zugriff in Ihrem Browser verweigert haben. Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungseinstellungen Ihres Browsers oder Betriebssystems.
 chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Chats oder Chat-Nachrichten eine Browser-Benachrichtigung, wenn zwischen zwei Chat-Beiträgen mehr als %s Minute(n) vergangen ist/sind. Befindet sich ILIAS im Hintergrund und arbeiten Sie in anderen Browser-Tabs, oder ist der Browser ausgeblendet, erhalten Sie ebenfalls eine Benachrichtigung.
 chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
@@ -6112,7 +6113,7 @@ cont#:#cont_std_filter_title_2#:#Beschreibung
 cont#:#cont_std_filter_title_3#:#Titel/Beschreibung
 cont#:#cont_std_filter_title_4#:#Schlagwort
 cont#:#cont_std_filter_title_5#:#Autor
-cont#:#cont_std_filter_title_6#:#Copyright
+cont#:#cont_std_filter_title_6#:#Lizenz
 cont#:#cont_std_filter_title_7#:#Kontaktperson
 cont#:#cont_std_filter_title_8#:#Objekttyp
 cont#:#cont_std_filter_title_9#:#Online/Offline
@@ -7354,6 +7355,7 @@ copa#:#copa_value_reading_time_f_p#:#%s Minuten
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 copg#:#copg_active_to_small#:#Dieses Datum muss größer als das „Aktiv ab“-Datum sein.
+copg#:#copg_add_content#:#Inhalte hinzufügen
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
 copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
@@ -9347,7 +9349,7 @@ exc#:#exc_ended#:#Beendet
 exc#:#exc_ended_on#:#Beendet am
 exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Bewertungsdateien
-exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann in der Übersicht der Übungseinheiten heruntergeladen und eingesehen werden.
+exc#:#exc_fb_tutor_info#:#Wird eine Datei zur Bewertung der Übungseinheit hochgeladen, erhält die Teilnehmerin oder der Teilnehmer eine Benachrichtigung und kann dann die Datei in der Übersicht der Übungseinheiten herunterladen und einsehen.
 exc#:#exc_feedback#:#Rückmeldungen
 exc#:#exc_feedback_notification_body#:#Das Feedback zur folgenden Übungseinheit wurde freigeschaltet.
 exc#:#exc_feedback_notification_link#:#Link zur Übung
@@ -9608,6 +9610,7 @@ exc#:#exc_settings_feedback_mail_info#:#Rückmeldungen zur jeweiligen Abgabe wer
 exc#:#exc_settings_feedback_text#:#Texteingabe
 exc#:#exc_settings_feedback_text_info#:#Rückmeldungen zur jeweiligen Abgabe werden in ein Textfeld eingegeben und im Reiter „Übungseinheiten“ angezeigt. Zusätzlich erhalten teilnehmende Personen eine Benachrichtigung per Mail.
 exc#:#exc_show_instructions#:#Arbeitsanweisung anzeigen
+exc#:#exc_show_more#:#Mehr anzeigen
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
 exc#:#exc_show_submissions#:#Lösungsabgaben veröffentlichen
 exc#:#exc_show_submissions_info#:#Bei Übungseinheiten mit einem festen Datum können nach dem Abgabetermin alle Personen die Einreichungen der anderen einsehen.
@@ -9808,9 +9811,9 @@ file#:#add_icon#:#Icon hinzufügen
 file#:#amount_of_downloads#:#Downloads
 file#:#amount_of_downloads_since#:#%d seit %s
 file#:#copyright_custom#:#Benutzerdefiniert
-file#:#copyright_custom_info#:#Benutzerdefiniertes Copyright auswählen, welches auf alle entpackten Dateien dieses Archivs angewandt wird.
+file#:#copyright_custom_info#:#Lizenz auswählen, welche auf alle entpackten Dateien dieses Archivs angewandt wird.
 file#:#copyright_inherited#:#Vererbt
-file#:#copyright_inherited_info#:#Copyright des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Copyright des Zip-Archivs: %s.
+file#:#copyright_inherited_info#:#Lizenz des Zip-Archivs auf seine entpackten Dateien anwenden. <br \>Lizenz des Zip-Archivs: %s.
 file#:#could_not_create_file_objs#:#Beim Erstellen der Dateiobjekte ist ein Fehler aufgetreten, wenden Sie sich an die Administrierenden der Plattform.
 file#:#de_activate_icon#:#(De-)Aktivieren
 file#:#download_ascii_filename#:#Nur ASCII-Zeichen im Download
@@ -10152,7 +10155,7 @@ forum#:#new_post#:#Neuer Beitrag
 forum#:#new_thread_with_post#:#Neues Thema mit Beitrag
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt!
 forum#:#not_allowed_to_merge_into_another_forum#:#Es ist nicht möglich Themen verschiedener Foren zusammenzuführen.
-forum#:#notification_settings#:#Benachrichtigungs-Einstellungen
+forum#:#notification_settings#:#Benachrichtigungseinstellungen
 forum#:#notify_censored#:#Zensierte Beiträge
 forum#:#notify_modified#:#Geänderte Beiträge
 forum#:#notify_post_deleted#:#Gelöschte Beiträge
@@ -10695,14 +10698,19 @@ irss#:#creation_date#:#Erstellungsdatum (Diese Revision)
 irss#:#directory_name#:#Verzeichnisname
 irss#:#directory_name_info#:#Name des Verzeichnisses, welches an der aktuellen Stelle eingefügt werden soll.
 irss#:#download_zip#:#Alle Dateien als ZIP herunterladen
+irss#:#entries_target_group#:#Ziel wählen
+irss#:#entry_deleted_failed#:#Löschen nicht möglich
 irss#:#file_size#:#Dateigröße (Diese Revision)
 irss#:#file_size_bigger_than#:#Dateigröße > MB
 irss#:#full_size#:#Ressourcengröße (Alle Revisionen)
 irss#:#home_directory#:#Stammverzeichnis
+irss#:#item_moved#:#Eintrag verschoben
 irss#:#max_revision#:#Maximale Revision
 irss#:#msg_error_adding_directory#:#Das Verzeichnis konnte nicht angelegt werden.
+irss#:#msg_paths_deleted#:#Pfad(e) gelöscht
 irss#:#msg_success_adding_directory#:#Das Verzeichnis wurde erfolgreich angelegt.
 irss#:#msg_upload#:#Dateien zum Hinzufügen hier ablegen
+irss#:#no_parent_selected#:#Kein Ziel gewählt
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#Kein Stakeholder stellt einen Link zu der Nutzung dieser Resource zur Verfügung.
 irss#:#resource_overview#:#Ressourcen-Übersicht
@@ -12041,14 +12049,14 @@ meta#:#md_adv_text_multi_val#:#Mehrsprachige Werte
 meta#:#md_adv_text_multi_val_info#:#Erlauben Sie mehrsprachige Feldwerte für dieses Datenfeld. Für Texte, die keiner Übersetzung bedürfen, wie z.B. Personennamen, empfiehlt sich die Deaktivierung dieser Option.
 meta#:#md_advanced#:#Benutzerdefinierte Metadaten
 meta#:#md_aria_language_selection#:#Sprachauswahl
-meta#:#md_copyright#:#Copyright
-meta#:#md_copyright_add#:#Neue Vorgabe
-meta#:#md_copyright_admin_tab#:#Copyright & OER
+meta#:#md_copyright#:#Lizenz
+meta#:#md_copyright_add#:#Neue Lizenz hinzufügen
+meta#:#md_copyright_admin_tab#:#LOM & OER
 meta#:#md_copyright_alt_text#:#Alternativtext
 meta#:#md_copyright_alt_text_info#:#Wird für das „Alt“-Attribut des Bildes verwendet
 meta#:#md_copyright_default#:#Standard
-meta#:#md_copyright_edit#:#Copyright-Vorgabe bearbeiten
-meta#:#md_copyright_enable_info#:#Im Unterreiter „Lizenzen“ hinterlegte Auswahl wird in Objekten angeboten.
+meta#:#md_copyright_edit#:#Lizenzen bearbeiten
+meta#:#md_copyright_enable_info#:#Welche Lizenzen in Objekten angeboten werden, legen Sie im Unterreiter „Lizenzen“ fest.
 meta#:#md_copyright_enabled#:#Lizenzen in Objekten
 meta#:#md_copyright_full_name#:#Vollständiger Name
 meta#:#md_copyright_image#:#Bild
@@ -12058,10 +12066,10 @@ meta#:#md_copyright_image_is_link#:#URL eingeben
 meta#:#md_copyright_image_link#:#URL
 meta#:#md_copyright_link#:#URL
 meta#:#md_copyright_link_info#:#Link zu der Lizenz
-meta#:#md_copyright_preview#:#Copyright (Vorschau)
-meta#:#md_copyright_selection#:#Copyright-Vorgaben
-meta#:#md_copyright_value#:#Copyright
-meta#:#md_copyrights_deleted#:#Die ausgewählten Vorgaben wurden entfernt.
+meta#:#md_copyright_preview#:#Vorschau
+meta#:#md_copyright_selection#:#Lizenzen
+meta#:#md_copyright_value#:#Lizenz
+meta#:#md_copyrights_deleted#:#Die ausgewählten Lizenzen wurden entfernt.
 meta#:#md_days#:#Tage:
 meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entfernen?
 meta#:#md_delimiter#:#Trennzeichen
@@ -12115,7 +12123,7 @@ meta#:#md_vocab_table_title#:#Metadaten-Elemente mit vordefinierten Werten
 meta#:#md_vocab_type_column#:#Typ
 meta#:#md_vocab_type_controlled_string#:#Kontrollierter Text
 meta#:#md_vocab_type_controlled_vocab_value#:#Kontrollierte Auswahl
-meta#:#md_vocab_type_copyright#:#Copyright
+meta#:#md_vocab_type_copyright#:#Lizenz
 meta#:#md_vocab_type_standard#:#Standard
 meta#:#md_vocab_update_successful#:#Vokabular erfolgreich aktualisiert
 meta#:#md_vocabularies_config#:#LOM-Vokabulare
@@ -12404,8 +12412,8 @@ meta#:#meta_context#:#Kontext
 meta#:#meta_context_plural#:#Kontexte
 meta#:#meta_contribute#:#Beitrag
 meta#:#meta_contribute_plural#:#Beiträge
-meta#:#meta_copyright#:#Copyright
-meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
+meta#:#meta_copyright#:#Lizenz
+meta#:#meta_copyright_and_other_restrictions#:#Lizenzen und andere Einschränkungen
 meta#:#meta_copyright_change_info#:#Beachten Sie unbedingt das Urheberrecht, wenn Sie die Lizenz für dieses Objekt ändern. Bitte fahren Sie nur fort, wenn Sie befugt sind, über die Nutzungsrechte an dem Objekt zu entscheiden.
 meta#:#meta_copyright_change_oer_info#:#Die Lizenz, die Sie ausgewählt haben, zeichnet das Object als Open Educational Resource aus. Wenn Sie fortfahren, wird es eventuell als solches mit einer Exportdatei gelistet, und über diese Plattform hinaus veröffentlicht.
 meta#:#meta_copyright_change_warning_title#:#Lizenz ändern
@@ -12769,6 +12777,7 @@ mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Wollen Sie wirklich die Mitgliedschaft für die folgenden Kurse und Gruppen beenden?
 mmbr#:#mmbr_memberships#:#Mitgliedschaften
+mmbr#:#mmbr_role_error#:#Mitglieder müssen mindestens eine Rolle haben.
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_unsubscribed_from_objs#:#Sie wurden von den ausgewählten Objekten abgemeldet.
 mme#:#add_languages#:#Sprache hinzufügen
@@ -12867,8 +12876,8 @@ mme#:#type_top_link_item#:#Link
 mme#:#type_top_parent_item#:#Container
 mme#:#unable_to_render#:#Der Eintrag '%s' kann nicht in '%s' angezeigt werden.
 mob#:#mob_choose_from_pool#:#Aus Medienpool
-mob#:#mob_copyright#:#Copyright
-mob#:#mob_copyright_icon#:#Copyright Icon
+mob#:#mob_copyright#:#Lizenz
+mob#:#mob_copyright_icon#:#Lizenz-Icon
 mob#:#mob_external_url#:#Externe URL
 mob#:#mob_extract_preview_image#:#Vorschaubild erzeugen
 mob#:#mob_file#:#Datei
@@ -13067,7 +13076,7 @@ notes#:#notes_no_comments#:#Bisher wurde noch kein Kommentar abgegeben.
 notes#:#notes_no_comments_found#:#Es wurden keine Kommentare gefunden, die den Suchkriterien entsprechen.
 notes#:#notes_no_messages#:#Bisher wurde noch keine Mitteilung hinzugefügt.
 notes#:#notes_no_messages_found#:#Es wurden keine Mitteilungen gefunden, die den Suchkriterien entsprechen.
-notes#:#notes_no_notes#:#Bisher wurde noch kein Notiz hinzugefügt.
+notes#:#notes_no_notes#:#Bisher wurde noch keine Notiz hinzugefügt.
 notes#:#notes_no_notes_found#:#Es wurden keine Notizen gefunden, die den Suchkriterien entsprechen.
 notes#:#notes_note_deleted#:#Die Notiz wurde gelöscht
 notes#:#notes_notes_deleted#:#Die Notizen wurden gelöscht.
@@ -15522,7 +15531,7 @@ search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Lis
 search#:#search_cdate_filter#:#Erstellungsdatum
 search#:#search_cdate_filter_info#:#In den Suchergebnissen erlaubt ein Filter die Eingabe eines Zeitraums.
 search#:#search_content#:#Seiteninhalt
-search#:#search_copyright#:#Copyright
+search#:#search_copyright#:#Lizenz
 search#:#search_created_after#:#Objekte erstellt nach dem...
 search#:#search_created_before#:#Objekte erstellt vor dem...
 search#:#search_created_on#:#Objekte erstellt am...
@@ -17542,7 +17551,7 @@ user#:#confirm_logout_for_email_change#:#Sie haben Ihre E-Mail-Adresse geändert
 user#:#confirm_logout_for_email_change_with_confirmation#:#Im Anschluss wird Ihnen eine E-Mail auf die neue E-Mail gesendet, um zu bestätigen, dass diese Adresse Ihnen gehört. Erst nachdem Sie den Link in der E-Mail angeklickt haben, wird die Adresse in Ihrem Profil geändert.
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
-user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird ihr ILIAS-Konto %5$s voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
+user#:#del_mail_body#:#Hallo %1$s, %2$s Sie haben sich seit längerer Zeit nicht mehr auf %3$s angemeldet. Daher wird Ihr ILIAS-Konto %5$s voraussichtlich am %4$s gelöscht. Um Ihr ILIAS-Konto zu behalten, müssen Sie sich vor dem genannten Tag erneut einloggen.
 user#:#del_mail_subject#:#Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
@@ -17955,7 +17964,6 @@ wopi#:#wopi_url_byline#:#Vollständige URL des WOPI-Discovery, diese muss über 
 wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte kontaktieren Sie Ihre technische Betreuung und bitten um die Prüfung des Zertifikatsservers.
-wsp#:#search_no_match#:#Ihre Suche ergab keine Treffer.
 wsp#:#share#:#Freigeben
 wsp#:#share_content#:#Ressource freigeben
 wsp#:#share_with#:#Anmeldename
@@ -17977,6 +17985,7 @@ wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
 wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+wsp#:#wsp_search_no_match#:#Ihre Suche ergab keine Treffer.
 wsp#:#wsp_send_mail#:#Mail senden
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort

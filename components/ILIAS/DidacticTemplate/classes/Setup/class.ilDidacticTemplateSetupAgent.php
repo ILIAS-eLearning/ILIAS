@@ -32,7 +32,7 @@ class ilDidacticTemplateSetupAgent extends NullAgent
 
     public function getStatusObjective(Metrics\Storage $storage): Objective
     {
-        return new \ilDatabaseUpdateStepsMetricsCollectedObjectiv(
+        return new \ilDatabaseUpdateStepsMetricsCollectedObjective(
             $storage,
             new ilDidacticTemplate11DBUpdateSteps()
         );

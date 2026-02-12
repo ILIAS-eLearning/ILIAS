@@ -255,6 +255,14 @@ class ilRegistrationSettingsGUI
 
         if ($this->rbacsystem->checkAccess("write", $this->ref_id)) {
             $form_gui->addCommandButton('save', $this->lng->txt('save'));
+        } else {
+            foreach ($form_gui->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+
+                $item->setDisabled(true);
+            }
         }
         return $form_gui;
     }
@@ -294,7 +302,7 @@ class ilRegistrationSettingsGUI
 
     public function view(): void
     {
-        $this->checkAccess('visible,read');
+        $this->checkAccess('read');
         $this->setSubTabs();
 
         // edit new accout mail
@@ -809,7 +817,7 @@ class ilRegistrationSettingsGUI
 
     public function listCodes(): void
     {
-        $this->checkAccess('visible,read');
+        $this->checkAccess('read');
         $this->setSubTabs('registration_codes');
         if ($this->checkAccessBool('write')) {
             $this->toolbar->addButton(

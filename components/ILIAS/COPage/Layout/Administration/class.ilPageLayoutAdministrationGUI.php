@@ -18,6 +18,7 @@
 
 use ILIAS\COPage\Layout\AdministrationGUIRequest;
 use ILIAS\DI\UIServices;
+use ILIAS\Export\ExportHandler\Factory as ilExportHandler;
 
 /**
  * Administration for page layouts
@@ -39,6 +40,7 @@ class ilPageLayoutAdministrationGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ILIAS\DI\Container $DIC;
     protected int $ref_id;
+    protected ilExportHandler $export_handler;
 
     public function __construct()
     {
@@ -60,6 +62,7 @@ class ilPageLayoutAdministrationGUI
             ->layout()
             ->adminRequest();
         $this->ref_id = $this->admin_request->getRefId();
+        $this->export_handler = new ilExportHandler();
     }
 
     public function executeCommand(): void
@@ -357,6 +360,7 @@ class ilPageLayoutAdministrationGUI
 
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDir($tmpdir);
+        $exp->setExportConfigs($this->export_handler->consumer()->exportConfig()->allExportConfigs());
         $succ = $exp->exportEntity(
             "pgtp",
             $this->admin_request->getObjId(),

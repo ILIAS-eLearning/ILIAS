@@ -47,6 +47,8 @@ class ilObjSystemFolderGUI extends ilObject2GUI
     public static function _goto(): void
     {
         global $DIC;
+
+        $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', SYSTEM_FOLDER_ID);
         $DIC->ctrl()->redirectByClass([ilAdministrationGUI::class, self::class]);
     }
 }

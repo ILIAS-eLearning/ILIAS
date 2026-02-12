@@ -25,8 +25,8 @@ declare(strict_types=1);
  */
 abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 {
-    protected const SUB_TAB_GENERAL_SETTINGS = 'settings';
-    protected const SUB_TAB_PRINT_VIEW = 'print_view';
+    protected const string SUB_TAB_GENERAL_SETTINGS = 'settings';
+    protected const string SUB_TAB_PRINT_VIEW = 'print_view';
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -56,7 +56,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
         }
 
@@ -91,7 +91,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),

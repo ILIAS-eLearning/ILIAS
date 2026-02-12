@@ -620,10 +620,12 @@ class SubmissionManager
                 $dir = $to_path . DIRECTORY_SEPARATOR . $targetdir;
                 \ilFileUtils::makeDirParents($dir);
                 $file = $dir . DIRECTORY_SEPARATOR . $targetfile;
-                file_put_contents(
-                    $file,
-                    $stream->getContents()
-                );
+                if (!is_null($stream)) {
+                    file_put_contents(
+                        $file,
+                        $stream->getContents()
+                    );
+                }
 
                 // unzip blog/portfolio
 

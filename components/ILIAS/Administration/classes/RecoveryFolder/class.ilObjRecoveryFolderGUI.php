@@ -100,4 +100,19 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
             "removeFromSystem" => array("name" => "removeFromSystem", "lng" => "btn_remove_system")
         );
     }
+
+    protected function checkPermissionBool(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null): bool
+    {
+        /*
+         * Since nodes in the administration do not have visible permissions anymore,
+         * those object permission checks have to be overwritten.
+         */
+        $operations = explode(',', $perm);
+        $operations = array_diff($operations, ["visible"]);
+        $perm = implode(',', $operations);
+        if ($perm === '') {
+            return true;
+        }
+        return parent::checkPermissionBool($perm, $cmd, $type, $ref_id);
+    }
 }

@@ -979,7 +979,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     if (!array_key_exists($matches[1], $user_solution)) {
                         $user_solution[$matches[1]] = [];
                     }
-                    $user_solution[$matches[1]][['unit']] = $solution_value['value2'];
+                    $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
                 }
                 if (preg_match('/^(\$r\d+)/', $solution_value['value1'], $matches) && !isset($user_solution[$matches[1]]['result_type'])) {
                     $user_solution[$matches[1]]['result_type'] = assFormulaQuestionResult::getResultTypeByQstId($this->object->getId(), $solution_value['value1']);

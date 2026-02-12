@@ -18,6 +18,7 @@
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilMyStaffGUI
@@ -108,11 +109,6 @@ class ilMyStaffGUI
                  */
                 switch ($action->getType()) {
                     case "profile": //personal profile
-                        $actions[] = $ui_fac->link()->standard(
-                            $action->getText(),
-                            $action->getHref() . "&back_url=" . $return_url
-                        );
-                        break;
                     case "compose": //mail
                     case "invite": //public chat
                     case "invite_osd": //direct chat (start conversation)

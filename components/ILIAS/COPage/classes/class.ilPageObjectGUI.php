@@ -2458,11 +2458,9 @@ class ilPageObjectGUI
     {
         $this->setBackToEditTabs();
 
-        $atpl = new ilTemplate("tpl.page_activation.php", true, true, "components/ILIAS/COPage");
         $this->initActivationForm();
         $this->getActivationFormValues();
-        $atpl->setVariable("FORM", $this->form->getHTML());
-        $this->tpl->setContent($atpl->get());
+        $this->tpl->setContent($this->form->getHTML());
     }
 
     /**

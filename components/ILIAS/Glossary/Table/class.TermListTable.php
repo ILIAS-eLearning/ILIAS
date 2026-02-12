@@ -367,11 +367,12 @@ class TermListTable
                     $data_row = $row_builder->buildDataRow((string) $row_id, $record);
                     if (!($this->term_perm->checkPermission("write", $row_id)
                         || $this->term_perm->checkPermission("edit_content", $row_id))) {
-                        if (!(\ilGlossaryTerm::_lookGlossaryID($row_id) == $this->glossary->getId()
-                            || \ilGlossaryTermReferences::isReferenced([$this->glossary->getId()], $row_id))) {
-                            $data_row = $data_row->withDisabledAction("edit_definition");
-                            $data_row = $data_row->withDisabledAction("edit_term");
-                        }
+                        // outcommented, see #0046841
+                        //                        if (!(\ilGlossaryTerm::_lookGlossaryID($row_id) == $this->glossary->getId()
+                        //                            || \ilGlossaryTermReferences::isReferenced([$this->glossary->getId()], $row_id))) {
+                        $data_row = $data_row->withDisabledAction("edit_definition");
+                        $data_row = $data_row->withDisabledAction("edit_term");
+                        //                        }
                     }
                     yield $data_row;
                 }

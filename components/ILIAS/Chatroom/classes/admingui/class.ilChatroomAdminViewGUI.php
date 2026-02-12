@@ -150,7 +150,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
     public function deliverDocumentation(): never
     {
-        $this->redirectIfNoPermission(['visible','read']);
+        $this->redirectIfNoPermission(['read']);
 
         $this->file_delivery->delivery()->inline(
             ILIAS\Filesystem\Stream\Streams::ofResource(
@@ -163,7 +163,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
     public function clientsettings(?ilPropertyFormGUI $form = null): void
     {
-        $this->redirectIfNoPermission(['visible','read']);
+        $this->redirectIfNoPermission(['read']);
 
         $this->defaultActions();
         $this->gui->switchToVisibleMode();

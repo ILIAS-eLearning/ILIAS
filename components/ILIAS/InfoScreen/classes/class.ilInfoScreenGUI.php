@@ -538,7 +538,7 @@ class ilInfoScreenGUI
                     $this->addProperty(
                         $lng->txt("owner"),
                         $ownerObj->getPublicName(),
-                        $ilCtrl->getLinkTargetByClass(PublicProfileGUI::class, "getHTML")
+                        $ilCtrl->getLinkTargetByClass([ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class], "getHTML")
                     );
                 } else {
                     $this->addProperty($lng->txt("owner"), $ownerObj->getPublicName());

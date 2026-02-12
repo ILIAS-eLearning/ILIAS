@@ -58,6 +58,9 @@ class ilInternalLinkGUI
         bool $a_is_ref = true
     ) {
         global $DIC;
+        if ($a_default_link_type === "PortfolioPage") {
+            $a_is_ref = false;
+        }
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();

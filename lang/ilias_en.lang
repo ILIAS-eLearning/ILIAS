@@ -415,7 +415,7 @@ adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and
 adve#:#adve_page_editor_settings#:#ILIAS Page Editor
 adve#:#adve_pe_general#:#General
 adve#:#adve_rte_settings#:#TinyMCE Editor
-adve#:#adve_text_content_features#:#Text Content Menu
+adve#:#adve_text_content_features#:#Supported Characters
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE Editor for WYSIWYG Editing
@@ -2125,7 +2125,8 @@ auth#:#auth_saml_deleted_idp#:#The Identity Provider has been deleted.
 auth#:#auth_saml_enable#:#Enable SAML Support
 auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.
 auth#:#auth_saml_idp#:#IDP
-auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity Provider mit dem Sie sich anmelden möchten.
+auth#:#auth_saml_idp_deactivated_auth_failed#:#Authentication failed, the identity provider is disabled.
+auth#:#auth_saml_idp_selection_table_desc#:#Please select the identity provider you want to log in with.
 auth#:#auth_saml_idp_selection_table_title#:#Identity Provider Selection
 auth#:#auth_saml_idp_settings#:#IDP Settings
 auth#:#auth_saml_idps#:#SAML IDP List
@@ -5920,7 +5921,7 @@ common#:#usr_filter_lastlogin#:#Last login of user
 common#:#usr_filter_role#:#Assigned role
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_limited_access_only#:#Users with limited access only
-common#:#usr_name_undisclosed#:#Undisclosed
+common#:#usr_name_undisclosed#:#Profile not published
 common#:#usr_new#:#New User
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration
 common#:#usr_settings_explanation_profile#:#Check ‘Visible’ to show fields in the registration form and personal settings. Check ‘Changeable’ to allow the user to change the values. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal settings. All data can be changed in the user administration independent on these settings.
@@ -7355,6 +7356,7 @@ copa#:#copa_value_reading_time_f_p#:#%s Minutes
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 copg#:#copg_active_to_small#:#This date must be higher than the starting date.
+copg#:#copg_add_content#:#Add Content
 copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
 copg#:#copg_an_error_occured#:#An error occured.
@@ -9580,6 +9582,7 @@ exc#:#exc_settings_feedback_mail_info#:#Tutors enter their evaluation into a mai
 exc#:#exc_settings_feedback_text#:#Text Input
 exc#:#exc_settings_feedback_text_info#:#Tutors type their evaluation in a text field. The participant receives a notification about it and the text is displayed at the assignment overview.
 exc#:#exc_show_instructions#:#Show Work Instructions
+exc#:#exc_show_more#:#Show More
 exc#:#exc_show_peer_review#:#Show Peer-Feedback
 exc#:#exc_show_submissions#:#Publish Submissions after Deadline
 exc#:#exc_show_submissions_info#:#For assignments with a fixed submission deadline, participants can view all submissions after the submission deadline.
@@ -10667,14 +10670,19 @@ irss#:#creation_date#:#Creation Date (This Revision)
 irss#:#directory_name#:#Directory Name
 irss#:#directory_name_info#:#Name of the directory to be inserted at the current location.
 irss#:#download_zip#:#Download all files as ZIP
+irss#:#entries_target_group#:#Select target group
+irss#:#entry_deleted_failed#:#Deletion not possible
 irss#:#file_size#:#File Size (This Revision)
 irss#:#file_size_bigger_than#:#File Size > MB
 irss#:#full_size#:#Resource Size (All Revisions)
 irss#:#home_directory#:#Root-Directory
+irss#:#item_moved#:#Entry moved
 irss#:#max_revision#:#Max. Revision
 irss#:#msg_error_adding_directory#:#The directory could not be created.
+irss#:#msg_paths_deleted#:#Path(s) deleted
 irss#:#msg_success_adding_directory#:#The directory was created successfully.
 irss#:#msg_upload#:#Drop Files to upload
+irss#:#no_parent_selected#:#No target group selected
 irss#:#resource_id#:#Resource ID
 irss#:#resource_no_stakeholder_uri#:#No Stakeholder provides a valid Link to the usage of this Resource.
 irss#:#resource_overview#:#Resource Overview
@@ -12741,6 +12749,7 @@ mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of th
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 mmbr#:#mmbr_memberships#:#Memberships
+mmbr#:#mmbr_role_error#:#Members must have at least one role assigned.
 mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#add_languages#:#Add Language
@@ -16484,7 +16493,6 @@ survey#:#err_minvalueganswers#:#The minimum value must equal or be smaller than 
 survey#:#err_no_exact_answers#:#Please select exactly %s answer(s).
 survey#:#err_no_max_answers#:#Please select at most %s answers.
 survey#:#err_no_min_answers#:#Please select at least %s answer(s).
-survey#:#err_no_pool_name#:#Please enter the name of a survey question pool
 survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code &quot;%s&quot;. Please check the survey code you have entered!
 survey#:#error_save_code#:#Value not saved properly. <b>The e-mail address: '%s' is not valid</b>. First name: '%s', Last name: '%s'.<br>
 survey#:#evaluation#:#Statistics
@@ -16695,9 +16703,7 @@ survey#:#survey_360_edit_raters#:#Manage Raters
 survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_mode_info#:#Allows individuals to be peer-reviewed by multiple sources. Results are aggregated.
 survey#:#survey_360_no_appraisees#:#There are currently no appraisees for you to rate.
-survey#:#survey_360_no_closed_appraisees#:#No appraisee has closed his survey yet.
 survey#:#survey_360_rate_other_appraisee#:#Rate Appraisee
-survey#:#survey_360_rate_other_appraisees#:#Rate Appraisees
 survey#:#survey_360_rater_finished#:#Survey Finished
 survey#:#survey_360_rater_mail_sent#:#Mail Sent
 survey#:#survey_360_rater_message_content_anonymous#:#Message Content (Anonymous)
@@ -17927,7 +17933,6 @@ wopi#:#wopi_url_byline#:#Complete URL of the WOPI Discovery, which must be acces
 wsp#:#element_already_shared#:#This object is already shared with this user.
 wsp#:#element_shared#:#Object shared.
 wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-wsp#:#search_no_match#:#Your search did not match any results.
 wsp#:#share#:#Share
 wsp#:#share_content#:#Share Object
 wsp#:#share_with#:#Username
@@ -17949,6 +17954,7 @@ wsp#:#wsp_permission_registered_info#:#This object is shared with all registered
 wsp#:#wsp_permission_removed#:#Entry has been removed.
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+wsp#:#wsp_search_no_match#:#Your search did not match any results.
 wsp#:#wsp_send_mail#:#Send Mail
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_set_permission_all_password#:#World Wide Web with Password

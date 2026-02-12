@@ -57,10 +57,7 @@ class ilMDSettingsControllerGUI
 
         $this->setTabs();
 
-        if (
-            !$this->access_service->hasCurrentUserVisibleAccess() ||
-            !$this->access_service->hasCurrentUserReadAccess()
-        ) {
+        if (!$this->access_service->hasCurrentUserReadAccess()) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -95,10 +92,7 @@ class ilMDSettingsControllerGUI
 
     protected function setTabs(): void
     {
-        if (
-            !$this->access_service->hasCurrentUserVisibleAccess() ||
-            !$this->access_service->hasCurrentUserReadAccess()
-        ) {
+        if (!$this->access_service->hasCurrentUserReadAccess()) {
             return;
         }
 

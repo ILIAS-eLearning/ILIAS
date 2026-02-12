@@ -1033,25 +1033,21 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($row["type"] != "pg") {
                     if ($row["child"] != $this->lm_tree->getRootId()) {
                         $ilLocator->addItem(
-                            ilStr::shortenTextExtended(
-                                ilStructureObject::_getPresentationTitle(
-                                    $row["child"],
-                                    ilLMObject::CHAPTER_TITLE,
-                                    $this->lm->isActiveNumbering(),
-                                    (bool) $this->lm_set->get("time_scheduled_page_activation"),
-                                    false,
-                                    0,
-                                    $this->lang
-                                ),
-                                50,
-                                true
+                            ilStructureObject::_getPresentationTitle(
+                                $row["child"],
+                                ilLMObject::CHAPTER_TITLE,
+                                $this->lm->isActiveNumbering(),
+                                (bool) $this->lm_set->get("time_scheduled_page_activation"),
+                                false,
+                                0,
+                                $this->lang
                             ),
                             $this->linker->getLink("layout", $row["child"], $frame_param, "StructureObject"),
                             $frame_target
                         );
                     } else {
                         $ilLocator->addItem(
-                            ilStr::shortenTextExtended($this->getLMPresentationTitle(), 50, true),
+                            $this->getLMPresentationTitle(),
                             $this->linker->getLink("layout", 0, $frame_param),
                             $frame_target,
                             $this->requested_ref_id

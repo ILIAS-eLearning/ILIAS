@@ -709,7 +709,7 @@ class ilObject
             $this->lom_services->derive()->fromBasicProperties(
                 $this->getTitle(),
                 $this->getLongDescription(),
-                $ilUser->getPref('language')
+                $ilUser->getPref('language') ?? ''
             )->forObject($this->getId(), 0, $this->getType());
 
             $this->doCreateMetaData();
@@ -1558,13 +1558,13 @@ class ilObject
         }
 
         while ($row = $db->fetchObject($res)) {
-            if (strlen($title = $row->obj_title) > 40) {
-                $title = substr($title, 0, 40) . '...';
+            if (mb_strlen($title = $row->obj_title) > 40) {
+                $title = mb_substr($title, 0, 40) . '...';
             }
 
             if ($show_path) {
-                if (strlen($path = $row->path_title) > 40) {
-                    $path = substr($path, 0, 40) . '...';
+                if (mb_strlen($path = $row->path_title) > 40) {
+                    $path = mb_substr($path, 0, 40) . '...';
                 }
 
                 $title .= ' (' . $lng->txt('path') . ': ' . $path . ')';
@@ -1786,7 +1786,7 @@ class ilObject
     private function buildTitleWithoutCopySuffix(string $title): string
     {
         if (preg_match('/ \((\d+)\)$/', $title, $matches)) {
-            return substr($title, 0, -strlen($matches[0]));
+            return mb_substr($title, 0, -strlen($matches[0]));
         }
 
         return $title;

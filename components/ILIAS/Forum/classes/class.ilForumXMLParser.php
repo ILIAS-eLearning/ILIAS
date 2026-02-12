@@ -363,6 +363,13 @@ class ilForumXMLParser extends ilSaxParser
                         'frm:' . $this->forum->getId()
                     );
 
+                    $this->importMapping->addMapping(
+                        'components/ILIAS/ILIASObject',
+                        'obj',
+                        $this->forumArray['ObjId'],
+                        (string) $newObjProp->getObjId()
+                    );
+
                     if ($this->last_handled_style_id) {
                         self::$style_map[$this->last_handled_style_id][] = $newObjProp->getObjId();
                         $this->last_handled_style_id = null;

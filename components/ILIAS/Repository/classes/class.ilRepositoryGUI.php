@@ -134,14 +134,13 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         ) {
             $this->ctrl->redirectToURL('./login.php?cmd=force_login');
         }
-
         $this->tool_context->claim()->repository();
 
         // check creation mode
         // determined by "new_type" parameter
         $new_type = $this->request->getNewType();
 
-        if ($new_type !== "" && $new_type !== "sty") {
+        if ($new_type !== "" && $new_type !== "sty" && $new_type !== "tax") {
             $this->creation_mode = true;
             $ilHelp->setScreenIdComponent($new_type);
             $ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "create");
@@ -194,7 +193,6 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         if ($cmd === "showRepTree") {
             $next_class = "";
         }
-
         switch ($next_class) {
             // forward asynchronous file uploads to the upload handler.
             // possible via dropzones in list guis or global template
@@ -223,7 +221,6 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
                     }
                     $this->gui_obj->setCreationMode($this->creation_mode);
                     $this->ctrl->setReturn($this, "return");
-
                     $this->show();
                 } else {	//
                     $cmd = (string) $this->ctrl->getCmd("");

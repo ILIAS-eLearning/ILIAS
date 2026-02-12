@@ -130,8 +130,15 @@ class Input
                 $ids[] = $interruptive_item;
             }
         }
-
-        return array_map(fn($id): string => $this->unhash($id), $ids);
+        $return_ids = [];
+        foreach ($ids as $id) {
+            try {
+                $return_ids[] = $this->unhash($id);
+            } catch (\Throwable $e) {
+                // skip invalid ids
+            }
+        }
+        return $return_ids;
     }
 
     public function buildToken(string $namespace, string $token, ?URI $uri = null): TokenContainer

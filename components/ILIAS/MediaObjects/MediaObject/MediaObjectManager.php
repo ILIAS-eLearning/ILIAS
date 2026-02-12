@@ -98,6 +98,13 @@ class MediaObjectManager
         return $this->repo->getLocationStream($mob_id, $location);
     }
 
+    public function getLocationContent(
+        int $mob_id,
+        string $location
+    ): string {
+        return $this->repo->getLocationContent($mob_id, $location);
+    }
+
     public function addStream(
         int $mob_id,
         string $location,
@@ -222,6 +229,53 @@ class MediaObjectManager
                 );
             }
         }
+    }
+
+    public function resizeImage(
+        int $mob_id,
+        string $location,
+        string $format,
+        int $width,
+        int $height,
+        bool $a_constrain_prop = false
+    ): string {
+
+        if (!is_int(strpos($format, "image/"))) {
+            return "";
+        }
+
+        $file_path = pathinfo($location);
+        $new_location = substr($file_path["basename"], 0, strlen($file_path["basename"]) -
+                strlen($file_path["extension"]) - 1) . "_" .
+            $width . "_" .
+            $height . "." . $file_path["extension"];
+
+
+        $image_quality = 60;
+
+        // the zip stream is not seekable, which is needed by Imagick
+        // so we create a seekable stream first
+        $tempStream = fopen('php://temp', 'w+');
+        stream_copy_to_stream($this->repo->getLocationStream($mob_id, $location)->detach(), $tempStream);
+        rewind($tempStream);
+        $stream = new Stream($tempStream);
+
+        $converter = $this->image_converters->resizeToFixedSize(
+            $stream,
+            $width,
+            $height,
+            false,
+            $this->output_options
+            //->withQuality($image_quality)
+            //->withFormat(ImageOutputOptions::FORMAT_PNG)
+        );
+        $this->repo->addStream(
+            $mob_id,
+            $new_location,
+            $converter->getStream()
+        );
+        fclose($tempStream);
+        return $new_location;
     }
 
     public function addPreviewFromUrl(

@@ -31,7 +31,7 @@ use ILIAS\Data\URI;
 use ILIAS\UI\URLBuilderToken;
 
 /**
- *
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Table
 {
@@ -45,11 +45,12 @@ class Table
     private ilLanguage $lng;
     private URLBuilder $url_builder;
     private URLBuilderToken $id_token;
+    private bool $write_access;
 
     protected array $components = [];
 
     public function __construct(
-        private ilADNNotificationGUI $calling_gui,
+        private ilADNNotificationGUI $calling_gui
     ) {
         global $DIC;
         $this->ui_factory = $DIC['ui.factory'];
@@ -58,10 +59,11 @@ class Table
         $this->lng = $DIC['lng'];
 
         $this->url_builder = $this->initURIBuilder();
+        $this->write_access = (new ilObjAdministrativeNotificationAccess())->hasUserPermissionTo('write');
         $columns = $this->initColumns();
         $actions = $this->initActions();
         $data_retrieval = new DataRetrieval(
-            (new ilObjAdministrativeNotificationAccess())->hasUserPermissionTo('write')
+            $this->write_access
         );
 
         $this->components[] = $this->ui_factory->table()->data(
@@ -105,6 +107,10 @@ class Table
 
     protected function initActions(): array
     {
+        if ($this->write_access === false) {
+            return [];
+        }
+
         return [
             self::ACTION_EDIT => $this->ui_factory->table()->action()->single(
                 $this->lng->txt("btn_edit"),

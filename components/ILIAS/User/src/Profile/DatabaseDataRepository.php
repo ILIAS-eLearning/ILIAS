@@ -67,8 +67,13 @@ class DatabaseDataRepository implements DataRepository
             'SELECT field_id, value FROM ' . self::USER_VALUES_TABLE . " WHERE usr_id = {$id}"
         );
 
+        $base_data = $this->db->fetchObject($base_query);
+        if ($base_data === null) {
+            return $this->getDefault()->withId($id);
+        }
+
         return $this->buildFromData(
-            $this->db->fetchObject($base_query),
+            $base_data,
             $this->db->fetchAll(
                 $additional_query,
                 \ilDBConstants::FETCHMODE_OBJECT

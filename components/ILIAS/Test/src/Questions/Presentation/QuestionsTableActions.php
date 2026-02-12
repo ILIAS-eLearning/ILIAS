@@ -157,6 +157,12 @@ class QuestionsTableActions
         switch ($cmd) {
             case self::ACTION_SAVE_ORDER:
                 $protect_by_write_protection();
+
+                if ($this->is_in_test_with_random_question_set || $this->is_in_test_with_results) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('questionlist_cannot_be_altered'));
+                    return true;
+                }
+
                 $data = $get_table()->getTableComponent()->getData();
                 $this->test_obj->setQuestionOrder(array_flip($data), []);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);

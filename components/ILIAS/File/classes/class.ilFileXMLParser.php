@@ -225,6 +225,12 @@ class ilFileXMLParser extends ilSaxParser
             case 'Rating':
                 $this->file->setRating((bool) $this->cdata);
                 break;
+            case 'ImportantInformation':
+                $this->file->setImportantInfo((string) $this->cdata);
+                break;
+            case 'OnClickMode':
+                $this->file->setOnclickMode((int) $this->cdata);
+                break;
             case 'Content': // Old import files
             case 'Version':
                 if ($a_name === "Version" && $this->version === null) {
