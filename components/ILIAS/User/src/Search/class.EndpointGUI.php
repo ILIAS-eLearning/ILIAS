@@ -100,8 +100,7 @@ class EndpointGUI
             ])
         );
 
-        $response = array_unique(array_map(
-            static fn(AutocompleteItem $v) => $v->getTagArray(),
+        $response = array_reduce(
             array_merge(
                 $this->endpoint_configurator->getAdditionalAnswerElements(
                     $this->current_user,
@@ -112,8 +111,16 @@ class EndpointGUI
                     $this->field_configuration_repository,
                     $autocomplete_query
                 )
-            )
-        ), SORT_REGULAR);
+            ),
+            static function (array $carry, AutocompleteItem $item): array {
+                $tag_array = $item->getTagArray();
+                $carry[$tag_array['display']] = $tag_array;
+                return $carry;
+            },
+            []
+        );
+
+        $response = array_values($response);
 
         usort(
             $response,
