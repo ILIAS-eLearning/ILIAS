@@ -57,7 +57,7 @@ class ilObjQuestionsGUI extends ilObjectGUI
         $local_dic = LocalDIC::dic();
         $this->units_repository = $local_dic[UnitsRepository::class];
         $this->edit_view = $local_dic[Edit::class];
-        $this->configurations_repository = $local_dic[ConfigurationRepository::class];
+        $this->configuration_repository = $local_dic[ConfigurationRepository::class];
 
         $this->type = 'qsts';
 
