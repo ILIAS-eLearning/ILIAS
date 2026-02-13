@@ -230,6 +230,7 @@ class ilErrorHandling
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
             global $DIC;
 
+            $should_report = !($exception instanceof \ILIAS\Init\ErrorHandling\Exception\ShouldNotAutoReport);
             $logger = ilLoggingErrorSettings::getInstance();
 
             $message = 'Sorry, an error occured.';
@@ -238,7 +239,7 @@ class ilErrorHandling
                 $message = $DIC->language()->txt('error_sry_error');
             }
 
-            if (!empty($logger->folder())) {
+            if ($should_report && !empty($logger->folder())) {
                 $session_id = substr(session_id(), 0, 5);
                 $r = new \Random\Randomizer();
                 $err_num = $r->getInt(1, 9999);
@@ -362,6 +363,11 @@ class ilErrorHandling
              * @var ilLogger $ilLog
              */
             global $ilLog;
+
+            $should_report = !($exception instanceof \ILIAS\Init\ErrorHandling\Exception\ShouldNotAutoReport);
+            if (!$should_report) {
+                return;
+            }
 
             if (is_object($ilLog)) {
                 $message = $exception->getMessage() . ' in ' . $exception->getFile() . ':' . $exception->getLine();

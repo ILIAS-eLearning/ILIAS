@@ -9,7 +9,8 @@
 When an uncaught exception is handled by `ilErrorHandling`'s default
 (production) handler, the handler:
 
-1. Optionally writes a log file and builds a message that references it,
+1. Optionally writes a/to log file(s) and builds a message that references it, or
+   uses a generic message for `ShouldNotAutoReport` exceptions,
 2. Sets the message in the UI template component or session,
 3. **Redirects the user to `error.php`** (via
    `$DIC->ctrl()->redirectToURL('error.php')` or
