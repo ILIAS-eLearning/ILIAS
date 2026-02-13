@@ -150,38 +150,13 @@ class ilErrorHandling
         global $log;
 
         $session_failure = ilSession::get('failure');
-        if ($session_failure && !str_starts_with($message, 'Cannot find this block')) {
+        if ($session_failure) {
             $m = 'Fatal Error: Called raise error two times.<br>' .
                 'First error: ' . $session_failure . '<br>' .
                 'Last Error:' . $message;
             $log->write($m);
             ilSession::clear('failure');
             die($m);
-        }
-
-        if (str_starts_with($message, 'Cannot find this block')) {
-            if ($this->isDevmodeActive()) {
-                echo '<b>DEVMODE</b><br><br>';
-                echo '<b>Template Block not found.</b><br>';
-                echo 'You used a template block in your code that is not available.<br>';
-                echo 'Native Messge: <b>' . $message . '</b><br>';
-                echo 'Backtrace:<br>';
-                foreach ($backtrace as $b) {
-                    if ($b['function'] === 'setCurrentBlock' &&
-                        basename($b['file']) !== 'class.ilTemplate.php') {
-                        echo '<b>';
-                    }
-                    echo 'File: ' . $b['file'] . ', ';
-                    echo 'Line: ' . $b['line'] . ', ';
-                    echo $b['function'] . '()<br>';
-                    if ($b['function'] === 'setCurrentBlock' &&
-                        basename($b['file']) !== 'class.ilTemplate.php') {
-                        echo '</b>';
-                    }
-                }
-                exit;
-            }
-            return;
         }
 
         if ($log instanceof ilLogger) {
