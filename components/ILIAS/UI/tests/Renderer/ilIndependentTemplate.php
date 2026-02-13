@@ -72,12 +72,9 @@ class ilIndependantTemplate extends ilTemplate
         $this->real_filename = $filename;
 
         if (!($fh = @fopen($filename, 'rb'))) {
-            $this->err[] = (new PEAR())->raiseError(
-                $this->errorMessage(self::IT_TPL_NOT_FOUND) .
-                ': "' . $filename . '"',
-                self::IT_TPL_NOT_FOUND
+            throw new ilTemplateException(
+                $this->errorMessage(self::IT_TPL_NOT_FOUND) . ': "' . $filename . '"'
             );
-            return "";
         }
 
         $fsize = filesize($filename);
