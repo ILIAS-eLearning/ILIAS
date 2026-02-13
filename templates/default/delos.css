@@ -11914,7 +11914,7 @@ div.alert ul {
 }
 .il-table-presentation-row .il-table-presentation-row-header-fields-label::after,
 .il-table-presentation-row .il-table-presentation-desclist .il-listing-characteristic-value-label::after {
-  content: ":";
+  content: ":\00a0";
 }
 .il-table-presentation-row .il-table-presentation-row-expanded {
   margin-top: 6px;

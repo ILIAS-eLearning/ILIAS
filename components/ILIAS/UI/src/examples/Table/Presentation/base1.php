@@ -81,8 +81,8 @@ function base1()
         ->withImportantFields(
             array(
                 $record['type'],
-                'Beantwortet: ' => $record['stats']['total'],
-                'Häufigste Antwort: ' => $record['answers'][$record['stats']['most_common']]['title']
+                'Beantwortet' => $record['stats']['total'],
+                'Häufigste Antwort' => $record['answers'][$record['stats']['most_common']]['title']
             )
         )
         ->withContent(
