@@ -755,7 +755,7 @@ AND  usr_id = ' . $this->database->quote($userId, 'integer');
     {
         $sql_filters = [];
         foreach ($filter as $key => $value) {
-            if ($value === null || $value === "") {
+            if ($value === null || $value === '') {
                 continue;
             }
 
