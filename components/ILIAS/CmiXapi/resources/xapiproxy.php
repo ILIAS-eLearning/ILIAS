@@ -61,6 +61,9 @@ if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
 require_once '../vendor/composer/vendor/autoload.php';
 //instead of DataService
 \ilContext::init(\ilContext::CONTEXT_SCORM);
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
+
 ilInitialisation::initILIAS();
 //    DataService::initIlias($client);
 $dic = $GLOBALS['DIC'];
