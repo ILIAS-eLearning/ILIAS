@@ -154,7 +154,6 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
   .glyphicon-eye-close              { &:before { content: "\e106"; } }
   .glyphicon-warning-sign           { &:before { content: "\e107"; } }
   .glyphicon-plane                  { &:before { content: "\e108"; } }
-  .glyphicon-calendar               { &:before { content: "\e109"; } }
   .glyphicon-random                 { &:before { content: "\e110"; } }
   .glyphicon-comment                { &:before { content: "\e111"; } }
   .glyphicon-magnet                 { &:before { content: "\e112"; } }
@@ -527,4 +526,24 @@ $icon-font-svg-id:        "glyphicons_halflingsregular" !default;
   font-family: il-icons;
   content: "\e90d";
   cursor: grab;
+}
+.glyphicon-presenter:before {
+  font-family: il-icons;
+  content: "\e90e";
+}
+.glyphicon-owner:before {
+  font-family: il-icons;
+  content: "\e90f";
+}
+.glyphicon-date:before {
+  font-family: il-icons;
+  content: "\e619";
+}
+.glyphicon-calendar:before {
+  font-family: il-icons;
+  content: "\e075";
+}
+.glyphicon-location:before {
+  font-family: il-icons;
+  content: "\e096";
 }

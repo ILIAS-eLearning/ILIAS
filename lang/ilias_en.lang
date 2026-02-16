@@ -5373,6 +5373,7 @@ common#:#preconditions_optional_hint#:#You have to fulfill <b>%s</b> of the foll
 common#:#predefined_template#:#Predefined role template
 common#:#preferences#:#Preferences
 common#:#presentation_table_more#:#Show More
+common#:#presenter#:#Presenter
 common#:#preview#:#Preview
 common#:#preview_create#:#Create Preview
 common#:#preview_delete#:#Delete Preview
@@ -8657,7 +8658,7 @@ dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_display_action_menu#:#Copy
 dcl#:#dcl_display_action_menu_desc#:#The object can be copied from the entry.
 dcl#:#dcl_display_record_alt#:#Display this entry
-dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting. 
+dcl#:#dcl_duplicate_non_unique_entries_exist#:#Some of the existing values for this field are identical. Please make sure that all existing entries are unique in order to change this setting.
 dcl#:#dcl_edit#:#Settings for This Data Collection
 dcl#:#dcl_edit_entry_rules#:#Entry Editing
 dcl#:#dcl_edit_field#:#Edit Field
