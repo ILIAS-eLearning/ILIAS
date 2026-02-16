@@ -19,7 +19,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
       maybeShowMoreButton(item, more_button);
       $(window).resize(() => {
         if (!calculating) {
-          maybeShowMoreButton(item);
+          maybeShowMoreButton(item, more_button);
         }
       });
     };
