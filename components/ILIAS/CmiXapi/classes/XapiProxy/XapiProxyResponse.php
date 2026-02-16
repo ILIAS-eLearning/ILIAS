@@ -39,20 +39,11 @@ class XapiProxyResponse
 
     public function checkResponse(\GuzzleHttp\Psr7\Response $response, string $endpoint): bool
     {
-        if ($response['state'] == 'fulfilled') {
-            $status = $response['value']->getStatusCode();
-            if ($status === 200 || $status === 204 || $status === 404) {
-                return true;
-            } else {
-                $this->xapiproxy->log()->error("LRS error {$endpoint}: " . $response['value']->getBody());
-                return false;
-            }
+        $status = $response->getStatusCode();
+        if ($status === 200 || $status === 204 || $status === 404) {
+            return true;
         } else {
-            try {
-                $this->xapiproxy->log()->error("Connection error {$endpoint}: " . $response['reason']->getMessage());
-            } catch (\Exception $e) {
-                $this->xapiproxy->log()->error("error {$endpoint}:" . $e->getMessage());
-            }
+            $this->xapiproxy->log()->error("LRS error {$endpoint}: " . $response->getBody());
             return false;
         }
     }
