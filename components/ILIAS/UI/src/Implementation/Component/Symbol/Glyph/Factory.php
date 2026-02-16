@@ -318,4 +318,24 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::DRAG_HANDLE, $this->language->txt("drag_handle"), $action);
     }
+
+    public function presenter(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::PRESENTER, "presenter", $action);
+    }
+
+    public function owner(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::OWNER, "owner", $action);
+    }
+
+    public function date(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::DATE, "date", $action);
+    }
+
+    public function location(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::LOCATION, "location", $action);
+    }
 }

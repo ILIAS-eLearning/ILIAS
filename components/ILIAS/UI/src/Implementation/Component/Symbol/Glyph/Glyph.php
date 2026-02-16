@@ -92,6 +92,10 @@ class Glyph implements C\Symbol\Glyph\Glyph
         self::COLUMN_SELECTION,
         self::TILE_VIEW,
         self::DRAG_HANDLE,
+        self::PRESENTER,
+        self::OWNER,
+        self::DATE,
+        self::LOCATION,
     ];
 
     private string $type;
