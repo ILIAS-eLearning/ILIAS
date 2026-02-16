@@ -1015,12 +1015,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         if (!$this->offlineMode()) {
-            // LTI
-            if ($ltiview->isActive()) {
-                // Do nothing, its complicated...
-            } else {
-                $ilLocator->addRepositoryItems();
-            }
+            $ilLocator->addRepositoryItems();
         } else {
             $ilLocator->setOffline(true);
         }
