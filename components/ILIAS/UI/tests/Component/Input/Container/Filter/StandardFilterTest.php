@@ -217,9 +217,9 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                        <span class="glyph" aria-label="remove" role="img" id="id_6">
+                        <a class="glyph" href="" aria-label="remove" id="id_6">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </span>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -233,9 +233,9 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <span class="glyph" aria-label="remove" role="img" id="id_8">
+                        <a class="glyph" href="" aria-label="remove" id="id_8">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </span>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -355,9 +355,9 @@ EOT;
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                        <span class="glyph" aria-label="remove" role="img" id="id_6">
+                        <a class="glyph" href="" aria-label="remove" id="id_6">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </span>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -371,9 +371,9 @@ EOT;
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <span class="glyph" aria-label="remove" role="img" id="id_8">
+                        <a class="glyph" href="" aria-label="remove" id="id_8">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </span>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -493,9 +493,9 @@ EOT;
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                        <span class="glyph" aria-label="remove" role="img" id="id_6">
+                        <a class="glyph" href="" aria-label="remove" id="id_6">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </span>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -509,9 +509,9 @@ EOT;
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <span class="glyph" aria-label="remove" role="img" id="id_8">
+                        <a class="glyph" href="" aria-label="remove" id="id_8">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </span>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -631,9 +631,9 @@ EOT;
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                    <span class="glyph" aria-label="remove" role="img" id="id_6">
+                    <a class="glyph" href="" aria-label="remove" id="id_6">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                    </span>
+                    </a>
                     </span>
                 </div>
             </div>
@@ -647,9 +647,9 @@ EOT;
                         <option value="three">Three</option>
                     </select>
                     <span class="input-group-addon rightaddon">
-                        <span class="glyph" aria-label="remove" role="img" id="id_8">
+                        <a class="glyph" href="" aria-label="remove" id="id_8">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </span>
+                        </a>
                     </span>
                 </div>
             </div>
