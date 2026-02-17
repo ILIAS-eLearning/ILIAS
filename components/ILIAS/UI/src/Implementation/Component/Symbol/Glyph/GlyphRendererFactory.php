@@ -57,7 +57,6 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
      */
     protected const array USE_BUTTON_CONTEXT_RENDERER_FOR_DIRECT_CONTEXT = [
         'StandardFilterContainerInput',
-        'ModeViewControl',
     ];
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer
