@@ -96,10 +96,10 @@
 
                 element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
-                element.attr('role', 'region');
-                element.attr('aria-labelledby', triggerer_id);
-                actions.focusSubentry(entry_id);
-
+                var currentRole = element.attr('role');
+                if (!currentRole || currentRole === 'region') {
+                    element.attr('role', 'region');
+                }
                 if(isInView && !thrown) {
                     element.trigger('in_view'); //this is most important for async loading of slates,
                                                 //it triggers the GlobalScreen-Service.
