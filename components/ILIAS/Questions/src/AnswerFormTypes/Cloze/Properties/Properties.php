@@ -239,7 +239,7 @@ class Properties implements PropertiesInterface
                 self::KEY_ENABLE_COMBINATIONS => $ff->checkbox($lng->txt('cloze_enable_combinations'))
                     ->withValue($this->combinations->areCombinationsEnabled())
             ],
-            $lng->txt('create_answer_form')
+            $lng->txt('set_basic_properties')
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(
                 fn(array $vs): self => $properties_factory->fromBasicEditingForm(
