@@ -107,11 +107,14 @@ class Edit
         }
 
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->withStepParameter(self::CMD_SAVE_QUESTION),
             $ff->section(
                 $inputs,
                 $this->lng->txt('edit_basic_form_properties')
             ),
+            $environment
+                ->withStepParameter(self::CMD_SAVE_QUESTION)
+                ->getUrlBuilder(),
+            null,
             false
         );
     }
@@ -136,17 +139,18 @@ class Edit
         EnvironmentImplementation $environment
     ): EditForm {
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->withStepParameter(self::CMD_SAVE_QUESTION),
-            $environment->getPresentationFactory()->getInputsBuilder(
-                $this->ui_factory->input()->field()->section(
-                    $this->buildBasicPropertiesInputs(),
-                    $this->lng->txt('edit_basic_form_properties')
-                )->withAdditionalTransformation(
-                    $this->buildAddBasicPropertiesToQuestionTrafo()
-                )->withValue(
-                    $this->buildBasicPropertiesBasicValuesArray()
-                )
+            $this->ui_factory->input()->field()->section(
+                $this->buildBasicPropertiesInputs(),
+                $this->lng->txt('edit_basic_form_properties')
+            )->withAdditionalTransformation(
+                $this->buildAddBasicPropertiesToQuestionTrafo()
+            )->withValue(
+                $this->buildBasicPropertiesBasicValuesArray()
             ),
+            $environment
+                ->withStepParameter(self::CMD_SAVE_QUESTION)
+                ->getUrlBuilder(),
+            null,
             true
         );
     }

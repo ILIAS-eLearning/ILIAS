@@ -24,12 +24,12 @@ use ILIAS\Questions\AnswerForm\Views\Edit as EditViewInterface;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
+use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Language\Language;
@@ -43,15 +43,9 @@ use ILIAS\UI\URLBuilder;
 class Edit implements EditViewInterface
 {
     private const string STEP_EDIT_BASIC_PROPERTIES = 'ebp';
+    private const string STEP_PROCESS_BASIC_PROPERTIES = 'pbp';
     private const string STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES = 'altbp';
     private const string STEP_CONFIRMED_GAP_REMOVAL = 'cgr';
-    private const string STEP_SET_GAP_TYPES = 'sgt';
-    public const string STEP_JUMP_TO_SET_GAP_TYPES = 'jsgt';
-    private const string STEP_SET_ANSWER_OPTIONS = 'sao';
-    public const string STEP_JUMP_TO_SET_ANSWER_OPTIONS = 'jsao';
-    private const string STEP_SET_POINTS = 'sp';
-    public const string STEP_JUMP_TO_SET_POINTS = 'jsp';
-    private const string STEP_SAVE = 's';
 
     public function __construct(
         private readonly Language $lng,
@@ -61,7 +55,7 @@ class Edit implements EditViewInterface
         private readonly HTTPServices $http,
         private readonly PropertiesFactory $properties_factory,
         private readonly ClozeTextFactory $cloze_text_factory,
-        private readonly GapFactory $gap_factory
+        private readonly EditGaps $edit_gaps
     ) {
     }
 
@@ -72,8 +66,14 @@ class Edit implements EditViewInterface
         $step = $environment->getStep();
 
         return match($step) {
-            '' => $this->buildBasicEditingForm($environment, false),
-            default => $this->callIntermediateStep($environment, $step)
+            '' => $this->startEditing($environment),
+            self::STEP_PROCESS_BASIC_PROPERTIES => $this->processBasicEditingForm(
+                $environment
+            ),
+            default => $this->forwardCmdToEditGaps(
+                $environment,
+                $step
+            )
         };
     }
 
@@ -99,18 +99,23 @@ class Edit implements EditViewInterface
                 $environment,
                 $environment->withStepParameter(self::STEP_EDIT_BASIC_PROPERTIES)
                     ->getUrlBuilder()
-                    ->buildURI()
             );
         }
 
         $environment->setEditAnswerFormBackTarget();
 
         return match ($step) {
-            self::STEP_EDIT_BASIC_PROPERTIES =>
-                $this->buildBasicEditingForm($environment, false),
+            self::STEP_EDIT_BASIC_PROPERTIES => $this->startEditing($environment),
             self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES =>
                 $this->addLegacyTextToBasicProperties($environment),
-            default => $this->callIntermediateStep($environment, $step)
+            self::STEP_CONFIRMED_GAP_REMOVAL,
+            self::STEP_PROCESS_BASIC_PROPERTIES => $this->processBasicEditingForm(
+                $environment->withPreservedTableRowIdsParameter()
+            ),
+            default => $this->forwardCmdToEditGaps(
+                $environment->withPreservedTableRowIdsParameter(),
+                $step
+            )
         };
     }
 
@@ -136,71 +141,65 @@ class Edit implements EditViewInterface
         return $environment->getUrlBuilder();
     }
 
-    private function callIntermediateStep(
+    private function startEditing(
+        Environment $environment
+    ): EditForm {
+        $input_builder = $this->buildInputsBuilderForBasicInputs(
+            $environment,
+            false
+        );
+        $input_builder->resetCarry();
+
+        return $this->buildBasicEditingForm(
+            $environment,
+            $input_builder,
+            false
+        );
+    }
+
+    private function forwardCmdToEditGaps(
         Environment $environment,
         string $step
     ): EditForm|Properties {
-        $initialized_environment = $environment->withPreservedTableRowIdsParameter();
+        $processed_form = $this->edit_gaps->call($environment, $step);
+        if (is_string($processed_form)) {
+            $inputs_builder = $this->buildInputsBuilderForBasicInputs(
+                $environment,
+                false,
+                $processed_form
+            );
 
-        return match ($step) {
-            self::STEP_SET_GAP_TYPES,
-            self::STEP_CONFIRMED_GAP_REMOVAL => $this->processBasicEditingForm(
-                $initialized_environment
-            ),
-            self::STEP_JUMP_TO_SET_GAP_TYPES => $this->buildGapTypesForm(
-                $initialized_environment
-            ),
-            self::STEP_SET_ANSWER_OPTIONS => $this->processGapTypesForm(
-                $initialized_environment
-            ),
-            self::STEP_JUMP_TO_SET_ANSWER_OPTIONS => $this->buildAnswerOptionsForm(
-                $initialized_environment
-            ),
-            self::STEP_SET_POINTS => $this->processAnswerOptionsForm(
-                $initialized_environment
-            ),
-            self::STEP_JUMP_TO_SET_POINTS => $this->buildAssignPointsForm(
-                $initialized_environment
-            ),
-            self::STEP_SAVE => $this->processAssignPointsForm(
-                $initialized_environment
-            )
-        };
+            $inputs_builder->persistCarry();
+
+            return $this->buildBasicEditingForm(
+                $environment,
+                $inputs_builder,
+                false
+            );
+        }
+
+        return $processed_form;
     }
 
     private function buildBasicEditingForm(
         Environment $environment,
+        InputsBuilderSession $inputs_builder,
         bool $add_legacy_cloze_text_to_input
     ): EditForm {
-
-        /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $answer_form_properties */
-        $answer_form_properties = $environment->getAnswerFormProperties();
-
-        $editing_form = $environment->getPresentationFactory()->getEditForm(
-            $environment->withStepParameter(self::STEP_SET_GAP_TYPES),
-            $environment->getPresentationFactory()->getInputsBuilder(
-                $this->refinery->custom()->transformation(
-                    fn(null $carry) => $answer_form_properties->buildBasicEditingInputs(
-                        $this->lng,
-                        $this->ui_factory->input()->field(),
-                        $this->refinery,
-                        $this->properties_factory,
-                        $this->cloze_text_factory,
-                        $add_legacy_cloze_text_to_input
-                    )
-                )
-            ),
-            false
+        $editing_form = $this->buildEditFormForBasicInputs(
+            $environment,
+            $inputs_builder
         );
 
+        /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $properties */
+        $properties = $environment->getAnswerFormProperties();
         if (!$add_legacy_cloze_text_to_input
-            && $answer_form_properties->getLegacyClozeText() !== ''
-            && $answer_form_properties->getClozeText()->getRawRepresentation() === '') {
+            && $properties->getLegacyClozeText() !== ''
+            && $properties->getClozeText()->getRawRepresentation() === '') {
             return $editing_form->withInsertLegacyTextsButton(
                 $environment->withStepParameter(
                     self::STEP_ADD_LEGACY_TEXT_BASIC_PROPERTIES
                 )->getUrlBuilder()
-                ->buildURI()
             );
         }
 
@@ -210,8 +209,16 @@ class Edit implements EditViewInterface
     private function addLegacyTextToBasicProperties(
         Environment $environment
     ): EditForm {
+        $inputs_builder = $this->buildInputsBuilderForBasicInputs(
+            $environment,
+            true
+        );
+
+        $inputs_builder->persistCarry();
+
         return $this->buildBasicEditingForm(
             $environment,
+            $inputs_builder,
             true
         );
     }
@@ -219,13 +226,21 @@ class Edit implements EditViewInterface
     private function processBasicEditingForm(
         Environment $environment
     ): EditForm|Properties {
+        $inputs_builder = $this->buildInputsBuilderForBasicInputs(
+            $environment,
+            false,
+        );
+
         $form = $this->buildBasicEditingForm(
             $environment,
+            $inputs_builder,
             false
         )->withRequest($this->http->request());
 
+        /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $data */
         $data = $form->getData();
         if ($data === null) {
+            $inputs_builder->persistCarry();
             return $form;
         }
 
@@ -248,152 +263,58 @@ class Edit implements EditViewInterface
             return $data;
         }
 
-        return $this->buildGapTypesForm(
-            $environment->withAnswerFormProperties($data)
+        return $this->edit_gaps->call(
+            $environment->withAnswerFormProperties(
+                $data->withGaps(
+                    $data->getGaps()->withMarkedIncompleteGaps()
+                )
+            )
         );
     }
 
-    private function buildGapTypesForm(
-        Environment $environment
+    private function buildEditFormForBasicInputs(
+        Environment $environment,
+        InputsBuilderSession $inputs_builder
     ): EditForm {
-        /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $properties */
-        $properties = $environment->getAnswerFormProperties();
-        $ff = $this->ui_factory->input()->field();
         return $environment->getPresentationFactory()->getEditForm(
-            $environment->withStepParameter(self::STEP_SET_ANSWER_OPTIONS),
-            $environment->getPresentationFactory()->getInputsBuilder(
+            $inputs_builder,
+            $environment
+                ->withStepParameter(self::STEP_PROCESS_BASIC_PROPERTIES)
+                ->getUrlBuilder(),
+            null,
+            false
+        );
+    }
+
+    private function buildInputsBuilderForBasicInputs(
+        Environment $environment,
+        bool $add_legacy_cloze_text_to_input,
+        ?string $carry = null
+    ): InputsBuilderSession {
+        $inputs_builder = $environment->getPresentationFactory()
+            ->getSessionBasedInputsBuilder(
+                $environment->getAnswerFormId()->toString(),
                 $this->refinery->custom()->transformation(
-                    fn(?string $carry) => $properties
-                        ->withValuesFromQueryCarry($carry)
-                        ->getGaps()
-                        ->buildGapsTypeInputs(
+                    fn(?string $carry): Section => $this->properties_factory
+                        ->fromCarry(
+                            $environment->getAnswerFormProperties(),
+                            $carry
+                        )->buildBasicEditingInputs(
                             $this->lng,
-                            $ff,
+                            $this->ui_factory->input()->field(),
                             $this->refinery,
-                            $this->gap_factory->getAvailableGapTypesOptionsArray($this->lng),
-                            $environment->getTableRowIds()
+                            $this->properties_factory,
+                            $this->cloze_text_factory,
+                            $add_legacy_cloze_text_to_input
                         )
                 )
-            )->withCarry(
-                $properties->buildQueryCarry()
-            ),
-            false
-        )->withContentBeforeForm(
-            $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
-                $properties->getGaps(),
-                $properties->getLegacyClozeText()
-            )
-        );
-    }
-
-    private function processGapTypesForm(
-        Environment $environment
-    ): EditForm {
-        $form = $this->buildGapTypesForm(
-            $environment
-        )->withRequest($this->http->request());
-
-        $data = $form->getData();
-        return $data === null
-            ? $form
-            : $this->buildAnswerOptionsForm(
-                $environment->withAnswerFormProperties(
-                    $environment->getAnswerFormProperties()->withGaps($data)
-                )
             );
-    }
 
-    private function buildAnswerOptionsForm(
-        Environment $environment
-    ): EditForm {
-        $properties = $environment->getAnswerFormProperties();
-        $ff = $this->ui_factory->input()->field();
-        return $environment->getPresentationFactory()->getEditForm(
-            $environment->withStepParameter(self::STEP_SET_POINTS),
-            $this->refinery->custom()->transformation(
-                fn(?string $carry): Section => $properties->getGaps()
-                    ->buildAnswerOptionsInputs(
-                        $this->lng,
-                        $ff,
-                        $this->refinery,
-                        $carry,
-                        $environment->getTableRowIds()
-                    )
-            ),
-            false,
-            $properties->buildCarryInputs($ff)
-        )->withContentBeforeForm(
-            $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
-                $properties->getGaps(),
-                $properties->getLegacyClozeText()
-            )
-        );
-    }
+        if ($carry === null) {
+            return $inputs_builder;
+        }
 
-    private function processAnswerOptionsForm(
-        Environment $environment
-    ): EditForm {
-        $form = $this->buildAnswerOptionsForm(
-            $environment
-        )->withRequest($this->http->request());
-
-        $data = $form->getData();
-        return $data === null
-            ? $form
-            : $this->buildAssignPointsForm(
-                $environment->withAnswerFormProperties(
-                    $environment->getAnswerFormProperties()->withGaps($data)
-                )
-            );
-    }
-
-    private function buildAssignPointsForm(
-        Environment $environment
-    ): EditForm {
-        $properties = $environment->getAnswerFormProperties();
-        $ff = $this->ui_factory->input()->field();
-        return $environment->getPresentationFactory()->getEditForm(
-            $environment->withStepParameter(self::STEP_SAVE),
-            $properties->getGaps()->buildPointInputs(
-                $this->lng,
-                $ff,
-                $this->refinery,
-                $environment->getTableRowIds()
-            ),
-            true,
-            $properties->buildCarryInputs($ff)
-        )->withContentBeforeForm(
-            $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
-                $properties->getGaps(),
-                $properties->getLegacyClozeText()
-            )
-        );
-    }
-
-    private function processAssignPointsForm(
-        Environment $environment
-    ): EditForm|Properties {
-        $form = $this->buildAssignPointsForm(
-            $environment
-        )->withRequest($this->http->request());
-
-        $properties = $environment->getAnswerFormProperties();
-        $data = $form->getData();
-        return $data === null
-            ? $form->withContentBeforeForm(
-                $properties->getClozeText()->buildPanelForEditing(
-                    $this->ui_factory,
-                    $this->lng,
-                    $properties->getGaps(),
-                    $properties->getLegacyClozeText()
-                )
-            ) : $properties->withGaps($data);
+        return $inputs_builder->withCarry($carry);
     }
 
     /**

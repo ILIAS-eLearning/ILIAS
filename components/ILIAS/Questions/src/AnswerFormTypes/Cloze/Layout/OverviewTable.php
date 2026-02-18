@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Layout;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Edit;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Views\EditGaps;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
@@ -79,10 +79,14 @@ class OverviewTable implements DataRetrieval
         $f = $this->table_factory->column();
 
         return [
-            'gap' => $f->text($this->lng->txt('title')),
-            'type' => $f->text($this->lng->txt('question_type')),
-            'answers_options_awarding_points' => $f->text($this->lng->txt('answer_options_awarding_points')),
+            'gap' => $f->text($this->lng->txt('title'))->withIsSortable(false),
+            'type' => $f->text($this->lng->txt('cloze_type'))->withIsSortable(false),
+            'answers_options_awarding_points' => $f
+                ->text($this->lng->txt('answer_options_awarding_points'))
+                ->withIsSortable(false),
             'available_points' => $f->number($this->lng->txt('available_points'))
+                ->withDecimals(4)
+                ->withIsSortable(false)
         ];
     }
 
@@ -92,21 +96,21 @@ class OverviewTable implements DataRetrieval
             'edit_gaps' => $this->table_factory->action()->standard(
                 $this->lng->txt('edit_gaps'),
                 $this->environment
-                    ->withStepParameter(Edit::STEP_JUMP_TO_SET_GAP_TYPES)
+                    ->withStepParameter(EditGaps::STEP_JUMP_TO_SET_GAP_TYPES)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             ),
             'edit_answer_options' => $this->table_factory->action()->standard(
                 $this->lng->txt('edit_answer_options'),
                 $this->environment
-                    ->withStepParameter(Edit::STEP_JUMP_TO_SET_ANSWER_OPTIONS)
+                    ->withStepParameter(EditGaps::STEP_JUMP_TO_SET_ANSWER_OPTIONS)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             ),
             'edit_points' => $this->table_factory->action()->standard(
                 $this->lng->txt('edit_available_points'),
                 $this->environment
-                    ->withStepParameter(Edit::STEP_JUMP_TO_SET_POINTS)
+                    ->withStepParameter(EditGaps::STEP_JUMP_TO_ASSIGN_POINTS)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             )
