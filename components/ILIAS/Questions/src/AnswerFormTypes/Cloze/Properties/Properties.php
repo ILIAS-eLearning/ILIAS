@@ -217,7 +217,8 @@ class Properties implements PropertiesInterface
             $ff,
             $cloze_text_factory,
             $this->legacy_cloze_text === ''
-                && $this->cloze_text->getRawRepresentation() !== ''
+                || $this->legacy_cloze_text !== ''
+                    && $this->cloze_text->getRawRepresentation() !== ''
         );
 
         if ($add_legacy_cloze_text_to_input) {
