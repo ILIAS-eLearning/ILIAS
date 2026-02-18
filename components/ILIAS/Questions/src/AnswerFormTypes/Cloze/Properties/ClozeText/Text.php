@@ -30,7 +30,6 @@ use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Markdown as MarkdownInput;
-use ILIAS\UI\Component\Input\Field\Hidden as HiddenInput;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use Mustache\Engine;
 
@@ -54,7 +53,7 @@ class Text
             new \ilUIMarkdownPreviewGUI(),
             $lng->txt('cloze_text')
         )->withMustacheVariables([
-            Gap::GAP_PLACEHOLDER_NAME => $lng->txt('gap')
+            Gap::GAP_PLACEHOLDER_NAME => $lng->txt('insert_a_gap')
         ])->withAdditionalTransformation(
             $this->refinery->custom()->transformation(
                 fn(string $v): self => $cloze_text_factory->buildFromTextString($v)
