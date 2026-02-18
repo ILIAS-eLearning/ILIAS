@@ -22,6 +22,7 @@ namespace ILIAS\Questions\Presentation\Definitions;
 
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Layout\Factory;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
@@ -51,6 +52,16 @@ interface Environment
     public function withDefaultStep(): self;
 
     public function getEditability(): Editability;
+
+    public function isInCreationContext(): bool;
+
+    /**
+     * Returns the answer form id of the current context either from the answer
+     * form properties, if available, or from the corresponding get parameter.
+     * There should always be one of the two ids availabe, but be aware that
+     * is not guaranteed, e.g. if somebody messed with the URI.
+     */
+    public function getAnswerFormId(): ?Uuid;
 
     public function getAnswerFormProperties(): ?Properties;
 

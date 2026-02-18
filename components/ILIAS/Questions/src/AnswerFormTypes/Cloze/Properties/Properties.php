@@ -45,18 +45,16 @@ use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Table\Factory as TableFactory;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Properties implements PropertiesInterface
 {
-    private const string KEY_ID = 'form_id';
     private const string KEY_CLOZE_TEXT = 'cloze_text';
-    private const string KEY_IDENTICAL_SCORING = 'identical_scoring';
+    private const string KEY_SCORING_IDENTICAL = 'identical_scoring';
     private const string KEY_ENABLE_COMBINATIONS = 'enable_combinations';
-    private const string KEY_GAPS_TO_EDIT = 'gaps';
+    private const string KEY_GAPS = 'gaps';
 
     private bool $updated_combinations = false;
 
@@ -210,14 +208,16 @@ class Properties implements PropertiesInterface
         Language $lng,
         FieldFactory $ff,
         Refinery $refinery,
-        Factory $propteries_factory,
+        Factory $properties_factory,
         ClozeTextFactory $cloze_text_factory,
         bool $add_legacy_cloze_text_to_input
     ): Section {
-        $cloze_text_input = $this->getClozeText()->getInput(
+        $cloze_text_input = $this->cloze_text->getInput(
             $lng,
             $ff,
-            $cloze_text_factory
+            $cloze_text_factory,
+            $this->legacy_cloze_text === ''
+                && $this->cloze_text->getRawRepresentation() !== ''
         );
 
         if ($add_legacy_cloze_text_to_input) {
@@ -229,7 +229,7 @@ class Properties implements PropertiesInterface
         return $ff->section(
             [
                 self::KEY_CLOZE_TEXT => $cloze_text_input,
-                self::KEY_IDENTICAL_SCORING => ScoringIdentical::buildInput(
+                self::KEY_SCORING_IDENTICAL => ScoringIdentical::buildInput(
                     $lng,
                     $ff,
                     $refinery,
@@ -241,110 +241,45 @@ class Properties implements PropertiesInterface
             $lng->txt('create_answer_form')
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(
-                fn(array $vs): self => $propteries_factory->fromForm(
+                fn(array $vs): self => $properties_factory->fromBasicEditingForm(
                     $this,
                     $vs[self::KEY_CLOZE_TEXT],
-                    $vs[self::KEY_IDENTICAL_SCORING],
+                    $vs[self::KEY_SCORING_IDENTICAL],
                     $vs[self::KEY_ENABLE_COMBINATIONS]
                 )
             )
         );
     }
 
-    public function buildQueryCarry(): string
+    public function toCarry(): string
     {
-        return json_encode($this->gaps->getQueryCarry());
+        return json_encode([
+            self::KEY_CLOZE_TEXT => $this->cloze_text->getRawRepresentation(),
+            self::KEY_GAPS => $this->gaps->toCarry(),
+            self::KEY_SCORING_IDENTICAL => $this->scoring_identical->value,
+            self::KEY_ENABLE_COMBINATIONS => $this->combinations
+                ->areCombinationsEnabled() ? 1 : 0
+        ]);
     }
 
-    public function withValuesFromQueryCarry(
+    public function withValuesFromCarry(
         ClozeTextFactory $cloze_text_factory,
-        ?string $carry
+        array $carry
     ): self {
-        if ($carry === null
-            || !is_array(
-                ($carry_array = json_decode($carry))
-            )) {
-            return $this;
-        }
-
         $clone = clone $this;
-        $clone->gaps = $this->getGaps()->withValuesFromQueryCarry(
-            $cloze_text_factory,
-            $carry_array
-        );
-        return $clone;
-    }
 
-    public function buildCarryInputs(
-        FieldFactory $ff
-    ): Group {
-        return $ff->group(
-            [
-                self::KEY_ID => $ff->hidden()->withValue($this->answer_form_id->toString()),
-                self::FORM_KEY_CLOZE_TEXT => $this->getClozeText()->getCarryInputs($ff),
-                self::KEY_GAPS_TO_EDIT => $this->gaps->getCarryInputs($ff),
-                self::KEY_IDENTICAL_SCORING => $ff->hidden()
-                    ->withValue($this->getScoringOfIdenticalResponses()->value),
-                self::KEY_ENABLE_COMBINATIONS => $ff->hidden()
-                    ->withValue($this->combinations->areCombinationsEnabled() ? 1 : 0)
-            ]
+        $clone->cloze_text = $cloze_text_factory->buildFromTextString(
+            $carry[self::KEY_CLOZE_TEXT]
         );
-    }
-
-    public function withValuesFromInputs(
-        Refinery $refinery,
-        ClozeTextFactory $cloze_text_factory,
-        GapsFactory $gaps_factory,
-        CarryWrapper $carry
-    ): Properties {
-        $clone = clone $this;
-        $clone->cloze_text = $carry->retrieve(
-            self::KEY_CLOZE_TEXT,
-            $refinery->byTrying([
-                $refinery->custom()->transformation(
-                    fn(?string $v): Text => $v === null
-                        ? throw new \InvalidArgumentException()
-                        : $cloze_text_factory->buildFromHiddenInputString($v)
-                ),
-                $refinery->always($clone->cloze_text)
-            ])
+        $clone->gaps = $this->getGaps()->withValuesFromCarry(
+            $carry[self::KEY_GAPS]
         );
-
-        $clone->scoring_identical = $carry->retrieve(
-            self::KEY_IDENTICAL_SCORING,
-            $refinery->byTrying([
-                $refinery->custom()->transformation(
-                    fn(?string $v): ScoringIdentical => $v === null
-                        ? throw new \InvalidArgumentException()
-                        : ScoringIdentical::tryFrom($v) ?? $clone->scoring_identical
-                ),
-                $refinery->always($clone->scoring_identical)
-            ])
+        $clone->scoring_identical = ScoringIdentical::tryFrom(
+            $carry[self::KEY_SCORING_IDENTICAL]
         );
-
-        $clone->combinations = $carry->retrieve(
-            self::KEY_ENABLE_COMBINATIONS,
-            $refinery->byTrying([
-                $refinery->custom()->transformation(
-                    fn($v): Combinations => $clone->combinations->withCombinationsEnabled(
-                        $refinery->kindlyTo()->bool()->transform($v)
-                    )
-                ),
-                $refinery->always($clone->combinations)
-            ])
+        $clone->combinations = $this->combinations->withCombinationsEnabled(
+            $carry[self::KEY_ENABLE_COMBINATIONS] === 1
         );
-
-        $clone->gaps = $carry->retrieve(
-            self::KEY_GAPS_TO_EDIT,
-            $clone->cloze_text->updateGapsFromMarkdown(
-                $this->getAnswerFormId(),
-                $this->getGaps()
-            )->getFromCarryTransformation(
-                $refinery,
-                $gaps_factory
-            )
-        );
-
         return $clone;
     }
 
@@ -465,6 +400,7 @@ class Properties implements PropertiesInterface
             [
                 $persistence_factory->where(
                     $persistence->getIdColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $table_definition
                     ),
@@ -509,6 +445,7 @@ class Properties implements PropertiesInterface
             [
                 $persistence_factory->where(
                     $persistence->getForeignKeyColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $table_definition
                     ),

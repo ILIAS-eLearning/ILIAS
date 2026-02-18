@@ -28,12 +28,14 @@ use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Language\Language;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Refinery\Factory as Refinery;
 
 class Factory
 {
     private array $available_gap_types;
 
     public function __construct(
+        private readonly Refinery $refinery,
         private readonly UuidFactory $uuid_factory,
         private readonly AnswerOptionsFactory $answer_options_factory,
         array $available_gap_types
@@ -78,6 +80,7 @@ class Factory
         Uuid $answer_form_id,
     ): Gaps {
         return new Gaps(
+            $this->refinery,
             $this,
             $answer_form_id,
             []
@@ -117,6 +120,7 @@ class Factory
                         $gaps[] = $this->buildGapFromDBValues($v, $answer_options);
                     }
                     return new Gaps(
+                        $this->refinery,
                         $this,
                         $answer_form_id,
                         $gaps

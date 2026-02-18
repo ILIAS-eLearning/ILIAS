@@ -181,6 +181,7 @@ class Combination
             [
                 $persistence_factory->where(
                     $persistence->getIdColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $table_definition,
                         $persistence->getCombinationsTableIdentifier()
@@ -209,6 +210,7 @@ class Combination
             [
                 $persistence_factory->where(
                     $persistence->getIdColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $table_definition,
                         $persistence->getCombinationToAnswerOptionsTableIdentifier()

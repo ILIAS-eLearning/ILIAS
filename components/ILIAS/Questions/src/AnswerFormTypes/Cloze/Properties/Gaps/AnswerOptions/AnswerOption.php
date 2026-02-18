@@ -114,11 +114,11 @@ class AnswerOption
         return $clone;
     }
 
-    public function buildArrayForHiddenInput(): array
+    public function toCarry(): array
     {
         $values = [
             self::FORM_KEY_ID => $this->getAnswerOptionId()->toString(),
-            self::FORM_KEY_POSITION => $this->getPosition(),
+            self::FORM_KEY_POSITION => (string) $this->getPosition(),
             self::FORM_KEY_TEXT_VALUE => $this->getTextValue()
         ];
 
