@@ -264,6 +264,10 @@ class Edit
         EnvironmentImplementation $environment
     ): EditForm {
         $this->initializeEditMode($environment);
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('cancel'),
+            $environment->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+        );
 
         $create = $this->questions_repository->getNew(
             $environment->getObjId()
@@ -298,6 +302,10 @@ class Edit
         EnvironmentImplementation $environment
     ): EditForm {
         $this->initializeEditMode($environment);
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('back'),
+            $environment->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+        );
 
         $question_id = $environment->getQuestionId();
         $question = $this->questions_repository->getForQuestionId($question_id);
@@ -457,6 +465,8 @@ class Edit
     private function initializeEditMode(
         EnvironmentImplementation $environment
     ): void {
+        $this->tabs_gui->clearTargets();
+
         $this->global_screen->tool()->context()->current()->addAdditionalData(
             LayoutProvider::MODE_ENABLED,
             true
