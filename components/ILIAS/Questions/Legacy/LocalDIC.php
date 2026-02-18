@@ -83,7 +83,6 @@ class LocalDIC extends PimpleContainer
         $dic[LayoutFactory::class] = static fn($c): LayoutFactory =>
             new LayoutFactory(
                 $DIC['ui.factory'],
-                $DIC['refinery'],
                 $DIC['http'],
                 $DIC['lng']
             );
@@ -120,6 +119,7 @@ class LocalDIC extends PimpleContainer
             );
         $dic[Cloze\Properties\Gaps\Factory::class] = static fn($c): Cloze\Properties\Gaps\Factory
             => new Cloze\Properties\Gaps\Factory(
+                $DIC['refinery'],
                 $c[UuidFactory::class],
                 $c[Cloze\Properties\Gaps\AnswerOptions\Factory::class],
                 [
@@ -156,6 +156,15 @@ class LocalDIC extends PimpleContainer
             => new Cloze\Persistence(
                 new TableNameSpaceCore('cloze')
             );
+        $dic[Cloze\Views\EditGaps::class] = static fn($c): Cloze\Views\EditGaps
+            => new Cloze\Views\EditGaps(
+                $DIC['lng'],
+                $DIC['ui.factory'],
+                $DIC['refinery'],
+                $DIC['http'],
+                $c[Cloze\Properties\Factory::class],
+                $c[Cloze\Properties\Gaps\Factory::class]
+            );
         $dic[Cloze\Views\Edit::class] = static fn($c): Cloze\Views\Edit
             => new Cloze\Views\Edit(
                 $DIC['lng'],
@@ -165,7 +174,7 @@ class LocalDIC extends PimpleContainer
                 $DIC['http'],
                 $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\ClozeText\Factory::class],
-                $c[Cloze\Properties\Gaps\Factory::class]
+                $c[Cloze\Views\EditGaps::class]
             );
         $dic[Cloze\Views\Participant::class] = static fn($c): Cloze\Views\Participant
             => new Cloze\Views\Participant(

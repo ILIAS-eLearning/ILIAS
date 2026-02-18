@@ -20,15 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Layout;
 
-use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Data\URI;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
 class EditForm implements Renderable
@@ -45,13 +45,15 @@ class EditForm implements Renderable
     public function __construct(
         private readonly UIFactory $ui_factory,
         private readonly Language $lng,
-        Environment $environment,
-        InputsBuilder $inputs_builder,
+        Input|InputsBuilder $inputs,
+        URLBuilder $default_form_action,
+        ?URLBuilder $back_form_action,
         bool $is_final_step
     ) {
         $this->form = $this->buildForm(
-            $environment,
-            $inputs_builder,
+            $inputs,
+            $default_form_action,
+            $back_form_action,
             $is_final_step
         );
     }
@@ -88,7 +90,7 @@ class EditForm implements Renderable
     }
 
     public function withInsertLegacyTextsButton(
-        URI $target_uri
+        URLBuilder $target_builder
     ): self {
         $clone = clone $this;
         $clone->insert_legacy_text_button = $this->ui_factory->messageBox()->info(
@@ -96,7 +98,7 @@ class EditForm implements Renderable
         )->withButtons([
             $this->ui_factory->button()->standard(
                 $this->lng->txt('insert_legacy_texts'),
-                $target_uri->__toString()
+                $target_builder->buildURI()->__toString()
             )
         ]);
         return $clone;
@@ -152,27 +154,35 @@ class EditForm implements Renderable
     }
 
     private function buildForm(
-        Environment $environment,
-        InputsBuilder $inputs_builder,
+        Input|InputsBuilder $inputs,
+        URLBuilder $default_form_action,
+        ?URLBuilder $back_form_action,
         bool $is_final_step
     ): StandardForm {
+        if ($inputs instanceof InputsBuilder) {
+            $inputs = $inputs->getInputs();
+        }
         $form = $this->ui_factory->input()->container()->form()->standard(
-            $inputs_builder
-                ->addCarryToEnvironment($environment)
-                ->getUrlBuilder()
-                ->buildURI()
-                ->__toString(),
+            $default_form_action->buildURI()->__toString(),
             [
-                self::MAIN_SECTION_NAME => $inputs_builder->getInputs(
-                    $environment
-                )
+                self::MAIN_SECTION_NAME => $inputs
             ]
         );
 
-        if ($is_final_step) {
-            return $form->withSubmitLabel($this->lng->txt('save'));
+        if ($back_form_action !== null) {
+            $form = $form->withAdditionalFormAction(
+                $back_form_action->buildURI()->__toString(),
+                $this->lng->txt('previous')
+            );
         }
 
-        return $form->withSubmitLabel($this->lng->txt('next'));
+        $submit_action_label = 'next';
+        if ($is_final_step) {
+            $submit_action_label = 'save';
+        }
+
+        return $form->withSubmitLabel(
+            $this->lng->txt($submit_action_label)
+        );
     }
 }

@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Junctor;
@@ -28,13 +29,10 @@ use ILIAS\Questions\Persistence\Operator;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
-use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Transformation;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -47,6 +45,7 @@ class Gaps
     private array $gaps;
 
     public function __construct(
+        private readonly Refinery $refinery,
         private readonly Factory $factory,
         private Uuid $answer_form_id,
         array $gaps
@@ -127,12 +126,25 @@ class Gaps
         return $clone;
     }
 
-    public function getUndefinedGaps(): array
+    public function getIncompleteGaps(): array
     {
         return array_filter(
             $this->gaps,
-            fn(Gap $v): bool => $v->isUndefined()
+            fn(Gap $v): bool => $v->getAnswerOptions()->isIncomplete()
         );
+    }
+
+    public function withMarkedIncompleteGaps(): self
+    {
+        $clone = clone $this;
+        $clone->gaps = array_map(
+            fn(Gap $v): Gap => $v->getAnswerOptions()->isIncomplete()
+                ? $v->withAnswerOptions(
+                    $v->getAnswerOptions()->withIsIncomplete(true)
+                ) : $v,
+            $clone->gaps
+        );
+        return $clone;
     }
 
     public function getRemovedGaps(
@@ -174,35 +186,40 @@ class Gaps
     public function buildGapsTypeInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery,
         array $available_gap_types,
+        Properties $properties,
+        bool $is_in_creation_context,
         array $selected_gaps
     ): Section {
         return $ff->section(
             array_reduce(
-                $selected_gaps !== []
-                    ? $this->filterGapsBySelected($selected_gaps)
-                    : $this->getUndefinedGaps(),
+                $this->retrieveGapsForInputs(
+                    $is_in_creation_context,
+                    $selected_gaps
+                ),
                 function (array $c, Gap $v) use ($ff, $available_gap_types): array {
                     $c[$v->getAnswerInputId()->toString()] = $ff->select(
                         $v->buildShortenedGapName(),
                         $available_gap_types
-                    )->withRequired(true);
+                    )->withRequired(true)
+                    ->withValue($v->getType()?->getIdentifier());
                     return $c;
                 },
                 []
             ),
             $lng->txt('select_gap_types')
         )->withAdditionalTransformation(
-            $refinery->custom()->transformation(
-                fn(array $vs): self => array_reduce(
-                    array_keys($vs),
-                    fn(self $c, string $v): self => $c->withGap(
-                        $c->gaps[$v]->withType(
-                            $this->factory->getGapTypeByIdentifier($vs[$v])
-                        )
-                    ),
-                    $this
+            $this->refinery->custom()->transformation(
+                fn(array $vs): Properties => $properties->withGaps(
+                    array_reduce(
+                        array_keys($vs),
+                        fn(self $c, string $v): self => $c->withGap(
+                            $c->gaps[$v]->withType(
+                                $this->factory->getGapTypeByIdentifier($vs[$v])
+                            )
+                        ),
+                        $this
+                    )
                 )
             )
         );
@@ -211,15 +228,16 @@ class Gaps
     public function buildAnswerOptionsInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery,
-        ?string $carry,
+        Properties $properties,
+        bool $is_in_creation_context,
         array $selected_gaps
     ): Section {
         return $ff->section(
             array_reduce(
-                $selected_gaps !== []
-                    ? $this->filterGapsBySelected($selected_gaps)
-                    : $this->getGapsWithIncompleteAnswerOptions(),
+                $this->retrieveGapsForInputs(
+                    $is_in_creation_context,
+                    $selected_gaps
+                ),
                 function (array $c, Gap $v) use ($lng, $ff): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditAnswerOptionsSection(
                         $lng,
@@ -231,11 +249,13 @@ class Gaps
             ),
             $lng->txt('add_answer_options')
         )->withAdditionalTransformation(
-            $refinery->custom()->transformation(
-                fn(array $vs): self => array_reduce(
-                    array_keys($vs),
-                    fn(self $c, string $v): self => $c->withGap($vs[$v]),
-                    $this
+            $this->refinery->custom()->transformation(
+                fn(array $vs): Properties => $properties->withGaps(
+                    array_reduce(
+                        array_keys($vs),
+                        fn(self $c, string $v): self => $c->withGap($vs[$v]),
+                        $this
+                    )
                 )
             )
         );
@@ -244,14 +264,16 @@ class Gaps
     public function buildPointInputs(
         Language $lng,
         FieldFactory $ff,
-        Refinery $refinery,
+        Properties $properties,
+        bool $is_in_creation_context,
         array $selected_gaps
     ): Section {
         return $ff->section(
             array_reduce(
-                $selected_gaps !== []
-                    ? $this->filterGapsBySelected($selected_gaps)
-                    : $this->getGapsWithIncompleteAnswerOptions(),
+                $this->retrieveGapsForInputs(
+                    $is_in_creation_context,
+                    $selected_gaps
+                ),
                 function (array $c, Gap $v) use ($lng, $ff): array {
                     $c[$v->getAnswerInputId()->toString()] = $v->getEditPointsSection(
                         $lng,
@@ -263,11 +285,13 @@ class Gaps
             ),
             $lng->txt('add_points')
         )->withAdditionalTransformation(
-            $refinery->custom()->transformation(
-                fn(array $vs): self => array_reduce(
-                    array_keys($vs),
-                    fn(self $c, string $v): self => $c->withGap($vs[$v]),
-                    $this
+            $this->refinery->custom()->transformation(
+                fn(array $vs): Properties => $properties->withGaps(
+                    array_reduce(
+                        array_keys($vs),
+                        fn(self $c, string $v): self => $c->withGap($vs[$v]),
+                        $this
+                    )
                 )
             )
         );
@@ -290,41 +314,25 @@ class Gaps
         );
     }
 
-    public function getQueryCarry(): array
+    public function toCarry(): array
     {
         return array_reduce(
             $this->gaps,
             function (array $c, Gap $v): array {
-                $c[$v->getAnswerInputId()->toString()] = $v->getQueryCarry();
+                $c[$v->getAnswerInputId()->toString()] = $v->toCarry();
                 return $c;
             },
             []
         );
     }
 
-    public function getCarryInputs(
-        FieldFactory $ff
-    ): Group {
-        return $ff->group(
-            array_reduce(
-                $this->gaps,
-                function (array $c, Gap $v) use ($ff): array {
-                    $c[$v->getAnswerInputId()->toString()] = $v->getCarryInputs($ff);
-                    return $c;
-                },
-                []
-            )
-        );
-    }
-
-    public function withValuesFromQueryCarry(
-        Factory $gaps_factory,
+    public function withValuesFromCarry(
         array $carry
     ): self {
         $clone = clone $this;
         foreach ($carry as $answer_input_id => $gap_definition) {
             if (!isset($clone->gaps[$answer_input_id])) {
-                $clone->gaps[$answer_input_id] = $gaps_factory->getNewGap(
+                $clone->gaps[$answer_input_id] = $this->factory->getNewGap(
                     $this->answer_form_id,
                     0,
                     $answer_input_id
@@ -332,42 +340,21 @@ class Gaps
             }
 
             $clone->gaps[$answer_input_id] = $clone->gaps[$answer_input_id]
-                ->withValuesFromQueryCarry($this->factory, $gap_definition);
+                ->withValuesFromCarry(
+                    $this->refinery,
+                    $this->factory,
+                    $gap_definition
+                );
         }
 
         return $clone;
-    }
-
-    public function getFromCarryTransformation(
-        Refinery $refinery,
-        Factory $gaps_factory
-    ): Transformation {
-        return $refinery->custom()->transformation(
-            function (?CarryWrapper $v) use ($refinery, $gaps_factory): self {
-                if ($v === null) {
-                    return $this;
-                }
-                $clone = clone $this;
-                $clone->gaps = array_map(
-                    fn(Gap $gap): Gap => $v->retrieve(
-                        $gap->getAnswerInputId()->toString(),
-                        $gap->getFromCarryTransformation(
-                            $refinery,
-                            $gaps_factory
-                        )
-                    ),
-                    $this->gaps
-                );
-                return $clone;
-            }
-        );
     }
 
     public function toTableRows(
         DataRowBuilder $row_builder,
         Language $lng
     ): \Generator {
-        foreach ($this->gaps as $gap) {
+        foreach ($this->orderGapsByPosition($this->gaps) as $gap) {
             yield $gap->toTableRow(
                 $row_builder,
                 $lng
@@ -498,6 +485,7 @@ class Gaps
             [
                 $persistence_factory->where(
                     $persistence->getForeignKeyColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $table_definition
                     ),
@@ -510,18 +498,36 @@ class Gaps
         );
     }
 
-    private function getGapsWithIncompleteAnswerOptions(): array
-    {
-        return array_filter(
-            $this->gaps,
-            fn(Gap $v): bool => $v->getAnswerOptions()->isIncomplete()
+    private function orderGapsByPosition(
+        array $gaps
+    ): array {
+        usort(
+            $gaps,
+            fn(Gap $a, Gap $b) => $a->getPosition() <=> $b->getPosition()
         );
+
+        return $gaps;
     }
 
     private function extractIdFromTagName(
         string $tag_name
     ): string {
         return mb_substr($tag_name, mb_strlen(Gap::GAP_PLACEHOLDER_NAME) + 1);
+    }
+
+    private function retrieveGapsForInputs(
+        bool $is_in_creation_context,
+        array $selected_gaps
+    ): array {
+        if ($is_in_creation_context) {
+            return $this->gaps;
+        }
+
+        if ($selected_gaps === []) {
+            return $this->getIncompleteGaps();
+        }
+
+        return $this->filterGapsBySelected($selected_gaps);
     }
 
     private function filterGapsBySelected(

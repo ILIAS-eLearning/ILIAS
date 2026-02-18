@@ -26,6 +26,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\InputsBuilder;
+use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
@@ -177,7 +178,9 @@ class CombinationsOverview implements DataRetrieval, Renderable
         return $this->environment->getPresentationFactory()->getAsync(
             match ($this->environment->getStep()) {
                 self::STEP_JUMP_TO_SET_COMBINATION_VALUES =>
-                    $this->buildSetCombinationValuesModal($affected_item),
+                    $this->buildSetCombinationValuesModal(
+                        $this->buildInputsBuilder($affected_item)
+                    ),
                 self::STEP_CONFIRM_DELETE_COMBINATION =>
                     $this->confirmDeleteCombination($affected_item)
             }
@@ -242,21 +245,18 @@ class CombinationsOverview implements DataRetrieval, Renderable
             return $clone;
         }
 
-        $set_values_modal = $clone->buildSetCombinationValuesModal($data['combination']);
+        $set_values_modal = $clone->buildSetCombinationValuesModal(
+            $this->buildInputsBuilder($data['combination'])
+        );
         $clone->modal = $set_values_modal->withOnLoad($set_values_modal->getShowSignal());
         return $clone;
     }
 
     private function buildSetCombinationValuesModal(
-        ?Combination $combination = null
+        InputsBuilder $inputs_builder
     ): RoundTripModal {
         $properties = $this->environment->getAnswerFormProperties();
         $gaps = $properties->getGaps();
-
-        $inputs_builder = $this->buildInputsBuilder($combination);
-        $inputs = $inputs_builder->getInputs(
-            $this->environment
-        );
 
         return $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('edit'),
@@ -267,11 +267,9 @@ class CombinationsOverview implements DataRetrieval, Renderable
                 $properties->getLegacyClozeText()
             ),
             [
-                'values_awarding_points' => $inputs
+                'values_awarding_points' => $inputs_builder->getInputs()
             ],
-            $inputs_builder->addCarryToEnvironment(
-                $this->environment
-            )->withStepParameter(self::STEP_SAVE)
+            $this->environment->withStepParameter(self::STEP_SAVE)
             ->getUrlBuilder()
             ->buildURI()
             ->__toString()
@@ -280,12 +278,14 @@ class CombinationsOverview implements DataRetrieval, Renderable
 
     private function processSetCombinationValues(): self|Properties
     {
-        $set_values_modal = $this->buildSetCombinationValuesModal()
+        $inputs_builder = $this->buildInputsBuilder(null);
+        $set_values_modal = $this->buildSetCombinationValuesModal($inputs_builder)
             ->withRequest($this->http->request());
         $data = $set_values_modal->getData();
         if ($data === null) {
             $this->modal = $this->initializeModal($set_values_modal)
                 ->withOnLoad($set_values_modal->getShowSignal());
+            $inputs_builder->persistCarry();
             return $this;
         }
 
@@ -327,8 +327,9 @@ class CombinationsOverview implements DataRetrieval, Renderable
 
     private function buildInputsBuilder(
         ?Combination $combination,
-    ): InputsBuilder {
-        $inputs_builder = $this->environment->getPresentationFactory()->getInputsBuilder(
+    ): InputsBuilderSession {
+        $builder = $this->environment->getPresentationFactory()->getSessionBasedInputsBuilder(
+            $this->environment->getAnswerFormProperties()->getAnswerFormId()->toString(),
             $this->refinery->custom()->transformation(
                 function (?string $v) use ($combination): ?Section {
                     $properties = $this->environment->getAnswerFormProperties();
@@ -352,9 +353,11 @@ class CombinationsOverview implements DataRetrieval, Renderable
         );
 
         if ($combination === null) {
-            return $inputs_builder;
+            return $builder;
         }
 
-        return $inputs_builder->withCarry($combination->buildCarryString());
+        $builder_with_string = $builder->withCarry($combination->buildCarryString());
+        $builder_with_string->persistCarry();
+        return $builder_with_string;
     }
 }

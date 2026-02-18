@@ -30,7 +30,6 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use ILIAS\UI\Component\Input\Input;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
@@ -40,9 +39,9 @@ class EnvironmentImplementation implements Environment
     private const string TOKEN_STRING_ACTION = 'a';
     private const string TOKEN_STRING_STEP = 's';
     private const string TOKEN_STRING_QUESTION_ID = 'q';
-    private const string TOKEN_STRING_TYPE_HASH = 't';
     private const string TOKEN_STRING_TABLE_ROW_ID = 'r';
-    private const string TOKEN_STRING_CARRY_ID = 'c';
+    private const string TOKEN_STRING_TYPE_HASH = 't';
+    private const string TOKEN_STRING_ANSWER_FORM_ID = 'af';
     private const string TOKEN_STRING_CREATE_MODE = 'cm';
 
     private const string PARAMETER_STRING_HIER_ID = 'hier_id';
@@ -51,15 +50,19 @@ class EnvironmentImplementation implements Environment
 
     private const string TAB_ID_ANSWER_FORM = 'answer_form';
 
-    private ?Properties $properties = null;
+    private ?Properties $answer_form_properties = null;
 
     private bool $default_step = false;
+    private bool $is_in_creation_context = false;
 
     private URLBuilder $url_builder;
     private readonly URLBuilderToken $action_token;
     private readonly URLBuilderToken $step_token;
     private readonly URLBuilderToken $question_id_token;
     private readonly URLBuilderToken $table_row_token;
+    private ?URLBuilderToken $type_hash_token = null;
+    private ?URLBuilderToken $answer_form_id_token = null;
+    private ?URLBuilderToken $create_mode_token = null;
 
     private ?array $table_row_ids = null;
 
@@ -156,9 +159,40 @@ class EnvironmentImplementation implements Environment
     }
 
     #[\Override]
+    public function isInCreationContext(): bool
+    {
+        return $this->is_in_creation_context;
+    }
+
+    #[\Override]
+    public function getAnswerFormId(): ?Uuid
+    {
+        if ($this->answer_form_properties !== null) {
+            return $this->answer_form_properties->getAnswerFormId();
+        }
+
+        $answer_form_id_token = $this->answer_form_id_token;
+        if ($answer_form_id_token === null) {
+            [,$answer_form_id_token] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_ANSWER_FORM_ID
+            );
+        }
+        return $this->http->wrapper()->query()->retrieve(
+            $answer_form_id_token->getName(),
+            $this->refinery->byTrying([
+                $this->refinery->custom()->transformation(
+                    $this->buildRetrieveUuidClosure()
+                ),
+                $this->refinery->always(null)
+            ])
+        );
+    }
+
+    #[\Override]
     public function getAnswerFormProperties(): ?Properties
     {
-        return $this->properties;
+        return $this->answer_form_properties;
     }
 
     #[\Override]
@@ -166,7 +200,7 @@ class EnvironmentImplementation implements Environment
         Properties $properties
     ): self {
         $clone = clone $this;
-        $clone->properties = $properties;
+        $clone->answer_form_properties = $properties;
         return $clone;
     }
 
@@ -211,6 +245,14 @@ class EnvironmentImplementation implements Environment
         return $clone;
     }
 
+    public function withIsInCreationContext(
+        bool $is_in_creation_context
+    ): self {
+        $clone = clone $this;
+        $clone->is_in_creation_context = $is_in_creation_context;
+        return $clone;
+    }
+
     public function getObjId(): int
     {
         return $this->obj_id;
@@ -242,50 +284,53 @@ class EnvironmentImplementation implements Environment
     public function withAnswerFormTypeHashParameter(
         string $type_hash
     ): self {
+        $clone = clone $this;
         [
-            $url_builder,
-            $type_hash_token
+            $clone->url_builder,
+            $clone->type_hash_token
         ] = $this->url_builder->acquireParameter(
             self::QUERY_PARAMETER_NAME_SPACE,
             self::TOKEN_STRING_TYPE_HASH
         );
 
-        $clone = clone $this;
-        $clone->url_builder = $url_builder
-            ->withParameter($type_hash_token, $type_hash);
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->type_hash_token, $type_hash);
         return $clone;
     }
 
-    public function withCarryParameter(
-        string $carry
+    public function withAnswerFormIdParameter(
+        Uuid $answer_form_id
     ): self {
+        $clone = clone $this;
         [
-            $url_builder,
-            $carry_token
+            $clone->url_builder,
+            $clone->answer_form_id_token
         ] = $this->url_builder->acquireParameter(
             self::QUERY_PARAMETER_NAME_SPACE,
-            self::TOKEN_STRING_CARRY_ID
+            self::TOKEN_STRING_ANSWER_FORM_ID
         );
 
-        $clone = clone $this;
-        $clone->url_builder = $url_builder
-            ->withParameter($carry_token, $carry);
+        $clone->url_builder = $clone->url_builder->withParameter(
+            $clone->answer_form_id_token,
+            $answer_form_id->toString()
+        );
         return $clone;
     }
 
     public function withCreateModeParameter(): self
     {
+        $clone = clone $this;
+
         [
-            $url_builder,
-            $create_mode_token
+            $clone->url_builder,
+            $clone->create_mode_token
         ] = $this->url_builder->acquireParameter(
             self::QUERY_PARAMETER_NAME_SPACE,
             self::TOKEN_STRING_CREATE_MODE
         );
 
-        $clone = clone $this;
-        $clone->url_builder = $url_builder
-            ->withParameter($create_mode_token, '1');
+        $clone->url_builder = $clone->url_builder
+            ->withParameter($clone->create_mode_token, '1');
         return $clone;
     }
 
@@ -295,7 +340,7 @@ class EnvironmentImplementation implements Environment
             $this->question_id_token->getName(),
             $this->refinery->byTrying([
                 $this->refinery->custom()->transformation(
-                    $this->buildRetrieveQuestionIdClosure()
+                    $this->buildRetrieveUuidClosure()
                 ),
                 $this->refinery->always(null)
             ])
@@ -319,7 +364,7 @@ class EnvironmentImplementation implements Environment
                 ),
                 $this->refinery->kindlyTo()->listOf(
                     $this->refinery->custom()->transformation(
-                        $this->buildRetrieveQuestionIdClosure()
+                        $this->buildRetrieveUuidClosure()
                     )
                 ),
                 $this->refinery->always(null)
@@ -328,7 +373,7 @@ class EnvironmentImplementation implements Environment
             self::INTERRUPTIVE_ITEMS_KEY,
             $this->refinery->kindlyTo()->listOf(
                 $this->refinery->custom()->transformation(
-                    $this->buildRetrieveQuestionIdClosure()
+                    $this->buildRetrieveUuidClosure()
                 )
             ),
             $this->refinery->always(null)
@@ -337,32 +382,25 @@ class EnvironmentImplementation implements Environment
 
     public function getTypeClassHash(): string
     {
-        [,$type_hash_token] = $this->url_builder->acquireParameter(
-            self::QUERY_PARAMETER_NAME_SPACE,
-            self::TOKEN_STRING_TYPE_HASH
-        );
+        $type_hash_token = $this->type_hash_token;
+        if ($type_hash_token === null) {
+            [,$type_hash_token] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_TYPE_HASH
+            );
+        }
         return $this->retrieveStringValueForToken($type_hash_token);
-    }
-
-    public function getCarry(
-        Transformation $to_form_transformation
-    ): Input|array|null {
-        [, $carry_token] = $this->url_builder->acquireParameter(
-            self::QUERY_PARAMETER_NAME_SPACE,
-            self::TOKEN_STRING_CARRY_ID
-        );
-        return $this->http->wrapper()->query()->retrieve(
-            $carry_token->getName(),
-            $to_form_transformation
-        );
     }
 
     public function isCreateModeSimple(): bool
     {
-        [, $create_mode_token] = $this->url_builder->acquireParameter(
-            self::QUERY_PARAMETER_NAME_SPACE,
-            self::TOKEN_STRING_CREATE_MODE
-        );
+        $create_mode_token = $this->create_mode_token;
+        if ($create_mode_token === null) {
+            [, $create_mode_token] = $this->url_builder->acquireParameter(
+                self::QUERY_PARAMETER_NAME_SPACE,
+                self::TOKEN_STRING_CREATE_MODE
+            );
+        }
 
         return $this->http->wrapper()->query()->has(
             $create_mode_token->getName()
@@ -481,7 +519,7 @@ class EnvironmentImplementation implements Environment
         ]);
     }
 
-    private function buildRetrieveQuestionIdClosure(): \Closure
+    private function buildRetrieveUuidClosure(): \Closure
     {
         return fn($v): Uuid => is_string($v)
             ? $this->uuid_factory->fromString($v)

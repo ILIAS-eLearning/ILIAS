@@ -33,7 +33,13 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 
 class AnswerOptions
 {
+    private const string KEY_IS_INCOMPLETE = 'is_incomplete';
+    private const string KEY_ANSWER_OPIONS = 'answer_options';
+    private const string KEY_ANSWER_OPTIONS_AWARDING_POINTS = 'answer_options_awarding_points';
+
     private array $answer_options_awarding_points;
+
+    private bool $is_incomplete = false;
 
     public function __construct(
         private readonly Factory $factory,
@@ -45,8 +51,17 @@ class AnswerOptions
 
     public function isIncomplete(): bool
     {
-        return $this->answer_options === []
+        return $this->is_incomplete
+            || $this->answer_options === []
             || $this->answer_options_awarding_points === [];
+    }
+
+    public function withIsIncomplete(
+        bool $is_incomplete
+    ): self {
+        $clone = clone $this;
+        $clone->is_incomplete = $is_incomplete;
+        return $clone;
     }
 
     public function getAnswerOptionById(
@@ -114,42 +129,6 @@ class AnswerOptions
         return $clone;
     }
 
-    public function withValuesFromHiddenInputValue(
-        ?string $value
-    ): self {
-        if ($value === null
-            || !is_array(
-                ($decoded_value = json_decode($value, true))
-            )
-        ) {
-            return $this;
-        }
-
-        $clone = clone $this;
-        $clone->answer_options = array_map(
-            fn(array $vs): AnswerOption => $this->factory->buildAnswerOption(
-                $vs[AnswerOption::FORM_KEY_ID],
-                $this->answer_input_id,
-                $vs[AnswerOption::FORM_KEY_POSITION],
-                $vs[AnswerOption::FORM_KEY_TEXT_VALUE],
-                $vs[AnswerOption::FORM_KEY_LOWER_LIMIT] ?? null,
-                $vs[AnswerOption::FORM_KEY_UPPER_LIMIT] ?? null,
-                $vs[AnswerOption::FORM_KEY_AVAILABLE_POINTS] ?? null
-            ),
-            $decoded_value['answer_options'] ?? []
-        );
-
-        $answer_inputs_awarding_points = $decoded_value['answer_options_awarding_points'] ?? [];
-        $clone->answer_options_awarding_points = array_filter(
-            $clone->answer_options,
-            fn(AnswerOption $v): bool => in_array(
-                $v->getAnswerOptionId()->toString(),
-                $answer_inputs_awarding_points
-            )
-        );
-        return $clone;
-    }
-
     public function withAnswerOptionsFromTags(
         array $tags
     ): self {
@@ -206,46 +185,47 @@ class AnswerOptions
         );
     }
 
-    public function buildQueryCarry(): array
+    public function toCarry(): array
     {
-        return array_map(
-            fn(AnswerOption $v) => $v->getAnswerOptionId()->toString(),
-            $this->answer_options
-        );
-    }
-
-    public function withValuesFromQueryCarry(
-        array $carry
-    ): self {
-        $clone = clone $this;
-        $clone->answer_options = array_reduce(
-            $carry,
-            function (array $c, string $v): array {
-                $c[$v] = $this->factory->buildAnswerOption(
-                    $v,
-                    $this->answer_input_id,
-                    0,
-                    ''
-                );
-                return $c;
-            },
-            []
-        );
-        return $clone;
-    }
-
-    public function buildHiddenInputValue(): string
-    {
-        return json_encode([
-            'answer_options' => array_map(
-                fn(AnswerOption $v): array => $v->buildArrayForHiddenInput(),
+        return [
+            self::KEY_IS_INCOMPLETE => $this->is_incomplete ? 1 : 0,
+            self::KEY_ANSWER_OPIONS => array_map(
+                fn(AnswerOption $v): array => $v->toCarry(),
                 $this->answer_options
             ),
-            'answer_options_awarding_points' => array_map(
+            self::KEY_ANSWER_OPTIONS_AWARDING_POINTS => array_map(
                 fn(AnswerOption $v): string => $v->getAnswerOptionId()->toString(),
                 $this->answer_options_awarding_points
             )
-        ]);
+        ];
+    }
+
+    public function withValuesFromCarry(
+        array $carry
+    ): self {
+        $clone = clone $this;
+        $clone->is_incomplete = $carry[self::KEY_IS_INCOMPLETE] === 1;
+        $clone->answer_options = array_map(
+            fn(array $vs): AnswerOption => $this->factory->buildAnswerOption(
+                $vs[AnswerOption::FORM_KEY_ID],
+                $this->answer_input_id,
+                (int) $vs[AnswerOption::FORM_KEY_POSITION],
+                $vs[AnswerOption::FORM_KEY_TEXT_VALUE],
+                $vs[AnswerOption::FORM_KEY_LOWER_LIMIT] ?? null,
+                $vs[AnswerOption::FORM_KEY_UPPER_LIMIT] ?? null,
+                $vs[AnswerOption::FORM_KEY_AVAILABLE_POINTS] ?? null
+            ),
+            $carry[self::KEY_ANSWER_OPIONS] ?? []
+        );
+
+        $clone->answer_options_awarding_points = array_filter(
+            $clone->answer_options,
+            fn(AnswerOption $v): bool => in_array(
+                $v->getAnswerOptionId()->toString(),
+                $carry[self::KEY_ANSWER_OPTIONS_AWARDING_POINTS] ?? []
+            )
+        );
+        return $clone;
     }
 
     public function getEditPointsInputs(
@@ -301,6 +281,7 @@ class AnswerOptions
             [
                 $persistence_factory->where(
                     $persistence->getForeignKeyColumn(
+                        $persistence_factory,
                         $table_name_builder,
                         $answer_options_table_definition
                     ),

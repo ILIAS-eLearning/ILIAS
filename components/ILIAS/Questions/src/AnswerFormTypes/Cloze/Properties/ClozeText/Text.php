@@ -69,12 +69,6 @@ class Text
         ->withValue($this->cloze_text->getRawRepresentation());
     }
 
-    public function getCarryInputs(
-        FieldFactory $ff
-    ): HiddenInput {
-        return $ff->hidden()->withValue($this->getTextForOutputInHiddenInput());
-    }
-
     public function getRawRepresentation(): string
     {
         return $this->cloze_text->getRawRepresentation();
@@ -195,14 +189,5 @@ class Text
         }
 
         return false;
-    }
-
-    private function getTextForOutputInHiddenInput(): string
-    {
-        return str_replace(
-            ['{{', '}}'],
-            ['\{\{', '\}\}'],
-            $this->cloze_text->getRawRepresentation()
-        );
     }
 }

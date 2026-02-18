@@ -22,11 +22,11 @@ namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Data\URI;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\URLBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
 class EditOverview implements Renderable
@@ -36,7 +36,7 @@ class EditOverview implements Renderable
         private readonly Language $lng,
         private readonly ServerRequestInterface $request,
         private readonly Environment $environment,
-        private readonly URI $uri_to_edit_basic_answer_form_properties
+        private readonly URLBuilder $target_to_edit_basic_answer_form_properties
     ) {
     }
 
@@ -70,7 +70,9 @@ class EditOverview implements Renderable
         if ($this->environment->getEditability() === Editability::Full) {
             $content[] = $this->ui_factory->button()->standard(
                 $this->lng->txt('edit_basic_answer_form_properties'),
-                $this->uri_to_edit_basic_answer_form_properties->__toString()
+                $this->target_to_edit_basic_answer_form_properties
+                    ->buildURI()
+                    ->__toString()
             );
         }
 

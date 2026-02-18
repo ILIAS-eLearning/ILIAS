@@ -43,6 +43,7 @@ class Gap
     public const string GAP_PLACEHOLDER_NAME = 'GAP';
 
     private const string KEY_TYPE = 'type';
+    private const string KEY_POSITION = 'position';
     private const string KEY_MAX_CHARS = 'max_chars';
     private const string KEY_STEP_SIZE = 'step_size';
     private const string KEY_TEXT_MATCHING_METHOD = 'matching_method';
@@ -181,72 +182,80 @@ class Gap
         return $clone;
     }
 
-    public function getQueryCarry(): array
+    public function toCarry(): array
     {
-        return [
+        $inputs = [
             self::KEY_TYPE => $this->type?->getIdentifier() ?? '',
-            self::KEY_ANSWER_OPTIONS => $this->answer_options->buildQueryCarry()
+            self::KEY_POSITION => $this->position,
+            self::KEY_ANSWER_OPTIONS => $this->answer_options->toCarry()
         ];
-    }
-
-    public function withValuesFromQueryCarry(
-        Factory $gap_factory,
-        array $carry
-    ): self {
-        $clone = clone $this;
-        $clone->type = $gap_factory->getGapTypeByIdentifier($carry[self::KEY_TYPE]);
-        $clone->answer_options = $clone->answer_options->withValuesFromQueryCarry(
-            $carry[self::KEY_ANSWER_OPTIONS]
-        );
-    }
-
-    public function getCarryInputs(
-        FieldFactory $ff
-    ): Group {
-        $inputs = [];
 
         if ($this->max_chars !== null) {
-            $inputs[self::KEY_MAX_CHARS] = $ff->hidden()->withValue($this->getMaxChars());
+            $inputs[self::KEY_MAX_CHARS] = (string) $this->getMaxChars();
         }
 
         if ($this->step_size !== null) {
-            $inputs[self::KEY_STEP_SIZE] = $ff->hidden()->withValue($this->getStepSize());
+            $inputs[self::KEY_STEP_SIZE] = (string) $this->getStepSize();
         }
 
         if ($this->text_matching_method !== null) {
-            $inputs[self::KEY_TEXT_MATCHING_METHOD] = $ff->hidden()->withValue($this->getTextMatchingMethod()->value);
+            $inputs[self::KEY_TEXT_MATCHING_METHOD] = $this->getTextMatchingMethod()->value;
         }
 
         if ($this->min_autocomplete !== null) {
-            $inputs[self::KEY_MIN_AUTOCOMPLETE] = $ff->hidden()->withValue($this->getMinAutocomplete());
+            $inputs[self::KEY_MIN_AUTOCOMPLETE] = (string) $this->getMinAutocomplete();
         }
 
         if ($this->shuffle_answer_options !== null) {
-            $inputs[self::KEY_SHUFFLE_ANSWER_OPTIONS] = $ff->hidden()->withValue($this->getShuffleAnswerOptions() ? '1' : '0');
+            $inputs[self::KEY_SHUFFLE_ANSWER_OPTIONS] = $this->getShuffleAnswerOptions() ? '1' : '0';
         }
 
-        $inputs[self::KEY_ANSWER_OPTIONS] = $ff->hidden()->withValue($this->answer_options->buildHiddenInputValue());
-
-        return $ff->group($inputs);
+        return $inputs;
     }
 
-    public function getFromCarryTransformation(
+    public function withValuesFromCarry(
         Refinery $refinery,
-        Factory $gaps_factory
-    ): Transformation {
-        return $refinery->custom()->transformation(
-            function (CarryWrapper $v) use ($refinery, $gaps_factory): self {
-                $clone = clone $this;
-                $clone->type = $this->retrieveTypeFromCarry($refinery, $v, $gaps_factory->getAvailableGapTypes());
-                $clone->max_chars = $this->retrieveMaxCharsFromCarry($refinery, $v);
-                $clone->step_size = $this->retrieveStepSizeFromCarry($refinery, $v);
-                $clone->text_matching_method = $this->retrieveTextMatchingMethodFromCarry($refinery, $v);
-                $clone->min_autocomplete = $this->retrieveMinAutocompleteFromCarry($refinery, $v);
-                $clone->shuffle_answer_options = $this->retrieveShuffleAnswerOptionsFromCarry($refinery, $v);
-                $clone->answer_options = $this->retrieveAnswerOptionsFromCarry($refinery, $v);
-                return $clone;
-            }
-        );
+        Factory $gaps_factory,
+        array $carry
+    ): self {
+        if ($carry === null) {
+            return $this;
+        }
+
+        $clone = clone $this;
+        $clone->type = $carry[self::KEY_TYPE] === ''
+            ? $this->getType()
+            : $gaps_factory->getGapTypeByIdentifier($carry[self::KEY_TYPE]);
+        $clone->position = $carry[self::KEY_POSITION];
+
+        $clone->max_chars = $refinery->byTrying([
+            $refinery->kindlyTo()->int(),
+            $refinery->always($this->getMaxChars())
+        ])->transform($carry[self::KEY_MAX_CHARS] ?? null);
+
+        $clone->step_size = $refinery->byTrying([
+            $refinery->kindlyTo()->float(),
+            $refinery->always($this->getStepSize())
+        ])->transform($carry[self::KEY_STEP_SIZE] ?? null);
+
+        $clone->text_matching_method = is_string($carry[self::KEY_TEXT_MATCHING_METHOD] ?? null)
+            ? TextMatchingOptions::tryFrom($carry[self::KEY_TEXT_MATCHING_METHOD])
+            : $this->getTextMatchingMethod();
+
+        $clone->min_autocomplete = $refinery->byTrying([
+            $refinery->kindlyTo()->int(),
+            $refinery->always($this->getMinAutocomplete())
+        ])->transform($carry[self::KEY_MIN_AUTOCOMPLETE] ?? null);
+
+        $clone->shuffle_answer_options = $refinery->byTrying([
+            $refinery->kindlyTo()->bool(),
+            $refinery->always($this->getShuffleAnswerOptions())
+        ])->transform($carry[self::KEY_SHUFFLE_ANSWER_OPTIONS] ?? null);
+
+        $clone->answer_options = $this->answer_options
+            ->withValuesFromCarry($carry[self::KEY_ANSWER_OPTIONS]);
+
+        return $clone;
     }
 
     public function buildReplace(
@@ -393,98 +402,6 @@ class Gap
             )
 
         ];
-    }
-
-    private function retrieveTypeFromCarry(
-        Refinery $refinery,
-        CarryWrapper $carry,
-        array $available_gap_types
-    ): ?Type {
-        return $carry->retrieve(
-            self::KEY_TYPE . $this->getShortenedAnswerInputId(),
-            $refinery->custom()->transformation(
-                fn(?string $v): ?Type => $available_gap_types[$v] ?? $this->getType()
-            )
-        );
-    }
-
-    private function retrieveMaxCharsFromCarry(
-        Refinery $refinery,
-        CarryWrapper $carry
-    ): ?int {
-        return $carry->retrieve(
-            self::KEY_MAX_CHARS . $this->getShortenedAnswerInputId(),
-            $refinery->byTrying([
-                $refinery->kindlyTo()->int(),
-                $refinery->always($this->getMaxChars())
-            ])
-        );
-    }
-
-    private function retrieveStepSizeFromCarry(
-        Refinery $refinery,
-        CarryWrapper $carry
-    ): ?float {
-        return $carry->retrieve(
-            self::KEY_STEP_SIZE . $this->getShortenedAnswerInputId(),
-            $refinery->byTrying([
-                $refinery->kindlyTo()->float(),
-                $refinery->always($this->getStepSize())
-            ])
-        );
-    }
-
-    private function retrieveTextMatchingMethodFromCarry(
-        Refinery $refinery,
-        CarryWrapper $carry
-    ): ?TextMatchingOptions {
-        return $carry->retrieve(
-            self::KEY_TEXT_MATCHING_METHOD . $this->getShortenedAnswerInputId(),
-            $refinery->custom()->transformation(
-                fn(?string $v): ?TextMatchingOptions => $v !== null
-                    ? TextMatchingOptions::tryFrom($v)
-                    : $this->getTextMatchingMethod()
-            )
-        );
-    }
-
-    private function retrieveMinAutocompleteFromCarry(
-        Refinery $refinery,
-        CarryWrapper $carry
-    ): ?int {
-        return $carry->retrieve(
-            self::KEY_MIN_AUTOCOMPLETE . $this->getShortenedAnswerInputId(),
-            $refinery->byTrying([
-                $refinery->kindlyTo()->int(),
-                $refinery->always($this->getMinAutocomplete())
-            ])
-        );
-    }
-
-    private function retrieveShuffleAnswerOptionsFromCarry(
-        Refinery $refinery,
-        CarryWrapper $carry
-    ): ?bool {
-        return $carry->retrieve(
-            self::KEY_SHUFFLE_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
-            $refinery->byTrying([
-                $refinery->kindlyTo()->bool(),
-                $refinery->always($this->getShuffleAnswerOptions())
-            ])
-        );
-    }
-
-    private function retrieveAnswerOptionsFromCarry(
-        Refinery $refinery,
-        CarryWrapper $carry
-    ): AnswerOptions {
-        return $carry->retrieve(
-            self::KEY_ANSWER_OPTIONS . $this->getShortenedAnswerInputId(),
-            $refinery->custom()->transformation(
-                fn(?string $v): AnswerOptions => $this->answer_options
-                    ->withValuesFromHiddenInputValue($v)
-            )
-        );
     }
 
     private function getShortenedAnswerInputId(): string

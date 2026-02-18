@@ -129,7 +129,9 @@ class Edit
         );
 
         return match($environment->getAction()) {
-            self::ACTION_CREATE_QUESTION => $this->createQuestion($environment),
+            self::ACTION_CREATE_QUESTION => $this->createQuestion(
+                $environment->withIsInCreationContext(true)
+            ),
             self::ACTION_EDIT_QUESTION => $this->editQuestion($environment),
             self::ACTION_DELETE_QUESTIONS => $this->deleteQuestions($environment),
             default => $this->showTable($toolbar, $environment)
@@ -181,7 +183,8 @@ class Edit
         $environment = $this->buildEnvironment(
             $base_uri,
             $obj_id
-        )->withActionParameter(self::ACTION_CREATE_ANSWER_FORM)
+        )->withIsInCreationContext(true)
+        ->withActionParameter(self::ACTION_CREATE_ANSWER_FORM)
         ->withQuestionIdParameter($question->getId());
 
         $answer_form_type_class_hash = $environment->getTypeClassHash();
@@ -195,7 +198,8 @@ class Edit
                     $type->buildProperties(
                         $this->answer_form_factory->getDefaultTypeGenericProperties(
                             $question->getId(),
-                            $type
+                            $type,
+                            $environment->getAnswerFormId(),
                         ),
                         null
                     )
@@ -430,7 +434,11 @@ class Edit
         \ilPCAnswerForm $content_object,
         AnswerFormEditView $answer_form_edit_view
     ): ?EditForm {
-        $create = $answer_form_edit_view->create($environment);
+        $create = $answer_form_edit_view->create(
+            $environment->withAnswerFormIdParameter(
+                $environment->getAnswerFormId()
+            )
+        );
 
         if ($create instanceof EditForm) {
             return $create;
@@ -545,7 +553,6 @@ class Edit
         }
 
         return $environment->getPresentationFactory()->getEditForm(
-            $environment,
             $if->field()->section(
                 $inputs + [
                     'type' => $if->field()->select(
@@ -561,6 +568,8 @@ class Edit
                 ],
                 $this->lng->txt('create_answer_form')
             ),
+            $environment->getUrlBuilder(),
+            null,
             false
         );
     }

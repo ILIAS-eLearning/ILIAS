@@ -101,10 +101,11 @@ class Factory
 
     public function getDefaultTypeGenericProperties(
         Uuid $question_id,
-        Definition $type
+        Definition $type,
+        ?Uuid $answer_form_id = null
     ): TypeGenericProperties {
         return new TypeGenericProperties(
-            $this->uuid_factory->uuid4(),
+            $answer_form_id ?? $this->uuid_factory->uuid4(),
             $question_id,
             $type
         );
