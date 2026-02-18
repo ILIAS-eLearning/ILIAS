@@ -43,16 +43,4 @@ class Factory
             $this->text_factory->markdown($text)
         );
     }
-
-    public function buildFromHiddenInputString(
-        string $text
-    ): Text {
-        return $this->buildFromTextString($this->unmaskTextFromOutputInHiddenInput($text));
-    }
-
-    private function unmaskTextFromOutputInHiddenInput(
-        string $text
-    ): string {
-        return str_replace(['\{\{', '\}\}'], ['{{', '}}'], $text);
-    }
 }

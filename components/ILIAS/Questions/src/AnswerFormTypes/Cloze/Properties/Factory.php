@@ -108,7 +108,7 @@ class Factory
         );
     }
 
-    public function fromForm(
+    public function fromBasicEditingForm(
         Properties $properties,
         ClozeText $cloze_text,
         ScoringIdentical $scoring_of_identical_responses,
@@ -135,9 +135,26 @@ class Factory
         return $updated_properties
             ->withClozeText(
                 $cloze_text->withIdsOfNewGapsInClozeText(
-                    $updated_gaps->getUndefinedGaps()
+                    $updated_gaps->getIncompleteGaps()
                 )
             )->withGaps($updated_gaps);
+    }
+
+    public function fromCarry(
+        Properties $properties,
+        ?string $carry
+    ): Properties {
+        if ($carry === null
+           || !is_array(
+               ($carry_array = json_decode($carry, true))
+           )) {
+            return $properties;
+        }
+
+        return $properties->withValuesFromCarry(
+            $this->cloze_text_factory,
+            $carry_array
+        );
     }
 
     private function retrieveFirstMatchingRowFromDBRecords(
