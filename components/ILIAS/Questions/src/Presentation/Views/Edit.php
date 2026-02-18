@@ -371,7 +371,7 @@ class Edit
         EnvironmentImplementation $environment
     ): QuestionsTable {
         $toolbar->addComponent(
-            $this->ui_factory->button()->standard(
+            $this->ui_factory->button()->primary(
                 $this->lng->txt('create'),
                 $environment->withActionParameter(self::ACTION_CREATE_QUESTION)
                     ->getUrlBuilder()
