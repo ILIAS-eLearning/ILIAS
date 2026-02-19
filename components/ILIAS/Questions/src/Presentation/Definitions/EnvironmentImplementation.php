@@ -30,6 +30,7 @@ use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
@@ -80,6 +81,30 @@ class EnvironmentImplementation implements Environment
         private readonly int $obj_id
     ) {
         $this->acquireURLBuilderAndParameters($base_uri);
+    }
+
+    #[\Override]
+    public function getHttpServices(): HTTPServices
+    {
+        return $this->http;
+    }
+
+    #[\Override]
+    public function getLanguage(): Language
+    {
+        return $this->lng;
+    }
+
+    #[\Override]
+    public function getRefinery(): Refinery
+    {
+        return $this->refinery;
+    }
+
+    #[\Override]
+    public function getUIFactory(): UIFactory
+    {
+        return $this->presentation_factory->getUIFactory();
     }
 
     #[\Override]

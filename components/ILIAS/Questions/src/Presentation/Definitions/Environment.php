@@ -23,11 +23,23 @@ namespace ILIAS\Questions\Presentation\Definitions;
 use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Layout\Factory;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Language\Language;
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 
 interface Environment
 {
+    public function getHttpServices(): HTTPServices;
+
+    public function getLanguage(): Language;
+
+    public function getRefinery(): Refinery;
+
+    public function getUIFactory(): UIFactory;
+
     public function setEditAnswerFormBackTarget(): void;
 
     public function addEditAnswerFormSubTab(

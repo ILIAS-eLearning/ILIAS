@@ -25,13 +25,8 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapFactory;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\EditForm;
-use ILIAS\Questions\Presentation\Layout\Factory as PresentationFactory;
 use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
-use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\Language\Language;
 use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\URLBuilder;
 
@@ -52,10 +47,6 @@ class EditGaps
     private ?string $start_step;
 
     public function __construct(
-        private readonly Language $lng,
-        private readonly UIFactory $ui_factory,
-        private readonly Refinery $refinery,
-        private readonly HTTPServices $http,
         private readonly PropertiesFactory $properties_factory,
         private readonly GapFactory $gap_factory
     ) {
@@ -145,10 +136,7 @@ class EditGaps
         Properties $properties
     ): EditForm {
         $inputs_builder = $this->buildInputsBuilderForTypesForm(
-            $environment->getPresentationFactory(),
-            $environment->getAnswerFormProperties(),
-            $environment->isInCreationContext(),
-            $environment->getTableRowIds()
+            $environment
         )->withCarry(
             $properties->toCarry()
         );
@@ -186,8 +174,8 @@ class EditGaps
             false
         )->withContentBeforeForm(
             $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
+                $environment->getUIFactory(),
+                $environment->getLanguage(),
                 $properties->getGaps(),
                 $properties->getLegacyClozeText()
             )
@@ -198,10 +186,7 @@ class EditGaps
         Environment $environment
     ): EditForm|Properties {
         $inputs_builder_for_types = $this->buildInputsBuilderForTypesForm(
-            $environment->getPresentationFactory(),
-            $environment->getAnswerFormProperties(),
-            $environment->isInCreationContext(),
-            $environment->getTableRowIds()
+            $environment
         );
 
         $properties = $inputs_builder_for_types->retrieveCarry(
@@ -211,7 +196,7 @@ class EditGaps
         $form = $this->buildGapTypesForm(
             $environment->withAnswerFormProperties($properties),
             $inputs_builder_for_types
-        )->withRequest($this->http->request());
+        )->withRequest($environment->getHttpServices()->request());
 
         $data = $form->getData();
         if ($data === null) {
@@ -223,31 +208,26 @@ class EditGaps
     }
 
     private function buildInputsBuilderForTypesForm(
-        PresentationFactory $presentation_factory,
-        Properties $properties,
-        bool $is_in_creation_context,
-        array $table_row_ids
+        Environment $environment
     ): InputsBuilderSession {
-        return $presentation_factory->getSessionBasedInputsBuilder(
-            $properties->getAnswerFormId()->toString(),
-            $this->refinery->custom()->transformation(
-                function (?string $carry) use (
-                    $properties,
-                    $is_in_creation_context,
-                    $table_row_ids
-                ): Section {
+        return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
+            $environment->getAnswerFormProperties()->getAnswerFormId()->toString(),
+            $environment->getRefinery()->custom()->transformation(
+                function (?string $carry) use ($environment): Section {
                     $properties_from_carry = $this->properties_factory
                     ->fromCarry(
-                        $properties,
+                        $environment->getAnswerFormProperties(),
                         $carry
                     );
                     return $properties_from_carry->getGaps()->buildGapsTypeInputs(
-                        $this->lng,
-                        $this->ui_factory->input()->field(),
-                        $this->gap_factory->getAvailableGapTypesOptionsArray($this->lng),
+                        $environment->getLanguage(),
+                        $environment->getUIFactory()->input()->field(),
+                        $this->gap_factory->getAvailableGapTypesOptionsArray(
+                            $environment->getLanguage()
+                        ),
                         $properties_from_carry,
-                        $is_in_creation_context,
-                        $table_row_ids
+                        $environment->isInCreationContext(),
+                        $environment->getTableRowIds()
                     );
                 }
             )
@@ -287,10 +267,8 @@ class EditGaps
         Properties $properties
     ): EditForm {
         $inputs_builder = $this->buildInputsBuilderForAnswerOptionsForm(
-            $environment->getPresentationFactory(),
+            $environment,
             $properties,
-            $environment->isInCreationContext(),
-            $environment->getTableRowIds()
         )->withCarry(
             $properties->toCarry()
         );
@@ -324,8 +302,8 @@ class EditGaps
             false
         )->withContentBeforeForm(
             $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
+                $environment->getUIFactory(),
+                $environment->getLanguage(),
                 $properties->getGaps(),
                 $properties->getLegacyClozeText()
             )
@@ -336,16 +314,14 @@ class EditGaps
         Environment $environment
     ): EditForm|Properties {
         $inputs_builder_for_options = $this->buildInputsBuilderForAnswerOptionsForm(
-            $environment->getPresentationFactory(),
-            $environment->getAnswerFormProperties(),
-            $environment->isInCreationContext(),
-            $environment->getTableRowIds()
+            $environment,
+            $environment->getAnswerFormProperties()
         );
 
         $form = $this->buildAnswerOptionsForm(
             $environment,
             $inputs_builder_for_options
-        )->withRequest($this->http->request());
+        )->withRequest($environment->getHttpServices()->request());
 
         $data = $form->getData();
         if ($data === null) {
@@ -357,18 +333,15 @@ class EditGaps
     }
 
     private function buildInputsBuilderForAnswerOptionsForm(
-        PresentationFactory $presentation_factory,
-        Properties $properties,
-        bool $is_in_creation_context,
-        array $table_row_ids
+        Environment $environment,
+        Properties $properties
     ): InputsBuilderSession {
-        return $presentation_factory->getSessionBasedInputsBuilder(
+        return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
             $properties->getAnswerFormId()->toString(),
-            $this->refinery->custom()->transformation(
+            $environment->getRefinery()->custom()->transformation(
                 function (?string $carry) use (
-                    $properties,
-                    $is_in_creation_context,
-                    $table_row_ids
+                    $environment,
+                    $properties
                 ): Section {
                     $properties_from_carry = $this->properties_factory
                         ->fromCarry(
@@ -377,11 +350,11 @@ class EditGaps
                         );
                     return $properties_from_carry->getGaps()
                         ->buildAnswerOptionsInputs(
-                            $this->lng,
-                            $this->ui_factory->input()->field(),
+                            $environment->getLanguage(),
+                            $environment->getUIFactory()->input()->field(),
                             $properties_from_carry,
-                            $is_in_creation_context,
-                            $table_row_ids
+                            $environment->isInCreationContext(),
+                            $environment->getTableRowIds()
                         );
                 }
             )
@@ -407,10 +380,8 @@ class EditGaps
         Properties $properties
     ): EditForm {
         $inputs_builder_for_points = $this->buildInputsBuilderForPointsForm(
-            $environment->getPresentationFactory(),
-            $properties,
-            $environment->isInCreationContext(),
-            $environment->getTableRowIds()
+            $environment,
+            $properties
         )->withCarry(
             $properties->toCarry()
         );
@@ -443,8 +414,8 @@ class EditGaps
             true
         )->withContentBeforeForm(
             $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
+                $environment->getUIFactory(),
+                $environment->getLanguage(),
                 $properties->getGaps(),
                 $properties->getLegacyClozeText()
             )
@@ -455,16 +426,14 @@ class EditGaps
         Environment $environment
     ): EditForm|Properties {
         $inputs_builder_for_points = $this->buildInputsBuilderForPointsForm(
-            $environment->getPresentationFactory(),
-            $environment->getAnswerFormProperties(),
-            $environment->isInCreationContext(),
-            $environment->getTableRowIds()
+            $environment,
+            $environment->getAnswerFormProperties()
         );
 
         $form = $this->buildAssignPointsForm(
             $environment,
             $inputs_builder_for_points
-        )->withRequest($this->http->request());
+        )->withRequest($environment->getHttpServices()->request());
 
         $data = $form->getData();
         if ($data === null) {
@@ -476,18 +445,15 @@ class EditGaps
     }
 
     private function buildInputsBuilderForPointsForm(
-        PresentationFactory $presentation_factory,
-        Properties $properties,
-        bool $is_in_creation_context,
-        array $table_row_ids
+        Environment $environment,
+        Properties $properties
     ): InputsBuilderSession {
-        return $presentation_factory->getSessionBasedInputsBuilder(
+        return $environment->getPresentationFactory()->getSessionBasedInputsBuilder(
             $properties->getAnswerFormId()->toString(),
-            $this->refinery->custom()->transformation(
+            $environment->getRefinery()->custom()->transformation(
                 function (?string $carry) use (
-                    $properties,
-                    $is_in_creation_context,
-                    $table_row_ids
+                    $environment,
+                    $properties
                 ): Section {
                     $properties_from_carry = $this->properties_factory
                         ->fromCarry(
@@ -496,11 +462,11 @@ class EditGaps
                         );
                     return $properties_from_carry->getGaps()
                         ->buildPointInputs(
-                            $this->lng,
-                            $this->ui_factory->input()->field(),
+                            $environment->getLanguage(),
+                            $environment->getUIFactory()->input()->field(),
                             $properties_from_carry,
-                            $is_in_creation_context,
-                            $table_row_ids
+                            $environment->isInCreationContext(),
+                            $environment->getTableRowIds()
                         );
                 }
             )
@@ -539,7 +505,7 @@ class EditGaps
     private function buildRetrievePropertiesTransformation(
         Environment $environment
     ): CustomTransformation {
-        return $this->refinery->custom()->transformation(
+        return $environment->getRefinery()->custom()->transformation(
             fn(?string $carry): Properties => $this->properties_factory
                 ->fromCarry(
                     $environment->getAnswerFormProperties(),
