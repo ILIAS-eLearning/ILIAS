@@ -203,15 +203,15 @@ class Edit
         $answer_form_type_class_hash = $environment->getTypeClassHash();
 
         if ($answer_form_type_class_hash !== '') {
-            $type = $this->answer_form_factory
+            $type_definition = $this->answer_form_factory
                 ->buildTypeDefinitionFromSelectValue($answer_form_type_class_hash);
 
             return $this->forwardCreateAnswerFormCmd(
                 $environment->withAnswerFormProperties(
-                    $type->buildProperties(
+                    $type_definition->buildProperties(
                         $this->answer_form_factory->getDefaultTypeGenericProperties(
                             $question->getId(),
-                            $type,
+                            $type_definition,
                             $environment->getAnswerFormId(),
                         ),
                         null
@@ -219,7 +219,7 @@ class Edit
                 )->withAnswerFormTypeHashParameter($answer_form_type_class_hash),
                 $question,
                 $content_object,
-                $type->getEditView()
+                $type_definition->getEditView()
             );
         }
 
@@ -238,8 +238,8 @@ class Edit
         int $obj_id,
         QuestionImplementation $question,
         AnswerFormProperties $answer_form_properties,
-        Definition $type
-    ): Async|Renderable {
+        Definition $type_definition
+    ): Renderable {
         $environment = $this->buildEnvironment(
             $base_uri,
             $obj_id
