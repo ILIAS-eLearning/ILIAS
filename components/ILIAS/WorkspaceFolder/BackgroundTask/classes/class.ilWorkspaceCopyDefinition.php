@@ -38,7 +38,14 @@ class ilWorkspaceCopyDefinition extends AbstractValue
     private array $object_wsp_ids = [];
     private int $num_files = 0;
     private int $sum_file_sizes = 0;
-    private ?BooleanValue $adheres_to_limit = null;
+    private BooleanValue $adheres_to_limit;
+
+    public function __construct()
+    {
+        $adheres_to_limit = new BooleanValue();
+        $adheres_to_limit->setValue(false);
+        $this->adheres_to_limit = $adheres_to_limit;
+    }
 
     public function getCopyDefinitions(): array
     {
