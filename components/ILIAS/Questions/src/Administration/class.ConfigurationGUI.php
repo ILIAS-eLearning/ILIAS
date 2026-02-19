@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Administration;
 
-use ILIAS\Questions\UserSettings\CreateMode;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Language\Language;

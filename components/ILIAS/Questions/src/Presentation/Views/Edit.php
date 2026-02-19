@@ -36,7 +36,6 @@ use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\AnswerForm\Views\Edit as AnswerFormEditView;
 use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Questions\Question\QuestionImplementation;
-use ILIAS\Questions\UserSettings\CreateMode;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\URI;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -148,6 +147,13 @@ class Edit
             $base_uri,
             $obj_id
         );
+
+        if ($this->ctrl->getCmd() === 'insert'
+            && $environment->getAction() === self::ACTION_DELETE_QUESTIONS) {
+            $this->deleteQuestions($environment);
+            return;
+        }
+
         $this->initializeEditMode($environment);
         $environment->preserveParametersForPageEditorCmds();
 
@@ -186,6 +192,13 @@ class Edit
         )->withIsInCreationContext(true)
         ->withActionParameter(self::ACTION_CREATE_ANSWER_FORM)
         ->withQuestionIdParameter($question->getId());
+
+
+        $environment->setEditAnswerFormBackTarget();
+
+        if ($this->configuration_repository->isCreateModeSimple($environment)) {
+            $environment = $environment->withCreateModeParameter();
+        }
 
         $answer_form_type_class_hash = $environment->getTypeClassHash();
 
@@ -288,7 +301,7 @@ class Edit
         }
 
         $this->questions_repository->create([$create]);
-        return $this->ctrl->redirectToURL(
+        $this->ctrl->redirectToURL(
             $this->buildAfterQuestionCreationRedirectUri(
                 $environment,
                 $create->getCreateMode(),
@@ -449,7 +462,12 @@ class Edit
         );
 
         if ($create instanceof EditForm) {
-            return $create;
+            return $create->isFinalStep()
+                ? $create->withAdditionalAction(
+                    $environment->buildURLBuilderTokenForCreateAndNew(),
+                    '1',
+                    $this->lng->txt('create_and_new')
+                ) : $create;
         }
 
         $this->questions_repository->create(
@@ -459,7 +477,9 @@ class Edit
         $content_object->create($create->getAnswerFormId());
         $content_object->getPage()->update();
 
-        $this->ctrl->redirectByClass(\QstsQuestionPageGUI::class, 'edit');
+        $this->ctrl->redirectToURL(
+            $this->buildAfterAnswerFormCreationRedirectUri($environment)
+        );
     }
 
     private function initializeEditMode(
@@ -558,8 +578,7 @@ class Edit
         if ($this->configuration_repository->isCreateModeSimple($environment)) {
             $inputs['question_text'] = $if->field()->textarea(
                 $this->lng->txt('question_text')
-            );
-            $environment = $environment->withCreateModeParameter();
+            )->withRequired(true);
         }
 
         return $environment->getPresentationFactory()->getEditForm(
@@ -678,5 +697,32 @@ class Edit
             ],
             'insert'
         );
+    }
+
+    private function buildAfterAnswerFormCreationRedirectUri(
+        EnvironmentImplementation $environment,
+    ): string {
+        if (!$this->configuration_repository->isCreateModeSimple($environment)) {
+            return $this->ctrl->getLinkTargetByClass(
+                \QstsQuestionPageGUI::class,
+                'edit'
+            );
+        }
+
+        $additonal_data = $this->global_screen
+            ->tool()
+            ->context()
+            ->current()
+            ->getAdditionalData();
+
+        if ($environment->isCreateAndNewAction()) {
+            return $additonal_data
+                ->get(LayoutProvider::URL_CREATE_QUESTION)
+                ->__toString();
+        }
+
+        return $additonal_data
+            ->get(LayoutProvider::URL_CLOSE_MODE_INFO)
+            ->__toString();
     }
 }

@@ -53,10 +53,6 @@ class Factory
         );
     }
 
-    /**
-     * @param Environment $environment The environment MUST have the step set,
-     * to which the form shall be sent.
-     */
     public function getEditForm(
         Input|InputsBuilder $main_section_inputs,
         URLBuilder $default_form_action,
