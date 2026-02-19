@@ -26,7 +26,6 @@ use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
 use ILIAS\Questions\Presentation\Layout\Renderable;
-use ILIAS\UI\URLBuilder;
 
 interface Edit
 {
@@ -41,8 +40,4 @@ interface Edit
     public function other(
         Environment $environment
     ): Async|Renderable|Properties;
-
-    public function getFinishEditingUrl(
-        Environment $environment
-    ): URLBuilder;
 }

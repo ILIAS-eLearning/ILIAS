@@ -25,10 +25,6 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Renderable;
-use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Factory as UIFactory;
 
 class EditCombinations
 {
@@ -37,11 +33,7 @@ class EditCombinations
     private const string LANG_VAR_EDIT_COMBINATIONS = 'edit_combinations';
 
     public function __construct(
-        private readonly UIFactory $ui_factory,
         private readonly \ilToolbarGUI $toolbar,
-        private readonly Refinery $refinery,
-        private readonly Language $lng,
-        private readonly HTTPServices $http,
         private readonly Factory $combinations_factory
     ) {
     }
@@ -82,11 +74,7 @@ class EditCombinations
         Environment $environment
     ): CombinationsOverview {
         return new CombinationsOverview(
-            $this->ui_factory,
             $this->toolbar,
-            $this->refinery,
-            $this->lng,
-            $this->http,
             $environment,
             $this->combinations_factory
         );

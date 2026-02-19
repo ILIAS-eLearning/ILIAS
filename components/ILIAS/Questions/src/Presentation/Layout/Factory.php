@@ -45,9 +45,6 @@ class Factory
         URLBuilder $target_to_edit_basic_answer_form_properties
     ): EditOverview {
         return new EditOverview(
-            $this->ui_factory,
-            $this->lng,
-            $this->http->request(),
             $environment,
             $target_to_edit_basic_answer_form_properties
         );
@@ -86,5 +83,10 @@ class Factory
             $storage_key,
             $to_inputs
         );
+    }
+
+    public function getUIFactory(): UIFactory
+    {
+        return $this->ui_factory;
     }
 }

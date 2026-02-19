@@ -251,25 +251,19 @@ class Edit
             self::ACTION_EDIT_CONTENT_FOR_REPETITION
         );
 
-        $edit_view = $type->getEditView();
+        [$environment, $next] = $this->doEditAction(
+            $environment,
+            $type_definition
+        );
 
-        if ($environment->getAction() === self::ACTION_OTHER_ANSWER_FORM) {
-            $environment = $environment->withActionParameter(self::ACTION_OTHER_ANSWER_FORM);
-            $next = $edit_view->other($environment);
-        } else {
-            $next = $edit_view->edit($environment);
-        }
-
-        if (!($next instanceof AnswerFormProperties)) {
+        if ($next instanceof Renderable) {
             return $next;
         }
 
-        $this->questions_repository->update(
-            [$question->withAnswerFormProperties($next)]
-        );
+        $this->storeEditResult($next);
 
         $this->ctrl->redirectToURL(
-            $edit_view->getFinishEditingUrl($environment)->buildURI()->__toString()
+            $environment->getUrlBuilder()->buildURI()->__toString()
         );
     }
 
@@ -279,18 +273,16 @@ class Edit
         $this->initializeEditMode($environment);
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('cancel'),
-            $environment->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+            $environment->withDefaultStep()->getUrlBuilder()
+                ->buildURI()
+                ->__toString()
         );
 
         $create = $this->questions_repository->getNew(
             $environment->getObjId()
         )->getEditView(
-            $this->lng,
             $this->configuration_repository,
             $this->current_user,
-            $this->ui_factory,
-            $this->refinery,
-            $this->http->request(),
             $this->ctrl
         )->create(
             $environment->withActionParameter(self::ACTION_CREATE_QUESTION)
@@ -326,12 +318,8 @@ class Edit
             ->withQuestionIdParameter($question_id);
 
         $edit = $question->getEditView(
-            $this->lng,
             $this->configuration_repository,
             $this->current_user,
-            $this->ui_factory,
-            $this->refinery,
-            $this->http->request(),
             $this->ctrl
         )->edit(
             $environment_with_question_parameter
@@ -402,10 +390,7 @@ class Edit
         );
 
         return new QuestionsTable(
-            $this->ui_factory,
             $this->ui_services,
-            $this->lng,
-            $this->http->request(),
             $this->answer_form_factory,
             $this->questions_repository,
             $environment
@@ -417,7 +402,8 @@ class Edit
         QuestionImplementation $question,
         \ilPCAnswerForm $content_object
     ): EditForm {
-        $form = $this->buildCreateAnswerForm($environment)->withRequest($this->http->request());
+        $form = $this->buildCreateAnswerForm($environment)
+            ->withRequest($this->http->request());
 
         $data = $form->getData();
         if ($data === null) {
@@ -479,6 +465,56 @@ class Edit
 
         $this->ctrl->redirectToURL(
             $this->buildAfterAnswerFormCreationRedirectUri($environment)
+        );
+    }
+
+    /**
+     * @return array{
+     *  \ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation,
+     *  \ILIAS\Questions\AnswerForm\Definition
+     * }
+     */
+    private function doEditAction(
+        EnvironmentImplementation $environment,
+        Definition $type_definition
+    ): array {
+        $action = $environment->getAction();
+        if ($action === self::ACTION_EDIT_FEEDBACK) {
+            $environment = $environment->withActionParameter(
+                self::ACTION_OTHER_ANSWER_FORM
+            );
+            return [
+                $environment,
+                $type_definition->getCapability(Feedback::class)->edit($environment)
+            ];
+        }
+
+
+        if ($action === self::ACTION_OTHER_ANSWER_FORM) {
+            $environment = $environment->withActionParameter(
+                self::ACTION_OTHER_ANSWER_FORM
+            );
+            return [
+                $environment,
+                $type_definition->getEditView()->other($environment)
+            ];
+        }
+
+        return [
+            $environment,
+            $type_definition->getEditView()->edit($environment)
+        ];
+    }
+
+    private function storeEditResult(
+        Capability|AnswerFormProperties $result
+    ): void {
+        if ($result instanceof Capability) {
+            $this->questions_repository->storeCapability($result);
+        }
+
+        $this->questions_repository->update(
+            [$question->withAnswerFormProperties($result)]
         );
     }
 
@@ -556,12 +592,8 @@ class Edit
         QuestionImplementation $question
     ): EditForm {
         return $question->getEditView(
-            $this->lng,
             $this->configuration_repository,
             $this->current_user,
-            $this->ui_factory,
-            $this->refinery,
-            $this->http->request(),
             $this->ctrl
         )->edit(
             $environment,
@@ -586,7 +618,8 @@ class Edit
                 $inputs + [
                     'type' => $if->field()->select(
                         $this->lng->txt('select_answer_form_type'),
-                        $this->answer_form_factory->getAnswerFormTypesArrayForSelect($this->lng)
+                        $this->answer_form_factory
+                            ->getAnswerFormTypesArrayForSelect($this->lng)
                     )->withRequired(true)
                     ->withAdditionalTransformation(
                         $this->refinery->custom()->transformation(

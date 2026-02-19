@@ -30,10 +30,6 @@ use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Layout\Renderable;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\HTTP\Services as Http;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
@@ -53,11 +49,7 @@ class CombinationsOverview implements DataRetrieval, Renderable
     private ?RoundTripModal $modal = null;
 
     public function __construct(
-        private readonly UIFactory $ui_factory,
         private readonly \ilToolbarGUI $toolbar,
-        private readonly Refinery $refinery,
-        private readonly Language $lng,
-        private readonly Http $http,
         private readonly Environment $environment,
         private readonly CombinationsFactory $combinations_factory
     ) {
@@ -88,7 +80,10 @@ class CombinationsOverview implements DataRetrieval, Renderable
         mixed $additional_parameters
     ): \Generator {
         yield from $this->environment->getAnswerFormProperties()
-            ->getCombinations()->toTableRows($this->lng, $row_builder);
+            ->getCombinations()->toTableRows(
+                $this->environment->getLanguage(),
+                $row_builder
+            );
     }
 
     #[\Override]
@@ -113,20 +108,20 @@ class CombinationsOverview implements DataRetrieval, Renderable
 
     private function buildTable(): DataTable
     {
-        return $this->ui_factory->table()->data(
+        return $this->environment->getUIFactory()->table()->data(
             $this,
-            $this->lng->txt('combinations'),
+            $this->environment->getLanguage()->txt('combinations'),
             $this->getColumns()
         )->withActions($this->getActions())
-        ->withRequest($this->http->request());
+        ->withRequest($this->environment->getHttpServices()->request());
     }
 
     private function initializeModal(
         RoundTripModal $modal
     ): RoundTripModal {
         $this->toolbar->addComponent(
-            $this->ui_factory->button()->standard(
-                $this->lng->txt('add_combination'),
+            $this->environment->getUIFactory()->button()->standard(
+                $this->environment->getLanguage()->txt('add_combination'),
                 $modal->getShowSignal()
             )
         );
@@ -135,27 +130,27 @@ class CombinationsOverview implements DataRetrieval, Renderable
 
     private function getColumns(): array
     {
-        $cf = $this->ui_factory->table()->column();
+        $cf = $this->environment->getUIFactory()->table()->column();
         return [
-            'gaps' => $cf->text($this->lng->txt('gaps')),
-            'values' => $cf->text($this->lng->txt('values')),
-            'available_points' => $cf->number($this->lng->txt('points'))->withDecimals(2)
+            'gaps' => $cf->text($this->environment->getLanguage()->txt('gaps')),
+            'values' => $cf->text($this->environment->getLanguage()->txt('values')),
+            'available_points' => $cf->number($this->environment->getLanguage()->txt('points'))->withDecimals(2)
         ];
     }
 
     private function getActions(): array
     {
-        $af = $this->ui_factory->table()->action();
+        $af = $this->environment->getUIFactory()->table()->action();
         return [
             $af->single(
-                $this->lng->txt('edit'),
+                $this->environment->getLanguage()->txt('edit'),
                 $this->environment
                     ->withStepParameter(self::STEP_JUMP_TO_SET_COMBINATION_VALUES)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             )->withAsync(true),
             $af->single(
-                $this->lng->txt('delete'),
+                $this->environment->getLanguage()->txt('delete'),
                 $this->environment
                 ->withStepParameter(self::STEP_CONFIRM_DELETE_COMBINATION)
                 ->getUrlBuilder(),
@@ -190,8 +185,9 @@ class CombinationsOverview implements DataRetrieval, Renderable
     private function buildNoItemsSelectedAsync(): Async
     {
         return new Async(
-            $this->http,
-            $this->ui_factory->messageBox()->failure('no_combination_selected')
+            $this->environment->getHttpServices(),
+            $this->environment->getUIFactory()->messageBox()
+                ->failure('no_combination_selected')
         );
     }
 
@@ -199,26 +195,26 @@ class CombinationsOverview implements DataRetrieval, Renderable
     {
         $properties = $this->environment->getAnswerFormProperties();
         $gaps = $properties->getGaps();
-        return $this->ui_factory->modal()->roundtrip(
-            $this->lng->txt('add_combination'),
+        return $this->environment->getUIFactory()->modal()->roundtrip(
+            $this->environment->getLanguage()->txt('add_combination'),
             $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
+                $this->environment->getUIFactory(),
+                $this->environment->getLanguage(),
                 $gaps,
                 $properties->getLegacyClozeText()
             ),
             [
                 'combination' => $gaps->buildGapsMultiSelect(
-                    $this->lng->txt('select_gaps_for_combinations'),
-                    $this->ui_factory->input()->field()
+                    $this->environment->getLanguage()->txt('select_gaps_for_combinations'),
+                    $this->environment->getUIFactory()->input()->field()
                 )->withRequired(true)
                 ->withAdditionalTransformation(
-                    $this->refinery->custom()->constraint(
+                    $this->environment->getRefinery()->custom()->constraint(
                         fn(array $v): bool => count($v) > 1,
-                        $this->lng->txt('combination_needs_more_than_one')
+                        $this->environment->getLanguage()->txt('combination_needs_more_than_one')
                     )
                 )->withAdditionalTransformation(
-                    $this->refinery->custom()->transformation(
+                    $this->environment->getRefinery()->custom()->transformation(
                         fn(array $v): Combination => $this->combinations_factory
                         ->buildNewCombination($gaps, $v)
                     )
@@ -229,7 +225,7 @@ class CombinationsOverview implements DataRetrieval, Renderable
                 ->getUrlBuilder()
                 ->buildURI()
                 ->__toString()
-        )->withSubmitLabel($this->lng->txt('next'));
+        )->withSubmitLabel($this->environment->getLanguage()->txt('next'));
     }
 
     private function processSetCombinationGapsModal(): self
@@ -237,7 +233,7 @@ class CombinationsOverview implements DataRetrieval, Renderable
         $clone = clone $this;
 
         $set_gaps_modal = $clone->buildSetCombinationGapsModal()
-            ->withRequest($clone->http->request());
+            ->withRequest($clone->environment->getHttpServices()->request());
         $data = $set_gaps_modal->getData();
 
         if ($data === null) {
@@ -258,11 +254,11 @@ class CombinationsOverview implements DataRetrieval, Renderable
         $properties = $this->environment->getAnswerFormProperties();
         $gaps = $properties->getGaps();
 
-        return $this->ui_factory->modal()->roundtrip(
-            $this->lng->txt('edit'),
+        return $this->environment->getUIFactory()->modal()->roundtrip(
+            $this->environment->getLanguage()->txt('edit'),
             $properties->getClozeText()->buildPanelForEditing(
-                $this->ui_factory,
-                $this->lng,
+                $this->environment->getUIFactory(),
+                $this->environment->getLanguage(),
                 $gaps,
                 $properties->getLegacyClozeText()
             ),
@@ -280,7 +276,7 @@ class CombinationsOverview implements DataRetrieval, Renderable
     {
         $inputs_builder = $this->buildInputsBuilder(null);
         $set_values_modal = $this->buildSetCombinationValuesModal($inputs_builder)
-            ->withRequest($this->http->request());
+            ->withRequest($this->environment->getHttpServices()->request());
         $data = $set_values_modal->getData();
         if ($data === null) {
             $this->modal = $this->initializeModal($set_values_modal)
@@ -295,9 +291,9 @@ class CombinationsOverview implements DataRetrieval, Renderable
     private function confirmDeleteCombination(
         Combination $affected_item
     ): InterruptiveModal {
-        return $this->ui_factory->modal()->interruptive(
-            $this->lng->txt('confirm'),
-            $this->lng->txt('delete_combination'),
+        return $this->environment->getUIFactory()->modal()->interruptive(
+            $this->environment->getLanguage()->txt('confirm'),
+            $this->environment->getLanguage()->txt('delete_combination'),
             $this->environment->withStepParameter(
                 self::STEP_DELETE_COMBINATION
             )->getUrlBuilder()
@@ -330,7 +326,7 @@ class CombinationsOverview implements DataRetrieval, Renderable
     ): InputsBuilderSession {
         $builder = $this->environment->getPresentationFactory()->getSessionBasedInputsBuilder(
             $this->environment->getAnswerFormProperties()->getAnswerFormId()->toString(),
-            $this->refinery->custom()->transformation(
+            $this->environment->getRefinery()->custom()->transformation(
                 function (?string $v) use ($combination): ?Section {
                     $properties = $this->environment->getAnswerFormProperties();
                     if ($combination === null) {
@@ -342,9 +338,9 @@ class CombinationsOverview implements DataRetrieval, Renderable
                     }
 
                     return $combination?->buildPointsInputs(
-                        $this->ui_factory->input()->field(),
-                        $this->refinery,
-                        $this->lng,
+                        $this->environment->getUIFactory()->input()->field(),
+                        $this->environment->getRefinery(),
+                        $this->environment->getLanguage(),
                         $this->combinations_factory,
                         $properties
                     );

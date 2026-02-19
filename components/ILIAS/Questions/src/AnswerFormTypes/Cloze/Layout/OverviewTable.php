@@ -24,31 +24,27 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Views\EditGaps;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\Language\Language;
-use ILIAS\UI\Component\Table\Factory as TableFactory;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use Psr\Http\Message\ServerRequestInterface;
 
 class OverviewTable implements DataRetrieval
 {
     public function __construct(
-        private readonly TableFactory $table_factory,
-        private readonly Language $lng,
-        private readonly ServerRequestInterface $request,
         private readonly Environment $environment
     ) {
     }
 
     public function getTable(): DataTable
     {
-        return $this->table_factory->data(
+        return $this->environment->getUIFactory()->table()->data(
             $this,
-            $this->lng->txt('gaps'),
+            $this->environment->getLanguage()->txt('gaps'),
             $this->getColums()
         )->withActions($this->getActions())
-        ->withRequest($this->request);
+        ->withRequest(
+            $this->environment->getHttpServices()->request()
+        );
     }
 
     #[\Override]
@@ -62,7 +58,7 @@ class OverviewTable implements DataRetrieval
         mixed $additional_parameters
     ): \Generator {
         yield from $this->environment->getAnswerFormProperties()->getGaps()
-            ->toTableRows($row_builder, $this->lng);
+            ->toTableRows($row_builder, $this->environment->getLanguage());
     }
 
     #[\Override]
@@ -71,44 +67,51 @@ class OverviewTable implements DataRetrieval
         mixed $filter_data,
         mixed $additional_parameters
     ): ?int {
-        return $this->environment->getAnswerFormProperties()->getGaps()->getNumberOfGaps();
+        return $this->environment->getAnswerFormProperties()
+            ->getGaps()->getNumberOfGaps();
     }
 
     private function getColums(): array
     {
-        $f = $this->table_factory->column();
+        $f = $this->environment->getUIFactory()->table()->column();
 
         return [
-            'gap' => $f->text($this->lng->txt('title'))->withIsSortable(false),
-            'type' => $f->text($this->lng->txt('cloze_type'))->withIsSortable(false),
-            'answers_options_awarding_points' => $f
-                ->text($this->lng->txt('answer_options_awarding_points'))
-                ->withIsSortable(false),
-            'available_points' => $f->number($this->lng->txt('available_points'))
-                ->withDecimals(4)
-                ->withIsSortable(false)
+            'gap' => $f->text(
+                $this->environment->getLanguage()->txt('title')
+            )->withIsSortable(false),
+            'type' => $f->text(
+                $this->environment->getLanguage()->txt('cloze_type')
+            )->withIsSortable(false),
+            'answers_options_awarding_points' => $f->text(
+                $this->environment->getLanguage()->txt('answer_options_awarding_points')
+            )->withIsSortable(false),
+            'available_points' => $f->number(
+                $this->environment->getLanguage()->txt('available_points')
+            )->withDecimals(4)
+            ->withIsSortable(false)
         ];
     }
 
     private function getActions(): array
     {
+        $taf = $this->environment->getUIFactory()->table()->action();
         return [
-            'edit_gaps' => $this->table_factory->action()->standard(
-                $this->lng->txt('edit_gaps'),
+            'edit_gaps' => $taf->standard(
+                $this->environment->getLanguage()->txt('edit_gaps'),
                 $this->environment
                     ->withStepParameter(EditGaps::STEP_JUMP_TO_SET_GAP_TYPES)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             ),
-            'edit_answer_options' => $this->table_factory->action()->standard(
-                $this->lng->txt('edit_answer_options'),
+            'edit_answer_options' => $taf->standard(
+                $this->environment->getLanguage()->txt('edit_answer_options'),
                 $this->environment
                     ->withStepParameter(EditGaps::STEP_JUMP_TO_SET_ANSWER_OPTIONS)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()
             ),
-            'edit_points' => $this->table_factory->action()->standard(
-                $this->lng->txt('edit_available_points'),
+            'edit_points' => $taf->standard(
+                $this->environment->getLanguage()->txt('edit_available_points'),
                 $this->environment
                     ->withStepParameter(EditGaps::STEP_JUMP_TO_ASSIGN_POINTS)
                     ->getUrlBuilder(),

@@ -25,9 +25,6 @@ use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
-use ILIAS\HTTP\Services as HttpServices;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 
 class Combinations
@@ -100,18 +97,10 @@ class Combinations
     }
 
     public function getEditView(
-        UIFactory $ui_factory,
-        \ilToolbarGUI $toolbar,
-        Refinery $refinery,
-        Language $lng,
-        HttpServices $http
+        \ilToolbarGUI $toolbar
     ): EditCombinations {
         return new EditCombinations(
-            $ui_factory,
             $toolbar,
-            $refinery,
-            $lng,
-            $http,
             $this->combinations_factory
         );
     }

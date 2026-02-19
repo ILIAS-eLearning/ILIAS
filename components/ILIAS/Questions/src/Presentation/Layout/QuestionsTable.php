@@ -26,26 +26,20 @@ use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
-use ILIAS\Language\Language;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
-use Psr\Http\Message\ServerRequestInterface;
 
 class QuestionsTable implements Renderable, DataRetrieval
 {
     public function __construct(
-        private readonly UIFactory $ui_factory,
         private readonly \ilUIService $ui_service,
-        private readonly Language $lng,
-        private readonly ServerRequestInterface $request,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
         private readonly EnvironmentImplementation $environment
     ) {
-        $lng->loadLanguageModule('qpl');
+        $environment->getLanguage()->loadLanguageModule('qpl');
     }
 
     public function render(
@@ -70,7 +64,6 @@ class QuestionsTable implements Renderable, DataRetrieval
         foreach ($this->questions_repository->getQuestionDataOnlyForAllQuestions() as $question) {
             yield $question->toTableRow(
                 $row_builder,
-                $this->ui_factory,
                 $environment_with_action
             );
         }
@@ -89,14 +82,14 @@ class QuestionsTable implements Renderable, DataRetrieval
     {
         return [
             $this->buildFilter($this->environment->getUrlBuilder()->buildURI()->__toString()),
-            $this->ui_factory->table()->data(
+            $this->environment->getUIFactory()->table()->data(
                 $this,
-                $this->lng->txt('questions'),
+                $this->environment->getLanguage()->txt('questions'),
                 $this->getColums(),
             )->withActions(
                 $this->getActions()
             )->withRange(new Range(0, 20))
-            ->withRequest($this->request)
+            ->withRequest($this->environment->getHttpServices()->request())
         ];
     }
 
@@ -104,15 +97,20 @@ class QuestionsTable implements Renderable, DataRetrieval
         string $action
     ): Filter {
         $question_type_options = [
-            '' => $this->lng->txt('filter_all_question_types')
+            '' => $this->environment->getLanguage()->txt('filter_all_question_types')
         ];
 
-        $field_factory = $this->ui_factory->input()->field();
+        $field_factory = $this->environment->getUIFactory()->input()->field();
         $filter_inputs = [
-            'title' => $field_factory->text($this->lng->txt('title')),
+            'title' => $field_factory->text(
+                $this->environment->getLanguage()->txt('title')
+            ),
             'contains_type' => $field_factory->select(
-                $this->lng->txt('contains_type'),
-                $question_type_options + $this->answer_form_factory->getAnswerFormTypesArrayForSelect($this->lng)
+                $this->environment->getLanguage()->txt('contains_type'),
+                $question_type_options + $this->answer_form_factory
+                    ->getAnswerFormTypesArrayForSelect(
+                        $this->environment->getLanguage()
+                    )
             ),
         ];
 
@@ -131,19 +129,21 @@ class QuestionsTable implements Renderable, DataRetrieval
 
     private function getColums(): array
     {
-        $f = $this->ui_factory->table()->column();
+        $f = $this->environment->getUIFactory()->table()->column();
 
         return [
-            'title' => $f->link($this->lng->txt('title')),
-            'type' => $f->text($this->lng->txt('question_type'))->withIsOptional(true, true),
+            'title' => $f->link($this->environment->getLanguage()->txt('title')),
+            'type' => $f->text(
+                $this->environment->getLanguage()->txt('question_type')
+            )->withIsOptional(true, true),
         ];
     }
 
     private function getActions(): array
     {
         return [
-            'delete' => $this->ui_factory->table()->action()->standard(
-                $this->lng->txt('delete'),
+            'delete' => $this->environment->getUIFactory()->table()->action()->standard(
+                $this->environment->getLanguage()->txt('delete'),
                 $this->environment->withActionParameter(Edit::ACTION_DELETE_QUESTIONS)
                     ->getUrlBuilder(),
                 $this->environment->getTableRowIdToken()

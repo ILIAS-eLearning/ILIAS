@@ -31,14 +31,9 @@ use ILIAS\Questions\Presentation\Layout\EditForm;
 use ILIAS\Questions\Presentation\Layout\EditOverview;
 use ILIAS\Questions\Presentation\Layout\InputsBuilderSession;
 use ILIAS\Questions\Presentation\Layout\Renderable;
-use ILIAS\HTTP\Services as HTTPServices;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Modal\InterruptiveItem\Standard as InterruptiveItem;
-use ILIAS\UI\URLBuilder;
 
 class Edit implements EditViewInterface
 {
@@ -48,11 +43,7 @@ class Edit implements EditViewInterface
     private const string STEP_CONFIRMED_GAP_REMOVAL = 'cgr';
 
     public function __construct(
-        private readonly Language $lng,
-        private readonly UIFactory $ui_factory,
         private readonly \ilToolbarGUI $toolbar,
-        private readonly Refinery $refinery,
-        private readonly HTTPServices $http,
         private readonly PropertiesFactory $properties_factory,
         private readonly ClozeTextFactory $cloze_text_factory,
         private readonly EditGaps $edit_gaps
@@ -86,11 +77,7 @@ class Edit implements EditViewInterface
         $combinations = $environment->getAnswerFormProperties()->getCombinations();
         if ($combinations->areCombinationsEnabled()) {
             $combinations->getEditView(
-                $this->ui_factory,
-                $this->toolbar,
-                $this->refinery,
-                $this->lng,
-                $this->http
+                $this->toolbar
             )->addCombinationsSubTab($environment);
         }
 
@@ -126,19 +113,8 @@ class Edit implements EditViewInterface
         return $environment
             ->getAnswerFormProperties()
             ->getCombinations()->getEditView(
-                $this->ui_factory,
-                $this->toolbar,
-                $this->refinery,
-                $this->lng,
-                $this->http
+                $this->toolbar
             )->show($environment);
-    }
-
-    #[\Override]
-    public function getFinishEditingUrl(
-        Environment $environment
-    ): URLBuilder {
-        return $environment->getUrlBuilder();
     }
 
     private function startEditing(
@@ -235,7 +211,7 @@ class Edit implements EditViewInterface
             $environment,
             $inputs_builder,
             false
-        )->withRequest($this->http->request());
+        )->withRequest($environment->getHttpServices()->request());
 
         /** @var \ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties $data */
         $data = $form->getData();
@@ -294,15 +270,15 @@ class Edit implements EditViewInterface
         $inputs_builder = $environment->getPresentationFactory()
             ->getSessionBasedInputsBuilder(
                 $environment->getAnswerFormId()->toString(),
-                $this->refinery->custom()->transformation(
+                $environment->getRefinery()->custom()->transformation(
                     fn(?string $carry): Section => $this->properties_factory
                         ->fromCarry(
                             $environment->getAnswerFormProperties(),
                             $carry
                         )->buildBasicEditingInputs(
-                            $this->lng,
-                            $this->ui_factory->input()->field(),
-                            $this->refinery,
+                            $environment->getLanguage(),
+                            $environment->getUIFactory()->input()->field(),
+                            $environment->getRefinery(),
                             $this->properties_factory,
                             $this->cloze_text_factory,
                             $add_legacy_cloze_text_to_input
@@ -324,16 +300,16 @@ class Edit implements EditViewInterface
         Environment $environment,
         array $removed_gaps
     ): InterruptiveModal {
-        return $this->ui_factory->modal()->interruptive(
-            $this->lng->txt('confirm'),
-            $this->lng->txt('confirm_remove_gaps'),
+        return $environment->getUIFactory()->modal()->interruptive(
+            $environment->getLanguage()->txt('confirm'),
+            $environment->getLanguage()->txt('confirm_remove_gaps'),
             $environment->withStepParameter(
                 self::STEP_CONFIRMED_GAP_REMOVAL
             )->getUrlBuilder()->buildURI()->__toString()
         )->withAffectedItems(
             array_map(
-                fn(Gap $v): InterruptiveItem => $this->ui_factory->modal()
-                    ->interruptiveItem()->standard(
+                fn(Gap $v): InterruptiveItem => $environment->getUIFactory()
+                    ->modal()->interruptiveItem()->standard(
                         $v->getAnswerInputId()->toString(),
                         $v->buildShortenedGapName()
                     ),

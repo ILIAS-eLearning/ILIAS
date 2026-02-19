@@ -158,20 +158,12 @@ class LocalDIC extends PimpleContainer
             );
         $dic[Cloze\Views\EditGaps::class] = static fn($c): Cloze\Views\EditGaps
             => new Cloze\Views\EditGaps(
-                $DIC['lng'],
-                $DIC['ui.factory'],
-                $DIC['refinery'],
-                $DIC['http'],
                 $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\Gaps\Factory::class]
             );
         $dic[Cloze\Views\Edit::class] = static fn($c): Cloze\Views\Edit
             => new Cloze\Views\Edit(
-                $DIC['lng'],
-                $DIC['ui.factory'],
                 $DIC['ilToolbar'],
-                $DIC['refinery'],
-                $DIC['http'],
                 $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\ClozeText\Factory::class],
                 $c[Cloze\Views\EditGaps::class]

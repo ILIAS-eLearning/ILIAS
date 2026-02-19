@@ -22,19 +22,13 @@ namespace ILIAS\Questions\Presentation\Layout;
 
 use ILIAS\Questions\Presentation\Definitions\Editability;
 use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Language\Language;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
-use Psr\Http\Message\ServerRequestInterface;
 
 class EditOverview implements Renderable
 {
     public function __construct(
-        private readonly UIFactory $ui_factory,
-        private readonly Language $lng,
-        private readonly ServerRequestInterface $request,
         private readonly Environment $environment,
         private readonly URLBuilder $target_to_edit_basic_answer_form_properties
     ) {
@@ -51,9 +45,6 @@ class EditOverview implements Renderable
         return [
             $this->buildBasicAnswerFormPanel(),
             $this->environment->getAnswerFormProperties()->getOverviewTable(
-                $this->ui_factory->table(),
-                $this->lng,
-                $this->request,
                 $this->environment
             )
         ];
@@ -62,22 +53,25 @@ class EditOverview implements Renderable
     private function buildBasicAnswerFormPanel(): StandardPanel
     {
         $content = [
-            $this->ui_factory->listing()->descriptive(
-                $this->environment->getAnswerFormProperties()->getBasicPropertiesForListing($this->lng)
+            $this->environment->getUIFactory()->listing()->descriptive(
+                $this->environment->getAnswerFormProperties()
+                    ->getBasicPropertiesForListing(
+                        $this->environment->getLanguage()
+                    )
             )
         ];
 
         if ($this->environment->getEditability() === Editability::Full) {
-            $content[] = $this->ui_factory->button()->standard(
-                $this->lng->txt('edit_basic_answer_form_properties'),
+            $content[] = $this->environment->getUIFactory()->button()->standard(
+                $this->environment->getLanguage()->txt('edit_basic_answer_form_properties'),
                 $this->target_to_edit_basic_answer_form_properties
                     ->buildURI()
                     ->__toString()
             );
         }
 
-        return $this->ui_factory->panel()->standard(
-            $this->lng->txt('basic_answer_form_properites'),
+        return $this->environment->getUIFactory()->panel()->standard(
+            $this->environment->getLanguage()->txt('basic_answer_form_properites'),
             $content
         );
     }

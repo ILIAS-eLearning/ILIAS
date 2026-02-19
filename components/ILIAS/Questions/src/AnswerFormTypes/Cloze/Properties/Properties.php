@@ -191,15 +191,9 @@ class Properties implements PropertiesInterface
 
     #[\Override]
     public function getOverviewTable(
-        TableFactory $table_factory,
-        Language $lng,
-        ServerRequestInterface $request,
         Environment $environment
     ): DataTable {
         return new OverviewTable(
-            $table_factory,
-            $lng,
-            $request,
             $environment
         )->getTable();
     }

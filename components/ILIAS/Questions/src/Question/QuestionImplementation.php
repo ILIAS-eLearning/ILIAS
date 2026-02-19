@@ -33,14 +33,11 @@ use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Component\Table\DataRow;
-use ILIAS\Refinery\Factory as Refinery;
-use Psr\Http\Message\RequestInterface;
 
 class QuestionImplementation implements Question
 {
@@ -260,21 +257,13 @@ class QuestionImplementation implements Question
     }
 
     public function getEditView(
-        Language $lng,
         ConfigurationRepository $configuration_repository,
         \ilObjUser $current_user,
-        UIFactory $ui_factory,
-        Refinery $refinery,
-        RequestInterface $request,
         \ilCtrl $ctrl
     ): Views\Edit {
         return new Views\Edit(
-            $lng,
             $configuration_repository,
             $current_user,
-            $ui_factory,
-            $refinery,
-            $request,
             $ctrl,
             $this
         );
@@ -303,13 +292,12 @@ class QuestionImplementation implements Question
 
     public function toTableRow(
         DataRowBuilder $row_builder,
-        UIFactory $ui_factory,
         EnvironmentImplementation $environment
     ): DataRow {
         return $row_builder->buildDataRow(
             $this->id->toString(),
             [
-                'title' => $ui_factory->link()->standard(
+                'title' => $environment->getUIFactory()->link()->standard(
                     $this->title,
                     $environment->withQuestionIdParameter(
                         $this->id
