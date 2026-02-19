@@ -127,12 +127,9 @@ class Edit
         )->withRequest($this->request);
 
         $data = $form->getData();
-
-        $mode = $data['create_mode'];
-
         return $data === null
             ? $form
-            : $data['question']->withCreateMode($mode);
+            : $data['question']->withCreateMode($data['create_mode']);
     }
 
     private function buildBasicPropertiesEditingForm(
