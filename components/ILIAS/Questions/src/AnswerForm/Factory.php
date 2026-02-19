@@ -92,22 +92,22 @@ class Factory
     public function buildTypeDefinitionFromSelectValue(
         string $value
     ): Definition {
-        $type = $this->available_answer_form_types[$value] ?? null;
-        if ($type === null) {
+        $type_definition = $this->available_answer_form_types[$value] ?? null;
+        if ($type_definition === null) {
             throw new InvalidArgumentException('This type of answer form does not exist.');
         }
-        return $type;
+        return $type_definition;
     }
 
     public function getDefaultTypeGenericProperties(
         Uuid $question_id,
-        Definition $type,
+        Definition $type_definition,
         ?Uuid $answer_form_id = null
     ): TypeGenericProperties {
         return new TypeGenericProperties(
             $answer_form_id ?? $this->uuid_factory->uuid4(),
             $question_id,
-            $type
+            $type_definition
         );
     }
 
