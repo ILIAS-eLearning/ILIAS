@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\ConsumerToolbox\ConsumerSlots;
 
+use ILIAS\Data\URI;
 use ilLink;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\UI\Component\Component;
@@ -55,7 +56,7 @@ final class ModifyFooter
         )->except(
             fn() => new Ok(
                 !$this->goto_link || $this->user->isLoggedIn() ?
-                    $footer :
+                    $this->footer($footer, null) :
                     $this->footer($footer, ($this->goto_link)())
             )
         )->value();
@@ -88,9 +89,9 @@ final class ModifyFooter
     }
 
     /**
-     * @param URI|Modal $value
+     * @param URI|Modal|null $value
      */
-    private function footer(Closure $footer, object $value): Closure
+    private function footer(Closure $footer, ?object $value): Closure
     {
         return $footer($this->legal_documents->id(), $this->ui->txt('usr_agreement'), $value);
     }

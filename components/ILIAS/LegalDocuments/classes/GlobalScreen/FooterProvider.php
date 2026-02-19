@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\GlobalScreen;
 
+use ILIAS\Data\URI;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticFooterProvider;
@@ -66,12 +67,19 @@ class FooterProvider extends AbstractStaticFooterProvider
         };
     }
 
-    private function item(string $id, string $title, object $obj): isItem
+    private function item(string $id, string $title, ?object $obj): isItem
     {
+        $false = fn() => false;
         $id = $this->id_factory->identifier($id);
-        $item = $obj instanceof Modal ?
-            $this->item_factory->modal($id, $title, $obj) :
-            $this->item_factory->link($id, $title)->withAction($obj);
+
+        $item = match (true) {
+            $obj === null => $this->item_factory->link($id, $title)
+                                  ->withAction(new URI(ILIAS_HTTP_PATH))
+                                  ->withAvailableCallable($false)
+                                  ->withVisibilityCallable($false),
+            $obj instanceof Modal => $this->item_factory->modal($id, $title, $obj),
+            default => $this->item_factory->link($id, $title)->withAction($obj),
+        };
 
         return $item->withParent($this->parent_id);
     }
