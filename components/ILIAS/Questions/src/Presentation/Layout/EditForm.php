@@ -29,6 +29,7 @@ use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Panel\Standard as StandardPanel;
 use ILIAS\UI\Renderer as UIRenderer;
 use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
 use Psr\Http\Message\ServerRequestInterface;
 
 class EditForm implements Renderable
@@ -46,9 +47,9 @@ class EditForm implements Renderable
         private readonly UIFactory $ui_factory,
         private readonly Language $lng,
         Input|InputsBuilder $inputs,
-        URLBuilder $default_form_action,
+        private URLBuilder $default_form_action,
         ?URLBuilder $back_form_action,
-        bool $is_final_step
+        private bool $is_final_step
     ) {
         $this->form = $this->buildForm(
             $inputs,
@@ -63,6 +64,11 @@ class EditForm implements Renderable
         UIRenderer $ui_renderer
     ): string {
         return $ui_renderer->render($this->buildContent());
+    }
+
+    public function isFinalStep(): bool
+    {
+        return $this->is_final_step;
     }
 
     public function withContentBeforeForm(
@@ -116,6 +122,22 @@ class EditForm implements Renderable
     {
         $data = $this->form->getData();
         return $data[self::MAIN_SECTION_NAME] ?? null;
+    }
+
+    public function withAdditionalAction(
+        URLBuilderToken $parameter_token,
+        string $parameter_value,
+        string $label
+    ): self {
+        $clone = clone $this;
+        $clone->form = $this->form->withAdditionalFormAction(
+            $this->default_form_action->buildURI()->withParameter(
+                $parameter_token->getName(),
+                $parameter_value
+            )->__toString(),
+            $label
+        );
+        return $clone;
     }
 
     private function buildContent(): array
