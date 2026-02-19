@@ -5477,6 +5477,7 @@ common#:#renderer_supported_file_types#:#Unterstützte Dateitypen
 common#:#renderer_supported_repo_types#:#Unterstützte ILIAS-Objekte
 common#:#renderer_type_builtin#:#Eingebaut
 common#:#rep_main_page#:#Einstiegsseite
+common#:#rep_main_page_logo_alt#:#Logo ILIAS - zur Einstiegsseite
 common#:#repeat_scan#:#Wiederhole Virenscan...
 common#:#repeat_scan_failed#:#Wiederholter Scan fehlgeschlagen.
 common#:#repeat_scan_succeded#:#Wiederholter Scan erfolgreich.
