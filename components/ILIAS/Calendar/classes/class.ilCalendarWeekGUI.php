@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -95,8 +95,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         $evening_aggr = $this->user_settings->getDayEnd() * 60;
 
         $this->tpl = new ilTemplate('tpl.week_view.html', true, true, 'components/ILIAS/Calendar');
-
-        ilYuiUtil::initDragDrop();
 
         $navigation = new ilCalendarHeaderNavigationGUI($this, $this->seed, ilDateTime::WEEK);
         $this->tpl->setVariable('NAVIGATION', $navigation->getHTML());

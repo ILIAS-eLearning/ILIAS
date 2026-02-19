@@ -330,4 +330,31 @@ class PageDBRepository
         return null;
     }
 
+    public function writeImportId(int $id, string $lang, string $import_id): void
+    {
+        $this->db->update(
+            "il_wiki_page",
+            [
+            "import_id" => ["text", $import_id]
+        ],
+            [    // where
+                "id" => ["integer", $id],
+                "lang" => ["text", $lang],
+            ]
+        );
+    }
+
+    public function getPageIdsForImportId(string $import_id): \Generator
+    {
+        $set = $this->db->queryF(
+            "SELECT id FROM il_wiki_page " .
+            " WHERE import_id = %s ORDER BY create_date DESC",
+            ["text"],
+            [$import_id]
+        );
+        while ($rec = $this->db->fetchAssoc($set)) {
+            yield (int) $rec["id"];
+        }
+    }
+
 }

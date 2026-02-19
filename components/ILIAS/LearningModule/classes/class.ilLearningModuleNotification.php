@@ -132,7 +132,7 @@ class ilLearningModuleNotification
             $this->page_id,
             $this->learning_module->getPageHeader(),
             $this->learning_module->isActiveNumbering(),
-            $this->lm_set->get("time_scheduled_page_activation"),
+            (bool) $this->lm_set->get("time_scheduled_page_activation"),
             false,
             0,
             $this->lng->getLangKey()

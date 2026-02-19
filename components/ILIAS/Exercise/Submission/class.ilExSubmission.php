@@ -719,8 +719,8 @@ class ilExSubmission
         $next_id = $ilDB->nextId("exc_returned");
         $query = sprintf(
             "INSERT INTO exc_returned " .
-                         "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late, team_id) " .
-                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                         "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late, team_id, rid) " .
+                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
             $ilDB->quote($next_id, "integer"),
             $ilDB->quote($this->assignment->getExerciseId(), "integer"),
             $ilDB->quote($user_id, "integer"),
@@ -729,7 +729,8 @@ class ilExSubmission
             $ilDB->quote(ilUtil::now(), "timestamp"),
             $ilDB->quote($a_text, "text"),
             $ilDB->quote($this->isLate(), "integer"),
-            $ilDB->quote($team_id, "integer")
+            $ilDB->quote($team_id, "integer"),
+            $ilDB->quote('', "text")
         );
         $ilDB->manipulate($query);
 

@@ -132,7 +132,7 @@ class ilObjSCORMTracking
             // mantis #30293
             if ($i_score_max > 0 && $i_score_raw > 0) {
                 if (count(ilSCORMObject::_lookupPresentableItems($obj_id)) == 1) {
-                    ilLTIAppEventListener::handleOutcomeWithoutLP(
+                    ilLTIProviderAppEventListener::handleOutcomeWithoutLP(
                         $obj_id,
                         $user_id,
                         ($i_score_raw / $i_score_max) * 100

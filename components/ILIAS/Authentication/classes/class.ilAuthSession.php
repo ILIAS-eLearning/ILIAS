@@ -150,6 +150,16 @@ class ilAuthSession
         }
     }
 
+    public function isFullyAuthenticated(): bool
+    {
+        return $this->isValid() && $this->user_id !== ANONYMOUS_USER_ID;
+    }
+
+    public function isAnonymouslyAuthenticated(): bool
+    {
+        return $this->isValid() && $this->user_id === ANONYMOUS_USER_ID;
+    }
+
     /**
      * Check if current is or was expired in last request.
      */

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 /**
@@ -25,6 +26,7 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
  */
 abstract class AbstractParentItem extends AbstractBaseItem implements isParent
 {
+    private int $amount = 0;
     /**
      * @var isItem[]
      */
@@ -72,10 +74,22 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
      */
     public function removeChild(isItem $child_to_remove): isParent
     {
-        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove): bool {
-            return $item !== $child_to_remove;
-        });
+        $this->children = array_filter($this->children, static fn(isItem $item): bool => $item !== $child_to_remove);
 
         return $this;
     }
+
+    public function calculateAmountOfChildren(): void
+    {
+        $this->amount = count($this->children);
+    }
+
+    public function getAmountOfChildren(bool $including_dropped = true): int
+    {
+        if ($including_dropped) {
+            return $this->amount;
+        }
+        return count($this->children);
+    }
+
 }

@@ -246,7 +246,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         }
 
         // show versions
-        if (is_array($usage["versions"]) && is_object($usage["page"] ?? null)) {
+        if (is_array($usage["versions"] ?? false) && is_object($usage["page"] ?? null)) {
             $ver = $sep = "";
 
             if (count($usage["versions"]) > 5) {

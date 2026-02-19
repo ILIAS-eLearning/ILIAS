@@ -18,19 +18,38 @@
 
 declare(strict_types=1);
 
+use ILIAS\Filesystem\Filesystem;
+
 class ilDclMobFieldModel extends ilDclFileFieldModel
 {
+    private Filesystem $file_system;
+
+    public function __construct(int $a_id = 0)
+    {
+        global $DIC;
+        $this->file_system = $DIC->filesystem()->web();
+        parent::__construct($a_id);
+    }
+
     public function getValidFieldProperties(): array
     {
         return [
-            ilDclBaseFieldModel::PROP_WIDTH,
-            ilDclBaseFieldModel::PROP_HEIGHT,
             ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_MOB
         ];
     }
 
-    public function getSupportedExtensions(): array
+    public function getFileSystem(): Filesystem
     {
-        return ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv'];
+        return $this->file_system;
+    }
+
+    public function filenameToAscii(string $filename): string
+    {
+        return (new ilFileServicesPolicy($this->file_settings))->ascii($filename);
+    }
+
+    protected function getExtensions(): array
+    {
+        return ['jpg', 'jpeg', 'gif', 'png', 'mp3', 'mp4', 'm4v'];
     }
 }

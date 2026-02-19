@@ -70,7 +70,7 @@ class LMHtmlExport
         $this->collector = $DIC->export()->domain()->html()->collector($this->lm->getId());
         $this->collector->init();
         $this->export_util = new Util("", "", $this->collector);
-        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir,  $this->getLinker(), $lm->getRefId(), $this->collector);
+        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, $this->getLinker(), $lm->getRefId(), $this->collector);
 
         $this->co_page_html_export->setContentStyleId(
             $this->content_style_domain->getEffectiveStyleId()
@@ -267,15 +267,6 @@ class LMHtmlExport
     protected function getSupplyingExportFiles(string $a_target_dir = "."): array
     {
         $scripts = array(
-            array("source" => \ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
-                "target" => $a_target_dir . '/js/yahoo/yahoo-min.js',
-                "type" => "js"),
-            array("source" => \ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'),
-                "target" => $a_target_dir . '/js/yahoo/yahoo-dom-event.js',
-                "type" => "js"),
-            array("source" => \ilYuiUtil::getLocalPath('animation/animation-min.js'),
-                "target" => $a_target_dir . '/js/yahoo/animation-min.js',
-                "type" => "js"),
             array("source" => './components/ILIAS/Accordion/js/accordion.js',
                 "target" => $a_target_dir . '/js/accordion.js',
                 "type" => "js"),

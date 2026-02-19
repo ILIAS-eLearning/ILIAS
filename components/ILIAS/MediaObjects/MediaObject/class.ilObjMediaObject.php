@@ -35,7 +35,8 @@ define("IL_MODE_FULL", 3);
  */
 class ilObjMediaObject extends ilObject
 {
-    public const DEFAULT_PREVIEW_SIZE = 80;
+    public const DEFAULT_THUMB_SIZE = 80;
+    public const DEFAULT_PREVIEW_SIZE = 400;
     protected ThumbsManager $thumbs;
     protected MediaObjectManager $manager;
     protected InternalDomainService $domain;
@@ -286,8 +287,7 @@ class ilObjMediaObject extends ilObject
         bool $a_create_meta_data = false,
         bool $a_save_media_items = true,
         int $from_mob_id = 0
-    ): int
-    {
+    ): int {
         $id = parent::create();
 
         if (!$a_create_meta_data) {
@@ -604,12 +604,15 @@ class ilObjMediaObject extends ilObject
                                 $ilUser->getLanguage() == $srt["language"]) {
                                 $def = ' Default="true" ';
                             }
-                            $xml .= "<Subtitle File=\"" . $srt["src"] .
+                            $src = $offline
+                                ? "mobs/mm_" . $this->getId() . $srt["full_path"]
+                                : $srt["src"];
+                            $xml .= "<Subtitle File=\"" . $src .
                                 "\" Language=\"" . $srt["language"] . "\" " . $def . "/>";
                         }
                     }
-                    if ($this->getVideoPreviewPic(true)) {
-                        $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(true) .
+                    if ($this->getVideoPreviewPic(false)) {
+                        $xml .= "<PreviewPic File=\"" . $this->getVideoPreviewPic(false) .
                             "\" />";
                     }
                     if ($item->getLocationType() == "LocalFile") {
@@ -811,7 +814,7 @@ class ilObjMediaObject extends ilObject
     public static function _getMobsOfObject(
         string $a_type,
         int $a_id,
-        int $a_usage_hist_nr = 0,
+        int|false $a_usage_hist_nr = 0,
         string $a_lang = "-"
     ): array {
         global $DIC;
@@ -823,7 +826,7 @@ class ilObjMediaObject extends ilObject
             $lstr = " AND usage_lang = " . $ilDB->quote($a_lang, "text");
         }
         $hist_str = "";
-        if ($a_usage_hist_nr > 0) {
+        if ($a_usage_hist_nr !== false) {   // see #45933, restore ILIAS 7 behaviour
             $hist_str = " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer");
         }
 
@@ -1193,41 +1196,6 @@ class ilObjMediaObject extends ilObject
     }
 
     /**
-     * Resize image and return new image file ("_width_height" string appended)
-     */
-    public static function _resizeImage(
-        string $a_file,
-        int $a_width,
-        int $a_height,
-        bool $a_constrain_prop = false
-    ): string {
-        global $DIC;
-        $file_path = pathinfo($a_file);
-        $location = substr($file_path["basename"], 0, strlen($file_path["basename"]) -
-                strlen($file_path["extension"]) - 1) . "_" .
-            $a_width . "_" .
-            $a_height . "." . $file_path["extension"];
-        $target_file = $file_path["dirname"] . "/" .
-            $location;
-
-        $returned_target_file = $DIC->fileConverters()
-            ->legacyImages()
-            ->resizeToFixedSize(
-                $a_file,
-                $target_file,
-                $a_width,
-                $a_height,
-                $a_constrain_prop
-            );
-
-        if ($returned_target_file !== $target_file) {
-            throw new RuntimeException('Could not resize image');
-        }
-
-        return $location;
-    }
-
-    /**
      * get mime type for file
      */
     public static function getMimeType(
@@ -1584,7 +1552,7 @@ class ilObjMediaObject extends ilObject
         string $thumbname,
     ): void {
         $format = self::getMimeType($source, true);
-        $this->manager->generatePreview(
+        $this->thumbs->createPreview(
             $this->getId(),
             $source,
             true,
@@ -1703,8 +1671,7 @@ class ilObjMediaObject extends ilObject
 
         $logger->debug("Generate preview pic...");
         $logger->debug("..." . $item->getFormat());
-
-        $this->manager->generatePreview(
+        $this->thumbs->createPreview(
             $this->getId(),
             $item->getLocation(),
             $item->getLocationType() === "LocalFile",

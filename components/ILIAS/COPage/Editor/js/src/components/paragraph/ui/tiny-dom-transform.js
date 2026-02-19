@@ -26,7 +26,7 @@ export default class TinyDomTransform {
   // tiny;
 
   constructor(tiny) {
-    this.debug = true;
+    this.debug = false;
     this.tiny = tiny;
   }
 

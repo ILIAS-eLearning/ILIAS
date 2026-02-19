@@ -171,7 +171,7 @@ class ilSCORM2004StoreData
         $score_scaled = $data->node[0][35];
         if ($score_scaled != null) {
             if (ilObjSCORM2004LearningModule::getQuantityOfSCOs($packageId) == 1) {
-                ilLTIAppEventListener::handleOutcomeWithoutLP($packageId, $userId, $score_scaled * 100);
+                ilLTIProviderAppEventListener::handleOutcomeWithoutLP($packageId, $userId, $score_scaled * 100);
             }
         }
 

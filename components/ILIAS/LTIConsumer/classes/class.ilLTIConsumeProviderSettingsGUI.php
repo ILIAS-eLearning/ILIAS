@@ -99,6 +99,17 @@ class ilLTIConsumeProviderSettingsGUI
         $this->showSettingsCmd($form);
     }
 
+    private function getClientIdFromProviderUrl(string $providerUrl): string
+    {
+        $res = "";
+        $first = explode(".", $providerUrl)[0];
+        $secondSplit = explode("//", $first);
+        if (count($secondSplit) > 1) {
+            $res = $secondSplit[1];
+        }
+        return $res;
+    }
+
 
     /**
      * @throws ilMDServicesException

@@ -156,7 +156,6 @@ class ilOverlayGUI
 
         $tpl = $DIC->ui()->mainTemplate();
 
-        ilYuiUtil::initOverlay($tpl);
         $tpl->addJavaScript("assets/js/ilOverlay.js");
     }
 

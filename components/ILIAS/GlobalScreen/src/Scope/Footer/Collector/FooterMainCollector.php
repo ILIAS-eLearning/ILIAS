@@ -118,6 +118,20 @@ class FooterMainCollector extends AbstractBaseCollector implements ItemCollector
 
             return $item->getEntries() !== [];
         });
+
+
+        // Remove not visible children
+        $this->map->walk(function (isItem &$item): isItem {
+            if ($item instanceof isGroup) {
+                foreach ($item->getEntries() as $child) {
+                    if (!$this->map->existsInFilter($child->getProviderIdentification())) {
+                        $item->removeEntry($child);
+                    }
+                }
+            }
+            return $item;
+        });
+
     }
 
     public function getItemsForUIRepresentation(): Generator

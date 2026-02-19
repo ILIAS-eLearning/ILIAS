@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +16,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 /**
@@ -32,26 +33,18 @@ interface isParent extends isItem
 
     /**
      * @param isItem[] $children
-     * @return isParent
      */
     public function withChildren(array $children): isParent;
 
     /**
      * Attention
-     *
-     * @param isItem $child
-     * @return isParent
      */
     public function appendChild(isItem $child): isParent;
 
-    /**
-     * @param isItem $child_to_remove
-     * @return isParent
-     */
     public function removeChild(isItem $child_to_remove): isParent;
 
-    /**
-     * @return bool
-     */
     public function hasChildren(): bool;
+
+    public function calculateAmountOfChildren(): void;
+    public function getAmountOfChildren(bool $including_dropped = true): int;
 }

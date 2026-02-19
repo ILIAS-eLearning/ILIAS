@@ -103,7 +103,7 @@ abstract class ilTestExportPlugin extends ilPlugin implements Exporter
             return;
         }
 
-        $this->file_delivery->legacyDelivery()->attached(
+        $file_delivery->legacyDelivery()->attached(
             $file_name,
             null,
             null,
@@ -114,7 +114,11 @@ abstract class ilTestExportPlugin extends ilPlugin implements Exporter
 
     final public function write(): ?string
     {
-        return $this->createExportFile();
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $main_tpl = $DIC['tpl'];
+
+        return $this->createExportFile($main_tpl);
     }
 
     private function createExportFile(ilGlobalTemplateInterface $main_tpl): ?string

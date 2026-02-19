@@ -235,6 +235,7 @@ class ilPageLayoutAdministrationGUI
     public function initAddPageLayoutForm(): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule("content");
+        $this->lng->loadLanguageModule("copg");
 
         $form_gui = new ilPropertyFormGUI();
         $form_gui->setFormAction($this->ctrl->getFormAction($this));
@@ -254,7 +255,7 @@ class ilPageLayoutAdministrationGUI
 
 
         // modules
-        $mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
+        $mods = new ilCheckboxGroupInputGUI($this->lng->txt("copg_obj_types"), "module");
         // $mods->setRequired(true);
         foreach (ilPageLayout::getAvailableModules() as $mod_id => $mod_caption) {
             $mod = new ilCheckboxOption($mod_caption, $mod_id);

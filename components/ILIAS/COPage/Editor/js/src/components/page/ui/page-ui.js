@@ -222,7 +222,7 @@ export default class PageUI {
       const { uiModel } = this;
       let li; let li_templ; let
         ul;
-      area.innerHTML = this.droparea + uiModel.dropdown;
+      area.innerHTML = this.droparea + uiModel.addDropdown;
 
       const { model } = this;
 
@@ -296,9 +296,11 @@ export default class PageUI {
             this.hideAllAddDropdowns();
             ul.style.display = 'block';
             ul.dataset.copgDDShown = '1';
+            b.setAttribute('aria-expanded', 'true');
           } else {
             ul.style.display = 'none';
             ul.dataset.copgDDShown = '0';
+            b.setAttribute('aria-expanded', 'false');
           }
         });
       });
@@ -591,7 +593,7 @@ export default class PageUI {
     document.querySelectorAll(droppableSelector).forEach((droppableElement) => {
       droppableElement.addEventListener('dragover', (event) => {
         event.preventDefault(); // Necessary to allow a drop
-        event.dataTransfer.dropEffect = "move";
+        event.dataTransfer.dropEffect = 'move';
       });
 
       droppableElement.addEventListener('dragenter', (event) => {

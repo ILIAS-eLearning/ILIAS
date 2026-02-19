@@ -1548,13 +1548,13 @@ class ilObject
         }
 
         while ($row = $db->fetchObject($res)) {
-            if (strlen($title = $row->obj_title) > 40) {
-                $title = substr($title, 0, 40) . '...';
+            if (mb_strlen($title = $row->obj_title) > 40) {
+                $title = mb_substr($title, 0, 40) . '...';
             }
 
             if ($show_path) {
-                if (strlen($path = $row->path_title) > 40) {
-                    $path = substr($path, 0, 40) . '...';
+                if (mb_strlen($path = $row->path_title) > 40) {
+                    $path = mb_substr($path, 0, 40) . '...';
                 }
 
                 $title .= ' (' . $lng->txt('path') . ': ' . $path . ')';
@@ -1797,14 +1797,14 @@ class ilObject
         $regexp_for_file_name = '/' . preg_replace('/%1\\\\\$s/', '([0-9]+)', $regexp_for_suffix) . '$/';
 
         if (preg_match($regexp_for_file_name, $title, $matches)) {
-            return substr($title, 0, -strlen($matches[0]));
+            return mb_substr($title, 0, -mb_strlen($matches[0]));
         }
 
         if (str_ends_with($title, " {$copy_suffix}")) {
-            return substr(
+            return mb_substr(
                 $title,
                 0,
-                -strlen(
+                -mb_strlen(
                     " {$copy_suffix}"
                 )
             );

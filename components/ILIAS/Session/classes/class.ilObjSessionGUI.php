@@ -1410,8 +1410,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $object_service = $this->object_service;
         $this->lng->loadLanguageModule('dateplaner');
 
-        ilYuiUtil::initDomEvent();
-
         $this->form = new ilPropertyFormGUI();
         $this->form->setMultipart(true);
         $this->form->setTableWidth('600px');

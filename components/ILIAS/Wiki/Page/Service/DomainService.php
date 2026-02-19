@@ -70,4 +70,12 @@ class DomainService
         );
     }
 
+    public function importResolver(): ImportResolver
+    {
+        return new ImportResolver(
+            $this->data_service,
+            $this->repo_service->page()
+        );
+    }
+
 }

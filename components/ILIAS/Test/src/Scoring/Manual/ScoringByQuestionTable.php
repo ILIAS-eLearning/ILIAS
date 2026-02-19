@@ -48,7 +48,8 @@ class ScoringByQuestionTable
         private readonly URLBuilder $url_builder,
         private URLBuilderToken $action_parameter_token,
         private URLBuilderToken $row_id_token,
-        private readonly UIFactory $ui_factory
+        private readonly UIFactory $ui_factory,
+        private readonly string $filter_id
     ) {
     }
 
@@ -141,7 +142,7 @@ class ScoringByQuestionTable
         $active = array_fill(0, count($filter_inputs), true);
 
         $filter = $ui_service->filter()->standard(
-            'scoring_by_qst_filter_id',
+            $this->filter_id,
             $target_url,
             $filter_inputs,
             $active,

@@ -162,7 +162,6 @@ class ilFavouritesDBRepository
                 }
             }
         }
-        ksort($items);
 
         return $items;
     }

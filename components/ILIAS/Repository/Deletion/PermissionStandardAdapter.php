@@ -41,16 +41,17 @@ class PermissionStandardAdapter implements PermissionInterface
             if (!$this->access->checkAccess('delete', "", $id)) {
                 $not_deletable[] = (int) $id;
             }
+            if ($this->tree->isInTree($id)) {
+                $node_data = $this->tree->getNodeData($id);
+                $subtree_nodes = $this->tree->getSubTree($node_data);
 
-            $node_data = $this->tree->getNodeData($id);
-            $subtree_nodes = $this->tree->getSubTree($node_data);
-
-            foreach ($subtree_nodes as $node) {
-                if ($node['type'] === 'rolf') {
-                    continue;
-                }
-                if (!$this->access->checkAccess('delete', "", $node["child"])) {
-                    $not_deletable[] = (int) $node["child"];
+                foreach ($subtree_nodes as $node) {
+                    if ($node['type'] === 'rolf') {
+                        continue;
+                    }
+                    if (!$this->access->checkAccess('delete', "", $node["child"])) {
+                        $not_deletable[] = (int) $node["child"];
+                    }
                 }
             }
         }

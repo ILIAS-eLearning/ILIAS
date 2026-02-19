@@ -245,7 +245,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         );
 
         if ($this->object &&
-            !$this->object->isOnline()) {
+            $this->object->getOfflineStatus()) {
             $this->tpl->setAlertProperties(array(
                 array("alert" => true,
                     "property" => $this->lng->txt("status"),
@@ -316,7 +316,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         return $message;
     }
 
-    protected function getCreationForm() : FormAdapterGUI
+    protected function getCreationForm(): FormAdapterGUI
     {
         $ilSetting = $this->settings;
         $this->ctrl->setParameter($this, "new_type", $this->getType());
@@ -415,52 +415,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         }
 
         $this->ctrl->redirectByClass("ilportfoliorepositorygui", "show");
-    }
-
-    protected function initEditForm(): ilPropertyFormGUI
-    {
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        // title
-        $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
-        $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setRequired(true);
-        $ti->setValue($this->object->getTitle());
-        $form->addItem($ti);
-
-        // :TODO: online
-        $online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
-        $online->setChecked($this->object->isOnline());
-        $form->addItem($online);
-
-        $this->initEditCustomForm($form);
-
-        $form->setTitle($this->lng->txt("prtf_edit_portfolio"));
-        $form->addCommandButton("update", $this->lng->txt("save"));
-        $form->addCommandButton("view", $this->lng->txt("cancel"));
-
-        return $form;
-    }
-
-    protected function getEditFormCustomValues(array &$a_values): void
-    {
-        $a_values["online"] = $this->object->isOnline();
-
-        parent::getEditFormCustomValues($a_values);
-    }
-
-    protected function updateCustom(ilPropertyFormGUI $form): void
-    {
-        $this->object->setOnline($form->getInput("online"));
-
-        // if portfolio is not online, it cannot be default
-        if (!$form->getInput("online")) {
-            ilObjPortfolio::setUserDefault($this->user_id, 0);
-        }
-
-        parent::updateCustom($form);
     }
 
 
@@ -728,11 +682,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         $id = explode("_", $a_target);
 
-        $ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $id[0]);
-        if (count($id) === 2) {
-            $ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $id[1]);
+        $ctrl->setParameterByClass(self::class, 'prt_id', $id[0]);
+        if (count($id) === 2 && is_numeric($id[1])) {
+            $ctrl->setParameterByClass(self::class, 'user_page', $id[1]);
         }
-        $ctrl->redirectByClass(["ilsharedresourceGUI", "ilobjportfoliogui"], "preview");
+        $ctrl->redirectByClass([ilSharedResourceGUI::class, self::class], 'preview');
     }
 
     public function createPortfolioFromAssignment(): void
@@ -874,7 +828,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        if (!$this->object->isOnline()) {
+        if ($this->object->getOfflineStatus()) {
             $f = $ui->factory();
             $renderer = $ui->renderer();
 
@@ -898,7 +852,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $lng = $this->lng;
 
         if (ilObjPortfolio::_lookupOwner($this->object->getId()) === $this->user_id) {
-            $this->object->setOnline(true);
+            $this->object->setOfflineStatus(false);
             $this->object->update();
             $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_has_been_set_online"), true);
         }

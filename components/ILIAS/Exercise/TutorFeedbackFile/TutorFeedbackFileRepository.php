@@ -59,6 +59,13 @@ class TutorFeedbackFileRepository implements TutorFeedbackFileRepositoryInterfac
         );
     }
 
+    public function createCollectionIfMissing(int $ass_id, int $user_id): void
+    {
+        if (!$this->hasCollection($ass_id, $user_id)) {
+            $this->createCollection($ass_id, $user_id);
+        }
+    }
+
     public function getIdStringForAssIdAndUserId(int $ass_id, int $user_id): string
     {
         $set = $this->db->queryF(

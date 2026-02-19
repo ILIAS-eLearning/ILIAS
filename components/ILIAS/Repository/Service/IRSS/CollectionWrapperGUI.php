@@ -52,7 +52,8 @@ class CollectionWrapperGUI
                 Mode::DATA_TABLE,
                 100,
                 $write,
-                $write
+                $write,
+                true
             )
         );
     }

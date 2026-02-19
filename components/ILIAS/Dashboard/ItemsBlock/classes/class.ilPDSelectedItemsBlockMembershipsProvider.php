@@ -89,7 +89,6 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
                 'end' => $periodEnd
             ];
         }
-        ksort($references);
 
         return $references;
     }

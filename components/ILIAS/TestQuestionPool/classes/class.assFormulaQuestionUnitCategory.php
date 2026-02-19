@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Formula Question Unit Category
@@ -56,6 +56,11 @@ class assFormulaQuestionUnitCategory
         return $this->category;
     }
 
+    public function getSanitizedCategory(): string
+    {
+        return $this->sanitizeString($this->getCategory());
+    }
+
     public function setQuestionFi(int $question_fi): void
     {
         $this->question_fi = $question_fi;
@@ -70,13 +75,15 @@ class assFormulaQuestionUnitCategory
     {
         global $DIC;
 
-        $lng = $DIC->language();
-
         $category = $this->getCategory();
-        if (strcmp('-qpl_qst_formulaquestion_' . $category . '-', $lng->txt('qpl_qst_formulaquestion_' . $category)) !== 0) {
-            $category = $lng->txt('qpl_qst_formulaquestion_' . $category);
-        }
+        $txt = $DIC->language()->txt("qpl_qst_formulaquestion_{$category}");
+        return strcmp("-qpl_qst_formulaquestion_{$category}-", $txt) !== 0
+            ? $this->sanitizeString($txt)
+            : $this->getSanitizedCategory();
+    }
 
-        return $category;
+    private function sanitizeString(string $string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
     }
 }

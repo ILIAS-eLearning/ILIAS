@@ -28,6 +28,14 @@
       const savingIndicator = document.getElementById('ilsaving');
       if (savingIndicator) {
         savingIndicator.classList.toggle('ilNoDisplay', !show);
+        if (show) {
+          // Create a paragraph element with saving text textContent
+          const p = createElement('p', {}, il.Language.txt('saving'));
+          savingIndicator.appendChild(p);
+        } else {
+          // Remove all descendants
+          savingIndicator.innerHTML = '';
+        }
       }
     };
 
@@ -35,7 +43,14 @@
       const submitButtons = form.querySelectorAll('input[type="submit"]');
       submitButtons.forEach((submit) => {
         submit.disabled = isSaving;
+        if (isSaving) {
+          submit.setAttribute('aria-busy', 'true');
+        } else {
+          submit.removeAttribute('aria-busy');
+        }
       });
+
+      form.setAttribute('aria-busy', isSaving ? 'true' : 'false');
 
       if (isSaving) {
         console.log('Locking UI...');
@@ -44,6 +59,7 @@
             src: loadingImgSrc,
             class: 'ilFrmLoadingImg',
             style: 'padding-right: 10px;',
+            alt: il.Language.txt('saving'),
           });
           const submitBtn = cmd.querySelector('input[type="submit"]');
           cmd.insertBefore(img, submitBtn);
@@ -63,7 +79,10 @@
           id: 'ilsaving',
           class: 'ilHighlighted ilNoDisplay',
           style: 'z-index: 10000;',
-        }, il.Language.txt('saving'));
+          role: 'status',
+          'aria-live': 'polite',
+          'aria-atomic': 'true',
+        });
         document.body.appendChild(savingIndicator);
       }
 

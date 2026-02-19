@@ -35,7 +35,11 @@ class ilAssQuestionProcessLockerFactoryTest extends assBaseTestCase
     {
         parent::setUp();
 
-        $this->object = new ilAssQuestionProcessLockerFactory($this->createMock(ilSetting::class), $this->createMock(ilDBInterface::class));
+        $this->object = new ilAssQuestionProcessLockerFactory(
+            $this->createMock(ilSetting::class),
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(ilLogger::class)
+        );
     }
 
     public function testConstruct(): void

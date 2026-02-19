@@ -277,7 +277,6 @@ class ilDclTableViewEditGUI
     protected function delete(): void
     {
         $this->tableview->delete();
-        $this->table->sortTableViews();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_deleted'), true);
         $this->cancel();
     }
@@ -312,7 +311,6 @@ class ilDclTableViewEditGUI
         $new_tableview = new ilDclTableView();
         $new_tableview->setTableId($this->table->getId());
         $new_tableview->cloneStructure($this->tableview, []);
-        $this->table->sortTableViews();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_tableview_copy"), true);
         $this->cancel();
     }

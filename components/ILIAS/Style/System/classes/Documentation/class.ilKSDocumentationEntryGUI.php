@@ -21,6 +21,9 @@ declare(strict_types=1);
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 use ILIAS\UI\Component\Panel\Report;
+use Phiki\Phiki;
+use Phiki\Grammar\Grammar;
+use Phiki\Theme\Theme;
 
 /**
  * Renders the Overview of one Example in the Administration
@@ -117,9 +120,7 @@ class ilKSDocumentationEntryGUI
                 }
                 $content_part_1 = $this->f->legacy($example);
                 $code = str_replace('<?php\n', '', file_get_contents($path));
-                $geshi = new GeSHi($code, 'php');
-                //@Todo: we need a code container UI Component
-                $code_html = "<div class='code-container'>" . $geshi->parse_code() . '</div>';
+                $code_html = "<div class='code-container'><pre><code>" . htmlspecialchars($code) . '</code></pre></div>';
                 $content_part_2 = $this->f->legacy($code_html);
                 $content = [$content_part_1, $content_part_2];
                 $sub_panels[] = $this->f->panel()->sub($title, $content);

@@ -499,6 +499,10 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             $types = implode(",", $type_filter);
         }
 
+        if (!$DIC->rbac()->review()->isAssigned($DIC->user()->getId(), SYSTEM_ROLE_ID)) {
+            return $this->raiseError('Permission denied.', 'Client');
+        }
+
         // output lp changes as xml
         try {
             $writer = new ilLPXmlWriter(true);
