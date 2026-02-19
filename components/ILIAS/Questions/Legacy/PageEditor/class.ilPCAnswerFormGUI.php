@@ -58,7 +58,6 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
 
     public function insertCmd(): void
     {
-        $this->setInsertTabs();
         $content_obj = new ilPCAnswerForm($this->pg_obj);
         $content_obj->setHierId($this->hier_id);
         $this->tpl->setContent(
@@ -91,14 +90,6 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
                 $answer_form_properties,
                 $answer_form_properties->getDefinition()
             )->render($this->ui_renderer)
-        );
-    }
-
-    private function setInsertTabs(): void
-    {
-        $this->tabs->setBackTarget(
-            $this->lng->txt('cancel'),
-            $this->ctrl->getLinkTargetByClass(\QstsQuestionPageGUI::class, 'edit')
         );
     }
 }

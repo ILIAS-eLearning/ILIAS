@@ -43,6 +43,7 @@ class EnvironmentImplementation implements Environment
     private const string TOKEN_STRING_TYPE_HASH = 't';
     private const string TOKEN_STRING_ANSWER_FORM_ID = 'af';
     private const string TOKEN_STRING_CREATE_MODE = 'cm';
+    private const string TOKEN_STRING_CREATE_AND_NEW = 'can';
 
     private const string PARAMETER_STRING_HIER_ID = 'hier_id';
 
@@ -87,7 +88,7 @@ class EnvironmentImplementation implements Environment
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt('cancel'),
-            $this->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
+            $this->buildEditAnswerFormBackUrl()->buildURI()->__toString()
         );
     }
 
@@ -473,6 +474,21 @@ class EnvironmentImplementation implements Environment
         );
     }
 
+    public function isCreateAndNewAction(): bool
+    {
+        return $this->http->wrapper()->query()->has(
+            $this->buildURLBuilderTokenForCreateAndNew()->getName()
+        );
+    }
+
+    public function buildURLBuilderTokenForCreateAndNew(): URLBuilderToken
+    {
+        return new URLBuilderToken(
+            self::QUERY_PARAMETER_NAME_SPACE,
+            self::TOKEN_STRING_CREATE_AND_NEW
+        );
+    }
+
     private function setQuestionIdParamterForPageEditorCmds(
         Uuid $question_id
     ): void {
@@ -480,6 +496,35 @@ class EnvironmentImplementation implements Environment
             \QstsQuestionPageGUI::class,
             $this->question_id_token->getName(),
             $question_id->toString()
+        );
+    }
+
+    private function buildEditAnswerFormBackUrl(): URLBuilder
+    {
+        if (!$this->is_in_creation_context) {
+            return $this->withDefaultStep()->getUrlBuilder();
+        }
+
+        if (!$this->isCreateModeSimple()) {
+            return new URLBuilder(
+                new URI(
+                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
+                        \QstsQuestionPageGUI::class,
+                        'edit'
+                    )
+                )
+            );
+        }
+
+        return $this->url_builder->withParameter(
+            $this->action_token,
+            Edit::ACTION_DELETE_QUESTIONS
+        )->withParameter(
+            $this->step_token,
+            Edit::ACTION_DELETE_QUESTIONS
+        )->withParameter(
+            $this->table_row_token,
+            [$this->getQuestionId()->toString()]
         );
     }
 
