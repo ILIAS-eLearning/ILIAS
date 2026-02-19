@@ -44,9 +44,6 @@ interface Properties extends Storable
     ): array;
 
     public function getOverviewTable(
-        TableFactory $table_factory,
-        Language $lng,
-        ServerRequestInterface $request,
         Environment $environment
     ): DataTable|OrderingTable;
 }

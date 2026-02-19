@@ -28,11 +28,6 @@ use ILIAS\Questions\Persistence\Query;
 use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\Language\Language;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Custom\Transformation as CustomTransformation;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Group;
 
 class Factory
 {
