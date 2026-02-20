@@ -67,9 +67,14 @@ class ilBTPopOverGUI
      */
     protected function getAggregateItems(): array
     {
+        $user = $this->dic->user();
+        if ($user->isAnonymous() || $user->getId() === 0) {
+            return [];
+        }
+
         $persistence = $this->dic->backgroundTasks()->persistence();
         $items = [];
-        $observer_ids = $persistence->getBucketIdsOfUser($this->dic->user()->getId(), 'id', 'DESC');
+        $observer_ids = $persistence->getBucketIdsOfUser($user->getId(), 'id', 'DESC');
         foreach ($persistence->loadBuckets($observer_ids) as $observer) {
             $items[] = $this->getItemForObserver($observer);
         }
@@ -98,11 +103,11 @@ class ilBTPopOverGUI
             }
             $item = $f->item()->notification($title, $icon);
 
-//            $item = $item->withProperties([
-//                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
-//                    new \ilDateTime(time(), IL_CAL_UNIX)
-//                )
-//            ]);
+            //            $item = $item->withProperties([
+            //                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
+            //                    new \ilDateTime(time(), IL_CAL_UNIX)
+            //                )
+            //            ]);
 
             $item = $item->withActions($f->dropdown()->standard($actions));
             $input = $current_task->getInput();
@@ -124,8 +129,11 @@ class ilBTPopOverGUI
         if ($state === State::RUNNING) {
             $url = $this->getRefreshUrl($observer);
             //Running Items probably need to refresh themselves, right?
-            $item = $item->withAdditionalOnLoadCode(fn ($id) => "var notification_item = il.UI.item.notification.getNotificationItemObject($('#$id'));
-                    il.BGTask.refreshItem(notification_item,'$url');");
+            $item = $item->withAdditionalOnLoadCode(
+                static fn(string $id): string => <<<JS
+                  il.BGTask.refreshItem(il.UI.item.notification.getNotificationItemObject($('#$id')),'$url');
+                JS
+            );
 
             $expected = $current_task instanceof Job ? $current_task->getExpectedTimeOfTaskInSeconds() : 0;
             $possibly_failed = ($observer->getLastHeartbeat() < (time() - $expected));
