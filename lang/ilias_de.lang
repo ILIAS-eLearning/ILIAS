@@ -2256,6 +2256,8 @@ awrn#:#user_awrn_default#:#Standard
 awrn#:#user_awrn_hide#:#Nicht anzeigen
 awrn#:#user_awrn_show#:#Anzeigen
 background_tasks#:#abort#:#Abbrechen
+background_tasks#:#background_task_garbage_collection#:#Background Tasks GC
+background_tasks#:#background_task_garbage_collection_info#:#Dieser Job bereinigt veraltete Background Tasks und zugehörige Datenbanktabellen.
 background_tasks#:#background_tasks#:#Background Tasks
 background_tasks#:#background_tasks_running#:#Background Tasks
 background_tasks#:#completed#:#Abgeschlossen
