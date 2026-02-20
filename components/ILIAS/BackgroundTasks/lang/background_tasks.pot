@@ -8,6 +8,12 @@ msgstr ""
 msgid "abort"
 msgstr ""
 
+msgid "background_task_garbage_collection"
+msgstr ""
+
+msgid "background_task_garbage_collection_info"
+msgstr ""
+
 msgid "background_tasks"
 msgstr ""
 

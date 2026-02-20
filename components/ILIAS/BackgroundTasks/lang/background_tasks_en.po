@@ -11,6 +11,12 @@ msgstr ""
 msgid "abort"
 msgstr "Abort"
 
+msgid "background_task_garbage_collection"
+msgstr "Background Tasks GC"
+
+msgid "background_task_garbage_collection_info"
+msgstr "This job cleans up stale tasks and related database tables."
+
 msgid "background_tasks"
 msgstr "Background Tasks"
 
