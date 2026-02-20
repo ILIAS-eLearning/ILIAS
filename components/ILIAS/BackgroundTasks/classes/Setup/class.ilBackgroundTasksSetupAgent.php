@@ -60,8 +60,7 @@ class ilBackgroundTasksSetupAgent implements Agent
      */
     public function getInstallObjective(?Config $config = null): Objective
     {
-        /** @noinspection PhpParamsInspection */
-        return new ilBackgroundTasksConfigStoredObjective($config);
+        return $this->getUpdateObjective($config);
     }
 
     /**
@@ -69,11 +68,16 @@ class ilBackgroundTasksSetupAgent implements Agent
      */
     public function getUpdateObjective(?Config $config = null): Objective
     {
-        if ($config !== null) {
-            /** @noinspection PhpParamsInspection */
-            return new ilBackgroundTasksConfigStoredObjective($config);
+        if (!$config instanceof ilBackgroundTasksSetupConfig) {
+            return new NullObjective();
         }
-        return new NullObjective();
+
+        return new ObjectiveCollection(
+            'BackgroundTasks',
+            true,
+            new ilBackgroundTasksConfigStoredObjective($config),
+            new ilDatabaseUpdateStepsExecutedObjective(new ilBackgroundTasksDBHotfixes10())
+        );
     }
 
     /**
@@ -93,7 +97,7 @@ class ilBackgroundTasksSetupAgent implements Agent
             'Component BackgroundTasks',
             true,
             new ilBackgroundTasksMetricsCollectedObjective($storage),
-            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilBackgroundTasksDB80())
+            new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilBackgroundTasksDBHotfixes10())
         );
     }
 
