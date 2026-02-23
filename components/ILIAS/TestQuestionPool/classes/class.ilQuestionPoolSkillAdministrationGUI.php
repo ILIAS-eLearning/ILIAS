@@ -16,7 +16,16 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services as HTTP;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\TestQuestionPool\Skills\ilAssQuestionSkillUsagesGUI;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -24,119 +33,57 @@ use ILIAS\Refinery\Factory as Refinery;
  *
  * @package components\ILIAS/TestQuestionPool
  *
- * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI
- * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillUsagesTableGUI
+ * @ilCtrl_Calls ilQuestionPoolSkillAdministrationGUI: ilAssQuestionSkillAssignmentsGUI, ILIAS\TestQuestionPool\Skills\ilAssQuestionSkillUsagesGUI
  */
 class ilQuestionPoolSkillAdministrationGUI
 {
-    /**
-     * @var ILIAS
-     */
-    private $ilias;
-
-    /**
-     * @var ilCtrl
-     */
-    private $ctrl;
-
-    private Refinery $refinery;
-
-    /**
-     * @var ilAccessHandler
-     */
-    private $access;
-
-    /**
-     * @var ilTabsGUI
-     */
-    private $tabs;
-
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    private $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
-
-    private ilComponentRepository $component_repository;
-
-    /**
-     * @var ilObjQuestionPool
-     */
-    private $poolOBJ;
-
-    /** @var string|int|null  */
-    private $refId;
-
     public function __construct(
-        ILIAS $ilias,
-        ilCtrl $ctrl,
-        Refinery $refinery,
-        ilAccessHandler $access,
-        ilTabsGUI $tabs,
-        ilGlobalTemplateInterface $tpl,
-        ilLanguage $lng,
-        ilDBInterface $db,
-        ilComponentRepository $component_repository,
-        ilObjQuestionPool $poolOBJ,
-        $refId
+        private readonly ilCtrl $ctrl,
+        private readonly Factory $ui_factory,
+        private readonly Renderer $ui_renderer,
+        private readonly GlobalHttpState $http_state,
+        private readonly Refinery $refinery,
+        private readonly ilAccessHandler $access,
+        private readonly ilTabsGUI $tabs,
+        private readonly ilGlobalTemplateInterface $tpl,
+        private readonly ilLanguage $lng,
+        private readonly ilDBInterface $db,
+        private readonly ilComponentRepository $component_repository,
+        private readonly ilObjQuestionPool $pool_obj,
+        private readonly HTTP $http,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly SkillUsageService $skill_usage_service,
+        private readonly RequestDataCollector $request_data_collector,
+        private readonly int $ref_id
     ) {
-        $this->ilias = $ilias;
-        $this->ctrl = $ctrl;
-        $this->refinery = $refinery;
-        $this->access = $access;
-        $this->tabs = $tabs;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->db = $db;
-        $this->component_repository = $component_repository;
-        $this->poolOBJ = $poolOBJ;
-        $this->refId = $refId;
     }
 
     private function isAccessDenied(): bool
     {
-        if (!$this->poolOBJ->isSkillServiceEnabled()) {
-            return true;
-        }
-
-        if (!ilObjQuestionPool::isSkillManagementGloballyActivated()) {
-            return true;
-        }
-
-        if (!$this->access->checkAccess('write', '', $this->refId)) {
-            return true;
-        }
-
-        return false;
+        return
+            !$this->pool_obj->isSkillServiceEnabled()
+            || !ilObjQuestionPool::isSkillManagementGloballyActivated()
+            || !$this->access->checkAccess('write', '', $this->ref_id);
     }
 
     public function manageTabs($activeSubTabId): void
     {
         $link = $this->ctrl->getLinkTargetByClass(
-            'ilAssQuestionSkillAssignmentsGUI',
+            ilAssQuestionSkillAssignmentsGUI::class,
             ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
         );
         $this->tabs->addSubTab(
-            'ilassquestionskillassignmentsgui',
+            strtolower(ilAssQuestionSkillAssignmentsGUI::class),
             $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
             $link
         );
 
         $link = $this->ctrl->getLinkTargetByClass(
-            'ilAssQuestionSkillUsagesTableGUI',
-            ilAssQuestionSkillUsagesTableGUI::CMD_SHOW
+            ilAssQuestionSkillUsagesGUI::class,
+            ilAssQuestionSkillUsagesGUI::CMD_SHOW
         );
         $this->tabs->addSubTab(
-            'ilassquestionskillusagestablegui',
+            strtolower(ilAssQuestionSkillUsagesGUI::class),
             $this->lng->txt('qpl_skl_sub_tab_usages'),
             $link
         );
@@ -148,46 +95,56 @@ class ilQuestionPoolSkillAdministrationGUI
     public function executeCommand(): void
     {
         if ($this->isAccessDenied()) {
-            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
+            $this->ctrl->setParameterByClass(ilObjQuestionPoolGUI::class, 'ref_id', $this->ref_id);
+            $this->ctrl->redirectByClass(ilObjQuestionPoolGUI::class);
         }
 
-        $nextClass = $this->ctrl->getNextClass();
+        $next_class = $this->ctrl->getNextClass();
 
-        $this->manageTabs($nextClass);
+        $this->manageTabs($next_class);
 
-        switch ($nextClass) {
-            case 'ilassquestionskillassignmentsgui':
-                $questionList = new ilAssQuestionList(
-                    $this->db,
-                    $this->lng,
-                    $this->refinery,
-                    $this->component_repository
-                );
-                $questionList->setParentObjId($this->poolOBJ->getId());
-                $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
-                $questionList->load();
+        switch (strtolower($next_class)) {
+            case strtolower(ilAssQuestionSkillAssignmentsGUI::class):
+                $question_list = new ilAssQuestionList($this->db, $this->lng, $this->refinery, $this->component_repository);
+                $question_list->setParentObjId($this->pool_obj->getId());
+                $question_list->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS);
+                $question_list->load();
 
-                $gui = new ilAssQuestionSkillAssignmentsGUI($this->ctrl, $this->access, $this->tpl, $this->lng, $this->db);
-                $gui->setAssignmentEditingEnabled(true);
-                $gui->setQuestionContainerId($this->poolOBJ->getId());
-                $gui->setQuestionList($questionList);
-
-                $this->ctrl->forwardCommand($gui);
-
-                break;
-
-            case 'ilassquestionskillusagestablegui':
-
-                $gui = new ilAssQuestionSkillUsagesTableGUI(
+                $gui = new ilAssQuestionSkillAssignmentsGUI(
                     $this->ctrl,
+                    $this->access,
                     $this->tpl,
                     $this->lng,
                     $this->db,
-                    $this->poolOBJ->getId()
+                    $this->request_data_collector,
+                    $this->skill_usage_service,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->refinery,
+                    $this->http,
+                    $this->toolbar,
+                    $this->tabs
                 );
+                $gui->setAssignmentEditingEnabled(true);
+                $gui->setQuestionContainerId($this->pool_obj->getId());
+                $gui->setQuestionList($question_list);
 
                 $this->ctrl->forwardCommand($gui);
+                break;
 
+            case strtolower(ilAssQuestionSkillUsagesGUI::class):
+                $this->ctrl->forwardCommand(
+                    new ilAssQuestionSkillUsagesGUI(
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->http_state,
+                        $this->lng,
+                        $this->tpl,
+                        $this->db,
+                        $this->pool_obj->getId()
+                    )
+                );
                 break;
         }
     }

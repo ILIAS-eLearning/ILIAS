@@ -31,6 +31,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
     private \ILIAS\UI\Renderer $ui_renderer;
 
     private RequestDataCollector $request;
+    private \ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param ilUnitConfigurationGUI $controller
@@ -45,6 +46,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
 
         $this->setId('ucats_' . $controller->getUniqueId());
 
@@ -116,6 +118,11 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->ctrl->setParameter($this->getParentObject(), 'category_id', '');
         $dropdown = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
         $row['actions'] = $this->ui_renderer->render($dropdown);
+
+        $row['category'] = $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($row['category']);
+        $row['category_link_title'] = $this->refinery->encode()->htmlAttributeValue()->transform(
+            $row['category']
+        );
 
         parent::fillRow($row);
     }

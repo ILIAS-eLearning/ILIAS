@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\GlobalScreen\GUI\Pons;
+use ILIAS\DI\Container;
+
 /**
  * Class ilObjMainMenuGUI
  * @ilCtrl_IsCalledBy ilObjMainMenuGUI: ilAdministrationGUI
@@ -26,16 +29,24 @@ declare(strict_types=1);
  */
 class ilObjMainMenuGUI extends ilObject2GUI
 {
-    private ilMMTabHandling $tab_handling;
-    protected ilRbacSystem $rbac_system;
-    protected ilTabsGUI $tabs;
-    public ilLanguage $lng;
-    protected ilCtrl $ctrl;
-    public ilGlobalTemplateInterface $tpl;
-    public ilTree $tree;
+    /**
+     * @var string
+     */
+    public const MAINTAB_VIEW = 'view';
+    /**
+     * @var string
+     */
+    public const SUBTAB_TOP_ITEMS = 'top_items';
+    /**
+     * @var string
+     */
+    public const SUBTAB_SUB_ITEMS = 'sub_items';
+    /**
+     * @var string
+     */
+    public const TAB_PERMISSIONS = 'permissions';
 
-    public const TAB_PERMISSIONS = 'perm_settings';
-    public const TAB_MAIN = 'main';
+    private Container $dic;
 
     /**
      * ilObjMainMenuGUI constructor.
@@ -44,53 +55,59 @@ class ilObjMainMenuGUI extends ilObject2GUI
     {
         global $DIC;
 
+        $this->dic = $DIC;
+
         $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
             ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
             : null;
 
         parent::__construct($this->ref_id);
-
-        $this->tabs = $DIC['ilTabs'];
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule('mme');
         $this->ctrl = $DIC['ilCtrl'];
-        $this->tpl = $DIC['tpl'];
-        $this->tree = $DIC['tree'];
-        $this->rbac_system = $DIC['rbacsystem'];
-        $this->tab_handling = new ilMMTabHandling($this->ref_id);
-
         $this->assignObject();
     }
 
     #[\Override]
     public function executeCommand(): void
     {
+        $this->prepareOutput();
+
+        $mediator = Pons::fromDIC(['mme', 'gsfo'], new ilMMItemTranslationRepository($this->dic->database()));
+        $tabs = $mediator->tabs();
+        $tabs->add(
+            $view = $tabs
+                ->build(self::MAINTAB_VIEW, self::MAINTAB_VIEW, [self::class])
+                ->withPermission('read'),
+            $main = $tabs
+                ->build(self::SUBTAB_TOP_ITEMS, 'subtab_topitems', [ilMMTopItemGUI::class], $view)
+                ->withPermission('read'),
+            $sub_items = $tabs
+                ->build(
+                    self::SUBTAB_SUB_ITEMS,
+                    'subtab_subitems',
+                    [[ilMMTopItemGUI::class, ilMMSubItemGUI::class]],
+                    $main
+                )
+                ->withPermission('read'),
+            // Permissions Tab
+            $tabs
+                ->build(self::TAB_PERMISSIONS, 'rbac_permissions', [[self::class, ilPermissionGUI::class], 'perm'])
+                ->withPermission('edit_permissions')
+        );
+
         $next_class = $this->ctrl->getNextClass();
-
-        if ($next_class == '') {
-            $this->ctrl->redirectByClass(ilMMTopItemGUI::class);
-
-            return;
+        if ($next_class === '') {
+            $this->ctrl->redirectByClass(
+                ilMMTopItemGUI::class
+            );
         }
 
-        $this->prepareOutput();
+        $mediator->handle(self::SUBTAB_TOP_ITEMS, [ilPermissionGUI::class, ilMMUploadHandlerGUI::class]);
 
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
-                $this->tab_handling->initTabs(self::TAB_PERMISSIONS);
-                $this->tabs->activateTab(self::TAB_PERMISSIONS);
+                $tabs->activate(self::TAB_PERMISSIONS);
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
-                break;
-            case strtolower(ilMMTopItemGUI::class):
-                // $this->tab_handling->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES);
-                $g = new ilMMTopItemGUI($this->tab_handling);
-                $this->ctrl->forwardCommand($g);
-                break;
-            case strtolower(ilMMSubItemGUI::class):
-                // $this->tab_handling->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES);
-                $g = new ilMMSubItemGUI($this->tab_handling);
-                $this->ctrl->forwardCommand($g);
                 break;
             case strtolower(ilMMUploadHandlerGUI::class):
                 $g = new ilMMUploadHandlerGUI();
@@ -101,11 +118,8 @@ class ilObjMainMenuGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getType(): string
     {
-        return "";
+        return "mme";
     }
 }

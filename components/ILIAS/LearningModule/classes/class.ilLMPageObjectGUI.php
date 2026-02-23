@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * User Interface for Learning Module Page Objects Editing
@@ -298,23 +299,23 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                                 true
                             );
                             //var_dump($back); exit;
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
+                            $this->ctrl->setParameterByClass(PublicProfileGUI::class, "user_id", $target_id);
                             $this->ctrl->setParameterByClass(
-                                "ilpublicuserprofilegui",
+                                PublicProfileGUI::class,
                                 "back_url",
                                 rawurlencode($back)
                             );
                             $href = "";
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
-                                    "ilpublicuserprofilegui",
+                                    [ilPublicProfileBaseClassGUI::class, PublicProfileGUI::class],
                                     "getHTML",
                                     "",
                                     false,
                                     true
                                 );
                             }
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", null);
+                            $this->ctrl->setParameterByClass(PublicProfileGUI::class, "user_id", null);
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                         }
                         break;
@@ -542,7 +543,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
         $fields["description"] = $f->input()->field()->textarea($lng->txt("description"));
 
-        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM, true);
         if (!is_null($ts)) {
             $fields["layout_id"] = $ts;
         }

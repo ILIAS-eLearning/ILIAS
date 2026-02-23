@@ -70,6 +70,6 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 
     private function getElementsUsedForAdvancedEditing(): array
     {
-        return ilObjAdvancedEditing::_getUsedHTMLTags($this->getPurifierType());
+        return ilRTESettings::_getUsedHTMLTags($this->getPurifierType());
     }
 }

@@ -27,8 +27,6 @@ class ilStudyProgrammeUserTableRow
     protected int $status_raw;
     protected bool $active_raw;
 
-    protected ilUserDefinedData $udf;
-
     protected string $active;
     protected string $firstname;
     protected string $lastname;

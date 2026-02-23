@@ -25,14 +25,14 @@ class SettingsScoringTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $settingsScoring = new SettingsScoring(0);
+        $settingsScoring = new SettingsScoring();
         $this->assertInstanceOf(SettingsScoring::class, $settingsScoring);
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithCountSystemDataProvider')]
     public function testGetAndWithCountSystem(bool $IO): void
     {
-        $settingsScoring = new SettingsScoring(0);
+        $settingsScoring = new SettingsScoring();
         $settingsScoring = $settingsScoring->withCountSystem($IO);
         $this->assertEquals($IO, $settingsScoring->getCountSystem());
     }
@@ -48,7 +48,7 @@ class SettingsScoringTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithScoreCuttingDataProvider')]
     public function testGetAndWithScoreCutting(bool $IO): void
     {
-        $settingsScoring = new SettingsScoring(0);
+        $settingsScoring = new SettingsScoring();
         $settingsScoring = $settingsScoring->withScoreCutting($IO);
         $this->assertEquals($IO, $settingsScoring->getScoreCutting());
     }
@@ -64,7 +64,7 @@ class SettingsScoringTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPassScoringDataProvider')]
     public function testGetAndWithPassScoring(bool $IO): void
     {
-        $settingsScoring = new SettingsScoring(0);
+        $settingsScoring = new SettingsScoring();
         $settingsScoring = $settingsScoring->withPassScoring($IO);
         $this->assertEquals($IO, $settingsScoring->getPassScoring());
     }

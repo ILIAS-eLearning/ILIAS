@@ -22,7 +22,7 @@ use ILIAS\MediaPool;
  * Class ilMediaPoolPage GUI class
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI, ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilMediaPoolPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilObjectMetaDataGUI
  */
 class ilMediaPoolPageGUI extends ilPageObjectGUI
 {
@@ -346,19 +346,6 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     public function getAdditionalPageActions(): array
     {
         $tabs = [];
-
-        $mdgui = new ilObjectMetaDataGUI(
-            $this->meta_data_rep_obj,
-            $this->meta_data_type,
-            $this->meta_data_sub_obj_id
-        );
-        $mdtab = $mdgui->getTab();
-        if ($mdtab) {
-            $tabs[] = $this->ui->factory()->link()->standard(
-                $this->lng->txt('meta_data'),
-                $mdtab
-            );
-        }
 
         $tabs[] =
             $this->ui->factory()->link()->standard(

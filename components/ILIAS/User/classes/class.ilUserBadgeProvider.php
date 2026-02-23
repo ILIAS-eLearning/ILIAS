@@ -16,19 +16,44 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\Badges\ProfileBadge;
+use ILIAS\User\Profile\Profile;
+use ILIAS\Language\Language;
+use Psr\Http\Message\RequestInterface;
+
 /**
  * Class ilUserBadgeProvider
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilUserBadgeProvider implements ilBadgeProvider
+class ilUserBadgeProvider implements \ilBadgeProvider
 {
+    private readonly Language $lng;
+    private readonly \ilSetting $setting;
+    private readonly RequestInterface $request;
+    private readonly Profile $profile;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->lng = $DIC['lng'];
+        $this->setting = $DIC['ilSetting'];
+        $this->request = $DIC['http']->request();
+        $this->profile = $DIC['user']->getProfile();
+    }
     /**
      * @inheritcoc
      */
     public function getBadgeTypes(): array
     {
         return [
-            new ilUserProfileBadge()
+            new ProfileBadge(
+                $this->lng,
+                $this->setting,
+                $this->request,
+                $this->profile
+            )
         ];
     }
 }

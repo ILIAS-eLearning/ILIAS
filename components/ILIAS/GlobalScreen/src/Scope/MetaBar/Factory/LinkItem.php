@@ -23,14 +23,24 @@ namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\LinkItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol, isChild, hasContentLanguage, hasLanguageForTargetedResource
+class LinkItem extends AbstractChildItem implements
+    isItem,
+    hasTitle,
+    hasSymbol,
+    isChild,
+    hasContentLanguage,
+    hasLanguageForTargetedResource,
+    isDecorateable
 {
     use ContentLanguage;
     use LanguageForTargetedResource;
+    use ComponentDecoratorTrait;
 
     protected ?Symbol $symbol = null;
     protected string $title = "";
@@ -53,9 +63,6 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->action;

@@ -28,6 +28,7 @@ use ilMailingList;
 use ilMailingListsGUI;
 use ilLanguage;
 use ilMailingLists;
+use ILIAS\Data\Range;
 
 class MailingListsTable implements UI\Component\Table\DataRetrieval
 {
@@ -71,7 +72,8 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
                 $columns,
             )
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
-            ->withId(self::class)
+            ->withRange(new Range(0, 50))
+            ->withId(str_replace('\\', '', self::class))
             ->withActions($actions)
             ->withRequest($this->request);
     }
@@ -181,8 +183,9 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
         array $visible_column_ids,
         Data\Range $range,
         Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $records = $this->getRecords($range, $order);
 
@@ -193,8 +196,9 @@ class MailingListsTable implements UI\Component\Table\DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         $this->initRecords();
 

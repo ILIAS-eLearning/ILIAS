@@ -194,6 +194,11 @@ class ilCOPageHTMLExport
         foreach ($collector->getCssFiles() as $css) {
             $this->exportResourceFile($this->exp_dir, $css);
         }
+
+        // mathjax needs the whole directory to dynamically load resources
+        if (!is_null($this->export_collector)) {
+            $this->export_collector->addDirectory('node_modules/mathjax/es5', 'node_modules/mathjax/es5');
+        }
     }
 
     protected function exportResourceFile(

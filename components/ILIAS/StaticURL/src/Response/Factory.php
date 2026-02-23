@@ -18,22 +18,34 @@
 
 namespace ILIAS\StaticURL\Response;
 
+use ILIAS\StaticURL\Context;
+
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class Factory
 {
+    public function __construct(
+        private Context $context
+    ) {
+    }
+
     public function cannot(): CannotHandle
     {
         return new CannotHandle();
     }
-    public function loginFirst(): MaybeCanHandlerAfterLogin
+
+    public function loginFirst(): MaybeCanHandlerAfterLogin|CannotReach
     {
+        if ($this->context->isUserLoggedIn()) {
+            return new CannotReach();
+        }
+
         return new MaybeCanHandlerAfterLogin();
     }
 
-    public function can(string $uri_path): CanHandleWithURIPath
+    public function can(string $uri_path, bool $shift = false): CanHandleWithURIPath
     {
-        return new CanHandleWithURIPath($uri_path);
+        return new CanHandleWithURIPath($uri_path, $shift ? 1 : 0);
     }
 }

@@ -27,13 +27,14 @@ use ILIAS\Data\URI;
  */
 class Async extends Node implements C\Input\Field\Node\Async
 {
+    /** @inheritDoc */
     public function __construct(
         protected URI $render_url,
-        int|string $id,
+        array $full_node_path,
         string $name,
         ?C\Symbol\Icon\Icon $icon
     ) {
-        parent::__construct($id, $name, $icon);
+        parent::__construct($full_node_path, $name, $icon);
     }
 
     public function getRenderUrl(): URI

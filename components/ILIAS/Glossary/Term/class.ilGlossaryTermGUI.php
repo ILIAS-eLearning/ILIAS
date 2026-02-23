@@ -316,8 +316,6 @@ class ilGlossaryTermGUI
         $page_gui->setTemplateOutput(false);
         $output = $page_gui->presentation($page_gui->getOutputMode());
 
-        ilMathJax::getInstance()->includeMathJax($tpl);
-
         $tpl->setCurrentBlock("definition");
         $tpl->setVariable("PAGE_CONTENT", $output);
         $tpl->parseCurrentBlock();

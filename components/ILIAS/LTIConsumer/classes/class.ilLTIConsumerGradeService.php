@@ -26,6 +26,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
+
 class ilLTIConsumerGradeService extends ilLTIConsumerServiceBase
 {
     /** Read-only access to Gradebook services */

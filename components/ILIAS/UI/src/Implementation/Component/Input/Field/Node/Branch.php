@@ -27,15 +27,16 @@ use ILIAS\UI\Component as C;
 class Branch extends Node implements C\Input\Field\Node\Branch
 {
     /**
+     * @inheritDoc
      * @param C\Input\Field\Node\Node[] $children
      */
     public function __construct(
-        int|string $id,
+        array $full_node_path,
         string $name,
         ?C\Symbol\Icon\Icon $icon,
         protected array $children,
     ) {
-        parent::__construct($id, $name, $icon);
+        parent::__construct($full_node_path, $name, $icon);
     }
 
     /**

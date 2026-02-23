@@ -44,6 +44,10 @@ final class SVGBlacklistPreProcessor implements PreProcessor
     /**
      * @var string
      */
+    private const REGEX_FOREIGN_OBJECT = '/<foreignObject/m';
+    /**
+     * @var string
+     */
     private const REGEX_BASE64 = '/data:.*;base64/m';
     /**
      * @var string
@@ -52,6 +56,7 @@ final class SVGBlacklistPreProcessor implements PreProcessor
     private string $rejection_message = 'The SVG file contains possibily malicious code.';
     private string $rejection_message_script;
     private string $rejection_message_base64;
+    private string $rejection_message_foreign_object;
     private string $rejection_message_elements;
     private string $ok_message = 'SVG OK';
     /**
@@ -136,11 +141,13 @@ final class SVGBlacklistPreProcessor implements PreProcessor
         ?string $rejection_message = null,
         ?string $additional_message_script = null,
         ?string $additional_message_base64 = null,
-        ?string $additional_message_elements = null,
+        ?string $additional_message_foreign_object = null,
+        ?string $additional_message_elements = null
     ) {
         $this->rejection_message = $rejection_message ?? $this->rejection_message;
         $this->rejection_message_script = $additional_message_script ?? 'contains script tags';
         $this->rejection_message_base64 = $additional_message_base64 ?? 'contains base64 encoded content';
+        $this->rejection_message_foreign_object = $additional_message_foreign_object ?? 'contains foreign object';
         $this->rejection_message_elements = $additional_message_elements ?? 'contains not allowed or unknown elements or attributes';
     }
 
@@ -212,6 +219,12 @@ final class SVGBlacklistPreProcessor implements PreProcessor
         // Check for script tags directly
         if (preg_match(self::REGEX_SCRIPT, $raw_svg_content)) {
             $this->rejection_message .= ' ' . $this->rejection_message_script;
+            return true;
+        }
+
+        // Check for script tags directly
+        if (preg_match(self::REGEX_FOREIGN_OBJECT, $raw_svg_content)) {
+            $this->rejection_message .= ' ' . $this->rejection_message_foreign_object;
             return true;
         }
 

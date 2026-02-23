@@ -31,6 +31,7 @@ class ilObjTestListGUITest extends ilTestBaseTestCase
         $this->addGlobal_rbacreview();
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_ilLoggerFactory();
+        $this->addGlobal_user();
 
         $this->testObj = new ilObjTestListGUI(1);
     }

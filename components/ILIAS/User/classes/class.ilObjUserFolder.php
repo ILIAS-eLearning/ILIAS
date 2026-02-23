@@ -18,6 +18,14 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
+use ILIAS\User\BuildExportFieldArray;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Standard\Roles;
+use ILIAS\User\Profile\Fields\Standard\Alias;
+use ILIAS\User\Settings\Settings;
+use ILIAS\User\Settings\SettingsImplementation;
+
 /**
  * Class ilObjUserFolder
  * @author Stefan Meyer <meyer@leifos.com>
@@ -25,17 +33,28 @@ declare(strict_types=1);
 
 class ilObjUserFolder extends ilObject
 {
+    use BuildExportFieldArray;
+
+    public const string PERM_READ_ALL = 'read_all_accounts';
+    public const string PERM_READ_ALL_AND_WRITE = 'read_all_accounts,write';
+
     public const ORG_OP_EDIT_USER_ACCOUNTS = 'edit_user_accounts';
     public const FILE_TYPE_EXCEL = 'userfolder_export_excel_x86';
     public const FILE_TYPE_CSV = 'userfolder_export_csv';
     public const FILE_TYPE_XML = 'userfolder_export_xml';
 
+    private Profile $profile;
+    private SettingsImplementation $settings;
+
     public function __construct(
         int $a_id,
         bool $a_call_by_reference = true
     ) {
-        $this->type = "usrf";
+        $this->type = 'usrf';
         parent::__construct($a_id, $a_call_by_reference);
+
+        $this->profile = LocalDIC::dic()[Profile::class];
+        $this->settings = LocalDIC::dic()[Settings::class];
     }
 
 
@@ -47,20 +66,20 @@ class ilObjUserFolder extends ilObject
     public function getExportFilename(
         string $a_mode = self::FILE_TYPE_EXCEL
     ): string {
-        $filename = "";
+        $filename = '';
         $inst_id = IL_INST_ID;
 
         $date = time();
 
         switch ($a_mode) {
             case self::FILE_TYPE_EXCEL:
-                $filename = $date . "__" . $inst_id . "__xls_usrf";
+                $filename = $date . '__' . $inst_id . '__xls_usrf';
                 break;
             case self::FILE_TYPE_CSV:
-                $filename = $date . "__" . $inst_id . "__csv_usrf.csv";
+                $filename = $date . '__' . $inst_id . '__csv_usrf.csv';
                 break;
             case self::FILE_TYPE_XML:
-                $filename = $date . "__" . $inst_id . "__xml_usrf.xml";
+                $filename = $date . '__' . $inst_id . '__xml_usrf.xml';
                 break;
         }
         return $filename;
@@ -68,7 +87,7 @@ class ilObjUserFolder extends ilObject
 
     public function getExportDirectory(): string
     {
-        $export_dir = ilFileUtils::getDataDir() . "/usrf_data/export";
+        $export_dir = ilFileUtils::getDataDir() . '/usrf_data/export';
 
         return $export_dir;
     }
@@ -82,8 +101,8 @@ class ilObjUserFolder extends ilObject
         $dir = $this->getExportDirectory();
 
         // quit if export dir not available
-        if (!is_dir($dir) or
-            !is_writable($dir)) {
+        if (!is_dir($dir)
+            || !is_writable($dir)) {
             return [];
         }
 
@@ -95,11 +114,11 @@ class ilObjUserFolder extends ilObject
 
         // get files and save the in the array
         while ($entry = $dir->read()) {
-            if ($entry != "." and
-                $entry != ".." and
-                preg_match("/^[0-9]{10}_{2}[0-9]+_{2}([a-z0-9]{3})_usrf\.[a-z]{1,4}\$/", $entry, $matches)) {
-                $filearray["filename"] = $entry;
-                $filearray["filesize"] = filesize($this->getExportDirectory() . "/" . $entry);
+            if ($entry !== '.'
+                && $entry !== '..'
+                && preg_match('/^[0-9]{10}_{2}[0-9]+_{2}([a-z0-9]{3})_usrf\.[a-z]{1,4}$/', $entry, $matches)) {
+                $filearray['filename'] = $entry;
+                $filearray['filesize'] = filesize($this->getExportDirectory() . '/' . $entry);
                 $file[] = $filearray;
             }
         }
@@ -119,13 +138,15 @@ class ilObjUserFolder extends ilObject
     }
 
     protected function createXMLExport(
-        array $settings,
+        array $fields_to_export,
         array $data,
         string $filename
     ): void {
         $xml_writer = new ilUserXMLWriter();
         $xml_writer->setObjects($data);
-        $xml_writer->setSettings($settings);
+        $xml_writer->setFieldsToExport(
+            array_merge(array_keys($fields_to_export), ['time_limit_owner'])
+        );
         $xml_writer->setAttachRoles(true);
 
         if ($xml_writer->start()) {
@@ -133,43 +154,28 @@ class ilObjUserFolder extends ilObject
         }
     }
 
-    protected function getUserDefinedExportFields(): array // Missing array type.
-    {
-        $udf_ex_fields = [];
-        foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
-            if ($definition['export'] != false) {
-                $udf_ex_fields[] = ['name' => $definition['field_name'],
-                    'id' => $definition['field_id']];
-            }
-        }
-
-        return $udf_ex_fields;
-    }
-
     protected function createCSVExport(
-        array $settings,
+        array $fields_to_export,
         array $data,
         string $filename
     ): void {
         $headerrow = [];
         $udf_ex_fields = $this->getUserDefinedExportFields();
-        foreach ($settings as $value) {	// standard fields
+        foreach ($fields_to_export as $value) {	// standard fields
             $headerrow[] = $this->lng->txt($value);
         }
         foreach ($udf_ex_fields as $f) {	// custom fields
-            $headerrow[] = $f["name"];
+            $headerrow[] = $f['name'];
         }
 
-        $separator = ";";
         $file = fopen($filename, 'wb');
-        $formattedrow = &ilCSVUtil::processCSVRow($headerrow, true, $separator);
-        fwrite($file, implode($separator, $formattedrow) . "\n");
+        fwrite($file, $this->processCSVRow($headerrow) . "\n");
         foreach ($data as $row) {
             $csvrow = [];
             foreach ($settings as $header) {	// standard fields
                 // multi-text
                 if (isset($row[$header]) && is_array($row[$header])) {
-                    $row[$header] = implode(", ", $row[$header]);
+                    $row[$header] = implode(', ', $row[$header]);
                 }
 
                 $csvrow[] = $row[$header] ?? '';
@@ -178,161 +184,79 @@ class ilObjUserFolder extends ilObject
             // custom fields
             reset($udf_ex_fields);
             if (count($udf_ex_fields) > 0) {
-                $udf = new ilUserDefinedData($row["usr_id"]);
+                $udf = $this->profile->getDataFor($row['usr_id']);
                 foreach ($udf_ex_fields as $f) {	// custom fields
-                    $csvrow[] = $udf->get("f_" . $f["id"]);
+                    $csvrow[] = $udf->get('f_' . $f['id']);
                 }
             }
 
-            $formattedrow = &ilCSVUtil::processCSVRow($csvrow, true, $separator);
-            fwrite($file, implode($separator, $formattedrow) . "\n");
+            fwrite($file, $this->processCSVRow($csvrow) . "\n");
         }
         fclose($file);
     }
 
     protected function createExcelExport(
-        array $settings,
+        array $fields_to_export,
         array $data,
         string $filename
     ): void {
         $worksheet = new ilExcel();
-        $worksheet->addSheet($this->lng->txt("users"));
+        $worksheet->addSheet($this->lng->txt('users'));
 
         $row = 1;
         $col = 0;
 
-        $udf_ex_fields = $this->getUserDefinedExportFields();
-
         // title row
-        foreach ($settings as $value) {	// standard fields
-            if ($value == 'ext_account') {
-                $value = 'user_ext_account';
-            }
-            $worksheet->setCell($row, $col, $this->lng->txt($value));
+        foreach ($fields_to_export as $label) {	// standard fields
+            $worksheet->setCell($row, $col, $label);
             $col++;
         }
-        foreach ($udf_ex_fields as $f) {	// custom fields
-            $worksheet->setCell($row, $col, $f["name"]);
-            $col++;
-        }
-        $worksheet->setBold("A1:" . $worksheet->getColumnCoord($col - 1) . "1");
+        $worksheet->setBold('A1:' . $worksheet->getColumnCoord($col - 1) . '1');
 
-        $this->lng->loadLanguageModule("meta");
-        foreach ($data as $index => $rowdata) {
+        $this->lng->loadLanguageModule('meta');
+        foreach ($data as $rowdata) {
             $row++;
             $col = 0;
 
             // standard fields
-            foreach ($settings as $fieldname) {
-                $value = $rowdata[$fieldname] ?? "";
+            foreach (array_keys($fields_to_export) as $fieldname) {
+                $value = $rowdata[$fieldname] ?? '';
                 switch ($fieldname) {
-                    case "language":
-                        $worksheet->setCell($row, $col, $this->lng->txt("meta_l_" . $value));
+                    case 'language':
+                        $worksheet->setCell($row, $col, $this->lng->txt('meta_l_' . $value));
                         break;
-                    case "time_limit_from":
-                    case "time_limit_until":
+                    case 'time_limit_from':
+                    case 'time_limit_until':
                         $value = $value
                             ? new ilDateTime($value, IL_CAL_UNIX)
                             : null;
                         $worksheet->setCell($row, $col, $value);
                         break;
-                    case "last_login":
-                    case "last_update":
-                    case "create_date":
-                    case "approve_date":
-                    case "agree_date":
+                    case 'last_login':
+                    case 'last_update':
+                    case 'create_date':
+                    case 'approve_date':
+                    case 'agree_date':
                         $value = $value
                             ? new ilDateTime($value, IL_CAL_DATETIME)
                             : null;
                         $worksheet->setCell($row, $col, $value);
                         break;
 
-                    case "interests_general":
-                    case "interests_help_offered":
-                    case "interests_help_looking":
-                        if (is_array($value) && count($value)) {
-                            $value = implode(", ", $value);
-                        } else {
-                            $value = null;
-                        }
-                        // fallthrough
-
-                        // no break
                     default:
-                        $worksheet->setCell($row, $col, $value);
-                        break;
+                        $worksheet->setCell(
+                            $row,
+                            $col,
+                            is_array($value) && $value !== []
+                                ? implode(', ', $value)
+                                : $value
+                        );
                 }
                 $col++;
-            }
-
-            // custom fields
-            reset($udf_ex_fields);
-            if (count($udf_ex_fields) > 0) {
-                $udf = new ilUserDefinedData($rowdata["usr_id"]);
-                foreach ($udf_ex_fields as $f) {	// custom fields
-                    $worksheet->setCell($row, $col, $udf->get("f_" . $f["id"]));
-                    $col++;
-                }
             }
         }
 
         $worksheet->writeToFile($filename);
-    }
-
-    /**
-     * @return array of exportable fields
-     */
-    public static function getExportSettings(): array // Missing array type.
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $db_settings = [];
-
-        $up = new ilUserProfile();
-        $up->skipField("roles");
-        $profile_fields = $up->getStandardFields();
-
-        $query = "SELECT * FROM settings WHERE " .
-            $ilDB->like("keyword", "text", '%usr_settings_export_%');
-        $result = $ilDB->query($query);
-        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            if ($row["value"] == "1") {
-                if (preg_match("/usr_settings_export_(.*)/", $row["keyword"], $setting)) {
-                    $db_settings[] = $setting[1];
-                }
-            }
-        }
-        $export_settings = [];
-        foreach ($profile_fields as $key => $value) {
-            if (in_array($key, $db_settings)) {
-                if (strcmp($key, "password") == 0) {
-                    // we do not support password export with ILIAS >= 4.5.x
-                    continue;
-                } else {
-                    $export_settings[] = $key;
-                }
-            }
-        }
-        $export_settings[] = "usr_id";
-        $export_settings[] = "login";
-        $export_settings[] = "last_login";
-        $export_settings[] = "last_update";
-        $export_settings[] = "create_date";
-        $export_settings[] = "time_limit_owner";
-        $export_settings[] = "time_limit_unlimited";
-        $export_settings[] = "time_limit_from";
-        $export_settings[] = "time_limit_until";
-        $export_settings[] = "time_limit_message";
-        $export_settings[] = "active";
-        $export_settings[] = "approve_date";
-        $export_settings[] = "agree_date";
-        $export_settings[] = "client_ip";
-        $export_settings[] = "auth_mode";
-        $export_settings[] = "ext_account";
-        $export_settings[] = "feedhash";
-        return $export_settings;
     }
 
     /**
@@ -343,101 +267,124 @@ class ilObjUserFolder extends ilObject
         ?array $user_data_filter = null,
         bool $use_temp_dir = false
     ): string {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-
         if ($use_temp_dir) {
-            $expDir = ilFileUtils::ilTempnam();
-            $fullname = $expDir;
+            $export_dir = ilFileUtils::ilTempnam();
+            $fullname = $export_dir;
         } else {
-            $expDir = $this->getExportDirectory();
+            $export_dir = $this->getExportDirectory();
             // create export directory if needed
             $this->createExportDirectory();
-            $fullname = $expDir . "/" . $this->getExportFilename($a_mode);
+            $fullname = $export_dir . '/' . $this->getExportFilename($a_mode);
         }
 
-        //get data
-        //$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
-        $settings = self::getExportSettings();
+        $fields_to_export = $this->getExportFieldArray(
+            $this->lng,
+            $this->profile,
+            $this->settings
+        );
+        $data = $this->retrieveExportDataArray(
+            $this->buildWhereForUserDataFilterArray($user_data_filter ?? [])
+        );
 
-        // user languages
-        $query = "SELECT * FROM usr_pref WHERE keyword = " . $ilDB->quote('language', 'text');
-        $res = $ilDB->query($query);
+        switch ($a_mode) {
+            case self::FILE_TYPE_EXCEL:
+                $this->createExcelExport($fields_to_export, $data, $fullname);
+                break;
+            case self::FILE_TYPE_CSV:
+                $this->createCSVExport($fields_to_export, $data, $fullname);
+                break;
+            case self::FILE_TYPE_XML:
+                $this->createXMLExport($fields_to_export, $data, $fullname);
+                break;
+        }
+        return $fullname;
+    }
+
+    private function processCSVRow(array $row): array
+    {
+        $resultarray = [];
+        foreach ($row as $rowindex => $entry) {
+            $resultarray[$rowindex] = iconv(
+                'UTF-8',
+                'ISO-8859-1',
+                '"' . str_replace(chr(13) . chr(10), chr(10), $entry) . '"'
+            );
+        }
+        return implode(';', $resultarray);
+    }
+
+    private function retrieveExportDataArray(string $usr_ids_where): array
+    {
+        $query = "SELECT * FROM usr_pref WHERE keyword = {$this->db->quote('language', 'text')}";
+        if ($usr_ids_where !== '') {
+            $query .= "AND {$usr_ids_where}";
+        }
+        $res = $this->db->query($query);
         $languages = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $languages[$row['usr_id']] = $row['value'];
         }
 
         // multi-text
-        $multi = [];
-        $set = $ilDB->query("SELECT * FROM usr_data_multi");
-        while ($row = $ilDB->fetchAssoc($set)) {
-            if (!is_array($user_data_filter) ||
-                in_array($row["usr_id"], $user_data_filter)) {
-                $multi[$row["usr_id"]][$row["field_id"]][] = $row["value"];
-            }
+        $multi = $this->retrieveMultiRowDataArray($usr_ids_where);
+
+        $query = 'SELECT usr_data.* FROM usr_data  ';
+        if ($usr_ids_where !== '') {
+            $query .= "WHERE {$usr_ids_where} ";
         }
+        $set = $this->db->query("{$query} ORDER BY usr_data.lastname, usr_data.firstname");
 
         $data = [];
-        $query = "SELECT usr_data.* FROM usr_data  " .
-            " ORDER BY usr_data.lastname, usr_data.firstname";
-        $result = $ilDB->query($query);
-        while ($row = $ilDB->fetchAssoc($result)) {
-            if (isset($languages[$row['usr_id']])) {
-                $row['language'] = $languages[$row['usr_id']];
-            } else {
-                $row['language'] = $lng->getDefaultLanguage();
-            }
-
-            if (isset($multi[$row["usr_id"]])) {
-                $row = array_merge($row, $multi[$row["usr_id"]]);
-            }
-
-            if (is_array($user_data_filter)) {
-                if (in_array($row["usr_id"], $user_data_filter)) {
-                    $data[] = $row;
-                }
-            } else {
-                $data[] = $row;
-            }
+        while ($row = $this->db->fetchAssoc($set)) {
+            $row['language'] = $languages[$row['usr_id']] ?? $this->lng->getDefaultLanguage();
+            $data[] = array_merge($row, $multi[$row['usr_id']] ?? []);
         }
-        //$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 
-        switch ($a_mode) {
-            case self::FILE_TYPE_EXCEL:
-                $this->createExcelExport($settings, $data, $fullname);
-                break;
-            case self::FILE_TYPE_CSV:
-                $this->createCSVExport($settings, $data, $fullname);
-                break;
-            case self::FILE_TYPE_XML:
-                $this->createXMLExport($settings, $data, $fullname);
-                break;
+        return $data;
+    }
+
+    private function retrieveMultiRowDataArray(string $usr_ids_where): array
+    {
+        $query = 'SELECT * FROM usr_profile_data';
+        if ($usr_ids_where !== '') {
+            $query .= " WHERE {$usr_ids_where}";
         }
-        return $fullname;
+        $set = $this->db->query($query);
+        $multi = [];
+        while ($row = $this->db->fetchAssoc($set)) {
+            $multi[$row['usr_id']][$row['field_id']][] = $row['value'];
+        }
+        return $multi;
+    }
+
+    private function buildWhereForUserDataFilterArray(array $user_data_filter): string
+    {
+        if ($user_data_filter === []) {
+            return '';
+        }
+
+        return $this->db->in('usr_id', $user_data_filter, false, ilDBConstants::T_INTEGER);
     }
 
 
     /**
      * creates data directory for export files
      */
-    protected function createExportDirectory(): void
+    private function createExportDirectory(): void
     {
         if (!is_dir($this->getExportDirectory())) {
-            $usrf_data_dir = ilFileUtils::getDataDir() . "/usrf_data";
+            $usrf_data_dir = ilFileUtils::getDataDir() . '/usrf_data';
             ilFileUtils::makeDir($usrf_data_dir);
             if (!is_writable($usrf_data_dir)) {
-                $this->ilias->raiseError("Userfolder data directory (" . $usrf_data_dir
-                    . ") not writeable.", $this->ilias->error_obj->MESSAGE);
+                $this->ilias->raiseError('Userfolder data directory (' . $usrf_data_dir
+                    . ') not writeable.', $this->ilias->error_obj->MESSAGE);
             }
 
             // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
-            $export_dir = $usrf_data_dir . "/export";
+            $export_dir = $usrf_data_dir . '/export';
             ilFileUtils::makeDir($export_dir);
             if (!is_dir($export_dir)) {
-                $this->ilias->raiseError("Creation of Userfolder Export Directory failed.", $this->ilias->error_obj->MESSAGE);
+                $this->ilias->raiseError('Creation of Userfolder Export Directory failed.', $this->ilias->error_obj->MESSAGE);
             }
         }
     }
@@ -449,126 +396,10 @@ class ilObjUserFolder extends ilObject
      */
     public static function getProfileFields(): array // Missing array type.
     {
-        $up = new ilUserProfile();
-        $up->skipField("username");
-        $up->skipField("roles");
-        $up->skipGroup("preferences");
-        $fds = $up->getStandardFields();
-        $profile_fields = [];
-        foreach ($fds as $k => $f) {
-            $profile_fields[] = $k;
-        }
-
-        return $profile_fields;
-    }
-
-    public static function _writeNewAccountMail(
-        string $a_lang,
-        string $a_subject,
-        string $a_sal_g,
-        string $a_sal_f,
-        string $a_sal_m,
-        string $a_body
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        if (self::_lookupNewAccountMail($a_lang)) {
-            $values = [
-                'subject' => ['text',$a_subject],
-                'body' => ['clob',$a_body],
-                'sal_g' => ['text',$a_sal_g],
-                'sal_f' => ['text',$a_sal_f],
-                'sal_m' => ['text',$a_sal_m]
-                ];
-            $ilDB->update(
-                'mail_template',
-                $values,
-                ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
-            );
-        } else {
-            $values = [
-                'subject' => ['text',$a_subject],
-                'body' => ['clob',$a_body],
-                'sal_g' => ['text',$a_sal_g],
-                'sal_f' => ['text',$a_sal_f],
-                'sal_m' => ['text',$a_sal_m],
-                'lang' => ['text',$a_lang],
-                'type' => ['text','nacc']
-                ];
-            $ilDB->insert('mail_template', $values);
-        }
-    }
-
-    /**
-     * Update account mail attachment
-     * @throws ilException
-     */
-    public static function _updateAccountMailAttachment(
-        string $a_lang,
-        string $a_tmp_name,
-        string $a_name
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
-        $fs->create();
-        $path = $fs->getAbsolutePath() . "/";
-
-        ilFileUtils::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
-
-        $ilDB->update(
-            'mail_template',
-            ['att_file' => ['text', $a_name]],
-            ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
-        );
-    }
-
-    /**
-     * Delete account mail attachment
-     */
-    public static function _deleteAccountMailAttachment(
-        string $a_lang
-    ): void {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
-        $path = $fs->getAbsolutePath() . "/";
-
-        if (file_exists($path . $a_lang)) {
-            unlink($path . $a_lang);
-        }
-
-        $ilDB->update(
-            'mail_template',
-            ['att_file' => ['text', '']],
-            ['lang' => ['text',$a_lang], 'type' => ['text','nacc']]
-        );
-    }
-
-    /**
-     * @param string $a_lang
-     * @return array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null}
-     */
-    public static function _lookupNewAccountMail(string $a_lang): array
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $set = $ilDB->query("SELECT * FROM mail_template " .
-            " WHERE type='nacc' AND lang = " . $ilDB->quote($a_lang, 'text'));
-
-        if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return $rec;
-        }
-
-        return [];
+        return array_key(LocalDIC::dic()[Profile::class]->getFields(
+            [],
+            [Alias::class, Roles::class]
+        ));
     }
 
     /**
@@ -584,8 +415,8 @@ class ilObjUserFolder extends ilObject
 
         $ilDB = $DIC['ilDB'];
 
-        $query = "UPDATE usr_data SET time_limit_owner = " . $ilDB->quote($a_new_id, "integer") . " " .
-            "WHERE time_limit_owner = " . $ilDB->quote($a_old_id, "integer") . " ";
+        $query = 'UPDATE usr_data SET time_limit_owner = ' . $ilDB->quote($a_new_id, ilDBConstants::T_INTEGER) . ' ' .
+            'WHERE time_limit_owner = ' . $ilDB->quote($a_old_id, ilDBConstants::T_INTEGER) . ' ';
         $ilDB->manipulate($query);
     }
 }

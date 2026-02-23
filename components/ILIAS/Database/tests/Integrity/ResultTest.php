@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Database\Integrity\Result;
+use ILIAS\Database\Integrity\Result;
 
 class ResultTest extends TestCase
 {
@@ -34,6 +34,6 @@ class ResultTest extends TestCase
     public function testViolations(): void
     {
         $result = new Result(9);
-        $this->assertEquals(9, $result->violations());
+        $this->assertSame(9, $result->violations());
     }
 }

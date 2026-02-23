@@ -31,14 +31,13 @@ trait CommonFieldRendering
     protected function getFieldFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\Field\Node\Factory::class),
             $this->createMock(UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
-            new Refinery($df, $language),
-            $language
+            new Refinery($df, $this->getLanguage()),
+            $this->getLanguage()
         );
     }
 
@@ -61,7 +60,7 @@ trait CommonFieldRendering
 
     protected function testWithRequired(FormInput $component): void
     {
-        $expected = '<span class="asterisk" aria-label="required_field">*</span></label>';
+        $expected = '<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span></label>';
         $this->assertStringContainsString($expected, $this->render($component->withRequired(true)));
     }
 

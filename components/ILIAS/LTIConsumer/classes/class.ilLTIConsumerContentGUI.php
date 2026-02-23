@@ -65,6 +65,17 @@ class ilLTIConsumerContentGUI
         $this->{$command}();
     }
 
+    public function getJwtForContentSelection(string $redirectUri, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null): string
+    {
+        $jwt = "";
+        $this->initCmixUser();
+        $jwtArray = $this->getLaunchParametersLTI13($redirectUri, $clientId, $deploymentId, $nonce, $additionalArguments);
+        if (isset($jwtArray['id_token'])) {
+            $jwt = $jwtArray['id_token'];
+        }
+        return $jwt;
+    }
+
     /**
      * @throws ilCtrlException
      * @throws ilTemplateException
@@ -102,7 +113,7 @@ class ilLTIConsumerContentGUI
                         $this->dic->http()->sendResponse();
                         $this->dic->http()->close();
                     }
-                } else {
+                } elseif (!$this->object->isLaunchMethodEmbedded()) {
                     $this->dic->toolbar()->addText($this->getStartButtonTxt13());
                 }
             }
@@ -165,7 +176,7 @@ class ilLTIConsumerContentGUI
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $context = $ilLTIConsumerLaunch->getContext();
         $contextType = $ilLTIConsumerLaunch::getLTIContextType($context["type"]);
-        $contextId = $context["id"];
+        $contextId = (string) $context["id"];
         $contextTitle = $context["title"];
 
         $token = ilCmiXapiAuthToken::fillToken(
@@ -239,12 +250,15 @@ class ilLTIConsumerContentGUI
         $ltiMessageHint = (string) $this->object->getRefId() . ":" . CLIENT_ID;
         ilSession::set('lti_message_hint', $ltiMessageHint);
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ilObjLTIConsumer::getIliasHttpPath()) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $ltiMessageHint) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $this->object->getProvider()->getClientId()) . "\n";
         $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_deployment_id', $this->object->getProvider()->getId()) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'launch_presentation_return_url', $returnUrl) . "\n";
+        $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lis_result_sourcedid', $token) . "\n";
         $output .= $button;
         $output .= '</form>';
         $output .= '<span id ="lti_launched" style="display:none">' . $this->lng->txt("launched") . '</span>';
@@ -307,8 +321,8 @@ class ilLTIConsumerContentGUI
             }
 
             $v = DEVMODE ? '?vers=' . time() : '?vers=' . ILIAS_VERSION_NUMERIC;
-            $tpl->setVariable("DELOS_CSS_HREF", 'templates/default/delos.css' . $v);
-            $tpl->setVariable("JQUERY_SRC", 'public/node_modules/jquery/dist/jquery.js' . $v);
+            $tpl->setVariable("DELOS_CSS_HREF", 'assets/css/delos.css' . $v);
+            $tpl->setVariable("JQUERY_SRC", 'assets/js/jquery.js' . $v);
 
             $tpl->setVariable("LOADER_ICON_SRC", ilUtil::getImagePath("media/loader.svg"));
             $tpl->setVariable('LAUNCH_URL', $this->object->getProvider()->getProviderUrl());
@@ -332,7 +346,7 @@ class ilLTIConsumerContentGUI
         $launchContext = $ilLTIConsumerLaunch->getContext();
 
         $launchContextType = ilLTIConsumerLaunch::getLTIContextType($launchContext["type"]);
-        $launchContextId = $launchContext["id"];
+        $launchContextId = (string) $launchContext["id"];
         $launchContextTitle = $launchContext["title"];
 
         $token = ilCmiXapiAuthToken::fillToken(
@@ -350,25 +364,39 @@ class ilLTIConsumerContentGUI
         );
     }
 
-    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce): ?array
+    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null): ?array
     {
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $launchContext = $ilLTIConsumerLaunch->getContext();
 
         $launchContextType = ilLTIConsumerLaunch::getLTIContextType($launchContext["type"]);
-        $launchContextId = $launchContext["id"];
+        $launchContextId = (string) $launchContext["id"];
         $launchContextTitle = $launchContext["title"];
+
+        $token = ilCmiXapiAuthToken::fillToken(
+            $this->dic->user()->getId(),
+            $this->object->getRefId(),
+            $this->object->getId()
+        );
+        $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
+            '&amp;',
+            '&',
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
+        );
 
         $cmixUser = $this->cmixUser;
         return $this->object->buildLaunchParametersLTI13(
             $cmixUser,
+            $token,
             $endpoint,
             $clientId,
             $deploymentId,
             $nonce,
             $launchContextType,
             $launchContextId,
-            $launchContextTitle
+            $launchContextTitle,
+            $returnUrl,
+            $additionalArguments
         );
     }
 

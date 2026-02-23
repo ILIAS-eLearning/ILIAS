@@ -40,7 +40,7 @@ class ilDerivedTaskProviderMasterFactory
     /**
      * @var ilDerivedTaskProviderFactory[]
      */
-    protected $provider_factories = [];
+    protected ?array $provider_factories = [];
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ class ilDerivedTaskProviderMasterFactory
     public function __construct(ilTaskService $service, $provider_factories = null)
     {
         if (is_null($provider_factories)) {
-            $this->provider_factories = array_map(fn ($class): ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
+            $this->provider_factories = array_map(fn($class): ilDerivedTaskProviderFactory => new $class($service), $this->default_provider_factories);
         } else {
             $this->provider_factories = $provider_factories;
         }

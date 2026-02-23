@@ -99,8 +99,9 @@ class TermDefinitionBulkCreationTable
                 array $visible_column_ids,
                 Data\Range $range,
                 Data\Order $order,
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): \Generator {
                 $records = $this->getRecords($range);
                 foreach ($records as $idx => $record) {
@@ -111,8 +112,9 @@ class TermDefinitionBulkCreationTable
             }
 
             public function getTotalRowCount(
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): ?int {
                 return count($this->getRecords());
             }

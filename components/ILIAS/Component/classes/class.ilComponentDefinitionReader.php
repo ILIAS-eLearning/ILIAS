@@ -112,11 +112,17 @@ class ilComponentDefinitionReader
      */
     protected function getComponents(): \Iterator
     {
-        foreach ($this->getComponentInfo("components/ILIAS", "module.xml") as $i) {
-            yield $i;
-        }
-        foreach ($this->getComponentInfo("components/ILIAS", "service.xml") as $i) {
-            yield $i;
+        foreach (glob("components/*") as $component_namespace) {
+            $short_namespace = basename($component_namespace);
+            foreach ($this->getComponentInfo("components/" . $short_namespace, "module.xml") as $i) {
+                yield $i;
+            }
+            foreach ($this->getComponentInfo("components/" . $short_namespace, "service.xml") as $i) {
+                yield $i;
+            }
+            foreach ($this->getComponentInfo("components/" . $short_namespace, "component.xml") as $i) {
+                yield $i;
+            }
         }
     }
 

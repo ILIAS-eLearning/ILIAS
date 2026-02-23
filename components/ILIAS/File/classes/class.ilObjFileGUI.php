@@ -16,7 +16,8 @@
  *
  *********************************************************************/
 
-use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\UI\Component\Input\Container\Form\FormInput;
+use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
@@ -29,8 +30,8 @@ use ILIAS\File\Icon\IconDatabaseRepository;
 use ILIAS\components\File\Settings\General;
 use ILIAS\Refinery\String\Group;
 use ILIAS\Data\Factory;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
-use ILIAS\components\WOPI\Embed\EmbeddedApplication;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\File\Capabilities\Capabilities;
@@ -139,6 +140,18 @@ class ilObjFileGUI extends ilObject2GUI
         $this->capabilities = $capability_builder->get($capability_context);
     }
 
+    protected function recordReadEvent(): void
+    {
+        // Record read event and catchup with write events
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+        $this->updateLearningProgress();
+    }
+
     protected function updateLearningProgress(): void
     {
         if ($this->object->getLPMode() === ilLPObjSettings::LP_MODE_CONTENT_VISITED) {
@@ -167,7 +180,6 @@ class ilObjFileGUI extends ilObject2GUI
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
-        $ilCtrl = $DIC['ilCtrl'];
         $ilUser = $DIC['ilUser'];
         $ilTabs = $DIC['ilTabs'];
         $ilErr = $DIC['ilErr'];
@@ -178,7 +190,7 @@ class ilObjFileGUI extends ilObject2GUI
         if (
             !$this->getCreationMode()
             && (
-                $this->id_type == self::REPOSITORY_NODE_ID
+                $this->id_type === self::REPOSITORY_NODE_ID
                 && $this->capabilities->get(Capabilities::DOWNLOAD)->isUnlocked()
             )) {
             // add entry to navigation history
@@ -294,11 +306,11 @@ class ilObjFileGUI extends ilObject2GUI
                 };
 
                 $this->tabs_gui->activateTab('content');
-                $this->updateLearningProgress();
+                $this->recordReadEvent();
 
                 if ($this->id_type === Context::CONTEXT_WORKSPACE) {
                     $goto_link = ilWorkspaceAccessHandler::getGotoLink(
-                        $this->object->getRefId(),
+                        $this->node_id,
                         $this->object->getId()
                     );
                 } else {
@@ -310,7 +322,8 @@ class ilObjFileGUI extends ilObject2GUI
                     $action,
                     $this->stakeholder,
                     new URI($goto_link),
-                    $capability->getCapability() === Capabilities::VIEW_EXTERNAL
+                    $capability->getCapability() === Capabilities::VIEW_EXTERNAL,
+                    $this->lng->getLangKey()
                 );
 
                 $this->ctrl->forwardCommand(
@@ -494,14 +507,14 @@ class ilObjFileGUI extends ilObject2GUI
 
         $errors = false;
         foreach ($files as $file_data) {
-            $rid = $this->storage->manage()->find($file_data[$this->upload_handler->getFileIdentifierParameterName()]);
+            $rid = $this->storage->manage()->find($file_data[0]);
             if (null !== $rid) {
                 try {
                     $processor->process(
                         $rid,
-                        $file_data[self::PARAM_TITLE] ?? null,
-                        $file_data[self::PARAM_DESCRIPTION] ?? null,
-                        $data[self::PARAM_COPYRIGHT_ID] ?? $data[1] ?? null
+                        $file_data[1][self::PARAM_TITLE] ?? null,
+                        $file_data[1][self::PARAM_DESCRIPTION] ?? null,
+                        $data[self::PARAM_COPYRIGHT_ID] ?? null
                     );
                 } catch (Throwable $t) {
                     $errors = true;
@@ -662,7 +675,7 @@ class ilObjFileGUI extends ilObject2GUI
             "title_and_description" => $title_and_description,
             "important_info" => $important_info,
             "on_click_action" => $on_click_action
-        ], static fn($input): bool => null !== $input);
+        ], static fn(FormInput $input): bool => null !== $input);
 
         $file_info_section = $this->inputs->field()->section(
             $input_groups,
@@ -713,7 +726,7 @@ class ilObjFileGUI extends ilObject2GUI
             "availability" => $availability_section,
             "presentation" => $presentation_section,
             "obj_features" => $additional_features_section
-        ], static fn($input): bool => null !== $input);
+        ], static fn(?Section $input): bool => null !== $input);
 
         return $this->inputs->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, 'update'),
@@ -733,13 +746,7 @@ class ilObjFileGUI extends ilObject2GUI
 
             if ($this->capabilities->get(Capabilities::DOWNLOAD)->isUnlocked()) {
                 // Record read event and catchup with write events
-                ilChangeEvent::_recordReadEvent(
-                    $this->object->getType(),
-                    $this->object->getRefId(),
-                    $this->object->getId(),
-                    $this->user->getId()
-                );
-                $this->updateLearningProgress();
+                $this->recordReadEvent();
 
                 $this->object->sendFile($hist_entry_id);
             } else {

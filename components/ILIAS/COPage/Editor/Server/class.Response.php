@@ -18,22 +18,16 @@
 
 namespace ILIAS\COPage\Editor\Server;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class Response
 {
-    /**
-     * @var array|\stdClass
-     */
-    protected $data = [];
+    protected array|\stdClass $data = [];
 
     protected \ILIAS\HTTP\Services $http;
 
     /**
      * @param array|\stdClass $data
      */
-    public function __construct($data)
+    public function __construct(array|\stdClass $data)
     {
         global $DIC;
 

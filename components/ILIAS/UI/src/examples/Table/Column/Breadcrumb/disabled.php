@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+namespace ILIAS\UI\examples\Table\Column\Breadcrumb;
+
+use ILIAS\Data\Range;
+use ILIAS\Data\Order;
+use ILIAS\UI\Component\Table\DataRowBuilder;
+use ILIAS\UI\Component\Table\DataRetrieval;
+
+/**
+ * ---
+ * description: >
+ *   A table where the second breadcrumb item is disabled.
+ *
+ * expected output: >
+ *   ILIAS shows a table with one column and one row.
+ *   The row consists of one clickable and one non-clickable link separated by a
+ *   visible delimiter such as simple arrow (>).
+ * ---
+ */
+function disabled()
+{
+    global $DIC;
+
+    $data_retrieval = new class () implements DataRetrieval {
+        public function getRows(
+            DataRowBuilder $row_builder,
+            array $visible_column_ids,
+            Range $range,
+            Order $order,
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
+        ): \Generator {
+            global $DIC;
+            yield $row_builder->buildDataRow('dummy', [
+                'object' => $DIC->ui()->factory()->breadcrumbs([
+                    $DIC->ui()->factory()->link()->standard('Repository', '/'),
+                    $DIC->ui()->factory()->link()->standard('Course', '/login.php')->withDisabled(true),
+                ]),
+            ]);
+        }
+
+        public function getTotalRowCount(
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
+        ): ?int {
+            return 1;
+        }
+    };
+
+    $columns = [
+        'object' => $DIC->ui()->factory()->table()->column()->breadcrumb('Object'),
+    ];
+
+    $table = $DIC->ui()->factory()->table()->data($data_retrieval, 'Test disabled Breadcrumb Column', $columns)
+        ->withRequest($DIC->http()->request());
+
+    return $DIC->ui()->renderer()->render($table);
+}

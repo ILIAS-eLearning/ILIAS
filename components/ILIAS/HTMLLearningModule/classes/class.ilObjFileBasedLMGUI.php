@@ -22,6 +22,7 @@ use ILIAS\components\ResourceStorage\Container\View\Configuration;
 use ILIAS\components\ResourceStorage\Container\View\Mode;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTMLLearningModule\ContainerView\HTMLModuleViewConfig;
 
 /**
  * User Interface class for file based learning modules (HTML)
@@ -106,15 +107,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $check_access = $this->access->checkAccess('write', '', $this->object->getRefId());
 
                 // Build the view configuration
-                $view_configuration = new Configuration(
+                $view_configuration = (new HTMLModuleViewConfig(
                     $this->object->getResource(),
-                    new ilHTLMStakeholder(),
                     $this->lng->txt('files'),
-                    Mode::DATA_TABLE,
-                    250,
                     $check_access,
-                    $check_access
-                );
+                    $this->object->getStartFile(),
+                    $this->lng->txt('start_file'),
+                ))->getConfiguration();
 
                 // Add a single action for text-files to set as startfile
                 $view_configuration = $view_configuration->withExternalAction(
@@ -431,7 +430,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         } else {
             $this->object->setStartFile($start_file);
             $this->object->update();
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('cont_start_file_set'), true);
+            $this->tpl->setOnScreenMessage('success', sprintf($this->lng->txt('cont_start_file_set_to'), $start_file), true);
         }
 
         $this->ctrl->redirectByClass(ilContainerResourceGUI::class);

@@ -110,8 +110,9 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $this->initSortingAndOrdering($range, $order);
 
@@ -144,7 +145,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
 
         $start = $range->getStart();
         $length = $range->getLength();
-        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, \RoundingMode::HalfTowardsZero));
+        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, PHP_ROUND_HALF_DOWN));
         $this->data_provider->getViewRequest()->setItemsPerPage($length);
 
         switch ($sort_field . '_' . $sort_direction) {
@@ -169,8 +170,11 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return $this->data_provider->getTotal();
     }
 }

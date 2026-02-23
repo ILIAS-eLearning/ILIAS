@@ -196,7 +196,7 @@ class FilterInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testRenderMultiSelectWithFilterContext(): void
+    public function testRenderMultiSelectWithHasOptionFilter(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -213,9 +213,9 @@ class FilterInputTest extends ILIAS_UI_TestBase
                 <span role="button" tabindex="0" class="form-control il-filter-field" id="id_3" data-placement="bottom"></span>
                 <div class="il-standard-popover-content" style="display:none;" id="id_1"></div>
                 <span class="input-group-addon rightaddon">
-                    <a class="glyph" href="" aria-label="remove" id="id_4">
+                    <span class="glyph" aria-label="remove" role="img" id="id_4">
                         <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                    </a>
+                    </span>
                 </span>
             </div>
             {POPOVER}

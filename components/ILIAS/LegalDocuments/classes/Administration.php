@@ -48,6 +48,8 @@ use ILIAS\LegalDocuments\Legacy\Confirmation;
 use ilObjUserFolderGUI;
 use ILIAS\LegalDocuments\Value\DocumentContent;
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\User\Settings\Administration\SettingsGUI;
+use ilAdministrationGUI;
 
 class Administration
 {
@@ -323,6 +325,11 @@ class Administration
             $group = $group->withValue($value);
         }
 
+        $this->ui->mainTemplate()->setOnScreenMessage(
+            $this->ui->mainTemplate()::MESSAGE_TYPE_INFO,
+            $this->ui->txt('form_criterion_standard_fields_info_text')
+        );
+
         $title = $this->ui->create()->input()->field()->text($this->ui->txt('form_document'))->withValue($document->content()->title())->withDisabled(true);
 
         $section = $this->ui->create()->input()->field()->section([
@@ -429,12 +436,15 @@ class Administration
      */
     public function documentForm(Closure $link, string $title, Closure $document_content, bool $may_be_new): Form
     {
+        $field = $this->ui->create()->input()->field();
         $edit_link = $link('editDocument');
         $content_title = $may_be_new ? 'form_document' : 'form_document_new';
 
-        $section = $this->ui->create()->input()->field()->section([
-            'title' => $this->ui->create()->input()->field()->text($this->ui->txt('title'))->withRequired(true)->withValue($title),
-            'content' => $this->ui->create()->input()->field()->file(new UploadHandler($link, $document_content, $this->ui->txt(...)), $this->ui->txt($content_title))->withAcceptedMimeTypes([
+        $require = $this->container->refinery()->custom()->constraint(fn($x) => (bool) $x, $this->ui->txt('title_required'));
+
+        $section = $field->section([
+            'title' => $field->text($this->ui->txt('title'))->withRequired(true, $require)->withValue($title),
+            'content' => $field->file(new UploadHandler($link, $document_content, $this->ui->txt(...)), $this->ui->txt($content_title))->withAcceptedMimeTypes([
                 'text/html',
                 'text/plain',
             ])->withRequired($may_be_new),
@@ -527,10 +537,13 @@ class Administration
             return $message_box;
         }
 
+        $this->container->language()->loadLanguageModule('administration');
+
+        $this->container->ctrl()->setParameterByClass(SettingsGUI::class, 'ref_id', (string) USER_FOLDER_ID);
         return $message_box->withLinks([
             $this->ui->create()->link()->standard(
                 $this->ui->txt('adm_external_setting_edit'),
-                $this->willLinkWith(ilObjUserFolderGUI::class, ['ref_id' => (string) USER_FOLDER_ID])('generalSettings')
+                $this->container->ctrl()->getLinkTargetByClass([ilAdministrationGUI::class, ilObjUserFolderGUI::class, SettingsGUI::class], 'show')
             )
         ]);
     }

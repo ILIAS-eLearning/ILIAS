@@ -24,14 +24,15 @@ use ILIAS\Data\URI;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Component;
 use ILIAS\Contact\BuddySystem\Tables\RelationsTable;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
 * @author Jens Conze
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+* @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ILIAS\User\Profile\PublicProfileGUI
 */
-class ilContactGUI
+class ilContactGUI implements ilCtrlSecurityInterface
 {
     final public const string CONTACTS_VIEW_GALLERY = 'buddy_view_gallery';
     final public const string CONTACTS_VIEW_TABLE = 'buddy_view_table';
@@ -85,9 +86,22 @@ class ilContactGUI
             $this->ui_factory,
             $this->lng,
             $DIC->uiService(),
-            $this->http
+            $this->http,
+            $this->linkToProfile(...)
         );
         $this->lng->loadLanguageModule('buddysystem');
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+          'updateState'
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     public function executeCommand(): bool
@@ -96,7 +110,7 @@ class ilContactGUI
 
         $forward_class = $this->ctrl->getNextClass($this) ?? '';
 
-        $this->umail->persistToStage($this->user->getId(), [], '', '', '', '', '', false);
+        $this->umail->persistToStage($this->user->getId(), '', '', '', '', '', null, false);
 
         switch (strtolower($forward_class)) {
             case strtolower(ilMailSearchCoursesGUI::class):
@@ -131,8 +145,8 @@ class ilContactGUI
                 $this->tpl->printToStdout();
                 break;
 
-            case strtolower(ilPublicUserProfileGUI::class):
-                $profile_gui = new ilPublicUserProfileGUI(
+            case strtolower(PublicProfileGUI::class):
+                $profile_gui = new PublicProfileGUI(
                     $this->http->wrapper()->query()->retrieve('user', $this->refinery->kindlyTo()->int())
                 );
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));
@@ -419,12 +433,12 @@ class ilContactGUI
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->persistToStage(
                 (int) $mail_data['user_id'],
-                $mail_data['attachments'],
                 $mail_data['rcp_to'],
                 $mail_data['rcp_cc'],
                 $mail_data['rcp_bcc'],
                 $mail_data['m_subject'],
                 $mail_data['m_message'],
+                $mail_data['attachments'],
                 $mail_data['use_placeholders'],
                 $mail_data['tpl_ctx_id'],
                 $mail_data['tpl_ctx_params']
@@ -624,5 +638,21 @@ class ilContactGUI
             $url->withParameter($p, $param),
             $token
         );
+    }
+
+    private function linkToProfile(int $user, string $label): string
+    {
+        $public_profile = ilObjUser::_lookupPref($user, 'public_profile');
+        if (($this->user->isAnonymous() || $public_profile !== 'y') && $public_profile !== 'g') {
+            return $label;
+        }
+
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'user', (string) $user);
+        $profile_target = $this->ctrl->getLinkTargetByClass(
+            PublicProfileGUI::class,
+            'getHTML'
+        );
+
+        return $this->ui_renderer->render($this->ui_factory->link()->standard($label, $profile_target));
     }
 }

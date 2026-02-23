@@ -356,23 +356,14 @@ export default class Metabar {
     }
   }
 
-  /**
-   * @return {void}
-   */
   getMoreButton() {
     return this.#jquery(`.${classForMoreBtn}`);
   }
 
-  /**
-   * @return {void}
-   */
   #getMoreSlate() {
     return this.#jquery(`.${classForMoreSlate}`);
   }
 
-  /**
-   * @return {void}
-   */
   #getMetabarEntries() {
     return this.#jquery(`#${this.#id}.${classForEntries}`)
       .children('li').children('.btn, .il-link')

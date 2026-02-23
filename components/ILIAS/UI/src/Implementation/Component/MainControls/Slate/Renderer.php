@@ -34,6 +34,9 @@ class Renderer extends AbstractComponentRenderer
             $this->cannotHandleComponent($component);
         }
 
+        /** @var $component ISlate\slate */
+        $component = $this->addTriggererOnLoadCode($component);
+
         switch (true) {
             case ($component instanceof ISlate\Notification):
                 return $this->renderNotificationSlate($component, $default_renderer);

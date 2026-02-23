@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Resources\UI;
 
-use ILIAS\UI\Factory;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -30,20 +30,21 @@ use ILIAS\components\ResourceStorage\Resources\Listing\ViewDefinition;
 use ILIAS\components\ResourceStorage\Resources\UI\Actions\ActionGenerator;
 use ILIAS\components\ResourceStorage\Resources\UI\Actions\NullActionGenerator;
 use ILIAS\UI\Component\Table\PresentationRow;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 class ResourceListingUI
 {
-    public const P_RESOURCE_ID = 'resource_id';
-    public const P_PAGE = 'page';
-    public const P_SORTATION = 'sort';
+    public const P_RESOURCE_ID = 'irss:resource_id';
+    public const P_PAGE = 'irss_page';
+    public const P_SORTATION = 'irss_sort';
 
     private \ilUIFilterService $filter_service;
     private \ilCtrlInterface $ctrl;
-    private Factory $ui_factory;
-    private \ILIAS\Refinery\Factory $refinery;
+    private UIFactory $ui_factory;
+    private Refinery $refinery;
     private ArrayBasedRequestWrapper $query;
     private \ilLanguage $language;
     private array $components = [];

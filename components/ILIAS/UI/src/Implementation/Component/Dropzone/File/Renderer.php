@@ -37,6 +37,9 @@ class Renderer extends AbstractComponentRenderer
 {
     public function render(Component $component, RenderInterface $default_renderer): string
     {
+        if ($component instanceof \ILIAS\UI\Component\Triggerer) {
+            $component = $this->addTriggererOnLoadCode($component);
+        }
         if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Wrapper) {
             return $this->renderWrapper($component, $default_renderer);
         }

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Modal\Interruptive;
 
+use ILIAS\UI\Component\Panel\Standard;
+
 /**
  * ---
  * description: >
@@ -64,9 +66,10 @@ function show_modal_on_button_click()
         $request_wrapper->retrieve('modal_nr', $refinery->kindlyTo()->string()) === '1'
     ) {
         $out[] = $post_wrapper->retrieve('interruptive_items', $refinery->custom()->transformation(
-            function ($item_keys) use ($factory, $post_wrapper) {
-                return $factory->panel()->standard('Items deleted', $factory->legacy("Number of items deleted: ".count($item_keys)));
-            }
+            static fn(array $item_keys): Standard => $factory->panel()->standard(
+                'Items deleted',
+                $factory->legacy()->content('Number of items deleted: ' . count($item_keys))
+            )
         ));
     }
 

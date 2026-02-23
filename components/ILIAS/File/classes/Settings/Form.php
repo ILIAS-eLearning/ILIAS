@@ -58,8 +58,9 @@ class Form
             ->withValue($this->settings->getDownloadLimitinMB())
             ->withRequired(true)
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value): void {
+                $this->refinery->custom()->transformation(function ($value) {
                     $this->settings->setDownloadLimitInMB($value);
+                    return $value;
                 })
             );
 
@@ -71,8 +72,9 @@ class Form
             )
             ->withValue($this->settings->getInlineFileExtensions())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value): void {
+                $this->refinery->custom()->transformation(function ($value) {
                     $this->settings->setInlineFileExtensions($value);
+                    return $value;
                 })
             );
 
@@ -84,8 +86,9 @@ class Form
             ->withValue($this->settings->isShowAmountOfDownloads())
             ->withAdditionalTransformation(
                 $this->refinery->custom()->transformation(
-                    function ($value): void {
+                    function ($value) {
                         $this->settings->setShowAmountOfDownloads($value);
+                        return $value;
                     }
                 )
             );
@@ -97,8 +100,9 @@ class Form
             )
             ->withValue($this->settings->isDownloadWithAsciiFileName())
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value): void {
+                $this->refinery->custom()->transformation(function ($value) {
                     $this->settings->setDownloadWithAsciiFileName($value);
+                    return $value;
                 })
             );
 

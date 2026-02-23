@@ -83,4 +83,6 @@ interface JobRepository
     ): void;
 
     public function findAll(): JobCollection;
+
+    public function getEntityById(string $id): ?JobEntity;
 }

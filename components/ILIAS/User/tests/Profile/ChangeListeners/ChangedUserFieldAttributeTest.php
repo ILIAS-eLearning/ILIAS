@@ -18,8 +18,10 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\User\Tests;
+namespace ILIAS\User\Tests\Profile\ChangeListeners;
 
+use ILIAS\User\Tests\BaseTestCase;
+use ILIAS\User\PropertyAttributes;
 use ILIAS\User\Profile\ChangeListeners\ChangedUserFieldAttribute;
 
 /**
@@ -33,24 +35,24 @@ class ChangedUserFieldAttributeTest extends BaseTestCase
     protected function setUp(): void
     {
         $this->changedUserFieldAttribute = new ChangedUserFieldAttribute(
-            "AttributeName",
-            "oldValue",
-            "newValue"
+            PropertyAttributes::VisibleToUser,
+            false,
+            true
         );
     }
 
     public function testGetAttributeName(): void
     {
-        $this->assertEquals("AttributeName", $this->changedUserFieldAttribute->getAttributeName());
+        $this->assertEquals(PropertyAttributes::VisibleToUser, $this->changedUserFieldAttribute->getAttribute());
     }
 
     public function testGetOldValue(): void
     {
-        $this->assertEquals("oldValue", $this->changedUserFieldAttribute->getOldValue());
+        $this->assertEquals(false, $this->changedUserFieldAttribute->getOldValue());
     }
 
     public function testGetNewValue(): void
     {
-        $this->assertEquals("newValue", $this->changedUserFieldAttribute->getNewValue());
+        $this->assertEquals(true, $this->changedUserFieldAttribute->getNewValue());
     }
 }

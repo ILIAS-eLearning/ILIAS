@@ -23,7 +23,7 @@ use ILIAS\StaticURL\Response\Response;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Handler\BaseHandler;
 use ILIAS\File\Capabilities\CapabilityBuilder;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
 use ILIAS\File\Capabilities\Capabilities;
 
 /**

@@ -22,6 +22,7 @@ use ILIAS\DI\UIServices;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
@@ -542,7 +543,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
             $ctrl_path[] = "ildashboardgui";
         }
         $ctrl_path[] = "ilCalendarPresentationGUI";
-        $ctrl_path[] = "ilpublicuserprofilegui";
+        $ctrl_path[] = PublicProfileGUI::class;
 
         return ilUserUtil::getNamePresentation(
             $a_user_id,

@@ -56,7 +56,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -80,7 +80,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
     {
         $rbac_system = $this->rbac_system;
 
-        if ($rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "cont_edit_lrs_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * @ilCtrl_Calls ilLogoutPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilLogoutPageGUI: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilLogoutPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilLogoutPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  */
 class ilLogoutPageGUI extends ilPageObjectGUI

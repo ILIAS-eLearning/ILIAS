@@ -39,6 +39,9 @@ class Renderer extends AbstractComponentRenderer
             $this->cannotHandleComponent($component);
         }
 
+        /** @var $component Component\Card\Card */
+        $component = $this->addTriggererOnLoadCode($component);
+
         $tpl = $this->getTemplate("tpl.card.html", true, true);
 
         $title = $component->getTitle();

@@ -1,5 +1,3 @@
-/* global il */
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ******************************************************************** */
+ *********************************************************************/
 
 const ilNotes = {
   hash: '',
@@ -30,9 +28,6 @@ const ilNotes = {
     // prevent the default action
     e.preventDefault();
     e.stopPropagation(); // #11546 - list properties not working
-
-    // hide overlays
-    // il.Overlay.hideAllOverlays(e, true);
 
     this.hash = hash;
     this.update_code = update_code;
@@ -65,9 +60,6 @@ const ilNotes = {
     // prevent the default action
     e.preventDefault();
     e.stopPropagation(); // #11546 - list properties not working
-
-    // hide overlays
-    // il.Overlay.hideAllOverlays(e, true);
 
     this.hash = hash;
     this.update_code = update_code;

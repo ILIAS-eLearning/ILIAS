@@ -58,8 +58,9 @@ class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords($order, $range);
         foreach ($records as $record) {
@@ -72,8 +73,9 @@ class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->getTemplates());
     }
@@ -127,12 +129,11 @@ class ilDidacticTemplateSettingsTableDataRetrieval implements DataRetrieval
             foreach ($tpl->getAssignments() as $obj_type) {
                 $icon_label = $this->lng->txt('objs_' . $obj_type);
             }
-            if ($icon_path) {
-                $icon = $this->ui_factory->symbol()->icon()->custom(
-                    $icon_path,
-                    $icon_label
-                );
-            }
+
+            $icon = ($icon_path !== "") ? $this->ui_factory->symbol()->icon()->custom(
+                $icon_path,
+                $icon_label
+            ) : null;
 
             $icon_active = $this->ui_factory->symbol()->icon()->custom(
                 $tpl->isEnabled() ?

@@ -22,6 +22,7 @@ use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Implementation\Component;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 require_once(__DIR__ . "/../../../../../../../../vendor/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
@@ -92,7 +93,7 @@ class FieldBranchNodeTest extends \ILIAS_UI_TestBase
 
         [$child_node_stub, $child_node_html] = $this->createSimpleRenderingStub(Field\Node\Leaf::class);
 
-        $component = $this->getNodeFactory()->branch($node_id, $node_name, null, $child_node_stub);
+        $component = $this->getNodeFactory()->branch([$node_id], $node_name, null, $child_node_stub);
         $renderer = $this->getDefaultRenderer(null, [$child_node_stub]);
 
         $expected = <<<HTML
@@ -119,7 +120,7 @@ HTML;
 
     public function testRenderWithoutChildren(): void
     {
-        $component = $this->getNodeFactory()->branch('', '');
+        $component = $this->getNodeFactory()->branch([''], '');
         $renderer = $this->getDefaultRenderer();
 
         $actual = $renderer->render($component);
@@ -131,7 +132,7 @@ HTML;
     {
         [$icon_stub, $icon_html] = $this->createSimpleRenderingStub(Component\Symbol\Icon\Custom::class);
 
-        $component = $this->getNodeFactory()->branch('', '');
+        $component = $this->getNodeFactory()->branch([''], '');
         $renderer = $this->getDefaultRenderer(null, [$icon_stub]);
 
         $actual = $renderer->render($component);
@@ -147,12 +148,44 @@ HTML;
         $this->icon_factory->expects($this->once())->method('standard');
         $this->icon_stub->expects($this->once())->method('withAbbreviation')->with($first_node_name_letter);
 
-        $component = $this->getNodeFactory()->branch('', $node_name);
+        $component = $this->getNodeFactory()->branch([''], $node_name);
         $renderer = $this->getDefaultRenderer();
 
         $actual = $renderer->render($component);
 
         $this->assertTrue(str_contains($actual, $this->icon_html));
+    }
+
+    protected function testConstructorWithValidNodePath(): void
+    {
+        $root_node_id = 0;
+        $level_one_node_id = 1;
+        $level_two_node_id = 2;
+        $parent_ids = [$root_node_id, $level_one_node_id];
+        $full_node_path = [...$parent_ids, $level_two_node_id];
+
+        $node = $this->getNodeFactory()->branch($full_node_path, "");
+
+        $this->assertEquals($full_node_path, $node->getFullPath());
+        $this->assertEquals($parent_ids, $node->getParentIds());
+        $this->assertEquals($level_two_node_id, $node->getId());
+    }
+
+    #[DataProvider('provideInvalidNodePaths')]
+    protected function testConstructorWithInvalidNodePath(array $path): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->getNodeFactory()->branch($path, "");
+    }
+
+    public static function provideInvalidNodePaths(): array
+    {
+        return [
+            [1.0],
+            [false],
+            [null],
+            [],
+        ];
     }
 
     protected function getNodeFactory(): Field\Node\Factory

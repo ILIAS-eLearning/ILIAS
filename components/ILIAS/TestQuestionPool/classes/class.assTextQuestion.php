@@ -410,7 +410,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         $text = $this->questionpool_request->string('TEXT', '');
 
-        $text = ilObjAdvancedEditing::_getRichTextEditor() === 'tinymce'
+        $text = (new ilRTESettings($this->lng, $this->current_user))->getRichTextEditor() === 'tinymce'
             ? ilUtil::stripSlashes($text, false)
             : htmlentities($text);
 

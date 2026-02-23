@@ -228,6 +228,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
         $this->notes->domain()->activateComments($this->getId(), $this->getPublicNotes());
 
+        parent::createMetaData();
+
         return $id;
     }
 
@@ -268,6 +270,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page->create();
         }
         $this->notes->domain()->activateComments($this->getId(), $this->getPublicNotes());
+
+        parent::updateMetaData();
 
         return true;
     }
@@ -321,6 +325,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         ilNotification::removeForObject(ilNotification::TYPE_WIKI, $this->getId());
 
         ilWikiPage::deleteAllPagesOfWiki($this->getId());
+
+        parent::deleteMetaData();
 
         return true;
     }
@@ -394,11 +400,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         return (bool) self::_lookup($a_wiki_id, "link_md_values");
     }
 
-    /**
-     * Lookup a data field
-     * @return mixed
-     */
-    private static function _lookup(int $a_wiki_id, string $a_field)
+    private static function _lookup(int $a_wiki_id, string $a_field): ?string
     {
         global $DIC;
 
@@ -578,6 +580,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $new_rc->setDescription((string) $rc["description"]);
             $new_rc->save();
         }
+
+        parent::cloneMetaData($new_obj);
 
         return $new_obj;
     }

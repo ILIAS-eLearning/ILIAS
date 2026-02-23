@@ -19,6 +19,7 @@
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
+
 namespace ILIAS\File\Capabilities;
 
 use ILIAS\Data\URI;
@@ -34,7 +35,7 @@ class Capability
 
     public function __construct(
         private Capabilities $capability,
-         Permissions ... $permissions
+        Permissions ... $permissions
     ) {
         $this->permissions = $permissions;
     }

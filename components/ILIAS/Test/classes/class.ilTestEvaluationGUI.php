@@ -56,7 +56,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $this->processLockerFactory = new ilTestProcessLockerFactory(
             new ilSetting('assessment'),
-            $this->db
+            $this->db,
+            $this->object->getTestLogger()
         );
     }
 
@@ -161,6 +162,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function showResults(): void
     {
+        $this->setCss();
         $this->ctrl->saveParameterByClass(self::class, 'active_ids');
         $selected_active_ids = explode(',', $this->testrequest->strVal('active_ids'));
 
@@ -850,11 +852,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if ($for_print) {
             $signal = $results_presentation_table->getExpandAllSignal();
+            $signal_options = json_encode(['options' => $signal->getOptions()]);
             $results_presentation_table = [
                 $results_presentation_table,
-                $this->ui_factory->legacy('')->withAdditionalOnLoadCode(
-                    fn(string $id): string => "$(document).trigger('{$signal->getId()}',"
-                        . '{"options" : ' . json_encode($signal->getOptions()) . '}); '
+                $this->ui_factory->legacy()->content('')->withAdditionalOnLoadCode(
+                    static fn(string $id): string => "$(document).trigger('{$signal->getId()}', $signal_options);"
                 )
             ];
         }

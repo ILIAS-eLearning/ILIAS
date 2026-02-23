@@ -31,7 +31,7 @@ class ToolbarNavigationRenderer
     protected int $portfolio_page;
     protected int $blog_page;
     protected \ILIAS\Blog\Presentation\Util $util;
-    protected $current_month;
+    protected string $current_month;
     protected \ilCtrl $ctrl;
     protected PermissionManager $blog_access;
     protected InternalDomainService $domain;
@@ -50,7 +50,7 @@ class ToolbarNavigationRenderer
         array $a_items,
         int $blog_page,
         bool $single_posting,
-        $month,
+        string $month,
         int $portfolio_page
     ): void {
 
@@ -160,6 +160,9 @@ class ToolbarNavigationRenderer
         $next_blpg = 0;
         foreach ($this->items as $month => $items) {
             foreach ($items as $item) {
+                if (!$this->blog_access->isActive((int) $item["id"])) {
+                    continue;
+                }
                 if ($item["id"] == $blog_page) {
                     $found = true;
                 }
@@ -179,6 +182,9 @@ class ToolbarNavigationRenderer
         $prev_blpg = 0;
         foreach ($this->items as $month => $items) {
             foreach ($items as $item) {
+                if (!$this->blog_access->isActive((int) $item["id"])) {
+                    continue;
+                }
                 if ($found && $prev_blpg === 0) {
                     $prev_blpg = (int) $item["id"];
                 }
@@ -295,6 +301,9 @@ class ToolbarNavigationRenderer
                 $this->getMonthTarget($month)
             )->withUnavailableAction();
             foreach ($items as $item) {
+                if (!$this->blog_access->isActive((int) $item["id"])) {
+                    continue;
+                }
                 $label = $item["title"];
                 if ((int) $item["id"] === $this->blog_page) {
                     $label = "» " . $label;

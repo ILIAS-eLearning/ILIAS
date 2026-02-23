@@ -184,14 +184,14 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                 <button type="button" aria-expanded="false" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="0">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -245,9 +245,9 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <a class="glyph" href="" aria-label="remove" id="id_12">
+                        <span class="glyph" aria-label="remove" role="img" id="id_12">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </a>
+                        </span>
                     </span>
                 </div>
             </div>
@@ -322,14 +322,14 @@ EOT;
                 <button type="button" aria-expanded="false" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="0">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -383,9 +383,9 @@ EOT;
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <a class="glyph" href="" aria-label="remove" id="id_12">
+                        <span class="glyph" aria-label="remove" role="img" id="id_12">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </a>
+                        </span>
                     </span>
                 </div>
             </div>
@@ -460,14 +460,14 @@ EOT;
                 <button type="button" aria-expanded="true" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="1">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -521,9 +521,9 @@ EOT;
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <a class="glyph" href="" aria-label="remove" id="id_12">
+                        <span class="glyph" aria-label="remove" role="img" id="id_12">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </a>
+                        </span>
                     </span>
                 </div>
             </div>
@@ -598,14 +598,14 @@ EOT;
                 <button type="button" aria-expanded="true" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="1">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -631,9 +631,9 @@ EOT;
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
                     <input id="id_5" type="text" name="filter_input_0/filter_input_1" class="c-field-text" />
                     <span class="input-group-addon rightaddon">
-                        <a class="glyph" href="" aria-label="remove" id="id_6">
-                            <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </a>
+                    <a class="glyph" href="" aria-label="remove" id="id_6">
+                        <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+                    </a>
                     </span>
                 </div>
             </div>
@@ -659,9 +659,9 @@ EOT;
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_11" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
                     <span class="input-group-addon rightaddon">
-                        <a class="glyph" href="" aria-label="remove" id="id_12">
+                        <span class="glyph" aria-label="remove" role="img" id="id_12">
                             <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                        </a>
+                        </span>
                     </span>
                 </div>
             </div>

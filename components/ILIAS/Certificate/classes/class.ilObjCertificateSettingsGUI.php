@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\ResourceStorage\Services as IRSS;
 use ILIAS\Certificate\Overview\CertificateOverviewTable;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Flavour\Definition\FitToSquare;
 
 /**
  * Certificate Settings.
@@ -44,6 +45,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     private readonly ilLogger $logger;
     private readonly ilUserCertificateRepository $user_certificate_repo;
     private readonly ilCertificateActiveValidator $certificate_active_validator;
+    private readonly FitToSquare $card_thumbnail_definition;
 
     public function __construct(
         $data,
@@ -66,6 +68,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('trac');
 
         $this->irss = $DIC->resourceStorage();
+
+        $this->card_thumbnail_definition = new FitToSquare(
+            true,
+            100
+        );
 
         $this->user_certificate_repo = $user_certificate_repo ?: new ilUserCertificateRepository();
         $this->certificate_active_validator = $certificate_active_validator ?: new ilCertificateActiveValidator();
@@ -110,7 +117,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'settings'),
@@ -182,9 +189,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         if ($this->object->hasBackgroundImage()) {
             $rid = $this->object->getBackgroundImageIdentification();
             if ($rid instanceof ResourceIdentification) {
-                $bgimage->setImage($this->irss->consume()->src($rid)->getSrc(true));
-            } elseif (is_string($rid)) {
-                $bgimage->setImage($rid);
+                $background_flavour = $this->irss->flavours()->get(
+                    $rid,
+                    $this->card_thumbnail_definition
+                );
+                $flavour_urls = $this->irss->consume()->flavourUrls($background_flavour);
+                foreach ($flavour_urls->getURLs(true) as $url) {
+                    /** @var string $url */
+                    $bgimage->setImage($url);
+                }
             }
         }
         $bgimage->setInfo($this->lng->txt('default_background_info'));
@@ -264,10 +277,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
     public function downloadCertificate(): void
     {
-        if (
-            !$this->certificate_active_validator->validate() ||
-            !$this->rbac_system->checkAccess('read', $this->object->getRefId())
-        ) {
+        if (!$this->certificate_active_validator->validate() ||
+            !$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
         }
 
@@ -287,26 +298,23 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $certificate_id = $certificate_id[array_key_first($certificate_id)];
 
         try {
-            $user_certificate = $this->user_certificate_repo->fetchCertificate($certificate_id);
-            if (!$user_certificate->isCurrentlyActive()) {
+            $certificate = $this->user_certificate_repo->fetchCertificate($certificate_id);
+            if (!$certificate->isCurrentlyActive()) {
                 throw new Exception('Certificate is not active');
             }
+
+            $pdf_action = (new ilCertificatePdfAction(
+                (new ilPdfGenerator($this->user_certificate_repo))->withLogger($this->logger),
+                new ilCertificateUtilHelper(),
+                $this->lng->txt('error_creating_certificate_pdf')
+            ))->withLogger($this->logger);
+            $pdf_action->downloadPdf($certificate->getUserId(), $certificate->getObjId());
+            $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
         } catch (Exception $ex) {
             $this->logger->error('Fetching user certificate for download failed. Ex.: ' . $ex->getMessage());
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'), true);
             $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
         }
-
-        $pdf_generator = new ilPdfGenerator($this->user_certificate_repo);
-
-        $pdf_action = new ilCertificatePdfAction(
-            $pdf_generator,
-            new ilCertificateUtilHelper(),
-            $this->lng->txt('error_creating_certificate_pdf')
-        );
-
-        $pdf_action->downloadPdf($user_certificate->getUserId(), $user_certificate->getObjId());
-        $this->ctrl->redirect($this, self::CMD_CERTIFICATES_OVERVIEW);
     }
 
     public function save(): void

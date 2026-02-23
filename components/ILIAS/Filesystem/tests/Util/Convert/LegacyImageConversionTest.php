@@ -37,18 +37,16 @@ class LegacyImageConversionTest extends TestCase
     }
 
 
-    public static function someDefinitions(): array
+    public static function someDefinitions(): \Iterator
     {
-        return [
-            [100, 100, 'jpg', 'image/jpeg'],
-            [256, 25, 'jpg', 'image/jpeg'],
-            [1024, 5, 'jpg', 'image/jpeg'],
-            [128, 10, 'jpg', 'image/jpeg'],
-            [895, 22, 'png', 'image/png'],
-            [86, 4, 'png', 'image/png'],
-            [147, 8, 'png', 'image/png'],
-            [1000, 10, 'png', 'image/png'],
-        ];
+        yield [100, 100, 'jpg', 'image/jpeg'];
+        yield [256, 25, 'jpg', 'image/jpeg'];
+        yield [1024, 5, 'jpg', 'image/jpeg'];
+        yield [128, 10, 'jpg', 'image/jpeg'];
+        yield [895, 22, 'png', 'image/png'];
+        yield [86, 4, 'png', 'image/png'];
+        yield [147, 8, 'png', 'image/png'];
+        yield [1000, 10, 'png', 'image/png'];
     }
 
     #[DataProvider('someDefinitions')]
@@ -80,9 +78,9 @@ class LegacyImageConversionTest extends TestCase
             $expected_quality = 0;
         }
 
-        $this->assertEquals($expected_quality, $test_image->getImageCompressionQuality());
-        $this->assertEquals($expected_height, $test_image->getImageHeight());
-        $this->assertEquals((int) round($expected_height * 0.75), $test_image->getImageWidth());
+        $this->assertSame($expected_quality, $test_image->getImageCompressionQuality());
+        $this->assertSame($expected_height, $test_image->getImageHeight());
+        $this->assertSame((int) round($expected_height * 0.75), $test_image->getImageWidth());
         unlink($temp_file);
     }
 

@@ -26,24 +26,11 @@ final class ilObjEmployeeTalk extends ilObject
 {
     public const string TYPE = 'etal';
 
-    /**
-     * @var int
-     */
     private static int $root_ref_id = -1;
-    /**
-     * @var int
-     */
     private static int $root_id = -1;
 
-    /**
-     * @var EmployeeTalkRepository $repository
-     */
-    private $repository;
-
-    /**
-     * @var EmployeeTalk $data
-     */
-    private $data;
+    private EmployeeTalkRepository $repository;
+    private EmployeeTalk $data;
 
     /**
      * @param int  $a_id
@@ -118,6 +105,15 @@ final class ilObjEmployeeTalk extends ilObject
     {
         parent::update();
         $this->repository->update($this->data);
+
+        if (!$this->getRefId()) {
+            /*
+             * During cloning, update is sometimes called before
+             * the newly created object has any references. In these
+             * cases we skip the updating the calendar.
+             */
+            return true;
+        }
 
         $app = new ilCalendarAppointmentTemplate($this->getParent()->getId());
         $app->setTitle($this->getTitle());

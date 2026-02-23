@@ -17,6 +17,13 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ceLTIc\LTI\OAuth\OAuthRequest;
+use ceLTIc\LTI\OAuth\OAuthServer;
+use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use ceLTIc\LTI\OAuth\OAuthUtil;
+use ceLTIc\LTI\OAuthDataStore;
+
 /**
  * Class ilObjLTIConsumerLaunch
  *
@@ -91,16 +98,31 @@ class ilLTIConsumerResultService
     public function handleRequest(): void
     {
         try {
+
+            global $DIC;
+            $logger = $DIC->logger()->root();
+            $logger->info('LTI Consumer Result Service: Incoming request');
             // get the request as xml
             $xml = simplexml_load_file('php://input');
+            $logger->info('LTI Consumer Result Service: xml loaded');
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
-            $request = current($xml->imsx_POXBody->children());
+            $children = (array) $xml->imsx_POXBody->children();
+            $request = current($children);
+
+            $ns = $xml->getNamespaces(true);
+            $body = $xml->children($ns[''])->imsx_POXBody;
+
+            $logger->info('LTI Consumer Result Service: request loaded');
             $this->operation = str_replace('Request', '', $request->getName());
 
+            $request = $body->replaceResultRequest;
             $token = ilCmiXapiAuthToken::getInstanceByToken((string) $request->resultRecord->sourcedGUID->sourcedId);
+            $logger->info("LTI Consumer Result Service: operation loaded ($this->operation), user " . $token->getUsrId() . " and objId " . $token->getObjId());
 
+            $logger->info("LTI Consumer Result Service: token loaded");
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
+                $logger->error('LTI Consumer Result Service: Incoming request');
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
                 return;
             }
@@ -116,11 +138,16 @@ class ilLTIConsumerResultService
 
             // Verify the signature
             $this->readFields($this->result->obj_id);
-            $result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
-            if ($result instanceof Exception) {
-                $this->respondUnauthorized($result->getMessage());
+            try {
+                $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
+            } catch (Exception $e) {
+                $logger->error('LTI Consumer Result Service: Incoming request failed: ' . $e->getMessage());
+                $logger->debug('Incoming request failed: ' . $e->getTraceAsString());
+                $this->respondUnauthorized();
                 return;
             }
+
+            $logger->info("LTI Consumer Result Service: Request signature verified, this->operation: $this->operation");
 
             // Dispatch the operation
             switch ($this->operation) {
@@ -167,23 +194,28 @@ class ilLTIConsumerResultService
      */
     protected function replaceResult(\SimpleXMLElement $request): void
     {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+
         $result = (string) $request->resultRecord->result->resultScore->textString;
+        $logger->info('LTI Consumer Result Service: Replace result. Result: ' . $result);
         if (!is_numeric($result)) {
             $code = "failure";
             $severity = "status";
             $description = "The result is not a number.";
-        } elseif ($result < 0 or $result > 1) {
+        } elseif ($result > 1) {
             $code = "failure";
             $severity = "status";
             $description = "The result is out of range from 0 to 1.";
         } else {
             $this->result->result = (float) $result;
+            $this->result->setAttended(true);
             $this->result->save();
 
             if ($result >= $this->getMasteryScore()) {
                 $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } else {
-                $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
             }
             $lp_percentage = (int) round(100 * $result);
 
@@ -213,9 +245,10 @@ class ilLTIConsumerResultService
     protected function deleteResult(\SimpleXMLElement $request): void
     {
         $this->result->result = null;
+        $this->result->setAttended(false);
         $this->result->save();
 
-        $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+        $lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
         $lp_percentage = 0;
         ilLPStatus::writeStatus($this->result->obj_id, $this->result->usr_id, $lp_status, $lp_percentage, true);
 
@@ -241,7 +274,7 @@ class ilLTIConsumerResultService
      */
     protected function loadResponse($a_name): string
     {
-        return file_get_contents('./components/ILIAS/LTIConsumer/responses/' . $a_name);
+        return file_get_contents(__DIR__ . '/../responses/' . $a_name);
     }
 
 
@@ -335,7 +368,7 @@ class ilLTIConsumerResultService
 
         $query = "
 			SELECT lti_ext_provider.provider_key, lti_ext_provider.provider_secret, lti_consumer_settings.launch_key, lti_consumer_settings.launch_secret
-			FROM lti_ext_provider, lti_consumer_settings
+                FROM lti_ext_provider, lti_consumer_settings
 			WHERE lti_ext_provider.id = lti_consumer_settings.provider_id
 			AND lti_consumer_settings.obj_id = %s
 		";
@@ -357,25 +390,34 @@ class ilLTIConsumerResultService
     }
 
     /**
-     * Check the reqest signature
-     * @return bool|Exception    Exception or true
+     * Check the request signature
+     * @throws Exception in case of failure
      */
-    private function checkSignature(string $a_key, string $a_secret)
+    private function checkSignature(string $a_key, string $a_secret): void
     {
-        $store = new TrivialOAuthDataStore();
-        $store->add_consumer($a_key, $a_secret);
+        global $DIC;
+        $logger = $DIC->logger()->root();
+        $platform = new ilLTIPlatform();
 
-        $server = new \ILIAS\LTIOAuth\OAuthServer($store);
-        $method = new \ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
+        $platform->setKey($a_key);
+        $platform->setSecret($a_secret);
+        $platform->setRecordId($this->result->obj_id);
+
+        $store = new OAuthDataStore($platform);
+
+        $server = new OAuthServer($store);
+        $method = new OAuthSignatureMethod_HMAC_SHA1();
+
         $server->add_signature_method($method);
+        $logger->info("s_key: " . $a_key . " s_secret: " . $a_secret . " platform key: " . $platform->getKey());
 
-        $request = \ILIAS\LTIOAuth\OAuthRequest::from_request();
-        try {
-            $server->verify_request($request);
-        } catch (Exception $e) {
-            return $e;
+        $request_headers = OAuthUtil::get_headers();
+        if (isset($request_headers['Authorization']) && str_starts_with($request_headers['Authorization'], 'OAuth ')) {
+            $parameters = OAuthUtil::split_header($request_headers['Authorization']);
         }
-        return true;
+        $request = OAuthRequest::from_request(null, null, $parameters ?? []);
+        $logger->info("Request: " . json_encode($request));
+        $server->verify_request($request);
     }
 
     protected function updateLP(): void

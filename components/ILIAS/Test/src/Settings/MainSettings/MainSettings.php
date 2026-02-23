@@ -20,90 +20,33 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
+use ILIAS\Test\ExportImport\Exportable;
 
-class MainSettings
+class MainSettings implements Exportable
 {
-    protected SettingsIntroduction $settings_introduction;
-    protected SettingsFinishing $settings_finishing;
-    protected SettingsAccess $settings_access;
-    protected SettingsTestBehaviour $settings_test_behaviour;
-    protected SettingsQuestionBehaviour $settings_question_behaviour;
-    protected SettingsParticipantFunctionality $settings_participant_functionality;
-    protected SettingsGeneral $settings_general;
-    protected SettingsAdditional $settings_additional;
-
     public function __construct(
-        protected int $test_id,
-        protected int $obj_id,
-        SettingsGeneral $settings_general,
-        SettingsIntroduction $settings_introduction,
-        SettingsAccess $settings_access,
-        SettingsTestBehaviour $settings_test_behaviour,
-        SettingsQuestionBehaviour $settings_question_behaviour,
-        SettingsParticipantFunctionality $settings_participant_functionality,
-        SettingsFinishing $settings_finishing,
-        SettingsAdditional $settings_additional
+        protected int $id,
+        protected SettingsGeneral $settings_general,
+        protected SettingsIntroduction $settings_introduction,
+        protected SettingsAccess $settings_access,
+        protected SettingsTestBehaviour $settings_test_behaviour,
+        protected SettingsQuestionBehaviour $settings_question_behaviour,
+        protected SettingsParticipantFunctionality $settings_participant_functionality,
+        protected SettingsFinishing $settings_finishing,
+        protected SettingsAdditional $settings_additional
     ) {
-        foreach ([
-            $settings_general,
-            $settings_introduction,
-            $settings_access,
-            $settings_test_behaviour,
-            $settings_question_behaviour,
-            $settings_participant_functionality,
-            $settings_finishing,
-            $settings_additional
-        ] as $setting) {
-            $this->throwOnDifferentTestId($setting);
-        }
-
-        $this->settings_general = $settings_general;
-        $this->settings_introduction = $settings_introduction;
-        $this->settings_access = $settings_access;
-        $this->settings_test_behaviour = $settings_test_behaviour;
-        $this->settings_question_behaviour = $settings_question_behaviour;
-        $this->settings_participant_functionality = $settings_participant_functionality;
-        $this->settings_finishing = $settings_finishing;
-        $this->settings_additional = $settings_additional;
     }
 
-    protected function throwOnDifferentTestId(TestSettings $setting)
+    public function getId(): int
     {
-        if ($setting->getTestId() !== $this->getTestId()) {
-            throw new \LogicException('TestId mismatch in ' . get_class($setting));
-        }
+        return $this->id;
     }
 
-    public function getTestId(): int
-    {
-        return $this->test_id;
-    }
-    public function withTestId(int $test_id): self
+    public function withId(int $id): self
     {
         $clone = clone $this;
-        $clone->test_id = $test_id;
-        $clone->settings_general = $clone->settings_general->withTestId($test_id);
-        $clone->settings_introduction = $clone->settings_introduction->withTestId($test_id);
-        $clone->settings_access = $clone->settings_access->withTestId($test_id);
-        $clone->settings_test_behaviour = $clone->settings_test_behaviour->withTestId($test_id);
-        $clone->settings_question_behaviour = $clone->settings_question_behaviour->withTestId($test_id);
-        $clone->settings_participant_functionality = $clone->settings_participant_functionality->withTestId($test_id);
-        $clone->settings_finishing = $clone->settings_finishing->withTestId($test_id);
-        $clone->settings_additional = $clone->settings_additional->withTestId($test_id);
-        return $clone;
-    }
-
-    public function getObjId(): int
-    {
-        return $this->obj_id;
-    }
-
-    public function withObjId(int $obj_id): int
-    {
-        $clone = clone $this;
-        $clone->obj_id = $obj_id;
+        $clone->id = $id;
         return $clone;
     }
 
@@ -111,9 +54,9 @@ class MainSettings
     {
         return $this->settings_general;
     }
+
     public function withGeneralSettings(SettingsGeneral $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_general = $settings;
         return $clone;
@@ -123,9 +66,9 @@ class MainSettings
     {
         return $this->settings_introduction;
     }
+
     public function withIntroductionSettings(SettingsIntroduction $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_introduction = $settings;
         return $clone;
@@ -135,9 +78,9 @@ class MainSettings
     {
         return $this->settings_access;
     }
+
     public function withAccessSettings(SettingsAccess $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_access = $settings;
         return $clone;
@@ -147,9 +90,9 @@ class MainSettings
     {
         return $this->settings_test_behaviour;
     }
+
     public function withTestBehaviourSettings(SettingsTestBehaviour $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_test_behaviour = $settings;
         return $clone;
@@ -159,9 +102,9 @@ class MainSettings
     {
         return $this->settings_question_behaviour;
     }
+
     public function withQuestionBehaviourSettings(SettingsQuestionBehaviour $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_question_behaviour = $settings;
         return $clone;
@@ -171,9 +114,9 @@ class MainSettings
     {
         return $this->settings_participant_functionality;
     }
+
     public function withParticipantFunctionalitySettings(SettingsParticipantFunctionality $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_participant_functionality = $settings;
         return $clone;
@@ -183,9 +126,9 @@ class MainSettings
     {
         return $this->settings_finishing;
     }
+
     public function withFinishingSettings(SettingsFinishing $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_finishing = $settings;
         return $clone;
@@ -195,9 +138,9 @@ class MainSettings
     {
         return $this->settings_additional;
     }
+
     public function withAdditionalSettings(SettingsAdditional $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_additional = $settings;
         return $clone;
@@ -214,5 +157,34 @@ class MainSettings
             + $this->settings_participant_functionality->toLog($additional_info)
             + $this->settings_finishing->toLog($additional_info)
             + $this->settings_additional->toLog($additional_info);
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'settings_general' => $this->settings_general->toExport(),
+            'settings_introduction' => $this->settings_introduction->toExport(),
+            'settings_access' => $this->settings_access->toExport(),
+            'settings_test_behaviour' => $this->settings_test_behaviour->toExport(),
+            'settings_question_behaviour' => $this->settings_question_behaviour->toExport(),
+            'settings_participant_functionality' => $this->settings_participant_functionality->toExport(),
+            'settings_finishing' => $this->settings_finishing->toExport(),
+            'settings_additional' => $this->settings_additional->toExport(),
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            $data['id'] ?? -1,
+            SettingsGeneral::fromExport($data['settings_general']),
+            SettingsIntroduction::fromExport($data['settings_introduction']),
+            SettingsAccess::fromExport($data['settings_access']),
+            SettingsTestBehaviour::fromExport($data['settings_test_behaviour']),
+            SettingsQuestionBehaviour::fromExport($data['settings_question_behaviour']),
+            SettingsParticipantFunctionality::fromExport($data['settings_participant_functionality']),
+            SettingsFinishing::fromExport($data['settings_finishing']),
+            SettingsAdditional::fromExport($data['settings_additional']),
+        );
     }
 }

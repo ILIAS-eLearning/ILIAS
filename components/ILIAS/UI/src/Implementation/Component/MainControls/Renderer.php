@@ -313,6 +313,7 @@ class Renderer extends AbstractComponentRenderer
         switch ($component->getDenotation()) {
             case Component\MainControls\SystemInfo::DENOTATION_NEUTRAL:
             case Component\MainControls\SystemInfo::DENOTATION_IMPORTANT:
+                $tpl->setVariable('ROLE', 'role="status"');
                 $tpl->setVariable('LIVE', 'aria-live="polite"');
                 break;
             case Component\MainControls\SystemInfo::DENOTATION_BREAKING:

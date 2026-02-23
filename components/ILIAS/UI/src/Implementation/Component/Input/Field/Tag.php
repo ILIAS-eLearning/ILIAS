@@ -32,6 +32,9 @@ use Closure;
 use LogicException;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\URLBuilder;
+use ILIAS\UI\URLBuilderToken;
+use Generator;
 
 /**
  * Class TagInput
@@ -54,6 +57,10 @@ class Tag extends FormInput implements C\Input\Field\Tag
     protected bool $extendable = true;
     protected int $suggestion_starts_with = 1;
     protected array $tags = [];
+    protected ?URLBuilder $async_autocomplete_endpoint = null;
+    protected ?URLBuilderToken $async_autocomplete_token = null;
+
+    private bool $strip_tags = true;
 
     public function __construct(
         DataFactory $data_factory,
@@ -70,21 +77,15 @@ class Tag extends FormInput implements C\Input\Field\Tag
 
     protected function addAdditionalTransformations(): void
     {
-        $this->setAdditionalTransformation($this->refinery->string()->splitString(','));
-        $this->setAdditionalTransformation($this->refinery->custom()->transformation(function (array $v) {
-            if (count($v) == 1 && $v[0] === '') {
-                return [];
-            }
-            $array = array_map("urldecode", $v);
-            return array_map('strip_tags', $array);
-        }));
+        $map = static fn(string $s): array => array_filter(array_map('rawurldecode', explode(',', $s)));
+        $this->setAdditionalTransformation($this->refinery->custom()->transformation($map));
     }
 
     public function getConfiguration(): stdClass
     {
         $options = array_map(
             fn($tag) => [
-                'value' => urlencode(trim($tag)),
+                'value' => rawurlencode(trim($tag)),
                 'display' => $tag,
                 'searchBy' => $tag
             ],
@@ -102,6 +103,7 @@ class Tag extends FormInput implements C\Input\Field\Tag
         $configuration->userInput = $this->areUserCreatedTagsAllowed();
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
+        $configuration->autocompleteTriggerTimeout = 200;
         $configuration->maxChars = 2000;
         $configuration->suggestionLimit = 50;
         $configuration->debug = false;
@@ -268,6 +270,35 @@ class Tag extends FormInput implements C\Input\Field\Tag
     /**
      * @inheritDoc
      */
+    public function withAsyncAutocomplete(
+        URLBuilder $autocomplete_endpoint,
+        URLBuilderToken $term_token
+    ): Tag {
+        $clone = clone $this;
+        $clone->async_autocomplete_endpoint = $autocomplete_endpoint;
+        $clone->async_autocomplete_token = $term_token;
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocompleteEndpoint(): ?URLBuilder
+    {
+        return $this->async_autocomplete_endpoint;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAsyncAutocompleteToken(): ?URLBuilderToken
+    {
+        return $this->async_autocomplete_token;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function withInput(InputData $input): self
     {
         // ATTENTION: This is a slightly modified copy of parent::withInput, which
@@ -314,5 +345,22 @@ class Tag extends FormInput implements C\Input\Field\Tag
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+    }
+
+    public function withoutStripTags(): self
+    {
+        $clone = clone $this;
+        $clone->strip_tags = false;
+        return $clone;
+    }
+
+    protected function getOperations(): Generator
+    {
+        yield from parent::getOperations();
+        if ($this->strip_tags) {
+            yield $this->refinery->container()->mapValues(
+                $this->refinery->custom()->transformation(strip_tags(...))
+            );
+        }
     }
 }

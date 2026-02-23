@@ -484,6 +484,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $new_obj->updateObjectFromRevision($new_current_revision); // Previews are already copied in 453
         $new_obj->setTitle($cloned_title); // see https://mantis.ilias.de/view.php?id=31375
         $new_obj->setPageCount($this->getPageCount());
+        $new_obj->setImportantInfo($this->getImportantInfo());
+        $new_obj->setRating($this->hasRating());
+        $new_obj->setOnclickMode($this->getOnClickMode());
         $new_obj->update();
 
         $new_obj->getObjectProperties()->storePropertyIsOnline(new Online(true));
@@ -538,9 +541,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         // delete file data entry
         $this->database->manipulateF("DELETE FROM file_data WHERE file_id = %s", ['integer'], [$this->getId()]);
-
-        // delete history entries
-        ilHistory::_removeEntriesForObject($this->getId());
 
         // delete meta data
         if ($this->getMode() !== self::MODE_FILELIST) {

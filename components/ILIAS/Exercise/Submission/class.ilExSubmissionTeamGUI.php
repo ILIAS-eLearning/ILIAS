@@ -424,13 +424,14 @@ class ilExSubmissionTeamGUI
         if (!$this->submission->isTutor()) {
             $ids = $a_full_delete ? $this->team->getMembers() : $this->requested_team_ids;
 
-            if ([] === $ids && !$this->canEditTeam()) {
+            if ([] === $ids) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "submissionScreenTeam");
             }
         } else {
             $ids = $this->requested_team_ids;
             if ([] === $ids) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->returnToParentObject();
             }
         }

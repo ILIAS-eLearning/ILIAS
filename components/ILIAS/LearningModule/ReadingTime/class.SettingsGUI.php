@@ -16,31 +16,18 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\LearningModule\ReadingTime;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class SettingsGUI
 {
-    /**
-     * @var int
-     */
-    protected $lm_id;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ReadingTimeManager
-     */
-    protected $manager;
+    protected int $lm_id;
+    protected \ilLanguage $lng;
+    protected ReadingTimeManager $manager;
 
     public function __construct(int $lm_id)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->manager = new ReadingTimeManager();

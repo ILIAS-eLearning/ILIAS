@@ -251,7 +251,7 @@ class FlavourBuilder
         try {
             $stream = $this->resource_builder->extractStream($revision);
             $stream->rewind();
-        } catch (\Throwable) {
+        } catch (\Throwable $t) {
             // error while reading file stream, cannot process
             $this->events->notify(Event::FLAVOUR_BUILD_FAILED, new FlavourData($rid, $definition, $flavour, $t));
             return $flavour;

@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\Prompt;
 
-use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use ILIAS\User\Profile\GUIRequest;
-
+use ILIAS\User\Profile\PersonalProfileGUI;
+use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Language\Language;
@@ -68,8 +68,8 @@ class StartUpStep extends StartUpSequenceStep
             return false;
         }
 
-        return (
-            strtolower($this->ctrl->getCmdClass()) === 'ilpersonalprofilegui'
+        $class_path = $this->ctrl->getCurrentClassPath();
+        return strtolower(array_pop($class_path)) === strtolower(PersonalProfileGUI::class)
             && in_array(
                 strtolower($this->ctrl->getCmd()),
                 [
@@ -79,8 +79,7 @@ class StartUpStep extends StartUpSequenceStep
                     'showpublicprofile',
                     'savepublicprofile'
                 ]
-            )
-        );
+            );
     }
 
     public function shouldInterceptRequest(): bool
@@ -144,7 +143,7 @@ class StartUpStep extends StartUpSequenceStep
             $this->repository->updateLastUserPrompt($this->user->getId());
         }
 
-        $this->ctrl->setParameterByClass('ilpersonalprofilegui', 'prompted', '1');
-        $this->ctrl->redirectByClass(['ildashboardgui', 'ilpersonalprofilegui'], 'showPersonalData');
+        $this->ctrl->setParameterByClass(PersonalProfileGUI::class, 'prompted', '1');
+        $this->ctrl->redirectByClass([\ilDashboardGUI::class, PersonalProfileGUI::class], 'showPersonalData');
     }
 }

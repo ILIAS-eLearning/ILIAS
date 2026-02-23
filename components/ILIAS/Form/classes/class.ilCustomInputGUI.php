@@ -23,6 +23,7 @@ declare(strict_types=1);
  *
  * @author Alexander Killing <killing@leifos.de>
  * @deprecated Deprecated since 4.4, inherit directly from InputGUI instead
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 {

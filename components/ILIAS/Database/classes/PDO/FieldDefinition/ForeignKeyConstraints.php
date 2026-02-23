@@ -18,13 +18,13 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\Database\PDO\FieldDefinition;
+namespace ILIAS\Database\PDO\FieldDefinition;
 
 enum ForeignKeyConstraints: string
 {
     case CASCADE = 'CASCADE';
     case RESTRICT = 'RESTRICT';
-    case SET_NULL = 'SET_NULL';
-    case NO_ACTION = 'NO_ACTION';
-    case SET_DEFAULT = 'SET_DEFAULT';
+    case SET_NULL = 'SET NULL';
+    case NO_ACTION = 'NO ACTION';
+    case SET_DEFAULT = 'SET DEFAULT';
 }

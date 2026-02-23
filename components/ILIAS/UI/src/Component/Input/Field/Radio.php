@@ -25,19 +25,12 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
 /**
  * This is what a radio-input looks like.
  */
-interface Radio extends FormInput
+interface Radio extends HasOptionFilter
 {
     /**
      * Add an option-entry to the radio-input.
      */
     public function withOption(string $value, string $label, ?string $byline = null): Radio;
-
-    /**
-     * Get all options as value=>label.
-     *
-     * @return array <string,string>
-     */
-    public function getOptions(): array;
 
     /**
      * Get byline for a single option.

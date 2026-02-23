@@ -23,12 +23,21 @@ namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTitle, isParent, hasContentLanguage
+class TopParentItem extends AbstractBaseItem implements
+    isItem,
+    hasSymbol,
+    hasTitle,
+    isParent,
+    hasContentLanguage,
+    isDecorateable
 {
+    use ComponentDecoratorTrait;
     use ContentLanguage;
 
     /**

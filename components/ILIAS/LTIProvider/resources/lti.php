@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-/**
- * LTI launch target script
- *
- * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- */
+
+$_GET['cmd'] = 'post';
+$_POST['cmd'] = 'doLTIAuthentication';
+
+require_once '../vendor/composer/vendor/autoload.php';
+require_once __DIR__ . '/../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
+
 ilContext::init(ilContext::CONTEXT_LTI_PROVIDER);
 
-ilInitialisation::initILIAS();
-
-// authentication is done here ->
 global $DIC;
 
 $DIC->ctrl()->setTargetScript('ilias.php');

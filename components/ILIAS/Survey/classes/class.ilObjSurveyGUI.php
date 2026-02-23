@@ -18,6 +18,7 @@
 
 use ILIAS\Survey\Participants;
 use ILIAS\Survey\InternalGUIService;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
@@ -166,7 +167,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case "ilinfoscreengui":
                 if (!in_array(
                     $this->ctrl->getCmdClass(),
-                    array('ilpublicuserprofilegui', 'ilobjportfoliogui')
+                    array(strtolower(PublicProfileGUI::class), 'ilobjportfoliogui')
                 )) {
                     $this->addHeaderAction();
                     $this->infoScreen(); // forwards command

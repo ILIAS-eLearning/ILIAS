@@ -84,6 +84,14 @@ class InternalDomainService
         return new Page\PageManager();
     }
 
+    public function pageConfig(string $parent_type): \ilPageConfig
+    {
+        $def = \ilCOPageObjDef::getDefinitionByParentType($parent_type);
+        $class = $def["class_name"] . "Config";
+        $cfg = new $class();
+        return $cfg;
+    }
+
     public function htmlTransformUtil(): Html\TransformUtil
     {
         return new Html\TransformUtil();

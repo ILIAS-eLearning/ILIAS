@@ -42,10 +42,14 @@ class MediaObjectRepository
         \ilMobStakeholder $stakeholder,
         int $from_mob_id = 0
     ): void {
+        $rid = "";
         if ($from_mob_id > 0) {
             $from_rid = $this->getRidForMobId($from_mob_id);
-            $rid = $this->irss->cloneContainer($from_rid);
-        } else {
+            if ($from_rid !== "") {
+                $rid = $this->irss->cloneContainer($from_rid);
+            }
+        }
+        if ($rid === "") {
             $rid = $this->irss->createContainer(
                 $stakeholder,
                 "mob.zip"
@@ -53,7 +57,8 @@ class MediaObjectRepository
         }
         $this->db->insert('mob_data', [
             'id' => ['integer', $id],
-            'rid' => ['text', $rid]
+            'rid' => ['text', $rid],
+            'last_change' => ['integer', time()]
         ]);
     }
 
@@ -69,7 +74,8 @@ class MediaObjectRepository
         if ($record) {
             return [
                 'id' => (int) $record['id'],
-                'rid' => (string) $record['rid']
+                'rid' => (string) $record['rid'],
+                'last_change' => (int) $record['last_change']
             ];
         }
 
@@ -97,6 +103,29 @@ class MediaObjectRepository
             return $rec["rid"] ?? "";
         }
         return "";
+    }
+
+    public function getLastChangeTimestamp(int $mob_id): int
+    {
+        $set = $this->db->queryF(
+            "SELECT last_change FROM mob_data " .
+            " WHERE id = %s ",
+            ["integer"],
+            [$mob_id]
+        );
+        if ($rec = $this->db->fetchAssoc($set)) {
+            return (int) ($rec["last_change"] ?? 0);
+        }
+        return 0;
+    }
+
+    public function updateLastChangeTimestamp(int $mob_id, int $timestamp): void
+    {
+        $this->db->update(
+            'mob_data',
+            ['last_change' => ['integer', $timestamp]],
+            ['id' => ['integer', $mob_id]]
+        );
     }
 
     public function addFileFromLegacyUpload(int $mob_id, string $tmp_name, string $target_path = ""): void
@@ -150,12 +179,20 @@ class MediaObjectRepository
 
     public function getLocalSrc(int $mob_id, string $location): string
     {
-        return $this->irss->getContainerUri($this->getRidForMobId($mob_id), $location);
+        $rid = $this->getRidForMobId($mob_id);
+        if ($rid === "") {
+            return "";
+        }
+        return $this->irss->getContainerUri($rid, $location);
     }
 
     public function hasLocalFile(int $mob_id, string $location): bool
     {
-        return $this->irss->hasContainerEntry($this->getRidForMobId($mob_id), $location);
+        $rid = $this->getRidForMobId($mob_id);
+        if ($rid === "") {
+            return false;
+        }
+        return $this->irss->hasContainerEntry($rid, $location);
     }
 
     public function getLocationStream(
@@ -168,10 +205,24 @@ class MediaObjectRepository
         );
     }
 
+    public function getLocationContent(
+        int $mob_id,
+        string $location
+    ): string {
+        $content = "";
+        if (str_starts_with($location, "/")) {
+            $location = substr($location, 1);
+        }
+        if ($this->irss->hasContainerEntry($this->getRidForMobId($mob_id), $location)) {
+            $content = stream_get_contents($this->getLocationStream($mob_id, $location)->detach());
+        }
+        return $content;
+    }
+
     public function getInfoOfEntry(
         int $mob_id,
         string $path
-    ) {
+    ): array {
         return $this->irss->getContainerEntryInfo(
             $this->getRidForMobId($mob_id),
             $path

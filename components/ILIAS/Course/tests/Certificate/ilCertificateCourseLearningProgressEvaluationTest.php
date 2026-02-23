@@ -58,8 +58,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         1
@@ -74,8 +72,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         5
@@ -170,8 +166,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         1
@@ -186,8 +180,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         5
@@ -293,8 +285,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         1
@@ -309,8 +299,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         5
@@ -478,8 +466,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         1
@@ -494,8 +480,6 @@ class ilCertificateCourseLearningProgressEvaluationTest extends TestCase
                         'v5.4.0',
                         123_456_789,
                         true,
-                        '/some/where/background.jpg',
-                        '/some/where/thumbnail.svg',
                         '-',
                         '-',
                         5

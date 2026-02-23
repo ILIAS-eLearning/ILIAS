@@ -730,7 +730,6 @@ var persistence = function() {
         ,page_has_engaged_slated: 'with-mainbar-slates-engaged'
         ,tools_btn: 'il-mainbar-tools-button'
         ,toolentries_wrapper: 'il-mainbar-tools-entries'
-        ,remover_class: 'il-mainbar-remove-tool'
         ,mainbar: 'il-mainbar'
         ,mainbar_buttons: '.il-mainbar .il-mainbar-entries .btn-bulky, .il-mainbar .il-mainbar-entries .link-bulky'
         ,mainbar_entries: 'il-mainbar-entries'
@@ -802,7 +801,10 @@ var persistence = function() {
 
                 element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
-                element.attr('role', 'region');
+                var currentRole = element.attr('role');
+                if (!currentRole || currentRole === 'region') {
+                    element.attr('role', 'region');
+                }
                 if(isInView && !thrown) {
                     element.trigger('in_view'); //this is most important for async loading of slates,
                                                 //it triggers the GlobalScreen-Service.
@@ -815,8 +817,11 @@ var persistence = function() {
             additional_disengage: function(){
                 var entry_id = dom_ref_to_element[this.html_id];
                 thrown_for[entry_id] = false;
-                this.getElement().attr('aria-hidden', true);
-                this.getElement().removeAttr('role', 'region');
+                var element = this.getElement();
+                element.attr('aria-hidden', true);
+                if (element.attr('role') === 'region') {
+                    element.removeAttr('role');
+                }
             }
         }),
         remover: Object.assign({}, dom_element, {
@@ -835,15 +840,6 @@ var persistence = function() {
                     this.getElement().removeClass(css.page_has_engaged_slated);
                 }
             }
-        },
-        removers: {
-            getElement: function(){
-                return $('.' + css.remover_class);
-            },
-            mb_hide: function() {
-                this.getElement().hide();
-            }
-
         },
         tools_area: Object.assign({}, dom_element, {
             getElement: function(){

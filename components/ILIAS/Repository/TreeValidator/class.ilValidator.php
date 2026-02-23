@@ -1809,7 +1809,10 @@ class ilValidator
         $previousNumber = 0;
 
         $this->initWorkspaceObjects();
-
+        $isRefRefOkay = true;
+        $isRefObjOkay = true;
+        $isChildOkay = true;
+        $indent = "";
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // workspace objects are not to be processed
             if ($this->workspace_object_ids &&
@@ -1905,7 +1908,7 @@ class ilValidator
                     . $indent
                     . $row->obj_id . ', '
                     . $row->type . ', '
-                    . $row->login . ', '
+                    . ($row->login ?? '') . ', '
                     . $row->title
                     . (($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
                     . '</td>'
@@ -1950,7 +1953,7 @@ class ilValidator
                         . $poppedIndent
                         . $popped->obj_id . ', '
                         . $popped->type . ', '
-                        . $popped->login . ', '
+                        . ($popped->login ?? '') . ', '
                         . $popped->title
                         . '</font>'
                         . '</td>'
@@ -2081,7 +2084,7 @@ class ilValidator
                     . $indent
                     . $row->obj_id . ', '
                     . $row->type . ', '
-                    . $row->login . ', '
+                    . ($row->login ?? '') . ', ' . ', '
                     . $row->title
                     . (($isRowOkay) ? '' : ' <b>*ERROR*</b><font color=#ff0000>')
                     . '</td>'
@@ -2126,7 +2129,7 @@ class ilValidator
                     . $poppedIndent
                     . $popped->obj_id . ', '
                     . $popped->type . ', '
-                    . $popped->login . ', '
+                    . ($popped->login ?? '') . ', '
                     . $popped->title
                     . '</font>'
                     . '</td>'

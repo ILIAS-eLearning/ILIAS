@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -47,7 +48,8 @@ class ilUploadFiles
      */
     public static function _getUploadFiles(): array
     {
-        if ($upload_dir = self::_getUploadDirectory() === '' || $upload_dir = self::_getUploadDirectory() === '0') {
+        $upload_dir = self::_getUploadDirectory();
+        if ($upload_dir === '' || $upload_dir === '0') {
             return [];
         }
 

@@ -1,0 +1,197 @@
+@use "../../../010-settings" as s;
+@use "../../../050-layout/basics" as l;
+
+$list-max-height: 300px;
+
+.c-input[data-il-ui-component="radio-field-input"]:has(.c-input--has-option-filter__field),
+.c-input[data-il-ui-component="multi-select-field-input"]:has(.c-input--has-option-filter__field) {
+  .c-input__field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition-property: height, max-height, padding;
+    transition-duration: .5s;
+
+    > .c-input--has-option-filter__field {
+      order: 1; // so list is visually first, but keyboard tab from expand leads into the list
+    }
+    > .c-input--has-option-filter__visibility-toggle {
+      order: 2;
+    }
+
+    .c-input--has-option-filter__field {
+      margin-top: l.$il-margin-large-vertical;
+      width: 100%;
+    }
+
+    > .c-input--has-option-filter__search-input {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      align-items: center;
+      label {
+        display: flex;
+        width: max-content;
+        flex-grow: 1;
+        margin-bottom: l.$il-margin-large-vertical;
+        align-items: center;
+        .label__text {
+          margin-right: l.$il-margin-large-horizontal;
+        }
+        input {
+          flex-grow: 1;
+        }
+      }
+      .c-input--has-option-filter__clear-search {
+        margin-left: l.$il-margin-large-horizontal;
+        width: auto;
+      }
+    }
+
+    > .c-input--has-option-filter__visibility-toggle {
+      margin-top: l.$il-margin-large-vertical;
+      width: auto;
+    }
+
+    // shift checked options to the top of the list
+    > .c-input--has-option-filter__field > ul.c-field-multiselect {
+      display: flex;
+      flex-direction: column;
+
+      li {
+        order: 2;
+
+        &:has(input:checked) {
+          animation: fade-item-up .5s;
+          order: 1;
+        }
+      }
+    }
+
+    > .c-input--has-option-filter__field > .c-field-radio {
+      display: flex;
+      flex-direction: column;
+
+      .c-field-radio__item {
+        order: 2;
+
+        &:has(input:checked) {
+          animation: fade-item-up .5s;
+          order: 1;
+          margin-bottom: l.$il-margin-large-vertical;
+        }
+      }
+    }
+  }
+
+
+  // collapsed component
+  &:not(.engaged) {
+    > .c-input__help-byline {
+      display: none;
+    }
+
+    > .c-input__field {
+      > .c-input--has-option-filter__search-input,
+      > .c-input--has-option-filter__field input, // checkbox of selected
+      > .c-input--has-option-filter__field > ul.c-field-multiselect li:has(input:not(:checked)),
+      > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item:has(input:not(:checked)) {
+        display: none !important; // important needed to override display: block from javascript search filter
+      }
+
+      // make sure list items cannot be de-selected when disengaged
+      > .c-input--has-option-filter__field > ul.c-field-multiselect li,
+      > .c-input--has-option-filter__field > .c-field-radio .c-field-radio__item {
+        pointer-events: none;
+      }
+
+      // text to be shown when noting is selected
+      &:has(input:checked) .c-input--has-option-filter__nothing-selected {
+        display: none;
+      }
+    }
+  }
+
+  // expanded comnponent
+  &.engaged > .c-input__field {
+    padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal;
+    border: s.$il-main-border;
+
+    .c-input--has-option-filter__nothing-selected {
+      display: none;
+    }
+
+    > .c-input--has-option-filter__search-input > .c-input {
+      display: block;
+    }
+
+    > .c-input--has-option-filter__field {
+      margin-top: l.$il-margin-large-vertical;
+      overflow: auto;
+      border: s.$il-main-border;
+      padding: l.$il-padding-large-vertical l.$il-padding-large-horizontal;
+      max-height: $list-max-height;
+      animation: expanding-list .5s;
+    }
+  }
+}
+
+// animation when checking list item
+@keyframes fade-item-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 2;
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(-20px);
+    order: 2;
+  }
+  51% {
+    opacity: 0;
+    transform: translateY(20px);
+    order: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 1;
+  }
+}
+
+// not currently used anymore because of bugs
+@keyframes fade-item-down {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 1;
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(20px);
+    order: 1;
+  }
+  51% {
+    opacity: 0;
+    transform: translateY(-20px);
+    order: 2;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    order: 2;
+  }
+}
+
+// animation when expanding component
+@keyframes expanding-list {
+  0% {
+    max-height: 100px;
+  }
+  100% {
+    max-height: $list-max-height;
+  }
+}
+

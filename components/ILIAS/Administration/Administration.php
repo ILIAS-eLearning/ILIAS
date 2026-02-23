@@ -36,5 +36,10 @@ class Administration implements Component\Component
             new \ILIAS\Administration\Setup\ilAdministrationSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+            new \ilSystemFolderSetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
+
     }
 }

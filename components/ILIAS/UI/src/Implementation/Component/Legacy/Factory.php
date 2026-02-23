@@ -22,6 +22,7 @@ namespace ILIAS\UI\Implementation\Component\Legacy;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
 
 class Factory implements C\Legacy\Factory
 {
@@ -40,5 +41,10 @@ class Factory implements C\Legacy\Factory
     public function latexContent(string $content): LatexContent
     {
         return new LatexContent($content, $this->signal_generator);
+    }
+
+    public function segment(string $title, string $content): I\Legacy\Segment
+    {
+        return new Segment($title, $content);
     }
 }

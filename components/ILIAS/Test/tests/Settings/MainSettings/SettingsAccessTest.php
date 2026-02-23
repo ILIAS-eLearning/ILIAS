@@ -25,7 +25,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithStartTimeEnabledDataProvider')]
     public function testGetAndWithStartTimeEnabled(bool $io): void
     {
-        $settings_access = (new SettingsAccess(0))->withStartTimeEnabled($io);
+        $settings_access = (new SettingsAccess())->withStartTimeEnabled($io);
 
         $this->assertInstanceOf(SettingsAccess::class, $settings_access);
         $this->assertEquals($io, $settings_access->getStartTimeEnabled());
@@ -42,7 +42,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithStartTimeDataProvider')]
     public function testGetAndWithStartTime(?DateTimeImmutable $io): void
     {
-        $settings_access = (new SettingsAccess(0))->withStartTime($io);
+        $settings_access = (new SettingsAccess())->withStartTime($io);
 
         $this->assertInstanceOf(SettingsAccess::class, $settings_access);
         $this->assertEquals($io, $settings_access->getStartTime());
@@ -59,7 +59,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithEndTimeEnabledDataProvider')]
     public function testGetAndWithEndTimeEnabled(bool $io): void
     {
-        $settings_access = (new SettingsAccess(0))->withEndTimeEnabled($io);
+        $settings_access = (new SettingsAccess())->withEndTimeEnabled($io);
 
         $this->assertInstanceOf(SettingsAccess::class, $settings_access);
         $this->assertEquals($io, $settings_access->getEndTimeEnabled());
@@ -76,7 +76,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithEndTimeDataProvider')]
     public function testGetAndWithEndTime(?DateTimeImmutable $io): void
     {
-        $settings_access = (new SettingsAccess(0))->withEndTime($io);
+        $settings_access = (new SettingsAccess())->withEndTime($io);
 
         $this->assertInstanceOf(SettingsAccess::class, $settings_access);
         $this->assertEquals($io, $settings_access->getEndTime());
@@ -93,7 +93,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPasswordEnabledDataProvider')]
     public function testGetAndWithPasswordEnabled(bool $io): void
     {
-        $settings_access = (new SettingsAccess(0))->withPasswordEnabled($io);
+        $settings_access = (new SettingsAccess())->withPasswordEnabled($io);
 
         $this->assertInstanceOf(SettingsAccess::class, $settings_access);
         $this->assertEquals($io, $settings_access->getPasswordEnabled());
@@ -110,7 +110,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPasswordDataProvider')]
     public function testGetAndWithPassword(?string $io): void
     {
-        $settings_access = (new SettingsAccess(0))->withPassword($io);
+        $settings_access = (new SettingsAccess())->withPassword($io);
 
         $this->assertInstanceOf(SettingsAccess::class, $settings_access);
         $this->assertEquals($io, $settings_access->getPassword());
@@ -128,7 +128,7 @@ class SettingsAccessTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithFixedParticipantsDataProvider')]
     public function testGetAndWithFixedParticipants(bool $io): void
     {
-        $settings_access = (new SettingsAccess(0))->withFixedParticipants($io);
+        $settings_access = (new SettingsAccess())->withFixedParticipants($io);
 
         $this->assertInstanceOf(SettingsAccess::class, $settings_access);
         $this->assertEquals($io, $settings_access->getFixedParticipants());

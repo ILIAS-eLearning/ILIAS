@@ -118,8 +118,9 @@ function getExampleTable($f)
             array $visible_column_ids,
             Range $range,
             Order $order,
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): \Generator {
             foreach (range(0, 5) as $cnt) {
                 yield $row_builder->buildDataRow('row_id' . $cnt, ['f1' => $cnt]);
@@ -127,8 +128,9 @@ function getExampleTable($f)
         }
 
         public function getTotalRowCount(
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): ?int {
             return 6;
         }

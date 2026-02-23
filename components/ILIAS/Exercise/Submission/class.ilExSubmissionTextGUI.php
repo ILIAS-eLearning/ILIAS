@@ -126,7 +126,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
             $form->addItem($text);
 
-            if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+            if ((new ilRTESettings($this->lng, $this->user))->getRichTextEditor() === "tinymce") {
                 $text->setUseRte(true);
                 $text->setRteTagSet("mini");
             }
@@ -202,7 +202,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         // we are not using a purifier, so we have to set the valid RTE tags
         // :TODO:
         $rte = $form->getItemByPostVar("atxt");
-        $rte->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("exc_ass"));
+        $rte->setRteTags(ilRTESettings::_getUsedHTMLTags("exc_ass"));
 
         if ($form->checkInput()) {
             $text = trim($form->getInput("atxt"));
@@ -259,7 +259,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
                 $text = $a_form->getItemByPostVar("atxt");
                 // mob id to mob src
-                $text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($sub->getText(), 1)));
+                $val = $this->gui->getUIUtil()->formatTextInput($sub->getText());
+                $val = $this->gui->html()->escapeCurly($val);
+                $text->setValue($val);
             }
         }
         $this->tpl->setContent($a_form->getHTML());

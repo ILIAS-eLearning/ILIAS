@@ -38,6 +38,7 @@ class ilMailTemplatePlaceholderResolver
             new ilMailTemplateContextAdapter(
                 [$context],
                 $context_parameters,
+                $this->mustache_engine,
                 $user
             )
         );

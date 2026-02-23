@@ -46,6 +46,19 @@ class HTTPUtil
         $this->http->close();
     }
 
+    public function sendJson(\stdClass $data): void
+    {
+        $http = $this->http;
+        $string = json_encode($data);
+        $stream = \ILIAS\Filesystem\Stream\Streams::ofString($string);
+        $http->saveResponse($http
+            ->response()
+            ->withAddedHeader('Content-Type', 'application/json')
+            ->withBody($stream));
+        $http->sendResponse();
+        $http->close();
+    }
+
     public function deliverString(
         string $data,
         string $filename,

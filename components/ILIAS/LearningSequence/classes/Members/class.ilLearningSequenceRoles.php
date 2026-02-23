@@ -220,8 +220,7 @@ class ilLearningSequenceRoles
 
         if ($portfolio_enabled) {
             $portfolios = ilObjPortfolio::getAvailablePortfolioLinksForUserIds(
-                $user_ids,
-                $this->ctrl->getLinkTargetByClass("ilLearningSequenceMembershipGUI", "members")
+                $user_ids
             );
         }
 

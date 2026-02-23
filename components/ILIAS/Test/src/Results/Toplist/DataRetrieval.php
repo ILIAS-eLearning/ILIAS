@@ -50,7 +50,7 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
 
         $columns = [
             'is_actor' => $column_factory->boolean('', $iconActor, ''),
-            'rank' => $column_factory->number($this->lng->txt('toplist_col_rank'))->withUnit('.'),
+            'rank' => $column_factory->text($this->lng->txt('toplist_col_rank')),
             'participant' => $column_factory->text($this->lng->txt('toplist_col_participant')),
             'achieved' => $column_factory->date(
                 $this->lng->txt('toplist_col_achieved'),
@@ -83,50 +83,50 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
-        foreach ($this->loadToplistData() as $i => $row) {
-            $item = [
-                'rank' => ($i + 1),
-                'participant' => $this->test_obj->isHighscoreAnon() && (int) $row['usr_id'] !== $this->user->getId()
-                    ? '-, -'
-                    : $row['lastname'] . ', ' . $row['firstname'],
-                'is_actor' => ((int) $row['usr_id'] === $this->user->getId())
-            ];
+        foreach ($this->loadToplistData() as $row) {
+            $item = $this->buildBasicItemFromRowArray($row);
 
-            if (in_array('achieved', $visible_column_ids, true)) {
+            if (isset($row['tstamp']) && in_array('achieved', $visible_column_ids, true)) {
                 $item['achieved'] = new \DateTimeImmutable('@' . $row['tstamp']);
             }
-            if (in_array('score', $visible_column_ids, true)) {
+            if (isset($row['reached_points']) && in_array('score', $visible_column_ids, true)) {
                 $item['score'] = $row['reached_points'] . ' / ' . $row['max_points'];
             }
-            if (in_array('percentage', $visible_column_ids, true)) {
+            if (isset($row['percentage']) && in_array('percentage', $visible_column_ids, true)) {
                 $item['percentage'] = $row['percentage'];
             }
-            if (in_array('workingtime', $visible_column_ids, true)) {
+            if (isset($row['workingtime']) && in_array('workingtime', $visible_column_ids, true)) {
                 $item['workingtime'] = $this->formatTime($row['workingtime']);
             }
 
-            yield $row_builder->buildDataRow((string) $i, $item);
+            yield $row_builder->buildDataRow((string) $row['rank'], $item);
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         // return 0 here to avoid pagination in the table. This is the same behavior as in Ilias 8/9
         return 0;
     }
 
     private function loadToplistData(): \Generator
     {
-        if ($this->list_type === TopListType::USER) {
-            return $this->order_by === TopListOrder::BY_SCORE
-                ? $this->repository->getUserToplistByPercentage($this->test_obj, $this->user->getId())
-                : $this->repository->getUserToplistByWorkingtime($this->test_obj, $this->user->getId());
-        } else {
+        if ($this->list_type === TopListType::GENERAL) {
             return $this->repository->getGeneralToplist($this->test_obj, $this->order_by);
         }
+
+        if ($this->order_by === TopListOrder::BY_SCORE) {
+            return $this->repository->getUserToplistByPercentage($this->test_obj, $this->user->getId());
+        }
+
+        return $this->repository->getUserToplistByWorkingtime($this->test_obj, $this->user->getId());
     }
 
     public function formatTime(int $seconds): string
@@ -136,5 +136,23 @@ class DataRetrieval implements \ILIAS\UI\Component\Table\DataRetrieval
         $seconds = $seconds % 60;
 
         return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+    }
+
+    private function buildBasicItemFromRowArray(array $row): array
+    {
+        if ($row['rank'] === '...') {
+            return [
+                'rank' => '...',
+                'is_actor' => false
+            ];
+        }
+
+        return [
+            'rank' => "{$row['rank']}.",
+            'participant' => $this->test_obj->isHighscoreAnon() && (int) $row['usr_id'] !== $this->user->getId()
+                ? '-, -'
+                : $row['lastname'] . ', ' . $row['firstname'],
+            'is_actor' => isset($row['usr_id']) && ((int) $row['usr_id'] === $this->user->getId())
+        ];
     }
 }

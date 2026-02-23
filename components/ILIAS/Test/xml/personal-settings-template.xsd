@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <!-- Template root element -->
+    <xs:element name="template">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="main-settings" type="mainSettingsType" />
+                <xs:element name="score-settings" type="scoreSettingsType" />
+                <xs:element name="mark-schema" type="markSchemaType" />
+            </xs:sequence>
+            <xs:attribute name="ilias-version" type="xs:string" use="required" />
+            <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+            <xs:attribute name="user-id" type="xs:positiveInteger" use="required" />
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="description" type="xs:string" use="optional" />
+            <xs:attribute name="author" type="xs:string" use="optional" />
+            <xs:attribute name="created-at" type="xs:dateTime" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Main Settings Type -->
+    <xs:complexType name="mainSettingsType">
+        <xs:sequence>
+            <xs:element name="settings-group" type="settingsGroupType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Score Settings Type -->
+    <xs:complexType name="scoreSettingsType">
+        <xs:sequence>
+            <xs:element name="settings-group" type="settingsGroupType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Settings Group Type -->
+    <xs:complexType name="settingsGroupType">
+        <xs:sequence>
+            <xs:element name="settings-entry" type="settingsEntryType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <!-- Settings Entry Type -->
+    <xs:complexType name="settingsEntryType" mixed="true">
+        <xs:attribute name="type" use="required" />
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <!-- Mark Schema Type -->
+    <xs:complexType name="markSchemaType">
+        <xs:sequence>
+            <xs:element name="mark-steps" type="markStepsType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Mark Steps Type -->
+    <xs:complexType name="markStepsType">
+        <xs:sequence>
+            <xs:element name="mark" type="markType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <!-- Mark Type -->
+    <xs:complexType name="markType">
+        <xs:sequence>
+            <xs:element name="entry" type="markEntryType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Mark Entry Type -->
+    <xs:complexType name="markEntryType" mixed="true">
+        <xs:attribute name="type" use="required" />
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+
+</xs:schema> 

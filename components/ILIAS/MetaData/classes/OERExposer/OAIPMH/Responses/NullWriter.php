@@ -51,7 +51,8 @@ class NullWriter implements WriterInterface
 
     public function writeRecordHeader(
         string $identifier,
-        \DateTimeImmutable $datestamp
+        \DateTimeImmutable $datestamp,
+        bool $deleted = false
     ): \DOMDocument {
         return new \DOMDocument();
     }
@@ -63,6 +64,13 @@ class NullWriter implements WriterInterface
         string $identifier,
         \DateTimeImmutable $datestamp,
         \DOMDocument $metadata
+    ): \DOMDocument {
+        return new \DOMDocument();
+    }
+
+    public function writeDeletedRecord(
+        string $identifier,
+        \DateTimeImmutable $datestamp
     ): \DOMDocument {
         return new \DOMDocument();
     }

@@ -143,7 +143,9 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     protected function confirmImportGlobalCategories(array $category_ids): void
     {
         // @todo: Confirmation Currently not implemented, so forward to import
-        $this->importGlobalCategories($category_ids);
+        $category_ids === []
+            ? $this->showGlobalUnitCategories()
+            : $this->importGlobalCategories($category_ids);
     }
 
     protected function importGlobalCategories(array $category_ids): void
@@ -171,9 +173,9 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
 
         if ($i) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+            $this->ctrl->setParameter($this, 'question_fi', $this->request->getQuestionId());
         }
 
-        $this->ctrl->setParameter($this, 'question_fi', 0);
         $this->ctrl->redirect($this, 'showLocalUnitCategories');
     }
 }

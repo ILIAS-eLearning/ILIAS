@@ -34,7 +34,7 @@ class ilUserDefinedFieldSearch extends ilAbstractSearch
 
         $query = "SELECT usr_id  " .
             $locate .
-            "FROM udf_text " .
+            "FROM usr_profile_data " .
             $where;
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

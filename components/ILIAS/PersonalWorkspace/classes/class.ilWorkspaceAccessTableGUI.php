@@ -24,10 +24,7 @@
 class ilWorkspaceAccessTableGUI extends ilTable2GUI
 {
     protected int $node_id;
-    /**
-     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
-     */
-    protected $handler;
+    protected ilPortfolioAccessHandler|ilWorkspaceAccessHandler $handler;
 
     /**
      * Constructor

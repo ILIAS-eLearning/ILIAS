@@ -103,10 +103,18 @@ trait ilObjFileInfoProvider
         $amount_of_downloads = null;
 
         if ($this->getGeneralSettings()->isShowAmountOfDownloads()) {
-            $amount_of_downloads = sprintf(
+            $create_date = ilDatePresentation::formatDate(
+                new ilDateTime(
+                    $this->getFileObj()->getCreateDate(),
+                    IL_CAL_DATETIME,
+                    'utc' // most likely the server timezone
+                )
+            );
+
+            $amount_of_downloads = $this->safeSprintf(
                 $this->getLanguage()->txt("amount_of_downloads_since"),
                 $this->getFileObj()->getAmountOfDownloads(),
-                $this->getFileObj()->getCreateDate(),
+                $create_date,
             );
         }
 
@@ -169,4 +177,22 @@ trait ilObjFileInfoProvider
     abstract protected function getNodeID(): int;
 
     abstract protected function getUser(): ilObjUser;
+
+    /**
+     * Robust sprintf: tolerates broken translation placeholders.
+     */
+    private function safeSprintf(string $format, mixed ...$args): string
+    {
+        try {
+            return sprintf($format, ...$args);
+        } catch (\ValueError $e) {
+            $fixed = preg_replace('/%(?!([0-9]+\$)?[bcdeEfFgGosuxX%])/', '%%', $format);
+            try {
+                return sprintf($fixed, ...$args);
+            } catch (\ValueError $e2) {
+                return $format;
+            }
+        }
+    }
+
 }

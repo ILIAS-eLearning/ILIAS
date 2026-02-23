@@ -87,6 +87,23 @@ class ilObjLanguage extends ilObject
 
 
     /**
+     * Return the language keys of the installed languages
+     *
+     * @return array
+     */
+    public static function getLangKeysOfInstalledLanguages(): array
+    {
+        $lang_keys = [];
+        foreach (ilObject::_getObjectsByType("lng") as $lang) {
+            if ($lang['desc'] === 'installed') {
+                $lang_keys[] = $lang['title'];
+            }
+        }
+        return $lang_keys;
+    }
+
+
+    /**
      * get language key
      *
      * Return language key
@@ -442,7 +459,7 @@ class ilObjLanguage extends ilObject
                 } elseif ($scope === "local") {
                     // get the modification date of the local file
                     // get the newer local changes for a local file
-                    $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
+                    $min_date = gmdate("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($min_date);
                 }
                 $dbAccess = new ilObjLanguageDBAccess($ilDB, $this->key, $content, $local_changes, $scope);

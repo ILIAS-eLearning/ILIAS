@@ -17,6 +17,9 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\User\Context;
+
 /**
 * Class ilUserSearchOptions
 *
@@ -28,15 +31,13 @@ declare(strict_types=1);
 */
 class ilUserSearchOptions
 {
-    public const FIELD_TYPE_UDF_UNDEFINED = 0;
-    public const FIELD_TYPE_UDF_SELECT = 1;
-    public const FIELD_TYPE_UDF_TEXT = 2;
-    public const FIELD_TYPE_SELECT = 3;
-    public const FIELD_TYPE_TEXT = 4;
-    // begin-patch lok
-    public const FIELD_TYPE_MULTI = 5;
-    // end-patch lok
-    public const FIELD_TYPE_UDF_WYSIWYG = 6;
+    public const int FIELD_TYPE_UDF_UNDEFINED = 0;
+    public const int FIELD_TYPE_UDF_SELECT = 1;
+    public const int FIELD_TYPE_UDF_TEXT = 2;
+    public const int FIELD_TYPE_SELECT = 3;
+    public const int FIELD_TYPE_TEXT = 4;
+    public const int FIELD_TYPE_MULTI = 5;
+    public const int FIELD_TYPE_UDF_WYSIWYG = 6;
 
 
     /**
@@ -115,9 +116,8 @@ class ilUserSearchOptions
                     );
                     break;
 
-                case 'sel_country':
+                case 'country':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
-                    $fields[$counter]['values'] = array(0 => $lng->txt('please_choose'));
 
                     // #7843 -- see ilCountrySelectInputGUI
                     $lng->loadLanguageModule('meta');
@@ -125,6 +125,7 @@ class ilUserSearchOptions
                         $fields[$counter]['values'][$c] = $lng->txt('meta_c_' . $c);
                     }
                     asort($fields[$counter]['values']);
+                    array_unshift($fields[$counter]['values'], $lng->txt('please_choose'));
                     break;
 
                 case 'org_units':
@@ -167,7 +168,6 @@ class ilUserSearchOptions
                      'zipcode',
                      'city',
                      'country',
-                     'sel_country',
                      'email',
                      'second_email',
                      'hobby',
@@ -190,13 +190,15 @@ class ilUserSearchOptions
     {
         global $DIC;
 
-        $settings = $DIC->settings();
+        /** @var \ILIAS\User\Profile\Profile $profile */
+        $profile = $DIC['user']->getProfile();
 
         // login is always enabled
         if ($a_key == 'login') {
             return true;
         }
-        return (bool) $settings->get('search_enabled_' . $a_key);
+
+        return $profile->getFieldByIdentifier($a_key)?->isSearchable() ?? false;
     }
 
     public static function _saveStatus(string $a_key, bool $a_enabled): bool
@@ -211,28 +213,32 @@ class ilUserSearchOptions
 
     public static function __appendUserDefinedFields(array $fields, int $counter): array
     {
-        $user_defined_fields = ilUserDefinedFields::_getInstance();
-        foreach ($user_defined_fields->getSearchableDefinitions() as $definition) {
-            $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($definition['field_values']);
-            $fields[$counter]['lang'] = $definition['field_name'];
-            $fields[$counter]['db'] = $definition['field_id'];
+        global $DIC;
+        $lng = $DIC->language();
+        foreach ($DIC['user']->getProfile()->getVisibleUserDefinedFields(Context::Search) as $field) {
+            $input = $field->getLegacyInput($lng, Context::Search);
+            $fields[$counter]['lang'] = $field->getLabel($lng);
+            $fields[$counter]['db'] = "udf_{$field->getIdentifier()}";
 
-            switch ($definition['field_type']) {
-                case UDF_TYPE_TEXT:
+            switch ($input::class) {
+                case ilTextInputGUI::class:
+                case ilTextAreaInputGUI::class:
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_TEXT;
                     break;
 
-                case UDF_TYPE_SELECT:
+                case ilMultiSelectInputGUI::class:
+                    $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($input->getOptions());
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
                     break;
 
-                case UDF_TYPE_WYSIWYG:
-                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_WYSIWYG;
+                case ilSelectInputGUI::class:
+                    $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($input->getOptions());
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
                     break;
 
                 default:
                     // do not throw: udf plugin support
-                    $fields[$counter]['type'] = $definition['field_type'];
+                    $fields[$counter]['type'] = $input::class;
                     break;
             }
             ++$counter;

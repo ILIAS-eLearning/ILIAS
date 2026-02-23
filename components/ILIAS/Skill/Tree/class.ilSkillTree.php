@@ -126,7 +126,7 @@ class ilSkillTree extends ilTree
         return $max;
     }
 
-    public function initChildsData()
+    public function initChildsData(): void
     {
         if (isset($this->by_type_data[$this->getTreeId()])) {
             return;

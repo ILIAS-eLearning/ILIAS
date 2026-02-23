@@ -85,17 +85,6 @@ class GUIRequest
         return $this->str('token');
     }
 
-    public function getUserFileCapture(): string
-    {
-        $capture = $this->str('userfile_capture');
-
-        if ($capture !== '') {
-            return $capture;
-        }
-
-        return $this->str('user_picture_carry');
-    }
-
     private function int(string $key): int
     {
         $source = $this->existsInPostOrQuery($key);

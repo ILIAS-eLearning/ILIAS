@@ -266,17 +266,17 @@ class ilObjItemGroupGUI extends ilObject2GUI
 
     public function saveItemAssignment(): void
     {
-        $ilCtrl = $this->ctrl;
-
         $this->checkPermission("write");
 
         $item_group_items = new ilItemGroupItems($this->object->getRefId());
-        $items = $this->ig_request->getItems();
+        $assignable_ref_ids = array_column($item_group_items->getAssignableItems(), 'ref_id');
+        $items = array_intersect($this->ig_request->getItems(), $assignable_ref_ids);
+
         $item_group_items->setItems($items);
         $item_group_items->update();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $ilCtrl->redirect($this, "listMaterials");
+        $this->ctrl->redirect($this, 'listMaterials');
     }
 
     public function getTemplate(): void

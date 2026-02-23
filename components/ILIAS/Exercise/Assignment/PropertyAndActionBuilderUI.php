@@ -681,8 +681,8 @@ class PropertyAndActionBuilderUI
     }
 
     /**
-     * @throws ilCtrlException
-     * @throws ilDateTimeException
+     * @throws \ilCtrlException
+     * @throws \ilDateTimeException
      */
     protected function buildSubmission(): void
     {
@@ -798,7 +798,7 @@ class PropertyAndActionBuilderUI
                 $this->addProperty(
                     self::SEC_TUTOR_EVAL,
                     $lng->txt("exc_comment"),
-                    nl2br($lpcomment)
+                    nl2br($this->gui->html()->escapeCurly($lpcomment))
                 );
             }
             if ($mark !== "") {
@@ -849,7 +849,7 @@ class PropertyAndActionBuilderUI
 
     /**
      * Get time string for deadline
-     * @throws ilDateTimeException
+     * @throws \ilDateTimeException
      */
     protected function getTimeString(int $a_deadline): string
     {

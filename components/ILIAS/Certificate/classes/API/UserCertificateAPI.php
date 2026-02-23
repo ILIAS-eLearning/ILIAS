@@ -86,13 +86,15 @@ class UserCertificateAPI implements UserCertificateApiInterface
     public function certificateCriteriaMetForGivenTemplate(int $usr_id, ilCertificateTemplate $template): void
     {
         if (!$template->isCurrentlyActive()) {
-            $this->logger->debug(sprintf(
-                'Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s',
-                $usr_id,
-                $template->getObjId(),
-                $template->getObjType(),
-                $template->getId()
-            ));
+            $this->logger->debug(
+                \sprintf(
+                    'Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s',
+                    $usr_id,
+                    $template->getObjId(),
+                    $template->getObjType(),
+                    $template->getId()
+                )
+            );
             return;
         }
 
@@ -106,13 +108,26 @@ class UserCertificateAPI implements UserCertificateApiInterface
     {
         $type = $this->object_data_cache->lookupType($obj_id);
         if (!$this->type_class_map->typeExistsInMap($type)) {
-            throw new ilCertificateConsumerNotSupported(sprintf(
-                "Oject type '%s' is not supported by the certificate component!",
-                $type
-            ));
+            throw new ilCertificateConsumerNotSupported(
+                \sprintf(
+                    "Oject type '%s' is not supported by the certificate component!",
+                    $type
+                )
+            );
         }
 
         $template = $this->template_repository->fetchCurrentlyActiveCertificate($obj_id);
+        if ($template->getObjType() !== $type) {
+            $this->logger->error(
+                'Object type mismatch between template and determined type for object with id {obj_id}: '
+                    . 'Expected {type} but got {template_type}!',
+                [
+                    'obj_id' => $obj_id,
+                    'type' => $type,
+                    'template_type' => $template->getObjType()
+                ]
+            );
+        }
 
         $this->certificateCriteriaMetForGivenTemplate($usr_id, $template);
     }
@@ -136,13 +151,15 @@ class UserCertificateAPI implements UserCertificateApiInterface
         int $userId,
         ilCertificateTemplate $template
     ): void {
-        $this->logger->debug(sprintf(
-            'Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s',
-            $userId,
-            $template->getObjId(),
-            $template->getObjType(),
-            $template->getId()
-        ));
+        $this->logger->debug(
+            \sprintf(
+                'Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s',
+                $userId,
+                $template->getObjId(),
+                $template->getObjType(),
+                $template->getId()
+            )
+        );
 
         $entry = new ilCertificateQueueEntry(
             $template->getObjId(),

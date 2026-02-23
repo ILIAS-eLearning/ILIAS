@@ -56,7 +56,6 @@ class assMatchingQuestionImport extends assQuestionImport
         // empty session variable for imported xhtml mobs
         ilSession::clear('import_mob_xhtml');
         $presentation = $item->getPresentation();
-        $shuffle = 0;
         $definitions = [];
         $terms = [];
         $foundimage = false;
@@ -67,7 +66,6 @@ class assMatchingQuestionImport extends assQuestionImport
                     $rendertype = $response->getRenderType();
                     switch (strtolower(get_class($rendertype))) {
                         case "ilqtirenderchoice":
-                            $shuffle = $rendertype->getShuffle();
                             $answerorder = 0;
                             foreach ($rendertype->response_labels as $response_label) {
                                 $ident = $response_label->getIdent();
@@ -174,6 +172,11 @@ class assMatchingQuestionImport extends assQuestionImport
             }
         }
 
+        // additional content editing mode information
+        $this->object->setAdditionalContentEditingMode(
+            $this->fetchAdditionalContentEditingModeInformation($item)
+        );
+
         $this->object->createNewQuestion();
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
@@ -183,7 +186,10 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->setOwner($user_id);
         $this->object->setQuestion($this->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $extended_shuffle = $item->getMetadataEntry('shuffle');
+        $shuffle_mode = $item->getMetadataEntry('shuffle');
+        if (is_numeric($shuffle_mode) && $shuffle_mode > 0) {
+            $this->object->setShuffleMode($shuffle_mode);
+        }
         $this->object->setThumbGeometry(
             $this->deduceThumbSizeFromImportValue((int) $item->getMetadataEntry('thumb_geometry'))
         );
@@ -216,11 +222,6 @@ class assMatchingQuestionImport extends assQuestionImport
             $this->object->addDefinition(new assAnswerMatchingDefinition($definition["answertext"], $definition['answerimage']['label'] ?? '', $definition["answerorder"]));
         }
 
-        if (strlen($extended_shuffle) > 0) {
-            $shuffle = $extended_shuffle;
-        }
-        $this->object->setShuffle($shuffle);
-
         foreach ($responses as $response) {
             $subset = $response["subset"];
             foreach ($subset as $ident) {
@@ -233,10 +234,7 @@ class assMatchingQuestionImport extends assQuestionImport
             }
             $this->object->addMatchingPair(new assAnswerMatchingTerm('', '', (float) $term["ident"]), new assAnswerMatchingDefinition('', '', (int) $definition["answerorder"]), (float) $response['points']);
         }
-        // additional content editing mode information
-        $this->object->setAdditionalContentEditingMode(
-            $this->fetchAdditionalContentEditingModeInformation($item)
-        );
+
         $this->object->saveToDb();
         $this->importSuggestedSolutions($this->object->getId(), $item->suggested_solutions);
         foreach ($responses as $response) {

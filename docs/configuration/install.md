@@ -11,26 +11,26 @@ for a fully functional ILIAS environment.
 
 - [System Requirements](#system-requirements)
   * [Hardware](#hardware)
-  * [Supported Software Setup and Reference System](#supported-software-setup-and-reference-system)
-- [Installation on Ubuntu 24.04](#installation-on-ubuntu-2404)
+  * [Supported Software Setup and Reference System](#supported-system)
+- [Installation on Ubuntu 24.04](#installation-on-linux)
   * [Install Dependencies](#install-dependencies)
-  * [Webserver Installation/Configuration](#webserver-installationconfiguration)
-  * [Database Installation/Configuration](#database-installationconfiguration)
-  * [Get the Code and Install ILIAS](#get-the-code-and-install-ilias)
+  * [Webserver Installation/Configuration](#install-webserver)
+  * [Database Installation/Configuration](#install-database)
+  * [Get the Code and Install ILIAS](#get-code)
   * [Install ILIAS](#install-ilias)
-  * [Install Further Components](#install-further-components)
+  * [Install Further Components](#install-further)
   * [Install Plugins and Styles](#install-plugins-and-styles)
 - [Backup ILIAS](#backup-ilias)
 - [Upgrading ILIAS](#upgrading-ilias)
   * [Minor Upgrade](#minor-upgrade)
   * [Major Upgrade](#major-upgrade)
   * [Update the Database](#update-the-database)
-  * [Information on Updates](#information-on-updates)
+  * [Information on Updates](#information-updates)
 - [Connect and Contribute](#connect-and-contribute)
 - [Appendix](#appendix)
   * [Upgrading Dependencies](#upgrading-dependencies)
-  * [Configure Cron Jobs](#configure-cron-jobs)
-  * [Configure WebDAV](#configure-webdav)
+  * [Configure Cron Jobs](#configurate-cron)
+  * [Configure WebDAV](#webdav-configuration)
   * [Hardening and Security Guidance](#hardening-and-security-guidance)
   * [MySQL Strict Mode (5.7+)](#mysql-strict-mode-57)
 
@@ -65,10 +65,10 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 |--------------|--------------------------------------------------------|------------------|
 | Distribution | current version of Debian GNU Linux, Ubuntu or RHEL    | Ubuntu 22.04 LTS |
 | Database     | MySQL >8.0.21 or MariaDB 10.5 - 10.11                  | MariaDB 10.6.18  |
-| PHP          | 8.3, 8.4                                               | 8.3              |
+| PHP          | 8.3, 8.4                                               | 8.4              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
 | JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
-| Node.js      | 20 (LTS), 21, 22 (LTS), 23 Recommended: 22             | 16.20            |
+| Node.js      | 22 (LTS), 24 Recommended: 24                           | v24.10.0         |
 | Ghostscript  | 10.x                                                   | 9.55             |
 | Imagemagick  | 6.9.x                                                  | 6.9.11           |
 | Browser      | a contemporary browser supporting ES6, CSS3 and HTML 5 |                  |
@@ -334,11 +334,11 @@ sudo -uwww-data composer install --no-dev
 ## Install ILIAS
 
 After having all dependencies installed and configured you should be able to run
-the [ILIAS Setup on the command-line](../../setup/README.md).
+the [ILIAS Setup on the command-line](../../components/ILIAS/setup_/README.md).
 
-To do so, create a configuration file for the setup by copying the [minimal-config.json](../../setup/minimal-config.json)
+To do so, create a configuration file for the setup by copying the [minimal-config.json](../../components/ILIAS/setup_/minimal-config.json)
 to a location outside your docroot. Fill in the configuration fields that are already
-contained in the minimal config. Have a look into the [list of available config options](../../setup/README.md#about-the-config-file)
+contained in the minimal config. Have a look into the [list of available config options](../../components/ILIAS/setup_/README.md#about-the-config-file)
 and add the fields that your environment and installation requires.
 
 ```shell
@@ -396,7 +396,7 @@ sudo -uwww-data php cli/setup.php install /var/www/config/ilias.json
 ```
 
 The installation will display what currently happens and might prompt you with
-questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
+questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
 or into the help of the program itself `php cli/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 
@@ -417,7 +417,7 @@ Optionally you can continue with the installation of further components to get t
 
 1. **ILIAS Cron Job**
 A cron job can be automatically executed to perform recurring tasks, such as sending notifications or deleting inactive user accounts. 
-For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configure-cron-jobs).
+For details on how to configure the automatic execution of cron jobs, see [Configure Cron Jobs](#configurate-cron).
 2. **ILIAS Java RPC server**
 It is used for certain optional functions such as Lucene Search
 or generating PDF Certificates. See [Lucene RPC-Server](../../components/ILIAS/WebServices/RPC/lib/README.md) for details
@@ -590,7 +590,7 @@ will need to update your style to match the new release.
 
 Database updates must be done for both minor and major updates, the schema and content
 of the database probably won't match the code otherwise. Database updates are performed
-via the [command line setup program](../../setup/README.md). The required updates
+via the [command line setup program](../../components/ILIAS/setup_/README.md). The required updates
 are split into two groups. **Updates** are tasks that need to be run immediately to
 make your installation work properly. **Migrations** are tasks, that potentially take
 some time, but which can also be executed while the installation is in productive use.
@@ -613,7 +613,7 @@ installation. Run them by using the `--run` parameter and have a look into
 the help of the command for more details: `php cli/setup.php migrate --help`.
 
 Both commands will display what currently happens and might prompt you with
-questions. You might want to have a look into the [documentation of the command line setup](../../setup/README.md)
+questions. You might want to have a look into the [documentation of the command line setup](../../components/ILIAS/setup_/README.md)
 or into the help of the program itself `php cli/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
 

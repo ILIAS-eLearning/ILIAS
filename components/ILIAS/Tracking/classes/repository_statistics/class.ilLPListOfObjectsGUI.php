@@ -21,7 +21,7 @@ declare(strict_types=0);
 /**
  * Class ilObjUserTrackingGUI
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
+ * @ilCtrl_Calls ilLPListOfObjectsGUI: ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
  * @package      ilias-tracking
  */
 class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI

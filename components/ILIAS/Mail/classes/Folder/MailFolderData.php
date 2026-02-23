@@ -60,6 +60,11 @@ class MailFolderData
         return $this->type === MailFolderType::DRAFTS;
     }
 
+    public function isOutbox(): bool
+    {
+        return $this->type === MailFolderType::OUTBOX;
+    }
+
     public function isSent(): bool
     {
         return $this->type === MailFolderType::SENT;
@@ -82,11 +87,11 @@ class MailFolderData
 
     public function hasIncomingMails(): bool
     {
-        return !$this->isDrafts() && !$this->isSent();
+        return !$this->isDrafts() && !$this->isSent() && !$this->isOutbox();
     }
 
     public function hasOutgoingMails(): bool
     {
-        return $this->isDrafts() || $this->isSent();
+        return $this->isDrafts() || $this->isSent() || $this->isOutbox();
     }
 }

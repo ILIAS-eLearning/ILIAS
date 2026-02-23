@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -459,7 +460,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 !$objDefinition->isSystemObject($node['type']) &&
                 ($all || !in_array($node['type'], $filter, true)) &&
                 $access->checkAccess("read", "", (int) $node['ref_id']) &&
-                ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))) {
+                ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))
+            ) {
                 $nodes[] = $tmp;
             }
         }
@@ -582,8 +584,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             $newObj = new $class_constr();
             if (isset($object_data['owner']) && $object_data['owner'] != '') {
                 if ((int) $object_data['owner']) {
-                    if (ilObject::_exists((int) $object_data['owner']) &&
-                        $ilObjDataCache->lookupType((int) $object_data['owner']) === 'usr') {
+                    if (
+                        ilObject::_exists((int) $object_data['owner']) &&
+                        $ilObjDataCache->lookupType((int) $object_data['owner']) === 'usr'
+                    ) {
                         $newObj->setOwner((int) $object_data['owner']);
                     }
                 } else {
@@ -599,12 +603,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
                 $newObj->setImportId($object_data['import_id']);
             }
 
-            if ($objDefinition->supportsOfflineHandling($newObj->getType())) {
-                $newObj->setOfflineStatus((bool) $object_data['offline']);
-            }
             $newObj->setTitle($object_data['title']);
             $newObj->setDescription($object_data['description']);
             $newObj->create(); // true for upload
+            if ($objDefinition->supportsOfflineHandling($newObj->getType()) && isset($object_data['offline'])) {
+                $newObj->setOfflineStatus((bool) $object_data['offline']);
+                $newObj->update();
+            }
             $newObj->createReference();
             $newObj->putInTree($a_target_id);
             $newObj->setPermissions($a_target_id);
@@ -675,9 +680,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             );
         }
 
-        if (!$objDefinition->allowLink($source_obj->getType()) and
+        if (
+            !$objDefinition->allowLink($source_obj->getType()) and
             $source_obj->getType() !== 'cat' and
-            $source_obj->getType() !== 'crs') {
+            $source_obj->getType() !== 'crs'
+        ) {
             return $this->raiseError(
                 'Linking of object type: ' . $source_obj->getType() . ' is not allowed',
                 'Client'
@@ -1274,11 +1281,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
             return true;
         }
         if ($a_action === 'create') {
-            if (count($a_object_data['references']) > 1 && in_array(
-                $a_object_data['type'],
-                ['cat', 'crs', 'grp', 'fold'],
-                true
-            )) {
+            if (
+                count($a_object_data['references']) > 1 && in_array(
+                    $a_object_data['type'],
+                    ['cat', 'crs', 'grp', 'fold'],
+                    true
+                )
+            ) {
                 return $this->raiseError(
                     "Cannot create references for type " . $a_object_data['type'],
                     'Client'

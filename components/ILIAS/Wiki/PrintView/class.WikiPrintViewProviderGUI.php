@@ -28,33 +28,11 @@ use ilPropertyFormGUI;
  */
 class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+    protected \ilLanguage $lng;
+    protected array|null $selected_pages = null;
+    protected \ilObjWiki $wiki;
+    protected \ilCtrl $ctrl;
 
-    /**
-     * @var array|null
-     */
-    protected $selected_pages = null;
-
-    /**
-     * @var \ilObjWiki
-     */
-    protected $wiki;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * PrintView constructor.
-     * @param \ilLanguage $lng
-     * @param \ilCtrl     $ctrl
-     * @param int         $wiki_ref_id
-     * @param array       $selected_pages
-     */
     public function __construct(
         \ilLanguage $lng,
         \ilCtrl $ctrl,

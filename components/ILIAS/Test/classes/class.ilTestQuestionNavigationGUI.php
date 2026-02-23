@@ -162,15 +162,15 @@ class ilTestQuestionNavigationGUI
         $actions[] = $this->ui_factory->button()->shy(
             $this->lng->txt('tst_revert_changes'),
             $this->revert_changes_link_target
-        )->withUnavailableAction(!$this->revert_changes_link_target);
+        )
+        ->withUnavailableAction(!$this->revert_changes_link_target)
+        ->withAdditionalOnLoadCode(
+            static fn(string $id): string => "document.getElementById('{$id}').classList.add('ilTestRevertChangesAction')"
+        );
 
-        if ($this->question_worked_through) {
-            $actions[] = $this->ui_factory->button()->shy(
-                $this->lng->txt('discard_answer'),
-                '#'
-            )->withUnavailableAction(!$this->discard_solution_button_enabled)
-                ->withOnClick($this->getShowDiscardModalSignal());
-        }
+        $actions[] = $this->ui_factory->button()->shy($this->lng->txt('discard_answer'), '#')
+        ->withUnavailableAction(!$this->discard_solution_button_enabled)
+        ->withOnClick($this->getShowDiscardModalSignal());
 
         $list = $this->ui_factory->dropdown()->standard($actions)->withLabel($this->lng->txt('actions'));
         $tpl->setVariable('ACTION_MENU', $this->ui_renderer->render($list));

@@ -43,7 +43,7 @@ class ilPageContentGUI
     public string $hier_id = "";
     public DOMDocument $dom;
     /** @var array|bool */
-    public $updated;
+    public array|bool|null $updated = null;
     public string $target_script = "";
     public string $return_location = "";
     public ?ilPageConfig $page_config = null;

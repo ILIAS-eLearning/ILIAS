@@ -31,6 +31,8 @@ class ilNotificationObject
     public string $title = '';
     public string $shortDescription = '';
     public string $longDescription = '';
+
+    public ?string $action = null;
     /** @var list<ilNotificationLink> */
     public array $links = [];
     public string $iconPath = '';

@@ -144,7 +144,7 @@
         public_phone_office: y,n
         public_profile: y,n
         public_street: y,n
-        public_upload: y,n
+        public_avatar: y,n
         public_zip: y,n
         send_info_mails: y,n
         show_users_online: y,n, associated

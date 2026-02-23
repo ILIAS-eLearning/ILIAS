@@ -155,34 +155,32 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         $this->addBasicQuestionFormProperties($form);
 
-        $this->populateQuestionSpecificFormPart($form);
-        $this->populateAnswerSpecificFormPart($form);
+        $answer_type = $this->request_data_collector->string('answer_type') ?: null;
+        $this->populateQuestionSpecificFormPart($form, $answer_type);
+        $this->populateAnswerSpecificFormPart($form, $answer_type);
 
         $this->populateTaxonomyFormSection($form);
 
         return $form;
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @return ilPropertyFormGUI
-     */
-    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
+    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form, ?string $answer_type = null): ilPropertyFormGUI
     {
         // shuffle answers
         $shuffleAnswers = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle_answers_enabled");
         $shuffleAnswers->setChecked($this->object->isShuffleAnswersEnabled());
         $form->addItem($shuffleAnswers);
 
+        $answer_type ??= $this->object->getAnswerType();
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // answer mode (single-/multi-line)
             $answerType = new ilSelectInputGUI($this->lng->txt('answer_types'), 'answer_type');
             $answerType->setOptions($this->object->getAnswerTypeSelectOptions($this->lng));
-            $answerType->setValue($this->object->getAnswerType());
+            $answerType->setValue($answer_type);
             $form->addItem($answerType);
         }
 
-        if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($this->object->getAnswerType())) {
+        if (!$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($answer_type)) {
             // thumb size
             $thumb_size = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_size');
             $thumb_size->setSuffix($this->lng->txt('thumb_size_unit_pixel'));
@@ -281,19 +279,17 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $this->object->setScorePartialSolutionEnabled($form->getItemByPostVar('score_partsol_enabled')->getChecked());
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @return ilPropertyFormGUI
-     */
-    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
+    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form, ?string $answer_type = null): ilPropertyFormGUI
     {
+        $answer_type ??= $this->object->getAnswerType();
+
         $answers = new ilKprimChoiceWizardInputGUI($this->lng->txt('answers'), 'kprimanswers');
         $answers->setInfo($this->lng->txt('kprim_answers_info') . ' ' . $this->lng->txt('latex_edit_info'));
         $answers->setSize(64);
         $answers->setRequired(true);
         $answers->setAllowMove(true);
         $answers->setQuestionObject($this->object);
-        $answers->setSingleline($this->object->isSingleLineAnswerType($this->object->getAnswerType()));
+        $answers->setSingleline($this->object->isSingleLineAnswerType($answer_type));
         $answers->setValues($this->object->getAnswers());
         $form->addItem($answers);
 

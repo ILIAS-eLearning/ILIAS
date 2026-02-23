@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\MetaData\Services\CopyrightHelper;
 
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\MetaData\Copyright\EntryInterface;
@@ -71,10 +71,7 @@ class Copyright implements CopyrightInterface
     }
 
     /**
-     * The copyright as UI Components, as it should be presented in the
-     * UI almost everywhere.
-     * If only a string can be returned, it is returned in a legacy UI component.
-     * @return Image[]|Link[]|Content[]
+     * @return Icon[]|Link[]|Content[]
      */
     public function presentAsUIComponents(): array
     {
@@ -82,9 +79,22 @@ class Copyright implements CopyrightInterface
     }
 
     /**
-     * The copyright without image in a reduced presentation, for displaying
-     * copyright where no UI components can be used (e.g. exports of tables).
+     * If the copyright does not have an image, null is returned.
      */
+    public function presentAsImageOnly(): ?Icon
+    {
+        return $this->renderer->toImageOnly($this->entry->copyrightData());
+    }
+
+    /**
+     * If the copyright has no link, its full name is returned as a disabled link.
+     * If it also does not have a full name, null is returned.
+     */
+    public function presentAsLinkOnly(): ?Link
+    {
+        return $this->renderer->toLinkOnly($this->entry->copyrightData());
+    }
+
     public function presentAsString(): string
     {
         return $this->renderer->toString($this->entry->copyrightData());

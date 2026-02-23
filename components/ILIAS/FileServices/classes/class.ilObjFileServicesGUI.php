@@ -34,6 +34,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     protected const TAB_SETTINGS = 'settings';
     protected const TAB_OVERVIEW = 'resource_overview';
     protected const TAB_UPLOAD_LIMITS = 'upload_limits';
+    protected const TAB_WOPI = 'wopi_settings';
 
     protected ilTabsGUI $tabs;
     public ilLanguage $lng;
@@ -59,6 +60,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('adn');
         $this->lng->loadLanguageModule('irss');
+        $this->lng->loadLanguageModule('wopi');
         $this->ctrl = $DIC['ilCtrl'];
         $this->tpl = $DIC['tpl'];
         $this->tree = $DIC['tree'];
@@ -120,6 +122,11 @@ class ilObjFileServicesGUI extends ilObject2GUI
                 $limits_gui = new ilUploadLimitsOverviewGUI();
                 $this->ctrl->forwardCommand($limits_gui);
                 break;
+            case strtolower(ilWOPIAdministrationGUI::class):
+                $this->tabs_gui->activateTab(self::TAB_WOPI);
+                $wopi_gui = new ilWOPIAdministrationGUI();
+                $this->ctrl->forwardCommand($wopi_gui);
+                break;
             default:
                 if (!$cmd || $cmd === 'view') {
                     $cmd = self::CMD_EDIT_SETTINGS;
@@ -137,7 +144,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     {
         // General Settings for File-Services
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )
         ) {
@@ -149,7 +156,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
         // Resource-Overview
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )
         ) {
@@ -161,7 +168,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
         // Upload-Limit
         if ($this->rbac_system->checkAccess(
-            "visible,read",
+            "read",
             $this->object->getRefId()
         )
         ) {
@@ -171,6 +178,19 @@ class ilObjFileServicesGUI extends ilObject2GUI
                 $this->ctrl->getLinkTargetByClass(ilUploadLimitsOverviewGUI::class),
             );
         }
+        // WOPI
+        if ($this->rbac_system->checkAccess(
+            "read",
+            $this->object->getRefId()
+        )
+        ) {
+            $this->tabs_gui->addTab(
+                self::TAB_WOPI,
+                $this->lng->txt(self::TAB_WOPI),
+                $this->ctrl->getLinkTargetByClass(ilWOPIAdministrationGUI::class),
+            );
+        }
+
         // Permissions-tab
         if ($this->rbac_system->checkAccess(
             'edit_permission',
@@ -259,7 +279,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     {
         $this->tabs_gui->setTabActive(self::TAB_SETTINGS);
 
-        $this->checkPermissionOrFail("visible,read");
+        $this->checkPermissionOrFail("read");
 
         // get form
         $form = $this->initSettingsForm();

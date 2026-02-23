@@ -24,6 +24,9 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\DI\Container;
+use ilRbacReview;
+use ilObjUser;
 
 /**
  * Class AdministrationMainBarProvider
@@ -32,6 +35,16 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
  */
 class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
 {
+    private ilRbacReview $rbac_review;
+    private ilObjUser $user;
+
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        $this->rbac_review = $dic->rbac()->review();
+        $this->user = $dic->user();
+    }
+
     public function getStaticTopItems(): array
     {
         return [];
@@ -85,7 +98,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->withAction($action)
                         ->withSymbol($icon)
                         ->withVisibilityCallable(function () use ($ref_id) {
-                            return $this->dic->rbac()->system()->checkAccess('visible,read', (int) $ref_id);
+                            return $this->dic->rbac()->system()->checkAccess('read', (int) $ref_id);
                         });
                 }
 
@@ -158,18 +171,21 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         }
 
         // add entry for switching to repository admin
+        // this is only available to the Administrator role
         // note: please see showChilds methods which prevents infinite look
-        $new_objects[$lng->txt("repository_admin") . ":" . ROOT_FOLDER_ID]
-            = array(
-            "tree" => 1,
-            "child" => ROOT_FOLDER_ID,
-            "ref_id" => ROOT_FOLDER_ID,
-            "depth" => 3,
-            "type" => "root",
-            "title" => $lng->txt("repository_admin"),
-            "description" => $lng->txt("repository_admin_desc"),
-            "desc" => $lng->txt("repository_admin_desc"),
-        );
+        if ($this->rbac_review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID)) {
+            $new_objects[$lng->txt("repository_admin") . ":" . ROOT_FOLDER_ID]
+                = array(
+                "tree" => 1,
+                "child" => ROOT_FOLDER_ID,
+                "ref_id" => ROOT_FOLDER_ID,
+                "depth" => 3,
+                "type" => "root",
+                "title" => $lng->txt("repository_admin"),
+                "description" => $lng->txt("repository_admin_desc"),
+                "desc" => $lng->txt("repository_admin_desc"),
+            );
+        }
 
         $new_objects[$lng->txt("general_settings") . ":" . SYSTEM_FOLDER_ID]
             = array(
@@ -209,9 +225,9 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         // admin menu layout
         $layout = array(
             "maintenance" =>
-                array("adm", "lngf", "hlps", "wfe", 'fils', 'logs', 'sysc', "recf", "root"),
+                array("adma", "serv", "cron", "bnmk", "lngf", "hlps", "wfe", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
-                array("mme", "gsfo", "dshs", "stys", "adve"),
+                array("mme", "gsfo", "dshs", "stys", "adve", "stus"),
             "repository_and_objects" =>
                 array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
                       "mcts", "mobs", "svyf", "assf", "wbrs", 'lsos'),
@@ -226,7 +242,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>
-                array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
+                array('ecss', "ltis", "wbdv", "cmis", "maps", "cmps"),
             "legal_regulations" =>
                 array("impr" ,"tos", "accs", 'dpro')
         );

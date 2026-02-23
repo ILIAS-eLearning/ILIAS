@@ -42,7 +42,7 @@ function disabled()
     $tag_input = $ui->input()
         ->field()
         ->tag(
-            "Basic Tag",
+            "Basic TagInput",
             ['Interesting', 'Boring', 'Animating', 'Repetitious'],
             "Just some tags"
         )->withDisabled(true)->withValue(["Boring", "Animating"]);

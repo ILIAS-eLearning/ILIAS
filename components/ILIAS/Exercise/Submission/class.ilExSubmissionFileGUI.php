@@ -264,7 +264,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         }
 
         $form_adapter = $this->gui
-            ->form(self::class, 'addUpload')
+            ->form([self::class], 'addUpload')
             ->section("props", $this->lng->txt('file_add'))
             ->file(
                 "deliver",
@@ -345,7 +345,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         }*/
         $this->ctrl->setParameterByClass(self::class, "zip", "1");
         $form_adapter = $this->gui
-            ->form(self::class, 'addUpload')
+            ->form([self::class], 'addUpload')
             ->section("props", $this->lng->txt('file_add'))
             ->file(
                 "deliver",

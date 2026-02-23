@@ -458,15 +458,15 @@ class ilECSSettingsGUI
         $this->initSettings((int) $_REQUEST['server_id']);
         $this->loadFromPost();
 
-        if (!$error = $this->settings->validate()) {
-            $this->settings->update();
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt($error));
+        if ($error = $this->settings->validate()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt($error));
             $this->edit();
-        }
+        } else {
+            $this->settings->update();
 
-        $this->overview();
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'));
+            $this->overview();
+        }
     }
 
     /**
@@ -561,7 +561,7 @@ class ilECSSettingsGUI
                 $this->tpl->setOnScreenMessage('failure', $server->getServer() . ': ' . $e->getMessage(), true);
             }
         }
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+
         $this->ctrl->redirect($this, 'communities');
     }
 

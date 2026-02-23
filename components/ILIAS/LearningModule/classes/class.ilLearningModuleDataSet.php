@@ -586,7 +586,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 }
 
                 $a_mapping->addMapping("components/ILIAS/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping("components/ILIAS/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"]);
+                $a_mapping->addMapping("components/ILIAS/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"] ?? "");
                 $a_mapping->addMapping("components/ILIAS/ILIASObject", "obj", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping(
                     "components/ILIAS/MetaData",

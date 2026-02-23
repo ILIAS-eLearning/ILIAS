@@ -588,8 +588,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->checkFilters();
 
         $count = 'COUNT(*)';
@@ -654,7 +657,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         if (
             !isset($questionData['plugin_name'])
             || !$this->component_repository->getComponentByTypeAndName(
-                ilComponentInfo::TYPE_MODULES,
+                ilComponentInfo::TYPE_COMPONENT,
                 'TestQuestionPool'
             )->getPluginSlotById('qst')->hasPluginName($questionData['plugin_name'])
         ) {
@@ -662,13 +665,13 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         }
 
         return $this->component_repository
-            ->getComponentByTypeAndName(ilComponentInfo::TYPE_MODULES, 'TestQuestionPool')
+            ->getComponentByTypeAndName(ilComponentInfo::TYPE_COMPONENT, 'TestQuestionPool')
             ->getPluginSlotById('qst')
             ->getPluginByName($questionData['plugin_name'])
             ->isActive();
     }
 
-    public function getDataArrayForQuestionId(int $questionId)
+    public function getDataArrayForQuestionId(int $questionId): array
     {
         return $this->questions[$questionId];
     }

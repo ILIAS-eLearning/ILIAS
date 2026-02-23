@@ -255,9 +255,9 @@ class ilSecuritySettingsChecker
                 ? max($security->getPasswordMaxLength(), $min)
                 : max($min, 10);
 
-            $random = new ilRandom();
-            $length = $random->int($min, $max);
-            $next = $random->int(1, 2);
+            $random = new \Random\Randomizer();
+            $length = $random->getInt($min, $max);
+            $next = $random->getInt(1, 2);
             $vowels = "aeiou";
             $vowels_uc = strtoupper($vowels);
             $consonants = "bcdfghjklmnpqrstvwxyz";

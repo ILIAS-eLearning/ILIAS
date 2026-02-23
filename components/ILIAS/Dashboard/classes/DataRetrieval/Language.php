@@ -37,8 +37,15 @@ class Language implements DataRetrieval
         global $DIC;
         $this->lng = $DIC->language();
     }
-    public function getRows(DataRowBuilder $row_builder, array $visible_column_ids, Range $range, Order $order, ?array $filter_data, ?array $additional_parameters): Generator
-    {
+    public function getRows(
+        DataRowBuilder $row_builder,
+        array $visible_column_ids,
+        Range $range,
+        Order $order,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): Generator {
         foreach (array_slice($this->lng->getInstalledLanguages(), $range->getStart(), $range->getLength()) as $key) {
             $title = $this->lng->txt('meta_l_' . $key);
             if ($key === $this->lng->getDefaultLanguage()) {
@@ -51,8 +58,11 @@ class Language implements DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count($this->lng->getInstalledLanguages());
     }
 }

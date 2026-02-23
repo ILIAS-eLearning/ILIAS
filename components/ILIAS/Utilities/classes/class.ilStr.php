@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-/**
- * @deprecated
- */
 class ilStr
 {
     public static function subStr(string $a_str, int $a_start, ?int $a_length = null): string

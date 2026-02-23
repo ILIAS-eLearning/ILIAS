@@ -23,15 +23,21 @@ to the Objects and their exports.
 Currently, the OER Harvester and OAI-PMH interface only work with the
 following objects:
 
+- Blog
+- Content Page
+- Data Collection
+- Exercise
 - File
 - Glossary
-- Content Page
 - Learning Module ILIAS
-- Learning Module SCORM
 - Learning Module HTML
+- Learning Module SCORM
+- Mediacast
+- Mediapool
 - Question Pool Survey
 - Question Pool Test
-- Mediapool
+- Weblink
+- wiki
 
 In the OER Harvester cron job configuration, these types can be disabled
 individually.
@@ -120,8 +126,9 @@ such that for the most part records are compiled for Objects that were
 previously harvested, although this is not technically a prerequisite.
 
 If any of these conditions are not fulfilled any more for a previously exposed
-Object, the Object's record will be deleted, and it will not be
-available through the OAI-PMH interface on future requests.
+Object, the Object's record available through the OAI-PMH interface will
+be marked as deleted, and it will not contain any metadata anymore. After
+a grace period of 30 days the record will be fully deleted.
 
 If changes were made to the LOM of a previously exposed object, its record
 will be updated accordingly if necessary (see [below](#mapping-of-metadata)
@@ -173,10 +180,14 @@ always kept up to date.
 
 The implementation of the OAI-PMH interface is for the most part minimal, as specified 
 [here](https://www.openarchives.org/OAI/2.0/guidelines-repository.htm#MinimalImplementation). The only supported metadata format is Simple DC, there are
-no `about` containers, responses are not compressed, deletion of records
-is not tracked, and granularity of datestamps is `YYYY-MM-DD`. Only one
-trivial set named 'default' is implemented, which always contains all
-records, in case any consumers of the interface strictly require a set.
+no `about` containers, responses are not compressed is not tracked, and
+granularity of datestamps is `YYYY-MM-DD`. Only one trivial set named
+'default' is implemented, which always contains all records, in case any
+consumers of the interface strictly require a set.
+
+Deleted Records are supported at the level `transient`. Deleted Records
+are kept for all resources that are not published anymore for whatever
+reason, but only for 30 days.
 
 The interface will however return resumption tokens for lists with more
 than 100 entries. The state of the request is encoded in the token, nothing

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Certificate;
 
+use ILIAS\User\Profile\Profile;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -31,6 +33,7 @@ class TestPlaceholderDescription implements \ilCertificatePlaceholderDescription
     public function __construct(
         ?\ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?\ilLanguage $language = null,
+        ?Profile $profile = null,
         ?\ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
@@ -40,10 +43,12 @@ class TestPlaceholderDescription implements \ilCertificatePlaceholderDescription
             $language->loadLanguageModule('certificate');
         }
         $this->language = $language;
+        $profile ??= $DIC['user']->getProfile();
 
         if (null === $defaultPlaceholderDescriptionObject) {
             $defaultPlaceholderDescriptionObject = new \ilDefaultPlaceholderDescription(
                 $language,
+                $profile,
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
         }

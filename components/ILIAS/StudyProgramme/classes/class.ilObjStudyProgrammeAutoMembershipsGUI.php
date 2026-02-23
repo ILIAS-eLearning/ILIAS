@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Dropdown;
 use ILIAS\UI\Component\Link;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * Class ilObjStudyProgrammeAutoMembershipsGUI
@@ -420,7 +421,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         ->withOnLoadCode(
             function ($id) use ($form_id, $link, $signal_id, $f_selected_type, $f_selected_id) {
                 return
-                    "$('#$id').click(function() { 
+                    "$('#$id').click(function() {
 
                         var checked = $(\"input[name='$f_selected_type']:checked\"). val();
                         if(checked == 'orgu' || typeof(checked) == \"undefined\") {
@@ -687,9 +688,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         ]);
 
         $back_url = $this->ctrl->getLinkTarget($this, self::CMD_VIEW);
-        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'back_url', urlencode($back_url));
-        $this->ctrl->setParameterByClass('ilPublicUserProfileGUI', 'user_id', $usr_id);
-        $url = $this->ctrl->getLinkTargetByClass('ilPublicUserProfileGUI', 'view');
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'back_url', urlencode($back_url));
+        $this->ctrl->setParameterByClass(PublicProfileGUI::class, 'user_id', $usr_id);
+        $url = $this->ctrl->getLinkTargetByClass(PublicProfileGUI::class, 'view');
 
         $usr = ilObjectFactory::getInstanceByObjId($usr_id);
         if (!$usr->hasPublicProfile()) {

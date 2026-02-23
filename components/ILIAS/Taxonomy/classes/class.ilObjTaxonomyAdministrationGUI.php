@@ -68,7 +68,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     {
         $rbacsystem = $this->rbacsystem;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "settings",
                 $this->lng->txt("tax_admin_settings_repository"),

@@ -29,7 +29,7 @@ declare(strict_types=1);
 class ilPCContentInclude extends ilPageContent
 {
     protected ilLanguage $lng;
-    protected ilAccessHandler$access;
+    protected ilAccessHandler $access;
 
     /**
     * Init page content component.

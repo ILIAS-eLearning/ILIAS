@@ -195,8 +195,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
                         $usr_id,
                         $courseTemplate
                     );
-                } catch (ilException $e) {
-                    $this->logger->warning($e->getMessage());
+                } catch (Throwable $e) {
+                    $this->logger->error($e->getMessage());
+                    $this->logger->error($e->getTraceAsString());
                     continue;
                 }
             }

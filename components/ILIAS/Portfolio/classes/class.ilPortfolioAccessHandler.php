@@ -102,7 +102,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         }
 
         // #11921
-        if (!$pf->isOnline()) {
+        if ($pf->getOfflineStatus()) {
             return false;
         }
 

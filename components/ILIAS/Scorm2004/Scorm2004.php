@@ -32,6 +32,12 @@ class Scorm2004 implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
+
+        $contribute[\ILIAS\Setup\Agent::class] = static fn() =>
+            new \ilScorm2004SetupAgent(
+                $pull[\ILIAS\Refinery\Factory::class]
+            );
+
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\Endpoint($this, "storeScorm2004.php");
 
@@ -79,6 +85,17 @@ class Scorm2004 implements Component\Component
             public function getTarget(): string
             {
                 return "components/ILIAS/Scorm2004/templates/default/player.css";
+            }
+        };
+
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/Scorm2004/templates/default/session_timeout.html";
+            }
+            public function getTarget(): string
+            {
+                return "components/ILIAS/Scorm2004/templates/default/session_timeout.html";
             }
         };
     }

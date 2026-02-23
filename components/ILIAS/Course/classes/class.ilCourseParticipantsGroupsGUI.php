@@ -20,6 +20,8 @@ declare(strict_types=0);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\DI\UIServices;
+use ILIAS\Data\Factory as ilDataFactory;
 
 /**
  * Class ilCourseParticipantsGroupsGUI
@@ -38,6 +40,10 @@ class ilCourseParticipantsGroupsGUI
     protected ilObjectDataCache $objectDataCache;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected UIServices $ui_services;
+    protected ilDataFactory $data_factory;
+    protected ilTree $tree;
+    protected ilUIService $ui_service;
 
     public function __construct($a_ref_id)
     {
@@ -51,6 +57,10 @@ class ilCourseParticipantsGroupsGUI
         $this->objectDataCache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->tree = $DIC->repositoryTree();
+        $this->ui_services = $DIC->ui();
+        $this->ui_service = $DIC->uiService();
+        $this->data_factory = new ilDataFactory();
 
         $this->ref_id = $a_ref_id;
     }
@@ -69,162 +79,28 @@ class ilCourseParticipantsGroupsGUI
 
     public function show(): void
     {
-        $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
+        $data_retrieval = new ilCourseParticipantsGroupsTableDataRetrieval(
+            $this,
+            $this->tree,
+            $this->access,
+            $this->ui_services,
+            $this->ref_id
+        );
+        $data_retrieval->init();
+        $tbl_gui = new ilCourseParticipantsGroupsTableGUI(
+            $data_retrieval,
+            $this->ui_services,
+            $this->ui_service,
+            $this->http,
+            $this->refinery,
+            $this->lng,
+            $this->ctrl,
+            $this->data_factory,
+            $this->tpl,
+            $this->access,
+            $this->objectDataCache
+        );
+        $tbl_gui->handleCommands();
         $this->tpl->setContent($tbl_gui->getHTML());
-    }
-
-    public function applyFilter(): void
-    {
-        $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
-        $tbl_gui->resetOffset();
-        $tbl_gui->writeFilterToSession();
-        $this->show();
-    }
-
-    public function resetFilter(): void
-    {
-        $tbl_gui = new ilCourseParticipantsGroupsTableGUI($this, "show", $this->ref_id);
-        $tbl_gui->resetOffset();
-        $tbl_gui->resetFilter();
-        $this->show();
-    }
-
-    public function confirmRemove(): void
-    {
-        $grp_id = 0;
-        if ($this->http->wrapper()->query()->has('grp_id')) {
-            $grp_id = $this->http->wrapper()->query()->retrieve(
-                'grp_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $confirm = new ilConfirmationGUI();
-        $confirm->setFormAction($this->ctrl->getFormAction($this, 'remove'));
-        $confirm->addHiddenItem("grp_id", $grp_id);
-        $confirm->setHeaderText($this->lng->txt('grp_dismiss_member'));
-        $confirm->setConfirm($this->lng->txt('confirm'), 'remove');
-        $confirm->setCancel($this->lng->txt('cancel'), 'show');
-
-        $usr_id = 0;
-        if ($this->http->wrapper()->query()->has('usr_id')) {
-            $usr_id = $this->http->wrapper()->query()->retrieve(
-                'usr_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $confirm->addItem(
-            'usr_id',
-            $usr_id,
-            ilUserUtil::getNamePresentation($usr_id, false, false, "", true),
-            ilUtil::getImagePath('standard/icon_usr.svg')
-        );
-
-        $this->tpl->setContent($confirm->getHTML());
-    }
-
-    protected function remove(): void
-    {
-        $grp_id = 0;
-        if ($this->http->wrapper()->post()->has('grp_id')) {
-            $grp_id = $this->http->wrapper()->post()->retrieve(
-                'grp_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $usr_id = 0;
-        if ($this->http->wrapper()->post()->has('usr_id')) {
-            $usr_id = $this->http->wrapper()->post()->retrieve(
-                'usr_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $grp_id)) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-            $this->show();
-            return;
-        }
-
-        $members_obj = ilGroupParticipants::_getInstanceByObjId($this->objectDataCache->lookupObjId($grp_id));
-        $members_obj->delete($usr_id);
-
-        // Send notification
-        $members_obj->sendNotification(
-            ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER,
-            (int) $usr_id
-        );
-
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_membership_annulled"), true);
-        $this->ctrl->redirect($this, "show");
-    }
-
-    protected function getMultiCommandGroupID(): int
-    {
-        $grp_id = 0;
-        $table_command = '';
-        if (
-            $this->http->wrapper()->post()->has('cmd') &&
-            $this->http->wrapper()->post()->has('grp_id')
-        ) {
-            $grp_id = $this->http->wrapper()->post()->retrieve(
-                'grp_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        } elseif (
-            $this->http->wrapper()->post()->has('table_top_cmd') &&
-            $this->http->wrapper()->post()->has('grp_id_2')
-        ) {
-            $grp_id = $this->http->wrapper()->post()->retrieve(
-                'grp_id_2',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        return $grp_id;
-    }
-
-    protected function add(): void
-    {
-        $grp_id = $this->getMultiCommandGroupID();
-        $usr_ids = [];
-        if ($this->http->wrapper()->post()->has('usrs')) {
-            $usr_ids = $this->http->wrapper()->post()->retrieve(
-                'usrs',
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->int())
-            );
-        }
-
-        if (count($usr_ids) > 0) {
-            if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $grp_id)) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-                $this->show();
-                return;
-            }
-
-            $members_obj = ilGroupParticipants::_getInstanceByObjId($this->objectDataCache->lookupObjId($grp_id));
-            $rejected_count = 0;
-            foreach ($usr_ids as $new_member) {
-                if (!$members_obj->add($new_member, ilParticipants::IL_GRP_MEMBER)) {
-                    $rejected_count++;
-                    continue;
-                }
-
-                $members_obj->sendNotification(
-                    ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
-                    $new_member
-                );
-            }
-
-            if ($rejected_count === 0) {
-                $message = $this->lng->txt('grp_msg_member_assigned');
-            } else {
-                $accepted_count = count($usr_ids) - $rejected_count;
-                $message = sprintf(
-                    $this->lng->txt('grp_not_all_users_assigned_msg'),
-                    $accepted_count,
-                    $rejected_count
-                );
-            }
-            $this->tpl->setOnScreenMessage('success', $message);
-        }
-        $this->show();
     }
 }

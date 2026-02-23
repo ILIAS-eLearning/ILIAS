@@ -25,10 +25,16 @@ use ILIAS\Refinery\Transformation;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Container;
 use ILIAS\UI\Component\Input\Input;
+use ILIAS\Data\URI;
 
 /**
  * This describes commonalities between all forms.
  */
 interface Form extends Container
 {
+    /**
+     * Get a form container like this, but provide an additional form action which
+     * will be displayed as an additional submit button.
+     */
+    public function withAdditionalFormAction(string $action, string $label): static;
 }

@@ -36,26 +36,34 @@ class MapDBRepository
     ): void {
         $this->removeScreenIdsOfChapter($a_chap);
         foreach ($a_ids as $id) {
-            $full_id = $id;
+            $full_id = trim($id);
             $id = trim($id);
             $id = explode("/", $id);
             if ($id[0] != "") {
                 if (($id[1] ?? "") == "") {
                     $id[1] = "-";
                 }
-                $id2 = explode("#", ($id[2] ?? ""));
+                $pos2 = strpos($full_id, "/", strpos($full_id, "/") + 1);
+                if ($pos2 === false) {
+                    $id2 = "";
+                } else {
+                    $id2 = substr($full_id, $pos2 + 1);
+                }
+                $id2 = explode("#", ($id2 ?? ""));
                 if (($id2[0] ?? "") == "") {
                     $id2[0] = "-";
                 }
                 if (($id2[1] ?? "") == "") {
                     $id2[1] = "-";
                 }
-                $this->db->replace(
+                // strip perm from full id
+                $pos = strpos($full_id, "#");
+                if ($pos !== false) {
+                    $full_id = substr($full_id, 0, $pos);
+                }
+                $this->db->insert(
                     "help_map",
                     array("chap" => array("integer", $a_chap),
-                          "component" => array("text", $id[0]),
-                          "screen_id" => array("text", $id[1]),
-                          "screen_sub_id" => array("text", $id2[0]),
                           "perm" => array("text", $id2[1]),
                           "full_id" => array("text", trim($full_id)),
                           "module_id" => array("integer", 0)
@@ -75,12 +83,9 @@ class MapDBRepository
         int $a_module_id = 0,
         string $full_id = ""
     ): void {
-        $this->db->replace(
+        $this->db->insert(
             "help_map",
             array("chap" => array("integer", $a_chap),
-                  "component" => array("text", $a_comp),
-                  "screen_id" => array("text", $a_screen_id),
-                  "screen_sub_id" => array("text", $a_screen_sub_id),
                   "perm" => array("text", $a_perm),
                   "module_id" => array("integer", $a_module_id),
                   "full_id" => array("text", $full_id)
@@ -108,21 +113,15 @@ class MapDBRepository
             "SELECT * FROM help_map " .
             " WHERE chap = " . $this->db->quote($a_chap, "integer") .
             " AND module_id = " . $this->db->quote($a_module_id, "integer") .
-            " ORDER BY component, screen_id, screen_sub_id"
+            " ORDER BY full_id"
         );
         $screen_ids = array();
         while ($rec = $this->db->fetchAssoc($set)) {
-            if ($rec["screen_id"] == "-") {
-                $rec["screen_id"] = "";
-            }
-            if ($rec["screen_sub_id"] == "-") {
-                $rec["screen_sub_id"] = "";
-            }
-            $id = $rec["component"] . "/" . $rec["screen_id"] . "/" . $rec["screen_sub_id"];
+            $id = $rec["full_id"];
             if ($rec["perm"] != "" && $rec["perm"] != "-") {
                 $id .= "#" . $rec["perm"];
             }
-            $screen_ids[] = $rec["full_id"];
+            $screen_ids[] = $id;
         }
         return $screen_ids;
     }
@@ -131,27 +130,18 @@ class MapDBRepository
         string $a_screen_id,
         array $module_ids
     ): \Generator {
-        $sc_id = explode("/", $a_screen_id);
-        $chaps = array();
+        $chaps = [];
         foreach ($module_ids as $module_id) {
-            if (($sc_id[0] ?? "") != "") {
-                if (($sc_id[1] ?? "") == "") {
-                    $sc_id[1] = "-";
-                }
-                if (($sc_id[2] ?? "") == "") {
-                    $sc_id[2] = "-";
-                }
-                $set = $this->db->query(
-                    $q =
-                    "SELECT chap, perm FROM help_map JOIN lm_tree" .
-                    " ON (help_map.chap = lm_tree.child) " .
-                    " WHERE full_id = " . $this->db->quote($a_screen_id, "text") .
-                    " AND module_id = " . $this->db->quote($module_id, "integer") .
-                    " ORDER BY lm_tree.lft"
-                );
-                while ($rec = $this->db->fetchAssoc($set)) {
-                    yield $rec;
-                }
+            $set = $this->db->query(
+                $q =
+                "SELECT chap, perm FROM help_map JOIN lm_tree" .
+                " ON (help_map.chap = lm_tree.child) " .
+                " WHERE full_id = " . $this->db->quote($a_screen_id, "text") .
+                " AND module_id = " . $this->db->quote($module_id, "integer") .
+                " ORDER BY lm_tree.lft"
+            );
+            while ($rec = $this->db->fetchAssoc($set)) {
+                yield $rec;
             }
         }
     }

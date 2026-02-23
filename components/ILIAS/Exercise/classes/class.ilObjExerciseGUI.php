@@ -888,7 +888,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $this->checkPermission("read");
 
         $tabs->activateTab("content");
-        $this->addContentSubTabs("list");
+        $this->addContentSubTabs("content");
 
         if ($this->handleRandomAssignmentEntryPage()) {
             return;
@@ -959,8 +959,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         )->withActive($am->getListModeLabel($this->getCurrentMode()));
 
         $html = "";
-        $l = $f->legacy()->content("<br><br>");
-        $html .= $r->render([$mode, $l, $panel]);
+        $html .= $r->render([$mode, $panel]);
 
         $this->tpl->setContent(
             $html

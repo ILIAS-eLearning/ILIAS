@@ -31,7 +31,7 @@ class ilUnitTestPageManager implements \ILIAS\COPage\Page\PageManagerInterface
 
     public function mockGet(
         ilPageObject $page_object
-    ) {
+    ): void {
         $this->test_get = $page_object;
     }
 

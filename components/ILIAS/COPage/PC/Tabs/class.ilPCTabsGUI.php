@@ -611,6 +611,9 @@ class ilPCTabsGUI extends ilPageContentGUI
             $pc_obj = new $pc_class($this->getPage());
 
             // post xsl page content modification by pc elements
+            // #45742
+            $pc_obj->setFileDownloadLink("#");
+            $pc_obj->setSourcecodeDownloadScript("#");
             $output = $pc_obj->modifyPageContentPostXsl($output, "presentation", false);
         }
 

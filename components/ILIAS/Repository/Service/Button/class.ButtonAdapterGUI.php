@@ -174,8 +174,16 @@ EOT;
         }
     }
 
-    public function render(): string
+    public function render(?array $data = null): string
     {
-        return $this->ui->renderer()->render($this->getButton());
+        $html = $this->ui->renderer()->render($this->getButton());
+        $data_str = "";
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data_str .= " data-$key=\"$value\" ";
+            }
+            $html = str_replace("<button", "<button $data_str", $html);
+        }
+        return $html;
     }
 }

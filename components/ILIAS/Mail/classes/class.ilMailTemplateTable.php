@@ -28,6 +28,7 @@ use ILIAS\UI\Component\Table\DataRetrieval;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
+use ILIAS\Data\URI;
 
 class ilMailTemplateTable implements DataRetrieval
 {
@@ -41,7 +42,7 @@ class ilMailTemplateTable implements DataRetrieval
         private readonly ServerRequestInterface $http_request,
         private readonly ilLanguage $lng,
         private readonly UIFactory $ui_factory,
-        private readonly DataFactory $data_factory,
+        private readonly Uri $table_uri,
         private readonly ilMailTemplateService $service,
         private readonly bool $read_only = false,
     ) {
@@ -53,8 +54,9 @@ class ilMailTemplateTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords($range, $order);
         foreach ($records as $record) {
@@ -88,8 +90,7 @@ class ilMailTemplateTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         $query_params_namespace = ['mail', 'template'];
-        $table_uri = $this->data_factory->uri($this->http_request->getUri()->__toString());
-        $url_builder = new URLBuilder($table_uri);
+        $url_builder = new URLBuilder($this->table_uri);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
             $query_params_namespace,
             'table_action',
@@ -107,6 +108,7 @@ class ilMailTemplateTable implements DataRetrieval
                 'mail_man_tpl'
             )
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withRequest($this->http_request);
     }
 
@@ -127,8 +129,11 @@ class ilMailTemplateTable implements DataRetrieval
         return $this->lng->txt('mail_template_orphaned_context');
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->initRecords();
 
         return count((array) $this->records);

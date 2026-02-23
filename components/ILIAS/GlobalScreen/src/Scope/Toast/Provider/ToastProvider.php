@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,7 +26,7 @@ use ILIAS\DI\Container;
 
 interface ToastProvider extends Provider
 {
-    public function __construct(Container $dic);
+//    public function __construct(Container $dic);
 
     /**
      * @return isStandardItem[]

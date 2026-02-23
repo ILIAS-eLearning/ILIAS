@@ -26,7 +26,6 @@ use ILIAS\Test\TestManScoringDoneHelper;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\ExportImport\Factory as ExportImportFactory;
-use ILIAS\Test\ExportImport\Types as ExportImportTypes;
 use ILIAS\Test\Logging\TestAdministrationInteractionTypes;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -34,15 +33,15 @@ use ILIAS\Test\Scoring\Marks\MarksRepository;
 use ILIAS\Test\Scoring\Marks\Mark;
 use ILIAS\Test\Scoring\Marks\MarkSchema;
 use ILIAS\Test\Scoring\Manual\TestScoring;
+use ILIAS\Test\Settings\SettingsFactory;
 use ILIAS\Test\Settings\GlobalSettings\Repository as GlobalSettingsRepository;
 use ILIAS\Test\Settings\GlobalSettings\GlobalTestSettings;
 use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
-use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
 use ILIAS\Test\Settings\MainSettings\MainSettings;
+use ILIAS\Test\Settings\MainSettings\RedirectionModes;
 use ILIAS\Test\Settings\MainSettings\SettingsIntroduction;
 use ILIAS\Test\Settings\MainSettings\SettingsFinishing;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsRepository;
-use ILIAS\Test\Settings\ScoreReporting\ScoreSettingsDatabaseRepository;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
@@ -71,10 +70,6 @@ class ilObjTest extends ilObject
     public const INVITATION_ON = 1;
     public const SCORE_LAST_PASS = 0;
     public const SCORE_BEST_PASS = 1;
-
-    public const REDIRECT_NONE = 0;
-    public const REDIRECT_ALWAYS = 1;
-    public const REDIRECT_KIOSK = 2;
 
     private ?bool $activation_limited = null;
     private array $mob_ids;
@@ -130,9 +125,10 @@ class ilObjTest extends ilObject
 
     protected GlobalSettingsRepository $global_settings_repo;
     protected ?MainSettings $main_settings = null;
-    protected ?MainSettingsRepository $main_settings_repo = null;
+    protected ?MainSettingsRepository $main_settings_repository = null;
     protected ?ScoreSettings $score_settings = null;
-    protected ?ScoreSettingsRepository $score_settings_repo = null;
+    protected ?ScoreSettingsRepository $score_settings_repository = null;
+    protected SettingsFactory $settings_factory;
 
     protected TestLogger $logger;
     protected TestLogViewer $log_viewer;
@@ -178,11 +174,14 @@ class ilObjTest extends ilObject
         $this->log_viewer = $local_dic['logging.viewer'];
         $this->global_settings_repo = $local_dic['settings.global.repository'];
         $this->marks_repository = $local_dic['marks.repository'];
+        $this->settings_factory = $local_dic['settings.factory'];
         $this->questionrepository = $local_dic['question.general_properties.repository'];
         $this->testrequest = $local_dic['request_data_collector'];
         $this->participant_repository = $local_dic['participant.repository'];
         $this->export_factory = $local_dic['exportimport.factory'];
         $this->test_result_repository = $local_dic['results.data.repository'];
+        $this->main_settings_repository = $local_dic['settings.main.repository'];
+        $this->score_settings_repository = $local_dic['settings.scoring.repository'];
 
         parent::__construct($id, $a_call_by_reference);
 
@@ -315,6 +314,12 @@ class ilObjTest extends ilObject
             "DELETE FROM tst_tests WHERE test_id = %s",
             ['integer'],
             [$this->getTestId()]
+        );
+
+        $this->db->manipulateF(
+            "DELETE FROM tst_test_settings WHERE id = %s",
+            ['integer'],
+            [$this->getMainSettings()->getId()]
         );
 
         $tst_data_dir = ilFileUtils::getDataDir() . "/tst_data";
@@ -471,6 +476,11 @@ class ilObjTest extends ilObject
             );
 
             $this->test_id = $next_id;
+
+            $this->getMainSettingsRepository()->store(
+                $this->settings_factory->createDefaultMainSettings(),
+                $this->getTestId()
+            );
         } else {
             if ($this->evalTotalPersons() > 0) {
                 // reset the finished status of participants if the nr of test passes did change
@@ -519,13 +529,6 @@ class ilObjTest extends ilObject
                 }
             }
         }
-
-        $this->storeActivationSettings(
-            $this->isActivationLimited(),
-            $this->getActivationStartingTime(),
-            $this->getActivationEndingTime(),
-            $this->getActivationVisibility(),
-        );
 
         if ($properties_only) {
             return;
@@ -618,23 +621,6 @@ class ilObjTest extends ilObject
             $this->setTestId($data->test_id);
             $this->loadQuestions();
         }
-
-        // moved activation to ilObjectActivation
-        if (isset($this->ref_id)) {
-            $activation = ilObjectActivation::getItem($this->ref_id);
-            switch ($activation["timing_type"]) {
-                case ilObjectActivation::TIMINGS_ACTIVATION:
-                    $this->setActivationLimited(true);
-                    $this->setActivationStartingTime($activation["timing_start"]);
-                    $this->setActivationEndingTime($activation["timing_end"]);
-                    $this->setActivationVisibility($activation["visible"]);
-                    break;
-
-                default:
-                    $this->setActivationLimited(false);
-                    break;
-            }
-        }
     }
 
     /**
@@ -684,11 +670,9 @@ class ilObjTest extends ilObject
     public function getIntroduction(): string
     {
         $page_id = $this->getMainSettings()->getIntroductionSettings()->getIntroductionPageId();
-        if ($page_id !== null) {
-            return (new ilTestPageGUI('tst', $page_id))->showPage();
-        }
-
-        return $this->getMainSettings()->getIntroductionSettings()->getIntroductionText();
+        return $page_id !== null
+            ? (new ilTestPageGUI('tst', $page_id))->showPage()
+            : '';
     }
 
     private function cloneIntroduction(): ?int
@@ -703,10 +687,9 @@ class ilObjTest extends ilObject
     public function getFinalStatement(): string
     {
         $page_id = $this->getMainSettings()->getFinishingSettings()->getConcludingRemarksPageId();
-        if ($page_id !== null) {
-            return (new ilTestPageGUI('tst', $page_id))->showPage();
-        }
-        return $this->getMainSettings()->getFinishingSettings()->getConcludingRemarksText();
+        return $page_id !== null
+            ? (new ilTestPageGUI('tst', $page_id))->showPage()
+            : '';
     }
 
     private function cloneConcludingRemarks(): ?int
@@ -725,6 +708,16 @@ class ilObjTest extends ilObject
         $new_page_id = $page_object->createPageWithNextId();
         (new ilTestPage($source_page_id))->copy($new_page_id);
         return $new_page_id;
+    }
+
+    private function getPageContentFromPageId(int $page_id): ?string
+    {
+        $page = (new ilTestPageGUI('tst', $page_id));
+        if ($page->getPageObject()->getXMLContent() === '<PageObject></PageObject>') {
+            return null;
+        }
+
+        return $page->showPage();
     }
 
     /**
@@ -765,20 +758,22 @@ class ilObjTest extends ilObject
         return $this->getScoreSettings()->getScoringSettings()->getCountSystem();
     }
 
-    public static function _getCountSystem($active_id)
+    /**
+     * @deprecated This is only temporary
+     */
+    private static function _getScoreSettingsByActiveId(int $active_id): ScoreSettings
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
-            ['integer'],
-            [$active_id]
+        return TestDIC::dic()['settings.scoring.repository']->getFor(
+            ilObjTest::_getTestIDFromObjectID(ilObjTest::_getObjectIDFromActiveID($active_id)),
         );
-        if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
-            return $row["count_system"];
-        }
-        return false;
+    }
+
+    /**
+     * @deprecated Use ScoreSettingsRepository or \ilObjTest::getCountSystem instead
+     */
+    public static function _getCountSystem(int $active_id): int
+    {
+        return self::_getScoreSettingsByActiveId($active_id)->getScoringSettings()->getCountSystem();
     }
 
     /**
@@ -798,41 +793,19 @@ class ilObjTest extends ilObject
     }
 
     /**
-    * Gets the pass scoring type
-    */
+     * @deprecated Use ScoreSettingsRepository or \ilObjTest::getPassScoring instead
+     */
     public static function _getPassScoring(int $active_id): int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-            ['integer'],
-            [$active_id]
-        );
-        if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
-            return (int) $row["pass_scoring"];
-        }
-        return 0;
+        return self::_getScoreSettingsByActiveId($active_id)->getScoringSettings()->getPassScoring();
     }
 
     /**
-    * Determines if the score of a question should be cut at 0 points or the score of the whole test
-    */
+     * @deprecated Use ScoreSettingsRepository or \ilObjTest::getScoreCutting instead
+     */
     public static function _getScoreCutting(int $active_id): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
-            ['integer'],
-            [$active_id]
-        );
-        if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
-            return (bool) $row["score_cutting"];
-        }
-        return false;
+        return (bool) self::_getScoreSettingsByActiveId($active_id)->getScoringSettings()->getScoreCutting();
     }
 
     public function getMarkSchema(): MarkSchema
@@ -884,25 +857,9 @@ class ilObjTest extends ilObject
         return $this->getMainSettings()->getQuestionBehaviourSettings()->getQuestionTitleOutputMode();
     }
 
-    public function isPreviousSolutionReuseEnabled($active_id): bool
+    public function isPreviousSolutionReuseEnabled(): bool
     {
-        $result = $this->db->queryF(
-            "SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-            ["integer"],
-            [$active_id]
-        );
-        if ($result->numRows()) {
-            $row = $this->db->fetchAssoc($result);
-            $test_allows_reuse = $row["use_previous_answers"];
-        }
-
-        if ($test_allows_reuse === '1') {
-            $res = $this->user->getPref("tst_use_previous_answers");
-            if ($res === '1') {
-                return true;
-            }
-        }
-        return false;
+        return $this->getUsePreviousAnswers() && $this->user->getPref('tst_use_previous_answers') === '1';
     }
 
     public function getProcessingTime(): ?string
@@ -971,26 +928,6 @@ class ilObjTest extends ilObject
         return $end_time !== null ? $end_time->getTimestamp() : 0;
     }
 
-    public function getRedirectionMode(): int
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionMode();
-    }
-
-    public function isRedirectModeKiosk(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionMode() === self::REDIRECT_KIOSK;
-    }
-
-    public function isRedirectModeNone(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionMode() === self::REDIRECT_NONE;
-    }
-
-    public function getRedirectionUrl(): string
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getRedirectionUrl() ?? '';
-    }
-
     public function isPasswordEnabled(): bool
     {
         return $this->getMainSettings()->getAccessSettings()->getPasswordEnabled();
@@ -1007,7 +944,7 @@ class ilObjTest extends ilObject
             $this,
             $this->user,
             $this->db,
-            $this->lng
+            $this->test_result_repository
         );
 
         array_walk(
@@ -1789,19 +1726,23 @@ class ilObjTest extends ilObject
      */
     public function getTestResult(
         int $active_id,
-        ?int $pass = null,
+        ?int $attempt = null,
         bool $ordered_sequence = false,
         bool $consider_hidden_questions = true,
         bool $consider_optional_questions = true
     ): array {
         $test_result = $this->test_result_repository->getTestResult($active_id);
 
-        if ($pass === null) {
-            $pass = $test_result->getAttempt();
+        if ($test_result === null) {
+            $test_result = $this->test_result_repository->updateTestResultCache($active_id);
+        }
+
+        if ($attempt === null) {
+            $attempt = $test_result->getAttempt();
         }
 
         $test_sequence_factory = new ilTestSequenceFactory($this, $this->db, $this->questionrepository);
-        $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $pass);
+        $test_sequence = $test_sequence_factory->getSequenceByActiveIdAndPass($active_id, $attempt);
 
         $test_sequence->setConsiderHiddenQuestionsEnabled($consider_hidden_questions);
         $test_sequence->setConsiderOptionalQuestionsEnabled($consider_optional_questions);
@@ -1841,33 +1782,22 @@ class ilObjTest extends ilObject
         $solutionresult = $this->db->queryF(
             $query,
             ['integer', 'integer'],
-            [$active_id, $pass]
+            [$active_id, $attempt]
         );
 
         while ($row = $this->db->fetchAssoc($solutionresult)) {
             $arr_results[ $row['question_fi'] ] = $row;
         }
 
-        $num_worked_through = count($arr_results);
+        $result = $this->db->query(
+            'SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol' . PHP_EOL
+            . 'FROM	qpl_qst_type, qpl_questions' . PHP_EOL
+            . 'LEFT JOIN qpl_sol_sug' . PHP_EOL
+            . 'ON qpl_sol_sug.question_fi = qpl_questions.question_id' . PHP_EOL
+            . 'WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi' . PHP_EOL
+            . 'AND ' . $this->db->in('qpl_questions.question_id', $sequence, false, 'integer')
+        );
 
-        $IN_question_ids = $this->db->in('qpl_questions.question_id', $sequence, false, 'integer');
-
-        $query = "
-			SELECT		qpl_questions.*,
-						qpl_qst_type.type_tag,
-						qpl_sol_sug.question_fi has_sug_sol
-
-			FROM		qpl_qst_type,
-						qpl_questions
-
-			LEFT JOIN	qpl_sol_sug
-			ON			qpl_sol_sug.question_fi = qpl_questions.question_id
-
-			WHERE		qpl_qst_type.question_type_id = qpl_questions.question_type_fi
-			AND			$IN_question_ids
-		";
-
-        $result = $this->db->query($query);
         $unordered = [];
         $key = 1;
         while ($row = $this->db->fetchAssoc($result)) {
@@ -1883,16 +1813,16 @@ class ilObjTest extends ilObject
             }
 
             $data = [
-                "nr" => "$key",
-                "title" => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
-                "max" => round($row['points'], 2),
-                "reached" => round($arr_results[$row['question_id']]['reached'] ?? 0, 2),
-                "percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-                "solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
-                "type" => $row["type_tag"],
-                "qid" => $row['question_id'],
-                "original_id" => $row["original_id"],
-                "workedthrough" => isset($arr_results[$row['question_id']]) ? 1 : 0,
+                'nr' => $key,
+                'title' => ilLegacyFormElementsUtil::prepareFormOutput($row['title']),
+                'max' => round($row['points'], 2),
+                'reached' => round($arr_results[$row['question_id']]['reached'] ?? 0, 2),
+                'percent' => sprintf('%2.2f ', ($percentvalue) * 100) . '%',
+                'solution' => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
+                'type' => $row['type_tag'],
+                'qid' => $row['question_id'],
+                'original_id' => $row['original_id'],
+                'workedthrough' => isset($arr_results[$row['question_id']]) ? 1 : 0,
                 'answered' => $arr_results[$row['question_id']]['answered'] ?? 0,
                 'finalized_evaluation' => $arr_results[$row['question_id']]['finalized_evaluation'] ?? 0,
             ];
@@ -1901,13 +1831,10 @@ class ilObjTest extends ilObject
             $key++;
         }
 
-        $numQuestionsTotal = count($unordered);
-
         $pass_max = 0;
         $pass_reached = 0;
 
         $found = [];
-
         foreach ($sequence as $qid) {
             // building pass point sums based on prepared data
             // for question that exists in users qst sequence
@@ -1915,8 +1842,6 @@ class ilObjTest extends ilObject
             $pass_reached += round($unordered[$qid]['reached'], 2);
             $found[] = $unordered[$qid];
         }
-
-        $unordered = null;
 
         if ($this->getScoreCutting() == 1) {
             if ($pass_reached < 0) {
@@ -1927,12 +1852,12 @@ class ilObjTest extends ilObject
         $found['pass']['total_max_points'] = $pass_max;
         $found['pass']['total_reached_points'] = $pass_reached;
         $found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
-        $found['pass']['num_workedthrough'] = $num_worked_through;
-        $found['pass']['num_questions_total'] = $numQuestionsTotal;
+        $found['pass']['num_workedthrough'] = count($arr_results);
+        $found['pass']['num_questions_total'] = count($unordered);
 
         $found['test']['total_max_points'] = $test_result->getMaxPoints();
         $found['test']['total_reached_points'] = $test_result->getReachedPoints();
-        $found['test']['result_pass'] = $test_result->getAttempt();
+        $found['test']['result_pass'] = $attempt;
         $found['test']['result_tstamp'] = $test_result->getTimestamp();
         $found['test']['passed'] = $test_result->isPassed();
 
@@ -2425,6 +2350,21 @@ class ilObjTest extends ilObject
         );
     }
 
+    /**
+     * return int[]
+     */
+    public function getAnonOnlyParticipantIds(): array
+    {
+        $list = new ilTestParticipantList($this, $this->user, $this->lng, $this->db);
+        $list->initializeFromDbRows($this->getTestParticipants());
+        if ($this->getAnonymity()) {
+            return $list->getAllUserIds();
+        }
+        return $list->getAccessFilteredList(
+            $this->participant_access_filter->getAnonOnlyParticipantsUserFilter($this->getRefId())
+        )->getAllUserIds();
+    }
+
     public function getUnfilteredEvaluationData(): ilTestEvaluationData
     {
         return (new ilTestEvaluationFactory($this->db, $this))
@@ -2844,12 +2784,6 @@ class ilObjTest extends ilObject
      */
     public function fromXML(ilQTIAssessment $assessment, array $mappings): void
     {
-        if (($importdir = ilSession::get('path_to_container_import_file')) === null) {
-            $importdir = $this->buildImportDirectoryFromImportFile(ilSession::get('path_to_import_file'));
-        }
-        ilSession::clear('path_to_container_import_file');
-        ilSession::clear('import_mob_xhtml');
-
         $this->saveToDb(true);
 
         $main_settings = $this->getMainSettings();
@@ -2868,7 +2802,6 @@ class ilObjTest extends ilObject
                 $introduction_settings = $this->addIntroductionToSettingsFromImport(
                     $introduction_settings,
                     $this->qtiMaterialToArray($material),
-                    $importdir,
                     $mappings
                 );
             }
@@ -2882,7 +2815,6 @@ class ilObjTest extends ilObject
                 $this->qtiMaterialToArray(
                     $assessment->getPresentationMaterial()->getFlowMat(0)->getMaterial(0)
                 ),
-                $importdir,
                 $mappings
             );
         }
@@ -3028,12 +2960,6 @@ class ilObjTest extends ilObject
                 case "count_system":
                     $scoring_settings = $scoring_settings->withCountSystem((int) $metadata["entry"]);
                     break;
-                case "mailnotification":
-                    $finishing_settings = $finishing_settings->withMailNotificationContentType((int) $metadata["entry"]);
-                    break;
-                case "mailnottype":
-                    $finishing_settings = $finishing_settings->withAlwaysSendMailNotification((bool) $metadata["entry"]);
-                    break;
                 case "exportsettings":
                     $result_details_settings = $result_details_settings->withExportSettings((int) $metadata["entry"]);
                     break;
@@ -3098,7 +3024,9 @@ class ilObjTest extends ilObject
                     $finishing_settings = $finishing_settings->withShowAnswerOverview((bool) $metadata["entry"]);
                     break;
                 case 'redirection_mode':
-                    $finishing_settings = $finishing_settings->withRedirectionMode((int) $metadata['entry']);
+                    $finishing_settings = $finishing_settings->withRedirectionMode(
+                        RedirectionModes::tryFrom((int) ($metadata['entry'] ?? 0)) ?? RedirectionModes::NONE
+                    );
                     break;
                 case 'redirection_url':
                     $finishing_settings = $finishing_settings->withRedirectionUrl($metadata['entry']);
@@ -3117,18 +3045,6 @@ class ilObjTest extends ilObject
                     break;
                 case 'show_grading_mark':
                     $result_summary_settings = $result_summary_settings->withShowGradingMarkEnabled((bool) $metadata["entry"]);
-                    break;
-                case 'activation_limited':
-                    $this->setActivationLimited((bool) $metadata['entry']);
-                    break;
-                case 'activation_start_time':
-                    $this->setActivationStartingTime($metadata['entry'] !== 'null' ? (int) $metadata['entry'] : null);
-                    break;
-                case 'activation_end_time':
-                    $this->setActivationEndingTime($metadata['entry'] !== 'null' ? (int) $metadata['entry'] : null);
-                    break;
-                case 'activation_visibility':
-                    $this->setActivationVisibility($metadata['entry']);
                     break;
                 case 'autosave':
                     $question_behaviour_settings = $question_behaviour_settings->withAutosaveEnabled((bool) $metadata['entry']);
@@ -3178,10 +3094,10 @@ class ilObjTest extends ilObject
         $this->main_settings = $main_settings;
 
         $score_settings = $score_settings
-                ->withGamificationSettings($gamification_settings)
-                ->withScoringSettings($scoring_settings)
-                ->withResultDetailsSettings($result_details_settings)
-                ->withResultSummarySettings($result_summary_settings);
+            ->withGamificationSettings($gamification_settings)
+            ->withScoringSettings($scoring_settings)
+            ->withResultDetailsSettings($result_details_settings)
+            ->withResultSummarySettings($result_summary_settings);
         $this->getScoreSettingsRepository()->store($score_settings);
         $this->score_settings = $score_settings;
         $this->loadFromDb();
@@ -3190,74 +3106,49 @@ class ilObjTest extends ilObject
     private function addIntroductionToSettingsFromImport(
         SettingsIntroduction $settings,
         array $material,
-        string $importdir,
         array $mappings
     ): SettingsIntroduction {
-        $text = $material['text'];
-        $mobs = $material['mobs'];
-        if (str_starts_with($text, '<PageObject>')) {
-            $text = $this->replaceMobsInPageImports(
-                $text,
-                $mappings['components/ILIAS/MediaObjects']['mob'] ?? []
-            );
-            $text = $this->replaceFilesInPageImports(
-                $text,
-                $mappings['components/ILIAS/File']['file'] ?? []
-            );
-            $page_object = new ilTestPage();
-            $page_object->setParentId($this->getId());
-            $page_object->setXMLContent($text);
-            $new_page_id = $page_object->createPageWithNextId();
-            return $settings->withIntroductionPageId($new_page_id);
+        if (!str_starts_with($material['text'], '<PageObject>')) {
+            return $settings;
         }
 
-        $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
-
-        return new SettingsIntroduction(
-            $settings->getTestId(),
-            $text !== '',
-            $text
+        $text = $this->replaceFilesInPageImports(
+            $this->replaceMobsInPageImports(
+                $material['text'],
+                $mappings['components/ILIAS/MediaObjects']['mob'] ?? []
+            ),
+            $mappings['components/ILIAS/File']['file'] ?? []
         );
+
+        $page_object = new ilTestPage();
+        $page_object->setParentId($this->getId());
+        $page_object->setXMLContent($text);
+        $new_page_id = $page_object->createPageWithNextId();
+        return $settings->withIntroductionPageId($new_page_id);
     }
 
     private function addConcludingRemarksToSettingsFromImport(
         SettingsFinishing $settings,
         array $material,
-        string $importdir,
         array $mappings
     ): SettingsFinishing {
-        $file_to_import = ilSession::get('path_to_import_file');
-        $text = $material['text'];
-        $mobs = $material['mobs'];
-        if (str_starts_with($text, '<PageObject>')) {
-            $text = $this->replaceMobsInPageImports(
-                $text,
-                $mappings['components/ILIAS/MediaObjects']['mob'] ?? []
-            );
-            $text = $this->replaceFilesInPageImports(
-                $text,
-                $mappings['components/ILIAS/File']['file'] ?? []
-            );
-            $page_object = new ilTestPage();
-            $page_object->setParentId($this->getId());
-            $page_object->setXMLContent($text);
-            $new_page_id = $page_object->createPageWithNextId();
-            return $settings->withConcludingRemarksPageId($new_page_id);
+        if (!str_starts_with($material['text'], '<PageObject>')) {
+            return $settings;
         }
 
-        $text = $this->retrieveMobsFromLegacyImports($text, $mobs, $importdir);
-
-        return new SettingsFinishing(
-            $settings->getTestId(),
-            $settings->getShowAnswerOverview(),
-            strlen($text) > 0,
-            $text,
-            null,
-            $settings->getRedirectionMode(),
-            $settings->getRedirectionUrl(),
-            $settings->getMailNotificationContentType(),
-            $settings->getAlwaysSendMailNotification()
+        $text = $this->replaceFilesInPageImports(
+            $this->replaceMobsInPageImports(
+                $material['text'],
+                $mappings['components/ILIAS/MediaObjects']['mob'] ?? []
+            ),
+            $mappings['components/ILIAS/File']['file'] ?? []
         );
+
+        $page_object = new ilTestPage();
+        $page_object->setParentId($this->getId());
+        $page_object->setXMLContent($text);
+        $new_page_id = $page_object->createPageWithNextId();
+        return $settings->withConcludingRemarksPageId($new_page_id);
     }
 
     private function replaceMobsInPageImports(string $text, array $mappings): string
@@ -3281,26 +3172,6 @@ class ilObjTest extends ilObject
                 continue;
             }
             $text = str_replace($match, "il__file_{$mappings[$matches[2][$index]]}", $text);
-        }
-        return $text;
-    }
-
-    private function retrieveMobsFromLegacyImports(string $text, array $mobs, string $importdir): string
-    {
-        foreach ($mobs as $mob) {
-            $importfile = $importdir . DIRECTORY_SEPARATOR . $mob['uri'];
-            if (file_exists($importfile)) {
-                $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
-                ilObjMediaObject::_saveUsage($media_object->getId(), 'tst:html', $this->getId());
-                $text = ilRTE::_replaceMediaObjectImageSrc(
-                    str_replace(
-                        'src="' . $mob['mob'] . '"',
-                        'src="' . 'il_' . IL_INST_ID . '_mob_' . $media_object->getId() . '"',
-                        $text
-                    ),
-                    1
-                );
-            }
         }
         return $text;
     }
@@ -3342,7 +3213,7 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "anonymity");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getGeneralSettings()->getAnonymity()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getGeneralSettings()->getAnonymity() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3352,7 +3223,7 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "sequence_settings");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3362,7 +3233,7 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "reset_processing_time");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getTestBehaviourSettings()->getResetProcessingTime());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getResetProcessingTime() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3397,7 +3268,7 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement('fieldlabel', null, 'pass_deletion_allowed');
-        $a_xml_writer->xmlElement('fieldentry', null, (int) $this->isPassDeletionAllowed());
+        $a_xml_writer->xmlElement('fieldentry', null, $this->isPassDeletionAllowed() ? 1 : 0);
         $a_xml_writer->xmlEndTag('qtimetadatafield');
 
         if ($this->getScoreSettings()->getResultSummarySettings()->getReportingDate() !== null) {
@@ -3415,12 +3286,12 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "nr_of_tries");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getNumberOfTries()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getNumberOfTries());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement('fieldlabel', null, 'block_after_passed');
-        $a_xml_writer->xmlElement('fieldentry', null, (int) $main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled());
+        $a_xml_writer->xmlElement('fieldentry', null, $main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag('qtimetadatafield');
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3430,12 +3301,12 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "kiosk");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getKioskMode()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getKioskMode());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement("fieldlabel", null, "redirection_mode");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getRedirectionMode());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getRedirectionMode()->value);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
@@ -3445,140 +3316,133 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "use_previous_answers");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement('fieldlabel', null, 'question_list_enabled');
-        $a_xml_writer->xmlElement('fieldentry', null, (int) $main_settings->getParticipantFunctionalitySettings()->getQuestionListEnabled());
+        $a_xml_writer->xmlElement('fieldentry', null, $main_settings->getParticipantFunctionalitySettings()->getQuestionListEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag('qtimetadatafield');
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "title_output");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getQuestionBehaviourSettings()->getQuestionTitleOutputMode()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getQuestionTitleOutputMode());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "results_presentation");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultDetailsSettings()->getResultsPresentation()));
+        $a_xml_writer->xmlElement("fieldentry", null, $this->getScoreSettings()->getResultDetailsSettings()->getResultsPresentation());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "examid_in_test_pass");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "examid_in_test_res");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults()));
+        $a_xml_writer->xmlElement("fieldentry", null, $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "usr_pass_overview_mode");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "score_reporting");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $this->getScoreSettings()->getResultSummarySettings()->getScoreReporting()->value));
+        $a_xml_writer->xmlElement("fieldentry", null, $this->getScoreSettings()->getResultSummarySettings()->getScoreReporting()->value);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_solution_list_comparison");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->score_settings->getResultDetailsSettings()->getShowSolutionListComparison());
+        $a_xml_writer->xmlElement("fieldentry", null, $this->score_settings->getResultDetailsSettings()->getShowSolutionListComparison() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_verification");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSolutionEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSolutionEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "answer_feedback");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "answer_feedback_points");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackPointsEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackPointsEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "follow_qst_answer_fixation");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnNextQuestionEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnNextQuestionEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_answer_fixation");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "force_instant_feedback");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $highscore_metadata = [
-            'highscore_enabled' => ['value' => $this->getHighscoreEnabled()],
-            'highscore_anon' => ['value' => $this->getHighscoreAnon()],
-            'highscore_achieved_ts' => ['value' => $this->getHighscoreAchievedTS()],
-            'highscore_score' => ['value' => $this->getHighscoreScore()],
-            'highscore_percentage' => ['value' => $this->getHighscorePercentage()],
-            'highscore_wtime' => ['value' => $this->getHighscoreWTime()],
-            'highscore_own_table' => ['value' => $this->getHighscoreOwnTable()],
-            'highscore_top_table' => ['value' => $this->getHighscoreTopTable()],
-            'highscore_top_num' => ['value' => $this->getHighscoreTopNum()],
+            'highscore_enabled' => $this->getHighscoreEnabled(),
+            'highscore_anon' => $this->getHighscoreAnon(),
+            'highscore_achieved_ts' => $this->getHighscoreAchievedTS(),
+            'highscore_score' => $this->getHighscoreScore(),
+            'highscore_percentage' => $this->getHighscorePercentage(),
+            'highscore_wtime' => $this->getHighscoreWTime(),
+            'highscore_own_table' => $this->getHighscoreOwnTable(),
+            'highscore_top_table' => $this->getHighscoreTopTable(),
         ];
-        foreach ($highscore_metadata as $label => $data) {
+        foreach ($highscore_metadata as $label => $value) {
             $a_xml_writer->xmlStartTag("qtimetadatafield");
             $a_xml_writer->xmlElement("fieldlabel", null, $label);
-            $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", $data['value']));
+            $a_xml_writer->xmlElement("fieldentry", null, $value ? 1 : 0);
             $a_xml_writer->xmlEndTag("qtimetadatafield");
         }
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "highscore_top_num");
+        $a_xml_writer->xmlElement("fieldentry", null, $this->getHighscoreTopNum());
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "suspend_test_allowed");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_marker");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getParticipantFunctionalitySettings()->getQuestionMarkingEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getParticipantFunctionalitySettings()->getQuestionMarkingEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "fixed_participants");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getAccessSettings()->getFixedParticipants()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAccessSettings()->getFixedParticipants() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_introduction");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getIntroductionSettings()->getIntroductionEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getIntroductionSettings()->getIntroductionEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, 'exam_conditions');
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_concluding_remarks");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled()));
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "mailnotification");
-        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getMailNotificationContentType());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "mailnottype");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getConcludingRemarksEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3588,7 +3452,7 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "shuffle_questions");
-        $a_xml_writer->xmlElement("fieldentry", null, sprintf("%d", (int) $main_settings->getQuestionBehaviourSettings()->getShuffleQuestions()));
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getShuffleQuestions() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3598,12 +3462,12 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "enable_examview");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getFinishingSettings()->getShowAnswerOverview());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getFinishingSettings()->getShowAnswerOverview() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "skill_service");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getAdditionalSettings()->getSkillsServiceEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getAdditionalSettings()->getSkillsServiceEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         if ($this->getInstantFeedbackSolution() == 1) {
@@ -3617,17 +3481,17 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_grading_status");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isShowGradingStatusEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $this->isShowGradingStatusEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "show_grading_mark");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isShowGradingMarkEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $this->isShowGradingMarkEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag('qtimetadatafield');
         $a_xml_writer->xmlElement('fieldlabel', null, 'hide_info_tab');
-        $a_xml_writer->xmlElement('fieldentry', null, (int) $this->getMainSettings()->getAdditionalSettings()->getHideInfoTab());
+        $a_xml_writer->xmlElement('fieldentry', null, $this->getMainSettings()->getAdditionalSettings()->getHideInfoTab() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         if ($this->getStartingTime() > 0) {
@@ -3657,28 +3521,8 @@ class ilObjTest extends ilObject
         }
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_limited");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->isActivationLimited());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_start_time");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationStartingTime());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_end_time");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationEndingTime());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "activation_visibility");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $this->getActivationVisibility());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "autosave");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getAutosaveEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getAutosaveEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -3688,17 +3532,17 @@ class ilObjTest extends ilObject
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_specific");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "instant_feedback_answer_fixation");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "enable_processing_time");
-        $a_xml_writer->xmlElement("fieldentry", null, (int) $main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled());
+        $a_xml_writer->xmlElement("fieldentry", null, $main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled() ? 1 : 0);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         foreach ($this->getMarkSchema()->getMarkSteps() as $index => $mark) {
@@ -4093,20 +3937,21 @@ class ilObjTest extends ilObject
 
         $new_obj->saveToDb();
         $new_obj->addToNewsOnOnline(false, $new_obj->getObjectProperties()->getPropertyIsOnline()->getIsOnline());
-        $this->getMainSettingsRepository()->store(
-            $this->getMainSettings()->withTestId($new_obj->getTestId())
-                ->withIntroductionSettings(
-                    $this->getMainSettings()->getIntroductionSettings()->withIntroductionPageId(
-                        $this->cloneIntroduction()
-                    )->withTestId($new_obj->getTestId())
-                )->withFinishingSettings(
-                    $this->getMainSettings()->getFinishingSettings()->withConcludingRemarksPageId(
-                        $this->cloneConcludingRemarks()
-                    )->withTestId($new_obj->getTestId())
+
+        $new_main_settings = $this->getMainSettings()
+            ->withIntroductionSettings(
+                $this->getMainSettings()->getIntroductionSettings()->withIntroductionPageId(
+                    $this->cloneIntroduction()
                 )
-        );
+            )->withFinishingSettings(
+                $this->getMainSettings()->getFinishingSettings()->withConcludingRemarksPageId(
+                    $this->cloneConcludingRemarks()
+                )
+            )->withId(0);
+
+        $new_main_settings = $this->getMainSettingsRepository()->store($new_main_settings, $new_obj->getTestId());
         $this->getScoreSettingsRepository()->store(
-            $this->getScoreSettings()->withTestId($new_obj->getTestId())
+            $this->getScoreSettings()->withId($new_main_settings->getId())
         );
         $this->marks_repository->storeMarkSchema(
             $this->getMarkSchema()->withTestId($new_obj->getTestId())
@@ -5428,7 +5273,6 @@ class ilObjTest extends ilObject
             $result = $decoded_result;
         }
 
-        $this->logger->info(print_r(ilSession::get('import_mob_xhtml'), true));
         return [
             'text' => $result,
             'mobs' => $mobs
@@ -5502,23 +5346,6 @@ class ilObjTest extends ilObject
         return $this->getMainSettings()->getGeneralSettings()->getAnonymity();
     }
 
-
-    public static function _lookupAnonymity($a_obj_id): int
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT anonymity FROM tst_tests WHERE obj_fi = %s",
-            ['integer'],
-            [$a_obj_id]
-        );
-        while ($row = $ilDB->fetchAssoc($result)) {
-            return (int) $row['anonymity'];
-        }
-        return 0;
-    }
-
     public function getShowCancel(): bool
     {
         return $this->getMainSettings()->getParticipantFunctionalitySettings()->getSuspendTestAllowed();
@@ -5534,23 +5361,11 @@ class ilObjTest extends ilObject
         return $this->getMainSettings()->getAccessSettings()->getFixedParticipants();
     }
 
-    public function lookupQuestionSetTypeByActiveId(int $active_id): ?string
+    public function lookupQuestionSetTypeByActiveId(int $active_id): string
     {
-        $query = "
-			SELECT		tst_tests.question_set_type
-			FROM		tst_active
-			INNER JOIN	tst_tests
-			ON			tst_active.test_fi = tst_tests.test_id
-			WHERE		tst_active.active_id = %s
-		";
-
-        $res = $this->db->queryF($query, ['integer'], [$active_id]);
-
-        while ($row = $this->db->fetchAssoc($res)) {
-            return $row['question_set_type'];
-        }
-
-        return null;
+        return $this->main_settings_repository->getFor(
+            self::_getTestIDFromObjectID(self::_getObjectIDFromActiveID($active_id)),
+        )->getGeneralSettings()->getQuestionSetType();
     }
 
     /**
@@ -5578,412 +5393,6 @@ class ilObjTest extends ilObject
                 return trim($uname["firstname"] . " " . $uname["lastname"]) . $suffix;
             }
         }
-    }
-
-    /**
-     * Returns the available test defaults for the active user
-     * @return array An array containing the defaults
-     * @access public
-     */
-    public function getAvailableDefaults(): array
-    {
-        $result = $this->db->queryF(
-            "SELECT * FROM tst_test_defaults WHERE user_fi = %s ORDER BY name ASC",
-            ['integer'],
-            [$this->user->getId()]
-        );
-        $defaults = [];
-        while ($row = $this->db->fetchAssoc($result)) {
-            $defaults[$row["test_defaults_id"]] = $row;
-        }
-        return $defaults;
-    }
-
-    public function getTestDefaults($test_defaults_id): ?array
-    {
-        $result = $this->db->queryF(
-            "SELECT * FROM tst_test_defaults WHERE test_defaults_id = %s",
-            ['integer'],
-            [$test_defaults_id]
-        );
-        if ($result->numRows() == 1) {
-            $row = $this->db->fetchAssoc($result);
-            return $row;
-        } else {
-            return null;
-        }
-    }
-
-    public function deleteDefaults($test_default_id)
-    {
-        $this->db->manipulateF(
-            "DELETE FROM tst_test_defaults WHERE test_defaults_id = %s",
-            ['integer'],
-            [$test_default_id]
-        );
-    }
-
-    /**
-    * Adds the defaults of this test to the test defaults
-    *
-    * @param string $a_name The name of the test defaults
-    * @access public
-    */
-    public function addDefaults($a_name)
-    {
-        $main_settings = $this->getMainSettings();
-        $score_settings = $this->getScoreSettings();
-        $testsettings = [
-            'questionSetType' => $main_settings->getGeneralSettings()->getQuestionSetType(),
-            'Anonymity' => (int) $main_settings->getGeneralSettings()->getAnonymity(),
-
-            'activation_limited' => $this->isActivationLimited(),
-            'activation_start_time' => $this->getActivationStartingTime(),
-            'activation_end_time' => $this->getActivationEndingTime(),
-            'activation_visibility' => $this->getActivationVisibility(),
-
-            'IntroEnabled' => (int) $main_settings->getIntroductionSettings()->getIntroductionEnabled(),
-            'ExamConditionsCheckboxEnabled' => (int) $main_settings->getIntroductionSettings()->getExamConditionsCheckboxEnabled(),
-
-            'StartingTimeEnabled' => (int) $main_settings->getAccessSettings()->getStartTimeEnabled(),
-            'StartingTime' => $main_settings->getAccessSettings()->getStartTime(),
-            'EndingTimeEnabled' => (int) $main_settings->getAccessSettings()->getEndTimeEnabled(),
-            'EndingTime' => $main_settings->getAccessSettings()->getEndTime(),
-            'password_enabled' => (int) $main_settings->getAccessSettings()->getPasswordEnabled(),
-            'password' => $main_settings->getAccessSettings()->getPassword(),
-            'fixed_participants' => (int) $main_settings->getAccessSettings()->getFixedParticipants(),
-
-            'NrOfTries' => $main_settings->getTestBehaviourSettings()->getNumberOfTries(),
-            'BlockAfterPassed' => (int) $main_settings->getTestBehaviourSettings()->getBlockAfterPassedEnabled(),
-            'pass_waiting' => $main_settings->getTestBehaviourSettings()->getPassWaiting(),
-            'EnableProcessingTime' => (int) $main_settings->getTestBehaviourSettings()->getProcessingTimeEnabled(),
-            'ProcessingTime' => $main_settings->getTestBehaviourSettings()->getProcessingTime(),
-            'ResetProcessingTime' => $main_settings->getTestBehaviourSettings()->getResetProcessingTime(),
-            'Kiosk' => $main_settings->getTestBehaviourSettings()->getKioskMode(),
-            'examid_in_test_pass' => (int) $main_settings->getTestBehaviourSettings()->getExamIdInTestAttemptEnabled(),
-
-            'TitleOutput' => $main_settings->getQuestionBehaviourSettings()->getQuestionTitleOutputMode(),
-            'autosave' => (int) $main_settings->getQuestionBehaviourSettings()->getAutosaveEnabled(),
-            'autosave_ival' => $main_settings->getQuestionBehaviourSettings()->getAutosaveInterval(),
-            'Shuffle' => (int) $main_settings->getQuestionBehaviourSettings()->getShuffleQuestions(),
-            'AnswerFeedbackPoints' => (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackPointsEnabled(),
-            'AnswerFeedback' => (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackGenericEnabled(),
-            'SpecificAnswerFeedback' => (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSpecificEnabled(),
-            'InstantFeedbackSolution' => (int) $main_settings->getQuestionBehaviourSettings()->getInstantFeedbackSolutionEnabled(),
-            'force_inst_fb' => (int) $main_settings->getQuestionBehaviourSettings()->getForceInstantFeedbackOnNextQuestion(),
-            'follow_qst_answer_fixation' => (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnNextQuestionEnabled(),
-            'inst_fb_answer_fixation' => (int) $main_settings->getQuestionBehaviourSettings()->getLockAnswerOnInstantFeedbackEnabled(),
-
-            'use_previous_answers' => (int) $main_settings->getParticipantFunctionalitySettings()->getUsePreviousAnswerAllowed(),
-            'ShowCancel' => (int) $main_settings->getParticipantFunctionalitySettings()->getSuspendTestAllowed(),
-            'SequenceSettings' => (int) $main_settings->getParticipantFunctionalitySettings()->getPostponedQuestionsMoveToEnd(),
-            'ListOfQuestionsSettings' => $main_settings->getParticipantFunctionalitySettings()->getUsrPassOverviewMode(),
-            'ShowMarker' => (int) $main_settings->getParticipantFunctionalitySettings()->getQuestionMarkingEnabled(),
-
-            'enable_examview' => $main_settings->getFinishingSettings()->getShowAnswerOverview(),
-            'ShowFinalStatement' => (int) $main_settings->getFinishingSettings()->getConcludingRemarksEnabled(),
-            'redirection_mode' => $main_settings->getFinishingSettings()->getRedirectionMode(),
-            'redirection_url' => $main_settings->getFinishingSettings()->getRedirectionUrl(),
-            'mailnotification' => $main_settings->getFinishingSettings()->getMailNotificationContentType(),
-            'mailnottype' => (int) $main_settings->getFinishingSettings()->getAlwaysSendMailNotification(),
-
-            'skill_service' => (int) $main_settings->getAdditionalSettings()->getSkillsServiceEnabled(),
-
-            'PassScoring' => $score_settings->getScoringSettings()->getPassScoring(),
-            'ScoreCutting' => $score_settings->getScoringSettings()->getScoreCutting(),
-            'CountSystem' => $score_settings->getScoringSettings()->getCountSystem(),
-
-            'ScoreReporting' => $score_settings->getResultSummarySettings()->getScoreReporting()->value,
-            'ReportingDate' => $score_settings->getResultSummarySettings()->getReportingDate(),
-            'pass_deletion_allowed' => (int) $score_settings->getResultSummarySettings()->getPassDeletionAllowed(),
-            'show_grading_status' => (int) $score_settings->getResultSummarySettings()->getShowGradingStatusEnabled(),
-            'show_grading_mark' => (int) $score_settings->getResultSummarySettings()->getShowGradingMarkEnabled(),
-
-            'ResultsPresentation' => $score_settings->getResultDetailsSettings()->getResultsPresentation(),
-            'show_solution_list_comparison' => (int) $score_settings->getResultDetailsSettings()->getShowSolutionListComparison(),
-            'examid_in_test_res' => (int) $score_settings->getResultDetailsSettings()->getShowExamIdInTestResults(),
-
-            'highscore_enabled' => (int) $score_settings->getGamificationSettings()->getHighscoreEnabled(),
-            'highscore_anon' => (int) $score_settings->getGamificationSettings()->getHighscoreAnon(),
-            'highscore_achieved_ts' => $score_settings->getGamificationSettings()->getHighscoreAchievedTS(),
-            'highscore_score' => $score_settings->getGamificationSettings()->getHighscoreScore(),
-            'highscore_percentage' => $score_settings->getGamificationSettings()->getHighscorePercentage(),
-            'highscore_wtime' => $score_settings->getGamificationSettings()->getHighscoreWTime(),
-            'highscore_own_table' => $score_settings->getGamificationSettings()->getHighscoreOwnTable(),
-            'highscore_top_table' => $score_settings->getGamificationSettings()->getHighscoreTopTable(),
-            'highscore_top_num' => $score_settings->getGamificationSettings()->getHighscoreTopNum(),
-
-            'HideInfoTab' => (int) $main_settings->getAdditionalSettings()->getHideInfoTab(),
-        ];
-
-        $marks = array_map(
-            fn(Mark $v): array => [
-                'short_name' => $v->getShortName(),
-                'official_name' => $v->getOfficialName(),
-                'minimum_level' => $v->getMinimumLevel(),
-                'passed' => $v->getPassed()
-            ],
-            $this->getMarkSchema()->getMarkSteps()
-        );
-
-        $next_id = $this->db->nextId('tst_test_defaults');
-        $this->db->insert(
-            'tst_test_defaults',
-            [
-                'test_defaults_id' => ['integer', $next_id],
-                'name' => ['text', $a_name],
-                'user_fi' => ['integer', $this->user->getId()],
-                'defaults' => ['clob', serialize($testsettings)],
-                'marks' => ['clob', json_encode($marks)],
-                'tstamp' => ['integer', time()]
-            ]
-        );
-    }
-
-    public function applyDefaults(array $test_defaults): string
-    {
-        $testsettings = unserialize($test_defaults['defaults'], ['allowed_classes' => [DateTimeImmutable::class]]);
-        $activation_starting_time = is_numeric($testsettings['activation_starting_time'] ?? false)
-            ? (int) $testsettings['activation_starting_time']
-            : null;
-        $activation_ending_time = is_numeric($testsettings['activation_ending_time'] ?? false)
-            ? (int) $testsettings['activation_ending_time']
-            : null;
-        $unserialized_marks = json_decode($test_defaults['marks'], true);
-
-        $info = '';
-        if (is_array($unserialized_marks)
-            && is_array($unserialized_marks[0])) {
-            $this->mark_schema = $this->getMarkSchema()->withMarkSteps(
-                array_map(
-                    fn(array $v): Mark => new Mark(
-                        $v['short_name'],
-                        $v['official_name'],
-                        $v['minimum_level'],
-                        $v['passed']
-                    ),
-                    $unserialized_marks
-                )
-            );
-        } else {
-            $info = 'old_mark_default_not_applied';
-        }
-
-
-        $this->storeActivationSettings(
-            (bool) ($testsettings['is_activation_limited'] ?? false),
-            $activation_starting_time,
-            $activation_ending_time,
-            (bool) ($testsettings['activation_visibility'] ?? false),
-        );
-
-        $main_settings = $this->getMainSettings();
-
-        $general_settings = $main_settings->getGeneralSettings();
-        $introduction_settings = $main_settings->getIntroductionSettings();
-        $access_settings = $main_settings->getAccessSettings();
-        $test_behavior_settings = $main_settings->getTestBehaviourSettings();
-        $question_behavior_settings = $main_settings->getQuestionBehaviourSettings();
-        $participant_functionality_settings = $main_settings->getParticipantFunctionalitySettings();
-        $finishing_settings = $main_settings->getFinishingSettings();
-        $additional_settings = $main_settings->getAdditionalSettings();
-
-        $main_settings = $main_settings
-            ->withGeneralSettings(
-                $general_settings
-                    ->withQuestionSetType(
-                        $testsettings['questionSetType'] ?? $general_settings->getQuestionSetType()
-                    )->withAnonymity(
-                        $testsettings['Anonymity'] ?? $general_settings->getAnonymity()
-                    )
-            )->withIntroductionSettings(
-                $introduction_settings
-                    ->withIntroductionEnabled(
-                        $testsettings['IntroEnabled'] ?? $introduction_settings->getIntroductionEnabled()
-                    )->withExamConditionsCheckboxEnabled(
-                        $testsettings['ExamConditionsCheckboxEnabled'] ?? $introduction_settings->getExamConditionsCheckboxEnabled()
-                    )
-            )->withAccessSettings(
-                $access_settings
-                    ->withStartTimeEnabled(
-                        $testsettings['StartingTimeEnabled'] ?? $access_settings->getStartTimeEnabled()
-                    )->withStartTime(
-                        $this->convertTimeToDateTimeImmutableIfNecessary(
-                            $testsettings['StartingTime'] ?? $access_settings->getStartTime()
-                        )
-                    )->withEndTimeEnabled(
-                        $testsettings['EndingTimeEnabled'] ?? $access_settings->getEndTimeEnabled()
-                    )->withEndTime(
-                        $this->convertTimeToDateTimeImmutableIfNecessary(
-                            $testsettings['EndingTime'] ?? $access_settings->getEndTime()
-                        )
-                    )->withPasswordEnabled(
-                        $testsettings['password_enabled'] ?? $access_settings->getPasswordEnabled()
-                    )->withPassword(
-                        $testsettings['password'] ?? $access_settings->getPassword()
-                    )->withFixedParticipants(
-                        $testsettings['fixed_participants'] ?? $access_settings->getFixedParticipants()
-                    )
-            )->withTestBehaviourSettings(
-                $test_behavior_settings
-                    ->withNumberOfTries(
-                        $testsettings['NrOfTries'] ?? $test_behavior_settings->getNumberOfTries()
-                    )->withBlockAfterPassedEnabled(
-                        $testsettings['BlockAfterPassed'] ?? $test_behavior_settings->getBlockAfterPassedEnabled()
-                    )->withPassWaiting(
-                        $testsettings['pass_waiting'] ?? $test_behavior_settings->getPassWaiting()
-                    )->withKioskMode(
-                        $testsettings['Kiosk'] ?? $test_behavior_settings->getKioskMode()
-                    )->withProcessingTimeEnabled(
-                        $testsettings['EnableProcessingTime'] ?? $test_behavior_settings->getProcessingTimeEnabled()
-                    )->withProcessingTime(
-                        $testsettings['ProcessingTime'] ?? $test_behavior_settings->getProcessingTime()
-                    )->withResetProcessingTime(
-                        $testsettings['ResetProcessingTime'] ?? $test_behavior_settings->getResetProcessingTime()
-                    )->withExamIdInTestAttemptEnabled(
-                        $testsettings['examid_in_test_pass'] ?? $test_behavior_settings->getExamIdInTestAttemptEnabled()
-                    )
-            )->withQuestionBehaviourSettings(
-                $question_behavior_settings
-                    ->withQuestionTitleOutputMode(
-                        $testsettings['TitleOutput'] ?? $question_behavior_settings->getQuestionTitleOutputMode()
-                    )->withAutosaveEnabled(
-                        $testsettings['autosave'] ?? $question_behavior_settings->getAutosaveEnabled()
-                    )->withAutosaveInterval(
-                        $testsettings['autosave_ival'] ?? $question_behavior_settings->getAutosaveInterval()
-                    )->withShuffleQuestions(
-                        $testsettings['Shuffle'] ?? $question_behavior_settings->getShuffleQuestions()
-                    )->withInstantFeedbackPointsEnabled(
-                        $testsettings['AnswerFeedbackPoints'] ?? $question_behavior_settings->getInstantFeedbackPointsEnabled()
-                    )->withInstantFeedbackGenericEnabled(
-                        $testsettings['AnswerFeedback'] ?? $question_behavior_settings->getInstantFeedbackGenericEnabled()
-                    )->withInstantFeedbackSpecificEnabled(
-                        $testsettings['SpecificAnswerFeedback'] ?? $question_behavior_settings->getInstantFeedbackSpecificEnabled()
-                    )->withInstantFeedbackSolutionEnabled(
-                        $testsettings['InstantFeedbackSolution'] ?? $question_behavior_settings->getInstantFeedbackSolutionEnabled()
-                    )->withForceInstantFeedbackOnNextQuestion(
-                        $testsettings['force_inst_fb'] ?? $question_behavior_settings->getForceInstantFeedbackOnNextQuestion()
-                    )->withLockAnswerOnInstantFeedbackEnabled(
-                        $testsettings['inst_fb_answer_fixation'] ?? $question_behavior_settings->getLockAnswerOnInstantFeedbackEnabled()
-                    )->withLockAnswerOnNextQuestionEnabled(
-                        $testsettings['follow_qst_answer_fixation'] ?? $question_behavior_settings->getLockAnswerOnNextQuestionEnabled()
-                    )
-            )->withParticipantFunctionalitySettings(
-                $participant_functionality_settings
-                    ->withUsePreviousAnswerAllowed(
-                        $testsettings['use_previous_answers'] ?? $participant_functionality_settings->getUsePreviousAnswerAllowed()
-                    )->withSuspendTestAllowed(
-                        $testsettings['ShowCancel'] ?? $participant_functionality_settings->getSuspendTestAllowed()
-                    )->withPostponedQuestionsMoveToEnd(
-                        $testsettings['SequenceSettings'] ?? $participant_functionality_settings->getPostponedQuestionsMoveToEnd()
-                    )->withUsrPassOverviewMode(
-                        $testsettings['ListOfQuestionsSettings'] ?? $participant_functionality_settings->getUsrPassOverviewMode()
-                    )->withQuestionMarkingEnabled(
-                        $testsettings['ShowMarker'] ?? $participant_functionality_settings->getQuestionMarkingEnabled()
-                    )
-            )->withFinishingSettings(
-                $finishing_settings
-                    ->withShowAnswerOverview(
-                        $testsettings['enable_examview'] ?? $finishing_settings->getShowAnswerOverview()
-                    )->withConcludingRemarksEnabled(
-                        $testsettings['ShowFinalStatement'] ?? $finishing_settings->getConcludingRemarksEnabled()
-                    )->withRedirectionMode(
-                        $testsettings['redirection_mode'] ?? $finishing_settings->getRedirectionMode()
-                    )->withRedirectionUrl(
-                        $testsettings['redirection_url'] ?? $finishing_settings->getRedirectionUrl()
-                    )->withMailNotificationContentType(
-                        $testsettings['mailnotification'] ?? $finishing_settings->getMailNotificationContentType()
-                    )->withAlwaysSendMailNotification(
-                        $testsettings['mailnottype'] ?? $finishing_settings->getAlwaysSendMailNotification()
-                    )
-            )->withAdditionalSettings(
-                $additional_settings
-                    ->withSkillsServiceEnabled(
-                        $testsettings['skill_service'] ?? $additional_settings->getSkillsServiceEnabled()
-                    )->withHideInfoTab(
-                        $testsettings['HideInfoTab'] ?? $additional_settings->getHideInfoTab()
-                    )
-            );
-
-        $this->getMainSettingsRepository()->store($main_settings);
-
-        $score_reporting = ScoreReportingTypes::SCORE_REPORTING_DISABLED;
-        if ($testsettings['ScoreReporting'] !== null) {
-            $score_reporting = ScoreReportingTypes::tryFrom($testsettings['ScoreReporting'])
-                ?? ScoreReportingTypes::SCORE_REPORTING_DISABLED;
-        }
-
-        $reporting_date = $testsettings['ReportingDate'];
-        if (is_string($reporting_date)) {
-            $reporting_date = new DateTimeImmutable($testsettings['ReportingDate'], new DateTimeZone('UTC'));
-        }
-
-        $score_settings = $this->getScoreSettings();
-
-        $scoring_settings = $score_settings->getScoringSettings();
-        $result_summary_settings = $score_settings->getResultSummarySettings();
-        $result_details_settings = $score_settings->getResultDetailsSettings();
-        $gamification_settings = $score_settings->getGamificationSettings();
-
-        $score_settings = $score_settings
-            ->withScoringSettings(
-                $scoring_settings
-                    ->withPassScoring(
-                        $testsettings['PassScoring'] ?? $scoring_settings->getPassScoring()
-                    )->withScoreCutting(
-                        $testsettings['ScoreCutting'] ?? $scoring_settings->getScoreCutting()
-                    )->withCountSystem(
-                        $testsettings['CountSystem'] ?? $scoring_settings->getCountSystem()
-                    )
-            )->withResultSummarySettings(
-                $result_summary_settings
-                    ->withPassDeletionAllowed(
-                        $testsettings['pass_deletion_allowed'] ?? $result_summary_settings->getPassDeletionAllowed()
-                    )->withShowGradingStatusEnabled(
-                        $testsettings['show_grading_status'] ?? $result_summary_settings->getShowGradingStatusEnabled()
-                    )->withShowGradingMarkEnabled(
-                        $testsettings['show_grading_mark'] ?? $result_summary_settings->getShowGradingMarkEnabled()
-                    )->withScoreReporting(
-                        $score_reporting
-                    )->withReportingDate(
-                        $reporting_date
-                    )
-            )->withResultDetailsSettings(
-                $result_details_settings
-                    ->withResultsPresentation(
-                        $testsettings['ResultsPresentation'] ?? $result_details_settings->getResultsPresentation()
-                    )->withShowSolutionListComparison(
-                        $testsettings['show_solution_list_comparison'] ?? $result_details_settings->getShowSolutionListComparison()
-                    )->withShowExamIdInTestResults(
-                        $testsettings['examid_in_test_res'] ?? $result_details_settings->getShowExamIdInTestResults()
-                    )
-            )->withGamificationSettings(
-                $gamification_settings
-                    ->withHighscoreEnabled(
-                        $testsettings['highscore_enabled'] ?? $gamification_settings->getHighscoreEnabled()
-                    )->withHighscoreAnon(
-                        $testsettings['highscore_anon'] ?? $gamification_settings->getHighscoreAnon()
-                    )->withHighscoreAchievedTS(
-                        $testsettings['highscore_achieved_ts'] ?? $gamification_settings->getHighscoreAchievedTS()
-                    )->withHighscoreScore(
-                        $testsettings['highscore_score'] ?? $gamification_settings->getHighscoreScore()
-                    )->withHighscorePercentage(
-                        $testsettings['highscore_percentage'] ?? $gamification_settings->getHighscorePercentage()
-                    )->withHighscoreWTime(
-                        $testsettings['highscore_wtime'] ?? $gamification_settings->getHighscoreWTime()
-                    )->withHighscoreOwnTable(
-                        $testsettings['highscore_own_table'] ?? $gamification_settings->getHighscoreOwnTable()
-                    )->withHighscoreTopTable(
-                        $testsettings['highscore_top_table'] ?? $gamification_settings->getHighscoreTopTable()
-                    )->withHighscoreTopNum(
-                        $testsettings['highscore_top_num'] ?? $gamification_settings->getHighscoreTopNum()
-                    )
-            )
-        ;
-        $this->getScoreSettingsRepository()->store($score_settings);
-        $this->saveToDb();
-
-        return $info;
     }
 
     private function convertTimeToDateTimeImmutableIfNecessary(
@@ -6363,7 +5772,7 @@ class ilObjTest extends ilObject
     public function isPluginActive($a_pname): bool
     {
         if (!$this->component_repository->getComponentByTypeAndName(
-            ilComponentInfo::TYPE_MODULES,
+            ilComponentInfo::TYPE_COMPONENT,
             'TestQuestionPool'
         )->getPluginSlotById('qst')->hasPluginName($a_pname)) {
             return false;
@@ -6371,7 +5780,7 @@ class ilObjTest extends ilObject
 
         return $this->component_repository
             ->getComponentByTypeAndName(
-                ilComponentInfo::TYPE_MODULES,
+                ilComponentInfo::TYPE_COMPONENT,
                 'TestQuestionPool'
             )
             ->getPluginSlotById(
@@ -6453,7 +5862,7 @@ class ilObjTest extends ilObject
             $results['overview']['tst_eval_total_passed_average_points'] = sprintf('%2.2f', $average_passed_reached)
                 . ' ' . strtolower('of') . ' ' . sprintf('%2.2f', $average_passed_max);
             $results['overview']['tst_eval_total_passed_average_time'] =
-                $this->secondsToHoursMinutesSecondsString($average_passed_time);
+                $this->secondsToHoursMinutesSecondsString((int) $average_passed_time);
         }
 
         foreach ($data->getQuestionTitles() as $question_id => $question_title) {
@@ -6502,50 +5911,6 @@ class ilObjTest extends ilObject
     {
         return $this->export_factory->getExporter($this, 'xml')
             ->write();
-    }
-
-    public function getMailNotification(): int
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getMailNotificationContentType();
-    }
-
-    public function sendSimpleNotification($active_id)
-    {
-        $mail = new ilTestMailNotification();
-        $owner_id = $this->getOwner();
-        $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
-        $mail->sendSimpleNotification($owner_id, $this->getTitle(), $usr_data);
-    }
-
-    public function sendAdvancedNotification(int $active_id): void
-    {
-        $mail = new ilTestMailNotification();
-        $owner_id = $this->getOwner();
-        $usr_data = $this->userLookupFullName(ilObjTest::_getUserIdFromActiveId($active_id));
-
-        $path = $this->export_factory->getExporter(
-            $this,
-            ExportImportTypes::SCORED_ATTEMPT
-        )->withFilterByActiveId($active_id)
-            ->write();
-
-        $delivered_file_name = 'result_' . $active_id . '.xlsx';
-        $fd = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $fd->copyAttachmentFile($path, $delivered_file_name);
-        $file_names[] = $delivered_file_name;
-
-        $mail->sendAdvancedNotification($owner_id, $this->getTitle(), $usr_data, $file_names);
-
-        if (count($file_names)) {
-            $fd->unlinkFiles($file_names);
-            unset($fd);
-            @unlink($path);
-        }
-    }
-
-    public function getMailNotificationType(): bool
-    {
-        return $this->getMainSettings()->getFinishingSettings()->getAlwaysSendMailNotification();
     }
 
     public function getExportSettings(): int
@@ -6669,56 +6034,6 @@ class ilObjTest extends ilObject
     public function isOnline(): bool
     {
         return $this->online;
-    }
-
-    public function setActivationVisibility($a_value)
-    {
-        $this->activation_visibility = (bool) $a_value;
-    }
-
-    public function getActivationVisibility(): bool
-    {
-        return $this->activation_visibility;
-    }
-
-    public function isActivationLimited(): ?bool
-    {
-        return $this->activation_limited;
-    }
-
-    public function setActivationLimited($a_value)
-    {
-        $this->activation_limited = (bool) $a_value;
-    }
-
-    public function storeActivationSettings(
-        ?bool $is_activation_limited = false,
-        ?int $activation_starting_time = null,
-        ?int $activation_ending_time = null,
-        bool $activation_visibility = false,
-    ): void {
-        if (!$this->ref_id) {
-            return;
-        }
-
-        $item = new ilObjectActivation();
-        $is_activation_limited ??= false;
-
-        if (!$is_activation_limited) {
-            $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
-        } else {
-            $item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
-            $item->setTimingStart($activation_starting_time);
-            $item->setTimingEnd($activation_ending_time);
-            $item->toggleVisible($activation_visibility);
-        }
-
-        $item->update($this->ref_id);
-
-        $this->setActivationLimited($is_activation_limited);
-        $this->setActivationStartingTime($activation_starting_time);
-        $this->setActivationStartingTime($activation_ending_time);
-        $this->setActivationVisibility($activation_visibility);
     }
 
     public function getIntroductionPageId(): int
@@ -6869,26 +6184,6 @@ class ilObjTest extends ilObject
     public function getEnableExamview(): bool
     {
         return $this->getMainSettings()->getFinishingSettings()->getShowAnswerOverview();
-    }
-
-    public function setActivationStartingTime(?int $starting_time = null)
-    {
-        $this->activation_starting_time = $starting_time;
-    }
-
-    public function setActivationEndingTime(?int $ending_time = null)
-    {
-        $this->activation_ending_time = $ending_time;
-    }
-
-    public function getActivationStartingTime(): ?int
-    {
-        return $this->activation_starting_time;
-    }
-
-    public function getActivationEndingTime(): ?int
-    {
-        return $this->activation_ending_time;
     }
 
     /**
@@ -7052,7 +6347,12 @@ class ilObjTest extends ilObject
 
     public function recalculateScores($preserve_manscoring = false)
     {
-        $scoring = new TestScoring($this, $this->user, $this->db, $this->lng);
+        $scoring = new TestScoring(
+            $this,
+            $this->user,
+            $this->db,
+            $this->test_result_repository
+        );
         $scoring->setPreserveManualScores($preserve_manscoring);
         $scoring->recalculateSolutions();
     }
@@ -7287,10 +6587,7 @@ class ilObjTest extends ilObject
 
     public function getMainSettingsRepository(): MainSettingsRepository
     {
-        if (!$this->main_settings_repo) {
-            $this->main_settings_repo = new MainSettingsDatabaseRepository($this->db);
-        }
-        return $this->main_settings_repo;
+        return $this->main_settings_repository;
     }
 
     public function getScoreSettings(): ScoreSettings
@@ -7304,10 +6601,7 @@ class ilObjTest extends ilObject
 
     public function getScoreSettingsRepository(): ScoreSettingsRepository
     {
-        if (!$this->score_settings_repo) {
-            $this->score_settings_repo = new ScoreSettingsDatabaseRepository($this->db);
-        }
-        return $this->score_settings_repo;
+        return $this->score_settings_repository;
     }
 
     public function addToNewsOnOnline(
@@ -7347,19 +6641,9 @@ class ilObjTest extends ilObject
      */
     public static function _lookupRandomTest(int $obj_id): bool
     {
-        global $DIC;
-
-        $query = 'SELECT question_set_type FROM tst_tests WHERE obj_fi = %s';
-
-        $res = $DIC['ilDB']->queryF($query, ['integer'], [$obj_id]);
-
-        $question_set_type = null;
-
-        while ($row = $DIC['ilDB']->fetchAssoc($res)) {
-            $question_set_type = $row['question_set_type'];
-        }
-
-        return $question_set_type === self::QUESTION_SET_TYPE_RANDOM;
+        return TestDIC::dic()['settings.main.repository']->getFor(
+            ilObjTest::_getTestIDFromObjectID($obj_id),
+        )->getGeneralSettings()->getQuestionSetType() === self::QUESTION_SET_TYPE_RANDOM;
     }
 
     public function getVisitingTimeOfParticipant(int $active_id): array

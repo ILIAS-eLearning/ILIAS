@@ -32,6 +32,7 @@ class InternalDomainService
     use GlobalDICDomainServices;
 
     protected array $container = [];
+    protected static array $instance = [];
 
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
@@ -45,6 +46,16 @@ class InternalDomainService
         $this->data_service = $data_service;
         $this->initDomainServices($DIC);
     }
+
+    public function guidedTour(): \ILIAS\Help\GuidedTour\InternalDomainService
+    {
+        return self::$instance["guided"] ??= new GuidedTour\InternalDomainService(
+            $this->DIC,
+            $this->repo_service->guidedTour(),
+            $this->data_service->guidedTour()
+        );
+    }
+
 
     public function map(): MapManager
     {

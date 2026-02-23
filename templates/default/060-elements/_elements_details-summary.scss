@@ -1,0 +1,24 @@
+@use "../010-settings" as s;
+@use "../050-layout/basics" as l;
+
+details {
+  border-bottom: s.$il-main-border;
+  margin-bottom: l.$il-margin-xxxlarge-vertical;
+  > summary {
+    list-style-type: none;
+    cursor: pointer;
+    &::before {
+      margin-right: l.$il-padding-small-horizontal;
+      font-family: il-icons;
+      content: "\e606";
+    }
+  }
+  > summary::-webkit-details-marker {
+    display: none;
+  }
+  &[open] > summary {
+    &::before {
+      content: "\e604";
+    }
+  }
+}

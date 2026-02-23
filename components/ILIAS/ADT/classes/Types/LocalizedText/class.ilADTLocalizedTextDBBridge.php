@@ -38,7 +38,7 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     {
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
         $default_language = $this->getADT()->getCopyOfDefinition()->getDefaultLanguage();
-        $language = $a_row[$this->getElementId() . '_language'];
+        $language = $a_row[$this->getElementId() . '_language'] ?? '';
 
         if (!$this->getADT()->getCopyOfDefinition()->getMultilingualValueSupport()) {
             $this->getADT()->setText($a_row[$this->getElementId() . '_translation' ]);

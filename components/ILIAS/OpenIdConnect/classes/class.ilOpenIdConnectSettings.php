@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\User\Profile\Profile;
 
 class ilOpenIdConnectSettings
 {
@@ -89,7 +90,7 @@ class ilOpenIdConnectSettings
     private int $validate_scopes = self::URL_VALIDATION_PROVIDER;
     private ?string $custom_discovery_url = null;
     private ilLanguage $lng;
-    private ilUserDefinedFields $udf;
+    private Profile $profile;
 
     private function __construct()
     {
@@ -98,7 +99,7 @@ class ilOpenIdConnectSettings
         $this->storage = new ilSetting(self::STORAGE_ID);
         $this->filesystem = $DIC->filesystem()->web();
         $this->lng = $DIC->language();
-        $this->udf = ilUserDefinedFields::_getInstance();
+        $this->profile = $DIC['user']->getProfile();
         $this->load();
     }
 
@@ -435,8 +436,8 @@ class ilOpenIdConnectSettings
             $this->storage->set('pumap_' . $field, (string) ((int) $this->getProfileMappingFieldUpdate($field)));
         }
 
-        foreach ($this->udf->getDefinitions() as $definition) {
-            $field = 'udf_' . $definition['field_id'];
+        foreach ($this->profile->getAllUserDefinedFields() as $definition) {
+            $field = 'udf_' . $definition->getIdentifier();
             $this->storage->set('pmap_' . $field, $this->getProfileMappingFieldValue($field));
             $this->storage->set('pumap_' . $field, (string) ((int) $this->getProfileMappingFieldUpdate($field)));
         }
@@ -455,8 +456,8 @@ class ilOpenIdConnectSettings
             $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
             $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '0');
         }
-        foreach ($this->udf->getDefinitions() as $definition) {
-            $field = 'udf_' . $definition['field_id'];
+        foreach ($this->profile->getAllUserDefinedFields() as $definition) {
+            $field = 'udf_' . $definition->getIdentifier();
             $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
             $this->profile_update_map[$field] = (bool) $this->storage->get('pumap_' . $field, '0');
         }
@@ -545,13 +546,12 @@ class ilOpenIdConnectSettings
     public function getProfileMappingFields(): array
     {
         $mapping_fields = [];
-        $usr_profile = new ilUserProfile();
 
-        foreach ($usr_profile->getStandardFields() as $id => $definition) {
-            if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
+        foreach ($this->profile->getFields() as $field) {
+            if (in_array($field->getIdentifier(), self::IGNORED_USER_FIELDS, true)) {
                 continue;
             }
-            $mapping_fields[$id] = $this->lng->txt($id);
+            $mapping_fields[$field->getIdentifier()] = $this->lng->txt($field->getIdentifier());
         }
 
         return $mapping_fields;

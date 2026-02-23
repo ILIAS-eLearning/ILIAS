@@ -132,4 +132,37 @@ class ilFileObjectRBACDatabaseSteps implements ilDatabaseUpdateSteps
             ]
         );
     }
+
+    public function step_4(): void
+    {
+        // remove superfluous view_content operation
+        $view_content_operation = 'view_content';
+        $ops_id = $this->database->queryF(
+            "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+            ['text'],
+            [$view_content_operation]
+        )->fetchAssoc()['ops_id'] ?? null;
+
+        if ($ops_id === null) {
+            return;
+        }
+
+        $this->database->manipulateF(
+            'DELETE FROM rbac_ta WHERE ops_id = %s',
+            ['integer'],
+            [$ops_id]
+        );
+
+        $this->database->manipulateF(
+            'DELETE FROM rbac_templates WHERE ops_id = %s',
+            ['integer'],
+            [$ops_id]
+        );
+
+        $this->database->manipulateF(
+            'DELETE FROM rbac_operations WHERE operation = %s',
+            ['text'],
+            [$view_content_operation]
+        );
+    }
 }

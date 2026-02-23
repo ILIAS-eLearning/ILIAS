@@ -29,8 +29,13 @@ class ilPCParagraphEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
         ilPageObjectGUI $page_gui,
         int $style_id
     ): array {
+        global $DIC;
+
+        $menu_gui = $DIC->copage()->internal()->gui()->pc()->paragraph()->menu();
+
         $cfg = $page_gui->getPageConfig();
-        $menu = ilPageObjectGUI::getTinyMenu(
+
+        $menu = $menu_gui->render(
             $page_type,
             $cfg->getEnableInternalLinks(),
             $cfg->getEnableWikiLinks(),
@@ -40,8 +45,7 @@ class ilPCParagraphEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
             true,
             $cfg->getEnableAnchors(),
             true,
-            $cfg->getEnableUserLinks(),
-            $ui_wrapper
+            $cfg->getEnableUserLinks()
         );
 
         return [

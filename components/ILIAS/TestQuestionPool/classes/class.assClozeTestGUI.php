@@ -334,7 +334,7 @@ JS;
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $cloze_text->setUseRte(true);
-                $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+                $cloze_text->setRteTags(ilRTESettings::_getUsedHTMLTags("assessment"));
             }
         } else {
             $cloze_text->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
@@ -1004,7 +1004,7 @@ JS;
                 $feedback = $this->getGenericFeedbackOutput((int) $active_id, $pass);
             }
 
-            $feedback = $this->getSpecificFeedbackOutput(
+            $feedback .= $this->getSpecificFeedbackOutput(
                 $this->object->fetchIndexedValuesFromValuePairs($user_solutions)
             );
         }
@@ -1054,23 +1054,6 @@ JS;
             )
         );
         return $best_solution_text;
-    }
-
-    public function getGenericFeedbackOutput(int $active_id, $pass): string
-    {
-        $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
-        if (strlen($manual_feedback)) {
-            return $manual_feedback;
-        }
-        $correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
-        $incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
-
-        $output = '';
-        if ($correct_feedback . $incorrect_feedback !== '') {
-            $output = $this->genericFeedbackOutputBuilder($active_id, $pass);
-        }
-        //$test = new ilObjTest($this->object->active_id);
-        return $this->renderLatex(ilLegacyFormElementsUtil::prepareTextareaOutput($output, true));
     }
 
     public function getTestOutput(

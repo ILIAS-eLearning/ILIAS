@@ -23,19 +23,11 @@ namespace ILIAS\LearningModule\ReadingTime;
  */
 class ReadingTimeDBRepo
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var array
-     */
-    protected static $times = [];
+    protected \ilDBInterface $db;
+    protected static array $times = [];
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
         $this->db = $DIC->database();
     }

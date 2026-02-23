@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Scoring\Marks\MarkSchema;
+use ILIAS\Test\Scoring\Marks\MarkSchemaFactory;
 
 /**
  * Unit tests for single choice questions
@@ -29,6 +30,7 @@ use ILIAS\Test\Scoring\Marks\MarkSchema;
 class MarkSchemaTest extends ilTestBaseTestCase
 {
     private MarkSchema $ass_mark_schema;
+    private MarkSchemaFactory $mark_schema_factory;
     protected $backupGlobals = false;
 
     protected function setUp(): void
@@ -36,6 +38,7 @@ class MarkSchemaTest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->ass_mark_schema = new MarkSchema(0);
+        $this->mark_schema_factory = new MarkSchemaFactory();
     }
 
     /**
@@ -74,7 +77,7 @@ class MarkSchemaTest extends ilTestBaseTestCase
         $passed_passed = true;
 
         // Act
-        $mark_schema = $this->ass_mark_schema->createSimpleSchema();
+        $mark_schema = $this->mark_schema_factory->createSimpleSchema(0);
         $marks = $mark_schema->getMarkSteps();
 
         $failed = $marks[0];
@@ -140,7 +143,8 @@ class MarkSchemaTest extends ilTestBaseTestCase
         $passed_passed = true;
 
         // Act
-        $mark_schema = $this->ass_mark_schema->createSimpleSchema(
+        $mark_schema = $this->mark_schema_factory->createSimpleSchema(
+            0,
             $txt_failed_short,
             $txt_failed_official,
             $percentage_failed,

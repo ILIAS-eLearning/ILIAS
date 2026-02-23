@@ -31,8 +31,6 @@ class ilCmiXapiStatementsDeleteRequest
     public const DELETE_SCOPE_ALL = "all";
     public const DELETE_SCOPE_OWN = "own";
 
-    private \GuzzleHttp\Client $client;
-
     private ?int $usrId;
 
     private string $activityId;
@@ -63,9 +61,6 @@ class ilCmiXapiStatementsDeleteRequest
         ?string $scope = self::DELETE_SCOPE_FILTERED,
         ?ilCmiXapiStatementsReportFilter $filter = null
     ) {
-        if ((int)ILIAS_VERSION_NUMERIC < 6) { // only in plugin
-            require_once __DIR__ . '/../XapiProxy/vendor/autoload.php';
-        }
         $this->objId = $obj_id;
         $this->lrsType = new ilCmiXapiLrsType($type_id);
         $this->activityId = $activity_id;
@@ -74,7 +69,6 @@ class ilCmiXapiStatementsDeleteRequest
         $this->filter = $filter;
 
         $this->endpointDefault = $this->lrsType->getLrsEndpoint();
-        $this->client = new GuzzleHttp\Client();
         $this->headers = [
             'X-Experience-API-Version' => '1.0.3'
         ];
@@ -158,16 +152,14 @@ class ilCmiXapiStatementsDeleteRequest
         $body = json_encode($cf);
         $this->defaultHeaders['Content-Type'] = 'application/json; charset=utf-8';
         $defaultUrl = $this->lrsType->getLrsEndpointDeleteLink();
-        $defaultRequest = new GuzzleHttp\Psr7\Request('POST', $defaultUrl, $this->defaultHeaders, $body);
         $promisesStatements = [
-            'default' => $this->client->sendAsync($defaultRequest)
+            'default' => $this->sendCurlRequest('POST', $defaultUrl, $this->defaultHeaders, $body),
         ];
         $promisesStates = array();
         if ($deleteState) {
             $urls = $this->getDeleteStateUrls($this->lrsType->getLrsEndpointStateLink());
             foreach ($urls as $i => $v) {
-                $r = new GuzzleHttp\Psr7\Request('DELETE', $v, $this->defaultHeaders);
-                $promisesStates['default' . $i] = $this->client->sendAsync($r);
+                $promisesStates['default' . $i] = $this->sendCurlRequest('DELETE', $v, $this->defaultHeaders, $body);
             }
         }
         $response = array();
@@ -175,9 +167,9 @@ class ilCmiXapiStatementsDeleteRequest
         $response['states'] = array();
 
         try { // maybe everything into one promise?
-            $response['statements'] = GuzzleHttp\Promise\Utils::settle($promisesStatements)->wait();
+            $response['statements'] = $this->executeMultiCurl($promisesStatements);
             if ($deleteState && count($promisesStates) > 0) {
-                $response['states'] = GuzzleHttp\Promise\Utils::settle($promisesStates)->wait();
+                $response['states'] = $this->executeMultiCurl($promisesStates);
             }
         } catch (Exception $e) {
             $this->log->debug('error:' . $e->getMessage());
@@ -210,35 +202,65 @@ class ilCmiXapiStatementsDeleteRequest
         $query = "pipeline={$pquery}";
         $purl = $this->lrsType->getLrsEndpointStatementsAggregationLink();
         $url = ilUtil::appendUrlParameterString($purl, $query);
-        $request = new GuzzleHttp\Psr7\Request('GET', $url, $this->defaultHeaders);
         try {
-            $response = $this->client->sendAsync($request)->wait();
-            $cnt = json_decode($response->getBody());
+            $response = $this->sendCurlRequest('GET', $url, $this->defaultHeaders);
+            if ($response['status'] === 200) {
+                $cnt = json_decode($response['body'], true);
+            }
             return (int) $cnt[0]->count;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("LRS Connection Problems");
             return 0;
         }
     }
 
-    /**
-     * @param string $batchId
-     * @return array
-     */
     public function queryBatch(array $batchId): array
     {
         global $DIC;
         $defaultUrl = $this->getBatchUrl($this->lrsType->getLrsEndpointBatchLink(), $batchId[0]);
-        $defaultRequest = new GuzzleHttp\Psr7\Request('GET', $defaultUrl, $this->defaultHeaders);
-        $promises = [
-            'default' => $this->client->sendAsync($defaultRequest)
-        ];
+
+        // Header formatieren
+        $headers = [];
+        foreach ($this->defaultHeaders as $key => $value) {
+            $headers[] = "$key: $value";
+        }
+
+        $ch = curl_init($defaultUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+        ]);
+
         $response = [];
         try {
-            $response = GuzzleHttp\Promise\Utils::settle($promises)->wait();
+            $body = curl_exec($ch);
+            $error = curl_error($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($error) {
+                throw new Exception("cURL error: $error");
+            }
+
+            $response['default'] = [
+                'state' => ($httpCode >= 200 && $httpCode < 300) ? 'fulfilled' : 'rejected',
+                'value' => (object) [
+                    'status' => $httpCode,
+                    'body' => $body
+                ]
+            ];
+
         } catch (Exception $e) {
             $this->log->debug('error:' . $e->getMessage());
+            $response['default'] = [
+                'state' => 'rejected',
+                'reason' => $e->getMessage()
+            ];
         }
+
         return $response;
     }
 
@@ -257,7 +279,7 @@ class ilCmiXapiStatementsDeleteRequest
     {
         $ret = array();
         $states = $this->buildDeleteStates();
-        foreach($states as $i => $v) {
+        foreach ($states as $i => $v) {
             $ret[] = ilUtil::appendUrlParameterString($url, $v);
         }
         return $ret;
@@ -428,6 +450,111 @@ class ilCmiXapiStatementsDeleteRequest
                 ilCmiXapiUser::deleteUsersForObject($this->objId, $usrId);
             }
         }
+    }
+    private function sendCurlRequest(string $method, string $url, array $headers = [], ?string $body = null): array
+    {
+        $ch = curl_init($url);
+
+        $formattedHeaders = [];
+        foreach ($headers as $key => $value) {
+            $formattedHeaders[] = "$key: $value";
+        }
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_HTTPHEADER => $formattedHeaders,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 60,
+            CURLOPT_SSL_VERIFYPEER => true,
+        ]);
+
+        if ($body !== null && in_array($method, ['POST', 'PUT', 'PATCH'])) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+        }
+
+        $responseBody = curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+
+        curl_close($ch);
+
+        return [
+            'status' => $statusCode,
+            'body' => $responseBody,
+            'error' => $error ?: null,
+        ];
+    }
+    private function executeMultiCurl(array $requests): array
+    {
+        $mh = curl_multi_init();
+        $handles = [];
+
+        // cURL Handles vorbereiten
+        foreach ($requests as $key => $req) {
+            if (!is_array($req)) {
+                // Falls $req direkt URL + Method enthält (z. B. ['method' => 'DELETE', 'url' => '...'])
+                $method = $req['method'] ?? 'GET';
+                $url = $req['url'] ?? '';
+                $headers = $req['headers'] ?? $this->defaultHeaders;
+                $body = $req['body'] ?? null;
+            } else {
+                // wenn wir direkt die Parameter übergeben
+                $method = $req['method'] ?? 'GET';
+                $url = $req['url'] ?? '';
+                $headers = $req['headers'] ?? $this->defaultHeaders;
+                $body = $req['body'] ?? null;
+            }
+
+            $ch = curl_init($url);
+            $formattedHeaders = [];
+            foreach ($headers as $k => $v) {
+                $formattedHeaders[] = "$k: $v";
+            }
+
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => $method,
+                CURLOPT_HTTPHEADER => $formattedHeaders,
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_TIMEOUT => 60,
+                CURLOPT_SSL_VERIFYPEER => true
+            ]);
+
+            if ($body !== null && in_array($method, ['POST', 'PUT', 'PATCH'])) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+            }
+
+            $handles[$key] = $ch;
+            curl_multi_add_handle($mh, $ch);
+        }
+
+        // Alle gleichzeitig ausführen
+        $running = 0;
+        do {
+            curl_multi_exec($mh, $running);
+            curl_multi_select($mh);
+        } while ($running > 0);
+
+        // Ergebnisse einsammeln
+        $responses = [];
+        foreach ($handles as $key => $ch) {
+            $responses[$key] = [
+                'state' => 'fulfilled',
+                'value' => (object) [
+                    'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
+                    'body' => curl_multi_getcontent($ch),
+                    'error' => curl_error($ch) ?: null
+                ]
+            ];
+
+            curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
+        }
+
+        curl_multi_close($mh);
+
+        return $responses;
     }
 
 }

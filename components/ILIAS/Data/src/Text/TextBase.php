@@ -20,9 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Data\Text;
 
-use ILIAS\Data\Text\Shape;
-use ILIAS\Data\Text\Markup;
-
 abstract class TextBase implements Text
 {
     public function __construct(
@@ -52,12 +49,12 @@ abstract class TextBase implements Text
         return $this->shape->getSupportedStructure();
     }
 
-    public function toHTML(): Text\HTML
+    public function toHTML(): HTML
     {
         return $this->shape->toHTML($this);
     }
 
-    public function toPlainText(): Text\PlainText
+    public function toPlainText(): PlainText
     {
         return $this->shape->toPlainText($this);
     }

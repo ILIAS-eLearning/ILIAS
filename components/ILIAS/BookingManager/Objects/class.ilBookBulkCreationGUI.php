@@ -101,7 +101,7 @@ class ilBookBulkCreationGUI
         $schedules = $schedule_manager->getScheduleList();
         $form = $this
             ->gui
-            ->form(self::class, "showConfirmationScreen")
+            ->form([self::class], "showConfirmationScreen")
             ->asyncModal()
             ->section("creation", $lng->txt("book_bulk_data"))
             ->textarea(

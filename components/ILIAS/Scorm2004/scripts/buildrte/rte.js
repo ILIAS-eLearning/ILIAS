@@ -1,4 +1,4 @@
-// Build: 2023416234957 
+// Build: 2026205180244 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11922,6 +11922,10 @@ function addClass (elm, name)
 	if (elm && !hasClass(elm, name)) 
 	{
 		elm.className = trim(elm.className + " " + name);
+		if (name == ilRTEDisabledClass)
+		{
+			elm.setAttribute('tabindex', '-1');
+		}
 	}
 }
 
@@ -11937,6 +11941,10 @@ function removeClass(elm, name)
 	if (elm) 
 	{
 		elm.className = trim((" " + elm.className + " ").replace(name, " "));
+		if (name == ilRTEDisabledClass)
+		{
+			elm.removeAttribute('tabindex');
+		}
 	}
 }
 
@@ -12090,49 +12098,61 @@ function createHttpRequest()
 	}
 }
 
-function sendAndLoad(url, data, callback, user, password, headers) 
-{
-	function HttpResponse(xhttp) 
-	{
-		this.status = Number(xhttp.status);
-		this.content = String(xhttp.responseText);
-		this.type = String(xhttp.getResponseHeader('Content-Type'));
+function sendAndLoad( url, data, callback, user, password, headers ){
+
+	function HttpResponse( xhttp ){
+		this.status = Number( xhttp.status );
+		this.content = String( xhttp.responseText );
+		this.type = String( xhttp.getResponseHeader( 'Content-Type' ) );
 	}
-	function onStateChange() 
-	{
-		if (xhttp.readyState === 4) { // COMPLETED
-			if (typeof callback === 'function') {
-				callback(new HttpResponse(xhttp));
-			} else {
-				return new HttpResponse(xhttp);
-			} 
+
+	function onStateChange(){
+		if ( xhttp.readyState === 4 ){ // COMPLETED
+			if ( typeof callback === 'function' ){
+				callback( new HttpResponse( xhttp ) );
+			}
+			else {
+				return new HttpResponse( xhttp );
+			}
 		}
-	}		
+	}
+
+	function sendData( data ){
+		try {
+			xhttp.send( data ? String( data ) : '' );
+		}
+		catch ( e ){
+			console.log( 'Failed xhttp.send' );
+			// add timed retries on failure?
+		}
+	}
+
 	var xhttp = createHttpRequest();
 	var async = !!callback;
-	var post = !!data; 
-	xhttp.open(post ? 'POST' : 'GET', url, async, user, password);
-	if (typeof headers !== 'object') 
-	{
-		headers = new Object();
+	var post = !!data;
+
+	xhttp.open( post ? 'POST' : 'GET', url, async, user, password );
+
+	if ( typeof headers !== 'object' ){
+		headers = {};
 	}
-	if (post) 
-	{
-		headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+	if ( post ){
+		headers[ 'Content-Type' ] = 'application/x-www-form-urlencoded';
 	}
-	if (headers && headers instanceof Object) 
-	{
-		for (var k in headers) {
-			xhttp.setRequestHeader(k, headers[k]);
+
+	if ( headers && headers instanceof Object ){
+		for ( var k in headers ){
+			xhttp.setRequestHeader( k, headers[ k ] );
 		}
 	}
-	if (async) 
-	{
+
+	if ( async ){
 		xhttp.onreadystatechange = onStateChange;
-		xhttp.send(data ? String(data) : '');				
-	} else 
-	{
-		xhttp.send(data ? String(data) : '');				
+		sendData( data );
+	}
+	else {
+		sendData( data );
 		return onStateChange();
 	}
 }
@@ -12217,7 +12237,7 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 	if (r.content) {
 		if (r.content.indexOf("login.php")>-1 || r.content.indexOf("formlogin")>-1) {
 			var thref=window.location.href;
-			thref=thref.substring(0,thref.indexOf('ilias.php'))+"Modules/Scorm2004/templates/default/session_timeout.html";
+			thref=thref.substring(0,thref.indexOf('ilias.php'))+"components/ILIAS/Scorm2004/templates/default/session_timeout.html";
 			window.location.href = thref;
 		}
 	}
@@ -14885,8 +14905,9 @@ function sendLogEntry(timespan,action,key,value,result,errorCode)
 		setTimeout("refreshDebugger()",2000);
 	} else {
 //		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
-		refreshDebugger(true);
-	}	
+		setTimeout("refreshDebugger()",1000);
+		setTimeout("refreshDebugger(true)",2000);
+	}
 }
 
 function removeByElement(arrayName,arrayElement)

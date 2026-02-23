@@ -44,7 +44,7 @@ class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
         $fields = $this->getFields();
         $field = $fields[0];
 
-        $and = "  WHERE field_id = " . $this->db->quote((int) substr($field, 2), "integer") . " AND ( ";
+        $and = "  WHERE field_id = " . $this->db->quote(substr($field, 6), ilDBConstants::T_TEXT) . " AND ( ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {

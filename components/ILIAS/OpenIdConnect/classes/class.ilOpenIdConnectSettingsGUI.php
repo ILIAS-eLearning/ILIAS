@@ -25,6 +25,7 @@ use ILIAS\HTTP\Services;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\User\Profile\Profile;
 
 class ilOpenIdConnectSettingsGUI
 {
@@ -57,8 +58,12 @@ class ilOpenIdConnectSettingsGUI
     private readonly ilGlobalTemplateInterface $mainTemplate;
     private readonly ilTabsGUI $tabs;
     private readonly FileUpload $upload;
+    private readonly Profile $profile;
     private ilToolbarGUI $toolbar;
-    private ?ilUserDefinedFields $udf = null;
+    /**
+     * @var array<string, ILIAS\User\Profile\Fields\Field>|null
+     */
+    private ?array $user_defined_fields = null;
     private ilGlobalTemplateInterface $tpl;
     private int $mapping_template = self::VIEW_TAB_EFFECTIVE_MAPPING;
     private ServerRequestInterface $request;
@@ -99,6 +104,7 @@ class ilOpenIdConnectSettingsGUI
         $this->refinery = $DIC->refinery();
         $this->factory = $DIC->ui()->factory();
         $this->request = $DIC->http()->request();
+        $this->profile = $DIC['user']->getProfile();
         $this->attribute_mapping_template = new ilOpenIdAttributeMappingTemplate();
 
         if ($http_wrapper->query()->has(self::POST_VALUE) && $http_wrapper->query()->retrieve(
@@ -328,6 +334,16 @@ class ilOpenIdConnectSettingsGUI
         $user_attr->setRequired(true);
         $form->addItem($user_attr);
 
+        if (!$this->checkAccessBool('write')) {
+            foreach ($form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+
+                $item->setDisabled(true);
+            }
+        }
+
         return $form;
     }
 
@@ -438,7 +454,7 @@ class ilOpenIdConnectSettingsGUI
 
         $this->setSubTabs(self::STAB_SCOPES);
         $url = $this->settings->getProvider();
-        if ($url !== '') {
+        if ($url !== '' && $this->checkAccessBool('write')) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
             $this->toolbar->addFormButton($this->lng->txt('auth_oidc_discover_scopes'), 'discoverScopesFromServer');
         }
@@ -452,13 +468,18 @@ class ilOpenIdConnectSettingsGUI
         $this->checkAccess('read');
 
         $ui_container = [];
-        $ui_container = $this->buildScopeSelection($ui_container);
+        $has_write_access = $this->checkAccessBool('write');
+        $ui_container = $this->buildScopeSelection($ui_container, $has_write_access);
 
         /** @var Form $form */
         $form = $this->ui->input()->container()->form()->standard(
-            $this->ctrl->getFormAction($this, 'saveScopes'),
+            $has_write_access ? $this->ctrl->getFormAction($this, 'saveScopes') : $this->ctrl->getFormAction($this, 'scopes'),
             $ui_container
         )->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+
+        if (!$has_write_access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
 
         return $form;
     }
@@ -487,7 +508,7 @@ class ilOpenIdConnectSettingsGUI
      * @param list<FormInput> $ui_container
      * @return list<FormInput>
      */
-    private function buildScopeSelection(array $ui_container): array
+    private function buildScopeSelection(array $ui_container, bool $has_write_access): array
     {
         $disabled_input = $this->ui
             ->input()
@@ -544,6 +565,12 @@ class ilOpenIdConnectSettingsGUI
             [$disabled_input, $tag_input, $url_validation]
         );
         $ui_container[] = $group;
+
+        if (!$has_write_access) {
+            foreach ($ui_container as $key => $item) {
+                $ui_container[$key] = $item->withDisabled(true);
+            }
+        }
 
         return $ui_container;
     }
@@ -682,9 +709,8 @@ class ilOpenIdConnectSettingsGUI
                 $this->updateProfileMappingFieldValue($field);
             }
 
-            foreach ($this->udf->getDefinitions() as $definition) {
-                $field = self::UDF_STRING . $definition['field_id'];
-                $this->updateProfileMappingFieldValue($field);
+            foreach ($this->user_defined_fields as $field) {
+                $this->updateProfileMappingFieldValue(self::UDF_STRING . $field->getIdentifier());
             }
         }
 
@@ -761,6 +787,14 @@ class ilOpenIdConnectSettingsGUI
 
         if ($this->checkAccessBool('write')) {
             $form->addCommandButton('saveRoles', $this->lng->txt('save'));
+        } else {
+            foreach ($form->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+
+                $item->setDisabled(true);
+            }
         }
 
         return $form;
@@ -916,8 +950,15 @@ class ilOpenIdConnectSettingsGUI
             $ui_container = $this->buildUserMappingInputForUserData($lang, $mapping, $ui_container);
         }
 
-        foreach ($this->udf->getDefinitions() as $definition) {
-            $ui_container = $this->buildUserMappingInputFormUDF($definition, $ui_container);
+        foreach ($this->user_defined_fields as $field) {
+            $ui_container = $this->buildUserMappingInputFormUDF($field, $ui_container);
+        }
+
+        $has_write_access = $this->checkAccessBool('write');
+        if (!$has_write_access) {
+            foreach ($ui_container as $key => $item) {
+                $ui_container[$key] = $item->withDisabled(true);
+            }
         }
 
         $this->ctrl->setParameter(
@@ -932,36 +973,41 @@ class ilOpenIdConnectSettingsGUI
             ->container()
             ->form()
             ->standard(
-                $this->ctrl->getFormAction($this, 'saveProfileMapping'),
+                $has_write_access ? $this->ctrl->getFormAction($this, 'saveProfileMapping') : $this->ctrl->getFormAction($this, 'profile'),
                 $ui_container
             )->withAdditionalTransformation($this->saniziteArrayElementsTrafo());
+
+        if (!$has_write_access) {
+            $form = $form->withSubmitLabel($this->lng->txt('refresh'));
+        }
 
         return $form;
     }
 
     /**
-     * @param array{"field_id": int, "field_name": string} $definition
-     * @param list<FormInput>                              $ui_container
+     * @param list<FormInput> $ui_container
      * @return list<FormInput>
      */
-    private function buildUserMappingInputFormUDF($definition, array $ui_container): array
-    {
-        $value = $this->settings->getProfileMappingFieldValue(self::UDF_STRING . $definition['field_id']);
-        $update = $this->settings->getProfileMappingFieldUpdate(self::UDF_STRING . $definition['field_id']);
+    private function buildUserMappingInputFormUDF(
+        ILIAS\User\Profile\Fields\Field $definition,
+        array $ui_container
+    ): array {
+        $value = $this->settings->getProfileMappingFieldValue(self::UDF_STRING . $definition->getIdentifier());
+        $update = $this->settings->getProfileMappingFieldUpdate(self::UDF_STRING . $definition->getIdentifier());
 
         $text_input = $this->ui
             ->input()
             ->field()
-            ->text($definition['field_name'], '')
+            ->text($definition->getLabel($this->lng), '')
             ->withAdditionalTransformation($this->trimIfStringTrafo())
             ->withValue($value)
-            ->withDedicatedName(self::UDF_STRING . $definition['field_id'] . self::VALUE_STRING);
+            ->withDedicatedName(self::UDF_STRING . $definition->getIdentifier() . self::VALUE_STRING);
         $checkbox_input = $this->ui
             ->input()
             ->field()->checkbox('', $this->lng->txt('auth_oidc_update_field_info'))
             ->withValue($update)
             ->withDedicatedName(
-                self::UDF_STRING . $definition['field_id'] . self::UPDATE_STRING
+                self::UDF_STRING . $definition->getIdentifier() . self::UPDATE_STRING
             );
         $group = $this->ui->input()->field()->group(
             [$text_input, $checkbox_input]
@@ -1006,8 +1052,8 @@ class ilOpenIdConnectSettingsGUI
 
     private function initUserDefinedFields(): void
     {
-        if ($this->udf === null) {
-            $this->udf = ilUserDefinedFields::_getInstance();
+        if ($this->user_defined_fields === null) {
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
         }
     }
 

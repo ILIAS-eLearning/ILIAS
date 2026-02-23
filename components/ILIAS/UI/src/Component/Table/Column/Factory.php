@@ -142,4 +142,16 @@ interface Factory
      * @return \ILIAS\UI\Component\Table\Column\LinkListing
      */
     public function linkListing(string $title): LinkListing;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The Breadcrumb Column is used to show a breadcrumb path.
+     *   composition: >
+     *      The column field requires a Breadcrumbs Component.
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Breadcrumb
+     */
+    public function breadcrumb(string $title): Breadcrumb;
 }

@@ -146,7 +146,7 @@ class ilMessageGUI extends ilNoteGUI
         return $this->lng->txt("notes_add_edit_message");
     }
 
-    public function setAnonymised(bool $anonymised, string $counterpart_name)
+    public function setAnonymised(bool $anonymised, string $counterpart_name): void
     {
         $this->anonymised = $anonymised;
         $this->counterpart_name = $counterpart_name;

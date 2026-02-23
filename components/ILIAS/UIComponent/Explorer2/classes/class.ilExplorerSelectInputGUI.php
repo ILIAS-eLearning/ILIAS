@@ -23,7 +23,7 @@ use ILIAS\DI\UIServices;
  *
  * @author Alexander Killing <killing@leifos.de>
  *
- * @deprecated 10
+ * @deprecated with ILIAS 12
  */
 abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {

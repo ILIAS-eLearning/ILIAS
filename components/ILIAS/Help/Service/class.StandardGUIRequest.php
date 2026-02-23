@@ -82,4 +82,10 @@ class StandardGUIRequest
     {
         return $this->intArray("order");
     }
+
+    public function getScreenId(): string
+    {
+        return $this->str("screen_id");
+    }
+
 }

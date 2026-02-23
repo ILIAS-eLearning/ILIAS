@@ -25,7 +25,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithNumberOfTriesDataProvider')]
     public function testGetAndWithNumberOfTries(int $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withNumberOfTries($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withNumberOfTries($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertEquals($io, $Settings_test_behaviour->getNumberOfTries());
@@ -43,7 +43,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithBlockAfterPassedEnabledDataProvider')]
     public function testGetAndWithBlockAfterPassedEnabled(): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withBlockAfterPassedEnabled(true);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withBlockAfterPassedEnabled(true);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertTrue($Settings_test_behaviour->getBlockAfterPassedEnabled());
@@ -60,7 +60,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithPassWaitingDataProvider')]
     public function testGetAndWithPassWaiting(?string $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withPassWaiting($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withPassWaiting($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertEquals($io, $Settings_test_behaviour->getPassWaiting());
@@ -77,7 +77,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithProcessingTimeEnabledDataProvider')]
     public function testGetAndWithProcessingTimeEnabled(bool $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withProcessingTimeEnabled($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withProcessingTimeEnabled($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertEquals($io, $Settings_test_behaviour->getProcessingTimeEnabled());
@@ -94,7 +94,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithProcessingTimeDataProvider')]
     public function testGetAndWithProcessingTime(?string $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withProcessingTime($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withProcessingTime($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertEquals($io, $Settings_test_behaviour->getProcessingTime());
@@ -112,7 +112,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithResetProcessingTimeDataProvider')]
     public function testGetAndWithResetProcessingTime(bool $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withResetProcessingTime($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withResetProcessingTime($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertEquals($io, $Settings_test_behaviour->getResetProcessingTime());
@@ -129,7 +129,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithKioskModeDataProvider')]
     public function testGetAndWithKioskMode(int $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withKioskMode($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withKioskMode($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertEquals($io, $Settings_test_behaviour->getKioskMode());
@@ -148,7 +148,7 @@ class SettingsTestBehaviourTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithExamIdInTestPassEnabledDataProvider')]
     public function testGetAndWithExamIdInTestPassEnabled(bool $io): void
     {
-        $Settings_test_behaviour = (new SettingsTestBehaviour(0))->withExamIdInTestAttemptEnabled($io);
+        $Settings_test_behaviour = (new SettingsTestBehaviour())->withExamIdInTestAttemptEnabled($io);
 
         $this->assertInstanceOf(SettingsTestBehaviour::class, $Settings_test_behaviour);
         $this->assertEquals($io, $Settings_test_behaviour->getExamIdInTestAttemptEnabled());

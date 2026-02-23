@@ -26,6 +26,7 @@ use ilLegacyFormElementsUtil;
 use ilDefaultPlaceholderDescription;
 use ilCertificatePlaceholderDescription;
 use ilUserDefinedFieldsPlaceholderDescription;
+use ILIAS\User\Profile\Profile;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -39,10 +40,10 @@ class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescript
     public function __construct(
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
-        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
+        ?Profile $profile = null
     ) {
         global $DIC;
-
         if (null === $language) {
             $language = $DIC->language();
             $language->loadLanguageModule('certificate');
@@ -52,6 +53,7 @@ class ExercisePlaceholderDescription implements ilCertificatePlaceholderDescript
         if (null === $defaultPlaceholderDescriptionObject) {
             $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription(
                 $language,
+                $profile ?? $DIC['user']->getProfile(),
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
         }

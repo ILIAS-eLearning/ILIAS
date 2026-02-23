@@ -61,9 +61,9 @@ class Section implements C\ViewControl\Section
     }
 
     /**
-     * Returns the Default- or Split-Button placed in the middle of the control
+     * Returns the Default-Button placed in the middle of the control
      *
-     * @return Component the Default- or Split-Button placed in the middle of the control
+     * @return Component the Default-Button placed in the middle of the control
      */
     public function getSelectorButton(): Component
     {

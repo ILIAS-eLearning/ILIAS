@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private readonly ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
@@ -30,7 +32,8 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
         ?ilObjectLP $learningProgressObject = null,
-        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
+        ?Profile $profile = null
     ) {
         global $DIC;
 
@@ -43,6 +46,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         if (null === $defaultPlaceholderDescriptionObject) {
             $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription(
                 $language,
+                $profile ?? $DIC['user']->getProfile(),
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
         }

@@ -18,9 +18,12 @@
 import { beforeEach, describe, it } from 'node:test';
 import { strict } from 'node:assert/strict';
 import TreeSelect from '../../../../resources/js/Input/Field/src/TreeSelect/TreeSelect.js';
+import updateSingleSelectButtonStates
+  from '../../../../resources/js/Input/Field/src/TreeSelect/updateSingleSelectButtonStates.js';
+import engageParentDrilldownLevel
+  from '../../../../resources/js/Input/Field/src/TreeSelect/engageParentDrilldownLevel.js';
 
-describe('TreeSelect', function () {
-
+describe('TreeSelect', () => {
   let jQueryEventListenerMock;
   let templateRendererMock;
   let asyncRendererMock;
@@ -28,7 +31,7 @@ describe('TreeSelect', function () {
   let drilldownMock;
   let basicElementMock;
 
-  beforeEach(function () {
+  beforeEach(() => {
     jQueryEventListenerMock = {
       on: () => {},
     };
@@ -44,6 +47,8 @@ describe('TreeSelect', function () {
     drilldownMock = {
       getBackSignal: () => '',
       addEngageListener: () => {},
+      getCurrentLevel: () => '0',
+      getParentLevel: () => null,
     };
     basicElementMock = {
       remove: () => {},
@@ -51,11 +56,11 @@ describe('TreeSelect', function () {
       querySelectorAll: () => [],
       querySelector() {
         return this;
-      }
+      },
     };
   });
 
-  it('getSelection() returns a copy', function () {
+  it('getSelection() returns a copy', () => {
     const component = new TreeSelect(
       new Map(),
       jQueryEventListenerMock,
@@ -70,6 +75,7 @@ describe('TreeSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
+      () => {},
     );
 
     const actual = component.getSelection();
@@ -77,7 +83,7 @@ describe('TreeSelect', function () {
     strict.notDeepEqual(actual, component.getSelection());
   });
 
-  it('getNodes() returns a copy', function () {
+  it('getNodes() returns a copy', () => {
     const emptyNodeMap = new Map();
 
     const component = new TreeSelect(
@@ -94,6 +100,7 @@ describe('TreeSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
+      () => {},
     );
 
     const actual = component.getNodes();
@@ -101,13 +108,13 @@ describe('TreeSelect', function () {
     strict.notDeepEqual(actual, emptyNodeMap);
   });
 
-  it('initial leaf nodes are hydrated', function () {
+  it('initial leaf nodes are hydrated', () => {
     const nodeMapMock = new Map();
 
     const selectButtonMock = {
       data: [],
       addEventListener(event, handler) {
-        this.data.push({event: event, handler: handler});
+        this.data.push({ event, handler });
       },
     };
 
@@ -139,6 +146,7 @@ describe('TreeSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
+      () => {},
     );
 
     strict.equal(selectButtonMock.data.length, 1);
@@ -146,19 +154,13 @@ describe('TreeSelect', function () {
     strict.equal((selectButtonMock.data[0].handler instanceof Function), true);
   });
 
-  it('initial async and branch nodes are hydrated', function () {
+  it('initial async and branch nodes are hydrated', () => {
     const nodeMapMock = new Map();
 
     const selectButtonMock = {
       data: [],
       addEventListener(event, handler) {
-        this.data.push({event: event, handler: handler});
-      },
-    };
-    const drilldownButtonMock = {
-      data: [],
-      addEventListener(event, handler) {
-        this.data.push({event: event, handler: handler});
+        this.data.push({ event, handler });
       },
     };
 
@@ -169,7 +171,7 @@ describe('TreeSelect', function () {
       element: basicElementMock,
       selectButton: selectButtonMock,
       drilldownParentLevel: '0',
-      drilldownButton: drilldownButtonMock,
+      drilldownButton: basicElementMock,
       listElement: basicElementMock,
       renderUrl: null,
     };
@@ -190,18 +192,15 @@ describe('TreeSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
+      () => {},
     );
 
     strict.equal(selectButtonMock.data.length, 1);
     strict.equal(selectButtonMock.data[0].event, 'click');
     strict.equal((selectButtonMock.data[0].handler instanceof Function), true);
-
-    strict.equal(drilldownButtonMock.data.length, 1);
-    strict.equal(drilldownButtonMock.data[0].event, 'click');
-    strict.equal((drilldownButtonMock.data[0].handler instanceof Function), true);
   });
 
-  it('breadcrumbs are removed and rendered', function () {
+  it('breadcrumbs are removed and rendered', () => {
     const newBreadcrumbElementMock = {
       id: 'some-html-id-to-verify',
       attributes: new Map(),
@@ -211,11 +210,11 @@ describe('TreeSelect', function () {
       },
       addEventListener: () => {},
       setAttribute(attribute, value) {
-        this.attributes.set(attribute, value)
+        this.attributes.set(attribute, value);
       },
       querySelector() {
         return this;
-      }
+      },
     };
     const templateRendererMock = {
       createContent: () => newBreadcrumbElementMock,
@@ -229,7 +228,7 @@ describe('TreeSelect', function () {
         }
         this.isReturned = true;
         return this;
-      }
+      },
     };
     /** @type {TreeSelectNode} */
     const engagedBranchNode = {
@@ -249,6 +248,8 @@ describe('TreeSelect', function () {
       addEngageListener(listener) {
         this.engageListener = listener;
       },
+      getCurrentLevel: () => '0',
+      getParentLevel: () => null,
     };
     const breadcrumbElementMock = {
       isRemoved: false,
@@ -261,7 +262,7 @@ describe('TreeSelect', function () {
       querySelectorAll: () => [breadcrumbElementMock],
       append(element) {
         this.appended.push(element);
-      }
+      },
     };
     const dialogElementMock = {
       querySelectorAll: () => [],
@@ -291,6 +292,7 @@ describe('TreeSelect', function () {
       basicElementMock,
       basicElementMock,
       dialogElementMock,
+      () => {},
     );
 
     // ensure drilldown engage listener is set
@@ -305,14 +307,14 @@ describe('TreeSelect', function () {
     strict.equal(newBreadcrumbElementMock.textContent, engagedBranchNode.name);
   });
 
-  it('can select and unselect nodes', function () {
+  it('can select and unselect nodes', () => {
     const elementWithClassListMock = {
       toggle: () => {},
       remove: () => {},
       add: () => {},
       get classList() {
         return this;
-      }
+      },
     };
     const nodeElementMock = {
       get classList() {
@@ -352,6 +354,10 @@ describe('TreeSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
+      (treeSelectComponent) => {
+        updateSingleSelectButtonStates(treeSelectComponent);
+        engageParentDrilldownLevel(treeSelectComponent);
+      },
     );
 
     component.selectNode(initialLeafNode.id);
@@ -361,14 +367,14 @@ describe('TreeSelect', function () {
     strict.equal(component.getSelection().has(initialLeafNode.id), false);
   });
 
-  it('can update node select button states', function () {
+  it('can update node select button states', () => {
     const elementWithClassListMock = {
       toggle: () => {},
       remove: () => {},
       add: () => {},
       get classList() {
         return this;
-      }
+      },
     };
     /** @type {TreeSelectNode} */
     const leafNode1 = {
@@ -420,16 +426,16 @@ describe('TreeSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
+      (treeSelectComponent) => {
+        updateSingleSelectButtonStates(treeSelectComponent);
+        engageParentDrilldownLevel(treeSelectComponent);
+      },
     );
 
-    strict.equal(leafNode1.selectButton.disabled, false);
-    strict.equal(leafNode2.selectButton.disabled, false);
-    component.updateNodeSelectButtonStates();
     strict.equal(leafNode1.selectButton.disabled, false);
     strict.equal(leafNode2.selectButton.disabled, false);
     component.selectNode(leafNode1.id);
     strict.equal(leafNode1.selectButton.disabled, false);
     strict.equal(leafNode2.selectButton.disabled, true);
   });
-
 });

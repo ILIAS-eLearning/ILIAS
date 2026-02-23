@@ -24,23 +24,25 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\NotificationCenterRenderer;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem as isNotificationItem;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class NotificationCenter extends AbstractBaseItem implements hasSymbol
+class NotificationCenter extends AbstractBaseItem implements hasSymbol, isDecorateable
 {
+    use ComponentDecoratorTrait;
+
     /**
      * Amount of notifications already consulted by the user (will spawn
      * status counters)
-     * @var int
      */
     private int $amount_of_old_notifications = 0;
 
     /**
      * Amount of notifications not yet consulted by the user (will spawn
      * novelty counters)
-     * @var int
      */
     private int $amount_of_new_notifications = 0;
 
@@ -94,9 +96,6 @@ class NotificationCenter extends AbstractBaseItem implements hasSymbol
         return true;
     }
 
-    /**
-     * @return Symbol
-     */
     public function getSymbol(): Symbol
     {
         global $DIC;
@@ -133,7 +132,6 @@ class NotificationCenter extends AbstractBaseItem implements hasSymbol
 
     /**
      * Get the amount of old notifications
-     * @return int
      */
     public function getAmountOfOldNotifications(): int
     {
@@ -153,7 +151,6 @@ class NotificationCenter extends AbstractBaseItem implements hasSymbol
 
     /**
      * Get the amount of new notifications
-     * @return int
      */
     public function getAmountOfNewNotifications(): int
     {

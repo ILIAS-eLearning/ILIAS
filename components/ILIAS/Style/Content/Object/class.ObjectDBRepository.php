@@ -80,4 +80,52 @@ class ObjectDBRepository
         }
         return false;
     }
+
+
+    public function countOverallOwned(): int
+    {
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT count(*) cnt FROM style_data " .
+            " WHERE owner_obj > %s",
+            ["integer"],
+            [0]
+        );
+
+        if ($rec = $db->fetchAssoc($set)) {
+            return (int) $rec["cnt"];
+        }
+        return 0;
+    }
+
+    public function countObjSelected(int $style_id): int
+    {
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT count(*) cnt FROM style_usage " .
+            " WHERE style_id = %s",
+            ["integer"],
+            [$style_id]
+        );
+
+        if ($rec = $db->fetchAssoc($set)) {
+            return (int) $rec["cnt"];
+        }
+        return 0;
+    }
+
+    public function move(int $from_style_id, int $to_style_id): void
+    {
+        $db = $this->db;
+        $db->update(
+            "style_usage",
+            [
+            "style_id" => ["integer", $to_style_id]
+        ],
+            [    // where
+                "style_id" => ["integer", $from_style_id]
+            ]
+        );
+    }
+
 }

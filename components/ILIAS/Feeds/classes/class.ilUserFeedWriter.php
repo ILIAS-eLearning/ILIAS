@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Data\NewsCriteria;
+use ILIAS\News\Data\NewsItem;
+
 /**
  * Feed writer for personal user feeds.
  * @author Alexander Killing <killing@leifos.de>
@@ -49,15 +52,13 @@ class ilUserFeedWriter extends ilFeedWriter
 
         $hash = ilObjUser::_lookupFeedHash($a_user_id);
 
-        $rss_period = ilNewsItem::_lookupRSSPeriod();
-
         if ($a_hash == $hash) {
-            if ($privFeed) {
-                //ilNewsItem::setPrivateFeedId($a_user_id);
-                $items = ilNewsItem::_getNewsItemsOfUser($a_user_id, false, true, $rss_period);
-            } else {
-                $items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true, $rss_period);
-            }
+            $rss_period = ilNewsItem::_lookupRSSPeriod();
+            $items = $DIC->news()->internal()->domain()->collection()->getNewsForUser(
+                new ilObjUser($a_user_id),
+                new NewsCriteria(period: $rss_period, only_public: !$privFeed),
+                false
+            );
 
             if ($ilSetting->get('short_inst_name') != "") {
                 $this->setChannelTitle($ilSetting->get('short_inst_name'));
@@ -68,29 +69,29 @@ class ilUserFeedWriter extends ilFeedWriter
             $this->setChannelAbout(ILIAS_HTTP_PATH);
             $this->setChannelLink(ILIAS_HTTP_PATH);
             //$this->setChannelDescription("ILIAS Channel Description");
+
+            /** @var NewsItem $item */
             foreach ($items as $item) {
-                $obj_id = ilObject::_lookupObjId($item["ref_id"]);
-                $obj_type = ilObject::_lookupType($obj_id);
-                $obj_title = ilObject::_lookupTitle($obj_id);
+                $obj_title = ilObject::_lookupTitle($item->getContextObjId());
 
                 // not nice, to do: general solution
-                if ($obj_type == "mcst") {
-                    if (!ilObjMediaCastAccess::_lookupOnline($obj_id)) {
+                if ($item->getContextObjType() === 'mcst') {
+                    if (!ilObjMediaCastAccess::_lookupOnline($item->getContextObjId())) {
                         continue;
                     }
                 }
 
                 $feed_item = new ilFeedItem();
                 $title = ilNewsItem::determineNewsTitle(
-                    $item["context_obj_type"],
-                    $item["title"],
-                    (bool) $item["content_is_lang_var"],
-                    (int) ($item["agg_ref_id"] ?? 0),
-                    $item["aggregation"] ?? []
+                    $item->getContextObjType(),
+                    $item->getTitle(),
+                    $item->isContentIsLangVar(),
+                    0,
+                    []
                 );
 
                 // path
-                $loc = $this->getContextPath($item["ref_id"]);
+                $loc = $this->getContextPath($item->getContextRefId());
 
                 // title
                 if ($news_set->get("rss_title_format") == "news_obj") {
@@ -105,40 +106,40 @@ class ilUserFeedWriter extends ilFeedWriter
                 // description
                 $content = $this->prepareStr(nl2br(
                     ilNewsItem::determineNewsContent(
-                        $item["context_obj_type"],
-                        $item["content"],
-                        $item["content_text_is_lang_var"]
+                        $item->getContextObjType(),
+                        $item->getContent(),
+                        $item->isContentTextIsLangVar(),
                     )
                 ));
                 $feed_item->setDescription($content);
 
                 // lm page hack, not nice
-                if ($item["context_obj_type"] == "lm" && $item["context_sub_obj_type"] == "pg"
-                    && $item["context_sub_obj_id"] > 0) {
+                if ($item->getContextObjType() == "lm" && $item->getContextSubObjType() == "pg"
+                    && $item->getContextObjId() > 0) {
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
-                        "&amp;target=pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"]);
-                } elseif ($item["context_obj_type"] == "wiki" && $item["context_sub_obj_type"] == "wpg"
-                    && $item["context_sub_obj_id"] > 0) {
-                    $wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
+                        "&amp;target=pg_" . $item->getContextSubObjId() . "_" . $item->getContextRefId());
+                } elseif ($item->getContextObjType() == "wiki" && $item->getContextSubObjType() == "wpg"
+                    && $item->getContextSubObjId() > 0) {
+                    $wptitle = ilWikiPage::lookupTitle($item->getContextSubObjId());
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
-                        "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"] . "_" . urlencode($wptitle)); // #14629
-                } elseif ($item["context_obj_type"] == "frm" && $item["context_sub_obj_type"] == "pos"
-                    && $item["context_sub_obj_id"] > 0) {
+                        "&amp;target=" . $item->getContextObjType() . "_" . $item->getContextRefId() . "_" . urlencode($wptitle)); // #14629
+                } elseif ($item->getContextObjType() == "frm" && $item->getContextSubObjType() == "pos"
+                    && $item->getContextSubObjId() > 0) {
                     // frm hack, not nice
-                    $thread_id = ilObjForumAccess::_getThreadForPosting($item["context_sub_obj_id"]);
+                    $thread_id = ilObjForumAccess::_getThreadForPosting($item->getContextSubObjId());
                     if ($thread_id > 0) {
                         $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
-                            "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"] . "_" . $thread_id . "_" . $item["context_sub_obj_id"]);
+                            "&amp;target=" . $item->getContextObjType() . "_" . $item->getContextRefId() . "_" . $thread_id . "_" . $item->getContextSubObjId());
                     } else {
                         $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
-                            "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"]);
+                            "&amp;target=" . $item->getContextObjType() . "_" . $item->getContextRefId());
                     }
                 } else {
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
-                        "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"]);
+                        "&amp;target=" . $item->getContextObjType() . "_" . $item->getContextRefId());
                 }
-                $feed_item->setAbout($feed_item->getLink() . "&amp;il_about_feed=" . $item["id"]);
-                $feed_item->setDate($item["creation_date"]);
+                $feed_item->setAbout($feed_item->getLink() . "&amp;il_about_feed=" . $item->getId());
+                $feed_item->setDate($item->getCreationDate()->format("yyyy-mm-dd hh:mm:ss"));
                 $this->addItem($feed_item);
             }
         }

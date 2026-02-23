@@ -17,9 +17,11 @@
  *********************************************************************/
 
 require_once("../vendor/composer/vendor/autoload.php");
+ilContext::init(ilContext::CONTEXT_SHIBBOLETH);
 require_once("../artifacts/bootstrap_default.php");
 
 global $DIC;
+
 $q = $DIC->http()->wrapper()->query();
 if (
     $q->has('return')
@@ -43,7 +45,7 @@ if (
 //       stored in the application's session data.
 //       See function LogoutNotification below
 
-elseif (!empty($HTTP_RAW_POST_DATA)) {
+elseif (!empty(file_get_contents('php://input'))) {
     ilContext::init(ilContext::CONTEXT_SOAP);
 
     // Load ILIAS libraries and initialise ILIAS in non-web context
@@ -69,16 +71,15 @@ else {
 
     echo <<<WSDL
 <?xml version ="1.0" encoding ="UTF-8" ?>
-<definitions name="LogoutNotification"
-  targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
-  xmlns:notify="urn:mace:shibboleth:2.0:sp:notify"
-  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-  xmlns="http://schemas.xmlsoap.org/wsdl/">
+<definitions name="LogoutNotification" targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
+	xmlns:notify="urn:mace:shibboleth:2.0:sp:notify"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
 
 	<types>
-	   <schema targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
-		   xmlns="http://www.w3.org/2000/10/XMLSchema"
-		   xmlns:notify="urn:mace:shibboleth:2.0:sp:notify">
+		<schema targetNamespace="urn:mace:shibboleth:2.0:sp:notify"
+			xmlns="http://www.w3.org/2000/10/XMLSchema"
+			xmlns:notify="urn:mace:shibboleth:2.0:sp:notify">
 
 			<simpleType name="string">
 				<restriction base="string">
@@ -98,7 +99,7 @@ else {
 		<part name="SessionID" type="notify:string" />
 	</message>
 
-	<message name="getLogoutNotificationResponse" >
+	<message name="getLogoutNotificationResponse">
 		<part name="OK"/>
 	</message>
 
@@ -117,9 +118,9 @@ else {
 	</binding>
 
 	<service name="LogoutNotificationService">
-		  <port name="LogoutNotificationPort" binding="notify:LogoutNotificationBinding">
+		<port name="LogoutNotificationPort" binding="notify:LogoutNotificationBinding">
 			<soap:address location="{$url}"/>
-		  </port>
+		</port>
 	</service>
 </definitions>
 WSDL;
@@ -141,17 +142,17 @@ function LogoutNotification($SessionID): ?\SoapFault
     $q = "SELECT session_id, data FROM usr_session WHERE expires > 'NOW()'";
     $r = $ilDB->query($q);
 
-    while ($session_entry = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-        $user_session = unserializesession($session_entry['data']);
-
-        // Look for session with matching Shibboleth session id
-        // and then delete this ilias session
-        foreach ($user_session as $user_session_entry) {
-            // Delete this session entry
-            if (is_array($user_session_entry) && array_key_exists('shibboleth_session_id', $user_session_entry) && $user_session_entry['shibboleth_session_id'] == $SessionID && !ilSession::_destroy($session_entry['session_id'])
-            ) {
-                return new SoapFault('LogoutError', 'Could not delete session entry in database.');
-            }
+    while ($session = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $session_data = unserializesession($session['data']);
+        // Delete this session entry
+        if (
+            is_array($session_data)
+            && array_key_exists('shibboleth_session_id', $session_data)
+            && $session_data['shibboleth_session_id'] === $SessionID
+            && !ilSession::_destroy($session['session_id']
+            )
+        ) {
+            return new SoapFault('LogoutError', 'Could not delete session entry in database.');
         }
     }
     // If no SoapFault is returned, all is fine

@@ -189,7 +189,8 @@ class ilDclFieldListGUI
         $switcher->addTableSwitcherToToolbar(
             $this->parent_obj->getDataCollectionObject()->getTables(),
             self::class,
-            'listFields'
+            'listFields',
+            $this->getTableId()
         );
 
         //table gui

@@ -1073,7 +1073,6 @@ interface Factory
      */
     public function entity(): C\Entity\Factory;
 
-
     /**
      * ---
      * description:
@@ -1125,4 +1124,19 @@ interface Factory
      * @return \ILIAS\UI\Component\Prompt\Factory
      */
     public function prompt(): C\Prompt\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Navigation refers to the actions and mechanisms that allow users to move
+     *     from one part of the system to another.
+     *     While this is basically true for links already, a navigational concept's
+     *     purpose is to shape and organize possible interaction into a structure
+     *     providing easy access, orientation and guidance.
+     * ---
+     * @return \ILIAS\UI\Component\Navigation\Factory
+     */
+    public function navigation(): C\Navigation\Factory;
+
 }

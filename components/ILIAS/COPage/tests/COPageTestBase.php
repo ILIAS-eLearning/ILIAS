@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\COPage\ID\ContentIdGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -134,7 +136,7 @@ class COPageTestBase extends TestCase
     /**
      * @return ContentIdGenerator|(ContentIdGenerator&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getIdGeneratorMock()
+    protected function getIdGeneratorMock(): mixed
     {
         $gen = $this->createMock(\ILIAS\COPage\ID\ContentIdGenerator::class);
         $gen->method("generate")
@@ -171,7 +173,7 @@ class COPageTestBase extends TestCase
         \ilPageObject $page,
         string $hier_id,
         string $text = ""
-    ) {
+    ): void {
         $pc = new \ilPCParagraph($page);
         $pc->create($page, $hier_id);
         $pc->setLanguage("en");
@@ -227,7 +229,7 @@ class COPageTestBase extends TestCase
     /**
      * @return (ilObjMediaObject&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getMediaObjectMock()
+    protected function getMediaObjectMock(): MockObject|ilObjMediaObject
     {
         $media_item = new ilMediaItem();
         $media_item->setWidth("100");

@@ -126,7 +126,6 @@ class RunDBRepository
         int $appr_id = 0
     ): ?int {
         $db = $this->db;
-
         if ($code !== "") { // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
             $set = $db->queryF(
                 "SELECT * FROM svy_finished" .
@@ -135,6 +134,9 @@ class RunDBRepository
                 array($survey_id, $code, $appr_id)
             );
         } else {
+            if ($user_id === ANONYMOUS_USER_ID) {
+                return null;
+            }
             $set = $db->queryF(
                 "SELECT * FROM svy_finished" .
                 " WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",

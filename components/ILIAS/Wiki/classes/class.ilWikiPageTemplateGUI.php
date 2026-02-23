@@ -27,7 +27,7 @@ class ilWikiPageTemplateGUI
 {
     protected WikiGUIRequest $request;
     protected ilObjWiki $wiki;
-    protected ilToolbarGUI$toolbar;
+    protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
     protected ilObjWikiGUI $wiki_gui;
     protected ilCtrl $ctrl;

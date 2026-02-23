@@ -92,6 +92,13 @@ interface CopyrightHelperInterface
     ): ManipulatorInterface;
 
     /**
+     * Returns the preset copyright entry with the given identifier,
+     * or a null object if copyright selection is not active (or if the identifier
+     * does not exist).
+     */
+    public function getCopyrightPreset(string $copyright_id): CopyrightInterface;
+
+    /**
      * Returns all preset copyright entries, or nothing
      * if copyright selection is not active.
      *

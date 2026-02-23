@@ -22,19 +22,19 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\components\WOPI\Discovery\Crawler;
+use ILIAS\WOPI\Discovery\Crawler;
 use ILIAS\Data\URI;
-use ILIAS\components\WOPI\Discovery\AppDBRepository;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
-use ILIAS\components\WOPI\Discovery\ActionRepository;
-use ILIAS\components\WOPI\Discovery\AppRepository;
-use ILIAS\components\WOPI\Discovery\ActionTarget;
-use ILIAS\components\WOPI\Discovery\Action;
+use ILIAS\WOPI\Discovery\AppDBRepository;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionRepository;
+use ILIAS\WOPI\Discovery\AppRepository;
+use ILIAS\WOPI\Discovery\ActionTarget;
+use ILIAS\WOPI\Discovery\Action;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>
  *
- * @ilCtrl_isCalledBy ilWOPIAdministrationGUI: ilObjExternalToolsSettingsGUI
+ * @ilCtrl_isCalledBy ilWOPIAdministrationGUI: ilObjFileServicesGUI
  */
 class ilWOPIAdministrationGUI
 {
@@ -82,7 +82,7 @@ class ilWOPIAdministrationGUI
     {
         if (!$this->access->checkAccess("read", "", $this->ref_id)) {
             $this->maint_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
-            $this->ctrl->redirectByClass(ilObjExternalToolsSettingsGUI::class);
+            $this->ctrl->redirectByClass(ilObjFileServicesGUI::class);
         }
 
         $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
@@ -101,7 +101,7 @@ class ilWOPIAdministrationGUI
         if (!empty($supported_suffixes)) {
             $listing = $this->ui_factory->panel()->secondary()->legacy(
                 $this->lng->txt("currently_supported"),
-                $this->ui_factory->legacy(
+                $this->ui_factory->legacy()->content(
                     $this->ui_renderer->render(
                         $this->ui_factory->listing()->descriptive([
                             $this->lng->txt('action_edit') => implode(", ", $supported_suffixes[ActionTarget::EDIT->value]),

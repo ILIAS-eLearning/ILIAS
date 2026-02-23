@@ -281,6 +281,32 @@ class ilChatroomFormFactory
         $oscBrowserNotificationIdleTime->setInfo($this->lng->txt('osc_adm_conv_idle_state_threshold_info'));
         $enable_osc->addSubItem($oscBrowserNotificationIdleTime);
 
+        $oscAllowConversations = new ilSelectInputGUI(
+            $this->lng->txt('chat_osc_accept_msg'),
+            'chat_osc_accept_msg'
+        );
+        $oscAllowConversations->setOptions(
+            [
+                'n' => $this->lng->txt('buddy_allow_to_contact_me_no'),
+                'y' => $this->lng->txt('buddy_allow_to_contact_me_yes')
+            ]
+        );
+        $oscAllowConversations->setInfo($this->lng->txt('chat_osc_accept_msg_default_info'));
+        $enable_osc->addSubItem($oscAllowConversations);
+
+        $oscBroadcastTyping = new ilSelectInputGUI(
+            $this->lng->txt('chat_broadcast_typing'),
+            'chat_broadcast_typing'
+        );
+        $oscBroadcastTyping->setOptions(
+            [
+                'n' => $this->lng->txt('chat_no_use_typing_broadcast'),
+                'y' => $this->lng->txt('chat_use_typing_broadcast')
+            ]
+        );
+        $oscBroadcastTyping->setInfo($this->lng->txt('chat_broadcast_typing_default_info'));
+        $enable_osc->addSubItem($oscBroadcastTyping);
+
         $name = new ilTextInputGUI($this->lng->txt('chatroom_client_name'), 'client_name');
         $name->setInfo($this->lng->txt('chatroom_client_name_info'));
         $name->setRequired(true);

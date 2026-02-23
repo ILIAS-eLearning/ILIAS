@@ -19,7 +19,7 @@
 use ILIAS\Help\StandardGUIRequest;
 
 /**
- * @ilCtrl_Calls ilObjHelpSettingsGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjHelpSettingsGUI: ilPermissionGUI, ilGuidedTourAdminGUI
  * @ilCtrl_isCalledBy ilObjHelpSettingsGUI: ilAdministrationGUI
  */
 class ilObjHelpSettingsGUI extends ilObject2GUI
@@ -69,11 +69,18 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
         switch ($next_class) {
+
+            case strtolower(ilGuidedTourAdminGUI::class):
+                $this->tabs_gui->setTabActive('guided_tour');
+                $gui = $this->gui->guidedTour()->adminGUI();
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case strtolower(ilPermissionGUI::class):
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
@@ -128,11 +135,16 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
     public function getAdminTabs(): void
     {
-        if ($this->checkPermissionBool("visible,read")) {
+        if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addTab(
                 "settings",
                 $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "editSettings")
+            );
+            $this->tabs_gui->addTab(
+                "guided_tour",
+                $this->lng->txt("guided_tour"),
+                $this->ctrl->getLinkTargetByClass(ilGuidedTourAdminGUI::class)
             );
         }
 

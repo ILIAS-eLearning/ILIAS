@@ -83,6 +83,7 @@ class InternalDomainService
     {
         return new ThumbsManager(
             $this->data_service,
+            $this->repo_service,
             $this
         );
     }

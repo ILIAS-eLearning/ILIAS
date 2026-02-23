@@ -153,7 +153,6 @@ class ilLTIProviderObjectSettingGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Init object settings form
      */
@@ -226,8 +225,12 @@ class ilLTIProviderObjectSettingGUI
             $sh->setValue($this->lng->txt("lti_13_step1_info"));
             $op1->addSubItem($sh);
             $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
-            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+            $url->setValue(ILIAS_HTTP_PATH . '/lti.php');
             $op1->addSubItem($url);
+
+            $urlJwks = new ilNonEditableValueGUI($this->lng->txt('lti_con_key_type_jwk'), $this->lng->txt('lti_con_key_type_jwk'));
+            $urlJwks->setValue(ILIAS_HTTP_PATH . '/lticerts.php');
+            $op1->addSubItem($urlJwks);
             //                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_initiate_url'), 'url');
             //                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
             //                    $version->addSubItem($url);
@@ -259,7 +262,7 @@ class ilLTIProviderObjectSettingGUI
 
             $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), LtiVersion::V1->value);
             $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
-            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+            $url->setValue(ILIAS_HTTP_PATH . '/lti.php');
             $op0->addSubItem($url);
             $key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key_' . $global_consumer->getExtConsumerId());
             if (is_null($active_consumer->getKey())) {
@@ -288,8 +291,8 @@ class ilLTIProviderObjectSettingGUI
     protected function updateSettings(): void
     {
         $form = $this->initObjectSettingsForm();
+        $form->setValuesByPost();
         if (!$form->checkInput()) {
-            $form->setValuesByPost();
             $this->settings($form);
             return;
         }

@@ -408,7 +408,8 @@ class ilObjLanguageExt extends ilObjLanguage
             return;
         }
         $save_array = [];
-        $save_date = (new DateTime())->format("Y-m-d H:i:s");
+        $save_date = (new DateTimeImmutable('now', new DateTimeZone('UTC')))
+            ->format('Y-m-d H:i:s');
 
         // read and get the global values
         $global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);

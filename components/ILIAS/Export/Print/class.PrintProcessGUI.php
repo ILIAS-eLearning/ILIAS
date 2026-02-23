@@ -72,7 +72,7 @@ class PrintProcessGUI
      * Set output mode
      * @param string $a_val self::PRINT|self::OFFLINE
      */
-    public function setOffline(bool $offline)
+    public function setOffline(bool $offline): void
     {
         $this->provider->setOffline($offline);
     }
@@ -195,7 +195,7 @@ class PrintProcessGUI
      * @param string $output
      * @throws HTTP\Response\Sender\ResponseSendingException
      */
-    protected function send(string $output)
+    protected function send(string $output): void
     {
         $this->http->saveResponse($this->http->response()->withBody(
             Streams::ofString($output)

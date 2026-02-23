@@ -21,6 +21,7 @@ namespace ILIAS\StaticURL;
 use ILIAS\HTTP\Services;
 use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory;
+use ILIAS\StaticURL\Builder\URIBuilder;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -39,6 +40,16 @@ final class Context
     public function refinery(): Factory
     {
         return $this->container->refinery();
+    }
+
+    public function lng(): \ilLanguage
+    {
+        return $this->container->language();
+    }
+
+    public function mainTemplate(): \ilGlobalTemplateInterface
+    {
+        return $this->container->ui()->mainTemplate();
     }
 
     public function http(): Services
@@ -79,5 +90,10 @@ final class Context
     public function isPublicSectionActive(): bool
     {
         return (bool) ($this->container->settings()->get('pub_section') ?? false);
+    }
+
+    public function builder(): URIBuilder
+    {
+        return $this->container['static_url']->builder();
     }
 }

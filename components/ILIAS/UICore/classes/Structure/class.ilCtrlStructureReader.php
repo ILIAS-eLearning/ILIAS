@@ -33,7 +33,7 @@ class ilCtrlStructureReader
      * @var string regex pattern for ILIAS GUI classes. Filename
      *             must be 'class.<classname>GUI.php'.
      */
-    public const REGEX_GUI_CLASS_NAME = '/^class\.([A-z0-9]*(GUI))\.php$/';
+    public const REGEX_GUI_CLASS_NAME = '/^(class\.|)([A-z0-9]*(GUI))\.php$/';
 
     /**
      * @var string regex pattern that matches classes listed behind

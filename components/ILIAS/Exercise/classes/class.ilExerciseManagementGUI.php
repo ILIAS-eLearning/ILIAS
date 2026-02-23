@@ -320,9 +320,9 @@ class ilExerciseManagementGUI
         $part_id = $this->requested_part_id;
 
         $ilCtrl->setParameter($this, "vw", "");
-        $ilCtrl->setParameter($this, "member_id", "");
-        $ilCtrl->setParameter($this, "ass_id", "");
-        $ilCtrl->setParameter($this, "part_id", "");
+        $ilCtrl->setParameter($this, "member_id", "0");
+        $ilCtrl->setParameter($this, "ass_id", "0");
+        $ilCtrl->setParameter($this, "part_id", "0");
 
         $ilTabs->addSubTab(
             "assignment",
@@ -446,13 +446,17 @@ class ilExerciseManagementGUI
                 }
             } elseif ($this->exercise->hasTutorFeedbackFile()) {
                 if (!$this->assignment->getAssignmentType()->usesTeams()) {
-                    // multi-feedback
-                    $ilToolbar->addButton(
-                        $this->lng->txt("exc_multi_feedback"),
-                        $this->ctrl->getLinkTarget($this, "showMultiFeedback")
-                    );
 
-                    $ilToolbar->addSeparator();
+                    $mem_data = $this->assignment->getMemberListData();
+                    if (count($mem_data) > 0) {
+                        // multi-feedback
+                        $ilToolbar->addButton(
+                            $this->lng->txt("exc_multi_feedback"),
+                            $this->ctrl->getLinkTarget($this, "showMultiFeedback")
+                        );
+
+                        $ilToolbar->addSeparator();
+                    }
                 }
             }
 
@@ -483,7 +487,7 @@ class ilExerciseManagementGUI
             $this->tpl->setOnScreenMessage('info', $lng->txt("exc_no_assignments_available"));
         }
 
-        $ilCtrl->setParameter($this, "ass_id", "");
+        $ilCtrl->setParameter($this, "ass_id", "0");
     }
 
     public function downloadSelectedObject(): void
@@ -746,7 +750,9 @@ class ilExerciseManagementGUI
             $card_tpl->parseCurrentBlock();
         }
 
-        $main_panel = $this->ui_factory->panel()->sub($a_data['uname'], $this->ui_factory->legacy()->content($a_data['utext']))
+        $main_panel = $this->ui_factory->panel()->sub($a_data['uname'], $this->ui_factory->legacy()->content(
+            $this->gui->html()->escapeCurly($a_data['utext'])
+        ))
             ->withFurtherInformation($this->ui_factory->card()->standard($this->lng->txt('text_assignment'))->withSections(array($this->ui_factory->legacy()->content($card_tpl->get()))))->withActions($actions_dropdown);
 
         $feedback_tpl = new ilTemplate("tpl.exc_report_feedback.html", true, true, "components/ILIAS/Exercise");
@@ -800,6 +806,8 @@ class ilExerciseManagementGUI
     public function getEvaluationModal(
         array $a_data
     ): RoundTrip {
+        $more_id = $a_data['uid'];
+        $this->tpl->addJavaScript("assets/js/exc-text-more.js");
         $modal_tpl = new ilTemplate("tpl.exc_report_evaluation_modal.html", true, true, "components/ILIAS/Exercise");
         $modal_tpl->setVariable("USER_NAME", $a_data['uname']);
 
@@ -807,19 +815,12 @@ class ilExerciseManagementGUI
         //TODO: CHECK ilias string utils. ilUtil shortenText with net blank.
         if ($this->exercise->hasTutorFeedbackText()) {
             $max_chars = 500;
-
-            $u_text = strip_tags($a_data["utext"]); //otherwise will get open P
-            $text = $u_text;
-            //show more
-            if (strlen($u_text) > $max_chars) {
-                $text = "<input type='checkbox' class='read-more-state' id='post-1' />";
-                $text .= "<div class='read-more-wrap'>";
-                $text .= mb_substr($u_text, 0, $max_chars);
-                $text .= "<span class='read-more-target'>";
-                $text .= mb_substr($u_text, $max_chars);
-                $text .= "</span></div>";
-                $text .= "<label for='post-1' class='read-more-trigger'></label>";
-            }
+            $more_button = $this->gui->ui()->factory()->button()->standard($this->lng->txt("exc_show_more"), "#");
+            $text = "<div data-exc-show-more='$more_id'><div>";
+            $text .= $a_data["utext"];
+            $text .= "</div><div>";
+            $text .= $this->gui->ui()->renderer()->render($more_button);
+            $text .= "</div></div>";
             $modal_tpl->setVariable("USER_TEXT", $text);
         }
 
@@ -838,6 +839,11 @@ class ilExerciseManagementGUI
         array $a_data
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
+        $this->ctrl->setParameterByClass(
+            self::class,
+            "ass_id",
+            $this->assignment->getId()
+        );
         $form->setFormAction($this->ctrl->getFormAction($this, "saveEvaluationFromModal"));
         $form->setId(uniqid('form'));
 
@@ -892,7 +898,6 @@ class ilExerciseManagementGUI
             $grade = trim($form->getInput('grade'));
             $mark = trim($form->getInput('mark'));
         }
-
         if ($this->assignment->getId() && $user_id > 0) {
             $member_status = $this->assignment->getMemberStatus($user_id);
             $member_status->setComment(ilUtil::stripSlashes($comment));
@@ -976,7 +981,7 @@ class ilExerciseManagementGUI
         $access = $this->access;
 
         $this->addSubTabs("participant");
-        $this->ctrl->setParameter($this, "ass_id", "");
+        $this->ctrl->setParameter($this, "ass_id", "0");
 
         // participant selection
         $members = $this->exercise->members_obj->getMembers();
@@ -1035,9 +1040,13 @@ class ilExerciseManagementGUI
             $this->ctrl->setParameter($this, "vw", self::VIEW_PARTICIPANT);
             $this->ctrl->setParameter($this, "part_id", $current_participant);
 
-            $ilToolbar->addSeparator();
-            $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-            $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
+            $ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
+
+            if (count($ass) > 0) {
+                $ilToolbar->addSeparator();
+                $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+                $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
+            }
 
             $part_tab = new ilAssignmentsPerParticipantTableGUI(
                 $this,
@@ -1326,7 +1335,7 @@ class ilExerciseManagementGUI
             }
 
             $data[$ass_id][$member_id] = array(
-                "status" => $status[$ass_id]
+                "status" => $status[$ass_id] ?? ""
             );
             if (isset($marks[$ass_id])) {
                 $data[$ass_id][$member_id]["mark"] = $marks[$ass_id];
@@ -1385,7 +1394,6 @@ class ilExerciseManagementGUI
     public function saveStatusSelectedObject(): void
     {
         //$members = $this->getMultiActionUserIds();
-
         if ($this->assignment !== null) {
             $this->saveStatusAllObject($this->selected_participants);
         } else {
@@ -2231,7 +2239,7 @@ class ilExerciseManagementGUI
             "uid" => $user_id,
             "uname" => $uname,
             "udate" => $ts,
-            "utext" => ilRTE::_replaceMediaObjectImageSrc($text, 1) // mob id to mob src
+            "utext" => $this->gui->getUIUtil()->formatTextInput($text) // mob id to mob src
         );
 
         //get data peer and assign it

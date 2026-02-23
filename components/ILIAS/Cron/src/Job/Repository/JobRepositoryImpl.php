@@ -410,4 +410,13 @@ readonly class JobRepositoryImpl implements JobRepository
 
         return $collection;
     }
+
+    public function getEntityById(string $id): ?\ILIAS\Cron\Job\JobEntity
+    {
+        $jobs = $this->findAll();
+
+        return $jobs->filter(
+            static fn(\ILIAS\Cron\Job\JobEntity $entity): bool => $entity->getEffectiveJobId() === $id
+        )->toArray()[0] ?? null;
+    }
 }

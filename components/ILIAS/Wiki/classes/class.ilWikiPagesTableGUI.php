@@ -277,7 +277,10 @@ class ilWikiPagesTableGUI extends ilTable2GUI
             );
             if ($this->ot->getContentTranslationActivated() && $this->pg_list_mode !== IL_WIKI_WHAT_LINKS_HERE) {
                 $this->tpl->setCurrentBlock("lang");
-                $this->tpl->setVariable("LANG", implode(", ", $this->pm->getLanguages($a_set["id"])));
+                $langs = array_filter($this->pm->getLanguages($a_set["id"]), function ($l) {
+                    return in_array($l, array_map(fn($l) => $l->getLanguageCode(), $this->ot->getLanguages()));
+                });
+                $this->tpl->setVariable("LANG", implode(", ", $langs));
                 $this->tpl->parseCurrentBlock();
             }
         }

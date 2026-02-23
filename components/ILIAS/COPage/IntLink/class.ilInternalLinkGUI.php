@@ -21,6 +21,7 @@ use ILIAS\COPage\IntLink\StandardGUIRequest;
 /**
  * Internal link selector
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 10 This component will be removed with ILIAS 10
  */
 class ilInternalLinkGUI
 {
@@ -57,6 +58,9 @@ class ilInternalLinkGUI
         bool $a_is_ref = true
     ) {
         global $DIC;
+        if ($a_default_link_type === "PortfolioPage") {
+            $a_is_ref = false;
+        }
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();

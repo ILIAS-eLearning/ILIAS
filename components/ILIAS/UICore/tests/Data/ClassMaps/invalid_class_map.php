@@ -24,7 +24,7 @@ $data_dir = dirname(__DIR__, 3);
 // the ILIAS naming scheme 'class.<ClassName>GUI.php'.
 
 return array(
-    'ilCtrlBaseClass1TestGUI' => $data_dir . '/GUI/ilCtrlBaseClass1TestGUI.php',
+    'ilCtrlBaseClass1TestGUI' => $data_dir . '/GUI/something.ilCtrlBaseClass1TestGUI.php',
     'ilCtrlCommandClass1TestGUI' => $data_dir . '/GUI/class.ilCtrlCommandClass1Test.php',
-    'ilCtrlCommandClass2TestGUI' => $data_dir . '/GUI/ilCtrlCommandClass2TestGUI.php',
+    'ilCtrlCommandClass2TestGUI' => $data_dir . '/GUI/.ilCtrlCommandClass2TestGUI.php',
 );

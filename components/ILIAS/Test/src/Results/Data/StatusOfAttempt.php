@@ -47,7 +47,7 @@ enum StatusOfAttempt: string
             return StatusOfAttempt::RUNNING;
         }
 
-        if ($finalized_by === null) {
+        if ($finalized_by === null || $finalized_by === '') {
             return StatusOfAttempt::FINISHED_BY_UNKNOWN;
         }
 

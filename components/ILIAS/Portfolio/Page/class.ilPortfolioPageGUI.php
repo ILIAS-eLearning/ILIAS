@@ -16,11 +16,13 @@
  *
  *********************************************************************/
 
+use ILIAS\User\Profile\PublicProfileGUI;
+
 /**
  * Portfolio page gui class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ILIAS\User\Profile\PublicProfileGUI
  * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI, ilLearningHistoryGUI
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
@@ -314,7 +316,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
         $user_id = $this->getPageContentUserId($a_user_id);
 
-        $pub_profile = new ilPublicUserProfileGUI($user_id);
+        $pub_profile = new PublicProfileGUI($user_id);
         $pub_profile->setEmbedded(true, ($this->getOutputMode() === "offline"));
 
         // full circle: additional was set in the original public user profile call

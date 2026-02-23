@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Table;
 
+use ILIAS\UI\Component\Input\ViewControl\ViewControl;
+use ILIAS\UI\Component\Input\Container\ViewControl\ViewControlInput;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
@@ -52,12 +54,22 @@ interface Data extends Table
 
     public function withOrder(?Order $order): self;
     public function withRange(?Range $range): self;
-    public function withFilter(?array $filter): self;
-    public function withAdditionalParameters(?array $additional_parameters): self;
+    public function withFilter(mixed $filter): self;
+    public function withAdditionalParameters(mixed $additional_parameters): self;
 
     /**
      * The DataTable comes with a storage to keep e.g. ViewControl-settings throughout requests.
      * Set an Id to enable the storage and identify the distinct table.
      */
     public function withId(string $id): static;
+
+    /**
+     * Consumers may add additional view controls; their data will be relayed to
+     * DataRetrieval::getRows and ::getTotalRowCount as additional parameter.
+     * If you want to add more than one additional view control, bundle them into
+     * an Input\ViewControl\Group.
+     */
+    public function withAdditionalViewControl(
+        ViewControlInput $view_control
+    ): self;
 }

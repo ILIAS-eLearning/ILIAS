@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Layout\Page;
 
+use ILIAS\UI\Component\Legacy\Content;
+use ILIAS\Data\Link;
 use ILIAS\UI\Component\MainControls\Mainbar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -109,4 +111,43 @@ interface Factory
         string $short_title = '',
         string $view_title = ''
     ): Standard;
+
+    /**
+     * ---
+     * description:
+     *   purpose: The Mail Page is used to render HTML content for mails.
+     *   composition: >
+     *    The Mail Page consists of HTML content, a header and a footer.
+     *    The header contains the logo and the installation-text.
+     *    The footer contains the installation-text and a link to ILIAS.
+     *    The stylesheet path refers to the CSS file that is used to style the page and will be included in the HTML.
+     *
+     * rules:
+     *   usage:
+     *     1: The Mail Page MUST be rendered with content.
+     *     2: >
+     *        The Mail Page MUST be rendered with a logo.
+     *        The logo must be either
+     *        a cid URL (see https://datatracker.ietf.org/doc/html/rfc2392)
+     *        or a data URL (see https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/data).
+     *     3: The Mail Page MUST be rendered with a footer.
+     *     4: The Mail Page MUST be rendered with a stylesheet path.
+     *     5: The Header of the Mail Page MUST contain the logo and the installation-text.
+     *     6: The Footer of the Mail Page MUST contain the installation-text and a link to ILIAS.
+     *     7: The Mail Page's stylesheet path MUST include all necessary styles to render the page correctly.
+     * ----
+     * @param string $stylesheet_path
+     * @param string $logo_url
+     * @param string $installation_title
+     * @param \ILIAS\UI\Component\Legacy\Content $html_content
+     * @param Link $footer_url
+     * @return \ILIAS\UI\Component\Layout\Page\Mail
+     */
+    public function mail(
+        string $stylesheet_path,
+        string $logo_url,
+        string $installation_title,
+        Content $html_content,
+        Link $footer_url,
+    ): Mail;
 }

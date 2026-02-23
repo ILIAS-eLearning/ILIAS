@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Forum\Notification\NotificationType;
+
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @ingroup components\ILIASForum
@@ -41,11 +43,7 @@ class ilForumProperties
     private bool $anonymized = false;
     private bool $statistics_enabled = false;
     private bool $post_activation_enabled = false;
-    /**
-     * Global notification-type setting (CRS/GRP)
-     * possible values: 'all_users', 'per_user', null (default)
-     */
-    private string $notification_type = 'default';
+    private NotificationType $notification_type = NotificationType::DEFAULT;
     /** Activation of (CRS/GRP) forum notification by mod/admin */
     private bool $admin_force_noti = false;
     /** Activation of allowing members to deactivate (CRS/GRP)forum notification */
@@ -62,7 +60,7 @@ class ilForumProperties
     protected int $styleId = 0;
     private bool $exists = false;
     private ?int $lp_req_num_postings = null;
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
+    private ?\ILIAS\Style\Content\Object\ObjectFacade $content_style_service = null;
 
     protected function __construct(private int $obj_id = 0)
     {
@@ -70,10 +68,17 @@ class ilForumProperties
 
         $this->db = $DIC->database();
         $this->read();
-        $this->content_style_service = $DIC
-            ->contentStyle()
-            ->domain()
-            ->styleForObjId($obj_id);
+    }
+
+    private function contentStyle(): \ILIAS\Style\Content\Object\ObjectFacade
+    {
+        global $DIC;
+
+        if ($this->content_style_service === null) {
+            $this->content_style_service = $DIC->contentStyle()->domain()->styleForObjId($this->obj_id);
+        }
+
+        return $this->content_style_service;
     }
 
     public static function getInstance(int $a_obj_id = 0): self
@@ -108,7 +113,9 @@ class ilForumProperties
                 $this->add_re_subject = (bool) $row->add_re_subject;
                 $this->interested_events = (int) $row->interested_events;
 
-                $this->notification_type = $row->notification_type ?? 'default';
+                $this->notification_type =
+                    NotificationType::tryFrom($row->notification_type ?? NotificationType::DEFAULT->value) ??
+                    NotificationType::DEFAULT;
                 $this->mark_mod_posts = (bool) $row->mark_mod_posts;
                 $this->is_thread_rating_enabled = (bool) $row->thread_rating;
                 $this->file_upload_allowed = (bool) $row->file_upload_allowed;
@@ -134,7 +141,7 @@ class ilForumProperties
                     'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
-                    'notification_type' => ['text', $this->notification_type],
+                    'notification_type' => ['text', $this->notification_type->value],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
@@ -165,7 +172,7 @@ class ilForumProperties
                     'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
-                    'notification_type' => ['text', $this->notification_type],
+                    'notification_type' => ['text', $this->notification_type->value],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
@@ -182,7 +189,7 @@ class ilForumProperties
     public function copy(int $a_new_obj_id): bool
     {
         if ($a_new_obj_id !== 0) {
-            $this->content_style_service->cloneTo($a_new_obj_id);
+            $this->contentStyle()->cloneTo($a_new_obj_id);
 
             $this->db->update(
                 'frm_settings',
@@ -195,7 +202,7 @@ class ilForumProperties
                     'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
                     'preset_subject' => ['integer', (int) $this->preset_subject],
                     'add_re_subject' => ['integer', (int) $this->add_re_subject],
-                    'notification_type' => ['text', $this->notification_type],
+                    'notification_type' => ['text', $this->notification_type->value],
                     'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
                     'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
                     'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
@@ -368,16 +375,12 @@ class ilForumProperties
         return $this->add_re_subject;
     }
 
-    public function setNotificationType(?string $a_notification_type): void
+    public function setNotificationType(NotificationType $a_notification_type): void
     {
-        if ($a_notification_type === null) {
-            $this->notification_type = 'default';
-        } else {
-            $this->notification_type = $a_notification_type;
-        }
+        $this->notification_type = $a_notification_type;
     }
 
-    public function getNotificationType(): string
+    public function getNotificationType(): NotificationType
     {
         return $this->notification_type;
     }

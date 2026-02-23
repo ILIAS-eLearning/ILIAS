@@ -18,6 +18,8 @@
 
 declare(strict_types=0);
 
+use ILIAS\User\Profile\Profile;
+
 /**
  * Member-tab content
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -372,15 +374,13 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         // course defined fields
         $cdfs = ilCourseUserData::_getValuesByObjId($this->getParentObject()->getId());
 
+        $udf_data = $this->profile->getAllUserDefinedFields();
         $print_member = [];
         foreach ($a_members as $member_id) {
             // GET USER OBJ
             if ($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id, false)) {
-                // udf
-                $udf_data = new ilUserDefinedData($member_id);
-                foreach ($udf_data->getAll() as $field => $value) {
-                    list($f, $field_id) = explode('_', $field);
-                    $print_member[$member_id]['udf_' . $field_id] = (string) $value;
+                foreach ($udf_data as $field) {
+                    $print_member[$member_id]['udf_' . $field->getIdentifier()] = (string) $field->retrieveValueFromUser($tmp_obj);
                 }
 
                 foreach ((array) ($cdfs[$member_id] ?? []) as $cdf_field => $cdf_value) {

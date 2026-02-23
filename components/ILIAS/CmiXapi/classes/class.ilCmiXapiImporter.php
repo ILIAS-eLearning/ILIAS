@@ -155,6 +155,8 @@ class ilCmiXapiImporter extends ilXmlImporter
                 $this->archives->unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
                 $this->filesystemWeb->delete($this->_relWebDir . '/content.zip');
             }
+        } else {
+            exit($this->_relImportDir . 'not found');
         }
         return $this;
     }
@@ -239,7 +241,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setLaunchParameters((string) $this->_moduleProperties['LaunchParameters']);
         $this->_cmixObj->setEntitlementKey((string) $this->_moduleProperties['EntitlementKey']);
         $this->_cmixObj->setSwitchToReviewEnabled((bool) $this->_moduleProperties['SwitchToReview']);
-        if(isset($this->_moduleProperties['DeleteData'])) {
+        if (isset($this->_moduleProperties['DeleteData'])) {
             $this->_cmixObj->setDeleteData((int) $this->_moduleProperties['DeleteData']);
         }
         $this->_cmixObj->save();

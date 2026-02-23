@@ -225,6 +225,12 @@ class ilFileXMLParser extends ilSaxParser
             case 'Rating':
                 $this->file->setRating((bool) $this->cdata);
                 break;
+            case 'ImportantInformation':
+                $this->file->setImportantInfo((string) $this->cdata);
+                break;
+            case 'OnClickMode':
+                $this->file->setOnclickMode((int) $this->cdata);
+                break;
             case 'Content': // Old import files
             case 'Version':
                 if ($a_name === "Version" && $this->version === null) {
@@ -328,9 +334,6 @@ class ilFileXMLParser extends ilSaxParser
      */
     public function setFileContents(): void
     {
-        // Delete exists version 1 history
-        ilHistory::_removeEntriesForObject($this->file->getId());
-
         foreach ($this->versions as $version) {
             if (!file_exists($version["tmpFilename"])) {
                 if (!isset($version["tmpFilename"])) {

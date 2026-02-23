@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
-use ILIAS\UI\Implementation\Render\Loader as UIRendererLoader;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 
 /**
- * Class ilDclGenericMultiInputGUI
- * @author Michael Herren <mh@studer-raimann.ch>
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author     Michael Herren <mh@studer-raimann.ch>
+ * @author     Theodor Truffer <tt@studer-raimann.ch>
+ * @deprecated This implementation MUST be replaced with a UI-components based one.
  */
 class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 {
@@ -48,14 +48,12 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     protected bool $show_label = false;
     protected bool $show_label_once = false;
     protected array $hidden_inputs = [];
-    protected bool $position_movable = false;
     protected int $counter = 0;
     protected bool $show_info = false;
     protected bool $render_one_for_empty_value = true;
 
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
-    protected UIRendererLoader $renderer_loader;
 
     public function __construct(string $a_title = "", string $a_postvar = "")
     {
@@ -67,20 +65,14 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         global $DIC;
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
-        $this->renderer_loader = $DIC["ui.component_renderer_loader"];
-
     }
 
     public function getHook(string $key)
     {
-        if (isset($this->hooks[$key])) {
-            return $this->hooks[$key];
-        }
-
-        return false;
+        return $this->hooks[$key] ?? false;
     }
 
-    public function addHook(string $key, array $options)
+    public function addHook(string $key, array $options): void
     {
         $this->hooks[$key] = $options;
     }
@@ -108,7 +100,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->template_dir;
     }
 
-    public function setTemplateDir(string $template_dir)
+    public function setTemplateDir(string $template_dir): void
     {
         $this->template_dir = $template_dir;
     }
@@ -118,7 +110,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->show_label;
     }
 
-    public function setShowLabel(bool $show_label)
+    public function setShowLabel(bool $show_label): void
     {
         $this->show_label = $show_label;
     }
@@ -132,22 +124,21 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->inputs;
     }
 
+    #[\Override]
     public function setMulti(bool $a_multi, bool $a_sortable = false, bool $a_addremove = true): void
     {
         $this->multi = $a_multi;
     }
 
-    public function setValue(array $value)
+    public function setValue(array $value): void
     {
         $this->value = $value;
 
         foreach ($this->inputs as $key => $item) {
             if ($item instanceof \ilDateTimeInputGUI) {
                 $item->setDate(new \ilDate($value[$key]['date'], IL_CAL_DATE));
-            } else {
-                if (array_key_exists($key, $value)) {
-                    $item->setValue((string) $value[$key]);
-                }
+            } elseif (array_key_exists($key, $value)) {
+                $item->setValue((string) $value[$key]);
             }
         }
     }
@@ -176,9 +167,9 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
      * Check input, strip slashes etc. set alert, if input is not ok.
      * @return    bool        Input ok, true/false
      */
+    #[\Override]
     public function checkInput(): bool
     {
-        $internal_fields = array_keys($this->inputs);
         $key = $this->getPostVar();
         $post = $this->raw($key);
 
@@ -188,8 +179,8 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                     array_key_exists(self::MULTI_FIELD_ID, $authority) &&
                     array_key_exists(self::MULTI_FIELD_OVER, $authority) &&
                     array_key_exists(self::MULTI_FIELD_SCOPE, $authority) &&
-                    trim($authority[self::MULTI_FIELD_OVER]) !== '' &&
-                    trim($authority[self::MULTI_FIELD_SCOPE]) !== ''
+                    trim((string) $authority[self::MULTI_FIELD_OVER]) !== '' &&
+                    trim((string) $authority[self::MULTI_FIELD_SCOPE]) !== ''
                 )) {
                     $this->setAlert($this->lng->txt("msg_input_is_required"));
                     return false;
@@ -211,18 +202,16 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
 
     public function getCustomAttributes(): array
     {
-        return (array) $this->cust_attr;
+        return $this->cust_attr;
     }
 
     private function createInputPostVar(string $iterator_id, \ilFormPropertyGUI $input): string
     {
         if ($this->getMulti()) {
             return $this->getPostVar() . '[' . $iterator_id . '][' . $input->getPostVar() . ']';
-        } else {
-            return $this->getPostVar() . '[' . $input->getPostVar() . ']';
         }
+        return $this->getPostVar() . '[' . $input->getPostVar() . ']';
     }
-
 
     public function render(int|string $iterator_id = 0, bool $clean_render = false): string
     {
@@ -251,8 +240,10 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                         $is_ta = true;
                         break;
                     default:
-                        throw new \ilException("Method " . get_class($input)
-                            . "::render() does not exists! You cannot use this input-type in ilMultiLineInputGUI");
+                        throw new \ilException(
+                            "Method " . $input::class
+                            . "::render() does not exists! You cannot use this input-type in ilMultiLineInputGUI"
+                        );
                 }
             }
 
@@ -327,19 +318,12 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
             $tpl->setVariable('IMAGE_PLUS', $this->getGlyph('add'));
             $tpl->setVariable('IMAGE_MINUS', $this->getGlyph('remove'));
             $tpl->parseCurrentBlock();
-
-            if ($this->isPositionMovable()) {
-                $tpl->setCurrentBlock('multi_icons_move');
-                $tpl->setVariable('IMAGE_UP', $this->getGlyph('up'));
-                $tpl->setVariable('IMAGE_DOWN', $this->getGlyph('down'));
-                $tpl->parseCurrentBlock();
-            }
         }
 
         return $tpl->get();
     }
 
-    public function initCSSandJS()
+    public function initCSSandJS(): void
     {
         $this->global_tpl->addJavascript('assets/js/generic_multi_line_input.js');
     }
@@ -361,25 +345,22 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
             $tpl->setVariable('IMAGE_MINUS', $this->getGlyph('remove'));
             $tpl->parseCurrentBlock();
             $output .= $tpl->get();
-
             foreach ($this->line_values as $run => $data) {
                 $object = $this;
                 $object->setValue($data);
                 $output .= $object->render($run);
             }
+        } elseif ($this->render_one_for_empty_value) {
+            $output .= $this->render(0, true);
         } else {
-            if ($this->render_one_for_empty_value) {
-                $output .= $this->render(0, true);
-            } else {
-                $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'components/ILIAS/OrgUnit');
-                $tpl->setVariable('ADDITIONAL_ATTRS', "id='multi_line_add_button'");
-                $tpl->setCurrentBlock('multi_icons');
-                $tpl->setVariable('IMAGE_PLUS', $this->getGlyph('add'));
-                $tpl->setVariable('IMAGE_MINUS', $this->getGlyph('remove'));
+            $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'components/ILIAS/OrgUnit');
+            $tpl->setVariable('ADDITIONAL_ATTRS', "id='multi_line_add_button'");
+            $tpl->setCurrentBlock('multi_icons');
+            $tpl->setVariable('IMAGE_PLUS', $this->getGlyph('add'));
+            $tpl->setVariable('IMAGE_MINUS', $this->getGlyph('remove'));
 
-                $tpl->parseCurrentBlock();
-                $output .= $tpl->get();
-            }
+            $tpl->parseCurrentBlock();
+            $output .= $tpl->get();
         }
         if ($this->getMulti()) {
             $output = "<div style=\"display:none;\" id='{$this->getFieldId()}' class='multi_line_input'>{$output}</div>";
@@ -390,10 +371,12 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 'locale' => $this->lng->getLangKey()
             ]);
             global $tpl;
-            $tpl->addOnLoadCode("
+            $tpl->addOnLoadCode(
+                "
                 il.DataCollection.genericMultiLineInit('{$this->getFieldId()}',$config,$options);
                 document.body.querySelector('#{$this->getFieldId()}').removeAttribute('style');
-            ");
+            "
+            );
         }
 
         $a_tpl->setCurrentBlock("prop_generic");
@@ -415,16 +398,6 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     public function getToolbarHTML(): string
     {
         return $this->render("toolbar");
-    }
-
-    public function isPositionMovable(): bool
-    {
-        return $this->position_movable;
-    }
-
-    public function setPositionMovable(bool $position_movable): void
-    {
-        $this->position_movable = $position_movable;
     }
 
     public function isShowLabelOnce(): bool
@@ -461,14 +434,13 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     private function getGlyph(string $which): string
     {
         $symbol = $this->ui_factory->symbol()->glyph()->$which();
-        /**
-         * do not render an a-tag around the glyph.
-         * should be outdated and removed when Glyphs loose their Clickable
-         */
-        $renderer = $this->renderer_loader->getRendererFor(
-            $symbol,
-            [$this->ui_factory->button()->bulky($symbol, '', '')]
-        );
-        return $renderer->render($symbol, $this->ui_renderer);
+
+        /** @var Glyph $symbol */
+        $symbol = $symbol
+            ->withAdditionalOnLoadCode(
+                fn($id): string => "document.getElementById('" . $id . "').classList.add('{$which}_button');"
+            );
+
+        return $this->ui_renderer->render($symbol);
     }
 }

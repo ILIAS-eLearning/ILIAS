@@ -22,6 +22,7 @@ use ceLTIc\LTI\Context;
 use ceLTIc\LTI\ResourceLink;
 use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\User;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 /**
  * LTI provider for LTI launch
@@ -41,14 +42,13 @@ class ilLTITool extends Tool
      */
     public function __construct(ilLTIDataConnector $dataConnector)
     {
-        global $DIC;
         $this->logger = ilLoggerFactory::getLogger('ltis');
         //        $this->initialize();
         if (empty($dataConnector)) {
             $dataConnector = ilLTIDataConnector::getDataConnector();
         }
         $this->dataConnector = $dataConnector;
-        //        parent::__construct($dataConnector);
+        //parent::__construct($dataConnector);
         $this->setParameterConstraint('resource_link_id', true, 50, array('basic-lti-launch-request'));
         $this->setParameterConstraint('user_id', true, 64, array('basic-lti-launch-request'));
         $this->setParameterConstraint('roles', true, null, array('basic-lti-launch-request'));
@@ -75,5 +75,31 @@ class ilLTITool extends Tool
             $this->logger->debug("onLaunch - resource");
             $this->resourceLink->save();
         }
+    }
+
+    public function parsePostBody(ArrayBasedRequestWrapper $postData): array
+    {
+        global $DIC;
+        $res = [];
+        foreach ($postData->keys() as $key) {
+            $res[$key] = $postData->retrieve($key, $DIC->refinery()->kindlyTo()->string());
+        }
+        return $res;
+    }
+
+    public function handleRequest(?bool $strictMode = null, bool $disableCookieCheck = false, bool $generateWarnings = false): void
+    {
+        global $DIC;
+
+        $_POST = $this->parsePostBody($DIC->http()->wrapper()->post());
+        $_GET = $DIC->http()->request()->getQueryParams();
+
+        if (isset($_POST['lti_version']) && $_POST['lti_version'] === 'LTI-1p0') {
+            $_SERVER['REQUEST_URI'] = rtrim(preg_replace('/([?&])client_id=[^&]+(&|$)/', '$1', $_SERVER['REQUEST_URI']), '?&');
+        }
+
+        self::$authenticateUsingGet = true;
+
+        parent::handleRequest($strictMode, $disableCookieCheck, $generateWarnings);
     }
 }

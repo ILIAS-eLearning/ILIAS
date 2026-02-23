@@ -169,6 +169,9 @@ class UI implements Component\Component
             $internal[UI\Implementation\Component\Prompt\State\Factory::class];
         $provide[UI\Implementation\Component\Input\UploadLimitResolver::class] = static fn() =>
             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class];
+        $provide[UI\Implementation\Component\Navigation\Factory::class] = static fn() =>
+            $internal[UI\Implementation\Component\Navigation\Factory::class];
+
         // =================================================================================
 
         $internal[UI\Implementation\Factory::class] = static fn() =>
@@ -203,6 +206,7 @@ class UI implements Component\Component
                 $internal[UI\Implementation\Component\Launcher\Factory::class],
                 $internal[UI\Implementation\Component\Entity\Factory::class],
                 $internal[UI\Implementation\Component\Prompt\Factory::class],
+                $internal[UI\Implementation\Component\Navigation\Factory::class],
             );
 
         $internal[UI\Implementation\Component\Counter\Factory::class] = static fn() =>
@@ -462,6 +466,13 @@ class UI implements Component\Component
         $internal[UI\Implementation\Component\Prompt\State\Factory::class] = static fn() =>
             new UI\Implementation\Component\Prompt\State\Factory();
 
+        $internal[UI\Implementation\Component\Navigation\Factory::class] = static fn() =>
+            new UI\Implementation\Component\Navigation\Factory(
+                $pull[Data\Factory::class],
+                $pull[Refinery\Factory::class],
+                $use[UI\Storage::class],
+            );
+
         $internal[UI\Implementation\DefaultRenderer::class] = static fn() =>
             new UI\Implementation\DefaultRenderer(
                 $internal[UI\Implementation\Render\Loader::class],
@@ -574,8 +585,6 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Input/Field/input.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, "js/Input/Field/tagInput.js");
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/Item/dist/notification.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "js/MainControls/dist/mainbar.js");
@@ -633,10 +642,9 @@ class UI implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("mediaelement/build/renderers/vimeo.min.js");
         */
-        /* This library was missing after discussing dependencies for ILIAS 10
+        /* This library was missing after discussing dependencies for ILIAS 10 */
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("webui-popover/dist/jquery.webui-popover.min.js");
-        */
 
         // This is included via anonymous classes
         // because MathJax resources are taken from node_modules and they may be directories

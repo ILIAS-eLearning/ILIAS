@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
+
 /**
  * Base class for attendance lists
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -29,10 +32,12 @@ class ilAttendanceList
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilGlobalTemplateInterface $tpl;
+    protected Profile $profile;
     protected object $parent_gui;
     protected ilObject $parent_obj;
     protected ?ilParticipants $participants;
     protected ?ilWaitingList $waiting_list;
+    protected ilTree $tree;
     /**
      * @var ?callable
      */
@@ -62,7 +67,8 @@ class ilAttendanceList
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
-
+        $this->profile = $DIC['user']->getProfile();
+        $this->tree = $DIC->repositoryTree();
         $this->parent_gui = $a_parent_gui;
         $this->parent_obj = $a_parent_obj;
         $this->participants = $a_participants_object;
@@ -132,11 +138,16 @@ class ilAttendanceList
             );
         }
 
+        $parent_obj_type = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs') ? 'crs' : '';
+        $parent_obj_type = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp') ? 'grp' : $parent_obj_type;
+        $user_defined_fields = $parent_obj_type === ''
+            ? $this->profile->getAllUserDefinedFields()
+            : $this->profile->getVisibleUserDefinedFields(Context::buildFromObjectType($parent_obj_type));
+
         // add udf fields
-        $udf = ilUserDefinedFields::_getInstance();
-        foreach ($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data) {
-            $this->presets['udf_' . $field_id] = array(
-                $udf_data['field_name'],
+        foreach ($user_defined_fields as $field) {
+            $this->presets['udf_' . $field->getIdentifier()] = array(
+                $field->getLabel($this->lng),
                 false
             );
         }
@@ -216,12 +227,14 @@ class ilAttendanceList
             }
         }
 
-        $udf = ilUserDefinedFields::_getInstance();
-
-        foreach ($udf->getExportableFields($this->parent_obj->getId()) as $field_id => $udf_data) {
+        foreach ($this->profile->getVisibleUserDefinedFields(
+            Context::buildFromObjectType($this->parent_obj->getType())
+        ) as $field) {
+            $profile_data = $this->profile->getDataForMultiple($user_ids);
             foreach ($profile_data as $user_id => $field) {
-                $udf_data = new ilUserDefinedData($user_id);
-                $a_res[$user_id]['udf_' . $field_id] = $udf_data->get('f_' . $field_id);
+                $a_res[$user_id]['udf_' . $field->getIdentifier()] = $profile_data->getAdditionalFieldByIdentifier(
+                    $field->getIdentifier()
+                );
             }
         }
 

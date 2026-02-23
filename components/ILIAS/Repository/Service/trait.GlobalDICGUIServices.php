@@ -26,7 +26,6 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen;
 use ILIAS\Repository\Form\FormAdapterGUI;
 use ILIAS\Repository\Modal\ModalAdapterGUI;
-use Slim\Http\Stream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Repository\Filter\FilterAdapterGUI;
 use ILIAS\Repository\Button\ButtonAdapterGUI;
@@ -137,7 +136,7 @@ trait GlobalDICGUIServices
      * @param array|string $class_path
      */
     public function form(
-        $class_path,
+        ?array $class_path,
         string $cmd,
         string $submit_caption = ""
     ): FormAdapterGUI {
@@ -177,7 +176,7 @@ trait GlobalDICGUIServices
      */
     public function filter(
         string $filter_id,
-        $class_path,
+        array $class_path,
         string $cmd,
         bool $activated = true,
         bool $expanded = true

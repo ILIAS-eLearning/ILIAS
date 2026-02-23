@@ -187,7 +187,7 @@ class ilObjectContentStyleSettingsGUI
         return false;
     }
 
-    public function forwardToStyleSheet()
+    public function forwardToStyleSheet(): void
     {
         $ctrl = $this->gui->ctrl();
         $cmd = $ctrl->getCmd();

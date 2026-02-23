@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   elementFormDefault="qualified">
+
+	<xs:element name='Conditions'>
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element ref='Condition' minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name='Condition'>
+		<xs:complexType>
+            <xs:sequence>
+                <xs:element ref='Preconditions' minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="object_id" type="xs:integer"/>
+            <xs:attribute name="reference_id" type="xs:integer"/>
+            <xs:attribute name="object_type" type="xs:string"/>
+            <xs:attribute name="hide_object_enabled" type="xs:boolean"/>
+            <xs:attribute name="all_obligatory_enabled" type="xs:boolean"/>
+            <xs:attribute name="number_of_required_materials" type="xs:integer"/>
+		</xs:complexType>
+	</xs:element>
+
+    <xs:element name='Preconditions'>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref='Precondition' minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name='Precondition'>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref='Trigger' minOccurs='1' maxOccurs='1'/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:integer"/>
+            <xs:attribute name="is_obligatory" type="xs:boolean"/>
+            <xs:attribute name="operator" type="xs:string"/>
+            <xs:attribute name="value" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name='Trigger'>
+        <xs:complexType>
+            <xs:attribute name="ref_id" type="xs:integer"/>
+            <xs:attribute name="obj_id" type="xs:integer"/>
+            <xs:attribute name="type" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

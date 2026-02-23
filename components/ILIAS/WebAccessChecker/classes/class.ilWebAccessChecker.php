@@ -154,7 +154,9 @@ class ilWebAccessChecker
 
         ilContext::init(ilContext::CONTEXT_WAC);
         try {
-            ilInitialisation::initILIAS();
+            require_once(__DIR__ . "/../../../../artifacts/bootstrap_default.php");
+            entry_point("ILIAS Legacy Initialisation Adapter");
+
             $this->checkUser();
             $this->checkPublicSection();
         } catch (Exception $e) {

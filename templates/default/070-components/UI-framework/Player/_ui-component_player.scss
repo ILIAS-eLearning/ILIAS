@@ -2,6 +2,7 @@
 
 //== Player
 $il-player-audio-width: 100%;
+$il-player-audio-height: 30px;
 
 // audio
 .il-audio-container {
@@ -10,5 +11,20 @@ $il-player-audio-width: 100%;
   }
 }
 .il-audio-player {
-  background: $il-neutral-color;
+  background: transparent;
+  height: $il-player-audio-height;
+  width: $il-player-audio-width;
+}
+.il-video-container {
+  video {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width:100%;
+  }
+  iframe {
+    width:100%;
+    aspect-ratio: 16/9;
+    border:0;
+  }
 }

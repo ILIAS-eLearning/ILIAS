@@ -22,7 +22,6 @@ namespace ILIAS\components\ResourceStorage\Container\View;
 
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Resource\StorableContainerResource;
-use ILIAS\Data\URI;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\ExternalSingleAction;
 use ILIAS\components\ResourceStorage\Container\View\ActionBuilder\TopAction;
 use ILIAS\UI\Component\Modal\RoundTrip;
@@ -33,8 +32,8 @@ use ILIAS\UI\Component\Modal\RoundTrip;
 final class Configuration
 {
     private ExternalActionProvider $action_provider;
-    private ExternalActionProvider $top_action_provider;
-    private \ilCtrlInterface $ctrl;
+
+    private ?PathStatusInfo $path_status_info = null;
 
     public function __construct(
         private StorableContainerResource $container,
@@ -46,8 +45,18 @@ final class Configuration
         private bool $user_can_administrate = false,
     ) {
         global $DIC;
-        $this->ctrl = $DIC->ctrl();
         $this->action_provider = new ExternalActionProvider();
+    }
+
+    public function withPathStatusInfo(PathStatusInfo $path_status_info): self
+    {
+        $this->path_status_info = $path_status_info;
+        return $this;
+    }
+
+    public function getPathStatusInfo(): ?PathStatusInfo
+    {
+        return $this->path_status_info;
     }
 
     public function withExternalAction(
@@ -122,18 +131,6 @@ final class Configuration
     public function canUserAdministrate(): bool
     {
         return $this->user_can_administrate;
-    }
-
-    private function retrieveURI(
-        string $class,
-        string $command
-    ): URI {
-        return new URI(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(
-                $class,
-                $command
-            )
-        );
     }
 
     public function getActionProvider(): ExternalActionProvider

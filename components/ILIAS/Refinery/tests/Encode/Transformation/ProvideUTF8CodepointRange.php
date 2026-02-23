@@ -45,7 +45,7 @@ trait ProvideUTF8CodepointRange
             $set_names,
             array_map(
                 fn(string $chr, int $codepoint) => (
-                    ctype_alnum($chr) || in_array($chr, $ignore, true) ?
+                    self::ctype_alnum($chr) || in_array($chr, $ignore, true) ?
                         self::asDataProviderArgs($chr, 'assertSame') :
                         self::asDataProviderArgs(self::isAscii($codepoint) ? $chr : self::twoByteChar($codepoint), 'assertNotSame')
                 ),
@@ -53,6 +53,14 @@ trait ProvideUTF8CodepointRange
                 $byte_range
             )
         );
+    }
+
+    /**
+     * @description ctype_alnum() does not behave the same in all environments, therefore we use a regex here.
+     */
+    private static function ctype_alnum(string $chr): bool
+    {
+        return preg_match('/^[a-zA-Z0-9]+$/', $chr) > 0;
     }
 
     private static function isAscii(int $codepoint): bool

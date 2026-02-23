@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\User\Profile\Profile;
 
 class ilScormPlaceholderDescriptionTest extends TestCase
 {
@@ -66,12 +67,17 @@ class ilScormPlaceholderDescriptionTest extends TestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
+        $profileMock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $placeholderDescriptionObject = new ilScormPlaceholderDescription(
             $objectMock,
             null,
             $languageMock,
             $learningProgressMock,
-            $userDefinePlaceholderMock
+            $userDefinePlaceholderMock,
+            $profileMock
         );
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
@@ -110,12 +116,17 @@ class ilScormPlaceholderDescriptionTest extends TestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
+        $profileMock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $placeholderDescriptionObject = new ilScormPlaceholderDescription(
             $objectMock,
             null,
             $languageMock,
             $learningProgressMock,
-            $userDefinePlaceholderMock
+            $userDefinePlaceholderMock,
+            $profileMock
         );
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();

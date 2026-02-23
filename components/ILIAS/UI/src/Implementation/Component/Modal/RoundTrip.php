@@ -186,7 +186,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     public function withInput(InputData $input_data): self
     {
         $clone = clone $this;
-        $clone->form = $clone->form->withInput($request);
+        $clone->form = $clone->form->withInput($input_data);
         return $clone;
     }
 
@@ -214,6 +214,13 @@ class RoundTrip extends Modal implements M\RoundTrip
     public function getError(): ?string
     {
         return $this->form->getError();
+    }
+
+    public function withAdditionalFormAction(string $action, string $label): static
+    {
+        $clone = clone $this;
+        $clone->form = $clone->form->withAdditionalFormAction($action, $label);
+        return $clone;
     }
 
     /**

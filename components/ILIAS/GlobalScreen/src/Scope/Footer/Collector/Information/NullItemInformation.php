@@ -23,6 +23,7 @@ namespace ILIAS\GlobalScreen\Scope\Footer\Collector\Information;
 use ILIAS\GlobalScreen\Scope\Footer\Factory\isItem;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\Scope\Footer\Factory\hasTitle;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

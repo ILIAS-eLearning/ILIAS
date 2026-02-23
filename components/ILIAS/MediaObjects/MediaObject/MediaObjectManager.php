@@ -24,7 +24,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\Filesystem\Util\Convert\Images;
 use ILIAS\Filesystem\Util\Convert\ImageOutputOptions;
 use ILIAS\Filesystem\Stream\Stream;
-use _PHPStan_9815bbba4\Nette\Neon\Exception;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\ZIPStream;
@@ -32,6 +31,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 
 class MediaObjectManager
 {
+    protected \ilLogger $logger;
     protected ImageOutputOptions $output_options;
     protected Images $image_converters;
     protected MediaObjectRepository $repo;
@@ -45,6 +45,7 @@ class MediaObjectManager
         $this->repo = $repo->mediaObject();
         $this->image_converters = new Images(true);
         $this->output_options = new ImageOutputOptions();
+        $this->logger = \ilLoggerFactory::getLogger('mob');
     }
 
     public function create(
@@ -97,6 +98,13 @@ class MediaObjectManager
         return $this->repo->getLocationStream($mob_id, $location);
     }
 
+    public function getLocationContent(
+        int $mob_id,
+        string $location
+    ): string {
+        return $this->repo->getLocationContent($mob_id, $location);
+    }
+
     public function addStream(
         int $mob_id,
         string $location,
@@ -115,7 +123,7 @@ class MediaObjectManager
             $path_to_file = \ilObjMediaObject::_getURL($mob_id) . "/" . $location;
             try {
                 $src = \ilWACSignedPath::signFile($path_to_file);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
             }
         }
         return $src;
@@ -223,21 +231,107 @@ class MediaObjectManager
         }
     }
 
+    public function resizeImage(
+        int $mob_id,
+        string $location,
+        string $format,
+        int $width,
+        int $height,
+        bool $a_constrain_prop = false
+    ): string {
+
+        if (!is_int(strpos($format, "image/"))) {
+            return "";
+        }
+
+        $file_path = pathinfo($location);
+        $new_location = substr($file_path["basename"], 0, strlen($file_path["basename"]) -
+                strlen($file_path["extension"]) - 1) . "_" .
+            $width . "_" .
+            $height . "." . $file_path["extension"];
+
+
+        $image_quality = 60;
+
+        // the zip stream is not seekable, which is needed by Imagick
+        // so we create a seekable stream first
+        $tempStream = fopen('php://temp', 'w+');
+        stream_copy_to_stream($this->repo->getLocationStream($mob_id, $location)->detach(), $tempStream);
+        rewind($tempStream);
+        $stream = new Stream($tempStream);
+
+        $converter = $this->image_converters->resizeToFixedSize(
+            $stream,
+            $width,
+            $height,
+            false,
+            $this->output_options
+            //->withQuality($image_quality)
+            //->withFormat(ImageOutputOptions::FORMAT_PNG)
+        );
+        $this->repo->addStream(
+            $mob_id,
+            $new_location,
+            $converter->getStream()
+        );
+        fclose($tempStream);
+        return $new_location;
+    }
+
     public function addPreviewFromUrl(
         int $mob_id,
         string $url,
         string $target_location
     ): void {
-        $str = file_get_contents($url);
-        $res = fopen('php://memory', 'r+');
-        fwrite($res, $str);
-        rewind($res);
-        $stream = new Stream($res);
-        $this->repo->addStream(
-            $mob_id,
-            $target_location,
-            $stream
-        );
+        $log = $this->logger;
+        try {
+            $log->debug('Trying to fetch thumbnail from URL: {thumbnail_url}', [
+                'thumbnail_url' => $url,
+            ]);
+            $curl = new \ilCurlConnection($url);
+            $curl->init(true);
+            $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+            $curl->setOpt(CURLOPT_VERBOSE, true);
+            $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
+            $curl->setOpt(CURLOPT_TIMEOUT_MS, 5000);
+            $curl->setOpt(CURLOPT_TIMEOUT, 5);
+            $curl->setOpt(CURLOPT_FAILONERROR, true);
+            $curl->setOpt(CURLOPT_SSL_VERIFYPEER, 1);
+            $curl->setOpt(CURLOPT_SSL_VERIFYHOST, 2);
+
+            $str = $curl->exec();
+            $info = $curl->getInfo();
+
+            $log->debug('cURL Info: {info}', [
+                'info' => print_r($info, true)
+            ]);
+
+            $status = $info['http_code'] ?? '';
+            if ((int) $status === 200) {
+                $log->debug('Successfully fetched preview file from URL: Received {bytes} bytes', [
+                    'bytes' => (string) strlen($str),
+                ]);
+            } else {
+                $log->error('Could not fetch thumbnail from YouTube: {thumbnail_url}', [
+                    'thumbnail_url' => $url,
+                ]);
+            }
+
+            $res = fopen('php://memory', 'r+');
+            fwrite($res, $str);
+            rewind($res);
+            $stream = new Stream($res);
+            $this->repo->addStream(
+                $mob_id,
+                $target_location,
+                $stream
+            );
+        } catch (\Exception $e) {
+            $log->error('Could not fetch thumbnail from Url: {message}', [
+                'message' => $e->getMessage(),
+            ]);
+            $log->error($e->getTraceAsString());
+        }
     }
 
     public function getSrtFiles(int $mob_id, bool $vtt_only = false): array
@@ -316,5 +410,15 @@ class MediaObjectManager
         }
 
         return implode("\n", $vttLines);
+    }
+
+    public function getLastChangeTimestamp(int $mob_id): int
+    {
+        return $this->repo->getLastChangeTimestamp($mob_id);
+    }
+
+    public function updateLastChange(int $mob_id): void
+    {
+        $this->repo->updateLastChangeTimestamp($mob_id, time());
     }
 }

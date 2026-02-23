@@ -53,7 +53,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->prepareOutput();
 
         if (
-            !$this->access_service->hasCurrentUserVisibleAccess() ||
             !$this->access_service->hasCurrentUserReadAccess()
         ) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
@@ -104,7 +103,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     public function getAdminTabs(): void
     {
         if (
-            $this->access_service->hasCurrentUserVisibleAccess() &&
             $this->access_service->hasCurrentUserReadAccess()
         ) {
             $this->tabs_gui->addTab(

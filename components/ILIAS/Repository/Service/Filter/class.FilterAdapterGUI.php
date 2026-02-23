@@ -34,6 +34,7 @@ class FilterAdapterGUI
     protected \ilUIService $ui_service;
     protected \ilCtrlInterface $ctrl;
     protected \ILIAS\DI\UIServices $ui;
+    protected \ilObjUser $user;
     protected array $fields = [];
     protected array $field_activations = [];
     /**
@@ -48,7 +49,7 @@ class FilterAdapterGUI
      */
     public function __construct(
         string $filter_id,
-        $class_path,
+        array $class_path,
         string $cmd,
         bool $activated = true,
         bool $expanded = true
@@ -59,6 +60,7 @@ class FilterAdapterGUI
         $this->filter_id = $filter_id;
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
+        $this->user = $DIC->user();
         $this->ui_service = $DIC->uiService();
         $this->activated = $activated;
         $this->expanded = $expanded;
@@ -81,6 +83,41 @@ class FilterAdapterGUI
     public function select(string $key, string $title, array $options, bool $activated = true, ?string $value = null, $required = false): self
     {
         $field = $this->ui->factory()->input()->field()->select($title, $options);
+        if (!is_null($value)) {
+            if (isset($options[$value])) {
+                $field = $field->withValue($value);
+            }
+        }
+        $this->addField(
+            $key,
+            $field,
+            $activated,
+            $required
+        );
+        return $this;
+    }
+
+    public function multiSelect(string $key, string $title, array $options, bool $activated = true, ?string $value = null, $required = false): self
+    {
+        $field = $this->ui->factory()->input()->field()->multiSelect($title, $options);
+        if (!is_null($value)) {
+            if (isset($options[$value])) {
+                $field = $field->withValue($value);
+            }
+        }
+        $this->addField(
+            $key,
+            $field,
+            $activated,
+            $required
+        );
+        return $this;
+    }
+
+    public function duration(string $key, string $title, bool $with_time, bool $activated = true, ?string $value = null, $required = false): self
+    {
+        $format = $with_time ? $this->user->getDateTimeFormat() : $this->user->getDateFormat();
+        $field = $this->ui->factory()->input()->field()->duration($title)->withUseTime($with_time)->withFormat($format);
         if (!is_null($value)) {
             if (isset($options[$value])) {
                 $field = $field->withValue($value);

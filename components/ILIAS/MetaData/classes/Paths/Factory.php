@@ -126,7 +126,7 @@ class Factory implements FactoryInterface
             }
         }
 
-        return $builder->get();
+        return $builder->getWithoutValidation();
     }
 
     public function betweenElements(
@@ -168,7 +168,7 @@ class Factory implements FactoryInterface
             );
         }
 
-        return $builder->get();
+        return $builder->getWithoutValidation();
     }
 
     protected function addElementAsStep(
@@ -182,12 +182,12 @@ class Factory implements FactoryInterface
             $add_as_first
         );
 
-        $id = $element->getMDID();
         if ($element instanceof StructureElement) {
             return $builder;
         }
-        $id = is_int($id) ? (string) $id : $id->value;
         if ($leads_to_exactly_one) {
+            $id = $element->getMDID();
+            $id = is_int($id) ? (string) $id : $id->value;
             $builder = $builder->withAdditionalFilterAtCurrentStep(
                 FilterType::MDID,
                 $id

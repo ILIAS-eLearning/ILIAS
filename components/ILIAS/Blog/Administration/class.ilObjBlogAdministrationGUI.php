@@ -70,7 +70,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 
     public function getAdminTabs(): void
     {
-        if ($this->checkPermissionBool("visible,read")) {
+        if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),

@@ -141,7 +141,7 @@ class ilPortfolioPage extends ilPageObject
     public function update(
         bool $a_validate = true,
         bool $a_no_history = false
-    ) {
+    ): array|bool {
         $ilDB = $this->db;
 
         $id = $this->getId();

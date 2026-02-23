@@ -158,7 +158,7 @@ class BasicPersistence implements Persistence
         // Garbage Collection
         $random = new \Random\Randomizer();
 
-        if($random->getInt(1, 100) === 1) {
+        if ($random->getInt(1, 100) === 1) {
             $this->gc();
         }
 

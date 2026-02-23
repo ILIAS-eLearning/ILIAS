@@ -28,14 +28,9 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
 {
     protected ilWebDAVTestHelper $webdav_test_helper;
 
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        $this->webdav_test_helper = new ilWebDAVTestHelper();
-        parent::__construct($name, $data, $dataName);
-    }
-
     public function setUp(): void
     {
+        $this->webdav_test_helper = new ilWebDAVTestHelper();
         define('CLIENT_ID', $this->webdav_test_helper->getClientId());
         define('ROOT_FOLDER_ID', 1);
     }
@@ -54,7 +49,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
                 $path_resolver->getRefIdForWebDAVPath($current_path);
                 $this->assertFalse('This should not happen!');
             } catch (BadRequest $e) {
-                $this->assertEquals('Invalid client id given', $e->getMessage());
+                $this->assertSame('Invalid client id given', $e->getMessage());
             }
         }
     }
@@ -64,7 +59,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
         $path_only_clientid = $this->webdav_test_helper->getClientId();
         $path_resolver = $this->getPathResolverWithoutExpectationForFunctionsInHelper();
 
-        $this->assertEquals(1, $path_resolver->getRefIdForWebDAVPath($path_only_clientid));
+        $this->assertSame(1, $path_resolver->getRefIdForWebDAVPath($path_only_clientid));
     }
 
     public function testGetRefIdForValidRefMountReturnsRefId(): void
@@ -72,7 +67,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
         $path_with_valid_ref_id = $this->webdav_test_helper->getClientId() . '/ref_50';
         $path_resolver = $this->getPathResolverWithoutExpectationForFunctionsInHelper();
 
-        $this->assertEquals(50, $path_resolver->getRefIdForWebDAVPath($path_with_valid_ref_id));
+        $this->assertSame(50, $path_resolver->getRefIdForWebDAVPath($path_with_valid_ref_id));
     }
 
     public function testGetRefIdForInvalidRefMountThrowsNotFoundError(): void
@@ -89,7 +84,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
                 $path_resolver->getRefIdForWebDAVPath($current_path);
                 $this->assertFalse('This should not happen!');
             } catch (NotFound $e) {
-                $this->assertEquals('Mount point not found', $e->getMessage());
+                $this->assertSame('Mount point not found', $e->getMessage());
             }
         }
     }
@@ -101,7 +96,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
         $expected_ref_id = 2335634322;
         $path_resolver = $this->getPathResolverWithExpectationForFunctionsInHelper(2, 8);
 
-        $this->assertEquals($expected_ref_id, $path_resolver->getRefIdForWebDAVPath($path));
+        $this->assertSame($expected_ref_id, $path_resolver->getRefIdForWebDAVPath($path));
     }
 
     public function testGetRefIdForWebDAVPathWithPathPointingToElementWithIdenticalTitleReturnsRefIdOfLastIdenticalElement(
@@ -111,7 +106,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
         $expected_ref_id = 72;
         $path_resolver = $this->getPathResolverWithExpectationForFunctionsInHelper(2, 11);
 
-        $this->assertEquals($expected_ref_id, $path_resolver->getRefIdForWebDAVPath($path));
+        $this->assertSame($expected_ref_id, $path_resolver->getRefIdForWebDAVPath($path));
     }
 
     public function testGetRefIdForWebDAVPathWithInvalidPathThrowsNotFoundError(): void

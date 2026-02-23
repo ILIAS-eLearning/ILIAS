@@ -27,23 +27,21 @@ use ILIAS\Filesystem\Util;
  */
 class FilenameSanitizing extends TestCase
 {
-    public static function provideFilenames(): array
+    public static function provideFilenames(): \Iterator
     {
-        return [
-            ["Control\u{00a0}Character", 'ControlCharacter'],
-            ["Soft\u{00ad}Hyphen", 'SoftHyphen'],
-            ["No\u{0083}Break", 'NoBreak'],
-            ["ZeroWidth\u{200C}NonJoiner", 'ZeroWidthNonJoiner'],
-            ["ZeroWidth\u{200d}Joiner", 'ZeroWidthJoiner'],
-            ["Invisible\u{2062}Times", 'InvisibleTimes'],
-            ["Invisible\u{2063}Comma", 'InvisibleComma'],
-            ["Funky\u{200B}Whitespace", 'FunkyWhitespace'],
-        ];
+        yield ["Control\u{00a0}Character", 'ControlCharacter'];
+        yield ["Soft\u{00ad}Hyphen", 'SoftHyphen'];
+        yield ["No\u{0083}Break", 'NoBreak'];
+        yield ["ZeroWidth\u{200C}NonJoiner", 'ZeroWidthNonJoiner'];
+        yield ["ZeroWidth\u{200d}Joiner", 'ZeroWidthJoiner'];
+        yield ["Invisible\u{2062}Times", 'InvisibleTimes'];
+        yield ["Invisible\u{2063}Comma", 'InvisibleComma'];
+        yield ["Funky\u{200B}Whitespace", 'FunkyWhitespace'];
     }
 
     #[DataProvider('provideFilenames')]
     public function testSanitize(string $filename, string $expected): void
     {
-        $this->assertEquals($expected, Util::sanitizeFilename($filename));
+        $this->assertSame($expected, Util::sanitizeFilename($filename));
     }
 }

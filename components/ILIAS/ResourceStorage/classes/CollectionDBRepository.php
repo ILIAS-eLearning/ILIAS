@@ -73,13 +73,17 @@ class CollectionDBRepository implements CollectionRepository
         return $this->blank($identification, $owner_id, $title);
     }
 
-
     public function has(ResourceCollectionIdentification $identification): bool
     {
-        $q = "SELECT " . self::C_IDENTIFICATION . " FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s";
-        $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
+        $q = "SELECT EXISTS (
+              SELECT 1 FROM " . self::COLLECTION_TABLE_NAME . " 
+              WHERE " . self::C_IDENTIFICATION . " = %s
+          ) AS found";
 
-        return ($r->numRows() === 1);
+        $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
+        $d = $this->db->fetchAssoc($r);
+
+        return (bool) ($d['found'] ?? false);
     }
 
     /**
@@ -108,7 +112,7 @@ class CollectionDBRepository implements CollectionRepository
         $title = $collection->getTitle();
 
         $resource_identification_strings = array_map(
-            fn(ResourceIdentification $i): string => $i->serialize(),
+            static fn(ResourceIdentification $i): string => $i->serialize(),
             $resource_identifications
         );
 
@@ -190,7 +194,6 @@ class CollectionDBRepository implements CollectionRepository
             [$identification->serialize()]
         );
     }
-
 
     public function preload(array $identification_strings): void
     {

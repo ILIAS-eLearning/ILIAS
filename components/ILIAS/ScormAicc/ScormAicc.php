@@ -32,6 +32,37 @@ class ScormAicc implements Component\Component
         array | \ArrayAccess &$pull,
         array | \ArrayAccess &$internal,
     ): void {
-        // ...
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/ScormAicc/scripts";
+            }
+            public function getTarget(): string
+            {
+                return "components/ILIAS/ScormAicc/scripts";
+            }
+        };
+
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/ScormAicc/templates/default/debug.html";
+            }
+            public function getTarget(): string
+            {
+                return "components/ILIAS/ScormAicc/templates/default/debug.html";
+            }
+        };
+
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/ScormAicc/templates/default/dummy.html";
+            }
+            public function getTarget(): string
+            {
+                return "components/ILIAS/ScormAicc/templates/default/dummy.html";
+            }
+        };
     }
 }

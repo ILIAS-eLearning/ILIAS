@@ -42,12 +42,13 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
     use Formatter;
     use URLSerializer;
 
-    public const F_TITLE = 'title';
-    public const F_SIZE = 'size';
-    public const F_TYPE = 'type';
-    public const F_MODIFICATION_DATE = 'create_date';
-    public const FIELD_TITLE = 'title';
-    public const HOME = 'HOME';
+    public const string F_TITLE = 'title';
+    public const string F_SIZE = 'size';
+    public const string F_TYPE = 'type';
+    public const string F_STATUS = 'status';
+    public const string F_MODIFICATION_DATE = 'create_date';
+    public const string FIELD_TITLE = 'title';
+    public const string HOME = 'HOME';
     private \ILIAS\Data\Factory $data_factory;
     private \ILIAS\ResourceStorage\Services $irss;
     private Renderer $ui_renderer;
@@ -159,29 +160,37 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         yield $this->buildTable();
     }
 
-    /**
-     * @return Data
-     */
     protected function buildTable(): Data
     {
+        $columns = [];
+
+        $columns[self::F_TITLE] = $this->ui_factory->table()->column()->text(
+            $this->language->txt(self::F_TITLE)
+        )->withIsSortable(true);
+
+        if ($this->request->getPathStatusInfo() instanceof PathStatusInfo) {
+            $columns[self::F_STATUS] = $this->ui_factory->table()->column()->text(
+                $this->language->txt(self::F_STATUS)
+            )->withIsSortable(false);
+        }
+
+        $columns[self::F_SIZE] = $this->ui_factory->table()->column()->text(
+            $this->language->txt(self::F_SIZE)
+        )->withIsSortable(true);
+
+        $columns[self::F_MODIFICATION_DATE] = $this->ui_factory->table()->column()->date(
+            $this->language->txt(self::F_MODIFICATION_DATE),
+            $this->data_factory->dateFormat()->germanLong()
+        )->withIsSortable(true);
+
+        $columns[self::F_TYPE] = $this->ui_factory->table()->column()->text(
+            $this->language->txt(self::F_TYPE)
+        )->withIsSortable(true);
+
         return $this->ui_factory->table()->data(
             $this,
             $this->request->getTitle(), // we already have the title in the panel
-            [
-                self::F_TITLE => $this->ui_factory->table()->column()->text(
-                    $this->language->txt(self::F_TITLE)
-                )->withIsSortable(true),
-                self::F_SIZE => $this->ui_factory->table()->column()->text(
-                    $this->language->txt(self::F_SIZE)
-                )->withIsSortable(true),
-                self::F_MODIFICATION_DATE => $this->ui_factory->table()->column()->date(
-                    $this->language->txt(self::F_MODIFICATION_DATE),
-                    $this->data_factory->dateFormat()->germanLong()
-                )->withIsSortable(true),
-                self::F_TYPE => $this->ui_factory->table()->column()->text(
-                    $this->language->txt(self::F_TYPE)
-                )->withIsSortable(true),
-            ],
+            $columns,
         )->withRequest(
             $this->http->request()
         )->withActions(
@@ -196,8 +205,9 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $this->initSortingAndOrdering($range, $order);
 
@@ -239,6 +249,9 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
                 $this->hash($entry->getPathInsideZIP()),
                 [
                     self::F_TITLE => $title,
+                    self::F_STATUS => $this->request->getPathStatusInfo()?->statusTextForPath(
+                        $entry->getPathInsideZIP()
+                    ),
                     self::F_SIZE => $is_dir ? '' : $this->formatSize($entry->getSize()),
                     self::F_TYPE => $is_dir ? '' : $entry->getMimeType(),
                     self::F_MODIFICATION_DATE => $entry->getModificationDate(),
@@ -281,7 +294,7 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
 
         $start = $range->getStart();
         $length = $range->getLength();
-        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, \RoundingMode::HalfTowardsZero));
+        $this->data_provider->getViewRequest()->setPage((int) round($start / $length, 0, PHP_ROUND_HALF_DOWN));
         $this->data_provider->getViewRequest()->setItemsPerPage($length);
 
         switch ($sort_field . '_' . $sort_direction) {
@@ -312,8 +325,11 @@ class RequestToDataTable implements RequestToComponents, DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return $this->data_provider->getTotal();
     }
 }

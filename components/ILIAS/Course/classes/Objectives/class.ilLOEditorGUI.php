@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Style\Content\Object\ObjectFacade;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\DI\UIServices as ilUIServices;
 
 /**
  * Class ilLOEditorGUI
@@ -31,12 +32,12 @@ use ILIAS\Refinery\Factory;
  */
 class ilLOEditorGUI
 {
-    public const TEST_TYPE_UNDEFINED = 0;
-    public const TEST_TYPE_IT = 1;
-    public const TEST_TYPE_QT = 2;
+    public const int TEST_TYPE_UNDEFINED = 0;
+    public const int TEST_TYPE_IT = 1;
+    public const int TEST_TYPE_QT = 2;
 
-    public const TEST_NEW = 1;
-    public const TEST_ASSIGN = 2;
+    public const int TEST_NEW = 1;
+    public const int TEST_ASSIGN = 2;
 
     private ilLogger $logger;
 
@@ -52,6 +53,8 @@ class ilLOEditorGUI
     private ObjectFacade $content_style_domain;
     protected GlobalHttpState $http;
     protected Factory $refinery;
+    protected ilUIServices $ui_services;
+    protected ilDBInterface $db;
 
     private int $test_type = self::TEST_TYPE_UNDEFINED;
 
@@ -75,12 +78,16 @@ class ilLOEditorGUI
         $this->logger = $DIC->logger()->crs();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_services = $DIC->ui();
+        $this->db = $DIC->database();
     }
 
     public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
+
+
 
         $this->setTabs();
         switch ($next_class) {
@@ -519,17 +526,31 @@ class ilLOEditorGUI
         }
 
         try {
-            $table = new ilLOTestAssignmentTableGUI(
-                $this,
-                'testsOverview',
-                $this->getParentObject()->getId(),
-                $this->getTestType(),
+            $data_retrieval = new ilLOTestAssignmentTableDataRetrieval(
+                $this->lng,
+                $this->db,
+                $this->ui_services,
+                $this->ctrl,
                 ilLOTestAssignmentTableGUI::TYPE_MULTIPLE_ASSIGNMENTS
             );
-            $table->init();
-            $table->parseMultipleAssignments();
+            $data_retrieval->parseMultipleAssignments(
+                $this->getParentObject()->getId(),
+                $this->getTestType()
+            );
+            $table = new ilLOTestAssignmentTableGUI(
+                ilLOTestAssignmentTableGUI::TYPE_MULTIPLE_ASSIGNMENTS,
+                $this->getTestType(),
+                $this->getParentObject()->getId(),
+                $this->lng,
+                $this->ui_services,
+                $this->http,
+                $data_retrieval,
+                $this->refinery,
+                $this->ctrl,
+                $this->getParentObject()
+            );
+            $table->handleCommands();
             $this->tpl->setContent($table->getHTML());
-
             $this->showStatus(
                 ($this->getTestType() == ilLOEditorGUI::TEST_TYPE_IT) ?
                     ilLOEditorStatus::SECTION_ITES :
@@ -581,16 +602,30 @@ class ilLOEditorGUI
         }
 
         try {
-            $table = new ilLOTestAssignmentTableGUI(
-                $this,
-                'testOverview',
-                $this->getParentObject()->getId(),
-                $this->getTestType()
+            $data_retrieval = new ilLOTestAssignmentTableDataRetrieval(
+                $this->lng,
+                $this->db,
+                $this->ui_services,
+                $this->ctrl,
+                ilLOTestAssignmentTableGUI::TYPE_SINGLE_ASSIGNMENTS,
             );
-            $table->init();
-            $table->parse(ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getTestByType($this->getTestType()));
+            $data_retrieval->parseSingleAssignment(
+                ilLOSettings::getInstanceByObjId($this->getParentObject()->getId())->getTestByType($this->getTestType())
+            );
+            $table = new ilLOTestAssignmentTableGUI(
+                ilLOTestAssignmentTableGUI::TYPE_SINGLE_ASSIGNMENTS,
+                $this->getTestType(),
+                $this->getParentObject()->getId(),
+                $this->lng,
+                $this->ui_services,
+                $this->http,
+                $data_retrieval,
+                $this->refinery,
+                $this->ctrl,
+                $this->getParentObject()
+            );
+            $table->handleCommands();
             $this->tpl->setContent($table->getHTML());
-
             $this->showStatus(
                 ($this->getTestType() == ilLOEditorGUI::TEST_TYPE_IT) ?
                     ilLOEditorStatus::SECTION_ITES :
@@ -612,207 +647,6 @@ class ilLOEditorGUI
     {
         $this->setTestType(ilLOSettings::TYPE_TEST_QUALIFIED);
         $this->testOverview();
-    }
-
-    /**
-     * Show delete test confirmation
-     */
-    protected function confirmDeleteTests(): void
-    {
-        $this->setTestType($this->initTestTypeFromQuery());
-        $this->ctrl->setParameter($this, 'tt', $this->getTestType());
-
-        $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
-        switch ($this->getTestType()) {
-            case ilLOSettings::TYPE_TEST_INITIAL:
-                $this->tabs->activateSubTab('itests');
-                break;
-
-            case ilLOSettings::TYPE_TEST_QUALIFIED:
-                $this->tabs->activateSubTab('qtests');
-                break;
-        }
-
-        $tests = [];
-        if ($this->http->wrapper()->post()->has('tst')) {
-            $tests = $this->http->wrapper()->post()->retrieve(
-                'tst',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        if (!count($tests)) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect($this, 'testsOverview');
-        }
-        $confirm = new ilConfirmationGUI();
-        $confirm->setHeaderText($this->lng->txt('crs_loc_confirm_delete_tst'));
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setConfirm($this->lng->txt('crs_loc_delete_assignment'), 'deleteTests');
-        $confirm->setCancel($this->lng->txt('cancel'), 'testsOverview');
-        foreach ($tests as $assign_id) {
-            $assignment = new ilLOTestAssignment($assign_id);
-
-            $obj_id = ilObject::_lookupObjId($assignment->getTestRefId());
-            $confirm->addItem('tst[]', (string) $assign_id, ilObject::_lookupTitle($obj_id));
-        }
-
-        $this->tpl->setContent($confirm->getHTML());
-
-        $this->showStatus(
-            ($this->getTestType() == ilLOSettings::TYPE_TEST_INITIAL) ?
-                ilLOEditorStatus::SECTION_ITES :
-                ilLOEditorStatus::SECTION_QTEST
-        );
-    }
-
-    /**
-     * Show delete confirmation screen
-     */
-    protected function confirmDeleteTest(): void
-    {
-        $this->setTestType($this->initTestTypeFromQuery());
-        $this->ctrl->setParameter($this, 'tt', $this->getTestType());
-
-        $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
-        switch ($this->getTestType()) {
-            case ilLOSettings::TYPE_TEST_INITIAL:
-                $this->tabs->activateSubTab('itest');
-                break;
-
-            case ilLOSettings::TYPE_TEST_QUALIFIED:
-                $this->tabs->activateSubTab('qtest');
-                break;
-        }
-
-        $tests = [];
-        if ($this->http->wrapper()->post()->has('tst')) {
-            $tests = $this->http->wrapper()->post()->retrieve(
-                'tst',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        if (count($tests) === 0) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->ctrl->redirect($this, 'testOverview');
-        }
-
-        $confirm = new ilConfirmationGUI();
-        $confirm->setHeaderText($this->lng->txt('crs_loc_confirm_delete_tst'));
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setConfirm($this->lng->txt('crs_loc_delete_assignment'), 'deleteTest');
-        $confirm->setCancel($this->lng->txt('cancel'), 'testOverview');
-
-        foreach ($tests as $tst_id) {
-            $obj_id = ilObject::_lookupObjId($tst_id);
-            $confirm->addItem('tst[]', (string) $tst_id, ilObject::_lookupTitle($obj_id));
-        }
-        $this->tpl->setContent($confirm->getHTML());
-
-        $this->showStatus(
-            ($this->getTestType() == ilLOEditorGUI::TEST_TYPE_IT) ?
-                ilLOEditorStatus::SECTION_ITES :
-                ilLOEditorStatus::SECTION_QTEST
-        );
-    }
-
-    protected function deleteTests(): void
-    {
-        $this->setTestType($this->initTestTypeFromQuery());
-        $this->ctrl->setParameter($this, 'tt', $this->getTestType());
-
-        $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
-        switch ($this->getTestType()) {
-            case ilLOSettings::TYPE_TEST_INITIAL:
-                $this->tabs->activateSubTab('itests');
-                break;
-
-            case ilLOSettings::TYPE_TEST_QUALIFIED:
-                $this->tabs->activateSubTab('qtests');
-                break;
-        }
-
-        $tests = [];
-        if ($this->http->wrapper()->post()->has('tst')) {
-            $tests = $this->http->wrapper()->post()->retrieve(
-                'tst',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        foreach ($tests as $assign_id) {
-            $assignment = new ilLOTestAssignment($assign_id);
-            $assignment->delete();
-
-            // finally delete start object assignment
-            $start = new ilContainerStartObjects(
-                $this->getParentObject()->getRefId(),
-                $this->getParentObject()->getId()
-            );
-            $start->deleteItem($assignment->getTestRefId());
-
-            // ... and assigned questions
-            ilCourseObjectiveQuestion::deleteTest($assignment->getTestRefId());
-        }
-
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'testsOverview');
-    }
-
-    protected function deleteTest(): void
-    {
-        $this->setTestType($this->initTestTypeFromQuery());
-        $this->ctrl->setParameter($this, 'tt', $this->getTestType());
-
-        $settings = ilLOSettings::getInstanceByObjId($this->getParentObject()->getId());
-        switch ($this->getTestType()) {
-            case ilLOSettings::TYPE_TEST_INITIAL:
-                $this->tabs->activateSubTab('itest');
-                break;
-
-            case ilLOSettings::TYPE_TEST_QUALIFIED:
-                $this->tabs->activateSubTab('qtest');
-                break;
-        }
-
-        $tests = [];
-        if ($this->http->wrapper()->post()->has('tst')) {
-            $tests = $this->http->wrapper()->post()->retrieve(
-                'tst',
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->kindlyTo()->int()
-                )
-            );
-        }
-        foreach ($tests as $tst_id) {
-            switch ($this->getTestType()) {
-                case ilLOSettings::TYPE_TEST_INITIAL:
-                    $settings->setInitialTest(0);
-                    break;
-
-                case ilLOSettings::TYPE_TEST_QUALIFIED:
-                    $settings->setQualifiedTest(0);
-                    break;
-            }
-            $settings->update();
-
-            // finally delete start object assignment
-            $start = new ilContainerStartObjects(
-                $this->getParentObject()->getRefId(),
-                $this->getParentObject()->getId()
-            );
-            $start->deleteItem($tst_id);
-
-            // ... and assigned questions
-            ilCourseObjectiveQuestion::deleteTest($tst_id);
-        }
-
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-        $this->ctrl->redirect($this, 'testOverview');
     }
 
     protected function testAssignment(?ilPropertyFormGUI $form = null): void

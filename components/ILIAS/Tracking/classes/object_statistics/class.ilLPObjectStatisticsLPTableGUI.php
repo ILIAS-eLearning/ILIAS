@@ -18,6 +18,9 @@
 
 declare(strict_types=0);
 
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
  * TableGUI class for learning progress
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -26,6 +29,9 @@ declare(strict_types=0);
  */
 class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 {
+    protected UIFactory $ui_factory;
+    protected UIRenderer $ui_renderer;
+
     protected array $types = array("min", "avg", "max");
     protected array $status = array(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
                                     ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
@@ -48,6 +54,11 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         bool $a_is_chart = false,
         bool $a_is_details = false
     ) {
+        global $DIC;
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+
         $this->preselected = $a_preselect;
         $this->is_chart = $a_is_chart;
         $this->is_details = $a_is_details;
@@ -161,7 +172,6 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         if ($this->is_details) {
             $this->getDetailItems($this->preselected[0]);
         } else {
-            $this->initLearningProgressDetailsLayer();
             $this->getItems();
         }
     }
@@ -513,7 +523,13 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                     $this->parent_obj,
                     "showLearningProgressDetails"
                 );
-                $a_set["title"] .= " (<a href=\"#\" onclick=\"ilObjStat.showLPDetails(event, '" . $url . "');\">Details</a>)";
+
+                $details_modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+                $details_button = $this->ui_factory->button()->shy(
+                    ' (' . $this->lng->txt('details') . ')',
+                    $details_modal->getShowSignal()
+                );
+                $a_set["title"] .= $this->ui_renderer->render([$details_button, $details_modal]);
                 $this->ctrl->setParameter($this->parent_obj, "item_id", "");
             }
 
@@ -705,17 +721,5 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $chart->setTicks($labels, $value_ticks, true);
 
         return $chart->getHTML();
-    }
-
-    protected function initLearningProgressDetailsLayer(): void
-    {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
-        ilYuiUtil::initOverlay();
-        iljQueryUtil::initjQuery();
-
-        $tpl->addJavascript("assets/js/ilObjStat.js");
     }
 }

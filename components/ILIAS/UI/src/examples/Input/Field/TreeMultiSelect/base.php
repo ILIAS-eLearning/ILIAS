@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\TreeMultiSelect;
@@ -57,8 +72,14 @@ function base(): string
 
     $example_uri = $data_factory->uri((string) $http->request()->getUri());
     $base_url_builder = new URLBuilder($example_uri);
-    [$node_id_url_builder, $node_id_parameter] = $base_url_builder->acquireParameter(explode('\\', __NAMESPACE__), "node_id");
-    [$process_form_url_builder ,$process_form_parameter] = $base_url_builder->acquireParameter(explode('\\', __NAMESPACE__), "process");
+    [$node_id_url_builder, $node_id_parameter] = $base_url_builder->acquireParameter(
+        explode('\\', __NAMESPACE__),
+        "node_id"
+    );
+    [$process_form_url_builder, $process_form_parameter] = $base_url_builder->acquireParameter(
+        explode('\\', __NAMESPACE__),
+        "process"
+    );
 
     $node_retrieval = new TreeMultiSelectExampleNodeRetrieval($node_id_url_builder, $node_id_parameter);
 
@@ -72,6 +93,7 @@ function base(): string
         $node_generator = $node_retrieval->getNodes(
             $factory->input()->field()->node(),
             $factory->symbol()->icon(),
+            [],
             $parent_node_id
         );
 
@@ -120,16 +142,20 @@ class TreeMultiSelectExampleNodeRetrieval implements NodeRetrieval
     ) {
     }
 
-    public function getNodes(NodeFactory $node_factory, IconFactory $icon_factory, ?string $parent_id = null): \Generator
-    {
+    public function getNodes(
+        NodeFactory $node_factory,
+        IconFactory $icon_factory,
+        array $sync_node_id_whitelist = [],
+        ?string $parent_id = null
+    ): \Generator {
         if (null !== $parent_id) {
             yield $this->getExampleNodeChildren($node_factory, $parent_id);
             return;
         }
 
-        yield $node_factory->branch('1', 'branch 1', null, ...$this->getExampleNodeChildren($node_factory, '1'));
-        yield $node_factory->branch('2', 'branch 2', null, ...$this->getExampleNodeChildren($node_factory, '2'));
-        yield $node_factory->leaf('3', 'leaf 3');
+        yield $node_factory->branch(['1'], 'branch 1', null, ...$this->getExampleNodeChildren($node_factory, '1'));
+        yield $node_factory->branch(['2'], 'branch 2', null, ...$this->getExampleNodeChildren($node_factory, '2'));
+        yield $node_factory->leaf(['3'], 'leaf 3');
     }
 
     public function getNodesAsLeaf(
@@ -138,26 +164,48 @@ class TreeMultiSelectExampleNodeRetrieval implements NodeRetrieval
         array $node_ids,
     ): \Generator {
         foreach ($node_ids as $node_id) {
-            yield $node_factory->leaf($node_id, "dummy leaf node $node_id");
+            yield $node_factory->leaf([$node_id], "dummy leaf node $node_id");
         }
     }
 
-    protected function getExampleNodeChildren(NodeFactory $node_factory, string|int $parent_id): array
+    protected function getExampleNodeChildren(NodeFactory $node_factory, string $parent_id): array
     {
         return [
-            $node_factory->branch("$parent_id.1", "branch $parent_id.1", null,
-                $node_factory->leaf("$parent_id.1.1", "leaf $parent_id.1.1"),
-                $node_factory->leaf("$parent_id.1.2", "leaf $parent_id.1.2"),
-                $node_factory->leaf("$parent_id.1.3", "leaf $parent_id.1.3"),
+            $node_factory->branch(
+                $this->getFullNodePath($parent_id, "1"),
+                "branch $parent_id.1",
+                null,
+                $node_factory->leaf($this->getFullNodePath($parent_id, "1.1"), "leaf $parent_id.1.1"),
+                $node_factory->leaf($this->getFullNodePath($parent_id, "1.2"), "leaf $parent_id.1.2"),
+                $node_factory->leaf($this->getFullNodePath($parent_id, "1.3"), "leaf $parent_id.1.3"),
             ),
-            $node_factory->branch("$parent_id.2", "branch $parent_id.2", null,
-                $node_factory->leaf("$parent_id.2.1", "leaf $parent_id.2.1"),
-                $node_factory->leaf("$parent_id.2.2", "leaf $parent_id.2.2"),
-                $node_factory->leaf("$parent_id.2.3", "leaf $parent_id.2.3"),
+            $node_factory->branch(
+                $this->getFullNodePath($parent_id, "2"),
+                "branch $parent_id.2",
+                null,
+                $node_factory->leaf($this->getFullNodePath($parent_id, "2.1"), "leaf $parent_id.2.1"),
+                $node_factory->leaf($this->getFullNodePath($parent_id, "2.2"), "leaf $parent_id.2.2"),
+                $node_factory->leaf($this->getFullNodePath($parent_id, "2.3"), "leaf $parent_id.2.3"),
             ),
-            $node_factory->async($this->getAsyncNodeRenderUrl("$parent_id.3"),"$parent_id.3", "async branch $parent_id.3"),
-            $node_factory->leaf("$parent_id.4", "leaf $parent_id.4"),
+            $node_factory->async(
+                $this->getAsyncNodeRenderUrl("$parent_id.3"),
+                $this->getFullNodePath($parent_id, "3"),
+                "async branch $parent_id.3"
+            ),
+            $node_factory->leaf($this->getFullNodePath($parent_id, "4"), "leaf $parent_id.4"),
         ];
+    }
+
+    /** @return string[] */
+    protected function getFullNodePath(string $parent_id, string $child_id): array
+    {
+        $parts = explode(".", $parent_id);
+        $paths = [];
+        for ($index = 1, $count = count($parts); $index <= $count; $index++) {
+            $paths[] = implode(".", array_slice($parts, 0, $index));
+        }
+        $paths[] = "{$paths[$count - 1]}.$child_id";
+        return $paths;
     }
 
     protected function getAsyncNodeRenderUrl(int|string $node_id): URI

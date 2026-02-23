@@ -51,6 +51,7 @@ use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
  */
 abstract class ilPageObject
 {
+    protected \ILIAS\COPage\InternalDomainService $domain;
     protected \ILIAS\COPage\Dom\DomUtil $dom_util;
     protected \ILIAS\COPage\Link\LinkManager $link;
     protected \ILIAS\COPage\PC\PCDefinition $pc_definition;
@@ -101,9 +102,9 @@ abstract class ilPageObject
     protected ?string $activationstart = null;      // IL_CAL_DATETIME format
     protected ?string $activationend = null;        // IL_CAL_DATETIME format
     protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $reading_time_manager;
-    protected $concrete_lang = "";
+    protected string $concrete_lang = "";
     protected \ILIAS\COPage\ID\ContentIdManager $content_id_manager;
-    protected \ILIAS\COPage\Page\PageManager $page_manager;
+    protected \ILIAS\COPage\Page\PageManagerInterface $page_manager;
     protected \ILIAS\COPage\Style\StyleManager $style_manager;
     protected \ILIAS\COPage\PC\DomainService $pc_service;
 
@@ -113,11 +114,14 @@ abstract class ilPageObject
         string $a_lang = "-"
     ) {
         global $DIC;
-        $this->obj_definition = $DIC["objDefinition"];
+
+        $this->domain = $DIC->copage()->internal()->domain();
+
+        $this->obj_definition = $this->domain->objectDefinition();
         $this->db = $DIC->database();
-        $this->user = $DIC->user();
-        $this->lng = $DIC->language();
-        $this->tree = $DIC->repositoryTree();
+        $this->user = $this->domain->user();
+        $this->lng = $this->domain->lng();
+        $this->tree = $this->domain->repositoryTree();
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->lom_services = $DIC->learningObjectMetadata();
 
@@ -182,8 +186,9 @@ abstract class ilPageObject
 
     public function initPageConfig(): void
     {
-        $cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
-        $this->setPageConfig($cfg);
+        $this->setPageConfig(
+            $this->domain->pageConfig($this->getParentType())
+        );
     }
 
     /**
@@ -205,7 +210,7 @@ abstract class ilPageObject
         $this->page_config = $a_val;
     }
 
-    public function setConcreteLang(string $a_val)
+    public function setConcreteLang(string $a_val): void
     {
         $this->concrete_lang = $a_val;
     }
@@ -374,10 +379,7 @@ abstract class ilPageObject
         return ilPageUtil::_existsAndNotEmpty($a_parent_type, $a_id, $a_lang);
     }
 
-    /**
-     * @return bool|array
-     */
-    public function buildDom(bool $a_force = false)
+    public function buildDom(bool $a_force = false): string|bool|null
     {
         if ($this->dom_builded && !$a_force) {
             return true;
@@ -717,7 +719,7 @@ abstract class ilPageObject
             $a_hier_id,
             $a_pc_id
         );
-        $this->log->debug("getContentObject: " . " $a_hier_id, $a_pc_id, " . $node->nodeName);
+        $this->log->debug("getContentObject: " . " $a_hier_id, $a_pc_id, " . $node?->nodeName);
         return $this->pc_service->getByNode($node, $this);
     }
 
@@ -979,13 +981,23 @@ s     */
         foreach ($lang_vars as $lang_var) {
             $xml .= $this->getLangVarXML($lang_var);
         }
+        foreach ($this->pc_service->plugged()->getPluginLangVars() as $k => $v) {
+            $xml .= $this->getLangVarXMLForValue($k, $v);
+        }
         $xml .= "</LVs>";
         return $xml;
     }
 
     protected function getLangVarXML(string $var): string
     {
-        $val = $this->lng->txt("cont_" . $var);
+        return $this->getLangVarXMLForValue(
+            $var,
+            $this->lng->txt("cont_" . $var)
+        );
+    }
+
+    protected function getLangVarXMLForValue(string $var, string $val): string
+    {
         $val = str_replace('"', "&quot;", $val);
         return "<LV name=\"$var\" value=\"" . $val . "\"/>";
     }
@@ -1413,7 +1425,7 @@ s     */
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function update(bool $a_validate = true, bool $a_no_history = false)
+    public function update(bool $a_validate = true, bool $a_no_history = false): array|bool
     {
         $this->log->debug("start..., id: " . $this->getId());
         $lm_set = new ilSetting("lm");
@@ -1789,7 +1801,7 @@ s     */
         bool $a_update = true,
         string $a_pcid = "",
         bool $move_operation = false
-    ) {
+    ): array|bool {
         $pm = $this->page_manager->content($this->getDomDoc());
         $pm->deleteContent($this, $a_hid, $a_pcid, $move_operation);
         if ($a_update) {
@@ -1810,7 +1822,7 @@ s     */
         bool $a_update = true,
         bool $a_self_ass = false,
         bool $move_operation = false
-    ) {
+    ): array|bool {
         $pm = $this->page_manager->content($this->getDomDoc());
         $pm->deleteContents($this, $a_hids, $a_self_ass, $move_operation);
         if ($a_update) {
@@ -1824,7 +1836,7 @@ s     */
      * @return array|bool
      * @throws ilDateTimeException
      */
-    public function cutContents(array $a_hids)
+    public function cutContents(array $a_hids): array|bool
     {
         $this->copyContents($a_hids);
         return $this->deleteContents(
@@ -1852,7 +1864,7 @@ s     */
     public function pasteContents(
         string $a_hier_id,
         bool $a_self_ass = false
-    ) {
+    ): array|bool {
         $user = $this->user;
         $cm = $this->page_manager->content($this->getDomDoc());
         $cm->pasteContents(
@@ -1875,7 +1887,7 @@ s     */
         array $a_hids,
         bool $a_update = true,
         bool $a_self_ass = false
-    ) {
+    ): array|bool {
         $cm = $this->page_manager->content($this->getDomDoc());
         $cm->switchEnableMultiple($this, $a_hids, $a_self_ass);
         if ($a_update) {
@@ -1941,7 +1953,7 @@ s     */
         string $a_target,
         string $a_spcid = "",
         string $a_tpcid = ""
-    ) {
+    ): array|bool {
         $cm = $this->page_manager->content($this->getDomDoc());
         $cm->moveContentAfter(
             $this,
@@ -2357,6 +2369,7 @@ s     */
         global $DIC;
 
         $db = $DIC->database();
+        $profile = $DIC->copage()->internal()->domain()->profile();
 
         $and_lang = "";
         if ($a_lang != "") {
@@ -2399,7 +2412,7 @@ s     */
 
         $c = array();
         foreach ($contributors as $k => $co) {
-            if (ilObject::_lookupType($k) == "usr") {
+            if ($profile->exists($k)) {
                 $name = ilObjUser::_lookupName($k);
                 $c[] = array("user_id" => $k,
                              "pages" => $co,
@@ -2730,7 +2743,7 @@ s     */
                 " AND parent_type = " . $db->quote($this->getParentType(), "text")
             );
             $rec = $db->fetchAssoc($set);
-            if ($rec["edit_lock_user"] != $user->getId()) {
+            if (($rec["edit_lock_user"] ?? 0) != $user->getId()) {
                 return false;
             }
         }
@@ -3041,7 +3054,7 @@ s     */
         string $char_par,
         string $char_sec,
         string $char_med
-    ) {
+    ): array|bool {
         if (is_array($targets)) {
             foreach ($targets as $t) {
                 $tarr = explode(":", $t);

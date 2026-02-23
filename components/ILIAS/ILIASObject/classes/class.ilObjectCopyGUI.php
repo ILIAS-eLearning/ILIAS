@@ -27,8 +27,11 @@ use ILIAS\Style\Content\Container\ContainerDBRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\Object\ImplementsCreationCallback;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * GUI class for the workflow of copying objects
@@ -73,6 +76,7 @@ class ilObjectCopyGUI
     protected ServerRequestInterface $request;
     protected UIFactory $ui_factory;
     protected UIRenderer $ui_renderer;
+    protected GlobalHttpState $http;
 
     protected ContainerDBRepository $container_repo;
 
@@ -100,7 +104,7 @@ class ilObjectCopyGUI
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->access = $DIC->access();
         $this->error = $DIC["ilErr"];
-        $this->user = $DIC['ilUser'];
+        $this->user = $DIC['user']->getLoggedInUser();
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->rbacreview = $DIC['rbacreview'];
         $this->log = ilLoggerFactory::getLogger('obj');
@@ -111,7 +115,8 @@ class ilObjectCopyGUI
         $this->request = $DIC->http()->request();
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
-        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+        $this->http = $DIC['http'];
+        $this->retriever = new ilObjectRequestRetriever($this->http->wrapper(), $this->refinery);
 
         $this->container_repo = new ContainerDBRepository($DIC['ilDB']);
 
@@ -1007,6 +1012,9 @@ class ilObjectCopyGUI
         );
 
         $progress = new ilObjectCopyProgressTableGUI(
+            new DataFactory(),
+            $this->ui_renderer,
+            $this->ui_factory,
             $this,
             'showCopyProgress',
             $ref_id
@@ -1022,34 +1030,35 @@ class ilObjectCopyGUI
 
     protected function updateProgress(): void
     {
-        $json = new stdClass();
-        $json->percentage = null;
-        $json->performed_steps = null;
-
+        $max_steps = $this->retriever->getMaybeInt('_max_steps');
         $copy_id = $this->retriever->getMaybeInt('_copy_id');
         $options = ilCopyWizardOptions::_getInstance($copy_id);
-        $node = $options->fetchFirstNode();
-        $json->current_node_id = 0;
-        $json->current_node_title = "";
-        $json->in_dependencies = false;
-        if (is_array($node)) {
-            $json->current_node_id = $node['obj_id'];
-            $json->current_node_title = $node['title'];
+        $required_steps = $options->getRequiredSteps();
+
+        if ($required_steps === 0) {
+            $state = $this->ui_factory->progress()->state()->bar()
+                ->success($this->lng->txt('obj_copy_progress_success'));
+            $this->log->debug('Update copy progress: 100%');
         } else {
-            $node = $options->fetchFirstDependenciesNode();
-            if (is_array($node)) {
-                $json->current_node_id = $node['obj_id'];
-                $json->current_node_title = $node['title'];
-                $json->in_dependencies = true;
-            }
+            $completed_steps = $max_steps - $required_steps;
+            $percentage = (int) min(
+                floor(($completed_steps / $max_steps) * 100),
+                99
+            );
+            $state = $this->ui_factory->progress()->state()->bar()
+                ->determinate($percentage);
+            $this->log->debug("Update copy progress: {$percentage}%");
         }
-        $json->required_steps = $options->getRequiredSteps();
-        $json->id = $copy_id;
 
-        $this->log->debug('Update copy progress: ' . json_encode($json));
+        $html = $this->ui_renderer->renderAsync($state);
 
-        echo json_encode($json);
-        exit;
+        $this->http->saveResponse(
+            $this->http->response()
+                ->withHeader('Content-Type', 'text/html; charset=utf-8')
+                ->withBody(Streams::ofString($html))
+        );
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function copyContainer(int $target_ref_id): array

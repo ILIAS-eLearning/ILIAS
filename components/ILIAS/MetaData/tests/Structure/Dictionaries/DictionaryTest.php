@@ -81,6 +81,20 @@ class DictionaryTest extends TestCase
                 };
             }
 
+            public function path(): PathInterface
+            {
+                return new class ($this->path_id) extends NullPath {
+                    public function __construct(protected int $path_id)
+                    {
+                    }
+
+                    public function toString(): string
+                    {
+                        return (string) $this->path_id;
+                    }
+                };
+            }
+
             public function matchesPath(PathInterface $path): bool
             {
                 return (string) $this->path_id === $path->toString();

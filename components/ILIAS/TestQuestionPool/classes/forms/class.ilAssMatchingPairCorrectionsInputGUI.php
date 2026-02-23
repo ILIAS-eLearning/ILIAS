@@ -40,6 +40,10 @@ class ilAssMatchingPairCorrectionsInputGUI extends ilMatchingPairWizardInputGUI
     public function setValue($a_value): void
     {
         foreach ($this->forms_helper->transformPoints($a_value) as $index => $value) {
+            if ($value === null) {
+                return;
+            }
+
             $this->pairs[$index] = $this->pairs[$index]->withPoints($value);
         }
     }

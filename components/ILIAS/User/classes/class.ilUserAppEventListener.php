@@ -18,6 +18,9 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Settings\StartingPoint\Repository as StartingPointRepository;
+
 /**
  * Class ilUserAppEventListener
  * @author Michael Jansen <mjansen@databay.de>
@@ -29,18 +32,7 @@ class ilUserAppEventListener implements ilAppEventListener
      */
     public static function handleEvent(string $component, string $event, array $parameter): void
     {
-        /** @var ILIAS\DI\Container $DIC */
-        global $DIC;
-
-        $user_starting_point_repository = new ilUserStartingPointRepository(
-            $DIC['ilUser'],
-            $DIC['ilDB'],
-            $DIC->logger(),
-            $DIC['tree'],
-            $DIC['rbacreview'],
-            $DIC['rbacsystem'],
-            $DIC['ilSetting']
-        );
+        $user_starting_point_repository = LocalDIC::dic()[StartingPointRepository::class];
 
         if ('components/ILIAS/ILIASObject' === $component && 'beforeDeletion' === $event) {
             if (isset($parameter['object']) && $parameter['object'] instanceof ilObjRole) {

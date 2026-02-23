@@ -25,7 +25,7 @@ use ILIAS\Refinery\Factory;
  * @author       Stefan Meyer <meyer@leifos.com>
  *
  * @ilCtrl_Calls ilSearchControllerGUI: ilSearchGUI
- * @ilCtrl_Calls ilSearchControllerGUI: ilLuceneSearchGUI ilLuceneUserSearchGUI
+ * @ilCtrl_Calls ilSearchControllerGUI: ilLuceneUserSearchGUI
  */
 class ilSearchControllerGUI implements ilCtrlBaseClassInterface
 {
@@ -62,10 +62,6 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         }
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
-            case 'illucenesearchgui':
-                $this->ctrl->forwardCommand(new ilLuceneSearchGUI());
-                break;
-
             case 'illuceneusersearchgui':
                 if ($this->user->getId() === ANONYMOUS_USER_ID) {
                     $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);

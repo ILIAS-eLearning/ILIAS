@@ -198,16 +198,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    public function resetSavedPreviewSession(): void
-    {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $user_id = $ilUser->getId();
-        $question_id = $this->object->getId();
-        $ilAssQuestionPreviewSession = new ilAssQuestionPreviewSession($user_id, $question_id);
-        $ilAssQuestionPreviewSession->setParticipantsSolution([]);
-    }
-
     public function editQuestion(
         bool $checkonly = false,
         ?bool $is_save_cmd = null,
@@ -604,29 +594,32 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $errors = !$form->checkInput();
 
             $custom_errors = false;
-            if ($variables !== []) {
-                foreach ($variables as $variable) {
-                    $min_range = $form->getItemByPostVar('range_min_' . $variable->getVariable());
-                    $max_range = $form->getItemByPostVar('range_max_' . $variable->getVariable());
-                    if ($min_range->getValue() > $max_range->getValue()) {
-                        $min_range->setAlert($this->lng->txt('err_range'));
-                        $max_range->setAlert($this->lng->txt('err_range'));
-                        $custom_errors = true;
-                    }
-                    $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
-                    $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
-                    if ($decimal_spots->getValue() == 0
-                        && $min_range->getValue() !== null
-                        && $max_range->getValue() !== null
-                        && !$variable->isIntPrecisionValid(
-                            $intPrecision->getValue(),
-                            $min_range->getValue(),
-                            $max_range->getValue()
-                        )
-                    ) {
-                        $intPrecision->setAlert($this->lng->txt('err_division'));
-                        $custom_errors = true;
-                    }
+            /** @var $variable assFormulaQuestionVariable */
+            foreach ($variables as $variable) {
+                $min_range = $form->getItemByPostVar('range_min_' . $variable->getVariable());
+                $max_range = $form->getItemByPostVar('range_max_' . $variable->getVariable());
+                $min_range_value = $min_range?->getValue();
+                $max_range_value = $max_range?->getValue();
+
+                if ($min_range_value === null || $max_range_value === null) {
+                    $custom_errors = true;
+                    continue;
+                }
+
+                if ($min_range_value > $max_range_value) {
+                    $min_range?->setAlert($this->lng->txt('err_range'));
+                    $max_range?->setAlert($this->lng->txt('err_range'));
+                    $custom_errors = true;
+                }
+
+                $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
+                $int_precision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
+                if ($decimal_spots instanceof ilFormPropertyGUI && $decimal_spots->getValue() === 0) {
+                    $txt = !$variable->isIntPrecisionValid($int_precision?->getValue(), $min_range_value, $max_range_value)
+                        ? 'err_divider_too_big_specific'
+                        : 'err_division';
+                    $int_precision?->setAlert($this->lng->txt($txt));
+                    $custom_errors = true;
                 }
             }
 
@@ -986,7 +979,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     if (!array_key_exists($matches[1], $user_solution)) {
                         $user_solution[$matches[1]] = [];
                     }
-                    $user_solution[$matches[1]][['unit']] = $solution_value['value2'];
+                    $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
                 }
                 if (preg_match('/^(\$r\d+)/', $solution_value['value1'], $matches) && !isset($user_solution[$matches[1]]['result_type'])) {
                     $user_solution[$matches[1]]['result_type'] = assFormulaQuestionResult::getResultTypeByQstId($this->object->getId(), $solution_value['value1']);

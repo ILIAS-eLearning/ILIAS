@@ -21,5 +21,6 @@ namespace ILIAS\Test\Settings\MainSettings;
 interface MainSettingsRepository
 {
     public function getFor(int $test_id): MainSettings;
-    public function store(MainSettings $settings): void;
+    public function getById(int $settings_id): MainSettings;
+    public function store(MainSettings $settings, ?int $test_id = null): MainSettings;
 }

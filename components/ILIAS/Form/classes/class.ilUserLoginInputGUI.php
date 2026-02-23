@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a user login property in a property form.
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilUserLoginInputGUI extends ilFormPropertyGUI
 {
@@ -56,7 +57,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 
     public function setValueByArray(array $a_values): void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? '');
     }
 
     public function setCurrentUserId(int $a_user_id): void
@@ -115,6 +116,10 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
         $a_tpl->setVariable("SIZE", $this->size);
         $a_tpl->setVariable("MAXLENGTH", $this->max_length);
         if ($this->getDisabled()) {
+            $a_tpl->setVariable(
+                "HIDDEN_INPUT",
+                $this->getHiddenTag($this->getPostVar(), $this->getValue())
+            );
             $a_tpl->setVariable(
                 "DISABLED",
                 " disabled=\"disabled\""

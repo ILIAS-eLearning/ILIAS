@@ -30,6 +30,7 @@ use ILIAS\COPage\PC\FileList\FileListManager;
 use ILIAS\COPage\PC\MediaObject\MediaObjectManager;
 use ILIAS\COPage\PC\Question\QuestionManager;
 use ILIAS\COPage\PC\Resources\ResourcesManager;
+use ILIAS\COPage\PC\Plugged\PluggedManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -99,6 +100,11 @@ class DomainService
     public function resources(): ResourcesManager
     {
         return new ResourcesManager();
+    }
+
+    public function plugged(): PluggedManager
+    {
+        return new PluggedManager();
     }
 
 }

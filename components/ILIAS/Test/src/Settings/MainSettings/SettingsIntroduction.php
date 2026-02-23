@@ -20,23 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Settings\TestSettings;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
-
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\Refinery\Factory as Refinery;
 
-class SettingsIntroduction extends TestSettings
+class SettingsIntroduction extends TestSettings implements Exportable
 {
     public function __construct(
-        int $test_id,
         protected bool $introduction_enabled = false,
-        protected ?string $introduction_text = null,
         protected ?int $introduction_page_id = null,
         protected bool $conditions_checkbox_enabled = false,
     ) {
-        parent::__construct($test_id);
+        parent::__construct();
     }
 
     public function toForm(
@@ -62,7 +60,6 @@ class SettingsIntroduction extends TestSettings
     {
         return [
             'intro_enabled' => ['integer', (int) $this->getIntroductionEnabled()],
-            'introduction' => ['text', $this->getIntroductionText()],
             'introduction_page_id' => ['integer', $this->getIntroductionPageId()],
             'conditions_checkbox_enabled' => ['integer', (int) $this->getExamConditionsCheckboxEnabled()],
         ];
@@ -90,17 +87,6 @@ class SettingsIntroduction extends TestSettings
         return $clone;
     }
 
-    public function getIntroductionText(): string
-    {
-        return $this->introduction_text ?? '';
-    }
-    public function withIntroductionText(?string $introduction_text): self
-    {
-        $clone = clone $this;
-        $clone->introduction_text = $introduction_text;
-        return $clone;
-    }
-
     public function getIntroductionPageId(): ?int
     {
         return $this->introduction_page_id;
@@ -121,5 +107,23 @@ class SettingsIntroduction extends TestSettings
         $clone = clone $this;
         $clone->conditions_checkbox_enabled = $conditions_checkbox_enabled;
         return $clone;
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'intro_enabled' => $this->getIntroductionEnabled(),
+            'introduction_page_id' => $this->getIntroductionPageId(),
+            'conditions_checkbox_enabled' => $this->getExamConditionsCheckboxEnabled()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            (bool) $data['intro_enabled'],
+            $data['introduction_page_id'],
+            (bool) $data['conditions_checkbox_enabled'],
+        );
     }
 }

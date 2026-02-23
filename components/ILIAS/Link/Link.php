@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+/**
+ */
 class Link implements Component\Component
 {
     public function init(

@@ -365,7 +365,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         );
         $glos = [];
         while ($rec = $this->db->fetchAssoc($set)) {
-            $glos[] = (int) $rec["glo_id"];
+            if (ilObject::_lookupType((int) $rec["glo_id"]) === "glo") {        // #46222 (deleted glossary)
+                $glos[] = (int) $rec["glo_id"];
+            }
         }
 
         return $glos;

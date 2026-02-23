@@ -27,6 +27,7 @@ global $DIC;
 
 /** @var Services $static_url */
 $static_url = $DIC['static_url'];
+$static_url->handler()->initHandler();
 $static_url->handler()->performRedirect(
     $static_url->builder()->getBaseURI()
 );

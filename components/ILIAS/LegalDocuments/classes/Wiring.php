@@ -36,7 +36,7 @@ use ILIAS\LegalDocuments\Provide\History;
 use ILIAS\LegalDocuments\Value\Target;
 use ILIAS\Refinery\Constraint;
 use ilDashboardGUI;
-use ilPersonalProfileGUI;
+use ILIAS\User\Profile\PersonalProfileGUI;
 use ilLegalDocumentsWithdrawalGUI;
 use ilLegalDocumentsAgreementGUI;
 use ilStartUpGUI;
@@ -186,6 +186,6 @@ class Wiring implements UseSlot
      */
     private function path(string $class): array
     {
-        return [ilDashboardGUI::class, ilPersonalProfileGUI::class, $class];
+        return [ilDashboardGUI::class, PersonalProfileGUI::class, $class];
     }
 }

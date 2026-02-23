@@ -59,7 +59,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
     public function initForm(string $formaction, string $saveCmd, string $cancelCmd): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
 
         $this->setFormAction($formaction);
@@ -150,8 +151,9 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $keyType->addOption($keyRsa);
         $publicKey = new ilTextAreaInputGUI($lng->txt('lti_con_key_type_rsa_public_key'), 'public_key');
         $publicKey->setRows(6);
-        $publicKey->setRequired(true);
+        $publicKey->setValue($this->provider->getPublicKey());
         $publicKey->setInfo($lng->txt('lti_con_key_type_rsa_public_key_info'));
+        $publicKey->setRequired(true);
         $keyRsa->addSubItem($publicKey);
         //JWK
         $keyJwk = new ilRadioOption($lng->txt('lti_con_key_type_jwk'), 'JWK_KEYSET');
@@ -448,7 +450,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
     public function initToolConfigForm(string $formaction, string $saveCmd, string $cancelCmd): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
 
         $this->setFormAction($formaction);
@@ -929,7 +932,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
     public function initDynRegForm(string $formaction): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
         $this->setFormAction($formaction);
         $this->clearCommandButtons();
@@ -970,8 +974,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         if (!empty($customParams)) {
             $regUrl .= "&custom_params=" . urlencode($customParams);
         }
-        $showToolConfigUrl = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class,ilObjLTIConsumerGUI::class], 'showToolConfig');
-        $regErrorUrl = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class,ilObjLTIConsumerGUI::class], 'addDynReg');
+        $showToolConfigUrl = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class], 'showToolConfig');
+        $regErrorUrl = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class, ilObjLTIConsumerGUI::class], 'addDynReg');
         $this->getItemByPostVar('lti_dyn_reg_url')->setDisabled(true);
         $this->getItemByPostVar('lti_dyn_reg_custom_params')->setDisabled(true);
         $this->clearCommandButtons();
@@ -979,6 +983,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $template = new ilTemplate('tpl.lti_dyn_reg_request.html', true, true, "components/ILIAS/LTIConsumer");
         $template->setVariable('LTI_TOOL_REG_URL', $toolRegUrl);
         $template->setVariable('LTI_DYN_REG_URL', $regUrl);
+        $template->setVariable('LTI_DYN_REG_URL_BY_POST', $toolRegUrl);
         $template->setVariable('LTI_REG_END_URL', ilObjLTIConsumer::getRegistrationEndUrl());
         $template->setVariable('LTI_SHOW_TOOL_CONFIG_URL', $showToolConfigUrl);
         $template->setVariable('LTI_REG_ERROR_URL', $regErrorUrl);
@@ -988,7 +993,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
     public function getDynRegError(): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
         $this->removeItemByPostVar('lti_dyn_reg_url');
         $this->removeItemByPostVar('lti_dyn_reg_custom_params');

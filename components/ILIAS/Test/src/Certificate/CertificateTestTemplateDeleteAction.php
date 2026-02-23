@@ -18,11 +18,8 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Course\Certificate;
+namespace ILIAS\Test\Certificate;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class CertificateTestTemplateDeleteAction implements \ilCertificateDeleteAction
 {
     public function __construct(private readonly \ilCertificateDeleteAction $deleteAction)

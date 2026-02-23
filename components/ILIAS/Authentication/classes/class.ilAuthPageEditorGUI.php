@@ -26,7 +26,7 @@ use ILIAS\components\Authentication\Pages\AuthPageLanguagesOverviewTable;
  * @ilCtrl_isCalledBy ilAuthPageEditorGUI: ilObjAuthSettingsGUI
  * @ilCtrl_Calls      ilAuthPageEditorGUI: ilLoginPageGUI, ilLogoutPageGUI
  */
-class ilAuthPageEditorGUI
+class ilAuthPageEditorGUI implements ilCtrlSecurityInterface
 {
     final public const string DEFAULT_COMMAND = 'showPageEditorLanguages';
     final public const string LANGUAGE_TABLE_ACTIONS_COMMAND = 'handlePageActions';
@@ -46,6 +46,8 @@ class ilAuthPageEditorGUI
     private GUIService $content_style_gui;
     private int $ref_id;
     private ?string $request_ipe_context;
+    private ilRbacSystem $rbac_system;
+    private ilErrorHandling $ilErr;
 
     public function __construct(int $a_ref_id)
     {
@@ -56,9 +58,11 @@ class ilAuthPageEditorGUI
         $this->tabs = $DIC->tabs();
 
         $this->http = $DIC->http();
+        $this->ilErr = $DIC->ilErr();
         $this->refinery = $DIC->refinery();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
+        $this->rbac_system = $DIC->rbac()->system();
 
         $this->lng = $DIC['lng'];
 
@@ -96,6 +100,18 @@ class ilAuthPageEditorGUI
         $this->ctrl->setParameter($this, self::CONTEXT_HTTP_PARAM, $this->request_ipe_context);
     }
 
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+           self::LANGUAGE_TABLE_ACTIONS_COMMAND,
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
+    }
+
     public function executeCommand(): void
     {
         switch (strtolower($this->ctrl->getNextClass($this) ?? '')) {
@@ -113,10 +129,13 @@ class ilAuthPageEditorGUI
                 break;
 
             default:
-                if (!$cmd = $this->ctrl->getCmd()) {
-                    $cmd = 'showPageEditorLanguages';
+                $cmd = $this->ctrl->getCmd();
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd . 'Command')) {
+                    $cmd = self::DEFAULT_COMMAND;
                 }
-                $this->$cmd();
+                $verified_command = $cmd . 'Command';
+
+                $this->$verified_command();
                 break;
         }
     }
@@ -129,7 +148,11 @@ class ilAuthPageEditorGUI
     private function forwardToPageObject(): void
     {
         if (!$this->requested_language_id) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('language_does_not_exist'), true);
+            $this->tpl->setOnScreenMessage(
+                $this->tpl::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('language_does_not_exist'),
+                true
+            );
             $this->ctrl->returnToParent($this);
         }
 
@@ -151,6 +174,7 @@ class ilAuthPageEditorGUI
         }
 
         $this->ctrl->setReturnByClass($ipe_gui_class, 'edit');
+        /** @var ilLoginPageGUI $page_gui */
         $page_gui = new ($ipe_gui_class)($this->requested_language_id);
 
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
@@ -161,6 +185,11 @@ class ilAuthPageEditorGUI
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setTemplateOutput(false);
 
+        if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
+            $page_gui->setOutputMode(ilPageObjectGUI::PREVIEW);
+            $page_gui->setEnableEditing(false);
+        }
+
         $html = $this->ctrl->forwardCommand($page_gui);
 
         if ($html !== '') {
@@ -168,7 +197,7 @@ class ilAuthPageEditorGUI
         }
     }
 
-    private function handlePageActions(): void
+    private function handlePageActionsCommand(): void
     {
         $action = $this->http->wrapper()->query()->retrieve(
             'authpage_languages_action',
@@ -188,20 +217,22 @@ class ilAuthPageEditorGUI
 
         switch ($action) {
             case AuthPageLanguagesOverviewTable::DEACTIVATE:
-                $this->deactivate();
-                break;
-
             case AuthPageLanguagesOverviewTable::ACTIVATE:
-                $this->activate();
+                if (!$this->rbac_system->checkAccess('write', $this->ref_id)) {
+                    $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
+                    break;
+                }
+                $this->$action();
                 break;
 
             case AuthPageLanguagesOverviewTable::EDIT:
+            case AuthPageLanguagesOverviewTable::PREVIEW:
                 $language_id = ilLanguage::lookupId((string) current($keys));
                 if ($language_id) {
                     $this->ctrl->setParameter($this, 'key', $language_id);
                     $this->ctrl->redirectByClass(
                         $this->getRequestedAuthPageEditorContext()->pageUiClass(),
-                        'edit'
+                        $action
                     );
                 }
         }
@@ -244,7 +275,7 @@ class ilAuthPageEditorGUI
 
         $settings->update();
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::DEFAULT_COMMAND);
     }
 
@@ -261,11 +292,11 @@ class ilAuthPageEditorGUI
 
         $settings->update();
 
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage($this->tpl::MESSAGE_TYPE_SUCCESS, $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::DEFAULT_COMMAND);
     }
 
-    private function showPageEditorLanguages(): void
+    private function showPageEditorLanguagesCommand(): void
     {
         $this->tabs->activateSubTab($this->getRequestedAuthPageEditorContext()->tabIdentifier());
         $tbl = new AuthPageLanguagesOverviewTable(
@@ -274,7 +305,8 @@ class ilAuthPageEditorGUI
             $this->http,
             $this->ui_factory,
             $this->ui_renderer,
-            $this->getRequestedAuthPageEditorContext()
+            $this->getRequestedAuthPageEditorContext(),
+            $this->rbac_system->checkAccess('write', $this->ref_id)
         );
 
         $this->tpl->setContent($this->ui_renderer->render($tbl->getComponent()));

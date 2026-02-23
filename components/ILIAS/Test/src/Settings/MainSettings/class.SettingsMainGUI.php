@@ -32,10 +32,8 @@ use ILIAS\ILIASObject\Properties\Properties as ObjectProperties;
 use ILIAS\UI\Component\Modal\Interruptive as InterruptiveModal;
 use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\Checkbox;
-use ILIAS\UI\Component\Input\Field\OptionalGroup;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Refinery\Transformation as TransformationInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Constraint;
 
@@ -74,7 +72,6 @@ class SettingsMainGUI extends TestSettingsGUI
 
     public function __construct(
         private readonly \ilGlobalTemplateInterface $tpl,
-        private readonly \ilToolbarGUI $toolbar,
         private readonly \ilCtrlInterface $ctrl,
         private readonly \ilAccessHandler $access,
         private readonly \ilLanguage $lng,
@@ -127,56 +124,10 @@ class SettingsMainGUI extends TestSettingsGUI
         $this->object_data_cache->deleteCachedEntry($this->test_object->getId());
     }
 
-    private function showOldIntroduction(): void
-    {
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt('back'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'showForm')
-            )
-        );
-
-        $this->tpl->setContent(
-            $this->main_settings->getIntroductionSettings()->getIntroductionText()
-        );
-    }
-
-    private function showOldConcludingRemarks(): void
-    {
-        $this->toolbar->addComponent(
-            $this->ui_factory->link()->standard(
-                $this->lng->txt('back'),
-                $this->ctrl->getLinkTargetByClass(self::class, 'showForm')
-            )
-        );
-
-        $this->tpl->setContent(
-            $this->main_settings->getFinishingSettings()->getConcludingRemarksText()
-        );
-    }
-
     private function showForm(?StandardForm $form = null, ?InterruptiveModal $modal = null): void
     {
         if ($form === null) {
             $form = $this->buildForm();
-        }
-
-        if ($this->main_settings->getIntroductionSettings()->getIntroductionText() !== '') {
-            $this->toolbar->addComponent(
-                $this->ui_factory->link()->standard(
-                    $this->lng->txt('show_old_introduction'),
-                    $this->ctrl->getLinkTargetByClass(self::class, 'showOldIntroduction')
-                )
-            );
-        }
-
-        if ($this->main_settings->getFinishingSettings()->getConcludingRemarksText() !== '') {
-            $this->toolbar->addComponent(
-                $this->ui_factory->link()->standard(
-                    $this->lng->txt('show_old_concluding_remarks'),
-                    $this->ctrl->getLinkTargetByClass(self::class, 'showOldConcludingRemarks')
-                )
-            );
         }
 
         $rendered_modal = '';
@@ -217,8 +168,14 @@ class SettingsMainGUI extends TestSettingsGUI
 
     private function saveForm(): void
     {
-        $form = $this->buildForm()->withRequest($this->request);
-        $data = $form->getData();
+        try {
+            $form = $this->buildForm()->withRequest($this->request);
+            $data = $form->getData();
+        } catch (InvalidArgumentException) {
+            $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+            return;
+        }
+
         if ($data === null) {
             $this->showForm($form);
             return;
@@ -227,6 +184,12 @@ class SettingsMainGUI extends TestSettingsGUI
         $current_question_set_type = $this->main_settings->getGeneralSettings()->getQuestionSetType();
         $current_question_config = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
         $new_question_set_type = $data[self::GENERAL_SETTINGS_SECTION_LABEL]['question_set_type'];
+
+        if ($new_question_set_type === null) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tst_settings_form_reload_needed'));
+            $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
+            return;
+        }
 
         $question_set_modal_required = $new_question_set_type !== $current_question_set_type
                 && $current_question_config->doesQuestionSetRelatedDataExist();
@@ -264,7 +227,7 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
-        $this->showForm();
+        $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
     private function anonymityChanged(bool $anonymity_form_data): bool
@@ -286,30 +249,6 @@ class SettingsMainGUI extends TestSettingsGUI
                 )
         ];
 
-        if (!$this->test_object->isActivationLimited()) {
-            $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = $this->logger
-                ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(false);
-            return $log_array;
-        }
-
-        $none_tag = $this->logger->getAdditionalInformationGenerator()->getNoneTag();
-        $from = $this->test_object->getActivationStartingTime() === null
-            ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationStartingTime())
-                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
-        $until = $this->test_object->getActivationEndingTime() === null
-            ? $none_tag
-            : \DateTimeImmutable::createFromFormat('U', (string) $this->test_object->getActivationEndingTime())
-                ->format(AdditionalInformationGenerator::DATE_STORAGE_FORMAT);
-
-        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD] = [
-            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_FROM => $from,
-            AdditionalInformationGenerator::KEY_TEST_VISIBILITY_PERIOD_UNTIL => $until
-        ];
-        $log_array[AdditionalInformationGenerator::KEY_TEST_VISIBLE_OUTSIDE_PERIOD] = $this->logger
-            ->getAdditionalInformationGenerator()->getEnabledDisabledTagForBool(
-                $this->test_object->getActivationVisibility()
-            );
         return $log_array;
     }
 
@@ -353,11 +292,9 @@ class SettingsMainGUI extends TestSettingsGUI
     {
         return $this->refinery->custom()->constraint(
             function (array $vs): bool {
-                if ($vs[self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL]['postponed_questions_behaviour'] === true
-                    && $vs[self::QUESTION_BEHAVIOUR_SETTINGS_LABEL]['lock_answers']['lock_answer_on_next_question']) {
-                    return false;
-                }
-                return true;
+                return $vs[self::PARTICIPANTS_FUNCTIONALITY_SETTINGS_LABEL]['postponed_questions_behaviour'] === false
+                    || !($vs[self::QUESTION_BEHAVIOUR_SETTINGS_LABEL]['lock_answers']['lock_answer_on_next_question']
+                        ?? $this->main_settings->getQuestionBehaviourSettings()->getLockAnswerOnNextQuestionEnabled());
             },
             $this->lng->txt('tst_settings_conflict_postpone_and_lock')
         );
@@ -444,8 +381,7 @@ class SettingsMainGUI extends TestSettingsGUI
         );
 
         $settings = new MainSettings(
-            $this->test_object->getTestId(),
-            $this->test_object->getId(),
+            $this->main_settings->getId(),
             $general_settings,
             $introduction_settings,
             $access_settings,
@@ -498,7 +434,6 @@ class SettingsMainGUI extends TestSettingsGUI
         $input_factory = $this->ui_factory->input();
 
         $inputs['is_online'] = $this->getIsOnlineSettingInput();
-        $inputs['timebased_availability'] = $this->getTimebasedAvailabilityInputs();
 
         return $input_factory->field()->section(
             $inputs,
@@ -532,92 +467,8 @@ class SettingsMainGUI extends TestSettingsGUI
         return $is_online;
     }
 
-    private function getTimebasedAvailabilityInputs(): OptionalGroup
-    {
-        $field_factory = $this->ui_factory->input()->field();
-
-        $trafo = $this->getTransformationForActivationLimitedOptionalGroup();
-        $value = $this->getValueForActivationLimitedOptionalGroup();
-
-        $inputs['time_span'] = $field_factory->duration($this->lng->txt('rep_time_period'))
-            ->withTimezone($this->active_user->getTimeZone())
-            ->withFormat($this->active_user->getDateTimeFormat())
-            ->withUseTime(true)
-            ->withRequired(true);
-        $inputs['activation_visibility'] = $field_factory->checkbox(
-            $this->lng->txt('rep_activation_limited_visibility'),
-            $this->lng->txt('tst_activation_limited_visibility_info')
-        );
-
-        return $field_factory->optionalGroup(
-            $inputs,
-            $this->lng->txt('rep_time_based_availability')
-        )->withAdditionalTransformation($trafo)
-            ->withValue($value);
-    }
-
-    private function getTransformationForActivationLimitedOptionalGroup(): TransformationInterface
-    {
-        return $this->refinery->custom()->transformation(
-            static function (?array $vs): array {
-                if ($vs === null) {
-                    return [
-                        'is_activation_limited' => false,
-                        'activation_starting_time' => null,
-                        'activation_ending_time' => null,
-                        'activation_visibility' => false
-                    ];
-                }
-
-                $start = $vs['time_span']['start']->getTimestamp();
-                $end = $vs['time_span']['end']->getTimestamp();
-
-                return [
-                    'is_activation_limited' => true,
-                    'activation_starting_time' => $start,
-                    'activation_ending_time' => $end,
-                    'activation_visibility' => $vs['activation_visibility']
-                ];
-            }
-        );
-    }
-
-    private function getValueForActivationLimitedOptionalGroup(): ?array
-    {
-        $value = null;
-        if ($this->test_object->isActivationLimited()) {
-            $value = [
-                'time_span' => [
-                    \DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationStartingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
-                    \DateTimeImmutable::createFromFormat(
-                        'U',
-                        (string) $this->test_object->getActivationEndingTime()
-                    )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone())),
-                ],
-                'activation_visibility' => $this->test_object->getActivationVisibility()
-            ];
-        }
-        return $value;
-    }
-
     private function saveAvailabilitySettingsSection(array $section): void
     {
-        $time_based_availability = $section['timebased_availability'];
-
-        $participant_data_exists = $this->test_object->participantDataExist();
-        $this->test_object->storeActivationSettings(
-            $participant_data_exists
-                ? $this->test_object->isActivationLimited()
-                : $time_based_availability['is_activation_limited'],
-            $participant_data_exists
-                ? $this->test_object->getActivationStartingTime()
-                : $time_based_availability['activation_starting_time'],
-            $time_based_availability['activation_ending_time'],
-            $time_based_availability['activation_visibility']
-        );
         $this->test_object->getObjectProperties()->storePropertyIsOnline($section['is_online']);
     }
 
@@ -732,14 +583,11 @@ class SettingsMainGUI extends TestSettingsGUI
     private function getFinishingSettingsForStorage(array $section): SettingsFinishing
     {
         $redirect_after_finish = $section['redirect_after_finish'];
-        $finish_notification = $section['finish_notification'];
         return $this->main_settings->getFinishingSettings()
             ->withShowAnswerOverview($section['show_answer_overview'])
             ->withConcludingRemarksEnabled($section['show_concluding_remarks'])
             ->withRedirectionMode($redirect_after_finish['redirect_mode'])
-            ->withRedirectionUrl($redirect_after_finish['redirect_url'])
-            ->withMailNotificationContentType($finish_notification['notification_content_type'])
-            ->withAlwaysSendMailNotification($finish_notification['always_notify']);
+            ->withRedirectionUrl($redirect_after_finish['redirect_url']);
     }
 
     protected function getAdditionalFunctionalitySettingsSections(array $environment): array
@@ -843,5 +691,17 @@ class SettingsMainGUI extends TestSettingsGUI
         }
 
         return $additional_settings->withSkillsServiceEnabled($section['skills_service_activation']);
+    }
+
+    private function buildDateOrNullFromILIASValue(?int $value): ?\DateTimeImmutable
+    {
+        if ($value === null || $value === 0) {
+            return null;
+        }
+
+        return \DateTimeImmutable::createFromFormat(
+            'U',
+            (string) $value
+        )->setTimezone(new \DateTimeZone($this->active_user->getTimeZone()));
     }
 }

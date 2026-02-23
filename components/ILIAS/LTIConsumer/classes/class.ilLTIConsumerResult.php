@@ -49,6 +49,11 @@ class ilLTIConsumerResult
     public ?float $result = null;
 
     /**
+     * @var bool
+     */
+    public bool $attended = false;
+
+    /**
      * Get a result by id
      */
     public static function getById(int $a_id): ?ilLTIConsumerResult
@@ -75,6 +80,9 @@ class ilLTIConsumerResult
     public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false): ?ilLTIConsumerResult
     {
         global $DIC;
+
+        $logger = $DIC->logger()->root();
+        $logger->info('getByKeys: ' . $a_obj_id . ' ' . $a_usr_id);
 
         $query = 'SELECT * FROM lti_consumer_results'
             . ' WHERE obj_id = ' . $DIC->database()->quote($a_obj_id, 'integer')
@@ -106,7 +114,8 @@ class ilLTIConsumerResult
         $this->id = (int) $data['id'];
         $this->obj_id = (int) $data['obj_id'];
         $this->usr_id = (int) $data['usr_id'];
-        $this->result = (float) $data['result'];
+        $this->result = $data['result'] == null ? null : (float) $data['result'];
+        $this->attended = (bool) $data['attended'];
     }
 
     /**
@@ -116,12 +125,21 @@ class ilLTIConsumerResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
+        $logger = $DIC->logger()->root();
+
+        $logger->info('save: ' . $this->obj_id . ' ' . $this->usr_id);
+
         if (!isset($this->usr_id) || !isset($this->obj_id)) {
             return false;
         }
         if (!isset($this->id)) {
             $this->id = $DIC->database()->nextId('lti_consumer_results');
         }
+
+        $logger = $DIC->logger()->root();
+
+        $logger->info('save 2: ' . $this->obj_id . ' ' . $this->usr_id);
+
         $DIC->database()->replace(
             'lti_consumer_results',
             array(
@@ -130,7 +148,8 @@ class ilLTIConsumerResult
             array(
                 'obj_id' => array('integer', $this->obj_id),
                 'usr_id' => array('integer', $this->usr_id),
-                'result' => array('float', $this->result)
+                'result' => array('float', $this->result),
+                'attended' => array('integer', $this->attended)
             )
         );
         return true;
@@ -154,6 +173,16 @@ class ilLTIConsumerResult
     public function getResult(): ?float
     {
         return $this->result;
+    }
+
+    public function isAttended(): bool
+    {
+        return $this->attended;
+    }
+
+    public function setAttended(bool $attended): void
+    {
+        $this->attended = $attended;
     }
 
     /**

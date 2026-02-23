@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 /**
  * Collection of basic placeholder values that can be used
  * @author  Niels Theen <ntheen@databay.de>
@@ -29,10 +31,14 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
 
     public function __construct(
         ilLanguage $language,
+        Profile $profile,
         ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         if (null === $userDefinedFieldPlaceHolderDescriptionObject) {
-            $userDefinedFieldPlaceHolderDescriptionObject = new ilUserDefinedFieldsPlaceholderDescription();
+            $userDefinedFieldPlaceHolderDescriptionObject = new ilUserDefinedFieldsPlaceholderDescription(
+                $language,
+                $profile
+            );
         }
         $userDefinedPlaceholderHtmlDescription = $userDefinedFieldPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 

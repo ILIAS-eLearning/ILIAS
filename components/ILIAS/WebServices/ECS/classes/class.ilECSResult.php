@@ -109,8 +109,9 @@ class ilECSResult
     {
         switch ($result_type) {
             case self::RESULT_TYPE_JSON:
-                if ($result_string) {
-                    $this->result = json_decode($result_string, false, 512, JSON_THROW_ON_ERROR);
+                $payload = trim($result_string);
+                if ($payload !== '') {
+                    $this->result = json_decode($payload, false, 512, JSON_THROW_ON_ERROR);
                 } else {
                     $this->result = [];
                 }

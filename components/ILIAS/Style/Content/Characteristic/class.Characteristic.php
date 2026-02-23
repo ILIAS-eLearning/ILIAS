@@ -26,7 +26,7 @@ namespace ILIAS\Style\Content;
  */
 class Characteristic
 {
-    protected int$style_id;
+    protected int $style_id;
     protected string $type;
     protected string $characteristic;
     protected bool $hide;

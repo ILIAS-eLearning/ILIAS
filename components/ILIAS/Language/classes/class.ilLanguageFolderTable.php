@@ -160,13 +160,14 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         foreach ($this->getItems($range, $order) as $idx => $record) {
             $obj_id = (string) $record['obj_id'];
             $language = $record['name'];
-            if ($record["status"]) {
+            if (array_key_exists('status', $record) and $record['status'] !== '') {
                 $language .= ' (' . $this->lng->txt($record["status"]) . ')';
             }
             $to_language = $this->url_builder
@@ -189,10 +190,10 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
                 if ($this->access->checkAccess('write', '', $this->folder->getId())) {
                     $record['language'] = $record['language']->withDisabled(false);
                 }
-                $record['last_refresh'] = ilDatePresentation::formatDate(new ilDateTime($record["last_update"], IL_CAL_DATETIME));
+                $record['last_refresh'] = ilDatePresentation::formatDate(new ilDateTime($record["last_update"], IL_CAL_DATETIME, 'UTC'));
 
                 $last_change = ilObjLanguage::_getLastLocalChange($record["key"]);
-                $record['last_change'] = ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME));
+                $record['last_change'] = ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME, 'UTC'));
             }
 
             yield $row_builder->buildDataRow($obj_id, $record)
@@ -216,8 +217,11 @@ class ilLanguageFolderTable implements DataTableInterface\DataRetrieval
         );
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return 1;
     }
 }

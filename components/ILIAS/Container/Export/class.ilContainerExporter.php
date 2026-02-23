@@ -110,6 +110,13 @@ class ilContainerExporter extends ilXmlExporter
             "ids" => $a_ids
         ];
 
+        // conditions settings
+        $res[] = [
+            "component" => "components/ILIAS/Conditions",
+            "entity" => "cond",
+            "ids" => $a_ids
+        ];
+
         return $res;
     }
 

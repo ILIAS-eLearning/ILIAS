@@ -34,5 +34,7 @@ class Awareness implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "Awareness.js");
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Awareness\UserSettings\Settings();
     }
 }

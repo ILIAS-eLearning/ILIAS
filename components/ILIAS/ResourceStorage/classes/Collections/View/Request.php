@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\components\ResourceStorage\Collections\View;
 
-use ILIAS\UI\Factory;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
@@ -48,11 +48,11 @@ final class Request
     /**
      * @var string
      */
-    public const P_PAGE = 'page';
+    public const P_PAGE = 'irss_page';
     /**
      * @var string
      */
-    public const P_SORTATION = 'sort';
+    public const P_SORTATION = 'irss_sort';
     /**
      * @var string
      */
@@ -80,14 +80,11 @@ final class Request
     /**
      * @var string
      */
-    public const P_MODE = 'mode';
+    public const P_MODE = 'irss_view_mode';
     private Mode $mode;
     private int $page;
     private string $sortation;
-    private Factory $ui_factory;
-    private array $actions = [];
-    private \ilLanguage $language;
-    private \ILIAS\Refinery\Factory $refinery;
+    private Refinery $refinery;
     private int $items_per_page = 20;
 
     public function __construct(
@@ -199,5 +196,10 @@ final class Request
     public function canUserAdministrate(): bool
     {
         return $this->view_configuration->canUserAdministrate();
+    }
+
+    public function preventDuplicates(): bool
+    {
+        return $this->view_configuration->preventDuplicates();
     }
 }

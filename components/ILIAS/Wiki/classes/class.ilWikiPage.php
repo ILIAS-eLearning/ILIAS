@@ -155,6 +155,7 @@ class ilWikiPage extends ilPageObject
             ", rating" .
             ", hide_adv_md" .
             ", lang" .
+            ", create_date" .
             " ) VALUES (" .
             $ilDB->quote($this->getId(), "integer")
             . "," . $ilDB->quote($this->getTitle(), "text")
@@ -163,6 +164,7 @@ class ilWikiPage extends ilPageObject
             . "," . $ilDB->quote((int) $this->getRating(), "integer")
             . "," . $ilDB->quote((int) $this->isAdvancedMetadataHidden(), "integer")
             . "," . $ilDB->quote($this->getLanguage(), "text")
+            . "," . $ilDB->now()
             . ")";
         $this->wiki_log->debug($query);
         $ilDB->manipulate($query);
@@ -229,7 +231,7 @@ class ilWikiPage extends ilPageObject
     public function update(
         bool $a_validate = true,
         bool $a_no_history = false
-    ) {
+    ): array|bool {
         $ilDB = $this->db;
         $this->wiki_log->debug("start...");
         // update wiki page data
@@ -356,8 +358,10 @@ class ilWikiPage extends ilPageObject
         $set = $ilDB->query($query);
 
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $wiki_page = new ilWikiPage($rec["id"], 0, $rec["lang"]);
-            $wiki_page->delete();
+            if (ilWikiPage::_exists("wpg", $rec["id"], 0, $rec["lang"])) {
+                $wiki_page = new ilWikiPage($rec["id"], 0, $rec["lang"]);
+                $wiki_page->delete();
+            }
         }
     }
 

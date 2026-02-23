@@ -70,7 +70,7 @@ class SettingsGUI
         $lng->loadLanguageModule("rating");
 
         $form = $this->gui
-            ->form(self::class, "save")
+            ->form([self::class], "save")
             ->section("general", $lng->txt("wiki_settings"))
             ->addStdTitleAndDescription($this->obj_id, "wiki")
             ->textarea(

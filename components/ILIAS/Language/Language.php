@@ -51,5 +51,8 @@ class Language implements Component\Component
 
         $internal[\ilLanguage::class] = static fn() =>
             new Language\LanguageLegacyInitialisationAdapter();
+
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Language\UserSettings\Settings();
     }
 }

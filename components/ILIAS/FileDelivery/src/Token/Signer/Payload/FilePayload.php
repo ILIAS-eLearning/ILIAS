@@ -32,12 +32,14 @@ class FilePayload extends StructuredPayload
         private string $disposition,
         private int $user_id = 0
     ) {
+        $modification_time = @filemtime($uri);
         parent::__construct([
             'p' => $uri,
             'm' => $mime_type,
             'n' => $file_name,
             'd' => $disposition,
             'u' => $user_id,
+            'mt' => $modification_time,
         ]);
     }
 
@@ -48,7 +50,8 @@ class FilePayload extends StructuredPayload
             $raw_payload['m'],
             $raw_payload['n'],
             $raw_payload['d'],
-            $raw_payload['u']
+            $raw_payload['u'],
+            $raw_payload['mt'] ?? false
         );
     }
 

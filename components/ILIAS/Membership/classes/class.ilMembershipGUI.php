@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\User\Profile\Profile;
 
 /**
  * Base class for member tab content
@@ -44,6 +45,7 @@ class ilMembershipGUI
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilTree $tree;
+    protected Profile $profile;
     protected array $member_data = [];
 
     public function __construct(ilObjectGUI $repository_gui, ilObject $repository_obj)
@@ -59,6 +61,7 @@ class ilMembershipGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng->loadLanguageModule('trac');
+        $this->lng->loadLanguageModule('mmbr');
         $this->logger = $DIC->logger()->mmbr();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
@@ -70,6 +73,7 @@ class ilMembershipGUI
         $this->tree = $DIC->repositoryTree();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->profile = $DIC['user']->getProfile();
     }
 
     /**
@@ -572,8 +576,13 @@ class ilMembershipGUI
                 $post_roles[$usr_id][] = $adminRoleId;
             }
 
+            if (!isset($post_roles[$usr_id]) || empty($post_roles[$usr_id])) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mmbr_role_error'), true);
+                $this->ctrl->redirect($this, 'participants');
+            }
+
             // Validate the role ids in the post data
-            foreach ((array) $post_roles[$usr_id] as $role_id) {
+            foreach ((array) ($post_roles[$usr_id] ?? []) as $role_id) {
                 if (!array_key_exists($role_id, $assignableLocalRoles)) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_perm'), true);
                     $this->ctrl->redirect($this, 'participants');
@@ -615,7 +624,7 @@ class ilMembershipGUI
         }
 
         foreach ($participants as $usr_id) {
-            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) $post_roles[$usr_id]);
+            $this->getMembersObject()->updateRoleAssignments($usr_id, (array) ($post_roles[$usr_id] ?? []));
 
             // Disable notification for all of them
             $this->getMembersObject()->updateNotification($usr_id, false);
@@ -943,10 +952,15 @@ class ilMembershipGUI
             }
 
             $toolbar->addButton(
-                $this->lng->txt("mail_members"),
+                $this->getMailButtonLabel(),
                 $this->ctrl->getLinkTargetByClass('ilMailMemberSearchGUI', '')
             );
         }
+    }
+
+    protected function getMailButtonLabel(): string
+    {
+        return $this->lng->txt("mail_members");
     }
 
     /**
@@ -1178,7 +1192,6 @@ class ilMembershipGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_subscribers_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        $this->lng->loadLanguageModule('mmbr');
         $c_gui = new ilConfirmationGUI();
         // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "refuseSubscribers"));
@@ -1411,7 +1424,6 @@ class ilMembershipGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
-        $this->lng->loadLanguageModule('mmbr');
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands

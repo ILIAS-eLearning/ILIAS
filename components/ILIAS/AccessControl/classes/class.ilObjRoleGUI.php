@@ -117,8 +117,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 $eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
                 $eo->addOption(ilExportOptions::KEY_ROOT, 0, $this->object->getId(), $this->obj_ref_id);
 
-                $exp = new ilExportGUI($this, new ilObjRole($this->object->getId()));
-                $exp->addFormat('xml');
+                $exp = new ilExportGUI($this, new ilObjRole($this->object->getId()), false);
                 $this->ctrl->forwardCommand($exp);
                 break;
 

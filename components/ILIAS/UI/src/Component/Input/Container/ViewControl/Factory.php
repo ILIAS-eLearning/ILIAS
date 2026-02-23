@@ -40,10 +40,10 @@ interface Factory
      *      values accordingly.
      *      When operating a contained View Control, the location is amended
      *      with parameters of all contained View Controls and reloaded.
-     *      * rules:
      * rules:
      *   usage:
      *     1: The Standard View Control Container MUST be provided with a Request before rendering.
+     *     2: The View Control Container SHOULD not contain more than one View Control of each kind.
      * ---
      * @param array<string,\ILIAS\UI\Component\Input\Container\ViewControl\ViewControl> $controls
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Standard

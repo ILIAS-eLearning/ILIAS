@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
     public function testCreateHtmlDescription(): void
@@ -25,6 +27,10 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
+            ->getMock();
+
+        $profileMock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
             ->getMock();
 
         $templateMock = $this->getMockBuilder(ilTemplate::class)
@@ -44,7 +50,7 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ilDefaultPlaceholderDescription($languageMock, $userDefinePlaceholderMock);
+        $placeholderDescriptionObject = new ilDefaultPlaceholderDescription($languageMock, $profileMock, $userDefinePlaceholderMock);
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
@@ -62,6 +68,10 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->method('txt')
             ->willReturn('Something translated');
 
+        $profileMock = $this->getMockBuilder(Profile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -72,7 +82,7 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $placeholderDescriptionObject = new ilDefaultPlaceholderDescription($languageMock, $userDefinePlaceholderMock);
+        $placeholderDescriptionObject = new ilDefaultPlaceholderDescription($languageMock, $profileMock, $userDefinePlaceholderMock);
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 

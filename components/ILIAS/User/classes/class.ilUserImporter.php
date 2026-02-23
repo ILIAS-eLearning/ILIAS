@@ -68,7 +68,7 @@ class ilUserImporter extends ilXmlImporter
                     $usr_obj->setLookingForHelp();
                 }
 
-                $usr_obj->updateMultiTextFields();
+                $usr_obj->update();
             }
         }
     }

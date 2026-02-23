@@ -24,11 +24,15 @@ namespace ILIAS\Data\Text;
  * This class currently is a stub only. It will need a proper implementation, just
  * like Text\Markdown has.
  */
-class PlainText
+class PlainText implements \Stringable
 {
     public function __construct(
         protected string $plain_text = ""
     ) {
-        $this->plain_text = $plain_text;
+    }
+
+    public function __toString(): string
+    {
+        return $this->plain_text;
     }
 }

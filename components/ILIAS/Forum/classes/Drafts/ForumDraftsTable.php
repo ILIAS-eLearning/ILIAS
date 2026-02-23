@@ -62,8 +62,9 @@ class ForumDraftsTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters,
     ): Generator {
         $records = $this->getRecords($range, $order);
         foreach ($records as $record) {
@@ -133,6 +134,7 @@ class ForumDraftsTable implements DataRetrieval
                 ) . '_' . $this->forum->getId()
             )
             ->withRequest($this->httpRequest)
+            ->withRange(new Range(0, 50))
             ->withActions(
                 [
                     'delete' => $this->ui_factory->table()->action()->multi(
@@ -144,8 +146,11 @@ class ForumDraftsTable implements DataRetrieval
             );
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->initRecords();
 
         return count((array) $this->records);

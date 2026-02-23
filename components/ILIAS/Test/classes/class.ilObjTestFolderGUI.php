@@ -22,7 +22,6 @@ use ILIAS\Test\TestDIC;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Logging\TestLogViewer;
 use ILIAS\Test\Logging\LogTable;
-use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\Component\Input\Container\Form\Form;
@@ -37,8 +36,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
 
     private RequestDataCollector $testrequest;
     private TestLogViewer $log_viewer;
-
-    private GeneralQuestionPropertiesRepository $questionrepository;
 
     private DataFactory $data_factory;
 
@@ -55,7 +52,6 @@ class ilObjTestFolderGUI extends ilObjectGUI
         $local_dic = TestDIC::dic();
         $this->testrequest = $local_dic['request_data_collector'];
         $this->log_viewer = $local_dic['logging.viewer'];
-        $this->questionrepository = $local_dic['question.general_properties.repository'];
 
         $this->type = 'assf';
 
@@ -87,7 +83,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             case 'ilglobalunitconfigurationgui':
-                if (!$this->rbac_system->checkAccess('visible,read', $this->getTestFolder()->getRefId())) {
+                if (!$this->rbac_system->checkAccess('read', $this->getTestFolder()->getRefId())) {
                     $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
                 }
 
@@ -277,7 +273,7 @@ class ilObjTestFolderGUI extends ilObjectGUI
             $this->getLogdataSubtabs();
         }
 
-        if ($this->rbac_system->checkAccess('visible,read', $this->getTestFolder()->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->getTestFolder()->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'showGlobalSettings'),

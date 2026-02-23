@@ -16,6 +16,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - [Page Editor Service](../../components/ILIAS/COPage/Privacy.md)
     - [Notes/Comments Service](../../components/ILIAS/Notes/Privacy.md)
     - [Rating Service](../../components/ILIAS/Rating/Privacy.md)
+    - [Learning Object Metadata](../../../components/ILIAS/MetaData/Privacy.md)
 
 
 ## Configuration

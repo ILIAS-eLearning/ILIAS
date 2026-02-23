@@ -792,9 +792,9 @@ class ilDidacticTemplateSettingsGUI
 
     public function editImport(ilDidacticTemplateSetting $a_settings): void
     {
-        ilDidacticTemplateObjSettings::transferAutoGenerateStatus($a_settings->getId(), $a_settings->getId());
-        $assignments = ilDidacticTemplateObjSettings::getAssignmentsByTemplateID($a_settings->getId());
-        $a_settings->delete();
+        ilDidacticTemplateObjSettings::transferAutoGenerateStatus($this->setting->getId(), $a_settings->getId());
+        $assignments = ilDidacticTemplateObjSettings::getAssignmentsByTemplateID($this->setting->getId());
+        $this->setting->delete();
         foreach ($assignments as $obj) {
             ilDidacticTemplateObjSettings::assignTemplate($obj["ref_id"], $obj["obj_id"], $a_settings->getId());
         }

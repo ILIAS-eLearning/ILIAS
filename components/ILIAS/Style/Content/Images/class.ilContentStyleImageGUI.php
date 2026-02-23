@@ -141,7 +141,7 @@ class ilContentStyleImageGUI
 
     protected function getImageForm(): FormAdapterGUI
     {
-        $form = $this->gui->form(self::class, "uploadImage")
+        $form = $this->gui->form([self::class], "uploadImage")
                           ->section("image_section", $this->lng->txt("sty_add_image"))
                           ->file(
                               "image",

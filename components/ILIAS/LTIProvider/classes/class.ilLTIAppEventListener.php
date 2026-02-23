@@ -21,18 +21,19 @@ declare(strict_types=1);
 use ceLTIc\LTI\Enum\ServiceAction;
 use ceLTIc\LTI\Outcome;
 use ceLTIc\LTI\ResourceLink;
+use ceLTIc\LTI\Tool;
 use ceLTIc\LTI\UserResult;
 
 /**
  * Class ilLTIAppEventListener
  */
-class ilLTIAppEventListener implements \ilAppEventListener
+class ilLTIAppEventListener
 {
-    private static ?\ilLTIAppEventListener $instance = null;
+    private static ?ilLTIAppEventListener $instance = null;
 
-    private ?\ilLogger $logger = null;
+    private ?ilLogger $logger = null;
 
-    private ?\ilLTIDataConnector $connector = null;
+    private ?ilLTIDataConnector $connector = null;
 
 
     /**
@@ -41,14 +42,13 @@ class ilLTIAppEventListener implements \ilAppEventListener
     protected function __construct()
     {
         global $DIC;
-
-        $this->logger = ilLoggerFactory::getLogger('ltis');
+        $this->logger = $DIC->logger()->root();
         $this->connector = new ilLTIDataConnector();
     }
 
-    protected static function getInstance(): \ilLTIAppEventListener
+    protected static function getInstance(): ilLTIAppEventListener
     {
-        if (!self::$instance instanceof \ilLTIAppEventListener) {
+        if (!self::$instance instanceof ilLTIAppEventListener) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -80,7 +80,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
             );
 
             $this->logger->debug('Resources for update:');
-            $this->logger->dump($resources, ilLogLevel::DEBUG);
+            $this->logger->debug("resources: " . json_encode($resources));
 
             foreach ($resources as $resource) {
                 $this->tryOutcomeService((int) $resource, $ext_account, $a_status, $a_percentage);
@@ -95,7 +95,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
      */
     protected function doCronUpdate(ilDateTime $since): void
     {
-        $this->logger->debug('Starting cron update for lti outcome service');
+        $this->logger->info('Starting cron update for lti outcome service');
 
         $resources = $this->connector->lookupResourcesForAllUsersSinceDate($since);
         foreach ($resources as $consumer_ext_account => $user_resources) {
@@ -108,8 +108,8 @@ class ilLTIAppEventListener implements \ilAppEventListener
             }
             $usr_id = ilObjUser::_lookupId($login);
             foreach ($user_resources as $resource_info) {
-                $this->logger->debug('Found resource: ' . $resource_info);
                 list($resource_id, $resource_ref_id) = explode('__', $resource_info);
+                $this->logger->info('Found resource: ' . $resource_info . " for user: " . $usr_id . " resource_id: " . $resource_id . " resource_ref_id: " . $resource_ref_id);
 
                 // lookup lp status
                 $status = ilLPStatus::_lookupStatus(
@@ -120,9 +120,29 @@ class ilLTIAppEventListener implements \ilAppEventListener
                     ilObject::_lookupObjId((int) $resource_ref_id),
                     $usr_id
                 );
+                $percentage = $this->definePercentageByObjectId($status, $resource_ref_id, $percentage);
                 $this->tryOutcomeService((int) $resource_id, $ext_account, $status, $percentage);
             }
         }
+    }
+
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilDatabaseException
+     */
+    protected function definePercentageByObjectId(int|null $status, string $obj_id, int|null $percentage): int
+    {
+        global $DIC;
+        $logger = $DIC->logger()->root();
+        $logger->debug('definePercentageByObjectId');
+        $indentifier = ilObjectFactory::getInstanceByRefId((int) $obj_id)->getType();
+        $logger->info('Object type: ' . $indentifier . " for object id: " . $obj_id);
+        if (in_array($indentifier, ['crs', 'grp'])) {
+            if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM || $status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+                $percentage = 100;
+            }
+        }
+        return $percentage;
     }
 
     protected function isLTIAuthMode(string $auth_mode): bool
@@ -138,45 +158,68 @@ class ilLTIAppEventListener implements \ilAppEventListener
     {
         $resource_link = ResourceLink::fromRecordId($resource, $this->connector);
         if (!$resource_link->hasOutcomesService()) {
-            $this->logger->debug('No outcome service available for resource id: ' . $resource);
+            $this->logger->info('No outcome service available for resource id: ' . $resource);
             return;
         }
-        $this->logger->debug('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
+        $this->logger->info('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
         $user = UserResult::fromResourceLink($resource_link, $ext_account);
 
-        if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-            $score = 1;
-        } elseif (
-            $a_status == ilLPStatus::LP_STATUS_FAILED_NUM ||
-            $a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
-        ) {
-            $score = 0;
-        } elseif (!$a_percentage) {
+        if (!$a_percentage && $a_status != ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM) {
             $score = 0;
         } else {
-            $score = (int) round($a_percentage / 100);
+            if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM || $a_status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+                $score = $a_percentage / 100;
+            } elseif (
+                $a_status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
+            ) {
+                $score = null;
+            } else {
+                $score = 0;
+            }
         }
+        $platform = $resource_link->getPlatform();
 
-        $this->logger->debug('Sending score: ' . (string) $score);
+        $platform->accessTokenUrl = $platform->accessTokenUrl
+            ?: $platform->getSetting('custom_oauth2_access_token_url')
+                ?: \ilObjLTIConsumer::getAccessTokenUrl();
+
+        $priv = \ilObjLTIConsumer::getPrivateKey();
+
+        $tool = new Tool();
+        $tool->rsaKey = $priv['key'];
+        $tool->kid = $priv['kid'];
+        $tool->jku = \ilObjLTIConsumer::getPublicKeysetUrl();
+        $tool->requiredScopes = [
+            "https://purl.imsglobal.org/spec/lti-ags/scope/score",
+            "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+        ];
+        $tool->signatureMethod = $platform->signatureMethod;
+
+        Tool::$defaultTool = $tool;
+        $tool->platform = $platform;
 
         $outcome = new Outcome((string) $score);
 
-        $resource_link->doOutcomesService(
+        $status = $resource_link->doOutcomesService(
             ServiceAction::Write,
             $outcome,
             $user
         );
+        $this->logger->info('Outcome service request status: ' . $status);
     }
 
 
     /**
-     * @inheritdoc
+     * Handle an event in a listener.
+     * @param	string $a_component component, e.g. "components/ILIAS/Forum" or "components/ILIAS/User"
+     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param	array<string, mixed> $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        $logger = ilLoggerFactory::getLogger('ltis');
-        $logger->debug('Handling event: ' . $a_event . ' from ' . $a_component);
-
+        global $DIC;
+        $logger = $DIC->logger()->root();
+        $logger->info('Handling event: ' . $a_event . ' from ' . $a_component);
         if ($a_component == 'components/ILIAS/Tracking') {
             if ($a_event == 'updateStatus') {
                 $listener = self::getInstance();

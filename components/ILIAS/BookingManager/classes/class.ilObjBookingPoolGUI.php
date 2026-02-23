@@ -21,10 +21,11 @@ use ILIAS\BookingManager\InternalGUIService;
 use ILIAS\BookingManager\InternalDomainService;
 use ILIAS\BookingManager\StandardGUIRequest;
 use ILIAS\BookingManager\InternalService;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI
- * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ILIAS\User\Profile\PublicProfileGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingParticipantGUI, ilBookingReservationsGUI, ilBookingPreferencesGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ILIAS\BookingManager\Settings\SettingsGUI
@@ -167,10 +168,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($schedule_gui);
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case strtolower(PublicProfileGUI::class):
                 $this->checkPermission('read');
                 $ilTabs->clearTargets();
-                $profile = new ilPublicUserProfileGUI($this->profile_user_id);
+                $profile = new PublicProfileGUI($this->profile_user_id);
                 $profile->setBackUrl($this->ctrl->getLinkTargetByClass("ilbookingreservationsgui", ''));
                 $ret = $this->ctrl->forwardCommand($profile);
                 $tpl->setContent($ret);
@@ -351,7 +352,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $limit = new ilNumberInputGUI($this->lng->txt("book_overall_limit"), "limit");
         $limit->setSize(4);
         $limit->setMinValue(1);
-        $limit->setSuffix($this->lng->txt("book_bookings_per_user"));
+        $limit->setInfo($this->lng->txt("book_total_individual_bookings_limit"));
         $none->addSubItem($limit);
 
         // no schedule, using preferences
@@ -594,7 +595,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         $user_id = $this->profile_user_id;
 
-        $profile = new ilPublicUserProfileGUI($user_id);
+        $profile = new PublicProfileGUI($user_id);
         $profile->setBackUrl($this->ctrl->getLinkTarget($this, 'log'));
         $tpl->setContent($ilCtrl->getHTML($profile));
     }

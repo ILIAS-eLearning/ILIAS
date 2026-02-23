@@ -220,6 +220,7 @@ class Harvester
 
         $source_ref_id = $this->settings->getContainerRefIDForExposing();
         if (!$source_ref_id) {
+            $this->cleanUpDeletedRecords();
             return 0;
         }
 
@@ -231,8 +232,11 @@ class Harvester
             $ref_id = $this->object_handler->getObjectReferenceIDInContainer($obj_id, $source_ref_id);
 
             if (!in_array($obj_id, $harvestable_obj_ids) || is_null($ref_id)) {
-                $this->logDebug('Deleting exposed record for object with obj_id: ' . $obj_id);
-                $this->exposed_record_repository->deleteRecord($obj_id);
+                if ($record->infos()->isDeleted()) {
+                    continue;
+                }
+                $this->logDebug('Updating delete status of exposed record for object with obj_id: ' . $obj_id);
+                $this->exposed_record_repository->updateRecord($obj_id, true, null);
                 $count++;
                 continue;
             }
@@ -243,9 +247,12 @@ class Harvester
                 $this->object_handler->getTypeOfReferencedObject($ref_id)
             );
 
-            if ($simple_dc_xml->saveXML() !== $record->metadata()->saveXML()) {
+            if (
+                $record->infos()->isDeleted() ||
+                $simple_dc_xml->saveXML() !== $record->metadata()->saveXML()
+            ) {
                 $this->logDebug('Updating exposed record for object with obj_id: ' . $obj_id);
-                $this->exposed_record_repository->updateRecord($obj_id, $simple_dc_xml);
+                $this->exposed_record_repository->updateRecord($obj_id, false, $simple_dc_xml);
                 $count++;
             }
         }
@@ -277,7 +284,16 @@ class Harvester
             $count++;
         }
 
+        $this->cleanUpDeletedRecords();
+
         return $count;
+    }
+
+    protected function cleanUpDeletedRecords(): void
+    {
+        $this->exposed_record_repository->deleteRecordsMarkedAsDeletedOlderThan(
+            new \DateInterval('P30D')
+        );
     }
 
     protected function logDebug(string $message): void

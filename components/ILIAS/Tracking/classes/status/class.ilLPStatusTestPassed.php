@@ -19,6 +19,7 @@
 declare(strict_types=0);
 
 use ILIAS\Test\Results\Data\Repository;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\TestDIC;
 
 /**
@@ -71,9 +72,27 @@ class ilLPStatusTestPassed extends ilLPStatus
 
     public static function _getStatusInfo(int $a_obj_id): array
     {
-        /** @var Repository $test_result_repository */
-        $test_result_repository = TestDIC::dic()['results.data.repository'];
-        $status_info['results'] = $test_result_repository->getPassedParticipants($a_obj_id);
+        /** @var ParticipantRepository $participant_repository */
+        $participant_repository = TestDIC::dic()['participant.repository'];
+        $test_id = ilObjTestAccess::_getTestIDFromObjectID($a_obj_id);
+
+        $lp_status = new self($a_obj_id);
+        $results = [];
+
+        foreach ($participant_repository->getParticipants($test_id) as $participant) {
+            $user_id = $participant->getUserId();
+            $status = $lp_status->determineStatus($a_obj_id, $user_id);
+
+            $results[] = [
+                'user_id' => $user_id,
+                'passed' => ($status === self::LP_STATUS_COMPLETED_NUM),
+                'failed' => ($status === self::LP_STATUS_FAILED_NUM),
+                'in_progress' => ($status === self::LP_STATUS_IN_PROGRESS_NUM),
+                'not_attempted' => ($status === self::LP_STATUS_NOT_ATTEMPTED_NUM)
+            ];
+        }
+
+        $status_info['results'] = $results;
         return $status_info;
     }
 
@@ -94,7 +113,7 @@ class ilLPStatusTestPassed extends ilLPStatus
                 "sequences"
             ) . ", tst_active.last_finished_pass,
 				CASE WHEN
-					(tst_tests.nr_of_tries - 1) = tst_active.last_finished_pass
+					(tst_test_settings.nr_of_tries - 1) = tst_active.last_finished_pass
 				THEN '1'
 				ELSE '0'
 				END is_last_pass
@@ -103,6 +122,8 @@ class ilLPStatusTestPassed extends ilLPStatus
 			ON tst_sequence.active_fi = tst_active.active_id
 			LEFT JOIN tst_tests
 			ON tst_tests.test_id = tst_active.test_fi
+			LEFT JOIN tst_test_settings
+			ON tst_test_settings.id = tst_tests.settings_id
 			WHERE tst_active.user_fi = {$this->db->quote($a_usr_id, "integer")}
 			AND tst_active.test_fi = {$this->db->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), ilDBConstants::T_INTEGER)}
 			GROUP BY tst_active.active_id, tst_active.tries, is_last_pass

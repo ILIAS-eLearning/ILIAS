@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;

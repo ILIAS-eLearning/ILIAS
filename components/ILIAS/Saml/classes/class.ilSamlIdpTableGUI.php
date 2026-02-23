@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
+final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval, ilSamlCommands
 {
     /** @var list<ilSamlIdp> */
     private array $idps;
@@ -64,8 +64,9 @@ final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\Data
                 $this->lng->txt('auth_saml_idps'),
                 $this->getColumnDefinition(),
             )
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withOrder(new \ILIAS\Data\Order('title', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 100))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }
@@ -117,22 +118,22 @@ final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\Data
         return [
             'edit' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('edit'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'showIdpSettings'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_SHOW_IDP_SETTINGS),
                 $this->row_id_token
             ),
             'activate' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('activate'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'activateIdp'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_ACTIVATE_IDP),
                 $this->row_id_token
             ),
             'deactivate' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('deactivate'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'deactivateIdp'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_DEACTIVATE_IDP),
                 $this->row_id_token
             ),
             'delete' => $this->ui_factory->table()->action()->single(
                 $this->lng->txt('delete'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'confirmDeleteIdp'),
+                $this->url_builder->withParameter($this->action_parameter_token, self::TABLE_ACTION_CONFIRM_DELETE_IDP),
                 $this->row_id_token
             )
         ];
@@ -171,8 +172,9 @@ final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\Data
         array $visible_column_ids,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         foreach ($this->getRecords($range, $order) as $item) {
             yield $row_builder
@@ -191,8 +193,11 @@ final readonly class ilSamlIdpTableGUI implements \ILIAS\UI\Component\Table\Data
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count($this->idps);
     }
 }

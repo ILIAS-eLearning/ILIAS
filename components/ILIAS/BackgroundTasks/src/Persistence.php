@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,6 +22,7 @@
  * Date: 05.05.17
  * Time: 10:14
  */
+
 namespace ILIAS\BackgroundTasks;
 
 interface Persistence

@@ -112,7 +112,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
-        $form->setFormAction($this->ctrl->getFormAction($certificateGUI));
+        $form->setFormAction($this->ctrl->getFormAction($certificateGUI, 'certificateEditor'));
         $form->setTitle($this->language->txt('cert_form_sec_availability'));
         $form->setMultipart(true);
         $form->setTableWidth('100%');
@@ -196,7 +196,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $bgimage->setAllowDeletion(true);
         $bg_image_rid = $certificateTemplate->getBackgroundImageIdentification();
-        $bg_image_path = $certificateTemplate->getBackgroundImagePath();
         if (
             (
                 $this->global_certificate_settings->getBackgroundImageIdentification() instanceof ResourceIdentification &&
@@ -222,12 +221,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 /** @var string $url */
                 $bgimage->setImage($url);
             }
-        } elseif ($bg_image_path !== '' && $this->filesystem->has($bg_image_path)) {
-            $bgimage->setImage(
-                ilWACSignedPath::signFile(
-                    ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $bg_image_path
-                )
-            );
         }
 
         $form->addItem($bgimage);
@@ -243,20 +236,12 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $allow_tile_image_deletion = false;
 
         $tile_image_identification = $certificateTemplate->getTileImageIdentification();
-        $old_tile_image_path = $certificateTemplate->getTileImagePath();
         if ('' !== $tile_image_identification) {
             $identification = $this->irss->manage()->find($tile_image_identification);
             if ($identification instanceof ResourceIdentification) {
                 $tile_image->setImage($this->irss->consume()->src($identification)->getSrc(true));
                 $allow_tile_image_deletion = true;
             }
-        } elseif ($old_tile_image_path !== '' && $this->filesystem->has($old_tile_image_path)) {
-            $tile_image->setImage(
-                ilWACSignedPath::signFile(
-                    ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $old_tile_image_path
-                )
-            );
-            $allow_tile_image_deletion = true;
         }
 
         $tile_image->setAllowDeletion($allow_tile_image_deletion);

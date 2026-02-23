@@ -39,7 +39,7 @@ class ByTrying implements Transformation
      */
     public function __construct(
         private array $transformations,
-        private  Data\Factory $data_factory,
+        private Data\Factory $data_factory,
         // $lng should not be null, however, there are circular dependencies.
         // see ILIAS\Cache\Container\ActiveContainer::buildFinalTransformation
         protected ?Language\Language $lng = null

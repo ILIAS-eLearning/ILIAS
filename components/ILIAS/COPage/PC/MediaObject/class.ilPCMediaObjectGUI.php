@@ -140,7 +140,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -1447,7 +1447,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $lng = $DIC->language();
 
         return array(
-            "MediaContainer" => $lng->txt("cont_Media"),
+            "MediaContainer" => $lng->txt("cont_char_media"),
             "MediaContainerMax50" => "MediaContainerMax50",
             "MediaContainerFull100" => "MediaContainerFull100",
             "MediaContainerHighlighted" => "MediaContainerHighlighted",

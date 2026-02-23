@@ -21,21 +21,16 @@ declare(strict_types=1);
 namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\BaseMetaBarItemRenderer;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 use Closure;
-use ILIAS\GlobalScreen\Scope\isDecorateable;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
 abstract class AbstractBaseItem implements
-    isItem,
-    isDecorateable
+    isItem
 {
-    use ComponentDecoratorTrait;
-
     protected MetaBarItemRenderer $renderer;
     protected int $position = 0;
     protected ?Closure $available_callable = null;

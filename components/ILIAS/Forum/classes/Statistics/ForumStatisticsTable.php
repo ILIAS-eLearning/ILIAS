@@ -83,9 +83,10 @@ class ForumStatisticsTable implements DataRetrieval
             ->data(
                 $this,
                 $this->lng->txt('frm_moderators'),
-                $this->getColumns(),
+                $this->getColumns()
             )
-            ->withId(self::class . '_' . $this->forum->getId())
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->forum->getId())
+            ->withRange(new Range(0, 50))
             ->withRequest($this->request);
     }
 
@@ -177,7 +178,7 @@ class ForumStatisticsTable implements DataRetrieval
      */
     private function limitRecords(array $records, Range $range): array
     {
-        return array_slice($records, $range->getStart(), $range->getLength());
+        return \array_slice($records, $range->getStart(), $range->getLength());
     }
 
     public function getRows(
@@ -185,8 +186,9 @@ class ForumStatisticsTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters,
     ): \Generator {
         $records = $this->getRecords($range, $order);
         foreach ($records as $record) {
@@ -195,11 +197,14 @@ class ForumStatisticsTable implements DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->initRecords();
 
-        return count($this->records);
+        return \count($this->records);
     }
 
     private function getProgressStatus(int $user_id): string
@@ -209,13 +214,13 @@ class ForumStatisticsTable implements DataRetrieval
             $this->has_general_lp_access &&
             ($this->has_rbac_or_position_access || $this->actor->getId() === $user_id)) {
             $icon = match (true) {
-                in_array($user_id, $this->completed, false) => $this->icons->renderIconForStatus(
+                \in_array($user_id, $this->completed, false) => $this->icons->renderIconForStatus(
                     ilLPStatus::LP_STATUS_COMPLETED_NUM
                 ),
-                in_array($user_id, $this->in_progress, false) => $this->icons->renderIconForStatus(
+                \in_array($user_id, $this->in_progress, false) => $this->icons->renderIconForStatus(
                     ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
                 ),
-                in_array($user_id, $this->failed, false) => $this->icons->renderIconForStatus(
+                \in_array($user_id, $this->failed, false) => $this->icons->renderIconForStatus(
                     ilLPStatus::LP_STATUS_FAILED_NUM
                 ),
                 default => $this->icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM),

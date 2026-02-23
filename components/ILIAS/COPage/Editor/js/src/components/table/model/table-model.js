@@ -12,31 +12,31 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * Controller (handles editor initialisation process)
  */
 export default class TableModel {
+  // debug = true;
 
-  //debug = true;
-
-  //currentRow = null;
-  //currentCol = null;
+  // currentRow = null;
+  // currentCol = null;
 
   constructor(pageModel) {
-    console.log("TABLE MODEL CONSTRUCTUR");
-    console.log(pageModel);
+    this.debug = false;
+    this.log('TABLE MODEL CONSTRUCTUR');
+    this.log(pageModel);
     this.pageModel = pageModel;
-    this.STATE_DATA = "data";          // data editing
-    this.STATE_TABLE = "table";        // table properties editing
-    this.STATE_CELLS = "cells";        // cells properties editing
-    this.STATE_MERGE = "merge";        // merge/split cells
+    this.STATE_DATA = 'data'; // data editing
+    this.STATE_TABLE = 'table'; // table properties editing
+    this.STATE_CELLS = 'cells'; // cells properties editing
+    this.STATE_MERGE = 'merge'; // merge/split cells
     this.states = [
       this.STATE_DATA,
       this.STATE_TABLE,
       this.STATE_CELLS,
-      this.STATE_MERGE
+      this.STATE_MERGE,
     ];
 
     this.state = this.STATE_TABLE;
@@ -44,9 +44,8 @@ export default class TableModel {
       top: -1,
       left: -1,
       bottom: -1,
-      right: -1
-    },
-    this.debug = true;
+      right: -1,
+    };
     this.currentRow = null;
     this.currentCol = null;
   }
@@ -62,7 +61,7 @@ export default class TableModel {
    */
   setState(state) {
     if (this.states.includes(state)) {
-      this.log("table-model.setState " + state);
+      this.log(`table-model.setState ${state}`);
       this.state = state;
     }
   }
@@ -73,7 +72,6 @@ export default class TableModel {
   getState() {
     return this.state;
   }
-
 
   /**
    *
@@ -108,7 +106,7 @@ export default class TableModel {
       top: parseInt(row),
       left: parseInt(col),
       bottom: parseInt(row),
-      right: parseInt(col)
+      right: parseInt(col),
     }, expand);
   }
 
@@ -120,7 +118,7 @@ export default class TableModel {
       top: row,
       left: 0,
       bottom: row,
-      right: this.getNrOfCols() - 1
+      right: this.getNrOfCols() - 1,
     }, expand);
   }
 
@@ -132,7 +130,7 @@ export default class TableModel {
       top: 0,
       left: col,
       bottom: this.getNrOfRows() - 1,
-      right: col
+      right: col,
     }, expand);
   }
 
@@ -144,7 +142,7 @@ export default class TableModel {
       top: 0,
       left: 0,
       bottom: this.getNrOfRows() - 1,
-      right: this.getNrOfCols() - 1
+      right: this.getNrOfCols() - 1,
     }, expand);
   }
 
@@ -166,7 +164,7 @@ export default class TableModel {
         top: Math.min(this.selected.top, selection.top),
         left: Math.min(this.selected.left, selection.left),
         bottom: Math.max(this.selected.bottom, selection.bottom),
-        right: Math.max(this.selected.right, selection.right)
+        right: Math.max(this.selected.right, selection.right),
       };
     }
   }
@@ -176,8 +174,8 @@ export default class TableModel {
       top: -1,
       left: -1,
       bottom: -1,
-      right: -1
-    }
+      right: -1,
+    };
   }
 
   /**
@@ -185,10 +183,10 @@ export default class TableModel {
    * @return {boolean}
    */
   hasSelected() {
-    return (this.selected.top  > -1 &&
-      this.selected.bottom  > -1 &&
-      this.selected.left  > -1 &&
-      this.selected.right  > -1
+    return (this.selected.top > -1
+      && this.selected.bottom > -1
+      && this.selected.left > -1
+      && this.selected.right > -1
     );
   }
 
@@ -209,5 +207,4 @@ export default class TableModel {
     const pcModel = this.pageModel.getPCModel(this.pageModel.getCurrentPCId());
     return pcModel.content[1].length;
   }
-
 }

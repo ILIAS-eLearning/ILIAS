@@ -33,6 +33,8 @@ class Chatroom implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $contribute[\ILIAS\Setup\Agent::class] = static fn() => new \ilChatroomSetupAgent($pull[\ILIAS\Refinery\Factory::class]);
+        $contribute[User\Settings\UserSettings::class] = fn() =>
+            new Chatroom\UserSettings\Settings();
 
         $files = [
             '../chat/node_modules/socket.io-client/dist/socket.io.min.js',

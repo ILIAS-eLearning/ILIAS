@@ -25,7 +25,7 @@ use ILIAS\ILIASObject\Properties\Translations\Translations;
  * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI, ilCommentGUI
+ * @ilCtrl_Calls ilWikiPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilPageObjectGUI, ilNoteGUI, ilCommentGUI
  * @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
  * @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI, ilPropertyFormGUI
  */
@@ -1352,7 +1352,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
     protected function getTranslatePageFormAdapter(): \ILIAS\Repository\Form\FormAdapterGUI
     {
-        $f = $this->wiki_gui->form(self::class, "createPageTranslation")
+        $f = $this->wiki_gui->form([self::class], "createPageTranslation")
             ->text("title", $this->lng->txt("title"));
         //->required();
         return $f;

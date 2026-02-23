@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\User\Profile\ChangeListeners;
 
+use ILIAS\User\PropertyAttributes;
+
 /**
  * Class ChangedUserFieldAttribute
  * @author  Marvin Beym <mbeym@databay.de>
@@ -27,23 +29,23 @@ namespace ILIAS\User\Profile\ChangeListeners;
 class ChangedUserFieldAttribute
 {
     public function __construct(
-        private readonly string $attribute_name,
-        private readonly string $old_value,
-        private readonly string $new_value
+        private readonly PropertyAttributes $attribute_name,
+        private readonly bool $old_value,
+        private readonly bool $new_value
     ) {
     }
 
-    public function getAttributeName(): string
+    public function getAttribute(): PropertyAttributes
     {
         return $this->attribute_name;
     }
 
-    public function getOldValue(): string
+    public function getOldValue(): bool
     {
         return $this->old_value;
     }
 
-    public function getNewValue(): string
+    public function getNewValue(): bool
     {
         return $this->new_value;
     }

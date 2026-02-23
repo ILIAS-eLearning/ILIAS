@@ -27,6 +27,7 @@ use ILIAS\UI\Component\Input\Field as I;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\Language\Language;
+use ILIAS\Data\ImagePurpose;
 
 class Factory implements I\Factory
 {
@@ -52,21 +53,25 @@ class Factory implements I\Factory
 
     public function group(array $inputs, string $label = '', ?string $byline = null): Group
     {
+        $this->lng->loadLanguageModule('ui');
         return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     public function optionalGroup(array $inputs, string $label, ?string $byline = null): OptionalGroup
     {
+        $this->lng->loadLanguageModule('ui');
         return new OptionalGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     public function switchableGroup(array $inputs, string $label, ?string $byline = null): SwitchableGroup
     {
+        $this->lng->loadLanguageModule('ui');
         return new SwitchableGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     public function section(array $inputs, string $label, ?string $byline = null): Section
     {
+        $this->lng->loadLanguageModule('ui');
         return new Section($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
@@ -112,6 +117,7 @@ class Factory implements I\Factory
 
     public function duration(string $label, ?string $byline = null): Duration
     {
+        $this->lng->loadLanguageModule('ui');
         return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
 
@@ -121,6 +127,7 @@ class Factory implements I\Factory
         ?string $byline = null,
         ?FormInput $metadata_input = null
     ): File {
+        $this->lng->loadLanguageModule('ui');
         return new File(
             $this->lng,
             $this->data_factory,
@@ -134,6 +141,28 @@ class Factory implements I\Factory
         );
     }
 
+    public function image(
+        UploadHandler $upload_handler,
+        ImagePurpose $image_purpose,
+        string $label,
+        ?string $byline = null,
+        ?FormInput $metadata_input = null
+    ): Image {
+        $this->lng->loadLanguageModule('ui');
+        return new Image(
+            $this->lng,
+            $this->data_factory,
+            $this,
+            $this->refinery,
+            $this->upload_limit_resolver,
+            $upload_handler,
+            $image_purpose,
+            $label,
+            $metadata_input,
+            $byline,
+        );
+    }
+
     public function url(string $label, ?string $byline = null): Url
     {
         return new Url($this->data_factory, $this->refinery, $label, $byline);
@@ -141,6 +170,7 @@ class Factory implements I\Factory
 
     public function link(string $label, ?string $byline = null): Link
     {
+        $this->lng->loadLanguageModule('ui');
         return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
 
@@ -169,6 +199,7 @@ class Factory implements I\Factory
         string $label,
         ?string $byline = null
     ): TreeSelect {
+        $this->lng->loadLanguageModule('ui');
         return new TreeSelect(
             $this->lng,
             $this->data_factory,
@@ -185,6 +216,7 @@ class Factory implements I\Factory
         string $label,
         ?string $byline = null,
     ): TreeMultiSelect {
+        $this->lng->loadLanguageModule('ui');
         return new TreeMultiSelect(
             $this->lng,
             $this->data_factory,

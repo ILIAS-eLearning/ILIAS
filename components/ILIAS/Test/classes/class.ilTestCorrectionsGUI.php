@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\Test\Scoring\Manual\TestScoring;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Logging\TestQuestionAdministrationInteractionTypes;
@@ -51,6 +52,7 @@ class ilTestCorrectionsGUI
         private readonly RequestDataCollector $testrequest,
         private readonly ilObjTest $test_obj,
         private readonly ilObjUser $scorer,
+        private readonly TestResultRepository $test_result_repository,
     ) {
         $question_id = $this->testrequest->getQuestionId();
         if ($question_id !== 0) {
@@ -61,7 +63,8 @@ class ilTestCorrectionsGUI
 
     public function executeCommand()
     {
-        if (!$this->test_access->checkCorrectionsAccess()
+        if (!$this->test_obj->getGlobalSettings()->isAdjustingQuestionsWithResultsAllowed()
+            || !$this->test_access->checkCorrectionsAccess()
             || $this->question_gui !== null
                 && !$this->checkQuestion()) {
             ilObjTestGUI::accessViolationRedirect();
@@ -101,7 +104,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setQuestionId($question_gui->getObject()->getId());
 
@@ -122,7 +125,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setQuestionId($this->question_gui->getObject()->getId());
 
@@ -167,7 +170,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setPreserveManualScores(false);
         $scoring->setQuestionId($question_gui->getObject()->getId());
@@ -296,7 +299,7 @@ class ilTestCorrectionsGUI
             $this->test_obj,
             $this->scorer,
             $this->database,
-            $this->language
+            $this->test_result_repository
         );
         $scoring->setPreserveManualScores(true);
         $scoring->setQuestionId($question_index);

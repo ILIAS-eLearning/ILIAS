@@ -17,10 +17,13 @@
 
 import { beforeEach, describe, it } from 'node:test';
 import { strict } from 'node:assert/strict';
-import TreeMultiSelect from '../../../../resources/js/Input/Field/src/TreeSelect/TreeMultiSelect.js';
+import TreeSelect from '../../../../resources/js/Input/Field/src/TreeSelect/TreeSelect.js';
+import unselectChildNodes
+  from '../../../../resources/js/Input/Field/src/TreeSelect/unselectChildNodes.js';
+import updateMultiSelectButtonStates
+  from '../../../../resources/js/Input/Field/src/TreeSelect/updateMultiSelectButtonStates.js';
 
-describe('TreeMultiSelect', function () {
-
+describe('TreeMultiSelect', () => {
   let jQueryEventListenerMock;
   let templateRendererMock;
   let asyncRendererMock;
@@ -29,7 +32,7 @@ describe('TreeMultiSelect', function () {
   let basicElementMock;
   let elementWithClassListMock;
 
-  beforeEach(function () {
+  beforeEach(() => {
     jQueryEventListenerMock = {
       on: () => {},
     };
@@ -45,6 +48,8 @@ describe('TreeMultiSelect', function () {
     drilldownMock = {
       getBackSignal: () => '',
       addEngageListener: () => {},
+      getCurrentLevel: () => '0',
+      getParentLevel: () => null,
     };
     basicElementMock = {
       remove: () => {},
@@ -52,7 +57,7 @@ describe('TreeMultiSelect', function () {
       querySelectorAll: () => [],
       querySelector() {
         return this;
-      }
+      },
     };
     elementWithClassListMock = {
       toggle: () => {},
@@ -60,11 +65,11 @@ describe('TreeMultiSelect', function () {
       add: () => {},
       get classList() {
         return this;
-      }
+      },
     };
   });
 
-  it('updates select button states and selection (cannot select child nodes)', function () {
+  it('updates select button states and selection (cannot select child nodes)', () => {
     const parentBranchNode = {
       id: 'node-id-1',
       name: 'node name 1',
@@ -111,7 +116,7 @@ describe('TreeMultiSelect', function () {
     nodeMapMock.set(parentBranchNode.id, parentBranchNode);
     nodeMapMock.set(childLeafNode.id, childLeafNode);
 
-    const component = new TreeMultiSelect(
+    const component = new TreeSelect(
       nodeMapMock,
       jQueryEventListenerMock,
       templateRendererMock,
@@ -125,13 +130,12 @@ describe('TreeMultiSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
-      false,
+      (treeSelectComponent) => {
+        unselectChildNodes(treeSelectComponent);
+        updateMultiSelectButtonStates(treeSelectComponent);
+      },
     );
 
-    // ensure nothing happens if nothing changes
-    strict.equal(parentBranchNode.selectButton.disabled, false);
-    strict.equal(childLeafNode.selectButton.disabled, false);
-    component.updateNodeSelectButtonStates();
     strict.equal(parentBranchNode.selectButton.disabled, false);
     strict.equal(childLeafNode.selectButton.disabled, false);
     // ensure child nodes are disabled
@@ -145,12 +149,12 @@ describe('TreeMultiSelect', function () {
     strict.equal(childLeafNode.selectButton.disabled, false);
     // ensure child nodes are unselected and disabled
     component.selectNode(parentBranchNode.id);
-    strict.equal(component.getSelection().has(childLeafNode.id), false)
+    strict.equal(component.getSelection().has(childLeafNode.id), false);
     strict.equal(parentBranchNode.selectButton.disabled, false);
     strict.equal(childLeafNode.selectButton.disabled, true);
   });
 
-  it('updates select button states (can select child nodes)', function () {
+  it('updates select button states (can select child nodes)', () => {
     const parentBranchNode = {
       id: 'node-id-1',
       name: 'node name 1',
@@ -197,7 +201,7 @@ describe('TreeMultiSelect', function () {
     nodeMapMock.set(parentBranchNode.id, parentBranchNode);
     nodeMapMock.set(childLeafNode.id, childLeafNode);
 
-    const component = new TreeMultiSelect(
+    const component = new TreeSelect(
       nodeMapMock,
       jQueryEventListenerMock,
       templateRendererMock,
@@ -211,13 +215,9 @@ describe('TreeMultiSelect', function () {
       basicElementMock,
       basicElementMock,
       basicElementMock,
-      true,
+      () => {},
     );
 
-    // ensure nothing happens if nothing changes
-    strict.equal(parentBranchNode.selectButton.disabled, false);
-    strict.equal(childLeafNode.selectButton.disabled, false);
-    component.updateNodeSelectButtonStates();
     strict.equal(parentBranchNode.selectButton.disabled, false);
     strict.equal(childLeafNode.selectButton.disabled, false);
     // ensure child nodes are not disabled
@@ -231,9 +231,8 @@ describe('TreeMultiSelect', function () {
     strict.equal(childLeafNode.selectButton.disabled, false);
     // ensure nothing gets unselected or disabled
     component.selectNode(parentBranchNode.id);
-    strict.equal(component.getSelection().has(childLeafNode.id), true)
+    strict.equal(component.getSelection().has(childLeafNode.id), true);
     strict.equal(parentBranchNode.selectButton.disabled, false);
     strict.equal(childLeafNode.selectButton.disabled, false);
   });
-
 });

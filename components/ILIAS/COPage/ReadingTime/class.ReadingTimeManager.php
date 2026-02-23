@@ -23,19 +23,11 @@ namespace ILIAS\COPage\ReadingTime;
  */
 class ReadingTimeManager
 {
-    /**
-     * @var \ILIAS\Refinery\Factory
-     */
-    protected $refinery;
-
-    /**
-     * @var ReadingTimeDBRepo
-     */
-    protected $repo;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected ReadingTimeDBRepo $repo;
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->refinery = $DIC->refinery();

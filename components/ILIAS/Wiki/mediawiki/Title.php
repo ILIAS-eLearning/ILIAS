@@ -40,14 +40,8 @@ define('CASCADE', 1);
  */
 class Title
 {
-    /**
-     * Static cache variables
-     */
-    private static $titleCache = array();
-    private static $interwikiCache = array();
-    /**
-     * @var false
-     */
+    private static array $titleCache = array();
+    private static array $interwikiCache = array();
     protected bool $mOldRestrictions;
 
     /**

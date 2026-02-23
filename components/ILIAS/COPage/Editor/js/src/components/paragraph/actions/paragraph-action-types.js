@@ -35,6 +35,7 @@ const ACTIONS = {
   SELECTION_REMOVE_FORMAT: 'selection.removeFormat',
   SELECTION_KEYWORD: 'selection.keyword',
   SELECTION_TEX: 'selection.tex',
+  TEXT_TEMPLATE: 'text.template',
   SELECTION_ANCHOR: 'selection.anchor',
   SELECTION_FN: 'selection.fn',
   LIST_BULLET: 'list.bullet',

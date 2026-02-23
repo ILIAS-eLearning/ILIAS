@@ -39,6 +39,8 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ilCertificateGUI
 {
+    public const string EDITOR_COMMAND = 'certificateEditor';
+
     protected ilCtrlInterface $ctrl;
     protected ilTree $tree;
     protected ILIAS $ilias;
@@ -59,7 +61,6 @@ class ilCertificateGUI
     private readonly ilCertificateTemplateExportAction $exportAction;
     private readonly ilCertificateTemplatePreviewAction $previewAction;
     private readonly FileUpload $fileUpload;
-    private readonly Filesystem $file_system;
     private readonly string $certificatePath;
     private readonly ilPageFormats $pageFormats;
     private readonly ilLogger $logger;
@@ -80,7 +81,6 @@ class ilCertificateGUI
         ?ilCertificateTemplatePreviewAction $previewAction = null,
         ?FileUpload $fileUpload = null,
         private readonly ilSetting $settings = new ilSetting('certificate'),
-        ?Filesystem $file_system = null,
         ?Filesystem $tmp_file_system = null
     ) {
         global $DIC;
@@ -139,7 +139,6 @@ class ilCertificateGUI
             $this->irss
         );
         $this->fileUpload = $fileUpload ?? $DIC->upload();
-        $this->file_system = $file_system ?? $DIC->filesystem()->web();
         $this->database = $DIC->database();
     }
 
@@ -155,7 +154,7 @@ class ilCertificateGUI
      */
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd(self::EDITOR_COMMAND);
         $next_class = $this->ctrl->getNextClass($this);
 
         $ret = null;
@@ -211,9 +210,9 @@ class ilCertificateGUI
     {
         // display confirmation message
         $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($this->ctrl->getFormAction($this, 'certificateEditor'));
+        $cgui->setFormAction($this->ctrl->getFormAction($this, self::EDITOR_COMMAND));
         $cgui->setHeaderText($this->lng->txt('certificate_confirm_deletion_text'));
-        $cgui->setCancel($this->lng->txt('no'), 'certificateEditor');
+        $cgui->setCancel($this->lng->txt('no'), self::EDITOR_COMMAND);
         $cgui->setConfirm($this->lng->txt('yes'), 'certificateDeleteConfirm');
 
         $this->tpl->setContent($cgui->getHTML());
@@ -228,7 +227,7 @@ class ilCertificateGUI
         $templateId = $template->getId();
 
         $this->deleteAction->delete($templateId, $this->objectId);
-        $this->ctrl->redirect($this, 'certificateEditor');
+        $this->ctrl->redirect($this, self::EDITOR_COMMAND);
     }
 
     /**
@@ -358,12 +357,6 @@ class ilCertificateGUI
         $current_tile_image_rid = $this->irss->manageContainer()->find(
             $current_template->getTileImageIdentification()
         );
-        $old_background_image = $current_background_rid === null
-            ? $current_template->getBackgroundImagePath() :
-            '';
-        $old_tile_image = $current_tile_image_rid === null
-            ? $current_template->getTileImagePath() :
-            '';
 
         $should_delete_background =
             $this->httpWrapper->post()->retrieve(
@@ -384,21 +377,6 @@ class ilCertificateGUI
 
         $new_background_rid = $current_background_rid && !$should_delete_background ? $current_background_rid :
             $this->global_certificate_settings->getBackgroundImageIdentification();
-        if (
-            is_string($new_background_rid) &&
-            is_string($this->global_certificate_settings->getBackgroundImageIdentification()) &&
-            $new_background_rid === $this->global_certificate_settings->getBackgroundImageIdentification()
-        ) {
-            if ($this->file_system->has($new_background_rid)) {
-                $new_background_rid = $this->irss->manage()->stream(
-                    $this->file_system->readStream($new_background_rid),
-                    $this->stakeholder
-                );
-            } else {
-                $old_background_image = $new_background_rid;
-                $new_background_rid = null;
-            }
-        }
 
         $new_tile_rid = !$should_delete_tile_image ? $current_tile_image_rid : null;
         if ($form->checkInput()) {
@@ -432,13 +410,6 @@ class ilCertificateGUI
 
                 $jsonEncodedTemplateValues = json_encode($templateValues, JSON_THROW_ON_ERROR);
 
-                if (isset($new_background_rid)) {
-                    $old_background_image = '';
-                }
-                if (isset($new_tile_rid)) {
-                    $old_tile_image = '';
-                }
-
                 $xslfo = $this->xlsFoParser->parse($form_fields);
                 $newHashValue = hash(
                     'sha256',
@@ -446,8 +417,7 @@ class ilCertificateGUI
                         $xslfo,
                         isset($new_background_rid) ? $new_background_rid->serialize() : '',
                         $jsonEncodedTemplateValues,
-                        isset($new_tile_rid) ? $new_background_rid->serialize() : '',
-                        $old_background_image, $old_tile_image
+                        isset($new_tile_rid) ? $new_background_rid->serialize() : ''
                     ])
                 );
 
@@ -464,8 +434,6 @@ class ilCertificateGUI
                         ILIAS_VERSION_NUMERIC,
                         time(),
                         $active,
-                        $old_background_image,
-                        $old_tile_image,
                         isset($new_background_rid) ? $new_background_rid->serialize() : '',
                         isset($new_tile_rid) ? $new_tile_rid->serialize() : '',
                     );
@@ -479,7 +447,7 @@ class ilCertificateGUI
                     }
 
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
-                    $this->ctrl->redirect($this, 'certificateEditor');
+                    $this->ctrl->redirect($this, self::EDITOR_COMMAND);
                 }
 
                 if (
@@ -488,11 +456,11 @@ class ilCertificateGUI
                 ) {
                     $this->templateRepository->updateActivity($current_template, $active);
                     $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_change_active_status'), true);
-                    $this->ctrl->redirect($this, 'certificateEditor');
+                    $this->ctrl->redirect($this, self::EDITOR_COMMAND);
                 }
 
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_same_not_saved'), true);
-                $this->ctrl->redirect($this, 'certificateEditor');
+                $this->ctrl->redirect($this, self::EDITOR_COMMAND);
             } catch (Exception $e) {
                 $this->tpl->setOnScreenMessage(
                     'failure',

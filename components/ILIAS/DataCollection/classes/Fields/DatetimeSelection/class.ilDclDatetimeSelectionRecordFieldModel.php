@@ -20,4 +20,8 @@ declare(strict_types=1);
 
 class ilDclDatetimeSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
+    protected function formatValue(string $value): string
+    {
+        return (strtotime($value) === false) ? $value : date($this->user->getDateTimeFormat()->toString(), strtotime($value));
+    }
 }

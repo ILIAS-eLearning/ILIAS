@@ -16,6 +16,13 @@
  *
  *********************************************************************/
 
+use ILIAS\HTTP\Services as HTTP;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Skill\Service\SkillUsageService;
+use ILIAS\TestQuestionPool\RequestDataCollector;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+
 /**
 * Unit tests
 *
@@ -35,13 +42,21 @@ class ilAssQuestionSkillAssignmentsGUITest extends assBaseTestCase
     {
         parent::setUp();
 
-        $ctrl = $this->createMock(ilCtrl::class);
-        $access = $this->createMock(ilAccessHandler::class);
-        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
-        $lng = $this->createMock(ilLanguage::class);
-        $db = $this->createMock(ilDBInterface::class);
-
-        $this->object = new ilAssQuestionSkillAssignmentsGUI($ctrl, $access, $tpl, $lng, $db);
+        $this->object = new ilAssQuestionSkillAssignmentsGUI(
+            $this->createMock(ilCtrl::class),
+            $this->createMock(ilAccessHandler::class),
+            $this->createMock(ilGlobalTemplateInterface::class),
+            $this->createMock(ilLanguage::class),
+            $this->createMock(ilDBInterface::class),
+            $this->createMock(RequestDataCollector::class),
+            $this->createMock(SkillUsageService::class),
+            $this->createMock(UIFactory::class),
+            $this->createMock(UIRenderer::class),
+            $this->createMock(Refinery::class),
+            $this->createMock(HTTP::class),
+            $this->createMock(ilToolbarGUI::class),
+            $this->createMock(ilTabsGUI::class)
+        );
     }
 
     public function testConstruct(): void

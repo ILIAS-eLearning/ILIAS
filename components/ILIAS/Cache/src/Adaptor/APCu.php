@@ -51,7 +51,7 @@ class APCu extends BaseAdaptor implements Adaptor
     public function set(string $container, string $key, string $value, int $ttl): void
     {
         if (!apcu_store($this->buildKey($container, $key), $value, $ttl)) {
-            file_put_contents($container . '_chache.log', $key);
+            // silently fail?
         }
     }
 

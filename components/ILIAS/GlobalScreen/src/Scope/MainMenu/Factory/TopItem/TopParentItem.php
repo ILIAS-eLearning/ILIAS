@@ -26,6 +26,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -34,16 +36,17 @@ class TopParentItem extends AbstractParentItem implements
     isTopItem,
     hasTitle,
     hasSymbol,
-    supportsAsynchronousLoading
+    supportsAsynchronousLoading,
+    isDecorateable
 {
     use hasSymbolTrait;
+    use ComponentDecoratorTrait;
 
     protected string $title = '';
 
     protected bool $supports_async_loading = false;
 
     /**
-     * @param string $title
      * @return TopParentItem
      */
     public function withTitle(string $title): hasTitle

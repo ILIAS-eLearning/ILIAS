@@ -35,6 +35,7 @@ use ILIAS\Badge\ilBadgeImage;
 use ILIAS\Badge\PresentationHeader;
 use ILIAS\Badge\Tile;
 use ILIAS\UI\Component\Table\Column\Column;
+use ILIAS\Badge\Table\TableContentWrapper;
 
 class ilBadgePersonalTableGUI implements DataRetrieval
 {
@@ -90,8 +91,9 @@ class ilBadgePersonalTableGUI implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords();
 
@@ -241,8 +243,9 @@ class ilBadgePersonalTableGUI implements DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count($this->getRecords());
     }
@@ -353,11 +356,11 @@ class ilBadgePersonalTableGUI implements DataRetrieval
         ];
     }
 
-    public function renderTable(): void
+    public function renderTable(string $url): void
     {
         $df = new \ILIAS\Data\Factory();
 
-        $table_uri = $df->uri($this->request->getUri()->__toString());
+        $table_uri = $df->uri($url);
         $url_builder = new URLBuilder($table_uri);
         $query_params_namespace = ['badge'];
 
@@ -374,14 +377,20 @@ class ilBadgePersonalTableGUI implements DataRetrieval
                 $this->lng->txt('badge_personal_badges'),
                 $this->getColumns($this->user->getDateTimeFormat()),
             )
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withOrder(new Order('title', Order::ASC))
+            ->withRange(new Range(0, 50))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 
         $pres = new PresentationHeader($this->dic, ilBadgeProfileGUI::class);
         $pres->show($this->lng->txt('table_view'));
 
-        $this->tpl->setContent($this->renderer->render($table));
+        $content_wrapper = new TableContentWrapper($this->renderer, $this->factory);
+        $this->tpl->setContent($this->renderer->render(
+            $content_wrapper->wrap(
+                $table
+            )
+        ));
     }
 }

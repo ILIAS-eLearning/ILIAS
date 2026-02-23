@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width"/>
+    <style>
+        {CSS_CONTENT}
+    </style>
+</head>
+
+<body>
+
+<!--full mail-template-->
+<table class="table">
+
+	<!--header-row-->
+	<tr class="header">
+		<td class="spacing">
+			<table class="w-750 center">
+				<tr class="rowheight"></tr>
+				<tr>
+					<td class="image-data">
+						<img class="logo" src="{LOGO_SRC}" alt="Logo">
+					</td>
+					<td class="installation-text">
+						<span>
+							<strong>{INSTALLATION_TITLE}</strong>
+						</span>
+					</td>
+				</tr>
+				<tr class="rowheight"></tr>
+			</table>
+		</td>
+	</tr>
+
+	<!--content-row-->
+	<tr class="content">
+		<td class="spacing">
+			<table class="w-750 center">
+				<tr class="headerheight"></tr>
+				<tr>
+					<td class="font-definition">
+						{CONTENT}
+					</td>
+				</tr>
+				<tr class="headerheight"></tr>
+			</table>
+		</td>
+	</tr>
+
+	<!--footer-row-->
+	<tr class="footer">
+		<td class="spacing">
+			<table class="w-750 center">
+				<tr>
+					<td class="font-definition">
+						<span>{INSTALLATION_TITLE}</span>
+						<br>
+						{FOOTER_URL}
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+</body>
+
+</html>

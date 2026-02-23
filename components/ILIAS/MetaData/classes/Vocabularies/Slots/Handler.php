@@ -35,6 +35,16 @@ class Handler implements HandlerInterface
     protected NavigatorFactoryInterface $navigator_factory;
     protected StructureSetInterface $structure;
 
+    /**
+     * @var PathInterface[]
+     */
+    protected array $paths_by_slot_id = [];
+
+    /**
+     * @var array<string, Identifier[]> keys are serialized paths
+     */
+    protected array $identifiers_by_path;
+
     public function __construct(
         PathFactory $path_factory,
         NavigatorFactoryInterface $navigator_factory,
@@ -47,7 +57,10 @@ class Handler implements HandlerInterface
 
     public function pathForSlot(Identifier $identifier): PathInterface
     {
-        return match ($identifier) {
+        if (isset($this->paths_by_slot_id[$identifier->value])) {
+            return $this->paths_by_slot_id[$identifier->value];
+        }
+        return $this->paths_by_slot_id[$identifier->value] = match ($identifier) {
             Identifier::GENERAL_STRUCTURE => $this->buildPath('general', 'structure', 'value'),
             Identifier::GENERAL_AGGREGATION_LEVEL => $this->buildPath('general', 'aggregationLevel', 'value'),
             Identifier::GENERAL_COVERAGE => $this->buildPath('general', 'coverage', 'string'),
@@ -140,11 +153,14 @@ class Handler implements HandlerInterface
 
     public function allSlotsForPath(PathInterface $path_to_element): \Generator
     {
-        foreach (Identifier::cases() as $identifier) {
-            if ($this->pathForSlot($identifier)->toString() === $path_to_element->toString()) {
-                yield $identifier;
+        if (!isset($this->identifiers_by_path)) {
+            $this->identifiers_by_path = [];
+            foreach (Identifier::cases() as $identifier) {
+                $path_for_slot = $this->pathForSlot($identifier);
+                $this->identifiers_by_path[$path_for_slot->toString()][] = $identifier;
             }
         }
+        yield from $this->identifiers_by_path[$path_to_element->toString()] ?? [];
     }
 
     public function doesSlotExist(

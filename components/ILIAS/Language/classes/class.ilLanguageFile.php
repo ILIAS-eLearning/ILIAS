@@ -202,7 +202,7 @@ class ilLanguageFile
             $lng->loadLanguageModule("meta");
             $lang_name = $lng->txtlng("meta", "meta_l_" . $this->lang_key, "en");
             $this->params["module"] = "language file " . $lang_name;
-            $this->params["created"] = date("Y-m-d H:i:s");
+            $this->params["created"] = gmdate("Y-m-d H:i:s");
             $this->params["created_by"] = $ilUser->getFullname() . " <" . $ilUser->getEmail() . ">";
 
             // build the header

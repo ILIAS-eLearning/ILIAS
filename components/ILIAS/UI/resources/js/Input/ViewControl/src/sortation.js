@@ -37,7 +37,8 @@ export default class Sortation {
       component.ownerDocument,
       internalSignal,
       (event, signalData) => {
-        let container = event.target.closest('.il-viewcontrol-fieldselection');
+        let container;
+
         if (signalData.options.parent_container) {
           container = component.ownerDocument.querySelector(
             `#${signalData.options.parent_container
@@ -47,7 +48,10 @@ export default class Sortation {
           container = event.target.closest('.il-viewcontrol-sortation');
         }
         const inputs = container.querySelectorAll('.il-viewcontrol-value > input');
-        const val = signalData.options.value.split(':');
+        const val = Array.isArray(signalData.options.value)
+          ? signalData.options.value
+          : signalData.options.value.split(':');
+
         [inputs[0].value, inputs[1].value] = val;
 
         this.#eventDispatcher.dispatch(event.target, containerSubmitSignal);

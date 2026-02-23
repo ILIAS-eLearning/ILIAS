@@ -51,8 +51,9 @@ class QuestionsOfAttemptTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         foreach ($this->getData($range, $order) as $question) {
             $title = $this->ui_factory->link()->standard($question['title'], $this->createShowQuestionLink($question['sequence']));
@@ -62,15 +63,18 @@ class QuestionsOfAttemptTable implements DataRetrieval
                 'description' => $question['description'],
                 'points' => $question['points'],
                 'postponed' => (bool) $question['postponed'],
-                'answered' => (bool) $question['isAnswered'],
+                'answered' => (bool) $question['worked_through'],
                 'marked' => (bool) $question['marked'],
             ];
             yield $row_builder->buildDataRow((string) $question['order'], $record);
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         //ignore filter bc table is not filterable
         return count($this->data);
     }

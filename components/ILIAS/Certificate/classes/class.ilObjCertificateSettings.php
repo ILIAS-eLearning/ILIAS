@@ -35,8 +35,8 @@ class ilObjCertificateSettings extends ilObject
 {
     private readonly ilSetting $certificate_settings;
     private readonly ResourceStorage $irss;
-    private readonly Filesystem $filesystem;
     private readonly ilCertificateTemplateStakeholder $stakeholder;
+    private readonly ilCertificateTemplateDatabaseRepository $certificate_repository;
     private readonly CertificateResourceHandler $resource_handler;
 
     public function __construct(int $a_id = 0, bool $a_reference = true)
@@ -47,8 +47,8 @@ class ilObjCertificateSettings extends ilObject
         $this->type = 'cert';
         $this->certificate_settings = new ilSetting('certificate');
         $this->irss = $DIC->resourceStorage();
-        $this->filesystem = $DIC->filesystem()->web();
         $this->stakeholder = new ilCertificateTemplateStakeholder();
+        $this->certificate_repository = new ilCertificateTemplateDatabaseRepository($DIC->database());
         $this->resource_handler = new CertificateResourceHandler(
             new ilUserCertificateRepository($DIC->database()),
             new ilCertificateTemplateDatabaseRepository($DIC->database()),
@@ -58,25 +58,14 @@ class ilObjCertificateSettings extends ilObject
         );
     }
 
-    public function getBackgroundImageIdentification(): ResourceIdentification|string|null
+    public function getBackgroundImageIdentification(): ?ResourceIdentification
     {
         $id = $this->certificate_settings->get('cert_bg_image', '');
 
         if ($rid = $this->irss->manage()->find($id)) {
             return $rid;
         }
-        if ($id !== '') {
-            $id = $this->getBackgroundImageDefaultFolder() . $id;
-        }
-        if ($id !== '' && $this->filesystem->has($id)) {
-            return ilWACSignedPath::signFile(ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $id);
-        }
         return null;
-    }
-
-    public function getBackgroundImageDefaultFolder(): string
-    {
-        return '/certificates/default/';
     }
 
     /**
@@ -87,8 +76,17 @@ class ilObjCertificateSettings extends ilObject
      */
     public function uploadBackgroundImage(UploadResult $upload_result): bool
     {
+        $old_identification = $this->getBackgroundImageIdentification();
         $identification = $this->irss->manage()->upload($upload_result, $this->stakeholder);
         $this->certificate_settings->set('cert_bg_image', $identification->serialize());
+
+        $this->certificate_repository->updateDefaultBackgroundImagePaths(
+            $identification,
+            $old_identification ?: ''
+        );
+        if ($old_identification instanceof ResourceIdentification) {
+            $this->resource_handler->handleResourceChange($old_identification);
+        }
 
         return $identification->serialize() !== '';
     }
@@ -98,6 +96,7 @@ class ilObjCertificateSettings extends ilObject
         $rid = $this->getBackgroundImageIdentification();
         if ($rid instanceof ResourceIdentification) {
             $this->certificate_settings->set('cert_bg_image', '');
+            $this->certificate_repository->updateDefaultBackgroundImagePaths('', $rid);
             $this->resource_handler->handleResourceChange($rid);
 
             return true;

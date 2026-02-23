@@ -148,14 +148,14 @@ class AccessManager
     /**
      * Is it possible to take the survey by providing an access code?
      */
-    public function isCodeInputAllowed(): bool
+    public function useCodeFromSession(): bool
     {
         $survey = $this->getSurvey();
         $participant_status = $this->domain_service
             ->participants()
             ->status($this->getSurvey(), $this->user_id);
         if ($participant_status->isExternalRater() ||
-            $survey->getAnonymize() || !$survey->isAccessibleWithoutCode()) {
+            $survey->getAnonymize() || $this->user_id === ANONYMOUS_USER_ID || !$survey->isAccessibleWithoutCode()) {
             return true;
         }
         return false;

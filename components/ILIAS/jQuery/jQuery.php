@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+/**
+ */
 class jQuery implements Component\Component
 {
     public function init(

@@ -63,7 +63,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;

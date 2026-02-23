@@ -48,7 +48,7 @@ class Collections
 
     /**
      * @param string|null $collection_identification an existing collection identification or null for a new
-     * @param int|null $owner if this colletion is owned by a users, you must prvide it's owner ID
+     * @param int|null    $owner                     if this colletion is owned by a users, you must prvide it's owner ID
      */
     public function id(
         ?string $collection_identification = null,
@@ -114,6 +114,17 @@ class Collections
         $this->preloader->preload($preload);
 
         return $this->cache[$rcid] = $collection;
+    }
+
+    public function findIdentificationByNameIn(ResourceCollection $collection, string $name): ?ResourceIdentification
+    {
+        foreach ($collection->getResourceIdentifications() as $identification) {
+            $resource = $this->resource_builder->get($identification);
+            if ($resource->getCurrentRevisionIncludingDraft()->getTitle() === $name) {
+                return $identification;
+            }
+        }
+        return null;
     }
 
     public function store(ResourceCollection $collection): bool

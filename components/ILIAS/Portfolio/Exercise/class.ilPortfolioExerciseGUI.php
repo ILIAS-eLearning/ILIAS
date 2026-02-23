@@ -120,7 +120,7 @@ class ilPortfolioExerciseGUI
         int $a_assignment_id,
         bool $a_add_submit = false,
         bool $as_array = false
-    ) {
+    ): string|array {
         global $DIC;
 
         $ui = $DIC->ui();

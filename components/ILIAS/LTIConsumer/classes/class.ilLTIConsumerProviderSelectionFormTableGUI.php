@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\UI\Component\Input\Container\Filter\Standard;
+
 /**
  * Class ilLTIConsumerProviderSelectionFormGUI
  *
@@ -32,75 +34,52 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
      * @var ilLTIConsumerProviderTableGUI
      */
     protected ilLTIConsumerProviderTableGUI $table;
+    protected Standard $filter;
 
     /**
      * ilLTIConsumerProviderSelectionFormGUI constructor.
+     * @throws ilCtrlException
      */
-    public function __construct(string $newType, ilObjLTIConsumerGUI $parentGui, string $parentCmd, string $applyFilterCmd, string $resetFilterCmd)
+    public function __construct(string $newType, ilObjLTIConsumerGUI $parentGui, string $parentCmd)
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
 
         parent::__construct();
 
         $this->table = new ilLTIConsumerProviderTableGUI($parentGui, $parentCmd);
+        $this->table->enableSelectProviderForm();
 
-        $this->table->setFilterCommand($applyFilterCmd);
-        $this->table->setResetCommand($resetFilterCmd);
+        $this->filter = $this->table->getFilter();
+        $filter_params = $DIC->uiService()->filter()->getData($this->filter);
 
-        $this->table->setSelectProviderCmd('save');
-        $this->table->setOwnProviderColumnEnabled(true);
+        $providerList = new ilLTIConsumeProviderList();
+        $providerList->setTitleFilter($filter_params['title'] ?? '');
+        $providerList->setKeywordFilter($filter_params['keywords'] ?? '');
+        $providerList->setHasOutcomeFilter(($filter_params['outcome'] ?? '') === '' ? null : $filter_params['outcome'] === 'yes');
+        $providerList->setIsExternalFilter(($filter_params['internal'] ?? '') === '' ? null : $filter_params['internal'] !== 'yes');
+        $providerList->setIsProviderKeyCustomizableFilter(($filter_params['with_key'] ?? '') === '' ? null : $filter_params['with_key'] === 'yes');
+        $providerList->setCategoryFilter($filter_params['category'] ?? '');
 
-        $this->table->setDefaultFilterVisiblity(true);
-        $this->table->setDisableFilterHiding(true);
+        $providerList->load();
 
-        $this->table->init();
+        $data = $providerList->getTableData();
+
+        foreach ($data as $key => $value) {
+            $data[$key]["own_provider"] = $value['creator'] == $DIC->user()->getId();
+        }
+
+        $this->table->setData($data);
 
         $this->setTitle($DIC->language()->txt($newType . '_select_provider'));
     }
 
-    public function setTitle(string $a_title): void
-    {
-        $this->table->setTitle($a_title);
-    }
-
-    public function getTitle(): string
-    {
-        return $this->table->getTitle();
-    }
-
+    /**
+     * @throws ilCtrlException
+     */
     public function getHTML(): string
     {
-        return $this->table->getHTML();
-    }
+        global $DIC;
 
-    public function applyFilter(): void
-    {
-        $this->table->writeFilterToSession();
-        $this->table->resetOffset();
-    }
-
-    public function resetFilter(): void
-    {
-        $this->table->resetFilter();
-        $this->table->resetOffset();
-    }
-
-    /**
-     * @return string|bool
-     */
-    public function getFilter(string $a_field)
-    {
-        $field = $this->table->getFilterItemByPostVar($a_field);
-
-        if ($field instanceof ilCheckboxInputGUI) {
-            return $field->getChecked();
-        }
-
-        return $field->getValue();
-    }
-
-    public function setData(array $data): void
-    {
-        $this->table->setData($data);
+        return "<div style='margin: 15px'>" . $DIC->ui()->renderer()->render($this->filter) . $this->table->getHTML() . "</div>";
     }
 }

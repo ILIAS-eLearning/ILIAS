@@ -20,75 +20,42 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\ScoreReporting;
 
-use ILIAS\Test\Settings\TestSettings;
+use ILIAS\Test\ExportImport\Exportable;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
 
-class ScoreSettings
+class ScoreSettings implements Exportable
 {
-    protected int $test_id;
-    protected SettingsScoring $settings_scoring;
-    protected SettingsResultSummary $settings_result_summary;
-    protected SettingsResultDetails $settings_result_details;
-    protected SettingsGamification $settings_gamification;
-
     public function __construct(
-        int $test_id,
-        SettingsScoring $settings_scoring,
-        SettingsResultSummary $settings_result_summary,
-        SettingsResultDetails $settings_result_details,
-        SettingsGamification $settings_gamification
+        protected int $id,
+        protected SettingsScoring $settings_scoring,
+        protected SettingsResultSummary $settings_result_summary,
+        protected SettingsResultDetails $settings_result_details,
+        protected SettingsGamification $settings_gamification
     ) {
-        $this->test_id = $test_id;
-
-        foreach ([
-            $settings_scoring,
-            $settings_result_summary,
-            $settings_result_details,
-            $settings_gamification
-        ] as $setting) {
-            $this->throwOnDifferentTestId($setting);
-        }
-
-        $settings_result_summary = $settings_result_summary
+        $this->settings_result_summary = $settings_result_summary
             ->withShowPassDetails($settings_result_details->getShowPassDetails());
-
-        $this->settings_scoring = $settings_scoring;
-        $this->settings_result_summary = $settings_result_summary;
-        $this->settings_result_details = $settings_result_details;
-        $this->settings_gamification = $settings_gamification;
     }
 
-    protected function throwOnDifferentTestId(TestSettings $setting): void
+    public function getId(): int
     {
-        if ($setting->getTestId() !== $this->getTestId()) {
-            throw new \LogicException('TestId mismatch in ' . get_class($setting));
-        }
+        return $this->id;
     }
 
-    public function getTestId(): int
-    {
-        return $this->test_id;
-    }
-    public function withTestId(int $test_id): self
+    public function withId(int $id): self
     {
         $clone = clone $this;
-        $clone->test_id = $test_id;
-        $clone->settings_scoring = $clone->settings_scoring->withTestId($test_id);
-        $clone->settings_result_summary = $clone->settings_result_summary->withTestId($test_id);
-        $clone->settings_result_details = $clone->settings_result_details->withTestId($test_id);
-        $clone->settings_gamification = $clone->settings_gamification->withTestId($test_id);
+        $clone->id = $id;
         return $clone;
     }
-
 
     public function getScoringSettings(): SettingsScoring
     {
         return $this->settings_scoring;
     }
+
     public function withScoringSettings(SettingsScoring $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_scoring = $settings;
         return $clone;
@@ -98,9 +65,9 @@ class ScoreSettings
     {
         return $this->settings_result_summary;
     }
+
     public function withResultSummarySettings(SettingsResultSummary $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_result_summary = $settings;
         return $clone;
@@ -110,9 +77,9 @@ class ScoreSettings
     {
         return $this->settings_result_details;
     }
+
     public function withResultDetailsSettings(SettingsResultDetails $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_result_details = $settings;
         return $clone;
@@ -125,18 +92,37 @@ class ScoreSettings
 
     public function withGamificationSettings(SettingsGamification $settings): self
     {
-        $this->throwOnDifferentTestId($settings);
         $clone = clone $this;
         $clone->settings_gamification = $settings;
         return $clone;
     }
 
-    public function getArrayForLog(
-        AdditionalInformationGenerator $additional_info
-    ): array {
+    public function getArrayForLog(AdditionalInformationGenerator $additional_info): array
+    {
         return $this->settings_scoring->toLog($additional_info)
             + $this->settings_result_summary->toLog($additional_info)
             + $this->settings_result_details->toLog($additional_info)
             + $this->settings_gamification->toLog($additional_info);
+    }
+
+    public function toExport(): array
+    {
+        return [
+            'settings_scoring' => $this->settings_scoring->toExport(),
+            'settings_result_summary' => $this->settings_result_summary->toExport(),
+            'settings_result_details' => $this->settings_result_details->toExport(),
+            'settings_gamification' => $this->settings_gamification->toExport()
+        ];
+    }
+
+    public static function fromExport(array $data): static
+    {
+        return new self(
+            $data['id'] ?? -1,
+            SettingsScoring::fromExport($data['settings_scoring']),
+            SettingsResultSummary::fromExport($data['settings_result_summary']),
+            SettingsResultDetails::fromExport($data['settings_result_details']),
+            SettingsGamification::fromExport($data['settings_gamification'])
+        );
     }
 }

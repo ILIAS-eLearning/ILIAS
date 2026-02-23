@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Settings\NewAccountMail\Repository as NewAccountMailRepository;
+
 /**
  * Class ilAccountRegistrationMail
  * @author Michael Jansen <mjansen@databay.de>
@@ -27,15 +29,14 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
     protected const MODE_DIRECT_REGISTRATION = 1;
     protected const MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION = 2;
 
-    private ilRegistrationSettings $settings;
-    private ilLogger $logger;
     private int $mode = self::MODE_DIRECT_REGISTRATION;
     private ?string $permanent_link_target = null;
 
-    public function __construct(ilRegistrationSettings $settings, ilLanguage $lng, ilLogger $logger)
-    {
-        $this->settings = $settings;
-        $this->logger = $logger;
+    public function __construct(
+        private readonly ilRegistrationSettings $settings,
+        private readonly ilLogger $logger,
+        private readonly NewAccountMailRepository $account_mail_repository
+    ) {
         parent::__construct(false);
     }
 
@@ -84,14 +85,6 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
 
     private function trySendingUserDefinedAccountMail(ilObjUser $user, string $rawPassword): bool
     {
-        $trimStrings = static function ($value) {
-            if (is_string($value)) {
-                $value = trim($value);
-            }
-
-            return $value;
-        };
-
         $this->logger->debug(sprintf(
             'Trying to send configurable email dependent welcome email to user %s (id: %s|language: %s) ...',
             $user->getLogin(),
@@ -99,25 +92,17 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
             $user->getLanguage()
         ));
 
-        $mailData = array_map($trimStrings, ilObjUserFolder::_lookupNewAccountMail($user->getLanguage()));
+        $mailData = $this->account_mail_repository->getFor($user->getLanguage());
 
-        if ($this->isEmptyMailConfigurationData($mailData)) {
+        if ($mailData->getBody() === '' && $mailData->getSubject() === '') {
             $this->logger->debug(sprintf(
                 'Either subject or email missing, trying to determine email configuration via default language: %s',
                 $this->language->getDefaultLanguage()
             ));
 
-            $mailData = ilObjUserFolder::_lookupNewAccountMail($this->language->getDefaultLanguage());
-            if (!is_array($mailData)) {
-                $this->logger->debug(sprintf(
-                    "Did not find any email configuration for language '%s' at all, skipping attempt ...",
-                    $this->language->getDefaultLanguage()
-                ));
-                return false;
-            }
+            $mailData = $this->account_mail_repository->getFor($this->language->getDefaultLanguage());
 
-            $mailData = array_map($trimStrings, $mailData);
-            if ($this->isEmptyMailConfigurationData($mailData)) {
+            if ($mailData->getBody() === '' && $mailData->getSubject() === '') {
                 $this->logger->debug('Did not find any valid email configuration, skipping attempt ...');
                 return false;
             }
@@ -129,28 +114,6 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
 
         if ($this->settings->passwordGenerationEnabled()) {
             $accountMail->setUserPassword($rawPassword);
-        }
-
-        if (isset($mailData['att_file'])) {
-            $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
-            $fs->create();
-
-            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart): string {
-                return trim($pathPart, '/');
-            }, [
-                $fs->getAbsolutePath(),
-                $mailData['lang'],
-            ]));
-
-            $accountMail->addAttachment($pathToFile, $mailData['att_file']);
-
-            $this->logger->debug(sprintf(
-                "Attaching '%s' as '%s' ...",
-                $pathToFile,
-                $mailData['att_file']
-            ));
-        } else {
-            $this->logger->debug('Not attachments configured for this email configuration ...');
         }
 
         $accountMail->send();

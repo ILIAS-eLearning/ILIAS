@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 /**
  * @ilCtrl_Calls ilContentPagePageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilContentPagePageGUI: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilContentPagePageGUI: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  */
 class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjectConstants

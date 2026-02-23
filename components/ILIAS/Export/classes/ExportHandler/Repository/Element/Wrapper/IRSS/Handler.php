@@ -24,6 +24,7 @@ use ILIAS\components\ResourceStorage\Container\Wrapper\ZipReader;
 use ILIAS\Dataset\IRSSContainerExportConfig;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\Wrapper\IRSS\HandlerInterface as ilExportHandlerRepositoryElementIRSSWrapperInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Stakeholder\HandlerInterface as ExportRepositoryStakeholderInterface;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Filesystem\Stream\ZIPStream;
@@ -190,6 +191,12 @@ class Handler implements ilExportHandlerRepositoryElementIRSSWrapperInterface
         string $path_in_container
     ): bool {
         return $this->writeZip($other->getIRSSInfo()->getStream(), $path_in_container);
+    }
+
+    public function delete(
+        ExportRepositoryStakeholderInterface $stakeholder
+    ): void {
+        $this->irss->manageContainer()->remove($this->getResourceId(), $stakeholder);
     }
 
     public function download(string $zip_file_name = ""): void

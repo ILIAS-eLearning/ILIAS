@@ -51,11 +51,11 @@ class PathGeneratorTest extends AbstractTestBase
         $path = $path_generator->getPathFor($identification);
         $this->assertGreaterThanOrEqual(strlen($identification->serialize()), strlen($path));
         foreach ($this->prohibited as $value) {
-            $this->assertFalse(strpos($path, (string) $value));
+            $this->assertStringNotContainsString((string) $value, $path);
         }
 
         $new_identification = $path_generator->getIdentificationFor($path);
-        $this->assertEquals($identification->serialize(), $new_identification->serialize());
+        $this->assertSame($identification->serialize(), $new_identification->serialize());
     }
 
     public function testPathGeneratorV2(): void
@@ -67,10 +67,10 @@ class PathGeneratorTest extends AbstractTestBase
         $path = $path_generator->getPathFor($identification);
 
         foreach ($this->prohibited as $value) {
-            $this->assertFalse(strpos($path, (string) $value));
+            $this->assertStringNotContainsString((string) $value, $path);
         }
 
         $new_identification = $path_generator->getIdentificationFor($path);
-        $this->assertEquals($identification->serialize(), $new_identification->serialize());
+        $this->assertSame($identification->serialize(), $new_identification->serialize());
     }
 }

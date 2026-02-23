@@ -140,7 +140,7 @@ class NotificationManager
 
         $notified = $ntf->sendMailAndReturnRecipients(
             $users,
-            "_" . $posting->getId(),
+            (string) $posting->getId(),
             ($admin_only ? "write" : "read")
         );
 

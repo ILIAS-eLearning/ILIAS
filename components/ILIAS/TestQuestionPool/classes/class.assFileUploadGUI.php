@@ -176,10 +176,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         // get the solution of the user for the active pass or from the last pass if allowed
         $template = new ilTemplate("tpl.il_as_qpl_fileupload_output_solution.html", true, true, "components/ILIAS/TestQuestionPool");
 
-        $solutionvalue = "";
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions = $this->object->getSolutionValues($active_id, $pass);
-
             $files = ($show_manual_scoring) ? $this->object->getUploadedFilesForWeb($active_id, $pass) : $this->object->getUploadedFiles($active_id, $pass);
             $table_gui = new assFileUploadFileTableGUI($this, 'gotoquestion');
             $table_gui->setTitle(

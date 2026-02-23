@@ -22,7 +22,7 @@ namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Container\Form\FormInput;
 use ILIAS\UI\Component\Input\Field\Node\NodeRetrieval;
-use ILIAS\UI\URLBuilderToken;
+use ILIAS\Data\ImagePurpose;
 
 /**
  * This is what a factory for input fields looks like.
@@ -293,6 +293,9 @@ interface Factory
      *      A Tag Input MUST NOT be used when a User has to choose from a finite list of options
      *      which can't be extended by users Input, a Multi Select MUST be used in this case
      *     5: The tags provided SHOULD NOT have long titles (50 characters).
+     *     6: >
+     *      If withoutStripTags is set, the consumer MUST make sure the value
+     *      is proberly sanitized before outputing it.
      *
      * ---
      * @param string      $label
@@ -467,7 +470,12 @@ interface Factory
      *        A meaningful labeling SHOULD be chosen instead.
      *   ordering:
      *     1: The presumably most relevant option SHOULD be the first option.
-     *
+     *   accessibility:
+     *     1: Radio and Radio withHasOptionFilter MUST both be operable with keyboard only.
+     *     2: >
+     *       Be aware that the screen-reader-only hint text when using withHasOptionFilter is not
+     *       visible, but MUST be up to date and localized for users relying on screen readers.
+     *     3: Screen Reader announce the number of filtered options through a live status.
      * ---
      * @param string      $label
      * @param string|null $byline
@@ -482,8 +490,16 @@ interface Factory
      *     A Multi Select is used to allow users to pick several options from a list.
      *   composition: >
      *     The Multi Select field will render labeled checkboxes according to given options.
+     *     If the with withHasOptionFilter parameter is set, there is a toggle button to expand and collapse the Radio list.
+     *     An expanded Multi Select withHasOptionFilter also shows a searchbar with a 'clear search' button.
      *   effect: >
-     *
+     *     A Multi Select withHasOptionFilter can be expanded and collapsed.
+     *     When collapsed, it only shows the currently selected options and does not react to inputs.
+     *     When the toggle is clicked to expand, the Multi Select list shows all choices in a scrollable box and takes inputs.
+     *     It then also shows a searchbar which instantly filters through the option list when typing any text input.
+     *     After any search input has been given, the list can be reset to be unfiltered by clicking a button.
+     *     Collapsing the Multi Select with Search also resets the filter.
+     *     Choosing an option in the Multi Select withHasOptionFilter makes the picked choice jump to the top.
      *   rivals:
      *     Checkbox Field: Use a Checkbox Field for a binary yes/no choice.
      *     Tag Field: Use a Tag Input when the user is able to extend the list of given options.
@@ -502,7 +518,14 @@ interface Factory
      *     3: >
      *      A Multi Select input MUST NOT be used whenever a user has to perform a choice from a list of
      *      options where only one option can be selected. A Select MUST be used in this case
-     *
+     *     4: >
+     *      A Multi Select withHasOptionFilter SHOULD be used if the list contains more than 5 items.
+     *   accessibility:
+     *     1: Multi Select and Multi Select withHasOptionFilter MUST both be operable with keyboard only.
+     *     2: >
+     *       Be aware that the screen-reader-only hint text when using withHasOptionFilter is not
+     *       visible, but MUST be up to date and localized for users relying on screen readers.
+     *     3: Screen Reader announce the number of filtered options through a live status.
      *   wording:
      *     1: Each option MUST be labeled.
      *     2: >
@@ -580,31 +603,48 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     A File Input is used to upload one or multiple files, using the native
-     *     filebrowser of a browser or Drag&Drop.
+     *     The File Field can be used to upload one or multiple files from the
+     *     user device storage.
      *   composition: >
-     *     A File Input is composed as a Dropzone and a list of files. The
-     *     Dropzone contains a Shy Button for file selection.
+     *     The File Field consists of a Dropzone and a Shy Button. Uploaded files
+     *     are listed in a file entry above the input, featuring the files most
+     *     important information like title, size and type. Optionally, each
+     *     entry may contain an expandable content area, featuring the provided
+     *     metadata input. Among each entry there are several Glyphs, to expand,
+     *     collapse or remove the corresponding entry.
      *   effect: >
-     *     According to configuration, the input will accept files of certain
-     *     types and sizes. Dragging files from a folder on the comuter to the
-     *     Page in ILIAS will highlight the Dropzone.
-     *     Clicking the Shy Button which starts the native browser file selection.
-     *     Droppping the file onto the Dropzone or selecting a file in native
-     *     browser will directly upload the file and add a info-line beneath
-     *     the dropzone with the title and the size of the file and a Remove
-     *     Glyph once the upload has finished.
-     *     Clicking the Remove Glyph will remove the file-info and calls the
-     *     upload-handler to delete the already uploaded file.
-     *     Invalid files will lead to a error message in the dropzone.
+     *     Clicking the Shy Button opens the browsers file dialog, letting the
+     *     user choose files from their device. Depending on the provided mime-
+     *     types, only certain files will be selectable in this dialog.
+     *     Dragging files into the Dropzone and dropping them will create a new file
+     *     entry above the Shy Button.
+     *     Clicking the expand/collapse Glyphs will reveal or hide the file
+     *     entry's metadata input.
+     *     Clicking the removal Glyph will delete the file entry from the list.
+     *     The consumer is responsible to handle file deletions properly, if an
+     *     existing file has been removed this way.
+     *     Adding invalid files (e.g. wrong mime-type, too large) will show an
+     *     according message inside the file entry.
+     *     When the surrounding form is submitted, all files are uploaded first.
+     *     During this process every file entry will display a Progress Bar
+     *     representing the upload status.
+     *   rivals:
+     *     Image Field: >
+     *       if only images should be uploaded with this input, the Image Field
+     *       must be used instead.
      *
      * rules:
      *   usage:
-     *     1: The consuming component MUST handle uploads and deletions of files.
+     *     1: The consumer MUST handle uploads and deletions of files.
+     *     2: File entries should not be expandable, if there is no additional input.
+     *     3: >
+     *       The consumer MUST support chunked uploads if the max file size
+     *       exceeds the server limitation.
+     * accessibility:
+     *   1: The input MUST be operable using the keyboard only.
      *
      * context:
      *   - Upload icons for items in the MainBar (https://docu.ilias.de/goto_docu_wiki_wpage_3993_1357.html)
-     *
      * ---
      * @param UploadHandler $handler
      * @param string        $label
@@ -618,6 +658,76 @@ interface Factory
         ?string $byline = null,
         ?FormInput $metadata_input = null
     ): File;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Image Field can be used to upload one or multiple images from the
+     *     user device storage, encouraging them to provide an alternate text for
+     *     screen readers depending on the image purpose.
+     *   composition: >
+     *     The Image Field consists of a Dropzone and a Shy Button. Uploaded files
+     *     are listed in a file entry above the input, featuring the most important
+     *     information like title, size and type.
+     *     Optionally, each entry may contain an expandable content area, featuring
+     *     some additional inputs, depending on the image purpose and metadata input.
+     *     Among each entry there are Glyphs to expand, collapse or remove it.
+     *   effect: >
+     *     Clicking the Shy Button opens the browsers file dialog, letting the
+     *     user choose files from their device. Depending on the provided mime-
+     *     types, only certain images will be selectable in this dialog.
+     *     Dragging files into the Dropzone and dropping them will create a new file
+     *     entry above the Shy Button.
+     *     Clicking the expand/collapse Glyphs will reveal or hide the file
+     *     entrys additional inputs.
+     *     Clicking the removal Glyph will delete the file entry from the list.
+     *     The consumer is responsible to handle file deletions properly, if an
+     *     existing file has been removed this way.
+     *     Adding invalid files (e.g. wrong mime-type, too large) will show an
+     *     according message inside the file entry.
+     *     When the surrounding form is submitted, all files are uploaded first.
+     *     During this process every file entry will display a Progress Bar
+     *     representing the upload status.
+     *   rivals:
+     *     File Field: >
+     *       if other files than images should (also) be uploaded, the File Field
+     *       must be used instead.
+     *
+     * rules:
+     *   usage:
+     *     1: The consumer MUST handle uploads and deletions of files.
+     *     2: File entries should not be expandable, if there are no further inputs.
+     *     3: The consumer MUST only provide mime-types of images (image/*).
+     *     4: >
+     *       The consumer MUST support chunked uploads if the max file size
+     *       exceeds the server limitation.
+     *     5: >
+     *       Additional metadata inputs must be rendered BELOW the alt-text input, if
+     *       there is one.
+     *   accessibility:
+     *     1: The input MUST be operable using the keyboard only.
+     *
+     * context:
+     *   - this input will be used inside the ILIAS page editor to encourage users
+     *     to provide alternate texts, depending on the image purpose.
+     *
+     * background: https://docu.ilias.de/goto_docu_wiki_wpage_5882_1357.html
+     * ---
+     * @param UploadHandler $upload_handler
+     * @param ImagePurpose $image_purpose
+     * @param string $label
+     * @param string|null $byline
+     * @param FormInput|null $metadata_input
+     * @return \ILIAS\UI\Component\Input\Field\Image
+     */
+    public function image(
+        UploadHandler $upload_handler,
+        ImagePurpose $image_purpose,
+        string $label,
+        ?string $byline = null,
+        ?FormInput $metadata_input = null,
+    ): Image;
 
     /**
      * ---

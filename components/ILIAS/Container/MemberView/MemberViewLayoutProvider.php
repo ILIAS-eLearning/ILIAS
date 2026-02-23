@@ -77,7 +77,8 @@ class MemberViewLayoutProvider extends AbstractModificationProvider
             return null;
         }
 
-        return $this->factory->page()
+        /** @var PageBuilderModification $mod */
+        $mod = $this->factory->page()
             ->withLowPriority()
             ->withModification(
                 static function (PagePartProvider $parts) use ($mv_mode_info): Page {
@@ -86,5 +87,6 @@ class MemberViewLayoutProvider extends AbstractModificationProvider
                     return $page->withModeInfo($mv_mode_info);
                 }
             );
+        return $mod;
     }
 }

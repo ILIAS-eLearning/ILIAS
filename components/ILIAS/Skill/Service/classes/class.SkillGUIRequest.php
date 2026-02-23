@@ -167,7 +167,7 @@ class SkillGUIRequest
      *
      * @return mixed|null
      */
-    protected function get(string $key, Refinery\Transformation $t)
+    protected function get(string $key, Refinery\Transformation $t): mixed
     {
         if ($this->passed_query_params === null && $this->passed_post_data === null) {
             $w = $this->http->wrapper();

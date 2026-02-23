@@ -25,6 +25,7 @@ use ILIAS\Help\InternalDomainService;
 
 class TooltipsManager
 {
+    protected \ILIAS\Help\GuidedTour\Admin\AdminManager $gd_admin;
     protected \ilLanguage $lng;
     protected \ilObjUser $user;
     protected \ilSetting $settings;
@@ -40,22 +41,37 @@ class TooltipsManager
         $this->settings = $domain->settings();
         $this->user = $domain->user();
         $this->lng = $domain->lng();
+        $this->gd_admin = $domain->guidedTour()->admin();
+    }
+
+    public function isTooltipIdentifierVisible(): bool
+    {
+        return $this->gd_admin->areIdentifiersVisible();
     }
 
     public function getTooltipPresentationText(
         string $a_tt_id
     ): string {
 
+        $show_main_text = true;
         if ($this->user->getLanguage() !== "de") {
-            return "";
+            $show_main_text = false;
         }
 
         if ($this->settings->get("help_mode") === "1") {
-            return "";
+            $show_main_text = false;
         }
 
         if ($this->user->getPref("hide_help_tt")) {
-            return "";
+            $show_main_text = false;
+        }
+
+        if (!$show_main_text) {
+            if ($this->isTooltipIdentifierVisible()) {
+                return $a_tt_id;
+            } else {
+                return "";
+            }
         }
 
         if ($this->domain->module()->isAuthoringMode()) {
@@ -63,10 +79,14 @@ class TooltipsManager
         } else {
             $module_ids = $this->domain->module()->getActiveModules();
         }
-        return $this->repo->getTooltipPresentationText(
+        $text = $this->repo->getTooltipPresentationText(
             $a_tt_id,
             $module_ids
         );
+        if ($this->isTooltipIdentifierVisible()) {
+            $text .= "[" . $a_tt_id . "]";
+        }
+        return $text;
     }
 
     /**

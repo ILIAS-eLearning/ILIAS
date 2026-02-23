@@ -380,7 +380,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         $this->setMID($a_owner); // obsolete?
         $this->setOrganization($organisation);
         $this->setTitle($a_ecs_content->title);
-        $this->setDescription($a_ecs_content->abstract);
+        $this->setDescription($a_ecs_content->abstract ?? '');
         $this->setRemoteLink($a_ecs_content->url);
 
         $this->logger->info('updateCustomFromECSContent');

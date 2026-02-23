@@ -688,7 +688,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $has_sections = true;
 
                     $title = $item['title'] .
-                        " &rsaquo; " . ilLMObject::_lookupTitle($chapter['obj_id']) .
+                        " › " . ilLMObject::_lookupTitle($chapter['obj_id']) .
                         " (" . $lng->txt('obj_' . $chapter['type']) . ")";
 
                     $item_list_gui2->setDefaultCommandParameters([

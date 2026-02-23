@@ -9,7 +9,7 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT 'exc' type, exc_id, id, title, instruction
+				SELECT 'exc' type, 'ass' subType, exc_id, id, title, instruction
 				FROM exc_assignment
 				WHERE exc_id IN (?)
 			</Query>
@@ -17,6 +17,7 @@
 			<Field global="YES" store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
 			<Field global="YES" store="YES" index="ANALYZED" column="instruction" type="text" name="propertyLow" />
 			<Field global="YES" store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
+            <Field global="YES" store="YES" index="NOT_ANALYZED" column="subType" type="text" name="subType" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="exc_id" type="integer" name="objId"  />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type"  />
 			<DataSource type="Directory" action="append">
@@ -25,8 +26,8 @@
 					<Transformer name="LinefeedSanitizer" />
 				</Field>
 			</DataSource>
-			
+
 		</DataSource>
-		
+
 	</Document>
 </ObjectDefinition>

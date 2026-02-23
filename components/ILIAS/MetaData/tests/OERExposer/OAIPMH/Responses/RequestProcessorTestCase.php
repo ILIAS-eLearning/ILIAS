@@ -152,11 +152,12 @@ abstract class RequestProcessorTestCase extends TestCase
 
             public function writeRecordHeader(
                 string $identifier,
-                \DateTimeImmutable $datestamp
+                \DateTimeImmutable $datestamp,
+                bool $deleted = false
             ): \DOMDocument {
                 $doc = new \DOMDocument();
                 $doc->appendChild($doc->createElement(
-                    'header',
+                    $deleted ? 'deleted_header' : 'header',
                     $identifier . ':' . $datestamp->format('Y-m-d')
                 ));
                 return $doc;
@@ -179,6 +180,21 @@ abstract class RequestProcessorTestCase extends TestCase
                     )
                 );
                 $root->appendChild($doc->importNode($metadata->documentElement, true));
+                return $doc;
+            }
+
+            public function writeDeletedRecord(
+                string $identifier,
+                \DateTimeImmutable $datestamp
+            ): \DOMDocument {
+                $doc = new \DOMDocument();
+                $doc->appendChild($root = $doc->createElement('deleted_record'));
+                $root->appendChild(
+                    $doc->createElement(
+                        'record_info',
+                        $identifier . ':' . $datestamp->format('Y-m-d')
+                    )
+                );
                 return $doc;
             }
 
@@ -280,6 +296,7 @@ abstract class RequestProcessorTestCase extends TestCase
 
     /**
      * Append datestamps to identifiers with +YYYY-MM-DD
+     * Mark identifiers of deleted records with the prefix del
      */
     protected function getRepository(
         ?string $earliest_datestamp = null,
@@ -299,6 +316,11 @@ abstract class RequestProcessorTestCase extends TestCase
                     return new class ($this->identifier) extends NullRecordInfos {
                         public function __construct(protected string $identifier)
                         {
+                        }
+
+                        public function isDeleted(): bool
+                        {
+                            return substr($this->identifier, 0, 3) === 'del';
                         }
 
                         public function datestamp(): \DateTimeImmutable

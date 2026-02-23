@@ -47,9 +47,10 @@ class DataRetrieval implements I\DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
-    ): Generator {
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): \Generator {
         $records = $this->getRecords($order);
         foreach ($records as $record) {
             $row_id = (string) $record['id'];
@@ -89,8 +90,9 @@ class DataRetrieval implements I\DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return count(ilADNNotification::getArray());
     }

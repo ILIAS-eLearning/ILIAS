@@ -500,11 +500,11 @@ class BuilderImpl implements Builder
                     break;
             }
 
-            $end_data = $rule_data[1][self::END];
-            if ($end_data[0] === self::UNTIL_COUNT) {
+            $end_data = $rule_data[1][self::END] ?? [];
+            if (($end_data[0] ?? false) === self::UNTIL_COUNT) {
                 $recurrence->setFrequenceUntilCount($end_data[1][self::COUNT]);
             }
-            if ($end_data[0] === self::UNTIL_END_DATE) {
+            if (($end_data[0] ?? false) === self::UNTIL_END_DATE) {
                 $recurrence->setFrequenceUntilDate(new ilDate(
                     $end_data[1][self::END_DATE]->getTimestamp(),
                     IL_CAL_UNIX

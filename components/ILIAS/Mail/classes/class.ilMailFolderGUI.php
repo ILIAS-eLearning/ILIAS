@@ -29,11 +29,12 @@ use ILIAS\Mail\Folder\MailFolderSearch;
 use ILIAS\Mail\Folder\MailFolderTableUI;
 use ILIAS\Mail\Folder\MailFolderData;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
- * @ilCtrl_Calls ilMailFolderGUI:
+ * @ilCtrl_Calls ilMailFolderGUI: ILIAS\User\Profile\PublicProfileGUI
  */
-class ilMailFolderGUI
+class ilMailFolderGUI implements ilCtrlSecurityInterface
 {
     // used as single element namespace for UrlBuilder
     // added with '_' before parameter names in queries from the table
@@ -95,6 +96,18 @@ class ilMailFolderGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ui_service = $DIC->uiService();
         $this->data_factory = new ILIAS\Data\Factory();
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            self::CMD_TABLE_ACTION
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 
     /**
@@ -220,12 +233,15 @@ class ilMailFolderGUI
                 return;
 
             case MailFolderTableUI::ACTION_EDIT:
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
+                if ($this->folder->isOutbox()) {
+                    $this->umail->moveMailsToFolder($mail_ids, $this->mbox->getDraftsFolder());
+                }
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
                     self::PARAM_FOLDER_ID,
-                    (string) $this->folder->getFolderId()
+                    (string) $this->mbox->getDraftsFolder()
                 );
-                $this->ctrl->setParameterByClass(ilMailFormGUI::class, self::PARAM_MAIL_ID, (string) $mail_ids[0]);
                 $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);
                 $this->ctrl->redirectByClass(ilMailFormGUI::class);
 
@@ -299,7 +315,7 @@ class ilMailFolderGUI
                     self::URL_BUILDER_PREFIX . URLBuilder::SEPARATOR . self::PARAM_TARGET_FOLDER,
                     $this->refinery->kindlyTo()->int()
                 );
-                if (empty($folder_id)) {
+                if (empty($folder_id) || $folder_id === $this->mbox->getOutboxFolder()) {
                     $this->tpl->setOnScreenMessage(
                         ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
                         $this->lng->txt('mail_move_error')
@@ -361,7 +377,7 @@ class ilMailFolderGUI
         $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('standard/icon_usr.svg'));
         $this->tpl->setVariable('TBL_TITLE_IMG_ALT', $this->lng->txt('public_profile'));
 
-        $profile_gui = new ilPublicUserProfileGUI($usr_id);
+        $profile_gui = new PublicProfileGUI($usr_id);
 
         $mail_id = $this->http->wrapper()->query()->retrieve(
             self::PARAM_MAIL_ID,
@@ -899,7 +915,18 @@ class ilMailFolderGUI
         $form->addItem($date);
 
         $message = new ilCustomInputGUI($this->lng->txt('message') . ':');
-        $message->setHtml(ilUtil::htmlencodePlainString($mail_data['m_message'] ?? '', true));
+        $message->setHtml(
+            str_replace(
+                ['{', '}'],
+                ['&#123;', '&#125;'],
+                $this->refinery->string()->makeClickable()->transform(
+                    html_entity_decode(
+                        $this->refinery->string()->markdown()->toHTML()->transform($mail_data['m_message']) ?? ''
+                    )
+                )
+            )
+        );
+
         $form->addItem($message);
 
         if ($mail_data['attachments']) {
@@ -907,7 +934,7 @@ class ilMailFolderGUI
 
             $radiog = new ilRadioGroupInputGUI('', 'filename');
             foreach ($mail_data['attachments'] as $file) {
-                $radiog->addOption(new ilRadioOption($file, md5((string) $file)));
+                $radiog->addOption(new ilRadioOption($file, md5($file)));
             }
 
             $att->setHtml($radiog->render());
@@ -1106,7 +1133,7 @@ class ilMailFolderGUI
         );
 
         $tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
-        $tplprint->setVariable('MAIL_MESSAGE', nl2br(htmlspecialchars((string) $mail_data['m_message'])));
+        $tplprint->setVariable('MAIL_MESSAGE', html_entity_decode($this->refinery->string()->markdown()->toHTML()->transform($mail_data['m_message'])));
 
         $tplprint->show();
     }

@@ -489,7 +489,7 @@ class CopyrightHelperTest extends TestCase
         );
     }
 
-    public function testGetAllCopyrightPresets(): void
+    public function testGetCopyrightPreset(): void
     {
         $helper = $this->getCopyrightHelper(
             $this->getSettings(true),
@@ -507,6 +507,18 @@ class CopyrightHelperTest extends TestCase
         $this->assertSame('5', $presets->current()->exposed_id);
         $presets->next();
         $this->assertNull($presets->current());
+    }
+
+    public function testGetAllCopyrightPresets(): void
+    {
+        $helper = $this->getCopyrightHelper(
+            $this->getSettings(true),
+            $this->getCopyrightRepository([13, 77, 932, 5], [77], 13)
+        );
+
+        $preset = $helper->getCopyrightPreset('valid_932');
+
+        $this->assertSame('932', $preset->exposed_id);
     }
 
     public function testGetAllCopyrightPresetsInactiveCPSelection(): void

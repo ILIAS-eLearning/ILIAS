@@ -195,7 +195,7 @@ class ilSession
             if ($r->getInt(0, 50) === 2) {
                 // get time _before_ destroying expired sessions
                 self::_destroyExpiredSessions();
-                ilSessionStatistics::aggretateRaw($now);
+                ilSessionStatistics::aggregateRaw($now);
             }
         }
 
@@ -228,29 +228,35 @@ class ilSession
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
         if (!$a_closing_context) {
             $a_closing_context = self::$closing_context;
         }
 
         ilSessionStatistics::closeRawEntry($a_session_id, $a_closing_context, $a_expired_at);
 
+        $deletion_queries = [];
         if (is_array($a_session_id)) {
             // array: id => timestamp - so we get rid of timestamps
             if ($a_expired_at) {
                 $a_session_id = array_keys($a_session_id);
             }
-            $q = 'DELETE FROM usr_session WHERE ' .
-                $ilDB->in('session_id', $a_session_id, false, 'text');
+
+            $chunk_size = 500;
+            $batches = array_chunk($a_session_id, $chunk_size);
+            foreach ($batches as $batch) {
+                $deletion_queries[] = 'DELETE FROM usr_session WHERE ' .
+                    $DIC->database()->in('session_id', $batch, false, ilDBConstants::T_TEXT);
+            }
         } else {
-            $q = 'DELETE FROM usr_session WHERE session_id = ' .
-                $ilDB->quote($a_session_id, 'text');
+            $deletion_queries[] = 'DELETE FROM usr_session WHERE session_id = ' .
+                $DIC->database()->quote($a_session_id, ilDBConstants::T_TEXT);
         }
 
         ilSessionIStorage::destroySession($a_session_id);
 
-        $ilDB->manipulate($q);
+        foreach ($deletion_queries as $deletion_query) {
+            $DIC->database()->manipulate($deletion_query);
+        }
 
         if (ilContext::usesHTTP()) {
             try {

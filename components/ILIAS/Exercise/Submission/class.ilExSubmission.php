@@ -457,9 +457,11 @@ class ilExSubmission
             }
 
             // #14900
-            $member_status = $ass->getMemberStatus($a_user_id);
-            $member_status->setStatus("notgraded");
-            $member_status->update();
+            if (\ilObject::_lookupType($ass->getExerciseId()) === "exc") {  // see #45183
+                $member_status = $ass->getMemberStatus($a_user_id);
+                $member_status->setStatus("notgraded");
+                $member_status->update();
+            }
 
             $db->manipulateF(
                 "DELETE FROM exc_usr_tutor " .
@@ -717,8 +719,8 @@ class ilExSubmission
         $next_id = $ilDB->nextId("exc_returned");
         $query = sprintf(
             "INSERT INTO exc_returned " .
-                         "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late, team_id) " .
-                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                         "(returned_id, obj_id, user_id, filetitle, ass_id, ts, atext, late, team_id, rid) " .
+                         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
             $ilDB->quote($next_id, "integer"),
             $ilDB->quote($this->assignment->getExerciseId(), "integer"),
             $ilDB->quote($user_id, "integer"),
@@ -727,7 +729,8 @@ class ilExSubmission
             $ilDB->quote(ilUtil::now(), "timestamp"),
             $ilDB->quote($a_text, "text"),
             $ilDB->quote($this->isLate(), "integer"),
-            $ilDB->quote($team_id, "integer")
+            $ilDB->quote($team_id, "integer"),
+            $ilDB->quote('', "text")
         );
         $ilDB->manipulate($query);
 

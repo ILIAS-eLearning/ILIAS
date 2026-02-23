@@ -34,7 +34,9 @@ il.UI.Input = il.UI.Input || {};
 		 * @type {{}}
 		 */
 		const SELECTOR = {
-			file_input: '[data-il-ui-component="file-field-input"]',
+			file_input: 'fieldset',
+			file_fieldset: '[data-il-ui-component="file-field-input"]',
+			image_fieldset: '[data-il-ui-component="image-field-input"]',
 			file_list: '.ui-input-file-input-list',
 			file_list_entry: '.ui-input-file-input',
 			file_entry_metadata: '.ui-input-file-metadata',
@@ -45,7 +47,7 @@ il.UI.Input = il.UI.Input || {};
 			removal_glyph: '[data-action="remove"] .glyph',
 			expand_glyph: '[data-action="expand"] .glyph',
 			collapse_glyph: '[data-action="collapse"] .glyph',
-			form_submit_buttons: '.il-standard-form-cmd > button',
+			form_submit_buttons: '.c-form_actions > button',
 			modal_form_controls: '.modal-footer button',
 
 			progress_container: '.ui-input-file-input-progress-container',
@@ -95,7 +97,19 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let removal_items = [];
 
-		/**
+    /**
+     * Current form element and submitter for
+     * supporting multiple submit buttons with different actions
+     */
+    let submitter_button = {};
+
+    /**
+     * Holds initialised forms, prevents duplicate submission handlers.
+     * @type {WeakSet<HTMLFormElement>}
+     */
+    let initialised_forms_set = new WeakSet();
+
+    /**
 		 * @param {string} input_id
 		 * @param {string} upload_url
 		 * @param {string} removal_url
@@ -203,11 +217,16 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {Dropzone} dropzone
 		 */
 		let initDropzoneEventListeners = function (dropzone) {
-			document.getElementById(dropzone.options.input_id)
-				.closest('form')
-				.addEventListener('submit', (event) => {
-					processFormSubmissionHook(dropzone, event);
-				});
+      const form = document
+        .getElementById(dropzone.options.input_id)
+        .closest('form');
+
+      if (!initialised_forms_set.has(form)) {
+        form.addEventListener('submit', (event) => {
+          processFormSubmissionHook(dropzone, event);
+        });
+        initialised_forms_set.add(form);
+      }
 
 			dropzone.on('maxfilesexceeded', alertMaxFilesReachedHook);
 			dropzone.on('maxfilesreached', disableActionButtonHook);
@@ -292,6 +311,8 @@ il.UI.Input = il.UI.Input || {};
 			// for NoSubmit signals, this can also be an HTMLButtonElement.
 			dropzone.options.form.should_submit = true;
 
+      submitter_button = event.submitter;
+
 			event.preventDefault();
 			setFormControlsDisabledState(dropzone.options.form, true);
 			processCurrentFormDropzones(dropzone.options.form, event);
@@ -335,9 +356,9 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			// abort if the given file is not an allowed file type.
-			if (dropzones[input_id].options.acceptedFiles &&
-				!Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
-			) {
+      if (dropzones[input_id].options.acceptedFiles &&
+        !Dropzone.isValidFile(file, dropzones[input_id].options.acceptedFiles)
+      ) {
 				displayErrorMessage(
 					I18N.invalid_mime.replace('%s', file.type),
 					$(`#${input_id} ${SELECTOR.dropzone}`)
@@ -409,14 +430,25 @@ il.UI.Input = il.UI.Input || {};
 		}
 
 		let submitCurrentFormHook = function (dropzone) {
+      // mark one dropzone as finished
+      current_dropzone++;
 			// submit the current form only if all dropzones
 			// were processed.
-      console.log(current_dropzone);
-      console.log(current_dropzone_count);
 			if (dropzone.options.form.should_submit === true && current_dropzone >= current_dropzone_count) {
+        setSubmitterButtonFormAction(dropzone.options.form);
 				dropzone.options.form.submit();
 			}
 		}
+
+    let setSubmitterButtonFormAction = function (form) {
+      // The check about the submitter having the attribute 'formaction' needs to stay
+      // else the main submit button won't get triggered at all. Also this implementation is just
+      // a workaround as currently 'requestSubmit()' does not work even if it should. As the file.js
+      // should get refactored at some point it was decided to not change the function right now.
+      if (submitter_button && submitter_button.hasAttribute('formaction')) {
+        form.action = submitter_button.formAction;
+      }
+    }
 
 		let enableAutoProcessingHook = function () {
 			let dropzone = $(this)[0];
@@ -621,38 +653,28 @@ il.UI.Input = il.UI.Input || {};
 		}
 
 		let processCurrentFormDropzones = function (form, event) {
-			// retrieve all file inputs of the current form.
-			let file_inputs = $(form).find(SELECTOR.file_input);
-			current_dropzone_count = file_inputs.length;
+      // retrieve all file inputs of the current form.
+      const file_inputs = form.querySelectorAll(`${SELECTOR.file_fieldset}, ${SELECTOR.image_fieldset}`);
 
-            if (typeof file_inputs[Symbol.iterator] === 'function') {
-                let total_files = 0;
-                for (let i = 0; i < file_inputs.length; i++) {
-                    let input_id = $(file_inputs[i]).attr('id');
-                    let dropzone = dropzones[input_id];
-                    const queue = dropzone.getQueuedFiles();
-                    processRemovals(input_id, event);
-                    total_files += dropzone.files.length;
-                    if (queue.length !== 0) {
-                        dropzone.processQueue();
-                    } else {
-                        current_dropzone++;
-                    }
-                }
-                // handle case if no files selected.
-                if (total_files === 0) {
-                  form.submit();
-                }
-            } else {
-                let input_id = file_inputs.attr('id');
-                let dropzone = dropzones[input_id];
-                processRemovals(input_id, event);
-                if (0 !== dropzone.getQueuedFiles().length) {
-                    dropzone.processQueue();
-                } else {
-                    form.submit();
-                }
-            }
+      const dropzones_to_process = new Map();
+      file_inputs.forEach((file_input) => {
+        const dropzone = dropzones[file_input.id];
+        if (dropzone.getQueuedFiles().length > 0) {
+          dropzones_to_process.set(file_input.id, dropzone);
+        }
+      });
+
+      current_dropzone_count = dropzones_to_process.size;
+      if (current_dropzone_count < 1) {
+        setSubmitterButtonFormAction(form);
+        form.submit();
+        return;
+      }
+
+      dropzones_to_process.forEach((dropzone, input_id) => {
+        processRemovals(input_id, event);
+        dropzone.processQueue();
+      });
 		}
 
 		/**

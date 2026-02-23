@@ -95,6 +95,7 @@ class SubObjectRetrieval implements RetrievalInterface
             if (!in_array($this->transl, ["-", ""])) {
                 $trans_title = $this->getChildTitle($child);
             }
+
             yield [
                 "id" => $child["child"],
                 "deactivated_elements" => $deactivated_elements,

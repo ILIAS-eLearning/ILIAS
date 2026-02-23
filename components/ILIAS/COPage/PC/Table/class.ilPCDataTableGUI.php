@@ -56,7 +56,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
      * execute command
      * @return mixed
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
 

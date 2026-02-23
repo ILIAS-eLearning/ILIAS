@@ -41,7 +41,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGU
     private ?ilAssOrderingElementList $correctness_true_element_list = null;
     private bool $interaction_enabled = true;
     private bool $nesting_enabled = true;
-    private bool $styling_disabled = false;
     private ?ilTemplate $list_tpl = null;
 
     private UIFactory $ui_factory;
@@ -68,11 +67,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGU
     public function setNestingEnabled(bool $nesting_enabled): void
     {
         $this->nesting_enabled = $nesting_enabled;
-    }
-
-    public function setStylingDisabled(bool $styling_disabled): void
-    {
-        $this->styling_disabled = $styling_disabled;
     }
 
     private function getGlobalTpl()
@@ -383,10 +377,6 @@ class ilAssNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGU
 
     public function render(string $a_mode = ''): string
     {
-        if (!$this->styling_disabled) {
-            $this->getGlobalTpl()->addCss('assets/css/content.css');
-        }
-
         if ($this->interaction_enabled) {
             $this->initializePlayerJS();
         }

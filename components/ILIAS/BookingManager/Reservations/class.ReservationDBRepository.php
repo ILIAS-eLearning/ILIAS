@@ -44,11 +44,10 @@ class ReservationDBRepository
      */
     public function getForId(int $id): array
     {
-        $ilDB = $this->db;
-        $set = $ilDB->query('SELECT *' .
-            ' FROM booking_reservation' .
-            ' WHERE booking_reservation_id = ' . $ilDB->quote($id, 'integer'));
-        return $ilDB->fetchAssoc($set);
+        $il_db_statement = $this->db->query(
+            "SELECT * FROM booking_reservation WHERE booking_reservation_id = {$this->db->quote($id, \ilDBConstants::T_INTEGER)}"
+        );
+        return $this->db->fetchAssoc($il_db_statement) ?? [];
     }
 
     /**

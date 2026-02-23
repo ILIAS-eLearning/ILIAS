@@ -80,7 +80,7 @@ class ilObjBlog extends ilObject2
 
         $ilDB->manipulate("INSERT INTO il_blog (id,ppic,rss_active,approval" .
             ",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height" .
-            ",keywords,authors,nav_mode,nav_list_mon_with_post,ov_post) VALUES (" .
+            ",keywords,authors,nav_mode,nav_list_mon_with_post,ov_post,nav_list_mon) VALUES (" .
             $ilDB->quote($this->id, "integer") . "," .
             $ilDB->quote(true, "integer") . "," .
             $ilDB->quote(true, "integer") . "," .
@@ -93,6 +93,7 @@ class ilObjBlog extends ilObject2
             $ilDB->quote(true, "integer") . "," .
             $ilDB->quote(false, "integer") . "," .
             $ilDB->quote(self::NAV_MODE_LIST, "integer") . "," .
+            $ilDB->quote(5, "integer") . "," .
             $ilDB->quote(5, "integer") . "," .
             $ilDB->quote(5, "integer") .
             ")");

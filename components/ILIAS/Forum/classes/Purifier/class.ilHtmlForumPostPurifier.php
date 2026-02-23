@@ -32,7 +32,7 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
         $config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
         $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
 
-        $tags = ilObjAdvancedEditing::_getUsedHTMLTags('frm_post');
+        $tags = ilRTESettings::_getUsedHTMLTags('frm_post');
         $tags = $this->makeElementListTinyMceCompliant($tags);
         $config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
         $config->set('HTML.ForbiddenAttributes', 'div@style');

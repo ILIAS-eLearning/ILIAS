@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
 final class RootFolderTest extends TestCase
 {
     private const array ALLOWED_ROOT_FOLDER_FILES = [
+        '.npmrc',
         '.eslintrc.json',
         '.gitignore',
         '.htaccess',

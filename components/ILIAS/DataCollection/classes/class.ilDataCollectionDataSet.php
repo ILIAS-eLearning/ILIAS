@@ -176,7 +176,6 @@ class ilDataCollectionDataSet extends ilDataSet
                     $tableview->setTitle($a_rec['title']);
                     $tableview->setTableId((int) $new_table_id);
                     $tableview->setDescription($a_rec['description']);
-                    $tableview->setTableviewOrder((int) $a_rec['tableview_order']);
                     if (!is_array($a_rec['roles'])) {
                         $a_rec['roles'] = json_decode($a_rec['roles']);
                     }
@@ -213,6 +212,9 @@ class ilDataCollectionDataSet extends ilDataSet
                         $field->setTitle($a_rec['title']);
                         $field->setDescription($a_rec['description']);
                         $field->doCreate();
+                        if ($datatype_id === ilDclDatatype::INPUTFORMAT_TEXT) {
+                            $field->setProperty(ilDclBaseFieldModel::PROP_LENGTH, 200)->store();
+                        }
                         $a_mapping->addMapping('components/ILIAS/DataCollection', 'il_dcl_field', $a_rec['id'], $field->getId());
                     }
                 }
@@ -376,6 +378,14 @@ class ilDataCollectionDataSet extends ilDataSet
                         $name = $properties[$a_rec['datatype_prop_id']];
                     }
 
+                    if ($name === 'text_area' && $a_rec['value'] === '1') {
+                        $field = ilDclCache::getFieldCache((int) $new_field_id);
+                        if ($field instanceof ilDclTextFieldModel && !$field->hasProperty('length')) {
+                            $field->setProperty(ilDclBaseFieldModel::PROP_LENGTH, 4000)->store();
+                            break;
+                        }
+                    }
+
                     $prop->setName($name);
                     $prop->setValue($a_rec['value']);
                     $prop->save();
@@ -419,12 +429,6 @@ class ilDataCollectionDataSet extends ilDataSet
                         // Need to rewrite internal references and lookup new objects if MOB or File
                         // For some fieldtypes it's better to reset the value, e.g. ILIAS_REF
                         switch ($record_field->getField()->getDatatypeId()) {
-                            case ilDclDatatype::INPUTFORMAT_MOB:
-                                // Check if we got a mapping from old object
-                                $new_mob_id = $a_mapping->getMapping('components/ILIAS/MediaObjects', 'mob', $a_rec['value']);
-                                $value = ($new_mob_id) ? (int) $new_mob_id : null;
-                                $this->import_temp_new_mob_ids[] = $new_mob_id;
-                                break;
                             case ilDclDatatype::INPUTFORMAT_FILEUPLOAD:
                                 $new_file_id = $a_mapping->getMapping('components/ILIAS/File', 'file', $a_rec['value']);
                                 $value = ($new_file_id) ? (int) $new_file_id : null;
@@ -441,6 +445,8 @@ class ilDataCollectionDataSet extends ilDataSet
                                     $this->import_temp_refs[$new_record_field_id] = $value;
                                 }
                                 break;
+                            case ilDclDatatype::INPUTFORMAT_MOB:
+                            case ilDclDatatype::INPUTFORMAT_FILE:
                             case ilDclDatatype::INPUTFORMAT_ILIAS_REF:
                                 $value = null;
                                 break;
@@ -605,7 +611,6 @@ class ilDataCollectionDataSet extends ilDataSet
                     'title' => 'text',
                     'roles' => 'text',
                     'description' => 'text',
-                    'tableview_order' => 'integer',
                 ];
             case 'il_dcl_field':
                 return [

@@ -116,7 +116,7 @@ class TestScoring
         $this->test_result_repository->updateTestResultCache($active_id);
     }
 
-    public function recalculatePasses(\ilTestEvaluationUserData $userdata, int $active_id): void
+    private function recalculatePasses(\ilTestEvaluationUserData $userdata, int $active_id): void
     {
         $passes = $userdata->getPasses();
         foreach ($passes as $pass => $passdata) {
@@ -127,18 +127,20 @@ class TestScoring
         $this->test_result_repository->updateTestResultCache($active_id);
     }
 
-    public function recalculatePass(
+    private function recalculatePass(
         \ilTestEvaluationPassData $passdata,
         int $user_id,
         int $active_id,
         int $pass
     ): void {
         $questions = $passdata->getAnsweredQuestions();
+        $reached_points_changed = false;
         foreach ($questions as $question_data) {
             if (!$this->getQuestionId() || $this->getQuestionId() === $question_data['id']) {
-                $this->recalculateQuestionScore($user_id, $active_id, $pass, $question_data);
+                $reached_points_changed = $reached_points_changed || $this->recalculateQuestionScore($user_id, $active_id, $pass, $question_data);
             }
         }
+        $this->updatePassResultsTable($active_id, $pass, $reached_points_changed);
     }
 
     private function recalculateQuestionScore(
@@ -146,9 +148,9 @@ class TestScoring
         int $active_id,
         int $pass,
         array $questiondata
-    ): void {
+    ): bool {
         if ($this->preserve_manual_scores === true && $questiondata['manual'] === 1) {
-            return;
+            return false;
         }
 
         $q_id = $questiondata['id'];
@@ -163,14 +165,14 @@ class TestScoring
             $active_id,
         );
 
-        $this->updateReachedPoints(
+        return $this->updateReachedPoints(
             $user_id,
             $active_id,
             $questiondata['id'],
             $old_points,
             $reached,
             $question->getMaximumPoints(),
-            $pass,
+            $pass
         );
     }
 
@@ -179,16 +181,15 @@ class TestScoring
      * necessary. In addition, unlike the original, this method does NOT update the test cache, so this must also be called
      * afterward.
      */
-    public function updateReachedPoints(
+    private function updateReachedPoints(
         int $user_id,
         int $active_id,
         int $question_id,
         float $old_points,
         float $points,
         float $max_points,
-        int $pass,
-        bool $manual_scoring = false
-    ): void {
+        int $pass
+    ): bool {
         // Only update the test results if necessary
         $has_changed = $old_points !== $points;
         if ($has_changed && $points <= $max_points) {
@@ -206,28 +207,6 @@ class TestScoring
             );
         }
 
-        // Always update the pass result as the maximum points might have changed
-        $data = $this->test->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-        $values = [
-            'maxpoints' => [\ilDBConstants::T_FLOAT, $data['points']],
-            'tstamp' => [\ilDBConstants::T_INTEGER, time()],
-        ];
-
-        if ($has_changed) {
-            $result = $this->db->queryF(
-                'SELECT SUM(points) reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s',
-                [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
-                [$active_id, $pass]
-            );
-            $values['points'] = [\ilDBConstants::T_FLOAT, $result->fetchAssoc()['reachedpoints'] ?? 0.0];
-        }
-
-        $this->db->update(
-            'tst_pass_result',
-            $values,
-            ['active_fi' => [\ilDBConstants::T_INTEGER, $active_id], 'pass' => [\ilDBConstants::T_INTEGER, $pass]]
-        );
-
         \ilCourseObjectiveResult::_updateObjectiveResult($user_id, $active_id, $question_id);
         $logger = $this->test->getTestLogger();
         if ($logger->isLoggingEnabled()) {
@@ -243,6 +222,36 @@ class TestScoring
                 )
             );
         }
+
+        return $has_changed;
+    }
+
+    private function updatePassResultsTable(
+        int $active_id,
+        int $pass,
+        bool $reached_points_changed
+    ): void {
+        // Always update the pass result as the maximum points might have changed
+        $data = $this->test->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+        $values = [
+            'maxpoints' => [\ilDBConstants::T_FLOAT, $data['points']],
+            'tstamp' => [\ilDBConstants::T_INTEGER, time()],
+        ];
+
+        if ($reached_points_changed) {
+            $result = $this->db->queryF(
+                'SELECT SUM(points) reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s',
+                [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
+                [$active_id, $pass]
+            );
+            $values['points'] = [\ilDBConstants::T_FLOAT, $result->fetchAssoc()['reachedpoints'] ?? 0.0];
+        }
+
+        $this->db->update(
+            'tst_pass_result',
+            $values,
+            ['active_fi' => [\ilDBConstants::T_INTEGER, $active_id], 'pass' => [\ilDBConstants::T_INTEGER, $pass]]
+        );
     }
 
     /**

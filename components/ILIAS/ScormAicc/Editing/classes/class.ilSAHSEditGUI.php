@@ -122,8 +122,8 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
             case "ilexportgui":
                 $obj_id = ilObject::_lookupObjectId($this->refId);
                 if ($cmd === "create_xml") {
-                    $exporter = new ilScormAiccExporter();
-                    $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", (string) $obj_id);
+                    $exp = new ilExport();
+                    $exp->exportObject( 'sahs', (int)$obj_id );
                 } elseif ($cmd === "download") {
                     $file = $this->wrapper->query()->retrieve('file', $this->refinery->kindlyTo()->string());
                     $ftmp = explode(":", $file);

@@ -434,6 +434,9 @@ class SubmissionManager
                 continue;
             }
             $s = $this->repo->getById($id);
+            if (is_null($s)) {  // #45974
+                continue;
+            }
             $this->repo->delete(
                 $id,
                 $this->stakeholder
@@ -478,7 +481,7 @@ class SubmissionManager
     public function copySubmissionsToDir(
         array $user_ids,
         string $directory
-    ) {
+    ): void {
         $members = [];
         foreach ($user_ids as $member_id) {
             $submission = new \ilExSubmission($this->assignment, $member_id);
@@ -617,10 +620,12 @@ class SubmissionManager
                 $dir = $to_path . DIRECTORY_SEPARATOR . $targetdir;
                 \ilFileUtils::makeDirParents($dir);
                 $file = $dir . DIRECTORY_SEPARATOR . $targetfile;
-                file_put_contents(
-                    $file,
-                    $stream->getContents()
-                );
+                if (!is_null($stream)) {
+                    file_put_contents(
+                        $file,
+                        $stream->getContents()
+                    );
+                }
 
                 // unzip blog/portfolio
 

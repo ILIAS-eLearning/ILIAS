@@ -68,7 +68,7 @@ class Writer implements WriterInterface
         );
         yield $this->writeSingleElementXML(
             'deletedRecord',
-            'no'
+            'transient'
         );
         yield $this->writeSingleElementXML(
             'granularity',
@@ -127,11 +127,15 @@ class Writer implements WriterInterface
 
     public function writeRecordHeader(
         string $identifier,
-        \DateTimeImmutable $datestamp
+        \DateTimeImmutable $datestamp,
+        bool $deleted = false
     ): \DOMDocument {
         $xml = new \DomDocument('1.0', 'UTF-8');
 
         $root = $xml->createElement('header');
+        if ($deleted) {
+            $root->setAttribute('status', 'deleted');
+        }
         $xml->appendChild($root);
 
         $identifier = $xml->createElement(
@@ -165,6 +169,21 @@ class Writer implements WriterInterface
         $metadata_xml = $xml->createElement('metadata');
         $root->appendChild($metadata_xml);
         $metadata_xml->appendChild($xml->importNode($metadata->documentElement, true));
+
+        return $xml;
+    }
+
+    public function writeDeletedRecord(
+        string $identifier,
+        \DateTimeImmutable $datestamp
+    ): \DOMDocument {
+        $xml = new \DomDocument('1.0', 'UTF-8');
+
+        $root = $xml->createElement('record');
+        $xml->appendChild($root);
+
+        $header_xml = $this->writeRecordHeader($identifier, $datestamp, true);
+        $root->appendChild($xml->importNode($header_xml->documentElement, true));
 
         return $xml;
     }

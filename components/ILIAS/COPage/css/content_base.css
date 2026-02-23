@@ -14,7 +14,20 @@
 	text-align: left;
 }
 
-#iltinymenu div.ilTinyMenuSection p, #iltinymenu .il-copg-button-group p {
+.ilTinyMenuSection .dropdown-menu {
+	width: auto;
+}
+
+#iltinymenu div.ilTinyMenuSection {
+	white-space: normal;
+}
+.ilTinyMenuSection > div.dropdown:nth-child(1) > ul.dropdown-menu {
+	right:auto;
+	left:0;
+}
+
+/* see #41844 and #46127 */
+#copg-editor-slate-content p, #iltinymenu .il-copg-button-group p {
 	background-color: transparent;
 }
 
@@ -86,7 +99,9 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 }
 
 .copg-iim-area-shape-sel.copg-iim-hl-mode-Edit {
-	stroke: #B54F00;
+	stroke: #FFF;
+	stroke-dasharray: 4 2;
+	filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000);
 }
 .copg-iim-area-shape-sel.copg-iim-hl-mode-Always,
 .copg-iim-area-shape-sel.copg-iim-hl-mode-Hover:hover {
@@ -108,6 +123,7 @@ div.ilc_VerificationPlaceHolder /* no custom image yet */
 	stroke: #0078D7;
 	fill-opacity: 40%;
 	fill: white;
+	filter: none;
 }
 
 .copg-iim-popup {
@@ -213,4 +229,27 @@ button.copg-add.dropdown-toggle.btn:focus-visible {
 }
 .copg-src-form.c-form [data-il-ui-component=textarea-field-input] .c-input__field textarea {
 	height: 50vh;
+}
+
+.ilc_media_caption_MediaCaption img {
+	width: 25px;
+	height: 25px;
+}
+
+.il-copg-mob-fullscreen-modal .il-modal-roundtrip {
+	width: 90%;
+	height: 90vh;
+	.modal-dialog {
+		width: 100%;
+		.modal-content {
+			height: 100%;
+		}
+	}
+	.modal-body {
+		height: calc(100% - 100px);
+	}
+}
+
+.il-copg-mob-fullscreen {
+	height: calc(90vh - 160px);
 }

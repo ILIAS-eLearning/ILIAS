@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 /**
  * Class ilObjLTIAdministration
  * @author Jesús López <lopez@leifos.com>

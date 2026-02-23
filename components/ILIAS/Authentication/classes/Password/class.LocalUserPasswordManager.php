@@ -192,13 +192,13 @@ class LocalUserPasswordManager
         $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType());
         if ($this->getEncoderName() !== $encoder->getName()) {
             if ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
-                $user->resetPassword($raw, $raw);
+                $user->resetPassword($raw);
 
                 return true;
             }
         } elseif ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
             if ($encoder->requiresReencoding($user->getPasswd())) {
-                $user->resetPassword($raw, $raw);
+                $user->resetPassword($raw);
             }
 
             return true;

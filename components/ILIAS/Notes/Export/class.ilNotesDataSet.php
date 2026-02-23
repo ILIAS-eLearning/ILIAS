@@ -110,7 +110,7 @@ class ilNotesDataSet extends ilDataSet
         if ($a_entity === "comments_settings") {
             switch ($a_version) {
                 case "10.0":
-                    foreach($a_ids as $id) {
+                    foreach ($a_ids as $id) {
                         $this->data[] = [
                             "Id" => $id,
                             "Active" => (int) $this->notes_manager->commentsActive((int) $id)

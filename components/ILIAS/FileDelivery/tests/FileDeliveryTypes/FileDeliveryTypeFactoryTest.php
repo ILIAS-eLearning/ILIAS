@@ -45,17 +45,13 @@ use ILIAS\FileDelivery\FileDeliveryTypes\PHPChunked;
 class FileDeliveryTypeFactoryTest extends TestCase
 {
     private FileDeliveryTypeFactory $subject;
-    /**
-     * @var Services|MockObject
-     */
-    private Services $http;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->http = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
-        $this->subject = new FileDeliveryTypeFactory($this->http);
+        $http = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
+        $this->subject = new FileDeliveryTypeFactory($http);
     }
 
 

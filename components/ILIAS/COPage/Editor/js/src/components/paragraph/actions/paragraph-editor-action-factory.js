@@ -47,6 +47,12 @@ export default class ParagraphEditorActionFactory {
     });
   }
 
+  textTemplate(content) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.TEXT_TEMPLATE, {
+      content,
+    });
+  }
+
   /**
    * @returns {EditorAction}
    */

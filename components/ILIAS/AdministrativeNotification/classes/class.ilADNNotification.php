@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -141,14 +142,23 @@ class ilADNNotification extends ActiveRecord
         return ($this->isVisibleToUserBasedOnLanguage($ilObjUser) && $this->isVisibleRoleUserRoles($ilObjUser));
     }
 
-
-    protected function isVisibleToUserBasedOnLanguage(ilObjUser $ilObjUser): bool
+    protected function isVisibleToUserBasedOnLanguage(ilObjUser $user): bool
     {
         if (!$this->hasLanguageLimitation()) {
             return true;
         }
 
-        return in_array($ilObjUser->getLanguage(), $this->getLimitedToLanguages(), true);
+        // Special case for anonymous user
+        if ($user->isAnonymous()) {
+            // current language
+            global $DIC;
+            $current_language = $DIC->http()->request()->getQueryParams()['lang']
+                ?? $DIC->language()->getDefaultLanguage();
+        } else {
+            $current_language = $user->getLanguage();
+        }
+
+        return in_array($current_language, $this->getLimitedToLanguages(), true);
     }
 
 

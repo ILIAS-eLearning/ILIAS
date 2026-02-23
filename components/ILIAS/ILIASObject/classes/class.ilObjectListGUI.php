@@ -199,7 +199,7 @@ class ilObjectListGUI
         global $DIC;
 
         $this->access = $DIC['ilAccess'];
-        $this->user = $DIC['ilUser'];
+        $this->user = $DIC['user']->getLoggedInUser();
         $this->object_dic = LocalDIC::dic();
         $this->obj_definition = $DIC['objDefinition'];
         $this->tree = $DIC['tree'];
@@ -1465,8 +1465,7 @@ class ilObjectListGUI
                 continue;
             }
 
-            $operator = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'], $condition['operator'], $condition['value']);
-            $cond_txt = $operator . ' ' . $condition['value'];
+            $cond_txt = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'], $condition['operator'], $condition['value']);
 
             // display trigger item
             $class = $this->obj_definition->getClassName($condition['trigger_type']);
@@ -2386,9 +2385,9 @@ class ilObjectListGUI
             $this->ctrl->setParameterByClass('ilRatingGUI', 'rnsb', true);
             if ($this->rating_ctrl_path) {
                 $rating_gui->setCtrlPath($this->rating_ctrl_path);
-                $ajax_url = $this->ctrl->getLinkTargetByClass($this->rating_ctrl_path, 'saveRating', '', true);
+                $ajax_url = $this->ctrl->getFormActionByClass($this->rating_ctrl_path, 'saveRating', '', true);
             } else {
-                $ajax_url = $this->ctrl->getLinkTargetByClass('ilRatingGUI', 'saveRating', '', true);
+                $ajax_url = $this->ctrl->getFormActionByClass('ilRatingGUI', 'saveRating', '', true);
             }
             $main_tpl->addOnLoadCode('il.Object.setRatingUrl("' . $ajax_url . '");');
             $this->addHeaderIconHTML(
@@ -2690,17 +2689,6 @@ class ilObjectListGUI
         return $this->adm_commands_included;
     }
 
-    public function storeAccessCache(): void
-    {
-        if ($this->acache->getLastAccessStatus() == 'miss' && !$this->prevent_access_caching) {
-            $this->acache->storeEntry(
-                $this->user->getId() . ':' . $this->ref_id,
-                serialize($this->access_cache),
-                $this->ref_id
-            );
-        }
-    }
-
     /**
      * Get all item information (title, commands, description) in HTML
      */
@@ -2731,16 +2719,6 @@ class ilObjectListGUI
                     true
                 );
             }
-        }
-
-        // read from cache
-        $this->acache = new ilListItemAccessCache();
-        $cres = $this->acache->getEntry($this->user->getId() . ':' . $ref_id);
-        if ($this->acache->getLastAccessStatus() == 'hit') {
-            $this->access_cache = unserialize($cres);
-        } else {
-            // write to cache
-            $this->storeAccessCache();
         }
 
         // visible check

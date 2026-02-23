@@ -46,10 +46,7 @@ class FormAdapterGUI
     protected array $values = [];
     protected array $disable = [];
 
-    /**
-     * @var mixed|null
-     */
-    protected $raw_data = null;
+    protected ?array $raw_data = null;
     protected \ILIAS\HTTP\Services $http;
     protected \ilCtrlInterface $ctrl;
     protected \ILIAS\DI\UIServices $ui;
@@ -58,7 +55,7 @@ class FormAdapterGUI
     protected array $sections = [self::DEFAULT_SECTION => ["title" => "", "description" => "", "fields" => []]];
     protected string $current_section = self::DEFAULT_SECTION;
     protected array $section_of_field = [];
-    protected $class_path;
+    protected ?array $class_path;
     protected string $cmd = self::DEFAULT_SECTION;
     protected ?Form\Standard $form = null;
     protected array $upload_handler = [];
@@ -73,7 +70,7 @@ class FormAdapterGUI
      * @param string|array $class_path
      */
     public function __construct(
-        $class_path,
+        ?array $class_path,
         string $cmd,
         string $submit_caption = ""
     ) {
@@ -178,10 +175,14 @@ class FormAdapterGUI
         string $key,
         string $title,
         string $description = "",
-        ?string $value = null
+        ?string $value = null,
+        int $max_length = 0
     ): self {
         $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->text($title, $description);
+        if ($max_length > 0) {
+            $field = $field->withMaxLength($max_length);
+        }
         if (!is_null($value)) {
             $field = $field->withValue($value);
         }
@@ -371,10 +372,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    /**
-     * @return null|\ilDate|\ilDateTime
-     */
-    protected function getDateTimeData(?\DateTimeImmutable $value, $use_time = false)
+    protected function getDateTimeData(?\DateTimeImmutable $value, $use_time = false): \ilDate|\ilDateTime|null
     {
         if (is_null($value)) {
             return null;
@@ -412,10 +410,6 @@ class FormAdapterGUI
     ): self {
         $this->values[$key] = $value;
         $field = $this->ui->factory()->input()->field()->radio($title, $description);
-        if (!is_null($value)) {
-            $field = $field->withOption($value, "");    // dummy to prevent exception, will be overwritten by radioOption
-            $field = $field->withValue($value);
-        }
         $this->addField(
             $key,
             $field
@@ -427,6 +421,9 @@ class FormAdapterGUI
     {
         if ($field = $this->getLastField()) {
             $field = $field->withOption($value, $title, $description);
+            if (($this->values[$this->last_key] ?? null) === $value) {
+                $field = $field->withValue($value);
+            }
             $this->replaceLastField($field);
         }
         return $this;
@@ -577,8 +574,9 @@ class FormAdapterGUI
             $this->upload_handler[$key],
             $title,
             $description
-        )
-            ->withMaxFileSize((int) \ilFileUtils::getPhpUploadSizeLimitInBytes());
+        );
+        // not necessary, see https://github.com/ILIAS-eLearning/ILIAS/pull/9314
+        //->withMaxFileSize((int) \ilFileUtils::getPhpUploadSizeLimitInBytes());
         if (!is_null($max_files)) {
             $field = $field->withMaxFiles($max_files);
         }
@@ -664,6 +662,10 @@ class FormAdapterGUI
         if ($this->last_key !== "") {
             $this->fields[$this->last_key] = $field;
         }
+        // also replace the field in current optional, if it's in it
+        if (!is_null($this->current_optional) && isset($this->current_optional["fields"][$this->last_key])) {
+            $this->current_optional["fields"][$this->last_key] = $field;
+        }
     }
 
     public function getForm(): Form\Standard
@@ -728,7 +730,7 @@ class FormAdapterGUI
     /**
      * @return mixed
      */
-    public function getData(string $key)
+    public function getData(string $key): mixed
     {
         $this->_getData();
 

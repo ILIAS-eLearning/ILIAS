@@ -30,7 +30,7 @@ use ILIAS\StudyProgramme\Certificate\ilStudyProgrammePlaceholderDescription;
 use ILIAS\StudyProgramme\Certificate\ilCertificateSettingsStudyProgrammeFormRepository;
 use ILIAS\Test\Certificate\TestPlaceholderValues;
 use ILIAS\Test\Certificate\TestPlaceholderDescription;
-use ILIAS\Course\Certificate\CertificateTestTemplateDeleteAction;
+use ILIAS\Test\Certificate\CertificateTestTemplateDeleteAction;
 use ILIAS\Test\Certificate\CertificateSettingsTestFormRepository;
 
 /**

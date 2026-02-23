@@ -22,9 +22,16 @@ namespace ILIAS\Help;
 
 class InternalDataService
 {
+    protected static array $instance = [];
+
     public function __construct()
     {
         //$this->..._factory = new ...\DataFactory();
+    }
+
+    public function guidedTour(): \ILIAS\Help\GuidedTour\InternalDataService
+    {
+        return self::$instance["guided_data"] ??= new GuidedTour\InternalDataService();
     }
 
 }

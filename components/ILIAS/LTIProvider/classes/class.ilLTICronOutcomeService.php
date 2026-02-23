@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 use ILIAS\Cron\Job\Schedule\JobScheduleType;
 use ILIAS\Cron\Job\JobRepository;
@@ -91,7 +91,7 @@ class ilLTICronOutcomeService extends CronJob
 
         $result = new \ILIAS\Cron\Job\JobResult();
         $result->setStatus($status);
-        ilLTIAppEventListener::handleCronUpdate($since);
+        ilLTIProviderAppEventListener::handleCronUpdate($since);
         $result->setStatus(JobResult::STATUS_OK);
 
         return $result;

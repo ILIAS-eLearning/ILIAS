@@ -58,8 +58,8 @@ class ImageConversionTest extends TestCase
         $getimagesize = getimagesize($img);
         $original_width = $getimagesize[0]; // should be 600
         $original_height = $getimagesize[1]; // should be 800
-        $this->assertEquals(600, $original_width);
-        $this->assertEquals(800, $original_height);
+        $this->assertSame(600, $original_width);
+        $this->assertSame(800, $original_height);
 
         // make tumbnail
         $original_stream = Streams::ofResource(fopen($img, 'rb'));
@@ -69,13 +69,13 @@ class ImageConversionTest extends TestCase
             100
         );
         $this->assertTrue($thumbnail_converter->isOK());
-        $this->assertNull($thumbnail_converter->getThrowableIfAny());
+        $this->assertNotInstanceOf(\Throwable::class, $thumbnail_converter->getThrowableIfAny());
         $converted_stream = $thumbnail_converter->getStream();
 
         $getimagesizefromstring = getimagesizefromstring((string) $converted_stream);
 
-        $this->assertEquals(75, $getimagesizefromstring[0]); // width
-        $this->assertEquals(100, $getimagesizefromstring[1]); // height
+        $this->assertSame(75, $getimagesizefromstring[0]); // width
+        $this->assertSame(100, $getimagesizefromstring[1]); // height
     }
 
     public function testImageSquareActualImage(): void
@@ -85,8 +85,8 @@ class ImageConversionTest extends TestCase
         $getimagesize = getimagesize($img);
         $original_width = $getimagesize[0]; // should be 600
         $original_height = $getimagesize[1]; // should be 800
-        $this->assertEquals(600, $original_width);
-        $this->assertEquals(800, $original_height);
+        $this->assertSame(600, $original_width);
+        $this->assertSame(800, $original_height);
 
         // make tumbnail
         $original_stream = Streams::ofResource(fopen($img, 'rb'));
@@ -96,7 +96,7 @@ class ImageConversionTest extends TestCase
             200
         );
         $this->assertTrue($thumbnail_converter->isOK());
-        $this->assertNull($thumbnail_converter->getThrowableIfAny());
+        $this->assertNotInstanceOf(\Throwable::class, $thumbnail_converter->getThrowableIfAny());
 
         $getimagesizefromstring = $this->getImageSizeFromStream($thumbnail_converter->getStream());
 
@@ -104,14 +104,12 @@ class ImageConversionTest extends TestCase
         $this->assertEquals(200, $getimagesizefromstring[self::H]);
     }
 
-    public static function getImageSizesByWidth(): array
+    public static function getImageSizesByWidth(): \Iterator
     {
-        return [
-            [400, 300, self::BY_WIDTH_FINAL, 192],
-            [300, 400, self::BY_WIDTH_FINAL, 341],
-            [543, 431, self::BY_WIDTH_FINAL, 203],
-            [200, 200, self::BY_WIDTH_FINAL, 256],
-        ];
+        yield [400, 300, self::BY_WIDTH_FINAL, 192];
+        yield [300, 400, self::BY_WIDTH_FINAL, 341];
+        yield [543, 431, self::BY_WIDTH_FINAL, 203];
+        yield [200, 200, self::BY_WIDTH_FINAL, 256];
     }
 
     #[DataProvider('getImageSizesByWidth')]
@@ -135,32 +133,30 @@ class ImageConversionTest extends TestCase
         $this->assertEquals($final_height, $new_dimensions[self::H]);
 
         // check aspect ratio
-        $this->assertEquals(
+        $this->assertSame(
             round($width > $height),
             round($final_width > $final_height)
         );
-        $this->assertEquals(
+        $this->assertSame(
             round($width / $height),
             round($new_dimensions[self::W] / $new_dimensions[self::H])
         );
-        $this->assertEquals(
+        $this->assertSame(
             $width > $height,
             $width > $height
         );
-        $this->assertEquals(
+        $this->assertSame(
             $width > $height,
             $new_dimensions[self::W] > $new_dimensions[self::H]
         );
     }
 
-    public static function getImageSizesByHeight(): array
+    public static function getImageSizesByHeight(): \Iterator
     {
-        return [
-            [400, 300, self::BY_HEIGHT_FINAL, 1008],
-            [300, 400, self::BY_HEIGHT_FINAL, 567],
-            [200, 200, self::BY_HEIGHT_FINAL, 756],
-            [248, 845, self::BY_HEIGHT_FINAL, 221],
-        ];
+        yield [400, 300, self::BY_HEIGHT_FINAL, 1008];
+        yield [300, 400, self::BY_HEIGHT_FINAL, 567];
+        yield [200, 200, self::BY_HEIGHT_FINAL, 756];
+        yield [248, 845, self::BY_HEIGHT_FINAL, 221];
     }
 
 
@@ -185,34 +181,32 @@ class ImageConversionTest extends TestCase
         $this->assertEquals($final_height, $new_dimensions[self::H]);
 
         // check aspect ratio
-        $this->assertEquals(
+        $this->assertSame(
             round($width > $height),
             round($final_width > $final_height)
         );
-        $this->assertEquals(
+        $this->assertSame(
             round($width / $height),
             round($new_dimensions[self::W] / $new_dimensions[self::H])
         );
-        $this->assertEquals(
+        $this->assertSame(
             $width > $height,
             $width > $height
         );
-        $this->assertEquals(
+        $this->assertSame(
             $width > $height,
             $new_dimensions[self::W] > $new_dimensions[self::H]
         );
     }
 
-    public static function getImageSizesByFixed(): array
+    public static function getImageSizesByFixed(): \Iterator
     {
-        return [
-            [1024, 768, 300, 100, true],
-            [1024, 768, 300, 100, false],
-            [1024, 768, 100, 300, true],
-            [1024, 768, 100, 300, false],
-            [400, 300, 500, 400, true],
-            [400, 300, 500, 400, false],
-        ];
+        yield [1024, 768, 300, 100, true];
+        yield [1024, 768, 300, 100, false];
+        yield [1024, 768, 100, 300, true];
+        yield [1024, 768, 100, 300, false];
+        yield [400, 300, 500, 400, true];
+        yield [400, 300, 500, 400, false];
     }
 
     #[DataProvider('getImageSizesByFixed')]
@@ -236,21 +230,19 @@ class ImageConversionTest extends TestCase
         $this->assertEquals($final_height, $new_dimensions[self::H]);
     }
 
-    public static function getImageOptions(): array
+    public static function getImageOptions(): \Iterator
     {
         $options = new ImageOutputOptions();
-        return [
-            [$options, self::IMAGE_JPEG, 75],
-            [$options->withPngOutput()->withQuality(22), self::IMAGE_PNG, 0],
-            [$options->withJpgOutput()->withQuality(100), self::IMAGE_JPEG, 100],
-            [$options->withFormat('png')->withQuality(50), self::IMAGE_PNG, 0],
-            [$options->withFormat('jpg')->withQuality(87), self::IMAGE_JPEG, 87],
-            [$options->withQuality(5)->withJpgOutput(), self::IMAGE_JPEG, 5],
-            [$options->withQuality(10)->withJpgOutput(), self::IMAGE_JPEG, 10],
-            [$options->withQuality(35)->withJpgOutput(), self::IMAGE_JPEG, 35],
-            [$options->withQuality(0)->withWebPOutput(), self::IMAGE_WEBP, 0],
-            [$options->withQuality(100)->withWebPOutput(), self::IMAGE_WEBP, 100],
-        ];
+        yield [$options, self::IMAGE_JPEG, 75];
+        yield [$options->withPngOutput()->withQuality(22), self::IMAGE_PNG, 0];
+        yield [$options->withJpgOutput()->withQuality(100), self::IMAGE_JPEG, 100];
+        yield [$options->withFormat('png')->withQuality(50), self::IMAGE_PNG, 0];
+        yield [$options->withFormat('jpg')->withQuality(87), self::IMAGE_JPEG, 87];
+        yield [$options->withQuality(5)->withJpgOutput(), self::IMAGE_JPEG, 5];
+        yield [$options->withQuality(10)->withJpgOutput(), self::IMAGE_JPEG, 10];
+        yield [$options->withQuality(35)->withJpgOutput(), self::IMAGE_JPEG, 35];
+        yield [$options->withQuality(0)->withWebPOutput(), self::IMAGE_WEBP, 0];
+        yield [$options->withQuality(100)->withWebPOutput(), self::IMAGE_WEBP, 100];
     }
 
 
@@ -268,8 +260,8 @@ class ImageConversionTest extends TestCase
             $options
         );
 
-        $this->assertEquals($expected_mime_type, $this->getImageTypeFromStream($resized->getStream()));
-        $this->assertEquals($expected_quality, $this->getImageQualityFromStream($resized->getStream()));
+        $this->assertSame($expected_mime_type, $this->getImageTypeFromStream($resized->getStream()));
+        $this->assertSame($expected_quality, $this->getImageQualityFromStream($resized->getStream()));
     }
 
     public function testImageOutputOptionSanity(): void
@@ -277,35 +269,33 @@ class ImageConversionTest extends TestCase
         $options = new ImageOutputOptions();
 
         // Defaults
-        $this->assertEquals('jpg', $options->getFormat());
-        $this->assertEquals(75, $options->getQuality());
+        $this->assertSame('jpg', $options->getFormat());
+        $this->assertSame(75, $options->getQuality());
 
         $png = $options->withPngOutput();
-        $this->assertEquals('png', $png->getFormat());
-        $this->assertEquals('jpg', $options->getFormat()); // original options should not change
+        $this->assertSame('png', $png->getFormat());
+        $this->assertSame('jpg', $options->getFormat()); // original options should not change
         $png_explicit = $options->withFormat('png');
-        $this->assertEquals('png', $png_explicit->getFormat());
+        $this->assertSame('png', $png_explicit->getFormat());
 
         $jpg = $options->withJpgOutput();
-        $this->assertEquals('jpg', $jpg->getFormat());
+        $this->assertSame('jpg', $jpg->getFormat());
         $jpg_explicit = $options->withFormat('jpg');
-        $this->assertEquals('jpg', $jpg_explicit->getFormat());
+        $this->assertSame('jpg', $jpg_explicit->getFormat());
         $jpeg = $options->withFormat('jpeg');
-        $this->assertEquals('jpg', $jpeg->getFormat());
+        $this->assertSame('jpg', $jpeg->getFormat());
 
         // Quality
         $low = $options->withQuality(5);
-        $this->assertEquals(5, $low->getQuality());
-        $this->assertEquals(75, $options->getQuality()); // original options should not change
+        $this->assertSame(5, $low->getQuality());
+        $this->assertSame(75, $options->getQuality()); // original options should not change
     }
 
-    public static function getWrongFormats(): array
+    public static function getWrongFormats(): \Iterator
     {
-        return [
-            ['gif'],
-            ['bmp'],
-            ['jpg2000'],
-        ];
+        yield ['gif'];
+        yield ['bmp'];
+        yield ['jpg2000'];
     }
 
     #[DataProvider('getWrongFormats')]
@@ -316,13 +306,11 @@ class ImageConversionTest extends TestCase
         $wrong = $options->withFormat($format);
     }
 
-    public static function getWrongQualites(): array
+    public static function getWrongQualites(): \Iterator
     {
-        return [
-            [-1],
-            [101],
-            [102],
-        ];
+        yield [-1];
+        yield [101];
+        yield [102];
     }
 
     #[DataProvider('getWrongQualites')]
@@ -341,7 +329,7 @@ class ImageConversionTest extends TestCase
             'png'
         );
 
-        $this->assertEquals(self::IMAGE_PNG, $this->getImageTypeFromStream($png->getStream()));
+        $this->assertSame(self::IMAGE_PNG, $this->getImageTypeFromStream($png->getStream()));
         $size = $this->getImageSizeFromStream($png->getStream());
         $this->assertEquals(10, $size[self::W]);
         $this->assertEquals(10, $size[self::H]);
@@ -355,7 +343,7 @@ class ImageConversionTest extends TestCase
             20
         );
 
-        $this->assertEquals(self::IMAGE_PNG, $this->getImageTypeFromStream($png->getStream()));
+        $this->assertSame(self::IMAGE_PNG, $this->getImageTypeFromStream($png->getStream()));
         $size = $this->getImageSizeFromStream($png->getStream());
         $this->assertEquals(20, $size[self::W]);
         $this->assertEquals(20, $size[self::H]);
@@ -378,22 +366,20 @@ class ImageConversionTest extends TestCase
         $this->assertInstanceOf(\Throwable::class, $resized->getThrowableIfAny());
     }
 
-    public static function getColors(): array
+    public static function getColors(): \Iterator
     {
-        return [
-            [null],
-            ['#000000'],
-            ['#ff0000'],
-            ['#00ff00'],
-            ['#0000ff'],
-            ['#ffffff'],
-            ['#A3BF5A'],
-            ['#E9745A'],
-            ['#5A5AE9'],
-            ['#5AE9E9'],
-            ['#E95AE9'],
-            ['#E9E95A'],
-        ];
+        yield [null];
+        yield ['#000000'];
+        yield ['#ff0000'];
+        yield ['#00ff00'];
+        yield ['#0000ff'];
+        yield ['#ffffff'];
+        yield ['#A3BF5A'];
+        yield ['#E9745A'];
+        yield ['#5A5AE9'];
+        yield ['#5AE9E9'];
+        yield ['#E95AE9'];
+        yield ['#E9E95A'];
     }
 
     private function colorDiff(string $hex_color_one, string $hex_color_two): int

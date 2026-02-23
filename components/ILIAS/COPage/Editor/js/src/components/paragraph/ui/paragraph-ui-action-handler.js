@@ -138,6 +138,10 @@ export default class ParagraphUIActionHandler {
           this.ui.cmdSpan(params.format);
           break;
 
+        case ACTIONS.TEXT_TEMPLATE:
+          this.ui.textTemplate(params.content);
+          break;
+
         case ACTIONS.SELECTION_REMOVE_FORMAT:
           this.ui.cmdRemoveFormat();
           break;

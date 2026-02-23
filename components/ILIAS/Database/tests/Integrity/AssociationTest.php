@@ -21,8 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Database\Integrity\Association;
-use ILIAS\components\Database\Integrity\Field;
+use ILIAS\Database\Integrity\Association;
+use ILIAS\Database\Integrity\Field;
 
 class AssociationTest extends TestCase
 {

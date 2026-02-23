@@ -269,7 +269,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
         }
 
         if (!$this->component_repository->getComponentByTypeAndName(
-            ilComponentInfo::TYPE_MODULES,
+            ilComponentInfo::TYPE_COMPONENT,
             'TestQuestionPool'
         )->getPluginSlotById('qst')->hasPluginName($questionData['plugin_name'])) {
             return false;
@@ -277,7 +277,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 
         return $this->component_repository
             ->getComponentByTypeAndName(
-                ilComponentInfo::TYPE_MODULES,
+                ilComponentInfo::TYPE_COMPONENT,
                 'TestQuestionPool'
             )
             ->getPluginSlotById(

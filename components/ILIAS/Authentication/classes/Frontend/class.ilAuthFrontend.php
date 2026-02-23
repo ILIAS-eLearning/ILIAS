@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 class ilAuthFrontend implements ilAuthFrontendInterface
 {
     public const string MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
@@ -35,7 +37,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
     private ilAuthSession $auth_session;
     private ilAppEventHandler $ilAppEventHandler;
 
-    private ilUserProfile $user_profile;
+    private Profile $user_profile;
 
     /**
      * @param list<ilAuthProviderInterface> $providers
@@ -53,7 +55,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         $this->status = $status;
         $this->providers = $providers;
 
-        $this->user_profile = new ilUserProfile();
+        $this->user_profile = $DIC['user']->getProfile();
     }
 
     public function getAuthSession(): ilAuthSession
@@ -250,14 +252,11 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         }
 
         // check if profile is complete
-        if (
-            $this->user_profile->isProfileIncomplete($user) &&
-            ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS &&
-            ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
-        ) {
+        if ($this->user_profile->isProfileIncomplete($user)
+            && ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS
+            && ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER) {
             ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
             $user->setProfileIncomplete(true);
-            $user->update();
         }
 
         // redirects in case of error (session pool limit reached)
@@ -278,13 +277,12 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         ) {
             $user->resetLastPasswordChange();
         }
-        $user->refreshLogin();
 
         if ($user->getLoginAttempts() > 0) {
             $user->setLoginAttempts(0);
-            $user->update();
         }
-
+        $user->refreshLogin();
+        $user->update();
 
         $this->logger->info('Successfully authenticated: ' . ilObjUser::_lookupLogin($this->getStatus()->getAuthenticatedUserId()));
         $this->getAuthSession()->setAuthenticated(true, $this->getStatus()->getAuthenticatedUserId());
@@ -317,6 +315,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         );
 
         $this->getStatus()->setReason('');
+
         return true;
     }
 
@@ -456,7 +455,7 @@ class ilAuthFrontend implements ilAuthFrontendInterface
         }
 
         if ($num_deacticated_accounts > 0) {
-            $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
+            $this->getStatus()->setReason('auth_err_invalid_user_account');
         }
     }
 }

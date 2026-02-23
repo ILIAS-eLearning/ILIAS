@@ -367,6 +367,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             $this->ctrl->setParameterByClass('ilcalendarpresentationgui', 'ref_id', $a_set['ref_id']);
             switch ($obj_type) {
                 case 'crs':
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $a_set['id']);
                     $link = $this->ctrl->getLinkTargetByClass(
                         [
                             ilRepositoryGUI::class,
@@ -375,9 +376,11 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                         ],
                         ''
                     );
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $this->category_id);
                     break;
 
                 case 'grp':
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $a_set['id']);
                     $link = $this->ctrl->getLinkTargetByClass(
                         [
                             ilRepositoryGUI::class,
@@ -386,6 +389,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                         ],
                         ''
                     );
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $this->category_id);
                     break;
 
                 case 'tals':
@@ -395,7 +399,9 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
                     break;
 
                 default:
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $a_set['id']);
                     $link = ilLink::_getLink($a_set['ref_id']);
+                    $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $this->category_id);
                     break;
             }
 

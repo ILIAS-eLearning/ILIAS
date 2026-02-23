@@ -22,6 +22,9 @@ namespace ILIAS\UI\examples\MainControls\Slate\Legacy;
 
 /**
  * ---
+ * description: >
+ *   Pressing the slate reveals any legacy component.
+ *
  * expected output: >
  *   ILIAS shows the rendered Component.
  * ---

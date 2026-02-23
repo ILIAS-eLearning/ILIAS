@@ -16,6 +16,14 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\LocalDIC;
+use ILIAS\User\Profile\DataQuery;
+use ILIAS\User\Profile\Fields\ConfigurationRepository as ProfileFieldsConfigurationRepository;
+use ILIAS\User\Profile\DataRepository as ProfileDataRepository;
+use ILIAS\Language\Language;
+
 /**
  * User query class. Put any complex that queries for a set of users into
  * this class and keep ilObjUser "small".
@@ -24,6 +32,29 @@
 class ilUserQuery
 {
     public const DEFAULT_ORDER_FIELD = 'login';
+
+    private const array DEFAULT_MULTI_FIELDS = [
+        'interests_general',
+        'interests_help_offered',
+        'interests_help_looking'
+    ];
+
+    private const array DEFAULT_FIELDS = [
+        'usr_id',
+        'login',
+        'firstname',
+        'lastname',
+        'email',
+        'second_email',
+        'time_limit_until',
+        'time_limit_unlimited',
+        'time_limit_owner',
+        'last_login',
+        'active'
+    ];
+
+    private Language $lng;
+    private ilDBInterface $db;
 
     private string $order_field = self::DEFAULT_ORDER_FIELD;
     private string $order_dir = 'asc';
@@ -37,48 +68,46 @@ class ilUserQuery
     private bool $no_groups = false;
     private int $crs_grp = 0;
     private int $role = 0;
-    private ?array $user_folder = null; // Missing array type.
-    private array $additional_fields = []; // Missing array type.
-    private array $users = []; // Missing array type.
+    private array $user_folder = [];
+    private array $additional_fields = [];
+    private array $users = [];
     private string $first_letter = '';
     private bool $has_access = false;
     private string $authentication_method = '';
-    protected array $udf_filter = []; // Missing array type.
-    /** @var string[] */
-    private array $default_fields = [
-        "usr_id",
-        "login",
-        "firstname",
-        "lastname",
-        "email",
-        "second_email",
-        "time_limit_until",
-        "time_limit_unlimited",
-        "time_limit_owner",
-        "last_login",
-        "active"
-    ];
+    protected array $udf_filter = [];
+
+    private ProfileFieldsConfigurationRepository $profile_fields_repository;
+    private ProfileDataRepository $profile_data_repository;
 
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        $this->lng = $DIC['lng'];
+        $this->db = $DIC['ilDB'];
+
+        $local_dic = LocalDIC::dic();
+        $this->profile_fields_repository = $local_dic[ProfileFieldsConfigurationRepository::class];
+        $this->profile_data_repository = $local_dic[ProfileDataRepository::class];
     }
 
     /**
      * Set udf filter
      * @param array $a_val udf filter array
      */
-    public function setUdfFilter(array $a_val): void // Missing array type.
+    public function setUdfFilter(array $filter_array): void // Missing array type.
     {
-        $valid_udfs = [];
-
-        $definitions = \ilUserDefinedFields::_getInstance()->getDefinitions();
-        foreach ($a_val as $udf_name => $udf_value) {
-            [$udf_string, $udf_id] = explode('_', $udf_name);
-            if (array_key_exists((int) $udf_id, $definitions)) {
-                $valid_udfs[$udf_name] = $udf_value;
-            }
-        }
-        $this->udf_filter = $valid_udfs;
+        $this->udf_filter = array_reduce(
+            array_keys($filter_array),
+            function (array $c, string $v) use ($filter_array): array {
+                if ($filter_array[$v] === '') {
+                    return $c;
+                }
+                $c[mb_substr($v, 4)] = $filter_array[$v];
+                return $c;
+            },
+            []
+        );
     }
 
     /**
@@ -184,17 +213,17 @@ class ilUserQuery
      * Set user folder filter
      * reference id of user folder or category (local user administration)
      */
-    public function setUserFolder(?array $a_fold_id): void // Missing array type.
+    public function setUserFolder(?array $user_folder_id): void
     {
-        $this->user_folder = $a_fold_id;
+        $this->user_folder = $user_folder_id ?? [];
     }
 
     /**
      * Set additional fields (columns in usr_data or 'online_time')
      */
-    public function setAdditionalFields(array $a_add): void // Missing array type.
+    public function setAdditionalFields(array $additional_fields): void
     {
-        $this->additional_fields = $a_add;
+        $this->additional_fields = $additional_fields;
     }
 
     /**
@@ -236,315 +265,207 @@ class ilUserQuery
      */
     public function query(): array
     {
-        global $DIC;
+        /** @var \ILIAS\User\Profile\DataQuery $query */
+        $query = $this->addUdfFilterToQuery(
+            $this->addOrderToQuery(
+                array_reduce(
+                    $this->additional_fields,
+                    function (DataQuery $c, string $v): DataQuery {
+                        if (in_array($v, self::DEFAULT_FIELDS)) {
+                            return $c;
+                        }
 
-        $ilDB = $DIC['ilDB'];
+                        if (in_array($v, self::DEFAULT_MULTI_FIELDS)) {
+                            return $c->withAdditionalMultiField($v);
+                        }
 
+                        if ($v === 'online_time') {
+                            return $c->withAdditionalAdditionalTableSelectField('ut_online.online_time')
+                                ->withAdditionalJoin('LEFT JOIN ut_online ON (usr_data.usr_id = ut_online.usr_id)');
+                        }
 
-        $udf_fields = [];
-        $usr_ids = [];
+                        if ($v === 'dpro_agreed_on') {
+                            return $c->withAdditionalAdditionalTableSelectField('dpro.dpro_agreed_on')
+                                ->withAdditionalJoin(
+                                    'LEFT JOIN (SELECT value AS dpro_agreed_on, usr_id' . PHP_EOL
+                                    . 'FROM usr_pref WHERE keyword = "dpro_agree_date") AS dpro' . PHP_EOL
+                                    . 'ON (usr_data.usr_id = dpro.usr_id)'
+                                );
+                        }
 
-        $join = "";
+                        if (str_starts_with($v, 'udf_')) {
+                            return $c->withAdditionalUdfField(
+                                $this->profile_fields_repository->getByIdentifier(mb_substr($v, 4))
+                            );
+                        }
 
-        if (is_array($this->additional_fields)) {
-            foreach ($this->additional_fields as $f) {
-                if (!in_array($f, $this->default_fields)) {
-                    if ($f === "online_time") {
-                        $this->default_fields[] = "ut_online.online_time";
-                        $join = " LEFT JOIN ut_online ON (usr_data.usr_id = ut_online.usr_id) ";
-                    } elseif ($f === 'dpro_agreed_on') {
-                        $this->default_fields[] = 'dpro.dpro_agreed_on';
-                        $join = ' LEFT JOIN (SELECT value AS dpro_agreed_on, usr_id FROM usr_pref WHERE keyword = "dpro_agree_date") AS dpro' .
-                                ' ON (usr_data.usr_id = dpro.usr_id)';
-                    } elseif (substr($f, 0, 4) === "udf_") {
-                        $udf_fields[] = (int) substr($f, 4);
-                    } else {
-                        $this->default_fields[] = $f;
-                    }
-                }
-            }
+                        return $c->withAdditionalDefaultTableSelectField($v);
+                    },
+                    $this->profile_data_repository->getProfileDataQuery(self::DEFAULT_FIELDS)
+                )
+            )->withLimitedUsers($this->users)
+        );
+
+        if ($this->first_letter !== '') {
+            $query = $query->withAdditionalWhere(
+                "({$this->db->upper($this->db->substr('usr_data.lastname', 1, 1))})"
+            );
         }
 
-        // if udf fields are involved we need the definitions
-        $udf_def = [];
-        if (count($udf_fields) > 0) {
-            $udf_def = ilUserDefinedFields::_getInstance()->getDefinitions();
+        if ($this->text_filter !== '') {		// email, name, login
+            $query = $query->withAdditionalWhere(
+                "({$this->db->like('usr_data.login', ilDBConstants::T_TEXT, '%' . $this->text_filter . '%')} "
+                . "OR {$this->db->like('usr_data.firstname', ilDBConstants::T_TEXT, '%' . $this->text_filter . '%')} "
+                . "OR {$this->db->like('usr_data.lastname', ilDBConstants::T_TEXT, '%' . $this->text_filter . '%')} "
+                . "OR {$this->db->like('usr_data.second_email', ilDBConstants::T_TEXT, '%' . $this->text_filter . '%')} "
+                . "OR {$this->db->like('usr_data.email', ilDBConstants::T_TEXT, '%' . $this->text_filter . '%')})"
+            );
         }
 
-        // join udf table
-        foreach ($udf_fields as $id) {
-            $udf_table = ($udf_def[$id]["field_type"] != UDF_TYPE_WYSIWYG)
-                ? "udf_text"
-                : "udf_clob";
-            $join .= " LEFT JOIN " . $udf_table . " ud_" . $id . " ON (ud_" . $id . ".field_id=" . $ilDB->quote($id) . " AND ud_" . $id . ".usr_id = usr_data.usr_id) ";
+        if ($this->activation === 'inactive') {
+            $query = $query->withAdditionalWhere(
+                "usr_data.active = {$this->db->quote(0, ilDBConstants::T_INTEGER)}"
+            );
         }
 
-        // count query
-        $count_query = "SELECT count(usr_data.usr_id) cnt" .
-            " FROM usr_data";
-
-        $all_multi_fields = ["interests_general", "interests_help_offered", "interests_help_looking"];
-        $multi_fields = [];
-
-        $sql_fields = [];
-        foreach ($this->default_fields as $idx => $field) {
-            if (!$field) {
-                continue;
-            }
-
-            if (in_array($field, $all_multi_fields)) {
-                $multi_fields[] = $field;
-            } elseif (strpos($field, ".") === false) {
-                $sql_fields[] = "usr_data." . $field;
-            } else {
-                $sql_fields[] = $field;
-            }
-        }
-
-        // udf fields
-        foreach ($udf_fields as $id) {
-            $sql_fields[] = "ud_" . $id . ".value udf_" . $id;
-        }
-
-        // basic query
-        $query = "SELECT " . implode(",", $sql_fields) .
-            " FROM usr_data" .
-            $join;
-
-        $count_query .= " " . $join;
-
-        // filter
-        $query .= " WHERE usr_data.usr_id <> " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
-
-        // User filter
-        $count_query .= " WHERE 1 = 1 ";
-        $count_user_filter = "usr_data.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
-        if ($this->users && is_array(($this->users))) {
-            $query .= ' AND ' . $ilDB->in('usr_data.usr_id', $this->users, false, 'integer');
-            $count_user_filter = $ilDB->in('usr_data.usr_id', $this->users, false, 'integer');
-        }
-
-        $count_query .= " AND " . $count_user_filter . " ";
-        $where = " AND";
-
-        if ($this->first_letter != "") {
-            $add = $where . " (" . $ilDB->upper($ilDB->substr("usr_data.lastname", 1, 1)) . " = " . $ilDB->upper($ilDB->quote($this->first_letter, "text")) . ") ";
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
-        }
-
-        if ($this->text_filter != "") {		// email, name, login
-            $add = $where . " (" . $ilDB->like("usr_data.login", "text", "%" . $this->text_filter . "%") . " " .
-                "OR " . $ilDB->like("usr_data.firstname", "text", "%" . $this->text_filter . "%") . " " .
-                "OR " . $ilDB->like("usr_data.lastname", "text", "%" . $this->text_filter . "%") . " " .
-                "OR " . $ilDB->like("usr_data.second_email", "text", "%" . $this->text_filter . "%") . " " .
-                "OR " . $ilDB->like("usr_data.email", "text", "%" . $this->text_filter . "%") . ") ";
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
-        }
-
-        if ($this->activation != "") {		// activation
-            if ($this->activation === "inactive") {
-                $add = $where . " usr_data.active = " . $ilDB->quote(0, "integer") . " ";
-            } else {
-                $add = $where . " usr_data.active = " . $ilDB->quote(1, "integer") . " ";
-            }
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
+        if ($this->activation === 'active') {
+            $query = $query->withAdditionalWhere(
+                "usr_data.active = {$this->db->quote(1, ilDBConstants::T_INTEGER)}"
+            );
         }
 
         if ($this->last_login instanceof ilDateTime) {	// last login
             if (ilDateTime::_before($this->last_login, new ilDateTime(time() + (60 * 60 * 24), IL_CAL_UNIX), IL_CAL_DAY)) {
-                $add = $where . " usr_data.last_login < " .
-                    $ilDB->quote($this->last_login->get(IL_CAL_DATETIME), "timestamp");
-                $query .= $add;
-                $count_query .= $add;
-                $where = " AND";
+                $query = $query->withAdditionalWhere(
+                    "usr_data.last_login < {$this->db->quote($this->last_login->get(IL_CAL_DATETIME), ilDBConstants::T_TIMESTAMP)}"
+                );
             }
         }
-        if ($this->limited_access) {		// limited access
-            $add = $where . " usr_data.time_limit_unlimited= " . $ilDB->quote(0, "integer");
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
+        if ($this->limited_access) {
+            $query = $query->withAdditionalWhere(
+                "usr_data.time_limit_unlimited= {$this->db->quote(0, ilDBConstants::T_INTEGER)}"
+            );
         }
 
-        // udf filter
-        foreach ($this->getUdfFilter() as $k => $f) {
-            if ($f != "") {
-                $udf_id = explode("_", $k)[1];
-                if ($udf_def[$udf_id]["field_type"] == UDF_TYPE_TEXT) {
-                    $add = $where . " " . $ilDB->like("ud_" . $udf_id . ".value", "text", "%" . $f . "%");
-                } else {
-                    $add = $where . " ud_" . $udf_id . ".value = " . $ilDB->quote($f, "text");
-                }
-                $query .= $add;
-                $count_query .= $add;
-                $where = " AND";
-            }
+        if ($this->has_access) {
+            $query = $query->withAdditionalWhere(
+                "(time_limit_unlimited = {$this->db->quote(1, ilDBConstants::T_INTEGER)} "
+                . "OR (time_limit_from < {$this->db->quote(time(), ilDBConstants::T_INTEGER)} "
+                . "AND time_limit_until > {$this->db->quote(time(), ilDBConstants::T_INTEGER)}))"
+            );
         }
 
-        if ($this->has_access) { //user is limited but has access
-            $unlimited = "time_limit_unlimited = " . $ilDB->quote(1, 'integer');
-            $from = "time_limit_from < " . $ilDB->quote(time(), 'integer');
-            $until = "time_limit_until > " . $ilDB->quote(time(), 'integer');
+        if ($this->no_courses) {
+            $query = $query->withAdditionalWhere(
+                'usr_data.usr_id NOT IN ('
+                . 'SELECT DISTINCT ud.usr_id '
+                . 'FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) '
+                . 'JOIN object_data od ON (rbac_ua.rol_id = od.obj_id) '
+                . 'JOIN rbac_fa ON (rbac_ua.rol_id = rbac_fa.rol_id) '
+                . 'JOIN tree ON (rbac_fa.parent = tree.child) '
+                . 'WHERE od.title LIKE "il_crs_%" '
+                . 'AND rbac_fa.assign = "y" '
+                . 'AND tree.tree > 0)'
+            );
+        }
 
-            $add = $where . ' (' . $unlimited . ' OR (' . $from . ' AND ' . $until . '))';
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
+        if ($this->no_groups) {
+            $query = $query->withAdditionalWhere(
+                'usr_data.usr_id NOT IN ('
+                . 'SELECT DISTINCT ud.usr_id '
+                . 'FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) '
+                . 'JOIN object_data od ON (rbac_ua.rol_id = od.obj_id) '
+                . 'JOIN rbac_fa ON (rbac_ua.rol_id = rbac_fa.rol_id) '
+                . 'JOIN tree ON (rbac_fa.parent = tree.child) '
+                . 'WHERE od.title LIKE "il_grp_%" '
+                . 'AND rbac_fa.assign = "y" '
+                . 'AND tree.tree > 0)'
+            );
         }
-        if ($this->no_courses) {		// no courses assigned
-            $add = $where . " usr_data.usr_id NOT IN (" .
-                "SELECT DISTINCT ud.usr_id " .
-                "FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) " .
-                "JOIN object_data od ON (rbac_ua.rol_id = od.obj_id) " .
-                "JOIN rbac_fa ON (rbac_ua.rol_id = rbac_fa.rol_id) " .
-                "JOIN tree ON (rbac_fa.parent = tree.child) " .
-                "WHERE od.title LIKE 'il_crs_%' " .
-                "AND rbac_fa.assign = 'y' " .
-                "AND tree.tree > 0)";
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
-        }
-        if ($this->no_groups) {		// no groups assigned
-            $add = $where . " usr_data.usr_id NOT IN (" .
-                "SELECT DISTINCT ud.usr_id " .
-                "FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) " .
-                "JOIN object_data od ON (rbac_ua.rol_id = od.obj_id) " .
-                "JOIN rbac_fa ON (rbac_ua.rol_id = rbac_fa.rol_id) " .
-                "JOIN tree ON (rbac_fa.parent = tree.child) " .
-                "WHERE od.title LIKE 'il_grp_%' " .
-                "AND rbac_fa.assign = 'y' " .
-                "AND tree.tree > 0)";
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
-        }
-        if ($this->crs_grp > 0) {		// members of course/group
+
+        if ($this->crs_grp > 0) {
             $cgtype = ilObject::_lookupType($this->crs_grp, true);
-            $add = $where . " usr_data.usr_id IN (" .
-                "SELECT DISTINCT ud.usr_id " .
-                "FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) " .
-                "JOIN object_data od ON (rbac_ua.rol_id = od.obj_id) " .
-                "WHERE od.title = " . $ilDB->quote("il_" . $cgtype . "_member_" . $this->crs_grp, "text") . ")";
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
-        }
-        if ($this->role > 0) {		// global role
-            $add = $where . " usr_data.usr_id IN (" .
-                "SELECT DISTINCT ud.usr_id " .
-                "FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) " .
-                "WHERE rbac_ua.rol_id = " . $ilDB->quote($this->role, "integer") . ")";
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
+            $query = $query->withAdditionalWhere(
+                'usr_data.usr_id IN ('
+                . 'SELECT DISTINCT ud.usr_id '
+                . 'FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) '
+                . 'JOIN object_data od ON (rbac_ua.rol_id = od.obj_id) '
+                . "WHERE od.title = {$this->db->quote("il_{$cgtype}_member_{$this->crs_grp}", ilDBConstants::T_TEXT)})"
+            );
         }
 
-        if ($this->user_folder) {
-            $add = $where . " " . $ilDB->in('usr_data.time_limit_owner', $this->user_folder, false, 'integer');
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
+        if ($this->role > 0) {
+            $query = $query->withAdditionalWhere(
+                'usr_data.usr_id IN ('
+                . 'SELECT DISTINCT ud.usr_id '
+                . 'FROM usr_data ud join rbac_ua ON (ud.usr_id = rbac_ua.usr_id) '
+                . "WHERE rbac_ua.rol_id = {$this->db->quote($this->role, ilDBConstants::T_INTEGER)})"
+            );
         }
 
-        if ($this->authentication_method != "") {		// authentication
-            $add = $where . " usr_data.auth_mode = " . $ilDB->quote($this->authentication_method, "text") . " ";
-            $query .= $add;
-            $count_query .= $add;
-            $where = " AND";
+        if ($this->user_folder !== []) {
+            $query = $query->withAdditionalWhere(
+                $this->db->in('usr_data.time_limit_owner', $this->user_folder, false, ilDBConstants::T_INTEGER)
+            );
         }
 
-        // order by
+        if ($this->authentication_method !== '') {
+            $query = $query->withAdditionalWhere(
+                "usr_data.auth_mode = {$this->db->quote($this->authentication_method, ilDBConstants::T_TEXT)}"
+            );
+        }
+
+        return $this->profile_data_repository->getCountAndRecordsForQuery(
+            $query,
+            $this->offset,
+            $this->limit
+        );
+    }
+
+    private function addOrderToQuery(DataQuery $query): DataQuery
+    {
+        $direction = $this->order_dir === 'desc' ? 'DESC' : 'ASC';
         switch ($this->order_field) {
-            case "access_until":
-                if ($this->order_dir === "desc") {
-                    $query .= " ORDER BY usr_data.active DESC, usr_data.time_limit_unlimited DESC, usr_data.time_limit_until DESC";
-                } else {
-                    $query .= " ORDER BY usr_data.active ASC, usr_data.time_limit_unlimited ASC, usr_data.time_limit_until ASC";
-                }
-                break;
+            case 'access_until':
+                return $query->withDefaultTableOrderFields(
+                    ['active', 'time_limit_unlimited', 'time_limit_until'],
+                    $direction
+                );
 
-            case "online_time":
-                if ($this->order_dir === "desc") {
-                    $query .= " ORDER BY ut_online.online_time DESC";
-                } else {
-                    $query .= " ORDER BY ut_online.online_time ASC";
-                }
-                break;
+            case 'online_time':
+                return $query->withAdditionalTableOrder("ORDER BY ut_online.online_time {$direction}");
 
             default:
-                if ($this->order_dir !== "asc" && $this->order_dir !== "desc") {
-                    $this->order_dir = "asc";
+                if (!in_array($this->order_field, array_merge(self::DEFAULT_FIELDS, $this->additional_fields))) {
+                    $this->order_field = 'login';
                 }
-                if (substr($this->order_field, 0, 4) === "udf_") {
-                    // #25311 check if order field is in field list
-                    if (is_array($this->getUdfFilter()) && array_key_exists($this->order_field, $this->getUdfFilter())) {
-                        $query .= " ORDER BY ud_" . ((int) substr($this->order_field, 4)) . ".value " . strtoupper($this->order_dir);
-                    } else {
-                        $query .= ' ORDER BY ' . self::DEFAULT_ORDER_FIELD . ' ' . strtoupper($this->order_dir);
-                    }
-                } else {
-                    if (!in_array($this->order_field, $this->default_fields)) {
-                        $this->order_field = "login";
-                    }
-                    $query .= " ORDER BY usr_data." . $this->order_field . " " . strtoupper($this->order_dir);
+
+                if (in_array($this->order_field, self::DEFAULT_MULTI_FIELDS)
+                    || str_starts_with($this->order_field, 'udf_')) {
+                    return $query->withMultiDataTableOrder($this->order_field, $this->order_dir);
                 }
-                break;
+
+                return $query->withDefaultTableOrderFields([$this->order_field], $this->order_dir);
+        }
+    }
+
+    private function addUdfFilterToQuery(DataQuery $query): DataQuery
+    {
+        if ($this->getUdfFilter() === []) {
+            return $query;
         }
 
-        // count query
-        $set = $ilDB->query($count_query);
-        $cnt = 0;
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            $cnt = $rec["cnt"];
-        }
-
-        $offset = $this->offset;
-        $limit = $this->limit;
-
-        // #9866: validate offset against rowcount
-        if ($offset >= $cnt) {
-            $offset = 0;
-        }
-
-        $ilDB->setLimit($limit, $offset);
-
-        if (count($multi_fields)) {
-            $usr_ids = [];
-        }
-
-        // set query
-        $set = $ilDB->query($query);
-        $result = [];
-
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $result[] = $rec;
-            if (count($multi_fields)) {
-                $usr_ids[] = (int) $rec["usr_id"];
-            }
-        }
-
-        // add multi-field-values to user-data
-        if (count($multi_fields) && count($usr_ids)) {
-            $usr_multi = [];
-            $set = $ilDB->query("SELECT * FROM usr_data_multi" .
-                " WHERE " . $ilDB->in("usr_id", $usr_ids, "", "integer"));
-            while ($row = $ilDB->fetchAssoc($set)) {
-                $usr_multi[(int) $row["usr_id"]][$row["field_id"]][] = $row["value"];
-            }
-            foreach ($result as $idx => $item) {
-                if (isset($usr_multi[$item["usr_id"]])) {
-                    $result[$idx] = array_merge($item, $usr_multi[(int) $item["usr_id"]]);
-                }
-            }
-        }
-        return ["cnt" => $cnt, "set" => $result];
+        $udf_filter = $this->getUdfFilter();
+        return array_reduce(
+            array_keys(
+                array_filter($udf_filter)
+            ),
+            fn(DataQuery $c, string $v): DataQuery => $c->withAdditionalMultiDataWhere(
+                $v,
+                $udf_filter[$v]
+            ),
+            $query->withJoinedMultiDataTable()
+        );
     }
 
 

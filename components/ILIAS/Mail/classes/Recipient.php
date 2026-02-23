@@ -57,9 +57,14 @@ final readonly class Recipient
         return $this->user->getActive();
     }
 
+    public function isUserExpired(): bool
+    {
+        return !$this->user->checkTimeLimit();
+    }
+
     public function evaluateInternalMailReadability(): Result
     {
-        if (!$this->user->checkTimeLimit()) {
+        if ($this->isUserExpired()) {
             return new Error('Account expired.');
         }
 

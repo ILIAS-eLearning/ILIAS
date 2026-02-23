@@ -143,15 +143,6 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                 $first->getLabel(),
                 $first->getAction()
             );
-            /*$split_button = ilSplitButtonGUI::getInstance();
-            $i = 0;
-            foreach ($action_items as $item) {
-                if ($i++ === 0) {
-                    $split_button->setDefaultButton($item);
-                } else {
-                    $split_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($item));
-                }
-            }*/
             if (count($action_items) > 0) {
                 $ks[] = $f->dropdown()->standard($action_items);
             }

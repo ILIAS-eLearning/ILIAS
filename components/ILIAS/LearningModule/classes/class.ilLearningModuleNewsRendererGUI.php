@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Data\ReferenceId;
+use ILIAS\StaticURL\Services as StaticUrl;
+
 /**
  * Learning Module news renderer
  *
@@ -25,9 +28,22 @@ class ilLearningModuleNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
     public function getObjectLink(): string
     {
+        global $DIC;
+        /** @var StaticUrl $static_url */
+        $static_url = $DIC['static_url'];
+
         $n = $this->getNewsItem();
         if ($n->getContextSubObjType() == "pg"
             && $n->getContextSubObjId() > 0) {
+            $uri = $static_url->builder()->build(
+                'pg', // namespace
+                null, // ref_id
+                [
+                    $n->getContextSubObjId(),
+                    $this->getNewsRefId()
+                ]
+            );
+            return (string) $uri;
             //$add = "&target=pg_".$n->getContextSubObjId()."_".$this->getNewsRefId();
             return ilLink::_getLink($n->getContextSubObjId() . "_" . $this->getNewsRefId(), "pg");
         }

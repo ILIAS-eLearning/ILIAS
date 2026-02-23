@@ -18,17 +18,24 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\Language\Language;
+
 class ilOpenIdConnectUserSync
 {
     public const AUTH_MODE = 'oidc';
     private const UDF_STRING = 'udf_';
 
     private readonly ilLogger $logger;
+    private readonly Language $lng;
     private readonly ilXmlWriter $writer;
     private string $ext_account = '';
     private string $int_account = '';
     private int $usr_id = 0;
-    private ilUserDefinedFields $udf;
+    /**
+     * @var array<string, ILIAS\User\Profile\Field>|null
+     */
+    private array $user_defined_fields;
 
     public function __construct(
         private readonly ilOpenIdConnectSettings $settings,
@@ -37,8 +44,9 @@ class ilOpenIdConnectUserSync
         global $DIC;
 
         $this->logger = $DIC->logger()->auth();
+        $this->lng = $DIC->language();
         $this->writer = new ilXmlWriter();
-        $this->udf = ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = $DIC['user']->getProfile()->getAllUserDefinedFields();
     }
 
     public function setExternalAccount(string $ext_account): void
@@ -126,8 +134,8 @@ class ilOpenIdConnectUserSync
         $profile_fields = $this->settings->getProfileMappingFields();
 
         $udf_fields = [];
-        foreach ($this->udf->getDefinitions() as $definition) {
-            $field = self::UDF_STRING . $definition['field_id'];
+        foreach ($this->user_defined_fields as $field) {
+            $field = self::UDF_STRING . $field->getIdentifier();
             $udf_fields[$field] = $field;
         }
 
@@ -247,8 +255,8 @@ class ilOpenIdConnectUserSync
                         continue 2;
                     }
 
-                    $definition = $this->udf->getDefinition((int) $id_data[1]);
-                    if (empty($definition)) {
+                    $field = $this->user_defined_fields[$id_data[1]] ?? null;
+                    if ($definition === null) {
                         $this->logger->warning(
                             sprintf(
                                 'Invalid/Orphaned UD field mapping detected: %s',
@@ -261,8 +269,8 @@ class ilOpenIdConnectUserSync
                     $this->writer->xmlElement(
                         'UserDefinedField',
                         [
-                            'Id' => $definition['il_id'],
-                            'Name' => $definition['field_name']
+                            'Id' => $field->getIdentifier(),
+                            'Name' => $field->getLabel($this->lng)
                         ],
                         $value
                     );

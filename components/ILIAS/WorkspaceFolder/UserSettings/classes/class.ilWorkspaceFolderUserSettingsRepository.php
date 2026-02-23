@@ -81,7 +81,7 @@ class ilWorkspaceFolderUserSettingsRepository
         return $ret;
     }
 
-    public function updateSortation(int $wfld_id, int $sortation)
+    public function updateSortation(int $wfld_id, int $sortation): void
     {
         $db = $this->db;
 

@@ -21,11 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Listing\Workflow;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Workflow.
  */
-interface Workflow extends Component
+interface Workflow extends Component, JavaScriptBindable
 {
     /**
      * Get the title of this workflow.

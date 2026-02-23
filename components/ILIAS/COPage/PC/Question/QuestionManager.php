@@ -47,7 +47,11 @@ class QuestionManager
         foreach ($nodes as $node) {
             $qref = $node->getAttribute("QRef");
             if (isset($a_mapping[$qref])) {
-                $node->setAttribute("QRef", "il__qst_" . $a_mapping[$qref]["pool"]);
+                $new_id = (int) ($a_mapping[$qref]["pool"] ?? 0);
+                if ($new_id === 0 && isset($a_mapping[$qref]["test"])) {    // changed with 10
+                    $new_id = $a_mapping[$qref]["test"];
+                }
+                $node->setAttribute("QRef", "il__qst_" . $new_id);
                 $updated = true;
             }
         }

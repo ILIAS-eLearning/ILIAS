@@ -29,7 +29,7 @@ use ILIAS\Portfolio\Export\PortfolioHtmlExport;
 class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 {
     protected int $user_id;
-    protected $selected_wsp_obj_id;
+    protected int $selected_wsp_obj_id;
 
     /**
      * @throws ilExcUnknownAssignmentTypeException

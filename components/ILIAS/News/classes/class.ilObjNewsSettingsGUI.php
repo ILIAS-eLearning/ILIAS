@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\News\Persistence\NewsCache;
+
 /**
  * News Settings.
  *
@@ -24,10 +26,13 @@
  */
 class ilObjNewsSettingsGUI extends ilObjectGUI
 {
-    protected ilNewsCache $acache;
+    protected readonly NewsCache $cache;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
+        global $DIC;
+        $this->cache = $DIC->news()->internal()->repo()->cache();
+
         $this->type = 'nwss';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -42,7 +47,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -67,7 +72,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
     {
         $rbacsystem = $this->rbac_system;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "news_edit_news_settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -78,9 +83,9 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"),
                 [],
-                'ilpermissiongui'
+                ilPermissionGUI::class
             );
         }
     }
@@ -272,8 +277,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         }
 
         // empty news cache
-        $this->acache = new ilNewsCache();
-        $this->acache->deleteAllEntries();
+        $this->cache->flush();
 
         $news_set = new ilSetting("news");
         $feed_set = new ilSetting("feed");

@@ -41,14 +41,6 @@ class ilUserCertificateTableProvider
     {
         $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
         $additional_select = '';
-        if (
-            $this->database->tableColumnExists('il_cert_user_cert', 'background_image_path') &&
-            $this->database->tableColumnExists('il_cert_user_cert', 'tile_image_path')
-        ) {
-            $additional_select =
-               self::TABLE_NAME . '.tile_image_path,
-               ' . self::TABLE_NAME . '.tile_image_ident,';
-        }
 
         $sql = 'SELECT 
   ' . self::TABLE_NAME . '.id,
@@ -113,7 +105,6 @@ WHERE ' . self::TABLE_NAME . '.usr_id = ' . $this->database->quote($userId, 'int
                 'obj_id' => (int) $row['obj_id'],
                 'obj_type' => $row['obj_type'],
                 'date' => (int) $row['acquired_timestamp'],
-                'tile_image_path' => $row['tile_image_path'] ?? '',
                 'tile_image_ident' => $row['tile_image_ident'],
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],

@@ -151,7 +151,7 @@ class ilIndividualAssessmentUserGrading
 
         $record = $input
             ->textarea($lng->txt('iass_record'), $lng->txt('iass_record_info'))
-            ->withValue($this->getRecord() ? "" : $record_template)
+            ->withValue($this->getRecord() ?? $record_template)
             ->withDisabled(!$may_be_edited)
         ;
 

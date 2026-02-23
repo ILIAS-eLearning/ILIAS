@@ -40,7 +40,7 @@ interface ilExAssignmentTypeGUIInterface
      * Get form values array from assignment
      * @return array
      */
-    public function getFormValuesArray(ilExAssignment $ass);
+    public function getFormValuesArray(ilExAssignment $ass): array;
 
     /**
      * Add overview content of submission to info screen object

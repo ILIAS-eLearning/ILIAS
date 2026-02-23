@@ -107,8 +107,9 @@ class ilBadgeTypesTableGUI implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords();
 
@@ -148,8 +149,9 @@ class ilBadgeTypesTableGUI implements DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return \count($this->getRecords());
     }
@@ -212,11 +214,11 @@ class ilBadgeTypesTableGUI implements DataRetrieval
         ] : [];
     }
 
-    public function renderTable(): void
+    public function renderTable(string $url): void
     {
         $df = new \ILIAS\Data\Factory();
 
-        $table_uri = $df->uri($this->request->getUri()->__toString());
+        $table_uri = $df->uri($url);
         $url_builder = new URLBuilder($table_uri);
         $query_params_namespace = ['tid'];
 
@@ -229,8 +231,9 @@ class ilBadgeTypesTableGUI implements DataRetrieval
         $table = $this->factory
             ->table()
             ->data($this, $this->lng->txt('badge_types'), $this->getColumns())
-            ->withId(self::class)
+            ->withId(str_replace('\\', '', self::class))
             ->withOrder(new Order('name', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 

@@ -31,6 +31,7 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
         );
         $this->ctrl->setParameterByClass(ilRatingGUI::class, "field_id", $this->getRecordField()->getField()->getId());
         $this->ctrl->setParameterByClass(ilRatingGUI::class, "record_id", $this->getRecordField()->getRecord()->getId());
+        $this->ctrl->setParameterByClass(ilRatingGUI::class, "detail_view", $this->ctrl->getCmd() === 'renderRecord' ? '1' : '0');
         if (isset($options['tableview_id'])) {
             $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, 'tableview_id', $options['tableview_id']);
         }

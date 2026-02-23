@@ -20,200 +20,137 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Settings\MainSettings;
 
-use ILIAS\Test\Settings\MainSettings\MainSettingsRepository;
+use ILIAS\Test\Settings\SettingsFactory;
+use ILIAS\Test\Settings\SettingsNotFoundException;
 
 class MainSettingsDatabaseRepository implements MainSettingsRepository
 {
-    public const TABLE_NAME = 'tst_tests';
-    public const STORAGE_DATE_FORMAT = 'YmdHis';
+    /** @var array<int, int> Object ID -> Settings ID */
+    private array $settings_by_obj_fi = [];
 
-    private array $instances_by_obj_fi = [];
-    private array $instances_by_test_fi = [];
+    /** @var array<int, int> Test ID -> Settings ID */
+    private array $settings_by_test_fi = [];
 
-    protected \ilDBInterface $db;
+    /** @var array<int, MainSettings> Settings ID -> Settings DTO */
+    private array $settings_instances = [];
 
-    public function __construct(\ilDBInterface $db)
-    {
-        $this->db = $db;
+    public function __construct(
+        protected \ilDBInterface $db,
+        protected SettingsFactory $factory
+    ) {
     }
 
     public function getForObjFi(int $obj_fi): MainSettings
     {
-        if (!isset($this->instances_by_obj_fi[$obj_fi])) {
-            $where_part = 'WHERE obj_fi = ' . $this->db->quote($obj_fi, 'integer');
-            $this->instances_by_obj_fi[$obj_fi] = $this->doSelect($where_part);
-            $test_id = $this->instances_by_obj_fi[$obj_fi]->getTestId();
-            $this->instances_by_test_fi[$test_id] = $this->instances_by_obj_fi[$obj_fi];
-        }
-        return $this->instances_by_obj_fi[$obj_fi];
+        return isset($this->settings_by_obj_fi[$obj_fi])
+            ? $this->settings_instances[$this->settings_by_obj_fi[$obj_fi]]
+            : $this->doSelect("WHERE obj_fi = {$this->db->quote($obj_fi, \ilDBConstants::T_INTEGER)}");
     }
 
     public function getFor(int $test_id): MainSettings
     {
-        if (!isset(self::$instances_by_test_fi[$test_id])) {
-            $where_part = 'WHERE test_id = ' . $this->db->quote($test_id, 'integer');
-            $this->instances_by_test_fi[$test_id] = $this->doSelect($where_part);
-            $obj_id = $this->instances_by_test_fi[$test_id]->getObjId();
-            $this->instances_by_obj_fi[$obj_id] = $this->instances_by_test_fi[$test_id];
+        return isset($this->settings_by_test_fi[$test_id])
+            ? $this->settings_instances[$this->settings_by_test_fi[$test_id]]
+            : $this->doSelect("WHERE test_id = {$this->db->quote($test_id, \ilDBConstants::T_INTEGER)}");
+    }
+
+    public function getById(int $settings_id): MainSettings
+    {
+        if (isset($this->settings_instances[$settings_id])) {
+            return $this->settings_instances[$settings_id];
         }
-        return $this->instances_by_test_fi[$test_id];
+
+        $res = $this->db->queryF(
+            "SELECT * FROM tst_test_settings WHERE id = %s",
+            [\ilDBConstants::T_INTEGER],
+            [$settings_id]
+        );
+
+        if ($this->db->numRows($res) === 0) {
+            throw new SettingsNotFoundException("No main settings with id: {$settings_id}");
+        }
+
+        $settings = $this->factory->createMainSettingsFromDBRow($this->db->fetchAssoc($res));
+        $this->settings_instances[$settings->getId()] = $settings;
+
+        return $settings;
     }
 
     protected function doSelect(string $where_part): MainSettings
     {
         $query = 'SELECT ' . PHP_EOL
-            . 'test_id,' . PHP_EOL
-            . 'obj_fi,' . PHP_EOL
-            . 'question_set_type,' . PHP_EOL
-            . 'anonymity,' . PHP_EOL
-            . 'intro_enabled,' . PHP_EOL
-            . 'hide_info_tab,' . PHP_EOL
-            . 'conditions_checkbox_enabled,' . PHP_EOL
-            . 'introduction,' . PHP_EOL
-            . 'introduction_page_id,' . PHP_EOL
-            . 'starting_time_enabled,' . PHP_EOL
-            . 'starting_time,' . PHP_EOL
-            . 'ending_time_enabled,' . PHP_EOL
-            . 'ending_time,' . PHP_EOL
-            . 'password_enabled,' . PHP_EOL
-            . 'password,' . PHP_EOL
-            . 'ip_range_from,' . PHP_EOL
-            . 'ip_range_to,' . PHP_EOL
-            . 'fixed_participants,' . PHP_EOL
-            . 'nr_of_tries,' . PHP_EOL
-            . 'block_after_passed,' . PHP_EOL
-            . 'pass_waiting,' . PHP_EOL
-            . 'enable_processing_time,' . PHP_EOL
-            . 'processing_time,' . PHP_EOL
-            . 'reset_processing_time,' . PHP_EOL
-            . 'kiosk,' . PHP_EOL
-            . 'examid_in_test_pass,' . PHP_EOL
-            . 'title_output,' . PHP_EOL
-            . 'autosave,' . PHP_EOL
-            . 'autosave_ival,' . PHP_EOL
-            . 'shuffle_questions,' . PHP_EOL
-            . 'answer_feedback_points,' . PHP_EOL
-            . 'answer_feedback,' . PHP_EOL
-            . 'specific_feedback,' . PHP_EOL
-            . 'instant_verification,' . PHP_EOL
-            . 'force_inst_fb,' . PHP_EOL
-            . 'inst_fb_answer_fixation,' . PHP_EOL
-            . 'follow_qst_answer_fixation,' . PHP_EOL
-            . 'use_previous_answers,' . PHP_EOL
-            . 'suspend_test_allowed,' . PHP_EOL
-            . 'sequence_settings,' . PHP_EOL
-            . 'usr_pass_overview_mode,' . PHP_EOL
-            . 'show_marker,' . PHP_EOL
-            . 'show_questionlist,' . PHP_EOL
-            . 'enable_examview,' . PHP_EOL
-            . 'showfinalstatement,' . PHP_EOL
-            . 'finalstatement,' . PHP_EOL
-            . 'concluding_remarks_page_id,' . PHP_EOL
-            . 'redirection_mode,' . PHP_EOL
-            . 'redirection_url,' . PHP_EOL
-            . 'mailnotification,' . PHP_EOL
-            . 'mailnottype,' . PHP_EOL
-            . 'skill_service' . PHP_EOL
-            . 'FROM ' . self::TABLE_NAME . PHP_EOL
+            . 'tst_set.id,' . PHP_EOL
+            . 'tst_set.question_set_type,' . PHP_EOL
+            . 'tst_set.anonymity,' . PHP_EOL
+            . 'tst_set.intro_enabled,' . PHP_EOL
+            . 'tst_set.hide_info_tab,' . PHP_EOL
+            . 'tst_set.conditions_checkbox_enabled,' . PHP_EOL
+            . 'tst_set.introduction,' . PHP_EOL
+            . 'tst_set.introduction_page_id,' . PHP_EOL
+            . 'tst_set.starting_time_enabled,' . PHP_EOL
+            . 'tst_set.starting_time,' . PHP_EOL
+            . 'tst_set.ending_time_enabled,' . PHP_EOL
+            . 'tst_set.ending_time,' . PHP_EOL
+            . 'tst_set.password_enabled,' . PHP_EOL
+            . 'tst_set.password,' . PHP_EOL
+            . 'tst_set.ip_range_from,' . PHP_EOL
+            . 'tst_set.ip_range_to,' . PHP_EOL
+            . 'tst_set.fixed_participants,' . PHP_EOL
+            . 'tst_set.nr_of_tries,' . PHP_EOL
+            . 'tst_set.block_after_passed,' . PHP_EOL
+            . 'tst_set.pass_waiting,' . PHP_EOL
+            . 'tst_set.enable_processing_time,' . PHP_EOL
+            . 'tst_set.processing_time,' . PHP_EOL
+            . 'tst_set.reset_processing_time,' . PHP_EOL
+            . 'tst_set.kiosk,' . PHP_EOL
+            . 'tst_set.examid_in_test_pass,' . PHP_EOL
+            . 'tst_set.title_output,' . PHP_EOL
+            . 'tst_set.autosave,' . PHP_EOL
+            . 'tst_set.autosave_ival,' . PHP_EOL
+            . 'tst_set.shuffle_questions,' . PHP_EOL
+            . 'tst_set.answer_feedback_points,' . PHP_EOL
+            . 'tst_set.answer_feedback,' . PHP_EOL
+            . 'tst_set.specific_feedback,' . PHP_EOL
+            . 'tst_set.instant_verification,' . PHP_EOL
+            . 'tst_set.force_inst_fb,' . PHP_EOL
+            . 'tst_set.inst_fb_answer_fixation,' . PHP_EOL
+            . 'tst_set.follow_qst_answer_fixation,' . PHP_EOL
+            . 'tst_set.use_previous_answers,' . PHP_EOL
+            . 'tst_set.suspend_test_allowed,' . PHP_EOL
+            . 'tst_set.sequence_settings,' . PHP_EOL
+            . 'tst_set.usr_pass_overview_mode,' . PHP_EOL
+            . 'tst_set.show_marker,' . PHP_EOL
+            . 'tst_set.show_questionlist,' . PHP_EOL
+            . 'tst_set.enable_examview,' . PHP_EOL
+            . 'tst_set.showfinalstatement,' . PHP_EOL
+            . 'tst_set.finalstatement,' . PHP_EOL
+            . 'tst_set.concluding_remarks_page_id,' . PHP_EOL
+            . 'tst_set.redirection_mode,' . PHP_EOL
+            . 'tst_set.redirection_url,' . PHP_EOL
+            . 'tst_set.skill_service,' . PHP_EOL
+            . 'tst.test_id AS test_id,' . PHP_EOL
+            . 'tst.obj_fi AS obj_fi' . PHP_EOL
+            . 'FROM tst_test_settings AS tst_set' . PHP_EOL
+            . 'INNER JOIN tst_tests AS tst ON tst.settings_id = tst_set.id' . PHP_EOL
             . $where_part;
 
         $res = $this->db->query($query);
 
-        if ($this->db->numRows($res) == 0) {
-            throw new \Exception('Mo main settings for: ' . $where_part);
+        if ($this->db->numRows($res) === 0) {
+            throw new SettingsNotFoundException("No main settings for: {$where_part}");
         }
 
         $row = $this->db->fetchAssoc($res);
+        $settings = $this->factory->createMainSettingsFromDBRow($row);
 
-        $test_id = (int) $row['test_id'];
-
-        $settings = new MainSettings(
-            $test_id,
-            (int) $row['obj_fi'],
-            new SettingsGeneral(
-                $test_id,
-                $row['question_set_type'],
-                (bool) $row['anonymity']
-            ),
-            new SettingsIntroduction(
-                $test_id,
-                (bool) $row['intro_enabled'],
-                $row['introduction'],
-                $row['introduction_page_id'],
-                (bool) $row['conditions_checkbox_enabled'],
-            ),
-            new SettingsAccess(
-                $test_id,
-                (bool) $row['starting_time_enabled'],
-                $row['starting_time'] !== 0
-                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['starting_time'])
-                    : null,
-                (bool) $row['ending_time_enabled'],
-                $row['ending_time'] !== 0
-                    ? \DateTimeImmutable::createFromFormat('U', (string) $row['ending_time'])
-                    : null,
-                (bool) $row['password_enabled'],
-                $row['password'],
-                $row['ip_range_from'],
-                $row['ip_range_to'],
-                (bool) $row['fixed_participants'],
-            ),
-            new SettingsTestBehaviour(
-                $test_id,
-                $row['nr_of_tries'],
-                (bool) $row['block_after_passed'],
-                $row['pass_waiting'],
-                (bool) $row['enable_processing_time'],
-                $row['processing_time'],
-                (bool) $row['reset_processing_time'],
-                $row['kiosk'],
-                (bool) $row['examid_in_test_pass']
-            ),
-            new SettingsQuestionBehaviour(
-                $test_id,
-                (int) $row['title_output'],
-                (bool) $row['autosave'],
-                $row['autosave_ival'],
-                (bool) $row['shuffle_questions'],
-                (bool) $row['answer_feedback_points'],
-                (bool) $row['answer_feedback'],
-                (bool) $row['specific_feedback'],
-                (bool) $row['instant_verification'],
-                (bool) $row['force_inst_fb'],
-                (bool) $row['inst_fb_answer_fixation'],
-                (bool) $row['follow_qst_answer_fixation']
-            ),
-            new SettingsParticipantFunctionality(
-                $test_id,
-                (bool) $row['use_previous_answers'],
-                (bool) $row['suspend_test_allowed'],
-                (bool) $row['sequence_settings'],
-                $row['usr_pass_overview_mode'],
-                (bool) $row['show_marker'],
-                (bool) $row['show_questionlist']
-            ),
-            new SettingsFinishing(
-                $test_id,
-                (bool) $row['enable_examview'],
-                (bool) $row['showfinalstatement'],
-                $row['finalstatement'],
-                $row['concluding_remarks_page_id'],
-                $row['redirection_mode'],
-                $row['redirection_url'],
-                $row['mailnotification'],
-                (bool) $row['mailnottype'],
-            ),
-            new SettingsAdditional(
-                $test_id,
-                (bool) $row['skill_service'],
-                (bool) $row['hide_info_tab']
-            )
-        );
+        $this->settings_by_obj_fi[$row['obj_fi']] = $settings->getId();
+        $this->settings_by_test_fi[$row['test_id']] = $settings->getId();
+        $this->settings_instances[$settings->getId()] = $settings;
 
         return $settings;
     }
 
-    public function store(MainSettings $settings): void
+    public function store(MainSettings $settings, ?int $test_id = null): MainSettings
     {
         $values = array_merge(
             $settings->getGeneralSettings()->toStorage(),
@@ -226,12 +163,34 @@ class MainSettingsDatabaseRepository implements MainSettingsRepository
             $settings->getAdditionalSettings()->toStorage()
         );
 
-        $this->db->update(
-            self::TABLE_NAME,
-            $values,
-            ['test_id' => ['integer', $settings->getTestId()]]
+        if ($settings->getId() === 0) {
+            $settings = $settings->withId($this->db->nextId('tst_test_settings'));
+            $values['id'] = [\ilDBConstants::T_INTEGER, $settings->getId()];
+
+            $this->db->insert('tst_test_settings', $values);
+            $this->db->update(
+                'tst_tests',
+                ['settings_id' => [\ilDBConstants::T_INTEGER, $settings->getId()]],
+                ['test_id' => [\ilDBConstants::T_INTEGER, $test_id]]
+            );
+        } else {
+            $this->db->update(
+                'tst_test_settings',
+                $values,
+                ['id' => [\ilDBConstants::T_INTEGER, $settings->getId()]]
+            );
+        }
+
+        unset($this->settings_instances[$settings->getId()]);
+        $this->settings_by_obj_fi = array_filter(
+            $this->settings_by_obj_fi,
+            static fn(int $value): bool => $value !== $settings->getId(),
         );
-        unset($this->instances_by_test_fi[$settings->getTestId()]);
-        unset($this->instances_by_obj_fi[$settings->getObjId()]);
+        $this->settings_by_test_fi = array_filter(
+            $this->settings_by_test_fi,
+            static fn(int $value): bool => $value !== $settings->getId(),
+        );
+
+        return $settings;
     }
 }

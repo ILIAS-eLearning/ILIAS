@@ -37,7 +37,9 @@ class StartUp
 
         // TODO @see mantis 20371: To get rid of this, the authentication service has to provide a mechanism to pass the client_id
         $_GET['client_id'] = $this->client;
-        \ilInitialisation::initILIAS();
+
+        require_once __DIR__ . '/../../../../../artifacts/bootstrap_default.php';
+        entry_point('ILIAS Legacy Initialisation Adapter');
 
         if ($authSession === null) {
             global $DIC;

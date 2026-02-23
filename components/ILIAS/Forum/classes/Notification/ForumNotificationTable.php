@@ -43,6 +43,8 @@ use ILIAS\UI\Component\Table\Data as DataTable;
 use ILIAS\UI\Component\Input\Container\Filter\FilterInput;
 use ILIAS\UI\Implementation\Component\Table\Action\Action;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterComponent;
+use ilUtil;
+use ILIAS\UI\Component\Table\DataRowBuilder;
 
 class ForumNotificationTable implements DataRetrieval
 {
@@ -75,12 +77,13 @@ class ForumNotificationTable implements DataRetrieval
      * @param array{role: string}|null $filter_data
      */
     public function getRows(
-        \ILIAS\UI\Component\Table\DataRowBuilder $row_builder,
+        DataRowBuilder $row_builder,
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords($range, $order, $filter_data);
         foreach ($records as $record) {
@@ -112,13 +115,13 @@ class ForumNotificationTable implements DataRetrieval
     public function getTableComponent(): DataTable
     {
         if (!isset($this->table_component)) {
-            $query_params_namespace = ['forum', 'notification'];
-            $table_uri = $this->data_factory->uri(ILIAS_HTTP_PATH . '/' . $this->action);
+            $query_params_namespace = ['frm', 'notifications', 'table'];
+            $table_uri = $this->data_factory->uri(ilUtil::_getHttpPath() . '/' . $this->action);
             $url_builder = new URLBuilder($table_uri);
             [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
                 $query_params_namespace,
-                'table_action',
-                'user_ids'
+                'action',
+                'usr_ids'
             );
 
             $this->table_component = $this->ui_factory->table()
@@ -140,6 +143,7 @@ class ForumNotificationTable implements DataRetrieval
                     )
                 )
                 ->withId('forum_notification_table')
+                ->withRange(new Range(0, 50))
                 ->withRequest($this->http_request);
         }
 
@@ -193,11 +197,14 @@ class ForumNotificationTable implements DataRetrieval
     /**
      * @param array{role: string}|null $filter_data
      */
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->initRecords($filter_data);
 
-        return count((array) $this->records);
+        return \count((array) $this->records);
     }
 
     /**
@@ -303,7 +310,7 @@ class ForumNotificationTable implements DataRetrieval
                     default => ''
                 };
             }, $this->participants->getAssignedRoles($user_id)));
-            if (in_array($user_id, $moderator_ids, true)) {
+            if (\in_array($user_id, $moderator_ids, true)) {
                 $types .= ', ' . $this->lng->txt('frm_moderators');
             }
 
@@ -329,26 +336,23 @@ class ForumNotificationTable implements DataRetrieval
         URLBuilderToken $action_parameter_token,
         URLBuilderToken $row_id_token
     ): array {
-        $actions = [];
-        $actions['enable_hide_user_toggle'] = $this->ui_factory->table()->action()->multi(
-            $this->lng->txt('enable_hide_user_toggle'),
-            $url_builder->withParameter($action_parameter_token, 'enableHideUserToggleNoti'),
-            $row_id_token
-        );
-
-        $actions['disable_hide_user_toggle'] = $this->ui_factory->table()->action()->multi(
-            $this->lng->txt('disable_hide_user_toggle'),
-            $url_builder->withParameter($action_parameter_token, 'disableHideUserToggleNoti'),
-            $row_id_token
-        );
-
-        $actions['notification_settings'] = $this->ui_factory->table()->action()->single(
-            $this->lng->txt('notification_settings'),
-            $url_builder->withParameter($action_parameter_token, 'notificationSettings'),
-            $row_id_token
-        )->withAsync(true);
-
-        return $actions;
+        return [
+            'enableHideUserToggleNoti' => $this->ui_factory->table()->action()->multi(
+                $this->lng->txt('enable_hide_user_toggle'),
+                $url_builder->withParameter($action_parameter_token, 'enableHideUserToggleNoti'),
+                $row_id_token
+            ),
+            'disableHideUserToggleNoti' => $this->ui_factory->table()->action()->multi(
+                $this->lng->txt('disable_hide_user_toggle'),
+                $url_builder->withParameter($action_parameter_token, 'disableHideUserToggleNoti'),
+                $row_id_token
+            ),
+            'notificationSettings' => $this->ui_factory->table()->action()->single(
+                $this->lng->txt('notification_settings'),
+                $url_builder->withParameter($action_parameter_token, 'notificationSettings'),
+                $row_id_token
+            )->withAsync(true),
+        ];
     }
 
     /**
@@ -371,7 +375,7 @@ class ForumNotificationTable implements DataRetrieval
      */
     private function limitRecords(array $records, Range $range): array
     {
-        return array_slice($records, $range->getStart(), $range->getLength());
+        return \array_slice($records, $range->getStart(), $range->getLength());
     }
 
     /**

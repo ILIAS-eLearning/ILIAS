@@ -66,6 +66,53 @@ class assFormulaQuestionExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "points");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getPoints());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        /** @var assFormulaQuestion $object */
+        $object = $this->object;
+        $unit_repository = $object->getUnitRepository();
+
+        $question_id = $this->object->getId();
+        $unit_categories = array_filter(
+            $unit_repository->getAllUnitCategories(),
+            static fn(object $object): bool => $object->getQuestionFi() === $question_id,
+        );
+
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "unit_categories");
+        /** @var assFormulaQuestionUnitCategory $unit_category */
+        foreach ($unit_categories as $unit_category) {
+            $a_xml_writer->xmlElement(
+                "fieldentry",
+                ["id" => $unit_category->getId(), "question_fi" => $unit_category->getQuestionFi()],
+                $unit_category->getCategory()
+            );
+        }
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
+        $categorized_units = array_filter(
+            $unit_repository->getCategorizedUnits(),
+            static fn(object $object): bool => $object instanceof assFormulaQuestionUnit,
+        );
+
+        $a_xml_writer->xmlStartTag("qtimetadatafield");
+        $a_xml_writer->xmlElement("fieldlabel", null, "units");
+        /** @var assFormulaQuestionUnit $categorized_unit */
+        foreach ($categorized_units as $categorized_unit) {
+            $a_xml_writer->xmlElement(
+                "fieldentry",
+                [
+                    "id" => $categorized_unit->getId(),
+                    "sequence" => $categorized_unit->getSequence(),
+                    "factor" => $categorized_unit->getFactor(),
+                    "base_unit" => $categorized_unit->getBaseUnit(),
+                    "base_unit_title" => $categorized_unit->getBaseunitTitle(),
+                    "category" => $categorized_unit->getCategory()
+                ],
+                $categorized_unit->getUnit()
+            );
+        }
+        $a_xml_writer->xmlEndTag("qtimetadatafield");
+
         foreach ($this->object->getVariables() as $variable) {
             $var = [
                 "precision" => $variable->getPrecision(),

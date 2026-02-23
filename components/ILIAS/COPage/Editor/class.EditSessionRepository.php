@@ -62,10 +62,7 @@ class EditSessionRepository
         \ilSession::set(self::ERROR_KEY, $error);
     }
 
-    /**
-     * @return string|array
-     */
-    public function getPageError()
+    public function getPageError(): string|array
     {
         return \ilSession::get(self::ERROR_KEY) ?? "";
     }

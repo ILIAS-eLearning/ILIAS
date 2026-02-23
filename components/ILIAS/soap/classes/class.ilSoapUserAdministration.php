@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,6 +22,7 @@
  * @version $Id$
  * @package ilias
  */
+
 class ilSoapUserAdministration extends ilSoapAdministration
 {
     public const USER_FOLDER_ID = 7;
@@ -152,20 +154,22 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $ilUser = $DIC['ilUser'];
         $ilLog = $DIC['ilLog'];
 
-        // this takes time but is nescessary
-        $error = false;
-
         // validate to prevent wrong XMLs
-        @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
-        if ($error) {
-            $msg = array();
-            if (is_array($error)) {
-                foreach ($error as $err) {
-                    $msg [] = "(" . $err["line"] . "," . $err["col"] . "): " . $err["errormessage"];
-                }
-            } else {
-                $msg[] = $error;
+        $usr_xml = ltrim($usr_xml); // Remove leading whitespace (including BOM if needed)
+
+        $doc = new DOMDocument();
+        libxml_use_internal_errors(true); // Capture parsing errors
+
+        $is_loadable = $doc->loadXML($usr_xml);
+        $errors = libxml_get_errors();
+        libxml_clear_errors();
+
+        if (!$is_loadable) {
+            $msg = [];
+            foreach ($errors as $err) {
+                $msg[] = "(" . $err->line . "," . $err->column . "): " . trim($err->message);
             }
+            libxml_clear_errors();
             $msg = implode("\n", $msg);
             return $this->raiseError($msg, "Client");
         }

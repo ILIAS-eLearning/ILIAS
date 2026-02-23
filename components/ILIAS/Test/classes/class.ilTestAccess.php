@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Participants\Participant;
+use ILIAS\Test\Settings\SettingsNotFoundException;
 use ILIAS\Test\TestDIC;
 use ILIAS\Test\Access\ParticipantAccess;
 use ILIAS\Test\Settings\MainSettings\MainSettingsDatabaseRepository;
@@ -84,19 +85,18 @@ class ilTestAccess
      */
     public function checkScoreParticipantsAccess(): bool
     {
-        if ($this->getAccess()->checkAccess('write', '', $this->getRefId())) {
-            return true;
-        }
-
         if (!$this->getAccess()->checkAccess('read', '', $this->getRefId())) {
             return false;
         }
+        return
+            $this->getAccess()->checkAccess('write', '', $this->getRefId())
+            || $this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_SCORE_PARTICIPANTS, $this->getRefId())
+        ;
+    }
 
-        if ($this->getAccess()->checkPositionAccess(ilOrgUnitOperation::OP_SCORE_PARTICIPANTS, $this->getRefId())) {
-            return true;
-        }
-
-        return false;
+    public function checkScoreParticipantsAccessAnon(): bool
+    {
+        return $this->getAccess()->checkAccess('score_anon', '', $this->getRefId());
     }
 
     /**
@@ -188,6 +188,8 @@ class ilTestAccess
         try {
             $access_settings = $this->main_settings_repository->getForObjFi($obj_id)
                 ->getAccessSettings();
+        } catch (SettingsNotFoundException $e) {
+            return ParticipantAccess::MISSING_SETTINGS;
         } catch (\Exception $e) {
             return ParticipantAccess::BROKEN_TEST;
         }

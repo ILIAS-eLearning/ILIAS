@@ -42,28 +42,48 @@ abstract class ilCmiXapiAbstractRequest
 
     protected function sendRequest(string $url): string
     {
-        $client = new GuzzleHttp\Client();
-        $req_opts = array(
-            GuzzleHttp\RequestOptions::VERIFY => true,
-            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
-            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
-        );
         ilObjCmiXapi::log()->debug($url);
-        $request = new GuzzleHttp\Psr7\Request('GET', $url, [
-            'Authorization' => $this->basicAuth,
-            'X-Experience-API-Version' => '1.0.3'
+
+        // Header wie bei Guzzle
+        $headers = [
+            'Authorization: ' . $this->basicAuth,
+            'X-Experience-API-Version: 1.0.3'
+        ];
+
+        // cURL initialisieren
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_FOLLOWLOCATION => true
         ]);
-        try {
-            $body = '';
-            $promises = array();
-            $promises['default'] = $client->sendAsync($request, $req_opts);
-            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
-            self::checkResponse($responses['default'], $body);
-            return $body;
-        } catch (Exception $e) {
-            ilObjCmiXapi::log()->error($e->getMessage());
-            throw new Exception("LRS Connection Problems", $e->getCode(), $e);
+
+        // Anfrage ausführen
+        $body = curl_exec($ch);
+        $error = curl_error($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        // Fehlerbehandlung
+        if ($error) {
+            ilObjCmiXapi::log()->error("cURL error: " . $error);
+            throw new Exception("LRS Connection Problems: " . $error);
         }
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            ilObjCmiXapi::log()->error("Unexpected HTTP status: {$httpCode}");
+            throw new Exception("LRS Connection Problems (HTTP {$httpCode})");
+        }
+
+        if ($body === false || $body === '') {
+            ilObjCmiXapi::log()->error("Empty response body from LRS");
+            throw new Exception("Empty response from LRS");
+        }
+
+        return $body;
     }
 
     //todo body?

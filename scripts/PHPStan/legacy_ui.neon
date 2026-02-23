@@ -6,12 +6,10 @@ rules:
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyCheckboxListUsagesRule # ILIAS 9
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyConfirmationUsagesRule # ILIAS 9
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyExplorerUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyGlyphUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyGroupedListUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyLightboxUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyModalUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyNestedListUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyOverlayUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyPanelUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyProgressBarUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacySelectionListUsagesRule # ILIAS 9
@@ -20,7 +18,6 @@ rules:
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyTextHighlighterUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyToolbarUsagesRule # ILIAS 10
     - ILIAS\Scripts\PHPStan\Rules\NoLegacyTabsUsagesRule # ILIAS 10
-    - ILIAS\Scripts\PHPStan\Rules\NoLegacyTooltipsUsagesRule # ILIAS 10
 parameters:
     parallel:
         maximumNumberOfProcesses: 10

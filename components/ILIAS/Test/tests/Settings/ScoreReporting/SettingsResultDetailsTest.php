@@ -25,14 +25,14 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
 {
     public function testConstruct(): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $this->assertInstanceOf(SettingsResultDetails::class, $settingsResultDetails);
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithResultsPresentationDataProvider')]
     public function testGetAndWithResultsPresentation(int $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withResultsPresentation($IO);
         $this->assertEquals($IO, $settingsResultDetails->getResultsPresentation());
     }
@@ -49,7 +49,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndShowExamIdInTestResultsDataProvider')]
     public function testGetAndShowExamIdInTestResults(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowExamIdInTestResults($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowExamIdInTestResults());
     }
@@ -65,7 +65,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowPassDetailsDataProvider')]
     public function testGetAndWithShowPassDetails(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowPassDetails($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowPassDetails());
     }
@@ -81,7 +81,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionPrintviewDataProvider')]
     public function testGetAndWithShowSolutionPrintview(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowSolutionPrintview($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowSolutionPrintview());
     }
@@ -97,7 +97,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionFeedbackDataProvider')]
     public function testGetShowSolutionFeedback(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowSolutionFeedback($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowSolutionFeedback());
     }
@@ -113,7 +113,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionAnswersOnlyDataProvider')]
     public function testGetAndWithShowSolutionAnswersOnly(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowSolutionAnswersOnly($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowSolutionAnswersOnly());
     }
@@ -129,7 +129,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionSignatureDataProvider')]
     public function testGetAndWithShowSolutionSignature(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowSolutionSignature($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowSolutionSignature());
     }
@@ -145,7 +145,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionSuggestedDataProvider')]
     public function testGetAndWithShowSolutionSuggested(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowSolutionSuggested($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowSolutionSuggested());
     }
@@ -161,7 +161,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithShowSolutionListComparisonDataProvider')]
     public function testGetAndWithShowSolutionListComparison(bool $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withShowSolutionListComparison($IO);
         $this->assertEquals($IO, $settingsResultDetails->getShowSolutionListComparison());
     }
@@ -177,7 +177,7 @@ class SettingsResultDetailsTest extends ilTestBaseTestCase
     #[\PHPUnit\Framework\Attributes\DataProvider('getAndWithExportSettingsDataProvider')]
     public function testGetAndWithExportSettings(int $IO): void
     {
-        $settingsResultDetails = new SettingsResultDetails(0);
+        $settingsResultDetails = new SettingsResultDetails();
         $settingsResultDetails = $settingsResultDetails->withExportSettings($IO);
         $this->assertEquals($IO, $settingsResultDetails->getExportSettings());
     }

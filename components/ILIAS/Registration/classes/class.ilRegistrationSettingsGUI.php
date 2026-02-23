@@ -24,6 +24,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Registration\RegistrationCodesTable;
 use ILIAS\Registration\RegistrationCodeRepository;
 use ILIAS\Registration\RegistrationFilterComponent;
+use ILIAS\User\Settings\NewAccountMail\SettingsGUI as NewAccountMailSettingsGUI;
 
 /**
  * Class ilRegistrationSettingsGUI
@@ -254,6 +255,14 @@ class ilRegistrationSettingsGUI
 
         if ($this->rbacsystem->checkAccess("write", $this->ref_id)) {
             $form_gui->addCommandButton('save', $this->lng->txt('save'));
+        } else {
+            foreach ($form_gui->getItems() as $item) {
+                if ($item instanceof ilFormSectionHeaderGUI) {
+                    continue;
+                }
+
+                $item->setDisabled(true);
+            }
         }
         return $form_gui;
     }
@@ -293,7 +302,7 @@ class ilRegistrationSettingsGUI
 
     public function view(): void
     {
-        $this->checkAccess('visible,read');
+        $this->checkAccess('read');
         $this->setSubTabs();
 
         // edit new accout mail
@@ -304,9 +313,11 @@ class ilRegistrationSettingsGUI
                 $this->ctrl->getLinkTargetByClass(
                     [
                         ilAdministrationGUI::class,
-                        ilObjUserFolderGUI::class
+                        ilObjUserFolderGUI::class,
+                        NewAccountMailSettingsGUI::class
+
                     ],
-                    'newAccountMail'
+                    'show'
                 )
             );
             $this->ctrl->setParameterByClass(ilObjUserFolderGUI::class, 'ref_id', $_GET['ref_id']);
@@ -806,7 +817,7 @@ class ilRegistrationSettingsGUI
 
     public function listCodes(): void
     {
-        $this->checkAccess('visible,read');
+        $this->checkAccess('read');
         $this->setSubTabs('registration_codes');
         if ($this->checkAccessBool('write')) {
             $this->toolbar->addButton(

@@ -21,10 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Database\Integrity\Association;
-use ILIAS\components\Database\Integrity\Definition;
-use ILIAS\components\Database\Integrity\Field;
-use ILIAS\components\Database\Integrity\Ignore;
+use ILIAS\Database\Integrity\Association;
+use ILIAS\Database\Integrity\Definition;
+use ILIAS\Database\Integrity\Field;
+use ILIAS\Database\Integrity\Ignore;
 use InvalidArgumentException;
 
 class DefinitionTest extends TestCase
@@ -54,7 +54,7 @@ class DefinitionTest extends TestCase
 
         $instance = new Definition([$association]);
 
-        $this->assertEquals($tableName, $instance->tableName());
+        $this->assertSame($tableName, $instance->tableName());
     }
 
     public function testAssociations(): void
@@ -70,7 +70,7 @@ class DefinitionTest extends TestCase
         $association = $this->getMockBuilder(Association::class)->disableOriginalConstructor()->getMock();
         $instance = new Definition([$association]);
 
-        $this->assertEquals([], $instance->ignoreValues());
+        $this->assertSame([], $instance->ignoreValues());
     }
 
     public function testIgnoreValuesWithValues(): void
@@ -84,7 +84,7 @@ class DefinitionTest extends TestCase
 
         $instance = new Definition([$association], $ignore);
 
-        $this->assertEquals($ignoredValues, $instance->ignoreValues());
+        $this->assertSame($ignoredValues, $instance->ignoreValues());
     }
 
     public function testReferenceTableName(): void
@@ -98,7 +98,7 @@ class DefinitionTest extends TestCase
 
         $instance = new Definition([$association]);
 
-        $this->assertEquals($tableName, $instance->referenceTableName());
+        $this->assertSame($tableName, $instance->referenceTableName());
     }
 
     public function testInvalidName(): void
@@ -129,7 +129,7 @@ class DefinitionTest extends TestCase
         $association_two = 'funny string';
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Associations must be of type ILIAS\components\Database\Integrity\Association.');
+        $this->expectExceptionMessage('Associations must be of type ILIAS\Database\Integrity\Association.');
         $instance = new Definition([$association_one, $association_two]);
     }
 }

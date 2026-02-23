@@ -72,6 +72,7 @@ class ilCachedObjectDefinition implements Request
         $this->grouped_rep_obj_types = $data['grouped_rep_obj_types'];
         $this->il_object_group = $data['il_object_group'];
         $this->il_object_sub_type = $data['il_object_sub_type'];
+        $this->cached_results = $data['cached_results'];
     }
 
     protected function getRawData(): array
@@ -82,6 +83,7 @@ class ilCachedObjectDefinition implements Request
             'grouped_rep_obj_types' => $this->grouped_rep_obj_types,
             'il_object_group' => $this->il_object_group,
             'il_object_sub_type' => $this->il_object_sub_type,
+            'cached_results' => $this->cached_results,
         ];
     }
 
@@ -161,6 +163,7 @@ class ilCachedObjectDefinition implements Request
         while ($rec = $db->fetchAssoc($set)) {
             $data['il_object_sub_type'][$rec['obj_type']][] = $rec;
         }
+        $data['cached_results'] = [];
         $this->loadFromRawData($data);
     }
 

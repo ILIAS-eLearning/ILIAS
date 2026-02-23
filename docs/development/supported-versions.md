@@ -3,13 +3,13 @@
 Every ILIAS version will be **fully supported** until the end of the year after
 the year it was released in. **Fully supported** means that every kind of issue
 that is reported for the release according to our bugfixing process is eligible
-for a fix. *E.g.: A usability issue, reported for ILIAS 8 (released 2022), can
-be reported in August 2023 and is eligible for a fix then.*
+for a fix. *E.g.: A usability issue, reported for ILIAS 9 (released 2024), can
+be reported in August 2025 and is eligible for a fix then.*
 
 Every ILIAS version will then gain **security support** for an additional year
 after that. **Security support** means that we are fixing security issues only.
-*E.g.: A security issue, reported for ILIAS 8 (release 2022), can be reported
-in August 2024 and is eligible for a fix then. A malfunction that does make the
+*E.g.: A security issue, reported for ILIAS 9 (release 2024), can be reported
+in August 2026 and is eligible for a fix then. A malfunction that does make the
 program crash, reported at the same moment, won't be eligible for a fix.*
 
 
@@ -19,19 +19,19 @@ With that support schedule, every version will have (roughly) the following time
 
 | Date      | ILIAS X                 | ILIAS (X+1)             | ILIAS (X+2)             |
 |-----------|-------------------------|-------------------------|-------------------------|
-| 20X0, Nov | Project Jour Fixe       |                         |                         |
-| 20X1, Apr | Feature Freeze          |                         |                         |
-| 20X1, Oct | Start of Beta Phase     |                         |                         |
-| 20X1, Nov |                         | Project Jour Fixe       |                         |
-| 20X2, Mar | Release                 |                         |                         |
-| 20X2, Apr |                         | Feature Freeze          |                         |
-| 20X2, Oct |                         | Start of Beta Phase     |                         |
-| 20X2, Nov |                         |                         | Project Jour Fixe       |
-| 20X3, Mar |                         | Release                 |                         |
-| 20X3, Apr |                         |                         | Feature Freeze          |
-| 20X3, Oct |                         |                         | Start of Beta Phase     |
-| 20X3, Dec | End of Full Support     |                         |                         |
-| 20X4, Dec | End of Security Support | End of Full Support     |                         |
+| 20X4, Nov | Project Jour Fixe       |                         |                         |
+| 20X5, Oct | Coding Completed        |                         |                         |
+| 20X5, Nov | Start of Beta Phase     | Project Jour Fixe       |                         |
+| 20X6, Mar | Release                 |                         |                         |
+| 20X6, Oct |                         | Coding Completed        |                         |
+| 20X6, Nov |                         | Start of Beta Phase     | Project Jour Fixe       |
+| 20X7, Mar |                         | Release                 |                         |
+| 20X7, Oct |                         |                         | Coding Completed        |
+| 20X7, Dec | End of Full Support     |                         | Start of Beta Phase     |
+| 20X8, Mar |                         |                         | Release                 |
+| 20X8, Dec | End of Security Support | End of Full Support     |                         |
+| 20X9, Dec |                         | End of Security Support | End of Full Support     |
+| 20Y0, Dec |                         |                         | End of Security Support |
 
 
 ## Implications

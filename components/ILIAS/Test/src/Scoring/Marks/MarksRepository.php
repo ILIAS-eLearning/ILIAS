@@ -25,5 +25,7 @@ namespace ILIAS\Test\Scoring\Marks;
 interface MarksRepository
 {
     public function getMarkSchemaFor(int $test_id): MarkSchema;
-    public function storeMarkSchema(MarkSchema $mark_schema): void;
+    public function getMarkSchemaBySteps(array $step_ids): MarkSchema;
+    public function storeMarkSchema(MarkSchema $mark_schema): array;
+    public function deleteSteps(array $step_ids): void;
 }

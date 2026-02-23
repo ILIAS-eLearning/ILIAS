@@ -64,7 +64,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): mixed
     {
         $ilCtrl = $this->ctrl;
 
@@ -310,7 +310,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
      * @return mixed
      * @throws ilCtrlException
      */
-    public function feedback()
+    public function feedback(): mixed
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;

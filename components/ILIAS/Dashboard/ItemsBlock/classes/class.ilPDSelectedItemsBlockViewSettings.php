@@ -57,6 +57,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::SORT_BY_LOCATION,
             self::SORT_BY_TYPE,
             self::SORT_BY_ALPHABET,
+            self::SORT_MANUALLY,
         ],
         self::VIEW_RECOMMENDED_CONTENT => [
             self::SORT_BY_LOCATION,
@@ -68,6 +69,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::SORT_BY_TYPE,
             self::SORT_BY_ALPHABET,
             self::SORT_BY_START_DATE,
+            self::SORT_MANUALLY,
         ],
         self::VIEW_LEARNING_SEQUENCES => [
             self::SORT_BY_LOCATION,
@@ -101,6 +103,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
             self::PRESENTATION_TILE
         ],
 
+    ];
+    private static array $has_data = [self::SORT_MANUALLY];
+    private static array $has_options = [self::SORT_MANUALLY];
+    private static array $options_by_sortation = [
+        self::SORT_MANUALLY => ['top', 'bot'],
     ];
     protected Setting $settings;
     protected ilObjUser $actor;
@@ -247,6 +254,17 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         $this->settings->set('pd_active_sort_view_' . $view, serialize($active));
     }
 
+    public function storeViewSortingOptions(int $view, array $options): void
+    {
+        foreach ($options as $sorting => $option) {
+            if (in_array($sorting, $this->getAvailableSortOptionsByView($view), true)) {
+                $this->settings->set(
+                    'pd_sort_options_' . $view . '_' . $sorting,
+                    json_encode($option)
+                );
+            }
+        }
+    }
     /**
      * @return string[]
      */
@@ -554,5 +572,49 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     public function getViewName(int $view): string
     {
         return self::$viewNames[$view];
+    }
+
+    /**
+     * @return string
+     */
+    public function getEffectiveSortingData(): ?array
+    {
+        $mode = $this->getEffectiveSortingMode();
+        $key = 'pd_order_data_' . $this->getCurrentView() . '_' . $mode;
+        return in_array($mode, self::$has_data, true) ?
+            json_decode($this->actor->getPref($key) ?: '[]', true, 2) :
+            null;
+    }
+
+    public function getEffectiveSortingOptions(): array
+    {
+        return $this->getSortingOptionsByView($this->getCurrentView())[$this->getEffectiveSortingMode()] ?? [];
+    }
+
+    public function storeActorSortingData(array $data): void
+    {
+        $mode = $this->getEffectiveSortingMode();
+        if (in_array($mode, self::$has_options, true)) {
+            $this->actor->writePref('pd_order_data_' . $this->getCurrentView() . '_' . $mode, json_encode($data));
+        }
+    }
+
+    public function getAvailableOptionsBySortation(string $sortation): array
+    {
+        return self::$options_by_sortation[$sortation] ?? [];
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function getSortingOptionsByView(int $view): array
+    {
+        return array_merge(...array_map(fn($sorting) => [
+            $sorting => json_decode(
+                $this->settings->get('pd_sort_options_' . $view . '_' . $sorting) ?: '[]',
+                true,
+                2
+            ),
+        ], self::$has_options));
     }
 }

@@ -97,7 +97,6 @@ class ilWebDAVDIC extends Container
             $DIC->language(),
             $DIC->rbac()->system(),
             $DIC["ilErr"],
-            ilLoggerFactory::getLogger('webdav'),
             $DIC->toolbar(),
             $DIC->http(),
             $DIC->refinery(),

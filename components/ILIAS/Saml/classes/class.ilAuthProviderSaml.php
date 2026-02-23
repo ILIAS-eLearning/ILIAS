@@ -18,23 +18,31 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Profile\Profile;
+
 class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
     private const string LOG_COMPONENT = 'auth';
 
     private const string ERR_WRONG_LOGIN = 'err_wrong_login';
+    private const string ERR_PROVIDER_INACTIVE = 'auth_saml_idp_deactivated_auth_failed';
 
     private const string SESSION_TMP_ATTRIBUTES = 'tmp_attributes';
     private const string SESSION_TMP_RETURN_TO = 'tmp_return_to';
 
     private ilSamlIdp $idp;
     private readonly ilLanguage $lng;
+    private readonly Profile $profile;
     /** @var array<string, mixed> */
     private array $attributes = [];
     private string $return_to = '';
     private string $uid = '';
     private bool $force_new_account = false;
     private string $migration_account = '';
+    /**
+     * @var array<string, ILIAS\User\Profile\Field>|null
+     */
+    private ?array $user_defined_fields = null;
 
     public function __construct(ilAuthCredentials $credentials, ?int $a_idp_id = null)
     {
@@ -43,6 +51,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         parent::__construct($credentials);
 
         $this->lng = $DIC->language();
+        $this->profile = $DIC['user']->getProfile();
 
         if (null === $a_idp_id || 0 === $a_idp_id) {
             $this->idp = ilSamlIdp::getFirstActiveIdp();
@@ -75,6 +84,16 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
     public function doAuthentication(ilAuthStatus $status): bool
     {
+        if (!$this->idp->isActive()) {
+            $this->getLogger()->info(
+                'SAML IdP with id {idp_id} is not active.',
+                ['idp_id' => $this->idp->getIdpId()]
+            );
+            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+            $status->setTranslatedReason($this->lng->txt(self::ERR_PROVIDER_INACTIVE));
+            return false;
+        }
+
         if ([] === $this->attributes) {
             $this->getLogger()->warning('Could not parse any attributes from SAML response.');
             $this->handleAuthenticationFail($status, self::ERR_WRONG_LOGIN);
@@ -488,8 +507,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
                     break;
                 }
 
-                $definition = ilUserDefinedFields::_getInstance()->getDefinition((int) $udf_data[1]);
-                if (empty($definition)) {
+                $this->initUserDefinedFields();
+                $field = $this->user_defined_fields[$udf_data[1]] ?? null;
+                if ($field === null) {
                     ilLoggerFactory::getLogger('auth')->warning(sprintf(
                         "Invalid/Orphaned UD field mapping detected: %s",
                         $rule->getAttribute()
@@ -499,10 +519,17 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
                 $xml_writer->xmlElement(
                     'UserDefinedField',
-                    ['Id' => $definition['il_id'], 'Name' => $definition['field_name']],
+                    ['Id' => $field->getIdentifier(), 'Name' => $field->getLabel($this->lng)],
                     $value
                 );
                 break;
+        }
+    }
+
+    private function initUserDefinedFields(): void
+    {
+        if ($this->user_defined_fields === null) {
+            $this->user_defined_fields = $this->profile->getAllUserDefinedFields();
         }
     }
 }

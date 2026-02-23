@@ -26,4 +26,6 @@ namespace ILIAS\FileDelivery\Token\Signer\Algorithm;
 interface Algorithm
 {
     public function getName(): string;
+
+    public function after(string $signature): string;
 }

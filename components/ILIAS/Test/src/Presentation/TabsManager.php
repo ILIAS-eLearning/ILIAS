@@ -22,9 +22,9 @@ namespace ILIAS\Test\Presentation;
 
 use ILIAS\Test\Settings\MainSettings\SettingsMainGUI;
 use ILIAS\Test\Settings\ScoreReporting\SettingsScoringGUI;
-use ILIAS\Test\Scoring\Manual\TestScoringByQuestionGUI;
 use ILIAS\Test\Scoring\Marks\MarkSchemaGUI;
 use ILIAS\Test\Presentation\TestScreenGUI;
+use ILIAS\Test\Scoring\Manual\ConsecutiveScoringGUI;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -68,7 +68,7 @@ class TabsManager
     private const SETTINGS_SUBTAB_ID_CERTIFICATE = 'certificate';
     public const SETTINGS_SUBTAB_ID_ASSIGN_SKILL_TRESHOLDS = 'tst_skl_sub_tab_thresholds';
     public const SETTINGS_SUBTAB_ID_ASSIGN_SKILLS_TO_QUESTIONS = 'qpl_skl_sub_tab_quest_assign';
-    private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'tst_default_settings';
+    private const SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS = 'personal_settings_templates_available';
 
     private const QUESTIONS_SUBTAB_ID_RANDOM_SETTINGS = 'tst_rnd_quest_cfg_tab_general';
     private const QUESTIONS_SUBTAB_ID_RANDOM_POOLS = 'tst_rnd_quest_cfg_tab_pool';
@@ -91,11 +91,19 @@ class TabsManager
     public function activateTab(string $tab_id): void
     {
         switch ($tab_id) {
+            case self::TAB_ID_QUESTIONS:
             case self::TAB_ID_PARTICIPANTS:
             case self::TAB_ID_YOUR_RESULTS:
             case self::TAB_ID_SETTINGS:
+            case self::TAB_ID_MANUAL_SCORING:
+            case self::TAB_ID_CORRECTION:
             case self::TAB_ID_TEST:
+            case self::TAB_ID_EXPORT:
             case self::TAB_ID_LEARNING_PROGRESS:
+            case self::TAB_ID_META_DATA:
+            case self::TAB_ID_PERMISSIONS:
+            case self::TAB_ID_HISTORY:
+            case self::TAB_ID_INFOSCREEN:
                 $this->tabs->activateTab($tab_id);
         }
     }
@@ -111,6 +119,8 @@ class TabsManager
 
             case self::SUBTAB_ID_QST_LIST_VIEW:
             case self::SUBTAB_ID_QST_PAGE_VIEW:
+            case self::QUESTIONS_SUBTAB_ID_RANDOM_SETTINGS:
+            case self::QUESTIONS_SUBTAB_ID_RANDOM_POOLS:
 
             case self::SETTINGS_SUBTAB_ID_GENERAL:
             case self::SETTINGS_SUBTAB_ID_MARK_SCHEMA:
@@ -118,6 +128,8 @@ class TabsManager
             case self::SETTINGS_SUBTAB_ID_EDIT_INTRODUCTION_PAGE:
             case self::SETTINGS_SUBTAB_ID_EDIT_CONCLUSION_PAGE:
             case self::SETTINGS_SUBTAB_ID_CERTIFICATE:
+            case self::SETTINGS_SUBTAB_ID_ASSIGN_SKILL_TRESHOLDS:
+            case self::SETTINGS_SUBTAB_ID_ASSIGN_SKILLS_TO_QUESTIONS:
             case self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS:
                 $this->tabs->activateSubTab($sub_tab_id);
         }
@@ -204,7 +216,8 @@ class TabsManager
 
     protected function checkScoreParticipantsTabAccess(): bool
     {
-        return $this->test_access->checkScoreParticipantsAccess();
+        return $this->test_access->checkScoreParticipantsAccess()
+            || $this->test_access->checkScoreParticipantsAccessAnon();
     }
 
     public function perform(): void
@@ -307,10 +320,8 @@ class TabsManager
             case 'certificateEditor':
             case 'certificateDelete':
             case 'certificateSave':
-            case 'defaults':
-            case 'deleteDefaults':
-            case 'addDefaults':
-            case 'applyDefaults':
+            case 'showTemplates':
+            case 'createTemplate':
             case 'inviteParticipants':
             case 'searchParticipants':
                 if ($this->isWriteAccessGranted() && in_array(strtolower($this->ctrl->getCmdClass()), ['ilobjtestgui', 'ilcertificategui'])) {
@@ -358,7 +369,7 @@ class TabsManager
                 'resetToSimpleMarkSchema', 'saveMarks', 'certificate',
                 'certificateEditor', 'certificateSave',
                 'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport',
-                'scoring', 'defaults', 'addDefaults', 'deleteDefaults', 'applyDefaults',
+                'scoring', 'showTemplates', 'createTemplate',
                 'inviteParticipants', 'saveFixedParticipantsStatus', 'searchParticipants', 'addParticipants' // ARE THEY RIGHT HERE
             ];
 
@@ -439,20 +450,11 @@ class TabsManager
                 $this->tabs->addTarget(
                     self::TAB_ID_MANUAL_SCORING,
                     $this->ctrl->getLinkTargetByClass(
-                        [\ilObjTestGUI::class, TestScoringByQuestionGUI::class],
-                        'showManScoringByQuestionParticipantsTable'
+                        [\ilObjTestGUI::class, ConsecutiveScoringGUI::class],
+                        ConsecutiveScoringGUI::DEFAULT_COMMAND
                     ),
-                    [
-                        'showManScoringParticipantsTable',
-                        'applyManScoringParticipantsFilter',
-                        'resetManScoringParticipantsFilter',
-                        'showManScoringParticipantScreen',
-                        'showManScoringByQuestionParticipantsTable',
-                        'applyManScoringByQuestionFilter',
-                        'resetManScoringByQuestionFilter',
-                        'saveManScoringByQuestion'
-                    ],
-                    ''
+                    '',
+                    [ConsecutiveScoringGUI::class]
                 );
             }
         }
@@ -646,7 +648,7 @@ class TabsManager
             $this->tabs->addSubTabTarget(
                 self::SETTINGS_SUBTAB_ID_CERTIFICATE,
                 $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'certificate'),
-                ['certificate', 'certificateEditor', 'certificateRemoveBackground', 'ceateSave',
+                ['certificate', 'certificateEditor', 'certificateRemoveBackground', 'certificateSave',
                     'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport'],
                 ['', 'ilobjtestgui', 'ilcertificategui']
             );
@@ -668,8 +670,8 @@ class TabsManager
 
         $this->tabs->addSubTabTarget(
             self::SETTINGS_SUBTAB_ID_PERSONAL_DEFAULT_SETTINGS,
-            $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'defaults'),
-            ['defaults', 'deleteDefaults', 'addDefaults', 'applyDefaults'],
+            $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'showTemplates'),
+            ['showTemplates', 'createTemplate'],
             ['', 'ilobjtestgui', 'ilcertificategui']
         );
 
@@ -714,8 +716,10 @@ class TabsManager
     public function needsYourResultsTab(): bool
     {
         return $this->test_session->reportableResultsAvailable($this->test_object)
-            || $this->test_session->getActiveId() !== 0
-                && $this->test_object->canShowSolutionPrintview($this->test_session->getUserId());
+            || (
+                $this->test_session->getActiveId() !== 0
+                && $this->test_object->canShowSolutionPrintview($this->test_session->getUserId())
+            );
     }
 
     protected function getYourResultsTabTarget(): string

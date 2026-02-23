@@ -22,11 +22,13 @@ namespace ILIAS\Export\ExportHandler\Consumer;
 
 use ILIAS\Data\ObjectId;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\CollectionInterface as ExportConfigCollectionInterface;
+use ILIAS\Export\ExportHandler\I\Consumer\ExportConfig\FactoryInterface as ExportConfigFactoryInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\ExportWriter\HandlerInterface as ilExportHandlerConsumerExportWriterInterface;
 use ILIAS\Export\ExportHandler\I\Consumer\HandlerInterface as ilExportHandlerConsumerInterface;
 use ILIAS\Export\ExportHandler\I\FactoryInterface as ilExportHandlerFactoryInterface;
 use ILIAS\Export\ExportHandler\I\PublicAccess\HandlerInterface as ilExportHandlerPublicAccessInterface;
 use ILIAS\Export\ExportHandler\I\Repository\Element\HandlerInterface as ilExportHandlerRepositoryElementInterface;
+use ILIAS\Export\ExportHandler\I\Repository\Stakeholder\HandlerInterface as ExportRepositoryStakeholderInterface;
 use ilObject;
 
 class Handler implements ilExportHandlerConsumerInterface
@@ -44,10 +46,15 @@ class Handler implements ilExportHandlerConsumerInterface
         return $this->export_handler->publicAccess()->handler();
     }
 
+    public function exportConfig(): ExportConfigFactoryInterface
+    {
+        return $this->export_handler->consumer()->exportConfig();
+    }
+
     public function createStandardExport(
         int $user_id,
         ObjectId $object_id,
-        ExportConfigCollectionInterface $export_configs = null
+        ?ExportConfigCollectionInterface $export_configs = null
     ): ilExportHandlerRepositoryElementInterface {
         $manager = $this->export_handler->manager()->handler();
         if (is_null($export_configs)) {
@@ -63,7 +70,7 @@ class Handler implements ilExportHandlerConsumerInterface
     public function createStandardExportByObject(
         int $user_id,
         ilObject $object,
-        ExportConfigCollectionInterface $export_configs = null
+        ?ExportConfigCollectionInterface $export_configs = null
     ): ilExportHandlerRepositoryElementInterface {
         $manager = $this->export_handler->manager()->handler();
         if (is_null($export_configs)) {
@@ -82,5 +89,10 @@ class Handler implements ilExportHandlerConsumerInterface
         return $this->export_handler->consumer()->exportWriter()->handler()
             ->withObjectId($element->getKey()->getObjectId())
             ->withResourceIdSerialized($element->getKey()->getResourceIdSerialized());
+    }
+
+    public function exportStakeholderHandler(): ExportRepositoryStakeholderInterface
+    {
+        return $this->export_handler->repository()->stakeholder()->handler();
     }
 }

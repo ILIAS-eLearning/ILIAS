@@ -18,6 +18,9 @@
 
 declare(strict_types=0);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Fields\AvailableSections;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpService;
 
@@ -29,7 +32,7 @@ use ILIAS\HTTP\Services as HttpService;
  */
 class ilLPTableBaseGUI extends ilTable2GUI
 {
-    public const HIT_LIMIT = 5000;
+    public const int HIT_LIMIT = 5000;
     protected RefineryFactory $refinery;
     protected HttpService $http;
 
@@ -42,6 +45,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected ilObjectDefinition $objDefinition;
     protected ilTree $tree;
     protected \ilGlobalTemplateInterface $main_tpl;
+    protected Profile $profile;
 
     public function __construct(
         ?object $a_parent_obj,
@@ -58,6 +62,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $this->setting = $DIC->settings();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->anonymized = !ilObjUserTracking::_enabledUserRelatedData();
         if (!$this->anonymized && isset($this->obj_id) && $this->obj_id > 0) {
@@ -185,20 +190,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $obj->writeToSession();
             }
 
-            if ($this->requested_tmpl_create !== "") {
-                $this->ctrl->setParameter(
-                    $this->parent_obj,
-                    "tbltplcrt",
-                    $this->requested_tmpl_create
-                );
-            }
-            if ($this->requested_tmpl_delete !== "") {
-                $this->ctrl->setParameter(
-                    $this->parent_obj,
-                    "tbltpldel",
-                    $this->requested_tmpl_delete
-                );
-            }
             $this->ctrl->redirect($this->parent_obj, $this->parent_cmd);
         } else {
             // e.g. repository selector
@@ -651,7 +642,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
             $item = $this->getFilterItemByPostVar($id);
             switch ($id) {
                 case "title":
-                case "country":
                 case "gender":
                 case "city":
                 case "language":
@@ -666,7 +656,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 case "zipcode":
                 case "email":
                 case "matriculation":
-                case "sel_country":
+                case "country":
                 case "query":
                 case "type":
                 case "area":
@@ -1024,11 +1014,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
     ): array {
         $cols = $privacy_fields = array();
 
-        $up = new ilUserProfile();
-        $up->skipGroup("preferences");
-        $up->skipGroup("settings");
-        $up->skipGroup("interests");
-        $ufs = $up->getStandardFields();
+        if ($a_in_course === 1) {
+            $ufs = $this->profile->getVisibleFields(Context::Course, null, [AvailableSections::Interests]);
+        } elseif ($a_in_group === 1) {
+            $ufs = $this->profile->getVisibleFields(Context::Group, null, [AvailableSections::Interests]);
+        } else {
+            $ufs = $this->profile->getFields();
+        }
 
         // default fields
         $cols["login"] = array(
@@ -1129,46 +1121,16 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $a_in_group === 0 ? $a_in_course : $a_in_group
             )) {
                 // other user profile fields
-                foreach ($ufs as $f => $fd) {
-                    if (!isset($cols[$f]) && $f != "username" && !($fd["lists_hide"] ?? false)) {
-                        if ($a_in_course &&
-                            !(($fd["course_export_fix_value"] ?? false) || $this->setting->get(
-                                "usr_settings_course_export_" . $f
-                            ))) {
-                            continue;
-                        }
-                        if ($a_in_group &&
-                            !(($fd["group_export_fix_value"] ?? false) || $this->setting->get(
-                                "usr_settings_group_export_" . $f
-                            ))) {
-                            continue;
-                        }
-
-                        $cols[$f] = array(
-                            "txt" => $this->lng->txt($f),
-                            "default" => false
-                        );
-                        $privacy_fields[] = $f;
+                foreach ($ufs as $fd) {
+                    if ($fd->isCustom()) {
+                        continue;
                     }
-                }
-
-                // additional defined user data fields
-                $user_defined_fields = ilUserDefinedFields::_getInstance();
-                if ($a_in_course) {
-                    $user_defined_fields = $user_defined_fields->getCourseExportableFields(
-                    );
-                } else {
-                    $user_defined_fields = $user_defined_fields->getGroupExportableFields(
-                    );
-                }
-                foreach ($user_defined_fields as $definition) {
-                    if ($definition["field_type"] != UDF_TYPE_WYSIWYG) {
-                        $f = "udf_" . $definition["field_id"];
+                    $f = $fd->getIdentifier();
+                    if (!isset($cols[$f]) && $f !== "username" && !$fd->hiddenInLists()) {
                         $cols[$f] = array(
-                            "txt" => $definition["field_name"],
+                            "txt" => $fd->getLabel($this->lng),
                             "default" => false
                         );
-
                         $privacy_fields[] = $f;
                     }
                 }

@@ -134,7 +134,7 @@ class ilDBStepExecutionDBTest extends TestCase
             ->method("fetchAssoc")
             ->willReturn([ilDBStepExecutionDB::FIELD_STEP => null]);
 
-        $this->assertEquals(0, $this->execution_db->getLastStartedStep(self::CLASS_NAME_200));
+        $this->assertSame(0, $this->execution_db->getLastStartedStep(self::CLASS_NAME_200));
     }
 
     public function testGetLastFinishedStepStartsWithZero(): void
@@ -147,7 +147,7 @@ class ilDBStepExecutionDBTest extends TestCase
             ->method("fetchAssoc")
             ->willReturn([ilDBStepExecutionDB::FIELD_STEP => null]);
 
-        $this->assertEquals(0, $this->execution_db->getLastFinishedStep(self::CLASS_NAME_200));
+        $this->assertSame(0, $this->execution_db->getLastFinishedStep(self::CLASS_NAME_200));
     }
 
     public function testStartedWritesToDB(): void
@@ -242,7 +242,7 @@ class ilDBStepExecutionDBTest extends TestCase
             ->method("fetchAssoc")
             ->willReturn([ilDBStepExecutionDB::FIELD_STEP => $STEP]);
 
-        $this->assertEquals($STEP, $this->execution_db->getLastStartedStep(self::CLASS_NAME_200));
+        $this->assertSame($STEP, $this->execution_db->getLastStartedStep(self::CLASS_NAME_200));
     }
 
     public function testGetLastFinishedStepQueriesDB(): void
@@ -274,6 +274,6 @@ class ilDBStepExecutionDBTest extends TestCase
             ->method("fetchAssoc")
             ->willReturn([ilDBStepExecutionDB::FIELD_STEP => $STEP]);
 
-        $this->assertEquals($STEP, $this->execution_db->getLastFinishedStep(self::CLASS_NAME_200));
+        $this->assertSame($STEP, $this->execution_db->getLastFinishedStep(self::CLASS_NAME_200));
     }
 }

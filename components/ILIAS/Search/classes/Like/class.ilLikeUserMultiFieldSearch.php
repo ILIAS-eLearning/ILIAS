@@ -36,7 +36,7 @@ class ilLikeUserMultiFieldSearch extends ilAbstractSearch
 
         $query = "SELECT usr_id  " .
             $locate .
-            "FROM usr_data_multi " .
+            "FROM usr_profile_data " .
             $where;
 
         $res = $this->db->query($query);

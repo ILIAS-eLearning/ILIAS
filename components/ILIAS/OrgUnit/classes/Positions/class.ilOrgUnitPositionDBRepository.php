@@ -322,8 +322,9 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return $this->getAllPositionsCount();
     }
@@ -333,8 +334,9 @@ class ilOrgUnitPositionDBRepository implements OrgUnitPositionRepository, Table\
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         foreach ($this->getAllPositions($range, $order) as $pos) {
             $row_id = (string) $pos->getId();

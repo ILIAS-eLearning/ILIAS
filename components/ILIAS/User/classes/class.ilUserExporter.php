@@ -25,18 +25,21 @@
  */
 class ilUserExporter extends ilXmlExporter
 {
-    private ilUserDataSet $ds;
+    private ilUserDataSet $data_set;
+    private ilUserExportConfig $export_config;
 
     public function init(): void
     {
-        $this->ds = new ilUserDataSet();
-        $this->ds->initByExporter($this);
-        $this->ds->setDSPrefix("ds");
+        $this->data_set = new ilUserDataSet();
+        $this->data_set->initByExporter($this);
+        $this->data_set->setDSPrefix('ds');
+        /** @var ilUserExportConfig $config */
+        $this->export_config = $this->exp->getExportConfigs()->getElementByClassName('ilUserExportConfig');
     }
 
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array // Missing array type.
     {
-        if ($a_entity == "personal_data") {
+        if ($a_entity === 'usr' && $this->export_config->getExportType() === 'personal_data') {
             $cal_ids = [];
             foreach ($a_ids as $user_id) {
                 foreach (ilCalendarCategories::lookupPrivateCategories($user_id) as $ct) {
@@ -73,8 +76,8 @@ class ilUserExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        $this->ds->initByExporter($this);
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
+        $this->data_set->initByExporter($this);
+        return $this->data_set->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     public function getValidSchemaVersions(string $a_entity): array // Missing array type.

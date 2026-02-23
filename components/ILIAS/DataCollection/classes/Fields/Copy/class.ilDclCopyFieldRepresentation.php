@@ -33,6 +33,8 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilMultiSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
+            $input->setWidth(100);
+            $input->setWidthUnit('%');
         } else {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         }
@@ -62,11 +64,14 @@ class ilDclCopyFieldRepresentation extends ilDclBaseFieldRepresentation
         if ($record_id !== null) {
             $value = ilDclCache::getRecordCache($record_id)->getRecordFieldValue($this->getField()->getId());
             if ($value !== '' && !array_key_exists($value, $options)) {
-                $options[$value] = $value . ' ' . $this->lng->txt('dcl_deprecated_copy');
+                $options = [$value => $value . ' ' . $this->lng->txt('dcl_deprecated_copy')] + $options;
             }
         }
 
         $input->setOptions($options);
+        if ($input instanceof ilMultiSelectInputGUI) {
+            $input->setHeight(32 * min(5, max(1, count($options))));
+        }
 
         return $input;
     }

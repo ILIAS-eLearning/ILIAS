@@ -132,7 +132,7 @@ class ilForumAuthorInformation
                 $this->author_name = $this->getAuthor()->getPublicName();
                 $this->author_short_name = $this->getAuthor()->getLogin();
 
-                if ($this->getAuthor()->getPref('public_upload') === 'y') {
+                if ($this->getAuthor()->getPref('public_avatar') === 'y') {
                     $this->profilePicture = $this->getUserImagePath($this->getAuthor());
                 } else {
                     $this->profilePicture = $this->getAvatarImageSource(

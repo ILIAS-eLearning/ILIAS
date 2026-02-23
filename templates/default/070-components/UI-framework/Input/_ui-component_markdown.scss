@@ -37,3 +37,11 @@
 .c-field-markdown > textarea {
   font-family: Monospace, Courier;
 }
+
+ul.c-input--has-mustache-variables__definitions {
+  padding-inline-start: 0;
+
+  > li {
+    list-style: none;
+  }
+}

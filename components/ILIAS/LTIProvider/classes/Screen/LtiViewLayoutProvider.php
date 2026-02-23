@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\LTI\Screen;
 
+use CustomBreadcrumbPagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -42,6 +43,8 @@ use ILIAS\Container\Screen\MemberViewLayoutProvider;
 class LtiViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
     public const GS_EXIT_LTI = 'lti_exit_mode';
+
+    private const LTI_PRIORITY = 63;
 
     public function isInterestedInContexts(): ContextCollection
     {
@@ -66,13 +69,12 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                              ->withModification(
                                  function (PagePartProvider $parts): Page {
                                      $p = new StandardPageBuilder();
-                                     $page = $p->build($parts);
-
+                                     $customParts = new CustomBreadcrumbPagePartProvider($parts);
+                                     $page = $p->build($customParts);
                                      $mv_modeinfo = MemberViewLayoutProvider::getMemberViewModeInfo($this->dic);
                                      if ($mv_modeinfo) {
                                          $page = $page->withModeInfo($mv_modeinfo);
                                      }
-
                                      return $page->withNoFooter();
                                  }
                              )
@@ -107,8 +109,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                             //$mainbar = $mainbar->withAdditionalEntry('lti_home', $lti_home);
                             return $mainbar;
                         }
-                    )
-                    ->withHighPriority();
+                    )->withPriority(self::LTI_PRIORITY);
     }
 
     /**
@@ -132,8 +133,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                             $metabar = $metabar->withAdditionalEntry('exit', $exit);
                             return $metabar;
                         }
-                    )
-                    ->withHighPriority();
+                    )->withPriority(self::LTI_PRIORITY);
     }
 
     /**
@@ -152,7 +152,6 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                             }
                             return $this->dic["lti"]->getTitle();
                         }
-                    )
-                    ->withHighPriority();
+                    )->withPriority(self::LTI_PRIORITY);
     }
 }

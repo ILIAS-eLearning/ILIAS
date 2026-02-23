@@ -16,15 +16,30 @@
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
+use ILIAS\User\StaticURLHandler;
+use ILIAS\StaticURL\Services as StaticURLServices;
+
 /**
  * Adds link to profile
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserUserActionProvider extends ilUserActionProvider
 {
+    private readonly StaticURLServices $static_url;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->static_url = $DIC['static_url'];
+
+        parent::__construct();
+    }
+
     public function getComponentId(): string
     {
-        return "user";
+        return 'user';
     }
 
     /**
@@ -37,12 +52,11 @@ class ilUserUserActionProvider extends ilUserActionProvider
         ];
     }
 
-    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
+    public function collectActionsForTargetUser(int $target_user): ilUserActionCollection
     {
         $coll = new ilUserActionCollection();
-
         if (!in_array(
-            ilObjUser::_lookupPref($a_target_user, "public_profile"),
+            ilObjUser::_lookupPref($target_user, "public_profile"),
             ["y", "g"]
         )) {
             return $coll;
@@ -51,7 +65,13 @@ class ilUserUserActionProvider extends ilUserActionProvider
         $f = new ilUserAction();
         $f->setType("profile");
         $f->setText($this->lng->txt('profile'));
-        $f->setHref("./goto.php?target=usr_" . $a_target_user);
+        $f->setHref(
+            $this->static_url->builder()->build(
+                StaticURLHandler::NAMESPACE,
+                null,
+                [$target_user]
+            )->__toString()
+        );
         $coll->addAction($f);
 
         return $coll;

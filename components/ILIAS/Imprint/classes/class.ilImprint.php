@@ -16,24 +16,15 @@
  *
  *********************************************************************/
 
-/**
- * Class ilImprint
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- */
 class ilImprint extends ilPageObject
 {
-    /**
-     * Get parent type
-     * @return string parent type
-     */
     public function getParentType(): string
     {
-        return "impr";
+        return 'impr';
     }
 
     public static function isActive(): bool
     {
-        return self::_lookupActive(1, "impr");
+        return self::_lookupActive(1, 'impr');
     }
 }

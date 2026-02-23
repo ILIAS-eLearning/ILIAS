@@ -352,7 +352,7 @@ class ilSkillTreeNode
     /**
     * Update Node
     */
-    public function update()
+    public function update(): void
     {
         $ilDB = $this->db;
 

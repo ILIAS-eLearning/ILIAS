@@ -34,8 +34,6 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
             'v5.4.0',
             $time,
             true,
-            '/some/where/background.jpg',
-            '/some/where/tile_image.svg',
             '-',
             '-',
             555
@@ -49,8 +47,8 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
         $this->assertSame('v5.4.0', $template->getIliasVersion());
         $this->assertSame($time, $template->getCreatedTimestamp());
         $this->assertTrue($template->isCurrentlyActive());
-        $this->assertSame('/some/where/background.jpg', $template->getCurrentBackgroundImageUsed());
-        $this->assertSame('/some/where/tile_image.svg', $template->getCurrentTileImageUsed());
+        $this->assertSame('-', $template->getBackgroundImageIdentification());
+        $this->assertSame('-', $template->getTileImageIdentification());
         $this->assertSame(555, $template->getId());
     }
 }

@@ -115,12 +115,13 @@ class ilLMObjTranslation
     {
         $ilDB = $this->db;
 
+        $title = ilStr::substr($this->getTitle(), 0, 200);
         if (!self::exists($this->getId(), $this->getLang())) {
             $ilDB->manipulate("INSERT INTO lm_data_transl " .
                 "(id, lang, title, short_title, create_date, last_update) VALUES (" .
                 $ilDB->quote($this->getId(), "integer") . "," .
                 $ilDB->quote($this->getLang(), "text") . "," .
-                $ilDB->quote($this->getTitle(), "text") . "," .
+                $ilDB->quote($title, "text") . "," .
                 $ilDB->quote($this->getShortTitle(), "text") . "," .
                 $ilDB->now() . "," .
                 $ilDB->now() .
@@ -128,7 +129,7 @@ class ilLMObjTranslation
         } else {
             $ilDB->manipulate(
                 "UPDATE lm_data_transl SET " .
-                " title = " . $ilDB->quote($this->getTitle(), "text") . "," .
+                " title = " . $ilDB->quote($title, "text") . "," .
                 " short_title = " . $ilDB->quote($this->getShortTitle(), "text") . "," .
                 " last_update = " . $ilDB->now() .
                 " WHERE id = " . $ilDB->quote($this->getId(), "integer") .

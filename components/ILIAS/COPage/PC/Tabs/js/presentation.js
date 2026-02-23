@@ -57,7 +57,7 @@ const presentation = (function () {
       hideAllTabs(tabsContainer, contentClass, activeHeadClass);
       showTab(toggler, contentNode, activeHeadClass);
     } else {
-      hideAllTabs(tabsContainer, contentClass);
+      hideAllTabs(tabsContainer, contentClass, activeHeadClass);
     }
   }
 
@@ -86,13 +86,14 @@ const presentation = (function () {
   function init(node) {
     node.querySelectorAll('[data-copg-tabs-type]').forEach((tabContainer) => {
       const type = tabContainer.dataset.copgTabsType;
-
       if (type === 'Carousel') {
         // +
         // carousel
         // +
-
-        const displayDuration = tabContainer.dataset.copgTabsAutoAnimWait;
+        let displayDuration = tabContainer.dataset.copgTabsAutoAnimWait;
+        if (displayDuration === '' || displayDuration === 'NaN') {
+          displayDuration = 5000;
+        }
         // const randomStart = tabContainer.dataset.copgTabsRandomStart;
         const slides = tabContainer.querySelectorAll('& > div');
         const totalSlides = slides.length;
@@ -141,6 +142,9 @@ const presentation = (function () {
         // register click handler (if not all opened is forced)
         if (behaviour !== 'ForceAllOpen') {
           tabContainer.querySelectorAll(`.${toggleClass}`).forEach((toggler) => {
+            if (toggler.dataset.isInitialised) {
+              return;
+            }
             toggler.querySelectorAll('a').forEach((aInToggler) => {
               aInToggler.addEventListener('click', (e) => {
                 e.stopPropagation(); // enable links inside of accordion header
@@ -152,6 +156,7 @@ const presentation = (function () {
             toggler.addEventListener('keypress', () => {
               toggler.querySelector("div[role='button']").click();
             });
+            toggler.dataset.isInitialised = true;
           });
           if (behaviour === 'FirstOpen') {
             const firstToggler = tabContainer.querySelector(`.${toggleClass}`);

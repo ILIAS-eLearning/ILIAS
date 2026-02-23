@@ -68,7 +68,7 @@ class FactoryImplTest extends TestCase
             $methods[] = $method->getName();
         }
         sort($methods);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 0 => 'complex',
                 1 => 'custom',

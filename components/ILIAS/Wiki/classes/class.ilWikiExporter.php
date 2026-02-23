@@ -118,6 +118,19 @@ class ilWikiExporter extends ilXmlExporter
             "entity" => "common",
             "ids" => $a_ids);
 
+        // Learning Object Metadata
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id . ':0:wiki';
+        }
+        if (!empty($md_ids)) {
+            $deps[] = [
+                'component' => 'components/ILIAS/MetaData',
+                'entity' => 'md',
+                'ids' => $md_ids,
+            ];
+        }
+
         return $deps;
     }
 
@@ -150,6 +163,12 @@ class ilWikiExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "8.0" => array(
+                "namespace" => "https://www.ilias.de/Modules/Wiki/wiki/8",
+                "xsd_file" => "ilias_wiki_8.xsd",
+                "uses_dataset" => true,
+                "min" => "8.0",
+                "max" => ""),
             "5.4.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/Wiki/wiki/5_4",
                 "xsd_file" => "ilias_wiki_5_4.xsd",

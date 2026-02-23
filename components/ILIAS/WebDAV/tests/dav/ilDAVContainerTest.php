@@ -91,7 +91,7 @@ class ilDAVContainerTest extends TestCase
 
         $dav_container = new ilDAVContainer($object, $user, $request, $dav_factory, $repository_helper);
 
-        $this->assertEquals('Some random Title', $dav_container->getName());
+        $this->assertSame('Some random Title', $dav_container->getName());
     }
 
     public function testGetChildWithExistingNameOfFolderOrFileReturnsIlObject(): void
@@ -135,7 +135,7 @@ class ilDAVContainerTest extends TestCase
                 $dav_container->getChild($tree[$child_ref]['title']);
                 $this->assertFalse('This should never happen');
             } catch (NotFound $e) {
-                $this->assertEquals($tree[$child_ref]['title'] . ' not found', $e->getMessage());
+                $this->assertSame($tree[$child_ref]['title'] . ' not found', $e->getMessage());
                 ;
             }
         }
@@ -181,7 +181,7 @@ class ilDAVContainerTest extends TestCase
             $dav_container->getChild($name);
             $this->assertFalse('This should not happen');
         } catch (NotFound $e) {
-            $this->assertEquals("$name not found", $e->getMessage());
+            $this->assertSame("$name not found", $e->getMessage());
         }
     }
 
@@ -251,7 +251,7 @@ class ilDAVContainerTest extends TestCase
             $additional_information['expects_problem_info_file']
         );
         $children = $dav_container->getChildren();
-        $this->assertEquals(count($additional_information['names']), count($children));
+        $this->assertCount(count($additional_information['names']), $children);
         for ($i = 0, $i_max = count($children); $i < $i_max; $i++) {
             $this->assertInstanceOf(
                 $additional_information['classes'][$i],
@@ -274,7 +274,7 @@ class ilDAVContainerTest extends TestCase
             1
         );
         $children = $dav_container->getChildren();
-        $this->assertEquals(1, count($children));
+        $this->assertCount(1, $children);
     }
 
     public function testChildExistsWithExistingNameOfFolderOrFileReturnsTrue(): void
@@ -397,7 +397,7 @@ class ilDAVContainerTest extends TestCase
             $dav_container->setName('My Valid Name');
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('Permission denied', $e->getMessage());
+            $this->assertSame('Permission denied', $e->getMessage());
         }
     }
 
@@ -414,7 +414,7 @@ class ilDAVContainerTest extends TestCase
                 $dav_container->setName($tree[$invalid_object]['title']);
                 $this->assertFalse('This should not happen!');
             } catch (Forbidden $e) {
-                $this->assertEquals('Forbidden characters in title', $e->getMessage());
+                $this->assertSame('Forbidden characters in title', $e->getMessage());
             }
         }
     }
@@ -429,7 +429,7 @@ class ilDAVContainerTest extends TestCase
             $dav_container->createFile('My New File.txt');
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('Permission denied', $e->getMessage());
+            $this->assertSame('Permission denied', $e->getMessage());
         }
     }
 
@@ -443,7 +443,7 @@ class ilDAVContainerTest extends TestCase
             $dav_container->createDirectory('My New Folder');
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('Permission denied', $e->getMessage());
+            $this->assertSame('Permission denied', $e->getMessage());
         }
     }
 
@@ -463,7 +463,7 @@ class ilDAVContainerTest extends TestCase
                 $dav_container->createDirectory($tree[$invalid_object]['title']);
                 $this->assertFalse('This should not happen!');
             } catch (Forbidden $e) {
-                $this->assertEquals('Forbidden characters in title', $e->getMessage());
+                $this->assertSame('Forbidden characters in title', $e->getMessage());
             }
         }
     }
@@ -478,7 +478,7 @@ class ilDAVContainerTest extends TestCase
             $dav_container->delete();
             $this->assertFalse('This should not happen!');
         } catch (Forbidden $e) {
-            $this->assertEquals('Permission denied', $e->getMessage());
+            $this->assertSame('Permission denied', $e->getMessage());
         }
     }
 

@@ -109,6 +109,12 @@ class ilBadgeTemplatesFilesMigration implements Migration
                 ],
                 ['id' => [ilDBConstants::T_INTEGER, $id]]
             );
+        } else {
+            $this->inform(
+                'Cannot migrate badge image template with id ' . $id
+                . ' (table: ' . self::TABLE_NAME . ') because no image is set.',
+                true
+            );
         }
     }
 

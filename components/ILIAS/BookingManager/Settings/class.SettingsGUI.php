@@ -76,7 +76,7 @@ class SettingsGUI
     {
         $lng = $this->domain->lng();
         $settings = $this->domain->bookingSettings()->getByObjId($this->obj_id);
-        $form = (new FormAdapterGUI(self::class, 'save'))
+        $form = (new FormAdapterGUI([self::class], 'save'))
             ->section("general", $lng->txt("book_edit"))
             ->addStdTitleAndDescription(
                 $this->obj_id,
@@ -127,9 +127,8 @@ class SettingsGUI
             )
             ->number(
                 "limit",
-                $lng->txt("book_bookings_per_user") . " - " .
                 $lng->txt("book_overall_limit"),
-                "",
+                $lng->txt("book_total_individual_bookings_limit"),
                 $settings->getOverallLimit()
             );
 

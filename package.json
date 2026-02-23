@@ -6,17 +6,24 @@
   "directories": {
     "doc": "docs"
   },
+  "engines": {
+    "node": "^22.18 || ^24.0",
+    "npm": "^10.9.3 || ^11.3"
+  },
   "dependencies": {
     "@yaireo/tagify": "^4.32.1",
     "chart.js": "^4.4.7",
     "dropzone": "^5.9.3",
     "jquery": "^3.7.1",
+    "jstree": "^3.3.17",
     "linkify-element": "^4.3.2",
     "linkifyjs": "^4.3.2",
     "mathjax": "^3.2.2",
-    "tinymce": "^7.5.1"
+    "tinymce": "^7.5.1",
+    "webui-popover": "^1.2.18"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -130,6 +137,13 @@
       "developer": null,
       "purpose": "We still use jQuery for many JS-related actions in ILIAS, unfortunately.",
       "last-update-for-ilias": "10.0"
+    },
+    "jstree": {
+      "introduction-date": null,
+      "approved-by": "Jour Fix",
+      "developer": "alex40724",
+      "purpose": "Legacy explorer tree representation",
+      "last-update-for-ilias": "11.0"
     },
     "sass": {
       "introduction-date": null,

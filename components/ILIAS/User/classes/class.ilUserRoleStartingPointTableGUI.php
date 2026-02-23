@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Settings\StartingPoint\Repository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer;
 
@@ -27,12 +28,11 @@ use ILIAS\UI\Renderer;
  */
 class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 {
-    private const TABLE_POSITION_USER_CHOOSES = -1;
     private const TABLE_POSITION_DEFAULT = 9999;
 
     public function __construct(
         object $parent_obj,
-        private ilUserStartingPointRepository $starting_point_repository,
+        private Repository $starting_point_repository,
         private ilRbacReview $rbac_review,
         private UIFactory $ui_factory,
         private Renderer $ui_renderer,
@@ -66,16 +66,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
         $valid_points = $this->starting_point_repository->getPossibleStartingPoints();
 
-        $status = ($this->starting_point_repository->isPersonalStartingPointEnabled()
-            ? $this->lng->txt('yes') : $this->lng->txt('no'));
-
         $starting_points = [];
-        $starting_points[] = [
-            'id' => $this->starting_point_repository->getUserStartingPointID(),
-            'criteria' => $this->lng->txt('user_chooses_starting_page'),
-            'starting_page' => $status,
-            'starting_position' => self::TABLE_POSITION_USER_CHOOSES
-        ];
 
         $available_starting_points = $this->starting_point_repository->getStartingPoints();
 
@@ -84,7 +75,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
             $position = $available_starting_point->getPosition();
             $sp_text = $this->lng->txt($valid_points[$starting_point_type]) ?? '';
 
-            if ($starting_point_type === ilUserStartingPointRepository::START_REPOSITORY_OBJ
+            if ($starting_point_type === Repository::START_REPOSITORY_OBJ
                 && $available_starting_point->getStartingObject() !== null) {
                 $starting_object_ref_id = $available_starting_point->getStartingObject();
                 $object_id = ilObject::_lookupObjId($starting_object_ref_id);
@@ -114,7 +105,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
         $default_sp = $this->starting_point_repository->getSystemDefaultStartingPointType();
         $starting_point = $this->lng->txt($valid_points[$default_sp]);
-        if ($default_sp === ilUserStartingPointRepository::START_REPOSITORY_OBJ) {
+        if ($default_sp === Repository::START_REPOSITORY_OBJ) {
             $starting_object_ref_id = $this->starting_point_repository->getSystemDefaultStartingObject();
 
             $object_id = ilObject::_lookupObjId($starting_object_ref_id);
@@ -220,8 +211,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
     private function isSortingHidden(int $id): bool
     {
-        if ($id === $this->starting_point_repository->getDefaultStartingPointID()
-            || $id === $this->starting_point_repository->getUserStartingPointID()) {
+        if ($id === $this->starting_point_repository->getDefaultStartingPointID()) {
             return true;
         }
         return false;

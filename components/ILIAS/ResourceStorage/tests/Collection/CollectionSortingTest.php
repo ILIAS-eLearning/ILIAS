@@ -18,6 +18,7 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTestCase;
 use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
@@ -38,19 +39,13 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
     public const DUMMY_RCID = 'dummy-rcid';
 
     protected CollectionIdentificationGenerator $rcid_generator;
-    private CollectionBuilder $collection_builder;
-    private ResourceCollectionIdentification $rcid;
-    private ResourceCollection $collection;
     private ResourceIdentification $rid_one;
-    private StorableFileResource $resource_one;
-    private Revision $revision_one;
+    private MockObject $revision_one;
     private ResourceIdentification $rid_two;
-    private StorableFileResource $resource_two;
-    private Revision $revision_two;
+    private MockObject $revision_two;
     private Sorter $sorter;
     private ResourceIdentification $rid_three;
-    private StorableFileResource $resource_three;
-    private Revision $revision_three;
+    private MockObject $revision_three;
 
     #[\Override]
     protected function setUp(): void
@@ -58,62 +53,58 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
         parent::setUp();
         $this->rcid_generator = new DummyIDGenerator(self::DUMMY_RCID);
         $this->resource_builder = $this->createMock(ResourceBuilder::class);
-        $this->collection_builder = $this->createMock(CollectionBuilder::class);
-        $this->rcid = new ResourceCollectionIdentification(self::DUMMY_RCID);
-        $this->collection = new ResourceCollection(
-            $this->rcid,
+        $collection_builder = $this->createMock(CollectionBuilder::class);
+        $rcid = new ResourceCollectionIdentification(self::DUMMY_RCID);
+        $collection = new ResourceCollection(
+            $rcid,
             ResourceCollection::NO_SPECIFIC_OWNER,
             ''
         );
         $this->rid_one = new ResourceIdentification('rid_one');
-        $this->resource_one = $this->createMock(StorableFileResource::class);
+        $resource_one = $this->createMock(StorableFileResource::class);
         $this->revision_one = $this->createMock(Revision::class);
 
         $this->rid_two = new ResourceIdentification('rid_two');
-        $this->resource_two = $this->createMock(StorableFileResource::class);
+        $resource_two = $this->createMock(StorableFileResource::class);
         $this->revision_two = $this->createMock(Revision::class);
 
         $this->rid_three = new ResourceIdentification('rid_three');
-        $this->resource_three = $this->createMock(StorableFileResource::class);
+        $resource_three = $this->createMock(StorableFileResource::class);
         $this->revision_three = $this->createMock(Revision::class);
 
         $this->sorter = new Sorter(
             $this->resource_builder,
-            $this->collection_builder,
-            $this->collection
+            $collection_builder,
+            $collection
         );
 
         // RESOURCES
-        $this->collection->add($this->rid_one);
-        $this->collection->add($this->rid_two);
-        $this->collection->add($this->rid_three);
+        $collection->add($this->rid_one);
+        $collection->add($this->rid_two);
+        $collection->add($this->rid_three);
 
         // EXPECTATIONS
-        $this->resource_one->expects($this->atLeastOnce())
+        $resource_one->expects($this->atLeastOnce())
             ->method('getCurrentRevision')
             ->willReturn($this->revision_one);
 
-        $this->resource_two->expects($this->atLeastOnce())
+        $resource_two->expects($this->atLeastOnce())
             ->method('getCurrentRevision')
             ->willReturn($this->revision_two);
 
-        $this->resource_three->expects($this->atLeastOnce())
+        $resource_three->expects($this->atLeastOnce())
             ->method('getCurrentRevision')
             ->willReturn($this->revision_three);
 
-        $consecutive = [
-            [$this->rid_one]
-        ];
-
         $map = [
-            [$this->rid_one, $this->resource_one],
-            [$this->rid_two, $this->resource_two],
-            [$this->rid_two, $this->resource_two],
-            [$this->rid_three, $this->resource_three],
+            [$this->rid_one, $resource_one],
+            [$this->rid_two, $resource_two],
+            [$this->rid_two, $resource_two],
+            [$this->rid_three, $resource_three],
         ];
         $this->resource_builder->expects($this->atLeastOnce())
             ->method('get')
-            ->will($this->returnValueMap($map));
+            ->willReturnMap($map);
     }
 
     private function setUpRevisionExpectations(FileInformation $one, FileInformation $two, FileInformation $three): void
@@ -138,7 +129,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setSize(30)
         );
         $sorted_collection = $this->sorter->desc()->bySize();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_three->serialize(),
                 $this->rid_two->serialize(),
@@ -157,7 +148,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setSize(30)
         );
         $sorted_collection = $this->sorter->asc()->bySize();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_one->serialize(),
                 $this->rid_two->serialize(),
@@ -176,7 +167,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setSize(30)
         );
         $sorted_collection = $this->sorter->bySize();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_one->serialize(),
                 $this->rid_two->serialize(),
@@ -195,7 +186,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03'))
         );
         $sorted_collection = $this->sorter->byCreationDate();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_one->serialize(),
                 $this->rid_two->serialize(),
@@ -214,7 +205,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03'))
         );
         $sorted_collection = $this->sorter->asc()->byCreationDate();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_one->serialize(),
                 $this->rid_two->serialize(),
@@ -233,7 +224,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setCreationDate(new \DateTimeImmutable('2020-03-03'))
         );
         $sorted_collection = $this->sorter->desc()->byCreationDate();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_three->serialize(),
                 $this->rid_two->serialize(),
@@ -252,7 +243,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setTitle('3_three.jpg')
         );
         $sorted_collection = $this->sorter->byTitle();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_one->serialize(),
                 $this->rid_two->serialize(),
@@ -271,7 +262,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setTitle('3_three.jpg')
         );
         $sorted_collection = $this->sorter->asc()->byTitle();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_one->serialize(),
                 $this->rid_two->serialize(),
@@ -290,7 +281,7 @@ class CollectionSortingTest extends AbstractBaseResourceBuilderTestCase
             (new FileInformation())->setTitle('3_three.jpg')
         );
         $sorted_collection = $this->sorter->desc()->byTitle();
-        $this->assertEquals(
+        $this->assertSame(
             [
                 $this->rid_three->serialize(),
                 $this->rid_two->serialize(),

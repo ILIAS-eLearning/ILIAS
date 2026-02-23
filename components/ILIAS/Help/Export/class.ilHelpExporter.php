@@ -24,12 +24,16 @@
 class ilHelpExporter extends ilXmlExporter
 {
     private ilHelpDataSet $ds;
+    protected \ILIAS\Help\InternalDomainService $help_domain;
 
     public function init(): void
     {
+        global $DIC;
+
         $this->ds = new ilHelpDataSet();
         $this->ds->initByExporter($this);
         $this->ds->setDSPrefix("ds");
+        $this->help_domain = $DIC->help()->internal()->domain();
     }
 
     public function getXmlExportTailDependencies(
@@ -57,6 +61,32 @@ class ilHelpExporter extends ilXmlExporter
                     "ids" => $a_ids)
                 );
         }
+
+        if ($a_entity === "gdtr") {
+            $res = [];
+            // step pages
+            $pg_ids = [];
+            $step_ids = [];
+            foreach ($a_ids as $id) {
+                foreach ($this->help_domain->guidedTour()->step()->getStepsOfTour((int) $id) as $step) {
+                    $pg_ids[] = "gdtr:" . $step->getId();
+                    $step_ids[] = $step->getId();
+                }
+            }
+            if (count($pg_ids)) {
+                $res[] = [
+                    "component" => "components/ILIAS/Help",
+                    "entity" => "gdtr_step",
+                    "ids" => $step_ids];
+                $res[] = array(
+                    "component" => "components/ILIAS/COPage",
+                    "entity" => "pg",
+                    "ids" => $pg_ids
+                );
+            }
+            return $res;
+        }
+
 
         return array();
     }

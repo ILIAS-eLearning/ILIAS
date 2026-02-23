@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Data\UUID\Factory;
+use ILIAS\User\Profile\Profile;
 
 /**
  * Collection of basic placeholder values that can be used
@@ -29,7 +30,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private readonly array $placeholder;
     private readonly ilCertificateObjectHelper $objectHelper;
     private readonly ilCertificateDateHelper $dateHelper;
-    private readonly int $dateFormat;
+    private readonly int $unix_ts_format_id;
     private readonly int $birthdayDateFormat;
     private readonly ilLanguage $language;
     private readonly ilCertificateUtilHelper $utilHelper;
@@ -41,8 +42,9 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateDateHelper $dateHelper = null,
-        ?int $dateFormat = null,
+        ?int $unix_ts_format_id = null,
         ?ilLanguage $language = null,
+        ?Profile $profile = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
         ?ILIAS\Data\UUID\Factory $uuid_factory = null,
@@ -53,19 +55,26 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
         require_once __DIR__ . '/../../../../Calendar/classes/class.ilDateTime.php'; // Required because of global contant IL_CAL_DATE
 
-        $this->dateFormat = $dateFormat ?? IL_CAL_UNIX;
+        $this->unix_ts_format_id = $unix_ts_format_id ?? IL_CAL_UNIX;
         $this->birthdayDateFormat = $birthdayDateFormat ?? IL_CAL_DATE;
 
+        global $DIC;
         if (null === $language) {
-            global $DIC;
             $language = $DIC->language();
             $language->loadLanguageModule('certificate');
         }
         $this->language = $language;
 
+        $profile ??= $DIC['user']->getProfile();
+
         $this->utilHelper = $utilHelper ?? new ilCertificateUtilHelper();
         $this->userDefinedFieldsPlaceholderValues =
-            $userDefinedFieldsPlaceholderValues ?? new ilUserDefinedFieldsPlaceholderValues();
+            $userDefinedFieldsPlaceholderValues ?? new ilUserDefinedFieldsPlaceholderValues(
+                $this->language,
+                new ilCertificateObjectHelper(),
+                $profile,
+                new ilCertificateUtilHelper()
+            );
         $this->uuid_factory = $uuid_factory ?? new ILIAS\Data\UUID\Factory();
 
         $this->placeholder = [
@@ -139,12 +148,12 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholder['DATE'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
             time(),
             $user,
-            $this->dateFormat
+            $this->unix_ts_format_id
         ))));
         $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
             time(),
             $user,
-            $this->dateFormat
+            $this->unix_ts_format_id
         ))));
 
         return array_merge(
@@ -175,7 +184,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             "USER_BIRTHDAY" => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
                 time(),
                 null,
-                $this->dateFormat
+                $this->unix_ts_format_id
             )))),
             "USER_INSTITUTION" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_institution")),
             "USER_DEPARTMENT" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_department")),
@@ -187,22 +196,22 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             'DATE' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
                 time(),
                 null,
-                $this->dateFormat
+                $this->unix_ts_format_id
             )))),
             'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 null,
-                $this->dateFormat
+                $this->unix_ts_format_id
             )))),
             'DATE_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDate(
                 time(),
                 null,
-                $this->dateFormat
+                $this->unix_ts_format_id
             )))),
             'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 null,
-                $this->dateFormat
+                $this->unix_ts_format_id
             ))))
         ];
 

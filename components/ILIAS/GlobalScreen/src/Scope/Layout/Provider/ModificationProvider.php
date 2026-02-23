@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\Provider;
 
 use ILIAS\GlobalScreen\Provider\Provider;

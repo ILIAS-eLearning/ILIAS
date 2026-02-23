@@ -516,7 +516,7 @@ class ilLMTracker
     public function hasPredIncorrectAnswers(
         int $a_obj_id,
         bool $a_ignore_unlock = false
-    ) {
+    ): bool {
         $this->loadLMTrackingData();
         $ret = false;
         if (isset($this->tree_arr["nodes"][$a_obj_id])) {

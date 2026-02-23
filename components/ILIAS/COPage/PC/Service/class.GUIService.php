@@ -54,4 +54,13 @@ class GUIService
             $this->gui_service
         );
     }
+
+    public function paragraph(): Paragraph\GUIService
+    {
+        return new Paragraph\GUIService(
+            $this->domain_service,
+            $this->gui_service
+        );
+    }
+
 }

@@ -55,19 +55,9 @@ require_once __DIR__ . '/SVGDummyMachine.php';
 class FlavourMachineTest extends AbstractTestBase
 {
     /**
-     * @var ImagickEngine|MockObject
-     */
-    private $imagick_mock;
-    /**
-     * @var GDEngine|MockObject
-     */
-    private $gd_mock;
-    /**
      * @var \ILIAS\ResourceStorage\Flavour\Engine\Factory|MockObject
      */
     private MockObject $engine_factory_mock;
-
-    private array $engine_mocks = [];
 
     #[\Override]
     protected function setUp(): void
@@ -88,31 +78,29 @@ class FlavourMachineTest extends AbstractTestBase
 
         $null_machine = $factory->get($definition);
         $this->assertInstanceOf(NullMachine::class, $null_machine);
-        $this->assertEquals('Machine stdClass does not implement FlavourMachine', $null_machine->getReason());
-        $this->assertEquals('null_machine', $null_machine->getId());
-        $this->assertEquals(NoEngine::class, $null_machine->dependsOnEngine());
+        $this->assertSame('Machine stdClass does not implement FlavourMachine', $null_machine->getReason());
+        $this->assertSame('null_machine', $null_machine->getId());
+        $this->assertSame(NoEngine::class, $null_machine->dependsOnEngine());
 
         // Broken machine
         $definition = $this->createMock(FlavourDefinition::class);
         $definition->expects($this->once())->method('getFlavourMachineId')->willReturn(BrokenDummyMachine::class);
         $null_machine = $factory->get($definition);
         $this->assertInstanceOf(NullMachine::class, $null_machine);
-        $this->assertEquals(
+        $this->assertSame(
             'Could not instantiate machine ILIAS\ResourceStorage\Flavours\BrokenDummyMachine',
             $null_machine->getReason()
         );
-        $this->assertEquals('null_machine', $null_machine->getId());
-        $this->assertEquals(NoEngine::class, $null_machine->dependsOnEngine());
+        $this->assertSame('null_machine', $null_machine->getId());
+        $this->assertSame(NoEngine::class, $null_machine->dependsOnEngine());
     }
 
-    public static function definitionsToMachines(): array
+    public static function definitionsToMachines(): \Iterator
     {
-        return [
-            [new PagesToExtract(true), ExtractPages::class, ImagickEngineWithOptionalFFMpeg::class],
-            [new CropToSquare(), CropSquare::class, GDEngine::class],
-            [new FitToSquare(), FitSquare::class, GDEngine::class],
-            [new ToGreyScale(), MakeGreyScale::class, GDEngine::class],
-        ];
+        yield [new PagesToExtract(true), ExtractPages::class, ImagickEngineWithOptionalFFMpeg::class];
+        yield [new CropToSquare(), CropSquare::class, GDEngine::class];
+        yield [new FitToSquare(), FitSquare::class, GDEngine::class];
+        yield [new ToGreyScale(), MakeGreyScale::class, GDEngine::class];
     }
 
 
@@ -120,7 +108,7 @@ class FlavourMachineTest extends AbstractTestBase
     public function testDefaultMachines(FlavourDefinition $d, string $machine): void
     {
         $factory = new Factory($this->engine_factory_mock);
-        $this->engine_factory_mock->expects($this->exactly(1))
+        $this->engine_factory_mock->expects($this->once())
             ->method('get')
             ->willReturn(new NoEngine());
 
@@ -130,14 +118,12 @@ class FlavourMachineTest extends AbstractTestBase
         $this->assertSame($machine_instance, $machine_instance_second_get);
     }
 
-    public static function machinesToEngines(): array
+    public static function machinesToEngines(): \Iterator
     {
-        return [
-            [ExtractPages::class, ImagickEngine::class],
-            [CropSquare::class, GDEngine::class],
-            [FitSquare::class, GDEngine::class],
-            [MakeGreyScale::class, GDEngine::class],
-        ];
+        yield [ExtractPages::class, ImagickEngine::class];
+        yield [CropSquare::class, GDEngine::class];
+        yield [FitSquare::class, GDEngine::class];
+        yield [MakeGreyScale::class, GDEngine::class];
     }
 
     #[DataProvider('machinesToEngines')]
@@ -165,7 +151,7 @@ class FlavourMachineTest extends AbstractTestBase
 
         $machine_instance = $factory->get($d);
         $this->assertInstanceOf(NullMachine::class, $machine_instance);
-        $this->assertEquals(
+        $this->assertSame(
             "Machine $machine depends on engine $engine which is not running or available.",
             $machine_instance->getReason()
         );
@@ -189,7 +175,7 @@ class FlavourMachineTest extends AbstractTestBase
         $this->assertInstanceOf(Result::class, $result_one);
         $this->assertEquals($definition, $result_one->getDefinition());
         $this->assertInstanceOf(FileStream::class, $result_one->getStream());
-        $this->assertEquals(
+        $this->assertSame(
             '<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 155"><defs><style>.cls-1{fill:blue;}</style></defs><g><g><rect class="cls-1" x="3" y="3" width="150" height="150"/><path d="M151.14,6V151.14H6V6H151.14m6-6H0V157.14H157.14V0h0Z"/></g></g></svg>',
             (string) $result_one->getStream()

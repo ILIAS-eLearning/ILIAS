@@ -44,11 +44,13 @@ if (isset($_GET['client_id'])) {
     $_COOKIE['ilClientId'] = $_GET['client_id'];
 }
 
+define('IL_CERT_SSO', true);
 define('IL_COOKIE_PATH', $cookie_path);
 
 ilContext::init(ilContext::CONTEXT_APACHE_SSO);
 
-ilInitialisation::initILIAS();
+require_once __DIR__ . '/../../artifacts/bootstrap_default.php';
+entry_point('ILIAS Legacy Initialisation Adapter');
 
 ilStartUpGUI::setForcedCommand('doApacheAuthentication');
 $ilCtrl->callBaseClass(ilStartUpGUI::class);

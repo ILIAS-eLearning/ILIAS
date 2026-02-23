@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 {
-    protected bool $free_option_choice = true;
-    protected bool $options_initialized = false;
+    private bool $free_option_choice = true;
+    private bool $options_initialized = false;
+    private ?ilObjUser $user = null;
 
     public function __construct(string $title = '', string $post_var = '', bool $free_option_choice = true)
     {
@@ -81,6 +82,11 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     public function setFreeOptionChoice(bool $free_option_choice): void
     {
         $this->free_option_choice = $free_option_choice;
+    }
+
+    public function setUser(?ilObjUser $user): void
+    {
+        $this->user = $user;
     }
 
     private function addSubOptions(): void
@@ -164,13 +170,16 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
                 $this->setDisabled(true);
             }
 
-            if ($DIC->user()->getEmail() === '') {
+            $email = $this->user !== null
+                ? $this->user->getEmail()
+                : $DIC->user()->getEmail();
+            if (empty($email)) {
                 $sub_mail_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
                 $sub_mail_opt3->setInfo($DIC->language()->txt('first_email_missing_info'));
                 $sub_both_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
                 $sub_both_opt3->setInfo($DIC->language()->txt('first_email_missing_info'));
             } else {
-                $email_info[] = $DIC->user()->getEmail();
+                $email_info[] = $email;
             }
             if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt1->setDisabled(true);
@@ -179,13 +188,16 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
                 $sub_both_opt3->setDisabled(true);
             }
 
-            if ($DIC->user()->getSecondEmail() === '') {
+            $second_email = $this->user !== null
+                ? $this->user->getSecondEmail()
+                : $DIC->user()->getSecondEmail();
+            if (empty($second_email)) {
                 $sub_mail_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
                 $sub_mail_opt3->setInfo($DIC->language()->txt('second_email_missing_info'));
                 $sub_both_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
                 $sub_both_opt3->setInfo($DIC->language()->txt('second_email_missing_info'));
             } else {
-                $email_info[] = $DIC->user()->getSecondEmail();
+                $email_info[] = $second_email;
             }
             if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt2->setDisabled(true);

@@ -21,11 +21,9 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Attachments;
 
 use ilStr;
-use ilDatePresentation;
 use ilUtil;
-use ilDateTime;
 
-class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
+class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval, MailAttachmentCommands
 {
     private readonly \ILIAS\UI\URLBuilder $url_builder;
     private readonly \ILIAS\UI\URLBuilderToken $action_parameter_token;
@@ -49,7 +47,7 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         private readonly AttachmentManagement $mode
     ) {
         $form_action = $this->df->uri(
-            \ilUtil::_getHttpPath() . '/' .
+            ilUtil::_getHttpPath() . '/' .
             $this->ctrl->getLinkTarget($this->parent_gui, $this->parent_cmd)
         );
 
@@ -75,8 +73,9 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
                 $this->lng->txt('attachment'),
                 $this->getColumnDefinition(),
             )
-            ->withId(self::class . '_' . $this->mode->name)
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->mode->name)
             ->withOrder(new \ILIAS\Data\Order('filename', \ILIAS\Data\Order::ASC))
+            ->withRange(new \ILIAS\Data\Range(0, 50))
             ->withActions($this->getActions())
             ->withRequest($this->http_request);
     }
@@ -120,14 +119,20 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
 
         if ($this->mode === AttachmentManagement::CONSUME) {
             $actions['saveAttachments'] = $this->ui_factory->table()->action()->multi(
-                $this->lng->txt('adopt'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'saveAttachments'),
+                $this->lng->txt('mail_adopt_selected_attachements'),
+                $this->url_builder->withParameter(
+                    $this->action_parameter_token,
+                    self::TABLE_ACTION_SAVE_ATTACHMENTS
+                ),
                 $this->row_id_token
             );
         } else {
             $actions['deleteAttachments'] = $this->ui_factory->table()->action()->multi(
                 $this->lng->txt('delete'),
-                $this->url_builder->withParameter($this->action_parameter_token, 'deleteAttachments'),
+                $this->url_builder->withParameter(
+                    $this->action_parameter_token,
+                    self::TABLE_CONFIRM_DELETE_ATTACHMENTS
+                ),
                 $this->row_id_token
             );
         }
@@ -166,8 +171,9 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         array $visible_column_ids,
         \ILIAS\Data\Range $range,
         \ILIAS\Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         foreach ($this->getRecords($range, $order) as $item) {
             $record = [
@@ -183,8 +189,11 @@ class MailAttachmentTableGUI implements \ILIAS\UI\Component\Table\DataRetrieval
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return \count($this->records);
     }
 }

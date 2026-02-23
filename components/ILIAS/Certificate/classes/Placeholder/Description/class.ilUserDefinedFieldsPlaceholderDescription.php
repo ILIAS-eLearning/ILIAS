@@ -18,6 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Language\Language;
+use ILIAS\User\Context;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Fields\Field;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -25,22 +30,19 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
 {
     private array $placeholder;
 
-    public function __construct(?ilUserDefinedFields $userDefinedFieldsObject = null)
-    {
-        $this->placeholder = [];
-
-        if (null === $userDefinedFieldsObject) {
-            $userDefinedFieldsObject = ilUserDefinedFields::_getInstance();
-        }
-        $userDefinedFields = $userDefinedFieldsObject->getDefinitions();
-
-        foreach ($userDefinedFields as $field) {
-            if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
-
-                $this->placeholder[$placeholderText] = $field['field_name'];
-            }
-        }
+    public function __construct(
+        Language $lng,
+        Profile $user_profile
+    ) {
+        $this->placeholder = array_reduce(
+            $user_profile->getVisibleUserDefinedFields(Context::Certificate),
+            static function (array $c, Field $v) use ($lng): array {
+                $placeholder_text = str_replace(' ', '_', strtoupper($v->getLabel($lng)));
+                $c["#{$placeholder_text}"] = $v->getLabel($lng);
+                return $c;
+            },
+            []
+        );
     }
 
     /**

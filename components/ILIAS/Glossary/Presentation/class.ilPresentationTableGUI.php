@@ -41,7 +41,7 @@ class ilPresentationTableGUI
     protected UI\Factory $ui_fac;
     protected UI\Renderer $ui_ren;
     protected ServerRequestInterface $request;
-    protected $parent_obj;
+    protected object $parent_obj;
     protected ilObjGlossary $glossary;
     protected bool $offline = false;
     protected int $tax_node = 0;
@@ -402,14 +402,14 @@ class ilPresentationTableGUI
             $short_str = \ilStr::shortenTextExtended($short_str, $ltexe + 6, true);
         }
 
-        $short_str = \ilMathJax::getInstance()->insertLatexImages($short_str);
-
         $short_str = \ilPCParagraph::xml2output(
             $short_str,
             false,
             true,
             !$page->getPageConfig()->getPreventHTMLUnmasking()
         );
+
+        $short_str = $this->ui_ren->render($this->ui_fac->legacy()->latexContent($short_str));
 
         return $short_str;
     }

@@ -31,8 +31,8 @@ class ilServicesFileSystemTest extends TestCase
     public function testTrailingSlashes(): void
     {
         $file_data = new ilFileData();
-        $this->assertEquals('/var/www/ilias', $file_data->deleteTrailingSlash('/var/www/ilias/'));
-        $this->assertEquals('\\var\\www\\ilias', $file_data->deleteTrailingSlash('\\var\\www\\ilias\\'));
+        $this->assertSame('/var/www/ilias', $file_data->deleteTrailingSlash('/var/www/ilias/'));
+        $this->assertSame('\\var\\www\\ilias', $file_data->deleteTrailingSlash('\\var\\www\\ilias\\'));
     }
 
     public function testBaseDirectory(): void

@@ -336,7 +336,7 @@ class ilPDNotesGUI
             }
             $this->filter = $gui->filter(
                 "notes_filter_" . $this->note_type,
-                self::class,
+                [self::class],
                 "view",
                 false,
                 false

@@ -105,7 +105,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
             ->link()
             ->standard(
                 $this->dic->language()->txt('nc_contact_requests_headline'),
-                $this->dic->ctrl()->getLinkTargetByClass([ilDashboardGUI::class, ilContactGUI::class], 'showContactRequests')
+                $this->dic->ctrl()->getLinkTargetByClass([ilDashboardGUI::class, ilContactGUI::class], 'showContacts')
             );
         $description = sprintf(
             $this->dic->language()->txt(

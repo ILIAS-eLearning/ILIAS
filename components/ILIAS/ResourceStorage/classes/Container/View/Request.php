@@ -110,6 +110,7 @@ final class Request
     private int $items_per_page = 20;
     private string $path = self::BASE;
     private ContainerWrapper $wrapper;
+    private ?PathStatusInfo $path_status_info;
 
     public function __construct(
         private \ilCtrlInterface $ctrl,
@@ -117,7 +118,7 @@ final class Request
         private Configuration $view_configuration,
     ) {
         global $DIC;
-        $irss = $DIC->resourceStorage();
+        $DIC->resourceStorage();
         $this->ctrl = $DIC->ctrl();
         $this->refinery = $DIC->refinery();
 
@@ -131,6 +132,7 @@ final class Request
             $view_configuration->getContainer()->getIdentification(),
             $this->path
         );
+        $this->path_status_info = $view_configuration->getPathStatusInfo();
     }
 
     public function init(
@@ -142,7 +144,7 @@ final class Request
         $this->ctrl->saveParameter($container_resource_gui, self::P_PATH);
     }
 
-    public function buildURI(string $cmd): void
+    public function buildURI(): void
     {
     }
 
@@ -185,7 +187,7 @@ final class Request
         $this->items_per_page = $items_per_page;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->view_configuration->getTitle();
     }
@@ -242,5 +244,10 @@ final class Request
     public function canUserAdministrate(): bool
     {
         return $this->view_configuration->canUserAdministrate();
+    }
+
+    public function getPathStatusInfo(): ?PathStatusInfo
+    {
+        return $this->path_status_info;
     }
 }

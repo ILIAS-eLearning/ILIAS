@@ -99,7 +99,7 @@ abstract class ilClaimingPermissionHelper
      */
     protected function isValidContextAndAction(
         int $a_context_type,
-        string $a_context_id,
+        int $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ): bool {
@@ -149,7 +149,7 @@ abstract class ilClaimingPermissionHelper
      */
     public function hasPermission(
         int $a_context_type,
-        string $a_context_id,
+        int $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ): bool {
@@ -163,7 +163,7 @@ abstract class ilClaimingPermissionHelper
     /**
      * Check permissions
      */
-    public function hasPermissions(int $a_context_type, string $a_context_id, array $a_action_ids): array
+    public function hasPermissions(int $a_context_type, int $a_context_id, array $a_action_ids): array
     {
         $res = [];
 
@@ -186,12 +186,12 @@ abstract class ilClaimingPermissionHelper
      */
     protected function checkPermission(
         int $a_context_type,
-        string $a_context_id,
+        int $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ): bool {
         return ($this->checkRBAC() &&
-            $this->checkPlugins($a_context_type, (string) $a_context_id, $a_action_id, $a_action_sub_id));
+            $this->checkPlugins($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id));
     }
 
     /**
@@ -216,7 +216,7 @@ abstract class ilClaimingPermissionHelper
      */
     protected function checkPlugins(
         int $a_context_type,
-        string $a_context_id,
+        int $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
     ): bool {
@@ -237,25 +237,5 @@ abstract class ilClaimingPermissionHelper
         }
 
         return $valid;
-    }
-
-    /**
-     * @return array of object type strings
-     */
-    public function getAllowedObjectTypes(): array
-    {
-        $accepted_types = ['cat','crs','sess','grp','iass','exc','file'];
-
-        $obj_def = new ilObjectDefinition();
-        $adv_md_types = $obj_def->getAdvancedMetaDataTypes();
-
-        $valid_accepted_types = [];
-        foreach ($adv_md_types as $value) {
-            if (in_array($value['obj_type'], $accepted_types) || in_array($value['sub_type'], $accepted_types)) {
-                array_push($valid_accepted_types, $value['obj_type']);
-            }
-        }
-
-        return $valid_accepted_types;
     }
 }

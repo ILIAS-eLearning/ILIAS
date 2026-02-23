@@ -608,8 +608,9 @@ class ilRbacReview
         $ga = [];
         foreach ($this->getGlobalRoles() as $role_id) {
             if (ilObjRole::_getAssignUsersStatus($role_id)) {
-                $ga[] = ['obj_id' => $role_id,
-                              'role_type' => 'global'
+                $ga[] = [
+                    'obj_id' => $role_id,
+                    'role_type' => 'global'
                 ];
             }
         }

@@ -133,7 +133,6 @@ class EvaluationManager
     public function getCurrentAppraisee(): int
     {
         $req_appr_id = $this->requested_appr_id;
-
         // if no user is requested, request current user
         $user_id = $this->user_id;
         if ($req_appr_id === 0) {
@@ -217,7 +216,6 @@ class EvaluationManager
     {
         $appr_id = $this->getCurrentAppraisee();
         $finished_ids = null;
-
         $filter = false;
         if ($appr_id > 0) {
             $filter = true;
@@ -229,10 +227,11 @@ class EvaluationManager
             // see #36336, #36378
             if ($this->survey->getMode() !== \ilObjSurvey::MODE_IND_FEEDB &&
                 $this->access->canEditSettings()) {
-                $filter = false;
+                if ($appr_id === 0) {   // #44755
+                    $filter = false;
+                }
             }
         }
-
         if ($filter) {
             $finished_ids = $this->survey->getFinishedIdsForAppraiseeId($appr_id);
             if (!count($finished_ids)) {

@@ -43,7 +43,8 @@ interface WriterInterface
 
     public function writeRecordHeader(
         string $identifier,
-        \DateTimeImmutable $datestamp
+        \DateTimeImmutable $datestamp,
+        bool $deleted = false
     ): \DOMDocument;
 
     /**
@@ -53,6 +54,11 @@ interface WriterInterface
         string $identifier,
         \DateTimeImmutable $datestamp,
         \DOMDocument $metadata
+    ): \DOMDocument;
+
+    public function writeDeletedRecord(
+        string $identifier,
+        \DateTimeImmutable $datestamp
     ): \DOMDocument;
 
     public function writeSet(

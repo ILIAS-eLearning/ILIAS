@@ -65,7 +65,7 @@ class ilTestPassFinishTasks
             );
         });
 
-        $this->obj_test->updateTestResultCache($this->test_session->getActiveId(), null);
+        $this->test_pass_result_repository->updateTestResultCache($this->test_session->getActiveId(), null);
 
         $this->updateLearningProgressAfterPassFinishedIsWritten();
     }

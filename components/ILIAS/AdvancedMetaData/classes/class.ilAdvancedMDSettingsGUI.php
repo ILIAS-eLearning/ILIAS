@@ -60,6 +60,7 @@ class ilAdvancedMDSettingsGUI
     protected ilToolbarGUI $toolbar;
     protected ilLogger $logger;
     protected ilObjUser $user;
+    protected ilAccess $access;
 
     protected ilAdvancedMDPermissionHelper $permissions;
     protected ?ilAdvancedMDRecord $record = null;
@@ -95,6 +96,7 @@ class ilAdvancedMDSettingsGUI
         $this->http = $DIC->http();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
+        $this->access = $DIC->access();
 
         /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
@@ -290,16 +292,11 @@ class ilAdvancedMDSettingsGUI
 
     public function showRecords(): void
     {
-        global $DIC;
-
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilAccess = $DIC['ilAccess'];
-
         $this->setSubTabs($this->context);
 
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_MD,
-            (string) $this->ref_id,
+            $this->ref_id,
             array(
                 ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD,
                 ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS
@@ -311,10 +308,10 @@ class ilAdvancedMDSettingsGUI
                 $this->lng->txt('add'),
                 $this->ctrl->getLinkTargetByClass(strtolower(self::class), "createRecord")
             );
-            $ilToolbar->addComponent($button);
+            $this->toolbar->addComponent($button);
 
             if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
-                $ilToolbar->addSeparator();
+                $this->toolbar->addSeparator();
             }
         }
 
@@ -323,7 +320,7 @@ class ilAdvancedMDSettingsGUI
                 $this->lng->txt('import'),
                 $this->ctrl->getLinkTargetByClass(strtolower(self::class), "importRecords")
             );
-            $ilToolbar->addComponent($button);
+            $this->toolbar->addComponent($button);
         }
 
         $obj_type_context = ($this->obj_id > 0)
@@ -343,12 +340,12 @@ class ilAdvancedMDSettingsGUI
         $table_gui->addMultiCommand("exportRecords", $this->lng->txt('export'));
         $table_gui->setSelectAllCheckbox("record_id");
 
-        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));
             $table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
         }
 
-        $DIC->ui()->mainTemplate()->setContent($table_gui->getHTML());
+        $this->tpl->setContent($table_gui->getHTML());
     }
 
     protected function showPresentation(): void
@@ -369,11 +366,7 @@ class ilAdvancedMDSettingsGUI
      */
     public function updateSubstitutions(): void
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "showPresentation");
         }
 
@@ -392,29 +385,9 @@ class ilAdvancedMDSettingsGUI
         }
 
         foreach ($visible_records as $obj_type => $record) {
-            $perm = null;
-
-            if (in_array($obj_type, $this->permissions->getAllowedObjectTypes())) {
-                $perm = $this->getPermissions()->hasPermissions(
-                    ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
-                    "0",
-                    array(
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION
-                        ,
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_FIELDNAMES
-                        ,
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FIELD_POSITIONS
-                    )
-                );
-            }
             $sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
-            if ($perm && $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION]) {
-                $sub->enableDescription((bool) $form->getInput('enabled_desc_' . $obj_type));
-            }
-
-            if ($perm && $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_FIELDNAMES]) {
-                $sub->enableFieldNames((bool) $form->getInput('enabled_field_names_' . $obj_type));
-            }
+            $sub->enableDescription((bool) $form->getInput('enabled_desc_' . $obj_type));
+            $sub->enableFieldNames((bool) $form->getInput('enabled_field_names_' . $obj_type));
 
             $definitions = ilAdvancedMDFieldDefinition::getInstancesByObjType($obj_type);
             $definitions = $sub->sortDefinitions($definitions);
@@ -439,23 +412,13 @@ class ilAdvancedMDSettingsGUI
                 $field_id = $def->getFieldId();
                 $old = $old_sub[$field_id];
 
-                $perm_def = $this->getSubstitutionFieldPermissions($obj_type, $field_id);
-                if ($perm_def["show"] ?? false) {
-                    $active = (bool) $form->getInput('show_' . $obj_type . '_' . $field_id);
-                } else {
-                    $active = $old["active"] ?? false;
-                }
+                $active = (bool) $form->getInput('show_' . $obj_type . '_' . $field_id);
+
                 if ($active) {
                     $new_sub[$field_id] = $old;
-                    if ($perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FIELD_POSITIONS]) {
-                        $new_sub[$field_id]['pos'] = (int) $form->getInput('position_' . $obj_type . '_' . $field_id);
-                    }
-                    if ($perm_def["bold"] ?? false) {
-                        $new_sub[$field_id]['bold'] = (bool) $form->getInput('bold_' . $obj_type . '_' . $field_id);
-                    }
-                    if ($perm_def["newline"] ?? false) {
-                        $new_sub[$field_id]['newline'] = (bool) $form->getInput('newline_' . $obj_type . '_' . $field_id);
-                    }
+                    $new_sub[$field_id]['pos'] = (int) $form->getInput('position_' . $obj_type . '_' . $field_id);
+                    $new_sub[$field_id]['bold'] = (bool) $form->getInput('bold_' . $obj_type . '_' . $field_id);
+                    $new_sub[$field_id]['newline'] = (bool) $form->getInput('newline_' . $obj_type . '_' . $field_id);
                 }
             }
 
@@ -490,7 +453,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($record_ids as $record_id) {
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                (string) $record_id,
+                (int) $record_id,
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_EXPORT
             )) {
                 $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
@@ -690,7 +653,7 @@ class ilAdvancedMDSettingsGUI
 
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                (string) $record_id,
+                (int) $record_id,
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_DELETE
             )) {
                 $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
@@ -746,7 +709,7 @@ class ilAdvancedMDSettingsGUI
 
             $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                (string) $item['id'],
+                (int) $item['id'],
                 [
                     ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION,
                     [
@@ -875,7 +838,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($field_ids as $field_id) {
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-                (string) $field_id,
+                (int) $field_id,
                 ilAdvancedMDPermissionHelper::ACTION_FIELD_DELETE
             )) {
                 $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
@@ -915,8 +878,6 @@ class ilAdvancedMDSettingsGUI
 
     protected function editFields(): void
     {
-        global $DIC;
-
         $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
             $this->ctrl->redirect($this, 'showRecords');
@@ -929,7 +890,7 @@ class ilAdvancedMDSettingsGUI
 
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            (string) $this->record->getRecordId(),
+            (int) $this->record->getRecordId(),
             array(
                 ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD
                 ,
@@ -1019,7 +980,7 @@ class ilAdvancedMDSettingsGUI
 
         if ($this->getPermissions()->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            (string) $record_id,
+            $record_id,
             ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
         )) {
             $positions_flipped = array_flip(array_keys($positions));
@@ -1032,7 +993,7 @@ class ilAdvancedMDSettingsGUI
         foreach ($fields as $field) {
             if ($this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-                (string) $field->getFieldId(),
+                (int) $field->getFieldId(),
                 ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                 ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE
             )) {
@@ -1451,7 +1412,7 @@ class ilAdvancedMDSettingsGUI
         }
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            (string) $this->record->getRecordId(),
+            $this->record->getRecordId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_RECORD_TITLE
@@ -1633,231 +1594,12 @@ class ilAdvancedMDSettingsGUI
         return $this->form;
     }
 
-    protected function getSubstitutionFieldPermissions(string $a_obj_type, int $a_field_id): array
-    {
-        if ($a_obj_type == "crs") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_COURSE,
-                (string) $a_field_id,
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_SHOW_FIELD
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    )
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    )
-                )
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "cat") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_CATEGORY,
-                (string) $a_field_id,
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_SHOW_FIELD
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    )
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    )
-                )
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "sess") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_SESSION,
-                (string) $a_field_id,
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_SHOW_FIELD
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    )
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    )
-                )
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "grp") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_GROUP,
-                (string) $a_field_id,
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_SHOW_FIELD
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    )
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    )
-                )
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "iass") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_IASS,
-                (string) $a_field_id,
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_SHOW_FIELD
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    )
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    )
-                )
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "exc") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_EXERCISE,
-                (string) $a_field_id,
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    )
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    )
-                )
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "file") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_FILE,
-                (string) $a_field_id,
-                array(
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_SHOW_FIELD
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    )
-                    ,
-                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY,
-                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    )
-                )
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "prg") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_PRG,
-                (string) $a_field_id,
-                [
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD,
-                    [
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
-                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    ],
-                    [
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY,
-                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    ]
-                ]
-            );
-            return array(
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_PRG_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            );
-        } elseif ($a_obj_type == "orgu") {
-            $perm = $this->getPermissions()->hasPermissions(
-                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_ORG_UNIT,
-                (string) $a_field_id,
-                [
-                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD
-                    ,
-                    [
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
-                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
-                    ]
-                    ,
-                    [
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY,
-                        ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
-                    ]
-                ]
-            );
-            return [
-                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_SHOW_FIELD]
-                ,
-                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
-                ,
-                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_ORG_UNIT_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
-            ];
-        }
-        return [];
-    }
-
     /**
      * init form table 'substitutions'
      * @access protected
      */
     protected function initFormSubstitutions(): ?ilPropertyFormGUI
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-
         if (!$visible_records = ilAdvancedMDRecord::_getAllRecordsByObjectType()) {
             return null;
         }
@@ -1868,21 +1610,8 @@ class ilAdvancedMDSettingsGUI
 
         // substitution
         foreach ($visible_records as $obj_type => $records) {
-            $perm = null;
-
-            if (in_array($obj_type, $this->permissions->getAllowedObjectTypes())) {
-                $perm = $this->getPermissions()->hasPermissions(
-                    ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
-                    (string) $obj_type,
-                    array(
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION
-                        ,
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_FIELDNAMES
-                        ,
-                        ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FIELD_POSITIONS
-                    )
-                );
-            }
+            $read_only = !$this->access->checkAccess('write', '', $this->ref_id);
+            ;
 
             $sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
 
@@ -1897,7 +1626,7 @@ class ilAdvancedMDSettingsGUI
             $check->setChecked($sub->isDescriptionEnabled());
             $this->form->addItem($check);
 
-            if ($perm && !$perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION]) {
+            if ($read_only) {
                 $check->setDisabled(true);
             }
 
@@ -1907,13 +1636,8 @@ class ilAdvancedMDSettingsGUI
             $check->setChecked($sub->enabledFieldNames());
             $this->form->addItem($check);
 
-            if ($perm && !$perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_FIELDNAMES]) {
+            if ($read_only) {
                 $check->setDisabled(true);
-            }
-
-            $perm_pos = null;
-            if ($perm) {
-                $perm_pos = $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FIELD_POSITIONS];
             }
 
             $definitions = ilAdvancedMDFieldDefinition::getInstancesByObjType($obj_type);
@@ -1923,8 +1647,6 @@ class ilAdvancedMDSettingsGUI
             foreach ($definitions as $def) {
                 $definition_id = $def->getFieldId();
 
-                $perm = $this->getSubstitutionFieldPermissions($obj_type, $definition_id);
-
                 $title = ilAdvancedMDRecord::_lookupTitle((int) $def->getRecordId());
                 $title = $def->getTitle() . ' (' . $title . ')';
 
@@ -1933,7 +1655,7 @@ class ilAdvancedMDSettingsGUI
                 $check->setOptionTitle($this->lng->txt('md_adv_show'));
                 $check->setChecked($sub->isSubstituted($definition_id));
 
-                if ($perm && !$perm["show"]) {
+                if ($read_only) {
                     $check->setDisabled(true);
                 }
 
@@ -1947,7 +1669,7 @@ class ilAdvancedMDSettingsGUI
                 $pos->setValue(sprintf('%.1f', $counter++));
                 $check->addSubItem($pos);
 
-                if ($perm && !$perm_pos) {
+                if ($read_only) {
                     $pos->setDisabled(true);
                 }
 
@@ -1959,7 +1681,7 @@ class ilAdvancedMDSettingsGUI
                 $bold->setChecked($sub->isBold($definition_id));
                 $check->addSubItem($bold);
 
-                if ($perm && !$perm["bold"]) {
+                if ($read_only) {
                     $bold->setDisabled(true);
                 }
 
@@ -1971,7 +1693,7 @@ class ilAdvancedMDSettingsGUI
                 $bold->setChecked($sub->hasNewline($definition_id));
                 $check->addSubItem($bold);
 
-                if ($perm && !$perm["newline"]) {
+                if ($read_only) {
                     $bold->setDisabled(true);
                 }
 
@@ -1980,7 +1702,7 @@ class ilAdvancedMDSettingsGUI
         }
         $this->form->setTitle($this->lng->txt('md_adv_substitution_table'));
 
-        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $this->form->addCommandButton('updateSubstitutions', $this->lng->txt('save'));
         }
         return $this->form;
@@ -1992,7 +1714,7 @@ class ilAdvancedMDSettingsGUI
 
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            (string) $this->record->getRecordId(),
+            $this->record->getRecordId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_RECORD_TITLE
@@ -2200,7 +1922,7 @@ class ilAdvancedMDSettingsGUI
 
             $tmp_arr['perm'] = $this->permissions->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-                (string) $record->getRecordId(),
+                $record->getRecordId(),
                 array(
                     ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT
                     ,

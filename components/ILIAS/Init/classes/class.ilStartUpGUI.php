@@ -18,6 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Registration\DualOptIn\Exception\DualOptInException;
+use ILIAS\Registration\DualOptIn\Repository\PendingRegistrationDatabaseRepository;
+use ILIAS\Registration\DualOptIn\Service\DualOptInServiceImpl;
+use ILIAS\Registration\DualOptIn\ValueObjects\PendingRegistrationHash;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Refinery\Factory as RefineryFactory;
@@ -56,6 +60,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private ilAppEventHandler $eventHandler;
     private ilSetting $setting;
     private ilAccessHandler $access;
+    private ilDBInterface $db;
 
     private RefineryFactory $refinery;
     private HTTPServices $http;
@@ -83,6 +88,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->eventHandler = $DIC->event();
         $this->setting = $DIC->settings();
         $this->access = $DIC->access();
+        $this->db = $DIC->database();
         $this->help = $DIC->help();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -147,6 +153,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         return [
             'doStandardAuthentication',
+            'doLTIAuthentication'
         ];
     }
 
@@ -301,7 +308,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
 
-        $frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
+        $frontend = new ilAuthFrontendCredentialsApache($this->http, $this->refinery, $this->ctrl);
         $frontend->tryAuthenticationOnLoginPage();
 
         $tpl = self::initStartUpTemplate('tpl.login.html');
@@ -616,6 +623,23 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         );
         $frontend->authenticate();
 
+        setcookie(session_name(), session_id(), [
+            'expires' => 0,
+            'path' => rtrim(IL_COOKIE_PATH, '/'),
+            'domain' => IL_COOKIE_DOMAIN,
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'None'
+        ]);
+
+        $lti_context_ids = ilSession::get("lti_context_ids");
+
+        if (is_array($lti_context_ids) && isset($lti_context_ids[0])) {
+            $ref_id = $lti_context_ids[0];
+            $obj_type = ilObject::_lookupType($ref_id, true);
+            ilSession::set('orig_request_target', "goto.php?target=" . $obj_type . "_" . $ref_id . "&lti_context_id=" . $ref_id);
+        }
+
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
@@ -639,7 +663,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         $this->getLogger()->debug('Trying apache authentication');
 
-        $credentials = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
+        $credentials = new ilAuthFrontendCredentialsApache($this->http, $this->refinery, $this->ctrl);
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
@@ -773,6 +797,15 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         ?ILIAS\UI\Component\Input\Container\Form\Form $form = null
     ): string {
         global $tpl;
+
+        $shib_is_default_without_local_login = (
+            (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_SHIBBOLETH &&
+            !$this->setting->get('shib_auth_allow_local', '0')
+        );
+
+        if ($shib_is_default_without_local_login) {
+            return $page_editor_html;
+        }
 
         return $this->substituteLoginPageElements(
             $tpl,
@@ -1486,85 +1519,42 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     private function confirmRegistration(): void
     {
         $this->lng->loadLanguageModule('registration');
-
         ilUtil::setCookie('iltest', 'cookie', false);
-        $regitration_hash = trim(
-            $this->http->wrapper()->query()->retrieve(
-                'rh',
-                $this->refinery->byTrying([$this->refinery->kindlyTo()->string(), $this->refinery->always('')])
-            )
-        );
-        if ($regitration_hash === '') {
-            $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt('reg_confirmation_hash_not_passed'),
-                true
-            );
-            $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $this->lng->getLangKey()));
-        }
 
         try {
-            $oRegSettings = new ilRegistrationSettings();
+            $reg_hash = $this->refinery->to()
+                ->toNew(PendingRegistrationHash::class)
+                ->transform([$this->http->wrapper()->query()->retrieve('rh', $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->always(null)
+                ]))]);
 
-            $usr_id = ilObjUser::_verifyRegistrationHash(trim($regitration_hash));
-            /** @var ilObjUser $user */
-            $user = ilObjectFactory::getInstanceByObjId($usr_id);
-            $user->setActive(true);
-            $password = '';
-            if ($oRegSettings->passwordGenerationEnabled()) {
-                $passwords = ilSecuritySettingsChecker::generatePasswords(1);
-                $password = $passwords[0];
-                $user->setPasswd($password, ilObjUser::PASSWD_PLAIN);
-                $user->setLastPasswordChangeTS(time());
-            }
-            $user->update();
-
-            $accountMail = (new ilAccountRegistrationMail(
-                $oRegSettings,
-                $this->lng,
-                ilLoggerFactory::getLogger('user')
-            ))->withEmailConfirmationRegistrationMode();
-
-            if ($user->getPref('reg_target') ?? '') {
-                $accountMail = $accountMail->withPermanentLinkTarget($user->getPref('reg_target'));
-            }
-
-            $accountMail->send($user, $password);
+            $dual_opt_in_service = new DualOptInServiceImpl(
+                new ilRegistrationSettings(),
+                new PendingRegistrationDatabaseRepository($this->dic->database()),
+                $this->dic->database(),
+                $this->dic->logger()->user(),
+                (new \ILIAS\Data\Factory())->clock()
+            );
+            $user = $dual_opt_in_service->verifyHashAndActivateUser($reg_hash);
 
             $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+                \ILIAS\UICore\GlobalTemplate::MESSAGE_TYPE_SUCCESS,
                 $this->lng->txt('reg_account_confirmation_successful'),
                 true
             );
             $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $user->getLanguage()));
-        } catch (ilRegConfirmationLinkExpiredException $exception) {
-            $soap_client = new ilSoapClient();
-            $soap_client->setResponseTimeout(1);
-            $soap_client->enableWSDL(true);
-            $soap_client->init();
-
-            $this->logger->info(
-                'Triggered soap call (background process) for deletion of inactive user objects with expired confirmation hash values (dual opt in) ...'
-            );
-
-            $soap_client->call(
-                'deleteExpiredDualOptInUserObjects',
-                [
-                    $_COOKIE[session_name()] . '::' . CLIENT_ID,
-                    $exception->getCode() // user id
-                ]
-            );
-
+        } catch (DualOptInException $exception) {
             $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                \ILIAS\UICore\GlobalTemplate::MESSAGE_TYPE_FAILURE,
                 $this->lng->txt($exception->getMessage()),
                 true
             );
             $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $this->lng->getLangKey()));
-        } catch (ilRegistrationHashNotFoundException $exception) {
+        } catch (Exception) {
             $this->mainTemplate->setOnScreenMessage(
-                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
-                $this->lng->txt($exception->getMessage()),
+                \ILIAS\UICore\GlobalTemplate::MESSAGE_TYPE_FAILURE,
+                $this->lng->txt('reg_confirmation_hash_not_passed'),
                 true
             );
             $this->ctrl->redirectToURL(sprintf('./login.php?cmd=force_login&lang=%s', $this->lng->getLangKey()));

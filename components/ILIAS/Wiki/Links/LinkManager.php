@@ -65,7 +65,7 @@ class LinkManager
 
         // Check, whether ANOTHER page links to this page as a "missing" page
         // (this is the case, when this page is created newly)
-        foreach($this->missing_page_repo->getSourcesOfMissingTarget($wiki_id, $title, $lang) as $i) {	// insert internal links instead
+        foreach ($this->missing_page_repo->getSourcesOfMissingTarget($wiki_id, $title, $lang) as $i) {	// insert internal links instead
             //echo "adding link";
             \ilInternalLink::_saveLink(
                 "wpg:pg",

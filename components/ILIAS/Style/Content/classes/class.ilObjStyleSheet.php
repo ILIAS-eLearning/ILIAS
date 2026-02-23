@@ -373,7 +373,8 @@ class ilObjStyleSheet extends ilObject
             "a" => ["hover"],
             "div" => ["hover", "before"],
             "img" => ["hover"],
-            "li" => ["before"]
+            "li" => ["before"],
+            "input" => ["hover"],
         ];
 
     // core styles these styles MUST exists -> see also basic_style/style.xml
@@ -554,7 +555,7 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate($q);
     }
 
-    public static function writeOwner($obj_id, $style_id)
+    public static function writeOwner($obj_id, $style_id): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -945,6 +946,12 @@ class ilObjStyleSheet extends ilObject
         }
 
         return $chars;
+    }
+
+    public function hasCharacteristic(string $type, string $char): bool
+    {
+        $chars = $this->getCharacteristics($type);
+        return in_array($char, $chars);
     }
 
     public function setCharacteristics(array $a_chars): void
@@ -1756,7 +1763,7 @@ class ilObjStyleSheet extends ilObject
         }
     }
 
-    public function createExportSubDirectory()
+    public function createExportSubDirectory(): void
     {
         $ex_dir = $this->createExportDirectory();
         $ex_sub_dir = $ex_dir . "/" . $this->getExportSubDir();

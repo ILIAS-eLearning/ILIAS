@@ -111,8 +111,10 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
 
     public function fillRow(array $a_set): void
     {
+        $a_set['answer'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $a_set['answer']);
+
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', htmlspecialchars((string) $a_set['answer'], ENT_QUOTES));
+        $this->tpl->setVariable('ANSWER', $a_set['answer']);
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');

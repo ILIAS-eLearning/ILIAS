@@ -75,12 +75,12 @@ class LoginPerformer
 
                 // no break
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
-                $this->ctrl->redirect($this, 'showAccountMigration');
+                $this->ctrl->redirectByClass([ilStartUpGUI::class], 'showAccountMigration');
 
                 // no break
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 $this->template->setOnScreenMessage('failure', $status->getTranslatedReason(), true);
-                $this->ctrl->redirect($this, 'showLoginPage');
+                $this->ctrl->redirectByClass([ilStartUpGUI::class], 'showLoginPage');
         }
 
         $this->template->setOnScreenMessage('failure', $this->lng->txt('err_wrong_login'), true);

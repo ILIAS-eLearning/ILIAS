@@ -28,7 +28,9 @@ il.ExtLink = {
 			validate: {
 				url: (val) => /^https?:\/\//.test(val), // only allow URLs that begin with a protocol
 				email: false // don't linkify emails
-			}
+			},
+			target: '_blank',
+			rel: 'noopener noreferrer',
 		};
 		$(selector).each(function () {
 			linkifyElement(this, options);

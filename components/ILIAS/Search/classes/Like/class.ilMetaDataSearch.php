@@ -93,7 +93,8 @@ class ilMetaDataSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 $this->__prepareFound($row),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
 
@@ -120,7 +121,8 @@ class ilMetaDataSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 $this->__prepareFound($row),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -144,7 +146,8 @@ class ilMetaDataSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 $this->__prepareFound($row),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;
@@ -168,7 +171,8 @@ class ilMetaDataSearch extends ilAbstractSearch
                 (int) $row->rbac_id,
                 (string) $row->obj_type,
                 $this->__prepareFound($row),
-                (int) $row->obj_id
+                (int) $row->obj_id,
+                (string) $row->obj_type
             );
         }
         return $this->search_result;

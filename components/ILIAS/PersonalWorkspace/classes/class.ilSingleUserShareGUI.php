@@ -22,16 +22,13 @@
 class ilSingleUserShareGUI
 {
     protected ?int $wsp_node_id;
-    /**
-     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
-     */
-    protected $wsp_access_handler;
+    protected ilPortfolioAccessHandler|ilWorkspaceAccessHandler $wsp_access_handler;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
 
     public function __construct(
-        $wsp_access_handler = null,
+        ilPortfolioAccessHandler|ilWorkspaceAccessHandler|null $wsp_access_handler = null,
         ?int $wsp_node_id = null
     ) {
         global $DIC;
@@ -102,7 +99,7 @@ class ilSingleUserShareGUI
                 }
                 $this->ctrl->returnToParent($this);
             } else {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_no_match'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('wsp_search_no_match'), true);
             }
         }
         $this->ctrl->redirect($this);

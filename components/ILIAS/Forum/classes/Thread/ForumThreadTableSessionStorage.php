@@ -46,6 +46,7 @@ class ForumThreadTableSessionStorage
         ?Factory $refinery = null
     ) {
         global $DIC;
+
         $this->http_wrapper = $http_wrapper ?? $DIC->http()->wrapper();
         $this->refinery = $refinery ?? $DIC->refinery();
     }
@@ -107,7 +108,8 @@ class ForumThreadTableSessionStorage
 
         if ($query_thread_sortation !== null) {
             $this->setSessionKeyValue($this->forum_ref_id, self::KEY_THREAD_SORTATION, $query_thread_sortation);
-            return ThreadSortation::tryFrom($query_thread_sortation);
+
+            return ThreadSortation::tryFrom($query_thread_sortation) ?? ThreadSortation::DEFAULT_SORTATION;
         }
 
         $session_thread_sortation = $this->getKeyValueFromSession(
@@ -118,7 +120,7 @@ class ForumThreadTableSessionStorage
 
         return ThreadSortation::tryFrom(
             $session_thread_sortation
-        );
+        ) ?? ThreadSortation::DEFAULT_SORTATION;
     }
 
     public function getThreadPage(): int

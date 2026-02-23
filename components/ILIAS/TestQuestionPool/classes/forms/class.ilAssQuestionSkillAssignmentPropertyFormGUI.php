@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\TestQuestionPool\Skills\EditSkillsOfQuestionTableActions;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -80,6 +81,12 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 
     public function build(): void
     {
+        $assignment = $this->getAssignment();
+        $this->ctrl->setParameter(
+            $this->parent_gui,
+            EditSkillsOfQuestionTableActions::FULL_ROW_ID_PARAMETER,
+            "{$assignment?->getQuestionId()}_{$assignment?->getSkillBaseId()}_{$assignment?->getSkillTrefId()}"
+        );
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
 
         if ($this->isManipulationEnabled()) {
@@ -89,12 +96,12 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
             );
 
             $this->addCommandButton(
-                ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS,
+                ilAssQuestionSkillAssignmentsGUI::CMD_EDIT_SKILL_QUEST_ASSIGNS,
                 $this->lng->txt('cancel')
             );
         } else {
             $this->addCommandButton(
-                ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS,
+                ilAssQuestionSkillAssignmentsGUI::CMD_EDIT_SKILL_QUEST_ASSIGNS,
                 $this->lng->txt('back')
             );
         }
@@ -201,6 +208,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         $questResultSkillPoints->setMinValue(1);
         $questResultSkillPoints->allowDecimals(false);
         $questResultSkillPoints->setValue((string) $this->assignment->getSkillPoints());
+
         if (!$this->isManipulationEnabled()) {
             $questResultSkillPoints->setDisabled(true);
         }

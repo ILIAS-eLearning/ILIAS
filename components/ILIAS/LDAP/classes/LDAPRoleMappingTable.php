@@ -23,7 +23,6 @@ use ILIAS\Data\Range;
 use ILIAS\UI\URLBuilder;
 use ILIAS\UI\URLBuilderToken;
 use ILIAS\UI\Factory as UIFactory;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Table\Column\Column;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,10 +46,11 @@ class LDAPRoleMappingTable implements DataRetrieval
         private readonly ServerRequestInterface $http_request,
         private readonly ilLanguage $lng,
         private readonly UIFactory $ui_factory,
-        private readonly DataFactory $data_factory,
         private readonly int $server_id,
         private readonly ilObjectDataCache $object_data_cache,
         private readonly ilRbacReview $rbac_review,
+        private readonly \ILIAS\Data\URI $action_url,
+        private readonly bool $has_write_access
     ) {
     }
 
@@ -59,8 +59,9 @@ class LDAPRoleMappingTable implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters,
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords($range, $order);
         foreach ($records as $record) {
@@ -92,8 +93,7 @@ class LDAPRoleMappingTable implements DataRetrieval
     public function getComponent(): DataTable
     {
         $query_params_namespace = ['ldap', 'role', 'mapping'];
-        $table_uri = $this->data_factory->uri($this->http_request->getUri()->__toString());
-        $url_builder = new URLBuilder($table_uri);
+        $url_builder = new URLBuilder($this->action_url);
         [$url_builder, $action_parameter_token, $row_id_token] = $url_builder->acquireParameters(
             $query_params_namespace,
             'table_action',
@@ -112,11 +112,15 @@ class LDAPRoleMappingTable implements DataRetrieval
                 'ldap_role_mapping_table'
             )
             ->withOrder(new Order('title', Order::DESC))
+            ->withRange(new Range(0, 100))
             ->withRequest($this->http_request);
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         $this->initRecords();
 
         return count((array) $this->records);
@@ -155,20 +159,23 @@ class LDAPRoleMappingTable implements DataRetrieval
     public function getActions(URLBuilder $url_builder, URLBuilderToken $action_parameter_token, URLBuilderToken $row_id_token): array
     {
         $actions = [];
-        $actions['delete'] = $this->ui_factory->table()->action()->multi(
-            $this->lng->txt('delete'),
-            $url_builder->withParameter($action_parameter_token, 'confirmDeleteRoleMapping'),
-            $row_id_token
-        );
 
-        $actions['copy'] = $this->ui_factory->table()->action()->single(
-            $this->lng->txt('copy'),
-            $url_builder->withParameter($action_parameter_token, 'addRoleMapping'),
-            $row_id_token
-        );
+        if ($this->has_write_access) {
+            $actions['delete'] = $this->ui_factory->table()->action()->multi(
+                $this->lng->txt('delete'),
+                $url_builder->withParameter($action_parameter_token, 'confirmDeleteRoleMapping'),
+                $row_id_token
+            );
+
+            $actions['copy'] = $this->ui_factory->table()->action()->single(
+                $this->lng->txt('copy'),
+                $url_builder->withParameter($action_parameter_token, 'addRoleMapping'),
+                $row_id_token
+            );
+        }
 
         $actions['edit'] = $this->ui_factory->table()->action()->single(
-            $this->lng->txt('edit'),
+            $this->has_write_access ? $this->lng->txt('edit') : $this->lng->txt('view'),
             $url_builder->withParameter($action_parameter_token, 'editRoleMapping'),
             $row_id_token
         );

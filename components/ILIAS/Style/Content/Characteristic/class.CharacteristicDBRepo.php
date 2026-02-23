@@ -520,7 +520,7 @@ class CharacteristicDBRepo
                     str_replace($old_name, $new_name, $rec["value"]),
                     $rec["type"],
                     $rec["mq_id"],
-                    $rec["custom"]
+                    (bool) $rec["custom"]
                 );
             }
         }

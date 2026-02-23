@@ -22,6 +22,7 @@ namespace ILIAS\COPage;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\COPage\Editor\Server\UIWrapper;
 
 /**
  * @author Alexander Killing <killing@leifos.de>

@@ -27,10 +27,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilTasksTestBase extends TestCase
 {
-    /**
-     * @var bool
-     */
-    protected $backupGlobals = false;
+    protected bool $backupGlobals = false;
 
     protected $_mock_user;
     protected $_mock_lng;
@@ -74,7 +71,7 @@ class ilTasksTestBase extends TestCase
         $dummy_task_provider_factory->setTaskService($this->_mock_task_service);
     }
 
-    public function getTaskServiceMock()
+    public function getTaskServiceMock(): ilTaskService
     {
         return $this->_mock_task_service;
     }

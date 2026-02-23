@@ -20,54 +20,120 @@ declare(strict_types=1);
 
 class ilCertificateDateHelper
 {
-    /**
-     * @param string|int $date
-     */
-    public function formatDate($date, ?ilObjUser $user = null, ?int $dateFormat = null): string
+    public function __construct()
     {
-        if (null === $dateFormat) {
-            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
-            $dateFormat = IL_CAL_DATETIME;
-        }
-
-        $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
-        ilDatePresentation::setUseRelativeDates(false);
-        $date = ilDatePresentation::formatDate(
-            new ilDate($date, $dateFormat),
-            false,
-            false,
-            false,
-            $user
-        );
-        ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
-
-        return $date;
+        class_exists('ilDateTime'); // Ensure all global constants are defined
     }
 
     /**
-     * @param string|int $dateTime
+     * @param string|int $raw_date_input
      * @throws ilDateTimeException
+     * @throws InvalidArgumentException
      */
-    public function formatDateTime($dateTime, ?ilObjuser $user = null, ?int $dateFormat = null): string
+    public function formatDate($raw_date_input, ?ilObjUser $user = null, ?int $date_format = null): string
     {
-        if (null === $dateFormat) {
-            require_once __DIR__ . '/../../../Calendar/classes/class.ilDateTime.php'; // Required because of global constant IL_CAL_DATE
-            $dateFormat = IL_CAL_DATETIME;
+        return $this->format(
+            $raw_date_input,
+            $user,
+            $date_format ?? $this->autoDetectFormat($raw_date_input, IL_CAL_DATE),
+            false
+        );
+    }
+
+    /**
+     * @param string|int $raw_datetime_input
+     * @throws ilDateTimeException
+     * @throws InvalidArgumentException
+     */
+    public function formatDateTime($raw_datetime_input, ?ilObjUser $user = null, ?int $datetime_format = null): string
+    {
+        return $this->format(
+            $raw_datetime_input,
+            $user,
+            $datetime_format ?? $this->autoDetectFormat($raw_datetime_input, IL_CAL_DATETIME),
+            true
+        );
+    }
+
+    /**
+     * @param int|string $raw
+     * @throws ilDateTimeException
+     * @throws InvalidArgumentException
+     */
+    private function format($raw, ?ilObjUser $user, int $format, bool $has_time): string
+    {
+        $this->assertFormatMatchesInput($raw, $format);
+
+        if ($format === IL_CAL_UNIX) {
+            $raw = (int) $raw;
+        } else {
+            $raw = (string) $raw;
         }
 
-        $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+        $restore_rel = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
+        try {
+            $dateObj = $has_time
+                ? new ilDateTime($raw, $format)
+                : new ilDate($raw, $format);
 
-        $date = ilDatePresentation::formatDate(
-            new ilDateTime($dateTime, $dateFormat),
-            false,
-            false,
-            false,
-            $user
-        );
+            return ilDatePresentation::formatDate(
+                $dateObj,
+                false,
+                false,
+                false,
+                $user
+            );
+        } finally {
+            ilDatePresentation::setUseRelativeDates($restore_rel);
+        }
+    }
 
-        ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+    /**
+     * @param string|int $value
+     */
+    private function autoDetectFormat($value, int $default_when_not_unix): int
+    {
+        return $this->isProbablyUnixTimestamp($value) ? IL_CAL_UNIX : $default_when_not_unix;
+    }
 
-        return $date;
+    /**
+     * @param string|int $value
+     * @throws InvalidArgumentException
+     */
+    private function assertFormatMatchesInput($value, int $format): void
+    {
+        $is_unix_like = $this->isProbablyUnixTimestamp($value);
+
+        if ($format === IL_CAL_UNIX && !$is_unix_like) {
+            throw new InvalidArgumentException('Non-numeric input given for IL_CAL_UNIX');
+        }
+
+        if ($format !== IL_CAL_UNIX && $is_unix_like) {
+            throw new InvalidArgumentException('Unix timestamp given but format is not IL_CAL_UNIX');
+        }
+    }
+
+    /**
+     * @param int|string $maybe_timestamp
+     */
+    private function isProbablyUnixTimestamp($maybe_timestamp): bool
+    {
+        if (is_int($maybe_timestamp)) {
+            return true;
+        }
+
+        if (!is_string($maybe_timestamp) || !ctype_digit($maybe_timestamp)) {
+            return false;
+        }
+
+        try {
+            $datetime = DateTimeImmutable::createFromFormat('Ymd', $maybe_timestamp);
+            return $datetime === false;
+        } catch (Throwable) {
+            // Fallthrough
+        }
+
+        return true;
     }
 }

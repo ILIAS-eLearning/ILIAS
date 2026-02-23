@@ -80,7 +80,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     #[\Override]
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 'webdav_general_settings',
                 $this->lng->txt("webdav_general_settings"),
@@ -108,6 +108,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt("settings"));
 
         $cb_prop = new ilCheckboxInputGUI($this->lng->txt("enable_webdav"), "enable_webdav");
+        $cb_prop->setInfo($this->lng->txt("enable_webdav_info"));
         $cb_prop->setValue('1');
         $cb_prop->setChecked($this->object->isWebdavEnabled());
         $form->addItem($cb_prop);
@@ -127,7 +128,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('webdav_general_settings');
 
-        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->error_handling->raiseError(
                 $this->lng->txt("no_permission"),
                 $this->error_handling->WARNING

@@ -26,6 +26,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
+
 abstract class ilLTIConsumerServiceBase
 {
     public const LTI_VERSION2P0 = 'LTI-2p0';

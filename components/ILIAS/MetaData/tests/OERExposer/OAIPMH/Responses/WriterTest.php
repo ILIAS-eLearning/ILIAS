@@ -122,7 +122,7 @@ class WriterTest extends TestCase
             <earliestDatestamp>2017-11-04</earliestDatestamp>
             XML,
             <<<XML
-            <deletedRecord>no</deletedRecord>
+            <deletedRecord>transient</deletedRecord>
             XML,
             <<<XML
             <granularity>YYYY-MM-DD</granularity>
@@ -165,7 +165,7 @@ class WriterTest extends TestCase
             <earliestDatestamp>2017-11-04</earliestDatestamp>
             XML,
             <<<XML
-            <deletedRecord>no</deletedRecord>
+            <deletedRecord>transient</deletedRecord>
             XML,
             <<<XML
             <granularity>YYYY-MM-DD</granularity>
@@ -230,7 +230,26 @@ class WriterTest extends TestCase
         $writer = $this->getWriter();
         $xml = $writer->writeRecordHeader(
             'id_en:ti/fier',
+            new \DateTimeImmutable('2013-05-30', new \DateTimeZone('UTC'))
+        );
+
+        $this->assertXmlStringEqualsXmlString($expected_xml, $xml->saveXML());
+    }
+
+    public function testWriteRecordHeaderWithDeletedStatus(): void
+    {
+        $expected_xml = <<<XML
+            <header status="deleted">
+              <identifier>id_en:ti/fier</identifier>
+              <datestamp>2013-05-30</datestamp>
+            </header>
+            XML;
+
+        $writer = $this->getWriter();
+        $xml = $writer->writeRecordHeader(
+            'id_en:ti/fier',
             new \DateTimeImmutable('2013-05-30', new \DateTimeZone('UTC')),
+            true
         );
 
         $this->assertXmlStringEqualsXmlString($expected_xml, $xml->saveXML());
@@ -261,6 +280,26 @@ class WriterTest extends TestCase
             'id_en:ti/fier',
             new \DateTimeImmutable('2013-05-30', new \DateTimeZone('UTC')),
             $md_doc
+        );
+
+        $this->assertXmlStringEqualsXmlString($expected_xml, $xml->saveXML());
+    }
+
+    public function testWriteDeletedRecord(): void
+    {
+        $header_xml = <<<XML
+            <header status="deleted">
+              <identifier>id_en:ti/fier</identifier>
+              <datestamp>2013-05-30</datestamp>
+            </header>
+            XML;
+
+        $expected_xml = '<record>' . $header_xml . '</record>';
+
+        $writer = $this->getWriter();
+        $xml = $writer->writeDeletedRecord(
+            'id_en:ti/fier',
+            new \DateTimeImmutable('2013-05-30', new \DateTimeZone('UTC'))
         );
 
         $this->assertXmlStringEqualsXmlString($expected_xml, $xml->saveXML());

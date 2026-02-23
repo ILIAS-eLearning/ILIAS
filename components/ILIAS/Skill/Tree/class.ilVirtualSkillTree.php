@@ -279,7 +279,7 @@ class ilVirtualSkillTree
         $childs = $this->getChildsOfNode($id);
         foreach ($childs as $c) {
             if (!$a_only_basic || in_array($c["type"], array("skll", "sktp")) ||
-                ($c["type"] == "sktr" && ilSkillTreeNode::_lookupType($c["skill_id"]) == "sktp")) {
+                ($c["type"] == "sktr" && ilSkillTreeNode::_lookupType((int) $c["skill_id"]) == "sktp")) {
                 $result[] = $c;
             }
             $result = array_merge($result, $this->__getSubTreeRec($c["id"], $a_only_basic));
@@ -380,7 +380,7 @@ class ilVirtualSkillTree
      *
      * @return array{0: mixed, 1: mixed}|false
      */
-    protected function getFirstUncommonAncestors(string $a, string $b, array $node_data)
+    protected function getFirstUncommonAncestors(string $a, string $b, array $node_data): array|bool
     {
         $path_a = $this->getPath($a, $node_data);
         $path_b = $this->getPath($b, $node_data);

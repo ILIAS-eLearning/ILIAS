@@ -22,45 +22,36 @@ namespace ILIAS\FileDelivery\Setup;
 
 use ILIAS\Setup\Artifact;
 use ILIAS\Setup\Artifact\ArrayArtifact;
-use ILIAS\Setup\Artifact\BuildArtifactObjective;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class KeyRotationObjective extends BuildArtifactObjective
+class KeyRotationObjective extends BuildStaticConfigStoredObjective
 {
-    public const KEY_LENGTH = 32;
-    /**
-     * @var int
-     */
-    private const NUMBER_OF_KEYS = 5;
+    private const int KEY_LENGTH = 32;
+    private const int NUMBER_OF_KEYS = 5;
+
     public function getArtifactName(): string
     {
         return "key_rotation";
     }
 
-
     public function build(): Artifact
     {
-        $current_keys = null;
+        $current_keys = [];
         if (is_readable(self::PATH())) {
             /** @var array $current_keys */
             $current_keys = require self::PATH();
         }
 
         $new_keys = [];
-
-        if (is_array($current_keys)) {
-            // drop the first key
-            $current_keys = array_slice($current_keys, 1);
-            $new_keys = $current_keys;
+        // push one new key to the beginning, drop the oldest key until we have 5 keys
+        for ($i = 0; $i < self::NUMBER_OF_KEYS - 1; $i++) {
+            if ($i === 0) {
+                $new_keys[] = $this->generateRandomString(self::KEY_LENGTH);
+            }
+            $new_keys[] = $current_keys[$i] ?? $this->generateRandomString(self::KEY_LENGTH);
         }
-        // $push a new key to the array at first position
-        while (count($new_keys) < self::NUMBER_OF_KEYS) {
-            $new_keys[] = $this->generateRandomString(self::KEY_LENGTH);
-        }
-        // keep only the first 5 keys
-        $new_keys = array_slice($new_keys, 0, self::NUMBER_OF_KEYS);
 
         return new ArrayArtifact($new_keys);
     }

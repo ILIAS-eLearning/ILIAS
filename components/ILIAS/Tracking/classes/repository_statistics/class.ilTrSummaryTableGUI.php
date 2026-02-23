@@ -93,7 +93,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
             // see bug #35119; these column list percentage lists and are not sortable
-            if (in_array($c, ["status", "mark", "language", "country", "gender", "city", "sel_country"])) {
+            if (in_array($c, ["status", "mark", "language", "gender", "city", "country"])) {
                 $this->addColumn($labels[$c]["txt"]);
             } else {
                 $this->addColumn($labels[$c]["txt"], $c);
@@ -184,7 +184,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $all[] = "mark";
         }
 
-        $privacy = array("gender", "city", "country", "sel_country");
+        $privacy = array("gender", "city", "country");
         foreach ($privacy as $field) {
             if (
                 ($this->is_in_course && $this->setting->get("usr_settings_course_export_" . $field)) ||
@@ -386,18 +386,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $this->filter["city"] = $item->getValue();
         }
 
+
         if ($this->setting->get("usr_settings_course_export_country")) {
             $item = $this->addFilterItemByMetaType(
                 "country",
-                ilTable2GUI::FILTER_TEXT,
-                true
-            );
-            $this->filter["country"] = $item->getValue();
-        }
-
-        if ($this->setting->get("usr_settings_course_export_sel_country")) {
-            $item = $this->addFilterItemByMetaType(
-                "sel_country",
                 ilTable2GUI::FILTER_SELECT,
                 true
             );
@@ -407,7 +399,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 )
                 ) + $this->getSelCountryCodes()
             );
-            $this->filter["sel_country"] = $item->getValue();
+            $this->filter["country"] = $item->getValue();
         }
 
         $item = $this->addFilterItemByMetaType(
@@ -573,10 +565,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
             // percentages
             $users_no = $result["user_total"];
-            $data["set"][$idx]["country"] = $this->getItemsPercentages(
-                $result["country"],
-                $users_no
-            );
             $data["set"][$idx]["gender"] = $this->getItemsPercentages(
                 $result["gender"],
                 $users_no,
@@ -590,8 +578,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                 $result["city"],
                 $users_no
             );
-            $data["set"][$idx]["sel_country"] = $this->getItemsPercentages(
-                $result["sel_country"],
+            $data["set"][$idx]["country"] = $this->getItemsPercentages(
+                $result["country"],
                 $users_no,
                 $this->getSelCountryCodes()
             );
@@ -830,13 +818,12 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         foreach ($this->getSelectedColumns() as $c) {
             switch ($c) {
-                case "country":
                 case "gender":
                 case "city":
                 case "language":
                 case "status":
                 case "mark":
-                case "sel_country":
+                case "country":
                     $this->renderPercentages($c, $a_set[$c]);
                     break;
 
@@ -960,13 +947,13 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     {
         if (in_array(
             $a_name,
-            array("country",
+            array(
                            "gender",
                            "city",
                            "language",
                            "status",
                            "mark",
-                           'sel_country'
+                           'country'
         )
         )) {
             return true;

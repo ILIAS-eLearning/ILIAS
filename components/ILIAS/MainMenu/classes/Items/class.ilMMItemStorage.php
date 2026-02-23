@@ -29,11 +29,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
  */
 class ilMMItemStorage extends CachedActiveRecord
 {
-    /**
-     * @param isItem $item
-     *
-     * @return ilMMItemStorage
-     */
     public static function register(isItem $item): ilMMItemStorage
     {
         if ($item instanceof Lost) {
@@ -61,10 +56,10 @@ class ilMMItemStorage extends CachedActiveRecord
     #[\Override]
     public function create(): void
     {
+        parent::create();
         if (self::find($this->getIdentification()) !== null) {
             $this->update();
         } else {
-            parent::create();
         }
     }
 
@@ -101,78 +96,51 @@ class ilMMItemStorage extends CachedActiveRecord
      * @con_length     256
      */
     protected ?string $icon_id = '';
-    /**
-     * @var string
-     */
     protected string $connector_container_name = "il_mm_items";
 
 
-    /**
-     * @return string
-     */
     public function getIdentification(): string
     {
         return $this->identification;
     }
 
 
-    /**
-     * @param string $identification
-     */
     public function setIdentification(string $identification): void
     {
         $this->identification = $identification;
     }
 
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
 
-    /**
-     * @param bool $active
-     */
     public function setActive(bool $active): void
     {
         $this->active = $active;
     }
 
 
-    /**
-     * @return int
-     */
     public function getPosition(): int
     {
         return $this->position;
     }
 
 
-    /**
-     * @param int $position
-     */
     public function setPosition(int $position): void
     {
         $this->position = $position;
     }
 
 
-    /**
-     * @return string
-     */
     public function getParentIdentification(): string
     {
         return $this->parent_identification;
     }
 
 
-    /**
-     * @param string $parent_identification
-     */
     public function setParentIdentification(string $parent_identification): void
     {
         $this->parent_identification = $parent_identification;
@@ -188,11 +156,6 @@ class ilMMItemStorage extends CachedActiveRecord
     }
 
 
-    /**
-     * @param string $icon_id
-     *
-     * @return ilMMItemStorage
-     */
     public function setIconId(string $icon_id): ilMMItemStorage
     {
         $this->icon_id = $icon_id;

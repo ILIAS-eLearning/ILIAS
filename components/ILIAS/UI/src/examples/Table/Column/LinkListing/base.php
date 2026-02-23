@@ -61,8 +61,9 @@ function base(): string
             array $visible_column_ids,
             Range $range,
             Order $order,
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): \Generator {
             foreach ($this->records as $idx => $record) {
                 $row_id = '';
@@ -71,8 +72,9 @@ function base(): string
         }
 
         public function getTotalRowCount(
-            ?array $filter_data,
-            ?array $additional_parameters
+            mixed $additional_viewcontrol_data,
+            mixed $filter_data,
+            mixed $additional_parameters
         ): ?int {
             return count($this->records);
         }

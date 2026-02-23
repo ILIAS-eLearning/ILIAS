@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\TestQuestionPool\QuestionPoolDIC;
 use ILIAS\TestQuestionPool\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\Presentation\QuestionTable;
@@ -36,14 +37,14 @@ use ILIAS\Filesystem\Util\Archive\Archives;
 use ILIAS\TestQuestionPool\Import\TestQuestionsImportTrait;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
-use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Style\Content\Service as ContentStyle;
 
 /**
  * Class ilObjQuestionPoolGUI
  *
  * @author         Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @author         Björn Heyser <bheyser@databay.de>
+ * @author         Björn Heyser <bheyser@databay.de> * @author         Björn Heyser <bheyser@databay.de>
+
  *
  * @version        $Id$
  *
@@ -67,7 +68,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 {
     use TestQuestionsImportTrait;
 
-    public const SUPPORTED_IMPORT_MIME_TYPES = [MimeType::APPLICATION__ZIP, MimeType::TEXT__XML];
+    public const SUPPORTED_IMPORT_MIME_TYPES = [
+        MimeType::APPLICATION__X_ZIP_COMPRESSED,
+        MimeType::APPLICATION__ZIP,
+        MimeType::TEXT__XML
+    ];
     public const DEFAULT_CMD = 'questions';
 
     protected Service $taxonomy;
@@ -85,6 +90,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected URLBuilderToken $row_id_token;
     private Archives $archives;
     private ContentStyle $content_style;
+    protected SkillUsageService $skill_usage_service;
 
     protected RequestDataCollector $request_data_collector;
     protected GeneralQuestionPropertiesRepository $questionrepository;
@@ -107,6 +113,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->taxonomy = $DIC->taxonomy();
         $this->archives = $DIC->archives();
         $this->content_style = $DIC->contentStyle();
+        $this->skill_usage_service = $DIC->skills()->usage();
 
         $this->data_factory = new DataFactory();
 
@@ -432,23 +439,31 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
                 break;
 
-            case 'ilquestionpoolskilladministrationgui':
+            case strtolower(ilQuestionPoolSkillAdministrationGUI::class):
+                /** @var ilObjQuestionPool $obj */
                 $obj = $this->object;
-                $gui = new ilQuestionPoolSkillAdministrationGUI(
-                    $this->ilias,
-                    $this->ctrl,
-                    $this->refinery,
-                    $this->access,
-                    $this->tabs_gui,
-                    $this->tpl,
-                    $this->lng,
-                    $this->db,
-                    $this->component_repository,
-                    $obj,
-                    $this->ref_id
-                );
 
-                $this->ctrl->forwardCommand($gui);
+                $this->ctrl->forwardCommand(
+                    new ilQuestionPoolSkillAdministrationGUI(
+                        $this->ctrl,
+                        $this->ui_factory,
+                        $this->ui_renderer,
+                        $this->http,
+                        $this->refinery,
+                        $this->access,
+                        $this->tabs_gui,
+                        $this->tpl,
+                        $this->lng,
+                        $this->db,
+                        $this->component_repository,
+                        $obj,
+                        $this->http,
+                        $this->toolbar,
+                        $this->skill_usage_service,
+                        $this->request_data_collector,
+                        $this->ref_id
+                    )
+                );
                 break;
 
             case 'ilbulkeditquestionsgui':
@@ -500,47 +515,52 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     }
                     $ids = array_map('intval', $ids);
 
-                    $class = strtolower($this->questionrepository->getForQuestionId(current($ids))->getGuiClassName());
-                    $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", current($ids));
-                    $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", current($ids));
-                    $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', current($ids));
-                    $this->ctrl->setParameterByClass($class, "q_id", current($ids));
+                    $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', current($ids));
 
                     switch ($action) {
                         case 'preview':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_SHOW)
+                            );
                             break;
                         case 'statistics':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS);
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionPreviewGUI::class, ilAssQuestionPreviewGUI::CMD_STATISTICS)
+                            );
                             break;
                         case 'edit_question':
-                            $url = $this->ctrl->getLinkTargetByClass($class, 'editQuestion');
-                            $this->ctrl->redirectToURL($url);
+                            $class = strtolower($this->questionrepository->getForQuestionId(current($ids))->getGuiClassName());
+                            $this->ctrl->setParameterByClass($class, 'q_id', current($ids));
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass($class, 'editQuestion')
+                            );
                             break;
                         case 'edit_page':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->setParameterByClass(ilAssQuestionPageGUI::class, 'q_id', current($ids));
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionPageGUI::class, 'edit')
+                            );
                             break;
                         case 'feedback':
-                            $url = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
-                            $this->ctrl->redirectToURL($url);
+                            $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'q_id', current($ids));
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, ilAssQuestionFeedbackEditingGUI::CMD_SHOW)
+                            );
                             break;
                         case 'move':
                             $this->moveQuestions($ids);
-                            $this->ctrl->redirect($this, self::DEFAULT_CMD);
+                            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
                             break;
                         case 'copy':
                             $this->copyQuestions($ids);
-                            $this->ctrl->redirect($this, self::DEFAULT_CMD);
+                            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
                             break;
                         case 'delete':
                             $this->confirmDeleteQuestions($ids);
                             break;
                         case 'export':
                             $this->exportQuestions($ids);
-                            $this->ctrl->redirect($this, self::DEFAULT_CMD);
+                            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
                             break;
                         case 'comments':
                             $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
@@ -568,22 +588,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                                 ilBulkEditQuestionsGUI::PARAM_IDS,
                                 implode(',', $ids)
                             );
-                            $url = $this->ctrl->getLinkTargetByClass(
-                                ilBulkEditQuestionsGUI::class,
-                                $action
+                            $this->ctrl->redirectToURL(
+                                $this->ctrl->getLinkTargetByClass(
+                                    ilBulkEditQuestionsGUI::class,
+                                    $action
+                                )
                             );
-                            $this->ctrl->redirectToURL($url);
                             break;
 
                         default:
-                            throw new \Exception("'$action'" . " not implemented");
+                            throw new \Exception("'{$action}' not implemented");
                     }
                     break;
                 }
 
 
                 if ($cmd == self::DEFAULT_CMD) {
-                    $this->ctrl->setParameter($this, 'q_id', '');
+                    $this->ctrl->setParameterByClass(self::class, 'q_id', '');
                 }
                 $cmd .= 'Object';
                 $ret = $this->$cmd();
@@ -861,7 +882,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         array $selected_questions,
         string $file_to_import
     ): void {
-
         ilSession::set('qpl_import_selected_questions', $selected_questions);
         $imp = new ilImport($this->request_data_collector->getRefId());
         $map = $imp->getMapping();
@@ -1251,14 +1271,20 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
     public function moveQuestions(array $ids): void
     {
-        if ($ids) {
-            foreach ($ids as $id) {
-                $this->object->moveToClipboard($id);
-            }
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
-        } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
+        if ($this->checkPermission('write')) {
+            $this->tpl->setOnScreenMessage('failure', 'permission_denied');
+            return;
         }
+
+        if ($ids === []) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_select_none'), true);
+            return;
+        }
+
+        foreach ($ids as $id) {
+            $this->object->moveToClipboard($id);
+        }
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt('qpl_move_insert_clipboard'), true);
     }
 
     public function createExportExcel(): void
@@ -1280,8 +1306,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     protected function importQuestionsFile(string $path_to_uploaded_file_in_temp_dir): void
     {
         if (!$this->temp_file_system->hasDir($path_to_uploaded_file_in_temp_dir)
-            || ($files = $this->temp_file_system->listContents($path_to_uploaded_file_in_temp_dir)) === []) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_import_file_error'));
+            || ($files = $this->temp_file_system->listContents($path_to_uploaded_file_in_temp_dir)) === []
+            || mb_stripos($files[0]->getPath(), 'tst') !== false) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('obj_import_file_error'), true);
+            $this->ctrl->redirectByClass(self::class, self::DEFAULT_CMD);
         }
 
         $file_to_import = $this->import_temp_directory . DIRECTORY_SEPARATOR . $files[0]->getPath();

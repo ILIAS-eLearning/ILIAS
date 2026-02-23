@@ -36,4 +36,9 @@ class NullRecordInfos implements RecordInfosInterface
     {
         return new \DateTimeImmutable('@0');
     }
+
+    public function isDeleted(): bool
+    {
+        return false;
+    }
 }

@@ -146,7 +146,7 @@ class ilBlogPosting extends ilPageObject
         bool $a_no_history = false,
         bool $a_notify = true,
         string $a_notify_action = "update"
-    ) {
+    ): array|bool {
         $data = $this->internal_data;
         $post = $data->posting(
             $this->getId(),

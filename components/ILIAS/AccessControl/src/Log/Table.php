@@ -140,8 +140,9 @@ class Table implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $log_data = $this->rbac_log->getLogItems(
             $this->getRefId(),
@@ -167,10 +168,11 @@ class Table implements DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
-        return $this->rbac_log->getLogItemsCount($this->getRefId(), $filter_data);
+        return $this->rbac_log->getLogItemsCount($this->getRefId(), $filter_data ?? []);
     }
 
     private function getRefId(): int
@@ -214,7 +216,10 @@ class Table implements DataRetrieval
     private function buildChangeColumn(int $action, array $data): string
     {
         if ($action === \ilRbacLog::CHANGE_OWNER) {
-            $user_name = \ilObjUser::_lookupFullname($data[0] ?? 0);
+
+            $user_name = isset($data[0]) && is_numeric($data[0])
+                ? \ilObjUser::_lookupFullname((int) $data[0])
+                : '';
             return "{$this->lng->txt('rbac_log_changed_owner')}: {$user_name}";
         }
 

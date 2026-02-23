@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
 
 /**
  * GUI class for course/group waiting list
@@ -38,6 +40,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
     private UIRenderer $renderer;
     private UIFactory $uiFactory;
+    private Profile $profile;
 
     public function __construct(
         object $a_parent_obj,
@@ -49,7 +52,8 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $this->uiFactory = $DIC->ui()->factory();
 
         $this->rep_object = $rep_object;
-        $this->user = $DIC->user();
+        $this->profile = $DIC['user']->getProfile();
+        $this->user = $DIC['user']->getLoggedInUser();
 
         $this->setId('crs_wait_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
@@ -306,16 +310,19 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
         // Custom user data fields
         if ($udf_ids) {
-            $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
-            foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance($usr_id)) {
-                    continue;
-                }
+            $a_user_data = array_reduce(
+                $this->profile->getDataForMultiple($usr_ids),
+                function (array $c, ProfileData $v) use ($udf_ids): array {
+                    if (!$this->checkAcceptance($v->getId())) {
+                        return $c;
+                    }
 
-                foreach ($fields as $field_id => $value) {
-                    $a_user_data[$usr_id]['udf_' . $field_id] = $value;
-                }
-            }
+                    foreach ($udf_ids as $field_id) {
+                        $c[$v->getId()]['udf_' . $field_id] = $v->getAdditionalFieldByIdentifier($field_id);
+                    }
+                },
+                $a_user_data
+            );
         }
         // Object specific user data fields
         if ($odf_ids) {

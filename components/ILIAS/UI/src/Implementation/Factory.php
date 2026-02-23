@@ -57,6 +57,7 @@ class Factory implements FactoryInternal
         protected I\launcher\Factory $launcher_factory,
         protected I\Entity\Factory $entity_factory,
         protected I\Prompt\Factory $prompt_factory,
+        protected I\Navigation\Factory $navigation_factory,
     ) {
     }
 
@@ -227,4 +228,10 @@ class Factory implements FactoryInternal
     {
         return $this->prompt_factory;
     }
+
+    public function navigation(): I\Navigation\Factory
+    {
+        return $this->navigation_factory;
+    }
+
 }

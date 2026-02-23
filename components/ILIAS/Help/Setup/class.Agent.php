@@ -28,7 +28,12 @@ class Agent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(?Setup\Config $config = null): Setup\Objective
     {
-        return new \ilDatabaseUpdateStepsExecutedObjective(new ilHelpDBUpdateSteps());
+        return new Setup\ObjectiveCollection(
+            'Help Update',
+            true,
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilHelpDBUpdateSteps()),
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilHelpDB10HotfixSteps())
+        );
     }
 
     public function getStatusObjective(Metrics\Storage $storage): Objective

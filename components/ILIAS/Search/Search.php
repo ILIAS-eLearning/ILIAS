@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Setup\Agent as SetupAgent;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Search\Setup\Agent as SearchSetupAgent;
+
 class Search implements Component\Component
 {
     public function init(
@@ -36,5 +40,6 @@ class Search implements Component\Component
             new Component\Resource\ComponentJS($this, "SearchMainMenu.js");
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "Search.js");
+        $contribute[SetupAgent::class] = fn() => new SearchSetupAgent($pull[RefineryFactory::class]);
     }
 }

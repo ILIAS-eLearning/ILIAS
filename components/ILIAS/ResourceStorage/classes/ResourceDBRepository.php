@@ -69,18 +69,20 @@ class ResourceDBRepository implements ResourceRepository
      */
     public function get(ResourceIdentification $identification): StorableResource
     {
-        if (isset($this->cache[$identification->serialize()])) {
-            return $this->cache[$identification->serialize()];
+        $rid = $identification->serialize();
+
+        if (isset($this->cache[$rid])) {
+            return $this->cache[$rid];
         }
 
-        $q = "SELECT " . self::IDENTIFICATION . ", storage_id, rtype FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
-        $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
+        $q = "SELECT storage_id, rtype FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
+        $r = $this->db->queryF($q, ['text'], [$rid]);
         $d = $this->db->fetchObject($r);
 
         $resource = $this->blank($identification, ResourceType::from($d->rtype));
         $resource->setStorageID($d->storage_id);
 
-        $this->cache[$identification->serialize()] = $resource;
+        $this->cache[$rid] = $resource;
 
         return $resource;
     }
@@ -90,13 +92,17 @@ class ResourceDBRepository implements ResourceRepository
      */
     public function has(ResourceIdentification $identification): bool
     {
-        if (isset($this->cache[$identification->serialize()])) {
+        $rid = $identification->serialize();
+
+        if (isset($this->cache[$rid])) {
             return true;
         }
-        $q = "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s";
-        $r = $this->db->queryF($q, ['text'], [$identification->serialize()]);
 
-        return (bool) $r->numRows() > 0;
+        $q = "SELECT EXISTS(SELECT 1 FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s) AS found";
+        $r = $this->db->queryF($q, ['text'], [$rid]);
+        $d = $this->db->fetchAssoc($r);
+
+        return (bool) $d['found'];
     }
 
     /**
@@ -105,30 +111,18 @@ class ResourceDBRepository implements ResourceRepository
     public function store(StorableResource $resource): void
     {
         $rid = $resource->getIdentification()->serialize();
-        if ($this->has($resource->getIdentification())) {
-            // UPDATE
-            $this->db->update(
-                self::TABLE_NAME,
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'storage_id' => ['text', $resource->getStorageID()],
-                    'rtype' => ['text', $resource->getType()->value],
-                ],
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                ]
-            );
-        } else {
-            // CREATE
-            $this->db->insert(
-                self::TABLE_NAME,
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'storage_id' => ['text', $resource->getStorageID()],
-                    'rtype' => ['text', $resource->getType()->value],
-                ]
-            );
-        }
+
+        $this->db->replace(
+            self::TABLE_NAME,
+            [
+                self::IDENTIFICATION => ['text', $rid]
+            ],
+            [
+                'storage_id' => ['text', $resource->getStorageID()],
+                'rtype' => ['text', $resource->getType()->value],
+            ]
+        );
+
         $this->cache[$rid] = $resource;
     }
 

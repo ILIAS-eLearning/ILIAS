@@ -91,7 +91,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
     {
         $images = [];
         /** @var Content\Image $i */
-        foreach ($this->image_manager->getImages() as $i) {
+        foreach ($this->image_manager->getImages(true) as $i) {
             $images[] = [
                 "file" => $i->getFilename(),
                 "obj" => $i

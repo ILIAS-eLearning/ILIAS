@@ -378,7 +378,7 @@ class ilExPeerReviewGUI
                     else {
                         $builder->addProperty(
                             $builder::SEC_PEER_FEEDBACK,
-                            $lng->txt("exc_received_peer_feedback"),
+                            $lng->txt("exc_received_feedback"),
                             $lng->txt("exc_peer_review_show_received_none")
                         );
                     }
@@ -526,6 +526,8 @@ class ilExPeerReviewGUI
             $sub_data = $this->getSubmissionContent($submission);
             if ($sub_data === '' || $sub_data === '0') {
                 $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
+            } else {
+                $sub_data = $this->gui->html()->escapeCurly($sub_data);
             }
             $props[] = [
                 "prop" => $lng->txt("exc_submission"),
@@ -586,6 +588,8 @@ class ilExPeerReviewGUI
                     if (isset($file_info["files"]["download_url"])) {
                         $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
                     }
+                } else {
+                    $sub_data = $this->gui->html()->escapeCurly($sub_data);
                 }
                 $props[] = [
                     "prop" => $lng->txt("exc_submission"),
@@ -987,6 +991,8 @@ class ilExPeerReviewGUI
         $sub_data = $this->getSubmissionContent($submission);
         if (($sub_data === '' || $sub_data === '0') && isset($file_info["files"]["download_url"])) {
             $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
+        } else {
+            $sub_data = $this->gui->html()->escapeCurly($sub_data);
         }
 
         $sub = new ilNonEditableValueGUI($lng->txt("exc_submission"), "", true);

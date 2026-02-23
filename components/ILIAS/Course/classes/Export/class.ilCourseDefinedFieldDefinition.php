@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -22,10 +23,10 @@
  */
 class ilCourseDefinedFieldDefinition
 {
-    public const IL_CDF_SORT_ID = 'field_id';
-    public const IL_CDF_SORT_NAME = 'field_name';
-    public const IL_CDF_TYPE_TEXT = 1;
-    public const IL_CDF_TYPE_SELECT = 2;
+    public const string IL_CDF_SORT_ID = 'field_id';
+    public const string IL_CDF_SORT_NAME = 'field_name';
+    public const int IL_CDF_TYPE_TEXT = 1;
+    public const int IL_CDF_TYPE_SELECT = 2;
 
     protected ilDBInterface $db;
     protected ilLanguage $lng;
@@ -320,8 +321,8 @@ class ilCourseDefinedFieldDefinition
 
         $this->setName((string) $row->field_name);
         $this->setType((int) $row->field_type);
-        $this->setValues(unserialize($row->field_values) ?: []);
-        $this->setValueOptions(unserialize($row->field_values_opt) ?: []);
+        $this->setValues($row->field_values === null ? [] : (unserialize($row->field_values) ?: []));
+        $this->setValueOptions($row->field_values_opt === null ? [] : (unserialize($row->field_values_opt) ?: []));
         $this->enableRequired((bool) $row->field_required);
     }
 }

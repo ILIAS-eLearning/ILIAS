@@ -53,10 +53,11 @@ class AssignmentRetrieval implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
-        $ref_ids = array_slice($this->getAllEligibleRefIDs(), $range->getStart(), $range->getLength());
+        $ref_ids = $this->getAllEligibleRefIDs();
 
         $assigned = $this->grouping->getAssignedItems();
         $assigned_ref_ids = [];
@@ -82,14 +83,18 @@ class AssignmentRetrieval implements DataRetrieval
         }
 
         $records = $this->sortRecords($records, $order);
+        $records = array_slice($records, $range->getStart(), $range->getLength(), true);
 
         foreach ($records as $ref_id => $record) {
             yield $row_builder->buildDataRow((string) $ref_id, $record);
         }
     }
 
-    public function getTotalRowCount(?array $filter_data, ?array $additional_parameters): ?int
-    {
+    public function getTotalRowCount(
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
+    ): ?int {
         return count($this->getAllEligibleRefIDs());
     }
 
@@ -132,7 +137,7 @@ class AssignmentRetrieval implements DataRetrieval
 
         $ordering_callable_without_direction = match ($order_field) {
             AssignmentHandler::COL_TITLE, AssignmentHandler::COL_PATH =>
-                fn($a, $b) => $a[$order_field] ?? '' <=> $b[$order_field] ?? '',
+                fn($a, $b) => ($a[$order_field] ?? '') <=> ($b[$order_field] ?? ''),
             AssignmentHandler::COL_ASSIGNED =>
                 fn($a, $b) => isset($a[$order_field]) <=> isset($b[$order_field])
         };

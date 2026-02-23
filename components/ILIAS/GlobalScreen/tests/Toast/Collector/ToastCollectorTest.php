@@ -36,7 +36,7 @@ class ToastCollectorTest extends BaseToastSetUp
     {
         $provider = $this->getDummyToastProviderWithToasts([]);
         $collector = new ToastCollector([$provider]);
-        $this->assertEquals([], $collector->getToasts());
+        $this->assertSame([], $collector->getToasts());
 
         $id_one = $this->createMock(IdentificationInterface::class);
         $id_two = $this->createMock(IdentificationInterface::class);

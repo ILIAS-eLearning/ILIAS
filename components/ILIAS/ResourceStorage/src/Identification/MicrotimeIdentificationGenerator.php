@@ -33,6 +33,6 @@ class MicrotimeIdentificationGenerator implements IdentificationGenerator
      */
     public function getUniqueResourceIdentification(): ResourceIdentification
     {
-        return new ResourceIdentification((string)microtime(true));
+        return new ResourceIdentification((string) microtime(true));
     }
 }

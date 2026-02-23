@@ -22,6 +22,8 @@ namespace ILIAS\LearningModule;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\ILIASObject\Properties\Translations\CachedRepository;
+use ILIAS\ILIASObject\Properties\Translations\Translations;
 
 class InternalDomainService
 {
@@ -55,6 +57,11 @@ class InternalDomainService
                 $current_node,
                 $lang
             );
+    }
+
+    public function translation(int $lm_id): Translations
+    {
+        return (new CachedRepository($this->database()))->getFor($lm_id);
     }
 
 }

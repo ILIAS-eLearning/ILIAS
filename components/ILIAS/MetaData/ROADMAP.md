@@ -45,11 +45,42 @@ replaced by bespoke iterator classes.
 `null` as a return type should be replaced by proper null objects.
 A good starting point might be `Tags` from `Dictionaries`.
 
+### Change default behavior for copyright
+
+Currently, all objects without an entry for copyright in `il_meta_rights`
+are treated like having the default copyright. This special behavior
+has to be implemented in a variety of places (xml generation,
+copyright API, database search, ...), and makes supporting filtering for
+the default copyright in Lucene-search prohibitively complicated.
+
+Requiring default copyright in new LOM sets would alleviate these
+problems, but would also mean more redundant information in
+the MetaData tables. It should be investigated how to progress here.
+
 ### Stricter formatting of 'format' and 'entity'
 
 The fields technical>format and the various entities should conform
 to different standards (e.g. entities should be vcards). This could
 be supported better in ILIAS, currently any string is valid.
+
+### Simplify Copyright Handling
+
+Currently, the API leaves it to consumers to handle custom copyright
+and copyright presets differently from each other. It should be
+investigated how those two cases can be unified within the API, so that
+consumers don't need to worry about the difference, without making a
+mess.
+
+The custom copyright string could e.g. act as the analogue of title,
+full name, and identifier of presets, but these concepts shouldn't
+get watered down too much.
+
+### Unify Presentation of Copyright
+
+We are in danger of having too many modes of presentation of copyright
+in ILIAS. It should be investigated how presentation can be unified,
+while still being able to fit into the required slots in the KS (data
+table, properties in item, ...).
 
 ### Allow `INDEX` path filters in search
 

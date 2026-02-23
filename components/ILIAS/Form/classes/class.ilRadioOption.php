@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents an option in a radio group
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilRadioOption
 {

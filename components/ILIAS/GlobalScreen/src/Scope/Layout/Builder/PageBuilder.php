@@ -17,6 +17,7 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
 namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;

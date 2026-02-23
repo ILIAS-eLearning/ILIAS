@@ -44,9 +44,9 @@ class PostingManager
         $this->repo->posting()->update($posting);
     }
 
-    public function delete(Posting $posting): void
+    public function delete(int $posting_id): void
     {
-        $this->repo->posting()->delete($posting->getId());
+        $this->repo->posting()->delete($posting_id);
     }
 
     public function getById(int $id): ?Posting

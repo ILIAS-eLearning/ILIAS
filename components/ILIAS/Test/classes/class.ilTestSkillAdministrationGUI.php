@@ -18,11 +18,15 @@
 
 declare(strict_types=1);
 
+use ILIAS\HTTP\Services as HTTP;
+use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -49,6 +53,12 @@ class ilTestSkillAdministrationGUI
         private ilObjTest $test_obj,
         private GeneralQuestionPropertiesRepository $questionrepository,
         private RequestDataCollector $request_data_collector,
+        private readonly HTTP $http,
+        private readonly ilToolbarGUI $toolbar,
+        private readonly SkillUsageService $skill_usage_service,
+        private readonly Factory $ui_factory,
+        private readonly Renderer $ui_renderer,
+        private readonly ilTabsGUI $tabs,
         private int $ref_id
     ) {
     }
@@ -76,7 +86,21 @@ class ilTestSkillAdministrationGUI
                 $questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
                 $questionList->load();
 
-                $gui = new ilAssQuestionSkillAssignmentsGUI($this->ctrl, $this->access, $this->tpl, $this->lng, $this->db);
+                $gui = new ilAssQuestionSkillAssignmentsGUI(
+                    $this->ctrl,
+                    $this->access,
+                    $this->tpl,
+                    $this->lng,
+                    $this->db,
+                    $this->request_data_collector,
+                    $this->skill_usage_service,
+                    $this->ui_factory,
+                    $this->ui_renderer,
+                    $this->refinery,
+                    $this->http,
+                    $this->toolbar,
+                    $this->tabs
+                );
                 $gui->setAssignmentEditingEnabled($this->isAssignmentEditingRequired());
                 $gui->setQuestionContainerId($questionContainerId);
                 $gui->setQuestionList($questionList);

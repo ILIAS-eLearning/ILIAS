@@ -69,6 +69,28 @@ class ilCmiXapiAccess
         }
     }
 
+    public function hasReadAccess(?int $usrId = null): bool
+    {
+        if (isset($usrId)) {
+            return $this->access->checkAccessOfUser(
+                $usrId,
+                'read',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        } else {
+            return $this->access->checkAccess(
+                'read',
+                '',
+                $this->object->getRefId(),
+                $this->object->getType(),
+                $this->object->getId()
+            );
+        }
+    }
+
     public function hasEditPermissionsAccess(?int $usrId = null): bool
     {
         if (isset($usrId)) {
@@ -115,7 +137,7 @@ class ilCmiXapiAccess
 
     public function hasStatementsAccess(): bool
     {
-        if ($this->object->isStatementsReportEnabled()) {
+        if ($this->object->isStatementsReportEnabled() && $this->hasReadAccess()) {
             return true;
         }
         return false;
@@ -123,7 +145,7 @@ class ilCmiXapiAccess
 
     public function hasHighscoreAccess(): bool
     {
-        if ($this->object->getHighscoreEnabled()) {
+        if ($this->object->getHighscoreEnabled() && $this->hasReadAccess()) {
             return true;
         }
         return false;

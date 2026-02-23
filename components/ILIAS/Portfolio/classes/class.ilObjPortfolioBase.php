@@ -25,7 +25,6 @@ abstract class ilObjPortfolioBase extends ilObject2
 {
     protected \ILIAS\Notes\Service $notes;
     protected ilSetting $setting;
-    protected bool $online = false;
     protected bool $comments = false;
     protected string $bg_color = "";
     protected string $font_color = "";
@@ -53,28 +52,12 @@ abstract class ilObjPortfolioBase extends ilObject2
     // PROPERTIES
     //
 
+    /*
     public function setOnline(bool $a_value): void
     {
         $this->online = $a_value;
-    }
+    }*/
 
-    public function isOnline(): bool
-    {
-        return $this->online;
-    }
-
-    public static function lookupOnline(int $a_id): bool
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query("SELECT is_online" .
-            " FROM usr_portfolio" .
-            " WHERE id = " . $ilDB->quote($a_id, "integer"));
-        $row = $ilDB->fetchAssoc($set);
-        return  (bool) $row["is_online"];
-    }
 
     public function setPublicComments(bool $a_value): void
     {
@@ -137,7 +120,6 @@ abstract class ilObjPortfolioBase extends ilObject2
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
         $row = $ilDB->fetchAssoc($set);
 
-        $this->setOnline((bool) $row["is_online"]);
         $this->setProfilePicture((bool) $row["ppic"]);
         $this->setBackgroundColor((string) $row["bg_color"]);
         $this->setFontColor((string) $row["font_color"]);
@@ -159,9 +141,8 @@ abstract class ilObjPortfolioBase extends ilObject2
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate("INSERT INTO usr_portfolio (id,is_online)" .
-            " VALUES (" . $ilDB->quote($this->id, "integer") . "," .
-            $ilDB->quote(0, "integer") . ")");
+        $ilDB->manipulate("INSERT INTO usr_portfolio (id)" .
+            " VALUES (" . $ilDB->quote($this->id, "integer") . ")");
     }
 
     protected function doUpdate(): void
@@ -169,7 +150,6 @@ abstract class ilObjPortfolioBase extends ilObject2
         $ilDB = $this->db;
 
         $fields = array(
-            "is_online" => array("integer", $this->isOnline()),
             "ppic" => array("integer", $this->hasProfilePicture()),
             "bg_color" => array("text", $this->getBackgroundColor()),
             "font_color" => array("text", $this->getFontColor())

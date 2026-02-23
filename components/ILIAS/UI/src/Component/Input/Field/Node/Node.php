@@ -25,4 +25,9 @@ use ILIAS\UI\Component\Component;
  */
 interface Node extends Component
 {
+    /**
+     * Returns the unique identifier of this Node. A Node may be passed between
+     * components or other layers, so they need a way to identify them.
+     */
+    public function getId(): string|int;
 }

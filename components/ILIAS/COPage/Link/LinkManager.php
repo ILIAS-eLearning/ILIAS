@@ -244,9 +244,9 @@ class LinkManager
             if (count($areas) > 0) {
                 // check if correction needed
                 foreach ($areas as $area) {
-                    if ($area["Type"] == "PageObject" ||
-                        $area["Type"] == "StructureObject") {
-                        $t = $area["Target"];
+                    if (($area["Type"] ?? "") == "PageObject" ||
+                        ($area["Type"] ?? "") == "StructureObject") {
+                        $t = $area["Target"] ?? "";
                         $tid = \ilInternalLink::_extractObjIdOfTarget($t);
                         if ($a_from_to[$tid] > 0) {
                             $correction_needed = true;
@@ -304,9 +304,9 @@ class LinkManager
                 $changed = true;
                 $std_alias_item->deleteAllMapAreas();
                 foreach ($areas as $area) {
-                    if ($area["Link"]["LinkType"] == "IntLink") {
-                        $target = $area["Link"]["Target"];
-                        $type = $area["Link"]["Type"];
+                    if (($area["Link"]["LinkType"] ?? "") == "IntLink") {
+                        $target = $area["Link"]["Target"] ?? "";
+                        $type = $area["Link"]["Type"] ?? "";
                         $obj_id = \ilInternalLink::_extractObjIdOfTarget($target);
                         if ($a_from_to[$obj_id] > 0) {
                             if ($type == "PageObject" && $lm_type_lookup($a_from_to[$obj_id]) == "pg") {
@@ -319,14 +319,14 @@ class LinkManager
                     }
 
                     $std_alias_item->addMapArea(
-                        $area["Shape"],
-                        $area["Coords"],
-                        $area["Link"]["Title"],
-                        array("Type" => $area["Link"]["Type"],
-                              "TargetFrame" => $area["Link"]["TargetFrame"],
-                              "Target" => $area["Link"]["Target"],
-                              "Href" => $area["Link"]["Href"],
-                              "LinkType" => $area["Link"]["LinkType"],
+                        $area["Shape"] ?? "",
+                        $area["Coords"] ?? "",
+                        $area["Link"]["Title"] ?? "",
+                        array("Type" => $area["Link"]["Type"] ?? "",
+                              "TargetFrame" => $area["Link"]["TargetFrame"] ?? "",
+                              "Target" => $area["Link"]["Target"] ?? "",
+                              "Href" => $area["Link"]["Href"] ?? "",
+                              "LinkType" => $area["Link"]["LinkType"] ?? "",
                         )
                     );
                 }
@@ -376,6 +376,15 @@ class LinkManager
                         $parent = $node->parentNode;
                         $parent->parentNode->removeChild($parent);
                     } else {    // replace link by content of the link for other internal links
+
+                        // replace link by the content of the link
+                        $source_node = $node;
+                        while ($source_node->firstChild) {
+                            $source_node->parentNode->insertBefore($source_node->firstChild, $source_node);
+                        }
+                        $source_node->parentNode->removeChild($source_node);
+
+                        /*
                         $source_node = $node;
                         $new_node = $source_node->cloneNode(true);
                         //$new_node->parentNode->removeChild($new_node);
@@ -383,7 +392,7 @@ class LinkManager
                             //$this->log->debug("... move node $j " . $child->node_name() . " before " . $source_node->node_name());
                             $source_node->parentNode->insertBefore($child, $source_node);
                         }
-                        $source_node->parentNode->removeChild($source_node);
+                        $source_node->parentNode->removeChild($source_node);*/
                     }
                 }
             }

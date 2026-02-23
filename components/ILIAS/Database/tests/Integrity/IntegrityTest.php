@@ -21,11 +21,11 @@ declare(strict_types=1);
 namespace ILIAS\Tests\Services\Database\Integrity;
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\components\Database\Integrity\Integrity;
-use ILIAS\components\Database\Integrity\Definition;
-use ILIAS\components\Database\Integrity\Result;
-use ILIAS\components\Database\Integrity\Association;
-use ILIAS\components\Database\Integrity\Field;
+use ILIAS\Database\Integrity\Integrity;
+use ILIAS\Database\Integrity\Definition;
+use ILIAS\Database\Integrity\Result;
+use ILIAS\Database\Integrity\Association;
+use ILIAS\Database\Integrity\Field;
 use ilDBInterface;
 use ilDBStatement;
 
@@ -43,8 +43,8 @@ class IntegrityTest extends TestCase
         $statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->expects(self::once())->method('query')->willReturn($statement);
-        $db->expects(self::once())->method('fetchAssoc')->with($statement)->willReturn(['violations' => '17']);
+        $db->expects($this->once())->method('query')->willReturn($statement);
+        $db->expects($this->once())->method('fetchAssoc')->with($statement)->willReturn(['violations' => '17']);
 
         $field = $this->getMockBuilder(Field::class)->disableOriginalConstructor()->getMock();
         $field->method('fieldName')->willReturn('hej');
@@ -57,15 +57,15 @@ class IntegrityTest extends TestCase
         $association->method('referenceField')->willReturn($referenceField);
 
         $definition = $this->getMockBuilder(Definition::class)->disableOriginalConstructor()->getMock();
-        $definition->expects(self::once())->method('associations')->willReturn([$association]);
-        $definition->expects(self::once())->method('tableName')->willReturn('table_a');
-        $definition->expects(self::once())->method('referenceTableName')->willReturn('table_b');
+        $definition->expects($this->once())->method('associations')->willReturn([$association]);
+        $definition->expects($this->once())->method('tableName')->willReturn('table_a');
+        $definition->expects($this->once())->method('referenceTableName')->willReturn('table_b');
         $definition->method('ignoreValues')->willReturn(['Some SQL.']);
 
         $integrity = new Integrity($db);
 
         $result = $integrity->check($definition);
         $this->assertInstanceOf(Result::class, $result);
-        $this->assertEquals(17, $result->violations());
+        $this->assertSame(17, $result->violations());
     }
 }

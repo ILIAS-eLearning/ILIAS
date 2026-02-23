@@ -56,7 +56,7 @@ export default class Drilldown {
     jqueryEventListener.on(document, this.#backSignal, () => { this.#upLevel(); });
     this.#mapping.maybeAddFilterHandler(
       (e) => {
-        if (e.key !== 'Tab' && e.key !== 'Shift') {
+        if (e.key !== 'Tab' && e.key !== 'Shift' && !e.isComposing) {
           this.#filter(e);
         }
       },
@@ -113,6 +113,20 @@ export default class Drilldown {
     this.#engageListeners.forEach((callback) => {
       callback(levelId);
     });
+  }
+
+  /**
+   * @returns {string|number|null}
+   */
+  getParentLevel() {
+    return this.#model.getCurrent()?.parent ?? null;
+  }
+
+  /**
+   * @returns {string|number}
+   */
+  getCurrentLevel() {
+    return this.#model.getCurrent().id;
   }
 
   /**

@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\StudyProgramme\Certificate;
 
+use ILIAS\User\Profile\Profile;
+
 class ilStudyProgrammePlaceholderDescription implements \ilCertificatePlaceholderDescription
 {
     private readonly \ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
@@ -29,6 +31,7 @@ class ilStudyProgrammePlaceholderDescription implements \ilCertificatePlaceholde
     public function __construct(
         ?\ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?\ilLanguage $language = null,
+        ?Profile $profile = null,
         ?\ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
@@ -39,9 +42,12 @@ class ilStudyProgrammePlaceholderDescription implements \ilCertificatePlaceholde
         }
         $this->language = $language;
 
+        $profile ??= $DIC['user']->getProfile();
+
         if (null === $defaultPlaceholderDescriptionObject) {
             $defaultPlaceholderDescriptionObject = new \ilDefaultPlaceholderDescription(
                 $language,
+                $profile,
                 $userDefinedFieldPlaceHolderDescriptionObject
             );
         }

@@ -41,7 +41,7 @@ class SuperGlobalDropInReplacementTest extends AbstractBaseTestCase
         $super_global = new SuperGlobalDropInReplacement($this->getRefinery(), ['foo' => 'bar']);
         $super_global['foo'] = 'phpunit';
 
-        self::assertEquals('phpunit', $super_global['foo']);
+        $this->assertEquals('phpunit', $super_global['foo']);
     }
 
     public function testExceptionIsRaisedIfValueIsAssignedButSuperGlobalIsImmutable(): void

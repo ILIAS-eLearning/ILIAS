@@ -41,7 +41,6 @@ use DateTimeImmutable;
 use ILIAS\UI\URLBuilderToken;
 use ilObjectDataDeletionLog;
 use ilTree;
-use ilCalendarSettings;
 use ilObjUser;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Table\Column\Column;
@@ -238,8 +237,9 @@ class ilBadgeUserTableGUI implements DataRetrieval
         array $visible_column_ids,
         Range $range,
         Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): Generator {
         $records = $this->getRecords();
 
@@ -289,8 +289,9 @@ class ilBadgeUserTableGUI implements DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         return \count($this->getRecords());
     }
@@ -340,12 +341,12 @@ class ilBadgeUserTableGUI implements DataRetrieval
         ] : [];
     }
 
-    public function renderTable(): void
+    public function renderTable(string $url): void
     {
         $df = new \ILIAS\Data\Factory();
         $this->date_format = $this->user->getDateTimeFormat();
 
-        $table_uri = $df->uri($this->request->getUri()->__toString());
+        $table_uri = $df->uri($url);
         $url_builder = new URLBuilder($table_uri);
         $query_params_namespace = ['tid'];
 
@@ -381,8 +382,9 @@ class ilBadgeUserTableGUI implements DataRetrieval
         $table = $this->factory
             ->table()
             ->data($this, $title, $this->getColumns())
-            ->withId(self::class . '_' . $this->parent_ref_id)
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->parent_ref_id)
             ->withOrder(new Order('name', Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($this->getActions($url_builder, $action_parameter_token, $row_id_token))
             ->withRequest($this->request);
 

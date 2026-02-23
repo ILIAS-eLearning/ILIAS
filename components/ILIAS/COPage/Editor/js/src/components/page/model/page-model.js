@@ -12,13 +12,12 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * Controller (handles editor initialisation process)
  */
 export default class PageModel {
-
   /*
   debug = true;
 
@@ -41,25 +40,25 @@ export default class PageModel {
   /**
    * @type {*[]}
    */
-  //states = [];
+  // states = [];
 
   /**
    * @type {*[]}
    */
-  //component_states = [];
+  // component_states = [];
 
   /**
    * @type {*[]}
    */
-  //multi_states = [];
+  // multi_states = [];
 
-  //dom;
+  // dom;
 
   /**
    * Paragraph auto splitting
    * @type {*[]}
    */
-  //splitIds = [];
+  // splitIds = [];
 
   /**
    * @type {Object}
@@ -83,23 +82,23 @@ export default class PageModel {
    */
 
   constructor() {
-    this.debug = true;
+    this.debug = false;
 
-    this.STATE_PAGE = "page";                  // page editing
-    this.STATE_DRAG_DROP = "drag_drop";        // drag drop
-    this.STATE_COMPONENT = "component";        // component editing (in slate)
-    this.STATE_MULTI_ACTION = "multi";         // multi action
-    this.STATE_SERVER_CMD = "server_cmd";      // server command being performed
+    this.STATE_PAGE = 'page'; // page editing
+    this.STATE_DRAG_DROP = 'drag_drop'; // drag drop
+    this.STATE_COMPONENT = 'component'; // component editing (in slate)
+    this.STATE_MULTI_ACTION = 'multi'; // multi action
+    this.STATE_SERVER_CMD = 'server_cmd'; // server command being performed
 
-    this.STATE_COMPONENT_EDIT = "edit";        // component editing
-    this.STATE_COMPONENT_INSERT = "insert";    // component inserting
-    this.STATE_COMPONENT_SERVER_CMD = "comp_server_cmd";      // component server command being performed
-    this.STATE_COMPONENT_NONE = "";
+    this.STATE_COMPONENT_EDIT = 'edit'; // component editing
+    this.STATE_COMPONENT_INSERT = 'insert'; // component inserting
+    this.STATE_COMPONENT_SERVER_CMD = 'comp_server_cmd'; // component server command being performed
+    this.STATE_COMPONENT_NONE = '';
 
-    this.STATE_MULTI_COPY = "copy";        // multi copy
-    this.STATE_MULTI_CUT = "cut";          // multi cut
-    this.STATE_MULTI_CHARACTERISTIC = "characteristic";          // multi cut
-    this.STATE_MULTI_NONE = "";
+    this.STATE_MULTI_COPY = 'copy'; // multi copy
+    this.STATE_MULTI_CUT = 'cut'; // multi cut
+    this.STATE_MULTI_CHARACTERISTIC = 'characteristic'; // multi cut
+    this.STATE_MULTI_NONE = '';
 
     this.model = {
       state: this.STATE_PAGE,
@@ -113,12 +112,12 @@ export default class PageModel {
       currentInsertPCID: null,
       page_components: [],
       page_components_undo: [],
-      sectionFormat: "",
-      paragraphFormat: "",
-      mediaFormat: "",
+      sectionFormat: '',
+      paragraphFormat: '',
+      mediaFormat: '',
       addedSection: false,
       pasting: false,
-      autoSavedPCID: null
+      autoSavedPCID: null,
     };
 
     this.splitIds = [];
@@ -128,13 +127,13 @@ export default class PageModel {
       this.STATE_DRAG_DROP,
       this.STATE_COMPONENT,
       this.STATE_MULTI_ACTION,
-      this.STATE_SERVER_CMD
+      this.STATE_SERVER_CMD,
     ];
     this.component_states = [
       this.STATE_COMPONENT_NONE,
       this.STATE_COMPONENT_EDIT,
       this.STATE_COMPONENT_INSERT,
-      this.STATE_COMPONENT_SERVER_CMD
+      this.STATE_COMPONENT_SERVER_CMD,
     ];
     this.multi_states = [this.STATE_MULTI_NONE, this.STATE_MULTI_CUT, this.STATE_MULTI_COPY, this.STATE_MULTI_CHARACTERISTIC];
   }
@@ -150,7 +149,7 @@ export default class PageModel {
    */
   setState(state) {
     if (this.states.includes(state)) {
-      this.log("page-model.setState " + state);
+      this.log(`page-model.setState ${state}`);
       this.model.state = state;
     }
   }
@@ -167,7 +166,7 @@ export default class PageModel {
    */
   setComponentState(state) {
     if (this.component_states.includes(state)) {
-      this.log("page-model.setComponentState " + state);
+      this.log(`page-model.setComponentState ${state}`);
       this.model.component_state = state;
     }
   }
@@ -183,9 +182,9 @@ export default class PageModel {
    * @param {string} state
    */
   setMultiState(state) {
-    this.log("TRY page-model.setMultiState " + state);
+    this.log(`TRY page-model.setMultiState ${state}`);
     if (this.multi_states.includes(state)) {
-      this.log("page-model.setMultiState " + state);
+      this.log(`page-model.setMultiState ${state}`);
       this.model.multi_state = state;
     }
   }
@@ -203,7 +202,7 @@ export default class PageModel {
    * @param {string} hierid
    */
   toggleSelect(pcid, hierid) {
-    const key = hierid + ":" + pcid;
+    const key = `${hierid}:${pcid}`;
     if (this.model.selectedItems.has(key)) {
       this.model.selectedItems.delete(key);
     } else {
@@ -214,7 +213,6 @@ export default class PageModel {
   selectNone() {
     this.model.selectedItems.clear();
   }
-
 
   isProtectedElement(curElement) {
     do {
@@ -231,13 +229,12 @@ export default class PageModel {
 
   selectAll() {
     let key;
-    this.dom.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(pc_area => {
-
+    this.dom.querySelectorAll("[data-copg-ed-type='pc-area']").forEach((pc_area) => {
       if (this.isProtectedElement(pc_area)) {
         return;
       }
 
-      key = pc_area.dataset.hierid + ":" + pc_area.dataset.pcid;
+      key = `${pc_area.dataset.hierid}:${pc_area.dataset.pcid}`;
       this.model.selectedItems.add(key);
     });
   }
@@ -247,7 +244,7 @@ export default class PageModel {
    * @return {boolean}
    */
   hasSelected() {
-    return (this.model.selectedItems.size  > 0);
+    return (this.model.selectedItems.size > 0);
   }
 
   /**
@@ -307,7 +304,7 @@ export default class PageModel {
    * @param {string} pcid
    * @param {string} hierid
    */
-  setCurrentPageComponent(cname, pcid, hierid = "") {
+  setCurrentPageComponent(cname, pcid, hierid = '') {
     this.model.currentPCName = cname;
     this.model.currentPCID = pcid;
     this.model.currentHierId = hierid;
@@ -419,7 +416,7 @@ export default class PageModel {
    * @return {null|Object}
    */
   getUndoPCModel(pcid) {
-    this.log("getUndoPCModel");
+    this.log('getUndoPCModel');
     if (pcid in this.model.page_components_undo) {
       this.log(pcid);
       this.log(this.model.page_components_undo[pcid]);
@@ -445,11 +442,10 @@ export default class PageModel {
     }
   }
 
-
   getNewPCId() {
-    let vals = new Uint32Array(2);
+    const vals = new Uint32Array(2);
     window.crypto.getRandomValues(vals);
-    return vals[0] + "" + vals[1];
+    return `${vals[0]}${vals[1]}`;
   }
 
   setSectionFormat(format) {
@@ -490,7 +486,7 @@ export default class PageModel {
    */
   setAddedSection(as) {
     this.model.addedSection = as;
-    console.log("setAddedSection " + as);
+    console.log(`setAddedSection ${as}`);
   }
 
   getAddedSection() {

@@ -21,6 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\News;
 
 use ILIAS\DI\Container;
+use ILIAS\News\Domain\NewsCollectionService;
+use ILIAS\News\Domain\UserContextResolver;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\News\Dashboard\DashboardNewsManager;
 use ILIAS\News\Timeline\TimelineManager;
@@ -32,17 +34,33 @@ class InternalDomainService
 {
     use GlobalDICDomainServices;
 
-    protected InternalRepoService $repo_service;
-    protected InternalDataService $data_service;
-
     public function __construct(
         Container $DIC,
-        InternalRepoService $repo_service,
-        InternalDataService $data_service
+        protected InternalRepoService $repo_service,
+        protected InternalDataService $data_service
     ) {
-        $this->repo_service = $repo_service;
-        $this->data_service = $data_service;
         $this->initDomainServices($DIC);
+    }
+
+    public function resolver(): UserContextResolver
+    {
+        return new UserContextResolver(
+            new \ilFavouritesDBRepository($this->DIC->database(), $this->repositoryTree()),
+            $this->access(),
+            $this->repositoryTree(),
+            $this->repo_service->cache()
+        );
+    }
+
+    public function collection(): NewsCollectionService
+    {
+        return new NewsCollectionService(
+            $this->repo_service->news(),
+            $this->repo_service->cache(),
+            $this->resolver(),
+            $this->objectDataCache(),
+            $this->DIC->rbac()->system()
+        );
     }
 
     public function dashboard(): DashboardNewsManager

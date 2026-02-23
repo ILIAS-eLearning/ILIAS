@@ -22,7 +22,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  *
- * @deprecated 10
+ * @deprecated with ILIAS 12
  */
 class ilToolbarGUI
 {
@@ -464,6 +464,16 @@ class ilToolbarGUI
     public function setItems(array $items): void
     {
         $this->items = $items;
+    }
+
+    public function getStickyItems(): array
+    {
+        return $this->sticky_items;
+    }
+
+    public function setStickyItems(array $items): void
+    {
+        $this->sticky_items = $items;
     }
 
     /**

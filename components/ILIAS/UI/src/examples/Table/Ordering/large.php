@@ -1,13 +1,27 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Table\Ordering;
 
-use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\UI\URLBuilder;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Data\URI;
 
 /**
@@ -135,7 +149,7 @@ function large()
         && $request_wrapper->retrieve('ordering_example', $refinery->kindlyTo()->int()) === 4
     ) {
         if ($data = $table->getData()) {
-            $out[] = $f->legacy('<pre>' . print_r($data, true) . '</pre>');
+            $out[] = $f->legacy()->content('<pre>' . print_r($data, true) . '</pre>');
         }
         $data_retrieval->setOrder($data);
     }

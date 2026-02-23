@@ -223,7 +223,8 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
             $this->lng,
             $this->access,
             $this->rbac_review,
-            $this->settings
+            $this->settings,
+            $this->profile
         );
     }
 

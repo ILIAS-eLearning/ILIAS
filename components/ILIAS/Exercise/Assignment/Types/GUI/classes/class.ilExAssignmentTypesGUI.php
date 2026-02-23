@@ -114,13 +114,7 @@ class ilExAssignmentTypesGUI
         return false;
     }
 
-    /**
-     * Get type id for class name
-     *
-     * @param $a_string
-     * @return null|int
-     */
-    public function getIdForClassName($a_string)
+    public function getIdForClassName($a_string): ?int
     {
         foreach ($this->class_names as $k => $cn) {
             if (strtolower($cn) === strtolower($a_string)) {

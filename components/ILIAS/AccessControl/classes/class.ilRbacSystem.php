@@ -230,7 +230,7 @@ class ilRbacSystem
             $r = $this->db->query($q);
 
             while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                if($row->ops_id === ':') {
+                if ($row->ops_id === ':') {
                     continue;
                 }
                 if (in_array($row->rol_id, $roles[(int) $row->ref_id])) {
@@ -380,5 +380,43 @@ class ilRbacSystem
     {
         $paCacheKey = $a_usr_id . ':' . $a_ref_id;
         unset(self::$_paCache[$paCacheKey]);
+    }
+
+    /**
+     * Check if the current user has read permission to any sub node of the system folder
+     * This is used by th main menu to decide if the Administration top item is shown
+     * @see self::checkAccessOfUser() for deserialisation
+     */
+    public function hasAnyAdminReadPermission(): bool
+    {
+
+        $roles = $this->fetchAssignedRoles($this->user->getId(), ROLE_FOLDER_ID);
+        if (in_array(SYSTEM_ROLE_ID, $roles)) {
+            return true;
+        }
+
+        $read_id = ilRbacReview::_getOperationIdByName('read');
+
+        $result = $this->db->queryF(
+            "
+            SELECT pa.ops_id
+            FROM tree t
+            JOIN rbac_pa pa ON pa.ref_id = t.child
+            JOIN rbac_ua ua ON ua.rol_id = pa.rol_id AND ua.usr_id = %s
+            WHERE t.parent = %s
+            ",
+            [ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER],
+            [$this->user->getId(), SYSTEM_FOLDER_ID]
+        );
+
+        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            if ($row->ops_id !== ':') {
+                $ops = unserialize(stripslashes($row->ops_id));
+                if (in_array($read_id, $ops)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 } // END class.RbacSystem

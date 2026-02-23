@@ -35,7 +35,7 @@ class NotificationFactoryTest extends BaseNotificationSetUp
             $methods[] = $method->getName();
         }
         sort($methods);
-        $this->assertEquals(
+        $this->assertSame(
             [
                 0 => 'administrative',
                 1 => 'standard',

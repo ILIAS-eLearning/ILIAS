@@ -52,7 +52,7 @@ class WikiHtmlExport
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     // has global context been initialized?
-    protected static $context_init = false;
+    protected static bool $context_init = false;
 
     public function __construct(\ilObjWiki $a_wiki)
     {
@@ -96,8 +96,6 @@ class WikiHtmlExport
         $ilUser = $this->user;
 
         $this->log->debug("buildExportFile...");
-        //init the mathjax rendering for HTML export
-        \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() === self::MODE_USER_COMMENTS));

@@ -44,10 +44,13 @@ class Data extends AbstractTable implements T\Data
     public const STORAGE_ID_PREFIX = self::class . '_';
     public const VIEWCONTROL_KEY_PAGINATION = 'range';
     public const VIEWCONTROL_KEY_ORDERING = 'order';
-    public const VIEWCONTROL_KEY_FIELDSELECTION = 'selected_optional';
+    public const VIEWCONTROL_KEY_FIELDSELECTION = 'selection';
+    public const VIEWCONTROL_KEY_ADDITIONAL = 'additional';
 
-    protected ?array $filter = null;
-    protected ?array $additional_parameters = null;
+    protected mixed $filter = null;
+    protected mixed $additional_parameters = null;
+    protected mixed $additional_viewcontrol_data = null;
+    protected ?ViewControlContainer\ViewControlInput $additional_view_control = null;
 
     /**
      * @param array<string, Column> $columns
@@ -81,28 +84,41 @@ class Data extends AbstractTable implements T\Data
         return $this->data_retrieval;
     }
 
-    public function withFilter(?array $filter): self
+    public function withFilter(mixed $filter): self
     {
         $clone = clone $this;
         $clone->filter = $filter;
         return $clone;
     }
 
-    public function getFilter(): ?array
+    public function getFilter(): mixed
     {
         return $this->filter;
     }
 
-    public function withAdditionalParameters(?array $additional_parameters): self
+    public function withAdditionalParameters(mixed $additional_parameters): self
     {
         $clone = clone $this;
         $clone->additional_parameters = $additional_parameters;
         return $clone;
     }
 
-    public function getAdditionalParameters(): ?array
+    public function getAdditionalParameters(): mixed
     {
         return $this->additional_parameters;
+    }
+
+
+    protected function withAdditionalViewControlData(mixed $additional_viewcontrol_data): self
+    {
+        $clone = clone $this;
+        $clone->additional_viewcontrol_data = $additional_viewcontrol_data;
+        return $clone;
+    }
+
+    public function getAdditionalViewControlData(): mixed
+    {
+        return $this->additional_viewcontrol_data;
     }
 
     public function getRowBuilder(): DataRowBuilder
@@ -117,33 +133,45 @@ class Data extends AbstractTable implements T\Data
      * @return array<self, ViewControlContainer\ViewControl>
      */
     public function applyViewControls(
-        array $filter_data,
-        ?array $additional_parameters = []
+        mixed $filter_data,
+        mixed $additional_parameters = []
     ): array {
-        $table = $this;
-        $total_count = $this->getDataRetrieval()->getTotalRowCount($filter_data, $additional_parameters);
+        $request = $this->getRequest();
+        if ($request === null) {
+            return [
+                $this,
+                $this->getViewControls()
+            ];
+        }
+
+        $additional_viewcontrol_data = array_filter(
+            $this->applyValuesToViewcontrols($this->getViewControls(null), $request)->getData(),
+            fn($key) => !in_array($key, [self::VIEWCONTROL_KEY_PAGINATION, self::VIEWCONTROL_KEY_ORDERING, self::VIEWCONTROL_KEY_FIELDSELECTION]),
+            ARRAY_FILTER_USE_KEY
+        );
+
+        $total_count = $this->getDataRetrieval()->getTotalRowCount($additional_viewcontrol_data, $filter_data, $additional_parameters);
         $view_controls = $this->getViewControls($total_count);
 
-        if ($request = $this->getRequest()) {
-            # This retrieves container data from the request
-            $data = $this->applyValuesToViewcontrols($view_controls, $request)->getData();
-            $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
-            $range = ($range instanceof Range) ? $range : null;
-            $order = $data[self::VIEWCONTROL_KEY_ORDERING];
-            $order = ($order instanceof Order) ? $order : null;
+        $data = $this->applyValuesToViewcontrols($view_controls, $request)->getData();
+        $range = $data[self::VIEWCONTROL_KEY_PAGINATION];
+        $range = ($range instanceof Range) ? $range : null;
+        $order = $data[self::VIEWCONTROL_KEY_ORDERING];
+        $order = ($order instanceof Order) ? $order : null;
 
-            if ($range instanceof Range) {
-                $range = $range->withStart($range->getStart() < $total_count ? $range->getStart() : 0);
-                $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
-            }
-
-            $table = $table
-                ->withRange($range)
-                ->withOrder($order)
-                ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null);
-            # This retrieves the view controls that should be displayed
-            $view_controls = $table->applyValuesToViewcontrols($table->getViewControls($total_count), $request);
+        if ($range instanceof Range) {
+            $range = $range->withStart($range->getStart() < $total_count ? $range->getStart() : 0);
+            $range = $range->croppedTo($total_count ?? PHP_INT_MAX);
         }
+
+        $table = $this
+            ->withRange($range)
+            ->withOrder($order)
+            ->withSelectedOptionalColumns($data[self::VIEWCONTROL_KEY_FIELDSELECTION] ?? null)
+            ->withAdditionalViewControlData($additional_viewcontrol_data);
+
+        # This retrieves the view controls that should be displayed
+        $view_controls = $table->applyValuesToViewcontrols($table->getViewControls($total_count), $request);
 
         return [
             $table,
@@ -157,8 +185,23 @@ class Data extends AbstractTable implements T\Data
             self::VIEWCONTROL_KEY_PAGINATION => $this->getViewControlPagination($total_count),
             self::VIEWCONTROL_KEY_ORDERING => $this->getViewControlOrdering($total_count),
             self::VIEWCONTROL_KEY_FIELDSELECTION => $this->getViewControlFieldSelection(),
+            $this->additional_view_control
         ];
         $view_controls = array_filter($view_controls);
-        return $this->view_control_container_factory->standard($view_controls);
+        $vc = $this->view_control_container_factory->standard($view_controls);
+        if ($this->getId() !== null) {
+            $vc = $vc->withDedicatedName('vc' . $this->getId());
+        }
+        return $vc;
     }
+
+    public function withAdditionalViewControl(
+        ViewControlContainer\ViewControlInput $view_control
+    ): self {
+        $clone = clone $this;
+        $clone->additional_view_control = $view_control
+            ->withDedicatedName(self::VIEWCONTROL_KEY_ADDITIONAL);
+        return $clone;
+    }
+
 }

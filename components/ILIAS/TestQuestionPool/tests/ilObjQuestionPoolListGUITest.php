@@ -38,6 +38,7 @@ class ilObjQuestionPoolListGUITest extends assBaseTestCase
         $this->addGlobal_objDefinition();
         $this->addGlobal_ilSetting();
         $this->addGlobal_ilLoggerFactory();
+        $this->addGlobal_user();
 
         $this->object = new ilObjQuestionPoolListGUI();
     }

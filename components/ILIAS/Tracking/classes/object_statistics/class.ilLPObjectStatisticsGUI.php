@@ -567,8 +567,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             "components/ILIAS/Tracking"
         );
         $a_tpl->setVariable("CONTENT", $lp_table->getHTML());
-        $a_tpl->setVariable('CLOSE_IMG_TXT', $this->lng->txt('close'));
-        echo $a_tpl->get();
+
+        $modal = $this->ui_factory->modal()->roundtrip(
+            $this->lng->txt('details'),
+            $this->ui_factory->legacy()->content($a_tpl->get())
+        )->withCancelButtonLabel($this->lng->txt('close'));
+        echo $this->ui_renderer->renderAsync($modal);
         exit();
     }
 

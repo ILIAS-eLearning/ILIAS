@@ -553,7 +553,6 @@ class ilObjSurvey extends ilObject
         $ilDB = $this->db;
 
         $this->svy_log->debug("insert question, id:" . $question_id);
-
         if (!SurveyQuestion::_isComplete($question_id)) {
             $this->svy_log->debug("question is not complete");
             return false;
@@ -758,7 +757,7 @@ class ilObjSurvey extends ilObject
             $this->setSurveyId($next_id);
         } else {
             $affectedRows = $ilDB->update("svy_svy", array(
-                "author" => array("text", $this->getAuthor()),
+                "author" => array("text", ilStr::subStr($this->getAuthor(), 0, 50)),
                 "introduction" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
                 "outro" => array("clob", ilRTE::_replaceMediaObjectImageSrc($this->getOutro(), 0)),
                 "startdate" => array("text", $this->getStartDate()),
@@ -991,7 +990,7 @@ class ilObjSurvey extends ilObject
             $this->setSurveyId($data["survey_id"]);
             $this->setAuthor($data["author"] ?? "");
             $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc((string) $data["introduction"], 1));
-            if (strcmp($data["outro"], "survey_finished") === 0) {
+            if ($data["outro"] === "survey_finished") {
                 $this->setOutro($this->lng->txt("survey_finished"));
             } else {
                 $this->setOutro(ilRTE::_replaceMediaObjectImageSrc((string) $data["outro"], 1));
@@ -2517,7 +2516,6 @@ class ilObjSurvey extends ilObject
         int $appr_id
     ): ?int {
         $ilDB = $this->db;
-
         // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
         if ($anonymize_id) {
             $result = $ilDB->queryF(
@@ -2527,6 +2525,9 @@ class ilObjSurvey extends ilObject
                 array($this->getSurveyId(), $anonymize_id, $appr_id)
             );
         } else {
+            if ($user_id == ANONYMOUS_USER_ID) {
+                return null;
+            }
             $result = $ilDB->queryF(
                 "SELECT finished_id FROM svy_finished" .
                 " WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
@@ -3430,7 +3431,7 @@ class ilObjSurvey extends ilObject
     ): void {
         foreach ($mapping as $original_id => $new_id) {
             $textblock = $this->getTextblock($original_id);
-            $this->saveHeading(ilUtil::stripSlashes($textblock, true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $new_id);
+            $this->saveHeading(ilUtil::stripSlashes($textblock, true, ilRTESettings::_getUsedHTMLTagsAsString("survey")), $new_id);
         }
     }
 

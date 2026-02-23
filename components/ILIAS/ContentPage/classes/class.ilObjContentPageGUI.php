@@ -74,6 +74,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('rep');
+        $this->lng->loadLanguageModule('obj');
 
         if ($this->object instanceof ilObjContentPage) {
             $this->infoScreenEnabled = (bool) ilContainer::_lookupContainerSetting(
@@ -218,14 +219,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW) ?? '';
 
         $this->addToNavigationHistory();
-
-        if (!$this->in_page_editor_style_context &&
-            strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class) &&
-            (strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) || strtolower($nextClass) !== strtolower(
-                ilContentPagePageGUI::class
-            ))) {
-            $this->renderHeaderActions();
-        }
 
         switch (strtolower($nextClass)) {
             case strtolower(TranslationGUI::class):
@@ -417,6 +410,15 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
                 parent::executeCommand();
         }
+
+        if (!$this->in_page_editor_style_context &&
+            strtolower($nextClass) !== strtolower(ilObjectContentStyleSettingsGUI::class) &&
+            (strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) || strtolower($nextClass) !== strtolower(
+                ilContentPagePageGUI::class
+            ))) {
+            $this->renderHeaderActions();
+        }
+
     }
 
     protected function addToDesk(): void

@@ -109,22 +109,26 @@ class ilLearningSequenceImporter extends ilXmlImporter
             $mapped[$new_ref_id] = $data;
         }
 
-        $ls_items = $this->obj->getLSItems($this->obj->getRefId());
+        $ls_items = $this->obj->getLSItems();
         $updated = [];
         foreach ($ls_items as $item) {
             $item_ref_id = $item->getRefId();
-            if(array_key_exists($item_ref_id, $mapped)) {
+            if (array_key_exists($item_ref_id, $mapped)) {
                 $item_data = $mapped[$item_ref_id];
                 $post_condition = new ilLSPostCondition(
                     $item_ref_id,
                     $item_data["condition_type"],
                     $item_data["condition_value"]
                 );
-                $updated[] = $item->withPostCondition($post_condition);
+                $item = $item->withPostCondition($post_condition);
+                if (isset($item_data["position"])) {
+                    $item = $item->withOrderNumber((int) $item_data["position"]);
+                }
+                $updated[] = $item;
             }
         }
 
-        if($updated) {
+        if ($updated) {
             $this->obj->storeLSItems($updated);
         }
     }

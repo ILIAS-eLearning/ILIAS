@@ -235,52 +235,63 @@ class ilCmiXapiStatementsGUI
     //dynamic verbs
     public function getVerbs(): ?array
     {
+        $log = ilLoggerFactory::getLogger('cmix');
+
         $lrsType = $this->object->getLrsType();
-
-        //$this->getLrsEndpoint())) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
         $defaultLrs = $lrsType->getLrsEndpointStatementsAggregationLink();
-        //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
         $defaultBasicAuth = $lrsType->getBasicAuth();
-        //$fallbackBasicAuth = $lrsType->getFallbackBasicAuth();
-        $defaultHeaders = [
-            'X-Experience-API-Version' => '1.0.3',
-            'Authorization' => $defaultBasicAuth,
-            'Cache-Control' => 'no-cache, no-store, must-revalidate'
-        ];
-        //        $fallbackHeaders = [
-        //            'X-Experience-API-Version' => '1.0.3',
-        //            'Authorization' => $fallbackBasicAuth,
-        //            'Content-Type' => 'application/json;charset=utf-8',
-        //            'Cache-Control' => 'no-cache, no-store, must-revalidate'
-        //        ];
-        $pipeline = json_encode($this->getVerbsPipline());
 
+        $defaultHeaders = [
+            'X-Experience-API-Version: 1.0.3',
+            'Authorization: ' . $defaultBasicAuth,
+            'Cache-Control: no-cache, no-store, must-revalidate'
+        ];
+
+        // Pipeline zusammenbauen
+        $pipeline = json_encode($this->getVerbsPipline());
         $defaultVerbsUrl = $defaultLrs . "?pipeline=" . urlencode($pipeline);
 
-        $client = new GuzzleHttp\Client();
-        $req_opts = array(
-            GuzzleHttp\RequestOptions::VERIFY => true,
-            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
-            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
-        );
-        //new GuzzleHttp\Psr7\Request('POST', $defaultUrl, $this->defaultHeaders, $body);
-        $defaultVerbsRequest = new GuzzleHttp\Psr7\Request(
-            'GET',
-            $defaultVerbsUrl,
-            $defaultHeaders
-        );
-        $promises = array();
-        $promises['defaultVerbs'] = $client->sendAsync($defaultVerbsRequest, $req_opts);
-        try {
-            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
-            $body = '';
-            ilCmiXapiAbstractRequest::checkResponse($responses['defaultVerbs'], $body, [200]);
-            return json_decode($body, (bool) JSON_OBJECT_AS_ARRAY);
-        } catch (Exception $e) {
-            //$this->log()->error('error:' . $e->getMessage());
+        // cURL-Setup
+        $ch = curl_init($defaultVerbsUrl);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $defaultHeaders,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_FOLLOWLOCATION => true
+        ]);
+
+        // Request ausführen
+        $body = curl_exec($ch);
+        $error = curl_error($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        // Fehlerbehandlung
+        if ($error) {
+            $log->error('cURL error in getVerbs(): ' . $error);
             return null;
         }
-        return null;
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            $log->error("Unexpected HTTP code in getVerbs(): {$httpCode}");
+            return null;
+        }
+
+        if (!$body) {
+            $log->error('Empty response in getVerbs()');
+            return null;
+        }
+
+        // Antwort dekodieren
+        $decoded = json_decode($body, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $log->error('JSON decode error in getVerbs(): ' . json_last_error_msg());
+            return null;
+        }
+
+        return $decoded;
     }
 
     public function getVerbsPipline(): array

@@ -140,16 +140,11 @@ class ilObjQuestionPool extends ilObject
 
     public function deleteQuestionpool(): void
     {
-        $questions = &$this->getAllQuestions();
-
-        if (count($questions)) {
-            foreach ($questions as $question_id) {
-                $this->deleteQuestion($question_id);
-            }
+        foreach ($this->getQplQuestions() as $question_id) {
+            $this->deleteQuestion($question_id);
         }
 
-        $qpl_data_dir = ilFileUtils::getDataDir() . '/qpl_data';
-        $directory = $qpl_data_dir . '/qpl_' . $this->getId();
+        $directory = ilFileUtils::getDataDir() . "/qpl_data/qpl_{$this->getId()}";
         if (is_dir($directory)) {
             ilFileUtils::delDir($directory);
         }
@@ -1001,11 +996,11 @@ class ilObjQuestionPool extends ilObject
         $questions = [];
         $result = $this->db->queryF(
             'SELECT qpl_questions.question_id FROM qpl_questions WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.obj_fi = %s',
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [$this->getId()]
         );
         while ($row = $this->db->fetchAssoc($result)) {
-            array_push($questions, $row['question_id']);
+            $questions[] = $row['question_id'];
         }
         return $questions;
     }
@@ -1189,7 +1184,7 @@ class ilObjQuestionPool extends ilObject
     public function isPluginActive($questionType): bool
     {
         if (!$this->component_repository->getComponentByTypeAndName(
-            ilComponentInfo::TYPE_MODULES,
+            ilComponentInfo::TYPE_COMPONENT,
             'TestQuestionPool'
         )->getPluginSlotById('qst')->hasPluginName($questionType)) {
             return false;
@@ -1197,7 +1192,7 @@ class ilObjQuestionPool extends ilObject
 
         return $this->component_repository
             ->getComponentByTypeAndName(
-                ilComponentInfo::TYPE_MODULES,
+                ilComponentInfo::TYPE_COMPONENT,
                 'TestQuestionPool'
             )
             ->getPluginSlotById(

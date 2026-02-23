@@ -237,7 +237,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
 
         $useProxy = new ilCheckboxInputGUI($DIC->language()->txt('conf_use_proxy'), 'use_proxy');
         $useProxy->setInfo($DIC->language()->txt('conf_use_proxy_info'));
-        if($lrsType->isBypassProxyEnabled() == false) {
+        if ($lrsType->isBypassProxyEnabled() == false) {
             $useProxy->setChecked(true);
         }
 
@@ -415,77 +415,10 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $item->setRequired(false);
         $form->addItem($item);
 
-        //        $item = new ilCheckboxInputGUI($DIC->language()->txt('only_moveon_label'), 'only_moveon');
-        //        $item->setInfo($DIC->language()->txt('only_moveon_info'));
-        //        $item->setChecked($lrsType->getOnlyMoveon());
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('achieved_label'), 'achieved');
-        //        $subitem->setInfo($DIC->language()->txt('achieved_info'));
-        //        $subitem->setChecked($lrsType->getAchieved());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('answered_label'), 'answered');
-        //        $subitem->setInfo($DIC->language()->txt('answered_info'));
-        //        $subitem->setChecked($lrsType->getAnswered());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('completed_label'), 'completed');
-        //        $subitem->setInfo($DIC->language()->txt('completed_info'));
-        //        $subitem->setChecked($lrsType->getCompleted());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('failed_label'), 'failed');
-        //        $subitem->setInfo($DIC->language()->txt('failed_info'));
-        //        $subitem->setChecked($lrsType->getFailed());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('initialized_label'), 'initialized');
-        //        $subitem->setInfo($DIC->language()->txt('initialized_info'));
-        //        $subitem->setChecked($lrsType->getInitialized());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('passed_label'), 'passed');
-        //        $subitem->setInfo($DIC->language()->txt('passed_info'));
-        //        $subitem->setChecked($lrsType->getPassed());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('progressed_label'), 'progressed');
-        //        $subitem->setInfo($DIC->language()->txt('progressed_info'));
-        //        $subitem->setChecked($lrsType->getProgressed());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('satisfied_label'), 'satisfied');
-        //        $subitem->setInfo($DIC->language()->txt('satisfied_info'));
-        //        $subitem->setChecked($lrsType->getSatisfied());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('terminated_label'), 'terminated');
-        //        $subitem->setInfo($DIC->language()->txt('terminated_info'));
-        //        $subitem->setChecked($lrsType->getTerminated());
-        //        $item->addSubItem($subitem);
-        //
-        //        $form->addItem($item);
-
-        //        $item = new ilCheckboxInputGUI($DIC->language()->txt('hide_data_label'), 'hide_data');
-        //        $item->setInfo($DIC->language()->txt('hide_data_info'));
-        //        $item->setChecked($lrsType->getHideData());
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('timestamp_label'), 'timestamp');
-        //        $subitem->setInfo($DIC->language()->txt('timestamp_info'));
-        //        $subitem->setChecked($lrsType->getTimestamp());
-        //        $item->addSubItem($subitem);
-        //
-        //        $subitem = new ilCheckboxInputGUI($DIC->language()->txt('duration_label'), 'duration');
-        //        $subitem->setInfo($DIC->language()->txt('duration_info'));
-        //        $subitem->setChecked($lrsType->getDuration());
-        //        $item->addSubItem($subitem);
-        //
-        //        $form->addItem($item);
-        //
-        //        $item = new ilCheckboxInputGUI($DIC->language()->txt('no_substatements_label'), 'no_substatements');
-        //        $item->setInfo($DIC->language()->txt('no_substatements_info'));
-        //        $item->setChecked($lrsType->getNoSubstatements());
-        //        $form->addItem($item);
+        $item = new ilCheckboxInputGUI($DIC->language()->txt('conf_enrich_data'), 'enrich_data');
+        $item->setChecked($lrsType->getEnrichData());
+        $item->setInfo($DIC->language()->txt('conf_enrich_data_info'));
+        $form->addItem($item);
 
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_delete_data'), 'delete_data');
         $options = ["0","1","2","11","12"];
@@ -583,6 +516,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $lrsType->setDuration((bool) $form->getInput("duration"));
         $lrsType->setNoSubstatements((bool) $form->getInput("no_substatements"));
         $lrsType->setDeleteData((int) $form->getInput("delete_data"));
+        $lrsType->setEnrichData((bool) $form->getInput("enrich_data"));
 
         $lrsType->setForcePrivacySettings((bool) $form->getInput("force_privacy_setting"));
         if ($lrsType->getForcePrivacySettings()) {

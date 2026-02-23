@@ -210,7 +210,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     protected function updateData(
         string $pcid,
         array $content
-    ) {
+    ): array|bool {
         $page = $this->page_gui->getPageObject();
         $table = $page->getContentObjectForPcId($pcid);
 

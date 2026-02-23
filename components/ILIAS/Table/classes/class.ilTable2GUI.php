@@ -20,7 +20,7 @@
  * @author	Alex Killing <alex.killing@gmx.de>
  * @author	Sascha Hofmann <shofmann@databay.de>
  *
- * @deprecated 10
+ * @deprecated with ILIAS 12
  */
 class ilTable2GUI extends ilTableGUI
 {
@@ -1495,8 +1495,6 @@ class ilTable2GUI extends ilTableGUI
         if (count($filter) == 0 && count($opt_filter) == 0) {
             return;
         }
-
-        ilYuiUtil::initConnection();
 
         $ccnt = 0;
 

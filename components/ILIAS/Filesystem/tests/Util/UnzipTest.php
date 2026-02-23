@@ -71,17 +71,17 @@ class UnzipTest extends TestCase
         $unzip = new Unzip($options, $stream);
 
         $this->assertFalse($unzip->hasZipReadingError());
-        $this->assertEquals($has_multiple_root_entries, $unzip->hasMultipleRootEntriesInZip());
-        $this->assertEquals($expected_amount_directories, $unzip->getAmountOfDirectories());
+        $this->assertSame($has_multiple_root_entries, $unzip->hasMultipleRootEntriesInZip());
+        $this->assertSame($expected_amount_directories, $unzip->getAmountOfDirectories());
         $this->assertEquals($expected_directories, iterator_to_array($unzip->getDirectories()));
-        $this->assertEquals($expected_amount_files, $unzip->getAmountOfFiles());
+        $this->assertSame($expected_amount_files, $unzip->getAmountOfFiles());
         $this->assertEquals($expected_files, iterator_to_array($unzip->getFiles()));
 
         /** @var Stream $one_file */
         $one_file = iterator_to_array($unzip->getFileStreams())[0];
 
         // check if is binary
-        $this->assertTrue(preg_match('~[^\x20-\x7E\t\r\n]~', $one_file->getContents()) > 0);
+        $this->assertGreaterThan(0, preg_match('~[^\x20-\x7E\t\r\n]~', $one_file->getContents()));
     }
 
     public function testWrongZip(): void
@@ -91,11 +91,11 @@ class UnzipTest extends TestCase
         $unzip = new Unzip($options, $stream);
         $this->assertTrue($unzip->hasZipReadingError());
         $this->assertFalse($unzip->hasMultipleRootEntriesInZip());
-        $this->assertEquals(0, iterator_count($unzip->getFiles()));
-        $this->assertEquals(0, iterator_count($unzip->getDirectories()));
-        $this->assertEquals(0, iterator_count($unzip->getPaths()));
-        $this->assertEquals([], iterator_to_array($unzip->getDirectories()));
-        $this->assertEquals([], iterator_to_array($unzip->getFiles()));
+        $this->assertCount(0, iterator_to_array($unzip->getFiles()));
+        $this->assertCount(0, iterator_to_array($unzip->getDirectories()));
+        $this->assertCount(0, iterator_to_array($unzip->getPaths()));
+        $this->assertSame([], iterator_to_array($unzip->getDirectories()));
+        $this->assertSame([], iterator_to_array($unzip->getFiles()));
     }
 
     /**
@@ -214,15 +214,13 @@ class UnzipTest extends TestCase
 
     // PROVIDERS
 
-    public static function getZips(): array
+    public static function getZips(): \Iterator
     {
-        return [
-            ['1_folder_mac.zip', false, 10, self::$directories_one, 15, self::$files_one],
-            ['1_folder_win.zip', false, 10, self::$directories_one, 15, self::$files_one],
-            ['3_folders_mac.zip', true, 9, self::$directories_three, 12, self::$files_three],
-            ['3_folders_win.zip', true, 9, self::$directories_three, 12, self::$files_three],
-            ['1_folder_1_file_mac.zip', true, 3, self::$directories_mixed, 5, self::$files_mixed]
-        ];
+        yield ['1_folder_mac.zip', false, 10, self::$directories_one, 15, self::$files_one];
+        yield ['1_folder_win.zip', false, 10, self::$directories_one, 15, self::$files_one];
+        yield ['3_folders_mac.zip', true, 9, self::$directories_three, 12, self::$files_three];
+        yield ['3_folders_win.zip', true, 9, self::$directories_three, 12, self::$files_three];
+        yield ['1_folder_1_file_mac.zip', true, 3, self::$directories_mixed, 5, self::$files_mixed];
     }
 
     protected static array $files_mixed = [

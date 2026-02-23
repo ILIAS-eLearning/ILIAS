@@ -257,7 +257,6 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
         $user_mock->expects($this->once())->method('getPasswordEncodingType')->willReturn('second_mockencoder');
         $user_mock->expects($this->once())->method('getPasswd')->willReturn(self::ENCODED_PASSWORD);
         $user_mock->expects($this->once())->method('resetPassword')->with(
-            $this->equalTo(self::PASSWORD),
             $this->equalTo(self::PASSWORD)
         );
 
@@ -297,7 +296,6 @@ class LocalUserPasswordTest extends ilUserBaseTestCase
         $user_mock->expects($this->once())->method('getPasswordEncodingType')->willReturn('mockencoder');
         $user_mock->expects($this->exactly(2))->method('getPasswd')->willReturn(self::ENCODED_PASSWORD);
         $user_mock->expects($this->once())->method('resetPassword')->with(
-            $this->equalTo(self::PASSWORD),
             $this->equalTo(self::PASSWORD)
         );
 

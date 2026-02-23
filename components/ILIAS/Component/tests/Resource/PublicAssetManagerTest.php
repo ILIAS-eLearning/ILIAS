@@ -20,15 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Component\Tests\Resource;
 
+use ILIAS\Component\Resource\PublicAsset;
 use PHPUnit\Framework\TestCase;
-use ILIAS\Component\Dependencies\Name;
 use ILIAS\Component\Resource as R;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class PublicAssetManagerTest extends TestCase
 {
     protected R\PublicAssetManager $manager;
 
-    protected function newPublicAsset($source, $target)
+    protected function newPublicAsset($source, $target): PublicAsset
     {
         return new class ($source, $target) implements R\PublicAsset {
             public function __construct(
@@ -74,7 +75,34 @@ class PublicAssetManagerTest extends TestCase
         };
     }
 
-    public function testTargetCanOnlyBeUsedOnce()
+    #[DataProvider('provideValidBasePathData')]
+    public function testDifferentBasePaths(string $base_path): void
+    {
+        $this->assertIsString($base_path);
+        $this->manager->buildPublicFolder($base_path, '/target');
+    }
+
+    public static function provideValidBasePathData(): \Iterator
+    {
+        yield ['/var/www/ilias'];
+        yield ['/var/www/html'];
+        yield ['/var/www/html/ilias'];
+        yield ['/srv/ilias'];
+        yield ['/srv/ilias10'];
+        yield ['/srv/ilias-10'];
+        yield ['/srv/ilias_10'];
+        yield ['/srv/ilias.10'];
+        yield ['/base'];
+        yield ['/base/path'];
+        yield ['/base-path'];
+        yield ['/base.path'];
+        yield ['/var/www/vhosts/bl-a.blubs/httpdoc'];
+        yield ['/var/www/v_hosts/bl-a.blubs/httpdoc'];
+        yield ['/var/www/v_hosts/bl-a.blubs_one/httpdoc'];
+        yield ['/srv/ilias-build/work/ilias-10.4.0'];
+    }
+
+    public function testTargetCanOnlyBeUsedOnce(): void
     {
         $this->expectException(\LogicException::class);
 
@@ -84,7 +112,7 @@ class PublicAssetManagerTest extends TestCase
         $this->manager->addAssets($asset1, $asset2);
     }
 
-    public function testTargetCanNotBeWithinOtherTarget1()
+    public function testTargetCanNotBeWithinOtherTarget1(): void
     {
         $this->expectException(\LogicException::class);
 
@@ -94,7 +122,7 @@ class PublicAssetManagerTest extends TestCase
         $this->manager->addAssets($asset1, $asset2);
     }
 
-    public function testTargetCanNotBeWithinOtherTarget2()
+    public function testTargetCanNotBeWithinOtherTarget2(): void
     {
         $this->expectException(\LogicException::class);
 
@@ -104,7 +132,7 @@ class PublicAssetManagerTest extends TestCase
         $this->manager->addAssets($asset1, $asset2);
     }
 
-    public function testBuildAssetFolderEmpty()
+    public function testBuildAssetFolderEmpty(): void
     {
         $this->manager->buildPublicFolder("/base", "/target");
         $this->assertEquals([], $this->manager->copied);
@@ -112,7 +140,7 @@ class PublicAssetManagerTest extends TestCase
         $this->assertEquals(["/target"], $this->manager->madeDir);
     }
 
-    public function testBuildAssetFolder()
+    public function testBuildAssetFolder(): void
     {
         $this->manager->addAssets(
             $this->newPublicAsset("source1", "target1"),
@@ -123,7 +151,10 @@ class PublicAssetManagerTest extends TestCase
 
         $this->assertEquals(["/public"], $this->manager->purged);
         $this->assertEquals(["/public", "/public/second"], $this->manager->madeDir);
-        $this->assertEquals([["/base/source1", "/public/target1"], ["/base/source2", "/public/second/target"]], $this->manager->copied);
+        $this->assertEquals(
+            [["/base/source1", "/public/target1"], ["/base/source2", "/public/second/target"]],
+            $this->manager->copied
+        );
     }
 
     public function testValidFolderPaths(): void
@@ -135,36 +166,34 @@ class PublicAssetManagerTest extends TestCase
         $this->manager->buildPublicFolder("/srv/demo10.ilias.de", "/public");
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidFolderPathData')]
+    #[DataProvider('provideInvalidFolderPathData')]
     public function testInvalidFolderPaths(string $ilias_base, string $target): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->manager->buildPublicFolder($ilias_base, $target);
     }
 
-    public static function provideInvalidFolderPathData(): array
+    public static function provideInvalidFolderPathData(): \Iterator
     {
-        return [
-            'base - missing leading slash' => ['base', '/public'],
-            'base - extra trailing slash' => ['/base/', '/public'],
-            'base - dot only' => ['.', '/public'],
-            'base - dash only' => ['-', '/public'],
-            'base - invalid trailing dash' => ['/base/demo-', '/public'],
-            'base - invalid trailing dot' => ['/base/demo.', '/public'],
-            'base - invalid leading dash' => ['/base/.demo', '/public'],
-            'base - invalid leading dot' => ['/base/-demo', '/public'],
-            'base - invalid dot sub directory' => ['/./test', '/public'],
-            'base - invalid dash sub directory' => ['/-/test', '/public'],
-            'target - missing leading slash' => ['/base', 'public'],
-            'target - extra trailing slash' => ['/base', '/public/'],
-            'target - dot only' => ['/base', '.'],
-            'target - dash only' => ['/base', '-'],
-            'target - invalid trailing dash' => ['/base', '/public.'],
-            'target - invalid trailing dot' => ['/base', '/public-'],
-            'target - invalid leading dash' => ['/base', '/.public'],
-            'target - invalid leading dot' => ['/base', '/-public'],
-            'target - invalid dot sub directory' => ['/base', '/./public'],
-            'target - invalid dash sub directory' => ['/base', '/-/public'],
-        ];
+        yield 'base - missing leading slash' => ['base', '/public'];
+        yield 'base - extra trailing slash' => ['/base/', '/public'];
+        yield 'base - dot only' => ['.', '/public'];
+        yield 'base - dash only' => ['-', '/public'];
+        yield 'base - invalid trailing dash' => ['/base/demo-', '/public'];
+        yield 'base - invalid trailing dot' => ['/base/demo.', '/public'];
+        yield 'base - invalid leading dash' => ['/base/.demo', '/public'];
+        yield 'base - invalid leading dot' => ['/base/-demo', '/public'];
+        yield 'base - invalid dot sub directory' => ['/./test', '/public'];
+        yield 'base - invalid dash sub directory' => ['/-/test', '/public'];
+        yield 'target - missing leading slash' => ['/base', 'public'];
+        yield 'target - extra trailing slash' => ['/base', '/public/'];
+        yield 'target - dot only' => ['/base', '.'];
+        yield 'target - dash only' => ['/base', '-'];
+        yield 'target - invalid trailing dash' => ['/base', '/public.'];
+        yield 'target - invalid trailing dot' => ['/base', '/public-'];
+        yield 'target - invalid leading dash' => ['/base', '/.public'];
+        yield 'target - invalid leading dot' => ['/base', '/-public'];
+        yield 'target - invalid dot sub directory' => ['/base', '/./public'];
+        yield 'target - invalid dash sub directory' => ['/base', '/-/public'];
     }
 }

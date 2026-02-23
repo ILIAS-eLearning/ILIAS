@@ -36,5 +36,23 @@ class LTIConsumer implements Component\Component
             new \ilLTIConsumerSetupAgent(
                 $pull[\ILIAS\Refinery\Factory::class]
             );
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltiauth.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltitoken.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "lticerts.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltiregistration.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltiregend.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltiregstart.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "lticonfig.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltiservices.php");
+        $contribute[Component\Resource\PublicAsset::class] = fn() =>
+        new Component\Resource\Endpoint($this, "ltiresult.php");
     }
 }

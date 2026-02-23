@@ -146,8 +146,8 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         ) {
             /** @var ilObjUser $user */
             $user = $this->objectHelper->getInstanceByObjId($userId);
-            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
-            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
+            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate, $user);
+            $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate, $user);
         }
 
         return $placeholders;

@@ -17,13 +17,14 @@
  *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
+use ILIAS\User\Profile\PublicProfileGUI;
 
 /**
  * ACL access handler GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
- * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilSingleUserShareGUI
+ * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ILIAS\User\Profile\PublicProfileGUI, ilSingleUserShareGUI
  */
 class ilWorkspaceAccessGUI
 {
@@ -40,21 +41,15 @@ class ilWorkspaceAccessGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected int $node_id;
-    /**
-     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
-     */
-    protected $access_handler;
+    protected ilPortfolioAccessHandler|ilWorkspaceAccessHandler $access_handler;
     protected string $footer = "";
 
     protected string $blocking_message = "";
     protected StandardGUIRequest $std_request;
 
-    /**
-     * @param ilPortfolioAccessHandler|ilWorkspaceAccessHandler $a_access_handler
-     */
     public function __construct(
         int $a_node_id,
-        $a_access_handler,
+        ilPortfolioAccessHandler|ilWorkspaceAccessHandler $a_access_handler,
         bool $a_is_portfolio = false,
         string $a_footer = ""
     ) {
@@ -148,14 +143,14 @@ class ilWorkspaceAccessGUI
                 $this->setObjectTitle();
                 break;
 
-            case "ilpublicuserprofilegui":
+            case strtolower(PublicProfileGUI::class):
                 $ilTabs->clearTargets();
                 $ilTabs->setBackTarget(
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "share")
                 );
 
-                $prof = new ilPublicUserProfileGUI(
+                $prof = new PublicProfileGUI(
                     $this->std_request->getUser()
                 );
                 $prof->setBackUrl($this->ctrl->getLinkTarget($this, "share"));
@@ -185,10 +180,7 @@ class ilWorkspaceAccessGUI
         $tpl->setTitle(ilObject::_lookupTitle($obj_id));
     }
 
-    /**
-     * @return ilPortfolioAccessHandler|ilWorkspaceAccessHandler
-     */
-    protected function getAccessHandler()
+    protected function getAccessHandler(): ilPortfolioAccessHandler|ilWorkspaceAccessHandler
     {
         return $this->access_handler;
     }

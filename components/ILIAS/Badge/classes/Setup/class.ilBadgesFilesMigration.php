@@ -106,6 +106,12 @@ class ilBadgesFilesMigration implements Migration
                 ],
                 ['id' => [ilDBConstants::T_INTEGER, $id]]
             );
+        } else {
+            $this->inform(
+                'Cannot migrate badge with id ' . $id
+                . ' (table: ' . self::TABLE_NAME . ') because no image is set.',
+                true
+            );
         }
     }
 

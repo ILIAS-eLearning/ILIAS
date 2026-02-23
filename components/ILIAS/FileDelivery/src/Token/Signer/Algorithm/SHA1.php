@@ -29,4 +29,9 @@ class SHA1 implements Algorithm
     {
         return 'sha1';
     }
+
+    public function after(string $signature): string
+    {
+        return $signature;
+    }
 }

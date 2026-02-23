@@ -201,7 +201,10 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
     {
         $talk = new ilObjEmployeeTalk($refId);
         $user = $this->getCurrentUsersId();
-        if ($user === $talk->getOwner()) {
+        if (
+            $user === $talk->getOwner() &&
+            $this->container->access()->checkAccess('read', '', ilObjTalkTemplateAdministration::getRootRefId())
+        ) {
             return true;
         }
         // global admins can delete

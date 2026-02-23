@@ -77,7 +77,9 @@ class Select extends FormInput implements C\Input\Field\Select
         return $this->refinery->logical()->sequential([
             $this->refinery->to()->string(),
             $this->refinery->string()->hasMinLength(1)
-        ]);
+        ])->withProblemBuilder(function ($txt) {
+            return $txt('required');
+        });
     }
 
     /**

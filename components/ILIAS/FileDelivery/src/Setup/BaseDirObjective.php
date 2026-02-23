@@ -23,12 +23,11 @@ namespace ILIAS\FileDelivery\Setup;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Artifact;
 use ILIAS\Setup\Artifact\ArrayArtifact;
-use ILIAS\Setup\Artifact\BuildArtifactObjective;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class BaseDirObjective extends BuildArtifactObjective
+class BaseDirObjective extends BuildStaticConfigStoredObjective
 {
     public const BASE_DIR = './src/FileDelivery/artifacts/base_dir.php';
 

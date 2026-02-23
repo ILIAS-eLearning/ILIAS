@@ -45,12 +45,33 @@ class ilTestParticipantAccessFilterFactory
     public function getScoreParticipantsUserFilter(int $ref_id): Closure
     {
         return function (array $user_ids) use ($ref_id): array {
-            return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'write',
+            if (
+                $this->access->checkAccess('write', '', $ref_id, 'tst')
+                || $this->access->checkAccess('score_anon', '', $ref_id, 'tst')
+            ) {
+                return $user_ids;
+            }
+            return $this->access->filterUserIdsByPositionOfCurrentUser(
                 ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
                 $ref_id,
                 $user_ids
             );
+        };
+    }
+    public function getAnonOnlyParticipantsUserFilter(int $ref_id): Closure
+    {
+        return function (array $user_ids) use ($ref_id): array {
+            //none, if write.
+            if ($this->access->checkAccess('write', '', $ref_id, 'tst')) {
+                return [];
+            }
+            //orgu permission is not anon
+            $by_orgu = $this->access->filterUserIdsByPositionOfCurrentUser(
+                ilOrgUnitOperation::OP_SCORE_PARTICIPANTS,
+                $ref_id,
+                $user_ids
+            );
+            return array_diff($user_ids, $by_orgu);
         };
     }
 

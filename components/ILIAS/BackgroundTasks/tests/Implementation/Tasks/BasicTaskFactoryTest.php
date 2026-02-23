@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -40,7 +41,7 @@ class BasicTaskFactoryTest extends TestCase
         $injector = new Injector($dic, new BaseDependencyMap());
         $taskFactory = new BasicTaskFactory($injector);
         $plusJob = $taskFactory->createTask(PlusJob::class, [1, 2]);
-        $this->assertTrue($plusJob instanceof PlusJob);
+        $this->assertInstanceOf(\ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob::class, $plusJob);
         $plusJobInput = $plusJob->getInput();
         $one = new IntegerValue();
         $one->setValue(1);
@@ -51,7 +52,7 @@ class BasicTaskFactoryTest extends TestCase
         $b = new IntegerValue();
         $b->setValue(2);
         $plusJob = $taskFactory->createTask(PlusJob::class, [$a, $b]);
-        $this->assertTrue($plusJob instanceof PlusJob);
+        $this->assertInstanceOf(\ILIAS\BackgroundTasks\Implementation\Tasks\PlusJob::class, $plusJob);
         $plusJobInput = $plusJob->getInput();
         $this->assertTrue($plusJobInput[0]->equals($one));
     }

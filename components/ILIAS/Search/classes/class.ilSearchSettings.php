@@ -34,7 +34,6 @@ class ilSearchSettings
     protected int $default_operator = self::OPERATOR_AND;
     protected int $fragmentSize = 30;
     protected int $fragmentCount = 3;
-    protected int $numSubitems = 5;
     protected ?ilDateTime $last_index_date = null;
     protected bool $lucene_item_filter_enabled = false;
     protected array $lucene_item_filter = array();
@@ -126,7 +125,7 @@ class ilSearchSettings
 
     public function getEnabledLuceneMimeFilterDefinitions(): array
     {
-        if (!$this->isLuceneItemFilterEnabled()) {
+        if (!$this->isLuceneMimeFilterEnabled()) {
             return array();
         }
 
@@ -231,16 +230,6 @@ class ilSearchSettings
     public function getFragmentCount(): int
     {
         return $this->fragmentCount;
-    }
-
-    public function setMaxSubitems(int $a_max): void
-    {
-        $this->numSubitems = $a_max;
-    }
-
-    public function getMaxSubitems(): int
-    {
-        return $this->numSubitems;
     }
 
     public function getLastIndexTime(): ilDateTime
@@ -368,7 +357,6 @@ class ilSearchSettings
         $this->setting->set('lucene_default_operator', (string) $this->getDefaultOperator());
         $this->setting->set('lucene_fragment_size', (string) $this->getFragmentSize());
         $this->setting->set('lucene_fragment_count', (string) $this->getFragmentCount());
-        $this->setting->set('lucene_max_subitems', (string) $this->getMaxSubitems());
         $this->setting->set('lucene_last_index_time', (string) $this->getLastIndexTime()->get(IL_CAL_UNIX));
         $this->setting->set('auto_complete_length', (string) $this->getAutoCompleteLength());
         $this->setting->set('lucene_item_filter_enabled', (string) $this->isLuceneItemFilterEnabled());
@@ -390,7 +378,6 @@ class ilSearchSettings
         $this->setDefaultOperator((int) $this->setting->get('lucene_default_operator', (string) self::OPERATOR_AND));
         $this->setFragmentSize((int) $this->setting->get('lucene_fragment_size', "50"));
         $this->setFragmentCount((int) $this->setting->get('lucene_fragment_count', "3"));
-        $this->setMaxSubitems((int) $this->setting->get('lucene_max_subitems', "5"));
         if ($time = $this->setting->get('lucene_last_index_time', '0')) {
             $this->setLastIndexTime(new ilDateTime($time, IL_CAL_UNIX));
         } else {

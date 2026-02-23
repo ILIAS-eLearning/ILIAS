@@ -22,6 +22,7 @@ declare(strict_types=1);
  * This class represents a text property in a property form.
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem, ilMultiValuesItem
 {
@@ -371,6 +372,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
             $this->global_tpl->addOnLoadCode(
                 "il.LegacyForm.autocomplete.init(document.querySelector(`{$sel_auto}`), {$config});"
             );
+            if ($this->multi) {
+                $this->global_tpl->addOnLoadCode(
+                    "ilMultiFormValues.addAutocomplete(`" . $this->getFieldId() . "`, " . $config . ");"
+                );
+            }
         }
 
         if ($a_mode == "toolbar") {

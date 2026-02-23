@@ -48,7 +48,7 @@ class ilForumAuthorInformationCache
         if ($usr_ids_to_request !== []) {
             $in = $ilDB->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
             $query = "
-				SELECT ud.usr_id, od.create_date, login, firstname, lastname, ud.title, gender, pprof.value public_profile, pgen.value public_gender, pup.value public_upload
+				SELECT ud.usr_id, od.create_date, login, firstname, lastname, ud.title, gender, pprof.value public_profile, pgen.value public_gender, pup.value public_avatar
 				FROM usr_data ud
 				INNER JOIN object_data od ON od.obj_id = ud.usr_id
 				LEFT JOIN usr_pref pprof ON pprof.usr_id = ud.usr_id AND pprof.keyword = %s
@@ -60,7 +60,7 @@ class ilForumAuthorInformationCache
             $res = $ilDB->queryF(
                 $query,
                 ['text', 'text', 'text'],
-                ['public_profile', 'public_gender', 'public_upload']
+                ['public_profile', 'public_gender', 'public_avatar']
             );
 
             while ($row = $ilDB->fetchAssoc($res)) {
@@ -73,7 +73,7 @@ class ilForumAuthorInformationCache
                 $user->setLastname($row['lastname'] ?? '');
                 $user->setPref('public_profile', $row['public_profile']);
                 $user->setPref('public_gender', $row['public_gender']);
-                $user->setPref('public_upload', $row['public_upload']);
+                $user->setPref('public_avatar', $row['public_avatar']);
 
                 self::$user_instances[(int) $row['usr_id']] = $user;
             }

@@ -28,6 +28,11 @@ use Closure;
 class DocumentModal
 {
     /**
+     * @var Component[]
+     */
+    private array $components = [];
+
+    /**
      * @param Closure(DocumentContent): Component $content_as_component
      */
     public function __construct(
@@ -52,6 +57,18 @@ class DocumentModal
             $modal->getShowSignal()
         );
 
-        return [$link, $modal];
+        $this->components[] = $modal;
+
+        return [$link];
+    }
+
+    /**
+     * @return Component[]
+     */
+    public function popComponents(): array
+    {
+        $c = $this->components;
+        $this->components = [];
+        return $c;
     }
 }

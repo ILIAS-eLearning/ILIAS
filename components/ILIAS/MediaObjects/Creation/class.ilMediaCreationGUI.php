@@ -17,7 +17,6 @@
  *********************************************************************/
 
 use ILIAS\MediaObjects\Creation\CreationGUIRequest;
-
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\MediaObjects\InternalGUIService;
@@ -171,7 +170,7 @@ class ilMediaCreationGUI
     {
         $mimes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types)) {
-            $mimes = iterator_to_array($this->type_manager->getAllowedMimeTypes());
+            $mimes = iterator_to_array($this->type_manager->getAllowedMimeTypes($local_only));
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
             $mimes = array_merge($mimes, iterator_to_array($this->type_manager->getAllowedVideoMimeTypes($local_only)));
@@ -262,7 +261,7 @@ class ilMediaCreationGUI
             $mep_hash = uniqid();
             $this->ctrl->setParameter($this, "mep_hash", $mep_hash);
             $this->bulk_upload_form = $this->gui
-                ->form(self::class, 'performBulkUpload')
+                ->form([self::class], 'performBulkUpload')
                 ->section("props", $this->lng->txt('mob_upload_file'))
                 ->file(
                     "media_files",
@@ -288,7 +287,7 @@ class ilMediaCreationGUI
         //
         $ti = new \ilTextInputGUI($lng->txt("mob_url"), "url");
         $info = $lng->txt("mob_url_info1") . " " . implode(", ", $this->getSuffixes()) . ".";
-        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
+        if (in_array(self::TYPE_VIDEO, $this->accept_types) || in_array(self::TYPE_ALL, $this->accept_types)) {
             $info .= " " . $lng->txt("mob_url_info_video");
         }
         $ti->setInfo($info);

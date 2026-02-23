@@ -20,12 +20,14 @@ declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\GUI\I18n\MultiLanguage\TranslatableItem;
+use ILIAS\UI\Component\Legacy\Content;
 
 /**
  * Interface ilMMItemFacadeInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilMMItemFacadeInterface
+interface ilMMItemFacadeInterface extends TranslatableItem
 {
     //
     // Access to related objects
@@ -42,119 +44,53 @@ interface ilMMItemFacadeInterface
     //
     // Presentation Methods
     //
-
-    /**
-     * @return string
-     */
     public function getTypeForPresentation(): string;
 
-    /**
-     * @return string
-     */
     public function getProviderNameForPresentation(): string;
 
-    /**
-     * @return string
-     */
-    public function getStatus(): string;
+    public function getStatus(): ?Content;
 
 
     //
     // Getters
     //
-    /**
-     * @return bool
-     */
     public function isAvailable(): bool;
 
-    /**
-     * @return bool
-     */
     public function isActivated(): bool;
+    public function canBeDeactivated(): bool;
 
-    /**
-     * @return bool
-     */
     public function isEditable(): bool;
 
-    /**
-     * @return bool
-     */
     public function isDeletable(): bool;
 
-    /**
-     * @return bool
-     */
     public function isAlwaysAvailable(): bool;
 
-    /**
-     * @return string
-     */
     public function getDefaultTitle(): string;
 
-    /**
-     * @return string
-     */
     public function getId(): string;
 
-    /**
-     * @return int
-     */
     public function getAmountOfChildren(): int;
 
-    /**
-     * @return bool
-     */
     public function hasStorage(): bool;
 
-    /**
-     * @return bool
-     */
     public function supportsRoleBasedVisibility(): bool;
 
-    /**
-     * @return bool
-     */
     public function hasRoleBasedVisibility(): bool;
 
-    /**
-     * @return array
-     */
     public function getGlobalRoleIDs(): array;
 
-    /**
-     * @param array $global_role_ids
-     */
     public function setGlobalRoleIDs(array $global_role_ids): void;
 
-    /**
-     * @param bool $role_based_visibility
-     */
     public function setRoleBasedVisibility(bool $role_based_visibility): void;
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool;
 
-    /**
-     * @return bool
-     */
     public function isCustom(): bool;
 
-    /**
-     * @return bool
-     */
     public function supportsCustomIcon(): bool;
 
-    /**
-     * @return bool
-     */
     public function isCustomType(): bool;
 
-    /**
-     * @return string
-     */
     public function getParentIdentificationString(): string;
 
     /**
@@ -162,19 +98,12 @@ interface ilMMItemFacadeInterface
      */
     public function getType(): string;
 
-    /**
-     * @return bool
-     */
     public function isTopItem(): bool;
 
-    /**
-     * @return bool
-     */
+    public function canHaveChildren(): bool;
+
     public function isChild(): bool;
 
-    /**
-     * @return bool
-     */
     public function isInLostItem(): bool;
 
     public function getIconID(): ?string;
@@ -183,40 +112,18 @@ interface ilMMItemFacadeInterface
     //
     // Setters
     //
-    /**
-     * @param string $action
-     */
     public function setAction(string $action): void;
 
-    /**
-     * @param bool $status
-     */
     public function setActiveStatus(bool $status): void;
 
-    /**
-     * @param string $default_title
-     */
     public function setDefaultTitle(string $default_title): void;
 
-    /**
-     * @param string $icon_id
-     * @return void
-     */
     public function setIconID(string $icon_id): void;
 
-    /**
-     * @param int $position
-     */
     public function setPosition(int $position): void;
 
-    /**
-     * @param string $parent
-     */
     public function setParent(string $parent): void;
 
-    /**
-     * @param string $type
-     */
     public function setType(string $type): void;
 
     /**
@@ -224,26 +131,14 @@ interface ilMMItemFacadeInterface
      */
     public function setIsTopItm(bool $top_item): void;
 
-    /**
-     * @return bool
-     */
     public function isInterchangeable(): bool;
 
     //
     // CRUD
     //
-    /**
-     * @return void
-     */
     public function update(): void;
 
-    /**
-     * @return void
-     */
     public function create(): void;
 
-    /**
-     * @return void
-     */
     public function delete(): void;
 }

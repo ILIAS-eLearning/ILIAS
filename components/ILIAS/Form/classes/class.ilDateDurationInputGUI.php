@@ -22,6 +22,7 @@ declare(strict_types=1);
  * input GUI for a time span (start and end date)
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @deprecated 12 This component will be removed with ILIAS 12
  */
 class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {

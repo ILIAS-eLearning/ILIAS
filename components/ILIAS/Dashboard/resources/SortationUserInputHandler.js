@@ -20,7 +20,7 @@ il.Dashboard = il.Dashboard || {};
     function updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput) {
         selectionInput.querySelectorAll('option').forEach(function (element) {
             if (element.value !== '') {
-                const checkbox = checkboxInput.querySelector('input[value="' + element.value + '"]');
+                const checkbox = checkboxInput('input[data-value="' + element.value + '"]')[0];
                 if (checkbox.checked === false) {
                     element.setAttribute('disabled', 'disabled');
                 } else {
@@ -34,7 +34,7 @@ il.Dashboard = il.Dashboard || {};
 
     function switchBackToDefaultIfEnabled(selectionInput, checkboxInput) {
         selectionInput.querySelectorAll('option').forEach(function (element) {
-            const checkboxOption = checkboxInput.querySelector('input[value="' + element.value + '"]');
+            const checkboxOption = checkboxInput('input[data-value="' + element.value + '"]')[0];
             if (element.hasAttribute('default') && checkboxOption && checkboxOption.checked) {
                 selectionInput.querySelectorAll('option').forEach(function (option) {
                     option.removeAttribute('selected');
@@ -55,14 +55,21 @@ il.Dashboard = il.Dashboard || {};
     }
 
     function ensureLastOptionNotDeselectable(checkboxInput) {
-        const checkedCheckbox = checkboxInput.querySelectorAll('input[type="checkbox"]:checked');
+        const checkedCheckbox = checkboxInput('input[type="checkbox"]:checked');
         if (checkedCheckbox.length === 1) {
             checkedCheckbox[0].setAttribute('disabled', 'disabled');
         } else {
-            checkboxInput.querySelectorAll('input[type="checkbox"]:disabled').forEach(function (element) {
+            checkboxInput('input[type="checkbox"]:disabled').forEach(function (element) {
                 element.removeAttribute('disabled');
             });
         }
+    }
+
+    function selectFrom(nodeList) {
+        const list = Array.from(nodeList);
+        return (selector) => selector ?
+            list.flatMap(n => Array.from(n.querySelectorAll(selector))) :
+            Array.from(list);
     }
 
     /**
@@ -70,17 +77,17 @@ il.Dashboard = il.Dashboard || {};
      */
     return function(view) {
         const selectionInput = document.querySelector('[data-select="sorting' + view + '"]');
-        const checkboxInput = document.querySelector('[data-checkbox="activeSorting' + view + '"]');
+        const checkboxInput = selectFrom(document.querySelectorAll('[data-checkbox="activeSorting' + view + '"]'));
         const selectedOption = selectionInput.querySelector('option[selected="selected"]');
         if (selectedOption) {
             selectedOption.setAttribute('default', 'default');
         }
         updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
         ensureLastOptionNotDeselectable(checkboxInput);
-        checkboxInput.addEventListener('change', function () {
-            updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
-            ensureLastOptionNotDeselectable(checkboxInput);
-        });
+        checkboxInput('input').forEach(n => n.addEventListener('change', () => {
+          updateSelectionInputWithActivatedOptions(selectionInput, checkboxInput);
+          ensureLastOptionNotDeselectable(checkboxInput);
+        }));
     };
 }();
 

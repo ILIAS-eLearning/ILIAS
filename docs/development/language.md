@@ -17,11 +17,23 @@ presentation of language entries because the `language_module_ID` is not taken i
 language entries into the output. The uniqueness of the spelling must be guaranteed regardless of upper and lower case.
 Having a language entry `common#:#login#:#…` and  `common#:#Login#:#…` would violate the rule.
 
-3. New components MUST use the `object_ID` for the `language_module_ID` as defined in the related module.xml or 
-service.xml. The `language_module_ID` MUST also be used as a prefix for the variable names in this language module, 
+3. The following naming conventions must be respected when introducing new language variables.
+3.1. New components MUST use the `object_ID` for the `language_module_ID` as defined in the related module.xml or 
+service.xml.
+3.2. The `language_module_ID` MUST also be used as a prefix for the variable names in this language module, 
 e.g.:
 
         frm#:#frm_new_posting#:#New Posting
+
+3.3. Language variables used as alt texts MUST be easily identifiable by an added `_alt` at the end of the `variable_ID`.
+e.g. for an alt text that belongs to an expand glyph: 
+
+        common#:#expand_reload_alt#:#... 
+
+3.4. Language variables used as bylines for a setting option MUST have `_info` at the end of the `variable_ID`.
+e.g. for a byline to the setting `#default_auth_mode#`:
+
+        common#:#default_auth_mode_info#:#Please …
 
 4. Each language file contains one block with language_module_ID `common`. Entries of this block start with 
 `common#:#`. The language_module_ID `common` MUST only be used for language entries that are used by various 

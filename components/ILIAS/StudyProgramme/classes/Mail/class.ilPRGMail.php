@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\User\Settings\Settings as UserSettings;
+
 /**
  * Send mails to users (usually triggered by cron)
  */
@@ -32,6 +34,7 @@ class ilPRGMail
 
     public function __construct(
         protected ilComponentLogger $log,
+        protected readonly UserSettings $user_settings,
         ilLanguage $lng
     ) {
         $lng->loadLanguageModule(self::LANGMODULE);
@@ -51,12 +54,12 @@ class ilPRGMail
 
     protected function getUserLanguage(int $usr_id): string
     {
-        return \ilObjUser::_getPreferences($usr_id)['language'];
+        return $this->user_settings->getSettingValueFor($usr_id, 'language');
     }
 
     protected function txt(string $identifier, string $lang): string
     {
-        if(!array_key_exists($lang, $this->languages)) {
+        if (!array_key_exists($lang, $this->languages)) {
             $lng = new \ilLanguage($lang);
             $lng->loadLanguageModule(self::LANGMODULE);
             $lng->loadLanguageModule("mail");

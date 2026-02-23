@@ -100,7 +100,7 @@ class PlayerAudioTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="il-audio-container">
-    <audio class="il-audio-player" id="id_1" src="/foo" preload="metadata"></audio>
+    <audio controls="controls" class="il-audio-player" id="" src="/foo" preload="metadata"></audio>
 </div>
 EOT;
         $this->assertHTMLEquals(

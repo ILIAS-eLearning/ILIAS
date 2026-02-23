@@ -29,4 +29,5 @@ enum MailFolderType: string
     case SENT = 'sent';
     case LOCAL = 'local';
     case USER = 'user_folder';
+    case OUTBOX = 'outbox';
 }

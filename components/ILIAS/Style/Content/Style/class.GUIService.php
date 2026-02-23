@@ -36,13 +36,4 @@ class GUIService
         protected InternalGUIService $gui
     ) {
     }
-
-    public function importModal(): ImportModal
-    {
-        return new ImportModal(
-            $this->domain,
-            $this->gui
-        );
-    }
-
 }

@@ -26,18 +26,12 @@ class ilSurveyEvaluationResults
     protected SurveyQuestion $question;
     protected int $users_answered = 0;
     protected int $users_skipped = 0;
-    /**
-     * @var array|string
-     */
-    protected $mode_value;
+    protected array|string|null $mode_value = null;
     protected int $mode_nr_of_selections = 0;
     protected float $arithmetic_mean = 0;
-    /**
-     * @var string|array
-     */
-    protected $median;
-    protected array $variables = array();
-    protected array $answers = array();
+    protected string|array|null $median = null;
+    protected array $variables = [];
+    protected array $answers = [];
 
     public function __construct(
         SurveyQuestion $a_question
@@ -89,7 +83,7 @@ class ilSurveyEvaluationResults
     /**
      * @return array|string
      */
-    public function getModeValue()
+    public function getModeValue(): array|string|null
     {
         return $this->mode_value;
     }
@@ -132,7 +126,7 @@ class ilSurveyEvaluationResults
     /**
      * @param string|array $a_value
      */
-    public function setMedian($a_value): void
+    public function setMedian(string|array $a_value): void
     {
         $this->median = is_array($a_value)
             ? $a_value
@@ -142,7 +136,7 @@ class ilSurveyEvaluationResults
     /**
      * @return array|string
      */
-    public function getMedian()
+    public function getMedian(): string|array
     {
         return $this->median;
     }

@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\Glossary\Settings\SettingsGUI;
+use ILIAS\Glossary\Media\TermPageRetrieval;
 
 /**
  * GUI class for ilGlossary
@@ -27,6 +28,7 @@ use ILIAS\Glossary\Settings\SettingsGUI;
  * @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ilTermDefinitionBulkCreationGUI
  * @ilCtrl_Calls ilObjGlossaryGUI: ILIAS\Glossary\Settings\SettingsGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilMediaObjectOverviewGUI
  */
 class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\ModifierGUIInterface
 {
@@ -286,6 +288,22 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 $this->ctrl->forwardCommand($this->term_def_bulk_gui);
                 break;
 
+            case strtolower(ilMediaObjectOverviewGUI::class):
+                if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId()) &&
+                    !$this->rbacsystem->checkAccess('edit_content', $this->object->getRefId())) {
+                    throw new ilGlossaryException("No permission.");
+                }
+
+                $this->getTemplate();
+                $this->setTabs();
+                $this->tabs->activateTab("media");
+                $this->setLocator();
+
+                $retrieval = new TermPageRetrieval($this->getGlossary(), $this->ctrl);
+                $gui = new ilMediaObjectOverviewGUI($retrieval);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             case strtolower(SettingsGUI::class):
                 $this->checkPermission("write");
                 $this->getTemplate();
@@ -305,7 +323,7 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 break;
 
             default:
-                if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId()) &&
+                if (!$this->getCreationMode() && !$this->rbacsystem->checkAccess('write', $this->object->getRefId()) &&
                     !$this->rbacsystem->checkAccess('edit_content', $this->object->getRefId())) {
                     throw new ilGlossaryException("No permission.");
                 }
@@ -671,8 +689,13 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
             }
             $glossary = new ilObjGlossary($glo_id, false);
             $glo_ref_id = current(ilObject::_getAllReferences($glossary->getId()));
+            $props = [];
+            if (!ilObjGlossaryAccess::_lookupOnline($glo_id)) {
+                $props[$this->lng->txt("status")] =
+                    $this->lng->txt("offline");
+            }
             $glo_link = $this->ui_fac->link()->standard($glossary->getTitle(), ilLink::_getLink($glo_ref_id));
-            $glo_item = $this->ui_fac->item()->standard($glo_link);
+            $glo_item = $this->ui_fac->item()->standard($glo_link)->withProperties($props);
             $glo_item = $glo_item->withDescription($glossary->getDescription());
             $form_action = $this->ctrl->getFormActionByClass(ilObjGlossaryGUI::class, "removeGlossaryFromCollection");
             $delete_modal = $this->ui_fac->modal()->interruptive(
@@ -874,6 +897,14 @@ class ilObjGlossaryGUI extends ilObjectGUI implements \ILIAS\Taxonomy\Settings\M
                 "content",
                 $this->lng->txt("content"),
                 $this->ctrl->getLinkTarget($this, "listTerms")
+            );
+
+            // media
+            $this->lng->loadLanguageModule('mob');
+            $this->tabs_gui->addTab(
+                "media",
+                $this->lng->txt("mob_media"),
+                $this->ctrl->getLinkTargetByClass(ilMediaObjectOverviewGUI::class, "show")
             );
         }
 

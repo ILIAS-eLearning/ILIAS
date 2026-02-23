@@ -108,7 +108,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $html = $r->render($video);
         $expected = <<<EOT
 <div class="il-video-container">
-    <video class="il-video-player" id="id_1" src="/foo" style="max-width: 100%;" preload="metadata" >
+    <video controls="controls" class="il-video-player" id="" src="/foo" preload="metadata" >
     </video>
 </div>
 EOT;
@@ -126,10 +126,9 @@ EOT;
         $video = $f->video("/foo")->withPoster("bar.jpg");
 
         $html = $r->render($video);
-
         $expected = <<<EOT
 <div class="il-video-container">
-    <video class="il-video-player" id="id_1" src="/foo" style="max-width: 100%;" preload="metadata" poster="bar.jpg">
+    <video controls="controls" class="il-video-player" id="" src="/foo" preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="background-image:url('bar.jpg')">
     </video>
 </div>
 EOT;
@@ -149,9 +148,49 @@ EOT;
         $html = $r->render($video);
         $expected = <<<EOT
 <div class="il-video-container">
-    <video class="il-video-player" id="id_1" src="/foo" style="max-width: 100%;" preload="metadata" >
+    <video controls="controls" class="il-video-player" id="" src="/foo" preload="metadata" >
         <track kind="subtitles" src="subtitles.vtt" srclang="en" />
     </video>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderYoutube(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $video = $f->video("https://www.youtube.com/embed/YSN2osYbshQ");
+
+        $html = $r->render($video);
+
+        $expected = <<<EOT
+<div class="il-video-container">
+    <iframe id="" src="https://www.youtube.com/embed/YSN2osYbshQ" allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderVimeo(): void
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $video = $f->video("https://player.vimeo.com/video/669475821");
+
+        $html = $r->render($video);
+
+        $expected = <<<EOT
+<div class="il-video-container">
+    <iframe id="" src="https://player.vimeo.com/video/669475821" allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
 EOT;
         $this->assertHTMLEquals(

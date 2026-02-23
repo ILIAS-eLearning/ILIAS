@@ -257,7 +257,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->addItem($header);
 
         $orderingElementInput = $this->object->buildOrderingElementInputGui();
-        $orderingElementInput->setStylingDisabled($this->isRenderPurposePrintPdf());
         $this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 
         $list = $this->object->getOrderingElementList();
@@ -323,6 +322,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->writeQuestionGenericPostData();
         $this->writeAnswerSpecificPostData($form);
         $this->writeQuestionSpecificPostData($form);
+
+        $this->resetSavedPreviewSession();
 
         return 0; // return 0 = all fine, was saved either forced or validated
     }
@@ -395,7 +396,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->addItem($header);
 
         $orderingElementInput = $this->object->buildNestedOrderingElementInputGui();
-        $orderingElementInput->setStylingDisabled($this->isRenderPurposePrintPdf());
 
         $this->object->initOrderingElementAuthoringProperties($orderingElementInput);
 

@@ -96,8 +96,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $this->tpl = new ilTemplate('tpl.week_view.html', true, true, 'components/ILIAS/Calendar');
 
-        ilYuiUtil::initDragDrop();
-
         $navigation = new ilCalendarHeaderNavigationGUI($this, $this->seed, ilDateTime::WEEK);
         $this->tpl->setVariable('NAVIGATION', $navigation->getHTML());
         $this->setUpCalendar();

@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
-
-
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Context;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -126,8 +126,10 @@ class ilMemberAgreementGUI
         global $DIC;
 
         $lng = $DIC->language();
+        $profile = $DIC['user']->getProfile();
 
-        $fields_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($a_obj_id));
+        $type = ilObject::_lookupType($a_obj_id);
+        $fields_info = ilExportFieldsInfo::_getInstanceByType($type);
 
         $fields = new ilCustomInputGUI($lng->txt($a_type . '_user_agreement'), '');
         $tpl = new ilTemplate('tpl.agreement_form.html', true, true, 'components/ILIAS/Membership');
@@ -140,9 +142,9 @@ class ilMemberAgreementGUI
 
         // #17609 - not part of ilExportFieldsInfo::getExportableFields()
         // see ilExportFieldsInfo::getSelectableFieldsInfo()
-        foreach (ilUserDefinedFields::_getInstance()->getExportableFields($a_obj_id) as $field) {
+        foreach ($profile->getVisibleUserDefinedFields(Context::buildFromObjectType($type)) as $field) {
             $tpl->setCurrentBlock('field_item');
-            $tpl->setVariable('FIELD_NAME', $field['field_name']);
+            $tpl->setVariable('FIELD_NAME', $field->getLabel($lng));
             $tpl->parseCurrentBlock();
         }
         $fields->setHtml($tpl->get());

@@ -124,6 +124,7 @@ class ilDclDetailedViewGUI
 
     public function executeCommand(): void
     {
+        $this->ctrl->setParameter($this, 'table_id', $this->table->getId());
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
@@ -131,7 +132,7 @@ class ilDclDetailedViewGUI
             return;
         }
 
-        $cmd = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd('renderRecord');
         $cmdClass = $this->ctrl->getCmdClass();
         switch (strtolower($cmdClass)) {
             case 'ilcommentgui':

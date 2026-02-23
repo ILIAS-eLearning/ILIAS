@@ -176,6 +176,13 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         foreach ($this->getZipPaths() as $path) {
             if (str_ends_with($path, "/") || str_ends_with($path, "\\")) {
                 $directories[] = $path;
+                continue;
+            }
+            // add all parent directories of files, too. depending on the OS used to create the zip,
+            // these directories may not be present as explicit directory entries in the zip
+            $dir_name = dirname($path) . '/';
+            if ($dir_name !== './' && $dir_name !== '/' && !in_array($dir_name, $directories, true)) {
+                $directories[] = $dir_name;
             }
         }
 
@@ -230,8 +237,6 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
 
     /**
      * Returns a container object that is possible for the given parent.
-     *
-     * @return ilObject
      */
     private function getPossibleContainerObj(int $parent_id): ilObject
     {

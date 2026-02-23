@@ -65,7 +65,7 @@ class VideoWidgetGUI
         $ui = $this->ui;
         $video = $ui->factory()->player()->video("")->withPoster("");
         $video_tpl_html = $ui->renderer()->render($video);
-        $video_tpl_html = str_replace("\n", "", $video_tpl_html);
+        $video_tpl_html = str_replace(["\n", "\r"], "", $video_tpl_html);
 
         $tpl = new \ilTemplate("tpl.wrapper.html", true, true, "components/ILIAS/MediaCast/Video");
         $f = $ui->factory();
@@ -84,6 +84,9 @@ class VideoWidgetGUI
         }
 
         $item = $f->item()->standard('#title#')
+            ->withMainAction(
+                $f->link()->standard('#download#', "#")
+            )
                   ->withDescription('#description#');
         $item_html = $ui->renderer()->render($item);
         $item_html = str_replace(
@@ -92,40 +95,18 @@ class VideoWidgetGUI
             $item_html
         );
         $item_html = str_replace(
+            "#download#",
+            '<span data-elementtype="download">' .
+            $this->lng->txt("download") .
+            '</span>',
+            $item_html
+        );
+        $item_html = str_replace(
             "#description#",
             '<span data-elementtype="description-wrapper"><span data-elementtype="description"></span></span>',
             $item_html
         );
         $tpl->setVariable("ITEM", $item_html);
-
-
-        /*
-        $back = $f->button()->standard("<span class=\"glyphicon glyphicon-chevron-left \" aria-hidden=\"true\"></span>", "")
-            ->withOnLoadCode(function ($id) {
-                return
-                    "$(\"#$id\").click(function() { il.VideoWidget.previous(\"".$this->dom_wrapper_id."\"); return false;});";
-        });
-        $next = $f->button()->standard("<span class=\"glyphicon glyphicon-chevron-right \" aria-hidden=\"true\"></span>", "")
-              ->withOnLoadCode(function ($id) {
-                  return
-                      "$(\"#$id\").click(function() { il.VideoWidget.next(\"".$this->dom_wrapper_id."\"); return false;});";
-        });*/
-
-
-        /*
-        $description_link = $f->button()->shy($this->lng->txt("mcst_show_description"), "")->withOnLoadCode(function ($id) {
-            return
-                "$(\"#$id\").click(function() { $(document).find(\"[data-elementtype='description']\").removeClass('ilNoDisplay'); $(document).find(\"[data-elementtype='description-trigger']\").addClass('ilNoDisplay'); return false;});";
-        });
-        $tpl->setVariable("DESCRIPTION_LINK", $ui->renderer()->render($description_link));*/
-
-        //$tpl->setVariable("VIEWCONTROL", $ui->renderer()->render([$back,$next]));
-
-        /*
-        $tpl->setCurrentBlock("autoplay");
-        $tpl->setVariable("TXT_AUTOPLAY",
-            $this->lng->txt("mcst_autoplay"));
-        $tpl->parseCurrentBlock();*/
 
         return $tpl->get();
     }

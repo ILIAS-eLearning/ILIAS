@@ -107,42 +107,23 @@ class RevisionDBRepository implements RevisionRepository
     public function store(Revision $revision): void
     {
         $rid = $revision->getIdentification()->serialize();
-        $r = $this->db->queryF(
-            "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND version_number = %s",
-            ['text', 'integer'],
-            [$rid, $revision->getVersionNumber()]
+        $version = $revision->getVersionNumber();
+
+        $this->db->replace(
+            self::TABLE_NAME,
+            [
+                self::IDENTIFICATION => ['text', $rid],
+                'version_number' => ['integer', $version],
+            ],
+            [
+                'available' => ['integer', 1],
+                'owner_id' => ['integer', $revision->getOwnerId()],
+                'title' => ['text', $revision->getTitle()],
+                'status' => ['text', $revision->getStatus()->value],
+            ]
         );
 
-        if ($r->numRows() > 0) {
-            // UPDATE
-            $this->db->update(
-                self::TABLE_NAME,
-                [
-                    'available' => ['integer', true],
-                    'owner_id' => ['integer', $revision->getOwnerId()],
-                    'title' => ['text', $revision->getTitle()],
-                    'status' => ['text', $revision->getStatus()->value],
-                ],
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'version_number' => ['integer', $revision->getVersionNumber()],
-                ]
-            );
-        } else {
-            // CREATE
-            $this->db->insert(
-                self::TABLE_NAME,
-                [
-                    self::IDENTIFICATION => ['text', $rid],
-                    'version_number' => ['integer', $revision->getVersionNumber()],
-                    'available' => ['integer', true],
-                    'owner_id' => ['integer', $revision->getOwnerId()],
-                    'title' => ['text', $revision->getTitle()],
-                    'status' => ['text', $revision->getStatus()->value],
-                ]
-            );
-        }
-        $this->cache[$rid][$revision->getVersionNumber()] = $revision;
+        $this->cache[$rid][$version] = $revision;
     }
 
     /**
@@ -153,7 +134,7 @@ class RevisionDBRepository implements RevisionRepository
         $collection = new RevisionCollection($resource->getIdentification());
 
         $rid = $resource->getIdentification()->serialize();
-        if (isset($this->cache[$rid]) && is_array($this->cache[$rid])) {
+        if (isset($this->cache[$rid]) && \is_array($this->cache[$rid])) {
             foreach ($this->cache[$rid] as $rev) {
                 $collection->add($rev);
             }

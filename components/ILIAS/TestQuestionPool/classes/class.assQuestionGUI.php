@@ -111,6 +111,7 @@ abstract class assQuestionGUI
     protected GeneralQuestionPropertiesRepository $questionrepository;
     protected GUIService $notes_gui;
     protected ilCtrl $ctrl;
+    private ilObjUser $current_user;
     private ?ilAssQuestionPreviewSession $preview_session = null;
     protected assQuestion $object;
     protected ilGlobalPageTemplate $tpl;
@@ -164,6 +165,7 @@ abstract class assQuestionGUI
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
+        $this->current_user = $DIC['ilUser'];
         $this->ui = $DIC->ui();
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->access = $DIC->access();
@@ -899,7 +901,7 @@ abstract class assQuestionGUI
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() !== assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE) {
                 $question->setUseRte(true);
-                $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags('assessment'));
+                $question->setRteTags(ilRTESettings::_getUsedHTMLTags('assessment'));
                 $question->setRTESupport($this->object->getId(), 'qpl', 'assessment');
             }
         } else {
@@ -1100,7 +1102,7 @@ abstract class assQuestionGUI
         $options = $this->getTypeOptions();
 
         $solution_type = $this->ctrl->getCmd() === 'cancelSuggestedSolution'
-            ? $solution->getType()
+            ? $solution?->getType()
             : $this->request_data_collector->string('solutiontype');
         if ($solution_type === SuggestedSolution::TYPE_FILE
             && ($solution === null || $solution->getType() !== SuggestedSolution::TYPE_FILE)
@@ -1601,12 +1603,16 @@ abstract class assQuestionGUI
 
     protected function addTab_QuestionFeedback(ilTabsGUI $tabs): void
     {
-        $tabCommands = self::getCommandsFromClassConstants(ilAssQuestionFeedbackEditingGUI::class);
-
         $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'q_id', $this->object->getId());
-        $tabLink = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
 
-        $tabs->addTarget('feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
+        $tabs->addTab(
+            'feedback',
+            $this->lng->txt('tst_feedback'),
+            $this->ctrl->getLinkTargetByClass(
+                ilAssQuestionFeedbackEditingGUI::class,
+                ilAssQuestionFeedbackEditingGUI::CMD_SHOW
+            )
+        );
     }
 
     protected function addTab_Question(ilTabsGUI $tabs_gui): void
@@ -1930,7 +1936,7 @@ abstract class assQuestionGUI
             return ilArrayUtil::stripSlashesRecursive(
                 $answer_text,
                 false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+                ilRTESettings::_getUsedHTMLTagsAsString("assessment")
             );
         }
 
@@ -2045,5 +2051,16 @@ abstract class assQuestionGUI
             return $this->ctrl->getLinkTargetByClass(ilObjQuestionPoolGUI::class, 'downloadFile');
         }
         return $this->ctrl->getLinkTargetByClass(ilObjTestGUI::class, 'downloadFile');
+    }
+
+    protected function resetSavedPreviewSession(): void
+    {
+        $this->preview_session = new ilAssQuestionPreviewSession(
+            $this->current_user->getId(),
+            $this->object->getId()
+        );
+        $this->preview_session->setRandomizerSeed(null);
+        $this->preview_session->setParticipantsSolution(null);
+        $this->preview_session->setInstantResponseActive(false);
     }
 }

@@ -376,9 +376,11 @@ il.TestPlayerQuestionEditControl = new function() {
      * @param jqXHR
      */
     function detectBackgroundChangesFailure(jqXHR) {
-        $('#autosavemessage').text(jqXHR.responseText)
-            .fadeIn(500, function(){
-                $('#autosavemessage').fadeOut(5000)
+        $('#autosavemessage').removeClass('sr-only').text(jqXHR.responseText)
+            .fadeTo(500, 1, function(){
+                $(this).fadeTo(5000, 0, function(){
+                    $(this).removeAttr('style').addClass('sr-only');
+                });
             });
     }
 
@@ -389,7 +391,7 @@ il.TestPlayerQuestionEditControl = new function() {
 
         // save the revert changes url to allow a tweaking with '#'
         // '#' is needed to close the action popup when clicked
-        if ( revertUrl == '') {
+        if (revertUrl === '') {
             revertUrl = $('#tst_revert_changes_action').attr('href');
         }
 
@@ -397,22 +399,18 @@ il.TestPlayerQuestionEditControl = new function() {
             $('.ilTestAnswerStatusAnswered').removeClass('hidden').show();
             $('.ilTestAnswerStatusNotAnswered').hide();
             $('.ilTestDiscardSolutionAction').removeClass('disabled');
-        }
-        else {
+        } else {
             $('.ilTestAnswerStatusAnswered').hide();
             $('.ilTestAnswerStatusNotAnswered').removeClass('hidden').show();
             $('.ilTestDiscardSolutionAction').addClass('disabled');
-         }
+        }
 
         if(answerChanged) {
             $('.ilTestAnswerStatusEditing').removeClass('hidden').show();
-            $('.ilTestRevertChangesAction').removeClass('disabled');
-            $('#tst_revert_changes_action').attr('href', revertUrl);
-        }
-        else {
+            $('.ilTestRevertChangesAction').removeAttr('disabled');
+        } else {
             $('.ilTestAnswerStatusEditing').hide();
-            $('.ilTestRevertChangesAction').addClass('disabled');
-            $('#tst_revert_changes_action').attr('href','#');
+            $('.ilTestRevertChangesAction').attr('disabled', 'disabled');
         }
     }
 
@@ -712,9 +710,11 @@ il.TestPlayerQuestionEditControl = new function() {
      */
     function autoSaveSuccess(responseText) {
         if (typeof responseText !== 'undefined' && responseText != '-IGNORE-') {
-            $('#autosavemessage').text(responseText)
-                .fadeIn(500, function(){
-                    $('#autosavemessage').fadeOut(5000)
+            $('#autosavemessage').removeClass('sr-only').text(responseText)
+                .fadeTo(500, 1, function(){
+                    $(this).fadeTo(5000, 0, function(){
+                        $(this).removeAttr('style').addClass('sr-only');
+                    });
             });
         }
     }
@@ -729,9 +729,11 @@ il.TestPlayerQuestionEditControl = new function() {
         responseText = jqXHR.responseText ;
       }
 
-      $('#autosavemessage').text(responseText)
-        .fadeIn(500, function(){
-            $('#autosavemessage').fadeOut(5000);
+      $('#autosavemessage').removeClass('sr-only').text(responseText)
+        .fadeTo(500, 1, function(){
+            $(this).fadeTo(5000, 0, function(){
+                $(this).removeAttr('style').addClass('sr-only');
+            });
       });
       autoSavedData = '';
     }

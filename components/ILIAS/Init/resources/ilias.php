@@ -29,6 +29,22 @@ entry_point('ILIAS Legacy Initialisation Adapter');
 /** @var $DIC \ILIAS\DI\Container */
 global $DIC;
 
-$DIC->ctrl()->callBaseClass();
+try {
+    $DIC->ctrl()->callBaseClass();
+} catch (ilCtrlException $e) {
+    if (defined('DEVMODE') && DEVMODE) {
+        throw $e;
+    }
+
+    if (!str_contains($e->getMessage(), 'not given a baseclass') &&
+        !str_contains($e->getMessage(), 'not a baseclass')) {
+        throw new RuntimeException(sprintf('ilCtrl could not dispatch request: %s', $e->getMessage()), 0, $e);
+    }
+
+    $DIC->logger()->root()->error($e->getMessage());
+    $DIC->logger()->root()->error($e->getTraceAsString());
+    $DIC->ctrl()->redirectToURL(ilUtil::_getHttpPath());
+}
+
 $DIC['ilBench']->save();
 $DIC['http']?->close();

@@ -31,6 +31,10 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
  */
 class StakeholderRepositoryTests extends AbstractTestBase
 {
+    public function __construct()
+    {
+        parent::__construct(static::class);
+    }
     protected StakeholderDBRepository $stakeholder_repository;
     protected ResourceIdentification $identification;
 

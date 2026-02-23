@@ -25,7 +25,7 @@ use ILIAS\UI\Renderer;
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
 
-class ilMailMemberSearchGUI
+class ilMailMemberSearchGUI implements ilCtrlSecurityInterface
 {
     private readonly ServerRequestInterface $httpRequest;
     /** @var array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[] */
@@ -371,5 +371,17 @@ class ilMailMemberSearchGUI
                 $values
             ]
         );
+    }
+
+    public function getUnsafeGetCommands(): array
+    {
+        return [
+            'handleSearchMembersActions'
+        ];
+    }
+
+    public function getSafePostCommands(): array
+    {
+        return [];
     }
 }

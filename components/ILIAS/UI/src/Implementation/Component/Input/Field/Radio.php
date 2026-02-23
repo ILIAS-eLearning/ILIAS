@@ -31,15 +31,11 @@ use Closure;
 /**
  * This implements the radio input.
  */
-class Radio extends FormInput implements C\Input\Field\Radio
+class Radio extends FormInput implements C\Input\Field\Radio, HasOptionFilterInternal
 {
     use JavaScriptBindable;
     use Triggerer;
-
-    /**
-     * @var array <string,string> {$value => $label}
-     */
-    protected array $options = [];
+    use HasOptionFilter;
 
     /**
      * @var array <string,array> {$option_value => $bylines}
@@ -79,14 +75,6 @@ class Radio extends FormInput implements C\Input\Field\Radio
             $clone->bylines[$value] = $byline;
         }
         return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
     }
 
 

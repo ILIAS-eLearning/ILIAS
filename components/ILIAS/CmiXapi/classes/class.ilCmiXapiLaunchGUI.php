@@ -29,7 +29,7 @@ declare(strict_types=1);
  */
 class ilCmiXapiLaunchGUI
 {
-    public const XAPI_PROXY_ENDPOINT = 'components/ILIAS/CmiXapi/xapiproxy.php';
+    public const XAPI_PROXY_ENDPOINT = 'xapiproxy.php';
 
     protected ilObjCmiXapi $object;
 
@@ -139,9 +139,7 @@ class ilCmiXapiLaunchGUI
      */
     protected function getAuthTokenFetchLink(): string
     {
-        $link = implode('/', [
-            ILIAS_HTTP_PATH, 'components/ILIAS', 'CmiXapi', 'xapitoken.php'
-        ]);
+        $link = ILIAS_HTTP_PATH . '/xapitoken.php';
 
         $param = $this->buildAuthTokenFetchParam();
 
@@ -222,53 +220,55 @@ class ilCmiXapiLaunchGUI
      */
     protected function CMI5preLaunch(string $token): array
     {
+        global $DIC;
+        $DIC->language()->loadLanguageModule("cmix");
+
         $duration = '';
         $lrsType = $this->object->getLrsType();
         $defaultLrs = $lrsType->getLrsEndpoint();
-        //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
         $defaultBasicAuth = $lrsType->getBasicAuth();
-        //$fallbackBasicAuth = $lrsType->getFallbackBasicAuth();
+
         $defaultHeaders = [
-            'X-Experience-API-Version' => '1.0.3',
-            'Authorization' => $defaultBasicAuth,
-            'Content-Type' => 'application/json;charset=utf-8',
-            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+            'X-Experience-API-Version: 1.0.3',
+            'Authorization: ' . $defaultBasicAuth,
+            'Content-Type: application/json;charset=utf-8',
+            'Cache-Control: no-cache, no-store, must-revalidate'
         ];
 
         $registration = $this->cmixUser->getRegistration();
-        // for old CMI5 Content after switch commit but before cmi5 bugfix
         if ($registration == '') {
             $registration = ilCmiXapiUser::generateRegistration($this->object, $this->user);
         }
 
         $activityId = $this->object->getActivityId();
 
-        // profile
-        $profileParams = [];
-        $defaultAgentProfileUrl = $defaultLrs . "/agents/profile";
-        $profileParams['agent'] = json_encode($this->object->getStatementActor($this->cmixUser));
-        $profileParams['profileId'] = 'cmi5LearnerPreferences';
-        $defaultProfileUrl = $defaultAgentProfileUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($profileParams);
+        // Profile URL
+        $profileParams = [
+            'agent' => json_encode($this->object->getStatementActor($this->cmixUser)),
+            'profileId' => 'cmi5LearnerPreferences'
+        ];
+        $defaultProfileUrl = $defaultLrs . "/agents/profile?" . ilCmiXapiAbstractRequest::buildQuery($profileParams);
 
-        // launchData
-        $launchDataParams = [];
-        $defaultStateUrl = $defaultLrs . "/activities/state";
-        //$launchDataParams['agent'] = $this->buildCmi5ActorParameter();
-        $launchDataParams['agent'] = json_encode($this->object->getStatementActor($this->cmixUser));
-        $launchDataParams['activityId'] = $activityId;
-        $launchDataParams['activity_id'] = $activityId;
-        $launchDataParams['registration'] = $registration;
-        $launchDataParams['stateId'] = 'LMS.LaunchData';
-        $defaultLaunchDataUrl = $defaultStateUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($launchDataParams);
+        // LaunchData URL
+        $launchDataParams = [
+            'agent' => json_encode($this->object->getStatementActor($this->cmixUser)),
+            'activityId' => $activityId,
+            'activity_id' => $activityId,
+            'registration' => $registration,
+            'stateId' => 'LMS.LaunchData'
+        ];
+        $defaultLaunchDataUrl = $defaultLrs . "/activities/state?" . ilCmiXapiAbstractRequest::buildQuery($launchDataParams);
+
         $cmi5LearnerPreferencesObj = $this->getCmi5LearnerPreferences();
         $cmi5LearnerPreferences = json_encode($cmi5LearnerPreferencesObj);
         $lang = $cmi5LearnerPreferencesObj['languagePreference'];
         $cmi5_session = ilObjCmiXapi::guidv4();
+
         $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);
         $oldSession = $tokenObject->getCmi5Session();
         $oldSessionLaunchedTimestamp = '';
         $abandoned = false;
-        // cmi5_session already exists?
+
         if ($oldSession != null && !empty($oldSession)) {
             $oldSessionData = json_decode($tokenObject->getCmi5SessionData());
             $oldSessionLaunchedTimestamp = $oldSessionData->launchedTimestamp;
@@ -276,8 +276,8 @@ class ilCmiXapiLaunchGUI
             $token = $this->getValidToken();
             $tokenObject = ilCmiXapiAuthToken::getInstanceByToken($token);
             $lastStatement = $this->object->getLastStatement($oldSession);
-            // should never be 'terminated', because terminated statement is sniffed from proxy -> token delete
-            if (isset($lastStatement[0]['statement']['verb']['id']) && $lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated')) {
+            if (isset($lastStatement[0]['statement']['verb']['id']) &&
+                $lastStatement[0]['statement']['verb']['id'] != ilCmiXapiVerbList::getInstance()->getVerbUri('terminated')) {
                 $abandoned = true;
                 $start = new DateTime($oldSessionLaunchedTimestamp);
                 $end = new DateTime($lastStatement[0]['statement']['timestamp']);
@@ -285,110 +285,97 @@ class ilCmiXapiLaunchGUI
                 $duration = ilCmiXapiDateTime::dateIntervalToISO860Duration($diff);
             }
         }
-        // satisfied on launch?
-        // see: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#moveon
-        // https://aicc.github.io/CMI-5_Spec_Current/samples/
-        // Session that includes the absolute minimum data, and is associated with a NotApplicable Move On criteria
-        // which results in immediate satisfaction of the course upon registration creation. Includes Satisfied Statement.
+
         $satisfied = false;
         $lpMode = $this->object->getLPMode();
-        // only do this, if we decide to map the moveOn NotApplicable to ilLPObjSettings::LP_MODE_DEACTIVATED on import and settings editing
-        // and what about user result status?
         if ($lpMode === ilLPObjSettings::LP_MODE_DEACTIVATED) {
             $satisfied = true;
         }
 
         $tokenObject->setCmi5Session($cmi5_session);
-        $sessionData = array();
-        $sessionData['cmi5LearnerPreferences'] = $cmi5LearnerPreferencesObj;
-        //https://www.php.net/manual/de/class.dateinterval.php
         $now = new ilCmiXapiDateTime(time(), IL_CAL_UNIX);
-        $sessionData['launchedTimestamp'] = $now->toXapiTimestamp(); // required for abandoned statement duration, don't want another roundtrip to lrs ...puhhh
+        $sessionData = [
+            'cmi5LearnerPreferences' => $cmi5LearnerPreferencesObj,
+            'launchedTimestamp' => $now->toXapiTimestamp()
+        ];
         $tokenObject->setCmi5SessionData(json_encode($sessionData));
         $tokenObject->update();
+
         $defaultStatementsUrl = $defaultLrs . "/statements";
 
-        // launchedStatement
-        $launchData = json_encode($this->object->getLaunchData($this->cmixUser, $lang));
+        // Statements
+        $launchData = json_encode($this->object->getLaunchData($DIC->language()->txt('cmiexit'), $this->cmixUser));
         $launchedStatement = $this->object->getLaunchedStatement($this->cmixUser);
-        $launchedStatementParams = [];
-        $launchedStatementParams['statementId'] = $launchedStatement['id'];
-        $defaultLaunchedStatementUrl = $defaultStatementsUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($launchedStatementParams);
+        $launchedStatementUrl = $defaultStatementsUrl . '?statementId=' . urlencode($launchedStatement['id']);
 
-        // abandonedStatement
+        $requests = [
+            ['url' => $defaultProfileUrl, 'method' => 'POST', 'body' => $cmi5LearnerPreferences],
+            ['url' => $defaultLaunchDataUrl, 'method' => 'PUT', 'body' => $launchData],
+            ['url' => $launchedStatementUrl, 'method' => 'PUT', 'body' => json_encode($launchedStatement)]
+        ];
+
         if ($abandoned) {
             $abandonedStatement = $this->object->getAbandonedStatement($oldSession, $duration, $this->cmixUser);
-            $abandonedStatementParams = [];
-            $abandonedStatementParams['statementId'] = $abandonedStatement['id'];
-            $defaultAbandonedStatementUrl = $defaultStatementsUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($abandonedStatementParams);
+            $requests[] = [
+                'url' => $defaultStatementsUrl . '?statementId=' . urlencode($abandonedStatement['id']),
+                'method' => 'PUT',
+                'body' => json_encode($abandonedStatement)
+            ];
         }
-        // abandonedStatement
+
         if ($satisfied) {
             $satisfiedStatement = $this->object->getSatisfiedStatement($this->cmixUser);
-            $satisfiedStatementParams = [];
-            $satisfiedStatementParams['statementId'] = $satisfiedStatement['id'];
-            $defaultSatisfiedStatementUrl = $defaultStatementsUrl . '?' . ilCmiXapiAbstractRequest::buildQuery($satisfiedStatementParams);
+            $requests[] = [
+                'url' => $defaultStatementsUrl . '?statementId=' . urlencode($satisfiedStatement['id']),
+                'method' => 'PUT',
+                'body' => json_encode($satisfiedStatement)
+            ];
         }
-        $client = new GuzzleHttp\Client();
-        $req_opts = array(
-            GuzzleHttp\RequestOptions::VERIFY => true,
-            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
-            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
-        );
-        $defaultProfileRequest = new GuzzleHttp\Psr7\Request(
-            'POST',
-            $defaultProfileUrl,
-            $defaultHeaders,
-            $cmi5LearnerPreferences
-        );
-        $defaultLaunchDataRequest = new GuzzleHttp\Psr7\Request(
-            'PUT',
-            $defaultLaunchDataUrl,
-            $defaultHeaders,
-            $launchData
-        );
-        $defaultLaunchedStatementRequest = new GuzzleHttp\Psr7\Request(
-            'PUT',
-            $defaultLaunchedStatementUrl,
-            $defaultHeaders,
-            json_encode($launchedStatement)
-        );
-        if ($abandoned) {
-            $defaultAbandonedStatementRequest = new GuzzleHttp\Psr7\Request(
-                'PUT',
-                $defaultAbandonedStatementUrl,
-                $defaultHeaders,
-                json_encode($abandonedStatement)
-            );
+
+        // --- Native cURL Multi ---
+        $mh = curl_multi_init();
+        $chs = [];
+
+        foreach ($requests as $req) {
+            $ch = curl_init();
+            curl_setopt_array($ch, [
+                CURLOPT_URL => $req['url'],
+                CURLOPT_CUSTOMREQUEST => $req['method'],
+                CURLOPT_HTTPHEADER => $defaultHeaders,
+                CURLOPT_POSTFIELDS => $req['body'],
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 10,
+                CURLOPT_SSL_VERIFYPEER => true,
+            ]);
+            curl_multi_add_handle($mh, $ch);
+            $chs[] = $ch;
         }
-        if ($satisfied) {
-            $defaultSatisfiedStatementRequest = new GuzzleHttp\Psr7\Request(
-                'PUT',
-                $defaultSatisfiedStatementUrl,
-                $defaultHeaders,
-                json_encode($satisfiedStatement)
-            );
-        }
-        $promises = array();
-        $promises['defaultProfile'] = $client->sendAsync($defaultProfileRequest, $req_opts);
-        $promises['defaultLaunchData'] = $client->sendAsync($defaultLaunchDataRequest, $req_opts);
-        $promises['defaultLaunchedStatement'] = $client->sendAsync($defaultLaunchedStatementRequest, $req_opts);
-        if ($abandoned) {
-            $promises['defaultAbandonedStatement'] = $client->sendAsync($defaultAbandonedStatementRequest, $req_opts);
-        }
-        if ($satisfied) {
-            $promises['defaultSatisfiedStatement'] = $client->sendAsync($defaultSatisfiedStatementRequest, $req_opts);
-        }
-        try {
-            $responses = GuzzleHttp\Promise\Utils::settle($promises)->wait();
-            $body = '';
-            foreach ($responses as $response) {
-                ilCmiXapiAbstractRequest::checkResponse($response, $body, [204]);
+
+        // Execute all
+        $running = 0;
+        do {
+            curl_multi_exec($mh, $running);
+            curl_multi_select($mh);
+            //            usleep(10000); // 10ms Pause, schont CPU
+        } while ($running > 0);
+
+        // Collect responses
+        foreach ($chs as $ch) {
+            $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $body = curl_multi_getcontent($ch);
+            if (!in_array($status, [200, 204])) {
+                $this->log()->error("CMI5preLaunch HTTP error $status: $body");
             }
-        } catch (Exception $e) {
-            $this->log()->error('error:' . $e->getMessage());
+            curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
         }
-        return array('cmi5_session' => $cmi5_session, 'token' => $token);
+
+        curl_multi_close($mh);
+
+        return [
+            'cmi5_session' => $cmi5_session,
+            'token' => $token
+        ];
     }
 
     /**
@@ -396,11 +383,6 @@ class ilCmiXapiLaunchGUI
      */
     private function log(): ilLogger
     {
-        if ($this->plugin) {
-            global $log;
-            return $log;
-        } else {
-            return \ilLoggerFactory::getLogger('cmix');
-        }
+        return \ilLoggerFactory::getLogger('cmix');
     }
 }

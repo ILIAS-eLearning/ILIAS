@@ -85,4 +85,9 @@ class Factory implements I\Factory
     {
         return new LinkListing($this->lng, $title);
     }
+
+    public function breadcrumb(string $title): I\Breadcrumb
+    {
+        return new Breadcrumb($this->lng, $title);
+    }
 }

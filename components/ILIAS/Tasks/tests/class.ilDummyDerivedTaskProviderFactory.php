@@ -32,12 +32,7 @@ class ilDummyDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
     {
     }
 
-    /**
-     * Set task service
-     *
-     * @param ilTaskService $task_service
-     */
-    public function setTaskService(ilTaskService $task_service)
+    public function setTaskService(ilTaskService $task_service): void
     {
         $this->task_service = $task_service;
     }

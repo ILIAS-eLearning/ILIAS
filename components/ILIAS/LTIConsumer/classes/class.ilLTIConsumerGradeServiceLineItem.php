@@ -26,6 +26,7 @@ declare(strict_types=1);
  *
  * @package     Module/LTIConsumer
  */
+
 class ilLTIConsumerGradeServiceLineItem extends ilLTIConsumerResourceBase
 {
     public function __construct(ilLTIConsumerServiceBase $service)

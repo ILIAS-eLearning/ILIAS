@@ -16,8 +16,12 @@
  *
  *********************************************************************/
 
+use ILIAS\HTTP\Services as HTTP;
+use ILIAS\Skill\Service\SkillUsageService;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilTestSkillAdministrationGUITest
@@ -45,6 +49,12 @@ class ilTestSkillAdministrationGUITest extends ilTestBaseTestCase
             $this->getTestObjMock(),
             $this->createMock(GeneralQuestionPropertiesRepository::class),
             $this->createMock(RequestDataCollector::class),
+            $this->createMock(HTTP::class),
+            $this->createMock(ilToolbarGUI::class),
+            $this->createMock(SkillUsageService::class),
+            $this->createMock(Factory::class),
+            $this->createMock(Renderer::class),
+            $this->createMock(ilTabsGUI::class),
             201
         );
     }

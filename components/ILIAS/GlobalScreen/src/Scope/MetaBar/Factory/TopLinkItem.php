@@ -23,13 +23,22 @@ namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\TopLinkItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\GlobalScreen\Scope\isDecorateable;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbol, hasContentLanguage, hasLanguageForTargetedResource
+class TopLinkItem extends AbstractBaseItem implements
+    isItem,
+    hasTitle,
+    hasSymbol,
+    hasContentLanguage,
+    hasLanguageForTargetedResource,
+    isDecorateable
 {
     use ContentLanguage;
+    use ComponentDecoratorTrait;
     use LanguageForTargetedResource;
 
     protected ?Symbol $symbol = null;
@@ -53,9 +62,6 @@ class TopLinkItem extends AbstractBaseItem implements isItem, hasTitle, hasSymbo
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->action;

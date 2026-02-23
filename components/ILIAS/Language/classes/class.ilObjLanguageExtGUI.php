@@ -59,6 +59,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $ilClientIniFile = $DIC->clientIni();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->http = $DIC['http'];
+        $this->refinery = $DIC['refinery'];
 
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
@@ -70,11 +72,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // type and id of get the bound object
         $this->type = "lng";
         $obj_id_get = 0;
+
         if ($this->http->wrapper()->query()->has("obj_id")) {
             $obj_id_get = $this->http->wrapper()->query()->retrieve("obj_id", $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has("language_folder_obj_ids")) {
             $obj_id_get = $this->http->wrapper()->query()->retrieve("language_folder_obj_ids", $this->refinery->kindlyTo()->int());
         }
+
         if (!$this->id = $obj_id_get) {
             $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
         }
@@ -579,7 +583,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $filename = "ilias_" . $this->object->key . '_'
         . str_replace(".", "_", substr(ILIAS_VERSION, 0, strpos(ILIAS_VERSION, " ")))
-        . "-" . date("Y-m-d")
+        . "-" . gmdate("Y-m-d")
         . ".lang." . $this->getSession()["export"]["scope"];
 
         $global_file_obj = $this->object->getGlobalLanguageFile();
@@ -1031,7 +1035,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                         $id,
                         $lang_key,
                         $trans,
-                        date("Y-m-d H:i:s"),
+                        gmdate("Y-m-d H:i:s"),
                         $ilUser->getLogin()
                     );
 

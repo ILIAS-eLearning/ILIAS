@@ -323,7 +323,7 @@ class ilObjCourseGroupingGUI
         $this->edit($form);
     }
 
-    public function selectCourse(): void
+    protected function showSelectCourse(): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -343,6 +343,16 @@ class ilObjCourseGroupingGUI
 
         $table = $this->assignment_table_handler->getTable();
         $this->tpl->setContent($this->ui_renderer->render($table));
+    }
+
+    public function selectCourse(): void
+    {
+        /*
+         * Since this is triggered from a form command button,
+         * the actual cmd in the URL is 'post', which is a problem
+         * for data table view control. This redirect solves this.
+         */
+        $this->ctrl->redirect($this, 'showSelectCourse');
     }
 
     public function handleAssignmentTableAction(): void

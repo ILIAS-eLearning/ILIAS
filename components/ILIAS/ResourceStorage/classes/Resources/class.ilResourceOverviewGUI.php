@@ -19,7 +19,7 @@
 use ILIAS\UI\Renderer;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Collection\ResourceCollection;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
@@ -49,7 +49,7 @@ class ilResourceOverviewGUI
     public const CMD_GOTO_RESOURCE = 'gotoResource';
 
 
-    public const P_RESOURCE_ID = 'resource_id';
+    public const P_RESOURCE_ID = 'irss_resource_id';
 
 
     protected ilCtrlInterface $ctrl;
@@ -59,7 +59,7 @@ class ilResourceOverviewGUI
     protected Services $irss;
     protected FileUpload $upload;
     protected \ILIAS\HTTP\Services $http;
-    protected Factory $refinery;
+    protected Refinery $refinery;
     protected ResourceCollection $collection;
     protected ResourceStakeholder $stakeholder;
     protected ArrayBasedRequestWrapper $query;
@@ -83,7 +83,6 @@ class ilResourceOverviewGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function initBackTab(): void

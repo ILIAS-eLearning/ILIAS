@@ -93,5 +93,5 @@ interface GlobalHttpState
     public function sendResponse(): void;
 
 
-    public function close(): void;
+    public function close(): never;
 }

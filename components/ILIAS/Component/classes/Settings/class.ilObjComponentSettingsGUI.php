@@ -315,7 +315,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI implements ilCtrlSecurityInt
 
     public function getAdminTabs(): void
     {
-        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_PLUGINS,
                 $this->lng->txt("cmps_plugins"),

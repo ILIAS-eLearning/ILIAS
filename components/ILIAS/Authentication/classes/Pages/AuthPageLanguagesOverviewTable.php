@@ -27,12 +27,15 @@ use Psr\Http\Message\ServerRequestInterface;
 use ilLanguage;
 use ilCtrlInterface;
 use ilAuthPageEditorSettings;
+use ILIAS\Data\Range;
+use ilAuthPageEditorGUI;
 
 class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
 {
     public const string ACTIVATE = 'activate';
     public const string DEACTIVATE = 'deactivate';
     public const string EDIT = 'edit';
+    public const string PREVIEW = 'preview';
 
     private ServerRequestInterface $request;
     private Data\Factory $data_factory;
@@ -47,7 +50,8 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
         \ILIAS\HTTP\Services $http,
         private readonly \ILIAS\UI\Factory $ui_factory,
         private readonly \ILIAS\UI\Renderer $ui_renderer,
-        private readonly AuthPageEditorContext $context
+        private readonly AuthPageEditorContext $context,
+        private readonly bool $has_write_access
     ) {
         $this->request = $http->request();
         $this->data_factory = new Data\Factory();
@@ -61,8 +65,9 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
         return $this->ui_factory
             ->table()
             ->data($this, $this->lng->txt($this->context->pageLanguageIdentifier(true)), $columns)
-            ->withId(self::class . '_' . $this->context->value)
+            ->withId(str_replace('\\', '', self::class) . '_' . $this->context->value)
             ->withOrder(new \ILIAS\Data\Order('language', \ILIAS\Data\Order::ASC))
+            ->withRange(new Range(0, 100))
             ->withActions($actions)
             ->withRequest($this->request);
     }
@@ -111,23 +116,28 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
             'key'
         );
 
-        return [
-            self::EDIT => $this->ui_factory->table()->action()->single(
-                $this->lng->txt('edit'),
-                $overview_url_builder->withParameter($overview_action_parameter, self::EDIT),
-                $overview_row_id
-            ),
-            self::ACTIVATE => $this->ui_factory->table()->action()->standard(
+        $actions = [];
+        $actions[self::EDIT] = $this->ui_factory->table()->action()->single(
+            $this->lng->txt($this->has_write_access ? 'edit' : 'preview'),
+            $overview_url_builder->withParameter($overview_action_parameter, $this->has_write_access ? self::EDIT : self::PREVIEW),
+            $overview_row_id
+        );
+
+        if ($this->has_write_access) {
+            $actions[self::ACTIVATE] = $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_activate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::ACTIVATE),
                 $overview_row_id
-            ),
-            self::DEACTIVATE => $this->ui_factory->table()->action()->standard(
+            );
+
+            $actions[self::DEACTIVATE] = $this->ui_factory->table()->action()->standard(
                 $this->lng->txt('page_design_deactivate'),
                 $overview_url_builder->withParameter($overview_action_parameter, self::DEACTIVATE),
                 $overview_row_id
-            )
-        ];
+            );
+        }
+
+        return $actions;
     }
 
     private function initRecords(): void
@@ -172,8 +182,9 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
         array $visible_column_ids,
         Data\Range $range,
         Data\Order $order,
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): \Generator {
         $records = $this->getRecords($range, $order);
 
@@ -185,8 +196,9 @@ class AuthPageLanguagesOverviewTable implements UI\Component\Table\DataRetrieval
     }
 
     public function getTotalRowCount(
-        ?array $filter_data,
-        ?array $additional_parameters
+        mixed $additional_viewcontrol_data,
+        mixed $filter_data,
+        mixed $additional_parameters
     ): ?int {
         $this->initRecords();
 

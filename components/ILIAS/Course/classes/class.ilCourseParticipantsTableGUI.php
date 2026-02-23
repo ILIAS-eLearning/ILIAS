@@ -18,6 +18,9 @@
 
 declare(strict_types=0);
 
+use ILIAS\User\Profile\Profile;
+use ILIAS\User\Profile\Data as ProfileData;
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup components\ILIASCourse
@@ -34,6 +37,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
     protected ilAccessHandler $access;
     protected ilRbacReview $rbacReview;
     protected ilObjUser $user;
+    protected Profile $profile;
     protected array $cached_user_names = [];
 
     public function __construct(
@@ -67,6 +71,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->participants = ilParticipants::getInstanceByObjId($this->getRepositoryObject()->getId());
         $this->rbacReview = $DIC->rbac()->review();
         $this->user = $DIC->user();
+        $this->profile = $DIC['user']->getProfile();
 
         $this->setId('crs_' . $this->getRepositoryObject()->getId());
         parent::__construct($a_parent_obj, 'participants');
@@ -108,7 +113,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
         $this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
 
-        $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
+        $this->addColumn($this->lng->txt('actions'), '', '', false, 'ilMembershipRowActionsHeader');
 
         $this->setRowTemplate("tpl.show_participants_row.html", "components/ILIAS/Course");
 
@@ -230,7 +235,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', isset($a_set[$field]) ? (string) $a_set[$field] : '');
+                    $this->tpl->setVariable('VAL_CUST', is_array($a_set[$field] ?? '') ? implode(', ', $a_set[$field]) : (string) ($a_set[$field] ?? ''));
                     $this->tpl->parseCurrentBlock();
                     break;
             }
@@ -464,16 +469,20 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 
         // Custom user data fields
         if ($udf_ids !== []) {
-            $data = ilUserDefinedData::lookupData($usr_ids, $udf_ids);
-            foreach ($data as $usr_id => $fields) {
-                if (!$this->checkAcceptance((int) $usr_id)) {
-                    continue;
-                }
+            $a_user_data = array_reduce(
+                iterator_to_array($this->profile->getDataForMultiple($usr_ids)),
+                function (array $c, ProfileData $v) use ($udf_ids): array {
+                    if (!$this->checkAcceptance($v->getId())) {
+                        return $c;
+                    }
 
-                foreach ($fields as $field_id => $value) {
-                    $a_user_data[$usr_id]['udf_' . $field_id] = $value;
-                }
-            }
+                    foreach ($udf_ids as $field_id) {
+                        $c[$v->getId()]['udf_' . $field_id] = implode(', ', $v->getAdditionalFieldByIdentifier($field_id) ?? []);
+                    }
+                    return $c;
+                },
+                $a_user_data
+            );
         }
         // Object specific user data fields
         if ($odf_ids !== []) {

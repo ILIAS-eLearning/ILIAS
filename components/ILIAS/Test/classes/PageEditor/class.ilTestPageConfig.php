@@ -21,9 +21,13 @@ declare(strict_types=1);
 /**
  *
  * @ilCtrl_Calls ilTestEditPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
- * @ilCtrl_Calls ilTestEditPageGUI: ilPublicUserProfileGUI, ilNoteGUI
+ * @ilCtrl_Calls ilTestEditPageGUI: ILIAS\User\Profile\PublicProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilTestEditPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
  */
 class ilTestPageConfig extends ilPageConfig
 {
+    public function init(): void
+    {
+        $this->setEnablePCType('ContentInclude', true);
+    }
 }

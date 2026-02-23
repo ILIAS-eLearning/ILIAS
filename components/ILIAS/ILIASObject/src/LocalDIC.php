@@ -86,7 +86,7 @@ class LocalDIC extends PimpleContainer
                 $c['properties.aggregator'],
                 $DIC['lng'],
                 $DIC['ilCtrl'],
-                $DIC['ilUser'],
+                $DIC['user']->getLoggedInUser(),
                 $DIC['ui.factory'],
                 $DIC['tpl'],
                 $DIC['refinery']

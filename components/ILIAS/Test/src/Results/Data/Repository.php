@@ -45,10 +45,10 @@ class Repository
     public function getPassedParticipants(int $test_obj_id): array
     {
         $result = $this->db->queryF(
-            "SELECT tst_result_cache.active_fi AS active_id, tst_active.user_fi AS user_id FROM tst_result_cache 
-                    INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
-                    INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
-                    WHERE tst_tests.obj_fi = %s AND tst_result_cache.passed_once = 1",
+            'SELECT tst_result_cache.active_fi AS active_id, tst_active.user_fi AS user_id FROM tst_result_cache' . PHP_EOL
+            . 'INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi' . PHP_EOL
+            . 'INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi' . PHP_EOL
+            . 'WHERE tst_tests.obj_fi = %s AND tst_result_cache.passed_once = 1' . PHP_EOL,
             [\ilDBConstants::T_INTEGER],
             [$test_obj_id]
         );
@@ -70,12 +70,23 @@ class Repository
         return ($status = $this->readOrQueryStatus($user_id, $test_obj_id)) !== null && $status['finished'];
     }
 
+    public function reachedPercentage(
+        int $a_usr_id,
+        int $a_trigger_obj_id,
+        float $min_threshold,
+        float $max_threshold
+    ): bool {
+        return ($status = $this->readOrQueryStatus($a_usr_id, $a_trigger_obj_id)) !== null
+            && $status['percentage'] >= $min_threshold
+            && $status['percentage'] <= $max_threshold;
+    }
+
     public function getTestResult(int $active_id): ?ParticipantResult
     {
         $result = $this->db->queryF(
-            "SELECT tst_result_cache.*, tst_active.test_fi AS test_id FROM tst_result_cache 
-                    JOIN tst_active ON tst_result_cache.active_fi = tst_active.active_id
-                    WHERE active_fi = %s",
+            'SELECT tst_result_cache.*, tst_active.test_fi AS test_id FROM tst_result_cache' . PHP_EOL
+            . 'JOIN tst_active ON tst_result_cache.active_fi = tst_active.active_id' . PHP_EOL
+            . 'WHERE active_fi = %s',
             [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
@@ -85,7 +96,7 @@ class Repository
 
     public function updateTestResultCache(int $active_id, ?\ilAssQuestionProcessLocker $process_locker = null): ?ParticipantResult
     {
-        $attempt = \ilObjTest::_getResultPass($active_id);
+        $attempt = $this->lookupAttempt($active_id);
         $attempt_result = $this->fetchTestAttemptResult($active_id, $attempt);
         if (!$attempt_result) {
             return null;
@@ -97,9 +108,6 @@ class Repository
             $attempt_result['last_finished_pass'],
             $attempt_result['finalized_by'],
         );
-        if (!$status->isFinished()) {
-            return null;
-        }
 
         $result = $this->buildTestResultObject($attempt_result);
         $callback = function () use ($result) {
@@ -135,6 +143,7 @@ class Repository
                 'passed' => $result->isPassed(),
                 'failed' => $result->isFailed(),
                 'finished' => $status->isFinished(),
+                'percentage' => $result->getPercentage(),
             ]
         );
 
@@ -183,7 +192,8 @@ class Repository
                     'answeredquestions' => [\ilDBConstants::T_INTEGER, $result_object->getAnsweredQuestions()],
                     'workingtime' => [\ilDBConstants::T_INTEGER, $result_object->getWorkingTime()],
                     'tstamp' => [\ilDBConstants::T_INTEGER, time()],
-                    'exam_id' => [\ilDBConstants::T_TEXT, $result_object->getExamId()]
+                    'exam_id' => [\ilDBConstants::T_TEXT, $result_object->getExamId()],
+                    'finalized_by' => [\ilDBConstants::T_TEXT, $result_object->getFinalizedBy()]
                 ]
             );
         };
@@ -217,7 +227,7 @@ class Repository
     private function fetchTestAttemptResult(int $active_id, int $attempt): ?array
     {
         return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT tst_pass_result.*, tst_active.last_finished_pass, tst_active.user_fi AS user_id, tst_tests.test_id, 
+            "SELECT tst_pass_result.*, tst_active.last_finished_pass, tst_active.user_fi AS user_id, tst_tests.test_id,
                     tst_tests.obj_fi AS test_obj_id, tst_pass_result.maxpoints AS max_points, points AS reached_points,
                     tst_result_cache.passed_once AS passed_once_before
                     FROM tst_pass_result
@@ -242,9 +252,15 @@ class Repository
     private function fetchTestResult(int $active_id, int $attempt): ?array
     {
         return $this->db->fetchAssoc($this->db->queryF(
-            "SELECT pass, SUM(points) AS points, COUNT(DISTINCT(question_fi)) answeredquestions
-                    FROM tst_test_result
-                    WHERE active_fi = %s AND pass = %s",
+            'SELECT r.pass,' . PHP_EOL
+            . 'SUM(r.points) AS points,' . PHP_EOL
+            . 'COUNT(DISTINCT(r.question_fi)) answeredquestions,' . PHP_EOL
+            . 'pr.exam_id,' . PHP_EOL
+            . 'pr.finalized_by' . PHP_EOL
+            . 'FROM tst_test_result r' . PHP_EOL
+            . 'INNER JOIN  tst_pass_result pr' . PHP_EOL
+            . 'ON r.active_fi = pr.active_fi AND r.pass = pr.pass' . PHP_EOL
+            . 'WHERE r.active_fi = %s AND r.pass = %s',
             [\ilDBConstants::T_INTEGER,\ilDBConstants::T_INTEGER],
             [$active_id, $attempt]
         ));
@@ -276,20 +292,23 @@ class Repository
      */
     private function fetchAdditionalTestData(int $active_id, int $attempt): array
     {
-        $result = $this->db->queryF(
-            "SELECT tst_tests.question_set_type FROM tst_active
-                    INNER JOIN tst_tests ON tst_active.test_fi = tst_tests.test_id
-                    WHERE tst_active.active_id = %s",
+        $qst_set_type_result = $this->db->queryF(
+            'SELECT tst_test_settings.question_set_type FROM tst_active' . PHP_EOL
+            . 'INNER JOIN tst_tests ON tst_active.test_fi = tst_tests.test_id' . PHP_EOL
+            . 'INNER JOIN tst_test_settings ON tst_tests.settings_id = tst_test_settings.id' . PHP_EOL
+            . 'WHERE tst_active.active_id = %s',
             [\ilDBConstants::T_INTEGER],
             [$active_id]
         );
-        $question_set_type = $result->numRows() > 0 ? $this->db->fetchAssoc($result)['question_set_type'] : '';
+        $question_set_type = $qst_set_type_result->numRows() > 0
+            ? $this->db->fetchAssoc($qst_set_type_result)['question_set_type']
+            : '';
 
         $result = match ($question_set_type) {
             \ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->db->queryF(
                 "SELECT tst_test_rnd_qst.pass, COUNT(tst_test_rnd_qst.question_fi) qcount, SUM(qpl_questions.points) qsum
 						FROM tst_test_rnd_qst, qpl_questions
-						WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id 
+						WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id
 						    AND tst_test_rnd_qst.active_fi = %s AND	pass = %s
 						GROUP BY tst_test_rnd_qst.active_fi, tst_test_rnd_qst.pass",
                 [\ilDBConstants::T_INTEGER, \ilDBConstants::T_INTEGER],
@@ -335,10 +354,20 @@ class Repository
         $this->db->manipulate("DELETE FROM tst_test_result WHERE {$condition}");
         $this->db->manipulate("DELETE FROM tst_pass_result WHERE {$condition}");
 
-        $user_ids = $this->db->fetchAll($this->db->query("SELECT user_fi FROM tst_active WHERE {$condition}"));
+        $user_ids = $this->db->fetchAll(
+            $this->db->query(
+                'SELECT user_fi FROM tst_active WHERE' . PHP_EOL
+                . $this->db->in('active_id', $active_ids, false, \ilDBConstants::T_INTEGER)
+            )
+        );
         foreach ($user_ids as $row) {
             $this->cache->delete($row['user_fi'] . ':' . $test_obj_id);
         }
+    }
+
+    protected function lookupAttempt(int $active_id): ?int
+    {
+        return \ilObjTest::_getResultPass($active_id);
     }
 
 
@@ -348,17 +377,15 @@ class Repository
             return null;
         }
 
-        $max_points = $this->ensurePositive($row['max_points'] ?? 0.0);
-        $reached_points = $this->ensurePositive($row['reached_points'] ?? 0.0);
-        $percentage = ($max_points > 0 ? $reached_points / $max_points : 0.0) * 100;
-
-        $mark = $this->marks_repository->getMarkSchemaFor($row['test_id'])->getMatchingMark($percentage);
+        $mark = $this->marks_repository
+            ->getMarkSchemaFor($row['test_id'])
+            ->getMatchingMark($this->calculatePercentage($row) * 100);
 
         return new ParticipantResult(
             $row['active_fi'],
             (int) $row['pass'],
-            $max_points,
-            $reached_points,
+            $this->ensurePositive($row['max_points'] ?? 0.0),
+            $this->ensurePositive($row['reached_points'] ?? 0.0),
             $mark,
             (int) ($row['tstamp'] ?? -1),
             (bool) ($row['passed_once'] ?? false),
@@ -391,7 +418,7 @@ class Repository
     }
 
     /**
-     * @param array{'passed': bool, 'failed': bool, 'finished': bool} $status
+     * @param array{'passed': bool, 'failed': bool, 'finished': bool, 'percentage': float} $status
      */
     private function updateStatusCache(int $user_id, int $test_obj_id, array $status): void
     {
@@ -399,7 +426,7 @@ class Repository
     }
 
     /**
-     * @return array{'passed': bool, 'failed': bool, 'finished': bool}|null
+     * @return array{'passed': bool, 'failed': bool, 'finished': bool, 'percentage': float}|null
      */
     private function readOrQueryStatus(int $user_id, int $test_obj_id): ?array
     {
@@ -409,8 +436,9 @@ class Repository
         }
 
         $status = $this->db->fetchAssoc($this->db->queryF(
-            "SELECT tst_result_cache.passed, tst_result_cache.failed, (tst_active.last_finished_pass IS NOT NULL) AS finished  
-                    FROM tst_result_cache 
+            "SELECT tst_result_cache.passed, tst_result_cache.failed, (tst_active.last_finished_pass IS NOT NULL) AS finished,
+                    tst_result_cache.reached_points, tst_result_cache.max_points
+                    FROM tst_result_cache
                     INNER JOIN tst_active ON tst_active.active_id = tst_result_cache.active_fi
                     INNER JOIN tst_tests ON tst_tests.test_id = tst_active.test_fi
                     WHERE tst_active.user_fi = %s AND tst_tests.obj_fi = %s",
@@ -421,7 +449,23 @@ class Repository
             return null;
         }
 
+        $status['percentage'] = $this->calculatePercentage($status);
+        unset($status['reached_points'], $status['max_points']);
+
         $this->updateStatusCache($user_id, $test_obj_id, $status);
         return $status;
+    }
+
+    /**
+     * @param array{max_points: float, reached_points: float} $row
+     *
+     * @return float
+     */
+    private function calculatePercentage(array $row): float
+    {
+        $max_points = $this->ensurePositive($row['max_points'] ?? 0.0);
+        $reached_points = $this->ensurePositive($row['reached_points'] ?? 0.0);
+
+        return $max_points > 0 ? $reached_points / $max_points : 0.0;
     }
 }

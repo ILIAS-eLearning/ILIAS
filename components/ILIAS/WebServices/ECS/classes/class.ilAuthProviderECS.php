@@ -42,6 +42,7 @@ class ilAuthProviderECS extends ilAuthProvider
 
     protected ilECSSetting $currentServer;
     protected ilECSServerSettings $servers;
+    protected ilECSAuthFactory $auth_factory;
 
 
     /**
@@ -63,6 +64,7 @@ class ilAuthProviderECS extends ilAuthProvider
         $this->refinery = $DIC->refinery();
         $this->authSession = $DIC['ilAuthSession'];
         $this->ctrl = $DIC->ctrl();
+        $this->auth_factory = new ilECSAuthFactory();
 
         $this->initECSServices();
     }
@@ -150,12 +152,13 @@ class ilAuthProviderECS extends ilAuthProvider
                 $this->refinery->kindlyTo()->bool()
             );
         }
-        $redirection_target = '';
         if ($this->http->wrapper()->query()->has('target')) {
             $redirection_target = $this->http->wrapper()->query()->retrieve(
                 'target',
                 $this->refinery->kindlyTo()->string()
             );
+        } else {
+            $redirection_target = $this->http->request()->getUri()->getPath();
         }
         $part_settings = new ilECSParticipantSetting(
             $this->getCurrentServer()->getServerId(),
@@ -167,23 +170,10 @@ class ilAuthProviderECS extends ilAuthProvider
             $status->setAuthenticatedUserId($this->authSession->getUserId());
             return true;
         }
-        if (
-            $is_external_account &&
-            $part_settings->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_LOGIN_PAGE
-        ) {
-            $this->getLogger()->info('ILIAS login page authentication required.');
-            ilSession::set('success', $this->lng->txt('ecs_login_success_ilias'));
+        if ($is_external_account) {
             $this->initRemoteUserWithRemoteId();
-            $this->ctrl->redirectToURL('login.php?target=' . $redirection_target);
+            $this->auth_factory->build($part_settings->getIncomingAuthType())->handleLogin($redirection_target);
             return false;
-        }
-        if (
-            $is_external_account &&
-            $part_settings->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_SHIBBOLETH
-        ) {
-            $this->getLogger()->info('Redirect to shibboleth authentication');
-            $this->initRemoteUserWithRemoteId();
-            $this->ctrl->redirectToURL('shib_login.php?target=' . $redirection_target);
         }
         if ($part_settings->areIncomingLocalAccountsSupported()) {
             // handle successful authentication
@@ -358,29 +348,20 @@ class ilAuthProviderECS extends ilAuthProvider
 
         $local_user = ilAuthUtils::_generateLogin($this->getAbreviation() . '_' . $user->getLogin());
 
-        $newUser["login"] = $local_user;
-        $newUser["firstname"] = $user->getFirstname();
-        $newUser["lastname"] = $user->getLastname();
-        $newUser['email'] = $user->getEmail();
-        $newUser['institution'] = $user->getInstitution();
-
-        // set "plain md5" password (= no valid password)
-        $newUser["passwd"] = "";
-        $newUser["passwd_type"] = ilObjUser::PASSWD_CRYPTED;
-
-        $newUser["auth_mode"] = "ecs";
-        $newUser["profile_incomplete"] = 0;
-
         // system data
-        $userObj->assignData($newUser);
+        $userObj->setLogin($local_user);
+        $userObj->setFirstname($user->getFirstname());
+        $userObj->setLastname($user->getLastname());
         $userObj->setTitle($userObj->getFullname());
         $userObj->setDescription($userObj->getEmail());
-
+        $userObj->setEmail($user->getEmail());
+        $userObj->setInstitution($user->getInstitution());
+        $userObj->setPasswd('', ilObjUser::PASSWD_CRYPTED);
+        $userObj->setAuthMode('ecs');
         // set user language to system language
         $userObj->setLanguage($this->setting->get("language"));
 
         // Time limit
-        $userObj->setTimeLimitOwner(7);
         $userObj->setTimeLimitUnlimited(false);
         $userObj->setTimeLimitFrom(time() - 5);
         $userObj->setTimeLimitUntil(time() + (int) $this->clientIniFile->readVariable("session", "expire"));
@@ -427,8 +408,8 @@ class ilAuthProviderECS extends ilAuthProvider
             $user_obj->setTimeLimitFrom(time() - 60);
             $user_obj->setTimeLimitUntil(time() + (int) $this->clientIniFile->readVariable("session", "expire"));
         }
-        $user_obj->update();
         $user_obj->refreshLogin();
+        $user_obj->update();
 
         if ($this->getCurrentServer()->getGlobalRole()) {
             $this->rbacAdmin->assignUser(

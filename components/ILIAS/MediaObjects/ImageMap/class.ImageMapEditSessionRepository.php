@@ -33,10 +33,7 @@ class ImageMapEditSessionRepository
     {
     }
 
-    /**
-     * @return mixed|null
-     */
-    protected function get(string $key)
+    protected function get(string $key): mixed
     {
         if (\ilSession::has(self::KEY_BASE . $key)) {
             return \ilSession::get(self::KEY_BASE . $key);

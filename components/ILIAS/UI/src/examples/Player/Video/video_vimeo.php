@@ -42,7 +42,7 @@ function video_vimeo(): string
     $renderer = $DIC->ui()->renderer();
     $f = $DIC->ui()->factory();
 
-    $video = $f->player()->video("https://vimeo.com/669475821?controls=0");
+    $video = $f->player()->video("https://player.vimeo.com/video/669475821");
 
     return $renderer->render($video);
 }

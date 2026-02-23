@@ -229,7 +229,22 @@ class ilResourceCollectionGUI implements UploadHandler
             if (!$result->isOK()) {
                 continue;
             }
-            $rid = $this->irss->manage()->upload(
+            // if activated, prevent duplicate files by checking filenames. in thjis case a new revision gets appended
+            if ($this->view_request->preventDuplicates()) {
+                $existing_rid = $this->irss->collection()->findIdentificationByNameIn(
+                    $this->view_request->getCollection(),
+                    $result->getName()
+                );
+                if ($existing_rid !== null) {
+                    $this->irss->manage()->appendNewRevision(
+                        $existing_rid,
+                        $upload_result,
+                        $this->view_configuration->getStakeholder()
+                    );
+                }
+            }
+
+            $rid = $existing_rid ?? $this->irss->manage()->upload(
                 $result,
                 $this->view_configuration->getStakeholder()
             );

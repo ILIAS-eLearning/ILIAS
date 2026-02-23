@@ -328,7 +328,7 @@ class SettingsFormGUI
         $intro->setRows(10);
         $intro->setCols(80);
         $intro->setInfo($lng->txt("survey_introduction_info"));
-        if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+        if ((new \ilRTESettings($this->domain_service->lng(), $this->domain_service->user()))->getRichTextEditor() === "tinymce") {
             $intro->setUseRte(true);
             $intro->setRteTagSet("mini");
         }
@@ -375,7 +375,7 @@ class SettingsFormGUI
 
         // anonymization
         if ($feature_config->supportsAccessCodes()) {
-            $codes = new \ilCheckboxInputGUI($lng->txt("survey_access_codes"), "acc_codes");
+            $codes = new \ilCheckboxInputGUI($lng->txt("survey_access_code"), "acc_codes");
             $codes->setInfo($lng->txt("survey_access_codes_info"));
             $codes->setChecked(!$survey->isAccessibleWithoutCode());
             $form->addItem($codes);
@@ -446,7 +446,7 @@ class SettingsFormGUI
         $finalstatement->setValue($survey->prepareTextareaOutput($survey->getOutro()));
         $finalstatement->setRows(10);
         $finalstatement->setCols(80);
-        if (\ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
+        if ((new \ilRTESettings($this->domain_service->lng(), $this->domain_service->user()))->getRichTextEditor() === "tinymce") {
             $finalstatement->setUseRte(true);
             $finalstatement->setRteTagSet("mini");
         }

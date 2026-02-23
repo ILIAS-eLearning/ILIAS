@@ -25,6 +25,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\GlobalScreen\Scope\isDecorateable;
 use ILIAS\UI\Component\HasHelpTopics;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -38,6 +39,14 @@ trait DecoratorApplierTrait
 
     public function applyComponentDecorator(Component $component, isGlobalScreenItem $item): Component
     {
+        if (!$item instanceof isDecorateable) {
+            return $component;
+        }
+
+        if (!$component instanceof JavaScriptBindable) {
+            return $component;
+        }
+
         $c = $item->getComponentDecorator();
         if ($c !== null) {
             return $c($component);

@@ -47,7 +47,7 @@ class ilAssQuestionUserSolutionAdopter
         private ilDBInterface $db,
         ilSetting $ass_settings
     ) {
-        $this->process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $db);
+        $this->process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $db, ilLoggerFactory::getLogger('tst'));
     }
 
     public function getUserId(): ?int

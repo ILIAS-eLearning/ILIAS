@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\File;
 
+use ILIAS\UI\URLBuilder;
+
 /**
  * ---
  * description: >
@@ -44,19 +46,29 @@ function in_form()
     // Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
+    $http = $DIC->http();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
+    $get_request = $http->wrapper()->query();
+    $data_factory = new \ILIAS\Data\Factory();
+
+    $example_uri = $data_factory->uri((string) $http->request()->getUri());
+    $url_builder = new URLBuilder($example_uri);
+    [$process_form_url_builder, $process_form_parameter] = $url_builder->acquireParameter(explode('\\', __NAMESPACE__), "process_single");
 
     // Step 1: Define the input field.
     // See the implementation of a UploadHandler in components/ILIAS/UI_/classes/class.ilUIDemoFileUploadHandlerGUI.php
     $file = $ui->input()->field()->file(new \ilUIDemoFileUploadHandlerGUI(), "File Upload", "You can drop your files here");
 
     // Step 2: Define the form and attach the field.
-    $form = $ui->input()->container()->form()->standard('#', ['file' => $file]);
+    $form = $ui->input()->container()->form()->standard(
+        (string) $process_form_url_builder->withParameter($process_form_parameter, '1')->buildURI(),
+        ['file' => $file]
+    );
 
     // Step 3: Define some data processing.
     $result = '';
-    if ($request->getMethod() == "POST") {
+    if ($get_request->has($process_form_parameter->getName())) {
         $form = $form->withRequest($request);
         $result = $form->getData();
     }

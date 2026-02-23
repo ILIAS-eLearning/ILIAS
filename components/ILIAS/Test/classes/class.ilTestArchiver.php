@@ -29,6 +29,7 @@ use ILIAS\Data\Range;
 use ILIAS\Data\Order;
 use ILIAS\Test\Results\Data\Repository as TestResultRepository;
 use ILIAS\ResourceStorage\Services as IRSS;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -170,31 +171,25 @@ class ilTestArchiver
         $questions = $tst_obj->getQuestionsOfPass($active_fi, $pass);
         foreach ($questions as $question) {
             $question = $tst_obj->getQuestionDataset($question['question_fi']);
-            if ($question->type_tag === 'assFileUpload') {
-                $this->ensureTestArchiveIsAvailable();
-                $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
-                $this->ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass);
-                $pass_material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
-                $archive_folder = $pass_material_directory . DIRECTORY_SEPARATOR . $question->question_id . DIRECTORY_SEPARATOR;
-                if (!file_exists($archive_folder)) {
-                    mkdir($archive_folder, 0777, true);
-                }
-                $resource_id = $tst_obj->getTextAnswer($active_fi, $question->question_id, $pass);
-                if ($resource_id === '') {
-                    continue;
-                }
-                $irss_unique_id = $this->irss->manage()->find($resource_id);
-                if ($irss_unique_id != null) {
-                    $resource = $this->irss->manage()->getResource($irss_unique_id);
-                    $information = $resource->getCurrentRevision()->getInformation();
-                    $stream = $this->irss->consume()->stream($irss_unique_id);
-                    // this feels unnecessary..
-                    $file_stream = fopen($stream->getStream()->getMetadata('uri'), 'r');
-                    $file_content = stream_get_contents($file_stream);
-                    fclose($file_stream);
-                    $target_destination = $archive_folder . $information->getTitle();
-                    file_put_contents($target_destination, $file_content);
-                }
+            if ($question->type_tag !== 'assFileUpload') {
+                continue;
+            }
+
+            $this->ensureTestArchiveIsAvailable();
+            $this->ensurePassDataDirectoryIsAvailable($active_fi, $pass);
+            $this->ensurePassMaterialsDirectoryIsAvailable($active_fi, $pass);
+            $pass_material_directory = $this->getPassMaterialsDirectory($active_fi, $pass);
+            $archive_folder = $pass_material_directory . DIRECTORY_SEPARATOR . $question->question_id . DIRECTORY_SEPARATOR;
+            if (!file_exists($archive_folder)) {
+                mkdir($archive_folder, 0777, true);
+            }
+
+            $uploaded_files = assQuestion::instantiateQuestion($question->question_id)->getUploadedFiles($active_fi, $pass);
+            foreach ($uploaded_files as $uploaded_file) {
+                $this->addUploadedFilesToExport(
+                    $this->irss->manage()->find($uploaded_file['value1']),
+                    $archive_folder
+                );
             }
         }
     }
@@ -668,8 +663,9 @@ class ilTestArchiver
                 array $visible_column_ids,
                 Range $range,
                 Order $order,
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): \Generator {
                 $i = 1;
                 foreach ($this->result_data as $result) {
@@ -691,8 +687,9 @@ class ilTestArchiver
             }
 
             public function getTotalRowCount(
-                ?array $filter_data,
-                ?array $additional_parameters
+                mixed $additional_viewcontrol_data,
+                mixed $filter_data,
+                mixed $additional_parameters
             ): ?int {
                 return count($this->result_data);
             }
@@ -709,5 +706,23 @@ class ilTestArchiver
         }
 
         file_put_contents($archive, $content);
+    }
+
+    private function addUploadedFilesToExport(
+        ?ResourceIdentification $resource_id,
+        string $archive_folder
+    ): void {
+        if ($resource_id === null) {
+            return;
+        }
+
+        $information = $this->irss->manage()->getResource($resource_id)
+            ->getCurrentRevision()->getInformation();
+        $stream = $this->irss->consume()->stream($resource_id)->getStream();
+        file_put_contents(
+            $archive_folder . $information->getTitle(),
+            $stream->getContents()
+        );
+        $stream->close();
     }
 }

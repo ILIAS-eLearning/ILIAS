@@ -53,6 +53,33 @@ class RequestProcessorGetRecordTest extends RequestProcessorTestCase
         $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
     }
 
+    public function testGetResponseToRequestGetRecordDeleted(): void
+    {
+        $processor = new RequestProcessor(
+            $this->getWriter(),
+            $this->getSettings('prefix_'),
+            $this->getRepository(null, 0, 'delid+2022-11-27'),
+            $this->getTokenHandler()
+        );
+
+        $expected_response = <<<XML
+            <response>
+              <response_info>base url:GetRecord:identifier=prefix_delid+2022-11-27,metadataPrefix=oai_dc</response_info>
+              <deleted_record>
+                <record_info>prefix_delid+2022-11-27:2022-11-27</record_info>
+              </deleted_record>
+            </response>
+            XML;
+
+        $response = $processor->getResponseToRequest($this->getRequest(
+            'base url',
+            Verb::GET_RECORD,
+            [Argument::IDENTIFIER->value => 'prefix_delid+2022-11-27', Argument::MD_PREFIX->value => 'oai_dc']
+        ));
+
+        $this->assertXmlStringEqualsXmlString($expected_response, $response->saveXML());
+    }
+
     public function testGetResponseToRequestGetRecordNoMDFormatError(): void
     {
         $processor = new RequestProcessor(
