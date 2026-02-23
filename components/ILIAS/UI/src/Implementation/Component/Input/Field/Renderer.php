@@ -491,8 +491,10 @@ class Renderer extends AbstractComponentRenderer
         $value_is_empty = $value === null || $value === '';
         //disable first option if required.
         $tpl->setCurrentBlock("options");
-        $tpl->setVariable("SELECTED", $value_is_empty ? 'selected="selected"' : '');
-        if ($component->isRequired() && $value_is_empty) {
+        if ($value_is_empty) {
+            $tpl->setVariable("SELECTED", 'selected="selected"');
+        }
+        if ($value_is_empty && $component->isRequired()) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
             $tpl->setVariable("HIDDEN", "hidden");
         }
@@ -505,7 +507,9 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($component->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
-            $tpl->setVariable("SELECTED", ($value !== null && $value !== '' && $value == $option_key) ? 'selected="selected"' : '');
+            if (!$value_is_empty && $value == $option_key) {
+                $tpl->setVariable("SELECTED", 'selected="selected"');
+            }
             $tpl->setVariable("VALUE", $option_key);
             $tpl->setVariable("VALUE_STR", $option_value);
             $tpl->parseCurrentBlock();
