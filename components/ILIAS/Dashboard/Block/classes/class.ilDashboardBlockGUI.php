@@ -178,7 +178,6 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     public function init(): void
     {
         $this->lng->loadLanguageModule('dash');
-        $this->lng->loadLanguageModule('rep');
         $this->lng->loadLanguageModule('pd');
         $this->initViewSettings();
         $this->viewSettings->parse();
@@ -402,7 +401,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         if ($this->removeMultipleEnabled()) {
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, 'manage'),
-                $this->getRemoveMultipleActionText(),
+                $this->lng->txt('dash_' . $this->getBlockType() . '_remove_multiple'),
                 '',
                 $this->getRemoveModal()
             );
@@ -413,27 +412,21 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     {
         $items = $this->getManageFields();
         if ($items !== []) {
-            if ($this->viewSettings->isSelectedItemsViewActive()) {
-                $question = $this->lng->txt('dash_info_sure_remove_from_favs');
-            } else {
-                $this->lng->loadLanguageModule('mmbr');
-                $question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
-            }
             $modal = $this->ui->factory()->modal()->roundtrip(
-                $this->getRemoveMultipleActionText(),
+                $this->lng->txt('dash_' . $this->getBlockType() . '_remove_multiple'),
                 [
-                    $this->ui->factory()->messageBox()->confirmation($question),
+                    $this->ui->factory()->messageBox()->confirmation($this->lng->txt('dash_' . $this->getBlockType() . '_remove_info')),
                     $this->ui->factory()->messageBox()->info($this->lng->txt('select_one')),
                 ],
                 $items,
                 $this->ctrl->getLinkTargetByClass([ilDashboardGUI::class, $this::class], 'confirmedRemove')
-            )->withSubmitLabel($this->getRemoveMultipleActionText());
+            )->withSubmitLabel($this->lng->txt('dash_' . $this->getBlockType() . '_remove'));
 
             $modal = $modal->withOnLoadCode(static fn($id) => "il.Dashboard.confirmModal($id)");
         } else {
             $modal = $this->ui->factory()->modal()->roundtrip(
-                $this->getRemoveMultipleActionText(),
-                $this->ui->factory()->messageBox()->info($this->lng->txt('pd_no_items_to_manage'))
+                $this->lng->txt('dash_' . $this->getBlockType() . '_remove_multiple'),
+                $this->ui->factory()->messageBox()->info($this->lng->txt('dash_no_items_to_manage'))
             );
         }
 
@@ -625,9 +618,10 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
-    abstract public function removeMultipleEnabled(): bool;
-
-    abstract public function getRemoveMultipleActionText(): string;
+    public function removeMultipleEnabled(): bool
+    {
+        return false;
+    }
 
     /**
      * @param int[] $ids

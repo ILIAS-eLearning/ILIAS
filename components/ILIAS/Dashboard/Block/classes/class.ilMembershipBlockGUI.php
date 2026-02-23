@@ -66,7 +66,7 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
 
     public function getBlockType(): string
     {
-        return 'pdmem';
+        return 'dash_mem';
     }
 
     public function confirmedRemove(array $ids): void
@@ -113,10 +113,5 @@ class ilMembershipBlockGUI extends ilDashboardBlockGUI
     public function removeMultipleEnabled(): bool
     {
         return true;
-    }
-
-    public function getRemoveMultipleActionText(): string
-    {
-        return $this->lng->txt('pd_unsubscribe_multiple_memberships');
     }
 }
