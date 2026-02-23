@@ -26,7 +26,7 @@ class ilNewsSetupAgent extends NullAgent
 {
     use HasNoNamedObjective;
 
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
+    public function getUpdateObjective(?ILIAS\Setup\Config $config = null): Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilNewsDBUpdateSteps());
     }
