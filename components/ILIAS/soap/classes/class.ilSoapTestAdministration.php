@@ -138,21 +138,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $totalrows = 0;
 
-        $processLocker->executePersistWorkingStateLockOperation(function () use (
-            &$totalrows,
-            $processLocker,
-            $active_id,
-            $question_id,
-            $pass,
-            $solution
-        ) {
-            $processLocker->executeUserSolutionUpdateLockOperation(function () use (
-                &$totalrows,
-                $active_id,
-                $question_id,
-                $pass,
-                $solution
-            ) {
+        $processLocker->executePersistWorkingStateLockOperation(function () use (&$totalrows, $processLocker, $active_id, $question_id, $pass, $solution) {
+            $processLocker->executeUserSolutionUpdateLockOperation(function () use (&$totalrows, $active_id, $question_id, $pass, $solution) {
                 $ilDB = $GLOBALS['DIC']['ilDB'];
                 if (($active_id > 0) && ($question_id > 0) && ($pass > 0)) {
                     $affectedRows = $ilDB->manipulateF(
@@ -213,12 +200,14 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
         $solutions = [];
         if (preg_match("/<values>(.*?)<\/values>/is", $solution, $matches)) {
-            if (preg_match_all(
-                "/<value>(.*?)<\/value><value>(.*?)<\/value><points>(.*?)<\/points>/is",
-                $solution,
-                $matches,
-                PREG_SET_ORDER
-            )) {
+            if (
+                preg_match_all(
+                    "/<value>(.*?)<\/value><value>(.*?)<\/value><points>(.*?)<\/points>/is",
+                    $solution,
+                    $matches,
+                    PREG_SET_ORDER
+                )
+            ) {
                 foreach ($matches as $match) {
                     if (count($match) === 4) {
                         for ($i = 1, $iMax = count($match); $i < $iMax; $i++) {
@@ -679,10 +668,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(1, $row["login"]);
                 $xmlRow->setValue(2, $row["firstname"]);
                 $xmlRow->setValue(3, $row["lastname"]);
-                $xmlRow->setValue(4, $row["matriculation"]);
-                $xmlRow->setValue(5, $row["max_points"]);
-                $xmlRow->setValue(6, $row["reached_points"]);
-                $xmlRow->setValue(7, $row["passed"]);
+                $xmlRow->setValue(4, $row["matriculation"] ? (string) $row["matriculation"] : "");
+                $xmlRow->setValue(5, $row["max_points"] ? (float) $row["max_points"] : "");
+                $xmlRow->setValue(6, $row["reached_points"] ? (float) $row["reached_points"] : "");
+                $xmlRow->setValue(7, $row["passed"] ? (int) $row["passed"] : 0);
                 $xmlResultSet->addRow($xmlRow);
             }
         } else {
@@ -699,12 +688,12 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $xmlRow->setValue(1, $row["login"]);
                 $xmlRow->setValue(2, $row["firstname"]);
                 $xmlRow->setValue(3, $row["lastname"]);
-                $xmlRow->setValue(4, $row["matriculation"]);
-                $xmlRow->setValue(5, $row["question_id"]);
-                $xmlRow->setValue(6, $row["question_title"]);
-                $xmlRow->setValue(7, $row["max_points"]);
-                $xmlRow->setValue(8, $row["reached_points"]);
-                $xmlRow->setValue(9, $row["passed"]);
+                $xmlRow->setValue(4, $row["matriculation"] ? (string) $row["matriculation"] : "");
+                $xmlRow->setValue(5, $row["question_id"] ? (string) $row["question_id"] : "");
+                $xmlRow->setValue(6, $row["question_title"] ? (string) $row["question_title"] : "");
+                $xmlRow->setValue(7, $row["max_points"] ? (float) $row["max_points"] : "");
+                $xmlRow->setValue(8, $row["reached_points"] ? (float) $row["reached_points"] : "");
+                $xmlRow->setValue(9, $row["passed"] ? (int) $row["passed"] : 0);
                 $xmlResultSet->addRow($xmlRow);
             }
         }
