@@ -102,7 +102,7 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
 
     public function getBlockType(): string
     {
-        return 'pdrecc';
+        return 'dash_rc';
     }
 
     public function addCustomCommandsToActionMenu(ilObjectListGUI $itemListGui, int $ref_id): void
@@ -127,10 +127,5 @@ class ilDashboardRecommendedContentGUI extends ilDashboardBlockGUI
     public function removeMultipleEnabled(): bool
     {
         return true;
-    }
-
-    public function getRemoveMultipleActionText(): string
-    {
-        return $this->lng->txt('pd_remove_multiple');
     }
 }

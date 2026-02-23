@@ -8096,6 +8096,18 @@ dash#:#dash_click_here#:#Hier klicken
 dash#:#dash_co_delete#:#Dashboard-Gestaltung löschen
 dash#:#dash_co_lang#:#Dashboard-Gestaltung nach Sprachen
 dash#:#dash_customization#:#Gestaltung der Dashboard-Seite
+dash#:#dash_dash_fav_remove#:#Entfernen
+dash#:#dash_dash_fav_remove_info#:#Wollen Sie die folgenden Objekte wirklich aus Ihren Favoriten entfernen?
+dash#:#dash_dash_fav_remove_multiple#:#Mehrere Favoriten entfernen
+dash#:#dash_dash_ls_remove#:#Mitgliedschaften beenden
+dash#:#dash_dash_ls_remove_info#:#Wollen Sie die folgenden Mitgliedschaften für Lernsequenzen wirklich beenden?
+dash#:#dash_dash_ls_remove_multiple#:#Mehrere Mitgliedschaften beenden
+dash#:#dash_dash_mem_remove#:#Mitgliedschaften beenden
+dash#:#dash_dash_mem_remove_info#:#Wollen Sie die folgenden Mitgliedschaften für Kurse und Gruppen wirklich beenden?
+dash#:#dash_dash_mem_remove_multiple#:#Mehrere Mitgliedschaften beenden
+dash#:#dash_dash_rc_remove#:#Entfernen
+dash#:#dash_dash_rc_remove_info#:#Wollen Sie die folgenden Objekte wirklich aus Ihren empfohlenen Inhalten entfernen?
+dash#:#dash_dash_rc_remove_multiple#:#Mehrere Inhalte entfernen
 dash#:#dash_dashboard#:#Dashboard
 dash#:#dash_default_presentation#:#Standardpräsentation
 dash#:#dash_default_sortation#:#Standardsortierung
@@ -8109,7 +8121,6 @@ dash#:#dash_enable_recommended_content#:#Empfohlene Inhalte
 dash#:#dash_enable_study_programmes#:#Studienprogramme
 dash#:#dash_enable_task#:#To-Dos
 dash#:#dash_favourites#:#Favoriten
-dash#:#dash_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
 dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
 dash#:#dash_learning_sequences#:#Meine Lernsequenzen
 dash#:#dash_list#:#Liste
@@ -8121,6 +8132,7 @@ dash#:#dash_manual_new_item_pos_top#:#Oben
 dash#:#dash_manual_sorting_title#:#Manuelles Sortieren von Favoriten
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
+dash#:#dash_no_items_to_manage#:#Keine Objekte zum Entfernen verfügbar.
 dash#:#dash_page_edit_info#:#Der Inhalt dieser Seite wird allen Nutzern auf ihrem Dashboard angezeigt. Die Inhaltsblöcke des Dashboards werden darunter angezeigt.
 dash#:#dash_presentation#:#Präsentation
 dash#:#dash_recommended_content#:#Empfohlene Inhalte
@@ -12807,7 +12819,6 @@ mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer a
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Wollen Sie wirklich die Mitgliedschaft für die folgenden Kurse und Gruppen beenden?
 mmbr#:#mmbr_memberships#:#Mitgliedschaften
 mmbr#:#mmbr_role_error#:#Mitglieder müssen mindestens eine Rolle haben.
 mmbr#:#mmbr_unsubscribed_from_objs#:#Sie wurden von den ausgewählten Objekten abgemeldet.
@@ -13379,7 +13390,6 @@ pd#:#pd_ended#:#Beendet
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_import_personal_data#:#Persönliche Daten importieren
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
-pd#:#pd_no_items_to_manage#:#Keine Objekte zum Entfernen verfügbar.
 pd#:#pd_not_dated#:#Nicht datiert
 pd#:#pd_ongoing#:#Aktuell
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
@@ -13389,9 +13399,6 @@ pd#:#pd_presentation_mode_tile#:#Kachelansicht
 pd#:#pd_private_calendars#:#Private Kalender
 pd#:#pd_profile_data#:#Profildaten
 pd#:#pd_remove_multi_confirm#:#Die Objekte wurden entfernt.
-pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
-pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
-pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
 pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Kurse und Gruppen'.
 pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.

@@ -84,7 +84,7 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
 
     public function getBlockType(): string
     {
-        return 'pditems';
+        return 'dash_fav';
     }
 
     public function confirmedRemove(array $ids): void
@@ -100,10 +100,5 @@ class ilSelectedItemsBlockGUI extends ilDashboardBlockGUI
     public function removeMultipleEnabled(): bool
     {
         return true;
-    }
-
-    public function getRemoveMultipleActionText(): string
-    {
-        return $this->lng->txt('pd_remove_multiple');
     }
 }
