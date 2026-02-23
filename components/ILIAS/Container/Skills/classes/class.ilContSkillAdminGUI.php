@@ -481,8 +481,28 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $tabs->activateSubTab("profiles");
 
+        // table
+        $table = $this->skills_gui->contProfileTableBuilder(
+            $this->skills_domain,
+            $this->profile_service,
+            $this->skmg_settings,
+            $this->ref_id,
+            $this->cont_member_role_id,
+            $this,
+            "listProfiles"
+        )->getTable();
+
+        if ($table->handleCommand()) {
+            return;
+        }
+        $this->buildProfileToolbar();
+        $tpl->setContent($table->render());
+    }
+
+    protected function buildProfileToolbar(): void
+    {
         $options = [];
-        $options[0] = $lng->txt("please_select");
+        $options[0] = $this->lng->txt("please_select");
 
         $selectable_profiles = [];
         $all_profiles = $this->profile_service->getAllGlobalProfiles();
@@ -499,10 +519,10 @@ class ilContSkillAdminGUI
         }
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
-            $select = new ilSelectInputGUI($lng->txt("skmg_profile"), "p_id");
+            $select = new ilSelectInputGUI($this->lng->txt("skmg_profile"), "p_id");
             $select->setOptions($options);
             $select->setValue(0);
-            $toolbar->addInputItem($select, true);
+            $this->toolbar->addInputItem($select, true);
 
             $this->gui->button(
                 $this->lng->txt("cont_add_global_profile"),
@@ -512,34 +532,17 @@ class ilContSkillAdminGUI
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()
             && $this->skmg_settings->getAllowLocalProfiles()) {
-            $toolbar->addSeparator();
+            $this->toolbar->addSeparator();
         }
 
         if ($this->skmg_settings->getAllowLocalProfiles()) {
             $this->gui->link(
                 $this->lng->txt("cont_add_local_profile"),
-                $ctrl->getLinkTargetByClass("ilskillprofilegui", "createLocal")
+                $this->ctrl->getLinkTargetByClass("ilskillprofilegui", "createLocal")
             )->emphasised()->toToolbar();
         }
 
-        $toolbar->setFormAction($ctrl->getFormAction($this));
-
-        // table
-        $table = $this->skills_gui->contProfileTableBuilder(
-            $this->skills_domain,
-            $this->profile_service,
-            $this->skmg_settings,
-            $this->ref_id,
-            $this->cont_member_role_id,
-            $this,
-            "listProfiles"
-        )->getTable();
-
-        if ($table->handleCommand()) {
-            return;
-        }
-
-        $tpl->setContent($table->render());
+        $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
     }
 
     public function saveSelectedProfile(): void
