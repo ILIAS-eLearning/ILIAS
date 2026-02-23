@@ -2168,6 +2168,10 @@ class ilObjectListGUI
 
     public function insertMultiDownloadCommand(): void
     {
+        if ($this->user->isAnonymous()) {
+            return;
+        }
+
         if ($this->std_cmd_only) {
             return;
         }
