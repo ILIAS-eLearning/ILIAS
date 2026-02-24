@@ -20,14 +20,13 @@ declare(strict_types=1);
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 
-class DashboardLayoutProvider extends AbstractModificationProvider implements ModificationProvider
+class DashboardLayoutProvider extends AbstractModificationProvider
 {
     protected ?Collection $data_collection;
 

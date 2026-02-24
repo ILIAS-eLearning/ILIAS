@@ -20,88 +20,67 @@ declare(strict_types=1);
 
 final class ilPDSelectedItemBlockMembershipsDTO
 {
-    private int $refId;
-    private int $objId;
-    private string $type;
-    private string $title;
-    private string $description;
-    private int $parentRefId;
-    private int $parentLftTree;
-    private bool $objectPeriodHasTime;
-    private ?DateTimeImmutable $periodStart;
-    private ?DateTimeImmutable $periodEnd;
-
     public function __construct(
-        int $refId,
-        int $objId,
-        string $type,
-        string $title,
-        string $description,
-        int $parentRefId,
-        int $parentLftTree,
-        bool $objectPeriodHasTime,
-        ?DateTimeImmutable $periodStart,
-        ?DateTimeImmutable $periodEnd
+        protected readonly int $ref_id,
+        protected readonly int $obj_id,
+        protected readonly string $type,
+        protected readonly string $title,
+        protected readonly string $description,
+        protected readonly int $parent_ref_id,
+        protected readonly int $parent_lft_tree,
+        protected readonly bool $object_period_has_time,
+        protected readonly ?DateTimeImmutable $period_start,
+        protected readonly ?DateTimeImmutable $period_end
     ) {
-        $this->refId = $refId;
-        $this->objId = $objId;
-        $this->type = $type;
-        $this->title = $title;
-        $this->description = $description;
-        $this->parentRefId = $parentRefId;
-        $this->parentLftTree = $parentLftTree;
-        $this->objectPeriodHasTime = $objectPeriodHasTime;
-        $this->periodStart = $periodStart;
-        $this->periodEnd = $periodEnd;
     }
 
-    public function getRefId(): int
+    final public function getRefId(): int
     {
-        return $this->refId;
+        return $this->ref_id;
     }
 
-    public function getObjId(): int
+    final public function getObjId(): int
     {
-        return $this->objId;
+        return $this->obj_id;
     }
 
-    public function getType(): string
+    final public function getType(): string
     {
         return $this->type;
     }
 
-    public function getTitle(): string
+    final public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDescription(): string
+    final public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getParentRefId(): int
+    final public function getParentRefId(): int
     {
-        return $this->parentRefId;
+        return $this->parent_ref_id;
     }
 
-    public function getParentLftTree(): int
+    final public function getParentLftTree(): int
     {
-        return $this->parentLftTree;
+        return $this->parent_lft_tree;
     }
 
-    public function objectPeriodHasTime(): bool
+    final public function objectPeriodHasTime(): bool
     {
-        return $this->objectPeriodHasTime;
+        return $this->object_period_has_time;
     }
 
-    public function getPeriodStart(): ?DateTimeImmutable
+    final public function getPeriodStart(): ?DateTimeImmutable
     {
-        return $this->periodStart;
+        return $this->period_start;
     }
 
-    public function getPeriodEnd(): ?DateTimeImmutable
+    final public function getPeriodEnd(): ?DateTimeImmutable
     {
-        return $this->periodEnd;
+        return $this->period_end;
     }
 }

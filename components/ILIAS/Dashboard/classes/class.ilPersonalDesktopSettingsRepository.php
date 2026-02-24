@@ -22,13 +22,9 @@ use ILIAS\Administration\Setting;
 
 class ilPersonalDesktopSettingsRepository
 {
-    protected Setting $settings;
-
-    public function __construct(Setting $settings)
+    public function __construct(protected readonly Setting $settings)
     {
-        $this->settings = $settings;
     }
-
 
     public function ifNotesEnabled(): bool
     {
