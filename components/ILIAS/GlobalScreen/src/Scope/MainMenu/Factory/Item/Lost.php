@@ -35,8 +35,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
-use ILIAS\GlobalScreen\Scope\isDecorateable;
-use ILIAS\GlobalScreen\Scope\TriggererDecoratorTrait;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -53,6 +51,7 @@ class Lost extends AbstractBaseItem implements
     private array $children = [];
     private IdentificationInterface $parent;
     private string $title = '';
+    private int $amount = 0;
 
     /**
      * @inheritDoc
@@ -247,4 +246,19 @@ class Lost extends AbstractBaseItem implements
     {
         return false;
     }
+
+    public function calculateAmountOfChildren(): void
+    {
+        $this->amount = count($this->children);
+    }
+
+    public function getAmountOfChildren(bool $including_dropped = true): int
+    {
+        if ($including_dropped) {
+            return $this->amount;
+        }
+        return count($this->children);
+    }
+
+
 }

@@ -225,4 +225,8 @@ class StandardGUIRequest
         return $this->str("data");
     }
 
+    public function getOriginCmd(): string
+    {
+        return $this->str("origin_cmd");
+    }
 }

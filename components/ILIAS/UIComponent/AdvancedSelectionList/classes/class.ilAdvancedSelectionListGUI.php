@@ -395,9 +395,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
     public function setAsynch(bool $a_val): void
     {
-        if ($a_val) {
-            ilYuiUtil::initConnection();
-        }
         $this->asynch = $a_val;
     }
 

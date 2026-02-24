@@ -341,6 +341,7 @@ class ilInitialisation
                 $c->language()->txt("upload_svg_rejection_message"),
                 $c->language()->txt("upload_svg_rejection_message_script"),
                 $c->language()->txt("upload_svg_rejection_message_base64"),
+                $c->language()->txt("upload_svg_rejection_message_foreign_object"),
                 $c->language()->txt("upload_svg_rejection_message_elements")
             ));
 

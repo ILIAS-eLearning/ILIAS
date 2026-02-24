@@ -50,7 +50,7 @@ class ilObjDataCollection extends ilObject2
         if (!$clone_mode) {
             $main_table = ilDclCache::getTableCache();
             $main_table->setObjId($this->getId());
-            $main_table->setTitle($this->getTitle());
+            $main_table->setTitle($this->lng->txt('dcl_title_standard'));
             $main_table->setAddPerm(true);
             $main_table->setEditPerm(true);
             $main_table->setDeletePerm(false);
@@ -142,8 +142,8 @@ class ilObjDataCollection extends ilObject2
         $new_obj->setNotification($this->getNotification());
         if (!(ilCopyWizardOptions::_getInstance($a_copy_id))->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->getOnline());
-            $new_obj->update();
         }
+        $new_obj->update();
         $new_obj->cloneStructure($this->getRefId());
         $this->cloneMetaData($new_obj);
     }

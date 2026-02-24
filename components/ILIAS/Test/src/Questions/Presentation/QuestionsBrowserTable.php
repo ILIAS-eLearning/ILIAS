@@ -99,7 +99,7 @@ class QuestionsBrowserTable implements DataRetrieval
                 $this->lng->txt('qpl_settings_subtab_taxonomies')
             )->withIsOptional(false, true),
             'feedback' => $column_factory->boolean(
-                $this->lng->txt('feedback'),
+                $this->lng->txt('tst_feedback'),
                 $iconYes,
                 $iconNo
             )->withIsOptional(true, false),
@@ -129,10 +129,10 @@ class QuestionsBrowserTable implements DataRetrieval
     private function getInsertAction(): TableAction
     {
         $url_builder = new URLBuilder($this->data_factory->uri(
-            ServerRequest::getUriFromGlobals() . $this->ctrl->getLinkTargetByClass(
+            ILIAS_HTTP_PATH . "/{$this->ctrl->getLinkTargetByClass(
                 ilTestQuestionBrowserTableGUI::class,
                 ilTestQuestionBrowserTableGUI::CMD_INSERT_QUESTIONS
-            )
+            )}"
         ));
 
         [$url_builder, $row_id_token] = $url_builder->acquireParameters(['qlist'], 'q_id');

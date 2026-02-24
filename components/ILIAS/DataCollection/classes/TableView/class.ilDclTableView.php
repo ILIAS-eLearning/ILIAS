@@ -62,13 +62,6 @@ class ilDclTableView extends ActiveRecord
      */
     protected string $description = '';
     /**
-     * @var int
-     * @db_has_field        true
-     * @db_fieldtype        integer
-     * @db_length           8
-     */
-    protected int $tableview_order = 0;
-    /**
      * @var ilDclBaseFieldModel[]
      */
     protected array $visible_fields_cache = [];
@@ -112,16 +105,6 @@ class ilDclTableView extends ActiveRecord
         $this->title = $title;
     }
 
-    public function getOrder(): int
-    {
-        return $this->tableview_order;
-    }
-
-    public function setOrder(int $order): void
-    {
-        $this->tableview_order = $order;
-    }
-
     public function getDescription(): string
     {
         return $this->description;
@@ -130,16 +113,6 @@ class ilDclTableView extends ActiveRecord
     public function setDescription(string $description): void
     {
         $this->description = $description;
-    }
-
-    public function getTableviewOrder(): int
-    {
-        return $this->tableview_order;
-    }
-
-    public function setTableviewOrder(int $tableview_order): void
-    {
-        $this->tableview_order = $tableview_order;
     }
 
     public function getRoles(): array
@@ -336,37 +309,30 @@ class ilDclTableView extends ActiveRecord
         }
     }
 
-    /**
-     * @param ilDclTableView $orig
-     * @param array          $new_fields fields mapping
-     */
     public function cloneStructure(ilDclTableView $orig, array $new_fields): void
     {
         global $DIC;
-        //clone structure
-        $this->setTitle($orig->getTitle() . ' ' . $DIC->language()->txt('copy_of_suffix'));
-        $this->setOrder($orig->getOrder());
+        $title = $orig->getTitle();
+        if ($orig->getTable()->getId() === $this->getTable()->getId()) {
+            $title .= ' ' . $DIC->language()->txt('copy_of_suffix');
+        }
+        $this->setTitle($title);
         $this->setDescription($orig->getDescription());
         $this->setRoles($orig->getRoles());
-        $this->create(false); //create default setting, adjust them later
+        $this->create(false);
 
-        //clone default values
         $f = new ilDclDefaultValueFactory();
 
-        //clone fieldsettings
         foreach ($orig->getFieldSettings() as $orig_fieldsetting) {
             $new_fieldsetting = new ilDclTableViewFieldSetting();
             $new_fieldsetting->setTableviewId($this->getId());
             if ($new_fields[$orig_fieldsetting->getField()] ?? null) {
-                //normal fields
                 $new_fieldsetting->setField($new_fields[$orig_fieldsetting->getField()]->getId());
             } else {
-                //standard fields
                 $new_fieldsetting->setField($orig_fieldsetting->getField());
             }
             $new_field_id = $new_fieldsetting->cloneStructure($orig_fieldsetting);
 
-            //clone default value
             $datatype = $orig_fieldsetting->getFieldObject()->getDatatypeId();
             $match = ilDclTableViewBaseDefaultValue::findSingle($datatype, $orig_fieldsetting->getId());
 
@@ -379,13 +345,11 @@ class ilDclTableView extends ActiveRecord
         }
         $this->createFieldSetting('comments');
 
-        //clone pageobject
         if (ilDclDetailedViewDefinition::exists($orig->getId())) {
             $orig_pageobject = new ilDclDetailedViewDefinition($orig->getId());
             $orig_pageobject->copy($this->getId());
         }
 
-        // mandatory for all cloning functions
         ilDclCache::setCloneOf($orig->getId(), $this->getId(), ilDclCache::TYPE_TABLEVIEW);
     }
 
@@ -397,18 +361,13 @@ class ilDclTableView extends ActiveRecord
         return self::where(['table_id' => $table_id])->orderBy('title')->get();
     }
 
-    public static function getCountForTableId(int $table_id): int
-    {
-        return self::where(['table_id' => $table_id])->orderBy('tableview_order')->count();
-    }
-
     /**
      * @param      $table_id
      * @return ilDclTableView|ActiveRecord
      */
     public static function createOrGetStandardView(int $table_id): ActiveRecord
     {
-        if ($standardview = self::where(['table_id' => $table_id])->orderBy('tableview_order')->first()) {
+        if ($standardview = self::where(['table_id' => $table_id])->first()) {
             return $standardview;
         }
 
@@ -443,8 +402,7 @@ class ilDclTableView extends ActiveRecord
         $view->setTableId($table_id);
         // bugfix mantis 0023307
         $lng = $DIC['lng'];
-        $view->setTitle($lng->txt('dcl_title_standardview'));
-        $view->setTableviewOrder(10);
+        $view->setTitle($lng->txt('dcl_title_standard'));
         $view->create();
 
         return $view;

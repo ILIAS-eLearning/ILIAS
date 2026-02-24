@@ -84,6 +84,9 @@ class assFormulaQuestionImport extends assQuestionImport
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
         $this->object->saveToDb();
+
+        $this->importUnitsAndUnitCategories($item);
+
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         $feedbacksgeneric = $this->getFeedbackGeneric($item);
@@ -123,5 +126,80 @@ class assFormulaQuestionImport extends assQuestionImport
             $tst_object
         );
         return $import_mapping;
+    }
+
+    private function importUnitsAndUnitCategories(ilQTIItem $item): void
+    {
+        /** @var ilUnitConfigurationRepository $unit_repository */
+        $unit_repository = $this->object->getUnitrepository();
+        foreach ($item->getUnitCategoryObjets() as $unit_category) {
+            $old_category_id = $unit_category->getId();
+
+            $unit_category->setQuestionFi($this->object->getId());
+            $unit_repository->saveNewUnitCategory($unit_category);
+
+            $units = [];
+            $base_unit_map = [];
+
+            foreach ($item->getUnitObjects() as $unit) {
+                if ($unit->getCategory() !== $old_category_id) {
+                    continue;
+                }
+
+                $old_unit_id = $unit->getId();
+                $old_base_unit_id = $unit->getBaseUnit();
+                $old_unit_factor = $unit->getFactor();
+                $old_sequence = $unit->getSequence();
+
+                $unit->setCategory($unit_category->getId());
+                $unit->setFactor($old_unit_factor);
+                $unit->setSequence($old_sequence);
+
+                $unit_repository->createNewUnit($unit);
+                $unit->setBaseUnit($old_base_unit_id);
+
+                $units[] = $unit;
+                $base_unit_map[$old_unit_id] = $unit->getId();
+
+                $this->mapAssignedVariableUnits($unit, $old_unit_id);
+                $this->mapAssignedResultUnits($unit, $old_unit_id);
+            }
+
+            foreach ($units as $unit) {
+                $unit->setBaseUnit($base_unit_map[$unit->getBaseUnit()] ?? 0);
+                $unit_repository->saveUnit($unit);
+            }
+        }
+    }
+
+    private function mapAssignedVariableUnits(assFormulaQuestionUnit $unit, int $old_unit_id): void
+    {
+        /** @var assFormulaQuestionVariable $variable */
+        foreach ($this->object->getVariables() as $variable) {
+            $variable_unit = $variable->getUnit();
+            if ($variable_unit instanceof assFormulaQuestionUnit && $variable_unit->getId() === $old_unit_id) {
+                $variable_unit->setId($unit->getId());
+            }
+        }
+    }
+
+    private function mapAssignedResultUnits(assFormulaQuestionUnit $unit, int $old_unit_id): void
+    {
+        /** @var assFormulaQuestionResult $result */
+        foreach ($this->object->getResults() as $result) {
+            $result_unit = $result->getUnit();
+            if ($result_unit instanceof assFormulaQuestionUnit && $result_unit->getId() === $old_unit_id) {
+                $result_unit->setId($unit->getId());
+            }
+        }
+
+        /** @var assFormulaQuestionUnit[] $result */
+        foreach ($this->object->getAllResultUnits() as $result) {
+            foreach ($result as $result_unit) {
+                if ($result_unit instanceof assFormulaQuestionUnit && $result_unit->getId() === $old_unit_id) {
+                    $result_unit->setId($unit->getId());
+                }
+            }
+        }
     }
 }

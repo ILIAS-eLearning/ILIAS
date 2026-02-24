@@ -112,8 +112,11 @@
             additional_disengage: function(){
                 var entry_id = dom_ref_to_element[this.html_id];
                 thrown_for[entry_id] = false;
-                this.getElement().attr('aria-hidden', true);
-                this.getElement().removeAttr('role', 'region');
+                var element = this.getElement();
+                element.attr('aria-hidden', true);
+                if (element.attr('role') === 'region') {
+                    element.removeAttr('role');
+                }
             }
         }),
         remover: Object.assign({}, dom_element, {

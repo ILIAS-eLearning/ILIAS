@@ -461,9 +461,6 @@ class ResultsExportExcel implements Exporter
                 $answers = implode("\n", $answers);
             }
 
-            $disable_strip_tags_for_answers = $question_obj instanceof \assTextQuestion
-                && $this->test_obj->getGlobalSettings()->getExportEssayQuestionsAsHtml();
-
             $correct_answers = $question_obj->getCorrectSolutionForTextOutput($active_id, $test_attempt->getPass());
             if (is_array($correct_answers)) {
                 $correct_answers = implode("\n", $correct_answers);
@@ -472,7 +469,7 @@ class ResultsExportExcel implements Exporter
             $col = 0;
             $this->worksheet->setCell($current_row, $col++, $question_obj->getTitle());
             $this->worksheet->setCell($current_row, $col++, $this->lng->txt($question_obj->getQuestionType()));
-            $this->worksheet->setCell($current_row, $col++, $answers, DataType::TYPE_STRING, $disable_strip_tags_for_answers);
+            $this->worksheet->setCell($current_row, $col++, $answers, DataType::TYPE_STRING);
             $this->worksheet->setCell($current_row, $col++, $correct_answers);
             $this->worksheet->setCell($current_row, $col++, implode(', ', $question_obj->getVariablesAsTextArray($active_id, $test_attempt->getPass())));
             $this->worksheet->setCell($current_row, $col++, $test_attempt->getAnsweredQuestionByQuestionId($question_id)['reached'] ?? 0);

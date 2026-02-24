@@ -22,6 +22,7 @@ namespace ILIAS\LearningModule\Table;
 
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use ILIAS\LearningModule\Editing\EditSubObjectsGUI;
 
 class SubObjectRetrieval implements RetrievalInterface
 {
@@ -106,10 +107,29 @@ class SubObjectRetrieval implements RetrievalInterface
             if (!in_array($this->transl, ["-", ""])) {
                 $trans_title = $this->getChildTitle($child);
             }
+            $target = "#";
+            if ($child["type"] === "pg") {
+                global $DIC;
+                $DIC->ctrl()->setParameterByClass(\ilLMPageGUI::class, "obj_id", $child["child"]);
+                $target = $DIC->ctrl()->getLinkTargetByClass([
+                    \ilObjLearningModuleGUI::class,
+                    \ilLMPageObjectGUI::class,
+                    \ilLMPageGUI::class
+                ], "edit");
+            } elseif ($child["type"] === "st") {
+                global $DIC;
+                $DIC->ctrl()->setParameterByClass(\ilStructureObjectGUI::class, "obj_id", $child["child"]);
+                $target = $DIC->ctrl()->getLinkTargetByClass([
+                    \ilObjLearningModuleGUI::class,
+                    \ilStructureObjectGUI::class,
+                    EditSubObjectsGUI::class
+                ], "editPages");
+            }
+
             yield [
                 "id" => $child["child"],
                 "type" => $this->f->symbol()->icon()->custom(\ilUtil::getImagePath($img), $alt),
-                "title" => $child["title"],
+                "title" => $this->f->link()->standard($child["title"], $target),
                 "trans_title" => $trans_title
             ];
         }

@@ -18,27 +18,23 @@
 
 declare(strict_types=1);
 
-use Psr\Http\Message\ServerRequestInterface;
-
-/**
- * Description of class class
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @author Michael Jansen <mjansen@databay.de>
- *
- */
 class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 {
-    private ServerRequestInterface $httpRequest;
-    private ilCtrlInterface $ctrl;
-    private ilSetting $settings;
-    private ilLogger $logger;
+    private readonly \ILIAS\HTTP\GlobalHttpState $http;
+    private readonly \ILIAS\Refinery\Factory $refinery;
+    private readonly ilCtrlInterface $ctrl;
+    private readonly ilSetting $settings;
+    private readonly ilLogger $logger;
 
-    public function __construct(ServerRequestInterface $httpRequest, ilCtrlInterface $ctrl)
-    {
+    public function __construct(
+        \ILIAS\HTTP\GlobalHttpState $http,
+        \ILIAS\Refinery\Factory $refinery,
+        ilCtrlInterface $ctrl
+    ) {
         global $DIC;
         $this->logger = $DIC->logger()->auth();
-        $this->httpRequest = $httpRequest;
+        $this->http = $http;
+        $this->refinery = $refinery;
         $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');
         parent::__construct();
@@ -50,15 +46,6 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
      */
     public function tryAuthenticationOnLoginPage(): void
     {
-        $cmd = (string) ($this->httpRequest->getQueryParams()['cmd'] ?? '');
-        if ('' === $cmd) {
-            $cmd = (string) ($this->httpRequest->getParsedBody()['cmd'] ?? '');
-        }
-
-        if ('force_login' === $cmd) {
-            return;
-        }
-
         if (!$this->getSettings()->get('apache_enable_auth', '0')) {
             return;
         }
@@ -70,29 +57,37 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
         if (
             (defined('IL_CERT_SSO') && (int) IL_CERT_SSO === 1) ||
             !ilContext::supportsRedirects() ||
-            isset($this->httpRequest->getQueryParams()['passed_sso'])
+            $this->http->wrapper()->query()->has('passed_sso')
         ) {
             return;
         }
 
-        $path = (string) ($this->httpRequest->getServerParams()['REQUEST_URI'] ?? '');
-        if (strpos($path, '/') === 0) {
-            $path = substr($path, 1);
+        $redirect_url = ilUtil::getHtmlPath('./sso/index.php?force_mode_apache=1');
+
+        if ($this->http->wrapper()->query()->has('target')) {
+            $url = (string) ($this->http->request()->getServerParams()['REQUEST_URI'] ?? '');
+            if (str_starts_with($url, '/')) {
+                $url = substr($url, 1);
+            }
+
+            if (!str_starts_with($url, 'http')) {
+                $parts = parse_url(ILIAS_HTTP_PATH);
+                $url = $parts['scheme'] . '://' . $parts['host'] . '/' . $url;
+            }
+
+            $uri = new \ILIAS\Data\URI($url);
+            /*
+             * If `tryAuthenticationOnLoginPage` is called and a permanent-link "target" is provided,
+             * we ensure using `goto.php` as landing page after successful authentication
+             */
+            $uri = $uri->withPath(str_replace(['login.php', 'ilias.php'], 'goto.php', $uri->getPath()));
+            $redirect_url = ilUtil::appendUrlParameterString(
+                $redirect_url,
+                'r=' . urlencode($this->refinery->uri()->toString()->transform($uri))
+            );
         }
 
-        if (strpos($path, 'http') !== 0) {
-            $parts = parse_url(ILIAS_HTTP_PATH);
-            $path = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
-        }
-
-        $this->ctrl->redirectToURL(
-            ilUtil::getHtmlPath(
-                './public/sso/index.php?force_mode_apache=1&' .
-                'r=' . urlencode($path) .
-                '&cookie_path=' . urlencode(IL_COOKIE_PATH) .
-                '&ilias_path=' . urlencode(ILIAS_HTTP_PATH)
-            )
-        );
+        $this->ctrl->redirectToURL($redirect_url);
     }
 
     protected function getSettings(): ilSetting
@@ -102,15 +97,15 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 
     public function initFromRequest(): void
     {
-        $mappingFieldName = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
+        $mapping_field_name = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
 
-        $this->logger->dump($this->httpRequest->getServerParams(), ilLogLevel::DEBUG);
-        $this->logger->debug($mappingFieldName);
+        $this->logger->dump($this->http->request()->getServerParams(), ilLogLevel::DEBUG);
+        $this->logger->debug($mapping_field_name);
 
         switch ($this->getSettings()->get('apache_auth_username_config_type')) {
             case ilAuthProviderApache::APACHE_AUTH_TYPE_DIRECT_MAPPING:
-                if (isset($this->httpRequest->getServerParams()[$mappingFieldName])) {
-                    $this->setUsername($this->httpRequest->getServerParams()[$mappingFieldName]);
+                if (isset($this->http->request()->getServerParams()[$mapping_field_name])) {
+                    $this->setUsername($this->http->request()->getServerParams()[$mapping_field_name]);
                 }
                 break;
 
@@ -122,26 +117,33 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 
     public function hasValidTargetUrl(): bool
     {
-        $targetUrl = trim((string) ($this->httpRequest->getQueryParams()['r'] ?? ''));
-        if ($targetUrl === '') {
+        $target_url = trim(
+            $this->http->wrapper()->query()->retrieve('r', $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $this->refinery->always(''),
+            ]))
+        );
+        if ($target_url === '') {
             return false;
         }
 
-        $validDomains = [];
+        $valid_hosts = [];
         $path = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
         if (file_exists($path) && is_readable($path)) {
             foreach (file($path) as $line) {
                 if (trim($line)) {
-                    $validDomains[] = trim($line);
+                    $valid_hosts[] = trim($line);
                 }
             }
         }
 
-        return (new ilWhiteListUrlValidator($targetUrl, $validDomains))->isValid();
+        return (new ilWhiteListUrlValidator($target_url, $valid_hosts))->isValid();
     }
 
     public function getTargetUrl(): string
     {
-        return ilUtil::appendUrlParameterString(trim($this->httpRequest->getQueryParams()['r']), 'passed_sso=1');
+        $target_url = trim($this->http->wrapper()->query()->retrieve('r', $this->refinery->kindlyTo()->string()));
+
+        return ilUtil::appendUrlParameterString($target_url, 'passed_sso=1');
     }
 }

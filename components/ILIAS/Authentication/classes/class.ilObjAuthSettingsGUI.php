@@ -201,7 +201,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     || $auth_name === 'saml'
                     || $auth_name === "shibboleth" || $auth_name === 'ldap'
                     || $auth_name === 'apache' || $auth_name === "ecs"
-                    || $auth_name === "openid") {
+                    || $auth_name === "openid" || substr($auth_name, 0, 4) === "lti_") {
                     continue;
                 }
 

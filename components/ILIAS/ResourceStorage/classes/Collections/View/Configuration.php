@@ -36,6 +36,7 @@ final class Configuration
         private int $items_per_page = 100,
         private bool $user_can_upload = false,
         private bool $user_can_administrate = false,
+        private bool $append_duplicate_filenames_as_revision = false
     ) {
     }
 
@@ -77,5 +78,10 @@ final class Configuration
     public function canUserAdministrate(): bool
     {
         return $this->user_can_administrate;
+    }
+
+    public function preventDuplicates(): bool
+    {
+        return $this->append_duplicate_filenames_as_revision;
     }
 }

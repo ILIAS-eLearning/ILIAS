@@ -25,6 +25,7 @@ $c-tooltip-z-index: 9999;
 	transform: translateX(-50%);
 	border: $c-tooltip-arrow-height solid transparent;
 	border-bottom-color: $c-tooltip-arrow-background-color;
+	z-index: $c-tooltip-z-index;
 }
 
 // Invisible bridge so users can move cursor from button to tooltip
@@ -35,6 +36,7 @@ $c-tooltip-z-index: 9999;
 	left: -20%;
 	display: block;
 	height: calc($c-tooltip-arrow-height * 2);
+	z-index: $c-tooltip-z-index;
 }
 
 // making bridge amd arrow visible
@@ -73,8 +75,8 @@ $c-tooltip-z-index: 9999;
 	max-width: $c-tooltip-max-width;
 	max-height: $c-tooltip-max-height;
 	overflow: auto;
-	z-index: $c-tooltip-z-index;
 	display: none;
+	z-index: $c-tooltip-z-index;
 	@include tool-typography.strip-paragraph-margin__first-and-last;
 }
 

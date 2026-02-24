@@ -20,6 +20,8 @@
  * News cache
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated Use \ILIAS\News\Persistence\NewsCache instead
  */
 class ilNewsCache extends ilCache
 {

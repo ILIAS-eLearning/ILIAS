@@ -23,7 +23,7 @@ use ILIAS\Refinery\Factory as Refinery;
 /**
 * @author Jens Conze
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
+* @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
 * @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ilPublicUserProfileGUI
 */
 class ilContactGUI

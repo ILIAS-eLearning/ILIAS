@@ -183,4 +183,8 @@ class InternalGUIService
         );
     }
 
+    public function getUIUtil(): UIUtil
+    {
+        return new UIUtil();
+    }
 }

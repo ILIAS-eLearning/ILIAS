@@ -87,5 +87,16 @@ class Scorm2004 implements Component\Component
                 return "components/ILIAS/Scorm2004/templates/default/player.css";
             }
         };
+
+        $contribute[Component\Resource\PublicAsset::class] = static fn() => new class () implements Component\Resource\PublicAsset {
+            public function getSource(): string
+            {
+                return "components/ILIAS/Scorm2004/templates/default/session_timeout.html";
+            }
+            public function getTarget(): string
+            {
+                return "components/ILIAS/Scorm2004/templates/default/session_timeout.html";
+            }
+        };
     }
 }

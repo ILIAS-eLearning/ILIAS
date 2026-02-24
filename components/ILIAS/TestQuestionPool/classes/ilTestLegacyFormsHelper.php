@@ -85,7 +85,7 @@ class ilTestLegacyFormsHelper
         }
 
         return $this->refinery->byTrying([
-            $this->refinery->kindlyTo()->listOf($transformation),
+            $this->refinery->kindlyTo()->dictOf($transformation),
             $this->refinery->always([])
         ])->transform($data[$key]);
     }

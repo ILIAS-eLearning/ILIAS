@@ -225,7 +225,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
 
             case 'ildidactictemplategui':
                 $this->ctrl->setReturn($this, 'edit');
-                $did = new ilDidacticTemplateGUI($this);
+                $did = new ilDidacticTemplateGUI($this, $this->getDidacticTemplateIdFromQuery());
                 $this->ctrl->forwardCommand($did);
                 break;
 
@@ -1023,6 +1023,7 @@ class ilObjCategoryGUI extends ilContainerGUI implements \ILIAS\Taxonomy\Setting
         $this->lng->loadLanguageModule('user');
 
         $utab = new ilUserTableGUI($this, 'listUsers', ilUserTableGUI::MODE_LOCAL_USER);
+        $utab->setTitle($this->lng->txt('administrate_users_headline'));
         $this->tpl->setVariable('USERS_TABLE', $utab->getHTML());
     }
 

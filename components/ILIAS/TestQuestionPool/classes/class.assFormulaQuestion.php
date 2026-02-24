@@ -127,6 +127,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $this->resultunits[$result->getResult()][$unit->getId()] = $unit;
     }
 
+    /**
+     * @return assFormulaQuestionUnit[]
+     */
     public function getResultUnits(assFormulaQuestionResult $result): array
     {
         if (!isset($this->resultunits[$result->getResult()])) {
@@ -327,7 +330,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
         $text = $this->getQuestion();
 
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
-            if (isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()])) {
+            if (isset($userdata[$varObj->getVariable()]) && $userdata[$varObj->getVariable()] !== '') {
                 $varObj->setValue($userdata[$varObj->getVariable()]);
             }
 
@@ -335,7 +338,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
             $val = '';
             if ($varObj->getValue() !== null) {
-                $val = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
+                $val = (strlen((string) $varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
             }
 
             $text = preg_replace('/\$' . substr($varObj->getVariable(), 1) . '(?![0-9]+)/', $val . ' ' . $unit . '\1', $text);
@@ -387,13 +390,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                         if (is_array($userdata)) {
                             foreach ($result_units as $unit) {
                                 if (isset($userdata[$result]["unit"]) && $userdata[$result]["unit"] == $unit->getId()) {
-                                    $units = $unit->getUnit();
+                                    $units = $unit->getSanitizedUnit();
                                 }
                             }
-                        } else {
-                            if ($resObj->getUnit()) {
-                                $units = $resObj->getUnit()->getUnit();
-                            }
+                        } elseif ($resObj->getUnit()) {
+                            $units = $resObj->getUnit()->getSanitizedUnit();
                         }
                     } else {
                         $units = '<select name="result_' . $result . '_unit">';
@@ -407,7 +408,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                                     $units .= ' selected="selected"';
                                 }
                             }
-                            $units .= '>' . $unit->getUnit() . '</option>';
+                            $units .= '>' . $unit->getSanitizedUnit() . '</option>';
                         }
                         $units .= '</select>';
                     }
@@ -847,12 +848,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
 
         $points = 0;
         foreach ($this->getResults() as $result) {
-            $unit_id = $user_solution[$result->getResult() . '_unit'] ?? null;
+            $unit_id = $user_solution["{$result->getResult()}_unit"] ?? null;
             $points += $result->getReachedPoints(
                 $this->getVariables(),
                 $this->getResults(),
                 $user_solution[$result->getResult()] ?? '',
-                $unit_id !== null ? $this->unitrepository->getUnit($unit_id) : null,
+                $unit_id !== null ? $this->unitrepository->getUnit((int) $unit_id) : null,
                 $this->unitrepository->getUnits()
             );
         }
@@ -1095,30 +1096,27 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition, Ques
                 if (!array_key_exists($matches[1], $user_solution)) {
                     $user_solution[$matches[1]] = [];
                 }
-                $user_solution[$matches[1]]['unit'] = $solution_value['value2'];
+                $user_solution[$matches[1]]['unit'] = (int) $solution_value['value2'];
             }
         }
         foreach ($this->getResults() as $result) {
             $resVal = $result->calculateFormula($this->getVariables(), $this->getResults(), $this->getId(), false);
 
-            if (is_object($result->getUnit())) {
-                $user_solution[$result->getResult()]['unit'] = $result->getUnit()->getId();
+            $unit = $result->getUnit();
+            if ($unit instanceof assFormulaQuestionUnit) {
+                $user_solution[$result->getResult()]['unit'] = $unit->getId();
                 $user_solution[$result->getResult()]['value'] = $resVal;
-            } elseif ($result->getUnit() === null) {
+            } elseif ($unit === null) {
                 $unit_factor = 1;
                 // there is no fix result_unit, any "available unit" is accepted
 
-                $available_units = $result->getAvailableResultUnits(parent::getId());
+                $available_units = $result->getAvailableResultUnits($this->getId());
                 $result_name = $result->getResult();
 
-                $check_unit = false;
-                if (array_key_exists($result_name, $available_units) &&
-                    $available_units[$result_name] !== null) {
-                    $check_unit = in_array($user_solution[$result_name]['unit'] ?? null, $available_units[$result_name]);
-                }
-
-                if ($check_unit == true) {
-                    //get unit-factor
+                if (
+                    isset($available_units[$result_name])
+                    && in_array($user_solution[$result_name]['unit'] ?? null, $available_units[$result_name])
+                ) {
                     $unit_factor = assFormulaQuestionUnit::lookupUnitFactor($user_solution[$result_name]['unit']);
                 }
 

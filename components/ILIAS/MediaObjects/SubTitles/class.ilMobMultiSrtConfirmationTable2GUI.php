@@ -65,7 +65,7 @@ class ilMobMultiSrtConfirmationTable2GUI extends ilTable2GUI
             $language = $lng->txt("meta_l_" . $a_set["lang"]);
             $this->tpl->setVariable("LANGUAGE", $language);
         }
-        if ($a_set["mob"] != "") {
+        if (isset($a_set['mob']) && $a_set['mob'] !== '') {
             $this->tpl->setVariable("MEDIA_OBJECT", $a_set["mob_title"]);
         } else {
             $this->tpl->setVariable("MEDIA_OBJECT", "-");

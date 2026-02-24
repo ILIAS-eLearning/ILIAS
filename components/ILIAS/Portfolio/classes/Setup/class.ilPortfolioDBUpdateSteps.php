@@ -63,4 +63,26 @@ class ilPortfolioDBUpdateSteps implements \ilDatabaseUpdateSteps
             [2]
         );
     }
+
+    public function step_3(): void
+    {
+        $db = $this->db;
+
+        $set = $db->query("SELECT * FROM usr_portfolio");
+        while ($rec = $db->fetchAssoc($set)) {
+            $offline = ($rec["is_online"] == 1) ? 0 : 1;
+            $db->update(
+                "object_data",
+                [
+                "offline" => ["integer", $offline]
+            ],
+                [
+                    "obj_id" => ["integer", $rec["id"]],
+                    "type" => ["text", "prtf"]
+                ]
+            );
+
+        }
+    }
+
 }

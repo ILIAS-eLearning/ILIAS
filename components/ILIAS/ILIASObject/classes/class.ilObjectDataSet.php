@@ -246,18 +246,13 @@ class ilObjectDataSet extends ilDataSet
     private function copyTileToTempFolderForExport(string $rid): string
     {
         $i = $this->storage->manage()->find($rid);
-        $stream = $this->storage->consume()->stream(
-            $i
-        );
-        $title = $this->storage->manage()->getCurrentRevision($i)->getTitle();
-
-        $temp_dir = implode(
-            DIRECTORY_SEPARATOR,
-            [ILIAS_DATA_DIR, CLIENT_ID, 'temp', uniqid('tmp')]
-        );
-        mkdir($temp_dir);
-        file_put_contents($temp_dir . DIRECTORY_SEPARATOR . $title, $stream->getStream()->getContents());
-        return $temp_dir;
+        $resource = $this->storage->manage()->getResource($i);
+        $path_in_container = "/dsDir_" . $this->dircnt . "/" . $resource->getCurrentRevision()->getTitle();
+        $path_in_container = $this->export->isContainerExport()
+            ? $this->export->getPathToComponentExpDirInContainerWithLeadingSetNumber() . $path_in_container
+            : $this->export->getPathToComponentExpDirInContainer() . $path_in_container;
+        $this->export->getExportWriter()->writeFilesByResourceId($rid, $path_in_container);
+        return $path_in_container;
     }
     /**
      * Determine the dependent sets of data

@@ -48,18 +48,19 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         }
 
         $component_repository = $DIC["component.repository"];
+        $component_fac = $DIC["component.factory"];
 
-        $plugin = $component_repository->getPluginByName($a_pname);
+        $plugin_info = $component_repository->getPluginByName($a_pname);
         $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
 
-        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
-
+        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin_info->getId();
         $img = ilUtil::getImagePath($d2 . "/" . $a_img);
         if (is_int(strpos($img, "Customizing"))) {
             return $img;
         }
 
-        $d = $plugin->getPath();
+        $plugin = $component_fac->getPlugin($plugin_info->getId());
+        $d = $plugin->getRelativeDirectory();
         return $d . "/templates/images/" . $a_img;
     }
 

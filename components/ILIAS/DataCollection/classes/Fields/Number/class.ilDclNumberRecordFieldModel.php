@@ -20,8 +20,4 @@ declare(strict_types=1);
 
 class ilDclNumberRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    public function parseValue($value): ?float
-    {
-        return ($value == '') ? null : (float) $value; //SW, Ilias Mantis #0011799: Return null otherwise '' is casted to 0 in DB
-    }
 }

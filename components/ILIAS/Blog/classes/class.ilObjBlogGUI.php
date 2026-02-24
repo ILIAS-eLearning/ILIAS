@@ -1722,7 +1722,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         // by date
         if (count($a_items)) {
-            $blocks[$order["navigation"]] = array(
+            $blocks[$order["navigation"] ?? 0] = array(
                 $this->lng->txt("blog_navigation"),
                 $this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive, $a_blpg)
             );
@@ -1741,7 +1741,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $keywords = $this->lng->txt("blog_no_keywords");
                 }
                 $cmd = null;
-                $blocks[$order["keywords"]] = array(
+                $blocks[$order["keywords"] ?? 2] = array(
                     $this->lng->txt("blog_keywords"),
                     $keywords,
                     $cmd
@@ -1758,7 +1758,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $this->blog_settings->getAuthors()) {
                 $authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
                 if ($authors) {
-                    $blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
+                    $blocks[$order["authors"] ?? 1] = array($this->lng->txt("blog_authors"), $authors);
                 }
             }
 
