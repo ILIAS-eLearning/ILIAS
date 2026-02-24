@@ -203,6 +203,11 @@ class ilLTIViewGUI
                 if (ilSession::has('referer_ref_id')) {
                     $this->effectiveRefId = ilSession::get('referer_ref_id');
                 }
+                // fix redirect loop
+                if (ilSession::has('lti_context_ids') && isset(ilSession::get('lti_context_ids')[0])) {
+                    $context_id = (int) ilSession::get('lti_context_ids')[0];
+                    $this->effectiveRefId = $context_id;
+                }
             }
 
             $referer = (int) $this->effectiveRefId;

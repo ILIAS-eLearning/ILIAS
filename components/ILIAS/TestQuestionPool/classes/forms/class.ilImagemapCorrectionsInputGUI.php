@@ -37,6 +37,10 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         $points_unchecked = $this->forms_helper->transformPoints($a_areas, 'points_unchecked');
 
         foreach (array_keys($this->areas) as $index) {
+            if ($points[$index] === null) {
+                return;
+            }
+
             $points_unchecked[$index] = $this->getPointsUncheckedFieldEnabled() && isset($points_unchecked[$index])
                 ? $points_unchecked[$index] : 0.0;
 

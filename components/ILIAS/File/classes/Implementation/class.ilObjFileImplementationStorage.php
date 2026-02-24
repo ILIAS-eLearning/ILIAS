@@ -101,9 +101,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         } else {
             $revision = $this->resource->getCurrentRevision();
         }
-        $consumer->overrideFileName($revision->getTitle());
-
-        $consumer->run();
+        $consumer->overrideFileName($revision->getTitle())->disableCaching()->run();
     }
 
     public function deleteVersions(?array $a_hist_entry_ids = null): void

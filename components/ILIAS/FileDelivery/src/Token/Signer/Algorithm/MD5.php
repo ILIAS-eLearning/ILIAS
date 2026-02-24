@@ -29,4 +29,9 @@ class MD5 implements Algorithm
     {
         return 'md5';
     }
+
+    public function after(string $signature): string
+    {
+        return $signature;
+    }
 }

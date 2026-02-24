@@ -1324,7 +1324,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     protected function confirmDeleteLink(): void
     {
         $this->checkPermission('write');
-        $this->activateTabs('content', 'id_content_view');
 
         $link_ids = [];
         if ($this->http->wrapper()->query()->has('link_id')) {
@@ -1348,6 +1347,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
             $this->view();
             return;
         }
+        $this->activateTabs('content', 'id_content_manage');
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this, 'view'));

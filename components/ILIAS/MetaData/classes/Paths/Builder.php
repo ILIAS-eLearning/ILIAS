@@ -125,6 +125,19 @@ class Builder implements BuilderInterface
      */
     public function get(): PathInterface
     {
+        return $this->getFinishedPath(true);
+    }
+
+    /**
+     * @internal only use for paths that are guaranteed to be correct!
+     */
+    public function getWithoutValidation(): PathInterface
+    {
+        return $this->getFinishedPath(false);
+    }
+
+    protected function getFinishedPath(bool $validate): PathInterface
+    {
         $clone = $this->withCurrentStepSaved();
         $path = new Path(
             $clone->is_relative,
@@ -132,7 +145,7 @@ class Builder implements BuilderInterface
             ...$clone->steps
         );
 
-        if (!$path->isRelative()) {
+        if ($validate && !$path->isRelative()) {
             $this->validatePathFromRoot($path);
         }
         return $path;

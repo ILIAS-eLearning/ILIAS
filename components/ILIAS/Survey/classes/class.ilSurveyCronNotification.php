@@ -26,6 +26,8 @@ use ILIAS\Cron\Schedule\CronJobScheduleType;
  */
 class ilSurveyCronNotification extends ilCronJob
 {
+    protected const MAX_MESSAGE_LENGTH = 397;
+
     protected ilLanguage $lng;
     protected ilTree $tree;
 
@@ -104,8 +106,18 @@ class ilSurveyCronNotification extends ilCronJob
         $result->setStatus($status);
 
         if (count($message)) {
-            $result->setMessage("Ref-Ids: " . implode(", ", $message) . ' / ' . "#" . count($message));
+            $full_msg = "Ref-Ids: " . implode(", ", $message) . ' / ' . "#" . count($message);
+
+            if (mb_strlen($full_msg) > self::MAX_MESSAGE_LENGTH) {
+                $short_msg = mb_substr($full_msg, 0, self::MAX_MESSAGE_LENGTH) . '...';
+                $log->info("Notification message was truncated to fit DB limit. Full message: \"$full_msg\"");
+            } else {
+                $short_msg = $full_msg;
+            }
+
+            $result->setMessage($short_msg);
         }
+
         $log->debug("end");
         return $result;
     }

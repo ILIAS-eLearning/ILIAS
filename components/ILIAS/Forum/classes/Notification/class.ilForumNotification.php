@@ -190,15 +190,16 @@ class ilForumNotification
         $this->db->manipulateF(
             '
 			INSERT INTO frm_notification
-				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, user_id_noti)
-			VALUES(%s, %s, %s, %s, %s, %s)',
-            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, interested_events, user_id_noti)
+			VALUES(%s, %s, %s, %s, %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
             [
                 $next_id,
                 (int) $this->getUserId(),
                 $this->getForumId(),
                 $this->getAdminForce(),
                 $this->getUserToggle(),
+                $this->getInterestedEvents(),
                 $this->user->getId()
             ]
         );
@@ -263,17 +264,15 @@ class ilForumNotification
                 $frm_noti->setUserId($ilUser->getId());
             }
 
-            $admin_force = ilForumProperties::_isAdminForceNoti((int) $data['obj_id']);
-            $frm_noti->setAdminForce($admin_force);
+            $properties = ilForumProperties::getInstance((int) $data['obj_id']);
+            if ($properties->isAdminForceNoti() || $properties->isUserToggleNoti()) {
+                if ($properties->isAdminForceNoti()) {
+                    $frm_noti->setInterestedEvents($properties->getInterestedEvents());
+                }
 
-            $user_toggle = ilForumProperties::_isUserToggleNoti((int) $data['obj_id']);
-            if ($user_toggle) {
-                $frm_noti->setAdminForce(true);
-            }
-
-            if ($admin_force || $user_toggle) {
-                $frm_noti->setUserToggle($user_toggle);
-                $frm_noti->setForumId((int) $data['obj_id']);
+                $frm_noti->setAdminForce($properties->isAdminForceNoti());
+                $frm_noti->setUserToggle($properties->isUserToggleNoti());
+                $frm_noti->setForumId($properties->getObjId());
                 if (!$frm_noti->existsNotification()) {
                     $frm_noti->insertAdminForce();
                 }

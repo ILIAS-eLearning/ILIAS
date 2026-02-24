@@ -151,7 +151,11 @@ export default class Client {
         formData.append('action_id', command_action.getId());
         formData.append('component', command_action.getComponent());
         formData.append('action', command_action.getType());
-
+        this.log(this.command_endpoint);
+        for (const [key, value] of formData.entries()) {
+          this.log(key);
+          this.log(value);
+        }
         FetchWrapper.postForm(this.command_endpoint, formData).then((response) => {
           this.log('client.sendCommand, response:');
           this.log(response);

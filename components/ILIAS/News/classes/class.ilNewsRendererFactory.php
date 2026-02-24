@@ -30,19 +30,10 @@ class ilNewsRendererFactory
         global $DIC;
 
         if (!isset(self::$renderer[$a_context_obj_type])) {
-            $obj_def = $DIC["objDefinition"];
+            $class_name = $DIC['objDefinition']->getClassName($a_context_obj_type);
+            $class = "il{$class_name}NewsRendererGUI";
 
-            $comp = $obj_def->getComponentForType($a_context_obj_type);
-            $class = $obj_def->getClassName($a_context_obj_type);
-
-            $class = "il" . $class . "NewsRendererGUI";
-            $type_renderer_path = "./" . $comp . "/classes/class." . $class . ".php";
-            if (is_file($type_renderer_path)) {
-                $rend = new $class();
-            } else {
-                $rend = new ilNewsDefaultRendererGUI();
-            }
-            self::$renderer[$a_context_obj_type] = $rend;
+            self::$renderer[$a_context_obj_type] = class_exists($class) ? new $class() : new ilNewsDefaultRendererGUI();
         }
 
         return self::$renderer[$a_context_obj_type];

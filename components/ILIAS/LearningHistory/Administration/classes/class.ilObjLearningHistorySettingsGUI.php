@@ -137,6 +137,9 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         )
             ->withValue((bool) $setting->get("enable_learning_history"));
 
+        if (!$this->access->checkAccess("write", "", $this->object->getRefId())) {
+            $fields["enable_learning_history"] = $fields["enable_learning_history"]->withDisabled(true);
+        }
         // section
         $section1 = $f->input()->field()->section($fields, $lng->txt("settings"));
 
@@ -147,19 +150,23 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
 
     public function saveSettings(): void
     {
-        $request = $this->request;
-        $form = $this->initForm();
-        $lng = $this->lng;
         $ctrl = $this->ctrl;
-        $setting = $this->setting;
+        $lng = $this->lng;
+        if ($this->access->checkAccess("write", "", $this->object->getRefId())) {
+            $request = $this->request;
+            $form = $this->initForm();
+            $setting = $this->setting;
 
-        if ($request->getMethod() === "POST") {
-            $form = $form->withRequest($request);
-            $data = $form->getData();
-            if (is_array($data["sec"])) {
-                $setting->set("enable_learning_history", (int) ($data["sec"]["enable_learning_history"]));
-                $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
+            if ($request->getMethod() === "POST") {
+                $form = $form->withRequest($request);
+                $data = $form->getData();
+                if (is_array($data["sec"])) {
+                    $setting->set("enable_learning_history", (int) ($data["sec"]["enable_learning_history"]));
+                    $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
+                }
             }
+        } else {
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_permission"), true);
         }
         $ctrl->redirect($this, "editSettings");
     }

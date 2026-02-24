@@ -49,6 +49,7 @@ export default class Util {
           // process only dropzones in our form with file data
           if (form.contains(el) && Dropzone.instances[i].getQueuedFiles().length > 0) {
             cnt++;
+            Dropzone.instances[i].options.form.should_submit = false;
             Dropzone.instances[i].on('queuecomplete', () => {
               cnt--;
               if (cnt === 0) {

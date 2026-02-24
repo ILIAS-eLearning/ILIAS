@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Soap utitliy functions
@@ -458,65 +458,80 @@ class ilSoapUtils extends ilSoapAdministration
 
         global $DIC;
 
-        $ilDB = $DIC->database();
-        $ilLog = $DIC->logger()->user();
+        $db = $DIC->database();
+        $logger = $DIC->logger()->user();
 
-        $ilLog->debug('Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
-        $oRegSettigs = new ilRegistrationSettings();
-        $query = '';
+        $logger->debug(
+            'Started deletion of inactive user objects with expired confirmation hash values (dual opt in) ...'
+        );
+        $lifetime = (new ilRegistrationSettings())->getRegistrationHashLifetime();
 
-        /*
-         * Fetch the current actuator user object first, because this user will try to perform very probably
-         * a new registration with the same login name in a few seconds ;-)
-         *
-         */
-        if ($usr_id > 0) {
-            $query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
-                . 'WHERE active = 0 '
-                . 'AND reg_hash IS NOT NULL '
-                . 'AND usr_id = ' . $ilDB->quote($usr_id, 'integer') . ' ';
-            $query .= 'UNION ';
+        if ($lifetime <= 0) {
+            $logger->debug('Registration hash lifetime is <= 0, kipping deletion.');
+            return true;
         }
 
-        $query .= 'SELECT usr_id, create_date, reg_hash FROM usr_data '
-            . 'WHERE active = 0 '
-            . 'AND reg_hash IS NOT NULL '
-            . 'AND usr_id != ' . $ilDB->quote($usr_id, 'integer') . ' ';
+        $utc_clock = (new \ILIAS\Data\Factory())->clock()->utc();
+        $now = $utc_clock->now();
+        $cutoff = $now->sub(new DateInterval('PT' . $lifetime . 'S'));
+        $formatted_cutoff = $cutoff->format(ilObjUser::DATABASE_DATE_FORMAT);
 
-        $res = $ilDB->query($query);
+        // Fetch only candidates that must be deleted, prioritize the triggering user
+        $query = '
+        SELECT usr_id, create_date
+          FROM usr_data
+         WHERE active = 0
+           AND reg_hash IS NOT NULL
+           AND reg_hash != \'\'
+           AND ' . $db->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, ilDBConstants::T_INTEGER) . '
+           AND create_date < %s
+         ORDER BY (CASE WHEN usr_id = %s THEN 0 ELSE 1 END), create_date';
 
-        $ilLog->debug($ilDB->numRows($res) . ' inactive user objects with confirmation hash values (dual opt in) found ...');
+        $res = $db->queryF(
+            $query,
+            [ilDBConstants::T_TIMESTAMP, ilDBConstants::T_INTEGER],
+            [$formatted_cutoff, $usr_id]
+        );
 
-        /*
-         * mjansen: 15.12.2010:
-         * I perform the expiration check in php because of multi database support (mysql, postgresql).
-         * I did not find an oracle equivalent for mysql: UNIX_TIMESTAMP()
-         */
+        $logger->info(sprintf(
+            '%d inactive user objects eligible for deletion found (cutoff: %s, lifetime: %d s).',
+            $db->numRows($res),
+            $cutoff->format(DateTimeInterface::ATOM),
+            $lifetime
+        ));
 
         $num_deleted_users = 0;
-        while ($row = $ilDB->fetchAssoc($res)) {
-            if ((int) $row['usr_id'] === ANONYMOUS_USER_ID || (int) $row['usr_id'] === SYSTEM_USER_ID) {
+        while ($row = $db->fetchAssoc($res)) {
+            $uid = (int) $row['usr_id'];
+
+            $user = ilObjectFactory::getInstanceByObjId($uid, false);
+            if (!($user instanceof ilObjUser)) {
                 continue;
             }
 
-            if (($row['reg_hash'] ?? '') === '') {
-                continue;
-            }
+            $created = DateTimeImmutable::createFromFormat(
+                ilObjUser::DATABASE_DATE_FORMAT,
+                (string) $row['create_date'],
+                new DateTimeZone('UTC')
+            );
 
-            if (($row['create_date'] ?? '') !== '' &&
-                $oRegSettigs->getRegistrationHashLifetime() > 0 &&
-                time() - $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
-                $user = ilObjectFactory::getInstanceByObjId($row['usr_id'], false);
-                if ($user instanceof ilObjUser) {
-                    $ilLog->info('User ' . $user->getLogin() . ' (obj_id: ' . $user->getId() . ') will be deleted due to an expired registration hash ...');
-                    $user->delete();
-                    ++$num_deleted_users;
-                }
-            }
+            $logger->info(sprintf(
+                'Deleting user (login: %s | id: %d) – expired dual opt-in (created: %s, cutoff: %s, lifetime: %d s)',
+                $user->getLogin(),
+                $uid,
+                $created ? $created->format(DateTimeInterface::ATOM) : '-',
+                $cutoff->format(DateTimeInterface::ATOM),
+                $lifetime
+            ));
+
+            $user->delete();
+            ++$num_deleted_users;
         }
 
-        $ilLog->info($num_deleted_users . ' inactive user objects with expired confirmation hash values (dual opt in) deleted ...');
-        $ilLog->info('Finished deletion of inactive user objects with expired confirmation hash values (dual opt in) ...');
+        $logger->info(sprintf(
+            '%d inactive user objects with expired confirmation hash values (dual opt-in) deleted.',
+            $num_deleted_users
+        ));
 
         return true;
     }

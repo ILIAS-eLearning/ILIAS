@@ -146,6 +146,6 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
     {
         $base = substr($uri->__toString(), strrpos($uri->__toString(), '/') + 1);
 
-        return rtrim(preg_replace('/([&?])lang=[a-z]{2}([&$])/', '$1', $base), '?&');
+        return rtrim(preg_replace('/([&?])lang=[a-z]{2}(&|$)/', '$1', $base), '?&');
     }
 }

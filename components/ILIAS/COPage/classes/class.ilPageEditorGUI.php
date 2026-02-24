@@ -741,20 +741,7 @@ class ilPageEditorGUI
     public function pasteFromClipboard(string $a_hier_id): void
     {
         $ilCtrl = $this->ctrl;
-        //var_dump($a_hier_id);
         $ilCtrl->setParameter($this, "hier_id", $a_hier_id);
-        $ilCtrl->setParameterByClass(
-            "ilEditClipboardGUI",
-            "returnCommand",
-            rawurlencode($ilCtrl->getLinkTarget(
-                $this,
-                "insertFromClipboard",
-                "",
-                false,
-                false
-            ))
-        );
-        //echo ":".$ilCtrl->getLinkTarget($this, "insertFromClipboard").":";
         $ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
     }
 

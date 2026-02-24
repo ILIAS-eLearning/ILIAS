@@ -31,6 +31,7 @@ use Psr\Http\Message\ResponseInterface;
 abstract class BaseDelivery
 {
     protected const MIME_TYPE_MAP = __DIR__ . '/../../../FileUpload/src/mime_type_map.php';
+    private bool $caching_headers = true;
 
     protected array $mime_type_map;
 
@@ -43,6 +44,16 @@ abstract class BaseDelivery
             $map = include self::MIME_TYPE_MAP;
         }
         $this->mime_type_map = $map ?? [];
+    }
+
+    public function disableCachingHeaders(): void
+    {
+        $this->caching_headers = false;
+    }
+
+    public function enableCachingHeaders(): void
+    {
+        $this->caching_headers = true;
     }
 
     protected function saveAndClose(
@@ -85,11 +96,24 @@ abstract class BaseDelivery
             ResponseHeader::CONTENT_DISPOSITION,
             $disposition->value . '; filename="' . $file_name . '"'
         );
-        $r = $r->withHeader(ResponseHeader::CACHE_CONTROL, 'max-age=31536000, immutable, private');
-
-        return $r->withHeader(
-            ResponseHeader::EXPIRES,
-            date("D, j M Y H:i:s", strtotime('+5 days')) . " GMT"
-        );
+        if (!$this->caching_headers) {
+            return $r
+                ->withHeader(
+                    ResponseHeader::EXPIRES,
+                    "0"
+                )->withHeader(
+                    ResponseHeader::CACHE_CONTROL,
+                    'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
+                );
+        }
+        return $r
+            ->withHeader(
+                ResponseHeader::CACHE_CONTROL,
+                'max-age=31536000, immutable, private'
+            )
+            ->withHeader(
+                ResponseHeader::EXPIRES,
+                date("D, j M Y H:i:s", strtotime('+5 days')) . " GMT"
+            );
     }
 }

@@ -234,7 +234,7 @@ class ilObjSCORMInitData
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             if (!strpos($val_rec["lvalue"], "._count")) {
-                $a_out[] = array( (int) $val_rec["sco_id"], $val_rec["lvalue"], self::encodeURIComponent($val_rec["rvalue"]) );
+                $a_out[] = array( (int) $val_rec["sco_id"], $val_rec["lvalue"], self::encodeURIComponent($val_rec["rvalue"] ?? '') );
             }
         }
         return json_encode($a_out);
@@ -301,7 +301,7 @@ class ilObjSCORMInitData
             array($a_packageId)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            $a_out[] = array((int) $val_rec["child"],(int) $val_rec["depth"],self::encodeURIComponent($val_rec["title"]),$val_rec["c_type"]);
+            $a_out[] = array((int) $val_rec["child"],(int) $val_rec["depth"],self::encodeURIComponent($val_rec["title"] ?? ''),$val_rec["c_type"]);
         }
         return json_encode($a_out);
     }

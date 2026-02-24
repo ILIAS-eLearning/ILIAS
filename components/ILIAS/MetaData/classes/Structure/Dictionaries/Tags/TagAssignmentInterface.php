@@ -28,4 +28,6 @@ interface TagAssignmentInterface
     public function matchesPath(PathInterface $path): bool;
 
     public function tag(): TagInterface;
+
+    public function path(): PathInterface;
 }

@@ -646,7 +646,7 @@ class TabsManager
             $this->tabs->addSubTabTarget(
                 self::SETTINGS_SUBTAB_ID_CERTIFICATE,
                 $this->ctrl->getLinkTargetByClass(\ilObjTestGUI::class, 'certificate'),
-                ['certificate', 'certificateEditor', 'certificateRemoveBackground', 'ceateSave',
+                ['certificate', 'certificateEditor', 'certificateRemoveBackground', 'certificateSave',
                     'certificatePreview', 'certificateDelete', 'certificateUpload', 'certificateImport'],
                 ['', 'ilobjtestgui', 'ilcertificategui']
             );

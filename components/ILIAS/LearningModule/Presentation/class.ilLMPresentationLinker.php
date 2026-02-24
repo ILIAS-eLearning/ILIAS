@@ -39,6 +39,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     protected bool $export_all_languages;
     protected string $lang;
     protected string $export_format;
+    protected \ILIAS\StaticURL\Services $static_url;
 
     public function __construct(
         ilObjLearningModule $lm,
@@ -75,6 +76,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         $this->embed_mode = $embed_mode;
         $this->frame = $frame;
         $this->obj_id = $obj_id;
+        $this->static_url = $DIC["static_url"];
     }
 
     public function setOffline(
@@ -382,18 +384,18 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 $ltarget = "_blank";
                             }
                         } else {
-                            if (!$this->offline) {
-                                if ($type == "PageObject") {
-                                    $href = "./goto.php?target=pg_" . $target_id . $anc_add;
-                                } else {
-                                    $href = "./goto.php?target=st_" . $target_id;
-                                }
+                            if ($type == "PageObject") {
+                                $href = (string) $this->static_url->builder()->build(
+                                    "pg",
+                                    null,
+                                    [$target_id]
+                                ) . $anc_add;
                             } else {
-                                if ($type == "PageObject") {
-                                    $href = ILIAS_HTTP_PATH . "/goto.php?target=pg_" . $target_id . $anc_add . "&amp;client_id=" . CLIENT_ID;
-                                } else {
-                                    $href = ILIAS_HTTP_PATH . "/goto.php?target=st_" . $target_id . "&amp;client_id=" . CLIENT_ID;
-                                }
+                                $href = (string) $this->static_url->builder()->build(
+                                    "st",
+                                    null,
+                                    [$target_id]
+                                ) . $anc_add;
                             }
                             $ltarget = "";
                             if ($targetframe == "New" || $this->embed_mode) {
@@ -444,11 +446,13 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 
                     case "RepositoryItem":
                         $obj_type = ilObject::_lookupType((int) $target_id, true);
-                        $obj_id = ilObject::_lookupObjId((int) $target_id);
-                        if (!$this->offline) {
-                            $href = "./goto.php?target=" . $obj_type . "_" . $target_id;
+                        if ((int) $target_id > 0) {
+                            $href = (string) $this->static_url->builder()->build(
+                                $obj_type,
+                                new \ILIAS\Data\ReferenceId($target_id)
+                            );
                         } else {
-                            $href = ILIAS_HTTP_PATH . "/goto.php?target=" . $obj_type . "_" . $target_id . "&amp;client_id=" . CLIENT_ID;
+                            $href = "#";
                         }
                         if ($this->embed_mode) {
                             $ltarget = "_blank";

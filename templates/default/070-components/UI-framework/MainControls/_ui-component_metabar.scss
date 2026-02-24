@@ -82,9 +82,9 @@ $il-metabar-small-glyph-size: 1.25rem;
 		&.engaged {
 			box-shadow: $il-mainbar-shadow-right;
 			background-color: $il-metabar-slates-bg-color;
-			border: $il-metabar-entry-border;
 			color: initial;
-			outline-color: transparent;
+			border: $il-metabar-entry-border;
+			@include f.il-focus-border-only();
 		}
 		.glyphicon {
 			color: $il-metabar-glyph-color;

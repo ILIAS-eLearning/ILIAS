@@ -451,7 +451,13 @@ class IRSSWrapper
         string $rid,
         string $entry
     ): bool {
+        if ($rid === "") {
+            return false;
+        }
         $zip_path = $this->stream($rid)?->getMetadata("uri");
+        if (is_null($zip_path)) {
+            return false;
+        }
         try {
             $stream = Streams::ofFileInsideZIP(
                 $zip_path,
@@ -511,8 +517,12 @@ class IRSSWrapper
     public function getContainerEntries(
         string $container_id
     ): array {
+        $rid = $this->getResourceIdForIdString($container_id);
+        if (is_null($rid)) {
+            return [];
+        }
         $reader = new ZipReader(
-            $this->irss->consume()->stream($this->getResourceIdForIdString($container_id))->getStream()
+            $this->irss->consume()->stream($rid)->getStream()
         );
         return $reader->getStructure();
     }
@@ -521,8 +531,12 @@ class IRSSWrapper
         string $container_id,
         string $dir_path
     ): array {
+        $rid = $this->getResourceIdForIdString($container_id);
+        if (is_null($rid)) {
+            return [];
+        }
         $reader = new ZipReader(
-            $this->irss->consume()->stream($this->getResourceIdForIdString($container_id))->getStream()
+            $this->irss->consume()->stream($rid)->getStream()
         );
         $entries = [];
         foreach ($reader->getStructure() as $path => $entry) {

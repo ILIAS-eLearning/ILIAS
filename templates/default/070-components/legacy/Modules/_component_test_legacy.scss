@@ -14,6 +14,7 @@ $il-test-longmenu-selectionlist-bg: $il-main-bg;
 $il-test-longmenu-selectionlist-bg-hover: $il-highlight-bg;
 $il-test-longmenu-selectionlist-border: $il-main-border;
 $il-test-longmenu-selectionlist-padding: $il-padding-xs-horizontal;
+$il-test-icon-min-size: $il-font-size-base;
 
 .fullwidth_invisible {
 	background-color: transparent !important;
@@ -137,6 +138,11 @@ div.ilc_Question {
 		padding-left: $il-padding-xxlarge-horizontal;
 		padding-right: $il-padding-xxlarge-horizontal;
 	}
+}
+
+img.ilc_solution_image {
+    min-width: $il-test-icon-min-size;
+    min-height: $il-test-icon-min-size;
 }
 
 .solutionbox {

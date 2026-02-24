@@ -50,11 +50,9 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $tableview_id = $this->getRecord()->getTable()->getFirstTableViewId($this->user->getId());
             }
             if (ilDclDetailedViewDefinition::isActive($tableview_id)) {
-                $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
-                $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'table_id', $this->getRecord()->getTableId());
-                $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $tableview_id);
                 $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $this->getRecord()->getId());
                 $links['dcl_open_detail_view'] = $this->ctrl->getLinkTargetByClass(ilDclDetailedViewGUI::class, 'renderRecord');
+                $this->ctrl->clearParameterByClass(ilDclDetailedViewGUI::class, 'record_id');
             }
         }
 
@@ -64,11 +62,12 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
             case 0:
                 return $value;
             case 1:
+                $key = array_keys($links)[0];
                 return $this->renderer->render(
                     $this->factory->link()->standard(
                         $value,
                         reset($links)
-                    )->withOpenInNewViewport(true)
+                    )->withOpenInNewViewport($key === 'dcl_open_url')
                 );
             case 2:
             default:
@@ -77,7 +76,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                     $ui_links[] = $this->factory->link()->standard(
                         $this->lng->txt($key),
                         $link
-                    )->withOpenInNewViewport(true);
+                    )->withOpenInNewViewport($key === 'dcl_open_url');
                 }
                 return $this->renderer->render(
                     $this->factory->dropdown()->standard(

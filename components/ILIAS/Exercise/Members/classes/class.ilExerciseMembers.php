@@ -25,6 +25,7 @@ use ILIAS\Exercise\IndividualDeadline\IndividualDeadlineManager;
  */
 class ilExerciseMembers
 {
+    protected \ILIAS\Exercise\InternalDomainService $domain;
     protected IndividualDeadlineManager $individual_deadlines;
     protected ilDBInterface $db;
     public int $ref_id;
@@ -45,6 +46,7 @@ class ilExerciseMembers
         $this->read();
         $this->recommended_content_manager = new ilRecommendedContentManager();
         $this->individual_deadlines = $DIC->exercise()->internal()->domain()->individualDeadline();
+        $this->domain = $DIC->exercise()->internal()->domain();
     }
 
     // Get exercise ref id
@@ -159,6 +161,10 @@ class ilExerciseMembers
             $idl = ilExcIndividualDeadline::getInstance($ass->getId(), $a_usr_id, false);
             $idl->delete();
         }
+
+        // delete random assignments
+        $random = $this->domain->assignment()->randomAssignments($this->exc);
+        $random->deleteAssignmentsOfUser($a_usr_id);
 
         // @todo: delete all assignment associations (and their files)
     }

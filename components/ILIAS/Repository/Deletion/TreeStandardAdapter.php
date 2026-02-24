@@ -42,6 +42,10 @@ class TreeStandardAdapter implements TreeInterface
     {
         return $this->tree->getNodeData($id);
     }
+    public function isInTree(int $id): bool
+    {
+        return $this->tree->isInTree($id);
+    }
     public function getSubTree(array $node): array
     {
         return $this->tree->getSubTree($node);
@@ -68,7 +72,11 @@ class TreeStandardAdapter implements TreeInterface
 
     public function getTree(int $tree_id): TreeInterface
     {
-        return new self(new \ilTree($tree_id), $this->user_id);
+        return new self(
+            $this->repo,
+            new \ilTree($tree_id),
+            $this->user_id
+        );
     }
 
     public function getTrashTree(int $ref_id): TreeInterface
@@ -80,7 +88,11 @@ class TreeStandardAdapter implements TreeInterface
             if ($tree_id >= 0) {
                 throw new NotInTrashException('Trying to delete node from trash, but node is not in trash: ' . $ref_id);
             }
-            return new self(new \ilTree($tree_id), $this->user_id);
+            return new self(
+                $this->repo,
+                new \ilTree($tree_id),
+                $this->user_id
+            );
         }
         throw new NotInTrashException('Trying to delete node from trash, but no valid tree id found for node id: ' . $ref_id);
     }

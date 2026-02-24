@@ -165,10 +165,6 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
 
-        if ($this->question_obj->isAdditionalContentEditingModePageObject()) {
-            return false;
-        }
-
         if (!$this->question_gui->needsSyncQuery()) {
             return false;
         }

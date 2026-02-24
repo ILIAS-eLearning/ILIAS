@@ -167,6 +167,21 @@ abstract class AbstractUIModifier implements UIModifier
         );
     }
 
+    public function setResultsParticipantToolbar(
+        \ilObjSurvey $survey,
+        \ilToolbarGUI $toolbar,
+        int $user_id
+    ): void {
+        $config = $this->getInternalService()->domain()->modeFeatureConfig($survey->getMode());
+        if ($config->usesAppraisees()) {
+            $this->addApprSelectionToToolbar(
+                $survey,
+                $toolbar,
+                $user_id
+            );
+        }
+    }
+
     protected function addExportAndPrintButton(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,

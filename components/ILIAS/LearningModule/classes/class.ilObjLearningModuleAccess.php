@@ -85,7 +85,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
          * @var $ilAccess ilAccessHandler
          */
         preg_match("/lm_data\\/lm_([0-9]*)\\//ui", $ilWACPath->getPath(), $results);
-        foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
+        foreach (ilObject2::_getAllReferences((int) ($results[1] ?? 0)) as $ref_id) {
             if ($ilAccess->checkAccess('read', '', $ref_id)) {
                 return true;
             }

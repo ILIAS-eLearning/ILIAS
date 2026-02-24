@@ -253,7 +253,7 @@ class FilterManager
                     break;
                 case "spl":
                     foreach ($lobj_ids as $lid) {
-                        $status[$lid] = \ilObjSurveyQuestionPool::_lookupOnline($lid);
+                        $status[$lid] = !\ilObjSurveyQuestionPoolAccess::_isOffline($lid);
                     }
                     break;
             }

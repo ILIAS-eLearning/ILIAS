@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ceLTIc\LTI\OAuth\OAuthRequest;
 use ceLTIc\LTI\OAuth\OAuthServer;
 use ceLTIc\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use ceLTIc\LTI\OAuth\OAuthUtil;
 use ceLTIc\LTI\OAuthDataStore;
 
 /**
@@ -126,7 +127,6 @@ class ilLTIConsumerResultService
                 return;
             }
 
-
             // check the object status
             $this->readProperties($this->result->obj_id);
 
@@ -134,13 +134,15 @@ class ilLTIConsumerResultService
                 $this->respondUnsupported();
                 return;
             }
-
+            $logger->info("LTI consumer readProperties: " . json_encode($this->result) . " - token: " . json_encode($token) . " - token->userId: " . json_encode($token->getUsrId()) . " - token->objectId: " . json_encode($token->getObjId()) . " - sourceId: " . (string) $request->resultRecord->sourcedGUID->sourcedId);
             // Verify the signature
             $this->readFields($this->result->obj_id);
-            $result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
-            if ($result instanceof Exception) {
-                $logger->error('LTI Consumer Result Service: Incoming request');
-                $this->respondUnauthorized($result->getMessage());
+            try {
+                $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
+            } catch (Exception $e) {
+                $logger->error('LTI Consumer Result Service: Incoming request failed: ' . $e->getMessage());
+                $logger->debug('Incoming request failed: ' . $e->getTraceAsString());
+                $this->respondUnauthorized();
                 return;
             }
 
@@ -206,12 +208,13 @@ class ilLTIConsumerResultService
             $description = "The result is out of range from 0 to 1.";
         } else {
             $this->result->result = (float) $result;
+            $this->result->setAttended(true);
             $this->result->save();
 
             if ($result >= $this->getMasteryScore()) {
                 $lp_status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
             } else {
-                $lp_status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+                $lp_status = ilLPStatus::LP_STATUS_FAILED_NUM;
             }
             $lp_percentage = (int) round(100 * $result);
 
@@ -385,15 +388,16 @@ class ilLTIConsumerResultService
     }
 
     /**
-     * Check the reqest signature
-     * @return bool    Exception or true
+     * Check the request signature
+     * @throws Exception in case of failure
      */
-    private function checkSignature(string $a_key, string $a_secret): bool
+    private function checkSignature(string $a_key, string $a_secret): void
     {
         $platform = new ilLTIPlatform();
 
         $platform->setKey($a_key);
         $platform->setSecret($a_secret);
+        $platform->setRecordId($this->result->obj_id);
 
         $store = new OAuthDataStore($platform);
 
@@ -401,14 +405,13 @@ class ilLTIConsumerResultService
         $method = new OAuthSignatureMethod_HMAC_SHA1();
         $server->add_signature_method($method);
 
-        $request = OAuthRequest::from_request();
-
-        try {
-            $server->verify_request($request);
-        } catch (Exception $e) {
-            return false;
+        $request_headers = OAuthUtil::get_headers();
+        if (isset($request_headers['Authorization']) && str_starts_with($request_headers['Authorization'], 'OAuth ')) {
+            $parameters = OAuthUtil::split_header($request_headers['Authorization']);
         }
-        return true;
+        $request = OAuthRequest::from_request(null, null, $parameters ?? []);
+
+        $server->verify_request($request);
     }
 
     protected function updateLP(): void

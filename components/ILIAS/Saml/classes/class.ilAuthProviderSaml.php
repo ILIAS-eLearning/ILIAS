@@ -26,6 +26,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
     private const LOG_COMPONENT = 'auth';
 
     private const ERR_WRONG_LOGIN = 'err_wrong_login';
+    private const ERR_PROVIDER_INACTIVE = 'auth_saml_idp_deactivated_auth_failed';
 
     private const SESSION_TMP_ATTRIBUTES = 'tmp_attributes';
     private const SESSION_TMP_RETURN_TO = 'tmp_return_to';
@@ -78,6 +79,16 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
 
     public function doAuthentication(ilAuthStatus $status): bool
     {
+        if (!$this->idp->isActive()) {
+            $this->getLogger()->info(
+                'SAML IdP with id {idp_id} is not active.',
+                ['idp_id' => $this->idp->getIdpId()]
+            );
+            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+            $status->setTranslatedReason($this->lng->txt(self::ERR_PROVIDER_INACTIVE));
+            return false;
+        }
+
         if ([] === $this->attributes) {
             $this->getLogger()->warning('Could not parse any attributes from SAML response.');
             $this->handleAuthenticationFail($status, self::ERR_WRONG_LOGIN);

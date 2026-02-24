@@ -22,8 +22,8 @@
 *.swo
 
 # Core Components and Components From Other Vendors
-/component/*
-!/component/ILIAS
+/components/*
+!/components/ILIAS
 
 # Generated Files
 /artifacts/*

@@ -41,9 +41,8 @@ class ilLuceneSubItemListGUIFactory
         }
 
         $class = $objDefinition->getClassName($a_type);
-        $location = $objDefinition->getLocation($a_type);
         $full_class = "ilObj" . $class . "SubItemListGUI";
-        if (@include_once($location . "/class." . $full_class . ".php")) {
+        if (class_exists($full_class)) {
             return self::$instances[$a_type] = new $full_class(get_class($a_cmd_class));
         } else {
             return self::$instances[$a_type] = new ilObjectSubItemListGUI(get_class($a_cmd_class));

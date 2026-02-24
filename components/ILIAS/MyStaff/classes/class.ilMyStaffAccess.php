@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -366,8 +367,7 @@ class ilMyStaffAccess extends ilObjectAccess
             $user_id,
             'integer'
         ) . " AND perm.operations REGEXP '[\\\[,]\"?"
-            . $operation->getOperationId() . "\"?[\],]'
-				WHERE perm.parent_id = -1";
+            . $operation->getOperationId() . "\"?[\],]'";
 
         $set = $DIC->database()->query($q);
         $rec = $DIC->database()->fetchAssoc($set);

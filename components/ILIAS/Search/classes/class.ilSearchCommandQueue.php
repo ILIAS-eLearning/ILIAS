@@ -63,46 +63,19 @@ class ilSearchCommandQueue
      */
     public function store(ilSearchCommandQueueElement $element): void
     {
-        $query = "SELECT obj_id, obj_type FROM search_command_queue " .
-            "WHERE obj_id = " . $this->db->quote($element->getObjId(), 'integer') . " " .
-            "AND obj_type = " . $this->db->quote($element->getObjType(), 'text');
-        $res = $this->db->query($query);
-        if ($res->numRows()) {
-            $this->update($element);
-        } else {
-            $this->insert($element);
-        }
-    }
-
-    /**
-     * Insert new entry
-     */
-    protected function insert(ilSearchCommandQueueElement $element): void
-    {
-        $query = "INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished) " .
-            "VALUES( " .
-            $this->db->quote($element->getObjId(), 'integer') . ", " .
-            $this->db->quote($element->getObjType(), 'text') . ", " .
-            "0, " .
-            "''," .
-            $this->db->quote($element->getCommand(), 'text') . ", " .
-            $this->db->now() . ", " .
-            "0 " .
-            ")";
-        $res = $this->db->manipulate($query);
-    }
-
-    /**
-     * Update existing entry
-     */
-    protected function update(ilSearchCommandQueueElement $element): void
-    {
-        $query = "UPDATE search_command_queue " .
-            "SET command = " . $this->db->quote($element->getCommand(), 'text') . ", " .
-            "last_update = " . $this->db->now() . ", " .
-            "finished = " . $this->db->quote(0, 'integer') . " " .
-            "WHERE obj_id = " . $this->db->quote($element->getObjId(), 'integer') . " " .
-            "AND obj_type = " . $this->db->quote($element->getObjType(), 'text');
-        $res = $this->db->manipulate($query);
+        $this->db->replace(
+            'search_command_queue',
+            [
+                'obj_id' => [ilDBConstants::T_INTEGER, $element->getObjId()],
+                'obj_type' => [ilDBConstants::T_TEXT, $element->getObjType()],
+                'sub_id' => [ilDBConstants::T_INTEGER, 0]
+            ],
+            [
+                'sub_type' => [ilDBConstants::T_TEXT, ''],
+                'command' => [ilDBConstants::T_TEXT, $element->getCommand()],
+                'last_update' => [ilDBConstants::T_DATE, $this->db->now()],
+                'finished' => [ilDBConstants::T_INTEGER, 0]
+            ]
+        );
     }
 }

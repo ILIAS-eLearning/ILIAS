@@ -20,13 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\Setup;
 
-use ILIAS\Setup\Artifact\BuildArtifactObjective;
-use ILIAS\Setup;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\Artifact;
+use ILIAS\Setup\Artifact\ArrayArtifact;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */
-class BaseDirObjective extends BuildArtifactObjective
+class BaseDirObjective extends BuildStaticConfigStoredObjective
 {
     public const BASE_DIR = './src/FileDelivery/artifacts/base_dir.php';
 
@@ -37,9 +38,9 @@ class BaseDirObjective extends BuildArtifactObjective
         return self::BASE_DIR;
     }
 
-    public function buildIn(Setup\Environment $env): Setup\Artifact
+    public function buildIn(Environment $env): Artifact
     {
-        $ilias_ini = $env->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $ilias_ini = $env->getResource(Environment::RESOURCE_ILIAS_INI);
         if ($ilias_ini instanceof \ilIniFile) {
             $base_dir = $ilias_ini->readVariable('clients', 'datadir');
             $client_id = $ilias_ini->readVariable('clients', 'default');
@@ -55,12 +56,12 @@ class BaseDirObjective extends BuildArtifactObjective
         return 'base_dir';
     }
 
-    public function build(): Setup\Artifact
+    public function build(): Artifact
     {
-        return new Setup\Artifact\ArrayArtifact($this->data);
+        return new ArrayArtifact($this->data);
     }
 
-    public function getPreconditions(Setup\Environment $environment): array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new \ilIniFilesLoadedObjective(),

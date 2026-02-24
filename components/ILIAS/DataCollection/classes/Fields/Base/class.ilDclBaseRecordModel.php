@@ -311,16 +311,15 @@ class ilDclBaseRecordModel
      * Get Field Value
      * @return int|string|array|null
      */
-    public function getRecordFieldValue(?string $field_id)
+    public function getRecordFieldValue(?string $field_id): mixed
     {
         if ($field_id === null) {
             return null;
         }
-        $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
             return $this->getStandardField($field_id);
         } else {
-            return $this->recordfields[$field_id]->getValue();
+            return ilDclCache::getRecordFieldCache($this, ilDclCache::getFieldCache((int) $field_id))->getValue();
         }
     }
 
@@ -404,7 +403,7 @@ class ilDclBaseRecordModel
              * @var $field ilDclBaseRecordFieldModel
              */
 
-            $html = $field->getRecordRepresentation()->getSingleHTML($options, false);
+            $html = $field->getRecordRepresentation()->getSingleHTML($options);
         }
 
         return $html;
@@ -567,10 +566,6 @@ class ilDclBaseRecordModel
     {
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
-            if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB) {
-                $this->deleteMob((int) $recordfield->getValue());
-            }
-
             $recordfield->delete();
         }
 
@@ -622,14 +617,6 @@ class ilDclBaseRecordModel
         if (ilObject2::_exists($obj_id, false)) {
             $file = new ilObjFile($obj_id, false);
             $file->delete();
-        }
-    }
-
-    public function deleteMob(int $obj_id): void
-    {
-        if (ilObject2::_lookupObjId($obj_id)) {
-            $mob = new ilObjMediaObject($obj_id);
-            $mob->delete();
         }
     }
 

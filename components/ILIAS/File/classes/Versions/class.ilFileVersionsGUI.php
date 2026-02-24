@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\DI\UIServices;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\HTTP\Services;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\ResourceStorage\Revision\Revision;
@@ -23,12 +26,10 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\UI\Implementation\Component\Modal\Interruptive;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\ResourceStorage\Revision\RevisionStatus;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
-use ILIAS\components\WOPI\Discovery\ActionRepository;
-use ILIAS\components\WOPI\Embed\EmbeddedApplication;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionRepository;
+use ILIAS\WOPI\Embed\EmbeddedApplication;
 use ILIAS\Data\URI;
-use ILIAS\UI\Component\Modal\Modal;
-use ILIAS\components\WOPI\Discovery\ActionTarget;
 use ILIAS\FileUpload\MimeType;
 use ILIAS\MetaData\Services\ServicesInterface as LOMServices;
 use ILIAS\File\Capabilities\Capabilities;
@@ -71,7 +72,7 @@ class ilFileVersionsGUI
     private \ILIAS\ResourceStorage\Services $storage;
     private ActionRepository $action_repo;
     private ?Revision $current_revision;
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
     private ilAccessHandler $access;
     private \ilWorkspaceAccessHandler $wsp_access;
     private int $ref_id;
@@ -182,7 +183,9 @@ class ilFileVersionsGUI
                     $this->current_revision->getIdentification(),
                     $action,
                     new ilObjFileStakeholder(),
-                    new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT))
+                    new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT)),
+                    false,
+                    $this->lng->getLangKey()
                 );
 
                 $this->ctrl->forwardCommand(
@@ -303,7 +306,7 @@ class ilFileVersionsGUI
         }
 
         // Editor
-        $suffix = $this->current_revision?->getInformation()?->getSuffix();
+        $this->current_revision?->getInformation()?->getSuffix();
 
         if ($this->action_repo->hasEditActionForSuffix(
             $this->current_revision->getInformation()->getSuffix()
@@ -398,7 +401,7 @@ class ilFileVersionsGUI
     {
         // delete versions after confirmation
         $versions_to_delete = $this->getVersionIdsFromRequest();
-        if (is_array($versions_to_delete) && $versions_to_delete !== []) {
+        if ($versions_to_delete !== []) {
             $this->file->deleteVersions($versions_to_delete);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_versions_deleted"), true);
         }
@@ -451,28 +454,6 @@ class ilFileVersionsGUI
         return [];
     }
 
-    private function getVersionsToKeep(array $version_ids): array
-    {
-        $versions_to_keep = $this->file->getVersions();
-        array_udiff($versions_to_keep, $version_ids, static function ($v1, $v2): bool {
-            if (is_array($v1) || $v1 instanceof ilObjFileVersion) {
-                $v1 = (int) $v1["hist_entry_id"];
-            } elseif (!is_numeric($v1)) {
-                $v1 = (int) $v1;
-            }
-
-            if (is_array($v2) || $v2 instanceof ilObjFileVersion) {
-                $v2 = (int) $v2["hist_entry_id"];
-            } elseif (!is_numeric($v2)) {
-                $v2 = (int) $v2;
-            }
-
-            return $v1 === $v2;
-        });
-
-        return $versions_to_keep;
-    }
-
     /**
      * bugfix mantis 26007:
      * this function was created to ensure that the access check not only works for repository objects
@@ -500,7 +481,7 @@ class ilFileVersionsGUI
 
         $this->http->saveResponse(
             $this->http->response()->withBody(
-                \ILIAS\Filesystem\Stream\Streams::ofString(
+                Streams::ofString(
                     (null !== $delete_selected_versions_modal) ?
                         $this->ui->renderer()->renderAsync([$delete_selected_versions_modal]) :
                         ''
@@ -520,7 +501,7 @@ class ilFileVersionsGUI
         $non_deletion_versions = array_udiff(
             $existing_versions,
             $deletion_version_ids,
-            static function ($a, $b) {
+            static function ($a, $b): int|float {
                 if ($a instanceof ilObjFileVersion) {
                     $a = $a->getHistEntryId();
                 }
@@ -539,16 +520,12 @@ class ilFileVersionsGUI
                 $this->file
             );
         }
-
         // confirm the deletion of the selected versions
-        if (count($non_deletion_versions) >= 1) {
-            return $this->file_component_builder->buildConfirmDeleteSpecificVersionsModal(
-                $this->ctrl->getFormActionByClass(self::class, self::CMD_CONFIRMED_DELETE_VERSIONS),
-                $this->file,
-                $deletion_version_ids
-            );
-        }
-        return null;
+        return $this->file_component_builder->buildConfirmDeleteSpecificVersionsModal(
+            $this->ctrl->getFormActionByClass(self::class, self::CMD_CONFIRMED_DELETE_VERSIONS),
+            $this->file,
+            $deletion_version_ids
+        );
     }
 
     protected function checkSanityOfDeletionRequest(array $requested_deletion_version, bool $redirect): void
@@ -582,7 +559,7 @@ class ilFileVersionsGUI
         $remaining_versions = array_udiff(
             $existing_versions,
             $version_ids,
-            static function ($a, $b) {
+            static function ($a, $b): int|float {
                 if ($a instanceof ilObjFileVersion) {
                     $a = $a->getHistEntryId();
                 }
@@ -724,7 +701,7 @@ class ilFileVersionsGUI
         );
     }
 
-    private function getIdentification(): ?\ILIAS\ResourceStorage\Identification\ResourceIdentification
+    private function getIdentification(): ?ResourceIdentification
     {
         return $this->storage->manage()->find($this->file->getResourceId());
     }
