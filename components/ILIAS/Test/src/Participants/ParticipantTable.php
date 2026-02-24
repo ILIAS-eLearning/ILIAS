@@ -241,8 +241,8 @@ class ParticipantTable implements DataRetrieval
             'test_passed' => static fn(
                 Participant $a,
                 Participant $b
-            ) => $b->getAttemptOverviewInformation()?->hasPassingMark()
-                <=> $a->getAttemptOverviewInformation()?->hasPassingMark(),
+            ) => $a->getAttemptOverviewInformation()?->hasPassingMark()
+                <=> $b->getAttemptOverviewInformation()?->hasPassingMark(),
             'mark' => static fn(
                 Participant $a,
                 Participant $b
@@ -411,7 +411,8 @@ class ParticipantTable implements DataRetrieval
                 ->withOrderingLabels(...$column_factory->number($this->lng->txt('tst_reached_points'))->getOrderingLabels());
             $columns['nr_of_answered_questions'] = $column_factory->text($this->lng->txt('tst_answered_questions'))
                 ->withIsOptional(true, false)
-                ->withIsSortable(true);
+                ->withIsSortable(true)
+                ->withOrderingLabels(...$column_factory->number($this->lng->txt('tst_answered_questions'))->getOrderingLabels());
             $columns['percent_of_available_points'] = $column_factory->number($this->lng->txt('tst_percent_solved'))
                 ->withUnit('%')
                 ->withIsOptional(true, false)
@@ -430,8 +431,8 @@ class ParticipantTable implements DataRetrieval
                 )
             )->withIsSortable(true)
             ->withOrderingLabels(
-                "{$this->lng->txt('tst_passed')}, {$this->lng->txt('yes')} {$this->lng->txt('order_option_first')}",
-                "{$this->lng->txt('tst_passed')}, {$this->lng->txt('no')} {$this->lng->txt('order_option_first')}"
+                "{$this->lng->txt('tst_passed')}, {$this->lng->txt('no')} {$this->lng->txt('order_option_first')}",
+                "{$this->lng->txt('tst_passed')}, {$this->lng->txt('yes')} {$this->lng->txt('order_option_first')}"
             );
             $columns['mark'] = $column_factory->text($this->lng->txt('tst_mark'))
                 ->withIsOptional(true, false)
