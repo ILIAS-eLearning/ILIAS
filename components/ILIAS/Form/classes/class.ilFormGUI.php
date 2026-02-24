@@ -33,6 +33,7 @@ class ilFormGUI
     protected string $name = '';
     protected string $target = '';
     protected bool $prevent_double_submission = false;
+    protected array $modals = [];
 
     public function setFormAction(string $a_formaction): void
     {
@@ -181,6 +182,13 @@ class ilFormGUI
         if (!$this->getKeepOpen()) {
             $tpl->setVariable("FORM_CLOSE_TAG", "</form>");
         }
+
+        if ($this->modals !== []) {
+            global $DIC;
+            $tpl->setVariable("MODALS", $DIC->ui()->renderer()->render($this->modals));
+            $tpl->parseCurrentBlock();
+        }
+
         return $tpl->get();
     }
 

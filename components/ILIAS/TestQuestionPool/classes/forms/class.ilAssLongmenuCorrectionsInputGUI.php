@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\UI\Component\Modal\Lightbox;
+
 /**
  * Class ilAssLongmenuCorrectionsInputGUI
  *
@@ -24,9 +26,11 @@
  *
  * @package components\ILIAS/Test(QuestionPool)
  */
-class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
+class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI implements ilModalFormInputGUI
 {
     private \ILIAS\DI\UIServices $ui;
+
+    private ?Lightbox $modal = null;
 
     public function __construct($a_title = "", $a_postvar = "")
     {
@@ -41,21 +45,25 @@ class ilAssLongmenuCorrectionsInputGUI extends ilAnswerWizardInputGUI
         return true;
     }
 
+    public function getModal(): ?Lightbox
+    {
+        return $this->modal;
+    }
+
     public function insert(ilTemplate $a_tpl): void
     {
         // Get input
-        $inp = new ilTextWizardInputGUI('', '');
+        $inp = new ilTextWizardInputGUI($this->getTitle(), $this->getPostVar());
         $inp->setValues(current($this->values['answers_all']));
         $inp->setDisabled(true);
         $message = $inp->render();
 
         $page = $this->ui->factory()->modal()->lightboxTextPage($message, $this->lng->txt('answer_options'));
-        $modal = $this->ui->factory()->modal()->lightbox($page);
-        $button = $this->ui->factory()->button()->standard($this->lng->txt('show'), $modal->getShowSignal());
+        $this->modal = $this->ui->factory()->modal()->lightbox($page);
+        $button = $this->ui->factory()->button()->standard($this->lng->txt('show'), $this->modal->getShowSignal());
 
         $tpl = new ilTemplate('tst.longmenu_corrections_input.html', true, true, 'components/ILIAS/TestQuestionPool');
 
-        $tpl->setVariable('ANSWERS_MODAL', $this->ui->renderer()->render($modal));
         $tpl->setVariable('TAG_INPUT', $this->buildTagInput()->render());
         $tpl->setVariable('NUM_ANSWERS', $this->values['answers_all_count']);
         $tpl->setVariable('BTN_SHOW', $this->ui->renderer()->render($button));
