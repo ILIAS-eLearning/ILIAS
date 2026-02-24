@@ -559,6 +559,9 @@ class ilPropertyFormGUI extends ilFormGUI
         foreach ($this->items as $item) {
             if ($item->getType() != "hidden") {
                 $this->insertItem($item);
+                if ($item instanceof ilModalFormInputGUI && ($modal = $item->getModal())) {
+                    $this->modals[] = $modal;
+                }
             }
         }
 
