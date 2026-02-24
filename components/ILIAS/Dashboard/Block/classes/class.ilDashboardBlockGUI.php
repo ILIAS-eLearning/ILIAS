@@ -22,7 +22,6 @@ use ILIAS\HTTP\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\UI\Implementation\Component\ReplaceSignal;
-use JetBrains\PhpStorm\NoReturn;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
 use ILIAS\components\Dashboard\Block\BlockDTO;
@@ -31,19 +30,19 @@ use ILIAS\Filesystem\Stream\Streams;
 
 abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
-    private string $content;
-    private ilRbacSystem $rbacsystem;
-    private string $parent;
-    protected ilFavouritesManager $favourites_manager;
+    protected string $content;
+    protected readonly ilRbacSystem $rbacsystem;
+    protected string $parent;
+    protected readonly ilFavouritesManager $favourites_manager;
     protected int $requested_item_ref_id;
-    private mixed $object_cache;
-    private ilTree $tree;
-    private mixed $objDefinition;
-    protected ilSetting $settings;
-    protected ilLogger $logging;
-    protected Services $http;
-    private Factory $refinery;
-    protected ilPDSelectedItemsBlockViewSettings $viewSettings;
+    protected mixed $object_cache;
+    protected readonly ilTree $tree;
+    protected readonly mixed $obj_definition;
+    protected readonly ilSetting $settings;
+    protected readonly ilLogger $logging;
+    protected readonly Services $http;
+    protected readonly Factory $refinery;
+    protected ilPDSelectedItemsBlockViewSettings $view_settings;
     /** @var array<BlockDTO[]> */
     protected array $data;
 
@@ -57,7 +56,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->settings = $DIC->settings();
         $this->object_cache = $DIC['ilObjDataCache'];
         $this->tree = $DIC->repositoryTree();
-        $this->objDefinition = $DIC['objDefinition'];
+        $this->obj_definition = $DIC['objDefinition'];
         $this->rbacsystem = $DIC->rbac()->system();
         $this->favourites_manager = new ilFavouritesManager();
         $this->parent = $this->ctrl->getCurrentClassPath()[0] ?? '';
@@ -123,7 +122,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return $list_item;
     }
 
-    protected function isRepositoryObject(): bool
+    final protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -167,7 +166,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function getViewSettings(): ilPDSelectedItemsBlockViewSettings
     {
-        return $this->viewSettings;
+        return $this->view_settings;
     }
 
     public function init(): void
@@ -175,12 +174,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $this->lng->loadLanguageModule('dash');
         $this->lng->loadLanguageModule('pd');
         $this->initViewSettings();
-        $this->viewSettings->parse();
+        $this->view_settings->parse();
         $this->requested_item_ref_id = (int) ($this->http->request()->getQueryParams()['item_ref_id'] ?? 0);
         $this->initData();
 
-        $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
-        if ($this->viewSettings->isTilePresentation()) {
+        $this->ctrl->setParameter($this, 'view', $this->view_settings->getView());
+        if ($this->view_settings->isTilePresentation()) {
             $this->setPresentation(self::PRES_MAIN_LEG);
         } else {
             $this->setPresentation(self::PRES_SEC_LIST);
@@ -200,7 +199,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
     public function getHTML(): string
     {
         $this->setTitle(
-            $this->lng->txt('dash_' . $this->viewSettings->getViewName($this->viewSettings->getCurrentView()))
+            $this->lng->txt('dash_' . $this->view_settings->getViewName($this->view_settings->getView()))
         );
 
         if (!$this->data) {
@@ -279,7 +278,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
      */
     protected function groupItemsByType(): array
     {
-        $object_types_by_container = $this->objDefinition->getGroupedRepositoryObjectTypes(
+        $object_types_by_container = $this->obj_definition->getGroupedRepositoryObjectTypes(
             ['cat', 'crs', 'grp', 'fold']
         );
         $grouped_items = [];
@@ -288,7 +287,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         $data = array_merge(...array_values($data));
 
         foreach ($object_types_by_container as $type_title => $type) {
-            if (!$this->objDefinition->isPlugin($type_title)) {
+            if (!$this->obj_definition->isPlugin($type_title)) {
                 $title = $this->lng->txt('objs_' . $type_title);
             } else {
                 $pl = ilObjectPlugin::getPluginObjectByType($type_title);
@@ -337,7 +336,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
         return $grouped_items;
     }
 
-    protected function isRootNode(int $refId): bool
+    final protected function isRootNode(int $refId): bool
     {
         return $this->tree->getRootId() === $refId;
     }
@@ -356,25 +355,25 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function addCommandActions(): void
     {
-        $sortings = $this->viewSettings->getSelectableSortingModes();
+        $sortings = $this->view_settings->getSelectableSortingModes();
         if (count($sortings) > 1) {
             foreach ($sortings as $sorting) {
                 $this->addSortOption(
                     $sorting,
                     $this->lng->txt(ilObjDashboardSettingsGUI::DASH_SORT_PREFIX . $sorting),
-                    $sorting === $this->viewSettings->getEffectiveSortingMode()
+                    $sorting === $this->view_settings->getEffectiveSortingMode()
                 );
             }
             $this->setSortTarget($this->ctrl->getLinkTarget($this, 'changePDItemSorting'));
         }
 
-        $presentations = $this->viewSettings->getSelectablePresentationModes();
+        $presentations = $this->view_settings->getSelectablePresentationModes();
         foreach ($presentations as $presentation) {
             $this->ctrl->setParameter($this, 'presentation', $presentation);
             $this->addPresentation(
                 $this->ui->renderer()->render($this->ui->factory()->symbol()->glyph()->{$presentation . 'View'}()),
                 $this->ctrl->getLinkTarget($this, 'changePDItemPresentation'),
-                $presentation === $this->viewSettings->getEffectivePresentationMode()
+                $presentation === $this->view_settings->getEffectivePresentationMode()
             );
             $this->ctrl->setParameter($this, 'presentation', null);
         }
@@ -479,7 +478,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function changePDItemSortingObject(): string
     {
-        $this->viewSettings->storeActorSortingMode(
+        $this->view_settings->storeActorSortingMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['sorting'] ?? ''))
         );
 
@@ -488,7 +487,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function changePDItemPresentationObject(): string
     {
-        $this->viewSettings->storeActorPresentationMode(
+        $this->view_settings->storeActorPresentationMode(
             ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
         );
         return $this->initAndShow();
@@ -499,7 +498,7 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
      */
     public function getItemGroups(): array
     {
-        switch ($this->viewSettings->getEffectiveSortingMode()) {
+        switch ($this->view_settings->getEffectiveSortingMode()) {
             case ilPDSelectedItemsBlockConstants::SORT_BY_ALPHABET:
                 $data = $this->getData();
                 $data = array_merge(...array_values($data));
@@ -547,12 +546,12 @@ abstract class ilDashboardBlockGUI extends ilBlockGUI implements ilDesktopItemHa
 
     public function byType(string $a_type): ilObjectListGUI
     {
-        $class = $this->objDefinition->getClassName($a_type);
+        $class = $this->obj_definition->getClassName($a_type);
         if (!$class) {
             throw new ilException(sprintf('Could not find a class for object type: %s', $a_type));
         }
 
-        $location = $this->objDefinition->getLocation($a_type);
+        $location = $this->obj_definition->getLocation($a_type);
         if (!$location) {
             throw new ilException(sprintf('Could not find a class location for object type: %s', $a_type));
         }
