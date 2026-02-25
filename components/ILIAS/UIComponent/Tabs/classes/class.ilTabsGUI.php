@@ -458,7 +458,7 @@ class ilTabsGUI
                     : "";
                 // bs-patch: end
 
-                 $tpl->setVariable($pre2 . "TAB_TYPE", $tabtype);
+                $tpl->setVariable($pre2 . "TAB_TYPE", $tabtype);
 
                 if ($target["dir_text"]) {
                     $text = $target["text"];
