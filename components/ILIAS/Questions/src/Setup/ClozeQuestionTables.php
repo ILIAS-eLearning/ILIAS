@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
-use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 
 class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
     public function __construct(
-        private readonly TableNameBuilder $table_name_builder
+        private readonly SetupTableNameBuilder $table_name_builder,
+        private readonly TableDefinitions $table_definitions
     ) {
     }
 
@@ -42,7 +42,9 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::TypeSpecificAnswerForms);
+        $table_name = $this->table_name_builder->getTableNameFor(
+            AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'answer_form_id' => [
@@ -70,7 +72,9 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::AnswerInputs);
+        $table_name = $this->table_name_builder->getTableNameFor(
+            AnswerFormSpecificTableTypes::AnswerInputs
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -131,7 +135,9 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_3(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::AnswerOptions);
+        $table_name = $this->table_name_builder->getTableNameFor(
+            AnswerFormSpecificTableTypes::AnswerOptions
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -181,8 +187,8 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
     public function step_4(): void
     {
         $table_name = $this->table_name_builder->getTableNameFor(
-            TableTypes::Additional,
-            Persistence::COMBINATION_TABLE_IDENTIFIER
+            AnswerFormSpecificTableTypes::Additional,
+            $this->table_definitions->getCombinationsTableIdentifier()
         );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
@@ -215,8 +221,8 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
     public function step_5(): void
     {
         $table_name = $this->table_name_builder->getTableNameFor(
-            TableTypes::Additional,
-            Persistence::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
+            AnswerFormSpecificTableTypes::Additional,
+            $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
         );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
@@ -254,7 +260,9 @@ class ClozeQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        $table_name = $this->table_name_builder->getTableNameFor(TableTypes::Responses);
+        $table_name = $this->table_name_builder->getTableNameFor(
+            AnswerFormSpecificTableTypes::Responses
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [

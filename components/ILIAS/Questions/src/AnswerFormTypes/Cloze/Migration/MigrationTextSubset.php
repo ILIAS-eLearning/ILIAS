@@ -20,12 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 
-use ILIAS\Data\UUID\Uuid;
 use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
@@ -34,7 +34,7 @@ class MigrationTextSubset implements Migration
     use BasicMigrationFunctions;
 
     public function __construct(
-        private readonly Persistence $persistence
+        private readonly TableDefinitions $table_definitions
     ) {
     }
 
@@ -53,12 +53,13 @@ class MigrationTextSubset implements Migration
     #[\Override]
     public function getTableNameSpace(): TableNameSpace
     {
-        return $this->persistence->getTableNameSpace();
+        return $this->table_definitions->getTableNameSpace();
     }
 
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
+        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $answer_form_id = $migration_insert->getAnswerFormId();
@@ -76,8 +77,8 @@ class MigrationTextSubset implements Migration
                     $gaps[] = $gap_id;
 
                     $gaps_insert = $this->buildGapInsertStatement(
-                        $this->persistence,
-                        $migration_insert->getPersistenceFactory(),
+                        $this->table_definitions,
+                        $persistence_factory,
                         $migration_insert->getTableNameBuilder(),
                         $gaps_insert,
                         $gap_id,
@@ -97,8 +98,8 @@ class MigrationTextSubset implements Migration
 
             foreach ($gaps as $gap_id) {
                 $answer_options_insert = $this->buildAnswerOptionInsertStatement(
-                    $this->persistence,
-                    $migration_insert->getPersistenceFactory(),
+                    $this->table_definitions,
+                    $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $answer_options_insert,
                     $migration_insert->getUuid(),
@@ -119,8 +120,8 @@ class MigrationTextSubset implements Migration
         return $migration_insert
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
-                    $this->persistence,
-                    $migration_insert->getPersistenceFactory(),
+                    $this->table_definitions,
+                    $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     ScoringIdentical::OnlyScoreDistinct,

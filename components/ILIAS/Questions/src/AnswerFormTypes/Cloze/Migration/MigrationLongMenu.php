@@ -23,7 +23,8 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
@@ -32,7 +33,7 @@ class MigrationLongMenu implements Migration
     use BasicMigrationFunctions;
 
     public function __construct(
-        private readonly Persistence $persistence
+        private readonly TableDefinitions $table_definitions
     ) {
     }
 
@@ -51,12 +52,13 @@ class MigrationLongMenu implements Migration
     #[\Override]
     public function getTableNameSpace(): TableNameSpace
     {
-        return $this->persistence->getTableNameSpace();
+        return $this->table_definitions->getTableNameSpace();
     }
 
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
+        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $answer_form_id = $migration_insert->getAnswerFormId();
@@ -74,8 +76,8 @@ class MigrationLongMenu implements Migration
                 $answer_input_mapping[$db_row->gap_number] = $answer_input_id;
 
                 $gaps_insert = $this->buildGapInsertStatement(
-                    $this->persistence,
-                    $migration_insert->getPersistenceFactory(),
+                    $this->table_definitions,
+                    $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $gaps_insert,
                     $answer_input_id,
@@ -133,8 +135,8 @@ class MigrationLongMenu implements Migration
             []
         ) as $answer) {
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
-                $this->persistence,
-                $migration_insert->getPersistenceFactory(),
+                $this->table_definitions,
+                $persistence_factory,
                 $migration_insert->getTableNameBuilder(),
                 $answer_options_insert,
                 $answer['answer_option_id'],
@@ -150,8 +152,8 @@ class MigrationLongMenu implements Migration
         return $migration_insert
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
-                    $this->persistence,
-                    $migration_insert->getPersistenceFactory(),
+                    $this->table_definitions,
+                    $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld($db_row->identical_scoring),

@@ -20,16 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\InRange;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableNameSpace;
-use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup\Environment;
 
@@ -38,7 +38,7 @@ class MigrationCloze implements Migration
     use BasicMigrationFunctions;
 
     public function __construct(
-        private readonly Persistence $persistence,
+        private readonly TableDefinitions $table_definitions,
         private readonly \EvalMath $math
     ) {
     }
@@ -58,12 +58,13 @@ class MigrationCloze implements Migration
     #[\Override]
     public function getTableNameSpace(): TableNameSpace
     {
-        return $this->persistence->getTableNameSpace();
+        return $this->table_definitions->getTableNameSpace();
     }
 
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
+        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $answer_input_mapping = [];
@@ -80,8 +81,8 @@ class MigrationCloze implements Migration
                 $answer_input_mapping[$db_row->gap_id] = $migration_insert->getUuid();
                 $answer_options_mapping[$db_row->gap_id] = [];
                 $gaps_insert = $this->buildGapInsertStatement(
-                    $this->persistence,
-                    $migration_insert->getPersistenceFactory(),
+                    $this->table_definitions,
+                    $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $gaps_insert,
                     $answer_input_mapping[$db_row->gap_id],
@@ -103,8 +104,8 @@ class MigrationCloze implements Migration
             ];
 
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
-                $this->persistence,
-                $migration_insert->getPersistenceFactory(),
+                $this->table_definitions,
+                $persistence_factory,
                 $migration_insert->getTableNameBuilder(),
                 $answer_options_insert,
                 $answer_option_id,
@@ -123,6 +124,7 @@ class MigrationCloze implements Migration
 
         if ($db_row->combinations_enabled) {
             $migration_insert = $this->addCombinationInsertStatements(
+                $persistence_factory,
                 $migration_insert,
                 $answer_input_mapping,
                 $answer_options_mapping
@@ -132,8 +134,8 @@ class MigrationCloze implements Migration
         return $migration_insert
             ->withAdditionalInsert(
                 $this->buildAnswerFormInsertStatement(
-                    $this->persistence,
-                    $migration_insert->getPersistenceFactory(),
+                    $this->table_definitions,
+                    $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $answer_form_id,
                     $this->buildScoringIdenticalFromOld((int) $db_row->identical_scoring),
@@ -190,6 +192,7 @@ class MigrationCloze implements Migration
     }
 
     private function addCombinationInsertStatements(
+        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert,
         array $answer_input_mapping,
         array $answer_options_mapping
@@ -213,7 +216,7 @@ class MigrationCloze implements Migration
             if (!isset($combination_mapping[$db_row->combination_id . $db_row->row_id])) {
                 $combination_mapping[$db_row->combination_id . $db_row->row_id] = $migration_insert->getUuid();
                 $combinations_insert = $this->buildCombinationsInsert(
-                    $migration_insert->getPersistenceFactory(),
+                    $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $combinations_insert,
                     $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString(),
@@ -223,7 +226,7 @@ class MigrationCloze implements Migration
             }
 
             $combinations_to_answer_options_insert = $this->buildCombinationsToAnswerOptionsInsert(
-                $migration_insert->getPersistenceFactory(),
+                $persistence_factory,
                 $migration_insert->getTableNameBuilder(),
                 $combinations_to_answer_options_insert,
                 $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString(),
@@ -247,11 +250,10 @@ class MigrationCloze implements Migration
     ): Insert {
         if ($combinations_insert === null) {
             return $persistence_factory->insert(
-                $this->persistence->getColumns(
-                    $persistence_factory,
+                $this->table_definitions->getColumns(
                     $table_name_builder,
-                    TableTypes::Additional,
-                    $this->persistence->getCombinationsTableIdentifier()
+                    AnswerFormSpecificTableTypes::Additional,
+                    $this->table_definitions->getCombinationsTableIdentifier()
                 ),
                 [
                     $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
@@ -279,11 +281,10 @@ class MigrationCloze implements Migration
     ): Insert {
         if ($combinations_to_answer_options_insert === null) {
             return $persistence_factory->insert(
-                $this->persistence->getColumns(
-                    $persistence_factory,
+                $this->table_definitions->getColumns(
                     $table_name_builder,
-                    TableTypes::Additional,
-                    $this->persistence->getCombinationToAnswerOptionsTableIdentifier()
+                    AnswerFormSpecificTableTypes::Additional,
+                    $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
                 ),
                 [
                     $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),

@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties;
 
-use ILIAS\Questions\AnswerForm\Persistence;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Properties as PropertiesInterface;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
@@ -30,6 +30,7 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeT
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Combinations;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
@@ -37,7 +38,6 @@ use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
@@ -277,76 +277,73 @@ class Properties implements PropertiesInterface
 
     #[\Override]
     public function toStorage(
+        PersistenceFactory $persistence_factory,
         Manipulate $manipulate
     ): Manipulate {
-        $persistence = $manipulate->getPersistenceForDefinitionClass(
-            $this->definition::class
-        );
+        $table_definitions = $this->definition->getTableDefinitions();
 
         $table_name_builder = $manipulate->getTableNameBuilder(
-            $this->definition::class
+            $table_definitions->getTableSubNameSpace()
         );
 
         $answer_form_statement = $manipulate->getManipulationType() === ManipulationType::Create
             ? $this->buildInsertAnswerFormStatement(
-                $persistence,
-                $manipulate->getPersistenceFactory(),
+                $table_definitions,
+                $persistence_factory,
                 $table_name_builder
             ) : $this->buildUpdateAnswerFormStatement(
-                $persistence,
-                $manipulate->getPersistenceFactory(),
+                $table_definitions,
+                $persistence_factory,
                 $table_name_builder
             );
 
         return $this->gaps->toStorage(
             $this->addReplaceCombinationsStatements(
                 $manipulate,
-                $persistence,
+                $table_definitions,
                 $table_name_builder
             )->withAdditionalStatement(
                 $answer_form_statement
             ),
-            $persistence,
+            $persistence_factory,
+            $table_definitions,
             $table_name_builder
         );
     }
 
     #[\Override]
     public function toDelete(
+        PersistenceFactory $persistence_factory,
         Manipulate $manipulate
     ): Manipulate {
-        $persistence = $manipulate->getPersistenceForDefinitionClass(
-            $this->definition::class
-        );
-
+        $table_definitions = $this->definition->getTableDefinitions();
         $table_name_builder = $manipulate->getTableNameBuilder(
-            $this->definition::class
+            $table_definitions->getTableSubNameSpace()
         );
 
         return $this->gaps->toDelete(
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteAnswerFormStatement(
-                    $persistence,
-                    $manipulate->getPersistenceFactory(),
+                    $table_definitions,
+                    $persistence_factory,
                     $table_name_builder
                 )
             ),
-            $persistence,
+            $persistence_factory,
+            $table_definitions,
             $table_name_builder
         );
     }
 
     private function buildInsertAnswerFormStatement(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Insert {
-        $table_definition = TableTypes::TypeSpecificAnswerForms;
         return $persistence_factory->insert(
-            $persistence->getColumns(
-                $persistence_factory,
+            $table_definitions->getColumns(
                 $table_name_builder,
-                $table_definition
+                AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
             ),
             [
                 $persistence_factory->value(
@@ -366,16 +363,15 @@ class Properties implements PropertiesInterface
     }
 
     private function buildUpdateAnswerFormStatement(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Update {
-        $table_definition = TableTypes::TypeSpecificAnswerForms;
+        $table_type = AnswerFormSpecificTableTypes::TypeSpecificAnswerForms;
         return $persistence_factory->update(
-            $persistence->getColumns(
-                $persistence_factory,
+            $table_definitions->getColumns(
                 $table_name_builder,
-                $table_definition,
+                $table_type,
                 '',
                 ['answer_form_id']
             ),
@@ -391,10 +387,9 @@ class Properties implements PropertiesInterface
             ],
             [
                 $persistence_factory->where(
-                    $persistence->getIdColumn(
-                        $persistence_factory,
+                    $table_definitions->getIdColumn(
                         $table_name_builder,
-                        $table_definition
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -407,7 +402,7 @@ class Properties implements PropertiesInterface
 
     private function addReplaceCombinationsStatements(
         Manipulate $manipulate,
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         TableNameBuilder $table_name_builder
     ): Manipulate {
         if (!$this->combinations->areCombinationsEnabled()
@@ -417,29 +412,28 @@ class Properties implements PropertiesInterface
 
         return $this->combinations->toStorage(
             $manipulate,
-            $persistence,
+            $table_definitions,
             $table_name_builder
         );
     }
 
     private function buildDeleteAnswerFormStatement(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
-        $table_definition = TableTypes::TypeSpecificAnswerForms;
+        $table_type = AnswerFormSpecificTableTypes::TypeSpecificAnswerForms;
 
         return $persistence_factory->delete(
-            $table_definition->getTable(
-                $persistence_factory,
-                $table_name_builder
+            $persistence_factory->table(
+                $table_name_builder,
+                $table_type
             ),
             [
                 $persistence_factory->where(
-                    $persistence->getForeignKeyColumn(
-                        $persistence_factory,
+                    $table_definitions->getForeignKeyColumn(
                         $table_name_builder,
-                        $table_definition
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,

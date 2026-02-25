@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Persistence;
 
-use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
-use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Data\Range;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
@@ -39,87 +37,24 @@ class Query
 
     private ?array $current_record = null;
 
+    /**
+     * @param Table $base_table The base table will be used as the table in the
+     * "From" statement
+     */
     public function __construct(
         private readonly \ilDBInterface $db,
-        private readonly Factory $persistence_factory,
-        private readonly AnswerFormFactory $answer_form_factory,
-        private readonly Refinery $refinery
+        private readonly Refinery $refinery,
+        private string $component_name_space,
+        private Table $base_table
     ) {
-        $questions_linking_table_definition = CoreTables::Linking;
-        $questions_table_definition = CoreTables::Questions;
-        $answer_form_table_definition = CoreTables::AnswerForms;
-        $questions_id_column = $questions_table_definition->getIdColumn(
-            $this->persistence_factory
-        );
-
-        $this->select[] = $this->persistence_factory->select(
-            $questions_linking_table_definition->getColumns(
-                $this->persistence_factory
-            )
-        );
-
-        $this->select[] = $this->persistence_factory->select(
-            $questions_table_definition->getColumns(
-                $this->persistence_factory
-            )
-        );
-
-        $this->select[] = $this->persistence_factory->select(
-            $answer_form_table_definition->getColumns(
-                $this->persistence_factory
-            )
-        );
-
-        $this->joins[] = $this->persistence_factory->join(
-            $questions_linking_table_definition->getIdColumn(
-                $this->persistence_factory
-            ),
-            $questions_table_definition->getIdColumn(
-                $this->persistence_factory
-            ),
-            JoinType::Inner
-        );
-
-        $this->joins[] = $this->persistence_factory->join(
-            $questions_id_column,
-            $answer_form_table_definition->getForeignKeyColumn(
-                $this->persistence_factory
-            ),
-            JoinType::Left
-        );
-
-        $this->order[] = $this->persistence_factory->order(
-            $questions_id_column
-        );
-
-        $this->order[] = $this->persistence_factory->order(
-            $answer_form_table_definition->getIdColumn(
-                $this->persistence_factory
-            )
-        );
-    }
-
-    public function getPersistenceFactory(): Factory
-    {
-        return $this->persistence_factory;
-    }
-
-    public function getPersistenceForDefinitionClass(
-        string $definition_class
-    ): Persistence {
-        return $this->answer_form_factory
-            ->getDefinitionForClass($definition_class)
-            ->getPersistence();
     }
 
     public function getTableNameBuilder(
-        string $definition_class
+        ?TableSubNameSpace $table_sub_name_space
     ): TableNameBuilder {
         return new TableNameBuilder(
-            $this->answer_form_factory
-                ->getDefinitionForClass($definition_class)
-                ->getPersistence()
-                ->getTableNameSpace()
+            $this->component_name_space,
+            $table_sub_name_space
         );
     }
 
@@ -168,12 +103,9 @@ class Query
         return $clone;
     }
 
-    public function loadNextRecord(): \Generator
-    {
-        $alias = CoreTables::Questions->getIdColumn(
-            $this->persistence_factory
-        )->getColumnAlias();
-
+    public function loadNextRecord(
+        ?Column $group_by
+    ): \Generator {
         $result = $this->toSql();
 
         $this->current_record = [$this->db->fetchAssoc($result)];
@@ -181,15 +113,15 @@ class Query
             return null;
         }
 
-        while (($db_record = $this->db->fetchAssoc($result)) !== null) {
-            if ($db_record[$alias] === $this->current_record[0][$alias]) {
-                $this->current_record[] = $db_record;
-                continue;
-            }
-            yield $this;
-            $this->current_record = [$db_record];
+        if ($group_by === null) {
+            yield from $this->loadNextRecordUngrouped($result);
+            return;
         }
-        yield $this;
+
+        yield from $this->loadNextRecordGrouped(
+            $result,
+            $group_by->getColumnAlias()
+        );
     }
 
     public function retrieveCurrentRecord(
@@ -218,7 +150,7 @@ class Query
                     static fn(array $c, Select $v): array => [...$c, ...$v->toColumnsArray()],
                     []
                 )
-            ) . ' FROM ' . CoreTables::Linking->value
+            ) . " FROM {$this->base_table->getName()}"
             . array_reduce(
                 $this->joins,
                 static fn(string $c, Join $v): string => $c . PHP_EOL . $v->toSql(),
@@ -272,7 +204,31 @@ class Query
         }
     }
 
-    public function filterDataSetByTable(
+    private function loadNextRecordGrouped(
+        \ilDBStatement $result,
+        string $group_by
+    ): \Generator {
+        while (($db_record = $this->db->fetchAssoc($result)) !== null) {
+            if ($db_record[$group_by] === $this->current_record[0][$group_by]) {
+                $this->current_record[] = $db_record;
+                continue;
+            }
+            yield $this;
+            $this->current_record = [$db_record];
+        }
+        yield $this;
+    }
+
+    private function loadNextRecordUngrouped(
+        \ilDBStatement $result
+    ): \Generator {
+        while (($db_record = $this->db->fetchAssoc($result)) !== null) {
+            $this->current_record = $db_record;
+            yield $this;
+        }
+    }
+
+    private function filterDataSetByTable(
         string $table_name,
         array $data_set
     ): array {

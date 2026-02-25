@@ -26,9 +26,10 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationCloze;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationLongMenu;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationNumeric;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationTextSubset;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
-use ILIAS\Questions\Persistence\TableNameSpaceCore;
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Setup\Agent;
 use ILIAS\Setup\Agent as AgentInterface;
 
@@ -48,31 +49,64 @@ class Questions implements Component\Component
         $contribute[AgentInterface::class] = static fn() =>
             new Agent(
                 $internal[PersistenceFactory::class],
+                new TableNameBuilder(
+                    'qsts',
+                    null
+                ),
                 $seek[AnswerFormMigration::class]
             );
-        $contribute[AnswerFormMigration::class] = static fn() => new MigrationCloze(
-            $internal[Persistence::class],
-            $internal[\EvalMath::class]
-        );
-        $contribute[AnswerFormMigration::class] = static fn() => new MigrationLongMenu(
-            $internal[Persistence::class]
-        );
-        $contribute[AnswerFormMigration::class] = static fn() => new MigrationNumeric(
-            $internal[Persistence::class],
-            $internal[\EvalMath::class]
-        );
-        $contribute[AnswerFormMigration::class] = static fn() => new MigrationTextSubset(
-            $internal[Persistence::class]
-        );
-        $contribute[Component\Resource\PublicAsset::class] = fn() =>
-            new Component\Resource\ComponentJS($this, 'js/dist/ParticipantViewLongMenu.js');
-        $contribute[User\Settings\UserSettings::class] = fn() =>
-            new Questions\UserSettings\Settings();
+        $contribute[AnswerFormMigration::class] = static fn()
+            => new MigrationCloze(
+                new TableDefinitions(
+                    $internal[PersistenceFactory::class],
+                    new TableSubNameSpace(
+                        'ILIAS',
+                        'cloze'
+                    )
+                ),
+                $internal[\EvalMath::class]
+            );
+        $contribute[AnswerFormMigration::class] = static fn()
+            => new MigrationLongMenu(
+                new TableDefinitions(
+                    $internal[PersistenceFactory::class],
+                    new TableSubNameSpace(
+                        'ILIAS',
+                        'cloze'
+                    )
+                )
+            );
+        $contribute[AnswerFormMigration::class] = static fn()
+            => new MigrationNumeric(
+                new TableDefinitions(
+                    $internal[PersistenceFactory::class],
+                    new TableSubNameSpace(
+                        'ILIAS',
+                        'cloze'
+                    )
+                ),
+                $internal[\EvalMath::class]
+            );
+        $contribute[AnswerFormMigration::class] = static fn()
+            => new MigrationTextSubset(
+                new TableDefinitions(
+                    $internal[PersistenceFactory::class],
+                    new TableSubNameSpace(
+                        'ILIAS',
+                        'cloze'
+                    )
+                )
+            );
+        $contribute[Component\Resource\PublicAsset::class] = fn()
+            => new Component\Resource\ComponentJS(
+                $this,
+                'js/dist/ParticipantViewLongMenu.js'
+            );
+        $contribute[User\Settings\UserSettings::class] = fn()
+            => new Questions\UserSettings\Settings();
 
-        $internal[Persistence::class] = static fn() => new Persistence(
-            new TableNameSpaceCore('cloze')
-        );
-        $internal[PersistenceFactory::class] = static fn() => new PersistenceFactory();
+        $internal[PersistenceFactory::class] = static fn()
+            => new PersistenceFactory();
         $internal[\EvalMath::class] = static fn() => new \EvalMath();
     }
 }

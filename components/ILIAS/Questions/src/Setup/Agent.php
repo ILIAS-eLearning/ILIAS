@@ -20,9 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableNameSpaceCore;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\Agent as SetupAgent;
 use ILIAS\Setup\Agent\HasNoNamedObjective;
@@ -38,6 +41,7 @@ class Agent implements SetupAgent
 
     public function __construct(
         private readonly PersistenceFactory $persistence_factory,
+        private readonly TableNameBuilder $question_table_name_builder,
         private readonly array $answer_form_migrations
     ) {
     }
@@ -60,12 +64,24 @@ class Agent implements SetupAgent
             'Database is updated for ILIAS\Questions',
             false,
             new \ilDatabaseUpdateStepsExecutedObjective(
-                new OverarchingQuestionTables()
+                new OverarchingQuestionTables(
+                    $this->question_table_name_builder
+                )
             ),
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new ClozeQuestionTables(
-                    new TableNameBuilder(
-                        new TableNameSpaceCore('cloze')
+                    new SetupTableNameBuilder(
+                        new TableSubNameSpace(
+                            'ILIAS',
+                            'cloze'
+                        )
+                    ),
+                    new TableDefinitions(
+                        $this->persistence_factory,
+                        new TableSubNameSpace(
+                            'ILIAS',
+                            'cloze'
+                        )
                     )
                 )
             ),
@@ -85,12 +101,14 @@ class Agent implements SetupAgent
             true,
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
-                new OverarchingQuestionTables()
+                new OverarchingQuestionTables(
+                    $this->question_table_name_builder
+                )
             ),
             new \ilDatabaseUpdateStepsMetricsCollectedObjective(
                 $storage,
                 new ClozeQuestionTables(
-                    new TableNameBuilder(
+                    new SetupTableNameBuilder(
                         new TableNameSpaceCore('cloze')
                     )
                 )
@@ -104,6 +122,13 @@ class Agent implements SetupAgent
         return [
             new QuestionsMigration(
                 $this->persistence_factory,
+                $this->question_table_name_builder,
+                new QuestionTableDefinitions(
+                    $this->persistence_factory
+                ),
+                new AnswerFormGenericTableDefinitions(
+                    $this->persistence_factory
+                ),
                 $this->answer_form_migrations
             )
         ];

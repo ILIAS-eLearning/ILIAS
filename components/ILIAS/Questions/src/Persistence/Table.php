@@ -23,21 +23,17 @@ namespace ILIAS\Questions\Persistence;
 class Table
 {
     public function __construct(
-        private readonly CoreTables|TableTypes $table_definition,
-        private readonly ?TableNameBuilder $table_name_builder,
-        private readonly string $table_identifier
+        private readonly TableNameBuilder $table_name_builder,
+        private readonly TableTypes $table,
+        private readonly string $sub_table_identifier
     ) {
     }
 
     public function getName(): string
     {
-        if ($this->table_definition instanceof CoreTables) {
-            return $this->table_definition->value;
-        }
-
         return $this->table_name_builder->getTableNameFor(
-            $this->table_definition,
-            $this->table_identifier
+            $this->table,
+            $this->sub_table_identifier
         );
     }
 }
