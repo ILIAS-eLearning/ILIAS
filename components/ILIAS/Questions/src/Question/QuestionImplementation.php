@@ -21,19 +21,21 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Question;
 
 use ILIAS\Questions\Administration\ConfigurationRepository;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
-use ILIAS\Questions\Persistence\CoreTables;
+use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
+use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Update;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
+use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Component\Link\Standard as StandardLink;
 use ILIAS\UI\Component\Table\DataRowBuilder;
@@ -310,46 +312,76 @@ class QuestionImplementation implements Question
     }
 
     public function toStorage(
-        Manipulate $manipulate
+        Manipulate $manipulate,
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
     ): Manipulate {
         return $manipulate->getManipulationType() === ManipulationType::Create
-            ? $this->addInsertStatementsToManipulation($manipulate)
-            : $this->addUpdateStatementsToManipulation($manipulate);
+            ? $this->addInsertStatementsToManipulation(
+                $manipulate,
+                $persistence_factory,
+                $question_tables_definitions
+            ) : $this->addUpdateStatementsToManipulation(
+                $manipulate,
+                $persistence_factory,
+                $question_tables_definitions,
+                $answer_form_generic_table_definitions
+            );
     }
 
     public function toDelete(
-        Manipulate $manipulate
+        Manipulate $manipulate,
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
     ): Manipulate {
+        $table_name_builder = $manipulate->getTableNameBuilder(null);
+
         return $this->addDeleteAnswerFormsStatementsToManipulate(
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteQuestionStatement(
-                    $manipulate->getPersistenceFactory()
+                    $persistence_factory,
+                    $question_tables_definitions,
+                    $table_name_builder
                 )
             )->withAdditionalStatement(
                 $this->buildDeleteLinkingStatement(
-                    $manipulate->getPersistenceFactory()
+                    $persistence_factory,
+                    $question_tables_definitions,
+                    $table_name_builder
                 )
             )->withAdditionalStatement(
                 $this->buildDeleteMigrationStatement(
-                    $manipulate->getPersistenceFactory()
+                    $persistence_factory,
+                    $question_tables_definitions,
+                    $table_name_builder
                 )
             ),
+            $persistence_factory,
+            $answer_form_generic_table_definitions,
             $this->answer_forms
         );
     }
 
     private function addInsertStatementsToManipulation(
-        Manipulate $manipulate
+        Manipulate $manipulate,
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions
     ): Manipulate {
         if ($this->created === null) {
             $manipulate = $manipulate
                 ->withAdditionalStatement(
                     $this->buildInsertLinkingStatement(
-                        $manipulate->getPersistenceFactory()
+                        $persistence_factory,
+                        $question_tables_definitions,
+                        $manipulate->getTableNameBuilder(null)
                     )
                 )->withAdditionalStatement(
                     $this->buildInsertQuestionStatement(
-                        $manipulate->getPersistenceFactory()
+                        $persistence_factory,
+                        $question_tables_definitions,
+                        $manipulate->getTableNameBuilder(null)
                     )
                 );
         }
@@ -372,19 +404,30 @@ class QuestionImplementation implements Question
     }
 
     private function addUpdateStatementsToManipulation(
-        Manipulate $manipulate
+        Manipulate $manipulate,
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions
     ): Manipulate {
+        $table_name_builder = $manipulate->getTableNameBuilder(null);
+
         if ($this->linking_information_updated) {
             $manipulate = $manipulate
                 ->withAdditionalStatement(
-                    $this->buildUpdateLinkingStatement()
+                    $this->buildUpdateLinkingStatement(
+                        $persistence_factory,
+                        $question_tables_definitions,
+                        $table_name_builder
+                    )
                 );
         }
 
         if ($this->self_updated) {
             $manipulate = $manipulate->withAdditionalStatement(
                 $this->buildUpdateQuestionStatement(
-                    $manipulate->getPersistenceFactory()
+                    $persistence_factory,
+                    $question_tables_definitions,
+                    $table_name_builder
                 )
             );
         }
@@ -392,7 +435,9 @@ class QuestionImplementation implements Question
         if ($this->page_id) {
             $manipulate = $manipulate->withAdditionalStatement(
                 $this->buildUpdatePageIdStatement(
-                    $manipulate->getPersistenceFactory()
+                    $persistence_factory,
+                    $question_tables_definitions,
+                    $table_name_builder
                 )
             );
         }
@@ -400,37 +445,65 @@ class QuestionImplementation implements Question
         if ($this->deleted_answer_forms !== []) {
             $manipulate = $this->addDeleteAnswerFormsStatementsToManipulate(
                 $manipulate,
+                $persistence_factory,
+                $answer_form_generic_table_definitions,
                 $this->deleted_answer_forms
             );
         }
 
         return $this->addAnswerFormStatementsToManipulate(
             $manipulate,
+            $persistence_factory,
+            $answer_form_generic_table_definitions,
             $this->updated_answer_forms
         );
     }
 
     private function addAnswerFormStatementsToManipulate(
         Manipulate $manipulate,
+        PersistenceFactory $persistence_factory,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         array $answer_forms
     ): Manipulate {
         return array_reduce(
             $answer_forms,
-            fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toStorage(
-                $v->getTypeGenericProperties()->toStorage($c)
-            ),
+            function (
+                Manipulate $c,
+                AnswerFormProperties $v
+            ) use (
+                $persistence_factory,
+                $answer_form_generic_table_definitions
+            ): Manipulate {
+                $manipulate_with_generic_properties = $v->getTypeGenericProperties()
+                    ->toStorage(
+                        $persistence_factory,
+                        $answer_form_generic_table_definitions,
+                        $c
+                    );
+
+                return $v->toStorage(
+                    $persistence_factory,
+                    $manipulate_with_generic_properties
+                );
+            },
             $manipulate
         );
     }
 
     private function addDeleteAnswerFormsStatementsToManipulate(
         Manipulate $manipulate,
+        PersistenceFactory $persistence_factory,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         array $answer_forms_to_delete
     ): Manipulate {
         return array_reduce(
             $answer_forms_to_delete,
             fn(Manipulate $c, AnswerFormProperties $v): Manipulate => $v->toDelete(
-                $v->getTypeGenericProperties()->toDelete($c)
+                $v->getTypeGenericProperties()->toDelete(
+                    $persistence_factory,
+                    $answer_form_generic_table_definitions,
+                    $c,
+                )
             ),
             $manipulate
         );
@@ -439,11 +512,14 @@ class QuestionImplementation implements Question
 
 
     private function buildInsertLinkingStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        TableNameBuilder $table_name_builder
     ): Insert {
         return $persistence_factory->insert(
-            CoreTables::Linking->getColumns(
-                $persistence_factory
+            $question_tables_definitions->getColumns(
+                $table_name_builder,
+                QuestionTableTypes::Linking
             ),
             [
                 $persistence_factory->value(
@@ -463,11 +539,14 @@ class QuestionImplementation implements Question
     }
 
     private function buildInsertQuestionStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        TableNameBuilder $table_name_builder
     ): Insert {
         return $persistence_factory->insert(
-            CoreTables::Questions->getColumns(
-                $persistence_factory
+            $question_tables_definitions->getColumns(
+                $table_name_builder,
+                QuestionTableTypes::Questions
             ),
             [
                 $persistence_factory->value(
@@ -511,13 +590,17 @@ class QuestionImplementation implements Question
     }
 
     private function buildUpdateLinkingStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        TableNameBuilder $table_name_builder
     ): Update {
-        $linking_table_definition = CoreTables::Linking;
+        $table_type = QuestionTableTypes::Linking;
         return $persistence_factory->update(
-            $linking_table_definition->getColumns(
-                $persistence_factory,
-                [CoreTables::LINKING_TABLE_ID_COLUMN]
+            $question_tables_definitions->getColumns(
+                $table_name_builder,
+                $table_type,
+                '',
+                [QuestionTableTypes::LINKING_TABLE_ID_COLUMN]
             ),
             [
                 $persistence_factory->value(
@@ -531,7 +614,7 @@ class QuestionImplementation implements Question
             ],
             [
                 $persistence_factory->where(
-                    $linking_table_definition->getIdColumn(
+                    $table_type->getIdColumn(
                         $persistence_factory
                     ),
                     $persistence_factory->value(
@@ -544,14 +627,18 @@ class QuestionImplementation implements Question
     }
 
     private function buildUpdateQuestionStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        TableNameBuilder $table_name_builder
     ): Update {
-        $questions_table_definition = CoreTables::Questions;
+        $table_type = QuestionTableTypes::Questions;
         return $persistence_factory->update(
-            $questions_table_definition->getColumns(
-                $persistence_factory,
+            $question_tables_definitions->getColumns(
+                $table_name_builder,
+                $table_type,
+                '',
                 [
-                    CoreTables::ANSWER_FORM_TABLE_ID_COLUMN,
+                    'id',
                     'page_id',
                     'created'
                 ]
@@ -584,8 +671,9 @@ class QuestionImplementation implements Question
             ],
             [
                 $persistence_factory->where(
-                    $questions_table_definition->getIdColumn(
-                        $persistence_factory
+                    $question_tables_definitions->getIdColumn(
+                        $table_name_builder,
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -597,15 +685,22 @@ class QuestionImplementation implements Question
     }
 
     private function buildDeleteQuestionStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $question_tables_definitions,
+        TableNameBuilder $table_name_builder
     ): Delete {
-        $table_definition = CoreTables::Questions;
+        $table_type = QuestionTableTypes::Questions;
         return $persistence_factory->delete(
-            $table_definition->getTable($persistence_factory),
+            $persistence_factory->table(
+                $table_name_builder,
+                $table_type
+            ),
             [
                 $persistence_factory->where(
-                    $table_definition->getIdColumn(
-                        $persistence_factory
+                    $question_tables_definitions->getIdColumn(
+                        $persistence_factory,
+                        $table_name_builder,
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -617,15 +712,21 @@ class QuestionImplementation implements Question
     }
 
     private function buildDeleteLinkingStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $table_definitions,
+        TableNameBuilder $table_name_builder
     ): Delete {
-        $table_definition = CoreTables::Linking;
+        $table_type = QuestionTableTypes::Linking;
         return $persistence_factory->delete(
-            $table_definition->getTable($persistence_factory),
+            $persistence_factory->table(
+                $table_name_builder,
+                $table_type
+            ),
             [
                 $persistence_factory->where(
-                    $table_definition->getIdColumn(
-                        $persistence_factory
+                    $table_definitions->getIdColumn(
+                        $table_name_builder,
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -641,15 +742,21 @@ class QuestionImplementation implements Question
      * this MUST go!
      */
     private function buildDeleteMigrationStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $table_definitions,
+        TableNameBuilder $table_name_builder
     ): Delete {
-        $table_definition = CoreTables::MigrationsTable;
+        $table_type = QuestionTableTypes::MigrationsTable;
         return $persistence_factory->delete(
-            $table_definition->getTable($persistence_factory),
+            $persistence_factory->table(
+                $table_name_builder,
+                $table_type
+            ),
             [
                 $persistence_factory->where(
-                    $table_definition->getIdColumn(
-                        $persistence_factory
+                    $table_definitions->getIdColumn(
+                        $table_name_builder,
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -665,17 +772,25 @@ class QuestionImplementation implements Question
      * this a question MUST never change the page assigned to it after its creation!
      */
     private function buildUpdatePageIdStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        QuestionTableDefinitions $table_definitions,
+        TableNameBuilder $table_name_builder
     ): Update {
-        $questions_table_definition = CoreTables::Questions;
+        $table_type = QuestionTableTypes::Questions;
         return $persistence_factory->update(
             [
                 $persistence_factory->column(
-                    $questions_table_definition->getTable($persistence_factory),
+                    $persistence_factory->table(
+                        $table_name_builder,
+                        $table_type
+                    ),
                     'page_id'
                 ),
                 $persistence_factory->column(
-                    $questions_table_definition->getTable($persistence_factory),
+                    $persistence_factory->table(
+                        $table_name_builder,
+                        $table_type
+                    ),
                     'last_update'
                 )
             ],
@@ -691,8 +806,9 @@ class QuestionImplementation implements Question
             ],
             [
                 $persistence_factory->where(
-                    $questions_table_definition->getIdColumn(
-                        $persistence_factory
+                    $table_definitions->getIdColumn(
+                        $table_name_builder,
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,

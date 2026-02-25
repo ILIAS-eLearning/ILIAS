@@ -22,13 +22,13 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze;
 
 use ILIAS\Questions\AnswerForm\Definition as DefinitionInterface;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability;
-use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Edit;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Views\Participant;
 use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\TableDefinitions;
 use ILIAS\Language\Language;
 
 class Definition implements DefinitionInterface
@@ -38,7 +38,7 @@ class Definition implements DefinitionInterface
      */
     public function __construct(
         private readonly PropertiesFactory $properties_factory,
-        private readonly Persistence $persistence,
+        private readonly TableDefinitions $table_definitions,
         private readonly array $available_capabilities,
         private readonly Edit $edit_view,
         private readonly Participant $participant_view
@@ -64,9 +64,9 @@ class Definition implements DefinitionInterface
     }
 
     #[\Override]
-    public function getPersistence(): Persistence
+    public function getTableDefinitions(): TableDefinitions
     {
-        return $this->persistence;
+        return $this->table_definitions;
     }
 
     #[\Override]

@@ -23,9 +23,10 @@ namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Setup\Environment;
 
@@ -34,7 +35,7 @@ class MigrationNumeric implements Migration
     use BasicMigrationFunctions;
 
     public function __construct(
-        private readonly Persistence $persistence,
+        private readonly TableDefinitions $table_definitions,
         private readonly \EvalMath $math
     ) {
         $this->math->suppress_errors = true;
@@ -55,12 +56,13 @@ class MigrationNumeric implements Migration
     #[\Override]
     public function getTableNameSpace(): TableNameSpace
     {
-        return $this->persistence->getTableNameSpace();
+        return $this->table_definitions->getTableNameSpace();
     }
 
     #[\Override]
     public function completeMigrationInsert(
         Environment $environment,
+        PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert {
         $db_row = $this->fetchDBValues(
@@ -76,8 +78,8 @@ class MigrationNumeric implements Migration
         $gap_id = $migration_insert->getUuid();
         return $migration_insert->withAdditionalInsert(
             $this->buildGapInsertStatement(
-                $this->persistence,
-                $migration_insert->getPersistenceFactory(),
+                $this->table_definitions,
+                $persistence_factory,
                 $migration_insert->getTableNameBuilder(),
                 null,
                 $gap_id,
@@ -92,8 +94,8 @@ class MigrationNumeric implements Migration
             )
         )->withAdditionalInsert(
             $this->buildAnswerOptionInsertStatement(
-                $this->persistence,
-                $migration_insert->getPersistenceFactory(),
+                $this->table_definitions,
+                $persistence_factory,
                 $migration_insert->getTableNameBuilder(),
                 null,
                 $migration_insert->getUuid(),
@@ -106,8 +108,8 @@ class MigrationNumeric implements Migration
             )
         )->withAdditionalInsert(
             $this->buildAnswerFormInsertStatement(
-                $this->persistence,
-                $migration_insert->getPersistenceFactory(),
+                $this->table_definitions,
+                $persistence_factory,
                 $migration_insert->getTableNameBuilder(),
                 $answer_form_id,
                 ScoringIdentical::ScoreAll,

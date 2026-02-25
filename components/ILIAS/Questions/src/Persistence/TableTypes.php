@@ -20,29 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Persistence;
 
-enum TableTypes
+interface TableTypes
 {
-    case TypeSpecificAnswerForms;
-    case AnswerInputs;
-    case AnswerOptions;
-    case Responses;
-    case Additional;
-
-    public function getTable(
-        Factory $persistence_factory,
-        TableNameBuilder $table_name_builder,
-        string $table_identifier = ''
-    ): Table {
-        return match($this) {
-            self::Additional => $persistence_factory->table(
-                $this,
-                $table_name_builder,
-                $table_identifier
-            ),
-            default => $persistence_factory->table(
-                $this,
-                $table_name_builder
-            )
-        };
-    }
 }

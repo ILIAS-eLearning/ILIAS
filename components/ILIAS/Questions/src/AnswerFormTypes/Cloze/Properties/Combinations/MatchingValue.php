@@ -20,13 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Language\Language;
 use ILIAS\Data\UUID\Uuid;
 
@@ -73,7 +73,7 @@ class MatchingValue
     }
 
     public function toStorage(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Replace {
@@ -83,13 +83,12 @@ class MatchingValue
             );
         }
 
-        $table_definition = TableTypes::Additional;
+        $table_type = AnswerFormSpecificTableTypes::Additional;
         return $persistence_factory->replace(
-            $persistence->getColumns(
-                $persistence_factory,
+            $table_definitions->getColumns(
                 $table_name_builder,
-                $table_definition,
-                $persistence->getCombinationToAnswerOptionsTableIdentifier()
+                $table_type,
+                $table_definitions->getCombinationToAnswerOptionsTableIdentifier()
             ),
             [
                 $persistence_factory->value(

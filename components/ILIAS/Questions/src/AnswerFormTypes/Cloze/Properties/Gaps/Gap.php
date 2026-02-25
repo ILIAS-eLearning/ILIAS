@@ -20,23 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerForm\Persistence;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Replace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\Presentation\Definitions\CarryWrapper;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
-use ILIAS\UI\Component\Input\Field\Group;
 use ILIAS\UI\Component\Table\DataRow;
 use ILIAS\UI\Component\Table\DataRowBuilder;
-use ILIAS\Refinery\Transformation;
 
 class Gap
 {
@@ -260,7 +257,7 @@ class Gap
 
     public function buildReplace(
         ?Replace $replace,
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Replace {
@@ -270,14 +267,13 @@ class Gap
             );
         }
 
-        $table_definition = TableTypes::AnswerInputs;
+        $table_type = AnswerFormSpecificTableTypes::AnswerInputs;
 
         if ($replace === null) {
             return $persistence_factory->replace(
-                $persistence->getColumns(
-                    $persistence_factory,
+                $table_definitions->getColumns(
                     $table_name_builder,
-                    $table_definition
+                    $table_type
                 ),
                 $this->buildValuesForGapReplace($persistence_factory)
             );

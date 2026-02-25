@@ -20,18 +20,17 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm;
 
-use ILIAS\Questions\Persistence\CoreTables;
-use ILIAS\Questions\Persistence\Delete;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\ManipulationType;
-use ILIAS\Questions\Persistence\Storable;
+use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\Update;
-use ILIAS\Questions\Persistence\Where;
 use ILIAS\Data\UUID\Uuid;
 
-class TypeGenericProperties implements Storable
+class TypeGenericProperties
 {
     public function __construct(
         private readonly Uuid $answer_form_id,
@@ -85,8 +84,9 @@ class TypeGenericProperties implements Storable
         return $this->additional_text_legacy;
     }
 
-    #[\Override]
     public function toStorage(
+        PersistenceFactory $persistence_factory,
+        AnswerFormGenericTableDefinitions $answer_form_generic_definitions,
         Manipulate $manipulate
     ): Manipulate {
         if ($this->definition === null) {
@@ -94,30 +94,46 @@ class TypeGenericProperties implements Storable
                 'You cannot save a Answer Form without a Type!'
             );
         }
+
+        $table_name_builder = $manipulate->getTableNameBuilder(null);
+
         return $manipulate->withAdditionalStatement(
             $manipulate->getManipulationType() === ManipulationType::Create
-                ? $this->buildInsertStatement($manipulate->getPersistenceFactory())
-                : $this->buildUpdateStatement($manipulate->getPersistenceFactory())
+                ? $this->buildInsertStatement(
+                    $persistence_factory,
+                    $answer_form_generic_definitions,
+                    $table_name_builder
+                ) : $this->buildUpdateStatement(
+                    $persistence_factory,
+                    $answer_form_generic_definitions,
+                    $table_name_builder
+                )
         );
     }
 
-    #[\Override]
     public function toDelete(
+        PersistenceFactory $persistence_factory,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         Manipulate $manipulate
     ): Manipulate {
-        $answer_form_table_definition = CoreTables::AnswerForms;
+        $table_name_builder = $manipulate->getTableNameBuilder(
+            $answer_form_generic_table_definitions->getTableSubNameSpace()
+        );
+        $table_type = AnswerFormGenericTableTypes::AnswerForms;
 
         return $manipulate->withAdditionalStatement(
-            $manipulate->getPersistenceFactory()->delete(
-                $answer_form_table_definition->getTable(
-                    $manipulate->getPersistenceFactory()
+            $persistence_factory->delete(
+                $persistence_factory->table(
+                    $table_name_builder,
+                    $table_type
                 ),
                 [
-                    $manipulate->getPersistenceFactory()->where(
-                        $answer_form_table_definition->getIdColumn(
-                            $manipulate->getPersistenceFactory()
+                    $persistence_factory->where(
+                        $answer_form_generic_table_definitions->getIdColumn(
+                            $table_name_builder,
+                            $table_type
                         ),
-                        $manipulate->getPersistenceFactory()->value(
+                        $persistence_factory->value(
                             \ilDBConstants::T_TEXT,
                             $this->answer_form_id->toString()
                         )
@@ -128,11 +144,14 @@ class TypeGenericProperties implements Storable
     }
 
     private function buildInsertStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
+        TableNameBuilder $table_name_builder
     ): Insert {
         return $persistence_factory->insert(
-            CoreTables::AnswerForms->getColumns(
-                $persistence_factory
+            $answer_form_generic_table_definitions->getColumns(
+                $table_name_builder,
+                AnswerFormGenericTableTypes::AnswerForms
             ),
             [
                 $persistence_factory->value(
@@ -172,12 +191,17 @@ class TypeGenericProperties implements Storable
     }
 
     private function buildUpdateStatement(
-        PersistenceFactory $persistence_factory
+        PersistenceFactory $persistence_factory,
+        AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
+        TableNameBuilder $table_name_builder
     ): Update {
-        $answer_form_table_definition = CoreTables::AnswerForms;
+        $table_type = AnswerFormGenericTableTypes::AnswerForms;
+
         return $persistence_factory->update(
-            $answer_form_table_definition->getColumns(
-                $persistence_factory,
+            $answer_form_generic_table_definitions->getColumns(
+                $table_name_builder,
+                $table_type,
+                '',
                 [
                     'id',
                     'type',
@@ -206,8 +230,9 @@ class TypeGenericProperties implements Storable
             ],
             [
                 $persistence_factory->where(
-                    $answer_form_table_definition->getIdColumn(
-                        $persistence_factory
+                    $answer_form_generic_table_definitions->getIdColumn(
+                        $table_name_builder,
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
