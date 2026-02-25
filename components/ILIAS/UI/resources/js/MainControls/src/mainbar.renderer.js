@@ -206,7 +206,7 @@
 
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
-                
+
                 //a11y
                 triggerer.getElement().attr('aria-controls', slate.html_id);
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
@@ -304,6 +304,18 @@
             for(idx in model_state.tools) {
                 actions.renderEntry(model_state.tools[idx], true);
             }
+
+            if (model_state.last_active_top && dom_references[model_state.last_active_top]) {
+                var activeTriggerer = parts.triggerer.withHtmlId(dom_references[model_state.last_active_top].triggerer);
+                var slateName = activeTriggerer.getElement().find('.bulky-label').text().trim();
+                if (slateName) {
+                    var closeButton = $('.il-mainbar-close-slates .btn-bulky');
+                    var closeLabel = il.Language.txt('close') + ' ' + slateName;
+                    closeButton.attr('aria-label', closeLabel);
+                    closeButton.find('.bulky-label').text(closeLabel);
+                }
+            }
+
             //unfortunately, this does not work properly via a class
             $('.' + css.mainbar_entries).css('visibility', 'visible');
         },
