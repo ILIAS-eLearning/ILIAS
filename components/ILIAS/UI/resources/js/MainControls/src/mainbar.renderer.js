@@ -100,6 +100,9 @@
                 if (!currentRole || currentRole === 'region') {
                     element.attr('role', 'region');
                 }
+                if (triggerer_id) {
+                    element.attr('aria-labelledby', triggerer_id);
+                }
                 if(isInView && !thrown) {
                     element.trigger('in_view'); //this is most important for async loading of slates,
                                                 //it triggers the GlobalScreen-Service.
@@ -108,6 +111,7 @@
                 if(!isInView) {
                     thrown_for[entry_id] = false;
                 }
+                actions.focusSubentry(entry_id);
             },
             additional_disengage: function(){
                 var entry_id = dom_ref_to_element[this.html_id];
