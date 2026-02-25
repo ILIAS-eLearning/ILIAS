@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
+
 /**
  * Class ilTestResultsGUITest
  * @author Marvin Beym <mbeym@databay.de>
@@ -57,6 +59,7 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['http'],
             $this->createMock(ILIAS\Data\Factory::class),
             $this->createMock(ilTestSession::class),
+            $this->createMock(ParticipantRepository::class),
             $this->createMock(ilTestObjectiveOrientedContainer::class)
         );
     }

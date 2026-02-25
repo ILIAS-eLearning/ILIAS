@@ -89,8 +89,8 @@ class ParticipantTableFinishTestAction implements TableAction
             $modal = $modal->withAffectedItems(
                 array_map(
                     fn(Participant $participant) => $this->ui_factory->modal()->interruptiveItem()->standard(
-                        (string) $participant->getUserId(),
-                        (new \ilObjUser($participant->getUserId()))->getPublicName()
+                        (string) $participant->getUser()->getUserId(),
+                        $participant->getUser()->getDisplayName($this->lng, $this->test_obj->getAnonymity())
                     ),
                     $selected_participants
                 )
@@ -153,7 +153,7 @@ class ParticipantTableFinishTestAction implements TableAction
                     TestAdministrationInteractionTypes::TEST_RUN_OF_PARTICIPANT_CLOSED,
                     [
                         AdditionalInformationGenerator::KEY_USERS => array_map(
-                            fn(Participant $participant) => $participant->getUserId(),
+                            fn(Participant $participant) => $participant->getUser()->getUserId(),
                             $selected_participants
                         )
                     ]
@@ -185,7 +185,7 @@ class ParticipantTableFinishTestAction implements TableAction
         if (count($selected_participants) === 1) {
             return sprintf(
                 $this->lng->txt('finish_test_single'),
-                (new \ilObjUser($selected_participants[0]->getUserId()))->getPublicName()
+                $selected_participants[0]->getUser()->getDisplayName($this->lng, $this->test_obj->getAnonymity())
             );
         }
 
