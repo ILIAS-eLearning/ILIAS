@@ -226,6 +226,7 @@ class TestDIC extends PimpleContainer
                 $DIC['ilUser'],
                 $c['question.general_properties.repository'],
                 $DIC['resource_storage'],
+                $c['participant.repository'],
             );
 
         $dic['exportimport.repository'] = static fn($c): ExportImportRepository =>

@@ -97,15 +97,20 @@ class ConsecutiveScoring
         int $usr_active_id,
         string $attempt
     ): string {
-        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $usr_active_id);
+        $user = $this->participant_repository
+            ->getParticipantByActiveId($this->object->getTestId(), $usr_active_id)
+            ?->getUser();
+        if ($user === null) {
+            return '';
+        }
 
-        if ($this->shouldUsePseudonymousParticipantLabel($participant->getUserId())) {
+        if ($this->shouldUsePseudonymousParticipantLabel($user->getUserId())) {
             return \ilObjTest::buildExamId($usr_active_id, $attempt, $this->object->getId());
         }
-        $importname = $participant->getImportname();
-        $user_id = $participant->getUserId();
+        $importname = $user->getImportname();
+        $user_id = $user->getUserId();
         if ($user_id === ANONYMOUS_USER_ID && $importname !== null && $importname !== '') {
-            return $participant->getDisplayName($this->lng);
+            return $user->getDisplayName($this->lng);
         }
 
         $user_id = (string) $user_id;

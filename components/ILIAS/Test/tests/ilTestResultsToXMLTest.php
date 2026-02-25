@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
+
 /**
  * Class ilTestResultsToXMLTest
  * @author Marvin Beym <mbeym@databay.de>
@@ -37,6 +39,7 @@ class ilTestResultsToXMLTest extends ilTestBaseTestCase
             $DIC['resource_storage'],
             $DIC['ilUser'],
             $DIC['lng'],
+            $this->createMock(ParticipantRepository::class),
             ''
         );
     }
