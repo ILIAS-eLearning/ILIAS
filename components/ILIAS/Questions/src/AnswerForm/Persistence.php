@@ -53,7 +53,7 @@ interface Persistence
         string $table_identifier = ''
     ): Column;
 
-    public function completeQuery(
+    public function completeQuestionsQuery(
         Query $query,
         Column $base_table_id_column,
     ): Query;

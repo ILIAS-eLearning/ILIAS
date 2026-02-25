@@ -30,7 +30,6 @@ use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeT
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Combinations;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
@@ -45,9 +44,7 @@ use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Section;
-use ILIAS\UI\Component\Table\Factory as TableFactory;
 use ILIAS\UI\Component\Table\Data as DataTable;
-use Psr\Http\Message\ServerRequestInterface;
 
 class Properties implements PropertiesInterface
 {

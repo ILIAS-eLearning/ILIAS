@@ -20,6 +20,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Views;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Capability;
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback;
+use ILIAS\Questions\AnswerForm\Definition;
+use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
+use ILIAS\Questions\AnswerForm\Views\Edit as AnswerFormEditView;
 use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\EditForm;
@@ -30,10 +36,6 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Presentation\Layout\QuestionsTable;
 use ILIAS\Questions\Presentation\Layout\GlobalScreen\LayoutProvider;
-use ILIAS\Questions\AnswerForm\Definition;
-use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
-use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
-use ILIAS\Questions\AnswerForm\Views\Edit as AnswerFormEditView;
 use ILIAS\Questions\Persistence\Repository;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\UserSettings\CreateModes;
@@ -452,7 +454,7 @@ class Edit
                 ? $create->withAdditionalAction(
                     $environment->buildURLBuilderTokenForCreateAndNew(),
                     '1',
-                    $this->lng->txt('create_and_new')
+                    $this->lng->txt('save_and_new')
                 ) : $create;
         }
 

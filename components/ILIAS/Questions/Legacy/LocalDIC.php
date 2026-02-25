@@ -21,11 +21,12 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Legacy;
 
 use ILIAS\Questions\Administration\ConfigurationRepository;
-use ILIAS\Questions\Persistence\Repository as QuestionsRepository;
+use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
+use ILIAS\Questions\AnswerForm\Capabilities;
 use ILIAS\Questions\AnswerFormTypes\Cloze;
 use ILIAS\Questions\Persistence\TableNameSpaceCore;
-use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
+use ILIAS\Questions\Persistence\Repository as QuestionsRepository;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
 use ILIAS\Questions\Units\Repository as UnitsRepository;
@@ -177,9 +178,8 @@ class LocalDIC extends PimpleContainer
             $c[Cloze\Properties\Factory::class],
             $c[Cloze\Persistence::class],
             [
-                Cloze\Capabilities\Marking::class => new Cloze\Capabilities\Marking(),
-                Cloze\Capabilities\Feedback::class => new Cloze\Capabilities\Feedback(),
-                Cloze\Capabilities\Skills::class => new Cloze\Capabilities\Skills()
+                Capabilities\Marking::class => new Cloze\Capabilities\Marking(),
+                Capabilities\Feedback::class => new Cloze\Capabilities\Feedback()
             ],
             $c[Cloze\Views\Edit::class],
             $c[Cloze\Views\Participant::class]
