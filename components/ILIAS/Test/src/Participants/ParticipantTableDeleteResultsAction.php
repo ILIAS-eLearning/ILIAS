@@ -84,7 +84,7 @@ class ParticipantTableDeleteResultsAction implements TableAction
                     (string) $v->getUserId(),
                     $this->test_obj->getAnonymity()
                         ? $this->lng->txt('anonymous')
-                        : \ilObjUser::_lookupFullname($v->getUserId())
+                        : $v->getDisplayName($this->lng)
                 ),
                 $selected_participants
             )
