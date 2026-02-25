@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\Test\Participants\ParticipantRepository;
 
 /**
  * @deprecated 12: Use ILIAS\Test\ExportImport\TestExporter instead
@@ -35,6 +36,7 @@ class ilTestResultsToXML extends ilXmlWriter
         private readonly ResourceStorage $irss,
         private readonly ilObjUser $user,
         private readonly ilLanguage $lng,
+        private readonly ParticipantRepository $participant_repository,
         private string $objects_export_directory
     ) {
         parent::__construct();
@@ -59,7 +61,13 @@ class ilTestResultsToXML extends ilXmlWriter
             : "SELECT tst_active.*, usr_data.{$user_criteria} FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id";
         $result = $this->db->queryF($query, [ilDBConstants::T_INTEGER], [$this->test_obj->getTestId()]);
 
-        $test_participant_list = new ilTestParticipantList($this->test_obj, $this->user, $this->lng, $this->db);
+        $test_participant_list = new ilTestParticipantList(
+            $this->test_obj,
+            $this->user,
+            $this->lng,
+            $this->db,
+            $this->participant_repository
+        );
         $test_participant_list->initializeFromDbRows($this->test_obj->getTestParticipants());
 
         $this->xmlStartTag('tst_active', null);

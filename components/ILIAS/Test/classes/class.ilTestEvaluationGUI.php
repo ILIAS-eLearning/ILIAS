@@ -19,7 +19,6 @@
 declare(strict_types=1);
 
 use ILIAS\Test\Participants\Participant;
-use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Presentation\TitlesBuilder as ResultsTitlesBuilder;
 use ILIAS\Test\Presentation\PrintLayoutProvider;
 use ILIAS\Test\TestDIC;
@@ -51,7 +50,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     private const DEFAULT_CMD = 'outUserListOfAnswerPasses';
     protected ilTestAccess $testAccess;
     protected ilTestProcessLockerFactory $processLockerFactory;
-    private readonly ParticipantRepository $participant_repository;
 
     public function __construct(ilObjTest $object)
     {
@@ -340,10 +338,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             ),
             $settings,
             $this->buildResultsTitle(
-                $this->participant_repository->getParticipantByActiveId(
-                    $this->object->getTestId(),
-                    $active_id
-                )->getDisplayName($this->lng),
+                $this->lookupDisplayName($active_id),
                 $pass
             ),
             false
@@ -819,6 +814,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $pass + 1
             );
         }
+
         return sprintf(
             $this->lng->txt('tst_result_user_name_pass'),
             $pass + 1,
@@ -1041,21 +1037,29 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     private function retrieveSelectedParticipants(): array
     {
         $int_trafo = $this->refinery->kindlyTo()->int();
+        $active_ids = $this->filterSelectedActiveIdsByAccess(
+            array_map(
+                fn(string $v): int => $int_trafo->transform($v),
+                explode(',', $this->testrequest->strVal('active_ids'))
+            )
+        );
         $selected_participants = [];
-        foreach ($this->participant_repository->getParticipants(
+        foreach ($this->participant_repository->getUsersByActiveIds(
             $this->object->getTestId(),
-            [
-                'active_ids' => $this->filterSelectedActiveIdsByAccess(
-                    array_map(
-                        fn(string $v): int => $int_trafo->transform($v),
-                        explode(',', $this->testrequest->strVal('active_ids'))
-                    )
-                )
-            ]
-        ) as $participant) {
-            $selected_participants[$participant->getActiveId()] = $participant->getDisplayName($this->lng);
+            $active_ids
+        ) as $active_id => $user) {
+            $selected_participants[$active_id] = $user->getDisplayName($this->lng);
         }
         return $selected_participants;
+    }
+
+    private function lookupDisplayName(int $active_id): string
+    {
+        $user = iterator_to_array(
+            $this->participant_repository->getUsersByActiveIds($this->object->getTestId(), [$active_id])
+        )[$active_id] ?? null;
+
+        return $user?->getDisplayName($this->lng) ?? '';
     }
 
     private function filterSelectedActiveIdsByAccess(

@@ -497,6 +497,10 @@ trait ilTestBaseTestCaseTrait
             => $this->createMock(
                 \ILIAS\Test\RequestDataCollector::class
             );
+        $local_dic_mock['participant.repository'] = fn(\ILIAS\DI\ServiceContainer $c)
+            => $this->createMock(
+                \ILIAS\Test\Participants\ParticipantRepository::class
+            );
         $local_dic_mock['participant.access_filter.factory'] = fn(\ILIAS\DI\ServiceContainer $c)
             => $this->createMock(
                 \ilTestParticipantAccessFilterFactory::class
