@@ -18,9 +18,11 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\TemplateEngine\TemplateEngineInterface;
+
 class ilMailTemplatePlaceholderResolver
 {
-    public function __construct(protected Mustache_Engine $mustache_engine)
+    public function __construct(protected TemplateEngineInterface $template_engine)
     {
     }
 
@@ -33,12 +35,12 @@ class ilMailTemplatePlaceholderResolver
         ?ilObjUser $user = null,
         array $context_parameters = []
     ): string {
-        return $this->mustache_engine->render(
+        return $this->template_engine->render(
             $message,
             new ilMailTemplateContextAdapter(
                 [$context],
                 $context_parameters,
-                $this->mustache_engine,
+                $this->template_engine,
                 $user
             )
         );

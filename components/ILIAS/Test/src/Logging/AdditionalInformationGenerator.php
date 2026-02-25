@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Logging;
 
+use ILIAS\Mail\TemplateEngine\TemplateEngineInterface;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Component\Listing\Descriptive as DescriptiveListing;
@@ -255,7 +256,7 @@ class AdditionalInformationGenerator
     private array $tags;
 
     public function __construct(
-        private readonly \Mustache_Engine $mustache,
+        private readonly TemplateEngineInterface $template_engine,
         private readonly \ilLanguage $lng,
         private readonly UIFactory $ui_factory,
         private readonly Refinery $refinery,
@@ -415,7 +416,7 @@ class AdditionalInformationGenerator
                 ->setTimezone($environment['timezone'])
                 ->format($environment['date_format']);
         }
-        return $this->mustache->render(
+        return $this->template_engine->render(
             $this->refinery->string()->stripTags()->transform($value),
             $this->tags
         );

@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+
 class ilMailTemplateServiceTest extends ilMailBaseTestCase
 {
     public function testDefaultTemplateCanBeSetByContext(): void
@@ -45,8 +47,8 @@ class ilMailTemplateServiceTest extends ilMailBaseTestCase
 
         $repo->expects($this->once())->method('findByContextId')->with($template->getContext())->willReturn($all);
         $repo->expects($this->exactly(count($all)))->method('store');
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
-        $service = new ilMailTemplateService($repo, $mustache_factory);
+        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        $service = new ilMailTemplateService($repo, $template_engine_factory);
 
         $service->setAsContextDefault($template);
 
@@ -65,8 +67,8 @@ class ilMailTemplateServiceTest extends ilMailBaseTestCase
         $template->setContext('phpunit');
 
         $repo->expects($this->once())->method('store')->with($template);
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
-        $service = new ilMailTemplateService($repo, $mustache_factory);
+        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        $service = new ilMailTemplateService($repo, $template_engine_factory);
 
         $service->unsetAsContextDefault($template);
 

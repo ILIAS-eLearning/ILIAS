@@ -18,15 +18,17 @@
 
 declare(strict_types=1);
 
-use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+namespace ILIAS\Mail\TemplateEngine;
 
-class ilMailMimeSenderUserByEmailAddress extends ilMailMimeSenderUser
+/**
+ * Factory interface for creating template engine instances.
+ * Enables dependency inversion: consumers depend on this interface,
+ * not on a concrete implementation like Mustache.
+ */
+interface TemplateEngineFactoryInterface
 {
-    public function __construct(ilSetting $settings, string $email_address, TemplateEngineFactoryInterface $template_engine_factory)
-    {
-        $user = new ilObjUser();
-        $user->setEmail($email_address);
-
-        parent::__construct($settings, $user, $template_engine_factory);
-    }
+    /**
+     * Returns a template engine instance for basic rendering operations.
+     */
+    public function getBasicEngine(): TemplateEngineInterface;
 }

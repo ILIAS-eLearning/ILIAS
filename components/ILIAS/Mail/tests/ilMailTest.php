@@ -26,6 +26,8 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Mail\Service\MailSignatureService;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
 
 class ilMailTest extends ilMailBaseTestCase
 {
@@ -199,7 +201,7 @@ class ilMailTest extends ilMailBaseTestCase
         $mail_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
         $mail_box = $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock();
         $actor = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
-        $mustache_factory = $this->getMockBuilder(ilMustacheFactory::class)->getMock();
+        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
 
         $mail_service = new ilMail(
             $sender_usr_id,
@@ -212,13 +214,15 @@ class ilMailTest extends ilMailBaseTestCase
             $mail_file_data,
             $mail_options,
             $mail_box,
-            new ilMailMimeSenderFactory($settings, $mustache_factory),
+            new ilMailMimeSenderFactory($settings, $template_engine_factory),
             static fn(string $login): int => $all_users_login_to_id_map[$login] ?? 0,
             $this->createMock(AutoresponderService::class),
             0,
             4711,
             $actor,
-            new ilMailTemplatePlaceholderResolver(new Mustache_Engine())
+            new ilMailTemplatePlaceholderResolver(
+                (new MustacheTemplateEngineFactory())->getBasicEngine()
+            )
         );
 
         $old_transport = ilMimeMail::getDefaultTransport();

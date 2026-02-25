@@ -18,14 +18,16 @@
 
 declare(strict_types=1);
 
+use ILIAS\Mail\TemplateEngine\TemplateEngineInterface;
+
 /**
- * This class forms an interface between the existing ILIAS mail contexts and the requirements of Mustache.
+ * This class forms an interface between the existing ILIAS mail contexts and the requirements of the template engine.
  * In the old system, it was possible to gradually replace individual placeholders via the contexts.
- * This is now done by Mustache and requires a single source. If a placeholder does not exist in this source,
+ * This is now done by the template engine and requires a single source. If a placeholder does not exist in this source,
  * then it will be replaced with NULL. Mustache takes two steps to find the placeholder.
  * On the one hand the check whether it would be theoretically possible and the actual query for the value
  * if the check is successful. This is done in this class using the two magic methods.
- * With the introduction of this interface, the ILIAS mail contexts do not have to be changed for Mustache.
+ * With the introduction of this interface, the ILIAS mail contexts do not have to be changed for the template engine.
  */
 class ilMailTemplateContextAdapter
 {
@@ -33,7 +35,7 @@ class ilMailTemplateContextAdapter
         /** @var ilMailTemplateContext[] $contexts */
         protected array $contexts,
         protected array $context_parameter,
-        protected readonly Mustache_Engine $mustache_engine,
+        protected readonly TemplateEngineInterface $template_engine,
         protected ?ilObjUser $recipient = null
     ) {
     }
@@ -67,7 +69,7 @@ class ilMailTemplateContextAdapter
         foreach ($this->contexts as $context) {
             $ret = $context->resolvePlaceholder($name, $this->context_parameter, $this->recipient);
             if (in_array($name, $context->getNestedPlaceholders(), true)) {
-                $ret = $this->mustache_engine->render($ret, $this);
+                $ret = $this->template_engine->render($ret, $this);
             }
             if ($ret !== '') {
                 return $ret;

@@ -18,10 +18,24 @@
 
 declare(strict_types=1);
 
-class ilMustacheFactory
+namespace ILIAS\Mail\TemplateEngine\Mustache;
+
+use ILIAS\Mail\TemplateEngine\TemplateEngineInterface;
+use Mustache_Engine;
+
+/**
+ * Mustache implementation of the template engine interface.
+ * Wraps Mustache_Engine to decouple Mail component from the concrete library.
+ */
+class MustacheTemplateEngine implements TemplateEngineInterface
 {
-    public function getBasicEngine(): Mustache_Engine
+    public function __construct(
+        private readonly Mustache_Engine $engine
+    ) {
+    }
+
+    public function render(string $template, array|object $context): string
     {
-        return new Mustache_Engine();
+        return $this->engine->render($template, $context);
     }
 }

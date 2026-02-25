@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Mail\Service;
 
 use ilIniFile;
-use ilMustacheFactory;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 use ILIAS\Mail\Signature\Signature;
 use ILIAS\Mail\Signature\MailInstallationSignature;
 use ILIAS\Mail\Signature\MailUserSignature;
@@ -37,7 +37,7 @@ use ILIAS\Mail\Placeholder\MailSignatureUserFullnamePlaceholder;
 class MailSignatureService
 {
     public function __construct(
-        private readonly ilMustacheFactory $mustache_factory,
+        private readonly TemplateEngineFactoryInterface $template_engine_factory,
         private readonly ilIniFile $client_ini_file,
         private readonly ilLanguage $lng,
         private readonly ilSetting $settings
@@ -64,7 +64,7 @@ class MailSignatureService
     {
         $placeholders = $placeholder->handle($signature);
 
-        return "\n\n\n" . $this->mustache_factory->getBasicEngine()->render($signature->getSignature(), $placeholders);
+        return "\n\n\n" . $this->template_engine_factory->getBasicEngine()->render($signature->getSignature(), $placeholders);
     }
 
     public function getPlaceholder(int $user_id = 0): Placeholder

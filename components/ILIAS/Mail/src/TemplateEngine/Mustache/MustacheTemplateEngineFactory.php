@@ -18,20 +18,16 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+namespace ILIAS\Mail\TemplateEngine\Mustache;
 
-class ilMustacheFactoryTest extends TestCase
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
+use ILIAS\Mail\TemplateEngine\TemplateEngineInterface;
+use Mustache_Engine;
+
+class MustacheTemplateEngineFactory implements TemplateEngineFactoryInterface
 {
-    public function testCreatInstance(): void
+    public function getBasicEngine(): TemplateEngineInterface
     {
-        $f = new ilMustacheFactory();
-        $this->assertInstanceOf(ilMustacheFactory::class, $f);
-    }
-
-    public function testCreateBasicEngine(): void
-    {
-        $f = new ilMustacheFactory();
-        $engine = $f->getBasicEngine();
-        $this->assertInstanceOf(Mustache_Engine::class, $engine);
+        return new MustacheTemplateEngine(new Mustache_Engine());
     }
 }

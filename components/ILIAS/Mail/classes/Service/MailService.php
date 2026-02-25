@@ -23,11 +23,13 @@ namespace ILIAS\Mail\Service;
 use ILIAS\DI\Container;
 use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
 use ILIAS\Mail\Autoresponder\AutoresponderService;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 use ilMailTemplateService;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
 use ilMailTemplateRepository;
 use ilMailTemplateServiceInterface;
+use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
 
 class MailService
 {
@@ -37,7 +39,7 @@ class MailService
             $this->dic[ilMailTemplateServiceInterface::class] = static function (Container $c): ilMailTemplateServiceInterface {
                 return new ilMailTemplateService(
                     new ilMailTemplateRepository($c->database()),
-                    $c->mail()->mustacheFactory()
+                    $c->mail()->templateEngineFactory()
                 );
             };
         }
@@ -69,7 +71,7 @@ class MailService
     public function placeholderResolver(): \ilMailTemplatePlaceholderResolver
     {
         return new \ilMailTemplatePlaceholderResolver(
-            $this->mustacheFactory()->getBasicEngine()
+            $this->templateEngineFactory()->getBasicEngine()
         );
     }
 
@@ -78,15 +80,21 @@ class MailService
         return new \ilMailTemplatePlaceholderToEmptyResolver();
     }
 
-    public function mustacheFactory(): \ilMustacheFactory
+    public function templateEngineFactory(): TemplateEngineFactoryInterface
     {
-        return new \ilMustacheFactory();
+        if (!isset($this->dic['mail.template_engine.factory'])) {
+            $this->dic['mail.template_engine.factory'] = static function (Container $c): MustacheTemplateEngineFactory {
+                return new MustacheTemplateEngineFactory();
+            };
+        }
+
+        return $this->dic['mail.template_engine.factory'];
     }
 
     public function signature(): MailSignatureService
     {
         return new MailSignatureService(
-            $this->mustacheFactory(),
+            $this->templateEngineFactory(),
             $this->dic->clientIni(),
             $this->dic->language(),
             $this->dic->settings()

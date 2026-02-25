@@ -23,6 +23,7 @@ use ILIAS\Mail\Signature\MailUserSignature;
 use ILIAS\Mail\Signature\Signature;
 use ILIAS\Mail\Signature\MailInstallationSignature;
 use ILIAS\Mail\Service\MailSignatureService;
+use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
 
 /**
  * @ilCtrl_Calls ilObjMailGUI: ilPermissionGUI
@@ -34,7 +35,7 @@ class ilObjMailGUI extends ilObjectGUI
     private const string PASSWORD_PLACE_HOLDER = '***********************';
 
     private readonly ilTabsGUI $tabs;
-    private readonly ilMustacheFactory $mustache_factory;
+    private readonly TemplateEngineFactoryInterface $template_engine_factory;
     private readonly MailSignatureService $mail_signature_service;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference)
@@ -44,7 +45,7 @@ class ilObjMailGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->tabs = $DIC->tabs();
-        $this->mustache_factory = $DIC->mail()->mustacheFactory();
+        $this->template_engine_factory = $DIC->mail()->templateEngineFactory();
         $this->mail_signature_service = $DIC->mail()->signature();
 
         $this->lng->loadLanguageModule('mail');
@@ -660,7 +661,7 @@ class ilObjMailGUI extends ilObjectGUI
         // If all forms in ILIAS use the UI/KS forms (here and in Services/Mail), we should move this to a proper constraint/trafo
         $is_valid_template_syntax = $this->refinery->custom()->constraint(function ($value): bool {
             try {
-                $this->mustache_factory->getBasicEngine()->render((string) $value, []);
+                $this->template_engine_factory->getBasicEngine()->render((string) $value, []);
                 return true;
             } catch (Exception) {
                 return false;

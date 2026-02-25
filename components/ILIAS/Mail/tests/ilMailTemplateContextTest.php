@@ -23,6 +23,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
 
 class ilMailTemplateContextTest extends ilMailBaseTestCase
 {
@@ -231,8 +232,8 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
             $lng_helper
         );
 
-        $mustache = new Mustache_Engine();
-        $placeholder_resolver = new ilMailTemplatePlaceholderResolver($mustache);
+        $template_engine = (new MustacheTemplateEngineFactory())->getBasicEngine();
+        $placeholder_resolver = new ilMailTemplatePlaceholderResolver($template_engine);
 
         $message = implode('', [
             '{{MAIL_SALUTATION}}',
