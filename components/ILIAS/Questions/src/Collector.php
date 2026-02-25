@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions;
 
-use ILIAS\Questions\Persistence\Repository;
+use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Questions\Question\Question;
 use ILIAS\Data\UUID\Uuid;
 

@@ -18,12 +18,21 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Persistence;
+namespace ILIAS\Questions\Question\Persistence;
 
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
 use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Persistence\Column;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
+use ILIAS\Questions\Persistence\Operator;
+use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\Manipulate;
+use ILIAS\Questions\Persistence\ManipulationType;
+use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\Order as DataOrder;
 use ILIAS\Data\Range as DataRange;
@@ -32,13 +41,23 @@ use ILIAS\Refinery\Factory as Refinery;
 
 class Repository
 {
+    public const string COMPONENT_NAMESPACE = 'qsts';
+
+    private readonly TableNameBuilder $question_table_names_builder;
+
     public function __construct(
         private readonly \ilDBInterface $db,
         private readonly Refinery $refinery,
         private readonly UuidFactory $uuid_factory,
-        private readonly Factory $persistence_factory,
+        private readonly PersistenceFactory $persistence_factory,
+        private readonly TableDefinitions $question_table_definitions,
+        private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         private readonly AnswerFormFactory $answer_form_factory
     ) {
+        $this->question_table_names_builder = new TableNameBuilder(
+            self::COMPONENT_NAMESPACE,
+            null
+        );
     }
 
     public function getNew(
@@ -73,8 +92,9 @@ class Repository
     ): \Generator {
         foreach ($this->buildQuestionsQuery()->withAdditionalWhere(
             $this->persistence_factory->where(
-                CoreTables::Questions->getIdColumn(
-                    $this->persistence_factory
+                $this->question_table_definitions->getIdColumn(
+                    $this->question_table_names_builder,
+                    TableTypes::Questions
                 ),
                 $this->persistence_factory->value(
                     \ilDBConstants::T_TEXT,
@@ -99,8 +119,9 @@ class Repository
         return $this->getForBaseQuery(
             $this->buildQuestionsQuery()->withAdditionalWhere(
                 $this->persistence_factory->where(
-                    CoreTables::Questions->getIdColumn(
-                        $this->persistence_factory
+                    $this->question_table_definitions->getIdColumn(
+                        $this->question_table_names_builder,
+                        TableTypes::Questions
                     ),
                     $this->persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -124,8 +145,9 @@ class Repository
         yield from $this->getForBaseQuery(
             $this->buildQuestionsQuery()->withAdditionalWhere(
                 $this->persistence_factory->where(
-                    CoreTables::Questions->getIdColumn(
-                        $this->persistence_factory
+                    $this->question_table_definitions->getIdColumn(
+                        $this->question_table_names_builder,
+                        TableTypes::Questions
                     ),
                     $this->persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -153,10 +175,7 @@ class Repository
                     ->withPageId($this->buildQuestionPage($v->getParentObjId())),
                 $questions
             ),
-            new Manipulate(
-                $this->db,
-                $this->persistence_factory,
-                $this->answer_form_factory,
+            $this->buildManipulate(
                 ManipulationType::Create
             )
         );
@@ -170,10 +189,7 @@ class Repository
     ): void {
         $this->store(
             $questions,
-            new Manipulate(
-                $this->db,
-                $this->persistence_factory,
-                $this->answer_form_factory,
+            $this->buildManipulate(
                 ManipulationType::Update
             )
         );
@@ -184,11 +200,14 @@ class Repository
     ): void {
         array_reduce(
             $questions,
-            fn(Manipulate $c, QuestionImplementation $v): Manipulate => $v->toDelete($c),
-            new Manipulate(
-                $this->db,
-                $this->persistence_factory,
-                $this->answer_form_factory,
+            fn(Manipulate $c, QuestionImplementation $v): Manipulate
+                => $v->toDelete(
+                    $c,
+                    $this->persistence_factory,
+                    $this->question_table_definitions,
+                    $this->answer_form_generic_table_definitions
+                ),
+            $this->buildManipulate(
                 ManipulationType::Delete
             )
         )->run();
@@ -208,10 +227,11 @@ class Repository
     ): \Generator {
         $query_with_answer_forms = array_reduce(
             $this->getAnswerFormTypesForQuestionIds($question_ids),
-            fn(Query $c, AnswerFormDefinition $v) => $v->getPersistence()->completeQuestionsQuery(
+            fn(Query $c, AnswerFormDefinition $v) => $v->getTableDefinitions()->completeQuery(
                 $c,
-                CoreTables::AnswerForms->getIdColumn(
-                    $this->persistence_factory
+                $this->answer_form_generic_table_definitions->getIdColumn(
+                    $this->question_table_names_builder,
+                    AnswerFormGenericTableTypes::AnswerForms
                 )
             ),
             $query
@@ -235,15 +255,17 @@ class Repository
         array $answer_forms
     ): QuestionImplementation {
         $linking_info = $query->retrieveCurrentRecord(
-            CoreTables::Linking->getTable(
-                $query->getPersistenceFactory()
+            $this->persistence_factory->table(
+                $this->question_table_names_builder,
+                TableTypes::Linking
             ),
             $this->refinery->identity()
         );
 
         $question = $query->retrieveCurrentRecord(
-            CoreTables::Questions->getTable(
-                $query->getPersistenceFactory()
+            $this->persistence_factory->table(
+                $this->question_table_names_builder,
+                TableTypes::Questions,
             ),
             $this->refinery->custom()->transformation(
                 fn(array $vs): QuestionImplementation => new QuestionImplementation(
@@ -279,8 +301,9 @@ class Repository
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
-            CoreTables::AnswerForms->getTable(
-                $query->getPersistenceFactory()
+            $this->persistence_factory->table(
+                $this->question_table_names_builder,
+                AnswerFormGenericTableTypes::AnswerForms
             ),
             $this->refinery->custom()->transformation(
                 function (array $vs) use ($query): array {
@@ -315,8 +338,11 @@ class Repository
     private function getAnswerFormTypesForQuestionIds(
         array $question_ids
     ): array {
+        $table_name = $this->question_table_names_builder
+            ->getTableNameFor(AnswerFormGenericTableTypes::AnswerForms);
+
         $query = $this->db->query(
-            'SELECT DISTINCT type FROM ' . CoreTables::AnswerForms->value . PHP_EOL
+            "SELECT DISTINCT type FROM {$table_name}" . PHP_EOL
                 . "WHERE {$this->db->in(
                     'question_id',
                     $question_ids,
@@ -340,80 +366,53 @@ class Repository
     ): void {
         array_reduce(
             $questions,
-            fn(Manipulate $c, QuestionImplementation $v): Manipulate => $v->toStorage($c),
+            fn(Manipulate $c, QuestionImplementation $v): Manipulate => $v->toStorage(
+                $c,
+                $this->persistence_factory,
+                $this->question_table_definitions,
+                $this->answer_form_generic_table_definitions
+            ),
             $manipulate
         )->run();
     }
 
     private function buildQuestionsQuery(): Query
     {
-        $query = new Query(
+        return $this->answer_form_generic_table_definitions->completeQuery(
+            $this->question_table_definitions->completeQuery(
+                new Query(
+                    $this->db,
+                    $this->refinery,
+                    self::COMPONENT_NAMESPACE,
+                    $this->persistence_factory->table(
+                        $this->question_table_names_builder,
+                        TableTypes::Linking
+                    )
+                ),
+                null
+            ),
+            $this->question_table_definitions->getIdColumn(
+                $this->question_table_names_builder,
+                TableTypes::Questions
+            )
+        );
+    }
+
+    private function buildManipulate(
+        ManipulationType $manipulation_type
+    ): Manipulate {
+        return new Manipulate(
             $this->db,
-            $this->refinery,
-            $this->persistence_factory,
-            $this->answer_form_factory
-        );
-
-        $questions_linking_table_definition = CoreTables::Linking;
-        $questions_table_definition = CoreTables::Questions;
-        $answer_form_table_definition = CoreTables::AnswerForms;
-        $questions_id_column = $questions_table_definition->getIdColumn(
-            $this->persistence_factory
-        );
-
-        return $query->withAdditionalSelect(
-            $this->persistence_factory->select(
-                $questions_linking_table_definition->getColumns(
-                    $this->persistence_factory
-                )
-            )
-        )->withAdditionalSelect(
-            $this->select[] = $this->persistence_factory->select(
-                $questions_table_definition->getColumns(
-                    $this->persistence_factory
-                )
-            )
-        )->withAdditionalSelect(
-            $this->select[] = $this->persistence_factory->select(
-                $answer_form_table_definition->getColumns(
-                    $this->persistence_factory
-                )
-            )
-        )->withAdditionalJoin(
-            $this->joins[] = $this->persistence_factory->join(
-                $questions_linking_table_definition->getIdColumn(
-                    $this->persistence_factory
-                ),
-                $questions_table_definition->getIdColumn(
-                    $this->persistence_factory
-                ),
-                JoinType::Inner
-            )
-        )->withAdditionalJoin(
-            $this->joins[] = $this->persistence_factory->join(
-                $questions_id_column,
-                $answer_form_table_definition->getForeignKeyColumn(
-                    $this->persistence_factory
-                ),
-                JoinType::Left
-            )
-        )->withAdditionalOrder(
-            $this->persistence_factory->order(
-                $questions_id_column
-            )
-        )->withAdditionalOrder(
-            $this->order[] = $this->persistence_factory->order(
-                $answer_form_table_definition->getIdColumn(
-                    $this->persistence_factory
-                )
-            )
+            $manipulation_type,
+            self::COMPONENT_NAMESPACE
         );
     }
 
     private function buildGroupByColumn(): Column
     {
-        return CoreTables::Questions->getIdColumn(
-            $this->persistence_factory
+        return $this->question_table_definitions->getIdColumn(
+            $this->question_table_names_builder,
+            TableTypes::Questions
         );
     }
 
@@ -430,10 +429,13 @@ class Repository
     private function checkAvailabilityOfId(
         Uuid $uuid
     ): bool {
+        $table_name = $this->question_table_names_builder
+            ->getTableNameFor(TableTypes::Questions);
+
         return $this->db->fetchObject(
             $this->db->query(
-                'SELECT COUNT(*) as cnt FROM ' . CoreTables::Questions->value
-                    . " WHERE id='{$uuid->toString()}'"
+                "SELECT COUNT(*) as cnt FROM {$table_name}" . PHP_EOL
+                . "WHERE id='{$uuid->toString()}'"
             )
         )->cnt === 0;
     }
@@ -467,9 +469,12 @@ class Repository
     private function migrateQuestionPage(
         QuestionImplementation $question
     ): QuestionImplementation {
+        $table_name = $this->question_table_names_builder
+            ->getTableNameFor(TableTypes::MigrationsTable);
+
         $old_page_id = $this->db->fetchObject(
             $this->db->query(
-                'SELECT old_question_id FROM ' . CoreTables::MigrationsTable->value . PHP_EOL
+                "SELECT old_question_id FROM {$table_name}" . PHP_EOL
                 . "WHERE new_question_id = {$this->db->quote($question->getId(), \ilDBConstants::T_TEXT)}"
             )
         )->old_question_id;

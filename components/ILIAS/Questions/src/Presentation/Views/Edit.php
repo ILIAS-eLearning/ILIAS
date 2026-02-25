@@ -36,7 +36,7 @@ use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation;
 use ILIAS\Questions\Presentation\Layout\QuestionsTable;
 use ILIAS\Questions\Presentation\Layout\GlobalScreen\LayoutProvider;
-use ILIAS\Questions\Persistence\Repository;
+use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Questions\UserSettings\CreateModes;
 use ILIAS\Data\URI;

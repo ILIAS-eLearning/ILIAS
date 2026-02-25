@@ -20,24 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Persistence;
 
-use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
-use ILIAS\Questions\AnswerForm\Persistence;
-
 class Manipulate
 {
     private array $statements = [];
 
     public function __construct(
         private readonly \ilDBInterface $db,
-        private readonly Factory $persistence_factory,
-        private readonly AnswerFormFactory $answer_form_factory,
-        private readonly ManipulationType $type
+        private readonly ManipulationType $type,
+        private readonly string $component_name_space
     ) {
-    }
-
-    public function getPersistenceFactory(): Factory
-    {
-        return $this->persistence_factory;
     }
 
     public function getManipulationType(): ManipulationType
@@ -45,22 +36,12 @@ class Manipulate
         return $this->type;
     }
 
-    public function getPersistenceForDefinitionClass(
-        string $definition_class
-    ): Persistence {
-        return $this->answer_form_factory
-            ->getDefinitionForClass($definition_class)
-            ->getPersistence();
-    }
-
     public function getTableNameBuilder(
-        string $definition_class
+        ?TableSubNameSpace $table_sub_name_space
     ): TableNameBuilder {
         return new TableNameBuilder(
-            $this->answer_form_factory
-                ->getDefinitionForClass($definition_class)
-                ->getPersistence()
-                ->getTableNameSpace()
+            $this->component_name_space,
+            $table_sub_name_space
         );
     }
 

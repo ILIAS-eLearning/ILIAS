@@ -18,8 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Persistence;
+namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
-interface TableTypes
+use ILIAS\Questions\Persistence\TableTypes;
+
+enum FeedbackTableTypes: string implements TableTypes
 {
+    case FeedbackGeneric = 'feedback_generic';
+    case FeedbackSpecific = 'feedback_specific';
 }

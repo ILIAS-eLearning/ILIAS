@@ -20,14 +20,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Migration\SanitizeLegacyText;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gap;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableTypes;
 use ILIAS\Questions\Definitions\TextMatchingOptions;
 use ILIAS\Data\UUID\Uuid;
 
@@ -36,7 +36,7 @@ trait BasicMigrationFunctions
     use SanitizeLegacyText;
 
     private function buildGapInsertStatement(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         ?Insert $gaps_insert,
@@ -52,10 +52,9 @@ trait BasicMigrationFunctions
     ): Insert {
         if ($gaps_insert === null) {
             return $persistence_factory->insert(
-                $persistence->getColumns(
-                    $persistence_factory,
+                $table_definitions->getColumns(
                     $table_name_builder,
-                    TableTypes::AnswerInputs
+                    AnswerFormSpecificTableTypes::AnswerInputs
                 ),
                 $this->buildGapValuesForInsert(
                     $persistence_factory,
@@ -114,7 +113,7 @@ trait BasicMigrationFunctions
     }
 
     private function buildAnswerOptionInsertStatement(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         ?Insert $options_insert,
@@ -128,10 +127,9 @@ trait BasicMigrationFunctions
     ): Insert {
         if ($options_insert === null) {
             return $persistence_factory->insert(
-                $persistence->getColumns(
-                    $persistence_factory,
+                $table_definitions->getColumns(
                     $table_name_builder,
-                    TableTypes::AnswerOptions
+                    AnswerFormSpecificTableTypes::AnswerOptions
                 ),
                 $this->buildOptionValuesForInsert(
                     $persistence_factory,
@@ -187,7 +185,7 @@ trait BasicMigrationFunctions
     }
 
     private function buildAnswerFormInsertStatement(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         Uuid $answer_form_id,
@@ -195,10 +193,9 @@ trait BasicMigrationFunctions
         int $combinations_enabled
     ): Insert {
         return $persistence_factory->insert(
-            $persistence->getColumns(
-                $persistence_factory,
+            $table_definitions->getColumns(
                 $table_name_builder,
-                TableTypes::TypeSpecificAnswerForms
+                AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
             ),
             [
                 $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),

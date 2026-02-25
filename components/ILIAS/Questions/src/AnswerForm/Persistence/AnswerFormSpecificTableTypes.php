@@ -18,8 +18,15 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Persistence;
+namespace ILIAS\Questions\AnswerForm\Persistence;
 
-interface TableTypes
+use ILIAS\Questions\Persistence\TableTypes;
+
+enum AnswerFormSpecificTableTypes: string implements TableTypes
 {
+    case TypeSpecificAnswerForms = 'answer_forms';
+    case AnswerInputs = 'answer_inputs';
+    case AnswerOptions = 'answer_options';
+    case Responses = 'responses';
+    case Additional = '';
 }

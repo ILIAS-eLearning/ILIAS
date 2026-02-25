@@ -20,7 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Data\UUID\Uuid;
@@ -35,6 +36,7 @@ class Combinations
 
     public function __construct(
         private readonly Factory $combinations_factory,
+        private readonly PersistenceFactory $persistence_factory,
         private readonly Uuid $answer_form_id,
         private bool $enabled,
         array $combinations
@@ -107,21 +109,23 @@ class Combinations
 
     public function toStorage(
         Manipulate $manipulate,
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         TableNameBuilder $table_name_builder
     ): Manipulate {
         return array_reduce(
             $this->combinations,
             fn(Manipulate $c, Combination $v): Manipulate => $v->toStorage(
                 $this->answer_form_id,
-                $persistence,
+                $this->persistence_factory,
+                $table_definitions,
                 $table_name_builder,
                 $c
             ),
             array_reduce(
                 $this->deleted_combinations,
                 fn(Manipulate $c, Combination $v): Manipulate => $v->toDelete(
-                    $persistence,
+                    $this->persistence_factory,
+                    $table_definitions,
                     $table_name_builder,
                     $manipulate
                 ),
@@ -132,17 +136,17 @@ class Combinations
 
     public function toDelete(
         Manipulate $manipulate,
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         TableNameBuilder $table_name_builder
     ): Manipulate {
         return array_reduce(
             $this->combinations,
             fn(Manipulate $c, Combination $v): Manipulate => $c->withAdditionalStatement(
                 $v->toDelete(
-                    $this->answer_form_id,
-                    $manipulate,
-                    $persistence,
-                    $table_name_builder
+                    $this->persistence_factory,
+                    $table_definitions,
+                    $table_name_builder,
+                    $manipulate
                 )
             ),
             $manipulate

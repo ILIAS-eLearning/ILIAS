@@ -21,9 +21,8 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
-use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
-use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Questions\Question\QuestionImplementation;
+use ILIAS\Questions\Question\Persistence\Repository as QuestionRepository;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\Order as DataOrder;
 use ILIAS\Data\Range as DataRange;
@@ -49,9 +48,8 @@ class Repository
     ): \Generator {
         foreach ($query = new Query(
             $this->db,
-            $this->persistence_factory,
-            $this->answer_form_factory,
-            $this->refinery
+            $this->refinery,
+            QuestionRepository::COMPONENT_NAMESPACE
         )->loadNextRecord() as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
@@ -74,7 +72,6 @@ class Repository
             ),
             new Manipulate(
                 $this->db,
-                $this->persistence_factory,
                 $this->answer_form_factory,
                 ManipulationType::Create
             )
@@ -91,7 +88,6 @@ class Repository
             $questions,
             new Manipulate(
                 $this->db,
-                $this->persistence_factory,
                 $this->answer_form_factory,
                 ManipulationType::Update
             )
@@ -106,7 +102,6 @@ class Repository
             fn(Manipulate $c, QuestionImplementation $v): Manipulate => $v->toDelete($c),
             new Manipulate(
                 $this->db,
-                $this->persistence_factory,
                 $this->answer_form_factory,
                 ManipulationType::Delete
             )

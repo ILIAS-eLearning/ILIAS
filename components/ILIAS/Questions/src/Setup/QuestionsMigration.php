@@ -22,11 +22,13 @@ namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert as AnswerFormMigrationInsert;
-use ILIAS\Questions\Persistence\CoreTables;
-use ILIAS\Questions\Question\Definitions\Lifecycle;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
+use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
+use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Question\Definitions\Lifecycle;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup;
@@ -51,6 +53,9 @@ class QuestionsMigration implements Migration
 
     public function __construct(
         private readonly PersistenceFactory $persistence_factory,
+        private readonly TableNameBuilder $question_table_name_builder,
+        private readonly QuestionTableDefinitions $question_table_definitions,
+        private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         array $answer_form_migrations
     ) {
         $this->answer_form_migrations = array_reduce(
@@ -165,10 +170,14 @@ class QuestionsMigration implements Migration
     #[\Override]
     public function getRemainingAmountOfSteps(): int
     {
+        $migration_table_name = $this->question_table_name_builder
+            ->getTableNameFor(QuestionTableTypes::MigrationsTable);
+
         $query = $this->db->query(
             'SELECT COUNT(question_id) cnt FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
                 . 'JOIN ' . self::OLD_QUESTION_TYPE_TABLE . ' t ON q.question_type_fi = t.question_type_id' . PHP_EOL
-                . 'LEFT JOIN ' . CoreTables::MigrationsTable->value . ' m ON q.question_id = m.old_question_id' . PHP_EOL
+                . "LEFT JOIN {$migration_table_name}"
+                . ' m ON q.question_id = m.old_question_id' . PHP_EOL
                 . 'WHERE t.type_tag IN ('
                 . implode(
                     ', ',
@@ -187,10 +196,14 @@ class QuestionsMigration implements Migration
 
     private function fetchValidRecord(): ?\stdClass
     {
+        $migration_table_name = $this->question_table_name_builder
+            ->getTableNameFor(QuestionTableTypes::MigrationsTable);
+
         $query = $this->db->query(
             'SELECT q.*, t.type_tag, s.sequence FROM ' . self::OLD_QUESTIONS_TABLE . ' q' . PHP_EOL
             . 'JOIN ' . self::OLD_QUESTION_TYPE_TABLE . ' t ON q.question_type_fi = t.question_type_id' . PHP_EOL
-            . 'LEFT JOIN ' . CoreTables::MigrationsTable->value . ' m ON q.question_id = m.old_question_id' . PHP_EOL
+            . "LEFT JOIN {$migration_table_name}"
+            . ' m ON q.question_id = m.old_question_id' . PHP_EOL
             . 'LEFT JOIN ' . self::TEST_QUESTIONS_SEQUENCE_TABLE . ' s ON q.question_id = s.question_fi' . PHP_EOL
             . 'WHERE t.type_tag IN ('
             . implode(
@@ -247,9 +260,14 @@ class QuestionsMigration implements Migration
 
     private function loadAlreadyMigratedQuestions(): void
     {
+        $migration_table_name = $this->question_table_name_builder
+            ->getTableNameFor(QuestionTableTypes::MigrationsTable);
+        $linking_table_name = $this->question_table_name_builder
+            ->getTableNameFor(QuestionTableTypes::Linking);
+
         $query = $this->db->query(
-            'SELECT m.*, o.type FROM ' . CoreTables::MigrationsTable->value . ' m' . PHP_EOL
-            . 'JOIN ' . CoreTables::Linking->value . ' l' . PHP_EOL
+            "SELECT m.*, o.type FROM {$migration_table_name} m" . PHP_EOL
+            . "JOIN {$linking_table_name} l" . PHP_EOL
             . 'ON m.new_question_id = l.question_id' . PHP_EOL
             . 'JOIN object_data o ON l.obj_id = o.obj_id' . PHP_EOL
         );
@@ -297,8 +315,9 @@ class QuestionsMigration implements Migration
         ?int $position
     ): Insert {
         return $this->persistence_factory->insert(
-            CoreTables::Linking->getColumns(
-                $this->persistence_factory
+            $this->question_table_definitions->getColumns(
+                $this->question_table_name_builder,
+                QuestionTableTypes::Linking
             ),
             [
                 $this->persistence_factory->value(
@@ -327,8 +346,9 @@ class QuestionsMigration implements Migration
         int $create_date
     ): Insert {
         return $this->persistence_factory->insert(
-            CoreTables::Questions->getColumns(
-                $this->persistence_factory
+            $this->question_table_definitions->getColumns(
+                $this->question_table_name_builder,
+                QuestionTableTypes::Questions
             ),
             [
                 $this->persistence_factory->value(
@@ -376,8 +396,9 @@ class QuestionsMigration implements Migration
         ?Uuid $new_question_id
     ): Insert {
         return $this->persistence_factory->insert(
-            CoreTables::MigrationsTable->getColumns(
-                $this->persistence_factory
+            $this->persistence_factory->getColumns(
+                $this->question_table_name_builder,
+                QuestionTableTypes::MigrationsTable
             ),
             [
                 $this->persistence_factory->value(
@@ -409,6 +430,8 @@ class QuestionsMigration implements Migration
             $this->io,
             $this->uuid_factory,
             $this->persistence_factory,
+            $this->question_table_definitions,
+            $this->answer_form_generic_table_definitions,
             new TableNameBuilder(
                 $answer_form_migration->getTableNameSpace()
             ),

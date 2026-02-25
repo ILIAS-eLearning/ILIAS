@@ -20,11 +20,19 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
-use ILIAS\Questions\Persistence\CoreTables;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\FeedbackTableTypes;
+use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
+use ILIAS\Questions\Persistence\TableNameBuilder;
 
 class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
+
+    public function __construct(
+        private readonly TableNameBuilder $basic_table_name_builder
+    ) {
+    }
 
     #[\Override]
     public function prepare(
@@ -35,7 +43,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_1(): void
     {
-        $table_name = CoreTables::Questions->value;
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            QuestionTableTypes::Questions
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -93,7 +103,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_2(): void
     {
-        $table_name = CoreTables::AnswerForms->value;
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            AnswerFormGenericTableTypes::AnswerForms
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -147,7 +159,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_3(): void
     {
-        $table_name = CoreTables::Responses->value;
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            QuestionTableTypes::Responses
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'id' => [
@@ -178,7 +192,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        $table_name = CoreTables::Linking->value;
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            QuestionTableTypes::Linking
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'question_id' => [
@@ -210,7 +226,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_5(): void
     {
-        $table_name = CoreTables::MigrationsTable->value;
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            QuestionTableTypes::MigrationsTable
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'new_question_id' => [
@@ -244,7 +262,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        $table_name = CoreTables::FeedbackGeneric->value;
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            FeedbackTableTypes::FeedbackGeneric
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'answer_form_id' => [
@@ -284,7 +304,9 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
     public function step_7(): void
     {
-        $table_name = CoreTables::FeedbackSpecific->value;
+        $table_name = $this->basic_table_name_builder->getTableNameFor(
+            FeedbackTableTypes::FeedbackSpecific
+        );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
                 'answer_form_id' => [

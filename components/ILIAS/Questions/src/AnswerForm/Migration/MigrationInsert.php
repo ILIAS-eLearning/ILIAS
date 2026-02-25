@@ -20,7 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Migration;
 
-use ILIAS\Questions\Persistence\CoreTables;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
+use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -41,6 +43,8 @@ class MigrationInsert
         private readonly IOWrapper $io,
         private readonly UuidFactory $uuid_factory,
         private readonly PersistenceFactory $persistence_factory,
+        private readonly QuestionTableDefinitions $question_table_definitions,
+        private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         private readonly TableNameBuilder $table_name_builder,
         private array $inserts,
         private readonly int $old_question_id,
@@ -167,8 +171,9 @@ class MigrationInsert
     private function buildCoreAnswerFormInsertStatement(): Insert
     {
         return $this->persistence_factory->insert(
-            CoreTables::AnswerForms->getColumns(
-                $this->persistence_factory
+            $this->answer_form_generic_table_definitions->getColumns(
+                $this->table_name_builder,
+                AnswerFormGenericTableTypes::AnswerForms
             ),
             [
                $this->persistence_factory->value(

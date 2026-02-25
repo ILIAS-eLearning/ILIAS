@@ -18,8 +18,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Persistence;
+namespace ILIAS\Questions\Setup;
 
-interface TableTypes
+use ILIAS\Questions\Persistence\TableNameBuilder;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
+
+class SetupTableNameBuilder extends TableNameBuilder
 {
+    private const string COMPONENT_NAME_SPACE = 'qsts';
+
+    public function __construct(
+        TableSubNameSpace $table_sub_name_space
+    ) {
+        parent::__construct(self::COMPONENT_NAME_SPACE, $table_sub_name_space);
+    }
 }

@@ -20,19 +20,23 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Gaps;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Query;
-use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 
 class Factory
 {
     public function __construct(
-        private readonly UuidFactory $uuid_factory
+        private readonly UuidFactory $uuid_factory,
+        private readonly PersistenceFactory $persistence_factory,
+        private readonly TableDefinitions $table_definitions
     ) {
     }
 
@@ -44,6 +48,7 @@ class Factory
     ): Combinations {
         return new Combinations(
             $this,
+            $this->persistence_factory,
             $type_generic_properties->getAnswerFormId(),
             $combinations_enabled,
             !$combinations_enabled || $gaps === null || $query === null
@@ -52,7 +57,10 @@ class Factory
                     $type_generic_properties,
                     $gaps,
                     $this->retrieveCombinationsFromQuery(
-                        $type_generic_properties,
+                        $type_generic_properties
+                            ->getDefinition()
+                            ->getTableDefinitions()
+                            ->getTableSubNameSpace(),
                         $query
                     ),
                     $query
@@ -163,16 +171,16 @@ class Factory
     }
 
     private function retrieveCombinationsFromQuery(
-        TypeGenericProperties $type_generic_properties,
+        TableSubNameSpace $table_sub_name_space,
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
-            TableTypes::Additional->getTable(
-                $query->getPersistenceFactory(),
+            $this->persistence_factory->table(
                 $query->getTableNameBuilder(
-                    $type_generic_properties->getDefinition()::class
+                    $table_sub_name_space
                 ),
-                Persistence::COMBINATION_TABLE_IDENTIFIER
+                AnswerFormSpecificTableTypes::Additional,
+                $this->table_definitions->getCombinationsTableIdentifier()
             ),
             $query->getRefinery()->custom()->transformation(
                 fn(array $vs): array => $this->buildCombinationsFromQuery(
@@ -217,12 +225,15 @@ class Factory
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
-            TableTypes::Additional->getTable(
-                $query->getPersistenceFactory(),
+            $this->persistence_factory->table(
                 $query->getTableNameBuilder(
-                    $type_generic_properties->getDefinition()::class
+                    $type_generic_properties
+                        ->getDefinition()
+                        ->getTableDefinitions()
+                        ->getTableSubNameSpace(),
                 ),
-                Persistence::COMBINATION_TO_ANSWER_OPTIONS_TABLE_IDENTIFIER
+                AnswerFormSpecificTableTypes::Additional,
+                $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
             ),
             $query->getRefinery()->custom()->transformation(
                 function (array $vs) use (

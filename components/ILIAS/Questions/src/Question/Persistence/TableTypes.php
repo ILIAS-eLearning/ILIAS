@@ -18,8 +18,14 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Persistence;
+namespace ILIAS\Questions\Question\Persistence;
 
-interface TableTypes
+use ILIAS\Questions\Persistence\TableTypes as TableTypesInterface;
+
+enum TableTypes: string implements TableTypesInterface
 {
+    case Questions = 'questions';
+    case Responses = 'responses';
+    case Linking = 'linking';
+    case MigrationsTable = 'migrations';
 }

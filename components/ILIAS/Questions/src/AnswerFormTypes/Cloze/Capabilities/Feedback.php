@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Capabilities;
 
 use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Feedback as FeedbackInterface;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
@@ -57,6 +58,7 @@ class Feedback implements FeedbackInterface
 
     #[\Override]
     public function toStorage(
+        PersistenceFactory $persistence_factory,
         Manipulate $manipulate
     ): Manipulate {
         return $manipulate;
@@ -64,6 +66,7 @@ class Feedback implements FeedbackInterface
 
     #[\Override]
     public function toDelete(
+        PersistenceFactory $persistence_factory,
         Manipulate $manipulate
     ): Manipulate {
         return $manipulate;

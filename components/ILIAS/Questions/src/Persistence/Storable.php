@@ -23,10 +23,12 @@ namespace ILIAS\Questions\Persistence;
 interface Storable
 {
     public function toStorage(
+        Factory $persistence_factory,
         Manipulate $manipulate
     ): Manipulate;
 
     public function toDelete(
+        Factory $persistence_factory,
         Manipulate $manipulate
     ): Manipulate;
 }

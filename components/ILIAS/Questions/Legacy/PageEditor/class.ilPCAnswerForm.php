@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
 use ILIAS\Questions\Legacy\LocalDIC;
-use ILIAS\Questions\Persistence\Repository;
+use ILIAS\Questions\Question\Persistence\Repository;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\UI\Factory as UIFactory;

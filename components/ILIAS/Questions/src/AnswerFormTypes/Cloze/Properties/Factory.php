@@ -20,18 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties;
 
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Factory as ClozeTextFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\ClozeText\Text as ClozeText;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Factory as CombinationsFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Definitions\ScoringIdentical;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\Factory as GapsFactory;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Query;
-use ILIAS\Questions\Persistence\TableTypes;
 
 class Factory
 {
     public function __construct(
+        private readonly PersistenceFactory $persistence_factory,
         private readonly ClozeTextFactory $cloze_text_factory,
         private readonly GapsFactory $gaps_factory,
         private readonly CombinationsFactory $combinations_factory
@@ -66,9 +68,14 @@ class Factory
             'scoring_identical_responses' => $scoring_identical_responses,
             'combinations_enabled' => $combinations_enabled
         ] = $query->retrieveCurrentRecord(
-            TableTypes::TypeSpecificAnswerForms->getTable(
-                $query->getPersistenceFactory(),
-                $query->getTableNameBuilder($type_generic_properties->getDefinition()::class)
+            $this->persistence_factory->table(
+                $query->getTableNameBuilder(
+                    $type_generic_properties
+                        ->getDefinition()
+                        ->getTableDefinitions()
+                        ->getTableSubNameSpace()
+                ),
+                AnswerFormSpecificTableTypes::TypeSpecificAnswerForms
             ),
             $query->getRefinery()->custom()->transformation(
                 function (array $vs) use ($type_generic_properties): array {
@@ -85,6 +92,11 @@ class Factory
         );
 
         $gaps = $this->gaps_factory->fromDatabase(
+            $this->persistence_factory,
+            $type_generic_properties
+                ->getDefinition()
+                ->getTableDefinitions()
+                ->getTableSubNameSpace(),
             $type_generic_properties->getAnswerFormId(),
             $query
         );

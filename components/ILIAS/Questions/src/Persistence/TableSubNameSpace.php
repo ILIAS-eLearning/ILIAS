@@ -20,25 +20,32 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Persistence;
 
-class TableNameSpace
+class TableSubNameSpace
 {
     /**
-     * @param string $vendor Maximum four characters used to create the tables for the question type
-     * @param string $answer_form_id Maximum eight characters used to create the tables for the question type
+     * @param string $vendor Maximum four characters used to create the tables
+     * @param string $sub_name_space Maximum eight characters used to create the tables
      */
     public function __construct(
         private readonly string $vendor,
-        private readonly string $answer_form_id
+        private readonly string $sub_name_space
     ) {
-        if (mb_strlen($vendor) > 4 || mb_strlen($answer_form_id) > 8) {
+        if ($vendor === ''
+            || $sub_name_space === ''
+            || mb_strlen($vendor) > 6
+            || mb_strlen($sub_name_space) > 8) {
             throw new \InvalidArgumentException(
-                '$vendor cannot be longer than 4, $answer_form_id can be longer then 8 characters.'
+                '$vendor cannot be empty or longer than 6, '
+                . '$sub_name_space cannot be empty or longer than 8 characters.'
             );
         }
     }
 
-    public function getTypeSpecificTableNamePart(): string
+    public function get(): string
     {
-        return "{$this->vendor}_{$this->answer_form_id}";
+        if ($this->vendor === 'ILIAS') {
+            return $this->sub_name_space;
+        }
+        return "{$this->vendor}_{$this->sub_name_space}";
     }
 }

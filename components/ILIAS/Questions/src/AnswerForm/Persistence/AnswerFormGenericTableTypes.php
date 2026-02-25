@@ -18,18 +18,11 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\Persistence;
+namespace ILIAS\Questions\AnswerForm\Persistence;
 
-class TableNameSpaceCore extends TableNameSpace
+use ILIAS\Questions\Persistence\TableTypes;
+
+enum AnswerFormGenericTableTypes: string implements TableTypes
 {
-    public function __construct(
-        private readonly string $answer_form_id
-    ) {
-    }
-
-    #[\Override]
-    public function getTypeSpecificTableNamePart(): string
-    {
-        return $this->answer_form_id;
-    }
+    case AnswerForms = 'answer_forms';
 }

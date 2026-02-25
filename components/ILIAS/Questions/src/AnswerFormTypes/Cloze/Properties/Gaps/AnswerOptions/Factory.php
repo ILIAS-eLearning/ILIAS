@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Query;
-use ILIAS\Questions\Persistence\TableTypes;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Refinery\Factory as Refinery;
@@ -77,12 +78,16 @@ class Factory
     }
 
     public function fromDatabase(
+        PersistenceFactory $persistence_factory,
+        TableSubNameSpace $table_name_specifier,
         Query $query
     ): array {
         return $query->retrieveCurrentRecord(
-            TableTypes::AnswerOptions->getTable(
-                $query->getPersistenceFactory(),
-                $query->getTableNameBuilder(Definition::class)
+            $persistence_factory->table(
+                $query->getTableNameBuilder(
+                    $table_name_specifier
+                ),
+                AnswerFormSpecificTableTypes::AnswerOptions
             ),
             $query->getRefinery()->custom()->transformation(
                 function (array $vs): array {

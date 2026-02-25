@@ -22,29 +22,42 @@ namespace ILIAS\Questions\Persistence;
 
 class TableNameBuilder
 {
-    private string $type_specific_part;
-
     public function __construct(
-        TableNameSpace $table_name_space
+        private readonly string $component_name_space,
+        private readonly ?TableSubNameSpace $table_sub_name_space
     ) {
-        $this->type_specific_part = $table_name_space->getTypeSpecificTableNamePart();
+
     }
 
     public function getTableNameFor(
-        TableTypes $type,
-        string $identifier = ''
+        TableTypes $table,
+        string $specifier = ''
     ): string {
-        if ($type === TableTypes::Additional && $identifier === '') {
+        if ($table->value === '' && $specifier === '') {
             throw \InvalidArgumentException(
-                'Identifier cannot be empty for type ' . TableTypes::Additional->name . '.'
+                'Identifier cannot be empty if Type->value is empty.'
             );
         }
-        return match ($type) {
-            TableTypes::TypeSpecificAnswerForms => "qsts_answer_forms_{$this->type_specific_part}",
-            TableTypes::AnswerInputs => "qsts_answer_inputs_{$this->type_specific_part}",
-            TableTypes::AnswerOptions => "qsts_answer_options_{$this->type_specific_part}",
-            TableTypes::Responses => "qsts_responses_{$this->type_specific_part}",
-            TableTypes::Additional => "qsts_{$this->type_specific_part}_{$identifier}"
-        };
+
+        $base_name = "{$this->component_name_space}";
+        if ($table->value !== '') {
+            $base_name .= "_{$table->value}";
+        }
+
+        $additions = '';
+
+        if ($this->table_sub_name_space !== null) {
+            $additions = $this->table_sub_name_space->get();
+        }
+
+        if ($specifier !== '') {
+            $additions .= "_{$specifier}";
+        }
+
+        if ($additions === '') {
+            return $base_name;
+        }
+
+        return "{$base_name}_{$additions}";
     }
 }
