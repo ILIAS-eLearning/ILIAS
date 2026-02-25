@@ -688,9 +688,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
                 $xmlRow->setValue(0, $row["user_id"]);
-                $xmlRow->setValue(1, $row["login"]);
-                $xmlRow->setValue(2, $row["firstname"]);
-                $xmlRow->setValue(3, $row["lastname"]);
+                $xmlRow->setValue(1, $row["login"] ? (string) $row["login"] : "");
+                $xmlRow->setValue(2, $row["firstname"] ? (string) $row["firstname"] : "");
+                $xmlRow->setValue(3, $row["lastname"] ? (string) $row["lastname"] : "");
                 $xmlRow->setValue(4, $row["matriculation"] ? (string) $row["matriculation"] : "");
                 $xmlRow->setValue(5, $row["max_points"] ? (float) $row["max_points"]  : "");
                 $xmlRow->setValue(6, $row["reached_points"] ? (float) $row["reached_points"] : "");
@@ -708,9 +708,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
             foreach ($data as $row) {
                 $xmlRow = new ilXMLResultSetRow();
                 $xmlRow->setValue(0, $row["user_id"]);
-                $xmlRow->setValue(1, $row["login"]);
-                $xmlRow->setValue(2, $row["firstname"]);
-                $xmlRow->setValue(3, $row["lastname"]);
+                $xmlRow->setValue(1, $row["login"] ? (string) $row["login"] : "");
+                $xmlRow->setValue(2, $row["firstname"] ? (string) $row["firstname"] : "");
+                $xmlRow->setValue(3, $row["lastname"] ? (string) $row["lastname"] : "");
                 $xmlRow->setValue(4, $row["matriculation"] ? (string) $row["matriculation"] : "");
                 $xmlRow->setValue(5, $row["question_id"] ? (string) $row["question_id"] : "");
                 $xmlRow->setValue(6, $row["question_title"] ? (string) $row["question_title"] : "");
