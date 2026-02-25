@@ -18,10 +18,10 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\RequestDataCollector;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestLogger;
-use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
@@ -73,7 +73,8 @@ class ilTestResultsGUI
         private readonly GlobalHttpState $http,
         private readonly DataFactory $data_factory,
         private readonly ilTestSession $test_session,
-        private readonly ilTestObjectiveOrientedContainer $objective_parent
+        private readonly ilTestObjectiveOrientedContainer $objective_parent,
+        private readonly ParticipantRepository $participant_repository
     ) {
     }
 
@@ -153,7 +154,8 @@ class ilTestResultsGUI
                     $this->ui_factory,
                     $this->ui_renderer,
                     $this->data_factory,
-                    $this->http
+                    $this->http,
+                    $this->participant_repository
                 );
                 $this->ctrl->forwardCommand($gui);
                 break;

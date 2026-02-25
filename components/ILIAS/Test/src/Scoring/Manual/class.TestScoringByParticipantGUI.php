@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Test\Scoring\Manual;
 
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestScoringInteractionTypes;
 use ILIAS\Test\Logging\AdditionalInformationGenerator;
@@ -40,10 +41,12 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
     public const PART_FILTER_MANSCORING_NONE = 5;
 
     protected \ilTestAccess $test_access;
+    protected ParticipantRepository $participant_repository;
 
     public function __construct(\ilObjTest $object)
     {
         parent::__construct($object);
+        $this->participant_repository = $object->getLocalDIC()['participant.repository'];
     }
 
     /**
@@ -181,10 +184,10 @@ class TestScoringByParticipantGUI extends \ilTestServiceGUI
 
         $table = new TestScoringByParticipantPassesOverviewTableGUI($this, 'showManScoringParticipantScreen');
 
-        $user_id = $this->object->_getUserIdFromActiveId($active_id);
-        $user_fullname = $this->object->userLookupFullName($user_id, false, true);
-        $table_title = sprintf($this->lng->txt('tst_pass_overview_for_participant'), $user_fullname);
-        $table->setTitle($table_title);
+        $participant = $this->participant_repository->getParticipantByActiveId($this->object->getTestId(), $active_id);
+        $table->setTitle(
+            sprintf($this->lng->txt('tst_pass_overview_for_participant'), $participant->getDisplayName($this->lng))
+        );
 
         $passOverviewData = $this->service->getPassOverviewData($active_id);
         $table->setData($passOverviewData['passes']);

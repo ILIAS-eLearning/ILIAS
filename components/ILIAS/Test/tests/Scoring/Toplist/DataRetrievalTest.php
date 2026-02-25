@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace Results\Toplist;
 
 use ILIAS\Data\Factory;
+use ILIAS\Test\Participants\ParticipantRepository;
 use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\Test\Results\Toplist\DataRetrieval;
 use ILIAS\Test\Results\Toplist\TopListOrder;
@@ -56,7 +57,8 @@ class DataRetrievalTest extends \ilTestBaseTestCase
             $DIC['ui.renderer'],
             $this->createMock(Factory::class),
             TopListType::GENERAL,
-            TopListOrder::BY_SCORE
+            TopListOrder::BY_SCORE,
+            $this->createMock(ParticipantRepository::class)
         );
     }
 

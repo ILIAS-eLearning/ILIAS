@@ -32,7 +32,7 @@ class TestTopListRepository
         $this->db->setLimit($object->getHighscoreTopNum(), 0);
         $result = $this->db->query(
             '
-			SELECT tst_result_cache.*, round(points/maxpoints*100,2) as percentage, tst_pass_result.workingtime, usr_data.usr_id, usr_data.firstname, usr_data.lastname
+			SELECT tst_result_cache.*, round(points/maxpoints*100,2) as percentage, tst_pass_result.workingtime, usr_data.usr_id, usr_data.firstname, usr_data.lastname, tst_active.active_id
 			FROM object_reference
 			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
 			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
@@ -107,7 +107,7 @@ class TestTopListRepository
 
         $result = $this->db->query("
             SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage ,
-                tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
+                tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname, tst_active.active_id
             FROM object_reference
             INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
             INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
@@ -192,7 +192,7 @@ class TestTopListRepository
 
         $result = $this->db->query("
 			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
-				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
+				tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname, tst_active.active_id
 			FROM object_reference
 			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
 			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi

@@ -252,17 +252,33 @@ class ilTestParticipantList implements Iterator
     public function getScoringTableRows(): array
     {
         $rows = [];
+        $participant_repository = $this->test_obj->getLocalDIC()['participant.repository'];
 
         foreach ($this as $participant) {
-            $row = [
+            $firstname = $participant->getFirstname();
+            $lastname = $participant->getLastname();
+
+            if ($participant->getUsrId() === ANONYMOUS_USER_ID) {
+                $name = explode(
+                    ',',
+                    $participant_repository->getParticipantByActiveId(
+                        $this->test_obj->getTestId(),
+                        $participant->getActiveId()
+                    )->getDisplayName($this->lng)
+                );
+                if (isset($name[0], $name[1])) {
+                    $firstname = explode(' ', trim($name[1]))[0] ?? '';
+                    $lastname = explode(' ', trim($name[0]))[0] ?? '';
+                }
+            }
+
+            $rows[] = [
                 'usr_id' => $participant->getUsrId(),
                 'active_id' => $participant->getActiveId(),
                 'login' => $participant->getLogin(),
-                'firstname' => $participant->getFirstname(),
-                'lastname' => $participant->getLastname()
+                'firstname' => $firstname,
+                'lastname' => $lastname
             ];
-
-            $rows[] = $row;
         }
 
         return $rows;
