@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Persistence\Delete;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
@@ -27,8 +28,7 @@ use ILIAS\Questions\Persistence\Junctor;
 use ILIAS\Questions\Persistence\Manipulate;
 use ILIAS\Questions\Persistence\Operator;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableTypes;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Persistence;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
@@ -364,7 +364,8 @@ class Gaps
 
     public function toStorage(
         Manipulate $manipulate,
-        Persistence $persistence,
+        PersistenceFactory $persistence_factory,
+        TableDefinitions $table_definitions,
         TableNameBuilder $table_name_builder
     ): Manipulate {
         [
@@ -375,14 +376,14 @@ class Gaps
             fn(array $c, Gap $v): array => [
                 'gaps' => $v->buildReplace(
                     $c['gaps'],
-                    $persistence,
-                    $manipulate->getPersistenceFactory(),
+                    $table_definitions,
+                    $persistence_factory,
                     $table_name_builder
                 ),
                 'answer_options' => $v->getAnswerOptions()->buildReplace(
                     $c['answer_options'],
-                    $persistence,
-                    $manipulate->getPersistenceFactory(),
+                    $table_definitions,
+                    $persistence_factory,
                     $table_name_builder
                 )
             ],
@@ -394,8 +395,8 @@ class Gaps
 
         return $manipulate->withAdditionalStatement(
             $this->buildDeleteForRemovedGaps(
-                $persistence,
-                $manipulate->getPersistenceFactory(),
+                $table_definitions,
+                $persistence_factory,
                 $table_name_builder
             )
         )->withAdditionalStatement($replace_for_gaps)
@@ -404,22 +405,23 @@ class Gaps
 
     public function toDelete(
         Manipulate $manipulate,
-        Persistence $persistence,
+        PersistenceFactory $persistence_factory,
+        TableDefinitions $table_definitions,
         TableNameBuilder $table_name_builder
     ): Manipulate {
         return array_reduce(
             $this->gaps,
             fn(Manipulate $c, Gap $v): Manipulate => $c->withAdditionalStatement(
                 $v->getAnswerOptions()->buildDelete(
-                    $persistence,
-                    $manipulate->getPersistenceFactory(),
+                    $table_definitions,
+                    $persistence_factory,
                     $table_name_builder
                 )
             ),
             $manipulate->withAdditionalStatement(
                 $this->buildDeleteForDeletionOfAnswerForm(
-                    $persistence,
-                    $manipulate->getPersistenceFactory(),
+                    $table_definitions,
+                    $persistence_factory,
                     $table_name_builder
                 )
             )
@@ -427,22 +429,21 @@ class Gaps
     }
 
     private function buildDeleteForRemovedGaps(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
-        $table_definition = TableTypes::AnswerInputs;
+        $table_type = AnswerFormSpecificTableTypes::AnswerInputs;
         return $persistence_factory->delete(
-            $table_definition->getTable(
-                $persistence_factory,
-                $table_name_builder
+            $persistence_factory->table(
+                $table_name_builder,
+                $table_type
             ),
             [
                 $persistence_factory->where(
-                    $persistence->getForeignKeyColumn(
-                        $persistence_factory,
+                    $table_definitions->getForeignKeyColumn(
                         $table_name_builder,
-                        $table_definition
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -450,10 +451,9 @@ class Gaps
                     )
                 ),
                 $persistence_factory->where(
-                    $persistence->getIdColumn(
-                        $persistence_factory,
+                    $table_definitions->getIdColumn(
                         $table_name_builder,
-                        $table_definition
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,
@@ -471,23 +471,22 @@ class Gaps
     }
 
     private function buildDeleteForDeletionOfAnswerForm(
-        Persistence $persistence,
+        TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder
     ): Delete {
-        $table_definition = TableTypes::AnswerInputs;
+        $table_type = AnswerFormSpecificTableTypes::AnswerInputs;
 
         return $persistence_factory->delete(
-            $table_definition->getTable(
-                $persistence_factory,
-                $table_name_builder
+            $persistence_factory->table(
+                $table_name_builder,
+                $table_type
             ),
             [
                 $persistence_factory->where(
-                    $persistence->getForeignKeyColumn(
-                        $persistence_factory,
+                    $table_definitions->getForeignKeyColumn(
                         $table_name_builder,
-                        $table_definition
+                        $table_type
                     ),
                     $persistence_factory->value(
                         \ilDBConstants::T_TEXT,

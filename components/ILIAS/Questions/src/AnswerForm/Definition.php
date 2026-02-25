@@ -23,8 +23,8 @@ namespace ILIAS\Questions\AnswerForm;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\AnswerForm\Views\Edit;
 use ILIAS\Questions\AnswerForm\Views\Participant;
-use ILIAS\Questions\AnswerForm\Persistence;
 use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\TableDefinitions;
 use ILIAS\Language\Language;
 
 interface Definition
@@ -35,7 +35,7 @@ interface Definition
         TypeGenericProperties $type_generic_properties,
         ?Query $query
     ): Properties;
-    public function getPersistence(): Persistence;
+    public function getTableDefinitions(): TableDefinitions;
 
     public function hasCapability(
         string $capability_class_name

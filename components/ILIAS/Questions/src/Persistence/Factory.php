@@ -68,11 +68,11 @@ class Factory
     }
 
     public function table(
-        CoreTables|TableTypes $table_definition,
-        ?TableNameBuilder $table_name_builder = null,
-        string $table_identifier = ''
+        TableNameBuilder $table_name_builder,
+        TableTypes $table,
+        string $sub_table_identifier = ''
     ): Table {
-        return new Table($table_definition, $table_name_builder, $table_identifier);
+        return new Table($table_name_builder, $table, $sub_table_identifier);
     }
 
     public function column(

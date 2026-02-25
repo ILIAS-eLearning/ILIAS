@@ -18,43 +18,39 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerForm;
+namespace ILIAS\Questions\Persistence;
 
 use ILIAS\Questions\Persistence\Column;
-use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Query;
+use ILIAS\Questions\Persistence\TableSubNameSpace;
 use ILIAS\Questions\Persistence\TableNameBuilder;
-use ILIAS\Questions\Persistence\TableNameSpace;
 use ILIAS\Questions\Persistence\TableTypes;
 
-interface Persistence
+interface TableDefinitions
 {
-    public function getTableNameSpace(): TableNameSpace;
+    public function getTableSubNameSpace(): ?TableSubNameSpace;
 
     public function getColumns(
-        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        string $table_identifier = '',
+        string $sub_table_identifier = '',
         array $columns_to_skip = []
     ): array;
 
     public function getIdColumn(
-        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        string $table_identifier = ''
+        string $sub_table_identifier = ''
     ): Column;
 
     public function getForeignKeyColumn(
-        PersistenceFactory $persistence_factory,
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
-        string $table_identifier = ''
+        string $sub_table_identifier = ''
     ): Column;
 
-    public function completeQuestionsQuery(
+    public function completeQuery(
         Query $query,
-        Column $base_table_id_column,
+        ?Column $base_table_id_column
     ): Query;
 }
