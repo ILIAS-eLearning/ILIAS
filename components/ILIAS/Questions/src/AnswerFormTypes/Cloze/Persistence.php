@@ -209,7 +209,7 @@ class Persistence implements PersistenceInterface
     }
 
     #[\Override]
-    public function completeQuery(
+    public function completeQuestionsQuery(
         Query $query,
         Column $answer_form_id_column
     ): Query {

@@ -18,13 +18,19 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerForm\Capabilities;
+namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\Question\Response;
 
-interface Skills extends Capability
+interface Feedback extends Capability
 {
-    public function getSkillPointsForResponse(
+    public function getGeneralFeedback(
         Response $response
-    ): float;
+    ): array;
+
+    public function getSpecificFeedback(
+        Response $response,
+        string $answer_id
+    ): array;
 }
