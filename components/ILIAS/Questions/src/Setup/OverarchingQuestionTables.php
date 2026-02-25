@@ -241,4 +241,98 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_6(): void
+    {
+        $table_name = CoreTables::FeedbackGeneric->value;
+        if (!$this->db->tableExists($table_name)) {
+            $this->db->createTable($table_name, [
+                'answer_form_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'feedback_best_response' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ],
+                'feedback_best_response_legacy' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ],
+                'feedback_other_response' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ],
+                'feedback_other_response_legacy' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ]
+            ]);
+        }
+
+        if (!$this->db->primaryExistsByFields(
+            $table_name,
+            ['answer_form_id']
+        )) {
+            $this->db->addPrimaryKey(
+                $table_name,
+                ['answer_form_id']
+            );
+        }
+    }
+
+    public function step_7(): void
+    {
+        $table_name = CoreTables::FeedbackSpecific->value;
+        if (!$this->db->tableExists($table_name)) {
+            $this->db->createTable($table_name, [
+                'answer_form_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'parent_id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
+                'condition' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 16,
+                    'notnull' => false
+                ],
+                'feedback_best_response_legacy' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ],
+                'feedback' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ],
+                'feedback_legacy' => [
+                    'type' => \ilDBConstants::T_CLOB,
+                    'notnull' => true
+                ]
+            ]);
+        }
+
+        if (!$this->db->primaryExistsByFields(
+            $table_name,
+            [
+                'answer_form_id',
+                'parent_id',
+                'condition'
+            ]
+        )) {
+            $this->db->addPrimaryKey(
+                $table_name,
+                [
+                    'answer_form_id',
+                    'parent_id',
+                    'condition'
+                ],
+            );
+        }
+    }
 }

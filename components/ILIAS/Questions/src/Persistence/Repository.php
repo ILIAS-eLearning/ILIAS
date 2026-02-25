@@ -55,12 +55,9 @@ class Repository
      */
     public function getQuestionDataOnlyForAllQuestions(): \Generator
     {
-        foreach ($query = new Query(
-            $this->db,
-            $this->persistence_factory,
-            $this->answer_form_factory,
-            $this->refinery
-        )->loadNextRecord() as $query_with_record) {
+        foreach ($this->buildQuestionsQuery()->loadNextRecord(
+            $this->buildGroupByColumn()
+        ) as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 []
@@ -74,12 +71,7 @@ class Repository
     public function getQuestionDataOnlyForQuestionIds(
         array $question_ids
     ): \Generator {
-        foreach ((new Query(
-            $this->db,
-            $this->persistence_factory,
-            $this->answer_form_factory,
-            $this->refinery
-        )->withAdditionalWhere(
+        foreach ($this->buildQuestionsQuery()->withAdditionalWhere(
             $this->persistence_factory->where(
                 CoreTables::Questions->getIdColumn(
                     $this->persistence_factory
@@ -93,7 +85,7 @@ class Repository
                 ),
                 Operator::In
             )
-        ))->loadNextRecord() as $query_with_record) {
+        )->loadNextRecord($this->buildGroupByColumn()) as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 []
@@ -105,12 +97,7 @@ class Repository
         Uuid $question_id
     ): ?QuestionImplementation {
         return $this->getForBaseQuery(
-            (new Query(
-                $this->db,
-                $this->persistence_factory,
-                $this->answer_form_factory,
-                $this->refinery
-            ))->withAdditionalWhere(
+            $this->buildQuestionsQuery()->withAdditionalWhere(
                 $this->persistence_factory->where(
                     CoreTables::Questions->getIdColumn(
                         $this->persistence_factory
@@ -135,12 +122,7 @@ class Repository
         array $question_ids
     ): \Generator {
         yield from $this->getForBaseQuery(
-            (new Query(
-                $this->db,
-                $this->persistence_factory,
-                $this->answer_form_factory,
-                $this->refinery
-            ))->withAdditionalWhere(
+            $this->buildQuestionsQuery()->withAdditionalWhere(
                 $this->persistence_factory->where(
                     CoreTables::Questions->getIdColumn(
                         $this->persistence_factory
@@ -226,7 +208,7 @@ class Repository
     ): \Generator {
         $query_with_answer_forms = array_reduce(
             $this->getAnswerFormTypesForQuestionIds($question_ids),
-            fn(Query $c, AnswerFormDefinition $v) => $v->getPersistence()->completeQuery(
+            fn(Query $c, AnswerFormDefinition $v) => $v->getPersistence()->completeQuestionsQuery(
                 $c,
                 CoreTables::AnswerForms->getIdColumn(
                     $this->persistence_factory
@@ -235,7 +217,9 @@ class Repository
             $query
         );
 
-        foreach ($query_with_answer_forms->loadNextRecord() as $query_with_record) {
+        foreach ($query_with_answer_forms->loadNextRecord(
+            $this->buildGroupByColumn()
+        ) as $query_with_record) {
             yield $this->retrieveQuestionFromQuery(
                 $query_with_record,
                 $this->retrieveAnswerFormsFromQuery($query_with_record)
@@ -359,6 +343,78 @@ class Repository
             fn(Manipulate $c, QuestionImplementation $v): Manipulate => $v->toStorage($c),
             $manipulate
         )->run();
+    }
+
+    private function buildQuestionsQuery(): Query
+    {
+        $query = new Query(
+            $this->db,
+            $this->refinery,
+            $this->persistence_factory,
+            $this->answer_form_factory
+        );
+
+        $questions_linking_table_definition = CoreTables::Linking;
+        $questions_table_definition = CoreTables::Questions;
+        $answer_form_table_definition = CoreTables::AnswerForms;
+        $questions_id_column = $questions_table_definition->getIdColumn(
+            $this->persistence_factory
+        );
+
+        return $query->withAdditionalSelect(
+            $this->persistence_factory->select(
+                $questions_linking_table_definition->getColumns(
+                    $this->persistence_factory
+                )
+            )
+        )->withAdditionalSelect(
+            $this->select[] = $this->persistence_factory->select(
+                $questions_table_definition->getColumns(
+                    $this->persistence_factory
+                )
+            )
+        )->withAdditionalSelect(
+            $this->select[] = $this->persistence_factory->select(
+                $answer_form_table_definition->getColumns(
+                    $this->persistence_factory
+                )
+            )
+        )->withAdditionalJoin(
+            $this->joins[] = $this->persistence_factory->join(
+                $questions_linking_table_definition->getIdColumn(
+                    $this->persistence_factory
+                ),
+                $questions_table_definition->getIdColumn(
+                    $this->persistence_factory
+                ),
+                JoinType::Inner
+            )
+        )->withAdditionalJoin(
+            $this->joins[] = $this->persistence_factory->join(
+                $questions_id_column,
+                $answer_form_table_definition->getForeignKeyColumn(
+                    $this->persistence_factory
+                ),
+                JoinType::Left
+            )
+        )->withAdditionalOrder(
+            $this->persistence_factory->order(
+                $questions_id_column
+            )
+        )->withAdditionalOrder(
+            $this->order[] = $this->persistence_factory->order(
+                $answer_form_table_definition->getIdColumn(
+                    $this->persistence_factory
+                )
+            )
+        );
+    }
+
+    private function buildGroupByColumn(): Column
+    {
+        return CoreTables::Questions->getIdColumn(
+            $this->persistence_factory
+        );
     }
 
     private function buildAvailableUuid(): Uuid
