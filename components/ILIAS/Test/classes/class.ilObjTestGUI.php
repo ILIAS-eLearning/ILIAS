@@ -1014,7 +1014,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
 
     protected function forwardCommandToQuestionPreview(
         string $cmd,
-        assQuestionGUI $question_gui = null
+        ?assQuestionGUI $question_gui = null
     ): void {
         $nr_of_participants_with_results = $this->getTestObject()->evalTotalPersons();
 
@@ -1049,8 +1049,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
         if (!$this->getTestObject()->isRandomTest() && $nr_of_participants_with_results === 0) {
             $gui->setPrimaryCmd(
                 $this->lng->txt('edit_question'),
-                $this->ctrl->getLinkTargetByClass(
-                    get_class($question_gui),
+                $this->ctrl->getLinkTarget(
+                    $question_gui,
                     'editQuestion'
                 )
             );
@@ -1075,7 +1075,13 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
             $this->ctrl->getLinkTargetByClass(self::class, self::SHOW_QUESTIONS_CMD)
         );
         $this->ctrl->saveParameterByClass(self::class, 'q_id');
-        $gui->{$cmd . 'Cmd'}();
+
+        if ($this->testrequest->isset('forwarded')) {
+            $this->ctrl->forwardCommand($gui);
+            return;
+        }
+        $this->ctrl->setParameterByClass(self::class, 'forwarded', '1');
+        $this->ctrl->redirect($gui, $cmd);
     }
 
     private function addQuestionTitleToObjectTitle(string $question_title): void
@@ -1231,19 +1237,18 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface, ilDe
                 ilAssQuestionPreviewGUI::CMD_SHOW,
                 $question_gui
             );
+            return;
         }
 
-        if ($target === 'stay') {
-            $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $question_gui->getObject()->getId());
-            $this->tabs_gui->setBackTarget(
-                $this->lng->txt('backtocallingpage'),
-                $this->ctrl->getLinkTargetByClass(
-                    ilAssQuestionPreviewGUI::class,
-                    ilAssQuestionPreviewGUI::CMD_SHOW
-                )
-            );
-            $question_gui->editQuestion(false, false);
-        }
+        $this->ctrl->setParameterByClass(ilAssQuestionPreviewGUI::class, 'q_id', $question_gui->getObject()->getId());
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt('backtocallingpage'),
+            $this->ctrl->getLinkTargetByClass(
+                ilAssQuestionPreviewGUI::class,
+                ilAssQuestionPreviewGUI::CMD_SHOW
+            )
+        );
+        $question_gui->editQuestion(false, false);
     }
 
     protected function trackTestObjectReadEvent()
