@@ -149,6 +149,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     protected function initServer(int $a_server_id): void
     {
         $this->server = new ilLDAPServer($a_server_id);
+        $this->server->doConnectionCheck(true);
     }
 
     /**

@@ -10863,7 +10863,7 @@ ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.
 ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldaps://ldap.ilias.de:636".
+ldap#:#ldap_server_url_info#:#Please enter a fully qualified URL for specifying the protocol, url and port to connect to, e.g "ldaps://ldap.ilias.de:636". Multiple URLs can be comma-separated for failover support. In case of connection failures, ILIAS will automatically rotate through the available servers. Note: During authentication, URL rotation is performed in-memory only (not persisted). In other contexts (e.g., synchronization tasks), each failed connection will rotate the URL order and persist it to the database, helping future requests avoid recently-failed servers.
 ldap#:#ldap_server_version_info#:#LDAP version to use, usually 3.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#ldap_settings#:#Server Settings
