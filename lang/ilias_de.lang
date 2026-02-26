@@ -10931,7 +10931,10 @@ ldap#:#ldap_server_name#:#Name der LDAP-Konfiguration
 ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration!
 ldap#:#ldap_server_security_settings#:#Sicherheitseinstellungen
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldaps.ilias.de:636".
+ldap#:#ldap_server_url_info#:#Bitte tragen Sie die komplette URL für die Verbindung zum LDAP-Server ein, z.B. "ldap://ldaps.ilias.de:636". Mehrere URLs können kommagetrennt für Failover-Unterstützung angegeben werden. Bei Verbindungsfehlern rotiert ILIAS automatisch durch die verfügbaren Server. Hinweis: Während der Authentifizierung erfolgt die URL-Rotation nur im Arbeitsspeicher (nicht persistiert). In anderen Kontexten (z.B. im asynchronen Import von Konten via Cron-Job) wird eine erfolgreiche Rotation in der Datenbank gespeichert.
+ldap#:#ldap_server_url_invalid_parts#:#Die folgenden Server-URL(s) konnten nicht als gültige URIs erkannt werden und funktionieren ggf. erst nach Korrektur:
+ldap#:#ldap_server_url_invalid_uris#:#Jeder kommagetrennte Eintrag muss eine gültige URI sein (z. B. ldap://host:389). Ungültig:
+ldap#:#ldap_server_url_required#:#Die Server-URL ist erforderlich.
 ldap#:#ldap_server_version_info#:#Protokollversion des LDAP-Server (in den meisten Fällen "LDAPv3").
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#ldap_settings#:#Server-Einstellungen

@@ -1096,6 +1096,12 @@ class ilLDAPSettingsGUI implements ilCtrlSecurityInterface
             $this->server->enableEscapeDN((bool) $this->form_gui->getInput('escape_dn'));
             if (!$this->server->validate()) {
                 $this->main_tpl->setOnScreenMessage('failure', $this->ilErr->getMessage());
+                $url_err = $this->server->getUrlValidationError();
+                if (!empty($url_err)) {
+                    $this->form_gui->getItemByPostVar('server_url')?->setAlert(
+                        $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($url_err)
+                    );
+                }
                 $this->form_gui->setValuesByPost();
                 $this->tpl->setContent($this->form_gui->getHTML());
                 return;

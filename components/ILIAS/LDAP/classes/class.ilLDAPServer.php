@@ -18,9 +18,6 @@
 
 declare(strict_types=1);
 
-/**
- * @author Stefan Meyer <meyer@leifos.com>
- */
 class ilLDAPServer
 {
     private static array $instances = [];
@@ -41,10 +38,7 @@ class ilLDAPServer
     private bool $role_sync_active = false;
 
     private int $server_id;
-    private array $fallback_urls = array();
-    private string $url = '';
-    private string $url_string = '';
-
+    private \ILIAS\LDAP\Server\ServerUrlList $url_list;
     private bool $enabled_authentication = true;
     private int $authentication_mapping = 0;
     private bool $escape_dn = false;
@@ -81,6 +75,7 @@ class ilLDAPServer
     private ilDBInterface $db;
     private ilLanguage $lng;
     private ilErrorHandling $ilErr;
+    private ilLogger $logger;
 
     public function __construct(int $a_server_id = 0)
     {
@@ -89,8 +84,10 @@ class ilLDAPServer
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->ilErr = $DIC['ilErr'];
+        $this->logger = $DIC->logger()->auth();
 
         $this->server_id = $a_server_id;
+        $this->url_list = new \ILIAS\LDAP\Server\ServerUrlList();
 
         $this->read();
     }
@@ -104,21 +101,21 @@ class ilLDAPServer
     }
 
     /**
-     * Rotate fallback urls in case of connect timeouts
+     * Rotate fallback urls in case of connect timeouts (move first to end and persist).
      */
     public function rotateFallbacks(): bool
     {
-        if (!$this->fallback_urls) {
+        if ($this->url_list->count() < 2) {
             return false;
         }
 
-        $all_urls = array_merge($this->fallback_urls);
-        $all_urls[] = $this->getUrl();
+        $this->url_list = $this->url_list->rotate();
 
         $query = 'UPDATE ldap_server_settings SET ' .
-                'url = ' . $this->db->quote(implode(',', $all_urls), 'text') . ' ' .
+                'url = ' . $this->db->quote($this->url_list->toString(), 'text') . ' ' .
                 'WHERE server_id = ' . $this->db->quote($this->getServerId(), 'integer');
         $this->db->manipulate($query);
+
         return true;
     }
 
@@ -493,53 +490,74 @@ class ilLDAPServer
     }
     public function getUrl(): string
     {
-        return $this->url;
+        return $this->url_list->getConnectionStringAtIndex(0);
     }
+
+    /**
+     * Set server URL(s). Pass empty string when URL column is NULL or empty.
+     */
     public function setUrl(string $a_url): void
     {
-        $this->url_string = $a_url;
-
-        // Maybe there are more than one url's (comma seperated).
-        $urls = explode(',', $a_url);
-
-        $counter = 0;
-        foreach ($urls as $url) {
-            $url = trim($url);
-            if (!$counter++) {
-                $this->url = $url;
-            } else {
-                $this->fallback_urls[] = $url;
-            }
-        }
+        $this->url_list = \ILIAS\LDAP\Server\ServerUrlList::fromString($a_url);
     }
+
     public function getUrlString(): string
     {
-        return $this->url_string;
+        return $this->url_list->toString();
     }
 
     /**
      * Check ldap connection and do a fallback to the next server
      * if no connection is possible.
-     *
-     * @access public
-     *
      */
-    public function doConnectionCheck(): bool
+    public function doConnectionCheck(bool $prevent_persisted_rotation = false): bool
     {
-        foreach (array_merge(array(0 => $this->url), $this->fallback_urls) as $url) {
+        $connection_failures = [];
+
+        // Iterate over a fixed snapshot so overwriting $this->url_list inside the loop does not affect iteration
+        $valid_urls = $this->url_list->validUrls();
+        foreach ($valid_urls as $index => $uri) {
+            $url_string = (string) $uri;
+
             try {
-                ilLoggerFactory::getLogger('auth')->debug('Using url: ' . $url);
+                $this->logger->debug('Attempting LDAP connection to: {url}', ['url' => $url_string]);
                 // Need to do a full bind, since openldap return valid connection links for invalid hosts
-                $query = new ilLDAPQuery($this, $url);
+                $query = new ilLDAPQuery($this, $url_string);
                 $query->bind(ilLDAPQuery::LDAP_BIND_TEST);
-                $this->url = $url;
+
+                $this->url_list = $this->url_list->withPrimaryAt($index);
+
+                if ($connection_failures !== []) {
+                    $this->logger->info(
+                        'Successfully connected to LDAP server: {url} after {failures} failed attempts',
+                        [
+                            'url' => $url_string,
+                            'failures' => count($connection_failures)
+                        ]
+                    );
+                }
+
                 return true;
             } catch (ilLDAPQueryException $exc) {
-                $this->rotateFallbacks();
-                ilLoggerFactory::getLogger('auth')->error('Cannot connect to LDAP server: ' . $url . ' ' . $exc->getCode() . ' ' . $exc->getMessage());
+                $connection_failures[] = $url_string;
+
+                $this->logger->error('LDAP connection failed for server: {url} - {message}', [
+                    'url' => $url_string,
+                    'message' => $exc->getMessage(),
+                    'exception' => $exc
+                ]);
+
+                if (!$prevent_persisted_rotation) {
+                    $this->rotateFallbacks();
+                }
             }
         }
-        ilLoggerFactory::getLogger('auth')->warning('No valid LDAP server found');
+
+        $this->logger->warning('No valid LDAP server found. Tried {count} server(s)', [
+            'count' => count($connection_failures),
+            'urls' => implode(', ', $connection_failures)
+        ]);
+
         return false;
     }
 
@@ -822,25 +840,53 @@ class ilLDAPServer
     {
         $this->ilErr->setMessage('');
         if ($this->getName() === '' ||
-            $this->getUrl() === '' ||
             $this->getBaseDN() === '' ||
-            $this->getUserAttribute() === '') {
+            $this->getUserAttribute() === '' ||
+            $this->url_list->count() === 0) {
             $this->ilErr->setMessage($this->lng->txt('fill_out_all_required_fields'));
+            return false;
+        }
+
+        if (!empty($this->url_list->getInvalidParts())) {
+            $this->ilErr->setMessage($this->lng->txt('form_input_not_valid'));
+            return false;
         }
 
         if ($this->getBindingType() === self::LDAP_BIND_USER
             && ($this->getBindUser() === '' || $this->getBindPassword() === '')) {
             $this->ilErr->appendMessage($this->lng->txt('ldap_missing_bind_user'));
+            return false;
         }
 
         if (!$this->global_role && ($this->enabledSyncPerCron() || $this->enabledSyncOnLogin())) {
             $this->ilErr->appendMessage($this->lng->txt('ldap_missing_role_assignment'));
-        }
-        if ($this->getVersion() === 2 && $this->isActiveTLS()) {
-            $this->ilErr->appendMessage($this->lng->txt('ldap_tls_conflict'));
+            return false;
         }
 
-        return $this->ilErr->getMessage() === '';
+        if ($this->getVersion() === 2 && $this->isActiveTLS()) {
+            $this->ilErr->appendMessage($this->lng->txt('ldap_tls_conflict'));
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Return URL validation error message if URL list is invalid, null otherwise.
+     * Use for field-level feedback in forms (e.g. server_url setAlert).
+     */
+    public function getUrlValidationError(): ?string
+    {
+        if ($this->url_list->count() === 0) {
+            return $this->lng->txt('ldap_server_url_required');
+        }
+
+        $invalid_parts = $this->url_list->getInvalidParts();
+        if (!empty($invalid_parts)) {
+            return $this->lng->txt('ldap_server_url_invalid_uris') . ' ' . implode(', ', $invalid_parts);
+        }
+
+        return null;
     }
 
     public function create(): int
