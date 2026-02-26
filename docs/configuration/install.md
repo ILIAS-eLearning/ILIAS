@@ -64,7 +64,7 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 | Package      | Version                                                | Reference System |
 |--------------|--------------------------------------------------------|------------------|
 | Distribution | current version of Debian GNU Linux, Ubuntu or RHEL    | Ubuntu 22.04 LTS |
-| Database     | MySQL >8.0.21 or MariaDB 10.5 - 10.11                  | MariaDB 10.6.18  |
+| Database     | MySQL >8.0.21 or MariaDB 10.5 - 11.8                   | MariaDB 10.6.18  |
 | PHP          | 8.3, 8.4                                               | 8.4              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
 | JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
@@ -679,14 +679,14 @@ each ILIAS release.
 
 We strongly recommend using MariaDB instead of MySQL due to performance, licensing and compatibility in the future.
 
-| ILIAS Version | MySQL Version       | MariaDB Version        |
-|---------------|---------------------|------------------------|
-| 11.0 - 11.x   | 8.0.x               | 10.4, 10.5, 10.6       |
-| 10.0 - 10.x   | 8.0.x               | 10.4, 10.5, 10.6       |
-| 9.0 - 9.x     | 8.0.x               | 10.3, 10.4, 10.5, 10.6 |
-| 8.0 - 8.x     | 5.7.x, 8.0.x        | 10.2, 10.3, 10.4       |
-| 7.0 - 7.x     | 5.7.x, 8.0.x        | 10.1, 10.2, 10.3       |
-| 6.0 - 6.x     | 5.6.x, 5.7.x, 8.0.x | 10.0, 10.1, 10.2, 10.3 |
+| ILIAS Version | MySQL Version       | MariaDB Version              |
+|---------------|---------------------|------------------------------|
+| 11.0 - 11.x   | 8.0.x               | 10.4, 10.5, 10.6, 11.4, 11.8 |
+| 10.0 - 10.x   | 8.0.x               | 10.4, 10.5, 10.6             |
+| 9.0 - 9.x     | 8.0.x               | 10.3, 10.4, 10.5, 10.6       |
+| 8.0 - 8.x     | 5.7.x, 8.0.x        | 10.2, 10.3, 10.4             |
+| 7.0 - 7.x     | 5.7.x, 8.0.x        | 10.1, 10.2, 10.3             |
+| 6.0 - 6.x     | 5.6.x, 5.7.x, 8.0.x | 10.0, 10.1, 10.2, 10.3       |
 
 <a name="configurate-cron"></a>
 ## Configure Cron Jobs
