@@ -395,6 +395,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                 'term',
                 $this->refinery->kindlyTo()->string()
             );
+        } elseif ($this->http->wrapper()->query()->has('term')) {
+            $query = $this->http->wrapper()->query()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
         }
         $list = ilSearchAutoComplete::getList($query);
         echo $list;
