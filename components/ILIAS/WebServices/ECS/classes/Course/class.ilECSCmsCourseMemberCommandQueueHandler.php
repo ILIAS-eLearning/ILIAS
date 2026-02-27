@@ -364,7 +364,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                         );
                     }
                     // Assign to role
-                    if ($role && $il_usr_id = ilObjUser::_lookupId($login ? "")) {
+                    if ($role && $il_usr_id = ilObjUser::_lookupId($login ?? "")) {
                         $this->log->info('Assigning new role to existing user ' . $person_id . ' ' . 'to ' . ilObject::_lookupTitle($obj_id) . ' using role: ' . $role);
                         $part->add($il_usr_id, $role);
                         $part->sendNotification(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER, $il_usr_id);
