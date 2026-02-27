@@ -335,7 +335,7 @@ export default class OptionFilter {
       this.#engageDisengageToggle.setAttribute('aria-expanded', 'false');
       this.#toggleExpandText.style.removeProperty('display');
       this.#toggleCollapseText.style.display = 'none';
-      this.#messageAsyncStartSearch.style.display = 'none';
+      this.#messageAsyncStartSearch.classList.add('hidden');
     } else {
       this.#isEngaged = true;
       this.#inputFieldContext.classList.add('engaged');
@@ -343,7 +343,7 @@ export default class OptionFilter {
       this.#toggleExpandText.style.display = 'none';
       this.#toggleCollapseText.style.removeProperty('display');
       if (this.isAsync()) {
-        this.#messageAsyncStartSearch.style.removeProperty('display');
+        this.#messageAsyncStartSearch.classList.remove('hidden');
       }
     }
   }
@@ -417,14 +417,14 @@ export default class OptionFilter {
 
     return new Promise((resolve, reject) => {
       if (input.value.length < this.#optionsDataSourceSuggestionStart) {
-        this.#messageAsyncStartSearch.style.removeProperty('display');
+        this.#messageAsyncStartSearch.classList.remove('hidden');
         this.clearOptionElements();
         return;
       }
 
       this.#loaderAnimation.style.removeProperty('display');
 
-      this.#messageAsyncStartSearch.style.display = 'none';
+      this.#messageAsyncStartSearch.classList.add('hidden');
       this.#optionsDataSourceTimeoutId = setTimeout(
         () => {
           const searchTerm = input.value;
