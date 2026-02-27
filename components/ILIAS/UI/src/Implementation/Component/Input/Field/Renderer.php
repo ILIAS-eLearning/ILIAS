@@ -1340,6 +1340,10 @@ class Renderer extends AbstractComponentRenderer
         ));
         $option_filter_template->setVariable('OPTIONS_SHOWN', $this->txt('ui_field_option_filter_options_shown'));
 
+        if (!$component->getOptionsDataSource()) {
+            $option_filter_template->touchBlock("not_async");
+        }
+
         $expand_icon = $default_renderer->render($this->getUIFactory()->symbol()->glyph()->expand());
         $option_filter_template->setVariable('EXPAND_TEXT', $expand_icon . $this->txt('ui_field_option_filter_show_all_options'));
 

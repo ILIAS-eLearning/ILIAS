@@ -123,6 +123,11 @@ export default class OptionFilter {
   #messageAsyncStartSearch;
 
   /**
+   * @type {HTMLSpanElement}
+   */
+  #loaderAnimation;
+
+  /**
    * @type {HTMLDivElement}
    */
   #resultCountDisplay;
@@ -187,6 +192,7 @@ export default class OptionFilter {
    * @param {NodeList} items
    * @param {HTMLDivElement} messageNoMatch
    * @param {HTMLDivElement} messageAsyncStartSearch
+   * @param {HTMLSpanElement} loaderAnimation
    * @param {HTMLButtonElement} clearFilterButton
    * @param {HTMLButtonElement} engageDisengageToggle
    * @param {HTMLSpanElement} toggleExpandText
@@ -207,6 +213,7 @@ export default class OptionFilter {
     items,
     messageNoMatch,
     messageAsyncStartSearch,
+    loaderAnimation,
     clearFilterButton,
     engageDisengageToggle,
     toggleExpandText,
@@ -222,6 +229,7 @@ export default class OptionFilter {
     this.#items = items;
     this.#messageNoMatch = messageNoMatch;
     this.#messageAsyncStartSearch = messageAsyncStartSearch;
+    this.#loaderAnimation = loaderAnimation;
     this.#resultCountDisplay = resultCountDisplay;
 
     /* Data source related */
@@ -246,7 +254,9 @@ export default class OptionFilter {
 
     if (this.isAsync()) {
       this.clearOptionElements();
-      this.loadOptionsDataSourceValues();
+      this.loadOptionsDataSourceValues().then(() => {
+        this.#loaderAnimation.style.display = 'none';
+      });
     }
 
     /* Event Listeners */
@@ -380,6 +390,8 @@ export default class OptionFilter {
           this.#items = this.#itemList.querySelectorAll('.c-field--has-option-filter__item');
           resolve();
         });
+      } else {
+        resolve();
       }
     }).catch((error) => {
       if (error instanceof Error) {
@@ -409,6 +421,8 @@ export default class OptionFilter {
         this.clearOptionElements();
         return;
       }
+
+      this.#loaderAnimation.style.removeProperty('display');
 
       this.#messageAsyncStartSearch.style.display = 'none';
       this.#optionsDataSourceTimeoutId = setTimeout(
@@ -440,6 +454,7 @@ export default class OptionFilter {
 
               this.#items = this.#itemList.querySelectorAll('.c-field--has-option-filter__item');
               resolve();
+              this.#loaderAnimation.style.display = 'none';
             });
         },
         OPTIONS_SOURCE_TRIGGER_TIMEOUT,

@@ -56,6 +56,7 @@ export default class OptionFilterFactory {
     const messageNoMatch = inputFieldContext.querySelector('.message-no-match');
     const messageAsyncStartSearch = inputFieldContext.querySelector('.message-async-start-search');
     const resultCountDisplay = inputFieldContext.querySelector('.c-input--has-option-filter__synopsis [role="status"]');
+    const loaderAnimation = inputFieldContext.querySelector('.c-input--has-option-filter__loader');
 
     /* Buttons */
     const clearFilterButton = inputFieldContext.querySelector('.c-input--has-option-filter__clear-search');
@@ -77,6 +78,7 @@ export default class OptionFilterFactory {
       items,
       messageNoMatch,
       messageAsyncStartSearch,
+      loaderAnimation,
       clearFilterButton,
       engageDisengageToggle,
       toggleExpandText,
