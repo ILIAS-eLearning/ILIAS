@@ -27,17 +27,17 @@ export default class OptionFilterFactory {
      * @param {string} optionsDataSourceToken
      * @param {string} optionsDataSourceDisplayValueToken
      * @param {number} optionsDataSourceSuggestionStart
-     * @param {string} selectedValue
+     * @param {null|string} selectedValue
      * @return {OptionFilter}
      * @throws {Error} if the input was already initialized.
      */
   init(
     inputFieldWithOptionFilter,
-    optionsDataSource,
-    optionsDataSourceToken,
-    optionsDataSourceDisplayValueToken,
-    optionsDataSourceSuggestionStart,
-    selectedValue,
+    optionsDataSource = '',
+    optionsDataSourceToken = 'term',
+    optionsDataSourceDisplayValueToken = 'display_value',
+    optionsDataSourceSuggestionStart = 3,
+    selectedValue = null,
   ) {
     if (inputFieldWithOptionFilter === undefined) {
       throw new TypeError('During init of an InputHasOptionFilter an undefined element was passed to the factory.');
