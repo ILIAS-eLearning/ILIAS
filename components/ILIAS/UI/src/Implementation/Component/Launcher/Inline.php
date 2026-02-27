@@ -145,11 +145,11 @@ class Inline implements C\Launcher\Inline
 
     public function getResult(): ?Result
     {
-        try {
-            return $this->modal?->getForm()?->getInputGroup()?->getContent();
-        } catch (\Throwable) {
+        if ($this->request === null) {
             return null;
         }
+
+        return $this->modal?->getForm()?->getInputGroup()?->getContent();
     }
 
     public function getModal(): ?Modal\Roundtrip
