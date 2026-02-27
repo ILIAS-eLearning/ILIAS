@@ -27,8 +27,16 @@ use ILIAS\UI\Component\Input\Container\Form\FormInput;
  */
 interface HasOptionFilter extends FormInput
 {
+    public const int OPTIONS_DATA_SOURCE_SUGGESTION_START = 3;
+
     /**
      * Adds a collapsed view and a searchbar to the field.
      */
-    public function withHasOptionFilter(bool $has_option_filter = true): static;
+    public function withHasOptionFilter(
+        bool $has_option_filter = true,
+        string $options_data_source = '',
+        string $options_data_source_token = 'term',
+        string $options_data_source_display_value_token = 'display_values',
+        int $options_data_source_suggestion_start = self::OPTIONS_DATA_SOURCE_SUGGESTION_START
+    ): static;
 }

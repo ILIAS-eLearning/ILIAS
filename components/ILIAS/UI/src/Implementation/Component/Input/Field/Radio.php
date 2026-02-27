@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use Exception;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -47,7 +48,15 @@ class Radio extends FormInput implements C\Input\Field\Radio, HasOptionFilterInt
      */
     protected function isClientSideValueOk($value): bool
     {
-        return ($value === null || array_key_exists($value, $this->getOptions()));
+        if ($value === null) {
+            return true;
+        }
+
+        if ($this->getOptionsDataSource()) {
+            return true;
+        }
+
+        return array_key_exists($value, $this->getOptions());
     }
 
     /**
@@ -66,9 +75,14 @@ class Radio extends FormInput implements C\Input\Field\Radio, HasOptionFilterInt
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function withOption(string $value, string $label, ?string $byline = null): C\Input\Field\Radio
     {
+        if ($this->getOptionsDataSource()) {
+            throw new Exception('Input should not have options when using data source');
+        }
+
         $clone = clone $this;
         $clone->options[$value] = $label;
         if (!is_null($byline)) {

@@ -17491,6 +17491,7 @@ ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_error#:#Fehler
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
+ui#:#ui_field_option_filter_async_start_search#:#Geben Sie einen Suchbegriff ein der mindestens <strong>%s</strong> Zeichen lang ist, um Ergebnisse zu erhalten.
 ui#:#ui_field_option_filter_clear_search#:#Zurücksetzen
 ui#:#ui_field_option_filter_filtered_results_aria_label#:#Auswahlliste - einklappbar und filterbar
 ui#:#ui_field_option_filter_no_match#:#Es gibt keine Übereinstimmung mit dem Suchbegriff.

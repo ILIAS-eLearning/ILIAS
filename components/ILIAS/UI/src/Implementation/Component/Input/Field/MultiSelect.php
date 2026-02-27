@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use Exception;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Constraint;
@@ -34,6 +35,7 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect, HasOpt
 
     /**
      * @param array<string, string> $options
+     * @throws Exception
      */
     public function __construct(
         DataFactory $data_factory,
@@ -43,6 +45,11 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect, HasOpt
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
+
+        if ($options !== [] && $this->getOptionsDataSource()) {
+            throw new Exception('Input should not have options when using data source');
+        }
+
         $this->options = $options;
     }
 
@@ -55,6 +62,10 @@ class MultiSelect extends FormInput implements C\Input\Field\MultiSelect, HasOpt
             return true;
         }
         if (is_array($value)) {
+            if ($this->getOptionsDataSource()) {
+                return true;
+            }
+
             foreach ($value as $v) {
                 if (!array_key_exists($v, $this->options)) {
                     return false;

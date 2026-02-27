@@ -17463,6 +17463,7 @@ ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_error#:#Error
 ui#:#ui_error_in_group#:#There is some error in this part.
 ui#:#ui_error_switchable_group_required#:#Please select an option.
+ui#:#ui_field_option_filter_async_start_search#:#Enter a search term that is at least <strong>%s</strong> characters long to get results.
 ui#:#ui_field_option_filter_clear_search#:#Clear search
 ui#:#ui_field_option_filter_filtered_results_aria_label#:#List of options - collapsible and filterable
 ui#:#ui_field_option_filter_no_match#:#There was no match for the search term you entered.
