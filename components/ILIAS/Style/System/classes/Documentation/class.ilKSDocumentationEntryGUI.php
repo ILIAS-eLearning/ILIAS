@@ -143,10 +143,7 @@ class ilKSDocumentationEntryGUI
     private function escapeForHtml(mixed $value): mixed
     {
         if (is_array($value)) {
-            return array_map(
-                fn($item) => is_array($item) ? $this->escapeForHtml($item) : htmlspecialchars((string) $item, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-                $value
-            );
+            return array_map($this->escapeForHtml(...), $value);
         }
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
