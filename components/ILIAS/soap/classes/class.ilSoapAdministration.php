@@ -147,7 +147,7 @@ class ilSoapAdministration
 
         session_id($sid);
 
-        if (ilContext::getType() !== ilContext::CONTEXT_SOAP) {
+        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             ilInitialisation::reInitUser();
             ilUtil::setCookie(session_name(), $sid);
         }
@@ -162,7 +162,7 @@ class ilSoapAdministration
             }
         }
     }
-    
+
     public function reInitUser(): void
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
