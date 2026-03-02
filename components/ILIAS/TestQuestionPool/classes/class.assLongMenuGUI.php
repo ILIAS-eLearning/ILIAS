@@ -619,7 +619,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             if ($user_value == -1) {
                 $tpl->setVariable("SOLUTION", $this->lng->txt("please_select"));
             } else {
-                $tpl->setVariable('SOLUTION', $user_value);
+                $tpl->setVariable(
+                    'SOLUTION',
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($user_value)
+                );
             }
             if ($graphical) {
                 $correctness_icon = $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK);
@@ -633,8 +636,11 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $tpl->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
             foreach ($answers as $value) {
                 $tpl->setCurrentBlock('select_option');
-                $tpl->setVariable('VALUE', $value);
-                if ($value == $user_value) {
+                $tpl->setVariable(
+                    'VALUE',
+                    $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform($value)
+                );
+                if ($value === $user_value) {
                     $tpl->setVariable('SELECTED', 'selected');
                 }
                 $tpl->parseCurrentBlock();
