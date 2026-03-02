@@ -17,6 +17,9 @@ else
     xargs -0I % echo "%" |
     tr "\n" "\0" |
     xargs -0))
+    # Sort directories alphabetically
+    IFS=$'\n' REPORT_DIRECTORIES=($(sort <<<"${REPORT_DIRECTORIES[*]}"))
+    unset IFS
 fi
 
 # Run PHPStan for each directory

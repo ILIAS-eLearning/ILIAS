@@ -92,14 +92,14 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
         }
 
         // system support contacts
-        if (($system_support_url = \ilSystemSupportContactsGUI::getFooterLink()) !== '') {
+        if (($system_support_url = \ilSystemSupportContactsGUI::getFooterLink()) !== null) {
             $system_support_title = \ilSystemSupportContactsGUI::getFooterText();
             $entries[] = $this->item_factory
                 ->link(
                     $this->id_factory->identifier('system_support'),
                     $system_support_title
                 )
-                ->withAction($this->buildURI($system_support_url))
+                ->withAction($system_support_url)
                 ->withParent($this->getIdentificationFor(ilFooterStandardGroups::SUPPORT));
         }
 

@@ -355,7 +355,7 @@ class ilLTIConsumerContentGUI
         );
     }
 
-    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce): ?array
+    protected function getLaunchParametersLTI13(string $endpoint, string $clientId, int $deploymentId, string $nonce, ?array $additionalArguments = null): ?array
     {
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());
         $launchContext = $ilLTIConsumerLaunch->getContext();
@@ -369,6 +369,11 @@ class ilLTIConsumerContentGUI
             $this->object->getRefId(),
             $this->object->getId()
         );
+        $returnUrl = !$this->object->isLaunchMethodOwnWin() ? '' : str_replace(
+            '&amp;',
+            '&',
+            ilObjLTIConsumer::getIliasHttpPath() . "/" . $this->dic->ctrl()->getLinkTarget($this, "", "", false)
+        );
 
         $cmixUser = $this->cmixUser;
         return $this->object->buildLaunchParametersLTI13(
@@ -380,7 +385,9 @@ class ilLTIConsumerContentGUI
             $nonce,
             $launchContextType,
             $launchContextId,
-            $launchContextTitle
+            $launchContextTitle,
+            $returnUrl,
+            $additionalArguments
         );
     }
 

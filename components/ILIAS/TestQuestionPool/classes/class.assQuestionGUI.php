@@ -1599,12 +1599,16 @@ abstract class assQuestionGUI
 
     protected function addTab_QuestionFeedback(ilTabsGUI $tabs): void
     {
-        $tabCommands = self::getCommandsFromClassConstants(ilAssQuestionFeedbackEditingGUI::class);
-
         $this->ctrl->setParameterByClass(ilAssQuestionFeedbackEditingGUI::class, 'q_id', $this->object->getId());
-        $tabLink = $this->ctrl->getLinkTargetByClass(ilAssQuestionFeedbackEditingGUI::class, ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
 
-        $tabs->addTarget('feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
+        $tabs->addTab(
+            'feedback',
+            $this->lng->txt('tst_feedback'),
+            $this->ctrl->getLinkTargetByClass(
+                ilAssQuestionFeedbackEditingGUI::class,
+                ilAssQuestionFeedbackEditingGUI::CMD_SHOW
+            )
+        );
     }
 
     protected function addTab_QuestionHints(ilTabsGUI $tabs): void

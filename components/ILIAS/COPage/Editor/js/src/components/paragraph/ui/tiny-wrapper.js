@@ -212,8 +212,6 @@ export default class TinyWrapper {
         plugins: 'save,lists',
         license_key: 'gpl',
         smart_paste: false,
-        save_onsavecallback: 'saveParagraph',
-        mode: 'exact',
         selector: `#${this.id}`,
         content_css: this.content_css,
         fix_list_elements: true,
@@ -226,8 +224,6 @@ export default class TinyWrapper {
         removeformat_selector: 'span,code',
         remove_linebreaks: true,
         convert_newlines_to_brs: false,
-        force_p_newlines: true,
-        force_br_newlines: false,
         /* not found in 3 docu (anymore?) */
         cleanup_on_startup: true,
         cleanup: true,
@@ -698,6 +694,7 @@ export default class TinyWrapper {
   copyInputToGhost(add_final_spacer) {
     this.log('tiny-wrapper.copyInputToGhost');
     let tag;
+    let characteristic;
     const ed = this.tiny;
     const html = this.htmlTransform;
 
@@ -707,12 +704,13 @@ export default class TinyWrapper {
 
       if (this.getDataTableMode()) {
         cl = 'ilc_Paragraph ilc_text_block_TableContent';
+        characteristic = 'TableContent';
+      } else {
+        characteristic = this.getCharacteristicFromClass(cl);
       }
 
       cl = `copg-input-ghost ${cl}`;
       this.log(cl);
-      const cl_arr = cl.split('_');
-      const characteristic = cl_arr[cl_arr.length - 1];
       switch (characteristic) {
         case 'Headline1':
           tag = 'h1';
@@ -765,6 +763,21 @@ export default class TinyWrapper {
       // we replace the second div (content) with c
       this.ghost.innerHTML = c;
     }
+  }
+
+  /**
+   * E.g. "ilc_text_block_Classname" -> "Classname"
+   */
+  getCharacteristicFromClass(cl) {
+    let characteristic;
+    const prefix = 'ilc_text_block_';
+    if (cl.startsWith(prefix)) {
+      characteristic = cl.slice(prefix.length);
+    } else {
+      const cl_arr = cl.split('_');
+      characteristic = cl_arr[cl_arr.length - 1];
+    }
+    return characteristic;
   }
 
   stopEditing() {
@@ -959,9 +972,7 @@ export default class TinyWrapper {
 
   getCharacteristic() {
     const ed = this.tiny;
-    const parts = ed.dom.getRoot().className.split('_');
-    // console.log("---");
-    return parts[parts.length - 1];
+    return this.getCharacteristicFromClass(ed.dom.getRoot().className);
   }
 
   setParagraphClass(i) {
@@ -1118,7 +1129,11 @@ export default class TinyWrapper {
         children = dummy.childNodes;
         for (let k = 0; k < children.length; k++) {
           if (children[k].nodeName === 'P') { // paragraphs
-            contents.push(html.p2br(children[k].innerHTML));
+            if (children[k].textContent === '') { // see #42980
+              contents.push('');
+            } else {
+              contents.push(html.p2br(children[k].innerHTML));
+            }
           } else if (children[k].nodeType === 3) { // text nodes (seems to be only \n)
             //            contents.push(html.p2br(children[k].textContent));
           } else {

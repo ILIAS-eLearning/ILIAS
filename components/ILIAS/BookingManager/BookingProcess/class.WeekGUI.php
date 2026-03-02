@@ -1,19 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
@@ -202,7 +205,9 @@ class WeekGUI
                     $this->ctrl->setParameterByClass(self::PROCESS_CLASS, "slot", $slot_from . "_" . $slot_to);
                     $this->ctrl->setParameterByClass(self::PROCESS_CLASS, "object_id", $obj->getId());
                     $this->ctrl->setParameterByClass(self::PROCESS_CLASS, "seed", $this->seed_str);
+                    $this->ctrl->setParameterByClass(self::PROCESS_CLASS, "origin_cmd", $this->ctrl->getCmd());
                     $link = $this->ctrl->getLinkTargetByClass(self::PROCESS_CLASS, "showNumberForm", "", true);
+                    $this->ctrl->setParameterByClass(self::PROCESS_CLASS, "origin_cmd", null);
                     $this->ctrl->setParameterByClass(self::PROCESS_CLASS, "slot", null);
                     $this->ctrl->setParameterByClass(self::PROCESS_CLASS, "object_id", null);
                     $slot_gui = new SlotGUI(

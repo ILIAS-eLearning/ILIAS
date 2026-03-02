@@ -52,6 +52,10 @@ class Renderer extends AbstractComponentRenderer
         $start_button = $ui_factory->button()->bulky($launch_glyph, $label, (string) $target);
 
         if ($modal = $component->getModal()) {
+            if ($result?->isError()) {
+                $modal = $modal->withOnLoad($modal->getShowSignal());
+            }
+
             if ($modal_submit_lable = $component->getModalSubmitLabel()) {
                 $modal = $modal->withSubmitLabel($modal_submit_lable);
             }

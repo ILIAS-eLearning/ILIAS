@@ -97,9 +97,10 @@ class ilLMMenuGUI
                     $entry["link"] = "https://" . $entry["link"];
                 }
 
+                /* see #46818
                 if (!strstr($entry["link"], 'mailto:')) {
                     $entry["link"] = \ilUtil::appendUrlParameterString($entry["link"], "ref_id=" . $this->lm->getRefId());
-                }
+                }*/
 
                 $signal = $generator->create();
 

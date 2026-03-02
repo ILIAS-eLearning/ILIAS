@@ -306,7 +306,6 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             ], $page);
 
             iljQueryUtil::initjQuery($page);
-            iljQueryUtil::initjQueryUI($page);
             ilLinkifyUtil::initLinkify($page);
 
             $page->addJavaScript('assets/js/modal.min.js');

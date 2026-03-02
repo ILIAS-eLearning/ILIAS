@@ -134,14 +134,13 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         ) {
             $this->ctrl->redirectToURL('./login.php?cmd=force_login');
         }
-
         $this->tool_context->claim()->repository();
 
         // check creation mode
         // determined by "new_type" parameter
         $new_type = $this->request->getNewType();
 
-        if ($new_type !== "" && $new_type !== "sty") {
+        if ($new_type !== "" && $new_type !== "sty" && $new_type !== "tax") {
             $this->creation_mode = true;
             $ilHelp->setScreenIdComponent($new_type);
             $ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "create");
@@ -173,7 +172,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->redirectByClass($next_class, $this->ctrl->getCmd());
             }
         } elseif ((($next_class = $this->ctrl->getNextClass($this)) == "")
-            || ($next_class === "ilrepositorygui" && $this->ctrl->getCmd() === "return")) {
+            || (strcasecmp($next_class, ilRepositoryGUI::class) === 0 && $this->ctrl->getCmd() === "return")) {
             // get GUI of current object
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
@@ -194,7 +193,6 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         if ($cmd === "showRepTree") {
             $next_class = "";
         }
-
         switch ($next_class) {
             // forward asynchronous file uploads to the upload handler.
             // possible via dropzones in list guis or global template
@@ -205,7 +203,7 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
 
             default:
                 // forward all other classes to gui commands
-                if ($next_class !== null && $next_class !== "" && $next_class !== "ilrepositorygui") {
+                if ($next_class !== null && $next_class !== "" && strcasecmp($next_class, ilRepositoryGUI::class) !== 0) {
                     $class_path = $this->ctrl->lookupClassPath($next_class);
                     // get gui class instance
                     //require_once($class_path);
@@ -223,7 +221,6 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
                     }
                     $this->gui_obj->setCreationMode($this->creation_mode);
                     $this->ctrl->setReturn($this, "return");
-
                     $this->show();
                 } else {	//
                     $cmd = (string) $this->ctrl->getCmd("");

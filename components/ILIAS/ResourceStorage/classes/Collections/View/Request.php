@@ -158,4 +158,9 @@ final class Request
     {
         return $this->view_configuration->canUserAdministrate();
     }
+
+    public function preventDuplicates(): bool
+    {
+        return $this->view_configuration->preventDuplicates();
+    }
 }

@@ -24,7 +24,7 @@ class ilExerciseMailNotification extends ilMailNotification
     public const TYPE_FEEDBACK_FILE_ADDED = 20;
     public const TYPE_SUBMISSION_UPLOAD = 30;
     public const TYPE_FEEDBACK_TEXT_ADDED = 40;
-    public const TYPE_GRADING_DONE = 70;
+    public const TYPE_GRADING_DONE = 45;
     protected \ILIAS\Exercise\InternalDomainService $domain;
     public const TYPE_MESSAGE_FROM_PF_GIVER = 50;
     public const TYPE_MESSAGE_FROM_PF_RECIPIENT = 60;

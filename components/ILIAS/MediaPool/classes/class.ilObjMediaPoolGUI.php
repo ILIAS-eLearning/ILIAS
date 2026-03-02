@@ -352,7 +352,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $this->ctrl->setReturn($this, $this->mode);
-                $clip_gui = new ilEditClipboardGUI();
+
+                $return_cmd = $ilCtrl->getLinkTarget(
+                    $this,
+                    "insertFromClipboard"
+                );
+
+                $clip_gui = new ilEditClipboardGUI($return_cmd);
                 $clip_gui->setMultipleSelections(true);
                 $clip_gui->setInsertButtonTitle($lng->txt("mep_copy_to_mep"));
                 $ilTabs->setTabActive("clipboard");
@@ -388,6 +394,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 break;
 
             case "ilcommonactiondispatchergui":
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -848,17 +855,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         $this->checkPermission("write");
 
-        $ilCtrl->setParameterByClass(
-            "ileditclipboardgui",
-            "returnCommand",
-            rawurlencode($ilCtrl->getLinkTarget(
-                $this,
-                "insertFromClipboard",
-                "",
-                false,
-                false
-            ))
-        );
         $ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
     }
 
@@ -1405,7 +1401,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $html = $internal_gui->ui()->renderer()->render($modal);
         $html = str_replace(
             "<iframe id='ilMepPreviewContent'",
-            "<iframe data-signal='".$modal->getShowSignal()->getId()."' id='ilMepPreviewContent'",
+            "<iframe data-signal='" . $modal->getShowSignal()->getId() . "' id='ilMepPreviewContent'",
             $html
         );
 

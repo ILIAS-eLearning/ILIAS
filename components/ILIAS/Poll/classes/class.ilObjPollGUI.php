@@ -274,7 +274,7 @@ class ilObjPollGUI extends ilObject2GUI
         // add entry to navigation history
         if (!$this->getCreationMode() &&
             $this->getAccessHandler()->checkAccess("read", "", $this->node_id)) {
-            $link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
+            $link = $this->ctrl->getLinkTargetByClass("ilrepositorygui");
             $this->nav_history->addItem($this->node_id, $link, "poll");
         }
 

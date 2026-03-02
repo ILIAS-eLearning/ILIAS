@@ -95,7 +95,10 @@
 
                 element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
-                element.attr('role', 'region');
+                var currentRole = element.attr('role');
+                if (!currentRole || currentRole === 'region') {
+                    element.attr('role', 'region');
+                }
                 if(isInView && !thrown) {
                     element.trigger('in_view'); //this is most important for async loading of slates,
                                                 //it triggers the GlobalScreen-Service.
@@ -108,8 +111,11 @@
             additional_disengage: function(){
                 var entry_id = dom_ref_to_element[this.html_id];
                 thrown_for[entry_id] = false;
-                this.getElement().attr('aria-hidden', true);
-                this.getElement().removeAttr('role', 'region');
+                var element = this.getElement();
+                element.attr('aria-hidden', true);
+                if (element.attr('role') === 'region') {
+                    element.removeAttr('role');
+                }
             }
         }),
         remover: Object.assign({}, dom_element, {
@@ -200,7 +206,7 @@
 
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
-                
+
                 //a11y
                 triggerer.getElement().attr('aria-controls', slate.html_id);
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
@@ -298,6 +304,18 @@
             for(idx in model_state.tools) {
                 actions.renderEntry(model_state.tools[idx], true);
             }
+
+            if (model_state.last_active_top && dom_references[model_state.last_active_top]) {
+                var activeTriggerer = parts.triggerer.withHtmlId(dom_references[model_state.last_active_top].triggerer);
+                var slateName = activeTriggerer.getElement().find('.bulky-label').text().trim();
+                if (slateName) {
+                    var closeButton = $('.il-mainbar-close-slates .btn-bulky');
+                    var closeLabel = il.Language.txt('close') + ' ' + slateName;
+                    closeButton.attr('aria-label', closeLabel);
+                    closeButton.find('.bulky-label').text(closeLabel);
+                }
+            }
+
             //unfortunately, this does not work properly via a class
             $('.' + css.mainbar_entries).css('visibility', 'visible');
         },

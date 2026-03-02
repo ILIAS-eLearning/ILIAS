@@ -98,4 +98,20 @@ class RandomAssignmentsDBRepository
             }
         }
     }
+
+    public function deleteAssignmentsOfUser(
+        int $user_id,
+        int $exc_id
+    ): void {
+        $db = $this->db;
+
+        $db->manipulateF(
+            "DELETE FROM exc_mandatory_random  WHERE " .
+            " exc_id = %s" .
+            " AND usr_id = %s",
+            array("integer", "integer"),
+            array($exc_id, $user_id)
+        );
+    }
+
 }

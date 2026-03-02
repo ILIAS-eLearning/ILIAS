@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Data\URI;
+
 /**
  * System support contacts
  *
@@ -93,18 +95,13 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         $this->tpl->printToStdout();
     }
 
-
-    /**
-     * Get footer link
-     *
-     * @return string footer link
-     */
-    public static function getFooterLink()
+    public static function getFooterLink(): null|URI|string
     {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
+        $uri = $DIC->http()->request()->getUri();
 
         $users = ilSystemSupportContacts::getValidSupportContactIds();
         if (count($users) > 0) {
@@ -114,11 +111,12 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
                     ilSystemSupportContacts::getMailsToAddress()
                 );
             } else {
-                return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
+                $path = $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
+                return new URI($uri->getScheme() . '://' . $uri->getHost() . '/' . $path);
             }
         }
 
-        return "";
+        return null;
     }
 
     /**

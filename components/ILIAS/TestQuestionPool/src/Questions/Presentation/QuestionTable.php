@@ -62,7 +62,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     {
         return $this->ui_factory->table()->data(
             $this->lng->txt('questions'),
-            $this->getColums(),
+            $this->getColumns(),
             $this
         )
         ->withActions($this->getActions())
@@ -136,7 +136,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
         $active = array_fill(0, count($filter_inputs), true);
 
         $filter = $ui_service->filter()->standard(
-            'question_table_filter_id',
+            "question_table_filter_{$this->request_ref_id}",
             $action,
             $filter_inputs,
             $active,
@@ -147,7 +147,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     }
 
 
-    public function getColums(): array
+    public function getColumns(): array
     {
         $f = $this->ui_factory->table()->column();
         $df = $this->data_factory->dateFormat();
@@ -162,7 +162,7 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
             'author' => $f->text($this->lng->txt('author'))->withIsOptional(true, true),
             'lifecycle' => $f->text($this->lng->txt('qst_lifecycle'))->withIsOptional(true, true),
             'taxonomies' => $f->text($this->lng->txt('qpl_settings_subtab_taxonomies'))->withIsOptional(true, true),
-            'feedback' => $f->boolean($this->lng->txt('feedback'), $icon_yes, $icon_no)->withIsOptional(true, true),
+            'feedback' => $f->boolean($this->lng->txt('tst_feedback'), $icon_yes, $icon_no)->withIsOptional(true, true),
             'hints' => $f->boolean($this->lng->txt('hints'), $icon_yes, $icon_no)->withIsOptional(true, true),
             'created' => $f->date(
                 $this->lng->txt('create_date'),
@@ -329,28 +329,28 @@ class QuestionTable extends \ilAssQuestionList implements Table\DataRetrieval
     {
         $write_access = $this->rbac->checkAccess('write', $this->request_ref_id);
         return array_merge(
-            $this->buildAction('copy', 'standard'),
-            $write_access ? $this->buildAction('move', 'standard') : [],
-            $write_access ? $this->buildAction('delete', 'standard') : [],
-            $this->buildAction('export', 'multi'),
-            $this->buildAction('preview', 'single'),
-            $this->buildAction('statistics', 'single'),
-            $write_access ? $this->buildAction('edit_question', 'single') : [],
-            $write_access ? $this->buildAction('edit_page', 'single') : [],
-            $write_access ? $this->buildAction('feedback', 'single') : [],
-            $write_access ? $this->buildAction('hints', 'single') : [],
-            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAUTHOR, 'multi') : [],
-            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITLIFECYCLE, 'multi') : [],
-            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAXONOMIES, 'multi') : [],
-            $this->showCommentAction() ? $this->buildAction('comments', 'single', true) : []
+            $this->buildAction('copy', 'copy', 'standard'),
+            $write_access ? $this->buildAction('move', 'move', 'standard') : [],
+            $write_access ? $this->buildAction('delete', 'delete', 'standard') : [],
+            $this->buildAction('export', 'export', 'multi'),
+            $this->buildAction('preview', 'preview', 'single'),
+            $this->buildAction('statistics', 'statistics', 'single'),
+            $write_access ? $this->buildAction('edit_question', 'edit_question', 'single') : [],
+            $write_access ? $this->buildAction('edit_page', 'edit_page', 'single') : [],
+            $write_access ? $this->buildAction('feedback', 'tst_feedback', 'single') : [],
+            $write_access ? $this->buildAction('hints', 'hints', 'single') : [],
+            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAUTHOR, 'bulkedit_author', 'multi') : [],
+            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITLIFECYCLE, 'bulkedit_lifecycle', 'multi') : [],
+            $write_access ? $this->buildAction(\ilBulkEditQuestionsGUI::CMD_EDITTAXONOMIES, 'bulkedit_taxonomies', 'multi') : [],
+            $this->showCommentAction() ? $this->buildAction('comments', 'comments', 'single', true) : []
         );
     }
 
-    protected function buildAction(string $act, string $type, bool $async = false): array
+    protected function buildAction(string $act, string $lng_var, string $type, bool $async = false): array
     {
         $action = $this->ui_factory->table()->action()
             ->$type(
-                $this->lng->txt($act),
+                $this->lng->txt($lng_var),
                 $this->url_builder->withParameter($this->action_parameter_token, $act),
                 $this->row_id_token
             );

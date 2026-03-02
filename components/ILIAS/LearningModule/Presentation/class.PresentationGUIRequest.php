@@ -148,7 +148,7 @@ class PresentationGUIRequest
 
     public function getSelectedObjIds(): array
     {
-        return $this->intArray("obj_id");
+        return $this->intArray("sel_obj_id");
     }
 
     public function getQuestionPageId(): int

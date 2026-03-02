@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Test\Logging\TestLogger;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -30,21 +32,19 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
     public const PROCESS_NAME_RANDOM_PASS_BUILD = 'randomPassBuild';
     public const PROCESS_NAME_TEST_FINISH = 'testFinish';
 
-    protected ilTestProcessLockFileStorage $lockFileStorage;
-
     /**
      * @var resource
      */
-    protected $lockFileHandles;
+    protected $lockFileHandles = [];
 
     /**
      * ilTestProcessLockerFile constructor.
      * @param ilTestProcessLockFileStorage $lockFileStorage
      */
-    public function __construct(ilTestProcessLockFileStorage $lockFileStorage)
-    {
-        $this->lockFileStorage = $lockFileStorage;
-        $this->lockFileHandles = [];
+    public function __construct(
+        private readonly ilTestProcessLockFileStorage $lockFileStorage,
+        private readonly ilLogger|TestLogger $logger
+    ) {
     }
 
     /**
@@ -117,7 +117,9 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
     {
         $lockFilePath = $this->getLockFilePath($processName);
         $this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
-        flock($this->lockFileHandles[$processName], LOCK_EX);
+        if (!flock($this->lockFileHandles[$processName], LOCK_EX)) {
+            $this->logger->error("Flock failed for {$lockFilePath}.");
+        }
     }
 
     private function getLockFilePath($processName): string

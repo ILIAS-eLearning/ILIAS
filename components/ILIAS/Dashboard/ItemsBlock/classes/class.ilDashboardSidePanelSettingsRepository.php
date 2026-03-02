@@ -25,19 +25,14 @@ class ilDashboardSidePanelSettingsRepository
     public const MAIL = 'mail';
     public const TASKS = 'task';
 
-    protected ilSetting $setting;
-
-    public function __construct(ilSetting $dashboard_settings = null)
+    public function __construct(protected readonly ilSetting $setting = new ilSetting('dash'))
     {
-        $this->setting = is_null($dashboard_settings)
-            ? new ilSetting('dash')
-            : $dashboard_settings;
     }
 
     /**
      * @return string[]
      */
-    public function getValidModules(): array
+    final public function getValidModules(): array
     {
         return [
             self::TASKS,
@@ -74,7 +69,7 @@ class ilDashboardSidePanelSettingsRepository
         return $modules;
     }
 
-    protected function isValidModule(string $mod): bool
+    final protected function isValidModule(string $mod): bool
     {
         return in_array($mod, $this->getValidModules());
     }

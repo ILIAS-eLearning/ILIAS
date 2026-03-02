@@ -48,7 +48,7 @@ class UserCountry implements Condition
 
     public function eval(ilObjUser $user): bool
     {
-        return strtoupper($user->getCountry()) === strtoupper($this->criterion->arguments()['country']);
+        return strtoupper($user->getSelectedCountry()) === strtoupper($this->criterion->arguments()['country']);
     }
 
     public function definition(): ConditionDefinition

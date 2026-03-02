@@ -31,9 +31,6 @@ class ilObjMediaCast extends ilObject
     public const VIEW_IMG_GALLERY = "img_gallery";
     public const VIEW_PODCAST = "podcast";
     public const VIEW_VCAST = "video";
-    public const AUTOPLAY_NO = 0;
-    public const AUTOPLAY_ACT = 1;
-    public const AUTOPLAY_INACT = 2;
     protected bool $comments = false;
     protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\MediaCast\InternalDomainService $domain;
@@ -51,7 +48,6 @@ class ilObjMediaCast extends ilObject
     protected array $mob_mapping = [];
     protected int $nr_initial_videos = 5;
     protected bool $new_items_in_lp = true;
-    protected int $autoplay_mode = self::AUTOPLAY_ACT;
 
     public function __construct(
         int $a_id = 0,
@@ -121,16 +117,6 @@ class ilObjMediaCast extends ilObject
     public function getItemsArray(): array
     {
         return $this->itemsarray;
-    }
-
-    public function setAutoplayMode(int $a_val): void
-    {
-        $this->autoplay_mode = $a_val;
-    }
-
-    public function getAutoplayMode(): int
-    {
-        return $this->autoplay_mode;
     }
 
     public function setNumberInitialVideos(int $a_val): void
@@ -250,7 +236,7 @@ class ilObjMediaCast extends ilObject
             . "," . $ilDB->quote((int) $this->getDefaultAccess(), "integer")
             . "," . $ilDB->quote((int) $this->getOrder(), "integer")
             . "," . $ilDB->quote($this->getViewMode(), "text")
-            . "," . $ilDB->quote((int) $this->getAutoplayMode(), "integer")
+            . "," . $ilDB->quote(0, "integer")
             . "," . $ilDB->quote((int) $this->getNumberInitialVideos(), "integer")
             . "," . $ilDB->quote((int) $this->getNewItemsInLearningProgress(), "integer")
             . ")";
@@ -276,7 +262,7 @@ class ilObjMediaCast extends ilObject
             ", def_access = " . $ilDB->quote($this->getDefaultAccess(), "integer") .
             ", sortmode = " . $ilDB->quote($this->getOrder(), "integer") .
             ", viewmode = " . $ilDB->quote($this->getViewMode(), "text") .
-            ", autoplaymode = " . $ilDB->quote($this->getAutoplayMode(), "integer") .
+            ", autoplaymode = " . $ilDB->quote(0, "integer") .
             ", nr_initial_videos = " . $ilDB->quote($this->getNumberInitialVideos(), "integer") .
             ", new_items_in_lp = " . $ilDB->quote($this->getNewItemsInLearningProgress(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
@@ -306,7 +292,6 @@ class ilObjMediaCast extends ilObject
         $this->setDefaultAccess((int) $rec["def_access"]);
         $this->setOrder((int) $rec["sortmode"]);
         $this->setViewMode((string) $rec["viewmode"]);
-        $this->setAutoplayMode((int) $rec["autoplaymode"]);
         $this->setNumberInitialVideos((int) $rec["nr_initial_videos"]);
         $this->setNewItemsInLearningProgress((bool) $rec["new_items_in_lp"]);
 
@@ -437,7 +422,6 @@ class ilObjMediaCast extends ilObject
         $new_obj->setDefaultAccess($this->getDefaultAccess());
         $new_obj->setOrder($this->getOrder());
         $new_obj->setViewMode($this->getViewMode());
-        $new_obj->setAutoplayMode($this->getAutoplayMode());
         $new_obj->setNumberInitialVideos($this->getNumberInitialVideos());
         $new_obj->setNewItemsInLearningProgress($this->getNewItemsInLearningProgress());
 

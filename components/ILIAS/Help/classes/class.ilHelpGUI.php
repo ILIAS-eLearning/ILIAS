@@ -326,7 +326,6 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $a_tpl->addJavaScript("assets/js/ilHelp.js");
         $a_tpl->addJavaScript("assets/js/accordion.js");
-        iljQueryUtil::initMaphilight();
         $a_tpl->addJavaScript("components/ILIAS/COPage/js/ilCOPagePres.js");
 
         $this->setCtrlPar();

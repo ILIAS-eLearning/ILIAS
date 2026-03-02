@@ -56,10 +56,6 @@ class AddNewItemGUI
 
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
-
-        $this->lng->loadLanguageModule('wsp');
-        $this->lng->loadLanguageModule('rep');
-        $this->lng->loadLanguageModule('cntr');
     }
 
     /**

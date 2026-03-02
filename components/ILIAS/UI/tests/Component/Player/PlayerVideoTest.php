@@ -108,7 +108,7 @@ class PlayerVideoTest extends ILIAS_UI_TestBase
         $html = $r->render($video);
         $expected = <<<EOT
 <div class="il-video-container">
-    <video controls class="il-video-player" id="" src="/foo" preload="metadata" >
+    <video controls class="il-video-player" id="id_1" src="/foo" preload="metadata" >
     </video>
 </div>
 EOT;
@@ -128,7 +128,7 @@ EOT;
         $html = $r->render($video);
         $expected = <<<EOT
 <div class="il-video-container">
-    <video controls class="il-video-player" id="" src="/foo" preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="background-image:url('bar.jpg')">
+    <video controls class="il-video-player" id="id_1" src="/foo" preload="metadata" poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="background-image:url('bar.jpg')">
     </video>
 </div>
 EOT;
@@ -148,7 +148,7 @@ EOT;
         $html = $r->render($video);
         $expected = <<<EOT
 <div class="il-video-container">
-    <video controls class="il-video-player" id="" src="/foo" preload="metadata" >
+    <video controls class="il-video-player" id="id_1" src="/foo" preload="metadata" >
         <track kind="subtitles" src="subtitles.vtt" srclang="en" />
     </video>
 </div>
@@ -170,7 +170,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-video-container">
-    <iframe id="" src="https://www.youtube.com/embed/YSN2osYbshQ" allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <iframe id="id_1" src="https://www.youtube.com/embed/YSN2osYbshQ" allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
 EOT;
         $this->assertHTMLEquals(
@@ -190,7 +190,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-video-container">
-    <iframe id="" src="https://player.vimeo.com/video/669475821" allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <iframe id="id_1" src="https://player.vimeo.com/video/669475821" allow="fullscreen; autoplay; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 </div>
 EOT;
         $this->assertHTMLEquals(

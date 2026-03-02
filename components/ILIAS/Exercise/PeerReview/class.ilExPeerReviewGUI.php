@@ -378,7 +378,7 @@ class ilExPeerReviewGUI
                     else {
                         $builder->addProperty(
                             $builder::SEC_PEER_FEEDBACK,
-                            $lng->txt("exc_received_peer_feedback"),
+                            $lng->txt("exc_received_feedback"),
                             $lng->txt("exc_peer_review_show_received_none")
                         );
                     }
@@ -934,7 +934,7 @@ class ilExPeerReviewGUI
         if ($sub) {
             if (trim($sub->getText()) !== '' && trim($sub->getText()) !== '0') {
                 // mob id to mob src
-                return nl2br(ilRTE::_replaceMediaObjectImageSrc($sub->getText(), 1));
+                return $this->gui->getUIUtil()->formatTextInput($sub->getText());
             }
         }
         return "";

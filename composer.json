@@ -55,7 +55,6 @@
 		"apereo/phpcas": "^1.6.1",
 		"league/commonmark": "^2.4",
 		"ramsey/uuid": "^4.4.0",
-		"geshi/geshi": "^1.0.9.1",
 		"james-heinrich/getid3": "^1.9.23",
 		"mustache/mustache": "^2.14",
 		"ifsnop/mysqldump-php": "2.10",
@@ -77,7 +76,8 @@
 		"phpoffice/phpspreadsheet": "^2.2",
 		"celtic/lti": "^5.0.0",
 		"jumbojett/openid-connect-php": "^1.0",
-		"guzzlehttp/guzzle": "^7.9"
+		"guzzlehttp/guzzle": "^7.9",
+		"phiki/phiki": "^2.0"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.40",

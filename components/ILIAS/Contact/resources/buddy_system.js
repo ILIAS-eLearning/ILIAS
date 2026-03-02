@@ -59,12 +59,12 @@
           })
           .then((data) => processResponse(container, data))
           .then(() => {
-            container.querySelector(toggleSelector).focus();
+            container.querySelector(toggleSelector)?.focus();
           })
           .catch((error) => {
             console.error(error);
             enableButtons(container);
-            container.querySelector(toggleSelector).focus();
+            container.querySelector(toggleSelector)?.focus();
           });
       };
 
@@ -108,18 +108,18 @@
                   buddyId: container.dataset.buddyId,
                   newState: data.state,
                   oldState: currentState,
+                }))
+                .then(() => triggerEvent('il.bs.stateChange.afterStateChangePerformed', {
+                  buddyId: container.dataset.buddyId,
+                  newState: container.dataset.currentState,
+                  oldState: currentState,
                 }));
             }
           }
         }
 
         return enableButtons(container)
-          .then(() => showPopover(container, data.message))
-          .then(() => triggerEvent('il.bs.stateChange.afterStateChangePerformed', {
-            buddyId: container.dataset.buddyId,
-            newState: container.dataset.currentState,
-            oldState: currentState,
-          }));
+          .then(() => showPopover(container, data.message));
       };
 
       const updateContainers = (buddyId, newState, stateHtml) => new Promise((resolve) => {

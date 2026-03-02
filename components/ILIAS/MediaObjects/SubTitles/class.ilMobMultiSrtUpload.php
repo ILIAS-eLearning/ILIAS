@@ -145,7 +145,7 @@ class ilMobMultiSrtUpload
         $items = $this->getMultiSrtFiles();
         $cnt = 0;
         foreach ($items as $i) {
-            if ($i["mob"] > 0 && $i["lang"] != "") {
+            if (isset($i["mob"]) && $i["mob"] > 0 && $i["lang"] !== "") {
                 $mob = new ilObjMediaObject($i["mob"]);
                 $mob->uploadSrtFile($this->getMultiSrtUploadDir() . "/" . $i["filename"], $i["lang"], "rename");
                 $cnt++;

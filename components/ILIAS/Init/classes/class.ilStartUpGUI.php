@@ -302,7 +302,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $credentials->setPassword($soapPw);
         $credentials->tryAuthenticationOnLoginPage();
 
-        $frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
+        $frontend = new ilAuthFrontendCredentialsApache($this->http, $this->refinery, $this->ctrl);
         $frontend->tryAuthenticationOnLoginPage();
 
         $tpl = self::initStartUpTemplate('tpl.login.html');
@@ -691,7 +691,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         $this->getLogger()->debug('Trying apache authentication');
 
-        $credentials = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
+        $credentials = new ilAuthFrontendCredentialsApache($this->http, $this->refinery, $this->ctrl);
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
@@ -825,6 +825,16 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         ILIAS\UI\Component\Input\Container\Form\Form $form = null
     ): string {
         global $tpl;
+
+        $shib_is_default_without_local_login = (
+            (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_SHIBBOLETH &&
+            !$this->setting->get('shib_auth_allow_local', '0')
+        );
+        $cas_is_default = (int) $this->setting->get('auth_mode') === ilAuthUtils::AUTH_CAS;
+
+        if ($cas_is_default || $shib_is_default_without_local_login) {
+            return $page_editor_html;
+        }
 
         return $this->substituteLoginPageElements(
             $tpl,

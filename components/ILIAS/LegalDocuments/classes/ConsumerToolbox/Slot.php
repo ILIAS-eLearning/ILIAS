@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\LegalDocuments\ConsumerToolbox;
 
+use ILIAS\Refinery\Encode\Transformation\URL;
+use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\Data\URI;
 use ilLink;
 use ILIAS\Refinery\Constraint;
@@ -74,7 +76,19 @@ class Slot
     public function modifyFooter(User $user, ?string $goto_target = null): ModifyFooter
     {
         $link = $goto_target ? static fn() => new URI(ilLink::_getLink(null, 'usr', [], $goto_target)) : null;
-        return new ModifyFooter($this->blocks->ui(), $user, $this->provide, fn($arg) => $this->container->ui()->renderer()->render($arg), $this->template(...), $link);
+        return new ModifyFooter(
+            $this->blocks->ui(),
+            $user,
+            $this->provide,
+            fn($arg) => $this->container->ui()->renderer()->render($arg),
+            $this->template(...),
+            $link
+        );
+    }
+
+    public function dummyFooter(Closure $footer): Closure
+    {
+        return $footer($this->provide->id(), $this->blocks->ui()->txt('usr_agreement'), null);
     }
 
     /**

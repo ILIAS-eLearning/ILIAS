@@ -231,7 +231,7 @@ abstract class ilClaimingPermissionHelper
             $a_action_sub_id = is_null($a_action_sub_id)
                 ? ilAdvancedMDPermissionHelper::SUBACTION_UNDEFINED
                 : $a_action_sub_id;
-            if (!$plugin->checkPermission($this->getUserId(), $a_context_type, $a_context_id, $a_action_id, $a_action_sub_id)) {
+            if (!$plugin->checkPermission($this->getUserId(), $a_context_type, (int) $a_context_id, $a_action_id, $a_action_sub_id)) {
                 $valid = false;
                 break;
             }

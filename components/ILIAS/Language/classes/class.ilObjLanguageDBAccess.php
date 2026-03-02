@@ -129,6 +129,9 @@ class ilObjLanguageDBAccess
                     " AND module = " . $this->ilDB->quote($module, "text");
                 $set = $this->ilDB->query($q);
                 $row = $this->ilDB->fetchAssoc($set);
+                if ($row === null) {
+                    continue;
+                }
                 $arr2 = unserialize($row["lang_array"], ["allowed_classes" => false]);
                 if (is_array($arr2)) {
                     $lang_arr = array_merge($arr2, $lang_arr);

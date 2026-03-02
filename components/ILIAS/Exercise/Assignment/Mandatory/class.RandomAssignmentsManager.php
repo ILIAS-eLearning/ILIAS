@@ -228,4 +228,10 @@ class RandomAssignmentsManager
         }
         return true;
     }
+
+    public function deleteAssignmentsOfUser(
+        int $user_id
+    ): void {
+        $this->rand_ass_repo->deleteAssignmentsOfUser($user_id, $this->exc_id);
+    }
 }

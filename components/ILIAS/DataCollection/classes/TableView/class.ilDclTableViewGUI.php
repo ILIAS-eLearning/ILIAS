@@ -134,7 +134,8 @@ class ilDclTableViewGUI
         $switcher->addTableSwitcherToToolbar(
             $this->parent_obj->getDataCollectionObject()->getTables(),
             self::class,
-            'show'
+            'show',
+            $this->table->getId()
         );
 
         $this->tpl->setContent(
@@ -200,24 +201,5 @@ class ilDclTableViewGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tableviews_delete_all'), true);
             $this->ctrl->redirect($this, 'show');
         }
-    }
-
-    /**
-     * invoked by ilDclTableViewTableGUI
-     */
-    public function saveTableViewOrder(): void
-    {
-        $orders = $this->http->wrapper()->post()->retrieve(
-            'order',
-            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
-        );
-        asort($orders);
-        $tableviews = [];
-        foreach (array_keys($orders) as $tableview_id) {
-            $tableviews[] = ilDclTableView::find($tableview_id);
-        }
-        $this->table->sortTableViews($tableviews);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_order_updated'));
-        $this->ctrl->redirect($this);
     }
 }

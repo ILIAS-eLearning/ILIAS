@@ -43,7 +43,7 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 		position: relative;
 		display: block;
 
-		>a {
+		> a, > .c-tooltip__container > a {
 			position: relative;
 			display: block;
 			padding: $nav-link-padding;
@@ -56,7 +56,7 @@ $il-toolbar-border: 1px solid $il-main-border-color !default;
 		}
 
 		// Disabled state sets text to gray and nukes hover/tab effects
-		&.disabled>a {
+		&.disabled>a, &.disabled>.c-tooltip__container>a {
 			color: $nav-disabled-link-color;
 
 			&:hover,
