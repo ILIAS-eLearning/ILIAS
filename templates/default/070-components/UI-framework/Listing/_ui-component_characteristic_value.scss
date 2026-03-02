@@ -17,39 +17,41 @@ $il-characteristic-value-border-color: $il-main-border-color;
   border-top: none;
 }
 
-li.il-listing-characteristic-value-row {
-  list-style: none;
+$il-listing-characteristic-row-gap: 4px;
+$il-listing-characteristic-column-gap: 16px;
+$il-listing-characteristic-column-gap-mobile: 12px;
+
+/* reset */
+.il-listing-characteristic-value {
+  margin: 0;
+  padding: 0;
 }
 
-
-/* only when the component is used as a real list */
-ul.il-listing-characteristic-value {
-  list-style: none;
-
-}
-
-ul.il-listing-characteristic-value > li.il-listing-characteristic-value-row {
+/* layout */
+.il-listing-characteristic-value .il-listing-characteristic-value-row {
   display: grid;
-  grid-template-columns: max-content 1fr; /* label hugs text, value takes rest */
+  grid-template-columns: max-content 1fr;
   align-items: center;
-  gap: .25rem 1rem;                        /* tighten horizontal space */
+  gap: $il-listing-characteristic-row-gap $il-listing-characteristic-column-gap;
 }
 
-/* neutralize the old float/width logic only in the list context */
-ul.il-listing-characteristic-value .il-listing-characteristic-value-label,
-ul.il-listing-characteristic-value .il-listing-characteristic-value-item {
-  float: none;         /* overrides @include ilFloatLeft/Right */
-  width: auto;         /* overrides 50% / 75% / 25% widths */
+/* disable float layout */
+.il-listing-characteristic-value
+  .il-listing-characteristic-value-label,
+.il-listing-characteristic-value
+  .il-listing-characteristic-value-item {
+  float: none;
+  width: auto;
   left: auto;
   right: auto;
-  padding-left: 0;     /* remove extra gap added on the value */
+  padding-left: 0;
 }
 
-/* optional: small screens — keep same 2-col layout or stack if you want */
+/* mobile */
 @media (max-width: $il-grid-float-breakpoint-max) {
-  ul.il-listing-characteristic-value > li.il-listing-characteristic-value-row {
-    grid-template-columns: max-content 1fr; /* or: 1fr auto */
-    gap: .25rem .75rem;
+  .il-listing-characteristic-value .il-listing-characteristic-value-row {
+    gap: $il-listing-characteristic-row-gap
+      $il-listing-characteristic-column-gap-mobile;
   }
 }
 
