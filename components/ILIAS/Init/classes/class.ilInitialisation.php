@@ -764,6 +764,12 @@ class ilInitialisation
         $c['legalDocuments'] = static fn(Container $c) => new Conductor($c);
     }
 
+    protected static function initMail(Container $c): void
+    {
+        $mail_service = new \ILIAS\Mail\Service\MailService($c);
+        $mail_service->populate();
+    }
+
     protected static function initAccessibilityControlConcept(\ILIAS\DI\Container $c): void
     {
         $c['acc.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
@@ -1312,6 +1318,7 @@ class ilInitialisation
         self::initAvatar($GLOBALS['DIC']);
         self::initCustomObjectIcons($GLOBALS['DIC']);
         self::initLegalDocuments($GLOBALS['DIC']);
+        self::initMail($GLOBALS['DIC']);
         self::initAccessibilityControlConcept($GLOBALS['DIC']);
         self::initLearningObjectMetadata($GLOBALS['DIC']);
 

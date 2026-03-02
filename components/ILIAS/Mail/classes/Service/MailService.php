@@ -35,12 +35,23 @@ class MailService
 {
     public function __construct(protected Container $dic)
     {
+        $this->dic[self::class] = $this;
+    }
+
+    public function populate(): void
+    {
         if (!isset($this->dic[ilMailTemplateServiceInterface::class])) {
             $this->dic[ilMailTemplateServiceInterface::class] = static function (Container $c): ilMailTemplateServiceInterface {
                 return new ilMailTemplateService(
                     new ilMailTemplateRepository($c->database()),
                     $c->mail()->templateEngineFactory()
                 );
+            };
+        }
+
+        if (!isset($this->dic[TemplateEngineFactoryInterface::class])) {
+            $this->dic[TemplateEngineFactoryInterface::class] = static function (Container $c): TemplateEngineFactoryInterface {
+                return $c->mail()->templateEngineFactory();
             };
         }
     }
