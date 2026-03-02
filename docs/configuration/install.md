@@ -133,14 +133,14 @@ apt install apache2 libapache2-mod-php php php-gd php-xsl php-imagick php-curl p
 ```
 
 Create a directory for the html sources (e.g. `/var/www/ilias`) which is referenced in the apache2 vhost (the apache2 vhost will use `/var/www/ilias/public`) and also a directory outside the web servers docroot (e.g. `/var/www/files`) for files stored by ILIAS. 
-Make sure that the web server user is the owner of the files and directories that were created by changing the group and owner to www-data (on Debian/Ubuntu) or apache (on RHEL).
+Make sure that the web server user is the owner of the files and directories that were created by changing the group and owner to `www-data` (on Debian/Ubuntu), `apache` (on RHEL) or `wwwrun` (on SLES).
 
 In addition to the file folder, ILIAS also needs a place to create the log files
 (e.g. `/var/www/logs`). The 'ilias.log' can be viewed there later, as well as all
 error_log files, which are created in case of errors and are referenced in ILIAS by
 an error code.
 
-Also, to store the ILIAS configuration, which is later used to configure ILIAS, we create the folder /var/www/config. To prevent future issues with npm we create /var/www/.npm which belongs to the web server user.
+Also, to store the ILIAS configuration, which is later used to configure ILIAS, we create the folder `/var/www/config`. To prevent future issues with npm we create `/var/www/.npm` which belongs to the web server user.
 
 ```shell
 mkdir /var/www/ilias
@@ -297,14 +297,14 @@ commands:
 
 ```shell
 cd /var/www
-sudo -u www-data git clone --single-branch -b release_10 https://github.com/ILIAS-eLearning/ILIAS.git ilias
+sudo -u www-data git clone -b release_10 https://github.com/ILIAS-eLearning/ILIAS.git ilias
 ```
 <details>
 <summary>If you use tags to directly reference ILIAS versions</summary>
 
 ```shell
 cd /var/www
-sudo -u www-data git clone --single-branch -b v10.X https://github.com/ILIAS-eLearning/ILIAS.git ilias
+sudo -u www-data git clone -b v10.X https://github.com/ILIAS-eLearning/ILIAS.git ilias
 ```
 </details>
 
@@ -448,7 +448,7 @@ There are three places where the ILIAS core system stores data that needs to be 
 system in case of failure.
 * Internal data within your webroot `<ILIAS-root-folder>/public/data` in our case `/var/www/ilias/public/data`.
 * External data, configured in `ilias.json` within `filesystem.data_dir`, in our case `/var/www/files/ilias`.
-* The database, which can easily be dumped by running `mysqldump'.
+* The database, which can easily be dumped by running `mysqldump`.
 ```shell
 mysqldump --lock-tables=false -u <database user> -p <database name> > /path/to/your/backup/folder/ilias-backup.sql
 # Prompt for password
@@ -580,7 +580,7 @@ works fine, change back from Delos to your custom system style. If not, you prob
 will need to update your style to match the new release.
 
 <a name="update-the-database"></a>
-## Update the Database and doing migrations to IRSS
+## Update the Database and run the migrations
 
 Database updates must be done for both minor and major updates, the schema and content
 of the database probably won't match the code otherwise. Database updates are performed
@@ -593,7 +593,7 @@ Run the `status` command on the command line to check if there are any updates
 available and if ILIAS is responding. After this you need to perform the update. 
 
 Please make sure to check for migrations before you run the update. If there are migrations left
-please make sure that these are done before updating.
+please make sure to run these before updating.
 
 ```shell
 cd /var/www/ilias
@@ -618,7 +618,7 @@ sudo -u www-data php cli/setup.php update
 
 Database updates are performed in steps; it might happen that a step fails, e.g. due
 to some edge case or inconsistency in existing data, files, etc.
-In this case, a consecutive command `php setup/setup.php update` will error with
+In this case, a consecutive command `php setup/setup.php update` will fail with
 a message like
 > step 2 was started last, but step 1 was finished last.
 > Aborting because of that mismatch.
