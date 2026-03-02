@@ -50,6 +50,9 @@ abstract class ilMailBaseTestCase extends TestCase
         $DIC = new Container();
         $DIC['legalDocuments'] = fn() => $this->getMockBuilder(Conductor::class)->disableOriginalConstructor()->getMock();
 
+        $mail_service = new \ILIAS\Mail\Service\MailService($DIC);
+        $mail_service->populate();
+
         parent::setUp();
     }
 
