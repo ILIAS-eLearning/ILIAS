@@ -4,9 +4,9 @@
 
 $c-tooltip-max-width: 50vw;
 $c-tooltip-max-height: 40vh;
-$c-tooltip-background-color: $il-main-dark-bg;
+$c-tooltip-background-color: $il-main-white-bg;
 $c-tooltip-texc-color: $il-text-color;
-$c-tooltip-border-color: $il-main-border-dark-color;
+$c-tooltip-border-color: $il-main-color;
 $c-tooltip-arrow-height: .5em;
 $c-tooltip-arrow-background-color: $c-tooltip-border-color;
 $c-tooltip-z-index: 9999;
@@ -67,7 +67,7 @@ $c-tooltip-z-index: 9999;
 	transform: translateX(-50%);
 	margin: 0;
 	padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
-	border: 2px solid $c-tooltip-border-color;
+	border: 1px solid $c-tooltip-border-color;
 	border-radius: .25em;
 	color: $c-tooltip-texc-color;
 	background: $c-tooltip-background-color;
