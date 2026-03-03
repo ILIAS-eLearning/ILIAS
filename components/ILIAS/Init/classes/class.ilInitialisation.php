@@ -35,6 +35,7 @@ use ILIAS\FileDelivery\Init;
 use ILIAS\LegalDocuments\Conductor;
 use ILIAS\ILIASObject\Properties\AdditionalProperties\Icon\Factory as CustomIconFactory;
 use ILIAS\User\PublicInterface as UserPublicInterface;
+use ILIAS\Mail\Service\MailService;
 
 // needed for slow queries, etc.
 if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
@@ -766,8 +767,7 @@ class ilInitialisation
 
     protected static function initMail(Container $c): void
     {
-        $mail_service = new \ILIAS\Mail\Service\MailService($c);
-        $mail_service->populate();
+        MailService::init($c);
     }
 
     protected static function initAccessibilityControlConcept(\ILIAS\DI\Container $c): void

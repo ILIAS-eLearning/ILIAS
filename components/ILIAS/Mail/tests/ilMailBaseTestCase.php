@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 use ILIAS\LegalDocuments\Conductor;
+use ILIAS\Mail\Service\MailService;
 
 abstract class ilMailBaseTestCase extends TestCase
 {
@@ -50,8 +51,7 @@ abstract class ilMailBaseTestCase extends TestCase
         $DIC = new Container();
         $DIC['legalDocuments'] = fn() => $this->getMockBuilder(Conductor::class)->disableOriginalConstructor()->getMock();
 
-        $mail_service = new \ILIAS\Mail\Service\MailService($DIC);
-        $mail_service->populate();
+        MailService::init($DIC);
 
         parent::setUp();
     }
