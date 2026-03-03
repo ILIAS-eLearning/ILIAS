@@ -514,4 +514,9 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             ]
         );
     }
+
+    public function step_18(): void
+    {
+        $this->db->modifyTableColumn('page_qst_answer', 'try', ['length' => 4]);
+    }
 }
