@@ -32,7 +32,7 @@ PHP curl and xmlrpc are required for using the Java server features.
 On Debian-based systems try:
 
 ````shell
-> apt-get install php-curl php-xmlrpc openjdk-17-jdk-headless
+> apt-get install php-curl openjdk-17-jdk-headless
 ````
 Dependencies and the build process is managed via maven
 ```shell
