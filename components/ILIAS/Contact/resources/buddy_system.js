@@ -27,12 +27,12 @@
     config: {},
     unlinkConfirmationModal: {
       signals: {
-        show: '',
         close: '',
       },
     },
     modal: null,
     setupConfirmationModal: false,
+    modalId: null,
 
     setConfig(config) {
       this.config = config;
@@ -100,8 +100,8 @@
               document.body.append(wrapper);
               this.modal = wrapper.querySelector('dialog');
 
-              this.unlinkConfirmationModal.signals.show = data.signals.show;
               this.unlinkConfirmationModal.signals.close = data.signals.close;
+              this.unlinkConfirmationModal.modalId = data.modalId;
 
               this.modal.querySelector('input[type="submit"]').addEventListener(
                 'click',
@@ -110,7 +110,15 @@
               );
             }).then(() => {
               this.setupConfirmationModal = true;
-              global.jQuery(document).trigger(this.unlinkConfirmationModal.signals.show, {});
+
+              global.il.UI.modal.showModal(
+                this.modal,
+                {},
+                {
+                  id: this.unlinkConfirmationModal.modalId,
+                },
+                this.unlinkConfirmationModal.signals.close
+              );
             });
           return;
         }
@@ -121,12 +129,20 @@
           (event) => onModalSubmitClicked(event, resolve),
           { once: true },
         );
-        global.jQuery(document).trigger(this.unlinkConfirmationModal.signals.show, {});
+
+        global.il.UI.modal.showModal(
+          this.modal,
+          {},
+          {
+            id: this.unlinkConfirmationModal.modalId,
+          },
+          this.unlinkConfirmationModal.signals.close
+        );
       });
 
       const onModalSubmitClicked = (event, resolve) => {
         event.preventDefault();
-        global.jQuery(document).trigger(this.unlinkConfirmationModal.signals.close, {});
+        this.modal.close();
         resolve();
       };
 
