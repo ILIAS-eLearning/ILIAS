@@ -122,11 +122,11 @@ class ilBuddySystemGUI
             $this->http->response()->withBody(
                 Streams::ofString(
                     json_encode([
-                        "html" => $this->ui_renderer->renderAsync($confirmation_modal),
-                        "signals" => [
-                            "close" => $confirmation_modal->getCloseSignal()->getId()
+                        'html' => $this->ui_renderer->renderAsync($confirmation_modal),
+                        'signals' => [
+                            'close' => $confirmation_modal->getCloseSignal()->getId()
                         ],
-                        "modalId" => $modal_id
+                        'modalId' => $modal_id
                     ], JSON_THROW_ON_ERROR)
                 )
             )->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
