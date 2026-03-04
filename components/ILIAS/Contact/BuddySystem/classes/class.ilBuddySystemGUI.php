@@ -103,12 +103,20 @@ class ilBuddySystemGUI
 
     public function asyncGetUnlinkModalConfirmationHtmlCommand(): never
     {
-        $confirmation_modal = $this->ui_factory->modal()->interruptive(
-            $this->lng->txt('confirmation'),
-            $this->lng->txt('buddy_confirm_unlink'),
-            ''
-        )
-            ->withActionButtonLabel($this->lng->txt('confirm'));
+        $modal_id = null;
+        $confirmation_modal = $this
+            ->ui_factory
+            ->modal()
+            ->interruptive(
+                $this->lng->txt('confirmation'),
+                $this->lng->txt('buddy_confirm_unlink'),
+                ''
+            )
+            ->withActionButtonLabel($this->lng->txt('confirm'))
+            ->withAdditionalOnLoadCode(function ($id) use (&$modal_id) {
+                $modal_id = $id;
+                return '';
+            });
 
         $this->http->saveResponse(
             $this->http->response()->withBody(
@@ -116,9 +124,9 @@ class ilBuddySystemGUI
                     json_encode([
                         "html" => $this->ui_renderer->renderAsync($confirmation_modal),
                         "signals" => [
-                            "show" => $confirmation_modal->getShowSignal()->getId(),
                             "close" => $confirmation_modal->getCloseSignal()->getId()
-                        ]
+                        ],
+                        "modalId" => $modal_id
                     ], JSON_THROW_ON_ERROR)
                 )
             )->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')

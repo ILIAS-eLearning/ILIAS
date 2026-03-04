@@ -27,13 +27,13 @@
     config: {},
     unlinkConfirmationModal: {
       signals: {
-        show: '',
         close: '',
       },
     },
     unlinkModalAbortController: null,
     unlinkModal: null,
     unlinkModalReady: false,
+    modalId: null,
 
     setConfig(config) {
       this.config = config;
@@ -104,9 +104,10 @@
               document.body.append(wrapper);
 
               this.unlinkModal = wrapper.querySelector('dialog');
-              this.unlinkConfirmationModal.signals.show = data.signals.show;
               this.unlinkConfirmationModal.signals.close = data.signals.close;
               this.unlinkModalReady = true;
+              this.unlinkConfirmationModal.modalId = data.modalId;
+
             });
         };
 
@@ -121,11 +122,18 @@
 
           submitButton.addEventListener('click', (event) => {
             event.preventDefault();
-            global.jQuery(document).trigger(this.unlinkConfirmationModal.signals.close, {});
+            this.unlinkModal.close();
             resolve();
           }, { signal: this.unlinkModalAbortController.signal });
 
-          global.jQuery(document).trigger(this.unlinkConfirmationModal.signals.show, {});
+          global.il.UI.modal.showModal(
+            this.unlinkModal,
+            {},
+            {
+              id: this.unlinkConfirmationModal.modalId,
+            },
+            this.unlinkConfirmationModal.signals.close
+          );
         }));
       };
 
