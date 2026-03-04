@@ -237,9 +237,9 @@ class ilRpcClient
 
         return match ($param_child->nodeName) {
             'string' => $this->decodeString($param_child),
-            '#text'  => $this->decodeString($param_child), // org.apache.xmlrpc returns java strings as unwrapped text node
+            '#text' => $this->decodeString($param_child), // org.apache.xmlrpc returns java strings as unwrapped text node
             'base64' => $this->decodeBase64($param_child),
-            'boolean'   => $this->decodeBoolean($param_child),
+            'boolean' => $this->decodeBoolean($param_child),
             default => throw new ilRpcClientException('Unexpected element in response value: ' . $param_child->nodeName),
         };
     }
