@@ -61,7 +61,6 @@ abstract class ilAbstractSoapMethod extends ilSoapAdministration implements ilSo
     protected function initIliasAndCheckSession(string $session_id): void
     {
         $this->initAuth($session_id);
-        $this->reInitUser();
         if (!$this->checkSession($session_id)) {
             throw new ilSoapPluginException($this->getMessage());
         }
