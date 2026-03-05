@@ -30,8 +30,7 @@ class ScoreSettings implements Exportable
         protected int $id,
         protected SettingsScoring $settings_scoring,
         protected SettingsResultSummary $settings_result_summary,
-        protected SettingsResultDetails $settings_result_details,
-        protected SettingsGamification $settings_gamification
+        protected SettingsResultDetails $settings_result_details
     ) {
         $this->settings_result_summary = $settings_result_summary
             ->withShowPassDetails($settings_result_details->getShowPassDetails());
@@ -82,18 +81,6 @@ class ScoreSettings implements Exportable
     {
         $clone = clone $this;
         $clone->settings_result_details = $settings;
-        return $clone;
-    }
-
-    public function getGamificationSettings(): SettingsGamification
-    {
-        return $this->settings_gamification;
-    }
-
-    public function withGamificationSettings(SettingsGamification $settings): self
-    {
-        $clone = clone $this;
-        $clone->settings_gamification = $settings;
         return $clone;
     }
 

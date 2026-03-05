@@ -51,16 +51,11 @@ class ilTestResultsGUITest extends ilTestBaseTestCase
             $DIC['ilToolbar'],
             $DIC['tpl'],
             $DIC['ui.factory'],
-            $DIC['ui.renderer'],
             $this->createMock(ILIAS\Skill\Service\SkillService::class),
             $this->createMock(ILIAS\Style\Content\Service::class),
-            $this->createMock(\ILIAS\Test\Results\Toplist\TestTopListRepository::class),
             $this->createMock(ILIAS\Test\RequestDataCollector::class),
-            $DIC['http'],
-            $this->createMock(ILIAS\Data\Factory::class),
             $this->createMock(ilTestSession::class),
-            $this->createMock(ilTestObjectiveOrientedContainer::class),
-            $this->createMock(ParticipantRepository::class)
+            $this->createMock(ilTestObjectiveOrientedContainer::class)
         );
     }
 

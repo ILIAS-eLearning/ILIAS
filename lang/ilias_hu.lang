@@ -1522,27 +1522,6 @@ assessment#:#tst_hide_info_tab#:#Az ‘Információ’ lap elrejtése
 assessment#:#tst_hide_info_tab_desc#:#A teszt ‘Információ’ lapja nem látható
 assessment#:#tst_hide_pagecontents#:#Oldaltartalom elrejtése
 assessment#:#tst_hide_pagecontents_desc#:#Az ‘Oldal szerkesztése’ gombbal a tényleges kérdésszöveg előtt és után elhelyezett LIAS-tartalom nem jelenik meg a eredménynézetekben és a nyomtatási kimenetben.
-assessment#:#tst_highscore_achieved_ts#:#Időpont
-assessment#:#tst_highscore_achieved_ts_description#:#A rangsorban a teszt időpontját tartalmazó oszlopot megjelenik.
-assessment#:#tst_highscore_all_tables#:#Kitöltő saját helyezése és legkiemelkedőbb helyezések
-assessment#:#tst_highscore_all_tables_description#:#A kitöltők információt kapnak a legkiemelkedőbb helyezésekről és a saját helyezéséről
-assessment#:#tst_highscore_anon#:#Nevek nélkül
-assessment#:#tst_highscore_anon_description#:#A rangsor kitöltőket azok nevei nélkül sorolja fel. Névtelen tesztkitöltés esetén is ez történik.
-assessment#:#tst_highscore_description#:#A kitöltők az ‘Eredmények’ lap ‘Rangsor megjelenítése’ allap alatt jelennek meg. Rákattintva a kitöltők tesztben nyújtott teljesítményei láthatók. Eléréséhez a ‘Hozzáférés a teszteredményekhez’ funkciót engedélyezni kell.
-assessment#:#tst_highscore_enabled#:#Rangsor
-assessment#:#tst_highscore_mode#:#Mód
-assessment#:#tst_highscore_own_table#:#Kitöltő saját helyezése
-assessment#:#tst_highscore_own_table_description#:#A kitöltők láthatják saját helyezésüket.
-assessment#:#tst_highscore_percentage#:#Százalék
-assessment#:#tst_highscore_percentage_description#:#A rangsorban a teszt százalékát tartalmazó oszlopot megjelenik.
-assessment#:#tst_highscore_score#:#Pontszám
-assessment#:#tst_highscore_score_description#:#A rangsorban a pontszámot tartalmazó oszlopot megjelenik.
-assessment#:#tst_highscore_top_num#:#Legkiemelkedőbb helyezések hossza
-assessment#:#tst_highscore_top_num_description#:#Hány helyezés legyen a legkiemelkedőbb helyezések felsorolásában.
-assessment#:#tst_highscore_top_table#:#Legkiemelkedőbb helyezések
-assessment#:#tst_highscore_top_table_description#:#A kitöltők láthatják a legkiemelkedőbb helyezéseket.
-assessment#:#tst_highscore_wtime#:#Tesztkitöltés ideje
-assessment#:#tst_highscore_wtime_description#:#A rangsorban a tesztkitöltés idejét tartalmazó oszlopot megjelenik.
 assessment#:#tst_imap_qst_mode#:#Mód
 assessment#:#tst_imap_qst_mode_mc#:#Többválaszos kérdés (jelölőnégyzetes)
 assessment#:#tst_imap_qst_mode_sc#:#Egyválaszos kérdés (rádiógombos)

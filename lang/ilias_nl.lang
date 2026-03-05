@@ -1516,27 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_highscore_achieved_ts#:#Toon toetsdatum
-assessment#:#tst_highscore_achieved_ts_description#:#Bepaalt of een kolom met de datum van de toets wordt getoond.
-assessment#:#tst_highscore_all_tables#:#Alle beoordelingen
-assessment#:#tst_highscore_all_tables_description#:#Indien geselecteerd zal de toets in beide beoordelingstabellen voorzien.
-assessment#:#tst_highscore_anon#:#Anonymiseer bezoeken aan objecten
-assessment#:#tst_highscore_anon_description#:#Bepaalt of namen worden geanonimiseerd met de score. deze optie kan worden overschreven door de "toets anonimiteit" keuze.
-assessment#:#tst_highscore_description#:#Moeten de hoogste scores worden getoond?
-assessment#:#tst_highscore_enabled#:#Tonen van hoogste score is aangezet
-assessment#:#tst_highscore_mode#:#Modus
-assessment#:#tst_highscore_own_table#:#Toon tabel met eigen scores
-assessment#:#tst_highscore_own_table_description#:#Bepaalt of de tabel "eigen scores" wordt getoond.
-assessment#:#tst_highscore_percentage#:#Toon percentage
-assessment#:#tst_highscore_percentage_description#:#Bepaalt of een kolom met het percentage wordt getoond.
-assessment#:#tst_highscore_score#:#Toon score
-assessment#:#tst_highscore_score_description#:#Bepaalt of een kolom met de score wordt getoond.
-assessment#:#tst_highscore_top_num#:#Aantal scores
-assessment#:#tst_highscore_top_num_description#:#Bepaalt hoeveel items worden getoond in de top-score lijst.
-assessment#:#tst_highscore_top_table#:#Toon tabel met top scores
-assessment#:#tst_highscore_top_table_description#:#Bepaalt of de tabel "top scores" wordt getoond.
-assessment#:#tst_highscore_wtime#:#Toon werktijd
-assessment#:#tst_highscore_wtime_description#:#Bepaalt of een kolom met de werktijd wordt getoond.
 assessment#:#tst_imap_qst_mode#:#Modus
 assessment#:#tst_imap_qst_mode_mc#:#Meervoudige keuze
 assessment#:#tst_imap_qst_mode_sc#:#Enkele keuze

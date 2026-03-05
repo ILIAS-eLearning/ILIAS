@@ -24,7 +24,6 @@ use ILIAS\Test\Presentation\TabsManager;
 use ILIAS\Test\Logging\TestLogger;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\TestQuestionPool\Questions\GeneralQuestionPropertiesRepository;
-use ILIAS\Test\Results\Toplist\TestTopListRepository;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -49,7 +48,6 @@ use ILIAS\Style\Content\Service as ContentStyle;
 class ilTestResultsGUI
 {
     public const DEFAULT_CMD = 'show';
-    private \ILIAS\DI\UIServices $ui;
 
     public function __construct(
         private ilObjTest $test_object,
@@ -66,16 +64,11 @@ class ilTestResultsGUI
         private readonly ilToolbarGUI $toolbar,
         private readonly ilGlobalTemplateInterface $main_tpl,
         private readonly UIFactory $ui_factory,
-        private readonly UIRenderer $ui_renderer,
         private readonly SkillService $skills_service,
         private readonly ContentStyle $content_style,
-        private readonly TestTopListRepository $toplist_repository,
         private readonly RequestDataCollector $testrequest,
-        private readonly GlobalHttpState $http,
-        private readonly DataFactory $data_factory,
         private readonly ilTestSession $test_session,
-        private readonly ilTestObjectiveOrientedContainer $objective_parent,
-        private readonly ParticipantRepository $participant_repository
+        private readonly ilTestObjectiveOrientedContainer $objective_parent
     ) {
     }
 
@@ -118,29 +111,6 @@ class ilTestResultsGUI
 
                 $gui = new ilTestEvalObjectiveOrientedGUI($this->test_object);
                 $gui->setObjectiveOrientedContainer($this->objective_parent);
-                $this->ctrl->forwardCommand($gui);
-                break;
-
-            case 'iltesttoplistgui':
-                if (!$this->test_tabs->needsHighSoreSubTab()) {
-                    ilObjTestGUI::accessViolationRedirect();
-                }
-
-                $this->test_tabs->activateSubTab(TabsManager::SUBTAB_ID_HIGHSCORE);
-
-                $gui = new ilTestToplistGUI(
-                    $this->test_object,
-                    $this->toplist_repository,
-                    $this->ctrl,
-                    $this->main_tpl,
-                    $this->lng,
-                    $this->user,
-                    $this->ui_factory,
-                    $this->ui_renderer,
-                    $this->data_factory,
-                    $this->http,
-                    $this->participant_repository
-                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -200,7 +170,7 @@ class ilTestResultsGUI
 
         $validator = new ilCertificateDownloadValidator();
         if ($validator->isCertificateDownloadable($this->user->getId(), $this->test_object->getId())) {
-            $button = $this->ui->factory()->button()->standard('certficiate', $this->ctrl->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
+            $button = $this->ui_factory->button()->standard('certficiate', $this->ctrl->getFormActionByClass(ilTestEvaluationGUI::class, 'outCertificate'));
             $this->toolbar->addComponent($button);
         }
 

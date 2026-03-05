@@ -1515,27 +1515,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###30 04 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###30 04 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 03 2023 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###31 03 2023 new variable
-assessment#:#tst_highscore_achieved_ts#:#Mostra data del test
-assessment#:#tst_highscore_achieved_ts_description#:#Viene visualizzata una colonna aggiuntiva con l'ora del test.
-assessment#:#tst_highscore_all_tables#:#Proprio grado e classifica
-assessment#:#tst_highscore_all_tables_description#:#Mostra sia una tabella con il proprio posizionamento che una tabella con i migliori posizionamenti.
-assessment#:#tst_highscore_anon#:#Anonimizzazione delle voci.
-assessment#:#tst_highscore_anon_description#:#I posizionamenti degli altri partecipanti vengono visualizzati senza specificare i loro nomi. Ciò accade comunque con i test resi anonimi.
-assessment#:#tst_highscore_description#:#Nella scheda "Risultati", i partecipanti vedranno una sottoscheda "Posizionamento". Dopo aver cliccato, ai partecipanti verrà mostrata una tabella che mostra le prestazioni dei vari partecipanti al test. È necessario abilitare l'opzione "I partecipanti vedranno i risultati del test" per utilizzare questa funzione.
-assessment#:#tst_highscore_enabled#:#Visualizzazione dei punteggi piu' alti attivata
-assessment#:#tst_highscore_mode#:#Modalità
-assessment#:#tst_highscore_own_table#:#Mostra tabella 'punteggi personali'
-assessment#:#tst_highscore_own_table_description#:#Ai partecipanti viene mostrata una tabella con la loro posizione in tutti i posizionamenti.
-assessment#:#tst_highscore_percentage#:#Mostra percentuale
-assessment#:#tst_highscore_percentage_description#:#Viene visualizzata un'ulteriore colonna con l'indicazione del valore percentuale raggiunto.
-assessment#:#tst_highscore_score#:#Mostra punteggio
-assessment#:#tst_highscore_score_description#:#Viene visualizzata una colonna aggiuntiva con il dettaglio dei punti ottenuti.
-assessment#:#tst_highscore_top_num#:#Lunghezza della classifica
-assessment#:#tst_highscore_top_num_description#:#Determina il numero di voci visualizzate nella classifica.
-assessment#:#tst_highscore_top_table#:#Classifica dei migliori
-assessment#:#tst_highscore_top_table_description#:#I partecipanti vedranno una tabella con le prime classifiche.
-assessment#:#tst_highscore_wtime#:#Tempo di elaborazione
-assessment#:#tst_highscore_wtime_description#:#Viene visualizzata una colonna aggiuntiva con il tempo di elaborazione.
 assessment#:#tst_imap_qst_mode#:#Modalità di risposta
 assessment#:#tst_imap_qst_mode_mc#:#Scelta multipla
 assessment#:#tst_imap_qst_mode_sc#:#Scelta singola

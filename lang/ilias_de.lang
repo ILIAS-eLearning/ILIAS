@@ -1519,27 +1519,6 @@ assessment#:#tst_hide_info_tab#:#Info-Tab ausblenden
 assessment#:#tst_hide_info_tab_desc#:#Blendet den Tab „Info“ des Tests aus.
 assessment#:#tst_hide_pagecontents#:#Seiteninhalte ausblenden
 assessment#:#tst_hide_pagecontents_desc#:#Inhalte, die über den Button „Seite bearbeiten" vor und hinter dem eigentlichen Fragentext platziert wurden, werden in den Ergebnisansichten und der Druckausgabe nicht angezeigt.
-assessment#:#tst_highscore_achieved_ts#:#Datum / Uhrzeit
-assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte eingeblendet, die anzeigt, wann der Test beendet wurde.
-assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
-assessment#:#tst_highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
-assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
-assessment#:#tst_highscore_anon_description#:#Die Platzierungen anderer Teilnehmerinnen und Teilnehmer werden ohne Angabe der Namen angezeigt. Dies geschieht automatisch bei anonymisierten Tests.
-assessment#:#tst_highscore_description#:#Im Reiter „Meine Ergebnisse“ wird ein zusätzlicher Unterreiter „Platzierung“ angezeigt. Es wird eine Tabelle über das Abschneiden der verschiedenen Personen im Test angezeigt. Sie müssen die Option „Eigenes Testergebnis einsehen“ aktivieren, um diese Funktion zu nutzen.
-assessment#:#tst_highscore_enabled#:#Platzierungen
-assessment#:#tst_highscore_mode#:#Modus
-assessment#:#tst_highscore_own_table#:#Eigenen Rang anzeigen
-assessment#:#tst_highscore_own_table_description#:#Teilnehmerinnen und Teilnehmern wird eine Tabelle mit ihrem Rang innerhalb aller Platzierungen angezeigt.
-assessment#:#tst_highscore_percentage#:#Prozentwert
-assessment#:#tst_highscore_percentage_description#:#Es wird einen zusätzliche Spalte mit der Angabe des erreichten Prozentwerts eingeblendet.
-assessment#:#tst_highscore_score#:#Punkte
-assessment#:#tst_highscore_score_description#:#Es wird einen zusätzliche Spalte mit der Angabe der erreichten Punkte eingeblendet.
-assessment#:#tst_highscore_top_num#:#Länge der Bestenliste
-assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
-assessment#:#tst_highscore_top_table#:#Bestenliste
-assessment#:#tst_highscore_top_table_description#:#Teilnehmerinnen und Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
-assessment#:#tst_highscore_wtime#:#Bearbeitungsdauer
-assessment#:#tst_highscore_wtime_description#:#Es wird einen zusätzliche Spalte mit der Bearbeitungsdauer eingeblendet.
 assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice

@@ -64,6 +64,9 @@ class TestSetupAgent extends NullAgent
             ),
             new \ilDatabaseUpdateStepsExecutedObjective(
                 new Test11DBUpdateSteps()
+            ),
+            new \ilDatabaseUpdateStepsExecutedObjective(
+                new Test12DBUpdateSteps()
             )
         );
     }
@@ -89,6 +92,10 @@ class TestSetupAgent extends NullAgent
                 $storage,
                 new Test11DBUpdateSteps()
             ),
+            new \ilDatabaseUpdateStepsMetricsCollectedObjective(
+                $storage,
+                new Test12DBUpdateSteps()
+            )
         );
     }
 

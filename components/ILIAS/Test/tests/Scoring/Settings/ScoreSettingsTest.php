@@ -25,7 +25,6 @@ use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
 use ILIAS\Test\Scoring\Settings\Settings as SettingsScoring;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultDetails;
-use ILIAS\Test\Settings\ScoreReporting\SettingsGamification;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Symbol as S;
@@ -42,14 +41,12 @@ class ScoreSettingsTest extends ilTestBaseTestCase
             $id,
             new SettingsScoring(),
             new SettingsResultSummary(),
-            new SettingsResultDetails(),
-            new SettingsGamification()
+            new SettingsResultDetails()
         );
         $this->assertInstanceOf(ScoreSettings::class, $s);
         $this->assertInstanceOf(SettingsScoring::class, $s->getScoringSettings());
         $this->assertInstanceOf(SettingsResultSummary::class, $s->getResultSummarySettings());
         $this->assertInstanceOf(SettingsResultDetails::class, $s->getResultDetailsSettings());
-        $this->assertInstanceOf(SettingsGamification::class, $s->getGamificationSettings());
     }
 
     public function testScoreSettingsScoring(): void
@@ -98,28 +95,6 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertTrue($s->withShowSolutionListComparison(true)->getShowSolutionListComparison());
         $this->assertFalse($s->withShowSolutionListComparison(false)->getShowSolutionListComparison());
         $this->assertTrue($s->withShowPassDetails(true)->getShowPassDetails());
-    }
-
-    public function testScoreSettingsGamification(): void
-    {
-        $s = new SettingsGamification(-666);
-        $this->assertTrue($s->withHighscoreEnabled(true)->getHighscoreEnabled());
-        $this->assertFalse($s->withHighscoreEnabled(false)->getHighscoreEnabled());
-        $this->assertTrue($s->withHighscoreAnon(true)->getHighscoreAnon());
-        $this->assertFalse($s->withHighscoreAnon(false)->getHighscoreAnon());
-        $this->assertTrue($s->withHighscoreAchievedTS(true)->getHighscoreAchievedTS());
-        $this->assertFalse($s->withHighscoreAchievedTS(false)->getHighscoreAchievedTS());
-        $this->assertTrue($s->withHighscoreScore(true)->getHighscoreScore());
-        $this->assertFalse($s->withHighscoreScore(false)->getHighscoreScore());
-        $this->assertTrue($s->withHighscorePercentage(true)->getHighscorePercentage());
-        $this->assertFalse($s->withHighscorePercentage(false)->getHighscorePercentage());
-        $this->assertTrue($s->withHighscoreWTime(true)->getHighscoreWTime());
-        $this->assertFalse($s->withHighscoreWTime(false)->getHighscoreWTime());
-        $this->assertTrue($s->withHighscoreOwnTable(true)->getHighscoreOwnTable());
-        $this->assertFalse($s->withHighscoreOwnTable(false)->getHighscoreOwnTable());
-        $this->assertTrue($s->withHighscoreTopTable(true)->getHighscoreTopTable());
-        $this->assertFalse($s->withHighscoreTopTable(false)->getHighscoreTopTable());
-        $this->assertEquals(15, $s->withHighscoreTopNum(15)->getHighscoreTopNum());
     }
 
     protected function getUIPack()
@@ -439,96 +414,13 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->brutallyTrimSignals($actual));
     }
 
-
-    public function testScoreSettingsSectionGamification(): void
-    {
-        $s = new SettingsGamification(666);
-        $actual = $this->renderInsideContainer(
-            $s->toForm(...$this->getUIPack())
-        );
-
-        $fields = $this->getFormWrappedHtml(
-            'radio-field-input',
-            'tst_highscore_mode<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
-            '<div class="c-field-radio">
-                <div class="c-field-radio__item">
-                    <input type="radio" id="id_2_1_opt" value="1" /><label for="id_2_1_opt">tst_highscore_own_table</label><div class="c-input__help-byline">tst_highscore_own_table_description</div>
-                </div>
-                <div class="c-field-radio__item">
-                    <input type="radio" id="id_2_2_opt" value="2" /><label for="id_2_2_opt">tst_highscore_top_table</label><div class="c-input__help-byline">tst_highscore_top_table_description</div>
-                </div>
-                <div class="c-field-radio__item">
-                    <input type="radio" id="id_2_3_opt" value="3" checked="checked" /><label for="id_2_3_opt">tst_highscore_all_tables</label><div class="c-input__help-byline">tst_highscore_all_tables_description</div>
-                </div>
-            </div>',
-            null,
-            null,
-            null,
-            ''
-        );
-        $fields .= $this->getFormWrappedHtml(
-            'numeric-field-input',
-            'tst_highscore_top_num<span class="sr-only">required_field</span><span class="asterisk" aria-hidden="true">*</span>',
-            '<input id="id_3" type="number" step="1" value="10" class="c-field-number" />',
-            'tst_highscore_top_num_description',
-            'id_3',
-            null,
-            ''
-        );
-
-
-        $opts = [
-            ['tst_highscore_anon', 'tst_highscore_anon_description'],
-            ['tst_highscore_achieved_ts', 'tst_highscore_achieved_ts_description'],
-            ['tst_highscore_score', 'tst_highscore_score_description'],
-            ['tst_highscore_percentage', 'tst_highscore_percentage_description'],
-            ['tst_highscore_wtime', 'tst_highscore_wtime_description']
-        ];
-        foreach ($opts as $index => $entry) {
-            list($label, $byline) = $entry;
-            $nr = (string) ($index + 4);
-            $field_html = '<input type="checkbox" id="id_' . $nr . '" value="checked" checked="checked" class="c-field-checkbox" />';
-            $fields .= $this->getFormWrappedHtml(
-                'checkbox-field-input',
-                $label,
-                $field_html,
-                $byline,
-                'id_' . $nr,
-                null,
-                ''
-            );
-        }
-
-        $group = $this->getFormWrappedHtml(
-            'optional-group-field-input',
-            '<span>tst_highscore_enabled</span><input type="checkbox" id="id_1" value="checked" />',
-            $fields,
-            'tst_highscore_description',
-            'id_1',
-            null,
-            ''
-        );
-
-        $expected = $this->getFormWrappedHtml(
-            'section-field-input',
-            'tst_results_gamification',
-            $group,
-            null,
-            null,
-            null,
-            ''
-        );
-        $this->assertHTMLEquals($expected, $this->brutallyTrimSignals($actual));
-    }
-
     public function testScoreSettingsDirectlyAccessedByTestObj(): void
     {
         $s = new ScoreSettings(
             0,
             new SettingsScoring(),
             new SettingsResultSummary(),
-            new SettingsResultDetails(),
-            new SettingsGamification()
+            new SettingsResultDetails()
         );
 
         $t = new class ($s) extends ilObjTest {
@@ -548,15 +440,5 @@ class ScoreSettingsTest extends ilTestBaseTestCase
         $this->assertIsBool($t->getShowSolutionListComparison());
         $this->assertIsBool($t->isPassDeletionAllowed());
         $this->assertIsInt($t->getExportSettings());
-        $this->assertIsBool($t->getHighscoreEnabled());
-        $this->assertIsBool($t->getHighscoreAnon());
-        $this->assertIsBool($t->getHighscoreAchievedTS());
-        $this->assertIsBool($t->getHighscoreScore());
-        $this->assertIsBool($t->getHighscorePercentage());
-        $this->assertIsBool($t->getHighscoreWTime());
-        $this->assertIsBool($t->getHighscoreOwnTable());
-        $this->assertIsBool($t->getHighscoreTopTable());
-        $this->assertIsInt($t->getHighscoreTopNum());
-        $this->assertIsInt($t->getHighscoreMode());
     }
 }

@@ -33,7 +33,6 @@ use ILIAS\Test\Settings\MainSettings\SettingsQuestionBehaviour;
 use ILIAS\Test\Settings\MainSettings\SettingsTestBehaviour;
 use ILIAS\Test\Settings\ScoreReporting\ScoreReportingTypes;
 use ILIAS\Test\Settings\ScoreReporting\ScoreSettings;
-use ILIAS\Test\Settings\ScoreReporting\SettingsGamification;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultDetails;
 use ILIAS\Test\Settings\ScoreReporting\SettingsResultSummary;
 use ILIAS\Test\Settings\Templates\PersonalSettingsTemplate;
@@ -161,16 +160,6 @@ class SettingsFactory
                 ->withResultsPresentation((int) $row['results_presentation'])
                 ->withShowExamIdInTestResults((bool) $row['examid_in_test_res'])
                 ->withExportSettings((int) $row['exportsettings']),
-            (new SettingsGamification())
-                ->withHighscoreEnabled((bool) $row['highscore_enabled'])
-                ->withHighscoreAnon((bool) $row['highscore_anon'])
-                ->withHighscoreAchievedTS((bool) $row['highscore_achieved_ts'])
-                ->withHighscoreScore((bool) $row['highscore_score'])
-                ->withHighscorePercentage((bool) $row['highscore_percentage'])
-                ->withHighscoreWTime((bool) $row['highscore_wtime'])
-                ->withHighscoreOwnTable((bool) $row['highscore_own_table'])
-                ->withHighscoreTopTable((bool) $row['highscore_top_table'])
-                ->withHighscoreTopNum((int) $row['highscore_top_num'])
         );
     }
 

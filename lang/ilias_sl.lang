@@ -1516,27 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_highscore_achieved_ts#:#Date
-assessment#:#tst_highscore_achieved_ts_description#:#Prikaže se dodaten stolpec z datumom testiranja.
-assessment#:#tst_highscore_all_tables#:#Lastna razvrstitev in seznam najboljših
-assessment#:#tst_highscore_all_tables_description#:#Prikaže tako tabelo z lastno uvrstitvijo kot tudi tabelo z najboljšimi uvrstitvami.
-assessment#:#tst_highscore_anon#:#Ni prikaza imen
-assessment#:#tst_highscore_anon_description#:#Razvrstitve drugih udeležencev so prikazane brez navedbe imen.  V vsakem primeru je tako, če je test anonimiziran.
-assessment#:#tst_highscore_description#:#Na zavihku »Rezultati« je udeležencem prikazan podzavihek »Pokaži uvrstitve«. Ob kliku se prikaže tabela z rezultati udeležencev testa. Za uporabo te funkcije morate izbrati možnost ‚Udeleženci vidijo rezultate testa'.
-assessment#:#tst_highscore_enabled#:#Razvrstitev
-assessment#:#tst_highscore_mode#:#Način
-assessment#:#tst_highscore_own_table#:#Prikaži svoj lastni rang
-assessment#:#tst_highscore_own_table_description#:#Udeležencem se pokaže tabela z njihovo razvrstitvijo v okviru vseh razvrstitev.
-assessment#:#tst_highscore_percentage#:#Vrednost v odstotku
-assessment#:#tst_highscore_percentage_description#:#Prikaže se dodaten stolpec z informacijo o odstotku, doseženem v testu.
-assessment#:#tst_highscore_score#:#Točke
-assessment#:#tst_highscore_score_description#:#Prikaže se dodaten stolpec z informacijo o doseženih točkah.
-assessment#:#tst_highscore_top_num#:#Dolžina seznama najboljših
-assessment#:#tst_highscore_top_num_description#:#Določi število prikazanih vnosov s seznama najboljših
-assessment#:#tst_highscore_top_table#:#Seznam najboljših
-assessment#:#tst_highscore_top_table_description#:#Udeležencem se prikaže tabela z najboljšimi razvrstitvami.
-assessment#:#tst_highscore_wtime#:#Trajanje obdelave
-assessment#:#tst_highscore_wtime_description#:#Prikaže se dodaten stolpec s trajanjem obdelave.
 assessment#:#tst_imap_qst_mode#:#Način odgovarjanja
 assessment#:#tst_imap_qst_mode_mc#:#Vprašanje z več možnimi odgovori
 assessment#:#tst_imap_qst_mode_sc#:#Vprašanje z enim možnim odgovorom
