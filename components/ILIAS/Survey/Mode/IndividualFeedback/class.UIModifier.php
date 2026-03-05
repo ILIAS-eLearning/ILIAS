@@ -114,22 +114,19 @@ class UIModifier extends Mode\AbstractUIModifier
         $survey->set360Results((int) $form->getInput("ts_res"));
     }
 
-
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
-        \ilToolbarGUI $toolbar,
         int $user_id,
         \ilTemplate $eval_tpl
-    ): void {
+    ): array {
         $this->addApprSelectionToToolbar(
             $survey,
-            $toolbar,
+            $this->gui->toolbar(),
             $user_id
         );
 
-        $this->addExportAndPrintButton(
+        return $this->getExportAndPrintComponents(
             $survey,
-            $toolbar,
             true,
             $eval_tpl
         );
@@ -137,9 +134,10 @@ class UIModifier extends Mode\AbstractUIModifier
 
     public function setResultsCompetenceToolbar(
         \ilObjSurvey $survey,
-        \ilToolbarGUI $toolbar,
         int $user_id
-    ): void {
+    ): array {
+        $toolbar = $this->gui->toolbar();
+
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
@@ -151,6 +149,8 @@ class UIModifier extends Mode\AbstractUIModifier
             $toolbar,
             $user_id
         );
+
+        return [];
     }
 
     /**

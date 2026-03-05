@@ -49,7 +49,6 @@ class ilSurveyEvaluationGUI
     protected ilObjUser $user;
     protected ilRbacSystem $rbacsystem;
     protected ilTree $tree;
-    protected ilToolbarGUI $toolbar;
     protected ilObjSurvey $object;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
@@ -69,7 +68,6 @@ class ilSurveyEvaluationGUI
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->tree = $DIC->repositoryTree();
-        $this->toolbar = $DIC->toolbar();
         $this->ui = $DIC->ui();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
@@ -646,7 +644,7 @@ class ilSurveyEvaluationGUI
     ): void {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
-        $toolbar = $this->toolbar;
+        $toolbar = $this->gui->toolbar();
         $ui_fac = $this->gui->ui()->factory();
 
         $ctrl->setParameter($this, "export_cmd", $export_cmd);
@@ -705,7 +703,7 @@ class ilSurveyEvaluationGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
-        $toolbar = $this->toolbar;
+        $toolbar = $this->gui->toolbar();
         $request = $this->request;
         $ui_request = $this->gui->http()->request();
 
@@ -767,7 +765,6 @@ class ilSurveyEvaluationGUI
     public function evaluation(
         int $details = 0
     ): void {
-        $ilToolbar = $this->toolbar;
         $tree = $this->tree;
         $ui = $this->ui;
 
@@ -814,26 +811,26 @@ class ilSurveyEvaluationGUI
         // setup toolbar
 
         $appr_id = $this->evaluation_manager->getCurrentAppraisee();
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
         $results = array();
 
         $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "components/ILIAS/Survey");
 
 
         if ($details) {
-            $this->ui_modifier->setResultsDetailToolbar(
+            $toolbar_components = $this->ui_modifier->setResultsDetailToolbar(
                 $this->object,
-                $ilToolbar,
                 $this->user->getId(),
                 $eval_tpl
             );
         } else {
-            $this->ui_modifier->setResultsOverviewToolbar(
+            $toolbar_components = $this->ui_modifier->setResultsOverviewToolbar(
                 $this->object,
-                $ilToolbar,
                 $this->user->getId(),
                 $eval_tpl
             );
+        }
+        foreach ($toolbar_components as $component) {
+            $this->gui->toolbar()->addComponent($component);
         }
 
         if (!$this->object->get360Mode() || $appr_id) {
@@ -905,7 +902,6 @@ class ilSurveyEvaluationGUI
             }
         }
 
-        //$eval_tpl->setVariable('MODAL', $modal);
         if (!$details) {
             $table_gui = new ilSurveyResultsCumulatedTableGUI($this, 'evaluation', $results);
             $eval_tpl->setVariable('CUMULATED', $table_gui->getHTML());
@@ -1139,23 +1135,21 @@ class ilSurveyEvaluationGUI
      */
     public function evaluationuser(): void
     {
-        $ilToolbar = $this->toolbar;
-
         if (!$this->hasResultsAccess() &&
             $this->object->getMode() !== ilObjSurvey::MODE_SELF_EVAL) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
 
-        $this->ui_modifier->setResultsParticipantToolbar(
+        $toolbar_components = $this->ui_modifier->setResultsParticipantToolbar(
             $this->object,
-            $ilToolbar,
             $this->user->getId()
         );
+        foreach ($toolbar_components as $component) {
+            $this->gui->toolbar()->addComponent($component);
+        }
 
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
 
-        $modal = "";
         $appr_id = null;
         $data = [];
 
@@ -1166,7 +1160,8 @@ class ilSurveyEvaluationGUI
         if (!$this->object->get360Mode() || $appr_id) {
             $this->buildExportButtonAndModal("exportEvaluationUser");
 
-            $ilToolbar->addSeparator();
+
+            $this->gui->toolbar()->addSeparator();
 
             $pv = $this->print->resultsDetails($this->object->getRefId());
             $modal_elements = $pv->getModalElements(
@@ -1175,8 +1170,9 @@ class ilSurveyEvaluationGUI
                     "printResultsPerUserSelection"
                 )
             );
-            $ilToolbar->addComponent($modal_elements->button);
-            $ilToolbar->addComponent($modal_elements->modal);
+
+            $this->gui->toolbar()->addComponent($modal_elements->button);
+            $this->gui->toolbar()->addComponent($modal_elements->modal);
 
             $data = $this->evaluation_manager->getUserSpecificResults();
         }
@@ -1190,7 +1186,6 @@ class ilSurveyEvaluationGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilToolbar = $this->toolbar;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
 
@@ -1199,7 +1194,6 @@ class ilSurveyEvaluationGUI
         $ilTabs->activateSubTab("svy_eval_competences");
         $ilTabs->activateTab("svy_results");
 
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
 
         $appr_id = $this->getAppraiseeId();
 
@@ -1208,11 +1202,13 @@ class ilSurveyEvaluationGUI
             return;
         }
 
-        $this->ui_modifier->setResultsCompetenceToolbar(
+        $toolbar_components = $this->ui_modifier->setResultsCompetenceToolbar(
             $this->object,
-            $ilToolbar,
             $this->user->getId()
         );
+        foreach ($toolbar_components as $component) {
+            $this->gui->toolbar()->addComponent($component);
+        }
 
         // evaluation modes
         $eval_modes = array();
@@ -1261,12 +1257,21 @@ class ilSurveyEvaluationGUI
 
         $ilCtrl->saveParameter($this, "comp_eval_mode");
 
-        $mode_sel = new ilSelectInputGUI($lng->txt("svy_analysis"), "comp_eval_mode");
-        $mode_sel->setOptions($eval_modes);
-        $mode_sel->setValue($comp_eval_mode);
-        $ilToolbar->addInputItem($mode_sel, true);
+        $dropdown_items = [];
+        foreach ($eval_modes as $mode_key => $mode_label) {
+            $ilCtrl->setParameter($this, "comp_eval_mode", $mode_key);
+            $dropdown_items[] = $this->ui->factory()->button()->shy(
+                $mode_label,
+                $ilCtrl->getLinkTarget($this, "competenceEval")
+            );
+        }
+        $ilCtrl->setParameter($this, "comp_eval_mode", $comp_eval_mode);
 
-        $ilToolbar->addFormButton($lng->txt("select"), "competenceEval");
+        $this->gui->toolbar()->addComponent(
+            $this->ui->factory()->dropdown()->standard($dropdown_items)
+                ->withLabel($eval_modes[$comp_eval_mode] ?? $lng->txt("svy_analysis"))
+        );
+
 
         $pskills_gui = new ilPersonalSkillsGUI();
         $rater = $this->evaluation_manager->getCurrentRater(
