@@ -118,7 +118,6 @@ gd, dom, xsl, pdo, pdo_mysql, curl, json, simplexml, libxml, xml, zip, imagick, 
 
 **Optional PHP Extensions:**
 
-* `xmlrpc` for the ILIAS RPC server
 * `soap` for SOAP user administration 
 * `ldap` for LDAP user authentication
 
@@ -128,7 +127,7 @@ Alternatively, it can be obtained directly from [getcomposer.org](https://getcom
 Composer may be optional when using the prepacked ILIAS from [Download & Releases](https://docu.ilias.de/go/pg/197851_35), but it is necessary when using plugins to rebuild the PHP autoload classmap.
 
 ```shell
-apt install apache2 libapache2-mod-php php php-gd php-xsl php-imagick php-curl php-mysql php-xmlrpc php-soap php-ldap composer
+apt install apache2 libapache2-mod-php php php-gd php-xsl php-imagick php-curl php-mysql php-soap php-ldap composer
 ```
 
 Create a directory for the html sources (e.g. `/var/www/ilias`) which is referenced in the apache2 vhost and also a directory outside the web servers docroot (e.g. `/var/www/files`) for files stored by ILIAS. 

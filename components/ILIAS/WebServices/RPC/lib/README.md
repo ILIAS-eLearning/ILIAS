@@ -27,12 +27,12 @@ This Java server has been tested with Open JDK Java Runtime 17.
 To be able to index and search for non-ASCII characters your system should
 support UTF-8 encodings.
 
-PHP curl and xmlrpc are required for using the Java server features.
+PHP curl is required for using the Java server features.
 
 On Debian-based systems try:
 
 ````shell
-> apt-get install php-curl php-xmlrpc openjdk-17-jdk-headless
+> apt-get install php-curl openjdk-17-jdk-headless
 ````
 Dependencies and the build process is managed via maven
 ```shell
