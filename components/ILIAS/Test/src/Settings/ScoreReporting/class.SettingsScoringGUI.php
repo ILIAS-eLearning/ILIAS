@@ -217,8 +217,7 @@ class SettingsScoringGUI extends TestSettingsGUI
             'summary' => $settings->getResultSummarySettings()->toForm(...array_merge($ui_pack, [$environment])),
             'details' => $settings->getResultDetailsSettings()->toForm(
                 ...array_merge($ui_pack, [['taxonomy_options' => $this->getTaxonomyOptions()]])
-            ),
-            'gameification' => $settings->getGamificationSettings()->toForm(...$ui_pack)
+            )
         ];
 
         $action = $this->ctrl->getFormAction($this, self::CMD_SAVE_FORM);
@@ -231,7 +230,6 @@ class SettingsScoringGUI extends TestSettingsGUI
                             ->withScoringSettings($v['scoring'])
                             ->withResultSummarySettings($v['summary'])
                             ->withResultDetailsSettings($v['details'])
-                            ->withGamificationSettings($v['gameification'])
                         ;
                     }
                 )

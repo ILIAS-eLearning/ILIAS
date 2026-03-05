@@ -1516,27 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_highscore_achieved_ts#:#Zobrazit datum testu
-assessment#:#tst_highscore_achieved_ts_description#:#Kontroluje, zda sloupec s datem testu má být zobrazen.
-assessment#:#tst_highscore_all_tables#:#Všechna hodnocení
-assessment#:#tst_highscore_all_tables_description#:#Pokud je vybráno, test zajistí obě tabulky hodnocení.
-assessment#:#tst_highscore_anon#:#Anonymizace vstupů.
-assessment#:#tst_highscore_anon_description#:#Kontroluje, zda jména jsou anonymizována s pořadím. Tato volba může být přepnuta přepnutím anonymizace testu.
-assessment#:#tst_highscore_description#:#Má být dostupné zobrazení nejlepších dosažených výsledků?
-assessment#:#tst_highscore_enabled#:#Zobrazení nejlepších výsledků aktivováno
-assessment#:#tst_highscore_mode#:#Režim
-assessment#:#tst_highscore_own_table#:#Zobrazit tabulku 'vlastní umístění'
-assessment#:#tst_highscore_own_table_description#:#Řídí, zda tabulka 'vlastní umístění' má být zobrazena.
-assessment#:#tst_highscore_percentage#:#Zobrazit procenta
-assessment#:#tst_highscore_percentage_description#:#Řídí, zda sloupec s procenty testu má být zobrazen.
-assessment#:#tst_highscore_score#:#Zobrazit hodnocení
-assessment#:#tst_highscore_score_description#:#Řídí, zda sloupec s hodnocením má být zobrazen.
-assessment#:#tst_highscore_top_num#:#Číslo umístění
-assessment#:#tst_highscore_top_num_description#:#Řídí, kolik pořadí má být zahrnuto v tabulce nejlepších umístění.
-assessment#:#tst_highscore_top_table#:#Zobrazit tabulku 'nejlepší umístění'
-assessment#:#tst_highscore_top_table_description#:#Řídí, zda tabulka 'nejlepší umístění' má být zobrazena.
-assessment#:#tst_highscore_wtime#:#Zobrazit pracovní čas
-assessment#:#tst_highscore_wtime_description#:#Řídí, zda sloupec s pracovními časy testu má být zobrazen.
 assessment#:#tst_imap_qst_mode#:#Mód
 assessment#:#tst_imap_qst_mode_mc#:#Vícenásobná volba
 assessment#:#tst_imap_qst_mode_sc#:#Jediná volba

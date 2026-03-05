@@ -1521,27 +1521,6 @@ assessment#:#tst_hide_info_tab#:#Ocultar pestaña Información
 assessment#:#tst_hide_info_tab_desc#:#Oculta la pestaña ‘Info’ de la prueba.
 assessment#:#tst_hide_pagecontents#:#Ocultar contenido de la página
 assessment#:#tst_hide_pagecontents_desc#:#El contenido de ILIAS colocado antes y después del texto de la pregunta mediante el botón "Editar página" no se mostrará en las vistas de resultados ni en la impresión.
-assessment#:#tst_highscore_achieved_ts#:#Fecha
-assessment#:#tst_highscore_achieved_ts_description#:#Se incluirá una columna con la fecha de la prueba en la clasificación.
-assessment#:#tst_highscore_all_tables#:#Posición del participante y clasificación principal
-assessment#:#tst_highscore_all_tables_description#:#Los participantes obtienen información sobre la clasificación superior y su propia posición en la misma.
-assessment#:#tst_highscore_anon#:#Sin nombres
-assessment#:#tst_highscore_anon_description#:#La clasificación se muestra sin listar los nombres de los demás participantes. Esto ocurrirá de todos modos si la prueba se realizó de forma anónima.
-assessment#:#tst_highscore_description#:#Dentro de la pestaña 'Mis resultados' a los participantes se les presenta una subpestaña 'Mostrar clasificación'. Al hacer clic en ella, se muestra a los participantes una tabla de clasificación con el rendimiento en la prueba. También debe activar 'Acceso a los resultados de la prueba' para poder usar esta funcionalidad.
-assessment#:#tst_highscore_enabled#:#Clasificación
-assessment#:#tst_highscore_mode#:#Modo
-assessment#:#tst_highscore_own_table#:#Posición propia del participante
-assessment#:#tst_highscore_own_table_description#:#A los participantes se les informa de su propia posición en la clasificación.
-assessment#:#tst_highscore_percentage#:#Porcentaje
-assessment#:#tst_highscore_percentage_description#:#Se incluirá en la clasificación una columna que contiene el porcentaje de la prueba.
-assessment#:#tst_highscore_score#:#Puntuación
-assessment#:#tst_highscore_score_description#:#Se incluirá en la clasificación una columna que contiene la puntuación.
-assessment#:#tst_highscore_top_num#:#Longitud de la clasificación superior
-assessment#:#tst_highscore_top_num_description#:#Especifica cuántas posiciones deben incluirse en la lista de clasificación superior.
-assessment#:#tst_highscore_top_table#:#Clasificación superior
-assessment#:#tst_highscore_top_table_description#:#A los participantes se les muestra una tabla con la clasificación superior.
-assessment#:#tst_highscore_wtime#:#Duración de la prueba
-assessment#:#tst_highscore_wtime_description#:#Se incluirá en la clasificación una columna con la duración de la prueba.
 assessment#:#tst_imap_qst_mode#:#Modo
 assessment#:#tst_imap_qst_mode_mc#:#Opción múltiple
 assessment#:#tst_imap_qst_mode_sc#:#Opción única

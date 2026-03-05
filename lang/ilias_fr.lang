@@ -1501,27 +1501,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###31 10 2023 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###31 10 2023 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###31 10 2023 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###31 10 2023 new variable
-assessment#:#tst_highscore_achieved_ts#:#Afficher la date du test
-assessment#:#tst_highscore_achieved_ts_description#:#Ajoute une colonne avec la date du test.
-assessment#:#tst_highscore_all_tables#:#All Rankings
-assessment#:#tst_highscore_all_tables_description#:#If selected, the test provides both ranking tables.
-assessment#:#tst_highscore_anon#:#Anomymat des résultats
-assessment#:#tst_highscore_anon_description#:#Les identifiants des participants sont masqués dans la liste des meilleurs scores.
-assessment#:#tst_highscore_description#:#Active l'affichage des meilleurs scores
-assessment#:#tst_highscore_enabled#:#Affichage des meilleurs scores
-assessment#:#tst_highscore_mode#:#Mode
-assessment#:#tst_highscore_own_table#:#Afficher la vue "Classement personnel"
-assessment#:#tst_highscore_own_table_description#:#Ajouter une vue "Classement personnel".
-assessment#:#tst_highscore_percentage#:#Afficher le score en pourcentage
-assessment#:#tst_highscore_percentage_description#:#Ajoute une colonne avec le score obtenu en poucentage.
-assessment#:#tst_highscore_score#:#Afficher le score brut
-assessment#:#tst_highscore_score_description#:#Ajouter une colonne avec le score brut obtenu.
-assessment#:#tst_highscore_top_num#:#Nombre de lignes dans les meilleurs scores
-assessment#:#tst_highscore_top_num_description#:#Définit le nombre de meilleurs scores à afficher dans la page des meilleurs scores.
-assessment#:#tst_highscore_top_table#:#Afficher la vue "Meilleurs scores"
-assessment#:#tst_highscore_top_table_description#:#Permet de contrôler l'affichage des meilleurs scores.
-assessment#:#tst_highscore_wtime#:#Afficher le temps passé
-assessment#:#tst_highscore_wtime_description#:#Ajoute une colonne avec le temps passé pour la réalisation du test.
 assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_mc#:#Choix Multiple
 assessment#:#tst_imap_qst_mode_sc#:#Choix Unique

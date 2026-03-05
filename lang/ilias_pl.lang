@@ -1516,27 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_highscore_achieved_ts#:#Data
-assessment#:#tst_highscore_achieved_ts_description#:#Wyświetlana jest dodatkowa kolumna z czasem, w którym test został przeprowadzony.
-assessment#:#tst_highscore_all_tables#:#Własne miejsce na liście rankingowej i lista najlepszych
-assessment#:#tst_highscore_all_tables_description#:#Uczestnikom wyświetla się tabela z własnymi wynikami oraz tabela z najlepszymi wynikami.
-assessment#:#tst_highscore_anon#:#Nie pokazuj nazwisk
-assessment#:#tst_highscore_anon_description#:#Miejsca w liście rankingowej innych uczestników pokazywane są bez podawania nazwisk.  Ta opcja realizowana jest zawsze przy testach poddanych anonimizacji.
-assessment#:#tst_highscore_description#:#W zakładce 'Info' dla uczestników widoczna jest opcja 'Pokaż listę rankingową'. Po kliknięciu uczestnikom ukaże się tabela z informacjami o tym, jak inni uczestnicy wypadki w teście. Musisz aktywować opcję 'Uczestnicy widzą wyniki testu', aby móc skorzystać z tej funkcji.
-assessment#:#tst_highscore_enabled#:#Listy rankingowe
-assessment#:#tst_highscore_mode#:#Tryb
-assessment#:#tst_highscore_own_table#:#Pokaż własne miejsce w liście rankingowej
-assessment#:#tst_highscore_own_table_description#:#Uczestnikom wyświetla się tabela z ich miejsce w liście rankingowej w odniesieniu do miejsc innych uczestników.
-assessment#:#tst_highscore_percentage#:#Wartość procentowa
-assessment#:#tst_highscore_percentage_description#:#Wyświetlana jest dodatkowa kolumna z uzyskaną wartością procentową.
-assessment#:#tst_highscore_score#:#Punkty
-assessment#:#tst_highscore_score_description#:#Wyświetlana jest dodatkowa kolumna z liczbą uzyskanych punktów.
-assessment#:#tst_highscore_top_num#:#Długość listy najlepszych
-assessment#:#tst_highscore_top_num_description#:#Określa, ile wpisów wyświetlanych jest w liście najlepszych.
-assessment#:#tst_highscore_top_table#:#Lista najlepszych
-assessment#:#tst_highscore_top_table_description#:#Uczestnikom wyświetla się tabela z najlepszymi wynikami.
-assessment#:#tst_highscore_wtime#:#Czas pracy
-assessment#:#tst_highscore_wtime_description#:#Wyświetlana jest dodatkowa kolumna z czasem przetwarzania.
 assessment#:#tst_imap_qst_mode#:#Tryb odpowiedzi
 assessment#:#tst_imap_qst_mode_mc#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#tst_imap_qst_mode_sc#:#Pytanie wielokrotnego wyboru (pojedyncza odpowiedź)

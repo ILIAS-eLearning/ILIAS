@@ -118,14 +118,6 @@ class AdditionalInformationGenerator
     public const KEY_SCORING_SOLUTION_SHOW_ANSWERS_ONLY = 'tst_hide_pagecontents';
     public const KEY_SCORING_SOLUTION_SHOW_SIGNATRUE = 'tst_show_solution_signature';
     public const KEY_SCORING_SOLUTION_SHOW_EXAM_ID = 'examid_in_test_res';
-    public const KEY_SCORING_HIGHSCORE_ENABLED = 'tst_highscore_enabled';
-    public const KEY_SCORING_HIGHSCORE_MODE = 'tst_highscore_mode';
-    public const KEY_SCORING_HIGHSCORE_SHOW_TOP_NUM = 'tst_highscore_top_num';
-    public const KEY_SCORING_HIGHSCORE_SHOW_ANON = 'tst_highscore_anon';
-    public const KEY_SCORING_HIGHSCORE_SHOW_ACHIEVED_TS = 'tst_highscore_achieved_ts';
-    public const KEY_SCORING_HIGHSCORE_SHOW_SCORE = 'tst_highscore_score';
-    public const KEY_SCORING_HIGHSCORE_SHOW_PERCENTAGE = 'tst_highscore_percentage';
-    public const KEY_SCORING_HIGHSCORE_SHOW_WTIME = 'tst_highscore_wtime';
 
     public const KEY_PASS = 'pass';
     public const KEY_PAX_ANSWER = 'answer';

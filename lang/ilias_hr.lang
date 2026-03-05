@@ -1516,27 +1516,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_highscore_achieved_ts#:#Datum
-assessment#:#tst_highscore_achieved_ts_description#:#Prikazat će se dodatni stupac koji sadrži datum testa.
-assessment#:#tst_highscore_all_tables#:#Vlastiti rang sudionika i Popis najboljih (Top Ranking)
-assessment#:#tst_highscore_all_tables_description#:#Prikazuje tablicu s informacijama o popisu najboljih i vlastitom rangu na ljestvici.
-assessment#:#tst_highscore_anon#:#Bez imena
-assessment#:#tst_highscore_anon_description#:#Ranglista se prikazuje bez navođenja imena ostalih sudionika. To je ionako slučaj ako je test bio anonimiziran.
-assessment#:#tst_highscore_description#:#U kartici ‘Rezultati’ sudionicima se prikazuje podkartica ‘Prikaži rangiranje’. Klikom sudionicima se prikazuje tablica s rezultatima sudionika na testu. Morate aktivirati i ‘Pristup rezultatima testa’ da biste mogli koristiti ovu funkcionalnost.
-assessment#:#tst_highscore_enabled#:#Rangiranje
-assessment#:#tst_highscore_mode#:#Način rada
-assessment#:#tst_highscore_own_table#:#Prikaži vlastiti rang
-assessment#:#tst_highscore_own_table_description#:#Sudionicima se prikazuje tablica s njihovim rangom unutar rangiranja.
-assessment#:#tst_highscore_percentage#:#Postotak
-assessment#:#tst_highscore_percentage_description#:#Prikazat će se dodatni stupac koji sadrži podatak o dosegnutom postotku na testu.
-assessment#:#tst_highscore_score#:#Broj bodova
-assessment#:#tst_highscore_score_description#:#Prikazat će se dodatni stupac koji sadrži podatak o postignutom bodovima.
-assessment#:#tst_highscore_top_num#:#Duljina popisa najboljih (Top Ranking)
-assessment#:#tst_highscore_top_num_description#:#Odredite koliko mjesta se treba prikazati na popisu najboljih.
-assessment#:#tst_highscore_top_table#:#Popis najboljih
-assessment#:#tst_highscore_top_table_description#:#Sudionicima se prikazuje tablica s top ljestvicom.
-assessment#:#tst_highscore_wtime#:#Trajanje testa
-assessment#:#tst_highscore_wtime_description#:#Prikazat će se dodatni stupac s trajanjem testa.
 assessment#:#tst_imap_qst_mode#:#Način rada
 assessment#:#tst_imap_qst_mode_mc#:#Višestruki izbor
 assessment#:#tst_imap_qst_mode_sc#:#Jedan ponuđeni odgovor

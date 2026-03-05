@@ -1519,27 +1519,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab
 assessment#:#tst_hide_info_tab_desc#:#Hide the test’s ‘Info’ tab.
 assessment#:#tst_hide_pagecontents#:#Hide Page Content
 assessment#:#tst_hide_pagecontents_desc#:#Content placed before and after the actual question text via the ‘Edit Page’ button will not be displayed in results views or print output.
-assessment#:#tst_highscore_achieved_ts#:#Date / Time
-assessment#:#tst_highscore_achieved_ts_description#:#Show an additional column in the rankings table showing when the test was finished.
-assessment#:#tst_highscore_all_tables#:#Own performance and top ranks
-assessment#:#tst_highscore_all_tables_description#:#Participants get information about the top ranking and their own position in the ranking.
-assessment#:#tst_highscore_anon#:#Without Names
-assessment#:#tst_highscore_anon_description#:#Show rankings without the names of other participants. This will be the case anyway if the test’s ‘Privacy’ has been set to ‘without names / anonymous test’
-assessment#:#tst_highscore_description#:#Within the ‘My Results’ tab, participants are presented with a ‘Rankings’ subtab which contains a scoreboard table of the participants’ performances in the test. ‘Access to Test Results’ needs to be activated in order to use this functionality.
-assessment#:#tst_highscore_enabled#:#Rankings
-assessment#:#tst_highscore_mode#:#Mode
-assessment#:#tst_highscore_own_table#:#Own performance
-assessment#:#tst_highscore_own_table_description#:#Participants will be shown their own position in the rankings.
-assessment#:#tst_highscore_percentage#:#Percentage Score
-assessment#:#tst_highscore_percentage_description#:#Show an additional column in the ranking table showing score in percent.
-assessment#:#tst_highscore_score#:#Point Score
-assessment#:#tst_highscore_score_description#:#Show an additional column in the ranking table showing points scored.
-assessment#:#tst_highscore_top_num#:#Number of Top Ranks
-assessment#:#tst_highscore_top_num_description#:#Specify how many positions are to be included in the top ranks list.
-assessment#:#tst_highscore_top_table#:#Top ranks
-assessment#:#tst_highscore_top_table_description#:#Participants will be shown the top positions in the rankings.
-assessment#:#tst_highscore_wtime#:#Time Spent
-assessment#:#tst_highscore_wtime_description#:#Show an additional column in the ranking table showing the time taken to complete the test.
 assessment#:#tst_imap_qst_mode#:#Mode
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice

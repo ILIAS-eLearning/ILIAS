@@ -1518,27 +1518,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###26 08 2024 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###26 08 2024 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###26 08 2024 new variable
-assessment#:#tst_highscore_achieved_ts#:#Show date of test###28 08 2012 new variable
-assessment#:#tst_highscore_achieved_ts_description#:#Controls, if a column with the test date should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_all_tables#:#All Rankings###07 11 2014 new variable
-assessment#:#tst_highscore_all_tables_description#:#If selected, the test provides both ranking tables.###07 11 2014 new variable
-assessment#:#tst_highscore_anon#:#Anonymization of the entries.###28 08 2012 new variable
-assessment#:#tst_highscore_anon_description#:#Controls, if names are anonymized with the ranks. This option may be overriden by the test anonymization switch.###28 08 2012 new variable
-assessment#:#tst_highscore_description#:#Should the display of highscores be available?###28 08 2012 new variable
-assessment#:#tst_highscore_enabled#:#Highscore display activated###28 08 2012 new variable
-assessment#:#tst_highscore_mode#:#Mode###07 11 2014 new variable
-assessment#:#tst_highscore_own_table#:#Show table 'own ranking'###28 08 2012 new variable
-assessment#:#tst_highscore_own_table_description#:#Controls, if the table 'own ranking' should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_percentage#:#Show percentage###28 08 2012 new variable
-assessment#:#tst_highscore_percentage_description#:#Controls, if a column with the tests percentage should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_score#:#Show score###28 08 2012 new variable
-assessment#:#tst_highscore_score_description#:#Controls, if a column with the score should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_top_num#:#Number of ranks###28 08 2012 new variable
-assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.###28 08 2012 new variable
-assessment#:#tst_highscore_top_table#:#Show table 'top ranking'###28 08 2012 new variable
-assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top ranking' should be shown.###28 08 2012 new variable
-assessment#:#tst_highscore_wtime#:#Show working time###28 08 2012 new variable
-assessment#:#tst_highscore_wtime_description#:#Controls, if a column with the tests working time should be shown.###28 08 2012 new variable
 assessment#:#tst_imap_qst_mode#:#Mode###24 10 2013 new variable
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice###24 10 2013 new variable
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice###24 10 2013 new variable

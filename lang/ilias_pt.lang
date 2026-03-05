@@ -1503,27 +1503,6 @@ assessment#:#tst_hide_info_tab#:#Hide Info Tab###03 09 2026 new variable
 assessment#:#tst_hide_info_tab_desc#:#Hides the tab ‘Info’ of the test.###03 09 2026 new variable
 assessment#:#tst_hide_pagecontents#:#Hide page content###03 09 2026 new variable
 assessment#:#tst_hide_pagecontents_desc#:#ILIAS content placed before and after the actual question text via the "Edit Page" button will not be displayed in the result views and print output.###03 09 2026 new variable
-assessment#:#tst_highscore_achieved_ts#:#Será incluída na classificação uma coluna que contém a data do teste.
-assessment#:#tst_highscore_achieved_ts_description#:#Classificação própria do participante e Top da classificação
-assessment#:#tst_highscore_all_tables#:#Os participantes recebem informação sobre o Top da classificação e a respetiva posição própria na classificação.
-assessment#:#tst_highscore_all_tables_description#:#Sem nomes
-assessment#:#tst_highscore_anon#:#A classificação é apresentada sem expor os nomes dos outros participantes. De qualquer modo, isso acontece se o teste foi feito com anonimato.
-assessment#:#tst_highscore_anon_description#:#No separador 'Informação', aos participantes é apresentado um botão 'Mostrar classificação'. Quando se clica nele, os participantes poderão ver uma tabela classificativa sobre o desempenho no teste. Tem de ativar 'Aceder aos resultados do teste', para poder usar estar funcionalidade.
-assessment#:#tst_highscore_description#:#Classificação
-assessment#:#tst_highscore_enabled#:#Sugestões
-assessment#:#tst_highscore_mode#:#Modo
-assessment#:#tst_highscore_own_table#:#Os participantes são aconselhados sobre a sua própria posição na classificação.
-assessment#:#tst_highscore_own_table_description#:#Percentagem
-assessment#:#tst_highscore_percentage#:#Será incluída na classificação uma coluna que contém a percentagem dos testes.
-assessment#:#tst_highscore_percentage_description#:#Pontuação
-assessment#:#tst_highscore_score#:#Será incluída na classificação uma coluna que contém a pontuação.
-assessment#:#tst_highscore_score_description#:#Comprimento do Top de classificação
-assessment#:#tst_highscore_top_num#:#Especifica quantas classificações devem ser incluídas na lista de classificação.
-assessment#:#tst_highscore_top_num_description#:#Top de classificação
-assessment#:#tst_highscore_top_table#:#Aos participantes é apresentada uma tabela com o top das classificações.
-assessment#:#tst_highscore_top_table_description#:#Duração do teste
-assessment#:#tst_highscore_wtime#:#Será incluída na classificação uma coluna que contém a duração do teste.
-assessment#:#tst_highscore_wtime_description#:#Use apenas bancos com perguntas com a mesma pontuação
 assessment#:#tst_imap_qst_mode#:#Modo
 assessment#:#tst_imap_qst_mode_mc#:#Escolha múltipla
 assessment#:#tst_imap_qst_mode_sc#:#Escolha única

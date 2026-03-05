@@ -1518,27 +1518,6 @@ assessment#:#tst_hide_info_tab#:#Info タブを非表示
 assessment#:#tst_hide_info_tab_desc#:#テストの ‘Info’ タブを非表示
 assessment#:#tst_hide_pagecontents#:#ページコンテンツを非表示
 assessment#:#tst_hide_pagecontents_desc#:#ページ編集ボタン経由の実際のテキスト前後に位置するILIASコンテンツは結果ビューにも印刷にも出力されません。。
-assessment#:#tst_highscore_achieved_ts#:#日付
-assessment#:#tst_highscore_achieved_ts_description#:#テストデータの含まれる列は順位に含まれます。
-assessment#:#tst_highscore_all_tables#:#受験者の自身ランクとトップランキング
-assessment#:#tst_highscore_all_tables_description#:#受験者はトップランキングとランキング中の自身の順位に関する情報を得ます。
-assessment#:#tst_highscore_anon#:#無記名
-assessment#:#tst_highscore_anon_description#:#ランキングは受験者の名前リストなしで表示されます。これはテストが匿名で実施される場合を想定しています。
-assessment#:#tst_highscore_description#:#Infoタブ上の"順位表示"ボタンで受験者が表示されます。それをクリックすると受験者はテスト内の成績連結表へ表示されます。また、この機能を使用するには"テスト結果へアクセス'を有効にする必要があります。
-assessment#:#tst_highscore_enabled#:#順位
-assessment#:#tst_highscore_mode#:#モード
-assessment#:#tst_highscore_own_table#:#受験者自身の順位
-assessment#:#tst_highscore_own_table_description#:#受験者はランキング内の自身の位置をアドバイスされます。
-assessment#:#tst_highscore_percentage#:#パーセント
-assessment#:#tst_highscore_percentage_description#:#テストパーセンント入りの列はランキングへ含まれます。
-assessment#:#tst_highscore_score#:#点数
-assessment#:#tst_highscore_score_description#:#点数入りの列はランキングへ含まれます。
-assessment#:#tst_highscore_top_num#:#トップランキングの長さ
-assessment#:#tst_highscore_top_num_description#:#何位をトップ順位リスト内に含めるかを決める
-assessment#:#tst_highscore_top_table#:#トップ順位
-assessment#:#tst_highscore_top_table_description#:#受験者はトップランクに含まれるテーブルで表示されます。
-assessment#:#tst_highscore_wtime#:#テスト受験時間
-assessment#:#tst_highscore_wtime_description#:#テスト受験時間の含まれる列はランキングへ含まれます。
 assessment#:#tst_imap_qst_mode#:#モード
 assessment#:#tst_imap_qst_mode_mc#:#複数選択
 assessment#:#tst_imap_qst_mode_sc#:#単一選択
@@ -15581,7 +15560,7 @@ search#:#search_created_after#:#後に作成されたオブジェクト
 search#:#search_created_before#:#. . .以前に作成されたオブジェクト
 search#:#search_created_on#:#. . .に作成されたオブジェクト. . .
 search#:#search_crs_title#:#コース名
-search#:#search_detailed_results_title#:#「%s」の詳細な結果 
+search#:#search_detailed_results_title#:#「%s」の詳細な結果
 search#:#search_details_info#:#詳細検索。1つまたは複数のリソースの種類を選択してください。
 search#:#search_direct#:#ダイレクト検索
 search#:#search_err_user_not_exist#:#そのログイン名のユーザは存在しません。
