@@ -85,7 +85,7 @@ final class ilDelegatingHandler extends Handler
      */
     public function handle(): ?int
     {
-        if (defined("IL_INITIAL_WD")) {
+        if (defined('IL_INITIAL_WD')) {
             chdir(IL_INITIAL_WD);
         }
 
