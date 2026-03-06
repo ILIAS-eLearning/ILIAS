@@ -444,7 +444,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_NAMESPACE . '#getXMLTree',
             SERVICE_STYLE,
             SERVICE_USE,
-            'ILIAS getXMLTree(): Returns a xml stream with the subtree objects.'
+            'ILIAS getXMLTree(): Returns a XML stream with the subtree objects. The "types" parameter is optional and acts as an exclusion filter (listed types are excluded), unlike getTreeChilds() where types are included.'
         );
 
         $this->server->register(
