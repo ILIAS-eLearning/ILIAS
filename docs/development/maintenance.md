@@ -951,12 +951,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LTIConsumer)
 
 * **LTI Consumer**
-    * Authority to Sign off on Conceptual Changes: [sdiaz](https://docu.ilias.de/go/usr/105654)
-    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654)
-    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Issues: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Conceptual Changes: [Saaweel](https://docu.ilias.de/go/usr/105654)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [Saaweel](https://docu.ilias.de/go/usr/105654)
+    * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTIConsumer)
@@ -964,12 +964,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN LTI)
 
 * **LTI Provider**
-    * Authority to Sign off on Conceptual Changes: [sdiaz](https://docu.ilias.de/go/usr/105654)
-    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [sdiaz](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Issues: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Conceptual Changes: [Saaweel](https://docu.ilias.de/go/usr/105654)
+    * Authority to Sign off on Code Changes: [Zallax](https://docu.ilias.de/go/usr/101102), [Saaweel](https://docu.ilias.de/go/usr/105654), [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+    * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END LTI)
@@ -1397,12 +1397,12 @@ of ILIAS. The file contains the following fields:
 [//]: # (BEGIN Survey)
 
 * **Survey**
-    * Authority to Sign off on Conceptual Changes: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Sign off on Conceptual Changes: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Authority to Sign off on Code Changes: [abrahammordev](https://docu.ilias.de/go/usr/110909), [juanma1331](https://docu.ilias.de/go/usr/107249)
-    * Authority to Curate Test Cases: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Authority to (De-)Assign Authorities: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Issues: [jcop](https://docu.ilias.de/go/usr/30511)
-    * Assignee for Security Reports: [jcop](https://docu.ilias.de/go/usr/30511)
+    * Authority to Curate Test Cases: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Authority to (De-)Assign Authorities: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Issues: [jcopado](https://docu.ilias.de/go/usr/30511)
+    * Assignee for Security Reports: [jcopado](https://docu.ilias.de/go/usr/30511)
     * Unit-specific Guidelines, Rules, and Regulations: [LINK MISSING]('')
 
 [//]: # (END Survey)
