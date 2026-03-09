@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Init\ErrorHandling;
+namespace ILIAS\Init\ErrorHandling\Http;
 
 use PDOException;
 use Throwable;
