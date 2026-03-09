@@ -75,11 +75,13 @@ class UIModifier extends Mode\AbstractUIModifier
         $cb->setOptionTitle($lng->txt("survey_360_appraisees"));
         $cb->setInfo($lng->txt("survey_360_appraisees_remind_info"));
         $cb->setValue("1");
-        $cb->setChecked(in_array(
-            $survey->getReminderTarget(),
-            array(\ilObjSurvey::NOTIFICATION_APPRAISEES, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
-            true
-        ));
+        $cb->setChecked(
+            in_array(
+                $survey->getReminderTarget(),
+                array(\ilObjSurvey::NOTIFICATION_APPRAISEES, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
+                true
+            )
+        );
         $items[] = $cb;
 
         // remind raters
@@ -87,11 +89,13 @@ class UIModifier extends Mode\AbstractUIModifier
         $cb->setOptionTitle($lng->txt("survey_360_raters"));
         $cb->setInfo($lng->txt("survey_360_raters_remind_info"));
         $cb->setValue("1");
-        $cb->setChecked(in_array(
-            $survey->getReminderTarget(),
-            array(\ilObjSurvey::NOTIFICATION_RATERS, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
-            true
-        ));
+        $cb->setChecked(
+            in_array(
+                $survey->getReminderTarget(),
+                array(\ilObjSurvey::NOTIFICATION_RATERS, \ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS),
+                true
+            )
+        );
         $items[] = $cb;
 
         return $items;
@@ -172,7 +176,6 @@ class UIModifier extends Mode\AbstractUIModifier
             $req->getRaterId()
         );
 
-
         if (!$evaluation_manager->isMultiParticipantsView()) {
             $raters = $evaluation_manager->getSelectableRaters();
 
@@ -193,12 +196,10 @@ class UIModifier extends Mode\AbstractUIModifier
                     $ctrl->getCmd()
                 )->submit()->toToolbar(false, $toolbar);
 
-
                 $toolbar->addSeparator();
             }
         }
     }
-
 
     protected function getPanelChart(
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
@@ -243,10 +244,14 @@ class UIModifier extends Mode\AbstractUIModifier
             //exit;
         }
 
-
         \ilDatePresentation::setUseRelativeDates(false);
 
-        $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "components/ILIAS/Survey/Evaluation");
+        $a_tpl = new \ilTemplate(
+            "tpl.svy_results_details_table.html",
+            true,
+            true,
+            "components/ILIAS/Survey/Evaluation"
+        );
 
         // table
         $ret = "";
@@ -381,7 +386,12 @@ class UIModifier extends Mode\AbstractUIModifier
 
                     $a_tpl->setVariable("HEADER", $part_caption);
                     $ret .= $a_tpl->get();
-                    $a_tpl = new \ilTemplate("tpl.svy_results_details_table.html", true, true, "components/ILIAS/Survey/Evaluation");
+                    $a_tpl = new \ilTemplate(
+                        "tpl.svy_results_details_table.html",
+                        true,
+                        true,
+                        "components/ILIAS/Survey/Evaluation"
+                    );
                 }
             }
         }

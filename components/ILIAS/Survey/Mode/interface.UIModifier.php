@@ -31,6 +31,7 @@ use ILIAS\Survey\InternalService;
 interface UIModifier
 {
     public function setInternalService(InternalService $internal_service): void;
+
     public function getInternalService(): InternalService;
 
     /**

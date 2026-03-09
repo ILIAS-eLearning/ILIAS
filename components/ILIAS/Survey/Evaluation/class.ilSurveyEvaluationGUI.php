@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Modal;
  * The ilSurveyEvaluationGUI class creates the evaluation output for the ilObjSurveyGUI
  * class. This saves some heap space because the ilObjSurveyGUI class will be
  * smaller.
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 class ilSurveyEvaluationGUI
 {
@@ -99,20 +99,20 @@ class ilSurveyEvaluationGUI
         );
 
         $this->ui_modifier = $DIC->survey()
-             ->internal()
-             ->gui()
-             ->modeUIModifier($this->object->getMode());
+                                 ->internal()
+                                 ->gui()
+                                 ->modeUIModifier($this->object->getMode());
         $this->print = $DIC->survey()
-            ->internal()
-            ->gui()
-            ->print();
+                           ->internal()
+                           ->gui()
+                           ->print();
         $this->access_manager = $DIC->survey()
-            ->internal()
-            ->domain()
-            ->access(
-                $this->object->getRefId(),
-                $DIC->user()->getId()
-            );
+                                    ->internal()
+                                    ->domain()
+                                    ->access(
+                                        $this->object->getRefId(),
+                                        $DIC->user()->getId()
+                                    );
         $this->skill_profile_service = $DIC->skills()->profile();
         $this->gui = $DIC->survey()->internal()->gui();
     }
@@ -186,7 +186,6 @@ class ilSurveyEvaluationGUI
         }
     }
 
-
     public function setAppraiseeId(
         int $a_val
     ): void {
@@ -227,11 +226,22 @@ class ilSurveyEvaluationGUI
 
             // code needed
             $this->tpl->setVariable("TABS", "");
-            $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "components/ILIAS/Survey");
+            $this->tpl->addBlockFile(
+                "ADM_CONTENT",
+                "adm_content",
+                "tpl.il_svy_svy_evaluation_checkaccess.html",
+                "components/ILIAS/Survey"
+            );
             $this->tpl->setCurrentBlock("adm_content");
-            $this->tpl->setVariable("AUTHENTICATION_NEEDED", $this->lng->txt("svy_check_evaluation_authentication_needed"));
+            $this->tpl->setVariable(
+                "AUTHENTICATION_NEEDED",
+                $this->lng->txt("svy_check_evaluation_authentication_needed")
+            );
             $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "checkEvaluationAccess"));
-            $this->tpl->setVariable("EVALUATION_CHECKACCESS_INTRODUCTION", $this->lng->txt("svy_check_evaluation_access_introduction"));
+            $this->tpl->setVariable(
+                "EVALUATION_CHECKACCESS_INTRODUCTION",
+                $this->lng->txt("svy_check_evaluation_access_introduction")
+            );
             $this->tpl->setVariable("VALUE_CHECK", $this->lng->txt("ok"));
             $this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
             $this->tpl->setVariable("TEXT_SURVEY_CODE", $this->lng->txt("survey_code"));
@@ -341,7 +351,6 @@ class ilSurveyEvaluationGUI
                 break;
         }
 
-
         // parse answer data in evaluation results
         $ov_row = 2;
         $question_index = 1;
@@ -371,7 +380,14 @@ class ilSurveyEvaluationGUI
             if ($details) {
                 switch ($this->request->getExportFormat()) {
                     case self::TYPE_XLS:
-                        $this->exportResultsDetailsExcel($excel, $q_eval, $q_res, $do_title, $do_label, $question_index++);
+                        $this->exportResultsDetailsExcel(
+                            $excel,
+                            $q_eval,
+                            $q_res,
+                            $do_title,
+                            $do_label,
+                            $question_index++
+                        );
                         break;
                 }
             }
@@ -427,7 +443,6 @@ class ilSurveyEvaluationGUI
 
         $a_excel->addSheet($question_index . "_" . $question->getTitle());
 
-
         // question "overview"
 
         $kv = array();
@@ -449,7 +464,7 @@ class ilSurveyEvaluationGUI
 
         // answered and skipped users
         $kv[$this->lng->txt("users_answered")] = $question_res->getUsersAnswered();
-        $kv[$this->lng->txt("users_skipped")] = $question_res->getUsersSkipped();		// #0021671
+        $kv[$this->lng->txt("users_skipped")] = $question_res->getUsersSkipped();        // #0021671
 
         $excel_row = 1;
 
@@ -595,8 +610,7 @@ class ilSurveyEvaluationGUI
                 $a_excel->setColors("B" . $a_excel_row . ":C" . $a_excel_row, self::EXCEL_SUBTITLE);
                 $a_excel->setCell($a_excel_row, 1, $this->lng->txt("title"));
                 $a_excel->setCell($a_excel_row++, 2, $this->lng->txt("answer"));
-            }
-            // mtx (row), txt
+            } // mtx (row), txt
             else {
                 $a_excel->setColors("B" . $a_excel_row . ":B" . $a_excel_row, self::EXCEL_SUBTITLE);
                 $a_excel->setCell($a_excel_row++, 1, $this->lng->txt("answer"));
@@ -658,7 +672,7 @@ class ilSurveyEvaluationGUI
         $toolbar->addComponent($modal);
     }
 
-    protected function getExportModal(): Modal\RoundTrip | Form\Standard
+    protected function getExportModal(): Modal\RoundTrip|Form\Standard
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -673,8 +687,8 @@ class ilSurveyEvaluationGUI
                 \ilSurveyEvaluationGUI::TYPE_SPSS => $lng->txt("exp_type_csv")
             ]
         )
-        //->withValue(\ilSurveyEvaluationGUI::TYPE_XLS)
-        ->withRequired(true);
+            //->withValue(\ilSurveyEvaluationGUI::TYPE_XLS)
+                                          ->withRequired(true);
 
         $inputs["export_label"] = $ui_fac->input()->field()->select(
             $lng->txt("title"),
@@ -684,8 +698,8 @@ class ilSurveyEvaluationGUI
                 "title_label" => $lng->txt("export_title_label")
             ]
         )
-        //->withValue("label_only")
-        ->withRequired(true);
+            //->withValue("label_only")
+                                         ->withRequired(true);
 
         $modal = $ui_fac->modal()->roundtrip(
             $lng->txt("svy_export_format"),
@@ -693,7 +707,7 @@ class ilSurveyEvaluationGUI
             $inputs,
             $post_url
         )
-        ->withSubmitLabel($lng->txt("export"));
+                        ->withSubmitLabel($lng->txt("export"));
 
         return $modal;
     }
@@ -781,7 +795,6 @@ class ilSurveyEvaluationGUI
             $this->tabs->activateSubTab("svy_eval_detail");
         }
 
-
         // auth
         if (!$this->hasResultsAccess()) {
             if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
@@ -815,7 +828,6 @@ class ilSurveyEvaluationGUI
 
         $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "components/ILIAS/Survey");
 
-
         if ($details) {
             $toolbar_components = $this->ui_modifier->setResultsDetailToolbar(
                 $this->object,
@@ -836,7 +848,12 @@ class ilSurveyEvaluationGUI
         if (!$this->object->get360Mode() || $appr_id) {
             if ($details) {
                 //templates: results, table of contents
-                $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "components/ILIAS/Survey/Evaluation");
+                $dtmpl = new ilTemplate(
+                    "tpl.il_svy_svy_results_details.html",
+                    true,
+                    true,
+                    "components/ILIAS/Survey/Evaluation"
+                );
                 $this->lng->loadLanguageModule("content");
             }
             $finished_ids = $this->evaluation_manager->getFilteredFinishedIds();
@@ -887,7 +904,10 @@ class ilSurveyEvaluationGUI
 
             if ($details) {
                 //TABLE OF CONTENTS
-                $panel_toc = $ui_factory->panel()->standard($this->lng->txt('cont_toc'), $ui_factory->legacy()->content($listing->render()));
+                $panel_toc = $ui_factory->panel()->standard(
+                    $this->lng->txt('cont_toc'),
+                    $ui_factory->legacy()->content($listing->render())
+                );
                 $render_toc = $ui_renderer->render($panel_toc);
                 $dtmpl->setVariable("PANEL_TOC", $render_toc);
 
@@ -942,8 +962,8 @@ class ilSurveyEvaluationGUI
     /**
      * Processes an array as a CSV row and converts the array values to correct CSV
      * values. The "converted" array is returned
-     * @param array $row The array containing the values for a CSV row
-     * @param bool $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
+     * @param array  $row       The array containing the values for a CSV row
+     * @param bool   $quoteAll  Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
      * @param string $separator The value separator in the CSV row (used for quoting) (; = default)
      * @return array The converted array ready for CSV use
      */
@@ -1149,7 +1169,6 @@ class ilSurveyEvaluationGUI
             $this->gui->toolbar()->addComponent($component);
         }
 
-
         $appr_id = null;
         $data = [];
 
@@ -1159,7 +1178,6 @@ class ilSurveyEvaluationGUI
 
         if (!$this->object->get360Mode() || $appr_id) {
             $this->buildExportButtonAndModal("exportEvaluationUser");
-
 
             $this->gui->toolbar()->addSeparator();
 
@@ -1194,7 +1212,6 @@ class ilSurveyEvaluationGUI
         $ilTabs->activateSubTab("svy_eval_competences");
         $ilTabs->activateTab("svy_results");
 
-
         $appr_id = $this->getAppraiseeId();
 
         if ($appr_id === 0) {
@@ -1219,8 +1236,13 @@ class ilSurveyEvaluationGUI
         $skills = array();
         foreach ($opts as $id => $o) {
             $idarr = explode(":", $id);
-            $skills[$id] = array("id" => $id, "title" => $o, "profiles" => array(),
-                "base_skill" => $idarr[0], "tref_id" => $idarr[1]);
+            $skills[$id] = array(
+                "id" => $id,
+                "title" => $o,
+                "profiles" => array(),
+                "base_skill" => $idarr[0],
+                "tref_id" => $idarr[1]
+            );
         }
 
         // get matching user competence profiles
@@ -1269,9 +1291,8 @@ class ilSurveyEvaluationGUI
 
         $this->gui->toolbar()->addComponent(
             $this->ui->factory()->dropdown()->standard($dropdown_items)
-                ->withLabel($eval_modes[$comp_eval_mode] ?? $lng->txt("svy_analysis"))
+                     ->withLabel($eval_modes[$comp_eval_mode] ?? $lng->txt("svy_analysis"))
         );
-
 
         $pskills_gui = new ilPersonalSkillsGUI();
         $rater = $this->evaluation_manager->getCurrentRater(
@@ -1315,7 +1336,7 @@ class ilSurveyEvaluationGUI
                 $sk[] = array(
                     "base_skill_id" => (int) $skill["base_skill"],
                     "tref_id" => (int) $skill["tref_id"]
-                    );
+                );
             }
             $html = $pskills_gui->getGapAnalysisHTML($appr_id, $sk);
         }
@@ -1328,7 +1349,11 @@ class ilSurveyEvaluationGUI
      */
     protected function hasResultsAccess(): bool
     {
-        return $this->access->checkRbacOrPositionPermissionAccess('read_results', 'access_results', $this->object->getRefId());
+        return $this->access->checkRbacOrPositionPermissionAccess(
+            'read_results',
+            'access_results',
+            $this->object->getRefId()
+        );
     }
 
     /**
@@ -1342,7 +1367,10 @@ class ilSurveyEvaluationGUI
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
 
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore());
+        $this->tpl->setOnScreenMessage(
+            'info',
+            $this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore()
+        );
 
         $this->gui->button(
             $this->lng->txt("print"),
