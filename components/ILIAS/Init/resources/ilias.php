@@ -55,7 +55,7 @@ try {
         $DIC->language(),
         $DIC->ui(),
         $DIC->http()
-    )->handleError(
+    )->respond(
         $DIC->language()->txt('http_404_not_found'),
         StatusCode::HTTP_NOT_FOUND,
         $back_target
