@@ -14,7 +14,7 @@
  */
 
 import View from 'ol/View';
-import Map from 'ol/Map';
+import OLMap from 'ol/Map';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import {defaults as control} from 'ol/control';
@@ -95,7 +95,7 @@ export default class ServiceOpenLayers {
      * @return 	{void}
      */
     initMap(id, replace_marker) {
-        this.map = new Map({
+        this.map = new OLMap({
             layers: [
                 new TileLayer({
                     preload: 4,

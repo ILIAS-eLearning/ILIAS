@@ -22,14 +22,14 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\components\WOPI\Discovery\Crawler;
+use ILIAS\WOPI\Discovery\Crawler;
 use ILIAS\Data\URI;
-use ILIAS\components\WOPI\Discovery\AppDBRepository;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
-use ILIAS\components\WOPI\Discovery\ActionRepository;
-use ILIAS\components\WOPI\Discovery\AppRepository;
-use ILIAS\components\WOPI\Discovery\ActionTarget;
-use ILIAS\components\WOPI\Discovery\Action;
+use ILIAS\WOPI\Discovery\AppDBRepository;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionRepository;
+use ILIAS\WOPI\Discovery\AppRepository;
+use ILIAS\WOPI\Discovery\ActionTarget;
+use ILIAS\WOPI\Discovery\Action;
 
 /**
  * @author            Fabian Schmid <fabian@sr.solutions>

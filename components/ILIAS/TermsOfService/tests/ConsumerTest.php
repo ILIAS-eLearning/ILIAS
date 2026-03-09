@@ -63,6 +63,7 @@ class ConsumerTest extends TestCase
         $slot->expects(self::once())->method('hasHistory')->willReturn($slot);
         $slot->expects(self::once())->method('hasPublicApi')->willReturn($slot);
         $slot->expects(self::once())->method('hasPublicPage')->willReturn($slot);
+        $slot->expects(self::once())->method('showInFooter')->willReturn($slot);
 
         $instance = new Consumer($container);
 

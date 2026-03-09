@@ -38,13 +38,5 @@ class PathTest extends TestCase
             "",
             iljQueryUtil::getLocaljQueryPath()
         );
-        $this->assertNotEquals(
-            "",
-            iljQueryUtil::getLocaljQueryUIPath()
-        );
-        $this->assertNotEquals(
-            "",
-            iljQueryUtil::getLocalMaphilightPath()
-        );
     }
 }

@@ -124,6 +124,7 @@ class ilDclDetailedViewGUI
 
     public function executeCommand(): void
     {
+        $this->ctrl->setParameter($this, 'table_id', $this->table->getId());
         $this->ctrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
         if (!$this->checkAccess()) {
@@ -175,29 +176,6 @@ class ilDclDetailedViewGUI
         $rctpl->fillCssFiles();
         $table = ilDclCache::getTableCache($this->record_obj->getTableId());
         foreach ($table->getRecordFields() as $field) {
-            //ILIAS_Ref_Links
-            $pattern = '/\[dcliln field="' . preg_quote($field->getTitle(), "/") . '"\](.*?)\[\/dcliln\]/';
-            if (preg_match($pattern, $html)) {
-                $html = preg_replace(
-                    $pattern,
-                    $this->record_obj->getRecordFieldSingleHTML($field->getId(), $this->setOptions("$1")),
-                    $html
-                );
-            }
-
-            //DataCollection Ref Links
-            $pattern = '/\[dclrefln field="' . preg_quote($field->getTitle(), "/") . '"\](.*?)\[\/dclrefln\]/';
-            if (preg_match($pattern, $html)) {
-                $this->currentField = $field;
-                $html = preg_replace_callback($pattern, [$this, "doReplace"], $html);
-            }
-
-            $pattern = '/\[ext tableOf="' . preg_quote($field->getTitle(), "/") . '" field="(.*?)"\]/';
-            if (preg_match($pattern, $html)) {
-                $this->currentField = $field;
-                $html = preg_replace_callback($pattern, [$this, "doExtReplace"], $html);
-            }
-
             $html = str_ireplace(
                 "[" . $field->getTitle() . "]",
                 $this->record_obj->getRecordFieldSingleHTML($field->getId(), ['tableview_id' => $this->tableview_id]),

@@ -43,7 +43,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private readonly Refinery $refinery;
     private readonly ilObjCertificateSettings $global_certificate_settings;
     private IRSS $irss;
-    private Filesystem $filesystem;
+    private Filesystem $web_fs;
     private readonly ilGlobalTemplateInterface $page_template;
     private readonly FitToSquare $card_thumbnail_definition;
 
@@ -63,7 +63,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ilCertificateTemplateImportAction $importAction = null,
         ilLogger $logger = null,
         ilCertificateTemplateRepository $templateRepository = null,
-        Filesystem $filesystem = null,
+        Filesystem $web_fs = null,
+        Filesystem $tmp_fs = null
     ) {
         global $DIC;
 
@@ -74,7 +75,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->ui_factory = $ui_factory ?? $DIC->ui()->factory();
 
         $this->irss = $DIC->resourceStorage();
-        $this->filesystem = $filesystem ?? $DIC->filesystem()->web();
+        $this->web_fs = $web_fs ?? $DIC->filesystem()->web();
 
         $this->pageFormats = $pageFormats ?? new ilPageFormats($language);
         $this->importAction = $importAction ?? new ilCertificateTemplateImportAction(
@@ -82,7 +83,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $certificatePath,
             $placeholderDescriptionObject,
             $logger ?? $DIC->logger()->cert(),
-            $this->filesystem,
+            $this->web_fs,
+            $tmp_fs ?? $DIC->filesystem()->temp(),
             $this->irss
         );
         $this->templateRepository = $templateRepository ?? new ilCertificateTemplateDatabaseRepository(
@@ -222,7 +224,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 /** @var string $url */
                 $bgimage->setImage($url);
             }
-        } elseif ($bg_image_path !== '' && $this->filesystem->has($bg_image_path)) {
+        } elseif ($bg_image_path !== '' && $this->web_fs->has($bg_image_path)) {
             $bgimage->setImage(
                 ilWACSignedPath::signFile(
                     ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $bg_image_path
@@ -250,7 +252,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 $thumbnailImage->setImage($this->irss->consume()->src($identification)->getSrc(true));
                 $allowThumbnailDeletion = true;
             }
-        } elseif ($old_thumbnail_image_path !== '' && $this->filesystem->has($old_thumbnail_image_path)) {
+        } elseif ($old_thumbnail_image_path !== '' && $this->web_fs->has($old_thumbnail_image_path)) {
             $thumbnailImage->setImage(
                 ilWACSignedPath::signFile(
                     ILIAS_HTTP_PATH . '/' . ILIAS_WEB_DIR . '/' . CLIENT_ID . $old_thumbnail_image_path

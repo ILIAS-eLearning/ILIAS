@@ -21,6 +21,9 @@ declare(strict_types=1);
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 use ILIAS\UI\Component\Panel\Report;
+use Phiki\Phiki;
+use Phiki\Grammar\Grammar;
+use Phiki\Theme\Theme;
 
 /**
  * Renders the Overview of one Example in the Administration
@@ -64,17 +67,17 @@ class ilKSDocumentationEntryGUI
             [
                 $this->f->listing()->descriptive(
                     [
-                        'Purpose' => $this->entry->getDescription()->getProperty('purpose'),
-                        'Composition' => $this->entry->getDescription()->getProperty('composition'),
-                        'Effect' => $this->entry->getDescription()->getProperty('effect'),
+                        'Purpose' => $this->escapeForHtml($this->entry->getDescription()->getProperty('purpose')),
+                        'Composition' => $this->escapeForHtml($this->entry->getDescription()->getProperty('composition')),
+                        'Effect' => $this->escapeForHtml($this->entry->getDescription()->getProperty('effect')),
 
                     ]
                 ),
                 $this->f->listing()->descriptive(
                     [
-                        'Background' => $this->entry->getBackground(),
-                        'Context' => $this->f->listing()->ordered($this->entry->getContext()),
-                        'Feature Wiki References' => $this->f->listing()->ordered($feature_wiki_links)
+                        'Background' => $this->escapeForHtml($this->entry->getBackground()),
+                        'Context' => $this->f->listing()->ordered($this->escapeForHtml($this->entry->getContext())),
+                        'Feature Wiki References' => $this->f->listing()->ordered($this->escapeForHtml($feature_wiki_links))
                     ]
                 )
             ]
@@ -84,7 +87,7 @@ class ilKSDocumentationEntryGUI
             $sub_panels[] = $this->f->panel()->sub(
                 'Rivals',
                 $this->f->listing()->descriptive(
-                    $this->entry->getDescription()->getProperty('rivals')
+                    $this->escapeForHtml($this->entry->getDescription()->getProperty('rivals'))
                 )
             );
         }
@@ -92,7 +95,7 @@ class ilKSDocumentationEntryGUI
         if ($this->entry->getRules() && $this->entry->getRules()->hasRules()) {
             $rule_listings = [];
             foreach ($this->entry->getRulesAsArray() as $categoery => $category_rules) {
-                $rule_listings[ucfirst($categoery)] = $this->f->listing()->ordered($category_rules);
+                $rule_listings[ucfirst($categoery)] = $this->f->listing()->ordered($this->escapeForHtml($category_rules));
             }
 
             $sub_panels[] = $this->f->panel()->sub(
@@ -117,9 +120,7 @@ class ilKSDocumentationEntryGUI
                 }
                 $content_part_1 = $this->f->legacy($example);
                 $code = str_replace('<?php\n', '', file_get_contents($path));
-                $geshi = new GeSHi($code, 'php');
-                //@Todo: we need a code container UI Component
-                $code_html = "<div class='code-container'>" . $geshi->parse_code() . '</div>';
+                $code_html = "<div class='code-container'><pre><code>" . htmlspecialchars($code) . '</code></pre></div>';
                 $content_part_2 = $this->f->legacy($code_html);
                 $content = [$content_part_1, $content_part_2];
                 $sub_panels[] = $this->f->panel()->sub($title, $content);
@@ -129,16 +130,24 @@ class ilKSDocumentationEntryGUI
             $this->f->listing()->descriptive(
                 [
                     'Parents' => $this->f->listing()->ordered(
-                        $this->entries->getParentsOfEntryTitles($this->entry->getId())
+                        $this->escapeForHtml($this->entries->getParentsOfEntryTitles($this->entry->getId()))
                     ),
                     'Descendants' => $this->f->listing()->unordered(
-                        $this->entries->getDescendantsOfEntryTitles($this->entry->getId())
+                        $this->escapeForHtml($this->entries->getDescendantsOfEntryTitles($this->entry->getId()))
                     )
                 ]
             )
         ]);
 
         return $this->f->panel()
-                       ->report($this->entry->getTitle(), $sub_panels);
+                       ->report($this->escapeForHtml($this->entry->getTitle()), $sub_panels);
+    }
+
+    private function escapeForHtml(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            return array_map($this->escapeForHtml(...), $value);
+        }
+        return htmlspecialchars((string) $value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 }

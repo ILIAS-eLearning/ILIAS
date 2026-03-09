@@ -235,9 +235,9 @@ class ilObjSearchSettingsFormGUI
             20 => 20,
             30 => 30
         ];
-        $val = ($settings->getAutoCompleteLength() > 0)
+        $val = in_array($settings->getAutoCompleteLength(), $options)
             ? $settings->getAutoCompleteLength()
-            : 10;
+            : null;
         $auto_complete = $field_factory->select(
             $this->lng->txt('search_auto_complete_length'),
             $options

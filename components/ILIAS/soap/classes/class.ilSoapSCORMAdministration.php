@@ -132,6 +132,13 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
             return $this->raiseError("Parent with ID $ref_id has been deleted.", 'Client');
         }
 
+        if (!$rbacsystem->checkAccess('read', $ref_id)) {
+            return $this->raiseError(
+                'No permission to read the object with id: ' . $ref_id,
+                'Server'
+            );
+        }
+
         $certValidator = new ilCertificateUserCertificateAccessValidator();
 
         return $certValidator->validate($usr_id, $obj_id);
@@ -151,6 +158,16 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 
         if (!($a_ref_id > 0)) {
             return $this->raiseError('No ref_id given. Aborting!', 'Client');
+        }
+
+        global $DIC;
+        $rbacsystem = $DIC['rbacsystem'];
+
+        if (!$rbacsystem->checkAccess('read', $a_ref_id)) {
+            return $this->raiseError(
+                'No permission to read the object with id: ' . $a_ref_id,
+                'Server'
+            );
         }
 
         ilInitialisation::initILIAS();

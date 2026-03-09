@@ -81,9 +81,10 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
+        /* should be handled by object
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOnline($this->isOnline());
-        }
+        }*/
 
         self::cloneBasics($this, $new_obj);
 

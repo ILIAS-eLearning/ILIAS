@@ -23,9 +23,8 @@ use ILIAS\StaticURL\Response\Response;
 use ILIAS\StaticURL\Response\Factory;
 use ILIAS\StaticURL\Handler\BaseHandler;
 use ILIAS\File\Capabilities\CapabilityBuilder;
-use ILIAS\components\WOPI\Discovery\ActionDBRepository;
+use ILIAS\WOPI\Discovery\ActionDBRepository;
 use ILIAS\File\Capabilities\Capabilities;
-use ILIAS\File\Capabilities\CoreTypeResolver;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -84,7 +83,7 @@ class ilFileStaticURLHandler extends BaseHandler implements Handler
             self::VERSIONS => $capabilities->get(Capabilities::MANAGE_VERSIONS),
             self::EDIT => $capabilities->get(Capabilities::EDIT_EXTERNAL),
             self::VIEW => $capabilities->get(Capabilities::VIEW_EXTERNAL),
-            default => $capabilities->get(Capabilities::INFO_PAGE),
+            default => $capabilities->getBest(),
         };
 
         if (!$capability->isUnlocked() || $capability->getUri() === null) {

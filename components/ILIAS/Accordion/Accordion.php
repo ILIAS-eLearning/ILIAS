@@ -34,9 +34,5 @@ class Accordion implements Component\Component
     ): void {
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\ComponentJS($this, "accordion.js");
-        /* This library was missing after discussing dependencies for ILIAS 10
-        $contribute[Component\Resource\PublicAsset::class] = static fn() =>
-            new Component\Resource\NodeModule("owl.carousel/dist/owl.carousel.js");
-        */
     }
 }

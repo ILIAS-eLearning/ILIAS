@@ -20,7 +20,8 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 		margin: 0 $il-padding-xs-horizontal 0 0;
 
 		// Actual tabs (as links)
-		> a {
+		> a,
+        > .c-tooltip__container > a {
 			margin: 0;
 			margin-right: 2px;
 			font-size: $il-font-size-base;
@@ -39,8 +40,8 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 		}
 
 		// Active state, and its :hover to override normal :hover
-		&.active>a {
-
+		&.active > a,
+        &.active > .c-tooltip__container > a {
 			&,
 			&:hover,
 			&:focus {
@@ -66,7 +67,8 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 	padding: $il-padding-large-vertical 0;
 	margin: 0;
 
-	> li:first-child > a {
+	> li:first-child > a,
+    > li:first-child > .c-tooltip__container > a {
 		padding-left: $il-padding-large-horizontal;
 	}
 
@@ -74,7 +76,8 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 	> li {
 		float: left;
 
-		> a {
+		> a,
+        > .c-tooltip__container > a {
 			border-radius: 0;
 			padding: $il-padding-base-vertical $il-padding-base;
 			font-size: ($il-font-size-small);
@@ -86,7 +89,8 @@ $nav-tabs-border: 1px solid $il-main-border-color !default;
 			@include focus.clear-focus-for-override($clearAfter: true);
 			@include focus.il-focus();
 		}
-		&.active > a {
+		&.active > a,
+        &.active > .c-tooltip__container > a {
 			&,
 			&:hover,
 			&:focus {

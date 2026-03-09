@@ -40,9 +40,6 @@ class Factory
         if ($this->context->isUserLoggedIn()) {
             return new CannotReach();
         }
-        if (!$this->context->isUserLoggedIn() && !$this->context->isPublicSectionActive()) {
-            return new CannotReach();
-        }
 
         return new MaybeCanHandlerAfterLogin();
     }

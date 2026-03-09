@@ -313,7 +313,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function initProcessLocker($activeId)
     {
         $ilDB = $this->db;
-        $process_lockerFactory = new ilTestProcessLockerFactory($this->ass_settings, $ilDB);
+        $process_lockerFactory = new ilTestProcessLockerFactory($this->ass_settings, $ilDB, $this->logger);
         $this->process_locker = $process_lockerFactory->withContextId((int) $activeId)->getLocker();
     }
 
@@ -384,14 +384,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return false;
         }
 
-        if ($this->canSaveResult() || $force) {
-            $saved = $this->save($question_obj, $authorized);
-        }
+        $saved = ($force || $this->canSaveResult()) && $this->save($question_obj, $authorized);
 
-        if (!$saved
-            || ($question_obj instanceof QuestionPartiallySaveable
-                && !$question_obj->validateSolutionSubmit())) {
-
+        if (!$saved || ($question_obj instanceof QuestionPartiallySaveable && !$question_obj->validateSolutionSubmit())) {
             $this->ctrl->setParameter($this, 'save_error', '1');
             ilSession::set('previouspost', $this->testrequest->getParsedBody());
         }
@@ -421,7 +416,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         if ($this->isParticipantsAnswerFixed($q_id)) {
             // should only be reached by firebugging the disabled form in ui
-            throw new ilTestException('not allowed request');
+            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->lng->txt('tst_player_answer_saved_and_locked'), true);
+            $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
         }
 
         if ($q_id === null) {
@@ -1098,16 +1094,21 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         // redirect after test
-        $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
-        if (!empty($redirection_url)
-            && !$this->object->canShowTestResults($this->test_session)
+        if (!$this->object->canShowTestResults($this->test_session)
             && $this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode() !== ilObjTest::REDIRECT_NONE) {
-            if ($this->object->isRedirectModeKiosk()) {
-                if ($this->object->getKioskMode()) {
+            $redirection_url = $this->object->getMainSettings()->getFinishingSettings()->getRedirectionUrl();
+            if ($this->object->getMainSettings()->getFinishingSettings()->getRedirectionMode() === ilObjTest::REDIRECT_ALWAYS_TO_LOGOUT) {
+                $redirection_url = ilStartUpGUI::logoutUrl();
+            }
+
+            if (!empty($redirection_url)) {
+                if ($this->object->isRedirectModeKiosk()) {
+                    if ($this->object->getKioskMode()) {
+                        ilUtil::redirect($redirection_url);
+                    }
+                } else {
                     ilUtil::redirect($redirection_url);
                 }
-            } else {
-                ilUtil::redirect($redirection_url);
             }
         }
 
@@ -2828,7 +2829,7 @@ JS;
         $question = assQuestion::instantiateQuestion($question_id);
         $ass_settings = new ilSetting('assessment');
 
-        $process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $this->db);
+        $process_locker_factory = new ilAssQuestionProcessLockerFactory($ass_settings, $this->db, ilLoggerFactory::getLogger('tst'));
         $process_locker_factory->setQuestionId($question->getId());
         $process_locker_factory->setUserId($this->user->getId());
         $question->setProcessLocker($process_locker_factory->getLocker());

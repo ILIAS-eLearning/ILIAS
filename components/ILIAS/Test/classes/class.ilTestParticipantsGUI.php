@@ -359,7 +359,8 @@ class ilTestParticipantsGUI
                     $this->db,
                     new \ilTestProcessLockerFactory(
                         new \ilSetting('assessment'),
-                        $this->db
+                        $this->db,
+                        $this->test_obj->getTestLogger()
                     ),
                     $this->current_user,
                     $this->test_access,

@@ -23,6 +23,15 @@ declare(strict_types=1);
  */
 class ilDclFileFieldModel extends ilDclBaseFieldModel
 {
+    protected ilFileServicesSettings $file_settings;
+
+    public function __construct(int $a_id = 0)
+    {
+        global $DIC;
+        $this->file_settings = $DIC->fileServiceSettings();
+        parent::__construct($a_id);
+    }
+
     public function allowFilterInListView(): bool
     {
         return false;
@@ -35,23 +44,27 @@ class ilDclFileFieldModel extends ilDclBaseFieldModel
 
     public function getSupportedExtensions(): array
     {
-        if (!$this->hasProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES)) {
-            return [];
+        $file_types = [];
+
+        foreach ($this->getExtensions() as $i => $type) {
+            if (
+                in_array($type, $this->file_settings->getWhiteListedSuffixes()) &&
+                !in_array($type, $this->file_settings->getBlackListedSuffixes())
+            ) {
+                $file_types[] = $type;
+            }
         }
 
-        $file_types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
-
-        return $this->parseSupportedExtensions($file_types);
+        return $file_types;
     }
 
-    protected function parseSupportedExtensions(string $input_value): array
+    protected function getExtensions(): array
     {
-        $supported_extensions = explode(",", $input_value);
-
-        $trim_function = function ($value) {
-            return trim(trim(strtolower($value)), ".");
-        };
-
-        return array_map($trim_function, $supported_extensions);
+        $types = $this->getProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
+        if ($types === null) {
+            return [];
+        } else {
+            return explode(',', str_replace(' ', '', $types));
+        }
     }
 }

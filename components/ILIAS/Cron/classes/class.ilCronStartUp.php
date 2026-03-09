@@ -70,6 +70,10 @@ class ilCronStartUp
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 $this->authenticated = true;
+
+                // https://mantis.ilias.de/view.php?id=47354
+                ilInitialisation::initLanguage(true);
+
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
                 return true;
 

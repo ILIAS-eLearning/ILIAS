@@ -175,14 +175,14 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                 <button type="button" aria-expanded="false" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="0">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -197,12 +197,12 @@ class StandardFilterTest extends ILIAS_UI_TestBase
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
@@ -313,14 +313,14 @@ EOT;
                 <button type="button" aria-expanded="false" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="0">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="1">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -335,12 +335,12 @@ EOT;
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="1">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="0">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
@@ -451,14 +451,14 @@ EOT;
                 <button type="button" aria-expanded="true" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="1">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -473,12 +473,12 @@ EOT;
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>
@@ -589,14 +589,14 @@ EOT;
                 <button type="button" aria-expanded="true" aria-controls="active_inputs_id_1 section_inputs_id_1" id="opener_id_1">
                     <span>
                         <span data-collapse-glyph-visibility="1">
-                            <a class="glyph" aria-label="collapse_content">
+                            <span class="glyph" aria-label="collapse_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span>
                         <span data-expand-glyph-visibility="0">
-                            <a class="glyph" aria-label="expand_content">
+                            <span class="glyph" aria-label="expand_content" role="img">
                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
-                            </a>
+                            </span>
                         </span> filter
                     </span>
                 </button>
@@ -611,12 +611,12 @@ EOT;
                 </div>
             </div>
         </div>
-        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
+        <div class="il-filter-inputs-active clearfix" id="active_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-active-inputs-expanded="0">
             <span id="1"></span>
             <span id="2"></span>
             <span id="3"></span>
         </div>
-        <div class="il-filter-input-section row" id="section_inputs_id_1" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
+        <div class="il-filter-input-section row" id="section_inputs_id_1" role="region" aria-labelledby="opener_id_1" data-section-inputs-expanded="1">
             <div class="col-md-6 col-lg-4 il-popover-container">
                 <div class="input-group">
                     <label for="id_5" class="input-group-addon leftaddon">Title</label>

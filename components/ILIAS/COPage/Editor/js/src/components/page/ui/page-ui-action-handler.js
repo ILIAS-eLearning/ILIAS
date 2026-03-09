@@ -48,7 +48,7 @@ export default class PageUIActionHandler {
    * @param {Client} client
    */
   constructor(actionFactory, client) {
-    this.debug = true;
+    this.debug = false;
     this.actionFactory = actionFactory;
     this.client = client;
     this.dispatcher = null;
@@ -90,7 +90,7 @@ export default class PageUIActionHandler {
     switch (action.getType()) {
       case 'component.insert':
         // legacy
-        console.log(model.getCurrentPCName());
+        this.log(model.getCurrentPCName());
 
         if (!['Paragraph', 'LayoutTemplate', 'PlaceHolder', 'Grid', 'MediaObject', 'Section', 'Tabs', 'Resources', 'DataTable', 'SourceCode', 'InteractiveImage'].includes(model.getCurrentPCName())) {
           const ctype = this.ui.getPCTypeForName(params.cname);
@@ -421,8 +421,9 @@ export default class PageUIActionHandler {
       /*
       for (const pair of data.entries()) {
         console.log(`${pair[0]}, ${pair[1]}`);
-        return;
-      } */
+      }
+      return;
+      */
 
       insert_action = af.page().command().insert(
         params.afterPcid,
@@ -464,7 +465,7 @@ export default class PageUIActionHandler {
     update_action = af.page().command().update(
       params.pcid,
       params.component,
-      params.data
+      params.data,
     );
 
     this.client.sendCommand(update_action).then((result) => {

@@ -22,16 +22,12 @@ use ILIAS\DI\Container;
 
 class ilAchievements
 {
-    private ilCertificateActiveValidator $validator;
-    protected ilLearningHistoryService $learing_history;
-
     public const SERV_LEARNING_HISTORY = 1;
     public const SERV_COMPETENCES = 2;
     public const SERV_LEARNING_PROGRESS = 3;
     public const SERV_BADGES = 4;
     public const SERV_CERTIFICATES = 5;
-
-    protected array $services = [
+    private const SERVICES = [
         self::SERV_LEARNING_HISTORY,
         self::SERV_COMPETENCES,
         self::SERV_LEARNING_PROGRESS,
@@ -39,16 +35,16 @@ class ilAchievements
         self::SERV_CERTIFICATES
     ];
 
-    protected ilSetting $setting;
-    protected ilSetting $skmg_setting;
+    protected readonly ilCertificateActiveValidator $validator;
+    protected readonly ilLearningHistoryService $learing_history;
+    protected readonly ilSetting $setting;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->setting = $DIC->settings();
         $this->learing_history = $DIC->learningHistory();
-        $this->skmg_setting = new ilSetting('skmg');
+        $this->setting = new ilSetting('skmg');
         $this->validator = new ilCertificateActiveValidator();
     }
 
@@ -59,7 +55,7 @@ class ilAchievements
                 return $this->learing_history->isActive();
 
             case self::SERV_COMPETENCES:
-                return (bool) $this->skmg_setting->get('enable_skmg');
+                return (bool) $this->setting->get('enable_skmg');
 
             case self::SERV_LEARNING_PROGRESS:
                 return ilObjUserTracking::_enabledLearningProgress() &&
@@ -77,7 +73,7 @@ class ilAchievements
 
     public function isAnyActive(): bool
     {
-        foreach ($this->services as $s) {
+        foreach (self::SERVICES as $s) {
             if ($this->isActive($s)) {
                 return true;
             }
@@ -90,8 +86,6 @@ class ilAchievements
      */
     public function getActiveServices(): array
     {
-        return array_filter($this->services, function ($s) {
-            return $this->isActive($s);
-        });
+        return array_filter(self::SERVICES, $this->isActive(...));
     }
 }

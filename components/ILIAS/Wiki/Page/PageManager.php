@@ -298,4 +298,10 @@ class PageManager
         return $this->page_repo->getWikiIdByPageId($id) === $this->getWikiId();
     }
 
+    public function writeImportId(int $id, string $lang, string $import_id): void
+    {
+        $this->page_repo->writeImportId($id, $lang, $import_id);
+    }
+
+
 }

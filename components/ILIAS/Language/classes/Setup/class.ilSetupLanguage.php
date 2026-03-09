@@ -520,6 +520,9 @@ class ilSetupLanguage extends ilLanguage
                         " AND module = " . $ilDB->quote($module, "text");
                     $set = $ilDB->query($q);
                     $row = $ilDB->fetchAssoc($set);
+                    if ($row === null) {
+                        continue;
+                    }
                     $arr2 = unserialize($row["lang_array"], ["allowed_classes" => false]);
                     if (is_array($arr2)) {
                         $lang_arr = array_merge($arr2, $lang_arr);

@@ -35,6 +35,7 @@ use ILIAS\MediaCast\Settings\SettingsGUI;
  */
 class ilObjMediaCastGUI extends ilObjectGUI
 {
+    protected \ILIAS\MediaObjects\MediaObjectManager $mob_manager;
     protected \ILIAS\MediaObjects\Player\GUIService $mob_player_gui;
     protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     protected \ILIAS\MediaCast\InternalGUIService $gui;
@@ -96,6 +97,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();
         $this->video_gui = $DIC->mediaObjects()->internal()->gui()->video();
         $this->mob_player_gui = $DIC->mediaObjects()->internal()->gui()->player();
+        $this->mob_manager = $DIC->mediaObjects()->internal()->domain()->mediaObject();
     }
 
     public function executeCommand(): void
@@ -699,49 +701,36 @@ EOT;
             $title = basename($file);
             $location = $this->form_gui->getInput("url_" . $purpose);
             $locationType = "Reference";
-        } elseif ($file_gui["size"] > 0) {
-            // lokal
-            // determine and create mob directory, move uploaded file to directory
-            $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
-            if (!is_dir($mob_dir)) {
-                $mob->createDirectory();
-            } else {
-                $dir = LegacyPathHelper::createRelativePath($mob_dir);
-                $old_files = $this->filesystem->finder()->in([$dir])->exclude([$dir . '/mob_vpreview.png'])->files();
-                foreach ($old_files as $file) {
-                    $this->filesystem->delete($file->getPath());
-                }
-            }
+            $mediaItem->setLocation($location);
+            $mediaItem->setLocationType($locationType);
 
-            $file_name = ilFileUtils::getASCIIFilename($_FILES['file_' . $purpose]['name']);
-            $file_name = str_replace(" ", "_", $file_name);
-
-            $file = $mob_dir . "/" . $file_name;
-            $title = $file_name;
-            $locationType = "LocalFile";
-            $location = $title;
-            ilFileUtils::moveUploadedFile($_FILES['file_' . $purpose]['tmp_name'], $file_name, $file);
-            ilFileUtils::renameExecutables($mob_dir);
-        }
-
-        // check if not automatic mimetype detection
-        $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType === "Reference"));
-        $mediaItem->setFormat($format);
-
-        if ($file != "") {
-            // get mime type, if not already set!
+            // check if not automatic mimetype detection
+            $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType === "Reference"));
+            $mediaItem->setFormat($format);
             if ($format === "") {
                 $format = ilObjMediaObject::getMimeType($file, ($locationType === "Reference"));
             }
 
             // set real meta and object data
             $mediaItem->setFormat($format);
-            $mediaItem->setLocation($location);
-            $mediaItem->setLocationType($locationType);
             $mediaItem->setHAlign("Left");
             $mediaItem->setHeight(self::isAudio($format) ? 0 : 180);
             $mob->generatePreviewPic(320, 240);
+
+        } elseif ($file_gui["size"] > 0) {
+
+            $file_name = ilFileUtils::getASCIIFilename($_FILES['file_' . $purpose]['name']);
+            $file_name = str_replace(" ", "_", $file_name);
+            $mob->removeMediaItem("Standard");
+            $this->mob_manager->addFileFromLegacyUpload($mob->getId(), $_FILES['file_' . $purpose]['tmp_name']);
+            $media_item = $mob->addMediaItemFromLegacyUpload(
+                "Standard",
+                $_FILES['file_' . $purpose]['tmp_name'],
+                $file_name
+            );
+            $title = $file_name;
         }
+
 
         if (($purpose === "Standard") && isset($title)) {
             $mob->setTitle($title);
@@ -1345,13 +1334,6 @@ EOT;
                 true,
                 false
             ));
-            $view->setAutoplayCallback($this->ctrl->getLinkTarget(
-                $this,
-                "handleAutoplayTrigger",
-                "",
-                true,
-                false
-            ));
             $view->show();
         } else {
             $this->listItemsObject(true);
@@ -1443,15 +1425,6 @@ EOT;
     protected function afterPoolInsert(array $mob_ids): void
     {
         $this->addMobsToCast($mob_ids, "", true, true);
-    }
-
-    protected function handleAutoplayTriggerObject(): void
-    {
-        $this->user->writePref(
-            "mcst_autoplay",
-            $this->mc_request->getAutoplay()
-        );
-        exit;
     }
 
     protected function getCommentGUI(): ilCommentGUI

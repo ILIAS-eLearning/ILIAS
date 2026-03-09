@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\File\Capabilities;
 
 use ILIAS\HTTP\Services;
-use ILIAS\components\WOPI\Discovery\ActionRepository;
+use ILIAS\WOPI\Discovery\ActionRepository;
 use ILIAS\File\Capabilities\Check\Download;
 use ILIAS\File\Capabilities\Check\EditContent;
 use ILIAS\File\Capabilities\Check\Manage;

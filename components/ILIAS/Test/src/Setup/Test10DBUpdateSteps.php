@@ -342,13 +342,19 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->manipulate(
                 '
                 UPDATE tst_addtime INNER JOIN tst_active ON tst_active.active_id = tst_addtime.active_fi
-                SET tst_addtime.test_fi = tst_active.test_fi, tst_addtime.user_fi = tst_active.user_fi'
+                SET tst_addtime.test_fi = tst_active.test_fi, tst_addtime.user_fi = tst_active.user_fi
+                WHERE tst_active.test_fi <> 0 AND tst_active.user_fi <> 0
+                '
             );
 
             $this->db->dropTableColumn('tst_addtime', 'active_fi');
         }
 
         if (!$this->db->primaryExistsByFields('tst_addtime', ['user_fi', 'test_fi'])) {
+            $this->db->manipulate(
+                'DELETE FROM tst_addtime WHERE test_fi = 0 OR user_fi = 0'
+            );
+
             $this->db->addPrimaryKey('tst_addtime', ['user_fi', 'test_fi']);
         }
     }
@@ -469,6 +475,13 @@ class Test10DBUpdateSteps implements \ilDatabaseUpdateSteps
     {
         $this->db->manipulate(
             'DELETE FROM settings WHERE module="assessment" AND keyword="assessment_man_scoring_fix_run"'
+        );
+    }
+
+    public function step_15(): void
+    {
+        $this->db->manipulate(
+            'DELETE FROM settings WHERE module="assessment" AND keyword="export_essay_qst_with_html"'
         );
     }
 }

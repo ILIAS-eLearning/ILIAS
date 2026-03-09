@@ -35,6 +35,7 @@ use ILIAS\COPage\PC\Resources\ResourcesManager;
  */
 class ItemBlockSequenceGenerator
 {
+    protected array $omit_ref_ids = [];
     protected ?string $lang = null;
     protected ResourcesManager $copage_resources;
     protected bool $include_empty_blocks;
@@ -66,7 +67,8 @@ class ItemBlockSequenceGenerator
         BlockSequence $block_sequence,
         ItemSetManager $item_set_manager,
         bool $include_empty_blocks = true,
-        ?string $lang = null
+        ?string $lang = null,
+        array $omit_ref_ids = []
     ) {
         $this->access = $domain_service->access();
         $this->data_service = $data_service;
@@ -83,6 +85,12 @@ class ItemBlockSequenceGenerator
             $this->block_limit = (int) \ilContainer::_lookupContainerSetting($container->getId(), "block_limit");
         }
         $this->test_assignments = \ilLOTestAssignments::getInstance($this->container->getId());
+        $this->omit_ref_ids = $omit_ref_ids;
+    }
+
+    public function setOmitRefIds(array $omit_ref_ids): void
+    {
+        $this->omit_ref_ids = $omit_ref_ids;
     }
 
     public function getSequence(): ItemBlockSequence
@@ -323,7 +331,9 @@ class ItemBlockSequenceGenerator
                 if ($this->block_limit > 0 && count($accessible_ref_ids) >= $this->block_limit) {
                     $exhausted = true;
                 } elseif (!$filter_session_and_item_group_items || !in_array($ref_id, $this->all_item_group_item_ref_ids)) {
-                    $accessible_ref_ids[] = $ref_id;
+                    if (!in_array($ref_id, $this->omit_ref_ids)) {
+                        $accessible_ref_ids[] = $ref_id;
+                    }
                 }
             }
         }

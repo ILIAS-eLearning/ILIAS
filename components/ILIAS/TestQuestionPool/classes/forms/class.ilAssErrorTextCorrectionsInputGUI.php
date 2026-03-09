@@ -29,6 +29,10 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
     public function setValue($a_value): void
     {
         foreach ($this->forms_helper->transformPoints($a_value) as $index => $points) {
+            if ($points === null) {
+                return;
+            }
+
             $this->values[$index] = $this->values[$index]->withPoints($points);
         }
     }

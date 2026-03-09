@@ -1,5 +1,16 @@
 # Install a MathJax Server for ILIAS
 
+Please note that a MathJax 2-based server is no longer recommended. Its components are outdated and repositories
+no longer available. The MathJax 3 server can be used as a drop-in replacement.
+
+## MathJax 3 server
+
+MathJax 3 and higher can natively run with node.js on a server, see the [official description](https://github.com/mathjax/MathJax/tree/legacy-v3?tab=readme-ov-file#using-mathjax-components-in-a-node-application).
+
+A HTTP wrapper that works with ILIAS is provided in the [mathjax-server](https://github.com/DatabayAG/mathjax-server) repository.
+
+## MathJax 2 server (deprecated)
+
 A MathJax server for ILIAS can be installed on every machine that is accessible from the ILIAS server
 via HTTP. To run a MathJax server you have to install the following components:
 
@@ -17,7 +28,7 @@ additional Apache Batik library:
 If you face problems with the following guide, please look at the original documentation
 of the components above.
 
-## Quick Installation Guide for Linux
+### Quick Installation Guide for Linux
 
 The MathJax server is a node.js application. You can install the main components with the node.js package
 manager (npm) that is available in many linux distributions. For example on a Ubuntu system you get

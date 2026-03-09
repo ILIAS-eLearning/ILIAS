@@ -64,6 +64,13 @@ class Group extends AbstractBaseItem implements isGroup
         return $this->addEntries($entry);
     }
 
+    public function removeEntry(canHaveParent $entry): isGroup
+    {
+        unset($this->entries[$entry->getProviderIdentification()->serialize()]);
+
+        return $this;
+    }
+
     public function isTop(): bool
     {
         return true;

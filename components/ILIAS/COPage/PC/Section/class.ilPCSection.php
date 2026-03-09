@@ -192,11 +192,15 @@ class ilPCSection extends ilPageContent
     public function setIntLink(
         string $a_type,
         string $a_target,
-        string $a_target_frame
+        string $a_target_frame,
+        string $a_anchor = ""
     ): void {
         $this->setNoLink();
         $attributes = array("Type" => $a_type, "Target" => $a_target,
             "TargetFrame" => $a_target_frame);
+        if ($a_anchor !== "") {
+            $attributes["Anchor"] = trim($a_anchor);
+        }
         $this->dom_util->setFirstOptionalElement(
             $this->getChildNode(),
             "IntLink",
@@ -218,7 +222,9 @@ class ilPCSection extends ilPageContent
                 return array("LinkType" => "IntLink",
                     "Target" => $child->getAttribute("Target"),
                     "Type" => $child->getAttribute("Type"),
-                    "TargetFrame" => $child->getAttribute("TargetFrame"));
+                    "TargetFrame" => $child->getAttribute("TargetFrame"),
+                    "Anchor" => $child->getAttribute("Anchor")
+                );
             }
         }
         return array("LinkType" => "NoLink");

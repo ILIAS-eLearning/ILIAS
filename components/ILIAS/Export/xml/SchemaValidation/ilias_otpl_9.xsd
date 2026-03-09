@@ -16,6 +16,7 @@
                 <xs:element name="title" minOccurs="1" maxOccurs="1" type="xs:string"/>
                 <xs:element name="description" minOccurs="0" maxOccurs="1" type="xs:string"/>
                 <xs:element name="translations" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="effectiveFrom" minOccurs="0" maxOccurs="1"/>
                 <xs:element ref="info" minOccurs="0" maxOccurs="1"/>
                 <xs:element ref="assignments" minOccurs="1" maxOccurs="1"/>
                 <xs:element ref="actions" minOccurs="1" maxOccurs="1"/>

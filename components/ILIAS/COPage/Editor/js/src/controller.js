@@ -12,17 +12,16 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 /**
  * Controller (handles editor initialisation process)
  */
 export default class Controller {
-
   /**
    * @type {UI}
    */
-  //ui;
+  // ui;
 
   constructor(ui) {
     this.ui = ui;
@@ -32,7 +31,7 @@ export default class Controller {
    * Init editor
    */
   init(after_init) {
-    console.log(this.ui);
+    // console.log(this.ui);
     this.ui.init(after_init);
   }
 
@@ -42,5 +41,4 @@ export default class Controller {
   reInit() {
     this.ui.reInit();
   }
-
 }

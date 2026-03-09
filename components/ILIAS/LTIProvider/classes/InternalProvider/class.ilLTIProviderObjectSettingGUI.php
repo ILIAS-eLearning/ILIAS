@@ -226,14 +226,13 @@ class ilLTIProviderObjectSettingGUI
             $sh->setValue($this->lng->txt("lti_13_step1_info"));
             $op1->addSubItem($sh);
             $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
-            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+            $url->setValue(ILIAS_HTTP_PATH . '/lti.php');
             $op1->addSubItem($url);
-            //                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_initiate_url'), 'url');
-            //                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
-            //                    $version->addSubItem($url);
-            //                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_redirection_url'), 'url');
-            //                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
-            //                    $active->addSubItem($url);
+
+            $urlJwks = new ilNonEditableValueGUI($this->lng->txt('lti_con_key_type_jwk'), $this->lng->txt('lti_con_key_type_jwk'));
+            $urlJwks->setValue(ILIAS_HTTP_PATH . '/lticerts.php');
+            $op1->addSubItem($urlJwks);
+
             $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step2'), '');
             $sh->setValue($this->lng->txt("lti_13_step2_info"));
             $op1->addSubItem($sh);

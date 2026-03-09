@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\File\Capabilities\Check;
 
 use ILIAS\File\Capabilities\Permissions;
-use ILIAS\components\WOPI\Discovery\ActionTarget;
+use ILIAS\WOPI\Discovery\ActionTarget;
 use ILIAS\File\Capabilities\Context;
 
 /**

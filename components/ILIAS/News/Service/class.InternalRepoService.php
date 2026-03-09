@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,9 +16,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+declare(strict_types=1);
+
 namespace ILIAS\News;
 
 use ILIAS\News\Dashboard\DashboardSessionRepository;
+use ILIAS\News\Persistence\NewsCache;
+use ILIAS\News\Persistence\NewsRepository;
 
 /**
  * Notes internal repo service
@@ -28,18 +30,25 @@ use ILIAS\News\Dashboard\DashboardSessionRepository;
  */
 class InternalRepoService
 {
-    protected InternalDataService $data;
-    protected \ilDBInterface $db;
+    protected NewsCache $cache;
 
-    public function __construct(InternalDataService $data, \ilDBInterface $db)
+    public function __construct(protected InternalDataService $data, protected \ilDBInterface $db)
     {
-        $this->data = $data;
-        $this->db = $db;
+        $this->cache = new NewsCache();
+    }
+
+    public function cache(): NewsCache
+    {
+        return $this->cache;
+    }
+
+    public function news(): NewsRepository
+    {
+        return new NewsRepository($this->db, $this->data->factory());
     }
 
     public function dashboard(): DashboardSessionRepository
     {
-        return new DashboardSessionRepository(
-        );
+        return new DashboardSessionRepository();
     }
 }

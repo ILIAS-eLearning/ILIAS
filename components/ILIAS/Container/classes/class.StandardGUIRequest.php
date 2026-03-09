@@ -189,4 +189,9 @@ class StandardGUIRequest
     {
         return $this->str("cmdClass");
     }
+
+    public function getDidacticTemplateId(): int
+    {
+        return $this->int('didactic_type');
+    }
 }

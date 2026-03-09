@@ -98,13 +98,7 @@ class Printer
             $max_points += $question_gui->getObject()->getMaximumPoints();
         }
 
-        $template->setVariable(
-            'TITLE',
-            $this->refinery->encode()->htmlSpecialCharsAsEntities()->transform(
-                $this->test_obj->getTitle()
-            )
-        );
-        $template->setVariable('PRINT_TEST', $this->lng->txt('tst_print'));
+        $template->setVariable('PRINT_TEST', $this->lng->txt('print_view'));
         $template->setVariable('TXT_PRINT_DATE', $this->lng->txt('date'));
         $template->setVariable(
             'VALUE_PRINT_DATE',

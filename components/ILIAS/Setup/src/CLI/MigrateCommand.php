@@ -153,7 +153,7 @@ class MigrateCommand extends Command
             $env = $this->prepareEnvironmentForMigration($env, $migration);
             $migration->prepare($env);
             $steps = $migration->getRemainingAmountOfSteps();
-            $status = $steps === 0 ? "[done]" : "[remaining steps: $steps]";
+            $status = $steps === 0 ? "[<fg=green>done</>]" : "[<fg=yellow>remaining steps: $steps</>]";
             $io->text($migration_key . ": " . $migration->getLabel() . " " . $status);
         }
         $io->inform('Run them by passing --run <migration_id>, e.g. --run ' . $migration_key);

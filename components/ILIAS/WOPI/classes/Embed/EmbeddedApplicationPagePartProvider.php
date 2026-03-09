@@ -18,16 +18,17 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\components\WOPI\Embed;
+namespace ILIAS\WOPI\Embed;
 
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
-use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Content;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\Toast\Container;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>

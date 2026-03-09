@@ -655,6 +655,7 @@ assessment#:#errFormulaQuestion#:#¡Una fórmula de pregunta  contiene informaci
 assessment#:#errRecursionInResult#:#La fórmula contiene una recursividad infinita.
 assessment#:#err_category_in_use#:#Al menos una categoría no se puede eliminar. Una o más unidades de la categoría ya están en uso.
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###29 07 2022 new variable
+assessment#:#err_divider_too_big_specific#:#The divider of this variable is too big.###04 11 2025 new variable
 assessment#:#err_division#:#The value you chose would make it impossible to generate a valid value for the variable.###29 07 2022 new variable
 assessment#:#err_duplicate_results#:#Ha utilizado una variable de resultado más de una vez. Esto no está permitido en el texto de la pregunta.
 assessment#:#err_no_formula#:#Debe introducir introducir una formula
@@ -1151,6 +1152,7 @@ assessment#:#question_summary#:#Sumario de preguntas
 assessment#:#question_summary_btn#:#Estado de procesamiento
 assessment#:#question_title#:#Titulo de la pregunta
 assessment#:#question_type#:#Tipo de pregunta
+assessment#:#questionlist_cannot_be_altered#:#The questionlist cannot be altered as the test already contains participant data sets.###20 01 2026 new variable
 assessment#:#questionpool_not_entered#:#Por favor introduzca un nombre para un banco de preguntas!
 assessment#:#questionpool_not_selected#:#Please select a question pool!###07 02 2020 new variable
 assessment#:#questions#:#Questions###26 08 2024 new variable
@@ -1180,7 +1182,10 @@ assessment#:#redirect_after_finishing_rule#:#Redirigir
 assessment#:#redirect_after_finishing_tst#:#Redirigir después de finalizar el test (sólo si no se muestran los resultados del test)
 assessment#:#redirect_after_finishing_tst_desc#:#Los participantes serán redirigidos al terminar la prueba de forma automática a un sitio web determinado. Esto sólo ocurre cuando la prueba se ha configurado para que los participantes no puedan ver los resultados de la prueba después de completarla.
 assessment#:#redirect_always#:#siempre hacia la página definida
+assessment#:#redirect_always_to_logout#:#Always to the logout screen###04 11 2025 new variable
 assessment#:#redirect_in_kiosk_mode#:#Redirigir solo en el modo kiosko
+assessment#:#redirect_url_invalid#:#Please enter a valid url of the target webpage.###04 11 2025 new variable
+assessment#:#redirect_url_required_for_rule#:#The url of the webpage is required when "%s" is selected.###04 11 2025 new variable
 assessment#:#redirection_url#:#Destino de redirección
 assessment#:#region#:#Región
 assessment#:#remaining_duration#:#Remaining Duration###28 10 2024 new variable
@@ -1232,6 +1237,7 @@ assessment#:#search_groups#:#Buscar Grupos
 assessment#:#search_roles#:#Buscar Roles
 assessment#:#search_term#:#Buscar término
 assessment#:#select_at_least_one_feedback_type_and_trigger#:#Please Select at least one type of feedback and a trigger.###26 08 2024 new variable
+assessment#:#select_at_least_one_lock_answer_type#:#Please select at least one type of answer lock.###04 11 2025 new variable
 assessment#:#select_gap#:#Hueco de selección
 assessment#:#select_max_one_item#:#Por favor seleccione un único item
 assessment#:#select_one_user#:#Por favor seleccione al menos un usuario
@@ -1363,6 +1369,7 @@ assessment#:#tst_anonymity_no_anonymization#:#Los accesos no son anónimos
 assessment#:#tst_answer_aggr_answer_header#:#Answer
 assessment#:#tst_answer_aggr_frequency_header#:#Frequency
 assessment#:#tst_answer_details#:#Detalles de respueta
+assessment#:#tst_answer_fixation#:#Lock Answers###04 11 2025 new variable
 assessment#:#tst_answer_fixation_handling#:#Participant Answers
 assessment#:#tst_answer_fixation_none#:#Do not Lock Participants Answers during Test Passes
 assessment#:#tst_answer_fixation_none_desc#:#As long as a test pass was not finished, participants can change their answers at any time.
@@ -1572,7 +1579,6 @@ assessment#:#tst_instant_feedback_answer_specific#:#Mostrar comentarios del tuto
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Si se activa esta opción se mostrarán los comentarios del tutor particulares para cada respuesta dada por el alumno (si se han configurado en la pregunta). Sólo en posible en estos tipos de preguntas: Opción múltiple, Mapa de imagen, Respuesta Corta, Detectar errores en texto y Relleno de huecos.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
-assessment#:#tst_instant_feedback_forced#:#Forzar comentario instantáneo
 assessment#:#tst_instant_feedback_results#:#Mostrar resultados (sólo puntuación)
 assessment#:#tst_instant_feedback_results_desc#:#Si se seleccion "resultados (en puntos)", se mostrará la puntuación alcanzada.
 assessment#:#tst_instant_feedback_solution#:#Mostrar soluciones
@@ -1737,7 +1743,6 @@ assessment#:#tst_postpone_on_desc#:#Las preguntas no contestadas se pospondrán 
 assessment#:#tst_presentation_properties#:#Configuración de presentación
 assessment#:#tst_presentation_settings_section#:#Presentation
 assessment#:#tst_previous_access_code_not_available#:#No previous code available!###26 08 2024 new variable
-assessment#:#tst_print#:#Vista de impresión de test y encuestas
 assessment#:#tst_proceed#:#Proceed
 assessment#:#tst_processing_time#:#Máximo tiempo de proceso
 assessment#:#tst_processing_time_desc#:#El máximo tiempo de proceso comienza cuando un usuario empieza a hacer un test y termina cuando ha pasado el período de tiempo introducido (horas, minutos, segundos)
@@ -2572,6 +2577,7 @@ blog#:#blog_whole_blog#:#Whole Blog###29 07 2022 new variable
 book#:#X_reservations_of#:#%s reservations of###29 07 2022 new variable
 book#:#book_add#:#Añadir banco de reservas
 book#:#book_add_object#:#Añadir recurso
+book#:#book_add_participant#:#Add Participant###16 12 2025 new variable
 book#:#book_add_schedule#:#Añadir planificación
 book#:#book_additional_info_file#:#Descripción adicional
 book#:#book_all#:#Mostrar todo
@@ -2590,7 +2596,6 @@ book#:#book_booking#:#Booking###26 08 2024 new variable
 book#:#book_booking_information#:#Información
 book#:#book_booking_objects#:#Booking Objects###29 07 2022 new variable
 book#:#book_booking_reminders#:#Upcoming reservations
-book#:#book_bookings_per_user#:#Bookings per User###29 07 2022 new variable
 book#:#book_bulk_confirmation#:#Please check that all values are listed correctly.###26 08 2024 new variable
 book#:#book_bulk_creation#:#Bulk Creation###26 08 2024 new variable
 book#:#book_bulk_data#:#Item Data###26 08 2024 new variable
@@ -2721,6 +2726,7 @@ book#:#book_show_message#:#Show Message###26 08 2024 new variable
 book#:#book_title_description_nr#:#Title; Description; Number of Units###26 08 2024 new variable
 book#:#book_title_description_nr_info#:#Enter title, description and number of units separated by semicolon or TAB character (if importing from spreadsheet software). Use one line per item.###26 08 2024 new variable
 book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.###07 02 2020 new variable
+book#:#book_total_individual_bookings_limit#:#Limit the number of bookings that can be carried out by/for individual participants in total, across all available items. Each bookable item can still only be booked once per participant.###16 12 2025 new variable
 book#:#book_type_warning#:#Actualmente, no hay objetos del tipo reserva disponibles. Para usar el banco de reservas necesitas crear objetos del tipo reserva
 book#:#book_week#:#Week###26 08 2024 new variable
 book#:#book_your_bookings#:#Your Reservations###07 02 2020 new variable
@@ -3075,6 +3081,7 @@ chatroom#:#public_chat_created#:#La sala pública ha sido añadida al repositori
 chatroom#:#scope#:#Sala/Sala privada
 chatroom#:#select_custom_username#:#Seleccionar nombre de usuario personalizado
 chatroom#:#server_further_information#:#Puedes encontrar más información sobre la configuración del servidor en el <a href="%1$s" target="_blank">archivo leeme</a>
+chatroom#:#server_readme_file_btn_label#:#Readme File###04 11 2025 new variable
 chatroom#:#session#:#Sesión
 chatroom#:#settings_general#:#General
 chatroom#:#settings_title#:#Configuraciones
@@ -5595,6 +5602,7 @@ common#:#select#:#Seleccionar
 common#:#select_all#:#Seleccionar todo
 common#:#select_at_least_one_object#:#Por favor seleccione al menos un objeto.
 common#:#select_file#:#Seleccionar archivo
+common#:#select_file_from_computer#:#Select File###16 12 2025 new variable
 common#:#select_files_from_computer#:#Seleccione los archivos de su equipo
 common#:#select_max_one_item#:#Por favor seleccione únicamente un item
 common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar
@@ -5891,6 +5899,7 @@ common#:#upload_settings#:#Configuración de envíos
 common#:#upload_svg_rejection_message#:#An uploaded SVG file contains possibily malicious code and cannot be processed.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_base64#:#The file contains base64 encoded content.###26 08 2024 new variable
 common#:#upload_svg_rejection_message_elements#:#The file contains elements or attributes which are not allowed or known.###26 08 2024 new variable
+common#:#upload_svg_rejection_message_foreign_object#:#The file contains foreign objects.###20 01 2026 new variable
 common#:#upload_svg_rejection_message_script#:#The file contains script-Elements.###26 08 2024 new variable
 common#:#uploaded_and_checked#:#El archivo ha sido enivado y chequeado, puede comenzar a importarlo.
 common#:#uploading#:#Enviando...
@@ -6111,6 +6120,7 @@ cont#:#cont_news_timeline_landing_page#:#Página de aterrizaje
 cont#:#cont_news_timeline_landing_page_info#:#La página del calendario será la página de aterrizaje.
 cont#:#cont_news_timeline_tab#:#Calendario
 cont#:#cont_no_title#:#Empty Title###26 08 2024 new variable
+cont#:#cont_only_crs_grp_fold_download#:#Only courses, groups, folders or files can be downloaded.###20 01 2026 new variable
 cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###29 07 2022 new variable
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###29 07 2022 new variable
 cont#:#cont_path#:#Ruta
@@ -6190,10 +6200,8 @@ content#:#cont_Headline2#:#Cabecera 2
 content#:#cont_Headline3#:#Cabecera 3
 content#:#cont_Information#:#Information###07 02 2020 new variable
 content#:#cont_Interaction#:#Interaction###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 content#:#cont_List#:#Lista
 content#:#cont_Literature#:#Literature###07 02 2020 new variable
-content#:#cont_Media#:#Media (Genérico)
 content#:#cont_Mnemonic#:#Nemónico
 content#:#cont_Numbers#:#Numbers###29 07 2022 new variable
 content#:#cont_Poly#:#Polígono
@@ -6303,6 +6311,8 @@ content#:#cont_chapters_after_pages#:#Por favor, anotar qué páginas preceden a
 content#:#cont_chapters_and_pages#:#Capítulos y páginas
 content#:#cont_chapters_only#:#Capítulos sólo
 content#:#cont_char_format#:#Carácter
+content#:#cont_char_link#:#Link###20 01 2026 new variable
+content#:#cont_char_media#:#Media (Standard)###20 01 2026 new variable
 content#:#cont_char_style_acc#:#Acentuado
 content#:#cont_char_style_code#:#Código
 content#:#cont_char_style_com#:#Comentario
@@ -8733,7 +8743,6 @@ dcl#:#dcl_msg_tableview_created#:#Vistas creadas
 dcl#:#dcl_msg_tableview_deleted#:#Vista eliminada
 dcl#:#dcl_msg_tableview_updated#:#Vista actualizada
 dcl#:#dcl_msg_tableviews_delete_all#:#No se pudo eliminar: debe existir al menos una vista
-dcl#:#dcl_msg_tableviews_order_updated#:#Orden de vistas actualizado
 dcl#:#dcl_multiple_selection#:#Selección múltiple.
 dcl#:#dcl_new#:#Crear nueva colección de datos
 dcl#:#dcl_new_field#:#Nuevo Campo
@@ -8747,6 +8756,7 @@ dcl#:#dcl_no_fields_yet#:#No puedes crear entradas todavía puesto que hay campo
 dcl#:#dcl_no_read_access_on_any_standard_view#:#No tiene acceso de lectura en ninguna vista estándar de una tabla.
 dcl#:#dcl_no_search_results_found_for#:#No se han encontrado módulos
 dcl#:#dcl_no_such_reference#:#El siguiente valor no está disponible en la tabla de referencia:
+dcl#:#dcl_no_table_found#:#No visible table found!###16 12 2025 new variable
 dcl#:#dcl_no_tableview_found#:#No visible tableview found!###18 07 2025 new variable
 dcl#:#dcl_not_checked#:#No comprobado.
 dcl#:#dcl_not_supported_in_import#:#Este tipo de campo no se admite en la importación.
@@ -8755,7 +8765,6 @@ dcl#:#dcl_notification_activated#:#Notificación activada
 dcl#:#dcl_notification_deactivate_dcl#:#Desactivar notificación para colecciones de datos
 dcl#:#dcl_notification_deactivated#:#Notificación desactivada
 dcl#:#dcl_notification_info#:#Activa la notificación individual a usuarios.
-dcl#:#dcl_notimage_exception#:#El fichero debe ser una imagen.
 dcl#:#dcl_noturl_exception#:#Usted tiene que introducir una dirección web (comenzando por http://)
 dcl#:#dcl_number#:#Entero
 dcl#:#dcl_number_desc#:#Campo para valores enteros (máximo de 9 dígitos) Sin decimales ni fracciones.
@@ -8814,8 +8823,6 @@ dcl#:#dcl_std_field_not_importable#:# - Los campos estándar no se pueden import
 dcl#:#dcl_std_filter#:#Filtro estándar
 dcl#:#dcl_supported_filetypes#:#Extensiones de archivo permitidas
 dcl#:#dcl_supported_filetypes_desc#:#Puede indicar las extensiones permitidas separadas por comas. Por ejemplo: pdf, docx
-dcl#:#dcl_switch_table#:#Switch Table###26 08 2024 new variable
-dcl#:#dcl_switch_view#:#Change View###26 08 2024 new variable
 dcl#:#dcl_table#:#Tabla
 dcl#:#dcl_table_id#:#ID de Tabla
 dcl#:#dcl_table_list_fields#:#Lista los campos de la tabla actual
@@ -8851,7 +8858,7 @@ dcl#:#dcl_text_email_title#:#Título
 dcl#:#dcl_text_email_title_info#:#Un título para la URL o dirección de correo electrónico superior (opcional)
 dcl#:#dcl_text_selection#:#Selección de texto
 dcl#:#dcl_text_selection_desc#:#Ofrecer opciones de selección de texto.
-dcl#:#dcl_title_standardview#:#Standard Views
+dcl#:#dcl_title_standard#:#Standard###20 01 2026 new variable
 dcl#:#dcl_unique#:#Único
 dcl#:#dcl_unique_desc#:#En este campo sólo pueden introducirse valore únicos
 dcl#:#dcl_unique_exception#:#El valor introducido ya se ha seleccionado en otro registro
@@ -8882,6 +8889,8 @@ dcl#:#entry_of#:#Entry %1$d of %2$d###26 08 2024 new variable
 dcl#:#fieldtitle_allow_chars#:#Caracteres permitidos
 dcl#:#fileupload_not_migrated#:#File has not yet been migration and cannot be displayed. Please contact your System-Administrator.###26 08 2024 new variable
 dcl#:#set_as_default#:#Set as default###26 08 2024 new variable
+dcl#:#table_not_found#:#Table not found!###16 12 2025 new variable
+dcl#:#tableview_not_found#:#Tableview not found!###16 12 2025 new variable
 didactic#:#activate_exclusive_template#:#Opción no habilitada de manera predeterminada
 didactic#:#activate_exclusive_template_info#:#La plantilla estándar no estará disponible cuando esté activa esta plantilla.
 didactic#:#activate_local_didactic_template#:#Ámbito de aplicación
@@ -9227,8 +9236,10 @@ etal#:#etal_date_series_edit#:#Date of Talk Series
 etal#:#etal_delete_confirmation_msg#:#Are you sure that you want to delete the following talk?###26 08 2024 new variable
 etal#:#etal_edit#:#General
 etal#:#etal_invalid_user#:#This user either does not exist or can't be invited.###26 08 2024 new variable
+etal#:#etal_location#:#Location###04 11 2025 new variable
 etal#:#etal_new#:#New Talk
 etal#:#etal_open#:#Open Employee Talk
+etal#:#etal_recurrence#:#Recurrence###04 11 2025 new variable
 etal#:#etal_status_all#:#All
 etal#:#etal_status_completed#:#Completed
 etal#:#etal_status_pending#:#Pending
@@ -9476,6 +9487,7 @@ exc#:#exc_passed_status_determination#:#Determinación del estado "superado"
 exc#:#exc_passing_exc#:#Realizando ejercicio
 exc#:#exc_past#:#Past###26 08 2024 new variable
 exc#:#exc_peer_deadline_mismatch#:#Puesto que la revisión se realiza después de la fecha límite, la fecha límite para mostrar la revisión no puede ser anterior a la fecha de finalización de la entrega
+exc#:#exc_peer_feedback_status#:#Feedback Status###20 01 2026 new variable
 exc#:#exc_peer_review#:#Revisión por pares
 exc#:#exc_peer_review_ass_setting_info#:#Si está activado, los usuarios pueden calificar a sus compañeros después de la fecha límite.
 exc#:#exc_peer_review_chars_invalid#:#Al menos uno de tus revisiones de pares no alcanza el número mínimo de caracteres: %s.
@@ -11102,7 +11114,6 @@ lso#:#lso_print_list#:#Print list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search user
 lso#:#lso_settings_availability#:#availability
-lso#:#lso_settings_availability_error#:#The end date can not be earlier than the start date###26 08 2024 new variable
 lso#:#lso_settings_extro#:#Exitpage Settings
 lso#:#lso_settings_intro#:#Intropage Settings
 lso#:#lso_settings_old_extro#:#View Old Exit Page###26 08 2024 new variable
@@ -11472,6 +11483,7 @@ mail#:#mail_add_folder#:#Crear nueva subcarpeta
 mail#:#mail_add_recipient#:#Por favor introduzca un destinatario
 mail#:#mail_add_subfolder#:#Añadir subcarpeta
 mail#:#mail_add_subject#:#Por favor introduzca un asunto
+mail#:#mail_adopt_selected_attachements#:#Adopt selected Attachments###20 01 2026 new variable
 mail#:#mail_all_in_trash#:#All in Trash###28 10 2024 new variable
 mail#:#mail_allow_external#:#External Emails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external emails (via SMTP) is globally disabled.
@@ -11609,7 +11621,6 @@ mail#:#mail_nacc_title#:#Título
 mail#:#mail_nacc_use_placeholder#:#Las siguientes etiquetes pueden ser usadas
 mail#:#mail_nacc_user_fullname#:#User Full Name###26 08 2024 new variable
 mail#:#mail_nacc_user_login#:#User Login###26 08 2024 new variable
-mail#:#mail_nacc_user_name#:#User Name###26 08 2024 new variable
 mail#:#mail_new_template#:#Nueva plantilla de texto
 mail#:#mail_no_mail_items#:#No unread mails.###26 08 2024 new variable
 mail#:#mail_no_permissions_write_smtp#:#No tienes permiso para mandar correos fuera de ILIAS
@@ -11893,6 +11904,7 @@ mep#:#mep_all_mobs#:#Todos los objetos Media
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_choose_from_folder#:#Elegir de una carpeta
 mep#:#mep_choose_from_mep#:#Elegir de un banco de elementos multimedia
+mep#:#mep_clipboard_info#:#Here you can upload media files that you can then access from any page on which you have access to the page editor. The clipboard is also accessible in media pools. This storage is only for you and cannot be viewed by other users.###20 01 2026 new variable
 mep#:#mep_content#:#Contenido
 mep#:#mep_content_snippet_in_use#:#Parte del contenido '%s' está en uso y no puede ser eliminado.
 mep#:#mep_content_snippet_used_in_older_versions#:#Este fragmento está en uso en versiones antiguas de alguna páginas. Si estas páginas deshacen los cambios a versiones anteriores que lo incluyan, el fragmento ya no aparecerá en ellas
@@ -12928,6 +12940,7 @@ news#:#news_news_item_visibility_info#:#Las noticias públicas pueden ser accedi
 news#:#news_news_items#:#Noticia(s)
 news#:#news_no_js_click_here#:#Si las noticias no se muestran, haga click aquí.
 news#:#news_no_news_items#:#No hay noticias disponibles.
+news#:#news_not_available#:#Unavailable News###20 01 2026 new variable
 news#:#news_notifications#:#Notificaciones
 news#:#news_notifications_public#:#Notificaciones públicas
 news#:#news_notifications_public_info#:#Si esta opción está habilitada, las notificaciones pueden obtenerse con feeds RSS personales desde fuera de ILIAS. Por favor, observe que esto implica que las notificaciones serán accesibles sin autenticación para quién conozca la URL
@@ -15855,7 +15868,6 @@ skmg#:#skmg_usage_type_info_prof#:#Usado en Perfiles de Competencias
 skmg#:#skmg_usage_type_info_res#:#Elementos del Repositorio asignados como recursos recomendados
 skmg#:#skmg_usage_type_info_user#:#Asignado a los usuarios
 skmg#:#skmg_your_self_evaluation#:#Su autoevaluación
-style#:#Style#:#Style###07 02 2020 new variable
 style#:#adapt_icon#:#Adaptar icono
 style#:#adapt_icon_description#:#Adaptar los colores del icono o cambiar el propio icono.
 style#:#adapt_icons#:#Adaptar colores de iconos
@@ -16658,7 +16670,7 @@ survey#:#survey_360_sure_appraisee_close#:#¿Está seguro que desea cerrar la en
 survey#:#survey_360_sure_appraisee_close_admin#:#¿Está seguro de que quiere cerrar las encuestas para los siguientes evaluadores?
 survey#:#survey_360_sure_delete_appraises#:#¿Está seguro que desea eliminar a los siguientes evaluados?
 survey#:#survey_360_sure_delete_raters#:#¿Está seguro que desea eliminar los siguientes calificadores para %s?
-survey#:#survey_access_codes#:#Autenticación por Código de Acceso
+survey#:#survey_access_code#:#Autenticación por Código de Acceso
 survey#:#survey_access_codes_info#:#Los usuarios consiguen acceder a la encuesta mediante la introducción de un código en la pestaña 'Info'. Estos códigos de acceso se generan en "Códigos de acceso" una subpestaña en la pestaña 'participantes'.
 survey#:#survey_activate_skill_service#:#Activar el Servicio de Competencias
 survey#:#survey_activate_skill_service_info#:#Se mostrará una nueva pestaña llamada "competencias". En esta pestaña las preguntas se asignan a competencias y se pueden establecer umbrales para alcanzar un determinado nivel de competencia.
@@ -17335,6 +17347,7 @@ trac#:#trac_view_mode_all#:#Todos los objetos
 trac#:#trac_view_mode_collection#:#Solo objetos que determinen el estado general
 trac#:#trac_visits#:#Numero de visitas
 trac#:#trac_visits_info#:#Cada visita de una pagina cuenta como una visita.
+trac#:#trac_visits_nr#:#Number of Visits###20 01 2026 new variable
 trac#:#user_total#:#Total del usuario
 trac#:#view_mode#:#Modo de vista
 tstv#:#tstv_create#:#Crear informe de test completado

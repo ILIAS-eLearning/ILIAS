@@ -247,8 +247,8 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             }
             $event_part = new ilEventParticipants($this->getParentObject()->getId());
             $event_part->setUserId($part_id);
-            $event_part->setMark(ilUtil::stripSlashes($this->requested_mark[$part_id]));
-            $event_part->setComment(ilUtil::stripSlashes($this->requested_comment[$part_id]));
+            $event_part->setMark(ilUtil::stripSlashes($this->requested_mark[$part_id] ?? ""));
+            $event_part->setComment(ilUtil::stripSlashes($this->requested_comment[$part_id] ?? ""));
             $event_part->setNotificationEnabled((bool) ($this->requested_notification[$part_id] ?? false));
             $event_part->setParticipated($participated);
             $event_part->setRegistered($registered);

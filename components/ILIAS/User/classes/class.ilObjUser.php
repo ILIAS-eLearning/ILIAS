@@ -3818,7 +3818,7 @@ class ilObjUser extends ilObject
         }
 
         $db->manipulateF(
-            'UPDATE usr_data SET reg_hash IS NULL WHERE usr_id = %s',
+            'UPDATE usr_data SET reg_hash = NULL WHERE usr_id = %s',
             [ilDBConstants::T_INTEGER],
             [(int) $row['usr_id']]
         );
@@ -3927,7 +3927,7 @@ class ilObjUser extends ilObject
         );
 
         $ids = [];
-        while ($row = $db->fetchRow($res, ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $db->fetchObject($res)) {
             $ids[] = (int) $row->usr_id;
         }
 

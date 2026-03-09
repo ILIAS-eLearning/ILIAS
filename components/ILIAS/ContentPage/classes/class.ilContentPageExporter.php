@@ -77,7 +77,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
 
             $style_id = $this->content_style_domain
                 ->styleForObjId($copa->getId())
-                ->getStyleId();
+                ->getExportStyleId();
             if ($style_id > 0) {
                 $styleIds[$style_id] = $style_id;
             }

@@ -27,7 +27,6 @@ declare(strict_types=1);
  *
  * @package		Modules/Test
  *
- * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilTestExpressPageObjectGUI
  * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilPageEditorGUI
  * @ilCtrl_Calls ilTestFixedQuestionSetConfigGUI: ilAssQuestionPageGUI
  */

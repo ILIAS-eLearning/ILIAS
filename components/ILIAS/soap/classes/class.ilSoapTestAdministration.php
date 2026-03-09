@@ -131,7 +131,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
 
-        $processLockerFactory = new ilAssQuestionProcessLockerFactory(new ilSetting('assessment'), $ilDB);
+        $processLockerFactory = new ilAssQuestionProcessLockerFactory(new ilSetting('assessment'), $ilDB, ilLoggerFactory::getLogger('tst'));
         $processLockerFactory->setQuestionId($question_id);
         $processLockerFactory->setUserId($ilUser->getId());
         $processLocker = $processLockerFactory->getLocker();

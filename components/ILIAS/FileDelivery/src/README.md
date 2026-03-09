@@ -69,10 +69,40 @@ $file_delivery->legacyDelivery()->inline(
 # Signed Delivery
 
 The IRSS uses exclusively streamss for files and flavours, from ILIAS 9 also for structured data (e.g. later for HTML
-learning modules or SCORM learning modules). Up to ILIAS 9 these dtaeias are also delivered via a special mechanism
+learning modules or SCORM learning modules). Up to ILIAS 9 these files are also delivered via a special mechanism
 through the WebAccessChecker. Now streams can be delivered very easily via a token-based way to protect the files. This
 will be the general way to deliver the files in the future and will replace the WebAccessChecker completely in the
 medium term.
+
+## Usage
+
+The in-depth process is quite complex and is explained in detail further below in case you have more specialized needs.
+A simplyfied wrapper is offered to generate appropriate tokens for FileStreams, where you get a ready URL, which can
+then deliver the file, if the token is valid:
+
+```php
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\FileDelivery\Delivery\Disposition;
+
+global $DIC;
+$stream = Streams::ofResource(fopen('/path/to/file', 'r'));
+$uri = $DIC->fileDelivery()->buildTokenURL(
+    $stream,
+    'Download-Filename.png',
+    Disposition::INLINE
+    123 // user_id
+    6 // valid for at least 6 hours
+)
+
+// $uri = 'http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac'
+```
+
+This mechanism is then simply used, for example, to deliver structured resources (container resources). A URL on HTML
+learning module can then look like this:
+
+```
+http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac/index.html
+```
 
 ## How does the Signing work in general?
 
@@ -85,10 +115,8 @@ signature, a secret key as well as a salt is used depending on the use case.
 The serialized payload is merged with the signature, compressed, and formatted for embedding in URLs.
 Once a token is then to be verified, the following happens: URl preparation is reversed, and the data is decompressed.
 The result consists of the serialized payload and the signature. A new signature is now made for the payload and
-compared with the one supplied. If these are identical, it is certain that the dtaen are valid and have not been
+compared with the one supplied. If these are identical, it is certain that the data is valid and has not been
 manipulated.
-The mechanism uses a key rotation, currently always 5 keys are kept. with a composer install / dump-autoload a new key
-is generated in each case.
 
 ### Example:
 
@@ -105,7 +133,7 @@ use ILIAS\FileDelivery\Token\Compression\DeflateCompression;
 use ILIAS\FileDelivery\Token\Transport\URLSafeTransport;
 
 // This is the payload we want to sign. It should use a "personal" component, e.g. the user ID, and a "global" component, e.g. the path to the file.
- 
+
 $payload = [
     'user_id' => 123,
     'uri' => '/path/to/file',
@@ -135,7 +163,7 @@ $signer = new KeyRotatingSigner(
 $signature = $signer->sign($signable_payload, new Salt('salt'));
 // $signature = '...';
 
-// we can now merge the payload and the signature. 
+// we can now merge the payload and the signature.
 $signed_payload = $signable_payload.'|'.$signature;
 // $signed_payload = '{"user_id":123,"uri":"/path/to/file"}|1631631631|...';
 
@@ -204,29 +232,117 @@ if($is_valid) {
 }
 ```
 
-Since this process is quite complex, this is simply offered to generate appropriate tokens for FileStreams. You get a
-ready URL, which can then deliver the file, if the token is valid:
+### Key Rotation and Synchronization
+
+The standard Signed Delivery (`$DIC['file_delivery.data_signer']`) relies on a key rotation mechanism to ensure tokens
+remain secure over time.
+- **Rotation:** At any given point, five keys are kept in rotation.
+- **Generation:** Keys are automatically generated and rotated _whenever_ 
+  ILIAS is updated via CLI Setup.
+- **Location:** The rotation keys are stored and managed as an artifact in:
+  `./data/key_rotation.php`
+
+#### Important for System Administrators
+
+The artifact file `./data/key_rotation.php` must be synchronized across all
+php host deployments. But this should be the case anyway because the `./data`
+folder must be the same for all deployments as well.
+
+## Configuring the delivery method (X-Accel and xSendFile)
+
+The service supports three delivery methods:
+
+- **PHP** (default): Files are streamed through PHP, no additional/manual
+  configuration is needed.
+- **xSendFile** (Apache): Uses the Apache `mod_xsendfile` module for efficient
+  delivery. ILIAS tries to detect this delivery method automatically
+  when the module is loaded. No additional/manual configuration needed.
+- **X-Accel** (nginx): Uses nginx’s `X-Accel-Redirect` for efficient delivery.
+  Requires manual configuration of the delivery method and nginx.
+
+Unlike Apache’s `mod_xsendfile`, the delivery method is not auto-detected for
+`X-Accel`; it must be set explicitly in the delivery method artifact.
+
+### Enabling X-Accel for nginx
+
+#### 1. Delivery method artifact
+
+The active delivery method is read from the artifact file in the ILIAS data
+directory, e.g. `data/delivery_method.php` (relative to your document root).
+This file is created and updated by **ILIAS Setup** on install or update.
+Setup always writes the path to the external ILIAS data directory from
+`ilias.ini` → `[clients]` → `datadir` (this ini setting is required for Setup).
+If the artifact already exists, Setup preserves the current `delivery_method`;
+it only switches to `xsendfile` when Apache’s mod_xsendfile is detected.
+
+To use `X-Accel`, set the artifact content to:
 
 ```php
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileDelivery\Delivery\Disposition;
-
-global $DIC;
-$stream = Streams::ofResource(fopen('/path/to/file', 'r'));
-$uri = $DIC->fileDelivery()->buildTokenURL(
-    $stream,
-    'Download-Filename.png',
-    Disposition::INLINE
-    123 // user_id
-    6 // valid for at least 6 hours
-)
-
-// $uri = 'http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac'
+<?php return [
+    'delivery_method' => 'xaccel',
+    'ext_data_dir' => '/path/to/your/ilias/external/data/dir',  // must match ilias.ini [clients] datadir
+];
 ```
 
-This mechanism is then simply used, for example, to deliver structured resources (container resources). A URL on HTML
-learning module can then look like this:
+- **`delivery_method`**: Set to `'xaccel'` for nginx.
+- **`ext_data_dir`**: Absolute path to the external ILIAS data directory
+  (trailing slash is optional). This must match `ilias.ini` → `[clients]` → `datadir`.
+  It is required so that files stored in the external data directory can
+  be delivered via the internal location `secured-ext-data` (see below).
+  When you run ILIAS Setup, this value is already written into the artifact
+  from `ilias.ini`; when switching to `X-Accel`, keep it so that both
+  in- and out-of-docroot data paths work.
 
+Setup creates or updates the artifact whenever it runs. To use `X-Accel`,
+edit the file after Setup has run: set `delivery_method` to `'xaccel'` and
+leave `ext_data_dir` as is (it is already set from `ilias.ini`). This choice is
+preserved when you run Setup again (e.g., on update).
+
+#### 2. nginx server configuration
+
+When `X-Accel` is used, `deliver.php` responds with an `X-Accel-Redirect` header
+pointing to an internal location. `nginx` must define two **internal** locations
+that alias to your data directories:
+
+| Internal location     | Purpose |
+|-----------------------|--------|
+| `/secured-data`       | ILIAS data directory under the document root (e.g. `data/`) |
+| `/secured-ext-data`   | External ILIAS data directory (path from `ilias.ini` → `[clients]` → `datadir`) |
+
+Example (adjust paths and `$document_root` to your setup):
+
+```nginx
+server {
+    # ... your existing server block (root, index, php, etc.) ...
+
+    # Internal location: ILIAS data directory (inside document root)
+    location ^~ /secured-data {
+        alias $document_root/data;
+        internal;
+        location ~ [^/]\.php(/|$) {
+            access_log off;
+            log_not_found off;
+            deny all;
+        }
+    }
+
+    # Internal location: external ILIAS data directory (path must match ext_data_dir in delivery_method.php and datadir in ilias.ini)
+    location ^~ /secured-ext-data {
+        alias /var/iliasdata;   # replace with your actual external data path (no trailing slash)
+        internal;
+        location ~ [^/]\.php(/|$) {
+            access_log off;
+            log_not_found off;
+            deny all;
+        }
+    }
+}
 ```
-http://trunk.ilias.localhost/src/FileDelivery/deliver.php/LY3NasMwEITy[...]RFiKcUmOmJx8Ac/index.html
-```
+
+- Replace `$document_root/data` with the real path to your ILIAS `data`
+  directory if it is not directly under the server’s document root.
+- Replace `/var/iliasdata` with the same absolute path you use for
+  `ext_data_dir` in `data/delivery_method.php` (and for `datadir` in `ilias.ini`).
+  Omit the trailing slash in the `alias` value.
+- The `internal` directive ensures these locations are only used for `X-Accel-Redirect`
+  subrequests, not for direct client access.

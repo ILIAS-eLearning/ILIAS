@@ -23,7 +23,7 @@
 namespace ILIAS\File\Capabilities\Check;
 
 use ILIAS\HTTP\Services;
-use ILIAS\components\WOPI\Discovery\ActionRepository;
+use ILIAS\WOPI\Discovery\ActionRepository;
 use ILIAS\Data\URI;
 use ILIAS\StaticURL\Builder\URIBuilder;
 

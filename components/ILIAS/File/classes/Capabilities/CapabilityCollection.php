@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\File\Capabilities;
 
-use ILIAS\components\WOPI\Discovery\ActionRepository;
-
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
  */

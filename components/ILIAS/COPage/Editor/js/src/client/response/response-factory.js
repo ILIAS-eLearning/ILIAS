@@ -12,7 +12,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ******************************************************************** */
 
 import Response from './response.js';
 
@@ -20,7 +20,6 @@ import Response from './response.js';
  * Response factory
  */
 export default class ResponseFactory {
-
   /**
    */
   constructor() {
@@ -32,8 +31,8 @@ export default class ResponseFactory {
    * @returns {Response}
    */
   response(action, payload) {
-    console.log("...got payload");
-    console.log(payload);
+    // console.log("...got payload");
+    // console.log(payload);
     return new Response(action, payload);
   }
 }
