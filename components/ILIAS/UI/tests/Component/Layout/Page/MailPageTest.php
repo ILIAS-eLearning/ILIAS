@@ -30,6 +30,7 @@ use ILIAS\UI\Implementation\Component\Link;
 use ILIAS_UI_TestBase;
 use ILIAS\UI\Implementation\Component\Layout\Page;
 use NoUIFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MailPageTest extends ILIAS_UI_TestBase
 {
@@ -85,9 +86,7 @@ class MailPageTest extends ILIAS_UI_TestBase
         ];
     }
 
-    /**
-     * @dataProvider provideGetData
-     */
+    #[DataProvider('provideGetData')]
     public function testGet(mixed $expected, string $method_to_call, string $assert_method): void
     {
         static::$assert_method(
