@@ -24,7 +24,7 @@ use Throwable;
 use ILIAS\HTTP\StatusCode;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
-use ILIAS\Init\ErrorHandling\PlainTextFallbackResponder;
+use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
 
 try {
     require_once '../vendor/composer/vendor/autoload.php';
@@ -51,7 +51,7 @@ try {
         $DIC->language(),
         $DIC->ui(),
         $DIC->http()
-    ))->handleError(
+    ))->respond(
         $message,
         StatusCode::HTTP_INTERNAL_SERVER_ERROR,
         $back_target
