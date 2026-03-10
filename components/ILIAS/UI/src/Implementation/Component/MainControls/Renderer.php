@@ -167,8 +167,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
 
             if ($slate) {
-                $aria_role = ($entry instanceof LegacySlate) ? ISlate::NAVIGATION : ISlate::MENU;
-                $entry = $entry->withAriaRole($aria_role);
+                if (!$entry instanceof LegacySlate) {
+                    $entry = $entry->withAriaRole(ISlate::MENU);
+                }
 
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($entry));
