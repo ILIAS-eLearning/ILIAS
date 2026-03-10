@@ -1814,6 +1814,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if (isset($params['action']) && $params['action'] === 'logout') {
             $logout_url = $params['logout_url'] ?? '';
             $this->logger->info(sprintf('Requested SAML logout: %s', $logout_url));
+            $host = fn($url) => parse_url($url ?: '', PHP_URL_HOST);
+
+            // Invalid URL's will be catched by this too ($host($logout_url) is null but not in array).
+            if (!in_array($host($logout_url), array_filter([
+                'localhost',
+                $host($this->dic->iliasIni()->readVariable('server', 'http_path')),
+                $host($this->dic->settings()->get('soap_wsdl_path')),
+            ]), true)) {
+                throw new Exception('Redirect URL not allowed');
+            }
+
             $auth->logout($logout_url);
         }
 
