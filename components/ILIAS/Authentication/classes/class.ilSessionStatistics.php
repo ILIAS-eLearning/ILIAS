@@ -429,17 +429,17 @@ class ilSessionStatistics
         $ilDB->execute(
             self::getAggregatedRawDataPreparedStatement(),
             [
-                'active_min' => $active_min,
-                'active_max' => $active_max,
-                'active_avg' => $active_avg,
-                'active_end' => $active_end,
-                'opened' => $opened_counter,
-                'closed_manual' => (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0),
-                'closed_expire' => (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0),
-                'closed_login' => (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0),
-                'closed_misc' => (int) ($closed_counter[0] ?? 0),
-                'slot_begin' => $a_begin,
-                'slot_end' => $a_end
+                $active_min,
+                $active_max,
+                $active_avg,
+                $active_end,
+                $opened_counter,
+                (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0),
+                (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0),
+                (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0),
+                (int) ($closed_counter[0] ?? 0),
+                $a_begin,
+                $a_end
             ]
         );
     }
