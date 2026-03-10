@@ -221,7 +221,7 @@ class ilMailTest extends ilMailBaseTestCase
             4711,
             $actor,
             new ilMailTemplatePlaceholderResolver(
-                (new class extends MustacheTemplateEngineFactory {})->getBasicEngine()
+                (new class () extends MustacheTemplateEngineFactory {})->getBasicEngine()
             )
         );
 
