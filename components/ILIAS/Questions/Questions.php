@@ -20,13 +20,16 @@ declare(strict_types=1);
 
 namespace ILIAS;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Migration as FeedbackMigration;
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableDefinitions as FeedbackTableDefinitions;
+use ILIAS\Questions\AnswerForm\Capabilities\Migration as CapabilityMigration;
 use ILIAS\Questions\AnswerForm\Definition as AnswerFormDefinition;
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationCloze;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationLongMenu;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationNumeric;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Migration\MigrationTextSubset;
-use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
+use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions as ClozeTableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 use ILIAS\Questions\Persistence\TableSubNameSpace;
@@ -46,6 +49,9 @@ class Questions implements Component\Component
         array | \ArrayAccess &$internal,
     ): void {
         $define[] = AnswerFormDefinition::class;
+        $define[] = AnswerFormMigration::class;
+        $define[] = CapabilityMigration::class;
+
         $contribute[AgentInterface::class] = static fn() =>
             new Agent(
                 $internal[PersistenceFactory::class],
@@ -53,11 +59,12 @@ class Questions implements Component\Component
                     'qsts',
                     null
                 ),
-                $seek[AnswerFormMigration::class]
+                $seek[AnswerFormMigration::class],
+                $seek[CapabilityMigration::class]
             );
         $contribute[AnswerFormMigration::class] = static fn()
             => new MigrationCloze(
-                new TableDefinitions(
+                new ClozeTableDefinitions(
                     $internal[PersistenceFactory::class],
                     new TableSubNameSpace(
                         'ILIAS',
@@ -68,7 +75,7 @@ class Questions implements Component\Component
             );
         $contribute[AnswerFormMigration::class] = static fn()
             => new MigrationLongMenu(
-                new TableDefinitions(
+                new ClozeTableDefinitions(
                     $internal[PersistenceFactory::class],
                     new TableSubNameSpace(
                         'ILIAS',
@@ -78,7 +85,7 @@ class Questions implements Component\Component
             );
         $contribute[AnswerFormMigration::class] = static fn()
             => new MigrationNumeric(
-                new TableDefinitions(
+                new ClozeTableDefinitions(
                     $internal[PersistenceFactory::class],
                     new TableSubNameSpace(
                         'ILIAS',
@@ -89,7 +96,7 @@ class Questions implements Component\Component
             );
         $contribute[AnswerFormMigration::class] = static fn()
             => new MigrationTextSubset(
-                new TableDefinitions(
+                new ClozeTableDefinitions(
                     $internal[PersistenceFactory::class],
                     new TableSubNameSpace(
                         'ILIAS',
@@ -97,6 +104,14 @@ class Questions implements Component\Component
                     )
                 )
             );
+
+        $contribute[CapabilityMigration::class] = static fn()
+            => new FeedbackMigration(
+                new FeedbackTableDefinitions(
+                    $internal[PersistenceFactory::class]
+                )
+            );
+
         $contribute[Component\Resource\PublicAsset::class] = fn()
             => new Component\Resource\ComponentJS(
                 $this,

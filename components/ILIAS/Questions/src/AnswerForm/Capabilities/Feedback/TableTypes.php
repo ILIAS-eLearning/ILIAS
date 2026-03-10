@@ -18,21 +18,12 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
+namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
-use ILIAS\Language\Language;
+use ILIAS\Questions\Persistence\TableTypes as TableTypesInterface;
 
-enum InRange: string
+enum TableTypes: string implements TableTypesInterface
 {
-    case InRange = 'i';
-    case OutOfRange = 'o';
-
-    public function getLabel(
-        Language $lng
-    ): string {
-        return match($this) {
-            self::InRange => $lng->txt('in_range'),
-            self::OutOfRange => $lng->txt('out_of_range')
-        };
-    }
+    case FeedbackGeneric = 'feedback_generic';
+    case FeedbackSpecific = 'feedback_specific';
 }

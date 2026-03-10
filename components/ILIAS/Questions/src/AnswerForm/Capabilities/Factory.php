@@ -20,24 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
-use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 
-interface Capability
+class Factory
 {
-    public function isAvailableFor(
-        Properties $answer_form_properties
-    ): bool;
+    /**
+     * @param array<string, \ILIAS\Questions\AnswerForm\Capabilities\Capability> $available_capabilities
+     */
+    public function __construct(
+        private readonly array $available_capabilities
+    ) {
+    }
 
-    public function getEditAction(): ?Action;
-
-    public function edit(
-        Environment $environment
-    ): self|Async|Renderable;
-
-    public function onAnswerFormUpdate(
-        Properties $answer_form_properties
-    ): void;
+    public function get(
+        string $class
+    ): ?Capability {
+        return $this->available_capabilities[$class] ?? null;
+    }
 }

@@ -23,6 +23,7 @@ namespace ILIAS\Questions\Legacy;
 use ILIAS\Questions\Administration\ConfigurationRepository;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Capabilities;
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableDefinitions as FeedbackTableDefinitions;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerFormTypes\Cloze;
 use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
@@ -31,7 +32,6 @@ use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Question\Persistence\Repository as QuestionsRepository;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Presentation\Layout\Factory as LayoutFactory;
-use ILIAS\Questions\Units\Repository as UnitsRepository;
 use ILIAS\Questions\UserSettings\CreateMode;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\UUID\Factory as UuidFactory;
@@ -78,6 +78,23 @@ class LocalDIC extends PimpleContainer
             => new AnswerFormGenericTableDefinitions(
                 $c[PersistenceFactory::class]
             );
+        $dic[Capabilities\Factory::class] = static fn($c): Capabilities\Factory
+            => new Capabilities\Factory([
+                Capabilities\Feedback\Feedback::class => new Capabilities\Feedback\Capability(
+                    $c[DataFactory::class]->text(),
+                    new Capabilities\Feedback\Repository(
+                        $DIC['ilDB'],
+                        $DIC['refinery'],
+                        $c[UuidFactory::class],
+                        $c[DataFactory::class]->text(),
+                        $c[PersistenceFactory::class],
+                        new FeedbackTableDefinitions(
+                            $c[PersistenceFactory::class]
+                        )
+                    )
+                ),
+                Capabilities\Marking\Marking::class => new Capabilities\Marking\Capability()
+            ]);
         $dic[AnswerFormFactory::class] = static fn($c): AnswerFormFactory
             => new AnswerFormFactory(
                 $c[UuidFactory::class],
@@ -85,8 +102,8 @@ class LocalDIC extends PimpleContainer
                     $c[Cloze\Definition::class]
                 ]
             );
-        $dic[QuestionsRepository::class] = static fn($c): QuestionsRepository =>
-            new QuestionsRepository(
+        $dic[QuestionsRepository::class] = static fn($c): QuestionsRepository
+            => new QuestionsRepository(
                 $DIC['ilDB'],
                 $DIC['refinery'],
                 $c[UuidFactory::class],
@@ -116,6 +133,7 @@ class LocalDIC extends PimpleContainer
             $DIC['ilTabs'],
             $DIC->uiService(),
             $c[UuidFactory::class],
+            $c[Capabilities\Factory::class],
             $c[AnswerFormFactory::class],
             $c[QuestionsRepository::class],
             $c[LayoutFactory::class]
@@ -183,7 +201,6 @@ class LocalDIC extends PimpleContainer
             );
         $dic[Cloze\Views\Edit::class] = static fn($c): Cloze\Views\Edit
             => new Cloze\Views\Edit(
-                $DIC['ilToolbar'],
                 $c[Cloze\Properties\Factory::class],
                 $c[Cloze\Properties\ClozeText\Factory::class],
                 $c[Cloze\Views\EditGaps::class]
@@ -197,8 +214,11 @@ class LocalDIC extends PimpleContainer
             $c[Cloze\Properties\Factory::class],
             $c[Cloze\TableDefinitions::class],
             [
-                Capabilities\Marking::class => new Cloze\Capabilities\Marking(),
-                Capabilities\Feedback::class => new Cloze\Capabilities\Feedback()
+                Capabilities\Feedback\Feedback::class => new Cloze\Capabilities\Feedback(
+                    $c[UuidFactory::class],
+                    $c[DataFactory::class]->text()
+                ),
+                Capabilities\Marking\Marking::class => new Cloze\Capabilities\Marking()
             ],
             $c[Cloze\Views\Edit::class],
             $c[Cloze\Views\Participant::class]

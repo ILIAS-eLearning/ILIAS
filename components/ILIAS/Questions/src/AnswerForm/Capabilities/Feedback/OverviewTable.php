@@ -18,26 +18,27 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerForm\Capabilities;
+namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
-use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\UI\Component\Modal\RoundTrip as RoundTripModal;
+use ILIAS\UI\Component\Table\Data as DataTable;
 
-interface Capability
+interface OverviewTable
 {
-    public function isAvailableFor(
-        Properties $answer_form_properties
-    ): bool;
-
-    public function getEditAction(): ?Action;
-
-    public function edit(
+    public function getCreateModal(
         Environment $environment
-    ): self|Async|Renderable;
+    ): RoundTripModal;
 
-    public function onAnswerFormUpdate(
-        Properties $answer_form_properties
-    ): void;
+    public function getTable(
+        Environment $environment,
+        Feedback $feedback
+    ): DataTable;
+
+    public function doAction(
+        Environment $environment,
+        Feedback $feedback,
+        string $action
+    ): Async|RoundTripModal|Feedback;
 }

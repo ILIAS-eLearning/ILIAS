@@ -18,6 +18,7 @@
 
 declare(strict_types=1);
 
+use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Questions\Question\QuestionImplementation;
 use ILIAS\Data\URI;
 
@@ -32,12 +33,19 @@ class QstsQuestionPageGUI extends ilPageObjectGUI
 
     public function __construct(
         QuestionImplementation $question,
-        int $obj_id
+        int $obj_id,
+        ?Edit $edit_view = null
     ) {
         parent::__construct('qsts', $question->getPageId());
-        $this->obj->setParentId($obj_id);
-        $this->obj->setQuestion($question);
+
         $this->setEnabledPageFocus(false);
+
+        $this->obj->setQuestion($question);
+        $this->obj->setParentId($obj_id);
+
+        if ($edit_view !== null) {
+            $this->obj->setEditView($edit_view);
+        }
     }
 
     #[\Override]

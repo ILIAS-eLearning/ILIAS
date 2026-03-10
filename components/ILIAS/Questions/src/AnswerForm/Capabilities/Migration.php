@@ -20,24 +20,20 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
-use ILIAS\Questions\AnswerForm\Properties;
-use ILIAS\Questions\Presentation\Definitions\Environment;
-use ILIAS\Questions\Presentation\Layout\Async;
-use ILIAS\Questions\Presentation\Layout\Renderable;
+use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
+use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
+use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
+use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Setup\Environment;
 
-interface Capability
+interface Migration
 {
-    public function isAvailableFor(
-        Properties $answer_form_properties
-    ): bool;
+    public function getTableNameSpace(): TableNameSpace;
 
-    public function getEditAction(): ?Action;
-
-    public function edit(
-        Environment $environment
-    ): self|Async|Renderable;
-
-    public function onAnswerFormUpdate(
-        Properties $answer_form_properties
-    ): void;
+    public function completeMigrationInsert(
+        Environment $environment,
+        PersistenceFactory $persistence_factory,
+        AnswerFormMigration $answer_form_migration,
+        MigrationInsert $migration_insert
+    ): ?MigrationInsert;
 }

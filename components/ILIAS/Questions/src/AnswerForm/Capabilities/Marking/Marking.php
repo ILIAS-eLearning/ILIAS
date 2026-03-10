@@ -20,10 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Marking;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\Response\Response;
 
-interface Marking extends Capability
+interface Marking
 {
     public function addAchievedPointsToResponse(
         Response $response

@@ -20,15 +20,21 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Types as FeedbackTypes;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
+use ILIAS\Questions\Definitions\Range;
+use ILIAS\Data\UUID\Factory as UuidFactory;
+use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 
 abstract class Type
 {
     public function __construct(
-        protected readonly Refinery $refinery
+        protected readonly Refinery $refinery,
+        protected readonly Language $lng
     ) {
     }
 
@@ -60,6 +66,56 @@ abstract class Type
         return $gap->getAnswerOptions()->buildArrayForSelectInput(
             $this->refinery->random()->dontShuffle()
         );
+    }
+
+    public function getFeedbackSelectValues(
+        Gap $gap,
+        bool $is_marking_required
+    ): array {
+        $basic_select_values = $this->getCombinationsSelectValues($gap);
+        if (!$is_marking_required) {
+            return $basic_select_values;
+        }
+        return array_merge(
+            [
+                FeedbackTypes::MaxPoints => FeedbackTypes::MaxPoints
+                    ->getTranslatedOptionName($this->lng),
+                FeedbackTypes::NotMaxPoints => FeedbackTypes::NotMaxPoints
+                    ->getTranslatedOptionName($this->lng),
+                FeedbackTypes::NothingSelected => FeedbackTypes::NothingSelected
+                    ->getTranslatedOptionName($this->lng)
+            ],
+            $basic_select_values
+        );
+    }
+
+    public function isValidFeedbackCondition(
+        UuidFactory $uuid_factory,
+        Gap $gap,
+        string $condition
+    ): bool {
+        if (FeedbackTypes::tryFrom($condition) !== null
+            || Range::tryFrom($condition) !== null) {
+            return true;
+        }
+
+        try {
+            return $gap->getAnswerOptions()->getAnswerOptionById(
+                $uuid_factory->fromString($condition)
+            ) !== null;
+        } catch (InvalidUuidStringException $e) {
+            return false;
+        }
+    }
+
+    public function getLabelForValue(
+        UuidFactory $uuid_factory,
+        Gap $gap,
+        string $value
+    ): string {
+        return $gap->getAnswerOptions()->getAnswerOptionById(
+            $uuid_factory->fromString($value)
+        )->getTextValue();
     }
 
     public function getAddPointsTransformation(

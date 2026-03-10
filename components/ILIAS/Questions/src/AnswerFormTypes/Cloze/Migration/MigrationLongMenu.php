@@ -38,7 +38,7 @@ class MigrationLongMenu implements Migration
     }
 
     #[\Override]
-    public function getOldQuestionIdentifier(): string
+    public function getOldQuestionTypeIdentifier(): string
     {
         return 'assLongMenu';
     }
@@ -169,6 +169,14 @@ class MigrationLongMenu implements Migration
                 )
             )->withAdditionalInsert($gaps_insert)
             ->withAdditionalInsert($answer_options_insert);
+    }
+
+    #[\Override]
+    public function getConditionsForFeedbackFromOldValues(
+        int $answer,
+        int $question
+    ): null {
+        return null;
     }
 
     private function fetchDBValues(

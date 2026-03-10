@@ -29,10 +29,13 @@ use ILIAS\Data\Order;
 use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\UI\Component\Button\Primary as PrimaryButton;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as Filter;
 
 class QuestionsTable implements Renderable, DataRetrieval
 {
+    private ?PrimaryButton $create_question_button = null;
+
     public function __construct(
         private readonly \ilUIService $ui_service,
         private readonly AnswerFormFactory $answer_form_factory,
@@ -45,7 +48,25 @@ class QuestionsTable implements Renderable, DataRetrieval
     public function render(
         UIRenderer $ui_renderer
     ): string {
-        return $ui_renderer->render($this->buildContent());
+
+        $rendered_content = '';
+
+        if ($this->create_question_button !== null) {
+            $toolbar = new \ilToolbarGUI();
+            $toolbar->addComponent(
+                $this->create_question_button
+            );
+            $rendered_content = $toolbar->getHTML();
+        }
+        return $rendered_content . $ui_renderer->render($this->buildContent());
+    }
+
+    public function withCreateQuestionButton(
+        PrimaryButton $create_question_button
+    ): self {
+        $clone = clone $this;
+        $clone->create_question_button = $create_question_button;
+        return $clone;
     }
 
     #[\Override]

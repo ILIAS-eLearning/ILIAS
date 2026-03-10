@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Layout\CombinationsOverview;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
@@ -33,7 +32,6 @@ class EditCombinations
     private const string LANG_VAR_EDIT_COMBINATIONS = 'edit_combinations';
 
     public function __construct(
-        private readonly \ilToolbarGUI $toolbar,
         private readonly Factory $combinations_factory
     ) {
     }
@@ -59,7 +57,7 @@ class EditCombinations
             self::STEP_EDIT_COMBINATIONS_OVERVIEW
         );
 
-        $combinations_overview = $this->buildCombinationsOverview($environment);
+        $combinations_overview = $this->buildOverview($environment);
 
         $step = $environment->getStep();
         if ($step === self::STEP_EDIT_COMBINATIONS_OVERVIEW
@@ -70,11 +68,10 @@ class EditCombinations
         return $combinations_overview->doAction();
     }
 
-    private function buildCombinationsOverview(
+    private function buildOverview(
         Environment $environment
-    ): CombinationsOverview {
-        return new CombinationsOverview(
-            $this->toolbar,
+    ): Overview {
+        return new Overview(
             $environment,
             $this->combinations_factory
         );

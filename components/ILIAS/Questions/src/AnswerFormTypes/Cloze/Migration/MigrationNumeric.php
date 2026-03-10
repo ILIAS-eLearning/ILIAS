@@ -42,7 +42,7 @@ class MigrationNumeric implements Migration
     }
 
     #[\Override]
-    public function getOldQuestionIdentifier(): string
+    public function getOldQuestionTypeIdentifier(): string
     {
         return 'assNumeric';
     }
@@ -118,6 +118,14 @@ class MigrationNumeric implements Migration
         )->withAdditionalText(
             '{{' . Gap::GAP_PLACEHOLDER_NAME . '_' . $gap_id->toString() . '}}'
         );
+    }
+
+    #[\Override]
+    public function getConditionsForFeedbackFromOldValues(
+        int $answer,
+        int $question
+    ): null {
+        return null;
     }
 
     private function fetchDBValues(

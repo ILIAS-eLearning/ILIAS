@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Questions\AnswerFormTypes\Cloze\Layout;
+namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations;
 
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Combination;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\Factory as CombinationsFactory;
@@ -38,7 +38,7 @@ use ILIAS\UI\Component\Table\DataRetrieval;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 use ILIAS\UI\Renderer as UIRenderer;
 
-class CombinationsOverview implements DataRetrieval, Renderable
+class Overview implements DataRetrieval, Renderable
 {
     private const string STEP_SAVE = 's';
     private const string STEP_SET_COMBINATION_VALUES = 'scv';
@@ -49,7 +49,6 @@ class CombinationsOverview implements DataRetrieval, Renderable
     private ?RoundTripModal $modal = null;
 
     public function __construct(
-        private readonly \ilToolbarGUI $toolbar,
         private readonly Environment $environment,
         private readonly CombinationsFactory $combinations_factory
     ) {
@@ -59,8 +58,13 @@ class CombinationsOverview implements DataRetrieval, Renderable
     public function render(
         UIRenderer $ui_renderer
     ): string {
+        $modal = $this->buildSetCombinationGapsModal();
         $content = [
-            $this->initializeModal($this->buildSetCombinationGapsModal()),
+            $this->environment->getUIFactory()->button()->standard(
+                $this->environment->getLanguage()->txt('add_combination'),
+                $modal->getShowSignal()
+            ),
+            $modal,
             $this->buildTable()
         ];
         if ($this->modal !== null) {
@@ -114,18 +118,6 @@ class CombinationsOverview implements DataRetrieval, Renderable
             $this->getColumns()
         )->withActions($this->getActions())
         ->withRequest($this->environment->getHttpServices()->request());
-    }
-
-    private function initializeModal(
-        RoundTripModal $modal
-    ): RoundTripModal {
-        $this->toolbar->addComponent(
-            $this->environment->getUIFactory()->button()->standard(
-                $this->environment->getLanguage()->txt('add_combination'),
-                $modal->getShowSignal()
-            )
-        );
-        return $modal;
     }
 
     private function getColumns(): array

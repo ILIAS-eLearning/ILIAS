@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 use ILIAS\Questions\Administration\ConfigurationGUI;
 use ILIAS\Questions\Administration\ConfigurationRepository;
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Feedback;
+use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\UploadAnswerOptionsGUI;
 use ILIAS\Questions\Legacy\LocalDIC;
 use ILIAS\Questions\Presentation\Views\Edit;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\UploadAnswerOptionsGUI;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\URI;
 
@@ -56,7 +57,10 @@ class ilObjQuestionsGUI extends ilObjectGUI
 
         $local_dic = LocalDIC::dic();
         $this->units_repository = $local_dic[UnitsRepository::class];
-        $this->edit_view = $local_dic[Edit::class];
+        $this->edit_view = $local_dic[Edit::class]
+            ->withRequiredCapabilities([
+                Feedback::class
+            ]);
         $this->configuration_repository = $local_dic[ConfigurationRepository::class];
 
         $this->type = 'qsts';
@@ -128,7 +132,6 @@ class ilObjQuestionsGUI extends ilObjectGUI
 
         $this->tpl->setContent(
             $this->edit_view->show(
-                $this->toolbar,
                 $this->buildEditQuestionsBaseUri(),
                 $this->object->getId(),
                 $this->object->getRefId()

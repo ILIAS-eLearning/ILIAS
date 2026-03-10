@@ -22,6 +22,7 @@ namespace ILIAS\Questions\AnswerForm\Migration;
 
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\TableNameSpace;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\Setup\Environment;
 
 interface Migration
@@ -30,7 +31,7 @@ interface Migration
      * Returns the identifier under which the question type was stored previously
      * in the database.
      */
-    public function getOldQuestionIdentifier(): string;
+    public function getOldQuestionTypeIdentifier(): string;
 
     public function getDefinitionClass(): string;
 
@@ -41,4 +42,13 @@ interface Migration
         PersistenceFactory $persistence_factory,
         MigrationInsert $migration_insert
     ): ?MigrationInsert;
+
+    public function getNewAnswerInputIdForOld(
+        int $id
+    ): ?Uuid;
+
+    public function getConditionsForFeedbackFromOldValues(
+        int $answer,
+        int $question
+    ): ?array;
 }

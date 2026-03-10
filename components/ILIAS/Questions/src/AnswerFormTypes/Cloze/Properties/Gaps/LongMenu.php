@@ -37,11 +37,11 @@ class LongMenu extends Type
 
     public function __construct(
         Refinery $refinery,
-        private readonly Language $lng,
+        Language $lng,
         private readonly UIFactory $ui_factory,
         private readonly GlobalTemplate $global_tpl
     ) {
-        parent::__construct($refinery);
+        parent::__construct($refinery, $lng);
     }
 
     #[\Override]
