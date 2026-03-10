@@ -65,7 +65,7 @@ current configuration of the [ILIAS test server](https://test11.ilias.de), which
 |--------------|--------------------------------------------------------|------------------|
 | Distribution | current version of Debian GNU Linux, Ubuntu or RHEL    | Ubuntu 22.04 LTS |
 | Database     | MySQL 8.4 - 9.7 or MariaDB 11.4 - 12.3                 | MariaDB 11.8     |
-| PHP          | 8.3, 8.4                                               | 8.4              |
+| PHP          | 8.4, 8.5                                               | 8.5              |
 | Webserver    | nginx: 1.12.x – 1.18.x, Apache: ≥ 2.4.x                | Apache 2.4.52    |
 | JDK          | Open JDK Runtime 11, 17 or 21 LTS                      | OpenJDK 17       |
 | Node.js      | 22 (LTS), 24 Recommended: 24                           | v24.10.0         |
@@ -665,14 +665,15 @@ each ILIAS release.
 
 **PHP:**
 
-| ILIAS Version  | PHP Version                 |
-|----------------|-----------------------------|
-| 11.x           | 8.3.x, 8.4.x                |
-| 10.x           | 8.2.x, 8.3.x                |
-| 9.x            | 8.1.x, 8.2.x                |
-| 8.x            | 7.4.x, 8.0.x                |
-| 7.x            | 7.3.x, 7.4.x                |
-| 6.x            | 7.2.x, 7.3.x, 7.4.x         |
+| ILIAS Version | PHP Version         |
+|---------------|---------------------|
+| 12.x          | 8.4.x, 8.5.x        |
+| 11.x          | 8.3.x, 8.4.x        |
+| 10.x          | 8.2.x, 8.3.x        |
+| 9.x           | 8.1.x, 8.2.x        |
+| 8.x           | 7.4.x, 8.0.x        |
+| 7.x           | 7.3.x, 7.4.x        |
+| 6.x           | 7.2.x, 7.3.x, 7.4.x |
 
 **DBMS:**
 

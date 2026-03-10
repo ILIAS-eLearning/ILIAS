@@ -1,4 +1,4 @@
-name: install-check-trunk-8.3
+name: install-check-trunk-8.5
 on:
   schedule:
     - cron: "0 12 * * *"
@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.3]
+        php: [8.5]
     env:
       DB_DATABASE: ilias
       DB_USER: root
