@@ -39,7 +39,7 @@ class MigrationTextSubset implements Migration
     }
 
     #[\Override]
-    public function getOldQuestionIdentifier(): string
+    public function getOldQuestionTypeIdentifier(): string
     {
         return 'assTextSubset';
     }
@@ -132,6 +132,14 @@ class MigrationTextSubset implements Migration
             )->withAdditionalText(
                 $this->buildAdditionalTextFromGapsArray($gaps)
             );
+    }
+
+    #[\Override]
+    public function getConditionsForFeedbackFromOldValues(
+        int $answer,
+        int $question
+    ): null {
+        return null;
     }
 
     private function fetchDBValues(

@@ -33,8 +33,9 @@ use ILIAS\Data\UUID\Uuid;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Section;
 use ILIAS\UI\Component\Input\Field\MultiSelect;
+use ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\UI\Component\Input\Field\Select;
 use ILIAS\UI\Component\Table\DataRowBuilder;
 
 class Gaps
@@ -297,20 +298,23 @@ class Gaps
         );
     }
 
+    public function buildGapsSelect(
+        string $label,
+        FieldFactory $ff
+    ): Select {
+        return $ff->select(
+            $label,
+            $this->buildOptionsArray()
+        );
+    }
+
     public function buildGapsMultiSelect(
         string $label,
         FieldFactory $ff
     ): MultiSelect {
         return $ff->multiSelect(
             $label,
-            array_reduce(
-                $this->gaps,
-                function (array $c, Gap $v): array {
-                    $c[$v->getAnswerInputId()->toString()] = $v->buildShortenedGapName();
-                    return $c;
-                },
-                []
-            )
+            $this->buildOptionsArray()
         );
     }
 
@@ -512,6 +516,18 @@ class Gaps
         string $tag_name
     ): string {
         return mb_substr($tag_name, mb_strlen(Gap::GAP_PLACEHOLDER_NAME) + 1);
+    }
+
+    private function buildOptionsArray(): array
+    {
+        return array_reduce(
+            $this->gaps,
+            function (array $c, Gap $v): array {
+                $c[$v->getAnswerInputId()->toString()] = $v->buildShortenedGapName();
+                return $c;
+            },
+            []
+        );
     }
 
     private function retrieveGapsForInputs(

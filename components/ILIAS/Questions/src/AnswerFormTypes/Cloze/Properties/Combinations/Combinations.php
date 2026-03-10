@@ -98,11 +98,9 @@ class Combinations
         return false;
     }
 
-    public function getEditView(
-        \ilToolbarGUI $toolbar
-    ): EditCombinations {
+    public function getEditView(): EditCombinations
+    {
         return new EditCombinations(
-            $toolbar,
             $this->combinations_factory
         );
     }

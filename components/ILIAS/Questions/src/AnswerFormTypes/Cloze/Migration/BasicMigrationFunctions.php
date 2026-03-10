@@ -35,6 +35,19 @@ trait BasicMigrationFunctions
 {
     use SanitizeLegacyText;
 
+    private ?array $answer_inputs_mapping = null;
+
+    #[\Override]
+    public function getNewAnswerInputIdForOld(
+        int $id
+    ): ?Uuid {
+        if ($this->answer_inputs_mapping === null) {
+            return null;
+        }
+
+        return $this->answer_inputs_mapping[$id] ?? null;
+    }
+
     private function buildGapInsertStatement(
         TableDefinitions $table_definitions,
         PersistenceFactory $persistence_factory,
@@ -125,6 +138,8 @@ trait BasicMigrationFunctions
         ?float $lower_limit,
         ?float $upper_limit
     ): Insert {
+        $this->answer_options_mapping[$position] = $answer_option_id;
+
         if ($options_insert === null) {
             return $persistence_factory->insert(
                 $table_definitions->getColumns(

@@ -65,6 +65,10 @@ interface Environment
 
     public function getEditability(): Editability;
 
+    public function isCapabilityRequired(
+        string $capability
+    ): bool;
+
     public function isInCreationContext(): bool;
 
     /**
@@ -86,4 +90,6 @@ interface Environment
     ): self;
 
     public function withPreservedTableRowIdsParameter(): self;
+
+    public function redirectTo(URLBuilder $target): void;
 }

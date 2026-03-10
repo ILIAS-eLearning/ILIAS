@@ -18,7 +18,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Questions\Legacy\LocalDIC;
 use ILIAS\Questions\Presentation\Views\Edit;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -31,7 +30,7 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
     private readonly ilTabsGUI $tabs;
     private readonly UIRenderer $ui_renderer;
     private readonly DataFactory $data_factory;
-    private readonly Edit $edit_view;
+    private readonly ?Edit $edit_view;
 
     public function __construct(
         ilPageObject $pg_obj,
@@ -44,8 +43,7 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->data_factory = new DataFactory();
 
-        $local_dic = LocalDIC::dic();
-        $this->edit_view = $local_dic[Edit::class];
+        $this->edit_view = $pg_obj->getEditView();
 
         parent::__construct($pg_obj, $content_obj, $hier_id, $pc_id);
     }

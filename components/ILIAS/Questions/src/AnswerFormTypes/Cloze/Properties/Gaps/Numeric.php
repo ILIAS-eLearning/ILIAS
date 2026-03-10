@@ -20,9 +20,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps;
 
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\InRange;
+use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOptions;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Gaps\AnswerOptions\AnswerOption;
+use ILIAS\Data\UUID\Factory as UuidFactory;
 use ILIAS\Language\Language;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Constraint;
@@ -36,10 +37,10 @@ class Numeric extends Type
 
     public function __construct(
         Refinery $refinery,
-        private readonly Language $lng,
+        Language $lng,
         private readonly UIFactory $ui_factory
     ) {
-        parent::__construct($refinery);
+        parent::__construct($refinery, $lng);
     }
 
     #[\Override]
@@ -152,10 +153,35 @@ class Numeric extends Type
     public function getCombinationsSelectValues(
         Gap $gap
     ): array {
-        $values = [];
-        foreach (InRange::cases() as $in_range) {
-            $values[$in_range->value] = $in_range->getLabel($this->lng);
-        }
-        return $values;
+        return [
+            Range::InRange->value => Range::InRange->getLabel($this->lng),
+            Range::OutOfRange->value => Range::OutOfRange->getLabel($this->lng)
+        ];
+    }
+
+    #[\Override]
+    public function getFeedbackSelectValues(
+        Gap $gap,
+        bool $is_marking_required
+    ): array {
+        return $this->getCombinationsSelectValues($gap);
+    }
+
+    #[\Override]
+    public function isValidFeedbackCondition(
+        UuidFactory $uuid_factory,
+        Gap $gap,
+        string $condition
+    ): bool {
+        return Range::tryFrom($condition) !== null;
+    }
+
+    #[\Override]
+    public function getLabelForValue(
+        UuidFactory $uuid_factory,
+        Gap $gap,
+        string $value
+    ): string {
+        return Range::tryFrom($value)?->getLabel($this->lng) ?? '';
     }
 }
