@@ -32,7 +32,6 @@ class assLongmenuTest extends assBaseTestCase
     {
         $class = new ReflectionClass(assLongMenu::class);
         $method = $class->getMethod($name);
-        $method->setAccessible(true);
         return $method;
     }
 

@@ -211,7 +211,6 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTestBase
 
         $settingsReflection = new ReflectionClass(ilSetting::class);
         $cache = $settingsReflection->getProperty('settings_cache');
-        $cache->setAccessible(true);
         $cache->setValue($settingsReflection, []);
 
         $this->access = new ilObjChatroomAccess();

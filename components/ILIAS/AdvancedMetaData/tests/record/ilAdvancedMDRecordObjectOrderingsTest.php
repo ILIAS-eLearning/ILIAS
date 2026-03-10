@@ -38,7 +38,6 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
     public function testGlobalRecordSorting(): void
     {
         $record_id_reflection = new ReflectionMethod(ilAdvancedMDRecord::class, 'setRecordId');
-        $record_id_reflection->setAccessible(true);
 
         $ids = [1, 2, 3, 4, 5];
         $positions = array_reverse($ids);

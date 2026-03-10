@@ -138,7 +138,6 @@ class ilModulesFileTest extends TestCase
 
         $r = new ReflectionClass(ilObjFile::class);
         $property = $r->getProperty('just_notified');
-        $property->setAccessible(true);
         $property->setValue($file, true);
         $file->setMode(ilObjFile::MODE_FILELIST);
         $this->db_mock
