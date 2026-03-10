@@ -77,6 +77,7 @@ class EnvironmentImplementation implements Environment
         private readonly UuidFactory $uuid_factory,
         private readonly Factory $presentation_factory,
         private readonly Editability $editability,
+        private readonly array $required_capabilities,
         URI $base_uri,
         private readonly int $obj_id
     ) {
@@ -185,6 +186,16 @@ class EnvironmentImplementation implements Environment
     }
 
     #[\Override]
+    public function isCapabilityRequired(
+        string $capability
+    ): bool {
+        return array_key_exists(
+            $capability,
+            $this->required_capabilities
+        );
+    }
+
+    #[\Override]
     public function isInCreationContext(): bool
     {
         return $this->is_in_creation_context;
@@ -269,6 +280,14 @@ class EnvironmentImplementation implements Environment
         $clone->url_builder = $this->url_builder
             ->withParameter($this->table_row_token, $clone->table_row_ids);
         return $clone;
+    }
+
+    #[\Override]
+    public function redirectTo(URLBuilder $target): void
+    {
+        $this->ctrl->redirectToURL(
+            $target->buildURI()->__toString()
+        );
     }
 
     public function withIsInCreationContext(
@@ -433,9 +452,12 @@ class EnvironmentImplementation implements Environment
         );
     }
 
+    /**
+     *
+     * @param array<\ILIAS\Questions\AnswerForm\Capabilities\Action> $additional_actions
+     */
     public function setEditAnswerFormTabs(
-        string $cmd_feedback,
-        string $cmd_content_for_repetition
+        array $additional_actions
     ): void {
         $this->tabs_gui->addTab(
             self::TAB_ID_ANSWER_FORM,
@@ -443,23 +465,13 @@ class EnvironmentImplementation implements Environment
             $this->withDefaultStep()->getUrlBuilder()->buildURI()->__toString()
         );
 
-        $this->tabs_gui->addTab(
-            $cmd_feedback,
-            $this->lng->txt('feedback'),
-            $this->withActionParameter($cmd_feedback)
-                ->getUrlBuilder()
-                ->buildURI()
-                ->__toString()
-        );
-
-        $this->tabs_gui->addTab(
-            $cmd_content_for_repetition,
-            $this->lng->txt('suggested_solution'),
-            $this->withActionParameter($cmd_content_for_repetition)
-                ->getUrlBuilder()
-                ->buildURI()
-                ->__toString()
-        );
+        foreach ($additional_actions as $action) {
+            $action->addTab(
+                $this,
+                $this->tabs_gui,
+                $this->lng
+            );
+        }
 
         $this->tabs_gui->addSubTab(
             self::TAB_ID_ANSWER_FORM,

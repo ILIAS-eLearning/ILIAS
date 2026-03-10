@@ -43,7 +43,6 @@ class Edit implements EditViewInterface
     private const string STEP_CONFIRMED_GAP_REMOVAL = 'cgr';
 
     public function __construct(
-        private readonly \ilToolbarGUI $toolbar,
         private readonly PropertiesFactory $properties_factory,
         private readonly ClozeTextFactory $cloze_text_factory,
         private readonly EditGaps $edit_gaps
@@ -76,9 +75,7 @@ class Edit implements EditViewInterface
 
         $combinations = $environment->getAnswerFormProperties()->getCombinations();
         if ($combinations->areCombinationsEnabled()) {
-            $combinations->getEditView(
-                $this->toolbar
-            )->addCombinationsSubTab($environment);
+            $combinations->getEditView()->addCombinationsSubTab($environment);
         }
 
         if ($step === '') {
@@ -112,9 +109,7 @@ class Edit implements EditViewInterface
     ): Async|Renderable|Properties {
         return $environment
             ->getAnswerFormProperties()
-            ->getCombinations()->getEditView(
-                $this->toolbar
-            )->show($environment);
+            ->getCombinations()->getEditView()->show($environment);
     }
 
     private function startEditing(

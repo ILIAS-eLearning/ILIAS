@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace ILIAS\Questions\AnswerFormTypes\Cloze;
 
 use ILIAS\Questions\AnswerForm\Definition as DefinitionInterface;
-use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\AnswerForm\TypeGenericProperties;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Factory as PropertiesFactory;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Properties;
@@ -34,7 +33,7 @@ use ILIAS\Language\Language;
 class Definition implements DefinitionInterface
 {
     /**
-     * @param array<string, \ILIAS\Questions\AnswerForm\Capabilities\Capability> $available_capabilities
+     * @param array<string, object> $available_capabilities
      */
     public function __construct(
         private readonly PropertiesFactory $properties_factory,
@@ -79,7 +78,7 @@ class Definition implements DefinitionInterface
     #[\Override]
     public function getCapability(
         string $capability_class_name
-    ): ?Capability {
+    ): mixed {
         return $this->available_capabilities[$capability_class_name];
     }
 

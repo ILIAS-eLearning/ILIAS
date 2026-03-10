@@ -39,10 +39,15 @@ class Agent implements SetupAgent
 {
     use HasNoNamedObjective;
 
+    /**
+     * @param array<\ILIAS\Questions\AnswerForm\Migration\Migration> $answer_form_migrations
+     * @param array<\ILIAS\Questions\AnswerForm\Capabilities\Migration> $capability_migrations
+     */
     public function __construct(
         private readonly PersistenceFactory $persistence_factory,
         private readonly TableNameBuilder $question_table_name_builder,
-        private readonly array $answer_form_migrations
+        private readonly array $answer_form_migrations,
+        private readonly array $capability_migrations
     ) {
     }
 
@@ -129,7 +134,8 @@ class Agent implements SetupAgent
                 new AnswerFormGenericTableDefinitions(
                     $this->persistence_factory
                 ),
-                $this->answer_form_migrations
+                $this->answer_form_migrations,
+                $this->capability_migrations
             )
         ];
     }

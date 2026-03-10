@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Setup;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Migration as CapabilityMigration;
 use ILIAS\Questions\AnswerForm\Migration\Migration as AnswerFormMigration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert as AnswerFormMigrationInsert;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
@@ -51,17 +52,22 @@ class QuestionsMigration implements Migration
     private ?array $allready_migrated_questions = null;
     private ?array $allready_migrated_questions_in_qpls = null;
 
+    /**
+     * @param array<\ILIAS\Questions\AnswerForm\Migration\Migration> $answer_form_migrations
+     * @param array<\ILIAS\Questions\AnswerForm\Capabilities\Migration> $capability_migrations
+     */
     public function __construct(
         private readonly PersistenceFactory $persistence_factory,
         private readonly TableNameBuilder $question_table_name_builder,
         private readonly QuestionTableDefinitions $question_table_definitions,
         private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
-        array $answer_form_migrations
+        array $answer_form_migrations,
+        private readonly array $capability_migrations
     ) {
         $this->answer_form_migrations = array_reduce(
             $answer_form_migrations,
             function (array $c, AnswerFormMigration $v): array {
-                $c[$v->getOldQuestionIdentifier()] = $v;
+                $c[$v->getOldQuestionTypeIdentifier()] = $v;
                 return $c;
             },
             []
@@ -123,6 +129,7 @@ class QuestionsMigration implements Migration
 
         $migration_insert = $answer_form_migration->completeMigrationInsert(
             $environment,
+            $this->persistence_factory,
             $this->buildMigrationInsert(
                 $answer_form_migration,
                 [
@@ -163,7 +170,16 @@ class QuestionsMigration implements Migration
             return;
         }
 
-        $migration_insert->run();
+        array_reduce(
+            $this->capability_migrations,
+            fn(AnswerFormMigrationInsert $c, CapabilityMigration $v): AnswerFormMigration
+                => $v->completeMigrationInsert(
+                    $environment,
+                    $this->persistence_factory,
+                    $migration_insert
+                ),
+            $migration_insert
+        )->run();
         $this->io->inform("{$new_question_id->toString()} successfully migrated.");
     }
 
@@ -182,7 +198,7 @@ class QuestionsMigration implements Migration
                 . implode(
                     ', ',
                     array_map(
-                        fn(AnswerFormMigration $v): string => "'{$v->getOldQuestionIdentifier()}'",
+                        fn(AnswerFormMigration $v): string => "'{$v->getOldQuestionTypeIdentifier()}'",
                         $this->answer_form_migrations
                     )
                 ) . ')' . PHP_EOL
@@ -209,7 +225,7 @@ class QuestionsMigration implements Migration
             . implode(
                 ', ',
                 array_map(
-                    fn(AnswerFormMigration $v): string => "'{$v->getOldQuestionIdentifier()}'",
+                    fn(AnswerFormMigration $v): string => "'{$v->getOldQuestionTypeIdentifier()}'",
                     $this->answer_form_migrations
                 )
             ) . ')' . PHP_EOL

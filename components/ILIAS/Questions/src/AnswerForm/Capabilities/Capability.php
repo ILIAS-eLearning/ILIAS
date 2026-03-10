@@ -20,16 +20,24 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities;
 
+use ILIAS\Questions\AnswerForm\Properties;
 use ILIAS\Questions\Presentation\Definitions\Environment;
 use ILIAS\Questions\Presentation\Layout\Async;
 use ILIAS\Questions\Presentation\Layout\Renderable;
-use ILIAS\Questions\Persistence\Storable;
 
-interface Capability extends Storable
+interface Capability
 {
-    public function isConfigured(): bool;
+    public function isAvailableFor(
+        Properties $answer_form_properties
+    ): bool;
+
+    public function getEditAction(): ?Action;
 
     public function edit(
         Environment $environment
     ): self|Async|Renderable;
+
+    public function onAnswerFormUpdate(
+        Properties $answer_form_properties
+    ): void;
 }
