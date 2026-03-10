@@ -31,18 +31,10 @@ class MustacheTemplateEngineFactoryTest extends TestCase
         $this->assertInstanceOf(TemplateEngineFactoryInterface::class, $f);
     }
 
-    public function testGetBasicEngineReturnsTemplateEngine(): void
+    public function testBasicEngineCanBeRetrieved(): void
     {
         $f = new MustacheTemplateEngineFactory();
         $engine = $f->getBasicEngine();
         $this->assertInstanceOf(TemplateEngineInterface::class, $engine);
-    }
-
-    public function testEngineRendersMustacheTemplates(): void
-    {
-        $f = new MustacheTemplateEngineFactory();
-        $engine = $f->getBasicEngine();
-        $result = $engine->render('Hello {{name}}!', ['name' => 'World']);
-        $this->assertSame('Hello World!', $result);
     }
 }

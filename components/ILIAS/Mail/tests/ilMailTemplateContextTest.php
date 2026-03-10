@@ -232,7 +232,7 @@ class ilMailTemplateContextTest extends ilMailBaseTestCase
             $lng_helper
         );
 
-        $template_engine = (new MustacheTemplateEngineFactory())->getBasicEngine();
+        $template_engine = (new class () extends MustacheTemplateEngineFactory {})->getBasicEngine();
         $placeholder_resolver = new ilMailTemplatePlaceholderResolver($template_engine);
 
         $message = implode('', [

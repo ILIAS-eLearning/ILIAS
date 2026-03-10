@@ -157,7 +157,7 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
         $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->getSenderByUsrId(ANONYMOUS_USER_ID));
@@ -169,7 +169,7 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
         $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderSystem::class, $factory->system());
@@ -192,7 +192,7 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
         $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderUser::class, $factory->getSenderByUsrId(self::USER_ID));
@@ -204,7 +204,7 @@ class ilMailMimeTest extends ilMailBaseTestCase
             'set',
             'get',
         ])->getMock();
-        $template_engine_factory = $this->getMockBuilder(TemplateEngineFactoryInterface::class)->getMock();
+        $template_engine_factory = $this->createMock(TemplateEngineFactoryInterface::class);
 
         $factory = new ilMailMimeSenderFactory($settings, $template_engine_factory);
         $this->assertInstanceOf(ilMailMimeSenderUser::class, $factory->user(self::USER_ID));
