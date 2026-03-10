@@ -1,4 +1,4 @@
-[![checks](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml/badge.svg?branch=trunk)](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml)
+[![checks](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml/badge.svg?branch=release_11)](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml)
 [![Supported PHP Version](https://img.shields.io/badge/php-%3E%3D8.3%7C%3C%3D8.4-8892BF.svg)](https://php.net/)
 
 # ILIAS
