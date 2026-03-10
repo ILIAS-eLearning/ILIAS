@@ -41,13 +41,13 @@ interface TableDefinitions
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         string $sub_table_identifier = ''
-    ): Column;
+    ): ?Column;
 
     public function getForeignKeyColumn(
         TableNameBuilder $table_name_builder,
         TableTypes $table_type,
         string $sub_table_identifier = ''
-    ): Column;
+    ): ?Column;
 
     public function completeQuery(
         Query $query,

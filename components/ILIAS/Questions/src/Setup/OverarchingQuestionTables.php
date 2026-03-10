@@ -21,7 +21,7 @@ declare(strict_types=1);
 namespace ILIAS\Questions\Setup;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
-use ILIAS\Questions\AnswerForm\Capabilities\Feedback\FeedbackTableTypes;
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\TableTypes as FeedbackTableTypes;
 use ILIAS\Questions\Question\Persistence\TableTypes as QuestionTableTypes;
 use ILIAS\Questions\Persistence\TableNameBuilder;
 
@@ -309,6 +309,11 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
         );
         if (!$this->db->tableExists($table_name)) {
             $this->db->createTable($table_name, [
+                'id' => [
+                    'type' => \ilDBConstants::T_TEXT,
+                    'length' => 64,
+                    'notnull' => true
+                ],
                 'answer_form_id' => [
                     'type' => \ilDBConstants::T_TEXT,
                     'length' => 64,
@@ -321,12 +326,8 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
                 ],
                 'condition' => [
                     'type' => \ilDBConstants::T_TEXT,
-                    'length' => 16,
+                    'length' => 64,
                     'notnull' => false
-                ],
-                'feedback_best_response_legacy' => [
-                    'type' => \ilDBConstants::T_CLOB,
-                    'notnull' => true
                 ],
                 'feedback' => [
                     'type' => \ilDBConstants::T_CLOB,
@@ -341,19 +342,24 @@ class OverarchingQuestionTables implements \ilDatabaseUpdateSteps
 
         if (!$this->db->primaryExistsByFields(
             $table_name,
+            ['id']
+        )) {
+            $this->db->addPrimaryKey(
+                $table_name,
+                ['id'],
+            );
+        }
+
+        if (!$this->db->indexExistsByFields(
+            $table_name,
             [
                 'answer_form_id',
                 'parent_id',
                 'condition'
             ]
         )) {
-            $this->db->addPrimaryKey(
-                $table_name,
-                [
-                    'answer_form_id',
-                    'parent_id',
-                    'condition'
-                ],
+            $this->db->manipulate(
+                "CREATE UNIQUE INDEX apc_idx ON {$table_name} (`answer_form_id`, `parent_id`, `condition`)"
             );
         }
     }

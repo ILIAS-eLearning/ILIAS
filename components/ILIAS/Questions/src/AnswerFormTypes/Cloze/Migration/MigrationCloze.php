@@ -20,12 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerFormTypes\Cloze\Migration;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Feedback\Types;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormSpecificTableTypes;
 use ILIAS\Questions\AnswerForm\Migration\Migration;
 use ILIAS\Questions\AnswerForm\Migration\MigrationInsert;
 use ILIAS\Questions\AnswerFormTypes\Cloze\Definition;
 use ILIAS\Questions\AnswerFormTypes\Cloze\TableDefinitions;
-use ILIAS\Questions\AnswerFormTypes\Cloze\Properties\Combinations\InRange;
+use ILIAS\Questions\Definitions\Range;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -37,6 +38,8 @@ class MigrationCloze implements Migration
 {
     use BasicMigrationFunctions;
 
+    private array $answer_options_mapping_for_feedback = [];
+
     public function __construct(
         private readonly TableDefinitions $table_definitions,
         private readonly \EvalMath $math
@@ -44,7 +47,7 @@ class MigrationCloze implements Migration
     }
 
     #[\Override]
-    public function getOldQuestionIdentifier(): string
+    public function getOldQuestionTypeIdentifier(): string
     {
         return 'assClozeTest';
     }
@@ -80,6 +83,11 @@ class MigrationCloze implements Migration
             if (!isset($answer_input_mapping[$db_row->gap_id])) {
                 $answer_input_mapping[$db_row->gap_id] = $migration_insert->getUuid();
                 $answer_options_mapping[$db_row->gap_id] = [];
+                $this->answer_options_mapping_for_feedback[$db_row->gap_id] = [
+                    'is_numeric' => $db_row->cloze_type == \assClozeGap::TYPE_NUMERIC,
+                    'is_feedback_per_gap' => $db_row->feedback_mode === \ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION,
+                    'answer_options' => []
+                ];
                 $gaps_insert = $this->buildGapInsertStatement(
                     $this->table_definitions,
                     $persistence_factory,
@@ -102,6 +110,7 @@ class MigrationCloze implements Migration
                 'is_numeric' => $db_row->cloze_type == \assClozeGap::TYPE_NUMERIC,
                 'answer_option_id' => $answer_option_id
             ];
+            $this->answer_options_mapping_for_feedback[$db_row->gap_id]['answer_options'][$db_row->aorder] = $answer_option_id;
 
             $answer_options_insert = $this->buildAnswerOptionInsertStatement(
                 $this->table_definitions,
@@ -154,6 +163,46 @@ class MigrationCloze implements Migration
                     $migration_insert->wasIliasPageEditorUsedForAdditionalTexts()
                 )
             );
+    }
+
+    #[\Override]
+    public function getConditionsForFeedbackFromOldValues(
+        int $answer,
+        int $question
+    ): ?array {
+        $gap = $this->answer_options_mapping_for_feedback[$question];
+
+        if ($gap['is_feedback_per_gap'] && $answer !== -10
+            || !$gap['is_feedback_per_gap'] && $answer === -10) {
+            return null;
+        }
+
+        if ($answer === -10) {
+            return array_map(
+                fn(Uuid $v): string => $v->toString(),
+                $gap['answer_options']
+            );
+        }
+
+        if ($answer === -1) {
+            return [Types::NothingSelected->value];
+        }
+
+        if ($gap['is_numeric']) {
+            return [$this->buildRangeValue(true, $answer)];
+        }
+
+        $answer_option_id = array_filter(
+            $gap['answer_options'],
+            fn(string $v): bool => $v == $answer,
+            ARRAY_FILTER_USE_KEY
+        );
+
+        if ($answer_option_id !== []) {
+            return [$answer_option_id->toString()];
+        }
+
+        return [''];
     }
 
     private function fetchDBValues(
@@ -219,8 +268,8 @@ class MigrationCloze implements Migration
                     $persistence_factory,
                     $migration_insert->getTableNameBuilder(),
                     $combinations_insert,
-                    $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString(),
-                    $migration_insert->getAnswerFormId()->toString(),
+                    $combination_mapping[$db_row->combination_id . $db_row->row_id],
+                    $migration_insert->getAnswerFormId(),
                     $db_row->points
                 );
             }
@@ -229,9 +278,9 @@ class MigrationCloze implements Migration
                 $persistence_factory,
                 $migration_insert->getTableNameBuilder(),
                 $combinations_to_answer_options_insert,
-                $combination_mapping[$db_row->combination_id . $db_row->row_id]->toString(),
-                $answer_input_mapping[$db_row->gap_fi]->toString(),
-                $answer_option['answer_option_id']->toString(),
+                $combination_mapping[$db_row->combination_id . $db_row->row_id],
+                $answer_input_mapping[$db_row->gap_fi],
+                $answer_option['answer_option_id'],
                 $this->buildRangeValue($answer_option['is_numeric'], $db_row->answer)
             );
         }
@@ -248,6 +297,12 @@ class MigrationCloze implements Migration
         Uuid $answer_form_id,
         float $points
     ): Insert {
+        $values = [
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
+        ];
+
         if ($combinations_insert === null) {
             return $persistence_factory->insert(
                 $this->table_definitions->getColumns(
@@ -255,19 +310,11 @@ class MigrationCloze implements Migration
                     AnswerFormSpecificTableTypes::Additional,
                     $this->table_definitions->getCombinationsTableIdentifier()
                 ),
-                [
-                    $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
-                    $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id),
-                    $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
-                ]
+                $values
             );
         }
 
-        return $combinations_insert->withAdditionalValues([
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_form_id),
-            $persistence_factory->value(\ilDBConstants::T_FLOAT, $points),
-        ]);
+        return $combinations_insert->withAdditionalValues($values);
     }
 
     private function buildCombinationsToAnswerOptionsInsert(
@@ -277,8 +324,15 @@ class MigrationCloze implements Migration
         Uuid $combination_id,
         Uuid $gap_id,
         Uuid $answer_option_id,
-        InRange $in_range
+        ?Range $in_range
     ): Insert {
+        $values = [
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id->toString()),
+            $persistence_factory->value(\ilDBConstants::T_TEXT, $in_range?->value)
+        ];
+
         if ($combinations_to_answer_options_insert === null) {
             return $persistence_factory->insert(
                 $this->table_definitions->getColumns(
@@ -286,21 +340,11 @@ class MigrationCloze implements Migration
                     AnswerFormSpecificTableTypes::Additional,
                     $this->table_definitions->getCombinationToAnswerOptionsTableIdentifier()
                 ),
-                [
-                    $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
-                    $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_id),
-                    $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id),
-                    $persistence_factory->value(\ilDBConstants::T_TEXT, $in_range)
-                ]
+                $values
             );
         }
 
-        return $combinations_to_answer_options_insert->withAdditionalValues([
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $combination_id),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $gap_id),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $answer_option_id),
-            $persistence_factory->value(\ilDBConstants::T_TEXT, $in_range)
-        ]);
+        return $combinations_to_answer_options_insert->withAdditionalValues($values);
     }
 
     private function buildNewGapTypeIdentifierFromOld(
@@ -315,16 +359,24 @@ class MigrationCloze implements Migration
 
     private function buildRangeValue(
         bool $is_numeric,
-        string $value
-    ): ?string {
-        if ($is_numeric === null) {
+        string|int $value
+    ): ?Range {
+        if ($is_numeric === false) {
             return null;
         }
 
         if ($value === 'out_of_bounds') {
-            return InRange::OutOfRange->value;
+            return Range::OutOfRange;
         }
 
-        return InRange::InRange->value;
+        if ($value === \ilAssClozeTestFeedback::FB_NUMERIC_GAP_TOO_LOW_INDEX) {
+            return Range::BelowRange;
+        }
+
+        if ($value === \ilAssClozeTestFeedback::FB_NUMERIC_GAP_TOO_HIGH_INDEX) {
+            return Range::AboveRange;
+        }
+
+        return Range::InRange;
     }
 }

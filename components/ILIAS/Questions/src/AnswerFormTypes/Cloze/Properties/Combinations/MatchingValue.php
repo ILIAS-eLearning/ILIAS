@@ -39,7 +39,7 @@ class MatchingValue
         private readonly Uuid $combination_id,
         private readonly Gap $gap,
         private readonly ?AnswerOption $answer_option = null,
-        private readonly ?InRange $in_range = null
+        private readonly ?Range $in_range = null
     ) {
     }
 

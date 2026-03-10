@@ -43,7 +43,7 @@ interface Definition
 
     public function getCapability(
         string $capability_class_name
-    ): ?Capability;
+    ): mixed;
 
     public function getEditView(): Edit;
 

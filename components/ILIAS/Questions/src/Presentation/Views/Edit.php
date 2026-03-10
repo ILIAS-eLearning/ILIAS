@@ -20,8 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\Presentation\Views;
 
+use ILIAS\Questions\AnswerForm\Capabilities\Action;
 use ILIAS\Questions\AnswerForm\Capabilities\Capability;
-use ILIAS\Questions\AnswerForm\Capabilities\Feedback;
+use ILIAS\Questions\AnswerForm\Capabilities\Factory as CapabilitesFactory;
 use ILIAS\Questions\AnswerForm\Definition;
 use ILIAS\Questions\AnswerForm\Factory as AnswerFormFactory;
 use ILIAS\Questions\AnswerForm\Properties as AnswerFormProperties;
@@ -60,8 +61,6 @@ class Edit
     public const string ACTION_DELETE_QUESTIONS = 'delete';
     private const string ACTION_CREATE_ANSWER_FORM = 'create_af';
     public const string ACTION_OTHER_ANSWER_FORM = 'other_af';
-    private const string ACTION_EDIT_FEEDBACK = 'edit_f';
-    private const string ACTION_EDIT_CONTENT_FOR_REPETITION = 'edit_cfr';
 
     private array $required_capabilities = [];
     private Editability $editability = Editability::Full;
@@ -82,6 +81,7 @@ class Edit
         private readonly \ilTabsGUI $tabs_gui,
         private readonly \ilUIService $ui_services,
         private readonly UuidFactory $uuid_factory,
+        private readonly CapabilitesFactory $capabilities_factory,
         private readonly AnswerFormFactory $answer_form_factory,
         private readonly Repository $questions_repository,
         private readonly LayoutFactory $definitions_factory
@@ -91,9 +91,10 @@ class Edit
     public function withRequiredCapabilities(
         array $capability_class_names
     ): self {
-        $this->checkCapabilities($capability_class_names);
         $clone = clone $this;
-        $clone->required_capabilities = $capability_class_names;
+        $clone->required_capabilities = $this->buildCapabilities(
+            $capability_class_names
+        );
         return $clone;
     }
 
@@ -114,7 +115,6 @@ class Edit
     }
 
     public function show(
-        \ilToolbarGUI $toolbar,
         URI $base_uri,
         int $obj_id,
         int $ref_id
@@ -135,7 +135,7 @@ class Edit
             ),
             self::ACTION_EDIT_QUESTION => $this->editQuestion($environment),
             self::ACTION_DELETE_QUESTIONS => $this->deleteQuestions($environment),
-            default => $this->showTable($toolbar, $environment)
+            default => $this->showTable($environment)
         };
     }
 
@@ -170,7 +170,8 @@ class Edit
                     $this->questions_repository->getForQuestionId(
                         $environment->getQuestionId()
                     ),
-                    $obj_id
+                    $obj_id,
+                    $this
                 )->withReturnURI(
                     $environment
                             ->withActionParameter(self::ACTION_EDIT_QUESTION)
@@ -241,28 +242,57 @@ class Edit
         QuestionImplementation $question,
         AnswerFormProperties $answer_form_properties,
         Definition $type_definition
-    ): Renderable {
+    ): Async|Renderable {
         $environment = $this->buildEnvironment(
             $base_uri,
             $obj_id
         )->withAnswerFormProperties($answer_form_properties)
         ->withQuestionIdParameter($question->getId());
 
+        $capability_actions = array_filter(
+            array_map(
+                fn(Capability $v): ?Action => $v->getEditAction(),
+                $this->required_capabilities
+            )
+        );
+
         $environment->setEditAnswerFormTabs(
-            self::ACTION_EDIT_FEEDBACK,
-            self::ACTION_EDIT_CONTENT_FOR_REPETITION
+            $capability_actions
         );
 
-        [$environment, $next] = $this->doEditAction(
-            $environment,
-            $type_definition
-        );
+        $action = $environment->getAction();
 
-        if ($next instanceof Renderable) {
+        $capability_action = array_filter(
+            $capability_actions,
+            fn(Action $v): bool => $v->isThis($action)
+        );
+        if ($capability_action !== []) {
+            $capability_action[0]->activateTab($this->tabs_gui);
+            return $capability_action[0]->getCapability()->edit(
+                $environment->withActionParameter($action)
+            );
+        }
+
+        $edit_view = $type_definition->getEditView();
+
+        if ($action === self::ACTION_OTHER_ANSWER_FORM) {
+            $environment = $environment->withActionParameter(self::ACTION_OTHER_ANSWER_FORM);
+            $next = $edit_view->other($environment);
+        } else {
+            $next = $edit_view->edit($environment);
+        }
+
+        if (!($next instanceof AnswerFormProperties)) {
             return $next;
         }
 
-        $this->storeEditResult($next);
+        $this->questions_repository->update(
+            [$question->withAnswerFormProperties($next)]
+        );
+
+        foreach ($this->required_capabilities as $capability) {
+            $capability->onAnswerFormUpdate($next);
+        }
 
         $this->ctrl->redirectToURL(
             $environment->getUrlBuilder()->buildURI()->__toString()
@@ -378,10 +408,14 @@ class Edit
     }
 
     private function showTable(
-        \ilToolbarGUI $toolbar,
         EnvironmentImplementation $environment
     ): QuestionsTable {
-        $toolbar->addComponent(
+        return new QuestionsTable(
+            $this->ui_services,
+            $this->answer_form_factory,
+            $this->questions_repository,
+            $environment
+        )->withCreateQuestionButton(
             $this->ui_factory->button()->primary(
                 $this->lng->txt('create'),
                 $environment->withActionParameter(self::ACTION_CREATE_QUESTION)
@@ -389,13 +423,6 @@ class Edit
                     ->buildURI()
                     ->__toString()
             )
-        );
-
-        return new QuestionsTable(
-            $this->ui_services,
-            $this->answer_form_factory,
-            $this->questions_repository,
-            $environment
         );
     }
 
@@ -467,56 +494,6 @@ class Edit
 
         $this->ctrl->redirectToURL(
             $this->buildAfterAnswerFormCreationRedirectUri($environment)
-        );
-    }
-
-    /**
-     * @return array{
-     *  \ILIAS\Questions\Presentation\Definitions\EnvironmentImplementation,
-     *  \ILIAS\Questions\AnswerForm\Definition
-     * }
-     */
-    private function doEditAction(
-        EnvironmentImplementation $environment,
-        Definition $type_definition
-    ): array {
-        $action = $environment->getAction();
-        if ($action === self::ACTION_EDIT_FEEDBACK) {
-            $environment = $environment->withActionParameter(
-                self::ACTION_OTHER_ANSWER_FORM
-            );
-            return [
-                $environment,
-                $type_definition->getCapability(Feedback::class)->edit($environment)
-            ];
-        }
-
-
-        if ($action === self::ACTION_OTHER_ANSWER_FORM) {
-            $environment = $environment->withActionParameter(
-                self::ACTION_OTHER_ANSWER_FORM
-            );
-            return [
-                $environment,
-                $type_definition->getEditView()->other($environment)
-            ];
-        }
-
-        return [
-            $environment,
-            $type_definition->getEditView()->edit($environment)
-        ];
-    }
-
-    private function storeEditResult(
-        Capability|AnswerFormProperties $result
-    ): void {
-        if ($result instanceof Capability) {
-            $this->questions_repository->storeCapability($result);
-        }
-
-        $this->questions_repository->update(
-            [$question->withAnswerFormProperties($result)]
         );
     }
 
@@ -659,17 +636,25 @@ class Edit
         return $affected_items;
     }
 
-    private function checkCapabilities(
+    /**
+     * @param list<string> $capabilities
+     * @return list<\ILIAS\Questions\AnswerForm\Capabilities\Capability>
+     */
+    private function buildCapabilities(
         array $capabilities
-    ): void {
-        foreach ($capabilities as $capability) {
-            if (!$this->questions_repository->capabilityExists($capability)) {
-                throw new \InvalidArgumentException(
-                    'All provided capabilities must implement '
-                    . 'ILIAS\Questions\AnswerForm\Capabilities\Capability.'
-                );
-            }
-        }
+    ): array {
+        return array_map(
+            function (string $v): Capability {
+                $capability = $this->capabilities_factory->get($v);
+                if ($capability === null) {
+                    throw new \InvalidArgumentException(
+                        "The capability {$v} does not exist."
+                    );
+                }
+                return $capability;
+            },
+            $capabilities
+        );
     }
 
     private function deleteSelectedQuestions(
@@ -702,6 +687,7 @@ class Edit
             $this->uuid_factory,
             $this->definitions_factory,
             $this->editability,
+            $this->required_capabilities,
             $base_uri,
             $obj_id
         );

@@ -20,10 +20,15 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm\Capabilities\Feedback;
 
-use ILIAS\Questions\Persistence\TableTypes;
-
-enum FeedbackTableTypes: string implements TableTypes
+enum Types: string
 {
-    case FeedbackGeneric = 'feedback_generic';
-    case FeedbackSpecific = 'feedback_specific';
+    case MaxPoints = 'max_points';
+    case NotMaxPoints = 'not_max_points';
+    case NothingSelected = 'nothing_selected';
+
+    public function getTranslatedOptionName(
+        Language $lng
+    ): string {
+        return $lng->txt($this->value);
+    }
 }
