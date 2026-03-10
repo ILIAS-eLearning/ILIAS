@@ -103,7 +103,7 @@ Alternatively, they can be obtained directly from the distribution package at [N
 
 ```shell
 apt update
-apt update zip unzip openjdk-17-jdk maven ffmpeg git ghostscript nodejs npm
+apt install zip unzip openjdk-17-jdk maven ffmpeg git ghostscript nodejs npm
 ```
 
 <a name="install-webserver"></a>
@@ -184,7 +184,7 @@ a2enmod rewrite
 systemctl restart apache2.service
 ```
 
-To check if the installation was successfull create the file `/var/www/ilias/phpinfo.php` with the following contents:
+To check if the installation was successfull create the file `/var/www/ilias/public/phpinfo.php` with the following contents:
 
 ```
 <?php
@@ -195,7 +195,7 @@ Then point your browser to ```http://example.com/phpinfo.php```.
 If you see the content of the file as shown above, your configuration is **not** working. 
 If you can see details of your PHP configuration, everything works fine. 
 Search for the entry ```Loaded configuration file``` as we now made some changes to it (e.g. `/etc/php5/apache2/php.ini`).
-Delete the file `phpinfo.php` afterwards.
+Delete the file `phpinfo.php` (and the `public` directory) afterwards.
 
 We recommend at least the following settings for your php.ini:
 
@@ -274,7 +274,7 @@ systemctl restart mariadb.service
 We recommend to create a dedicated database user for ILIAS:
 
 ```shell
-mysql -e "CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_general_ci;"
+mysql -e "CREATE DATABASE ilias CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci;"
 mysql -e "CREATE USER 'ilias'@'localhost' IDENTIFIED BY '<db-password>';"
 mysql -e "GRANT LOCK TABLES on *.* TO 'ilias'@'localhost';"
 mysql -e "GRANT ALL PRIVILEGES ON ilias.* TO 'ilias'@'localhost';"
@@ -292,7 +292,7 @@ which is the development branch of the repository.
 We recommend to clone from GitHub and use git to update the code, since this simplifies
 the update to future releases and versions.
 
-Clone the code to the web servers docroot (e.g. `/var/www/html`) with the following
+Clone the code to the web servers docroot (here `/var/www/ilias`) with the following
 commands:
 
 ```shell
@@ -350,42 +350,42 @@ A typical configuration might look like this afterwards:
 
 ```json
 {
-        "common" : {
-                "client_id" : "myilias"
+        "common": {
+                "client_id": "myilias"
         },
-        "database" : {
-                "user" : "ilias",
-                "password": "<db-passowrd>>",
+        "database": {
+                "user": "ilias",
+                "password": "<db-password>",
                 "database": "ilias",
                 "create_database": true
         },
-        "filesystem" : {
-                "data_dir" : "/var/www/files/ilias"
+        "filesystem": {
+                "data_dir": "/var/www/files/ilias"
         },
-        "logging" : {
-                "enable" : true,
-                "path_to_logfile" : "/var/www/logs/ilias.log",
-                "errorlog_dir" : "/var/www/logs/"
+        "logging": {
+                "enable": true,
+                "path_to_logfile": "/var/www/logs/ilias.log",
+                "errorlog_dir": "/var/www/logs/"
     	},
-        "http" : {
-                "path" : "http://www.example.com"
+        "http": {
+                "path": "http://www.example.com"
         },
-        "systemfolder" : {
-                "contact" : {
-                        "firstname" : "Richard",
-                        "lastname" : "Klees",
-                        "email" : "richard.klees@concepts-and-training.de"
+        "systemfolder": {
+                "contact": {
+                        "firstname": "Richard",
+                        "lastname": "Klees",
+                        "email": "richard.klees@concepts-and-training.de"
                 }
         },
-        "utilities" : {
-        	"path_to_convert" : "/usr/bin/convert"
+        "utilities": {
+                "path_to_convert": "/usr/bin/convert"
     	},
-    	"mediaobject" : {
-		"path_to_ffmpeg" : "/usr/bin/ffmpeg"
-	},
-	"preview" : {
-		"path_to_ghostscript" : "/usr/bin/gs"
-	},
+        "mediaobject": {
+                "path_to_ffmpeg": "/usr/bin/ffmpeg"
+        },
+        "preview": {
+                "path_to_ghostscript": "/usr/bin/gs"
+        }
 }
 ```
 
