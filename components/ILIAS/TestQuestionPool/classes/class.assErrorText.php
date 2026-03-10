@@ -377,6 +377,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         foreach ($this->errordata as $error) {
             $position = $error->getPosition();
+            if ($position === null) {
+                continue;
+            }
+
             foreach ($this->getParsedErrorText() as $key => $paragraph) {
                 if (array_key_exists($position, $paragraph)) {
                     $this->parsed_errortext[$key][$position]['text_correct'] =
@@ -905,7 +909,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $array_by_position = [];
         foreach ($this->errordata as $error) {
-            $array_by_position[$error->getPosition()] = [
+            $position = $error->getPosition();
+            if ($position === null) {
+                continue;
+            }
+            $array_by_position[$position] = [
                 'length' => $error->getLength(),
                 'points' => $error->getPoints(),
                 'text' => $error->getTextWrong(),
