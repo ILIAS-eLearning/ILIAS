@@ -935,6 +935,10 @@ class ilContainerRenderer
                 if ($item_data === null) {
                     continue;
                 }
+                // use block_id as parent for unique IDs when item appears in multiple blocks
+                if ($block->getBlock() instanceof \ILIAS\Container\Content\ItemGroupBlock) {
+                    $item_data["block_parent"] = (int) $block_id;
+                }
                 $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_NONE;
                 if ($this->container_gui->isActiveAdministrationPanel()) {
                     $checkbox = \ILIAS\Containter\Content\ItemRenderer::CHECKBOX_ADMIN;
