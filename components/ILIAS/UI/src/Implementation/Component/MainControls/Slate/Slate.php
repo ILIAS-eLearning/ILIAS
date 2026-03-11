@@ -40,12 +40,14 @@ abstract class Slate implements ISlate\Slate
 
     // allowed ARIA roles
     public const MENU = 'menu';
+    public const GROUP = 'group';
 
     /**
      * @var string[]
      */
     protected static array $allowed_aria_roles = array(
-        self::MENU
+        self::MENU,
+        self::GROUP
     );
 
     protected string $name;

@@ -84,4 +84,6 @@ interface Slate extends Component, JavaScriptBindable, Triggerer, HasHelpTopics
     public function withMainBarTreePosition(string $tree_pos): Slate;
 
     public function getMainBarTreePosition(): ?string;
+
+    public function getAriaRole(): ?string;
 }

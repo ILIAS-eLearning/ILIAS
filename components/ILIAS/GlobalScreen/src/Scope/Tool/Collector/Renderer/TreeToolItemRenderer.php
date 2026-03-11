@@ -23,6 +23,8 @@ namespace ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
 
 /**
  * Class TreeToolItemRenderer
@@ -45,6 +47,12 @@ class TreeToolItemRenderer extends BaseTypeRenderer
 
         $symbol = $this->getStandardSymbol($item);
 
-        return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $this->ui_factory->legacy()->content($DIC->ui()->renderer()->render([$item->getTree()])));
+        $slate = $this->ui_factory->mainControls()->slate()->legacy(
+            $item->getTitle(),
+            $symbol,
+            $this->ui_factory->legacy()->content($DIC->ui()->renderer()->render([$item->getTree()]))
+        );
+
+        return $slate->withAriaRole(Slate::GROUP);
     }
 }

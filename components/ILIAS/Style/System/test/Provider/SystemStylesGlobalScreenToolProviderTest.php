@@ -29,7 +29,7 @@ use ILIAS\Data\URI;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
 use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 
@@ -108,7 +108,7 @@ class SystemStylesGlobalScreenToolProviderTest extends TestCase
         $tools = $this->tool_provider->getToolsForContextStack($contexts);
         $this->assertCount(1, $tools);
         $tool = array_pop($tools);
-        $this->assertInstanceOf(Tool::class, $tool);
+        $this->assertInstanceOf(TreeTool::class, $tool);
         $this->assertEquals('documentation', $tool->getTitle());
     }
 }

@@ -19,7 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
 use ILIAS\UI\Component\Tree\Tree;
 use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
 use ILIAS\Data\URI;
@@ -55,7 +55,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
         return [];
     }
 
-    protected function buildTreeAsTool(): Tool
+    protected function buildTreeAsTool(): TreeTool
     {
         $id_generator = function ($id) {
             return $this->identification_provider->contextAwareIdentifier($id);
@@ -64,14 +64,11 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
         $title = $this->dic->language()->txt('documentation');
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('stys', $title);
 
-        /**
-         * @Todo, replace this with a proper Tree Slate
-         */
         return $this->factory
-            ->tool($id_generator('system_styles_tree'))
+            ->treeTool($id_generator('system_styles_tree'))
             ->withTitle($title)
             ->withSymbol($icon)
-            ->withContent($this->dic->ui()->factory()->legacy()->content($this->dic->ui()->renderer()->render($this->getUITree())));
+            ->withTree($this->getUITree());
     }
 
     protected function getUITree(): Tree

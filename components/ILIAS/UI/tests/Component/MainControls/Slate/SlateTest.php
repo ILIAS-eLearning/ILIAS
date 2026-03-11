@@ -92,6 +92,13 @@ class SlateTest extends ILIAS_UI_TestBase
     }
 
     #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
+    public function testWithAriaRoleGroup(Slate $slate): void
+    {
+        $slate = $slate->withAriaRole(Slate::GROUP);
+        $this->assertEquals("group", $slate->getAriaRole());
+    }
+
+    #[\PHPUnit\Framework\Attributes\Depends('testConstruction')]
     public function testWithAriaRoleIncorrect(Slate $slate): void
     {
         try {
