@@ -24,7 +24,7 @@ for a fully functional ILIAS environment.
 - [Upgrading ILIAS](#upgrading-ilias)
   * [Minor Upgrade](#minor-upgrade)
   * [Major Upgrade](#major-upgrade)
-  * [Update the Database](#update-the-database)
+  * [Update the Database and run migrations](#update-the-database)
   * [Information on Updates](#information-updates)
 - [Connect and Contribute](#connect-and-contribute)
 - [Appendix](#appendix)
@@ -523,6 +523,9 @@ Then complete the update by [updating the database](#update-the-database).
 <a name="major-upgrade"></a>
 ## Major Upgrade
 
+Before running a major upgrade please make sure that you have run all migrations
+of your current ILIAS release as explained in the [Update the Database and run the migrations](#update-the-database)
+section.
 To apply a major upgrade (e.g. v9.13 to v10.1) please check that your OS has the
 [proper dependency versions](#upgrading-dependencies) installed. If everything
 is fine, change your default skin to Delos and apply this change at least to
@@ -592,8 +595,8 @@ some time, but which can also be executed while the installation is in productiv
 Run the `status` command on the command line to check if there are any updates
 available and if ILIAS is responding. After this you need to perform the update. 
 
-Please make sure to check for migrations before you run the update. If there are migrations left
-please make sure to run these before updating.
+Please make sure to check for migrations before you run the update especially if it's
+a major upgrade. If there are migrations left please make sure to run these before updating.
 
 ```shell
 cd /var/www/ilias
@@ -637,7 +640,7 @@ To keep your ILIAS Installation secure and healthy it is important that you keep
 it up to date. To get information about updates and security fixes you should
 consider subscribing to the [ILIAS Admin Mailing-List](https://lists.ilias.de/postorius/lists/ilias-admins.lists.ilias.de/). Information on the 
 new versions, such as Important Changes, Known Issues, Changed Behaviour and Fixed 
-Issues, can be found in the release notes in [Download & Releases](https://docu.ilias.de/go/pg/197850_35).
+Issues, can be found in the release notes in [Download & Releases](https://docu.ilias.de/go/lm/35).
 
 <a name="connect-and-contribute"></a>
 # Connect and Contribute
