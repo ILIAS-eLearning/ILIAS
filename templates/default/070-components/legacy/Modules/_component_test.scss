@@ -172,9 +172,15 @@ $cons-scoring-bottom-fade-height: $il-padding-xxxlarge-vertical * 2;
       display: none;
     }
 
-    // fix for ordering question
-    .ilc_qanswer_Answer.solutionbox {
-      width: auto;
+    .ilc_qanswer_Answer {
+      // fix for ordering question
+      .solutionbox {
+        width: auto;
+      }
+  
+      .ilc_answers.answers.ilAssClozeTest div input[type=text] {
+        width: 100%;
+      }
     }
   }
 
