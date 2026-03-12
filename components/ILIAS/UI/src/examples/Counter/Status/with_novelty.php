@@ -36,8 +36,10 @@ function with_novelty()
     $renderer = $DIC->ui()->renderer();
 
     return $renderer->render(
-        $f->symbol()->glyph()->mail("#")
-        ->withCounter($f->counter()->novelty(1))
-        ->withCounter($f->counter()->status(8))
+        $f->button()->shy('', '#')->withSymbol(
+            $f->symbol()->glyph()->mail()
+              ->withCounter($f->counter()->novelty(1))
+              ->withCounter($f->counter()->status(8)),
+        )
     );
 }

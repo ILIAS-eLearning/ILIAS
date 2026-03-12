@@ -44,9 +44,9 @@ il.UI.Input = il.UI.Input || {};
 
 			dropzone: '.ui-input-file-input-dropzone',
 			error_message: '.ui-input-file-input-error-msg',
-			removal_glyph: '[data-action="remove"] .glyph',
-			expand_glyph: '[data-action="expand"] .glyph',
-			collapse_glyph: '[data-action="collapse"] .glyph',
+			removal_glyph: '[data-action="remove"] button, [data-action="remove"] .glyph',
+			expand_glyph: '[data-action="expand"] button, [data-action="expand"] .glyph',
+			collapse_glyph: '[data-action="collapse"] button, [data-action="collapse"] .glyph',
 			form_submit_buttons: '.c-form_actions > button',
 			modal_form_controls: '.modal-footer button',
 

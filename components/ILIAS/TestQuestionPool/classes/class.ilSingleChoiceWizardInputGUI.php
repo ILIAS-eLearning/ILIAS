@@ -19,6 +19,7 @@
 use ILIAS\TestQuestionPool\ilTestLegacyFormsHelper;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
+use ILIAS\UI\Component\Link\Factory as LinkFactory;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 
 /**
@@ -40,6 +41,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
     protected ilTestLegacyFormsHelper $forms_helper;
     protected GlyphFactory $glyph_factory;
+    protected LinkFactory $link_factory;
     protected Renderer $renderer;
     protected UploadLimitResolver $upload_limit;
 
@@ -59,6 +61,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
         global $DIC;
         $this->glyph_factory = $DIC->ui()->factory()->symbol()->glyph();
+        $this->link_factory = $DIC->ui()->factory()->link();
         $this->renderer = $DIC->ui()->renderer();
         $this->upload_limit = $DIC['ui.upload_limit_resolver'];
         $this->forms_helper = new ilTestLegacyFormsHelper();
@@ -465,10 +468,10 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
                 $tpl->setCurrentBlock('move');
                 $tpl->setVariable('ID', $this->getPostVar() . "[$i]");
                 $tpl->setVariable('UP_BUTTON', $this->renderer->render(
-                    $this->glyph_factory->up()->withAction('#')
+                    $this->link_factory->standard('', '#')->withSymbol($this->glyph_factory->up())
                 ));
                 $tpl->setVariable('DOWN_BUTTON', $this->renderer->render(
-                    $this->glyph_factory->down()->withAction('#')
+                    $this->link_factory->standard('', '#')->withSymbol($this->glyph_factory->down())
                 ));
                 $tpl->parseCurrentBlock();
             }
@@ -486,11 +489,12 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             if ($this->getDisabled()) {
                 $tpl->setVariable('DISABLED_POINTS', ' disabled="disabled"');
             }
+            global $DIC;
             $tpl->setVariable('ADD_BUTTON', $this->renderer->render(
-                $this->glyph_factory->add()->withAction('#')
+                $DIC->ui()->factory()->button()->shy('', '#')->withSymbol($this->glyph_factory->add())
             ));
             $tpl->setVariable('REMOVE_BUTTON', $this->renderer->render(
-                $this->glyph_factory->remove()->withAction('#')
+                $this->link_factory->standard('', '#')->withSymbol($this->glyph_factory->remove())
             ));
             $tpl->parseCurrentBlock();
             $i++;

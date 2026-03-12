@@ -2324,7 +2324,7 @@ class ilObjectListGUI
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     'tags',
-                    $f->symbol()->glyph()->tag('#')
+                    $f->symbol()->glyph()->tag()
                       ->withCounter($f->counter()->status(count($tags))),
                     ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js)
                 );
@@ -2346,7 +2346,7 @@ class ilObjectListGUI
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     'notes',
-                    $f->symbol()->glyph()->note('#')
+                    $f->symbol()->glyph()->note()
                       ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][Note::PRIVATE])),
                     ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js)
                 );
@@ -2361,7 +2361,7 @@ class ilObjectListGUI
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     'comments',
-                    $f->symbol()->glyph()->comment('#')
+                    $f->symbol()->glyph()->comment()
                       ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][Note::PUBLIC])),
                     ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
                 );

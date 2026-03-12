@@ -35,6 +35,9 @@ function base()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    return $renderer->render($f->symbol()->glyph()->mail("#")
-        ->withCounter($f->counter()->novelty(3)));
+    return $renderer->render(
+        $f->button()->shy('', '#')->withSymbol(
+            $f->symbol()->glyph()->mail()->withCounter($f->counter()->novelty(3))
+        )
+    );
 }

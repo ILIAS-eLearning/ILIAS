@@ -226,7 +226,7 @@ function renderExtendedMetaBarInFullscreenMode(Container $dic): string
     $mail_slate = $f->mainControls()->slate()->notification("Mail", [$mail_notification_item]);
 
 
-    $notification_glyph = $f->symbol()->glyph()->notification("notification", "notification")
+    $notification_glyph = $f->symbol()->glyph()->notification()
         ->withCounter($f->counter()->novelty(1));
 
     $notification_center = $f->mainControls()->slate()
