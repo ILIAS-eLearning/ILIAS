@@ -403,7 +403,7 @@ class ilAssQuestionPreviewGUI
 
         $page_gui->setQuestionHTML([$this->question_obj->getId() => $question_html]);
 
-        $page_gui->setPresentationTitle($this->question_obj->getTitleForHTMLOutput());
+        $page_gui->setPresentationTitle($this->question_obj->getTitle());
 
         $tpl->setVariable('QUESTION_OUTPUT', $page_gui->preview());
         // \ilPageObjectGUI::preview sets an undefined tab, so the "question" tab has to be activated again
