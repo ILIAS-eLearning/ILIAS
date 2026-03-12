@@ -16905,6 +16905,9 @@ div.ilc_Page.readonly textarea[disabled] {
 .c-consecutive-scoring__answer__body .ilc_qanswer_Answer.solutionbox {
   width: auto;
 }
+.c-consecutive-scoring__answer__body .ilc_qanswer_Answer.ilc_answers.answers.ilAssClozeTest div input[type=text] {
+  width: 100%;
+}
 .c-consecutive-scoring__answer__grade-card {
   width: 40%;
   border-left: 1px solid #dddddd;
