@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\UI\Implementation\Factory as UIImplementationFactory;
+use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Renderer as UIRenderer;
 
 /**
@@ -35,7 +35,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
     protected ilObject $rep_object;
 
     private UIRenderer $renderer;
-    private UIImplementationFactory $uiFactory;
+    private UIFactory $uiFactory;
 
     public function __construct(
         object $a_parent_obj,
@@ -88,7 +88,6 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
         // end-patch clipboard
 
-        $this->setPrefix('subscribers');
         $this->setSelectAllCheckbox('subscribers', true);
         $this->setRowTemplate("tpl.show_subscribers_row.html", "components/ILIAS/Membership");
 

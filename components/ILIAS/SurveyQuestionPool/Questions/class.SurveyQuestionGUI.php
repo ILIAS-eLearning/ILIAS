@@ -18,6 +18,7 @@
 
 use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
 use ILIAS\SurveyQuestionPool\Editing\EditManager;
+use ILIAS\LegalDocuments\HTMLPurifier;
 
 /**
  * Basic class for all survey question types
