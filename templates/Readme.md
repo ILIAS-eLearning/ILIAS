@@ -1,31 +1,31 @@
 # Skins and Styles for ILIAS
 
-The total representation of ILIAS' graphical user interface is defined by
-its Skin and Style. The Skin contains all the necessary files (CSS/SCSS, images,
-icons, fonts, templates) to define the visual appearance of ILIAS. A Skin contains
+The total representation of ILIAS graphical user interface is defined by
+its skin and style. The skin contains all the necessary files (CSS/SCSS, images,
+icons, fonts, templates) to determine the visual appearance of ILIAS. A skin contains
 one or more Styles, which may differ in colors, fonts, spacing and other visual
-aspects. The default Skin of ILIAS is called Delos and contains one Style also
+aspects. The default skin of ILIAS is called Delos and contains one Style also
 called Delos.
 
 
 ## ILIAS System Style DELOS
 
 The template folder of ILIAS contains the CSS/SCSS files and templates, which are
-necessary to build the default System Style of ILIAS called Delos. Due to the 
+necessary to build the default system style of ILIAS called Delos. Due to the 
 new build process of ILIAS, the fonts, images and icons are no longer part of
 this folder. They are now initially located in the components/ILIAS/UI/resources
 folder and copied to the public/assets folder during the build process.
-Even so all template files are still located in the templates folder of each
-component. All files together define the visual appearance of ILIAS.
-They differ from Content Styles, which enable to manipulate the classes defining 
-the appearance of user generated content.
+All template files are still located in the templates folder of each component. 
+All files together determine the visual appearance of ILIAS. They differ from 
+content styles, which allow the classes determining the appearance of 
+user-generated content to be adjusted.
 
 ## Custom Skins and Styles
 
-System Styles may be customized by creating custom skin and style. Custom skins 
-must be placed in the directory `./public/Customizing/skin`. A custom skin have
-to contain one style and may include further sub-styles. The sub-styles may be 
-active for different branches of the repository.
+System styles may be customized by creating custom skin and style. Custom skins 
+must be placed in the directory `./public/Customizing/skin`. A custom skin has
+to contain at least one style and may include further sub-styles. The sub-styles 
+may be active for different branches of the repository.
 
 ### Tools
 
@@ -50,7 +50,7 @@ system style here: [Delos Repository](https://github.com/ILIAS-eLearning/delos)
 At the point of writing, it does require modification to be recognized as a custom
 System Style as outlined later in this document.
 
-### Access available Skins and Styles through Frontend
+### Access available skins and Styles through Frontend
 
 1. Navigate to "Administration -> Layout and Styles" of you ILIAS Installation.
 2. In a table you see all available System Styles. 
@@ -82,7 +82,7 @@ git clone https://github.com/ILIAS-eLearning/delos.git MyDelosSkin
 
 ### Step 3: Switch to correct branch
 
-To Switch to the correct branch you have to change into the Skin-Directory and switch
+To switch to the correct branch you have to change into the skin directory and switch
 to the branch you need, e.g. release_10 for ILIAS 10.xx:
 
 ```
@@ -92,7 +92,7 @@ git switch release_10
 
 ### Step 4: Finish
 
-Now the Skin is ready to be used and you can activate it in the ILIAS administration.
+Now the skin is ready to be used and you can activate it in the ILIAS administration.
 
 > **Note:**  
 > The Delos repository contains all CSS, templates, and resource files in their latest 
@@ -109,7 +109,7 @@ Now the Skin is ready to be used and you can activate it in the ILIAS administra
 
 ### Step 1: Create skin directory
 
-If you want to create a new skin on the scratch, you have to go to the skin directory
+If you want to create a new skin from scratch, you have to go to the skin directory
 in the public folder. In the skin folder you have to create a new subdirectory for 
 your skin, e.g. MySkin.
 
@@ -132,7 +132,7 @@ information about the skin and its styles. An example file could look like this:
 ```
 
 In this example a custom skin called MySkin is defined, which contains one style 
-called MyStyle. The style has the ID mystyle and uses the subdirectory images to
+called MyStyle. The style has the ID mystyle and uses the subdirectory 'images' to
 store images, icons and logos.
 
 > **Note:**
@@ -228,35 +228,49 @@ skin directory. Please note, that your skin should only contain template files
 that are modified. You do not need to copy all default template files to your
 new skin.
 
-Since ILIAS 5.3 we move aim to move most of the UI towards the UI Components. They
-are located in src/UI. To overwrite those you need to add the respective tpl files
-in your skins folder.
+Since ILIAS 5.3 we moved most of the UI towards the UI Components, which are 
+located in UI/src. To overwrite those you need to add the respective tpl files
+to your skins folder.
 
-Examples:
-* `components` related template files must be stored in a similar
-  subdirectory structure (omit the `templates` subdirectory). E.g. to replace the
-  template file `components/ILIAS/XYZ/templates/tpl.xyz.html` create a new
-  version at `./public/Customizing/skin/myskin/components/ILIAS/XYZ/tpl.xyz.html`. A template of a UI Component located in
-  `src/UI/templates/default/XYZ/tpl.xyz.html` can be customized by creating a
-  `./public/Customizing/skin/myskin/UI/XYZ/tpl.xyz.html` file.
+**Examples:**  
+`components` related template files must be stored in a similar subdirectory 
+structure (omit the `templates` subdirectory). E.g. to replace the template file
+`components/ILIAS/XYZ/templates/tpl.xyz.html` create a new version at 
+`./public/Customizing/skin/myskin/components/ILIAS/XYZ/tpl.xyz.html`. A template
+of a UI Component located in `UI/src/templates/default/XYZ/tpl.xyz.html` can be 
+customized by creating a `./public/Customizing/skin/myskin/UI/XYZ/tpl.xyz.html` file.
 
+<br>
+  
 The following list contains some standard template files, that are often changed in
 skins:
 
-- Standard Layout: components/ILIAS/UI/templates/default/Layout/tpl.standardpage.html, the frame of the DOM for the complete ILIAS page.
-  Also checkout the according scss variable under section Layout (UI Layout Page).
-- Meta Bar: components/ILIAS/UI/templates/default/MainControls/tpl.metabar.html, the Bar on the top holding Notification, Search User Avatar, etc.
-  Also checkout the according metabar scss variables.
-- Main Bar: components/ILIAS/UI/templates/default/MainControls/tpl.mainbar.html, the Bar on the left holding triggers for opening the slates for
-  accessing Repository, Dasbhoard etc. Content.
-  Also checkout the according mainbar scss variables.
-- Slate: components/ILIAS/UI/templates/default/MainControls/Slate/tpl.slate.html, the Slates triggered by opening items of the Main Bar.
-  Also checkout the according slate scss variables.
-- Breadcrumbs: components/ILIAS/UI/templates/default/Breadcrumbs/tpl.breadcrumbs.html, Breadcrumbs working as locator on the top of the page.
-  Also checkout the breadcrumb scss variables.
+- **Standard Layout:**  
+  The file: `components/ILIAS/UI/src/templates/default/Layout/tpl.standardpage.html` contains the frame of the DOM for the complete ILIAS page.  
+  > See also the according scss-variables in the folder [070-layout/UI-framework/Layout](https://github.com/ILIAS-eLearning/ILIAS/tree/release_10/templates/default/070-components/UI-framework/Layout).  
+- **Meta Bar:**  
+  The file `components/ILIAS/UI/src/templates/default/MainControls/tpl.metabar.html` contains the Bar on the top holding Notification, Search User Avatar, etc.
+  > See also the according metabar scss-variables in the folder [070-layout/UI-framework/MainControls](https://github.com/ILIAS-eLearning/ILIAS/tree/release_10/templates/default/070-components/UI-framework/MainControls).
+- **Main Bar:**  
+  The file `components/ILIAS/UI/src/templates/default/MainControls/tpl.mainbar.html` contains the Bar on the left holding triggers for opening the slates for accessing Repository, Dasbhoard etc. Content.
+  > See also the according mainbar scss variables in the folder [070-layout/UI-framework/MainControls](https://github.com/ILIAS-eLearning/ILIAS/tree/release_10/templates/default/070-components/UI-framework/MainControls).
+- **Slate:**  
+  The file `components/ILIAS/UI/src/templates/default/MainControls/Slate/tpl.slate.html` contains the Slates triggered by opening items of the Main Bar.
+  > See also the according slate scss variables in the folder [070-layout/UI-framework/MainControls/Slate](https://github.com/ILIAS-eLearning/ILIAS/tree/release_10/templates/default/070-components/UI-framework/MainControls/Slate).
+- **Breadcrumbs:**
+  The file `components/ILIAS/UI/src/templates/default/Breadcrumbs/tpl.breadcrumbs.html` contains Breadcrumbs working as locator on the top of the page.
+  > See also the breadcrumb scss variables in the folder [070-layout/UI-framework/Breadcrumbs](https://github.com/ILIAS-eLearning/ILIAS/tree/release_10/templates/default/070-components/UI-framework/Breadcrumbs).
 
 * Startup Screens (Login, Registration, ...): `components/ILIAS/Init/templates/default/tpl .startup_screen.html`
 
+<br>
+
+> **Note:**  
+>  
+> We are currently working on harmonizing the template directories.  
+> As part of this process, we move the `/UI/src/templates/default` to `/UI/templates/default`.
+
+<br>
 
 #### Step 6: Change the ILIAS Icon
 
@@ -301,14 +315,15 @@ It must also include the parameters `version` and `name`.
 
 ### &lt;style>-Tag
 
-The style tag defines the main style. This must include at least the parameters name, id, and 
-image_directory. The parameter font_directory can also be specified optionally.
+The style tag defines the main style of the skin. This must include at least the parameters `name`,
+`id`, and `image_directory`. The parameter `font_directory` and `sound_directory` can specified 
+if needed.
 
 ### &lt;substyle>-Tag
 
 The tag `<substyle>` defines a substyle that depends on the main style. Like the `<style>` tag, it
 must contain at least the parameters `name`, `id`, and `image_directory`. The parameter
-`font_directory` can also be specified optionally.
+`font_directory` and `sound_directory` can also be specified optionally.
 
 ## Template Parameters
 
@@ -343,7 +358,7 @@ The directory for fonts.
 > The directory can also include the '../' designation and is always used relative
 > to the directory specified with the id.
 
-## Usefull hints
+## Useful hints
 
 ### Changing the image or font directory
 
@@ -369,7 +384,7 @@ $il-icon-font-path: "../fonts/bootstrap/" !default;
 
 ## Examples for template.xml
 
-### Example 1: Simple Skin with one Style
+### Example 1: Simple skin with one Style
 
 **Directory structure**  
 
@@ -485,17 +500,16 @@ $il-icon-font-path: "../fonts/bootstrap/" !default;
 
 ### ILIAS 10
 - **Important**:
-  > The location of the skin was moved to `./public/Customizing/skin`
-- System style Management through GUI has been abandoned, see: https://docu.ilias.de/go/wiki/wpage_1_1357
-- Sass is no shipped with NPM, see: https://github.com/ILIAS-eLearning/ILIAS/pull/8115
+  > The location of the skin has been moved to `./public/Customizing/skin`
+- System style management through GUI has been abandoned, see: https://docu.ilias.de/go/wiki/wpage_1_1357
+- Sass is now shipped with NPM in the ILIAS dev-dependencies.
 
 ### ILIAS 9
-A proposal for better structuring the System Styles has been provided and accepted by the JF in 2021,
-see: https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/docu/sass-guidelines.md
+A proposal on how to better structure the system styles was made and accepted by the JF in 2021.
 
-With ILIAS 9 the SCSS as been restructered according to the ITCSS structure suggested by this proposal,
+With ILIAS 9 the SCSS was restructered according to the ITCSS structure suggested by this proposal,
 and the depencency to less from Bootstrap has mostly been removed. However, the change from less to SCSS
-and the abandonment from Bootstrap means, that System Styles from 8 and lower are NOT compatible with ILIAS 9.
+and the abandonment from Bootstrap means, that system styles from 8 and lower are NOT compatible with ILIAS 9.
 They can not be imported, be used, or compiled.
 
 However, note, that most of the css should still work. Also less and scss are not that far appart. Best read
