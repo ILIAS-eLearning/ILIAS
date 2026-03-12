@@ -121,3 +121,7 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
 #tst_pass_details_overview tr {
     scroll-margin-top: 30px;
 }
+
+.ilc_qanswer_Answer.ilc_answers.answers.ilAssClozeTest p input[type=text] {
+	width: 100%;
+}
