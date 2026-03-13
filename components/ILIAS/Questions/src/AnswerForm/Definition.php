@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Questions\AnswerForm;
 
-use ILIAS\Questions\AnswerForm\Capabilities\Capability;
 use ILIAS\Questions\AnswerForm\Views\Edit;
 use ILIAS\Questions\AnswerForm\Views\Participant;
 use ILIAS\Questions\Persistence\Query;
