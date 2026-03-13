@@ -172,7 +172,7 @@ class ilObjQuestionsGUI extends ilObjectGUI
     private function buildEditQuestionsBaseUri(): URI
     {
         return $this->data_factory->uri(
-            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'viewQuestions')
+            ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'viewQuestions')
         );
     }
 }
