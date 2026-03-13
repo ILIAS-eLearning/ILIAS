@@ -63,7 +63,7 @@ class TooltipRenderer
 
         $get_template = $this->get_template;
         $embed_html = static function (string $tooltip_id, string $component_html) use ($tooltips, $get_template): string {
-            $tpl = $get_template("components/ILIAS/UI/src/templates/default/tpl.tooltip.html", true, true);
+            $tpl = $get_template("components/ILIAS/UI/templates/default/tpl.tooltip.html", true, true);
             $tpl->setVariable("ELEMENT", $component_html);
             $tpl->setVariable("TOOLTIP_ID", $tooltip_id);
 
