@@ -39,6 +39,7 @@
 		]
 	},
 	"require": {
+		"flip/whoops": "^2.18"
 	},
 	"require-dev": {
 	},
