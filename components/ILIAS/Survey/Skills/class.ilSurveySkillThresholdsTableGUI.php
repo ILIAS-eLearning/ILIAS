@@ -67,7 +67,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
         $this->setTitle(ilBasicSkill::_lookupTitle($this->base_skill_id, $this->tref_id));
 
         $this->addColumn($this->lng->txt("survey_skill_level"));
-        $this->addColumn($this->lng->txt("survey_up_to_x_points"));
+        $this->addColumn($this->lng->txt("survey_from_x_points"));
 
         $this->setRowTemplate("tpl.svy_skill_threshold_row.html", "components/ILIAS/Survey");
 

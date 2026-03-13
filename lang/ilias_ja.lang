@@ -16733,6 +16733,7 @@ survey#:#survey_execution_sure_finish#:#本当にサーベイを終了します�
 survey#:#survey_existing_pool#:#既存の質問集を使用
 survey#:#survey_finish#:#サーベイ終了
 survey#:#survey_finished#:#サーベイを終了しました。ご参加いただきましてありがとうございます!
+survey#:#survey_from_x_points#:#Xポイントから
 survey#:#survey_has_datasets_warning#:#サーベイにはすでにデータセットが含まれています。メンテナンスセクションのデータセットを削除するまでサーベイ質問を編集できません。
 survey#:#survey_has_datasets_warning_page_view#:#サーベイには既にデータセットがあります。このデータセットを削除しない限りサーベイ質問を編集できません。
 survey#:#survey_has_datasets_warning_page_view_link#:#受講者を編集
@@ -16808,7 +16809,6 @@ survey#:#survey_sync_insufficient_permissions#:#不適切なアクセス権
 survey#:#survey_sync_question_copies#:#質問コピーの同期
 survey#:#survey_sync_question_copies_info#:#選択した質問は現在の質問集で置き換えられます。
 survey#:#survey_sync_success#:#選択された質問は更新されました
-survey#:#survey_up_to_x_points#:#xポイントまで
 survey#:#survey_use_start_button#:#スタートボタンを使ってサーベイを入力しなければなりません!
 survey#:#svy_activation_limited_visibility_info#:#表示期間外に質問がアクセスできない間はサーベイのタイトルのみ表示されます。
 survey#:#svy_activation_online_info#:#この設定を有効にする場合のみユーザはサーベイへアクセスできます

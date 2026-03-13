@@ -16723,6 +16723,7 @@ survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden?
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
+survey#:#survey_from_x_points#:#Ab X Punkten
 survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
 survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
 survey#:#survey_has_datasets_warning_page_view_link#:#Datensätze anzeigen
@@ -16798,7 +16799,6 @@ survey#:#survey_sync_insufficient_permissions#:#Keine ausreichenden Bedingungen.
 survey#:#survey_sync_question_copies#:#Fragenkopien synchronisieren
 survey#:#survey_sync_question_copies_info#:#Alle ausgewählten Fragen werden auf den aktuellen Stand der Poolfrage gebracht.
 survey#:#survey_sync_success#:#Die gewählten Fragen wurden aktualisiert.
-survey#:#survey_up_to_x_points#:#Bis zu x Punkten
 survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.

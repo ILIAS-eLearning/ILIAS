@@ -16719,6 +16719,7 @@ survey#:#survey_execution_sure_finish#:#Ali res želite zaključiti anketo? Po t
 survey#:#survey_existing_pool#:#Uporabi obstoječo skupino vprašanj
 survey#:#survey_finish#:#Zaključi anketo >>
 survey#:#survey_finished#:#Anketa je zaključena. Hvala za sodelovanje!
+survey#:#survey_from_x_points#:#Od X Točk
 survey#:#survey_has_datasets_warning#:#Anketa že vsebuje podatkovne zapise udeleženca. Vprašanja lahko ponovno urejate šele, ko izbrišete vse podatkovne zapise udeleženca.
 survey#:#survey_has_datasets_warning_page_view#:#Anketa že vsebuje podatkovne zapise udeleženca. Vprašanja lahko ponovno urejate šele, ko izbrišete vse podatkovne zapise udeleženca.
 survey#:#survey_has_datasets_warning_page_view_link#:#Uredi podatkovne zapise udeleženca
@@ -16794,7 +16795,6 @@ survey#:#survey_sync_insufficient_permissions#:#Ni dovolj pogojev.
 survey#:#survey_sync_question_copies#:#Sinhroniziraj kopije vprašanj
 survey#:#survey_sync_question_copies_info#:#Vsa izbrana vprašanja bodo zamenjana aktualno različico vprašanja v skupini.
 survey#:#survey_sync_success#:#Izbrana vprašanja so bila posodobljena.
-survey#:#survey_up_to_x_points#:#Do x točk
 survey#:#survey_use_start_button#:#Anketo lahko začnete samo preko gumba "Začni anketo"!
 survey#:#svy_activation_limited_visibility_info#:#Izven navedenega obdobja bo prikazan samo naslov ankete, dostop do vprašanj ni možen.
 survey#:#svy_activation_online_info#:#Le če je anketa na spletu, lahko uporabniki v njej sodelujejo.
