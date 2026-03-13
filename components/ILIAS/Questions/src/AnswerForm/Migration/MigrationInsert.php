@@ -22,7 +22,6 @@ namespace ILIAS\Questions\AnswerForm\Migration;
 
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableDefinitions;
 use ILIAS\Questions\AnswerForm\Persistence\AnswerFormGenericTableTypes;
-use ILIAS\Questions\Question\Persistence\TableDefinitions as QuestionTableDefinitions;
 use ILIAS\Questions\Persistence\Factory as PersistenceFactory;
 use ILIAS\Questions\Persistence\Insert;
 use ILIAS\Questions\Persistence\TableNameBuilder;
@@ -43,7 +42,6 @@ class MigrationInsert
         private readonly IOWrapper $io,
         private readonly UuidFactory $uuid_factory,
         private readonly PersistenceFactory $persistence_factory,
-        private readonly QuestionTableDefinitions $question_table_definitions,
         private readonly AnswerFormGenericTableDefinitions $answer_form_generic_table_definitions,
         private readonly TableNameBuilder $table_name_builder,
         private array $inserts,

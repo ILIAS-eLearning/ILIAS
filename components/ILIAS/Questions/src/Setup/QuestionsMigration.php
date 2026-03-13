@@ -446,7 +446,6 @@ class QuestionsMigration implements Migration
             $this->io,
             $this->uuid_factory,
             $this->persistence_factory,
-            $this->question_table_definitions,
             $this->answer_form_generic_table_definitions,
             new TableNameBuilder(
                 $answer_form_migration->getTableNameSpace()
