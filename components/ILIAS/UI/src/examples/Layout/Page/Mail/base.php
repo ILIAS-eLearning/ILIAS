@@ -74,7 +74,7 @@ function renderFullDemoPage(Container $dic): string
         'assets/ui-examples/css/mail_examples.css',
         'data:image/svg+xml;base64,' . base64_encode(file_get_contents('assets/images/logo/HeaderIcon.svg')),
         'ILIAS e-Learning',
-        $factory->legacy()->content('<h1>Mail Page Content</h1><p>Dear John Doe, ...<p/>'),
+        $factory->legacy()->content('<h1>Mail Page Content</h1><p>Dear John Doe, ...</p>'),
         $dataFactory->link('https://www.ilias.de', $dataFactory->uri('https://www.ilias.de')),
     );
 
