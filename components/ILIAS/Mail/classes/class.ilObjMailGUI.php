@@ -616,7 +616,7 @@ class ilObjMailGUI extends ilObjectGUI
                 '',
             'mail_smtp_encryption' => $this->settings->get('mail_smtp_encryption', ''),
             'mail_subject_prefix' => $subject_prefix,
-            'mail_send_html' => (bool) $this->settings->get('mail_send_html', '0'),
+            'mail_send_html' => (bool) $this->settings->get('mail_send_html', '1'),
             'mail_system_usr_from_addr' => $this->settings->get('mail_system_usr_from_addr', ''),
             'mail_system_usr_from_name' => $this->settings->get('mail_system_usr_from_name', ''),
             'mail_system_usr_env_from_addr' => $this->settings->get('mail_system_usr_env_from_addr', ''),
