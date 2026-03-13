@@ -61,7 +61,7 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
         $this->tpl->setContent(
             $this->edit_view->createAnswerForm(
                 $this->data_factory->uri(
-                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'insert')
+                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'insert')
                 ),
                 $this->pg_obj->getParentId(),
                 $this->pg_obj->getQuestion(),
@@ -81,7 +81,7 @@ class ilPCAnswerFormGUI extends ilPageContentGUI
         $this->tpl->setContent(
             $this->edit_view->editAnswerForm(
                 $this->data_factory->uri(
-                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTargetByClass(self::class, 'edit')
+                    ILIAS_HTTP_PATH . '/' . $this->ctrl->getFormActionByClass(self::class, 'edit')
                 ),
                 $this->pg_obj->getParentId(),
                 $question,
