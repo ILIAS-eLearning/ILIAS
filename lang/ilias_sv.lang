@@ -16769,6 +16769,7 @@ survey#:#survey_execution_sure_finish#:#Vill du verkligen avsluta undersökninge
 survey#:#survey_existing_pool#:#Använda befintlig frågepool
 survey#:#survey_finish#:#Avsluta undersökningen &gt;&gt;
 survey#:#survey_finished#:#Undersökningen är avslutad. Tack för ditt deltagande!
+survey#:#survey_from_x_points#:#Från X Poäng
 survey#:#survey_has_datasets_warning#:#Undersökningen innehåller redan deltagarregister. Du kan inte redigera frågorna igen förrän du har tagit bort alla deltagarregister.
 survey#:#survey_has_datasets_warning_page_view#:#Undersökningen innehåller redan deltagarregister. Du kan inte redigera frågorna igen förrän du har tagit bort alla deltagarregister.
 survey#:#survey_has_datasets_warning_page_view_link#:#Redigera deltagarnas uppgifter
@@ -16844,7 +16845,6 @@ survey#:#survey_sync_insufficient_permissions#:#Inga tillräckliga villkor.
 survey#:#survey_sync_question_copies#:#Synkronisera kopior av frågor
 survey#:#survey_sync_question_copies_info#:#Alla utvalda frågor uppdateras om poolfrågan.
 survey#:#survey_sync_success#:#De utvalda frågorna har uppdaterats.
-survey#:#survey_up_to_x_points#:#Upp till x poäng
 survey#:#survey_use_start_button#:#Du kan endast starta en undersökning via knappen "Starta undersökning"!
 survey#:#svy_activation_limited_visibility_info#:#Utanför den angivna perioden visas endast undersökningens titel, frågorna är inte tillgängliga.
 survey#:#svy_activation_online_info#:#Endast när undersökningen är online kan användarna delta i undersökningen.

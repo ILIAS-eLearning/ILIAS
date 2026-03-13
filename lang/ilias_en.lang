@@ -16780,6 +16780,7 @@ survey#:#survey_execution_exit_360#:#Back
 survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers after doing so.
 survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
+survey#:#survey_from_x_points#:#From X Points
 survey#:#survey_has_datasets_warning#:#This survey already contains data sets. You cannot sync the survey questions until you remove these data sets via the survey’s ‘Participants’ or ‘Appraises’ tab. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
 survey#:#survey_has_datasets_warning_page_view#:#This survey already contains data sets. You cannot edit the survey questions until you remove these datasets. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
@@ -16847,7 +16848,6 @@ survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions.
 survey#:#survey_sync_question_copies#:#Sync Question Copies
 survey#:#survey_sync_question_copies_info#:#Please select the instances of the question which should be replaced with the current pool version.
 survey#:#survey_sync_success#:#The selected questions have been updated.
-survey#:#survey_up_to_x_points#:#Up to x points
 survey#:#survey_use_start_button#:#To take part in the survey, you need to use the start button.
 survey#:#svy_activation_limited_visibility_info#:#Allow users to always see the title of the survey and its period of availability. The survey questions themselves will still only be accessible during the indicated period of availability.
 survey#:#svy_activation_online_info#:#Users can only participate in a survey if it is online.
