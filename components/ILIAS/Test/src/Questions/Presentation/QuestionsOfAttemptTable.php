@@ -139,7 +139,6 @@ class QuestionsOfAttemptTable implements DataRetrieval
         $icon_factory = $this->ui_factory->symbol()->icon();
         $icon_checked = $icon_factory->custom('assets/images/standard/icon_checked.svg', $this->lng->txt('yes'));
         $icon_unchecked = $icon_factory->custom('assets/images/standard/icon_unchecked.svg', $this->lng->txt('no'));
-        $icon_marked = $icon_factory->custom('assets/images/object/marked.svg', $this->lng->txt('tst_question_marked'));
 
         $columns = [
             'order' => $column_factory->number($this->lng->txt('tst_qst_order')),
@@ -148,7 +147,7 @@ class QuestionsOfAttemptTable implements DataRetrieval
             'postponed' => $column_factory->boolean(ucfirst($this->lng->txt('postponed')), $this->lng->txt('yes'), ''),
             'points' => $column_factory->number($this->lng->txt('tst_maximum_points'))->withUnit($this->lng->txt('points_short')),
             'answered' => $column_factory->boolean($this->lng->txt('answered'), $icon_checked, $icon_unchecked),
-            'marked' => $column_factory->boolean($this->lng->txt('tst_question_marker'), $icon_marked, ''),
+            'marked' => $column_factory->boolean($this->lng->txt('tst_question_marker'), $icon_checked, $icon_unchecked),
         ];
 
         $optional_columns = [
