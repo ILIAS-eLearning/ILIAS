@@ -192,14 +192,9 @@ abstract class BookingsTable implements Table
                             $booking['date_from'] >= $period_from && $booking['date_to'] <= $period_to
                     );
                 },
-                'time_slot' => static fn(array $bookings): array => array_filter(
+                'time_slot' => fn(array $bookings): array => array_filter(
                     $bookings,
-                    static function (array $booking) use ($filter_data_value): bool {
-                        $date_from = new DateTimeImmutable("@{$booking['date_from']}");
-                        $booking['date_to']++;
-                        $date_to = new DateTimeImmutable("@{$booking['date_to']}");
-                        return "{$date_from->format('H:i')} - {$date_to->format('H:i')}" === $filter_data_value;
-                    }
+                    fn(array $booking): bool => $this->getBookingTimeSlotFilterLabel($booking) === $filter_data_value
                 ),
                 'past_bookings' => static function (array $bookings) use ($filter_data_value): array {
                     $now = new DateTimeImmutable();
@@ -260,18 +255,11 @@ abstract class BookingsTable implements Table
                     $week_b = (int) (new DateTimeImmutable("@{$record_b['date_from']}"))->format('N');
                     return ($week_a <=> $week_b) * $order_direction;
                 },
-                'time_slot' => static function (array $record_a, array $record_b) use ($order_direction): int {
-                    $date_from_a = new DateTimeImmutable("@{$record_a['date_from']}");
-                    $record_a['date_to']++;
-                    $date_to_a = new DateTimeImmutable("@{$record_a['date_to']}");
-                    $time_slot_a = "{$date_from_a->format('H:i')} - {$date_to_a->format('H:i')}";
-
-                    $date_from_b = new DateTimeImmutable("@{$record_b['date_from']}");
-                    $record_b['date_to']++;
-                    $date_to_b = new DateTimeImmutable("@{$record_b['date_to']}");
-                    $time_slot_b = "{$date_from_b->format('H:i')} - {$date_to_b->format('H:i')}";
-
-                    return strcasecmp($time_slot_a, $time_slot_b) * $order_direction;
+                'time_slot' => function (array $record_a, array $record_b) use ($order_direction): int {
+                    return strcasecmp(
+                        $this->getBookingTimeSlotFilterLabel($record_a),
+                        $this->getBookingTimeSlotFilterLabel($record_b)
+                    ) * $order_direction;
                 },
                 'unit_count' => static fn(array $record_a, array $record_b): int => 0 * $order_direction,
                 'message' => static fn(array $record_a, array $record_b): int => strcasecmp(
@@ -524,5 +512,13 @@ abstract class BookingsTable implements Table
         } catch (Throwable) {
             return null;
         }
+    }
+
+    protected function getBookingTimeSlotFilterLabel(array $booking): string
+    {
+        $date_from = new DateTimeImmutable("@{$booking['date_from']}");
+        $date_to = new DateTimeImmutable('@' . ((int) $booking['date_to'] + 1));
+
+        return "{$date_from->format('H:i')} - {$date_to->format('H:i')}";
     }
 }

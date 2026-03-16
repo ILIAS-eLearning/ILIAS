@@ -20,58 +20,44 @@ declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
-use ILIAS\BookingManager\getObjectSettingsCommand;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+use ilTemplate;
 
-/**
- * @author Alexander Killing <killing@leifos.de>
- */
 class SlotGUI
 {
-    protected int $color_nr;
-    protected $from;
-    protected string $to;
-    protected int $from_ts;
-    protected int $to_ts;
-    protected string $title;
-    protected int $available;
-    protected string $link;
+    protected UIFactory $ui_factory;
+    protected Renderer $ui_renderer;
 
     public function __construct(
-        string $link,
-        string $from,
-        string $to,
-        int $from_ts,
-        int $to_ts,
-        string $title,
-        int $available,
-        int $color_nr
+        protected string $link,
+        protected string $from,
+        protected string $to,
+        protected int $from_ts,
+        protected int $to_ts,
+        protected string $title,
+        protected int $available,
+        protected int $color_nr
     ) {
-        $this->from = $from;
-        $this->to = $to;
-        $this->from_ts = $from_ts;
-        $this->to_ts = $to_ts;
-        $this->title = $title;
-        $this->available = $available;
-        $this->link = $link;
-        $this->color_nr = $color_nr;
+
+        global $DIC;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
     }
 
     public function render(): string
     {
-        global $DIC;
-        $ui = $DIC->ui();
-        $tpl = new \ilTemplate("tpl.slot.html", true, true, "components/ILIAS/BookingManager/BookingProcess");
+        $tpl = new ilTemplate('tpl.slot.html', true, true, 'components/ILIAS/BookingManager/BookingProcess');
 
-        $modal = $ui->factory()->modal()->roundtrip("", $ui->factory()->legacy()->content(""));
-        $url = $this->link . '&replaceSignal=' . $modal->getReplaceSignal()->getId();
+        $modal = $this->ui_factory->modal()->roundtrip('', $this->ui_factory->legacy()->content(''));
+        $url = "{$this->link}&replaceSignal={$modal->getReplaceSignal()->getId()}";
         $modal = $modal->withAsyncRenderUrl($url);
-        $button = $ui->factory()->button()->shy($this->title, "#")
-            ->withOnClick($modal->getShowSignal());
+        $button = $this->ui_factory->button()->shy($this->title, '#')->withOnClick($modal->getShowSignal());
 
-        $tpl->setVariable("OBJECT_LINK", $ui->renderer()->render([$button, $modal]));
-        $tpl->setVariable("TIME", $this->from . "-" . $this->to);
-        $tpl->setVariable("COLOR_NR", $this->color_nr);
-        $tpl->setVariable("AVAILABILITY", "(" . $this->available . ") ");
+        $tpl->setVariable('OBJECT_LINK', $this->ui_renderer->render([$button, $modal]));
+        $tpl->setVariable('TIME', ($this->to_ts - $this->from_ts) !== 86400 ? "{$this->from}-{$this->to}" : '');
+        $tpl->setVariable('COLOR_NR', $this->color_nr);
+        $tpl->setVariable('AVAILABILITY', "({$this->available}) ");
 
         return $tpl->get();
     }

@@ -155,10 +155,27 @@ class ilBookingScheduleGUI
         $title->setMaxLength(120);
         $form_gui->addItem($title);
 
-        $definition = new ilScheduleInputGUI($this->lng->txt('book_schedule_days'), 'days');
-        $definition->setInfo($this->lng->txt('book_schedule_days_info'));
-        $definition->setRequired(true);
-        $form_gui->addItem($definition);
+        $schedule = $a_mode === 'edit' && $id !== null ? new ilBookingSchedule($id) : null;
+        $schedule_type = $schedule?->getScheduleType() ?? ilBookingSchedule::SCHEDULE_TYPE_TIME_PERIOD;
+
+        $radio = new ilRadioGroupInputGUI($this->lng->txt('schedule_type'), 'schedule_type');
+        $radio->setValue($schedule_type);
+        $radio->setRequired(true);
+
+        $opt_time_period = new ilRadioOption($this->lng->txt('book_schedule_days'), ilBookingSchedule::SCHEDULE_TYPE_TIME_PERIOD);
+        $definition_slots = new ilScheduleInputGUI('', 'days');
+        $definition_slots->setInfo($this->lng->txt('book_schedule_days_info'));
+        $definition_slots->setRequired(true);
+        $opt_time_period->addSubItem($definition_slots);
+        $radio->addOption($opt_time_period);
+
+        $opt_all_days = new ilRadioOption($this->lng->txt('book_schedule_all_day'), ilBookingSchedule::SCHEDULE_TYPE_ALL_DAY);
+        $definition_all_day = new ilScheduleDaysInputGUI('', 'days_all_day');
+        $definition_all_day->setRequired(true);
+        $opt_all_days->addSubItem($definition_all_day);
+        $radio->addOption($opt_all_days);
+
+        $form_gui->addItem($radio);
 
         $deadline_opts = new ilRadioGroupInputGUI($this->lng->txt('book_deadline_options'), 'deadline_opts');
         $deadline_opts->setRequired(true);
@@ -182,10 +199,6 @@ class ilBookingScheduleGUI
         $deadline_slot = new ilRadioOption($this->lng->txt('book_deadline_slot_end'), 'slot_end');
         $deadline_opts->addOption($deadline_slot);
 
-        if ($a_mode === 'edit') {
-            $schedule = new ilBookingSchedule($id);
-        }
-
         $av = new ilFormSectionHeaderGUI();
         $av->setTitle($this->lng->txt('obj_activation_list_gui'));
         $form_gui->addItem($av);
@@ -201,14 +214,13 @@ class ilBookingScheduleGUI
         $to->setShowTime(true);
         $form_gui->addItem($to);
 
-        if ($a_mode === 'edit') {
+        if ($schedule instanceof ilBookingSchedule) {
             $form_gui->setTitle($this->lng->txt('book_edit_schedule'));
 
             $item = new ilHiddenInputGUI('schedule_id');
             $item->setValue($id);
             $form_gui->addItem($item);
 
-            $schedule = new ilBookingSchedule($id);
             $title->setValue($schedule->getTitle());
             $from->setDate($schedule->getAvailabilityFrom());
             $to->setDate($schedule->getAvailabilityTo());
@@ -223,7 +235,12 @@ class ilBookingScheduleGUI
                 $deadline_opts->setValue('slot_end');
             }
 
-            $definition->setValue($schedule->getDefinitionBySlots());
+            match ($schedule_type) {
+                ilBookingSchedule::SCHEDULE_TYPE_ALL_DAY => $definition_all_day->setValue(
+                    $schedule->getDefinitionBySlots()[ilBookingSchedule::ALL_DAY_SLOT]
+                ),
+                default => $definition_slots->setValue($schedule->getDefinitionBySlots()),
+            };
 
             $form_gui->addCommandButton('update', $this->lng->txt('save'));
         } else {
@@ -284,6 +301,7 @@ class ilBookingScheduleGUI
     {
         $schedule->setTitle($form->getInput('title'));
         $schedule->setPoolId($this->obj_data_cache->lookupObjId($this->ref_id));
+        $schedule->setScheduleType($form->getInput('schedule_type'));
 
         $from = $form->getItemByPostVar('from');
         if ($from !== null) {
@@ -301,7 +319,11 @@ class ilBookingScheduleGUI
             'slot_end' => $schedule->setDeadline(-1),
         };
 
-        $schedule->setDefinitionBySlots($form->getInput('days'));
+        $days = match ($schedule->getScheduleType()) {
+            ilBookingSchedule::SCHEDULE_TYPE_TIME_PERIOD => $form->getInput("days"),
+            ilBookingSchedule::SCHEDULE_TYPE_ALL_DAY => [ilBookingSchedule::ALL_DAY_SLOT => $form->getInput("days_all_day")],
+        };
+        $schedule->setDefinitionBySlots($days);
     }
 
     private function configureScheduleTable(ScheduleManager $schedule_manager): ScheduleTable
