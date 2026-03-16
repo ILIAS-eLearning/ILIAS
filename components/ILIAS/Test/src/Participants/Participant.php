@@ -243,8 +243,16 @@ class Participant
         return $this->scoring_finalized;
     }
 
-    public function getDisplayName(Language $language): string
+    public function getDisplayName(Language $language, bool $anonymous_test = false): string
     {
+        if ($this->user_id === ANONYMOUS_USER_ID && $this->importname !== null && $this->importname !== '') {
+            return "{$this->importname} ({$language->txt('imported')})";
+        }
+
+        if ($anonymous_test) {
+            return $language->txt('anonymous');
+        }
+
         $display_name = '';
 
         if ($this->firstname) {
@@ -254,8 +262,6 @@ class Participant
             $display_name .= $this->lastname;
         }
 
-        return $this->user_id === ANONYMOUS_USER_ID && $this->importname !== null && $this->importname !== ''
-            ? "{$this->importname} ({$language->txt('imported')})"
-            : $display_name;
+        return $display_name;
     }
 }
