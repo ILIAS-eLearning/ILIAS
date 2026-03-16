@@ -2540,6 +2540,7 @@ book#:#book_add_participant#:#Add Participant
 book#:#book_add_schedule#:#Add Schedule
 book#:#book_additional_info_file#:#Additional Description
 book#:#book_all#:#Show all
+book#:#book_all_day#:#All-Day
 book#:#book_all_pools_need_schedules#:#Settings not saved. All selected booking pools need to have at least one schedule.
 book#:#book_all_users#:#All Participants
 book#:#book_assign#:#Book
@@ -2690,6 +2691,7 @@ book#:#book_reservation_title#:#Booking Reservation for
 book#:#book_reservations_list#:#Bookings
 book#:#book_schedule#:#Schedule
 book#:#book_schedule_added#:#Booking schedule added.
+book#:#book_schedule_all_day#:#All-Day Schedule
 book#:#book_schedule_days#:#Time Slots
 book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Booking schedule deleted.
@@ -2735,6 +2737,7 @@ book#:#no_valid_selection#:#No valid selection
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Booking deleted.
+book#:#schedule_type#:#Schedule Type
 buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Defines if users can send each other requests for getting into contact by default.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Allow other users to send you contact requests.

@@ -2539,6 +2539,7 @@ book#:#book_add_participant#:#Teilnehmer hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_additional_info_file#:#Zusätzliche Beschreibung
 book#:#book_all#:#Alle anzeigen
+book#:#book_all_day#:#Ganztägig
 book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle ausgewählten Buchungspools benötigen mindestens einen Zeitplan.
 book#:#book_all_users#:#Alle Personen
 book#:#book_assign#:#Buchen
@@ -2689,6 +2690,7 @@ book#:#book_reservation_title#:#Buchungsanfrage für
 book#:#book_reservations_list#:#Buchungen
 book#:#book_schedule#:#Zeitplan
 book#:#book_schedule_added#:#Ein Zeitplan wurde hinzugefügt.
+book#:#book_schedule_all_day#:#Ganztägiger Zeitplan
 book#:#book_schedule_days#:#Zeitfenster
 book#:#book_schedule_days_info#:#Gültige Zeiten für jeden Tag (HH:MM-HH:MM)
 book#:#book_schedule_deleted#:#Der Zeitplan wurde gelöscht.
@@ -2734,6 +2736,7 @@ book#:#no_valid_selection#:#Keine gültige Auswahl
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 book#:#participants#:#Personen
 book#:#reservation_deleted#:#Buchung gelöscht
+book#:#schedule_type#:#Zeitplantyp
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_default_info#:#Bestimmt ob standardmässig Kontaktanfragen verschickt werden können.
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.

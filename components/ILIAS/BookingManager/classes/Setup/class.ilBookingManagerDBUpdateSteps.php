@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace ILIAS\BookingManager\Setup;
 
+use ilBookingSchedule;
+
 class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
@@ -144,4 +146,19 @@ class ilBookingManagerDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
+    public function step_10(): void
+    {
+        if (!$this->db->tableColumnExists('booking_schedule', 'schedule_type')) {
+            $this->db->addTableColumn(
+                'booking_schedule',
+                'schedule_type',
+                [
+                    'type' => 'text',
+                    'notnull' => true,
+                    'length' => 64,
+                    'default' => ilBookingSchedule::SCHEDULE_TYPE_TIME_PERIOD
+                ]
+            );
+        }
+    }
 }

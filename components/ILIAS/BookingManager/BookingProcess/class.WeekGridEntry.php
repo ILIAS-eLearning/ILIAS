@@ -20,24 +20,13 @@ declare(strict_types=1);
 
 namespace ILIAS\BookingManager\BookingProcess;
 
-/**
- *
- * @author Alexander Killing <killing@leifos.de>
- */
 class WeekGridEntry
 {
-    protected int $start;
-    protected int $end;
-    protected string $html;
-
     public function __construct(
-        int $start,
-        int $end,
-        string $html
+        protected int $start,
+        protected int $end,
+        protected string $html
     ) {
-        $this->start = $start;
-        $this->end = $end;
-        $this->html = $html;
     }
 
     public function getStart(): int
@@ -53,5 +42,10 @@ class WeekGridEntry
     public function getHTML(): string
     {
         return $this->html;
+    }
+
+    public function isAllDay(): bool
+    {
+        return ($this->getEnd() - $this->getStart()) === 86400;
     }
 }

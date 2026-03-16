@@ -90,6 +90,7 @@ class BookableItemWithScheduleTable extends BookableItemTable
         $filter_data = is_array($filter_data) ? $filter_data : [];
 
         $period_bounds = $this->resolvePeriod($filter_data);
+        $time_slot_filter = $this->stringFilter($filter_data, 'time_slot');
 
         $booking_objects = $this->loadFilteredBookingObjects(
             $this->stringFilter($filter_data, 'title'),
@@ -107,13 +108,21 @@ class BookableItemWithScheduleTable extends BookableItemTable
 
             $object_id = (int) $item['booking_object_id'];
             $schedule = new ilBookingSchedule($schedule_id);
+            $is_all_day_schedule = $this->isAllDaySchedule($schedule);
             $slots = $this->enumerateSlots(
                 $schedule,
                 $period_bounds[0] ?? null,
                 $period_bounds[1] ?? null
             );
             foreach ($slots as $slot) {
-                $rows[] = $this->composeRow($item, $object_id, $slot['from'], $slot['to']);
+                if (
+                    $time_slot_filter !== null
+                    && $this->getTimeSlotLabel($slot['from'], $slot['to'], $is_all_day_schedule) !== $time_slot_filter
+                ) {
+                    continue;
+                }
+
+                $rows[] = $this->composeRow($item, $object_id, $slot['from'], $slot['to'], $is_all_day_schedule);
             }
         }
 
@@ -127,7 +136,11 @@ class BookableItemWithScheduleTable extends BookableItemTable
     {
         return [
             'availability' => $this->buildAvailabilityCell((int) $record['available'], (int) $record['nr_items']),
-            'date_time' => $this->formatDateTime((int) $record['slot_from'], (int) $record['slot_to']),
+            'date_time' => $this->formatDateTime(
+                (int) $record['slot_from'],
+                (int) $record['slot_to'],
+                (bool) $record['is_all_day']
+            ),
             'title' => (string) $record['title'],
             'description' => nl2br((string) $record['description']),
         ];
@@ -211,8 +224,13 @@ class BookableItemWithScheduleTable extends BookableItemTable
      * @param array<string, mixed> $item
      * @return array<string, mixed>
      */
-    private function composeRow(array $item, int $object_id, int $slot_from, int $slot_to): array
-    {
+    private function composeRow(
+        array $item,
+        int $object_id,
+        int $slot_from,
+        int $slot_to,
+        bool $is_all_day = false
+    ): array {
         $nr_items = (int) $item['nr_items'];
         $available = max($nr_items - $this->countActiveReservations($object_id, $slot_from, $slot_to), 0);
 
@@ -229,6 +247,7 @@ class BookableItemWithScheduleTable extends BookableItemTable
             'has_reservations' => $this->hasActiveReservation($object_id, $slot_from, $slot_to),
             'slot_from' => $slot_from,
             'slot_to' => $slot_to,
+            'is_all_day' => $is_all_day,
             'schedule_id' => (int) $item['schedule_id'],
             'post_text' => (string) ($item['post_text'] ?? ''),
         ];
@@ -282,14 +301,36 @@ class BookableItemWithScheduleTable extends BookableItemTable
         );
     }
 
-    public function formatDateTime(int $slot_from, int $slot_to): string
+    public function formatDateTime(int $slot_from, int $slot_to, bool $is_all_day = false): string
     {
         $this->lng->loadLanguageModule('dateplaner');
+
+        if ($is_all_day) {
+            return ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX, 'UTC'))
+                . ", {$this->lng->txt('book_all_day')}";
+        }
 
         return ilDatePresentation::formatPeriod(
             new ilDateTime($slot_from, IL_CAL_UNIX, 'UTC'),
             new ilDateTime($slot_to, IL_CAL_UNIX, 'UTC')
         );
+    }
+
+    private function isAllDaySchedule(ilBookingSchedule $schedule): bool
+    {
+        return $schedule->getScheduleType() === ilBookingSchedule::SCHEDULE_TYPE_ALL_DAY;
+    }
+
+    private function getTimeSlotLabel(int $slot_from, int $slot_to, bool $is_all_day): string
+    {
+        if ($is_all_day) {
+            return $this->lng->txt('book_all_day');
+        }
+
+        $from = new DateTimeImmutable("@{$slot_from}");
+        $to = new DateTimeImmutable("@{$slot_to}");
+
+        return "{$from->format('H:i')} - {$to->format('H:i')}";
     }
 
     private function stringFilter(array $filter_data, string $key): ?string

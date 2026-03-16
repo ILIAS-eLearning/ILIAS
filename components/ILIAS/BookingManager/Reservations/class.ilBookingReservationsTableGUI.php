@@ -325,8 +325,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                             $day_caption = ilCalendarUtil::_numericDayToString((int) $map[$day], false);
 
                             foreach ($slots as $slot) {
-                                $idx = $map[$day] . "_" . $slot;
-                                $options[$idx] = $day_caption . ", " . $slot;
+                                $slot = $slot === ilBookingSchedule::ALL_DAY_SLOT
+                                    ? $this->lng->txt('book_all_day')
+                                    : $slot;
+
+                                $options["{$map[$day]}_{$slot}"] = "{$day_caption}, {$slot}";
                             }
                         }
                     }
@@ -643,7 +646,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     ilCalendarUtil::_numericDayToString((int) $a_set["weekday"], false)
                 );
             }
-            $this->tpl->setVariable("VALUE_SLOT", $a_set["slot"]);
+            $this->tpl->setVariable(
+                "VALUE_SLOT",
+                in_array($a_set["slot"], [ilBookingSchedule::ALL_DAY_SLOT, "00:00 - 00:00"], true)
+                    ? $this->lng->txt('book_all_day')
+                    : $a_set["slot"]
+            );
             $this->tpl->setVariable("VALUE_COUNTER", $a_set["counter"]);
         } elseif (in_array(
             $a_set['status'],
