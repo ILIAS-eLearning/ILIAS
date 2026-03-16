@@ -12,4 +12,5 @@ This is an overview of forms that need to be migrated to the KS and missing inpu
 1. Reservation, cancel aggregation
    - none
 1. Schedule
-   - ilScheduleInputGUI 
+   - ilScheduleInputGUI
+   - ilScheduleDaysInputGUI (weekday checkboxes only)

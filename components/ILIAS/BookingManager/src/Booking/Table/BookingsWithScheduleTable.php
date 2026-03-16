@@ -23,6 +23,7 @@ namespace ILIAS\BookingManager\Bookings\Table;
 use DateTimeImmutable;
 use Generator;
 use ilBookingReservation;
+use ilBookingSchedule;
 use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\Data\Order;
 use ILIAS\Data\Range;
@@ -33,6 +34,11 @@ use ilDateTime;
 class BookingsWithScheduleTable extends BookingsTable
 {
     public const string ID = 'bkbws';
+
+    /**
+     * @var array<int, ilBookingSchedule>
+     */
+    private array $schedule_cache = [];
 
     public function getRows(
         DataRowBuilder $row_builder,
@@ -51,11 +57,13 @@ class BookingsWithScheduleTable extends BookingsTable
             $record['date_to']++;
 
             $date_from = new DateTimeImmutable("@{$record['date_from']}");
-            $time_slot = ilDatePresentation::formatPeriod(
-                new ilDateTime($record['date_from'], IL_CAL_UNIX),
-                new ilDateTime($record['date_to'], IL_CAL_UNIX),
-                true
-            );
+            $time_slot = $this->isAllDayBooking($record)
+                ? $this->lng->txt('book_all_day')
+                : ilDatePresentation::formatPeriod(
+                    new ilDateTime($record['date_from'], IL_CAL_UNIX),
+                    new ilDateTime($record['date_to'], IL_CAL_UNIX),
+                    true
+                );
 
             yield $this->getTableActions()->onDataRow(
                 $row_builder->buildDataRow(
@@ -154,13 +162,32 @@ class BookingsWithScheduleTable extends BookingsTable
         $time_slots = [];
 
         foreach ($this->bookings as $booking) {
-            $date_from = new DateTimeImmutable("@{$booking['date_from']}");
-            $booking['date_to']++;
-            $date_to = new DateTimeImmutable("@{$booking['date_to']}");
-            $time_slot = "{$date_from->format('H:i')} - {$date_to->format('H:i')}";
+            $time_slot = $this->getBookingTimeSlotFilterLabel($booking);
             $time_slots[$time_slot] ??= $time_slot;
         }
 
         return $time_slots;
+    }
+
+    protected function getBookingTimeSlotFilterLabel(array $booking): string
+    {
+        return $this->isAllDayBooking($booking)
+            ? $this->lng->txt('book_all_day')
+            : parent::getBookingTimeSlotFilterLabel($booking);
+    }
+
+    private function isAllDayBooking(array $booking): bool
+    {
+        $object_id = (int) $booking['object_id'];
+        $schedule_id = (int) ($this->booking_items[$object_id]['schedule_id'] ?? 0);
+
+        return
+            $schedule_id !== 0
+            && $this->getSchedule($schedule_id)->getScheduleType() === ilBookingSchedule::SCHEDULE_TYPE_ALL_DAY;
+    }
+
+    private function getSchedule(int $schedule_id): ilBookingSchedule
+    {
+        return $this->schedule_cache[$schedule_id] ??= new ilBookingSchedule($schedule_id);
     }
 }
