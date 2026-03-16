@@ -139,7 +139,7 @@ class ilUserFeedWriter extends ilFeedWriter
                         "&amp;target=" . $item->getContextObjType() . "_" . $item->getContextRefId());
                 }
                 $feed_item->setAbout($feed_item->getLink() . "&amp;il_about_feed=" . $item->getId());
-                $feed_item->setDate($item->getCreationDate()->format("yyyy-mm-dd hh:mm:ss"));
+                $feed_item->setDate($item->getCreationDate()->format("Y-m-d H:i:s"));
                 $this->addItem($feed_item);
             }
         }
