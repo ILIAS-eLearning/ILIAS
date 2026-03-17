@@ -11632,7 +11632,7 @@ mail#:#mail_filter_show_without_attachment#:#Mails ohne Anhang
 mail#:#mail_filter_subject#:#Betreff
 mail#:#mail_filter_txt#:#Suchen in
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
-mail#:#mail_firstname_last_name_superior#:#Kommagetrennte Liste mit den Vor- und Nachnamen der vorgesetzten Führungskraft einer Person
+mail#:#mail_firstname_last_name_superior#:#Kommagetrennte Liste mit den Vor- und Nachnamen der vorgesetzten Führungskraft oder Führungskräfte einer Person
 mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
 mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
@@ -16438,30 +16438,30 @@ survey#:#SurveyMatrixQuestion#:#Matrixfrage
 survey#:#SurveyMetricQuestion#:#Metrische Frage
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage
 survey#:#SurveySingleChoiceQuestion#:#Single Choice Frage
-survey#:#SurveyTextQuestion#:#Freitext eingeben
+survey#:#SurveyTextQuestion#:#Freitext
 survey#:#add_heading#:#Überschrift hinzufügen
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
-survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.
+survey#:#anonymize_anonymous_introduction#:#Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen fünfstelligen Zugangscode verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.
 survey#:#answer#:#Antwort
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
 survey#:#browse_for_questions#:#Aus Pool hinzufügen
 survey#:#cancel_survey#:#Umfrage unterbrechen
-survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können!
-survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
+survey#:#cannot_read_survey#:#Sie haben keine ausreichende Berechtigung, um auf die Umfragedaten zugreifen zu können.
+survey#:#cannot_switch_to_online_no_questions#:#DDer Status kann nicht auf „online (aktiviert)“ geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#cant_send_email_smtp_disabled#:#Das Versenden von externen E-Mails ist zurzeit global deaktiviert.
 survey#:#category#:#Antwort
-survey#:#category_nr_selected#:#Anzahl der Auswahlen
+survey#:#category_nr_selected#:#Absolute Häufigkeit
 survey#:#chart#:#Diagramm
 survey#:#codes#:#Zugangsschlüssel
 survey#:#codes_created#:#Zugangsschlüssel erzeugt
 survey#:#codes_deleted#:#Zugangsschlüssel gelöscht
 survey#:#combobox#:#Kombinationsfeld
-survey#:#concatenation#:#Verknüpfung
-survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze und Ergebnisse der Umfrage löschen wollen?
-survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Datensätze und Antworten der ausgewählten Personen löschen wollen?
+survey#:#concatenation#:#Verkettung
+survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Datensätze und Ergebnisse der Umfrage löschen wollen? Dies wirkt sich sowohl auf die gegebenen Antworten als auch auf die Teilnahmeliste selbst aus.
+survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Datensätze und Antworten der ausgewählten Personen löschen wollen? Somit werden auch <b>alle</b> zugehörigen Daten gelöscht.
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
-survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
+survey#:#confirm_sync_questions#:#Die geänderte Frage ist eine Kopie, welche für die Verwendung der aktuellen Umfrage erstellt wurde. Möchten Sie die Änderung ebenfalls auf die Ursprungsfrage anwenden? 
 survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
 survey#:#conjunction_and_title#:#Jede der folgenden Bedingungen erfüllen
 survey#:#conjunction_or#:#wenn eine Bedingung erfüllt wird
@@ -16470,9 +16470,9 @@ survey#:#constraint_add#:#Verzweigungsregel hinzufügen
 survey#:#constraint_fulfilled#:#Seite anzeigen
 survey#:#constraints#:#Verzweigungsregel
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Verzweigungsregel haben, da es keine vorherigen Einträge gibt.
-survey#:#constraints_introduction#:#Verzweigungsregeln können sowohl für eine einzelne Frage als auch für einen Fragenblock mit mehreren Fragen hinzugefügt werden. Abhängig von der ausgewählten Antwort in einer vorangegangenen Frage wird als nächstes eine ganz bestimmte Frage präsentiert. Durch Verzweigungsregeln stellt die Umfrage spezifisch zum Antwortverhalten passende Fragen und vermeidet unzutreffende Fragen. Für die erste Frage bzw. den ersten Fragenblock kann keine Verzweigungsregel gesetzt werden.
-survey#:#constraints_list_of_entities#:#Mögliche Aufhänger für Verzweigungsregeln
-survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
+survey#:#constraints_introduction#:#Verzweigungsregeln können für einzelne Fragen als auch für einen Fragenblock hinzugefügt werden. In Abhängigkeit der gegebenen Antwort, werden teilnehmenden Personen bestimmte Fragen angezeigt, sodass irrelevante Fragen übersprungen werden können. Für die erste Frage als auch für einen Fragenblock kann keine Verzweigungsregel festgelegt werden. 
+survey#:#constraints_list_of_entities#:#Fragen
+survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Fragetypen werden unterstützt: Metrische Frage, Single Choice Frage und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
 survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter →
@@ -16512,22 +16512,22 @@ survey#:#dc_undesired#:#unerwünscht
 survey#:#dc_varying#:#unterschiedlich
 survey#:#dc_verygood#:#sehr gut
 survey#:#dc_yes#:#ja
-survey#:#default_codes_mail_message#:#Ihr Zugangsschlüssel für die Umfrage lautet [code]. Sie können die Umfrage jederzeit unter der der URL [url] erreichen.
-survey#:#default_codes_mail_subject#:#Ihr Zugangsschlüssel für die Umfrage %s
-survey#:#define_questionblock#:#Fragenblock definieren
-survey#:#delete_saved_message#:#Nachrichtentext löschen
-survey#:#display_all_available#:#Anzeige aller verfügbaren
+survey#:#default_codes_mail_message#:#Ihr Zugangscode für die Umfrage lautet [code]. Sie können die Umfrage jederzeit unter der folgenden URL [url] erreichen.
+survey#:#default_codes_mail_subject#:#Ihr Zugangscode für die Umfrage %s
+survey#:#define_questionblock#:#Fragenblock anlegen
+survey#:#delete_saved_message#:#Textvorlage löschen 
+survey#:#display_all_available#:#Alle verfügbaren anzeigen
 survey#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diese Umfrage verfügbar machen
 survey#:#duplicate#:#Kopieren
 survey#:#edit_heading#:#Überschrift bearbeiten
 survey#:#end_date#:#Enddatum
 survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_anonymous_id#:#Zugangsschlüssel
-survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangsschlüssel zu generieren!
-survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens eine „email“-Spalte beinhalten, d.h. eine Zeile mit dem Titel „email“ und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
-survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine „email“-Spalte beinhalten, d.h. eine Zeile mit dem Titel „email“ und weitere Zeilen mit den jeweiligen E-Mail-Adressen.
-survey#:#err_maxvaluegeminvalue#:#Das Maximum muss größer oder gleich dem Minimum sein und höchstens gleich der maximalen Anzahl der Antworten.
-survey#:#err_minvalueganswers#:#Das Minium darf nicht größer als die maximale Anzahl der Antworten sein.
+survey#:#enter_valid_number_of_codes#:#Bitte geben Sie eine gültige Zahl ein, um Zugangscodes zu generieren!
+survey#:#err_external_rcp_no_email#:#Die Importdaten müssen mindestens eine Spalte „E-Mail“ enthalten, d. h. die Spaltenüberschrift „E-Mail“ in der ersten Zeile und die E-Mail-Adressen in den folgenden Zeilen.
+survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen mindestens eine Spalte „E-Mail“ enthalten, d. h. die Spaltenüberschrift „E-Mail“ in der ersten Zeile und die E-Mail-Adressen in den folgenden Zeilen.
+survey#:#err_maxvaluegeminvalue#:#Der Maximalwert muss gleich oder größer als der Minimalwert sein. Er darf nicht größer sein als die Gesamtzahl der möglichen Antworten.
+survey#:#err_minvalueganswers#:#Der Minimalwert darf nicht größer sein als die Gesamtzahl der möglichen Antworten.
 survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antwort(en) aus.
 survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
 survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antwort(en) aus.
@@ -16535,11 +16535,11 @@ survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an.
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Zugangsschlüssel %s nicht finden. Bitte überprüfen Sie den Zugangsschlüssel!
 survey#:#error_save_code#:#Werte wurden nicht korrekt gespeichert. <b>Die E-Mail %s ist nicht gültig.</b>. Vorname: „%s“, Nachname: „%s“.<br>
 survey#:#evaluation#:#Statistik
-survey#:#evaluation_access#:#Zugriff auf die Ergebnisse
-survey#:#evaluation_access_all#:#Alle Personen mit ILIAS-Konto
-survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Auswertung der Umfrage
+survey#:#evaluation_access#:#Zugriff auf Ergebnisse
+survey#:#evaluation_access_all#:#Alle registrierten Personen
+survey#:#evaluation_access_info#:#Sie haben Zugriff auf die Umfrageergebnisse
 survey#:#evaluation_access_off#:#Kein Zugriff auf Ergebnisse
-survey#:#evaluation_access_participants#:#Alle Befragten der Umfrage haben Zugriff auf die Ergebnisse
+survey#:#evaluation_access_participants#:#Alle Befragten der Umfrage
 survey#:#existing_constraints#:#Bestehende Verzweigungsregeln
 survey#:#exp_type_csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#exp_type_excel#:#Microsoft Excel
@@ -16549,9 +16549,9 @@ survey#:#export_title_label#:#Titel und Label exportieren
 survey#:#export_title_only#:#Nur Titel exportieren
 survey#:#external_recipients_imported#:#Die Daten wurden importiert.
 survey#:#externalmails#:#Importdatei
-survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift „email" enthalten. So können Personen ohne ILIAS-Konto Zugangsschlüssel per E-Mail empfangen.
+survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein, deren Spalten durch Semikolons getrennt sind. Die erste Zeile sollte die Spaltenüberschriften enthalten. Die Datei muss mindestens eine Spalte „E-Mail” mit den E-Mail-Adressen der vorgesehenen Empfänger enthalten. Auf diese Weise können Sie Umfrage-Zugangscodes an Personen senden, die kein ILIAS-Konto haben.
 survey#:#externaltext#:#Text importieren
-survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten aufgeteilt sein. Spalten müssen durch ein Semikolon getrennt sein. Die erste Zeile beinhaltet die Spaltentitel. Der Text muss mindestens einen Eintrag für die jeweilige E-Mail-Adresse enthalten. So können Personen ohne ILIAS-Konto Zugangsschlüssel per E-Mail empfangen.
+survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten angeordnet sein, wobei die Spalten durch ein Semikolon getrennt sind. Die erste Zeile sollte die Spaltenüberschriften enthalten. Die Datei muss mindestens eine Spalte „E-Mail” enthalten, in der die E-Mail-Adressen der vorgesehenen Empfänger aufgeführt sind. Auf diese Weise können Sie Umfrage-Zugangscodes an Personen senden, die kein ILIAS-Konto haben.
 survey#:#filter_all_question_types#:#Alle Fragetypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
 survey#:#finished_mail_subject#:#Die Umfrage „%s“ wurde beendet
@@ -16561,139 +16561,139 @@ survey#:#given_answers#:#Abgegebene Antworten
 survey#:#glossary_term#:#Glossarbegriff
 survey#:#harmonic_mean#:#Harmonisches Mittel
 survey#:#heading#:#Überschrift
-survey#:#horizontal#:#horizontal
+survey#:#horizontal#:#Horizontal
 survey#:#import_error_closing_file#:#Fehler beim Schließen der Importdatei!
 survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
-survey#:#import_from_file#:#Angaben zu Personen per Datei importieren
-survey#:#import_from_text#:#Angaben zu Personen per Text importieren
+survey#:#import_from_file#:#Personendaten aus Datei importieren
+survey#:#import_from_text#:#Personendaten aus Text importieren
 survey#:#import_no_file_selected#:#Keine Datei ausgewählt!
 survey#:#import_question#:#Fragen importieren
 survey#:#import_wrong_file_type#:#Falscher Dateityp!
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
-survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie der Umfrage hinzufügen wollen!
-survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie der Umfrage hinzufügen wollen!
+survey#:#insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, welche Sie in die Umfrage einfügen möchten.
+survey#:#insert_missing_questionblock#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie in die Umfrage einfügen möchten.
 survey#:#insert_saved_message#:#Nachrichtentext einfügen
-survey#:#internal_link#:#Interner Verweis
+survey#:#internal_link#:#Interner Link
 survey#:#introduction#:#Einleitung
 survey#:#invited_users#:#Ausgewählte Benutzer
 survey#:#label#:#Label
-survey#:#label_info#:#Alternative Bezeichnung für die weitere Verarbeitung (z.B. in SPSS) der Fragendaten
+survey#:#label_info#:#Alternative Kennung für die weitere Datenverarbeitung (z.B. in SPSS).
 survey#:#language_changed#:#Sprache geändert
 survey#:#layout#:#Layout
-survey#:#lower_limit#:#Untere Schranke
-survey#:#mail_import_example2#:#ralfkoenig@domain.tld;Ralf;König
-survey#:#mail_import_example3#:#ugoldschmidt@domain.tld;Ute;Goldschmidt
+survey#:#lower_limit#:#Untergrenze
+survey#:#mail_import_example2#:#heinrichfaust@pudelskern.de, Heinrich; Faust
+survey#:#mail_import_example3#:#emiliagalotti@dramaitalien.de, Emilia; Galotti 
 survey#:#mail_sent_short#:#Versendet
 survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
 survey#:#mailaddresses#:#Senden an
 survey#:#mailaddresses_info#:#Tragen Sie kommagetrennte Anmeldenamen ein.
 survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
-survey#:#mailparticipantdata#:#Einleitungstext
+survey#:#mailparticipantdata#:#Informationstext
 survey#:#mailparticipantdata_info#:#Text, der vor den Ergebnissen der Umfrage in der Mail angezeigt wird
-survey#:#mailparticipantdata_placeholder#:# Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist.
+survey#:#mailparticipantdata_placeholder#:#Diese Platzhalter werden durch die entsprechenden Angaben ersetzt, wenn unten die Einstellung „Datenschutz“ auf „Mit Namen“ gesetzt ist (siehe den Abschnitt "Ergebnisse" weiter unten).
 survey#:#maintenance#:#Befragte
 survey#:#matrix_appearance#:#Darstellung
 survey#:#matrix_bipolar_adjectives#:#Pol und Gegenpol
 survey#:#matrix_bipolar_adjectives_description#:#Sie können ein Wertepaar mit einem Pol und einem Gegenpol verwenden, um die Spaltenskala genauer zu beschreiben
 survey#:#matrix_column_separators#:#Spaltentrenner
-survey#:#matrix_column_separators_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage Trenner (schmale Linien) zwischen den Spalten anzeigen wollen
-survey#:#matrix_column_settings#:#Spalteneigenschaften
+survey#:#matrix_column_separators_description#:#Dünne Linien (Trenner) zwischen den Spalten hinzufügen.
+survey#:#matrix_column_settings#:#Matrix-Spalteneinstellungen
 survey#:#matrix_columns#:#Matrixspalten
 survey#:#matrix_left_pole#:#Linker Pol
 survey#:#matrix_neutral_answer#:#Text für eine neutrale Spalte ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
-survey#:#matrix_neutral_column_separator#:#Trenner für die neutrale Spalte
-survey#:#matrix_neutral_column_separator_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage einen Trenner (breite Linie) zwischen der neutralen Spalte und den restlichen Spalten anzeigen wollen
-survey#:#matrix_question_checkbox_not_checked#:#Bitte wählen Sie in jeder Zeile mindestens ein Kontrollkästchen aus!
-survey#:#matrix_question_radio_button_not_checked#:#Bitte wählen Sie in jeder Zeile eine Optionsschaltfläche aus!
+survey#:#matrix_neutral_column_separator#:#Neutraler Spaltentrenner
+survey#:#matrix_neutral_column_separator_description#:#Eine breite Linie (Trenner) zwischen der neutralen Spalte und den restlichen Spalten hinzufügen. 
+survey#:#matrix_question_checkbox_not_checked#:#Bitte wählen Sie mindestens ein Kontrollkästchen in jeder Zeile aus.
+survey#:#matrix_question_radio_button_not_checked#:#Bitte wählen Sie in jeder Zeile eine Antwortoption aus.
 survey#:#matrix_right_pole#:#Rechter Pol
 survey#:#matrix_row_separators#:#Zeilentrenner
-survey#:#matrix_row_separators_description#:#Wählen Sie das Kontrollkästchen aus, wenn Sie in der Ausgabe der Matrixfrage Trenner (schmale Linien) zwischen den Zeilen anzeigen wollen
+survey#:#matrix_row_separators_description#:#Dünne Linien zwischen den Zeilen hinzufügen.
 survey#:#matrix_rows#:#Matrixzeilen
 survey#:#matrix_standard_answers#:#Spaltentext
-survey#:#matrix_subtype_mr#:#Checkboxen (Mehrfachauswahl)
-survey#:#matrix_subtype_sr#:#Radiobuttons (Einfachauswahl)
+survey#:#matrix_subtype_mr#:#Kontrollkästchen (Mehrfachauswahl)
+survey#:#matrix_subtype_sr#:#Optionsfelder (Einzahlauswahl)
 survey#:#maxchars#:#Maximale Anzahl erlaubter Zeichen
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_content_info#:#Geben Sie hier den Text ein, mit welchem die Zugangsschlüssel versendet werden. Nutzen Sie die Platzhalter [code] für den Zugangsschlüssel, [url] für den Link zu dieser Umfrage und die Platzhalter [%s], die Sie in den Importdaten verwendet haben. Die Platzhalter werden automatisch ersetzt.
+survey#:#message_content_info#:#Geben Sie hier einen Nachrichteninhalt für die Benachrichtigungs-E-Mail der Umfragecodes oder die Erinnerungs-E-Mail ein, welche an die teilnehmenden Personen gesendet wird. Sie können den Platzhalter [code] für den Zugangscode, [url] für die URL dieser Umfrage und die in Ihren Importfeldern enthaltenen Teilnehmendendaten: %s verwenden. Die Platzhalter werden in allen versendeten E-Mails durch die entsprechenden Daten ersetzt.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
-survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temparatur der Celsius-Skala.
-survey#:#metric_subtype_description_ratioabsolute#:#Ein quantitatives Merkmal heißt absolutskaliert, wenn nur eine einzige sinnvolle Skala zu dessen Messung verwendet werden kann. Dies ist gleichbedeutend mit der Tatsache, dass nur eine sinnvolle Einheit für das Merkmal in Frage kommt, wie z.B. die Anzahl der Kinder einer Familie. Auch Merkmale, deren Ausprägungen in Prozent gemessen werden, sind absolutskaliert (z.B. Wahrscheinlichkeiten).
-survey#:#metric_subtype_description_rationonabsolute#:#Ein quantitatives Merkmal heißt verhältnisskaliert, wenn die zur Messung verwendeten Skalen einen gemeinsamen natürlichen Nullpunkt aufweisen. Verhältnissen (Quotienten) von Merkmalsausprägungen eines verhältnisskalierten Merkmals kann eine sinnvolle Bedeutung zugewiesen werden. Der natürliche Nullpunkt garantiert nämlich, dass Verhältnisse von einander entsprechenden Ausprägungen, die auf unterschiedlichen Skalen (d.h. in anderen Maßeinheiten) gemessen wurden, immer gleich sind. Die meisten physikalischen Mengenangaben (Geschwindigkeit in m/s oder km/h sind verhältnisskaliert).
+survey#:#metric_subtype_description_interval#:#Die Intervallskala verwendet Werte, die willkürlich, aber quantifizierbar sind. Der Nullpunkt auf der Skala ist willkürlich, sodass auch negative Werte verwendet werden können. Beispiele für Intervallwerte sind das Jahresdatum in vielen Kalendern oder die Temperatur in der Celsius-Skala.
+survey#:#metric_subtype_description_ratioabsolute#:#Die Absolutskala hat ebenfalls einen natürlichen Nullpunkt, verwendet jedoch natürliche Zahlen. Sie würde beispielsweise zur Messung der Anzahl der Kinder in einer Familie verwendet werden. Sie wird auch für Prozentmessungen verwendet, z.B. für in Prozent gemessene Wahrscheinlichkeiten.
+survey#:#metric_subtype_description_rationonabsolute#:#Wie die Intervallskala ermöglicht auch die Rationalskala den Vergleich von Werten, die im Wesentlichen willkürlich sind, aber einen natürlichen Nullpunkt haben. Die meisten physikalischen Größen, wie z. B. Länge in Zentimetern oder Dauer in Sekunden, werden auf Verhältnisskalen gemessen. Der natürliche Nullpunkt ermöglicht die Berechnung des Verhältnisses zwischen Werten, selbst wenn unterschiedliche Messskalen verwendet werden (z. B. km/h und m/h).
 survey#:#minimum#:#Minimalwert
-survey#:#mode#:#Häufigste Auswahl
+survey#:#mode#:#Meistgewählte Antwortoption
 survey#:#mode_nr_of_selections#:#Anzahl der Auswahlen
 survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#msg_duplicate_scale#:#Bitte tragen Sie eindeutige Skalenwerte ein.
 survey#:#msg_enter_value_for_valid_constraint#:#Bitte geben Sie einen Wert ein, um eine gültige Verzweigungsregel zu erstellen.
-survey#:#msg_input_only_positive_numbers#:#Bitte geben Sie Zahlen größer 0 als Skalenwerte ein.
+survey#:#msg_input_only_positive_numbers#:#Bitte geben Sie positive Zahlen (höher als 0) als Skalenwerte ein.
 survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antworten.
 survey#:#msg_message_deleted#:#Nachrichtentext gelöscht
 survey#:#msg_message_inserted#:#Nachrichtentext eingefügt
 survey#:#msg_min_max_exact_answers#:#Bitte wählen Sie genau %s Antwort(en).
 survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antworten.
 survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antwort(en).
-survey#:#msg_no_message_deleted#:#Bitte wählen Sie einen gespeicherten Nachrichtentext zum Löschen aus.
-survey#:#msg_no_message_inserted#:#Bitte wählen Sie einen Nachrichtentext zum Einfügen aus.
-survey#:#new_survey_codes#:#neue Zugangsschlüssel für die Umfrage
+survey#:#msg_no_message_deleted#:#Bitte wählen Sie den Text, den Sie löschen möchten, aus dem Dropdown-Menü „Textvorlagen“ aus.
+survey#:#msg_no_message_inserted#:#Bitte wählen Sie aus dem Dropdown-Menü „Textvorlagen“ die Textvorlage aus, die Sie als Inhalt verwenden möchten.
+survey#:#new_survey_codes#:#Neue Umfrage-Zugangscodes
 survey#:#no_question_selected_for_copy_to_pool#:#Bitte wählen Sie mindestens eine Frage aus, die nicht einem Fragenpool zugeordnet ist.
 survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
-survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
+survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus, den Sie entfernen möchten.
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#non_ratio#:#Intervallskala
 survey#:#not_sent_only#:#Personen, die bislang noch keine Mail erhalten haben
 survey#:#not_used#:#noch nicht verwendet
 survey#:#nr_max_answers#:#Maximum
 survey#:#nr_min_answers#:#Minimum
-survey#:#obligatory#:#Verpflichtend
+survey#:#obligatory#:#Obligatorisch
 survey#:#off#:#Aus
 survey#:#on#:#An
 survey#:#or#:#oder
 survey#:#orientation#:#Ausrichtung
 survey#:#other_answer#:#Andere Antwort
 survey#:#other_answer_label#:#Label der Zusatzantwort (optional)
-survey#:#outro#:#Abschließende Bemerkung
-survey#:#please_enter_mail_url#:#Bitte verwenden Sie den Platzhalter für die URL [url].
+survey#:#outro#:#Schlussbemerkungen
+survey#:#please_enter_mail_url#:#Bitte fügen Sie den URL-Platzhalter [url] in Ihren Nachrichteninhalt ein.
 survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen löschen wollen?
-survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
-survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
+survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock anzulegen.
+survey#:#qpl_delete_select_none#:#Sie haben keine Frage zum Löschen ausgewählt. Bitte wählen Sie mindestens eine Frage aus, die Sie löschen möchten, und versuchen Sie es erneut.
 survey#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie exportieren wollen!
-survey#:#qpl_questions_deleted#:#Fragen gelöscht.
-survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
+survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
+survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, den Sie in individuelle Fragen auflösen möchten.
 survey#:#question_changed_in_survey_only#:#Die Frage wurde nur in der Umfrage verändert
 survey#:#question_mr_no_other_answer#:#Bitte geben Sie einen Text für die freie Antwort ein
 survey#:#question_mr_no_other_answer_checked#:#Sie müssen das Kontrollkästchen auswählen, wenn Sie einen Antworttext eintragen
-survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der angebotenen Antworten aus!
-survey#:#question_not_checked#:#Sie müssen eine der angebotenen Anworten auswählen!
-survey#:#question_obligatory#:#Diese Frage ist verpflichtend!
-survey#:#question_sr_no_other_answer_checked#:#Sie müssen das Optionsfeld auswählen, wenn Sie einen Antworttext eintragen
+survey#:#question_mr_not_checked#:#Bitte wählen Sie mindestens eine der Antworten aus.
+survey#:#question_not_checked#:#Bitte wählen Sie eine der Antworten aus.
+survey#:#question_obligatory#:#Diese Frage muss beantwortet werden!
+survey#:#question_sr_no_other_answer_checked#:#Wenn Sie eine Textantwort eingeben möchten, müssen Sie das entsprechende Optionsfeld auswählen. Wenn Sie sich für eine andere Antwort entschieden haben, löschen Sie bitte den eingegebenen Text.
 survey#:#question_type#:#Fragetyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_inserted#:#Fragenblock eingefügt
 survey#:#questionblocks#:#Fragenblöcke
 survey#:#questionblocks_inserted#:#Fragenblöcke eingefügt
 survey#:#questions#:#Fragen
-survey#:#questions_inserted#:#Fragen angefügt
+survey#:#questions_inserted#:#Frage(n) hinzugefügt.
 survey#:#questions_removed#:#Fragen und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragetyp
-survey#:#ratio_absolute#:#Absolutskaliert
-survey#:#ratio_non_absolute#:#Verhältnisskaliert
+survey#:#ratio_absolute#:#Verhältnis (absolut) 
+survey#:#ratio_non_absolute#:#Verhältnis (nicht absolut)
 survey#:#recipients#:#Senden an
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen und/oder Fragenblöcke aus der Umfrage entfernen wollen?
 survey#:#results#:#Ergebnisse
 survey#:#resume_survey#:#Umfrage fortsetzen
-survey#:#row_text#:#Zeile
-survey#:#save_obligatory_state#:#„Verpflichtend“-Status und Sortierung speichern
+survey#:#row_text#:#Zeilentext
+survey#:#save_obligatory_state#:#„Obligatorisch“-Status und Sortierung speichern
 survey#:#save_reuse_message#:#Nachrichteninhalt für weitere Verwendung speichern
-survey#:#save_reuse_title#:#Titel des Nachrichteninhaltes
-survey#:#saved_messages#:#Verfügbare Nachrichtentexte
+survey#:#save_reuse_title#:#Titel für Textvorlage
+survey#:#saved_messages#:#Textvorlagen
 survey#:#scale#:#Skala
 survey#:#search_groups#:#Gruppen
 survey#:#search_term#:#Suchbegriff(e)
@@ -16702,133 +16702,133 @@ survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
 survey#:#select_questionpool_short#:#Fragenpool für Umfragen
 survey#:#select_relation#:#Relation auswählen
-survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
+survey#:#select_target_position_for_move_question#:#Bitte wählen Sie die Frage aus, die Sie in der Liste verschieben möchten. Sie können diese vor oder nach bestehenden Fragen einfügen.
 survey#:#select_value#:#Wert festlegen
 survey#:#selection#:#Auswahl
-survey#:#send_to_all#:#Alle Personen, für welche Zugangsschlüssel erzeugt wurden
+survey#:#send_to_all#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind.
 survey#:#send_to_answered#:#Alle Personen, welche die Umfrage bereits beendet haben
-survey#:#send_to_unanswered#:#Personen, welche die Umfrage noch nicht beendet haben
-survey#:#show_questiontext#:#Fragentext anzeigen
-survey#:#show_questiontext_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird für jede Frage innerhalb des Fragenblocks der Fragentext angezeigt (Standard). Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte nicht angezeigt und nur die Antworten angeboten. Dies kann sinnvoll sein, wenn Sie mehrere Fragen mit identischen Fragentexten in einem Fragenblock anbieten.
-survey#:#skipped#:#übersprungen
+survey#:#send_to_unanswered#:#Alle E-Mail-Adressen, die mit einem Zugangscode verknüpft sind und deren zugehörige teilnehmende Personen die Umfrage noch nicht abgeschlossen haben. 
+survey#:#show_questiontext#:#Fragentexte anzeigen
+survey#:#show_questiontext_description#:#Zeigen Sie den Fragetext jeder Frage im Fragenblock an. Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte ausgeblendet und nur die Antwortoptionen angezeigt. Dies kann nützlich sein, wenn Sie Fragen mit identischen Fragentexten innerhalb eines Fragenblocks haben.
+survey#:#skipped#:#Übersprungen
 survey#:#spl_copy_insert_clipboard#:#Die ausgewählten Fragen wurden in die Zwischenablage kopiert.
 survey#:#spl_copy_select_none#:#Bitte wählen Sie mindestens eine Frage zum Kopieren aus.
-survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden für zum Verschieben markiert.
-survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb des gleichen Fragenpools verschieben.
+survey#:#spl_move_insert_clipboard#:#Die ausgewählten Fragen wurden zum Verschieben markiert. Navigieren Sie bitte zu dem gewünschten Fragenpool und klicken Sie auf „Einfügen“.
+survey#:#spl_move_same_pool#:#Sie können Fragen nicht innerhalb desselben Fragenpools verschieben. Um Ihre Frage(n) zu verschieben, navigieren Sie bitte zu einem anderen Fragenpool und klicken Sie dort auf „Einfügen”.
 survey#:#spl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus.
 survey#:#spl_online_property#:#Online
 survey#:#spl_online_property_description#:#Nur wenn der Fragenpool online ist, können die enthaltenen Fragen in Umfragen verwendet werden.
-survey#:#spl_paste_no_objects#:#Es sind keine Fragen in der Zwischenablage vorhanden. Bitte nutzen Sie hierfür die Kopieren- oder Verschieben-Schaltflächen.
-survey#:#spl_paste_success#:#Fragen eingefügt
+survey#:#spl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie eine Frage in die Zwischenablage, um sie hier einfügen zu können.
+survey#:#spl_paste_success#:#Frage(n) erfolgreich in den Fragenpool eingefügt.
 survey#:#spl_save_obligatory_state#:#„Verpflichtend“-Status speichern
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#subtype#:#Untertyp
 survey#:#survey_360_add_external_rater#:#Externen Feedback-Geber hinzufügen
-survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Nehmer hinzu.
+survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als zu Feedback-Nehmer hinzu
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
 survey#:#survey_360_appraisee_close_action#:#Umfrage für Feedback-Geber schließen
-survey#:#survey_360_appraisee_close_action_info#:#Wenn die Umfrage für die Feedback-Geber geschlossen werden, werden die Resultate finalisiert und der Zugriff auf diese für Sie freigegeben.
-survey#:#survey_360_appraisee_close_action_info_skill#:#Wenn die Umfrage für die Feedback-Geber geschlossen werden, werden die Resultate finalisiert und der Zugriff auf diese für Sie freigegeben. Zusätzlich wird Ihre Kompetenzeinschätzung ermittelt.
+survey#:#survey_360_appraisee_close_action_info#:#Wenn Sie die Umfrage für die Feedback-Geber schließen, erhalten Sie Zugriff auf Ihre Ergebnisse.
+survey#:#survey_360_appraisee_close_action_info_skill#:#Wenn Sie die Umfrage für die Feedback-Geber schließen, erhalten Sie Zugriff auf Ihre Ergebnisse und können Ihre Kompetenzstufen aktualisieren.
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
-survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für die Feedback-Geber geschlossen.
-survey#:#survey_360_appraisee_close_action_success_admin#:#Die 360°-Umfragen der Feedback-Nehmer wurden geschlossen.
+survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrage für Ihre Feedback-Geber geschlossen.
+survey#:#survey_360_appraisee_close_action_success_admin#:#Ausgewählte 360°-Umfragen für Feedback-Geber geschlossen.
 survey#:#survey_360_appraisee_close_table#:#Geschlossen am
-survey#:#survey_360_appraisee_info#:#Info über Feedback-Nehmer
-survey#:#survey_360_appraisee_is_closed#:#Der Feedback-Nehmer hat seine Umfrage geschlossen.
+survey#:#survey_360_appraisee_info#:#Informationen über Feedback-Nehmer
+survey#:#survey_360_appraisee_is_closed#:#Diese Umfrage wurde vom Feedback-Nehmer geschlossen.
 survey#:#survey_360_appraisees#:#Feedback-Nehmer
 survey#:#survey_360_edit_raters#:#Feedback-Geber verwalten
 survey#:#survey_360_mode#:#360°-Feedback
-survey#:#survey_360_mode_info#:#Mehrere Personen evaluieren sich gegenseitig, Rückmeldungen zu einem Feedback-Nehmer werden zu einem Zeitpunkt aggregiert ausgewertet.
-survey#:#survey_360_no_appraisees#:#Sie können momentan kein Feedback geben.
+survey#:#survey_360_mode_info#:#Ermöglicht es Einzelpersonen, von mehreren Personen bewertet zu werden. Die Ergebnisse werden zusammengefasst.
+survey#:#survey_360_no_appraisees#:#Zur Zeit benötigen keine Feedback-Nehmer Ihre Bewertung 
 survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
 survey#:#survey_360_rate_other_appraisee#:#Feedback geben
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
 survey#:#survey_360_rater_finished#:#Umfrage abgeschlossen
 survey#:#survey_360_rater_mail_sent#:#Mail versendet
 survey#:#survey_360_rater_message_content_anonymous#:#Inhalt (Anonym)
-survey#:#survey_360_rater_message_content_anonymous_default#:#Ihr Zugangsschlüssel ist [code]. Sie können die Umfrage in Ihrem Web-Browser mit folgender URL starten: [url].
+survey#:#survey_360_rater_message_content_anonymous_default#:#Ihr Zugangscode für die Umfrage lautet [Code]. Starten Sie die Umfrage über die URL [URL].
 survey#:#survey_360_rater_message_content_registered#:#Inhalt (Registrierte Benutzer)
 survey#:#survey_360_rater_message_content_registered_default#:#Sie können die Umfrage in Ihrem Web-Browser mit folgender URL starten: [url].
 survey#:#survey_360_rater_subject_default#:#Sie wurden als Feedback-Geber zu einer 360°-Umfrage eingeladen.
 survey#:#survey_360_raters#:#Feedback-Geber
-survey#:#survey_360_raters_finished#:#Abgeschlossene Feedbacks
+survey#:#survey_360_raters_finished#:#Bewertungen abgeschlossen
 survey#:#survey_360_raters_status_info#:#Umfrage abgeschlossen
 survey#:#survey_360_remove_appraisees#:#Feedback-Nehmer entfernen
-survey#:#survey_360_results#:#Feedback-Nehmer können die Antworten einsehen
+survey#:#survey_360_results#:#Zugang zu Ergebnissen für Feedback-Nehmer
 survey#:#survey_360_results_all#:#Alle Feedbacks
-survey#:#survey_360_results_all_info#:#Alle Feedback-Nehmer der 360°-Umfrage können alle Rückmeldungen aller Feedback-Geber zu sich und zu allen anderen Feedback-Nehmern einsehen.
+survey#:#survey_360_results_all_info#:#Alle Feedback-Geber innerhalb dieser 360°-Umfrage können alle Rückmeldungen einsehen. Dazu gehören nicht nur ihre eigenen Rückmeldungen, sondern auch die Rückmeldungen, die anderen Feedback-Nehmern gegeben wurden.
 survey#:#survey_360_results_none#:#Kein Zugang
-survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen.
-survey#:#survey_360_results_own#:#Nur eigene Feedback-Geber
-survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben.
+survey#:#survey_360_results_none_info#:#Die Feedback-Nehmer haben keinen Zugriff auf das Feedback.
+survey#:#survey_360_results_own#:#Zugriff auf Feedback von eigenen Feedback-Gebern
+survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur auf das Feedback zugreifen, das ihnen von ihren eigenen Feedback-Gebern gegeben wurde. Sie können nicht auf die Rückmeldungen zugreifen, die anderen Feedback-Nehmern gegeben wurden.
 survey#:#survey_360_select_appraisee#:#Auswählen
 survey#:#survey_360_self_appraisee#:#Offenes Feedback
-survey#:#survey_360_self_appraisee_info#:#Im Reiter „Info“ wird allen ein Link angezeigt. Über diesen Link können sich Personen selbst als Feedback-Nehmer für diese Umfrage eintragen.
+survey#:#survey_360_self_appraisee_info#:#Über den Reiter „Info“ der Umfrage können Sie einen Link zur Verfügung stellen, über den sie sich als Feedback-Nehmer hinzufügen und Feedback erhalten können.
 survey#:#survey_360_self_evaluation#:#Selbsteinschätzung
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
-survey#:#survey_360_self_raters#:#Feedback-Geber auswählen
-survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selbst aus. Sie laden diese Personen auch selbstständig ein.
-survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schließen?
-survey#:#survey_360_sure_appraisee_close_admin#:#Wollen Sie wirklich die Umfrage für die folgenden Feedback-Nehmer schließen?
-survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Feedback-Nehmer entfernen?
-survey#:#survey_360_sure_delete_raters#:#Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
-survey#:#survey_access_code#:#Authentifizierung mit Zugangsschlüssel
-survey#:#survey_access_codes_info#:#Im Reiter „Info“ muss ein Zugangsschlüssel eingegeben werden, um Zugang zur Umfrage zu erhalten. Diese Zugangsschlüssel werden erzeugt im Reiter „Befragte » Zugangsschlüssel“.
+survey#:#survey_360_self_raters#:#Eigene Feedback-Geber auswählen
+survey#:#survey_360_self_raters_info#:#Die Feedback-Nehmer wählen die Personen aus, die ihnen Feedback geben sollen, und laden sie selbstständig ein.
+survey#:#survey_360_sure_appraisee_close#:#Sind Sie sicher, dass Sie die Umfrage für alle Ihre Feedback-Geber schließen möchten?
+survey#:#survey_360_sure_appraisee_close_admin#:#Sind Sie sicher, dass Sie die Umfragen für die folgenden Feedback-Nehmer schließen möchten?
+survey#:#survey_360_sure_delete_appraises#:#Sind Sie sicher, dass Sie die folgenden Feedback-Nehmer entfernen möchten?
+survey#:#survey_360_sure_delete_raters#:#Sind Sie sicher, dass Sie die folgenden Feedback-Geber für %s entfernen möchten?
+survey#:#survey_access_code#:#Authentifizierung mit Zugangscode
+survey#:#survey_access_codes_info#:#Registrierte Personen erhalten Zugriff auf die Umfrage, indem sie einen Code nach dem Starten der Umfrage eingeben. Diese Zugangscodes können in der Unterregisterkarte „Zugangscodes“ der Registerkarte „Befragten“ generiert werden.
 survey#:#survey_activate_skill_service#:#Kompetenz-Service aktivieren
-survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Hier werden zunächst den Fragen Kompetenzen zugeordnet, danach werden den Schwellenwerte für die Erreichung bestimmter Kompetenzstufen gesetzt.
+survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter „Kompetenzen“ eingeblendet. Anschließend können Schwellenwerte festgelegt werden, die erforderlich sind, um ein bestimmtes Kompetenzniveau zu erreichen.
 survey#:#survey_add_new_question#:#Frage erstellen
 survey#:#survey_assign_competence#:#Kompetenz zuordnen
 survey#:#survey_auto_block_title#:#Seitenüberschrift
 survey#:#survey_available_question_pools#:#Verfügbare Pools
 survey#:#survey_calc_skills#:#Kompetenzstufen bestimmen
 survey#:#survey_calculate_sum_score#:#Skalenpunktesumme berechnen
-survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkte von Single Choice, Multiple Choice und Matrixfragen je Person. Achtung: Wenn jemand solche Fragen überspringt, wird die Skalenpunktesumme nicht berechnet.
+survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenwerte von Single Choice Fragen, Multiple Choice Fragen und Matrix Fragen pro Teilnehmenden. Achtung: Wenn solche Fragen übersprungen werden, wird die Gesamtpunktzahl nicht berechnet.
 survey#:#survey_cancel_preview#:#Vorschau abbrechen
 survey#:#survey_cannot_preview_survey#:#Vorschau nicht verfügbar
-survey#:#survey_code#:#Zugangsschlüssel
-survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden ungenutzten Zugangsschlüssel löschen?
+survey#:#survey_code#:#Zugangscode
+survey#:#survey_code_delete_sure#:#Möchten Sie die folgenden ungenutzten Zugangscodes wirklich löschen?
 survey#:#survey_code_url#:#URL für direkten Zugriff
 survey#:#survey_code_url_name#:#URL <small>(Benutzen Sie die rechte Maustaste, um die URL zu kopieren)</small>
-survey#:#survey_code_used#:#Der Zugangsschlüssel wurde ...
+survey#:#survey_code_used#:#Status
 survey#:#survey_codes_lang#:#Vorauswahl Benutzersprache in URL
-survey#:#survey_codes_no_anonymization#:#Sie müssen eine anonymisierte Umfrage mit Zugangsschlüsseln erstellen, um Zugangsschlüssel erzeugen zu können!
+survey#:#survey_codes_no_anonymization#:#Sie müssen eine anonymisierte Umfrage mit Zugangscodes erstellen, um neue Zugangscodes zu generieren!
 survey#:#survey_competences#:#Kompetenzen
-survey#:#survey_constraint_deleted#:#Die Regel wurde gelöscht.
+survey#:#survey_constraint_deleted#:#Die Verzweigungsregel wurde gelöscht.
 survey#:#survey_copy_questions_to_pool#:#Zu Fragenpool hinzufügen
 survey#:#survey_copy_select_questionpool#:#Fragenpool, in dem die Fragen abgelegt werden sollen
-survey#:#survey_copy_to_questionpool_success#:#Die Fragen wurden erfolgreich in den Fragenpool kopiert.
+survey#:#survey_copy_to_questionpool_success#:#Frage(n) erfolgreich in den Fragenpool kopiert.
 survey#:#survey_delete_heading#:#Überschrift entfernen
 survey#:#survey_edit_heading#:#Überschrift bearbeiten
 survey#:#survey_edit_settings#:#Einstellungen bearbeiten
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 survey#:#survey_execution_exit_360#:#Zurück
-survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
+survey#:#survey_execution_sure_finish#:#Möchten Sie die Umfrage wirklich beenden? Danach können Sie Ihre Antworten nicht mehr bearbeiten.
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden →
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
-survey#:#survey_has_datasets_warning#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
-survey#:#survey_has_datasets_warning_page_view#:#Die Umfrage enthält bereits Ergebnisse. Sie können die Fragen erst wieder bearbeiten, wenn Sie die Datensätze aller Befragten löschen.
-survey#:#survey_has_datasets_warning_page_view_link#:#Datensätze anzeigen
-survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft auf dem Reiter „Info“ angezeigt.
-survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
+survey#:#survey_has_datasets_warning#:#Diese Umfrage enthält bereits Datensätze. Sie können die Fragen erst synchronisieren, wenn Sie diese Datensätze über die Reiter „Befragten“ bzw. "Feedback-Nehmer" der Umfrage löschen. Dazu müssen Sie alle entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben.
+survey#:#survey_has_datasets_warning_page_view#:#Diese Umfrage enthält bereits Datensätze. Sie können die Umfrage erst bearbeiten, wenn Sie diese Datensätze gelöscht haben. Dazu müssen Sie alle Personen entfernen, die mit der Umfrage begonnen und dadurch einen Datensatz erstellt haben.
+survey#:#survey_has_datasets_warning_page_view_link#:#Teilnehmende Personen bearbeiten
+survey#:#survey_introduction_info#:#Dieser Text wird dauerhaft im Reiter „Info“ angezeigt.
+survey#:#survey_is_offline#:#Die Umfrage ist offline und kann somit nicht gestartet werden.
 survey#:#survey_new_pool#:#Neuen Fragenpool anlegen
 survey#:#survey_next#:#Weiter →
 survey#:#survey_no_pool#:#Keinen Fragenpool verwenden
 survey#:#survey_not_available#:#n.a.
-survey#:#survey_notification_finished_introduction#:#eine Person hat die Umfrage beendet.
+survey#:#survey_notification_finished_introduction#:#Eine teilnehmende Person has die folgende Umfrage beendet:
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 survey#:#survey_notification_target_group#:#Zielgruppe
-survey#:#survey_notification_target_group_invited#:#Personen, denen im Reiter „Befragte“ die Umfrage in die To-Dos eingetragen wurde, und die die Umfrage noch nicht abgeschlossen haben
+survey#:#survey_notification_target_group_invited#:#Alle registrierten Personen, denen die Umfrage als Aufgabe auf ihrem Dashboard hinzugefügt wurde
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
-survey#:#survey_notification_target_group_parent_course#:#Mitglieder aus einem Kurs bzw. einer Gruppe, welche die Umfrage noch nicht abgeschlossen haben
-survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
+survey#:#survey_notification_target_group_parent_course#:#Alle Mitglieder des übergeordneten Kurses oder der übergeordneten Gruppe
+survey#:#survey_notification_target_group_parent_course_inactive#:#Wenn diese Umfrage nicht innerhalb eines Kurses oder einer Gruppe durchgeführt wird, werden keine Erinnerungen verschickt.
 survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Befragten beendet worden
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 survey#:#survey_notification_tutor_recipients#:#Mail senden an (Anmeldename)
-survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit Schreibrechten an.
+survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit der Berechtigung „Einstellungen Bearbeiten“ an
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Befragten die Umfrage beendet haben
 survey#:#survey_notification_tutor_subject#:#Alle Befragten haben die Umfrage „%s“ beendet
@@ -16847,29 +16847,29 @@ survey#:#survey_question_pool_usage_inactive_info#:#Die Umfrage bietet nur die M
 survey#:#survey_question_title#:#Fragetitel
 survey#:#survey_questions#:#Fragen
 survey#:#survey_questions_to_clipboard_copy#:#Es wurden Fragen in die Zwischenablage kopiert. Wählen Sie ein Ziel oder leeren Sie die Zwischenablage.
-survey#:#survey_reached_level#:#Erreichte Ausprägung
-survey#:#survey_reminder_body#:#die folgende Umfrage ist von Ihnen noch nicht beendet worden
-survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern
-survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
+survey#:#survey_reached_level#:#Erreichte Stufe
+survey#:#survey_reminder_body#:#Bitte vergessen Sie nicht, an der folgenden Umfrage teilzunehmen.
+survey#:#survey_reminder_cron#:#Erinnerung für Umfragen
+survey#:#survey_reminder_cron_info#:#Personen daran erinnern an Umfragen teilzunehmen.
 survey#:#survey_reminder_end#:#Ende
 survey#:#survey_reminder_frequency#:#Häufigkeit der Erinnerung
 survey#:#survey_reminder_frequency_days#:#Tage
 survey#:#survey_reminder_link#:#URL
 survey#:#survey_reminder_salutation#:#Hallo %s,
-survey#:#survey_reminder_setting#:#Benutzer an Teilnahme erinnern
+survey#:#survey_reminder_setting#:#Teilnahmeerinnerung
 survey#:#survey_reminder_start#:#Beginn
-survey#:#survey_reminder_subject#:#Umfrage „%s“ wurde noch nicht bearbeitet
+survey#:#survey_reminder_subject#:#Umfrage „%s“ – Teilnahmeerinnerung
 survey#:#survey_remove_competence#:#Kompetenz entfernen
 survey#:#survey_results_anonymization#:#Datenschutz
 survey#:#survey_results_anonymized#:#Ohne Namen / Anonyme Umfrage
-survey#:#survey_results_anonymized_info#:#Im Reiter „Ergebnisse“ werden alle Namen durch Codes ersetzt. Niemand kann die Antworten einer Person sondern nur einem Code zuordnen.
+survey#:#survey_results_anonymized_info#:#Die Befragten bleiben anonym. Je nach globalen Einstellungen werden Namen entweder durch die Bezeichnung „Anonym“ oder durch individuelle Codes ersetzt. Bei der Verwendung werden in dem Reiter „Ergebnisse“ keine persönlichen Daten angegeben, sodass dort eine Zuordnung der Antworten zu Personen nicht möglich ist. 
 survey#:#survey_results_finished#:#Umfrage beendet
 survey#:#survey_results_not_started#:#Umfrage nicht begonnen
 survey#:#survey_results_personalized#:#Mit Namen
-survey#:#survey_results_personalized_info#:#Personen mit dem Recht „Einstellungen bearbeiten“ sehen im Reiter „Ergebnisse » Pro Person“, wer welche Antworten gegeben hat. Anderen Personen, die Zugriff auf die Ergebnisse haben, werden unter „Detaillierte Ergebnisse“ nur aggregierte Daten angezeigt.
+survey#:#survey_results_personalized_info#:#Die Namen der Befragten und ihre Antworten werden im Reiter „Ergebnisse“ aufgeführt. Personen mit uneingeschränktem Zugriff auf diesen Reiter können diese Daten einsehen. Bei einer geringen Teilnehmendenzahl können möglicherweise auch Benutzende mit eingeschränktem Zugriff auf den Reiter, Antworten bestimmten Teilnehmenden zuordnen.
 survey#:#survey_results_started#:#Umfrage begonnen
-survey#:#survey_show_blocktitle#:#Blocktitel anzeigen
-survey#:#survey_show_blocktitle_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird der Titel des Blocks innerhalb der Umfrage angezeigt.
+survey#:#survey_show_blocktitle#:#Blocküberschrift anzeigen
+survey#:#survey_show_blocktitle_description#:#Zeigen Sie die Blocküberschrift in der Umfrage an.
 survey#:#survey_skill#:#Kompetenz
 survey#:#survey_skill_assign#:#Fragen-Kompetenz-Zuordnung
 survey#:#survey_skill_level#:#Kompetenzstufe
@@ -16878,93 +16878,93 @@ survey#:#survey_skill_nr_q#:#Anzahl Fragen
 survey#:#survey_skill_thresholds#:#Kompetenz-Schwellenwert
 survey#:#survey_start#:#← Zur Startseite
 survey#:#survey_sum_of_means#:#Summe des arithm. Mittels der Frage
-survey#:#survey_sure_delete_constraint#:#Wollen Sie wirklich die Verzweigungsregel "%1$s" der Frage "%2$s" löschen?
+survey#:#survey_sure_delete_constraint#:#Wollen Sie die Verzweigungsregel "%1$s" der Frage "%2$s" wirklich löschen?
 survey#:#survey_sure_delete_questions#:#Wollen Sie wirklich die folgenden Fragen bzw. Überschriften löschen?
-survey#:#survey_sync_insufficient_permissions#:#Keine ausreichenden Bedingungen.
+survey#:#survey_sync_insufficient_permissions#:#Keine ausreichende Berechtigungen.
 survey#:#survey_sync_question_copies#:#Fragenkopien synchronisieren
 survey#:#survey_sync_question_copies_info#:#Alle ausgewählten Fragen werden auf den aktuellen Stand der Poolfrage gebracht.
-survey#:#survey_sync_success#:#Die gewählten Fragen wurden aktualisiert.
+survey#:#survey_sync_success#:#Die ausgewählten Fragen wurden aktualisiert.
 survey#:#survey_up_to_x_points#:#Bis zu x Punkten
-survey#:#survey_use_start_button#:#Sie dürfen eine Umfrage nur über die Schaltfläche "Umfrage beginnen" starten!
+survey#:#survey_use_start_button#:#Die Umfrage kann ausschließlich durch durch den Button „Umfrage beginnen“ gestartet werden.
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
-survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
-survey#:#svy_add_internal_user#:#Benutzer hinzufügen
-survey#:#svy_add_internal_user_info#:#Feedback-Geber benötigen ein ILIAS-Konto für diese Installation.
+survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Personen an dieser teilnehmen.
+survey#:#svy_add_internal_user#:#Feedback-Geber manuell hinzufügen
+survey#:#svy_add_internal_user_info#:#Fügen Sie eine Person als Feedback-Geber hinzu, die bereits auf dieser Plattform registriert ist.
 survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
 survey#:#svy_all_raters#:#Alle Feedback-Geber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
 survey#:#svy_all_user_data_deleted#:#Die Datensätze der Umfrage wurden gelöscht.
 survey#:#svy_analysis#:#Analyse
 survey#:#svy_anonymous_participants#:#Teilnahmeliste
-survey#:#svy_anonymous_participants_info#:#Bei anonymen Umfragen kann eine Teilnahmeliste erzeugt werden.
-survey#:#svy_anonymous_participants_min#:#Mindestanzahl Befragter
-survey#:#svy_anonymous_participants_min_info#:#Die Anzeige der Liste erfolgt erst ab dieser Anzahl Befragter.
+survey#:#svy_anonymous_participants_info#:#Fügen Sie eine Option hinzu, die nach Ablauf des Enddatums einer anonymen Umfrage, eine Teilnahmeliste verfügbar macht. Das Enddatum kann in dem Abschnitt „Umfrage-Verwaltung: Zugriff“ eingestellt werden.
+survey#:#svy_anonymous_participants_min#:#Mindestanzahl der befragten Personen
+survey#:#svy_anonymous_participants_min_info#:#Die Teilnahmeliste wird nur dann zur Verfügung gestellt, wenn die Mindestteilnehmendenzahl an der Umfrage teilgenommen hat.
 survey#:#svy_anonymous_participants_svy#:#Teilnahmeliste
-survey#:#svy_anonymous_participants_svy_info#:#Nach dem Enddatum ist eine Teilnahmeliste verfügbar.
+survey#:#svy_anonymous_participants_svy_info#:#Die Teilnahmeliste wird nach Ablauf des Enddatums (siehe oben „Umfrage-Verwaltung: Zugriff“) der Umfrage zur Verfügung gestellt. Die Liste kann im Reiter „Befragte“ aufgerufen werden.
 survey#:#svy_answer_too_long#:#Ihre Antwort ist zu lang (%s Zeichen). Bitte kürzen Sie ihre Antwort.
-survey#:#svy_app_see_rater_info#:#Feedbacknehmende können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
+survey#:#svy_app_see_rater_info#:#Feedback-Nehmer können über den Reiter „Ergebnisse“ auf die Informationen zu den Feedback-Gebern zugreifen, darunter Namen und E-Mail-Adressen, sofern diese Informationen beim Hinzufügen der Feedback-Geber ebenfalls eingegeben wurden.
 survey#:#svy_appraisses_cannot_be_raters#:#Benutzer können sich nicht selbst als Feedback-Geber zuordnen. Nutzen Sie stattdessen die Option "Selbsteinschätzung" in den Einstellungen der Umfrage.
 survey#:#svy_back#:#Zurück
 survey#:#svy_categories#:#Antworten
-survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für befragte Personen verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
+survey#:#svy_check_evaluation_access_introduction#:#Da diese Umfrageauswertung nur für Umfrageteilnehmende zugänglich ist, müssen Sie Ihren Umfragezugangscode eingeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
 survey#:#svy_check_evaluation_wrong_key#:#Sie haben einen falschen Zugangsschlüssel für die Umfrage angegeben oder nicht an der Umfrage teilgenommen. Der Zugang zur Auswertung wurde Ihnen deshalb verwehrt.
 survey#:#svy_compress_view#:#Komprimierte Sicht
-survey#:#svy_compress_view_info#:#Alle Single-Choice Fragen eines Fragenblocks mit gleicher Antwortskalierung werden matrixartig dargestellt.
+survey#:#svy_compress_view_info#:#Alle Single-Choice-Fragen, die dieselben Antwortskalen haben, werden in Form einer Matrixfrage dargestellt.
 survey#:#svy_copy#:#Umfrage kopieren
 survey#:#svy_create_question#:#Frage erstellen
 survey#:#svy_delete_all_user_data#:#Alle Datensätze löschen
 survey#:#svy_dont_send#:#Keine Nachricht senden
 survey#:#svy_eval_captions#:#Kennzahl
-survey#:#svy_eval_captions_abs#:#Anzahl
-survey#:#svy_eval_captions_abs_perc#:#Anzahl und Prozent
-survey#:#svy_eval_captions_perc#:#Prozent
+survey#:#svy_eval_captions_abs#:#Häufigkeit
+survey#:#svy_eval_captions_abs_perc#:#Häufigkeit und Prozente
+survey#:#svy_eval_captions_perc#:#Prozente
 survey#:#svy_eval_competences#:#Kompetenz-Ergebnisse
 survey#:#svy_eval_cumulated#:#Überblick
 survey#:#svy_eval_detail#:#Detaillierte Ergebnisse
-survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
+survey#:#svy_eval_skipped_value#:#Ergebnisse: "Übersprungen"
 survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
-survey#:#svy_eval_skipped_value_custom_info#:#Geben Sie einen (oder leeren) Wert für übersprungene Antworten an
+survey#:#svy_eval_skipped_value_custom_info#:#Geben Sie einen Wert ein um anzuzeigen, dass Fragen übersprungen wurden. Alternativ können Sie das Feld leer lassen, um für übersprungene Fragen eine Leerstelle anzuzeigen.
 survey#:#svy_eval_skipped_value_custom_value#:#Wert
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
 survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: „%s“
 survey#:#svy_eval_user#:#Pro Person
 survey#:#svy_eval_view#:#Anzeige
-survey#:#svy_eval_view_charts#:#Grafik
+survey#:#svy_eval_view_charts#:#Diagramm
 survey#:#svy_eval_view_tables#:#Tabelle
-survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
+survey#:#svy_eval_view_tables_charts#:#Tabelle und Diagramm
 survey#:#svy_evaluation_access_all_info#:#Alle registrierten Personen, die Zugriff auf die Umfrage haben, können die Ergebnisse einsehen.
 survey#:#svy_evaluation_access_off_info#:#Nur Personen mit dem Recht „Einstellungen bearbeiten“ haben Zugriff auf die Ergebnisse der Umfrage.
-survey#:#svy_evaluation_access_participants_info#:#Alle Personen, die an der Umfrage teilgenommen und diese abgeschlossen haben, können anschließend die Ergebnisse einsehen.
-survey#:#svy_export_files#:#Dateien exportieren
-survey#:#svy_export_format#:#Umfragen exportieren als
-survey#:#svy_export_pdf#:#Export PDF
-survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
-survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
+survey#:#svy_evaluation_access_participants_info#:#Alle Personen, welche die Umfrage abgeschlossen haben, können anschließend die Ergebnisse einsehen. 
+survey#:#svy_export_files#:#Exportierte Dateien
+survey#:#svy_export_format#:#Ergebnisse der Umfrage exportieren
+survey#:#svy_export_pdf#:#PDF exportieren
+survey#:#svy_ext_rater_firstname#:#Vorname des externen Feedback-Gebers
+survey#:#svy_ext_rater_lastname#:#Nachname des externen Feedback-Gebers
 survey#:#svy_external_rater#:#Externen Feedback-Geber hinzufügen
-survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben kein Anmeldekonto auf der Plattform.
-survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen
+survey#:#svy_external_rater_info#:#Fügen Sie jemanden, die keine registrierte Person dieser Plattform ist, als Feedback-Geber hinzu.
+survey#:#svy_fraction_of_selections#:#Prozentualer Anteil an den Gesamtantworten
 survey#:#svy_gap_analysis#:#Gap-Analyse
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
 survey#:#svy_import_codes#:#Schlüssel importieren
 survey#:#svy_import_codes_info#:#Dieser Import benötigt eine „%s“-Export-Datei.
-survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feedback-Geber.
-survey#:#svy_ind_feedb_mode#:#Fremd-Evaluation
+survey#:#svy_ind_feedb_info#:#Personen erhalten mehrere einzelne Evaluationen durch Feedback-Geber.
+survey#:#svy_ind_feedb_mode#:#Individuelles Feedback
 survey#:#svy_mail_confirmation_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung
 survey#:#svy_mail_context_rater_invitation_info#:#Feedback-Geber zur Teilnahme in einer Umfrage einladen.
 survey#:#svy_mail_context_rater_invitation_survey_title#:#Titel der Umfrage
 survey#:#svy_mail_context_rater_invitation_title#:#Umfrage: Feedback-Geber einladen
-survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
+survey#:#svy_mail_context_reminder_info#:#Personen daran erinnern, an der Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_own_results#:#Eigene Antworten per E-Mail versenden
 survey#:#svy_mail_own_results_body#:#Sie haben an folgender Umfrage teilgenommen:
-survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Antworten
+survey#:#svy_mail_own_results_subject#:#Umfrage „%s“ - Ihre Teilnahmebestätigung mit Antworten 
 survey#:#svy_mail_send_confirmation#:#Teilnahmebestätigung anfordern
-survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
-survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
-survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
-survey#:#svy_no_appraisees_found#:#Es liegen keine Feedback-Nehmer mit abgegebenen Feedbacks vor.
+survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Prozentzahl der Spaltenaufteilung muss zusammen 100% ergeben.
+survey#:#svy_max_sum_score#:#Maximale Gesamtpunktzahl
+survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort („Nicht definiert", „Ich weiß nicht", „Keine Angabe" etc.) 
+survey#:#svy_no_appraisees_found#:#Es besteht weiterhin die Möglichkeit für ausgewählte Personen Feedback abzugeben. Sobald die Umfrage geschlossen wird, können die Kompetenzen angezeigt werden.
 survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
 survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
@@ -16975,20 +16975,20 @@ survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetre
 survey#:#svy_participant#:#Befragte
 survey#:#svy_participants#:#Befragte
 survey#:#svy_participation#:#Teilnahme
-survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangsschlüssel aus.
+survey#:#svy_please_select_unused_codes#:#Bitte wählen Sie zumindest einen ungenutzten Zugangscode aus.
 survey#:#svy_print_hide_labels#:#Labels ausblenden
 survey#:#svy_print_show_labels#:#Labels anzeigen
 survey#:#svy_privacy_info#:#Persönliche Daten
 survey#:#svy_rater#:#Feedback-Geber
-survey#:#svy_rater_see_app_info#:#Feedbackgebenden werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
+survey#:#svy_rater_see_app_info#:#Den Feedback-Gebern werden die Namen der Feedback-Nehmern angezeigt, damit die Fragen personenbezogen beantwortet werden können.
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
 survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
-survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
+survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail an vorausgewählte Personen versendet.
 survey#:#svy_results#:#Ergebnisse
 survey#:#svy_results_mail_confirm#:#Teilnahmebestätigung
 survey#:#svy_results_mail_confirm_info#:#Nach Beendigung der Umfrage kann eine Teilnahmebestätigung angefordert werden.
 survey#:#svy_results_mail_own#:#Eigene Antworten mitsenden
-survey#:#svy_results_mail_own_info#:#Die eigenen Antworten werden der Teilnahmebestätigung angehängt.
+survey#:#svy_results_mail_own_info#:#Die Antworten der teilnehmenden Person werden in ihrer Teilnahmebestätigungs-E-Mail aufgeführt.
 survey#:#svy_results_view_own#:#Eigene Antworten einsehen
 survey#:#svy_results_view_own_info#:#Eigene Antworten können nach Beendigung der Umfrage eingesehen werden. Die Antworten sind nicht änderbar.
 survey#:#svy_save_and_continue#:#Speichern und fortfahren
@@ -16997,60 +16997,60 @@ survey#:#svy_search_user#:#Benutzer suchen
 survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Personen auswählen
 survey#:#svy_search_users#:#Benutzer suchen
 survey#:#svy_select_rater#:#Feedback-Geber auswählen
-survey#:#svy_selected_user_data_deleted#:#Die ausgewählten Datensätze wurden erfolgreich gelöscht.
+survey#:#svy_selected_user_data_deleted#:#Die ausgewählten Umfragedaten wurden erfolgreich gelöscht.
 survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Befragten
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
 survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
-survey#:#svy_self_ev_info#:#Personen evaluieren sich selbst und schätzen sich ein.
+survey#:#svy_self_ev_info#:#Eine Umfrage, die zur Selbstbewertung verwendet werden kann.
 survey#:#svy_self_ev_mode#:#Selbst-Evaluation
 survey#:#svy_settings_section_access#:#Umfrage-Verwaltung: Zugriff
 survey#:#svy_settings_section_before_start#:#Informationen vor dem Umfragestart
 survey#:#svy_settings_section_finishing#:#Umfrage beenden
 survey#:#svy_settings_section_question_behaviour#:#Umfrage-Verwaltung: Verhalten der Frage
 survey#:#svy_settings_section_reminders#:#Erinnerungen
-survey#:#svy_show_questiontitles#:#Anzeige der Fragentitel
+survey#:#svy_show_questiontitles#:#Fragentitel anzeigen
 survey#:#svy_skl_comp_assignm_not_supported#:#Die Zuordnung von Kompetenzen ist für diesen Fragetyp nicht möglich.
-survey#:#svy_sum_score#:#Skalenpunktesumme
-survey#:#svy_type_of_rater#:#Art Feedback-Geber
+survey#:#svy_sum_score#:#Gesamtpunktzahl
+survey#:#svy_type_of_rater#:#Methode
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
-survey#:#svy_wrong_or_expired_code#:#Der angegebene Zugangsschlüssel ist leider nicht gültig oder abgelaufen. Bitte versuchen Sie es erneut.
-survey#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle Zeichen, die darüber hinaus gehen, werden automatisch gelöscht.
-survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
+survey#:#svy_wrong_or_expired_code#:#Leider ist der von Ihnen eingegebene Code entweder ungültig oder abgelaufen. Bitte versuchen Sie es erneut. Sollte dies nicht funktionieren, wenden Sie sich bitte an die Person, die diese Umfrage durchführt.
+survey#:#text_maximum_chars_allowed#:#Bitte beschränken Sie Ihre Antwort auf maximal %s Zeichen. Wenn Sie diese Grenze überschreiten, wird Ihre Antwort nicht gespeichert und Sie werden aufgefordert, Ihre Antwort zu kürzen, um fortfahren zu können.
+survey#:#text_question_not_filled_out#:#Bitte tragen Sie Ihre Antwort in das dafür vorgesehene Feld ein.
 survey#:#unfold#:#Fragenblock auflösen
-survey#:#upper_limit#:#Obere Schranke
-survey#:#use_anonymous_id#:#Zugangsschlüssel anzeigen
-survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Anmeldenamens den Zugangsschlüssel an. Wenn die Option nicht ausgewählt ist, wird stattdessen die Zeichenkette „Unbekannt“ angezeigt.
+survey#:#upper_limit#:#Obergrenze
+survey#:#use_anonymous_id#:#Zugangscode anzeigen
+survey#:#use_anonymous_id_desc#:#Verwenden Sie in anonymisierten Umfragen die Zugangscodes der Befragten als Ersatz für deren Anmeldenamen. Wenn diese Option nicht aktiviert ist, wird anstelle der Anmeldenamen „Anonym“ angezeigt.
 survey#:#use_browser_print_function#:#Bitte verwenden Sie die Druckfunktion Ihres Webbrowsers
-survey#:#use_min_answers#:#Antwortanzahl
-survey#:#use_min_answers_option#:#Anzahl der auszuwählenden Antworten festlegen
+survey#:#use_min_answers#:#Anzahl der Antworten
+survey#:#use_min_answers_option#:#Legen Sie eine Mindest- und/oder Höchstanzahl an Antworten fest, die ausgewählt werden müssen.
 survey#:#use_other_answer#:#Freitext
-survey#:#used#:#benutzt
+survey#:#used#:#verwendet
 survey#:#users_answered#:#Beantwortet
 survey#:#users_invited#:#Es wurden %s Personen eingeladen
 survey#:#users_skipped#:#Übersprungen
 survey#:#values#:#Werte
-survey#:#vertical#:#vertikal
+survey#:#vertical#:#Vertikal
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#workingtime#:#Bearbeitungsdauer
-svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktiviert ist, erhalten Feedback-Nehmer, die die Umfrage noch nicht abgeschlossen haben, eine Erinnerungsnachricht.
-svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
+svy#:#survey_360_appraisees_remind_info#:#Wenn die Selbsteinschätzung aktiviert wurde, werden alle Feedback-Nehmer, welche die Umfrage noch nicht abgeschlossen haben, benachrichtigt.
+svy#:#survey_360_raters_remind_info#:#Feedback-Geber, welche die Umfrage noch nicht abgeschlossen haben, erhalten eine Benachrichtigung. 
 svy#:#svy_0_open_appraisees#:#Sie können die Umfrage für keinen Feedback-Nehmer mehr durchführen.
 svy#:#svy_all_pages#:#Alle Seiten
 svy#:#svy_all_participants#:#Alle Befragte
 svy#:#svy_all_questions#:#Alle Fragen
-svy#:#svy_code#:#Zugangsschlüssel
-svy#:#svy_codes#:#Zugangsschlüssel
+svy#:#svy_code#:#Zugangscode
+svy#:#svy_codes#:#Zugangscodes
 svy#:#svy_current_page#:#Aktuelle Seite
-svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
-svy#:#svy_finished_x_appraisees#:#Sie haben die Umfrage bereits für %s Feedback-Nehmer beendet.
+svy#:#svy_finish_survey#:#An Umfrage "%1" teilnehmen
+svy#:#svy_finished_x_appraisees#:#Sie haben Bewertungen bereits für %s Feedback-Nehmer abgegeben. 
 svy#:#svy_information#:#Information
-svy#:#svy_invite_participants#:#Als To-Do eintragen für
+svy#:#svy_invite_participants#:#Personen hinzufügen
 svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_placeholders_label#:#Verfügbare Platzhalter
-svy#:#svy_print_selection#:#Auswahl Druckansicht
+svy#:#svy_print_selection#:#Inhalt der Druckansicht auswählen 
 svy#:#svy_remove_all_participants#:#Alle Datensätze löschen
-svy#:#svy_remove_participants#:#Datensatz löschen
+svy#:#svy_remove_participants#:#Daten entfernen
 svy#:#svy_selected_participants#:#Ausgewählte Befragte
 svy#:#svy_selected_questions#:#Ausgewählte Fragen
 svy#:#svy_selection#:#Auswahl
@@ -17063,11 +17063,11 @@ svy#:#svy_user_added_appraisee_close_mail#:#Die Umfrage wurde für Ihre Feedback
 svy#:#svy_user_added_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Nehmer hinzugefügt.
 svy#:#svy_user_added_rater#:#Umfrage „%1“
 svy#:#svy_user_added_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
-svy#:#svy_user_added_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
-svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
-svy#:#svy_users_invited#:#Das To-Do wurde eingetragen.
-svy#:#svy_x_appraisees_closed_for_raters#:#%s Ihrer Feedback-Nehmer hat/haben die Umfrage für Feedback-Geber geschlossen.
-svy#:#svy_x_open_appraisees#:#Sie können die Umfrage noch für %s Feedback-Nehmer durchführen.
+svy#:#svy_user_added_rater_reminder_mail#:#Bitte vergessen Sie nicht, die folgenden Feedback-Nehmer zu bewerten:
+svy#:#svy_user_not_found#:#Anmeldename nicht gefunden.
+svy#:#svy_users_invited#:#Die Umfrage wurde den ausgewählten Personen als „To-Do“ im Dashboard hinzugefügt.
+svy#:#svy_x_appraisees_closed_for_raters#:#%s der Feedback-Nehmer haben die Umfrage für Feedback-Geber geschlossen.
+svy#:#svy_x_open_appraisees#:#Es warten noch %s der Feedback-Nehmer auf Ihre Bewertung
 svy#:#svy_your_appraisees#:#Ihre Feedback-Nehmer
 svy#:#svy_your_raters#:#Ihre Feedback-Geber
 svy#:#svy_your_raters_finished#:#%s Ihrer Feedback-Geber haben die Umfrage beendet.
