@@ -272,6 +272,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {Event} event
 		 */
 		let removeFileManuallyHook = function (event) {
+			event.preventDefault();
 			let removal_glyph = $(this);
 			let input_id = removal_glyph.closest(SELECTOR.file_input).attr('id');
 			let dropzone = dropzones[input_id];
@@ -318,19 +319,22 @@ il.UI.Input = il.UI.Input || {};
 			processCurrentFormDropzones(dropzone.options.form, event);
 		}
 
-		let toggleExpansionGlyphsHook = function () {
+		let toggleExpansionGlyphsHook = function (event) {
+			event.preventDefault();
 			let current_glyph = $(this);
+			let action_container = current_glyph.closest('[data-action]');
 
-			let other_glyph = current_glyph.parent().data('action') === 'expand' ?
+			let other_glyph = action_container.data('action') === 'expand' ?
 				current_glyph.closest(SELECTOR.file_list_entry).find(SELECTOR.collapse_glyph) :
 				current_glyph.closest(SELECTOR.file_list_entry).find(SELECTOR.expand_glyph)
 			;
 
 			other_glyph.show();
-			current_glyph.hide();
+			action_container.hide();
 		}
 
-		let toggleMetadataInputsHook = function () {
+		let toggleMetadataInputsHook = function (event) {
+			event.preventDefault();
 			$(this)
 			.closest(SELECTOR.file_list_entry)
 			.find(SELECTOR.file_entry_metadata)

@@ -108,7 +108,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-toggle-item">
         <label>label</label>
-            <button class="il-toggle-button off" id="id_1" aria-pressed="false">
+            <button type="button" class="il-toggle-button off" id="id_1" aria-pressed="false">
                 <span class="il-toggle-label-on">toggle_on</span>
                 <span class="il-toggle-label-off">toggle_off</span>
                 <span class="il-toggle-switch"></span>
@@ -126,7 +126,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<div class="il-toggle-item">'
-            . '   <button class="il-toggle-button on" id="id_1" aria-pressed="false">'    //aria-pressed is set to "true" by JS
+            . '   <button type="button" class="il-toggle-button on" id="id_1" aria-pressed="false">'    //aria-pressed is set to "true" by JS
             . '     <span class="il-toggle-label-on">toggle_on</span>'
             . '       <span class="il-toggle-label-off">toggle_off</span>'
             . '     <span class="il-toggle-switch"></span>'
@@ -151,7 +151,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
         <div class="il-toggle-item">
             <label>label</label>
-            <button class="il-toggle-button off" id="id_1" aria-pressed="false">
+            <button type="button" class="il-toggle-button off" id="id_1" aria-pressed="false">
                 <span class="il-toggle-label-on">toggle_on</span>
                 <span class="il-toggle-label-off">toggle_off</span>
                 <span class="il-toggle-switch"></span>
@@ -172,7 +172,7 @@ EOT;
 
         $expected = ''
             . '<div class="il-toggle-item">'
-            . '   <button class="il-toggle-button unavailable" aria-pressed="false" disabled="disabled">'
+            . '   <button type="button" class="il-toggle-button unavailable" aria-pressed="false" disabled="disabled">'
             . '      <span class="il-toggle-switch"></span>'
             . '   </button>'
             . '</div>';

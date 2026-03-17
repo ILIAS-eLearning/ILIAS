@@ -139,7 +139,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
             $this->tpl->setVariable(
                 'H_NEW_APP_GLYPH',
                 $this->ui_renderer->render(
-                    $this->ui_factory->link()->standard(
+                    $this->ui_factory->button()->shy(
                         '',
                         $new_app_url,
                     )->withSymbol($this->ui_factory->symbol()->glyph()->add())
@@ -192,7 +192,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                     $this->tpl->setVariable(
                         'NEW_APP_GLYPH',
                         $this->ui_renderer->render(
-                            $this->ui_factory->link()->standard(
+                            $this->ui_factory->button()->shy(
                                 '',
                                 $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add')
                             )->withSymbol($this->ui_factory->symbol()->glyph()->add())

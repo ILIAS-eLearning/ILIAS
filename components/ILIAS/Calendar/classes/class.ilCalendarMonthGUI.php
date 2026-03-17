@@ -163,7 +163,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
                 $this->tpl->setVariable(
                     'NEW_GLYPH',
                     $this->ui_renderer->render(
-                        $this->ui_factory->link()->standard(
+                        $this->ui_factory->button()->shy(
                             '',
                             $new_app_url
                         )->withSymbol($this->ui_factory->symbol()->glyph()->add())

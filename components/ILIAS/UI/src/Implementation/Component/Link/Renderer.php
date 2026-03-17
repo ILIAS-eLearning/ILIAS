@@ -35,7 +35,7 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         if ($component instanceof Component\Link\Standard) {
-            return $this->renderStandard($component, $default_renderer);
+            return $this->renderStandard($component);
         }
         if ($component instanceof Component\Link\Bulky) {
             return $this->renderBulky($component, $default_renderer);
@@ -96,25 +96,10 @@ class Renderer extends AbstractComponentRenderer
     }
 
     protected function renderStandard(
-        Component\Link\Standard $component,
-        RendererInterface $default_renderer
+        Component\Link\Standard $component
     ): string {
         $tpl_name = "tpl.standard.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
-        $symbol = $component->getSymbol();
-        if ($symbol !== null) {
-            if ($component->getLabel() !== '') {
-                $symbol = $symbol->withLabel('');
-            }
-            $tpl->setCurrentBlock("symbol");
-            $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
-            $tpl->parseCurrentBlock();
-            if ($component->getLabel() === '') {
-                $tpl->setCurrentBlock("with_aria_label");
-                $tpl->setVariable("ARIA_LABEL", $this->txt($symbol->getLabel()));
-                $tpl->parseCurrentBlock();
-            }
-        }
         return $this->maybeRenderWithTooltip($component, $tpl);
     }
 

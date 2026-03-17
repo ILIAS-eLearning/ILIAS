@@ -485,9 +485,9 @@ var longMenuQuestion = (function () {
 	};
 	pro.appendAbstractCloneButtonEvent = function(classElement, eventCallback)
 	{
-		var button 	= $(classElement + ' a');
+		var button 	= $(classElement).find('a, button');
 		button.off( 'click');
-		button.on( 'click', function() {
+		button.on( 'click', function(e) {
 			var gap_id = $(this).parent().parent().prev().attr('data-id');
 			let question_id = $('#' + pub.gap_modal_id + ' .modal-title').attr('data-id');
 			if (typeof eventCallback === 'function') {
@@ -534,7 +534,7 @@ var longMenuQuestion = (function () {
 	{
 		var button 	= $(classElement);
 		button.off( 'click');
-		button.on( 'click', function() {
+		button.on( 'click', function(e) {
 			if (typeof eventCallback === 'function') {
 				eventCallback();
 			}

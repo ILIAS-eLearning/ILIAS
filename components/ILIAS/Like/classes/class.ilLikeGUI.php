@@ -170,7 +170,7 @@ class ilLikeGUI
         foreach ($this->data->getExpressionTypes() as $k => $txt) {
             if ($cnts[$k] > 0) {
                 $glyph = $this->getGlyphForConst($k)->withCounter($f->counter()->status($cnts[$k]));
-                $comp = $f->button()->shy('', '#')->withSymbol($glyph);
+                $comp = $f->button()->shy('', '')->withSymbol($glyph);
                 if ($modal_signal !== null) {
                     $comp = $comp->withOnClick($modal_signal);
                 }
@@ -249,6 +249,7 @@ class ilLikeGUI
             )) {
                 $g = $g->withHighlight();
             }
+            $g = $this->ui->factory()->button()->shy('', '')->withSymbol($g);
 
             $g = $g->withAdditionalOnLoadCode(function ($id) use ($k, $url) {
                 return
@@ -331,7 +332,7 @@ class ilLikeGUI
                 $name
             );
 
-            $g = $f->button()->shy('', '#')->withSymbol($this->getGlyphForConst($exp["expression"]))
+            $g = $f->button()->shy('', '')->withSymbol($this->getGlyphForConst($exp["expression"]))
                 ->withUnavailableAction();
             $placeholder = "###" . $exp["expression"] . "###";
             $glyph_renderings[$placeholder] = $r->render($g);

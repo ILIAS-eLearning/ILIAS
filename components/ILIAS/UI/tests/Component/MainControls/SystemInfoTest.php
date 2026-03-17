@@ -60,7 +60,7 @@ class SystemInfoTest extends ILIAS_UI_TestBase
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <button class="btn btn-bulky" data-action="#"><span class="glyph" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">show_more</span></button>
+            <button class="btn btn-link" data-action=""><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -93,7 +93,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <button class="btn btn-bulky" data-action="#"><span class="glyph" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">show_more</span></button>
+            <button class="btn btn-link" data-action=""><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -126,7 +126,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <button class="btn btn-bulky" data-action="#"><span class="glyph" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">show_more</span></button>
+            <button class="btn btn-link" data-action=""><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -158,7 +158,7 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <button class="btn btn-bulky" data-action="#"><span class="glyph" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">show_more</span></button>
+            <button class="btn btn-link" data-action=""><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
         <span class="il-system-info-close"></span>
     </div>
@@ -193,9 +193,9 @@ EOT;
     </div>
     <div class="il-system-info-actions">
         <span class="il-system-info-more">
-            <button class="btn btn-bulky" data-action="#"><span class="glyph" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">show_more</span></button>
+            <button class="btn btn-link" data-action=""><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span></button>
         </span>
-        <span class="il-system-info-close"><button type="button" class="close" aria-label="close" id="id"><span aria-hidden="true">&times;</span></button></span>
+        <span class="il-system-info-close"><button class="btn btn-link" id="id"><span class="glyph" aria-label="close" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></button></span>
     </div>
 </div>
 EOT;

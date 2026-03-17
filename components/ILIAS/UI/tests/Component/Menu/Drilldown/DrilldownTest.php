@@ -116,10 +116,11 @@ class DrilldownTest extends ILIAS_UI_TestBase
     public function testWithEntries(): C\Menu\Drilldown
     {
         $f = $this->getUIFactory();
+        $glyph_button = $f->button()->shy('', '')->withSymbol($this->glyph);
         $items = array(
             $f->menu()->sub('sub', [
                 $this->button,
-                $this->glyph
+                $glyph_button
             ]),
             $this->divider,
             $this->button

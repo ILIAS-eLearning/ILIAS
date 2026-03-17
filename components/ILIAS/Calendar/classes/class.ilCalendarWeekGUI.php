@@ -405,7 +405,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         //$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);
         $this->tpl->setVariable(
             'NEW_APP_GLYPH', $this->ui_renderer->render(
-            $this->ui_factory->link()->standard(
+            $this->ui_factory->button()->shy(
                 '',
                 $new_app_url
             )->withSymbol($this->ui_factory->symbol()->glyph()->add())
@@ -529,7 +529,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                     $this->tpl->setVariable(
                         "DAY_NEW_APP_LINK",
                         $this->ui_renderer->render(
-                            $this->ui_factory->link()->standard(
+                            $this->ui_factory->button()->shy(
                                 '',
                                 $new_app_url
                             )->withSymbol($this->ui_factory->symbol()->glyph()->add())

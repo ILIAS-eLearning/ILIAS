@@ -225,8 +225,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         //disengage all, close slates
-        $btn_disengage = $f->button()->shy($this->txt('close'), "#")
-            ->withSymbol($f->symbol()->glyph()->collapseHorizontal())
+        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->collapseHorizontal("#"), $this->txt('close'), "")
             ->withOnClick($component->getDisengageAllSignal());
         $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
 
@@ -301,9 +300,9 @@ class Renderer extends AbstractComponentRenderer
         $base_URI = $component->getCloseAction()->getBaseURI();
         $query = $component->getCloseAction()->getQuery();
         $action = $base_URI . '?' . $query;
-        $close = $f->link()->standard(
+        $close = $f->button()->shy(
             '',
-            $action,
+            $action
         )->withSymbol($f->symbol()->glyph()->close());
         $tpl->setVariable('CLOSE_GLYPH', $default_renderer->render($close));
 
@@ -330,13 +329,13 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($component->isDismissable()) {
             $signal = $component->getCloseSignal();
-            $close = $this->getUIFactory()->button()->close()->withOnClick($signal);
+            $close = $this->getUIFactory()->button()->shy('', '')->withOnClick($signal)->withSymbol($this->getUIFactory()->symbol()->glyph()->close());
             $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close));
             $tpl->setVariable('CLOSE_URI', (string) $component->getDismissAction());
             $component = $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$signal', function() { il.UI.maincontrols.system_info.close('$id'); });");
         }
 
-        $more = $this->getUIFactory()->button()->shy($this->txt('show_more'), '#')
+        $more = $this->getUIFactory()->button()->shy('', '')
         ->withSymbol($this->getUIFactory()->symbol()->glyph()->more());
         $tpl->setVariable('MORE_BUTTON', $default_renderer->render($more));
 

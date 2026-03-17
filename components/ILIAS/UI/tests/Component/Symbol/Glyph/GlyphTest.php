@@ -429,7 +429,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $id = $ids[0];
-        $expected = '<a class="glyph" aria-label="' . $aria_label . '" role="img" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></a>';
+        $expected = '<span class="glyph" aria-label="' . $aria_label . '" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></span>';
         $this->assertEquals($expected, $html);
     }
 }

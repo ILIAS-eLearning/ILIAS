@@ -21,12 +21,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Symbol\Symbol;
 
 class Standard extends Link implements C\Link\Standard
 {
     protected string $label;
-    protected ?Symbol $symbol = null;
 
     public function __construct(string $label, string $action)
     {
@@ -40,23 +38,5 @@ class Standard extends Link implements C\Link\Standard
     public function getLabel(): string
     {
         return $this->label;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSymbol(): ?Symbol
-    {
-        return $this->symbol;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withSymbol(?Symbol $symbol): C\Link\Standard
-    {
-        $clone = clone $this;
-        $clone->symbol = $symbol;
-        return $clone;
     }
 }

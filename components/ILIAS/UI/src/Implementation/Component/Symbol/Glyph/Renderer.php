@@ -52,6 +52,13 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->renderLabel($component, $tpl);
 
+        $id = $this->bindJavaScript($component);
+
+        if ($id !== null) {
+            $tpl->setCurrentBlock("with_id");
+            $tpl->setVariable("ID", $id);
+            $tpl->parseCurrentBlock();
+        }
         $tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
         return $tpl->get();
     }

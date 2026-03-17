@@ -1364,7 +1364,7 @@ class ilNoteGUI
         $query_url = $ctrl->getLinkTarget($this, "getListHtml", "", true, false);
         $comps = array();
         $c = $f->counter()->status((int) $cnt);
-        $comps[] = $f->button()->shy('', '#')
+        $comps[] = $f->button()->shy('', '')
             ->withSymbol($f->symbol()->glyph()->comment()->withCounter($c))
             ->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
                 $code = "$('#$id').attr('data-note-key','$hash');\n";

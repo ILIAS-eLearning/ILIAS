@@ -135,11 +135,11 @@ class Renderer extends AbstractComponentRenderer
         $sig_toggle = $component->getToggleSignal();
         $id = $this->bindJavaScript($component);
 
-        $expander = $f->button()->shy( '', '#')->withSymbol($f->symbol()->glyph()->expand())
+        $expander = $f->button()->shy( '', '')->withSymbol($f->symbol()->glyph()->expand())
             ->withOnClick($sig_show);
-        $collapser = $f->button()->shy('', '#')->withSymbol($f->symbol()->glyph()->collapse())
+        $collapser = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->collapse())
             ->withOnClick($sig_hide);
-        $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "#")
+        $shy_expander = $f->button()->shy($this->txt("presentation_table_more"), "")
             ->withOnClick($sig_show);
 
         $tpl->setVariable("ID", $id);
@@ -314,7 +314,7 @@ class Renderer extends AbstractComponentRenderer
                 );
 
                 if ($col_id === $sort_col) {
-                    $sortation_glyph = $this->getUIFactory()->button()->shy('', '#')
+                    $sortation_glyph = $this->getUIFactory()->button()->shy('', '')
                           ->withSymbol(
                               $sort_direction === Order::ASC ?
                                   $glyph_factory->sortAscending() :
@@ -349,11 +349,11 @@ class Renderer extends AbstractComponentRenderer
             $signal = $component->getSelectionSignal();
             $sig_all = clone $signal;
             $sig_all->addOption('select', true);
-            $select_all = $f->button()->shy('', '#')
+            $select_all = $f->button()->shy('', '')
                   ->withSymbol($glyph_factory->add())
                   ->withOnClick($sig_all);
             $signal->addOption('select', false);
-            $select_none = $f->button()->shy('', '#')
+            $select_none = $f->button()->shy('', '')
                    ->withSymbol($glyph_factory->close())
                    ->withOnClick($signal);
             $tpl->setVariable('SELECTION_CONTROL_SELECT', $default_renderer->render($select_all));
