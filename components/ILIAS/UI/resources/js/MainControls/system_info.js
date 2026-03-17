@@ -20,38 +20,21 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 (function ($, maincontrols) {
   maincontrols.system_info = (function ($) {
     var calculating = false;
-    var documentHandlersBound = false;
-
-    var bindDocumentHandlers = function () {
-      if (documentHandlersBound) return;
-      documentHandlersBound = true;
-      $(document).on('click', '.il-system-info-more', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const item = $(this).closest('.il-system-info');
-        item.toggleClass('full');
-        $(this).hide();
-      });
-      $(document).on('click', '.il-system-info-close', function (e) {
-        e.preventDefault();
-      });
-    };
-
     /**
      * decide and init condensed/wide version
      */
     var init = function (id) {
-      bindDocumentHandlers();
-      const item = document.getElementById(id);
-      if (!item) return;
-      const $item = $(item);
-      const more_button = $item.find('.il-system-info-more');
-      more_button.find('button').attr('type', 'button');
-      $item.find('.il-system-info-close button').attr('type', 'button');
-      maybeShowMoreButton($item, more_button);
+      const item = $(`#${id}`);
+      const more_button = item.find('.il-system-info-more');
+      more_button.click(() => {
+        item.toggleClass('full');
+        more_button.hide();
+      });
+
+      maybeShowMoreButton(item, more_button);
       $(window).resize(() => {
         if (!calculating) {
-          maybeShowMoreButton($item, more_button);
+          maybeShowMoreButton(item, more_button);
         }
       });
     };
