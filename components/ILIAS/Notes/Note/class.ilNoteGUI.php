@@ -1506,7 +1506,7 @@ class ilNoteGUI
         $comps = array();
         if ($cnt > 0) {
             $c = $f->counter()->status((int) $cnt);
-            $comps[] = $f->button()->standard( '', '#')
+            $comps[] = $f->button()->standard('', '#')
                 ->withSymbol($f->symbol()->glyph()->comment()->withCounter($c))
                 ->withAdditionalOnLoadCode(function ($id) use ($hash, $query_url) {
                     $code = "$('#$id').attr('data-note-key','$hash');\n";

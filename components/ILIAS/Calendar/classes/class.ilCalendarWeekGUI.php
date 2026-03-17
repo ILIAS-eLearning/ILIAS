@@ -404,12 +404,13 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         $this->tpl->setCurrentBlock("new_app");
         //$this->tpl->setVariable('NEW_APP_LINK',$new_app_url);
         $this->tpl->setVariable(
-            'NEW_APP_GLYPH', $this->ui_renderer->render(
-            $this->ui_factory->button()->shy(
-                '',
-                $new_app_url
-            )->withSymbol($this->ui_factory->symbol()->glyph()->add())
-        )
+            'NEW_APP_GLYPH',
+            $this->ui_renderer->render(
+                $this->ui_factory->button()->shy(
+                    '',
+                    $new_app_url
+                )->withSymbol($this->ui_factory->symbol()->glyph()->add())
+            )
         );
         // $this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
         $this->tpl->parseCurrentBlock();
