@@ -274,7 +274,7 @@ abstract class SurveyQuestionGUI
 
         // obligatory
         $shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
-        $shuffle->setValue(1);
+        $shuffle->setValue("1");
         $shuffle->setRequired(false);
         $form->addItem($shuffle);
 
@@ -339,7 +339,7 @@ abstract class SurveyQuestionGUI
                 $this->purifier->purify($form->getInput("question"))
             );
 
-            $this->object->setObligatory($form->getInput("obligatory"));
+            $this->object->setObligatory((bool) $form->getInput("obligatory"));
 
             $this->importEditFormValues($form);
 
