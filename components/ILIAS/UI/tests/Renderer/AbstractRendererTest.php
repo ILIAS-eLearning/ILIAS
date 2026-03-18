@@ -182,7 +182,7 @@ namespace {
             );
             $r->_getTemplate("tpl.glyph.html", true, false);
 
-            $expected = array(realpath(__DIR__ . "/../../../../../components/ILIAS/UI/src/templates/default/Symbol/tpl.glyph.html")
+            $expected = array(realpath(__DIR__ . "/../../../../../components/ILIAS/UI/templates/default/Symbol/tpl.glyph.html")
                               => array(true, false)
             );
 
@@ -205,7 +205,7 @@ namespace {
             $this->expectException(TypeError::class);
             $r->_getTemplate("tpl.counter_foo.html", true, false);
 
-            $expected = array(realpath(__DIR__ . "/../../components/ILIAS/UI/src/templates/default/Counter/tpl.counter_foo.html")
+            $expected = array(realpath(__DIR__ . "/../../components/ILIAS/UI/templates/default/Counter/tpl.counter_foo.html")
                               => array(true, false)
             );
             $this->assertEquals($expected, $this->tpl_factory->files);
