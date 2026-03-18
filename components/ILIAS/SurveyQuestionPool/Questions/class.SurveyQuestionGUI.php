@@ -44,6 +44,7 @@ abstract class SurveyQuestionGUI
     protected string $parent_url = "";
     protected ilLogger $log;
     public ?SurveyQuestion $object = null;
+    protected \ilHtmlPurifierInterface $purifier;
 
     public function __construct($a_id = -1)
     {
@@ -90,6 +91,7 @@ abstract class SurveyQuestionGUI
             ->editing();
         $this->gui = $DIC->survey()->internal()->gui();
         $this->domain = $DIC->survey()->internal()->domain();
+        $this->purifier = new ilSvyStandardPurifier();
     }
 
     abstract protected function initObject(): void;
@@ -264,6 +266,8 @@ abstract class SurveyQuestionGUI
             $question->setUseRte(true);
             $question->setRteTagSet("mini");
         }
+        $question->usePurifier(true);
+        $question->setPurifier($this->purifier);
         $form->addItem($question);
 
         // obligatory
@@ -329,12 +333,10 @@ abstract class SurveyQuestionGUI
             $this->object->setAuthor($form->getInput("author"));
             $this->object->setDescription($form->getInput("description"));
 
-            $purifier = new ilSvyStandardPurifier();
-            $question = $form->getInput("question");
+            $this->object->setQuestiontext(
+                $this->purifier->purify($form->getInput("question"))
+            );
 
-            $question = $purifier->purify($question);
-
-            $this->object->setQuestiontext($question);
             $this->object->setObligatory($form->getInput("obligatory"));
 
             $this->importEditFormValues($form);
