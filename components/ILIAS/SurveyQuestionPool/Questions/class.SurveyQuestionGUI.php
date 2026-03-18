@@ -44,6 +44,7 @@ abstract class SurveyQuestionGUI
     protected string $parent_url = "";
     protected ilLogger $log;
     public ?SurveyQuestion $object = null;
+    protected \ilHtmlPurifierInterface $purifier;
 
     public function __construct($a_id = -1)
     {
@@ -90,6 +91,7 @@ abstract class SurveyQuestionGUI
             ->editing();
         $this->gui = $DIC->survey()->internal()->gui();
         $this->domain = $DIC->survey()->internal()->domain();
+        $this->purifier = new ilSvyStandardPurifier();
     }
 
     abstract protected function initObject(): void;
@@ -260,15 +262,17 @@ abstract class SurveyQuestionGUI
         $question->setRequired(true);
         $question->setRows(10);
         $question->setCols(80);
-        if ((new \ilRTESettings($this->lng, $this->user))->getRichTextEditor() === "tinymce") {
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "tinymce") {
             $question->setUseRte(true);
             $question->setRteTagSet("mini");
         }
+        $question->usePurifier(true);
+        $question->setPurifier($this->purifier);
         $form->addItem($question);
 
         // obligatory
         $shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
-        $shuffle->setValue("1");
+        $shuffle->setValue(1);
         $shuffle->setRequired(false);
         $form->addItem($shuffle);
 
@@ -298,7 +302,7 @@ abstract class SurveyQuestionGUI
         }
     }
 
-    protected function editQuestion(?ilPropertyFormGUI $a_form = null): void
+    protected function editQuestion(ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
 
@@ -329,12 +333,10 @@ abstract class SurveyQuestionGUI
             $this->object->setAuthor($form->getInput("author"));
             $this->object->setDescription($form->getInput("description"));
 
-            $purifier = new HTMLPurifier();
-            $question = $form->getInput("question");
+            $this->object->setQuestiontext(
+                $this->purifier->purify($form->getInput("question"))
+            );
 
-            $question = $purifier->purify($question);
-
-            $this->object->setQuestiontext($question);
             $this->object->setObligatory($form->getInput("obligatory"));
 
             $this->importEditFormValues($form);
@@ -636,11 +638,11 @@ abstract class SurveyQuestionGUI
     //
 
     abstract public function getWorkingForm(
-        ?array $working_data = null,
+        array $working_data = null,
         int $question_title = 1,
         bool $show_questiontext = true,
         string $error_message = "",
-        ?int $survey_id = null,
+        int $survey_id = null,
         bool $compress_view = false
     ): string;
 
@@ -648,7 +650,7 @@ abstract class SurveyQuestionGUI
     protected function renderStatisticsDetailsTable(
         array $a_head,
         array $a_rows,
-        ?array $a_foot = null
+        array $a_foot = null
     ): string {
         $html = array();
         $html[] = '<div class="ilTableOuter table-responsive">';
