@@ -179,6 +179,9 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);
             $next_class = strtolower("ilObj" . $class_name . "GUI");
+
+            // #47446: redirect to remove the "return" command which is not implemented by all GUIs
+            $this->ctrl->redirectByClass($next_class);
         }
 
         $cmd = $this->ctrl->getCmd("forward");
