@@ -32,7 +32,7 @@ class ilLSLaunchlinksBuilder
     public const CMD_EXTRO = ilObjLearningSequenceLearnerGUI::CMD_EXTRO;
     public const CMD_START = ilObjLearningSequenceLearnerGUI::CMD_START;
     public const CMD_VIEW = ilObjLearningSequenceLearnerGUI::CMD_VIEW;
-    public const CMD_UNSUBSCRIBE = ilObjLearningSequenceLearnerGUI::CMD_UNSUBSCRIBE;
+    public const CMD_UNSUBSCRIBE_CONFIRMATION = ilObjLearningSequenceLearnerGUI::CMD_UNSUBSCRIBE_CONFIRMATION;
 
     public function __construct(
         protected ilLanguage $lng,
@@ -131,7 +131,7 @@ class ilLSLaunchlinksBuilder
         if ($this->mayUnparticipate()) {
             $links[] = [
                 $this->lng->txt("unparticipate"),
-                $this->getLink(self::CMD_UNSUBSCRIBE),
+                $this->getLink(self::CMD_UNSUBSCRIBE_CONFIRMATION),
                 false
             ];
         }
