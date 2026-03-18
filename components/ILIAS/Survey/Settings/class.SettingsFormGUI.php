@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace ILIAS\Survey\Settings;
 
-use HTMLPurifier;
 use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\Mode\UIModifier;
 use ILIAS\Survey\InternalDomainService;
@@ -40,13 +39,15 @@ class SettingsFormGUI
     protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected \ilRbacSystem $rbacsystem;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected \ilHtmlPurifierInterface $purifier;
 
     public function __construct(
         InternalGUIService $ui_service,
         InternalDomainService $domain_service,
         \ilObjectService $object_service,
         \ilObjSurvey $survey,
-        UIModifier $modifier
+        UIModifier $modifier,
+        \ilHtmlPurifierInterface $purifier
     ) {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -59,6 +60,7 @@ class SettingsFormGUI
         $this->domain_service = $domain_service;
         $this->modifier = $modifier;
         $this->feature_config = $this->domain_service->modeFeatureConfig($survey->getMode());
+        $this->purifier = $purifier;
     }
 
     public function checkForm(\ilPropertyFormGUI $form): bool
@@ -334,6 +336,9 @@ class SettingsFormGUI
             $intro->setUseRte(true);
             $intro->setRteTagSet("mini");
         }
+        $intro->usePurifier(true);
+        $intro->setPurifier(new \ilSvyStandardPurifier());
+
         $form->addItem($intro);
 
         return $form;
@@ -452,6 +457,8 @@ class SettingsFormGUI
             $finalstatement->setUseRte(true);
             $finalstatement->setRteTagSet("mini");
         }
+        $finalstatement->usePurifier(true);
+        $finalstatement->setPurifier(new \ilSvyStandardPurifier());
         $form->addItem($finalstatement);
 
         // mail notification
@@ -885,14 +892,10 @@ class SettingsFormGUI
         } else {
             $survey->setEndDate("");
         }
-        $tags = ilObjAdvancedEditing::_getUsedHTMLTags("survey");
-        $purifier = new HTMLPurifier($tags);
+        $introduction = $this->purifier->purify($form->getInput('introduction'));
 
-        $introduction = $form->getInput("introduction");
-        $introduction = $purifier->purify($introduction);
         $survey->setIntroduction($introduction);
-        $outro = $form->getInput("outro");
-        $outro = $purifier->purify($outro);
+        $outro = $this->purifier->purify($form->getInput('outro'));
         $survey->setOutro($outro);
         $survey->setShowQuestionTitles((bool) $form->getInput("show_question_titles"));
 

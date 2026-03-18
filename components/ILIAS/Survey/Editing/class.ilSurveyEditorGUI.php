@@ -48,6 +48,7 @@ class ilSurveyEditorGUI
     protected ilObjSurveyGUI $parent_gui;
     protected ilObjSurvey $object;
     protected array $print_options;
+    protected \ilHtmlPurifierInterface $purifier;
 
     public function __construct(ilObjSurveyGUI $a_parent_gui)
     {
@@ -72,6 +73,7 @@ class ilSurveyEditorGUI
         $this->tpl = $tpl;
 
         $this->ctrl->saveParameter($this, array("pgov", "pgov_pos"));
+        $this->purifier = new ilSvyStandardPurifier();
 
         $this->print_options = array(
             //0 => $this->lng->txt('none'),
@@ -962,6 +964,8 @@ class ilSurveyEditorGUI
         $heading->setRows(10);
         $heading->setCols(80);
         $heading->setRequired(true);
+        $heading->usePurifier(true);
+        $heading->setPurifier($this->purifier);
         $form->addItem($heading);
 
         $insertbefore = new ilSelectInputGUI($this->lng->txt("insert"), "insertbefore");
@@ -1027,12 +1031,7 @@ class ilSurveyEditorGUI
 
         $form = $this->initHeadingForm($q_id);
         if ($form->checkInput()) {
-            $tags = ilObjAdvancedEditing::_getUsedHTMLTags("survey");
-            $purifier = new HTMLPurifier($tags);
-            $heading = $form->getInput("heading");
-
-            $heading = $purifier->purify($heading);
-
+            $heading = $this->purifier->purify($form->getInput("heading"));
             $this->object->saveHeading($heading, $form->getInput("insertbefore"));
             $this->ctrl->redirect($this, "questions");
         }
