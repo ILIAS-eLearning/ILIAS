@@ -228,7 +228,7 @@ class ilSurveyEditorGUI
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
             $types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
             $types->setOptions($qtypes);
-            $ilToolbar->addStickyItem($types, "");
+            $ilToolbar->addStickyItem($types, false);
 
             $this->gui->button(
                 $this->lng->txt("svy_create_question"),
@@ -422,7 +422,7 @@ class ilSurveyEditorGUI
                     }
                 }
                 if (!$insert_id && preg_match("/^cb_qb_(\d+)$/", $target, $matches)) {
-                    $ids = $this->object->getQuestionblockQuestionIds($matches[1]);
+                    $ids = $this->object->getQuestionblockQuestionIds((int) $matches[1]);
                     if (count($ids)) {
                         if ($insert_mode === 0) {
                             $insert_id = $ids[0];
@@ -695,7 +695,7 @@ class ilSurveyEditorGUI
     {
         $ilUser = $this->user;
 
-        $ilUser->writePref('svy_insert_type', $this->request->getDataType());
+        $ilUser->writePref('svy_insert_type', (string) $this->request->getDataType());
 
         switch ($this->request->getDataType()) {
             case 2:
@@ -897,7 +897,7 @@ class ilSurveyEditorGUI
         if ($a_question_ids) {
             foreach ($a_question_ids as $q_id) {
                 $hidden = new ilHiddenInputGUI("qids[]");
-                $hidden->setValue($q_id);
+                $hidden->setValue((string) $q_id);
                 $form->addItem($hidden);
             }
         }
@@ -919,9 +919,9 @@ class ilSurveyEditorGUI
         $form = $this->initQuestionblockForm($block_id);
         if ($form->checkInput()) {
             $title = $form->getInput("title");
-            $show_questiontext = $form->getInput("show_questiontext");
-            $show_blocktitle = $form->getInput("show_blocktitle") ;
-            $compress_view = $form->getInput("compress_view") ;
+            $show_questiontext = (bool) $form->getInput("show_questiontext");
+            $show_blocktitle = (bool) $form->getInput("show_blocktitle");
+            $compress_view = (bool) $form->getInput("compress_view");
             if ($block_id) {
                 $this->object->modifyQuestionblock(
                     $block_id,
@@ -1034,7 +1034,10 @@ class ilSurveyEditorGUI
         $form = $this->initHeadingForm($q_id);
         if ($form->checkInput()) {
             $heading = $this->purifier->purify($form->getInput("heading"));
-            $this->object->saveHeading($heading, $form->getInput("insertbefore"));
+            $this->object->saveHeading(
+                $heading,
+                (int) $form->getInput("insertbefore")
+            );
             $this->ctrl->redirect($this, "questions");
         }
 
