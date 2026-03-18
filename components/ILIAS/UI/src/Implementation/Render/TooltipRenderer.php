@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Render;
 
@@ -63,7 +63,7 @@ class TooltipRenderer
 
         $get_template = $this->get_template;
         $embed_html = static function (string $tooltip_id, string $component_html) use ($tooltips, $get_template): string {
-            $tpl = $get_template("components/ILIAS/UI/src/templates/default/tpl.tooltip.html", true, true);
+            $tpl = $get_template("components/ILIAS/UI/templates/default/tpl.tooltip.html", true, true);
             $tpl->setVariable("ELEMENT", $component_html);
             $tpl->setVariable("TOOLTIP_ID", $tooltip_id);
 

@@ -134,7 +134,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer, HelpTextR
     protected function getTemplatePath(string $name): string
     {
         $component = $this->getMyComponent();
-        return "components/ILIAS/UI/src/templates/default/$component/$name";
+        return "components/ILIAS/UI/templates/default/$component/$name";
     }
 
     /**
