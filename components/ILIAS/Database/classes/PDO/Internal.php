@@ -17,32 +17,14 @@
  *********************************************************************/
 
 declare(strict_types=1);
-/**
- * Class ilDBPdoMySQLInnoDB
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
-class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL
+
+namespace ILIAS\Database\PDO;
+
+use ilDBInterface;
+use ilDBPdoInterface;
+
+interface Internal extends ilDBInterface, ilDBPdoInterface
 {
-    protected string $storage_engine = 'InnoDB';
-
-    #[\Override]
-    public function supportsFulltext(): bool
-    {
-        return false;
-    }
-
-
-    #[\Override]
-    public function supportsTransactions(): bool
-    {
-        return false;
-    }
-
-
-    #[\Override]
-    public function addFulltextIndex(string $table_name, array $fields, string $name = 'in'): bool
-    {
-        return false; // NOT SUPPORTED
-    }
+    public function getFieldDefinition(): ?\ilDBPdoFieldDefinition;
+    public function getIndexName(string $index_name_base): string;
 }

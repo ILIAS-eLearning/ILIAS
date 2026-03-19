@@ -17,12 +17,14 @@
  *********************************************************************/
 
 declare(strict_types=1);
-/**
- * Class ilDBPdoMySQLInnoDB
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
-class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB
+
+namespace ILIAS\Database\PDO;
+
+use ilAtomQuery;
+use ilAtomQueryTransaction;
+use ilDBInterface;
+
+class GaleraDetails implements Details
 {
     #[\Override]
     public function supportsTransactions(): bool
@@ -31,8 +33,8 @@ class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB
     }
 
     #[\Override]
-    public function buildAtomQuery(): ilAtomQuery
+    public function atomQuery(ilDBInterface $db): ilAtomQuery
     {
-        return new ilAtomQueryTransaction($this);
+        return new ilAtomQueryTransaction($db);
     }
 }

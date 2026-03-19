@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Database\PDO\Internal;
+
 /**
  * Class ilDBPdoReverse
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -26,10 +28,7 @@ class ilDBPdoReverse implements ilDBReverse
 {
     protected ?\ilMySQLQueryUtils $query_utils = null;
 
-    /**
-     * ilDBPdoReverse constructor.
-     */
-    public function __construct(protected \PDO $pdo, protected \ilDBPdo $db_instance)
+    public function __construct(protected \PDO $pdo, protected Internal $db_instance)
     {
     }
 

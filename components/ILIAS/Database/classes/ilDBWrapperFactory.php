@@ -17,6 +17,10 @@
  *********************************************************************/
 
 declare(strict_types=1);
+
+use ILIAS\Database\PDO\InnoDBDetails;
+use ILIAS\Database\PDO\GaleraDetails;
+
 /**
  * Class ilDBWrapperFactory
  *
@@ -38,11 +42,11 @@ class ilDBWrapperFactory
      */
     public static function getWrapper(string $a_type): \ilDBPdoInterface
     {
-        $ilDB = match ($a_type) {
-            'pdo-mysql-innodb', ilDBConstants::TYPE_INNODB => new ilDBPdoMySQLInnoDB(),
-            ilDBConstants::TYPE_GALERA => new ilDBPdoMySQLGalera(),
+        $ilDB = new ilDBPdo(match ($a_type) {
+            'pdo-mysql-innodb', ilDBConstants::TYPE_INNODB => new InnoDBDetails(),
+            ilDBConstants::TYPE_GALERA => new GaleraDetails(),
             default => throw new ilDatabaseException("No viable database-type given: " . var_export($a_type, true)),
-        };
+        });
 
         return $ilDB;
     }

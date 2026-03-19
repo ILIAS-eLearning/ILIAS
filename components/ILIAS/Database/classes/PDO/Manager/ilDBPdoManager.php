@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Database\PDO\FieldDefinition\ForeignKeyConstraints;
+use ILIAS\Database\PDO\Internal;
 
 /**
  * Class ilDBPdoManager
@@ -28,10 +29,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 {
     protected ?\ilQueryUtils $query_utils = null;
 
-    /**
-     * ilDBPdoManager constructor.
-     */
-    public function __construct(protected \PDO $pdo, protected \ilDBPdo $db_instance)
+    public function __construct(protected \PDO $pdo, protected Internal $db_instance)
     {
     }
 
@@ -44,7 +42,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return $this->query_utils;
     }
 
-    public function getDBInstance(): \ilDBPdo
+    public function getDBInstance(): Internal
     {
         return $this->db_instance;
     }
