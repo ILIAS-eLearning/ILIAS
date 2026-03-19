@@ -293,7 +293,7 @@ class ilSurveyEditorGUI
     ): array {
         $block_map = array();
         foreach ($this->object->getSurveyQuestions() as $item) {
-            $block_map[$item["question_id"]] = $item["questionblock_id"];
+            $block_map[(int) $item["question_id"]] = (int) $item["questionblock_id"];
         }
 
         $questions = $blocks = $headings = array();
@@ -304,16 +304,16 @@ class ilSurveyEditorGUI
                 if ($allow_questions && preg_match("/cb_(\d+)/", $key, $matches)) {
                     if (($allow_questions_in_blocks || !$block_map[$matches[1]]) &&
                         !in_array($block_map[$matches[1]], $blocks)) {
-                        $questions[] = $matches[1];
+                        $questions[] = (int) $matches[1];
                     }
                 }
                 // blocks
                 if ($allow_blocks && preg_match("/cb_qb_(\d+)/", $key, $matches)) {
-                    $blocks[] = $matches[1];
+                    $blocks[] = (int) $matches[1];
                 }
                 // headings
                 if ($allow_headings && preg_match("/cb_tb_(\d+)/", $key, $matches)) {
-                    $headings[] = $matches[1];
+                    $headings[] = (int) $matches[1];
                 }
             }
         }
@@ -374,7 +374,7 @@ class ilSurveyEditorGUI
 
         $move_questions = $items["questions"];
         foreach ($items["blocks"] as $block_id) {
-            foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid) {
+            foreach ($this->object->getQuestionblockQuestionIds((int) ($block_id)) as $qid) {
                 $move_questions[] = $qid;
             }
         }
@@ -479,7 +479,7 @@ class ilSurveyEditorGUI
 
                 $cgui->addItem(
                     "q_id[]",
-                    $data["question_id"],
+                    (string) $data["question_id"],
                     $type . ": " . $data["title"]
                 );
             } elseif ((in_array($data["questionblock_id"], $checked_questionblocks))) {
@@ -487,13 +487,13 @@ class ilSurveyEditorGUI
 
                 $cgui->addItem(
                     "cb[" . $data["questionblock_id"] . "]",
-                    $data["questionblock_id"],
+                    (string) $data["questionblock_id"],
                     $data["questionblock_title"] . " - " . $type . ": " . $data["title"]
                 );
             } elseif (in_array($data["question_id"], $checked_headings)) {
                 $cgui->addItem(
                     "heading[" . $data["question_id"] . "]",
-                    $data["question_id"],
+                    (string) $data["question_id"],
                     $data["heading"]
                 );
             }
@@ -528,7 +528,7 @@ class ilSurveyEditorGUI
         // gather questions from blocks
         $copy_questions = $items["questions"];
         foreach ($items["blocks"] as $block_id) {
-            foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid) {
+            foreach ($this->object->getQuestionblockQuestionIds((int) $block_id) as $qid) {
                 $copy_questions[] = $qid;
             }
         }
@@ -537,7 +537,7 @@ class ilSurveyEditorGUI
         // only if not already in pool
         if (count($copy_questions)) {
             foreach ($copy_questions as $idx => $question_id) {
-                $question = ilObjSurvey::_instanciateQuestion($question_id);
+                $question = ilObjSurvey::_instanciateQuestion((int) $question_id);
                 if ($question->getOriginalId()) {
                     unset($copy_questions[$idx]);
                 }
