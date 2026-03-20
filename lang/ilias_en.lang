@@ -5090,7 +5090,6 @@ common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_skmg#:#Competence Management
 common#:#obj_skmg_desc#:#Manage competences and competence categories.
 common#:#obj_spl#:#Question Pool for Surveys
-common#:#obj_spl_select#:#-- Please select one question pool survey --
 common#:#obj_st#:#Chapter
 common#:#obj_stus#:#Shortlinks
 common#:#obj_stus_desc#:#Global Shortlinks Settings
@@ -16524,7 +16523,6 @@ survey#:#default_codes_mail_subject#:#Your access code for %s
 survey#:#define_questionblock#:#Combine Into Question Block
 survey#:#delete_saved_message#:#Delete Text Template
 survey#:#display_all_available#:#Display All Available
-survey#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this survey)
 survey#:#duplicate#:#Duplicate
 survey#:#edit_heading#:#Edit Heading
 survey#:#end_date#:#End Date
@@ -16705,8 +16703,6 @@ survey#:#search_groups#:#Found Groups
 survey#:#search_term#:#Search Term
 survey#:#select_option#:#––– Please select an option –––
 survey#:#select_prior_question#:#Select a preceding question
-survey#:#select_questionpool#:#Please select a question pool to store the created question
-survey#:#select_questionpool_short#:#Question Pool Survey
 survey#:#select_relation#:#Select a relation
 survey#:#select_target_position_for_move_question#:#Please select where you would like to move your question to within the list. To do so, select the appropriate checkbox to the left of a question and either ‘Insert Before’ or ‘Insert After’.
 survey#:#select_value#:#Enter a value
@@ -16723,7 +16719,6 @@ survey#:#spl_move_insert_clipboard#:#The selected question(s) have been added to
 survey#:#spl_move_same_pool#:#You cannot move questions within the same question pool. To move your question(s), please navigate to a different question pool and click on ‘Paste’ there.
 survey#:#spl_move_select_none#:#Please select at least one question that you would like to move.
 survey#:#spl_online_property#:#Online
-survey#:#spl_online_property_description#:#If the question pool is not online, it cannot be used in surveys.
 survey#:#spl_paste_no_objects#:#There are no questions on the clipboard. Please copy or move a question onto the clipboard in order to be able to paste it here.
 survey#:#spl_paste_success#:#Question(s) successfully pasted into question pool.
 survey#:#spl_save_obligatory_state#:#Save ‘Compulsory’
@@ -16741,7 +16736,6 @@ survey#:#survey_360_appraisee_close_action_status#:#Survey closed on %s.
 survey#:#survey_360_appraisee_close_action_success#:#You have closed your 360° survey for your raters.
 survey#:#survey_360_appraisee_close_action_success_admin#:#Selected 360° survey(s) closed to raters.
 survey#:#survey_360_appraisee_close_table#:#Closed On
-survey#:#survey_360_appraisee_info#:#Appraisee Info
 survey#:#survey_360_appraisee_is_closed#:#This survey has been closed by the appraisee.
 survey#:#survey_360_appraisees#:#Appraisees
 survey#:#survey_360_edit_raters#:#Manage Raters
@@ -16758,7 +16752,6 @@ survey#:#survey_360_rater_message_content_registered_default#:#You can start the
 survey#:#survey_360_rater_subject_default#:#You have been invited as rater to a 360° survey.
 survey#:#survey_360_raters#:#Raters
 survey#:#survey_360_raters_finished#:#Raters Finished
-survey#:#survey_360_raters_status_info#:#Raters finished
 survey#:#survey_360_remove_appraisees#:#Remove Appraisee(s)
 survey#:#survey_360_results#:#Access to Results for Appraisees
 survey#:#survey_360_results_all#:#All feedback
@@ -16810,7 +16803,6 @@ survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplet
 survey#:#survey_execution_exit#:#Back to Repository
 survey#:#survey_execution_exit_360#:#Back
 survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers after doing so.
-survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#Finish Survey
 survey#:#survey_finished#:#You have finished the survey. Thank you for your participation!
 survey#:#survey_has_datasets_warning#:#This survey already contains data sets. You cannot sync the survey questions until you remove these data sets via the survey’s ‘Participants’ or ‘Appraises’ tab. To do this you will need to remove any participants that have started the survey and by doing so, generated a data set.
@@ -16818,9 +16810,7 @@ survey#:#survey_has_datasets_warning_page_view#:#This survey already contains da
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
 survey#:#survey_introduction_info#:#This message is permanently displayed in the survey’s ‘Info’ tab.
 survey#:#survey_is_offline#:#You cannot start the survey as it is currently offline.
-survey#:#survey_new_pool#:#Create new question pool
 survey#:#survey_next#:#Next →
-survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_not_available#:#n/a
 survey#:#survey_notification_finished_introduction#:#A participant has finished the following survey:
 survey#:#survey_notification_finished_reason#:#You have received this e-mail because you activated notifications for the survey mentioned above.
@@ -16837,17 +16827,11 @@ survey#:#survey_notification_tutor_salutation#:#Hello %s,
 survey#:#survey_notification_tutor_setting#:#One E-Mail When All Participants Finish
 survey#:#survey_notification_tutor_subject#:#All participants have finished the survey "%s"
 survey#:#survey_order#:#Order
-survey#:#survey_pool_selection#:#Pool Selection
 survey#:#survey_previous#:#← Previous
 survey#:#survey_question_editor#:#List View
 survey#:#survey_question_obligatory#:#This question is compulsory. It must be answered!
 survey#:#survey_question_pool#:#Question Pool
 survey#:#survey_question_pool_title#:#Pool Title
-survey#:#survey_question_pool_usage#:#Use Question Pool
-survey#:#survey_question_pool_usage_active#:#Questions created in survey or re-used from pool
-survey#:#survey_question_pool_usage_active_info#:#Questions can be created directly in the survey or be added to the survey from a question pool.
-survey#:#survey_question_pool_usage_inactive#:#Create questions in survey only
-survey#:#survey_question_pool_usage_inactive_info#:#All questions have to be created directly in the survey. A re-use of existing questions from a pool is not possible.
 survey#:#survey_question_title#:#Question Title
 survey#:#survey_questions#:#Questions
 survey#:#survey_questions_to_clipboard_copy#:#Question(s) copied to the clipboard. Please select a target or empty the clipboard.
@@ -16961,7 +16945,6 @@ survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
 survey#:#svy_mail_context_reminder_info#:#Remind users to participate in survey.
 survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
 survey#:#svy_mail_context_reminder_title#:#Survey: Survey Reminder
-survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_body#:#This is to confirm that you have participated in the following survey:
 survey#:#svy_mail_own_results_subject#:#Survey ‘%s’ - Your Participation Confirmation and Answers
 survey#:#svy_mail_send_confirmation#:#Send Participation Confirmation
@@ -16973,7 +16956,6 @@ survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
 survey#:#svy_only_max_one_external_rater#:#Please select only one external rater.
-survey#:#svy_page_add_question#:#Add new %s
 survey#:#svy_page_error#:#An error occurred while answering a question. Please refer to the question for more information regarding the error.
 survey#:#svy_page_errors#:#Errors occurred with the answers to multiple survey questions. Please refer to the questions to get more information regarding the errors!
 survey#:#svy_participant#:#Participant
@@ -16993,8 +16975,6 @@ survey#:#svy_results_mail_confirm#:#Confirmation of Participation
 survey#:#svy_results_mail_confirm_info#:#Enable participants to request a mail confirming their participation in the survey upon completion.
 survey#:#svy_results_mail_own#:#Include Given Answers
 survey#:#svy_results_mail_own_info#:#The answers given by the participant will be included in their participation confirmation mail.
-survey#:#svy_results_view_own#:#Participants can View Own Answers
-survey#:#svy_results_view_own_info#:#After finishing the survey, participants can view a list of all answers they provided. They cannot change their answers
 survey#:#svy_save_and_continue#:#Save and Continue
 survey#:#svy_save_sync#:#Save and Sync Question Copies
 survey#:#svy_search_user#:#Look Up User
