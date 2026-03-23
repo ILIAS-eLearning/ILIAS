@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-use ILIAS\Services\Database\PDO\FieldDefinition\ForeignKeyConstraints;
+use ILIAS\components\Database\PDO\FieldDefinition\ForeignKeyConstraints;
 
 /**
  * Class ilDBPdoManager
