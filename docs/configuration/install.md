@@ -560,13 +560,15 @@ rm -rf /tmp/ilias_update
 ```
 </details>
 After upgrading the code from ILIAS 9 to ILIAS 10 due to structural changes, you need to move the `/Customizing/global/plugins`
-and `/data` folder to its new destination. Both are now located in the newly created `public` folder. If this `public` folder does not exist yet you 
+and `/data` folder to its new destination (please beware that custom skins moved to `public/Customizing/skin`). 
+Both are now located in the newly created `public` folder. If this `public` folder does not exist yet you 
 will have to execute the npm and composer command first: 
 
 ```shell
 cd /var/www/ilias
 sudo -u www-data npm clean-install --omit=dev --ignore-scripts
 sudo -u www-data composer install --no-dev
+sudo -u www-data mkdir -p public/Customizing/global/plugins
 mv data/* public/data/
 mv Customizing/global/plugins/* public/Customizing/global/plugins/
 ```
@@ -615,6 +617,8 @@ As soon as all migrations are done you can do the database update:
 
 ```shell
 cd /var/www/ilias
+sudo -u www-data npm clean-install --omit=dev --ignore-scripts
+sudo -u www-data composer install --no-dev
 sudo -u www-data php cli/setup.php update
 ```
 
