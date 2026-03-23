@@ -567,7 +567,6 @@ will have to execute the npm and composer command first:
 cd /var/www/ilias
 sudo -u www-data npm clean-install --omit=dev --ignore-scripts
 sudo -u www-data composer install --no-dev
-sudo -uwww-data mkdir -p public/Customizing/global/plugins
 mv data/* public/data/
 mv Customizing/global/plugins/* public/Customizing/global/plugins/
 ```
