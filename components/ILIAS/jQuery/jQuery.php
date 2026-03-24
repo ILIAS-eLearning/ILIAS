@@ -42,9 +42,7 @@ class jQuery implements Component\Component
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("jquery-ui-dist/jquery-ui.js");
         */
-        /* This library was missing after discussing dependencies for ILIAS 10
         $contribute[Component\Resource\PublicAsset::class] = fn() =>
             new Component\Resource\NodeModule("maphilight/jquery.maphilight.min.js");
-        */
     }
 }

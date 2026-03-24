@@ -197,7 +197,7 @@ il.COPagePres = {
 
   // init map areas
   initMapAreas() {
-    // $('img[usemap^="#map_il_"][class!="ilIim"]').maphilight({ neverOn: true });
+    $('img[usemap^="#map_il_"][class!="ilIim"]').maphilight({ neverOn: true });
   },
 
   /// /
