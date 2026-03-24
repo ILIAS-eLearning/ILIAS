@@ -559,8 +559,8 @@ sudo -u www-data rsync -av --exclude='/public/' --exclude='/Customizing/' --excl
 rm -rf /tmp/ilias_update
 ```
 </details>
-After upgrading the code from ILIAS 9 to ILIAS 10 due to structural changes, you need to move the `/Customizing/global/plugins`
-and `/data` folder to its new destination (please beware that custom skins moved to `public/Customizing/skin`). 
+After upgrading the code from ILIAS 9 to ILIAS 10 due to structural changes, you need to move the `/Customizing`
+and `/data` folder to its new destination (please beware that custom skins moved to `public/Customizing/skin`. Please handle them separately). 
 Both are now located in the newly created `public` folder. If this `public` folder does not exist yet you 
 will have to execute the npm and composer command first: 
 
@@ -568,8 +568,8 @@ will have to execute the npm and composer command first:
 cd /var/www/ilias
 sudo -u www-data npm clean-install --omit=dev --ignore-scripts
 sudo -u www-data composer install --no-dev
-mv data/* public/data/
-mv Customizing/global/plugins/* public/Customizing/global/plugins/
+mv data public/
+mv Customizing public/
 ```
 
 Then update the code of your plugins according to their documentation to ensure they are compatible with the new ILIAS version.
