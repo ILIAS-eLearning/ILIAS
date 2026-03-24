@@ -2407,16 +2407,18 @@ class ilObjectListGUI
 
                 if (is_array($attr)) {
                     if (isset($attr['glyph']) && $attr['glyph']) {
-                        if ($attr['onclick']) {
-                            $htpl->setCurrentBlock('prop_glyph_oc');
-                            $htpl->setVariable('GLYPH_ONCLICK', $attr['onclick']);
-                            $htpl->parseCurrentBlock();
-                        }
                         $renderer = $this->ui->renderer();
                         $html = $renderer->render($attr['glyph']);
-                        $htpl->setCurrentBlock('prop_glyph');
-                        $htpl->setVariable('GLYPH', $html);
-                        $htpl->parseCurrentBlock();
+                        if ($attr['onclick']) {
+                            $htpl->setCurrentBlock('prop_glyph_btn');
+                            $htpl->setVariable('GLYPH_ONCLICK', $attr['onclick']);
+                            $htpl->setVariable('GLYPH', $html);
+                            $htpl->parseCurrentBlock();
+                        } else {
+                            $htpl->setCurrentBlock('prop_glyph');
+                            $htpl->setVariable('GLYPH', $html);
+                            $htpl->parseCurrentBlock();
+                        }
                     } else {
                         if ($attr['onclick']) {
                             $htpl->setCurrentBlock('onclick');
