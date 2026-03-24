@@ -47,7 +47,9 @@ class ReaderTest extends TestCase
 
     public function setUp(): void
     {
-        $this->reader = new D\Reader();
+        $this->reader = new D\Reader(
+            new D\Mocks\EvalLightMockBuilder()
+        );
     }
 
     public function testNullComponent(): void
