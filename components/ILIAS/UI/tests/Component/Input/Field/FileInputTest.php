@@ -71,6 +71,19 @@ class FileInputTest extends ILIAS_UI_TestBase
         return parent::brutallyTrimHTML($html);
     }
 
+    private function getCloseButtonHtml(string $id): string
+    {
+        $html = $this->brutallyTrimHTML(
+            $this->getDefaultRenderer()->render(
+                $this->getUIFactory()->button()->shy('', '#')
+                    ->withSymbol($this->getUIFactory()->symbol()->glyph()->close())
+                    ->withAriaLabel('close')
+            )
+        );
+
+        return str_replace('id="id_1"', 'id="' . $id . '"', $html);
+    }
+
     private function getUploadHandler(?FileInfoResult $file = null): Field\UploadHandler
     {
         return new class ($file) implements Field\UploadHandler {
@@ -146,20 +159,19 @@ class FileInputTest extends ILIAS_UI_TestBase
         $label = "label";
         $byline = "byline";
         $file_input = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source);
+        $close_button = $this->getCloseButtonHtml('id_1');
 
         $expected = $this->getFormWrappedHtml(
             'file-field-input',
             $label,
-            '
+            <<<HTML
             <div class="ui-input-file">
                 <div class="ui-input-file-input-list">
                     <template>
                         <div class="ui-input-file-input">
                             <div class="ui-input-file-info"><span data-action="expand"></span><span
-                                    data-action="collapse"></span><span data-dz-name></span><span data-dz-size></span><span
-                                    data-action="remove"><button class="btn btn-link" aria-label="close" data-action="#" id="id_1"><span
-                                            class="glyph" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
-                                        </button></span><span
+                                       data-action="collapse"></span><span data-dz-name></span><span data-dz-size></span><span
+                                    data-action="remove">{$close_button}</span><span
                                     class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;"><input id="id_2" type="hidden"
                                     name="name_0[input_0][]" value="" /></div>
@@ -175,7 +187,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
-            ',
+            HTML,
             $byline,
             null,
             'id_4'
@@ -211,11 +223,13 @@ class FileInputTest extends ILIAS_UI_TestBase
         )->withValue([
             $test_file_id,
         ])->withNameFrom($this->name_source);
+        $close_button = $this->getCloseButtonHtml('id_1');
+        $close_button_template = $this->getCloseButtonHtml('id_3');
 
         $expected = $this->getFormWrappedHtml(
             'file-field-input',
             '',
-            '
+            <<<HTML
             <div class="ui-input-file">
                 <div class="ui-input-file-input-list">
                     <div class="ui-input-file-input">
@@ -225,9 +239,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             <span data-dz-name>test file name 1</span>
                             <span data-dz-size>1 KB</span>
                             <span data-action="remove">
-                                <button class="btn btn-link" aria-label="close" data-action="#" id="id_1">
-                                    <span class="glyph" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
-                                </button>
+                                {$close_button}
                             </span>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                         </div>
@@ -242,9 +254,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input">
                             <div class="ui-input-file-info"><span data-action="expand"></span><span
                                     data-action="collapse"></span><span data-dz-name></span><span data-dz-size></span><span
-                                    data-action="remove"><button class="btn btn-link" aria-label="close" data-action="#" id="id_3"><span
-                                            class="glyph" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
-                                        </button></span><span
+                                    data-action="remove">{$close_button_template}</span><span
                                     class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;"><input id="id_4" type="hidden"
                                     name="name_0[input_0][]" value="" /></div>
@@ -260,7 +270,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
-            ',
+            HTML,
             null,
             null,
             'id_6'
@@ -285,11 +295,13 @@ class FileInputTest extends ILIAS_UI_TestBase
                 ""
             ]
         ])->withNameFrom($this->name_source);
+        $close_button = $this->getCloseButtonHtml('id_1');
+        $close_button_template = $this->getCloseButtonHtml('id_4');
 
         $expected = $this->getFormWrappedHtml(
             'file-field-input',
             $label,
-            '
+            <<<HTML
             <div class="ui-input-file">
                 <div class="ui-input-file-input-list">
                     <div class="ui-input-file-input">
@@ -307,9 +319,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             <span data-dz-name></span>
                             <span data-dz-size></span>
                             <span data-action="remove">
-                                <button class="btn btn-link" aria-label="close" data-action="#" id="id_1">
-                                    <span class="glyph" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
-                                </button>
+                                {$close_button}
                             </span>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                         </div>
@@ -335,8 +345,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                                         tabindex="0" class="glyph" href="#" aria-label="collapse_content"><span
                                             class="glyphicon glyphicon-triangle-bottom"
                                             aria-hidden="true"></span></a></span><span data-dz-name></span><span
-                                    data-dz-size></span><span data-action="remove"><button class="btn btn-link" aria-label="close" data-action="#" id="id_4"><span class="glyph" role="img"><span class="glyphicon glyphicon-remove"
-                                            aria-hidden="true"></span></span></button></span><span class="ui-input-file-input-error-msg"
+                                    data-dz-size></span><span data-action="remove">{$close_button_template}</span><span class="ui-input-file-input-error-msg"
                                     data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;">
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
@@ -357,7 +366,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
-            ',
+            HTML,
             null,
             null,
             'id_8',
@@ -390,12 +399,14 @@ class FileInputTest extends ILIAS_UI_TestBase
                 "test",
             ]
         ])->withNameFrom($this->name_source);
+        $close_button = $this->getCloseButtonHtml('id_1');
+        $close_button_template = $this->getCloseButtonHtml('id_4');
 
 
         $expected = $this->getFormWrappedHtml(
             'file-field-input',
             $label,
-            '
+            <<<HTML
             <div class="ui-input-file">
                 <div class="ui-input-file-input-list">
                     <div class="ui-input-file-input">
@@ -413,9 +424,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             <span data-dz-name>test file name 1</span>
                             <span data-dz-size>1 MB</span>
                             <span data-action="remove">
-                                <button class="btn btn-link" aria-label="close" data-action="#" id="id_1">
-                                    <span class="glyph" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
-                                </button>
+                                {$close_button}
                             </span>
                             <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                         </div>
@@ -447,10 +456,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             </span>
                             <span data-dz-name></span>
                             <span data-dz-size></span>
-                            <span
-                                    data-action="remove"><button class="btn btn-link" aria-label="close" data-action="#" id="id_4"><span
-                                            class="glyph" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
-                                        </button></span><span
+                            <span data-action="remove">{$close_button_template}</span><span
                                     class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
                             <div class="ui-input-file-metadata" style="display: none;">
                                 <fieldset class="c-input" data-il-ui-component="text-field-input"
@@ -471,7 +477,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                 </div>
                 <div class="help-block"> file_notice 0 B | ui_file_upload_max_nr 1</div>
             </div>
-            ',
+            HTML,
             null,
             null,
             'id_8'
