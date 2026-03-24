@@ -56,7 +56,7 @@ class ilCtrl implements ilCtrlInterface
         protected Refinery $refinery,
         protected ilComponentFactory $component_factory,
         protected ilCtrlSubject $subject,
-        protected  ilCtrlQueryParserInterface $query_parser,
+        protected ilCtrlQueryParserInterface $query_parser,
     ) {
     }
 
