@@ -180,7 +180,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ID", $id_for_label);
             $tpl->parseCurrentBlock();
         } else {
+            $label_id = $this->createId();
+            $tpl->setCurrentBlock('label_id');
+            $tpl->setVariable("LABEL_ID", $label_id);
+            $tpl->parseCurrentBlock();
+
             $tpl->touchBlock('tabindex');
+            $tpl->setCurrentBlock('fieldset_labelledby');
+            $tpl->setVariable("FIELDSET_LABEL_ID", $label_id);
+            $tpl->parseCurrentBlock();
         }
 
         $described_by_ids = [];
@@ -229,6 +237,10 @@ class Renderer extends AbstractComponentRenderer
                 $described_by_value = implode(' ', $described_by_ids);
                 $input_html = $this->addAriaDescribedByToInput($input_html, $input_id, $described_by_value);
                 $tpl->setVariable("INPUT", $input_html);
+
+                $tpl->setCurrentBlock('fieldset_describedby');
+                $tpl->setVariable("FIELDSET_DESCRIBED_BY", $described_by_value);
+                $tpl->parseCurrentBlock();
                 
                 $tpl->setCurrentBlock('for');
                 $tpl->setVariable("ID", $input_id);
