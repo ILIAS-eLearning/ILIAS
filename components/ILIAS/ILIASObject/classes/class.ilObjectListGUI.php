@@ -2294,6 +2294,22 @@ class ilObjectListGUI
         $this->header_icons[$id] = ['glyph' => $glyph, 'onclick' => $onclick];
     }
 
+    protected function getHeaderGlyphShyButton(
+        ILIAS\UI\Component\Symbol\Glyph\Glyph $glyph,
+        string $onclick_js
+    ): ILIAS\UI\Component\Button\Shy {
+        return $this->ui->factory()->button()
+            ->shy('', '')
+            ->withSymbol($glyph)
+            ->withAdditionalOnLoadCode(
+                static function (string $id) use ($onclick_js): string {
+                    return '$("#' . $id . '").on("click", function(event) {'
+                        . $onclick_js
+                        . ' return false; });';
+                }
+            );
+    }
+
     public function setAjaxHash(string $hash): void
     {
         $this->ajax_hash = $hash;
@@ -2408,17 +2424,18 @@ class ilObjectListGUI
                 if (is_array($attr)) {
                     if (isset($attr['glyph']) && $attr['glyph']) {
                         $renderer = $this->ui->renderer();
-                        $html = $renderer->render($attr['glyph']);
-                        if ($attr['onclick']) {
-                            $htpl->setCurrentBlock('prop_glyph_btn');
-                            $htpl->setVariable('GLYPH_ONCLICK', $attr['onclick']);
-                            $htpl->setVariable('GLYPH', $html);
-                            $htpl->parseCurrentBlock();
+                        if (!empty($attr['onclick'])) {
+                            $html = $renderer->render(
+                                $this->getHeaderGlyphShyButton($attr['glyph'], $attr['onclick'])
+                            );
                         } else {
-                            $htpl->setCurrentBlock('prop_glyph');
-                            $htpl->setVariable('GLYPH', $html);
-                            $htpl->parseCurrentBlock();
+                            $html = '<span class="prop">'
+                                . $renderer->render($attr['glyph'])
+                                . '</span>';
                         }
+                        $htpl->setCurrentBlock('prop_glyph');
+                        $htpl->setVariable('GLYPH', $html);
+                        $htpl->parseCurrentBlock();
                     } else {
                         if ($attr['onclick']) {
                             $htpl->setCurrentBlock('onclick');
