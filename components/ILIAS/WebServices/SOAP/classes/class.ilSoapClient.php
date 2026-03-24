@@ -106,20 +106,24 @@ class ilSoapClient
                 $this->uri = $this->settings->get('soap_wsdl_path', '');
             } else {
                 $request_path = ilUtil::_getHttpPath();
-                $i = 0;
+                $depth = 0;
                 if (PHP_SAPI !== 'cli') {
                     $script_path = dirname($_SERVER['SCRIPT_FILENAME']);
-                    while (!is_file($script_path . '/ilias.php') && $i < self::MAX_DIRECTORY_SEARCH_DEPTH) {
-                        $script_path = dirname($script_path);
-                        $i++;
+                    while ($depth < self::MAX_DIRECTORY_SEARCH_DEPTH && !is_file($script_path . '/ilias.php')) {
+                        $parent = dirname($script_path);
+                        if ($parent === $script_path) {
+                            break;
+                        }
+                        $script_path = $parent;
+                        $depth++;
                     }
                 }
 
-                if ($i > 0 && is_file($script_path . '/ilias.php')) {
+                if ($depth > 0 && is_file($script_path . '/ilias.php')) {
                     $url_parts = parse_url($request_path);
                     $path = $url_parts['path'] ?? '';
                     $path_parts = explode('/', rtrim($path, '/'));
-                    $path_parts = array_slice($path_parts, 0, count($path_parts) - $i);
+                    $path_parts = array_slice($path_parts, 0, -$depth);
                     $new_path = implode('/', $path_parts);
 
                     $request_path = $url_parts['scheme'] . '://' . $url_parts['host'];
@@ -129,7 +133,7 @@ class ilSoapClient
                     $request_path .= $new_path;
                 }
 
-                $this->uri = $request_path . '/soap/server.php?wsdl';
+                $this->uri = rtrim($request_path, '/') . '/soap/server.php?wsdl';
             }
         }
         try {
