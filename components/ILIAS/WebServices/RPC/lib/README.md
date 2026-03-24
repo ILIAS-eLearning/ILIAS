@@ -48,12 +48,12 @@ Dependencies and the build process is managed via maven
 > cd components/ILIAS/WebServices/RPC/lib
 > mvn clean install
 ```
-To build/compile the jar file for older LTS release than v17, start the maven build process with the following parameters:
+To build/compile the jar file for other LTS releases than v21, start the maven build process with the following parameters:
 ```shell
-# java 11
-> mvn clean install -Dmaven.compiler.release=11
+# java 17
+> mvn clean install -Dmaven.compiler.release=17
 # java 21
-> mvn clean install -Dmaven.compiler.source=21 -Dmaven.compiler.target=21
+> mvn clean install -Dmaven.compiler.source=25 -Dmaven.compiler.target=25
 ```
 
 The newly generated ilServer.jar has been created in the target-directory.
