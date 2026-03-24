@@ -199,6 +199,7 @@ class FilterContextRenderer extends Renderer
 
         $prox = new ProxyFilterField();
         $prox = $prox->withOnClick($popover->getShowSignal());
+        $prox = $this->addTriggererOnLoadCode($prox);
         $tpl->touchBlock("tabindex");
 
         $this->bindJSandApplyId($prox, $tpl);
