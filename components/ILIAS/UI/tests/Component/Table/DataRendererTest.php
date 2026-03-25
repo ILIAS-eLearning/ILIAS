@@ -209,7 +209,7 @@ class DataRendererTest extends TableRendererTestBase
             <tr class="c-table-data__header c-table-data__row">
                 <th class="c-table-data__header c-table-data__cell c-table-data__cell--text" tabindex="-1" aria-colindex="1" aria-sort="ascending">
                     <div class="c-table-data__header__resize-wrapper">
-                        <button class="btn btn-link" id="id_2"><span class="glyph" aria-label="sort_ascending" role="img"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></span></button>
+                        <button class="btn btn-link" aria-label="sort_ascending" id="id_2"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></span></button>
                         <button class="btn btn-link" id="id_1">Field 1</button>
                     </div>
                 </th>

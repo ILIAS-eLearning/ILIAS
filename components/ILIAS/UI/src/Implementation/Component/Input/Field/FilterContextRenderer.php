@@ -143,7 +143,7 @@ class FilterContextRenderer extends Renderer
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
-        $remove_glyph = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->remove())
+        $remove_button = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->remove())
             ->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
@@ -173,7 +173,7 @@ class FilterContextRenderer extends Renderer
         }
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("addon_right");
-        $tpl->setVariable("DELETE", $default_renderer->render($remove_glyph));
+        $tpl->setVariable("DELETE", $default_renderer->render($remove_button));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();

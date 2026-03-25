@@ -58,7 +58,7 @@ class ModeInfoTest extends ILIAS_UI_TestBase
                 <div class="c-mode-info__label">$mode_title</div>
         
                 <div class="c-mode-info__close">
-                    <button class="btn btn-link" data-action="$uri_string" id="id_1"><span class="glyph" aria-label="close" role="img"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></button>
+                    <button class="btn btn-link" aria-label="close" data-action="$uri_string" id="id_1"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></button>
                 </div>
         
             </div>

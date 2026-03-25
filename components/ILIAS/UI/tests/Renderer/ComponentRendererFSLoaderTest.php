@@ -61,6 +61,16 @@ class ComponentRendererFSLoaderTest extends TestCase
             $help_text_retriever,
             $upload_limit_resolver,
         );
+        $button_renderer_factory = new I\Component\Button\ButtonRendererFactory(
+            $ui_factory,
+            $tpl_factory,
+            $lng,
+            $js_binding,
+            $image_path_resolver,
+            $data_factory,
+            $help_text_retriever,
+            $upload_limit_resolver,
+        );
         $this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
         $this->icon_renderer = $this->createMock(I\Render\RendererFactory::class);
         $messagebox_renderer = $this->createMock(I\Render\RendererFactory::class);
@@ -69,6 +79,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $field_renderer = $this->createMock(I\Render\RendererFactory::class);
         return new FSLoader(
             $default_renderer_factory,
+            $button_renderer_factory,
             $this->glyph_renderer,
             $this->icon_renderer,
             $field_renderer,

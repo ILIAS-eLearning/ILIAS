@@ -29,6 +29,7 @@ use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
+use ILIAS\UI\Implementation\Component\Button\ButtonRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
@@ -421,6 +422,16 @@ trait BaseUITestTrait
                 $resource_registry,
                 new Render\FSLoader(
                     new DefaultRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
+                    ),
+                    new ButtonRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,

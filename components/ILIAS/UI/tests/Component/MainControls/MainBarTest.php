@@ -274,7 +274,7 @@ class MainBarTest extends ILIAS_UI_TestBase
                     </li>
                     <li role="none">
                       <button class="btn btn-bulky" id="id_9" role="menuitem">
-                        <span class="glyph" role="img">
+                        <span class="glyph" aria-hidden="true">
                           <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
                         </span>
                         <span class="bulky-label">mainbar_more_label</span>
@@ -329,7 +329,7 @@ class MainBarTest extends ILIAS_UI_TestBase
                 </div>
                 <div class="il-mainbar-close-slates">
                   <button class="btn btn-bulky" id="id_15">
-                    <span class="glyph" role="img">
+                    <span class="glyph" aria-hidden="true">
                       <span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">close</span>

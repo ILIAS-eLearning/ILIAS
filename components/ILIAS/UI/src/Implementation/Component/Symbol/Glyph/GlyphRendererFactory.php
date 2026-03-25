@@ -27,22 +27,25 @@ use ILIAS\UI\Implementation\Render\ComponentRenderer;
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
     /**
-     * components which render glyphs inside an HTML <button> element (or equivalent),
-     * where only palpable content is allowed (no <a>).
-     * Any glyph rendered anywhere within these components' subtree will use the
-     * ButtonContextRenderer.
      * @see https://html.spec.whatwg.org/#palpable-content
      */
-    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR = [
-        'BranchNodeFieldInput',
-        'LeafNodeFieldInput',
-        'AsyncNodeFieldInput',
+    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR_IMMEDIATE_PARENT = [
         'StandardButton',
         'PrimaryButton',
         'BulkyButton',
         'ShyButton',
         'BulkyLink',
         'ShyLink',
+    ];
+
+    /**
+     * Field inputs where glyph controls may live deeper in the component tree but still
+     * render inside a <button>; keep ancestor matching for these.
+     */
+    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR_ANCESTOR = [
+        'BranchNodeFieldInput',
+        'LeafNodeFieldInput',
+        'AsyncNodeFieldInput',
         'MultiSelectFieldInput',
         'RadioFieldInput',
     ];
@@ -61,10 +64,7 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer
     {
-        if (
-            $this->isDirectContextMatch($contexts) ||
-            count(array_intersect(self::USE_BUTTON_CONTEXT_RENDERER_FOR, $contexts)) > 0
-        ) {
+        if ($this->shouldUseButtonContextRenderer($contexts)) {
             return new ButtonContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
@@ -86,6 +86,25 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
             $this->help_text_retriever,
             $this->upload_limit_resolver
         );
+    }
+
+    /**
+     * @param string[] $contexts canonical names (no spaces), outer-to-inner order
+     */
+    private function shouldUseButtonContextRenderer(array $contexts): bool
+    {
+        if ($this->isDirectContextMatch($contexts)) {
+            return true;
+        }
+        if (count(array_intersect(self::USE_BUTTON_CONTEXT_RENDERER_FOR_ANCESTOR, $contexts)) > 0) {
+            return true;
+        }
+        $count = count($contexts);
+        if ($count < 2) {
+            return false;
+        }
+        $immediate_parent = $contexts[$count - 2];
+        return in_array($immediate_parent, self::USE_BUTTON_CONTEXT_RENDERER_FOR_IMMEDIATE_PARENT, true);
     }
 
     /**

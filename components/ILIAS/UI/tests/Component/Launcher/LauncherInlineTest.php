@@ -218,7 +218,7 @@ class LauncherInlineTest extends ILIAS_UI_TestBase
     <div class="c-launcher__description">
         some description
     </div>
-    <button class="btn btn-bulky" id="id_5" disabled="disabled"><span class="glyph" role="img"><span class="glyphicon glyphicon-launch" aria-hidden="true"></span></span><span class="bulky-label">different label</span></button>
+    <button class="btn btn-bulky" id="id_5" disabled="disabled"><span class="glyph" aria-hidden="true"><span class="glyphicon glyphicon-launch" aria-hidden="true"></span></span><span class="bulky-label">different label</span></button>
     <div class="c-launcher__form">
         <dialog class="c-modal il-modal-roundtrip" tabindex="-1" id="id_1">
             <div class="modal-dialog" role="document" data-replace-marker="component">
