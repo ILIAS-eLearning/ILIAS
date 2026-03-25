@@ -73,6 +73,8 @@ interface Factory
      *          A Drilldown Menu MUST contain further Submenus or Buttons.
      *      2: >
      *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
+     *      3: >
+     *          Node filter should not be hidden using withoutFilter() purely by preference, there should be a valid reason to do so.
      *
      * ---
      * @param 	string $label
