@@ -10787,9 +10787,14 @@ itgr#:#itgr_always_open#:#Immer offen
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
 itgr#:#itgr_assignment#:#Eingebunden
-itgr#:#itgr_behaviour#:#Verhalten
-itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
+itgr#:#itgr_display#:#Anzeige
+itgr#:#itgr_display_with_title#:#Mit Titel
+itgr#:#itgr_display_with_title_and_toggleable#:#Mit Titel, Objekteblock ein- und ausklappbar
+itgr#:#itgr_display_with_title_and_toggleable_initially#:#Ausgangszustand
+itgr#:#itgr_display_with_title_and_toggleable_initially_closed#:#zunächst geschlossen
+itgr#:#itgr_display_with_title_and_toggleable_initially_open#:#zunächst geöffnet
+itgr#:#itgr_display_without_title#:#Ohne Titel
 itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
@@ -10799,8 +10804,6 @@ itgr#:#itgr_list_default#:#Standard
 itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
 itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
 itgr#:#itgr_materials#:#Objekte
-itgr#:#itgr_show_title#:#Titel anzeigen
-itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird angezeigt.
 itgr#:#itgr_tile#:#Kacheln
 itgr#:#itgr_tile_size#:#Kachelgröße
 jscalendar#:#about_calendar#:#Über den Kalender
