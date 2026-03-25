@@ -27,6 +27,10 @@ class ilContainerImporter extends ilXmlImporter
     protected ilLogger $cont_log;
     protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
+    # Patch Start: Fix multilingualism replaces course title
+    protected string $import_id;
+    # Patch End: Fix multilingualism replaces course title
+
     public function init(): void
     {
         global $DIC;
@@ -48,6 +52,10 @@ class ilContainerImporter extends ilXmlImporter
 
         $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
         $parser->parse($a_id);
+
+        # Patch Start: Fix multilingualism replaces course title
+        $this->import_id = $a_id;
+        # Patch End: Fix multilingualism replaces course title
     }
 
     /**
@@ -96,6 +104,12 @@ class ilContainerImporter extends ilXmlImporter
                 ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id)
             );
         }
+
+        # Patch Start: Fix multilingualism replaces course title
+        global $DIC;
+        $obj_id = (int) $a_mapping->getMapping('components/ILIAS/ILIASObject', 'obj', $this->import_id);
+        $DIC->database()->manipulate("DELETE FROM object_translation WHERE title = 'pU76w5DUIuCLCtFEsvhUdS' AND " . " obj_id = " . $DIC->database()->quote($obj_id, ilDBConstants::T_INTEGER));
+        # Patch End: Fix multilingualism replaces course title
     }
 
     protected function handleOfflineStatus(string $xml, ilImportMapping $mapping): void
