@@ -8896,17 +8896,12 @@ ul.c-input--has-mustache-variables__definitions > li {
   position: relative;
   display: flex;
   align-items: center;
-  box-shadow: none;
-  z-index: initial;
-}
-
-.c-drilldown header.c-drilldown__header--showbacknav,
-.c-drilldown header:has(.c-drilldown__filter) {
   min-height: 80px;
   margin-bottom: 2px;
   padding: 9px 15px 9px 38px;
+  box-shadow: none;
+  z-index: initial;
 }
-
 .c-drilldown header h2 {
   font-size: 1.115rem;
   margin: 0;
