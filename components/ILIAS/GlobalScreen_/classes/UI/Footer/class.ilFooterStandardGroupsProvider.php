@@ -65,7 +65,10 @@ final class ilFooterStandardGroupsProvider extends AbstractStaticFooterProvider
     private function buildURI(string $from_path): URI
     {
         $request = $this->dic->http()->request()->getUri();
-        return new URI($request->getScheme() . '://' . $request->getHost() . '/' . ltrim($from_path, '/'));
+
+        return new URI($request->getScheme() . '://' . $request->getHost()
+            . (dirname($request->getPath()) == '/' ? '/' : dirname($request->getPath()) . '/')
+            . ltrim($from_path, '/'));
     }
 
     public function getEntries(): array
