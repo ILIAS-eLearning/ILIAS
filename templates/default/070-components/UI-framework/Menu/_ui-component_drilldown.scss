@@ -49,12 +49,16 @@ $c-drilldown-menulevel-trigger-bg: transparent;
         // so backnav can be positioned on top
         display: flex;
         align-items: center;
+        box-shadow: none;
+        z-index: initial;
+
+        &.c-drilldown__header--showbacknav, &:has(.c-drilldown__filter){
         min-height: $c-drilldown-header-height;
         // content is centered by flex-box, not through padding
         margin-bottom: $c-drilldown-item-spacing;
         padding: l.$il-padding-xlarge-vertical l.$il-padding-xlarge-horizontal l.$il-padding-xlarge-vertical $c-drilldown-left-indent;
-        box-shadow: none;
-        z-index: initial;
+    }
+
         // so slate can cover up this specific header
         h2 {
             font-size: $il-font-size-xlarge;
