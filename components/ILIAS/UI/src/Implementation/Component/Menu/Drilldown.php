@@ -72,10 +72,10 @@ class Drilldown extends Menu implements IMenu\Drilldown
     }
 
 
-    public function withHiddenFilter(bool $filter_hidden): self
+    public function withoutFilter(): self
     {
         $clone = clone $this;
-        $clone->filter_hidden = $filter_hidden;
+        $clone->filter_hidden = true;
         return $clone;
     }
 
