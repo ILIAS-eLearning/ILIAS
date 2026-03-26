@@ -540,7 +540,7 @@ export default class PageUI {
       droppableSelector = '.il_droparea';
     }
 
-    const mainElement = document.querySelector('main.il-layout-page-content');
+    const mainElement = document.querySelector('.il-layout-page-content');
 
     function autoScroll(event) {
       const rect = mainElement.getBoundingClientRect();
