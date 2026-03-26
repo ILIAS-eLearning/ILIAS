@@ -912,6 +912,7 @@ class ilPersonalSkillsGUI
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
             ? "render"
             : "listAssignedProfile";
+        $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, $cmd)
@@ -1003,11 +1004,11 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
         $ilCtrl->saveParameter($this, "basic_skill_id");
 
+        $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, "assignMaterials")
         );
-
 
         $exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, "assignMaterial", $this, "");
         $exp->setTypeWhiteList(array("blog", "wsrt", "wfld", "file", "tstv", "excv"));
@@ -1103,6 +1104,7 @@ class ilPersonalSkillsGUI
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
             ? "render"
             : "listAssignedProfile";
+        $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, $cmd)
@@ -1471,7 +1473,7 @@ class ilPersonalSkillsGUI
                 }
             }
             $bc_skills[] = $s;
-            $html .= $this->getSkillHTML($s->getBaseSkillId(), $user_id, false, $s->getTrefId());
+            $html .= $this->getSkillHTML($s->getBaseSkillId(), $user_id, true, $s->getTrefId());
         }
 
         if ($not_all_self_evaluated) {
