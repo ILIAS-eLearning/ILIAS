@@ -464,7 +464,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
                     $roles = $object->__getLocalRoles();
 
                     foreach ($roles as $role_id) {
-                        $data = array_merge($rbacreview->assignedUsers($role_id), $data);
+                        $user_ids = $rbacreview->assignedUsers($role_id);
+                        $role_users = ilObjUser::_getUsersForIds($user_ids, $active);
+                        $data = array_merge($data, $role_users);
                     }
 
                     break;
