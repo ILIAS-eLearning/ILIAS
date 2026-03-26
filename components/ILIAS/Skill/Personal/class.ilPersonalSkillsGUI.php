@@ -1182,7 +1182,7 @@ class ilPersonalSkillsGUI
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         }
 
-        $form = $this->getSelfEvaluationForm($cur_basic_skill_id, $is_gap_mode);;
+        $form = $this->getSelfEvaluationForm($cur_basic_skill_id, $is_gap_mode);
         $tpl->setContent($this->ui_ren->render($form));
     }
 
