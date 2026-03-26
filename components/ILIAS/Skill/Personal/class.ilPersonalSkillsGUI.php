@@ -487,7 +487,8 @@ class ilPersonalSkillsGUI
         int $a_top_skill_id,
         int $a_user_id = 0,
         bool $a_edit = false,
-        int $a_tref_id = 0
+        int $a_tref_id = 0,
+        bool $is_gap_mode = false
     ): string {
         $main_tpl = $this->tpl;
 
@@ -500,7 +501,7 @@ class ilPersonalSkillsGUI
         );
         $skill_html = "";
         if (!$uip->replaced()) {
-            $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id);
+            $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id, $is_gap_mode);
         }
         $skill_html = $uip->getHTML($skill_html);
         $main_tpl->addJavaScript("assets/js/SkillEntries.js");
@@ -512,7 +513,8 @@ class ilPersonalSkillsGUI
         int $a_top_skill_id,
         int $a_user_id = 0,
         bool $a_edit = false,
-        int $a_tref_id = 0
+        int $a_tref_id = 0,
+        bool $is_gap_mode = false
     ): string {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -728,12 +730,12 @@ class ilPersonalSkillsGUI
                 if ($this->use_materials) {
                     $actions[] = $this->ui_fac->button()->shy(
                         $lng->txt('skmg_assign_materials'),
-                        $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials")
+                        $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", ($is_gap_mode ? "assignMaterialsGap" : "assignMaterials"))
                     );
                 }
                 $actions[] = $this->ui_fac->button()->shy(
                     $lng->txt('skmg_self_evaluation'),
-                    $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation")
+                    $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", ($is_gap_mode ? "selfEvaluationGap" : "selfEvaluation"))
                 );
                 $sub = $sub->withActions($this->ui_fac->dropdown()->standard($actions)->withLabel($lng->txt("actions")));
             }
@@ -898,10 +900,15 @@ class ilPersonalSkillsGUI
     // Materials assignments
     //
 
+    public function assignMaterialsGap(): void
+    {
+        $this->assignMaterials(true);
+    }
+
     /**
      * Assign materials to skill levels
      */
-    public function assignMaterials(): void
+    public function assignMaterials(bool $is_gap_mode = false): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -911,7 +918,7 @@ class ilPersonalSkillsGUI
 
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
             ? "render"
-            : "listAssignedProfile";
+            : ($is_gap_mode ? "listProfileForGap" : "listAssignedProfile");
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
@@ -955,7 +962,7 @@ class ilPersonalSkillsGUI
             $ilToolbar->addInputItem($si, true);
             $ilToolbar->addFormButton(
                 $lng->txt("select"),
-                "assignMaterials"
+                ($is_gap_mode ? "assignMaterialsGap" : "assignMaterials")
             );
 
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
@@ -964,17 +971,23 @@ class ilPersonalSkillsGUI
         $table = $this->table_manager->getAssignMaterialsTable(
             $this->requested_skill_id,
             $this->requested_tref_id,
-            $cur_basic_skill_id
+            $cur_basic_skill_id,
+            $is_gap_mode
         )->getComponent();
 
         $tpl->setContent($this->ui_ren->render($table));
     }
 
 
+    public function assignMaterialGap(): void
+    {
+        $this->assignMaterial(true);
+    }
+
     /**
      * Assign materials to skill level
      */
-    public function assignMaterial(): void
+    public function assignMaterial(bool $is_gap_mode = false): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -995,7 +1008,7 @@ class ilPersonalSkillsGUI
             $message = $ui->renderer()->render($mbox);
         }
 
-        if ($this->requested_table_assign_materials_action === "assignMaterials"
+        if (in_array($this->requested_table_assign_materials_action, ["assignMaterialsGap", "assignMaterials"])
             && !empty($this->requested_table_assign_materials_level_ids)) {
             $ilCtrl->setParameter($this, "level_id", $this->requested_table_assign_materials_level_ids[0]);
         }
@@ -1007,10 +1020,10 @@ class ilPersonalSkillsGUI
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "assignMaterials")
+            $ilCtrl->getLinkTarget($this, ($is_gap_mode ? "assignMaterialsGap" : "assignMaterials"))
         );
 
-        $exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, "assignMaterial", $this, "");
+        $exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, ($is_gap_mode ? "assignMaterialGap" : "assignMaterial"), $this, "");
         $exp->setTypeWhiteList(array("blog", "wsrt", "wfld", "file", "tstv", "excv"));
         $exp->setSelectableTypes(array("file", "tstv", "excv"));
         $exp->setSelectMode("wsp_ids", true);
@@ -1026,7 +1039,7 @@ class ilPersonalSkillsGUI
         $tb = new ilToolbarGUI();
         $tb->addFormButton(
             $lng->txt("select"),
-            "selectMaterial"
+            ($is_gap_mode ? "selectMaterialGap" : "selectMaterial")
         );
         $tb->setFormAction($ilCtrl->getFormAction($this));
         $tb->setOpenFormTag(true);
@@ -1039,7 +1052,12 @@ class ilPersonalSkillsGUI
         $tpl->setContent($message . $mtpl->get());
     }
 
-    public function selectMaterial(): void
+    public function selectMaterialGap(): void
+    {
+        $this->selectMaterial(true);
+    }
+
+    public function selectMaterial(bool $is_gap_mode = false): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -1065,16 +1083,21 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "tref_id");
         $ilCtrl->saveParameter($this, "basic_skill_id");
 
-        $ilCtrl->redirect($this, "assignMaterials");
+        $ilCtrl->redirect($this, ($is_gap_mode ? "assignMaterialsGap" : "assignMaterials"));
     }
 
-    public function removeMaterial(): void
+    public function removeMaterialGap(): void
+    {
+        $this->removeMaterial(true);
+    }
+
+    public function removeMaterial(bool $is_gap_mode = false): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         $lng = $this->lng;
 
-        if ($this->requested_table_assign_materials_action === "removeMaterial"
+        if (in_array($this->requested_table_assign_materials_action, ["removeMaterialGap", "removeMaterial"])
             && !empty($this->requested_table_assign_materials_level_ids)
             && $this->requested_table_assign_materials_wsp_id !== 0) {
             $this->assigned_material_manager->removeAssignedMaterial(
@@ -1085,7 +1108,7 @@ class ilPersonalSkillsGUI
             );
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
-        $ilCtrl->redirect($this, "assignMaterials");
+        $ilCtrl->redirect($this, ($is_gap_mode ? "assignMaterialsGap" : "assignMaterials"));
     }
 
 
@@ -1093,7 +1116,12 @@ class ilPersonalSkillsGUI
     // Self evaluation
     //
 
-    public function selfEvaluation(): void
+    public function selfEvaluationGap(): void
+    {
+        $this->selfEvaluation(true);
+    }
+
+    public function selfEvaluation(bool $is_gap_mode = false): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -1103,7 +1131,7 @@ class ilPersonalSkillsGUI
 
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
             ? "render"
-            : "listAssignedProfile";
+            : ($is_gap_mode ? "listProfileForGap" : "listAssignedProfile");
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
@@ -1148,17 +1176,17 @@ class ilPersonalSkillsGUI
             $ilToolbar->addInputItem($si, true);
             $ilToolbar->addFormButton(
                 $lng->txt("select"),
-                "selfEvaluation"
+                ($is_gap_mode ? "selfEvaluationGap" : "selfEvaluation")
             );
 
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         }
 
-        $form = $this->getSelfEvaluationForm($cur_basic_skill_id);
+        $form = $this->getSelfEvaluationForm($cur_basic_skill_id, $is_gap_mode);;
         $tpl->setContent($this->ui_ren->render($form));
     }
 
-    protected function getSelfEvaluationForm(int $cur_basic_skill_id): Form
+    protected function getSelfEvaluationForm(int $cur_basic_skill_id, bool $is_gap_mode = false): Form
     {
         $top_skill_id = $this->requested_skill_id;
         $tref_id = $this->requested_tref_id;
@@ -1190,11 +1218,16 @@ class ilPersonalSkillsGUI
             $section_title
         );
 
-        $form_action = $this->ctrl->getFormAction($this, "saveSelfEvaluation");
+        $form_action = $this->ctrl->getFormAction($this, ($is_gap_mode ? "saveSelfEvaluationGap" : "saveSelfEvaluation"));
         return $this->ui_fac->input()->container()->form()->standard($form_action, ["section" => $section]);
     }
 
-    public function saveSelfEvaluation(): void
+    public function saveSelfEvaluationGap(): void
+    {
+        $this->saveSelfEvaluation(true);
+    }
+
+    public function saveSelfEvaluation(bool $is_gap_mode = false): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -1204,7 +1237,7 @@ class ilPersonalSkillsGUI
         $form = $this->getSelfEvaluationForm($this->requested_basic_skill_id);
         $ilCtrl->clearParameterByClass("ilpersonalskillsgui", "basic_skill_id");
         $cmd = ($this->requested_list_mode == self::LIST_SELECTED || empty($this->user_profiles))
-            ? "render" : "listAssignedProfile";
+            ? "render" : ($is_gap_mode ? "listProfileForGap" : "listAssignedProfile");
 
         if ($this->request->getMethod() === "POST") {
             $form = $form->withRequest($this->request);
@@ -1473,7 +1506,7 @@ class ilPersonalSkillsGUI
                 }
             }
             $bc_skills[] = $s;
-            $html .= $this->getSkillHTML($s->getBaseSkillId(), $user_id, true, $s->getTrefId());
+            $html .= $this->getSkillHTML($s->getBaseSkillId(), $user_id, true, $s->getTrefId(), true);
         }
 
         if ($not_all_self_evaluated) {

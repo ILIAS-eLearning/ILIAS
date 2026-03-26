@@ -46,7 +46,7 @@ class AssignMaterialsTable
     protected int $tref_id = 0;
     protected int $basic_skill_id = 0;
 
-    public function __construct(int $top_skill_id, int $tref_id, int $basic_skill_id)
+    public function __construct(int $top_skill_id, int $tref_id, int $basic_skill_id, protected bool $is_gap_mode = false)
     {
         global $DIC;
 
@@ -114,7 +114,7 @@ class AssignMaterialsTable
         $uri_assign = $this->df->uri(
             ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass(
                 "ilpersonalskillsgui",
-                "assignMaterial"
+                ($this->is_gap_mode ? "assignMaterialGap" : "assignMaterial")
             )
         );
         $url_builder_assign = new UI\URLBuilder($uri_assign);
@@ -128,7 +128,7 @@ class AssignMaterialsTable
         $actions = [
             "assign" => $this->ui_fac->table()->action()->single(
                 $this->lng->txt("skmg_assign_materials"),
-                $url_builder_assign->withParameter($action_parameter_token_assign, "assignMaterials"),
+                $url_builder_assign->withParameter($action_parameter_token_assign, ($this->is_gap_mode ? "assignMaterialsGap" : "assignMaterials")),
                 $row_id_token_assign
             )
         ];
@@ -143,7 +143,7 @@ class AssignMaterialsTable
             $uri_remove = $this->df->uri(
                 ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTargetByClass(
                     "ilpersonalskillsgui",
-                    "removeMaterial"
+                    ($this->is_gap_mode ? "removeMaterialGap" : "removeMaterial")
                 )
             );
             $url_builder_remove = new UI\URLBuilder($uri_remove);
@@ -159,7 +159,7 @@ class AssignMaterialsTable
             $actions["remove_" . $material->getLevelId() . "_" . $material->getWorkspaceId()] =
                 $this->ui_fac->table()->action()->single(
                     $this->lng->txt("skmg_remove") . " '" . \ilObject::_lookupTitle($obj_id) . "'",
-                    $url_builder_remove->withParameter($action_parameter_token_remove, "removeMaterial"),
+                    $url_builder_remove->withParameter($action_parameter_token_remove, ($this->is_gap_mode ? "removeMaterialGap" : "removeMaterial")),
                     $row_id_token_remove
                 );
         }

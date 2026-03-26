@@ -74,8 +74,9 @@ class TableManager
     public function getAssignMaterialsTable(
         int $top_skill_id,
         int $tref_id,
-        int $basic_skill_id
+        int $basic_skill_id,
+        bool $is_gap_mode = false
     ): AssignMaterialsTable {
-        return new AssignMaterialsTable($top_skill_id, $tref_id, $basic_skill_id);
+        return new AssignMaterialsTable($top_skill_id, $tref_id, $basic_skill_id, $is_gap_mode);
     }
 }
