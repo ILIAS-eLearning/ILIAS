@@ -44,7 +44,7 @@ if ($ilIliasIniFile->readVariable('https', 'auto_https_detect_enabled')) {
     $headerValue = $ilIliasIniFile->readVariable('https', 'auto_https_detect_header_value');
 
     $headerName = 'HTTP_' . str_replace('-', '_', strtoupper($headerName));
-    if (strcasecmp($_SERVER[$headerName], $headerValue) === 0) {
+    if (strcasecmp($_SERVER[$headerName] ?? '', $headerValue) === 0) {
         $_SERVER['HTTPS'] = 'on';
     }
 }
