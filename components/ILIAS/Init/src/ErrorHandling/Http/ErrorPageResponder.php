@@ -35,9 +35,9 @@ use ILIAS\GlobalScreen\Services as GlobalScreenServices;
  *
  * Use this when the DI container and all ILIAS services are available.
  * The consumer MUST wrap the main logic in a try-catch and call
- * {@see respond()} in the catch block for expected errors (e.g. routing
+ * {@see respond()} in the catch block for expected errors (e.g., routing
  * failures). For unexpected errors during bootstrap, use
- * {@see \ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder} instead.
+ * {@see PlainTextFallbackResponder} instead.
  *
  * The error message is rendered via MessageBox::failure(). If a back target
  * (Data\Link) is provided, it is embedded into the MessageBox via withButtons().
