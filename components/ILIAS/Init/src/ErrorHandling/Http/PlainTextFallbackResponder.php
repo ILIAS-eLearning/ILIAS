@@ -54,9 +54,12 @@ class PlainTextFallbackResponder
      * @param int $status_code HTTP status code (default: 500).
      * @throws Throwable in DEVMODE
      */
-    public function respond(Throwable $e, int $status_code = StatusCode::HTTP_INTERNAL_SERVER_ERROR): never
-    {
-        if (defined('DEVMODE') && DEVMODE) {
+    public function respond(
+        Throwable $e,
+        int $status_code = StatusCode::HTTP_INTERNAL_SERVER_ERROR,
+        ?string $status_message = null
+    ): never {
+        if (\defined('DEVMODE') && DEVMODE) {
             throw $e;
         }
 
@@ -65,12 +68,13 @@ class PlainTextFallbackResponder
             header('Content-Type: text/plain; charset=UTF-8');
         }
 
-        $incident_id = session_id() . '_' . (new \Random\Randomizer())->getInt(1, 9999);
+        $session_prefix = session_id() !== '' ? session_id() : 'no-session';
+        $incident_id = $session_prefix . '_' . (new \Random\Randomizer())->getInt(1, 9999);
         $timestamp = (new DateTimeImmutable())
             ->setTimezone(new DateTimeZone('UTC'))
             ->format('Y-m-d\TH:i:s\Z');
 
-        echo "Internal Server Error\n";
+        echo ($status_message ?? 'Internal Server Error') . "\n";
         echo "Incident: $incident_id\n";
         echo "Timestamp: $timestamp\n";
 
@@ -80,11 +84,12 @@ class PlainTextFallbackResponder
             echo "Message: {$e->getMessage()}\n";
         }
 
-        error_log(sprintf(
+        error_log(
+            \sprintf(
             "[%s] INCIDENT %s — Uncaught %s: %s in %s:%d\nStack trace:\n%s\n",
             $timestamp,
             $incident_id,
-            get_class($e),
+            \get_class($e),
             $e->getMessage(),
             $e->getFile(),
             $e->getLine(),
