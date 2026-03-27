@@ -26,6 +26,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
 use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
 
+$message = null;
 try {
     require_once '../vendor/composer/vendor/autoload.php';
 
@@ -50,15 +51,19 @@ try {
     );
 
     new ErrorPageResponder(
-        $DIC->globalScreen(),
+        $DIC->offsetExists('global_screen') ? $DIC->globalScreen() : null,
         $DIC->language(),
-        $DIC->ui(),
-        $DIC->http()
+        $DIC->http(),
+        $DIC->ui()
     )->respond(
         $message,
         StatusCode::HTTP_INTERNAL_SERVER_ERROR,
         $back_target
     );
 } catch (Throwable $e) {
-    new PlainTextFallbackResponder()->respond($e);
+    new PlainTextFallbackResponder()->respond(
+        $e,
+        StatusCode::HTTP_INTERNAL_SERVER_ERROR,
+        $message
+    );
 }

@@ -18,8 +18,8 @@
 
 declare(strict_types=1);
 
-use ILIAS\HTTP\StatusCode;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\HTTP\StatusCode;
 use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
 use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
 
@@ -38,39 +38,76 @@ try {
 
     $DIC->ctrl()->callBaseClass();
 } catch (ilCtrlException $e) {
+    global $DIC;
+
     if (defined('DEVMODE') && DEVMODE) {
         throw $e;
     }
 
-    $DIC->logger()->root()->error($e->getMessage());
-    $DIC->logger()->root()->error($e->getTraceAsString());
+    if ($DIC->offsetExists('ilLoggerFactory')) {
+        $DIC->logger()->root()->error($e->getMessage());
+        $DIC->logger()->root()->error($e->getTraceAsString());
+    }
 
-    $DIC->language()->loadLanguageModule('error');
-    $df = new DataFactory();
-    $back_target = $df->link(
-        $DIC->language()->txt('error_back_to_repository'),
-        $df->uri(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI')
-    );
+    $repository_href = defined('ILIAS_HTTP_PATH')
+        ? ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI'
+        : '/ilias.php?baseClass=ilRepositoryGUI';
+
+    $public_message = null;
+    if ($DIC->offsetExists('lng')) {
+        $DIC->language()->loadLanguageModule('error');
+        $public_message = $DIC->language()->txt('http_404_not_found');
+    }
+
+    $can_html_error_page = $DIC->offsetExists('lng')
+        && $DIC->offsetExists('http')
+        && $DIC->offsetExists('tpl')
+        && $DIC->offsetExists('ui.factory')
+        && $DIC->offsetExists('ui.renderer');
+
+    $can_plain_html_error_page = $DIC->offsetExists('lng')
+        && $DIC->offsetExists('http')
+        && $DIC->offsetExists('tpl')
+        && (
+            !$DIC->offsetExists('ui.factory')
+            || !$DIC->offsetExists('ui.renderer')
+        );
 
     try {
-        new ErrorPageResponder(
-            $DIC->globalScreen(),
-            $DIC->language(),
-            $DIC->ui(),
-            $DIC->http()
-        )->respond(
-            $DIC->language()->txt('http_404_not_found'),
-            StatusCode::HTTP_NOT_FOUND,
-            $back_target
-        );
-    } catch (Throwable) {
+        if ($can_html_error_page || $can_plain_html_error_page) {
+            $df = $DIC->offsetExists(\ILIAS\Data\Factory::class)
+                ? $DIC[\ILIAS\Data\Factory::class]
+                : new DataFactory();
+            $back_target = $df->link(
+                $DIC->language()->txt('error_back_to_repository'),
+                $df->uri($repository_href)
+            );
+            $shell = $can_html_error_page
+                ? $DIC->ui()
+                : $DIC['tpl'];
+            new ErrorPageResponder(
+                $DIC->offsetExists('global_screen') ? $DIC->globalScreen() : null,
+                $DIC->language(),
+                $DIC->http(),
+                $shell
+            )->respond(
+                $public_message ?? '',
+                StatusCode::HTTP_NOT_FOUND,
+                $back_target
+            );
+        }
+        new PlainTextFallbackResponder()->respond($e, StatusCode::HTTP_NOT_FOUND, $public_message);
+    } catch (Throwable $t) {
         new PlainTextFallbackResponder()->respond(
-            $e,
+            $t,
             StatusCode::HTTP_NOT_FOUND,
-            $DIC->language()->txt('http_404_not_found')
+            $public_message
         );
     }
 }
+
+/** @var \ILIAS\DI\Container $DIC */
+global $DIC;
 
 $DIC['ilBench']->save();
 $DIC['http']?->close();
