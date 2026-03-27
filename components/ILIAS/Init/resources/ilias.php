@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\HTTP\StatusCode;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Init\ErrorHandling\Http\ErrorPageResponder;
+use ILIAS\Init\ErrorHandling\Http\PlainTextFallbackResponder;
 
 if (!file_exists('../ilias.ini.php')) {
     die('The ILIAS setup is not completed. Please run the setup routine.');
@@ -28,12 +29,12 @@ if (!file_exists('../ilias.ini.php')) {
 
 require_once '../vendor/composer/vendor/autoload.php';
 
-ilInitialisation::initILIAS();
-
 /** @var \ILIAS\DI\Container $DIC */
 global $DIC;
 
 try {
+    ilInitialisation::initILIAS();
+
     $DIC->ctrl()->callBaseClass();
 } catch (ilCtrlException $e) {
     if (defined('DEVMODE') && DEVMODE) {
@@ -50,16 +51,24 @@ try {
         $df->uri(ILIAS_HTTP_PATH . '/ilias.php?baseClass=ilRepositoryGUI')
     );
 
-    (new ErrorPageResponder(
-        $DIC->globalScreen(),
-        $DIC->language(),
-        $DIC->ui(),
-        $DIC->http()
-    ))->respond(
-        $DIC->language()->txt('http_404_not_found'),
-        StatusCode::HTTP_NOT_FOUND,
-        $back_target
-    );
+    try {
+        (new ErrorPageResponder(
+            $DIC->globalScreen(),
+            $DIC->language(),
+            $DIC->ui(),
+            $DIC->http()
+        ))->respond(
+            $DIC->language()->txt('http_404_not_found'),
+            StatusCode::HTTP_NOT_FOUND,
+            $back_target
+        );
+    } catch (Throwable) {
+        (new PlainTextFallbackResponder())->respond(
+            $e,
+            StatusCode::HTTP_NOT_FOUND,
+            $DIC->language()->txt('http_404_not_found')
+        );
+    }
 }
 
 $DIC['ilBench']->save();
