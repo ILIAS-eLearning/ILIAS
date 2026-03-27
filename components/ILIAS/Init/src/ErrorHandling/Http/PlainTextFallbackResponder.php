@@ -39,7 +39,7 @@ use ILIAS\HTTP\StatusCode;
  * so that Whoops / the developer can inspect the full stack trace.
  *
  * This responder always works: it uses only PHP built-ins (headers, echo,
- * error_log, exit). Prefer {@see \ILIAS\Init\ErrorHandling\Http\ErrorPageResponder}
+ * error_log, exit). Prefer {@see ErrorPageResponder}
  * when the DIC is available, as it renders a proper ILIAS page with the
  * UI framework.
  */
