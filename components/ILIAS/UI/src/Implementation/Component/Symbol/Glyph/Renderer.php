@@ -24,33 +24,25 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
-    protected function getTemplateFilename(): string
-    {
-        return "tpl.glyph.standard.html";
-    }
-
-
     /**
      * @inheritdocs
      */
     public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
-        if (!$component instanceof Component\Symbol\Glyph\Glyph) {
+        if (!$component instanceof Glyph) {
             $this->cannotHandleComponent($component);
         }
 
-        $tpl_file = $this->getTemplateFilename();
-        $tpl = $this->getTemplate($tpl_file, true, true);
+        $tpl = $this->getTemplate("tpl.glyph.standard.html", true, true);
 
         if ($component->isHighlighted()) {
             $tpl->touchBlock("highlighted");
         }
 
-        $tpl = $this->renderLabel($component, $tpl);
+        $this->renderAccessibilityInfo($component, $tpl);
 
         $id = $this->bindJavaScript($component);
 
@@ -63,10 +55,17 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderLabel(Component\Component $component, Template $tpl): Template
+    protected function renderAccessibilityInfo(Glyph $component, Template $tpl): void
     {
-        $tpl->setVariable("LABEL", $this->txt($component->getLabel()));
-        return $tpl;
+        $label = $component->getLabel();
+        if ('' !== $label) {
+            $tpl->touchBlock('with_aria_label');
+            $tpl->setVariable("LABEL", $this->txt($label)); // @todo: move translation to factory, breaks custom labels
+            $tpl->touchBlock('with_role');
+        } else {
+            // glyph must be hidden if there is no label (semantic meaning)
+            $tpl->touchBlock('with_aria_hidden');
+        }
     }
 
     protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer): string

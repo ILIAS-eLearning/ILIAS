@@ -95,7 +95,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($pwd));
+        $this->assertEquals($expected, $this->renderInsideContainer($pwd));
     }
 
     public function testCommonRendering(): void
@@ -129,7 +129,7 @@ class PasswordInputTest extends ILIAS_UI_TestBase
             null,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($pwd));
+        $this->assertEquals($expected, $this->renderInsideContainer($pwd));
     }
 
     public function testValueRequired(): void

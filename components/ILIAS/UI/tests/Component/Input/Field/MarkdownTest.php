@@ -537,6 +537,7 @@ class MarkdownTest extends ILIAS_UI_TestBase
     {
         $glyph = $this->createMock(Glyph::class);
         $glyph->method('getCanonicalName')->willReturn($name);
+        $glyph->method('withLabel')->willReturnSelf();
 
         return $glyph;
     }

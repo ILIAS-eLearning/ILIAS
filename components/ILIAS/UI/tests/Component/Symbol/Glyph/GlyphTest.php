@@ -343,7 +343,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $css_classes = self::$canonical_css_classes[$type];
         $aria_label = self::$aria_labels[$type];
 
-        $expected = '<span class="glyph" aria-label="' . $aria_label . '"><span class="' . $css_classes . '" aria-hidden="true"></span></span>';
+        $expected = '<span class="glyph" aria-label="' . $aria_label . '" role="img"><span class="' . $css_classes . '" aria-hidden="true"></span></span>';
         $this->assertEquals($expected, $html);
     }
 
@@ -361,7 +361,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
 
         $expected = '
-            <span class="glyph" aria-label="' . $aria_label . '">
+            <span class="glyph" aria-label="' . $aria_label . '" role="img">
                     <span class="' . $css_classes . '" aria-hidden="true"></span>
                     <span class="il-counter"><span class="badge badge-notify il-counter-' . $type . '">42</span></span>
                     <span class="il-counter-spacer">42</span>
@@ -382,7 +382,7 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $css_classes = self::$canonical_css_classes[G\Glyph::MAIL];
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
-        $expected = '<span class="glyph" aria-label="' . $aria_label . '">' .
+        $expected = '<span class="glyph" aria-label="' . $aria_label . '" role="img">' .
                     '<span class="' . $css_classes . '" aria-hidden="true"></span>' .
                     '<span class="il-counter"><span class="badge badge-notify il-counter-status">7</span></span>' .
                     '<span class="il-counter"><span class="badge badge-notify il-counter-novelty">42</span></span>' .
@@ -429,7 +429,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[$type];
 
         $id = $ids[0];
-        $expected = '<span class="glyph" aria-label="' . $aria_label . '" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></span>';
+        $expected = '<span class="glyph" aria-label="' . $aria_label . '" role="img" id="' . $id . '"><span class="' . $css_classes . '" aria-hidden="true"></span></span>';
         $this->assertEquals($expected, $html);
     }
 }

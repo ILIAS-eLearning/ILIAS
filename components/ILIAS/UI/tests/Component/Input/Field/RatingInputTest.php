@@ -94,7 +94,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
             'byline',
             null
         );
-        $this->assertEquals($expected, $this->render($rating));
+        $this->assertEquals($expected, $this->renderInsideContainer($rating));
     }
 
     public function testRatingRenderFull(): void
@@ -150,7 +150,7 @@ class RatingInputTest extends ILIAS_UI_TestBase
         </fieldset>'
         );
 
-        $this->assertEquals($expected, $this->render($rating));
+        $this->assertEquals($expected, $this->renderInsideContainer($rating));
     }
 
     public function testCommonRendering(): void

@@ -63,7 +63,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($url));
+        $this->assertEquals($expected, $this->renderInsideContainer($url));
     }
 
     public function testRenderValue(): void
@@ -80,7 +80,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
             null,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($url));
+        $this->assertEquals($expected, $this->renderInsideContainer($url));
     }
 
     public function testCommonRendering(): void

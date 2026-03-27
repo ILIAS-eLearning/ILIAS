@@ -471,7 +471,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
-            $this->render($sg)
+            $this->renderInsideContainer($sg)
         );
         return $sg;
     }
@@ -480,9 +480,9 @@ EOT;
     public function testRenderWithValue(SG $sg): void
     {
         $r = $this->getDefaultRenderer();
-        $html = $this->render($sg->withValue('g2'));
+        $html = $this->renderInsideContainer($sg->withValue('g2'));
         $expected = '<label for="id_3"><input type="radio" id="id_3" value="g2" checked="checked" />';
-        $this->assertStringContainsString($expected, $this->render($sg->withValue('g2')));
+        $this->assertStringContainsString($expected, $this->renderInsideContainer($sg->withValue('g2')));
     }
 
     public function testRenderWithValueByIndex(): void
@@ -504,7 +504,7 @@ EOT;
         $sg = $f->switchableGroup([$group1, $group2, $group3], $label, $byline);
 
         $expected = '<label for="id_3"><input type="radio" id="id_3" value="1" checked="checked" />';
-        $this->assertStringContainsString($expected, $this->render($sg->withValue('1')));
+        $this->assertStringContainsString($expected, $this->renderInsideContainer($sg->withValue('1')));
     }
 
     public function testCommonRendering(): void

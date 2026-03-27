@@ -178,7 +178,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             null,
             'id_3'
         );
-        $this->assertEquals($expected, $this->render($file_input));
+        $this->assertEquals($expected, $this->renderInsideContainer($file_input));
     }
 
     public function testCommonRendering(): void
@@ -259,7 +259,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             null,
             'id_4'
         );
-        $this->assertEquals($expected, $this->render($file_input));
+        $this->assertEquals($expected, $this->renderInsideContainer($file_input));
     }
 
 
@@ -330,7 +330,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             null,
             'id_6',
         );
-        $this->assertEquals($expected, $this->render($file_input));
+        $this->assertEquals($expected, $this->renderInsideContainer($file_input));
     }
 
 
@@ -410,7 +410,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             null,
             'id_6'
         );
-        $this->assertEquals($expected, $this->render($file_input));
+        $this->assertEquals($expected, $this->renderInsideContainer($file_input));
     }
 
     protected function buildButtonFactory(): I\Button\Factory

@@ -26,24 +26,30 @@ use ILIAS\UI\Implementation\Render\ComponentRenderer;
 use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 
 /**
- * Chooses FormContextButtonRenderer when buttons are rendered as descendants of
- * field inputs inside a form (implicit submit must not apply).
- *
- * Context names come from ComponentHelper::getCanonicalName() with spaces removed.
- * Field implementations use a canonical name suffix "FieldInput"; StandardFilterContainerInput is added explicitly.
- *
- * @see FSLoader
+ * @see IndirectInputContainerContextRenderer for when to use it
  */
 class ButtonRendererFactory extends DefaultRendererFactory
 {
-    private const string FIELD_INPUT_CONTEXT_SUFFIX = 'FieldInput';
+    /**
+     * Allthough there are various Input Containers, only the ones listed below
+     * are actually rendered.
+     *
+     * @see \ILIAS\UI\Component\Input\Container\Container
+     */
+    protected const array USE_FORM_CONTEXT_RENDERER_FOR_INDIRECT_DESCENDANTS_OF = [
+        'StandardViewControlContainerInput',
+        'StandardFilterContainerInput',
+        'StandardFormContainerInput',
+    ];
 
-    private const string FILTER_CONTAINER_CONTEXT = 'StandardFilterContainerInput';
+    protected const array USE_FORM_CONTEXT_RENDERER_FOR_DIRECT_DESCENDANTS_OF = [
+        'StandardFilterContainerInput',
+    ];
 
     public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
-        if ($component instanceof ButtonComponent && $this->needsFormAuxiliaryButtonType($contexts)) {
-            return new FormContextButtonRenderer(
+        if ($this->isDirectFilterContainerContext($contexts) || $this->isIndirectInputContainerContext($contexts)) {
+            return new IndirectInputContainerContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
                 $this->lng,
@@ -58,18 +64,37 @@ class ButtonRendererFactory extends DefaultRendererFactory
     }
 
     /**
-     * @param string[] $contexts
+     * @param string[] $contexts_asc canonical names (first to last)
      */
-    private function needsFormAuxiliaryButtonType(array $contexts): bool
+    protected function isDirectFilterContainerContext(array $contexts_asc): bool
     {
-        foreach ($contexts as $name) {
-            if (str_ends_with($name, self::FIELD_INPUT_CONTEXT_SUFFIX)) {
-                return true;
-            }
-            if ($name === self::FILTER_CONTAINER_CONTEXT) {
-                return true;
-            }
+        // ensure minimum context size allowing indirect descendants
+        $context_size = count($contexts_asc);
+        if (2 > $context_size) {
+            return false;
         }
-        return false;
+        // check if button is direct descendant
+        $direct_ancestor = $contexts_asc[$context_size - 2];
+        return in_array($direct_ancestor, self::USE_FORM_CONTEXT_RENDERER_FOR_DIRECT_DESCENDANTS_OF, true);
+    }
+
+    /**
+     * @param string[] $contexts_asc canonical names (first to last)
+     */
+    protected function isIndirectInputContainerContext(array $contexts_asc): bool
+    {
+        // ensure minimum context size allowing indirect descendants
+        $context_size = count($contexts_asc);
+        if (3 > $context_size) {
+            return false;
+        }
+        // check if button is direct descendant
+        $direct_ancestor = $contexts_asc[$context_size - 2];
+        if (in_array($direct_ancestor, self::USE_FORM_CONTEXT_RENDERER_FOR_INDIRECT_DESCENDANTS_OF, true)) {
+            return false;
+        }
+        // check if button is indirect descendant
+        $indirect_ancestors = array_splice($contexts_asc, 0, -2);
+        return (0 < count(array_intersect($indirect_ancestors, self::USE_FORM_CONTEXT_RENDERER_FOR_INDIRECT_DESCENDANTS_OF)));
     }
 }

@@ -75,18 +75,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate($tpl_name, true, true);
 
-        $this->maybeRenderFormButtonTypeAttribute($tpl, $component);
-
-        $symbol_for_aria = $component->getSymbol();
-        if ($symbol_for_aria instanceof Glyph
-            && $component->getLabel() === ''
-            && ($component->getAriaLabel() === null || $component->getAriaLabel() === '')
-        ) {
-            $name = $this->glyphAccessibleName($symbol_for_aria);
-            if ($name !== '') {
-                $component = $component->withAriaLabel($name);
-            }
-        }
+        $this->maybeRenderButtonType($component, $tpl);
 
         $action = $component->getAction();
         // The action is always put in the data-action attribute to have it available
@@ -100,9 +89,12 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("LABEL", $component->getLabel());
         $symbol = $component->getSymbol();
         if ($symbol !== null) {
-            if ($component->getLabel() !== '') {
-                $symbol = $symbol->withLabel('');
+            // use label of symbol as aria-label if the button does not provide one
+            if ('' === $component->getLabel() && '' === $component->getAriaLabel()) {
+                $component = $component->withAriaLabel($this->getSymbolLabel($symbol));
             }
+            // @todo: this should be three context renderer as well...
+            $symbol = $symbol->withLabel('');
             $tpl->setVariable("SYMBOL", $default_renderer->render($symbol));
         }
 
@@ -358,21 +350,23 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function maybeRenderFormButtonTypeAttribute(Template $tpl, Component\Button\Button $component): void
+    protected function maybeRenderButtonType(Component\Button\Button $component, Template $tpl): void
     {
+        // omit type attribute by default
     }
 
-    protected function glyphAccessibleName(Glyph $glyph): string
+    protected function getSymbolLabel(Symbol $symbol): string
     {
-        $aria_label = $glyph->getLabel();
-        if ($aria_label !== '') {
-            $aria_label = $this->txt($aria_label);
+        if (!$symbol instanceof Glyph) {
+            return $symbol->getLabel();
         }
-        foreach ($glyph->getCounters() as $counter) {
+        // @todo: this breaks custom labels, translation should happen in factory!
+        $label = $this->txt($symbol->getLabel());
+        foreach ($symbol->getCounters() as $counter) {
             if ($counter->getNumber() > 0) {
-                $aria_label .= $this->txt("counter_" . $counter->getType()) . " " . $counter->getNumber() . "; ";
+                $label .= $this->txt("counter_" . $counter->getType()) . " " . $counter->getNumber() . "; ";
             }
         }
-        return trim($aria_label);
+        return trim($label);
     }
 }

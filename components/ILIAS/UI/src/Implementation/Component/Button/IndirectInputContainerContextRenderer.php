@@ -24,21 +24,17 @@ use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
 
 /**
- * Renders buttons inside form / field contexts: implicit submit must be avoided
- * for auxiliary controls (Shy, Bulky, Tag). Primary (and implicit submit) stays unchanged.
- */
-class FormContextButtonRenderer extends Renderer
+ * Button components which are **indirect** descendants of an Input Container
+ * component MUST be rendered with `type="button"` attribute. This is because
+ * an Input Container COULD render actual submit buttons, while other components
+ * (primarily Input Field's) utilise Button components to perform actions, and
+ * would implicitly inherit a `type="submit"` if rendered inside an HTML form.
+*/
+class IndirectInputContainerContextRenderer extends Renderer
 {
-    protected function maybeRenderFormButtonTypeAttribute(Template $tpl, Component\Button\Button $component): void
+    protected function maybeRenderButtonType(Component\Button\Button $component, Template $tpl): void
     {
-        if ($component instanceof Component\Button\Primary) {
-            return;
-        }
-        if ($component instanceof Component\Button\Shy
-            || $component instanceof Component\Button\Bulky
-            || $component instanceof Component\Button\Tag
-        ) {
-            $tpl->touchBlock('with_button_type');
-        }
+        // add type attribute to prevent form submissions
+        $tpl->touchBlock('with_button_type');
     }
 }

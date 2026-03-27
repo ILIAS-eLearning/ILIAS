@@ -75,7 +75,7 @@ class TagInputTest extends ILIAS_UI_TestBase
             'id_1',
             'id_2'
         );
-        $this->assertEquals($expected, $this->render($tag));
+        $this->assertEquals($expected, $this->renderInsideContainer($tag));
     }
 
     public function testCommonRendering(): void

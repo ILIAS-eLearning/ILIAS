@@ -71,7 +71,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
             $byline,
             ''
         );
-        $this->assertEquals($expected, $this->render($section));
+        $this->assertEquals($expected, $this->renderInsideContainer($section));
     }
 
 
@@ -103,7 +103,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
         $inputs_level2 = [$f->text("input1", "input1 byline"), $section_level3];
         $section_level2 = $f->section($inputs_level2, "Outermost Section");
 
-        $nested_sections_html = $this->render($section_level2);
+        $nested_sections_html = $this->renderInsideContainer($section_level2);
 
         $this->assertStringContainsString('<h2>Outermost Section</h2>', $nested_sections_html);
         $this->assertStringContainsString('<h3>Middle Section</h3>', $nested_sections_html);

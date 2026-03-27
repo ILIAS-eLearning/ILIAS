@@ -24,48 +24,30 @@ use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
 
+/**
+ * @see ButtonLikeContextRenderer for when to use it
+ */
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
     /**
-     * @see https://html.spec.whatwg.org/#palpable-content
+     * @see Component\Button\Button, Component\Link\Bulky
      */
-    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR_IMMEDIATE_PARENT = [
+    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR_DESCENDANTS_OF = [
+        'StandardFilterContainerInput', // embeds glyph directly inside button element
+        'MultiSelectFieldInput', // embeds glyph directly inside button element
+        'RadioFieldInput', // embeds glyph directly inside button element
         'StandardButton',
         'PrimaryButton',
         'BulkyButton',
         'ShyButton',
+        'TagButton',
         'BulkyLink',
-        'ShyLink',
-    ];
-
-    /**
-     * Field inputs where glyph controls may live deeper in the component tree but still
-     * render inside a <button>; keep ancestor matching for these.
-     */
-    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR_ANCESTOR = [
-        'BranchNodeFieldInput',
-        'LeafNodeFieldInput',
-        'AsyncNodeFieldInput',
-        'MultiSelectFieldInput',
-        'RadioFieldInput',
-    ];
-
-    /**
-     * Components that render glyphs inside an HTML <button> element themselves
-     * but also contain child components whose glyphs should NOT use the
-     * ButtonContextRenderer. Only glyphs that are direct children of these
-     * components (i.e. these components are the immediate parent context) will
-     * use the ButtonContextRenderer. This prevents false-positives for glyphs
-     * in nested child components.
-     */
-    protected const array USE_BUTTON_CONTEXT_RENDERER_FOR_DIRECT_CONTEXT = [
-        'StandardFilterContainerInput',
     ];
 
     public function getRendererInContext(Component\Component $component, array $contexts): ComponentRenderer
     {
-        if ($this->shouldUseButtonContextRenderer($contexts)) {
-            return new ButtonContextRenderer(
+        if ($this->isButtonLikeContext($contexts)) {
+            return new ButtonLikeContextRenderer(
                 $this->ui_factory,
                 $this->tpl_factory,
                 $this->lng,
@@ -89,39 +71,11 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
     }
 
     /**
-     * @param string[] $contexts canonical names (no spaces), outer-to-inner order
+     * @param string[] $contexts canonical names
      */
-    private function shouldUseButtonContextRenderer(array $contexts): bool
+    private function isButtonLikeContext(array $contexts): bool
     {
-        if ($this->isDirectContextMatch($contexts)) {
-            return true;
-        }
-        if (count(array_intersect(self::USE_BUTTON_CONTEXT_RENDERER_FOR_ANCESTOR, $contexts)) > 0) {
-            return true;
-        }
-        $count = count($contexts);
-        if ($count < 2) {
-            return false;
-        }
-        $immediate_parent = $contexts[$count - 2];
-        return in_array($immediate_parent, self::USE_BUTTON_CONTEXT_RENDERER_FOR_IMMEDIATE_PARENT, true);
-    }
-
-    /**
-     * Checks whether the immediate parent context (the component that directly
-     * renders this glyph) matches one of the DIRECT_CONTEXT components.
-     * The context array has the current component (glyph) as the last element,
-     * so the immediate parent is the second-to-last element.
-     *
-     * @param string[] $contexts
-     */
-    private function isDirectContextMatch(array $contexts): bool
-    {
-        $count = count($contexts);
-        if ($count < 2) {
-            return false;
-        }
-        $immediate_parent = $contexts[$count - 2];
-        return in_array($immediate_parent, self::USE_BUTTON_CONTEXT_RENDERER_FOR_DIRECT_CONTEXT, true);
+        // check if glyph is descendant of button-like component
+        return (0 < count(array_intersect($contexts, self::USE_BUTTON_CONTEXT_RENDERER_FOR_DESCENDANTS_OF)));
     }
 }

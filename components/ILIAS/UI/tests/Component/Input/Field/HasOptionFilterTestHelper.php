@@ -44,7 +44,7 @@ trait HasOptionFilterTestHelper
         /**
          * check if filter elements are present at all
          */
-        $html = $this->render($component);
+        $html = $this->renderInsideContainer($component);
         $expected1 = 'role="search"';
         $expected2 = 'c-field--has-option-filter__item';
         $this->assertStringContainsString($expected1, $html);

@@ -23,20 +23,19 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
 
-class ButtonContextRenderer extends Renderer
+/**
+ * Glyph components inside a Button or Bulky Link component MUST be
+ * rendered with `aria-hidden="true"`, because the outer component
+ * SHOULD provide the appropriate label and convey the information,
+ * which renders the Glyph to be merely decorative.
+ */
+class ButtonLikeContextRenderer extends Renderer
 {
-    protected function getTemplateFilename(): string
+    protected function renderAccessibilityInfo(Glyph $component, Template $tpl): void
     {
-        return "tpl.glyph.context_btn.html";
-    }
-
-    protected function renderAction(Component\Component $component, Template $tpl): Template
-    {
-        return $tpl;
-    }
-
-    protected function renderLabel(Component\Component $component, Template $tpl): Template
-    {
-        return $tpl;
+        // omit label, should be provided by outer component
+        // omit role, glyph will be hidden
+        // hide glyph in absence of label (semantic meaning)
+        $tpl->touchBlock('with_aria_hidden');
     }
 }

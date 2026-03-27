@@ -63,7 +63,7 @@ class TextInputTest extends ILIAS_UI_TestBase
             $byline,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($text));
+        $this->assertEquals($expected, $this->renderInsideContainer($text));
     }
 
     public function testCommonRendering(): void
@@ -92,7 +92,7 @@ class TextInputTest extends ILIAS_UI_TestBase
             null,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($text));
+        $this->assertEquals($expected, $this->renderInsideContainer($text));
     }
 
     public function testMaxLength(): void
@@ -124,7 +124,7 @@ class TextInputTest extends ILIAS_UI_TestBase
             null,
             'id_1'
         );
-        $this->assertEquals($expected, $this->render($text));
+        $this->assertEquals($expected, $this->renderInsideContainer($text));
     }
 
     public function testValueRequired(): void

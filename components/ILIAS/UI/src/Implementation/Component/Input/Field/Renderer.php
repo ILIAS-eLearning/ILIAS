@@ -466,7 +466,7 @@ class Renderer extends AbstractComponentRenderer
             });
 
             $f = $this->getUIFactory();
-            $btn_reveal = $f->button()->shy( '', '')->withSymbol($f->symbol()->glyph()->eyeopen())
+            $btn_reveal = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->eyeopen())
                 ->withOnClick($sig_reveal);
             $btn_mask = $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->eyeclosed())
                ->withOnClick($sig_mask);
@@ -1011,7 +1011,7 @@ class Renderer extends AbstractComponentRenderer
         $f = $this->getUIFactory();
         $template->setCurrentBlock('block_file_preview');
         $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
-            $f->button()->shy( '', '')->withSymbol($f->symbol()->glyph()->close())
+            $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->close())
         ));
 
         if (null !== $file_info) {
@@ -1026,7 +1026,7 @@ class Renderer extends AbstractComponentRenderer
         // contains actual (unhidden) inputs.
         if ($file_input->hasMetadataInputs()) {
             $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
-                $f->button()->shy( '', '')->withSymbol($f->symbol()->glyph()->expand())
+                $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->expand())
             ));
             $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
                 $f->button()->shy('', '')->withSymbol($f->symbol()->glyph()->collapse())
