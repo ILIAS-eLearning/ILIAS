@@ -84,6 +84,7 @@ export default class ChatMessageArea {
         if (this.#lastDate(new Date(message.timestamp))) {
           this.#pane.appendChild(separate(message, this.#format));
           setUser(null);
+          this.#lastUser = null; // Explicitly set, to enforce else case in below if/else.
         }
 
         if (message.from.id === this.#currentUserId) {
