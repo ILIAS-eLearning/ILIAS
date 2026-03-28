@@ -31,18 +31,9 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 {
     protected RequestDataCollector $request;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param assQuestion $questionOBJ
-     * @param ilCtrl $ctrl
-     * @param ilTabsGUI $tabs
-     * @param ilLanguage $lng
-     */
     public function __construct(
         protected assQuestion $questionOBJ,
-        protected readonly ilCtrl $ctrl,
+        protected readonly ilCtrlInterface $ctrl,
         protected readonly ilTabsGUI $tabs,
         protected ilLanguage $lng
     ) {

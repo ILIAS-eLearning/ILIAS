@@ -85,6 +85,8 @@ class ilObjTestGUITest extends ilTestBaseTestCase
             ->method('redirectByClass')
             ->with([ilRepositoryGUI::class, ilObjTestGUI::class, ilInfoScreenGUI::class]);
 
+        $this->expectException(\PHPUnit\Framework\MockObject\NeverReturningMethodException::class);
+
         $testObj->runObject();
     }
 
@@ -96,8 +98,10 @@ class ilObjTestGUITest extends ilTestBaseTestCase
         $ctrl_mock
             ->expects($this->once())
             ->method('redirect')
-            ->with($testObj, ilObjTestGUI::SHOW_QUESTIONS_CMD)
-        ;
+            ->with($testObj, ilObjTestGUI::SHOW_QUESTIONS_CMD);
+
+        $this->expectException(\PHPUnit\Framework\MockObject\NeverReturningMethodException::class);
+
         $testObj->cancelCreateQuestionObject();
     }
 }

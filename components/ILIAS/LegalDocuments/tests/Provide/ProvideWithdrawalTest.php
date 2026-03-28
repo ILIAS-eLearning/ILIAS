@@ -59,8 +59,6 @@ class ProvideWithdrawalTest extends TestCase
 
     public function testFinishAndLogout(): void
     {
-        $called = false;
-
         $auth_session = $this->mock(ilAuthSession::class);
         $auth_session->expects(self::once())->method('logout');
 
@@ -72,14 +70,13 @@ class ProvideWithdrawalTest extends TestCase
             $ctrl,
             $auth_session,
             $this->fail(...),
-            function (int $x) use (&$called) {
+            function (int $x) {
                 $this->assertSame(ilSession::SESSION_CLOSE_USER, $x);
-                $called = true;
             }
         );
 
-        $instance->finishAndLogout(['bar' => 'baz']);
+        $this->expectException(\PHPUnit\Framework\MockObject\NeverReturningMethodException::class);
 
-        $this->assertTrue($called);
+        $instance->finishAndLogout(['bar' => 'baz']);
     }
 }

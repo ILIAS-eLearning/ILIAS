@@ -36,7 +36,7 @@ class ilAssQuestionAbstractPageObjectCommandForwarderTest extends assBaseTestCas
         parent::setUp();
 
         $questionOBJ = $this->createMock(assQuestion::class);
-        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl = $this->createMock(ilCtrlInterface::class);
         $tabs = $this->createMock(ilTabsGUI::class);
         $lng = $this->createMock(ilLanguage::class);
 

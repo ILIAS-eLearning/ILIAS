@@ -305,7 +305,7 @@ interface ilCtrlInterface
         ?string $a_cmd = null,
         ?string $a_anchor = null,
         bool $is_async = false
-    ): void;
+    ): never;
 
     /**
      * Redirects to the provided GUI class.
@@ -321,14 +321,14 @@ interface ilCtrlInterface
         ?string $a_cmd = null,
         ?string $a_anchor = null,
         bool $is_async = false
-    ): void;
+    ): never;
 
     /**
      * Redirects to the given target URL.
      *
      * @param string $target_url
      */
-    public function redirectToURL(string $target_url): void;
+    public function redirectToURL(string $target_url): never;
 
     /**
      * Sets the current object (id and type) of ilCtrl's context.

@@ -31,20 +31,15 @@ class ilAssQuestionFeedbackPageObjectCommandForwarderTest extends assBaseTestCas
 
     private ilAssQuestionFeedbackPageObjectCommandForwarder $object;
 
-    protected function setUp(): void
+    public function testConstructRedirectsWithErrorOnInvalidFeedbackId(): void
     {
-        parent::setUp();
-
         $questionOBJ = $this->createMock(assQuestion::class);
-        $ctrl = $this->createMock(ilCtrl::class);
+        $ctrl = $this->createMock(ilCtrlInterface::class);
         $tabs = $this->createMock(ilTabsGUI::class);
         $lng = $this->createMock(ilLanguage::class);
 
-        $this->object = new ilAssQuestionFeedbackPageObjectCommandForwarder($questionOBJ, $ctrl, $tabs, $lng);
-    }
+        $this->expectException(\PHPUnit\Framework\MockObject\NeverReturningMethodException::class);
 
-    public function testConstruct(): void
-    {
-        $this->assertInstanceOf(ilAssQuestionFeedbackPageObjectCommandForwarder::class, $this->object);
+        new ilAssQuestionFeedbackPageObjectCommandForwarder($questionOBJ, $ctrl, $tabs, $lng);
     }
 }

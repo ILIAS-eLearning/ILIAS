@@ -56,7 +56,7 @@ class ilCtrl implements ilCtrlInterface
         protected Refinery $refinery,
         protected ilComponentFactory $component_factory,
         protected ilCtrlSubject $subject,
-        protected  ilCtrlQueryParserInterface $query_parser,
+        protected ilCtrlQueryParserInterface $query_parser
     ) {
     }
 
@@ -395,7 +395,7 @@ class ilCtrl implements ilCtrlInterface
         ?string $a_cmd = null,
         ?string $a_anchor = null,
         bool $is_async = false
-    ): void {
+    ): never {
         $this->redirectByClass(
             $this->getClassByObject($a_gui_obj),
             $a_cmd,
@@ -412,7 +412,7 @@ class ilCtrl implements ilCtrlInterface
         ?string $a_cmd = null,
         ?string $a_anchor = null,
         bool $is_async = false
-    ): void {
+    ): never {
         $this->redirectToURL(
             $this->getLinkTargetByClass(
                 $a_class,
@@ -426,7 +426,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function redirectToURL(string $target_url): void
+    public function redirectToURL(string $target_url): never
     {
         // prepend the ILIAS HTTP path if it wasn't already.
         if (defined("ILIAS_HTTP_PATH") &&
