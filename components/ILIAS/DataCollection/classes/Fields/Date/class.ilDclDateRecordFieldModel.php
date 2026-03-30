@@ -24,7 +24,7 @@ class ilDclDateRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
 
-        if ($value) {
+        if ($value && strtotime($value) > strtotime('0000-00-00 00:00:00')) {
             return date(ilDclDateFieldModel::FORMAT, strtotime($value));
         } else {
             return "";
