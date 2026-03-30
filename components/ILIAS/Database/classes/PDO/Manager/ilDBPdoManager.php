@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 use ILIAS\Database\PDO\FieldDefinition\ForeignKeyConstraints;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Database\PDO\Internal;
 
 /**
@@ -27,13 +28,13 @@ use ILIAS\Database\PDO\Internal;
  */
 class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 {
-    protected ?\ilQueryUtils $query_utils = null;
+    protected ?\ilQueryUtilsInterface $query_utils = null;
 
     public function __construct(protected \PDO $pdo, protected Internal $db_instance)
     {
     }
 
-    public function getQueryUtils(): \ilQueryUtils
+    public function getQueryUtils(): \ilQueryUtilsInterface
     {
         if ($this->query_utils === null) {
             $this->query_utils = new ilMySQLQueryUtils($this->db_instance);
@@ -96,6 +97,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                 $result[] = $sqn;
             }
         }
+        // @Todo: Change property access to method call.
         if ($this->db_instance->options['portability'] ?? null) {
             return array_map(
                 ($this->db_instance->options['field_case'] === CASE_LOWER ? 'strtolower' : 'strtoupper'),
@@ -325,6 +327,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         $non_unique = 'Non_unique';
 
         $db = $this->getDBInstance();
+        // @Todo: Change property access to method call.
         if ($db->options['portability'] ?? null) {
             if ($db->options['field_case'] == CASE_LOWER) {
                 $key_name = strtolower($key_name);
@@ -351,6 +354,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         }
 
         if ($this->db_instance->options['portability'] ?? null) {
+            // @Todo: Change property access to method call.
             $result = array_change_key_case($result, $this->db_instance->options['field_case']);
         }
 
@@ -364,6 +368,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     {
         $key_name = 'Key_name';
         $non_unique = 'Non_unique';
+        // @Todo: Change property access to method call.
         if ($this->db_instance->options['portability'] ?? null) {
             if ($this->db_instance->options['field_case'] == CASE_LOWER) {
                 $key_name = strtolower($key_name);
@@ -388,6 +393,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             }
         }
 
+        // @Todo: Change property access to method call.
         if ($this->db_instance->options['portability'] ?? null) {
             $result = array_change_key_case($result, $this->db_instance->options['field_case']);
         }
@@ -397,7 +403,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 
     protected function fixIndexName(string $idx): string
     {
-        $idx_pattern = '/^' . preg_replace('/%s/', '([a-z0-9_]+)', ilDBPdoFieldDefinition::INDEX_FORMAT) . '$/i';
+        $idx_pattern = '/^' . preg_replace('/%s/', '([a-z0-9_]+)', FieldDefinition::INDEX_FORMAT) . '$/i';
         $idx_name = preg_replace($idx_pattern, '\\1', $idx);
         if ($idx_name && !strcasecmp($idx, $this->db_instance->getIndexName($idx_name))) {
             return $idx_name;

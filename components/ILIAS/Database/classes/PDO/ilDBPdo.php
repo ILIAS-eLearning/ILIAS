@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Database\Integrity\Integrity;
 use ILIAS\Database\PDO\FieldDefinition\ForeignKeyConstraints;
+use ILIAS\Database\FieldDefinition;
 use ILIAS\Database\PDO\Details;
 use ILIAS\Database\PDO\Internal;
 
@@ -50,7 +51,7 @@ class ilDBPdo implements Internal
     private string $dsn = '';
     private string $db_type = '';
     private int $error_code = 0;
-    private ?\ilDBPdoFieldDefinition $field_definition = null;
+    private ?FieldDefinition $field_definition = null;
 
     private const SESSION_MODES = [
         'STRICT_TRANS_TABLES',
@@ -106,12 +107,12 @@ class ilDBPdo implements Internal
         ];
     }
 
-    public function getFieldDefinition(): ?\ilDBPdoFieldDefinition
+    public function getFieldDefinition(): ?FieldDefinition
     {
         return $this->field_definition;
     }
 
-    public function setFieldDefinition(\ilDBPdoFieldDefinition $field_definition): void
+    public function setFieldDefinition(FieldDefinition $field_definition): void
     {
         $this->field_definition = $field_definition;
     }
@@ -708,12 +709,12 @@ class ilDBPdo implements Internal
 
     public function getIndexName(string $index_name_base): string
     {
-        return sprintf(ilDBPdoFieldDefinition::INDEX_FORMAT, preg_replace('/[^a-z0-9_\$]/i', '_', $index_name_base));
+        return sprintf(FieldDefinition::INDEX_FORMAT, preg_replace('/[^a-z0-9_\$]/i', '_', $index_name_base));
     }
 
     public function getSequenceName(string $table_name): string
     {
-        return sprintf(ilDBPdoFieldDefinition::SEQUENCE_FORMAT, preg_replace('/[^a-z0-9_\$.]/i', '_', $table_name));
+        return sprintf(FieldDefinition::SEQUENCE_FORMAT, preg_replace('/[^a-z0-9_\$.]/i', '_', $table_name));
     }
 
     /**

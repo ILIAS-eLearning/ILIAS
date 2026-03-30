@@ -18,6 +18,8 @@
 
 declare(strict_types=1);
 
+use ILIAS\Database\FieldDefinition;
+
 /**
  * Class ilDBConstants
  *
@@ -44,19 +46,19 @@ class ilDBConstants
     public const MODULE_MANAGER = 'Manager';
     public const MODULE_REVERSE = 'Reverse';
     // Formats
-    public const INDEX_FORMAT = ilDBPdoFieldDefinition::INDEX_FORMAT;
-    public const SEQUENCE_FORMAT = ilDBPdoFieldDefinition::SEQUENCE_FORMAT;
-    public const SEQUENCE_COLUMNS_NAME = ilDBPdoFieldDefinition::SEQUENCE_COLUMNS_NAME;
+    public const INDEX_FORMAT = FieldDefinition::INDEX_FORMAT;
+    public const SEQUENCE_FORMAT = FieldDefinition::SEQUENCE_FORMAT;
+    public const SEQUENCE_COLUMNS_NAME = FieldDefinition::SEQUENCE_COLUMNS_NAME;
     // Types
-    public const T_CLOB = ilDBPdoFieldDefinition::T_CLOB;
-    public const T_DATE = ilDBPdoFieldDefinition::T_DATE;
-    public const T_DATETIME = ilDBPdoFieldDefinition::T_DATETIME;
-    public const T_FLOAT = ilDBPdoFieldDefinition::T_FLOAT;
-    public const T_INTEGER = ilDBPdoFieldDefinition::T_INTEGER;
-    public const T_TEXT = ilDBPdoFieldDefinition::T_TEXT;
-    public const T_TIME = ilDBPdoFieldDefinition::T_TIME;
-    public const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
-    public const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
+    public const T_CLOB = FieldDefinition::T_CLOB;
+    public const T_DATE = FieldDefinition::T_DATE;
+    public const T_DATETIME = FieldDefinition::T_DATETIME;
+    public const T_FLOAT = FieldDefinition::T_FLOAT;
+    public const T_INTEGER = FieldDefinition::T_INTEGER;
+    public const T_TEXT = FieldDefinition::T_TEXT;
+    public const T_TIME = FieldDefinition::T_TIME;
+    public const T_TIMESTAMP = FieldDefinition::T_TIMESTAMP;
+    public const T_BLOB = FieldDefinition::T_BLOB;
     // Engines
     public const MYSQL_ENGINE_INNODB = 'InnoDB';
     // Characters
