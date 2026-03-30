@@ -96,10 +96,10 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         if ($next_class === '') {
             switch ($type) {
                 case "scorm":
-                    $this->ctrl->redirectByClass(ilObjSCORMLearningModuleGUI::class);
+                    $this->ctrl->redirectByClass(ilObjSCORMLearningModuleGUI::class, $cmd);
 
                 case "scorm2004":
-                    $this->ctrl->redirectByClass(ilObjSCORM2004LearningModuleGUI::class);
+                    $this->ctrl->redirectByClass(ilObjSCORM2004LearningModuleGUI::class, $cmd);
             }
         }
 
@@ -120,30 +120,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 break;
 
             case "ilexportgui":
-                $obj_id = ilObject::_lookupObjectId($this->refId);
-                if ($cmd === "create_xml") {
-                    $exp = new ilExport();
-                    $exp->exportObject( 'sahs', (int)$obj_id );
-                } elseif ($cmd === "download") {
-                    $file = $this->wrapper->query()->retrieve('file', $this->refinery->kindlyTo()->string());
-                    $ftmp = explode(":", $file);
-                    $fileName = (string) $ftmp[1];
-                    $exportDir = ilExport::_getExportDirectory($obj_id);
-                    ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
-                } elseif ($cmd === "confirmDeletion") {
-                    $exportDir = ilExport::_getExportDirectory($obj_id);
-                    //                $files = $_POST['file'];
-                    $files = $this->wrapper->post()->retrieve('file', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()));
-                    foreach ($files as $file) {
-                        $file = explode(":", $file);
-                        $file[1] = basename($file[1]);
-                        $exp_file = $exportDir . "/" . str_replace("..", "", $file[1]);
-                        if (@is_file($exp_file)) {
-                            unlink($exp_file);
-                        }
-                    }
-                }
-
+                $this->slm_gui->export();
                 ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $this->refId);
                 break;
 
