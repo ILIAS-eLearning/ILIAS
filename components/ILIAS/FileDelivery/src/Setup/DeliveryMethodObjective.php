@@ -50,7 +50,7 @@ class DeliveryMethodObjective extends BuildStaticConfigStoredObjective
         return array_merge(
             parent::getPreconditions($environment),
             [
-                new \ilIniFilesPopulatedObjective()
+                new \ilIniFilesLoadedObjective()
             ]
         );
     }
